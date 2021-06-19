@@ -41,13 +41,13 @@ The notification server uses Node.js, so you'll need to install it first.
 To install Node.js, follow the instructions on
 [[ http://nodejs.org | nodejs.org ]].
 
-You will also need to install the `ws` module for Node. This needs to be
+You will also need to install the dependencies for Node. This needs to be
 installed into the notification server directory:
 
   phorge/ $ cd support/aphlict/server/
-  phorge/support/aphlict/server/ $ npm install ws
+  phorge/support/aphlict/server/ $ npm install
 
-Once Node.js and the `ws` module are installed, you're ready to start the
+Once Node.js and its dependencies are installed, you're ready to start the
 server.
 
 
