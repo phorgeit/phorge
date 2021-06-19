@@ -94,10 +94,7 @@ final class PhabricatorHarbormasterApplication extends PhabricatorApplication {
         'lint/' => array(
           '(?P<id>\d+)/' => 'HarbormasterLintMessagesController',
         ),
-        'hook/' => array(
-          'circleci/' => 'HarbormasterCircleCIHookController',
-          'buildkite/' => 'HarbormasterBuildkiteHookController',
-        ),
+        'hook/(?P<handler>[^/]+)/' => 'HarbormasterHookController',
         'log/' => array(
           'view/(?P<id>\d+)/(?:\$(?P<lines>\d+(?:-\d+)?))?'
             => 'HarbormasterBuildLogViewController',

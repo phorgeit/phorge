@@ -1,10 +1,10 @@
 <?php
 
-final class HarbormasterCircleCIHookController
-  extends HarbormasterController {
+final class HarbormasterCircleCIHookHandler
+  extends HarbormasterHookHandler {
 
-  public function shouldRequireLogin() {
-    return false;
+  public function getName() {
+    return 'circleci';
   }
 
   /**

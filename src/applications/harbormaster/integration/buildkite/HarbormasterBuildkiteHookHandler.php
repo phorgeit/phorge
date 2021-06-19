@@ -1,10 +1,10 @@
 <?php
 
-final class HarbormasterBuildkiteHookController
-  extends HarbormasterController {
+final class HarbormasterBuildkiteHookHandler
+  extends HarbormasterHookHandler {
 
-  public function shouldRequireLogin() {
-    return false;
+  public function getName() {
+    return 'buildkite';
   }
 
   /**
