@@ -7,7 +7,7 @@ Guide to configuring webhooks.
 Overview
 ========
 
-If you'd like to react to events in Phabricator or publish them into external
+If you'd like to react to events in Phorge or publish them into external
 systems, you can configure webhooks.
 
 Configure webhooks in {nav Herald > Webhooks}. Users must have the
@@ -35,7 +35,7 @@ You can also use the command-line tool, which supports a few additional
 options:
 
 ```
-phabricator/ $ ./bin/webhook call --id 42 --object D123
+phorge/ $ ./bin/webhook call --id 42 --object D123
 ```
 
 
@@ -43,12 +43,12 @@ Verifying Requests
 ==================
 
 When your webhook callback URI receives a request, it didn't necessarily come
-from Phabricator. An attacker or mischievous user can normally call your hook
+from Phorge. An attacker or mischievous user can normally call your hook
 directly and pretend to be notifying you of an event.
 
 To verify that the request is authentic, first retrieve the webhook key from
 the web UI with {nav View HMAC Key}. This is a shared secret which will let you
-verify that Phabricator originated a request.
+verify that Phorge originated a request.
 
 When you receive a request, compute the SHA256 HMAC value of the request body
 using the HMAC key as the key. The value should match the value in the
@@ -124,7 +124,7 @@ The **action** map has metadata about the action:
 
   - `test` This was a test call from the web UI or console.
   - `silent` This is a silent edit which won't send mail or notifications in
-    Phabricator. If your hook is doing something like copying events into
+    Phorge. If your hook is doing something like copying events into
     a chatroom, it may want to respect this flag.
   - `secure` Details about this object should only be transmitted over
     secure channels. Your hook may want to respect this flag.
@@ -198,7 +198,7 @@ to some kind of worker queue if you expect to routinely require more than 10
 seconds to respond to requests.
 
 Hook callbacks are single-threaded: you will never receive more than one
-simultaneous call to the same webhook from Phabricator. If you have a firehose
+simultaneous call to the same webhook from Phorge. If you have a firehose
 hook on an active install, it may be important to respond to requests quickly
 to avoid accumulating a backlog.
 

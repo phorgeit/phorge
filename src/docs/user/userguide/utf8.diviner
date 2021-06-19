@@ -1,11 +1,11 @@
 @title User Guide: UTF-8 and Character Encoding
 @group userguide
 
-How Phabricator handles character encodings.
+How Phorge handles character encodings.
 
 = Overview =
 
-Phabricator stores all internal text data as UTF-8, processes all text data
+Phorge stores all internal text data as UTF-8, processes all text data
 as UTF-8, outputs in UTF-8, and expects all inputs to be UTF-8. Principally,
 this means that you should write your source code in UTF-8. In most cases this
 does not require you to change anything, because ASCII text is a subset of
@@ -17,14 +17,14 @@ options:
   - Convert all files in the repository to ASCII or UTF-8 (see "Detecting and
     Repairing Files" below). This is recommended, especially if the encoding
     problems are accidental.
-  - Configure Phabricator to convert files into UTF-8 from whatever encoding
+  - Configure Phorge to convert files into UTF-8 from whatever encoding
     your repository is in when it needs to (see "Support for Alternate
     Encodings" below). This is not completely supported, and repositories with
     files that have multiple encodings are not supported.
 
 = Support for Alternate Encodings =
 
-Phabricator has some support for encodings other than UTF-8.
+Phorge has some support for encodings other than UTF-8.
 
 NOTE: Alternate encodings are not completely supported, and a few features will
 not work correctly. Codebases with files that have multiple different encodings

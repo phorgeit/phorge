@@ -1,7 +1,7 @@
 @title User Guide: Multi-Factor Authentication
 @group userguide
 
-Explains how multi-factor authentication works in Phabricator.
+Explains how multi-factor authentication works in Phorge.
 
 Overview
 ========
@@ -30,11 +30,11 @@ you'll be stopped and asked to enter additional credentials.
 Usually, this means you'll receive an SMS with a authorization code on your
 phone, or you'll open an app on your phone which will show you a authorization
 code or ask you to confirm the action. If you're given a authorization code,
-you'll enter it into Phabricator.
+you'll enter it into Phorge.
 
-If you're logging in, Phabricator will log you in after you enter the code.
+If you're logging in, Phorge will log you in after you enter the code.
 
-If you're taking a sensitive action, Phabricator will sometimes put your
+If you're taking a sensitive action, Phorge will sometimes put your
 account in "high security" mode for a few minutes. In this mode, you can take
 sensitive actions like changing passwords or SSH keys freely, without
 entering any more credentials.
@@ -64,7 +64,7 @@ Factor: Mobile Phone App (TOTP)
 ===============================
 
 TOTP stands for "Time-based One-Time Password". This factor operates by having
-you enter authorization codes from your mobile phone into Phabricator. The codes
+you enter authorization codes from your mobile phone into Phorge. The codes
 change every 30 seconds, so you will need to have your phone with you in order
 to enter them.
 
@@ -77,16 +77,16 @@ Your company may have a preferred application, or may use some other
 application, so check any in-house documentation for details. In general, any
 TOTP application should work properly.
 
-After you've downloaded the application onto your phone, use the Phabricator
+After you've downloaded the application onto your phone, use the Phorge
 settings panel to add a factor to your account. You'll be prompted to scan a
 QR code, and then read an authorization code from your phone and type it into
-Phabricator.
+Phorge.
 
 Later, when you need to authenticate, you'll follow this same process: launch
-the application, read the authorization code, and type it into Phabricator.
+the application, read the authorization code, and type it into Phorge.
 This will prove you have your phone.
 
-Don't lose your phone! You'll need it to log into Phabricator in the future.
+Don't lose your phone! You'll need it to log into Phorge in the future.
 
 
 Factor: SMS
@@ -123,7 +123,7 @@ to take a sensitive action, you'll be asked to confirm it in the application.
 Administration: Configuration
 =============================
 
-New Phabricator installs start without any multi-factor providers enabled.
+New Phorge installs start without any multi-factor providers enabled.
 Users won't be able to add new factors until you set up multi-factor
 authentication by configuring at least one provider.
 
@@ -187,7 +187,7 @@ their phone, run this command:
 
 ```lang=console
 # Strip all factors from a given user account.
-phabricator/ $ ./bin/auth strip --user <username> --all-types
+phorge/ $ ./bin/auth strip --user <username> --all-types
 ```
 
 You can run `bin/auth help strip` for more detail and all available flags and
@@ -198,7 +198,7 @@ This command can selectively strip factors by factor type. You can use
 
 ```lang=console
 # Show supported factor types.
-phabricator/ $ ./bin/auth list-factors
+phorge/ $ ./bin/auth list-factors
 ```
 
 Once you've identified the factor types you want to strip, you can strip
@@ -207,7 +207,7 @@ types:
 
 ```lang=console
 # Strip all SMS and TOTP factors for a user.
-phabricator/ $ ./bin/auth strip --user <username> --type sms --type totp
+phorge/ $ ./bin/auth strip --user <username> --type sms --type totp
 ```
 
 The `bin/auth strip` command can also selectively strip factors for certain
@@ -218,5 +218,5 @@ Once you have a provider PHID, use `--provider` to select factors to strip:
 
 ```lang=console
 # Strip all factors for a particular provider.
-phabricator/ $ ./bin/auth strip --user <username> --provider <providerPHID>
+phorge/ $ ./bin/auth strip --user <username> --provider <providerPHID>
 ```

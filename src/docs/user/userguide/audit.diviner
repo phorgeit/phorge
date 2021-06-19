@@ -1,13 +1,13 @@
 @title Audit User Guide
 @group userguide
 
-Guide to using Phabricator to audit published commits.
+Guide to using Phorge to audit published commits.
 
 
 Overview
 ========
 
-Phabricator supports two code review workflows, "review" (pre-publish) and
+Phorge supports two code review workflows, "review" (pre-publish) and
 "audit" (post-publish). To understand the differences between the two, see
 @{article:User Guide: Review vs Audit}.
 
@@ -59,14 +59,14 @@ a typical audit workflow:
   - Alice publishes a commit containing some Javascript.
   - This triggers an audit request to Bailey, the Javascript technical
     lead on the project (see below for a description of trigger mechanisms).
-  - Later, Bailey logs into Phabricator and sees the audit request. She ignores
+  - Later, Bailey logs into Phorge and sees the audit request. She ignores
     it for the moment, since it isn't blocking anything. At the end of the
     week she looks through her open requests to see what the team has been
     up to.
   - Bailey notices a few minor problems with Alice's commit. She leaves
     comments describing improvements and uses "Raise Concern" to send the
     commit back into Alice's queue.
-  - Later, Alice logs into Phabricator and sees that Bailey has raised a
+  - Later, Alice logs into Phorge and sees that Bailey has raised a
     concern (usually, Alice will also get an email). She resolves the issue
     somehow, maybe by making a followup commit with fixes.
   - After the issues have been dealt with, she uses "Request Verification" to
@@ -163,7 +163,7 @@ The `bin/audit` command allows you to perform several maintenance operations.
 Get more information about a command by running:
 
 ```
-phabricator/ $ ./bin/audit help <command>
+phorge/ $ ./bin/audit help <command>
 ```
 
 Supported operations are:

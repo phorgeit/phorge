@@ -6,7 +6,7 @@ Overview of the Conduit API.
 Overview
 ========
 
-Conduit is the HTTP API for Phabricator. It is roughly JSON-RPC: you usually
+Conduit is the HTTP API for Phorge. It is roughly JSON-RPC: you usually
 pass a JSON blob, and usually get a JSON blob back, although both call and
 result formats are flexible in some cases.
 
@@ -30,7 +30,7 @@ in another language without needing a real client.
 includes examples which show how to format calls.
 
 **Other Clients**: There are also clients available in other languages. You
-can check the [[ https://secure.phabricator.com/w/community_resources/ |
+can check the [[ https://we.phorge.it/w/community_resources/ |
 Community Resources ]] page for links.
 
 API Console

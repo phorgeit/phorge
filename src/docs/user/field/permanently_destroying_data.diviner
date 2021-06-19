@@ -6,7 +6,7 @@ How to permanently destroy data and manage leaked secrets.
 Overview
 ========
 
-Phabricator intentionally makes it difficult to permanently destroy data, but
+Phorge intentionally makes it difficult to permanently destroy data, but
 provides a command-line tool for destroying objects if you're certain that
 you want to destroy something.
 
@@ -24,7 +24,7 @@ Destroying Data
 To permanently destroy an object, run this command from the command line:
 
 ```
-phabricator/ $ ./bin/remove destroy <object>
+phorge/ $ ./bin/remove destroy <object>
 ```
 
 The `<object>` may be an object monogram or PHID. For instance, you can use
@@ -36,7 +36,7 @@ The `<object>` may be an object monogram or PHID. For instance, you can use
 CLI Access Required
 ===================
 
-In almost all cases, Phabricator requires operational access from the CLI to
+In almost all cases, Phorge requires operational access from the CLI to
 permanently destroy data. One major reason for this requirement is that it
 limits the reach of an attacker who compromises a privileged account.
 
@@ -56,9 +56,9 @@ Sometimes you may want to destroy an object because it has leaked a secret,
 like an API key or another credential. For example, an engineer might
 accidentally send a change for review which includes a sensitive private key.
 
-No Phabricator command can rewind time, and once data is written to Phabricator
+No Phorge command can rewind time, and once data is written to Phorge
 the cat is often out of the bag: it has often been transmitted to external
-systems which Phabricator can not interact with via email, webhooks, API calls,
+systems which Phorge can not interact with via email, webhooks, API calls,
 repository mirroring, CDN caching, and so on. You can try to clean up the mess,
 but you're generally already too late.
 
@@ -66,7 +66,7 @@ The `bin/remove destroy` command will make a reasonable attempt to completely
 destroy objects, but this is just an attempt. It can not unsend email or uncall
 the API, and no command can rewind time and undo a leak.
 
-**Revoking Credentials**: If Phabricator credentials were accidentally
+**Revoking Credentials**: If Phorge credentials were accidentally
 disclosed, you can revoke them so they no longer function. See
 @{article:Revoking Credentials} for more information.
 
@@ -75,7 +75,7 @@ Preventing Leaks
 ================
 
 Because time can not be rewound, it is best to prevent sensitive data from
-leaking in the first place. Phabricator supports some technical measures that
+leaking in the first place. Phorge supports some technical measures that
 can make it more difficult to accidentally disclose secrets:
 
 **Differential Diff Herald Rules**: You can write "Differential Diff" rules

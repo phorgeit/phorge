@@ -121,6 +121,6 @@ version of CSS and JS into the database.
 
 = Reference Implementation: Celerity =
 
-Some of the ideas discussed here are implemented in Phabricator's //Celerity//
+Some of the ideas discussed here are implemented in Phorge's's //Celerity//
 system, which is essentially a simplified version of the //Haste// system used
 by Facebook.

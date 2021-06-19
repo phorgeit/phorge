@@ -6,14 +6,14 @@ Setup guide for configuring encryption.
 Overview
 ========
 
-Phabricator supports at-rest encryption of uploaded file data stored in the
+Phorge supports at-rest encryption of uploaded file data stored in the
 "Files" application.
 
 Configuring at-rest file data encryption does not encrypt any other data or
 resources. In particular, it does not encrypt the database and does not encrypt
 Passphrase credentials.
 
-Attackers who compromise a Phabricator host can read the master key and decrypt
+Attackers who compromise a Phorge host can read the master key and decrypt
 the data. In most configurations, this does not represent a significant
 barrier above and beyond accessing the file data. Thus, configuring at-rest
 encryption is primarily useful for two types of installs:
@@ -81,7 +81,7 @@ Format: Raw Data
 
 The `raw` storage format is automatically selected for all newly uploaded
 file data if no key is marked as the `default` key in the keyring. This is
-the behavior of Phabricator if you haven't configured anything.
+the behavior of Phorge if you haven't configured anything.
 
 This format stores raw data without modification.
 
@@ -104,7 +104,7 @@ length, then base64 encoded when represented in `keyring`.
 You can generate a valid, properly encoded AES256 master key with this command:
 
 ```
-phabricator/ $ ./bin/files generate-key --type aes-256-cbc
+phorge/ $ ./bin/files generate-key --type aes-256-cbc
 ```
 
 This mode is generally similar to the default server-side encryption mode
@@ -134,7 +134,7 @@ default.
 To change the format of an individual file, run this command:
 
 ```
-phabricator/ $ ./bin/files encode --as <format> F123 [--key <key>]
+phorge/ $ ./bin/files encode --as <format> F123 [--key <key>]
 ```
 
 This will change the storage format of the specified file.
@@ -167,7 +167,7 @@ to leave the old key in place for now so existing data can be decrypted.
 To cycle an individual file, run this command:
 
 ```
-phabricator/ $ ./bin/files cycle F123
+phorge/ $ ./bin/files cycle F123
 ```
 
 Verify that cycling worked properly by examining the command output and
@@ -177,7 +177,7 @@ can cycle additional files to gain additional confidence.
 You can cycle all files with this command:
 
 ```
-phabricator/ $ ./bin/files cycle --all
+phorge/ $ ./bin/files cycle --all
 ```
 
 Once all files have been cycled, remove the old master key from the keyring.

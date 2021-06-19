@@ -6,7 +6,7 @@ Command reference for global search shortcuts.
 Overview
 ========
 
-Phabricator's global search bar automatically interprets certain commands as
+Phorge's global search bar automatically interprets certain commands as
 shortcuts to make it easy to navigate to specific places.
 
 To use these shortcuts, just type them into the global search bar in the main

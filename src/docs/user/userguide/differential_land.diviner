@@ -1,7 +1,7 @@
 @title Differential User Guide: Automated Landing
 @group userguide
 
-Configuring Phabricator so you can "Land Revision" from the web UI.
+Configuring Phorge so you can "Land Revision" from the web UI.
 
 
 Overview
@@ -9,7 +9,7 @@ Overview
 
 IMPORTANT: This feature is a prototype and has substantial limitations.
 
-Phabricator can be configured so that approved revisions may be published
+Phorge can be configured so that approved revisions may be published
 directly from the web interface. This can make publishing changes more
 convenient, particularly for open source projects where authors may not have
 commit access to the repository. This document explains the workflow and how to

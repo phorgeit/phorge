@@ -1,9 +1,9 @@
 @title Arcanist User Guide
 @group userguide
 
-Guide to Arcanist, a command-line interface to Phabricator.
+Guide to Arcanist, a command-line interface to Phorge.
 
-Arcanist provides command-line access to many Phabricator tools (like
+Arcanist provides command-line access to many Phorge tools (like
 Differential, Files, and Paste), integrates with static analysis ("lint") and
 unit tests, and manages common workflows like getting changes into Differential
 for review.
@@ -12,7 +12,7 @@ A detailed command reference is available by running `arc help`. This
 document provides an overview of common workflows and installation.
 
 Arcanist has technical, contributor-focused documentation here:
-<https://secure.phabricator.com/book/arcanist/>
+<https://we.phorge.it/book/arcanist/>
 
 = Quick Start =
 
@@ -143,7 +143,7 @@ three sources, in order:
   # User configuration is read from `~/.arcconfig`. This file is JSON, and can
     be updated using `arc set-config`.
   # Host configuration is read from `/etc/arcconfig` (on Windows, the path
-    is `C:\ProgramData\Phabricator\Arcanist\config`).
+    is `C:\ProgramData\Phorge\Arcanist\config`).
 
 Arcanist uses the first definition it encounters as the runtime setting.
 

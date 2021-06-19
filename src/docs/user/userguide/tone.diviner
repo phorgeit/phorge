@@ -1,12 +1,12 @@
 @title User Guide: Project Tone
 @group userguide
 
-Explains why Phabricator uses a lighthearted tone.
+Explains why Phorge uses a lighthearted tone.
 
 Overview
 ========
 
-Phabricator uses a lighthearted tone in documentation and some interfaces, and
+Phorge uses a lighthearted tone in documentation and some interfaces, and
 includes some features which primarily exist to add flavor or make things
 sillier.
 
@@ -28,7 +28,7 @@ setting in the {nav Config} application.
 documentation.)
 
 If you don't like a piece of flavor because it creates legitimate difficulty or
-confusion for you or your users and makes it harder to use Phabricator, let us
+confusion for you or your users and makes it harder to use Phorge, let us
 know. We don't intend flavor or tone to get in the way of usability, and can
 sometimes take a joke too far (particularly for users who don't speak English
 natively).

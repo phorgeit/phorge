@@ -41,20 +41,20 @@ installing software on hosts. You'll need to make sure any hosts are configured
 properly with any software you need, and have tools like `git`, `hg` or `svn`
 that may be required to interact with working copies.
 
-You do **not** need to install PHP, arcanist, or Phabricator on the
+You do **not** need to install PHP, arcanist, or Phorge on the
 hosts unless you are specifically running `arc` commands.
 
 **You must configure authentication.** Drydock also does not handle credentials
 for VCS operations. If you're interacting with repositories hosted on
-Phabricator, the simplest way to set this up is something like this:
+Phorge, the simplest way to set this up is something like this:
 
-  - Create a new bot user in Phabricator.
+  - Create a new bot user in Phorge.
   - In {nav Settings > SSH Public Keys}, add a public key or generate a
     keypair.
   - Put the private key on your build hosts as `~/.ssh/id_rsa` for whatever
     user you're connecting with.
 
-This will let processes on the host access Phabricator as the bot user, and
+This will let processes on the host access Phorge as the bot user, and
 use the bot user's permissions to pull and push changes.
 
 If you're using hosted repositories from an external service, you can follow

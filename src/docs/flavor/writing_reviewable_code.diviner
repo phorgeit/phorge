@@ -3,14 +3,14 @@
 
 Project recommendations on how to structure changes.
 
-This document is purely advisory. Phabricator works with a variety of revision
+This document is purely advisory. Phorge works with a variety of revision
 control strategies, and diverging from the recommendations in this document
 will not impact your ability to use it for code review and source management.
 
 = Overview =
 
 This document describes a strategy for structuring changes used successfully at
-Facebook and in Phabricator. In essence:
+Facebook and in Phorge. In essence:
 
   - Each commit should be as small as possible, but no smaller.
   - The smallest a commit can be is a single cohesive idea: don't make commits
@@ -71,8 +71,8 @@ make any sense and you would increase the collective complexity. The real goal
 is for each change to have minimal complexity, line size is just a proxy that is
 often well-correlated with complexity.
 
-We generally follow these practices in Phabricator. The median change size for
-Phabricator is 35 lines.
+We generally follow these practices in Phorge. The median change size for
+Phorge is 35 lines.
 
 = Write Sensible Commit Messages =
 
@@ -146,7 +146,7 @@ really all that important in commit messages include:
     reasons //why// a change is happening into the commit message.
   - Although maybe the spelling and grammar shouldn't be egregiously bad?
 
-Phabricator does not have guidelines for this stuff. You can obviously set
+Phorge does not have guidelines for this stuff. You can obviously set
 guidelines at your organization if you prefer, but getting the //why// into the
 message is the most important part.
 

@@ -1,12 +1,12 @@
 @title Internationalization
 @group developer
 
-Describes Phabricator translation and localization.
+Describes Phorge translation and localization.
 
 Overview
 ========
 
-Phabricator partially supports internationalization, but many of the tools
+Phorge partially supports internationalization, but many of the tools
 are missing or in a prototype state.
 
 This document describes what tools exist today, how to add new translations,
@@ -23,7 +23,7 @@ Once you've created a locale, applications can add translations for that
 locale.
 
 For instructions on adding new classes, see
-@{article@phabcontrib:Adding New Classes}.
+@{article@contrib:Adding New Classes}.
 
 
 Adding Translations to Locale
@@ -38,7 +38,7 @@ provide translations into different locales without needing to define those
 locales themselves.
 
 For instructions on adding new classes, see
-@{article@phabcontrib:Adding New Classes}.
+@{article@contrib:Adding New Classes}.
 
 
 Writing Translatable Code
@@ -58,7 +58,7 @@ $dialog->appendParagraph(pht('This is an example.'));
 ```
 
 This allows the code to return the correct Spanish or German or Russian
-version of the text, if the viewer is using Phabricator in one of those
+version of the text, if the viewer is using Phorge in one of those
 languages and a translation is available.
 
 Using `pht()` properly so that strings are translatable can be tricky. Briefly,
@@ -275,7 +275,7 @@ return pht('This will take %s hour(s).', new PhutilNumber($count));
 
 If you now load the web UI, you'll see "hour(s)" literally in the UI. To fix
 this so the translation sounds better in English, provide translations for this
-string in the @{class@phabricator:PhabricatorUSEnglishTranslation} file:
+string in the @{class:PhabricatorUSEnglishTranslation} file:
 
 ```lang=php
 'This will take %s hour(s).' => array(
@@ -378,4 +378,4 @@ Next Steps
 Continue by:
 
   - adding a new locale or translation file with
-    @{article@phabcontrib:Adding New Classes}.
+    @{article@contrib:Adding New Classes}.

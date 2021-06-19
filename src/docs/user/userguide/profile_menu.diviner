@@ -130,7 +130,7 @@ the menu for, but most objects support these items:
   - {icon map-marker} **Label**: Lets you label sections of menu items.
     This is also purely cosmetic.
   - {icon link} **Link**: Allows you to create an item which links to
-    somewhere else in Phabricator, or to an external site.
+    somewhere else in Phorge, or to an external site.
   - {icon plus} **Form**: Provides quick access to custom and built-in forms
     from any application that supports EditEngine.
   - {icon briefcase} **Projects**: Provides quick access to a project.

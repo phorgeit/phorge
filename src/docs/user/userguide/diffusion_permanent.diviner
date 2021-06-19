@@ -7,8 +7,8 @@ Overview
 ========
 
 Diffusion can close tasks and revisions and take other actions when commits
-appear in a repository (either because they were pushed to Phabricator, or
-because they were pushed to some remote which Phabricator is observing).
+appear in a repository (either because they were pushed to Phorge, or
+because they were pushed to some remote which Phorge is observing).
 
 This document explains when Diffusion acts on commits and how to configure this
 behavior.
@@ -24,11 +24,11 @@ for example, many tools push temporary commits to secret places like
 `refs/pull/123`, `refs/notes/*`, or `refs/changes/12/345678/1`.
 
 Sometimes, human users intentionally push changes to branches like
-"tmp-hack-ignore-123". This is formally discouraged by Phabricator, but the
+"tmp-hack-ignore-123". This is formally discouraged by Phorge, but the
 practice is so widespread that we've given up trying to stop anyone from doing
 it.
 
-Phabricator will import these commits and create pages for them so you can view
+Phorge will import these commits and create pages for them so you can view
 them in the web UI and link to them, but does not take any other actions until
 they are "published".
 
@@ -40,7 +40,7 @@ using a tool like GitHub) will not.
 Usually, commits are published by pushing them directly to a permanent branch
 like "master", or by merging a temporary branch into a permanent branch.
 
-When a commit is published, Phabricator acts on it and:
+When a commit is published, Phorge acts on it and:
 
   - sends email;
   - delivers notifications;

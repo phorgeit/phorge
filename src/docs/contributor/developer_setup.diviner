@@ -1,19 +1,19 @@
 @title Developer Setup
 @group developer
 
-How to configure a Phabricator development environment.
+How to configure a Phorge development environment.
 
 Overview
 ========
 
 There are some options and workflows that may be useful if you are developing
-or debugging Phabricator.
+or debugging Phorge.
 
 
 Configuration
 =============
 
-To adjust Phabricator for development:
+To adjust Phorge for development:
 
   - Enable `phabricator.developer-mode` to enable some options and show
     more debugging information.
@@ -48,17 +48,17 @@ After adding, renaming, or moving classes, run `arc liberate` to rebuild
 the class map:
 
 ```
-phabricator/ $ arc liberate
+phorge/ $ arc liberate
 ```
 
-Until you do this, Phabricator won't recognize your new, moved, or renamed
+Until you do this, Phorge won't recognize your new, moved, or renamed
 classes. You do not need to run this after modifying an existing class.
 
 After any modifications to static resources (CSS / JS) but before sending
 changes for review or pushing them to the remote, run `bin/celerity map`:
 
 ```
-phabricator/ $ ./bin/celerity map
+phorge/ $ ./bin/celerity map
 ```
 
 This rebuilds the static resource map.
@@ -91,7 +91,7 @@ Phame) you can normally test them by adding more entries to your webserver
 configuration that look exactly like the primary entry (or expanding the
 primary entry to match more domains).
 
-Phabricator routes all requests based on host headers, so alternate domains
+Phorge routes all requests based on host headers, so alternate domains
 do not normally need any kind of special configuration.
 
 You may also need to add `/etc/hosts` entries for the domains themselves.
@@ -103,8 +103,8 @@ Creating Test Data
 You can create test objects with the "Lipsum" utility:
 
 ```
-phabricator/ $ ./bin/lipsum help generate
-phabricator/ $ ./bin/lipsum generate ...
+phorge/ $ ./bin/lipsum help generate
+phorge/ $ ./bin/lipsum generate ...
 ```
 
 Test data can make your local install feel a little more realistic. With

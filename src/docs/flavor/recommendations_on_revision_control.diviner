@@ -3,12 +3,12 @@
 
 Project recommendations on how to organize revision control.
 
-This document is purely advisory. Phabricator works with a variety of revision
+This document is purely advisory. Phorge works with a variety of revision
 control strategies, and diverging from the recommendations in this document
 will not impact your ability to use it for code review and source management.
 
-This is my (epriestley's) personal take on the issue and not necessarily
-representative of the views of the Phabricator team as a whole.
+This is Evan's personal take on the issue and not necessarily
+representative of the views of the Phorge team as a whole.
 
 = Overview =
 

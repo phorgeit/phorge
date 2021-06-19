@@ -1,11 +1,11 @@
 {
-  "name": "phabdev",
-  "title": "Phabricator Technical Documentation",
-  "short": "Phabricator Tech Docs",
-  "preface": "Technical reference material for Phabricator developers.",
+  "name": "dev",
+  "title": "Phorge Technical Documentation",
+  "short": "Tech Docs",
+  "preface": "Technical reference material for Phorge developers.",
   "root": "../../../",
   "uri.source":
-    "https://secure.phabricator.com/diffusion/P/browse/master/%f$%l",
+    "https://we.phorge.it/diffusion/P/browse/master/%f$%l",
   "rules": {
     "(\\.diviner$)": "DivinerArticleAtomizer",
     "(\\.php$)": "DivinerPHPAtomizer"

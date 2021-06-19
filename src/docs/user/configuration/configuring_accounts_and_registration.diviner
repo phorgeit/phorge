@@ -1,12 +1,12 @@
 @title Configuring Accounts and Registration
 @group config
 
-Describes how to configure user access to Phabricator.
+Describes how to configure user access to Phorge.
 
 Overview
 ========
 
-Phabricator supports a number of login systems. You can enable or disable these
+Phorge supports a number of login systems. You can enable or disable these
 systems to configure who can register for and access your install, and how users
 with existing accounts can login.
 
@@ -18,7 +18,7 @@ support logging in with other credentials. For example:
   - **LDAP:** Users use LDAP credentials to log in or register.
   - **OAuth:** Users use accounts on a supported OAuth2 provider (like
     GitHub, Facebook, or Google) to log in or register.
-  - **Other Providers:** More providers are available, and Phabricator
+  - **Other Providers:** More providers are available, and Phorge
     can be extended with custom providers. See the "Auth" application for
     a list of available providers.
 
@@ -26,14 +26,14 @@ By default, no providers are enabled. You must use the "Auth" application to
 add one or more providers after you complete the installation process.
 
 After you add a provider, you can link it to existing accounts (for example,
-associate an existing Phabricator account with a GitHub OAuth account) or users
+associate an existing Phorge account with a GitHub OAuth account) or users
 can use it to register new accounts (assuming you enable these options).
 
 
 Recovering Inaccessible Accounts
 ================================
 
-If you accidentally lock yourself out of Phabricator (for example, by disabling
+If you accidentally lock yourself out of Phorge (for example, by disabling
 all authentication providers), you can normally use the "send a login link"
 action from the login screen to email yourself a login link and regain access
 to your account.
@@ -43,7 +43,7 @@ can use the `bin/auth` script to recover access to an account. To recover
 access, run:
 
 ```
-phabricator/ $ ./bin/auth recover <username>
+phorge/ $ ./bin/auth recover <username>
 ```
 
 ...where `<username>` is the account username you want to recover access

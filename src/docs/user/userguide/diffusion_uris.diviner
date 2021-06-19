@@ -6,38 +6,38 @@ Guide to configuring repository URIs for fetching, cloning and mirroring.
 Overview
 ========
 
-Phabricator can create, host, observe, mirror, proxy, and import repositories.
+Phorge can create, host, observe, mirror, proxy, and import repositories.
 For example, you can:
 
-**Host Repositories**: Phabricator can host repositories locally. Phabricator
+**Host Repositories**: Phorge can host repositories locally. Phorge
 maintains the writable master version of the repository, and you can push and
 pull the repository. This is the most straightforward kind of repository
 configuration, and similar to repositories on other services like GitHub or
 Bitbucket.
 
-**Observe Repositories**: Phabricator can create a copy of an repository which
+**Observe Repositories**: Phorge can create a copy of an repository which
 is hosted elsewhere (like GitHub or Bitbucket) and track updates to the remote
-repository. This will create a read-only copy of the repository in Phabricator.
+repository. This will create a read-only copy of the repository in Phorge.
 
-**Mirror Repositories**: Phabricator can publish any repository to mirrors,
+**Mirror Repositories**: Phorge can publish any repository to mirrors,
 overwriting them with an exact copy of the repository that stays up to date as
-the source changes. This works with both local repositories that Phabricator is
-hosting and remote repositories that Phabricator is observing.
+the source changes. This works with both local repositories that Phorge is
+hosting and remote repositories that Phorge is observing.
 
 **Proxy Repositories**: If you are observing a repository, you can allow users
-to read Phabricator's copy of the repository. Phabricator supports granular
+to read Phorge's copy of the repository. Phorge supports granular
 read permissions, so this can let you open a private repository up a little
 bit in a flexible way.
 
 **Import Repositories**: If you have a repository elsewhere that you want to
-host on Phabricator, you can observe the remote repository first, then turn
+host on Phorge, you can observe the remote repository first, then turn
 the tracking off once the repository fully synchronizes. This allows you to
-copy an existing repository and begin hosting it in Phabricator.
+copy an existing repository and begin hosting it in Phorge.
 
 You can also import repositories by creating an empty hosted repository and
 then pushing everything to the repository directly.
 
-You configure the behavior of a Phabricator repository by adding and
+You configure the behavior of a Phorge repository by adding and
 configuring URIs and marking them to be fetched from, mirrored to, clonable,
 and so on. By configuring all the URIs that a repository should interact with
 and expose to users, you configure the read, write, and mirroring behavior
@@ -50,12 +50,12 @@ detail.
 Host a Repository
 =================
 
-You can create new repositories that Phabricator will host, like you would
-create repositories on services like GitHub or Bitbucket. Phabricator will
-serve a read-write copy of the repository and you can clone it from Phabricator
-and push changes to Phabricator.
+You can create new repositories that Phorge will host, like you would
+create repositories on services like GitHub or Bitbucket. Phorge will
+serve a read-write copy of the repository and you can clone it from Phorge
+and push changes to Phorge.
 
-If you haven't already, you may need to configure Phabricator for hosting
+If you haven't already, you may need to configure Phorge for hosting
 before you can create your first hosted repository. For a detailed guide,
 see @{article:Diffusion User Guide: Repository Hosting}.
 
@@ -64,7 +64,7 @@ This is the default mode for new repositories. To host a repository:
   - Create a new repository.
   - Activate it.
 
-Phabricator will create an empty repository and allow you to fetch from it and
+Phorge will create an empty repository and allow you to fetch from it and
 push to it.
 
 
@@ -72,10 +72,10 @@ Observe a Repository
 ====================
 
 If you have an existing repository hosted on another service (like GitHub,
-Bitbucket, or a private server) that you want to work with in Phabricator,
-you can configure Phabricator to observe it.
+Bitbucket, or a private server) that you want to work with in Phorge,
+you can configure Phorge to observe it.
 
-When observing a repository, Phabricator will keep track of changes in the
+When observing a repository, Phorge will keep track of changes in the
 remote repository and allow you to browse and interact with the repository from
 the web UI in Diffusion and other applications, but you can continue hosting it
 elsewhere.
@@ -88,7 +88,7 @@ To observe a repository:
   - If necessary, configure a credential.
   - Activate the repository.
 
-Phabricator will perform an initial import of the repository, creating a local
+Phorge will perform an initial import of the repository, creating a local
 read-only copy. Once this process completes, it will continue keeping track of
 changes in the remote, fetching them, and reflecting them in the UI.
 
@@ -98,21 +98,21 @@ Mirror a Repository
 
 NOTE: Mirroring is not supported in Subversion.
 
-You can create a read-only mirror of an existing repository. Phabricator will
+You can create a read-only mirror of an existing repository. Phorge will
 continuously publish the state of the source repository to the mirror, creating
 an exact copy.
 
-For example, if you have a repository hosted in Phabricator that you want to
-mirror to GitHub, you can configure Phabricator to automatically maintain the
+For example, if you have a repository hosted in Phorge that you want to
+mirror to GitHub, you can configure Phorge to automatically maintain the
 mirror. This is how the upstream repositories are set up.
 
 The mirror copy must be read-only for users because any writes made to the
-mirror will be undone when Phabricator updates it. The mirroring process copies
+mirror will be undone when Phorge updates it. The mirroring process copies
 the entire repository state exactly, so the remote state will be completely
 replaced with an exact copy of the source repository. This may remove or
 destroy information. Normally, you should only mirror to an empty repository.
 
-You can mirror any repository, even if Phabricator is only observing it and not
+You can mirror any repository, even if Phorge is only observing it and not
 hosting it directly.
 
 To begin mirroring a repository:
@@ -133,14 +133,14 @@ Import a Repository
 ===================
 
 If you have an existing repository that you want to move so it is hosted on
-Phabricator, there are three ways to do it:
+Phorge, there are three ways to do it:
 
 **Observe First**: //(Git, Mercurial)// Observe the existing repository first,
-according to the instructions above. Once Phabricator's copy of the repository
+according to the instructions above. Once Phorge's copy of the repository
 is fully synchronized, change the **I/O Type** for the **Observe** URI to
 **None** to stop fetching changes from the remote.
 
-By default, this will automatically make Phabricator's copy of the repository
+By default, this will automatically make Phorge's copy of the repository
 writable, and you can begin pushing to it. If you've adjusted URI
 configuration away from the defaults, you may need to set at least one URI
 to **Read/Write** mode so you can push to it.
@@ -169,7 +169,7 @@ repository.
 Builtin Clone URIs
 ==================
 
-By default, Phabricator automatically exposes and activates HTTP, HTTPS and
+By default, Phorge automatically exposes and activates HTTP, HTTPS and
 SSH clone URIs by examining configuration.
 
 **HTTP**: The `http://` clone URI will be available if these conditions are
@@ -198,7 +198,7 @@ Customizing Displayed Clone URIs
 ================================
 
 If you have an unusual configuration and want the UI to offers users specific
-clone URIs other than the URIs that Phabricator serves or interacts with, you
+clone URIs other than the URIs that Phorge serves or interacts with, you
 can add those URIs with the **I/O Type** set to **None** and then set their
 **Display Type** to **Always**.
 
@@ -214,11 +214,11 @@ Reference: I/O Types
 
 This section details the available **I/O Type** options for URIs.
 
-Each repository has some **builtin** URIs. These are URIs hosted by Phabricator
+Each repository has some **builtin** URIs. These are URIs hosted by Phorge
 itself. The modes available for each URI depend primarily on whether it is a
 builtin URI or not.
 
-**Default**: This setting has Phabricator guess the correct option for the
+**Default**: This setting has Phorge guess the correct option for the
 URI.
 
 For **builtin** URIs, the default behavior is //Read/Write// if the repository
@@ -228,7 +228,7 @@ For custom URIs, the default type is //None// because we can not automatically
 guess if you want to ignore, observe, or mirror a URI and //None// is the
 safest default.
 
-**Observe**: Phabricator will observe this repository and regularly fetch any
+**Observe**: Phorge will observe this repository and regularly fetch any
 changes made to it to a local read-only copy.
 
 You can not observe builtin URIs because reading a repository from itself
@@ -240,11 +240,11 @@ authorities: the observed remote copy and the hosted local copy. Take the
 other URI out of //Read/Write// mode first.
 
 WARNING: If you observe a remote repository, the entire state of the working
-copy that Phabricator maintains will be deleted and replaced with the state of
-the remote. If some changes are present only in Phabricator's working copy,
+copy that Phorge maintains will be deleted and replaced with the state of
+the remote. If some changes are present only in Phorge's working copy,
 they will be unrecoverably destroyed.
 
-**Mirror**: Phabricator will push any changes made to this repository to the
+**Mirror**: Phorge will push any changes made to this repository to the
 remote URI, keeping a read-only mirror hosted at that URI up to date.
 
 This works for both observed and hosted repositories.
@@ -253,30 +253,30 @@ This option is not available for builtin URIs because it does not make sense
 to mirror a repository to itself.
 
 It is possible to mirror a repository to another repository that is also
-hosted by Phabricator by adding that other repository's URI, although this is
+hosted by Phorge by adding that other repository's URI, although this is
 silly and probably very rarely of any use.
 
 WARNING: If you mirror to a remote repository, the entire state of that remote
-will be replaced with the state of the working copy Phabricator maintains. If
+will be replaced with the state of the working copy Phorge maintains. If
 some changes are present only in the remote, they will be unrecoverably
 destroyed.
 
-**None**: Phabricator will not fetch changes from or push changes to this URI.
+**None**: Phorge will not fetch changes from or push changes to this URI.
 For builtin URIs, it will not let users fetch changes from or push changes to
 this URI.
 
 You can use this mode to turn off an Observe URI after an import, stop a Mirror
 URI from updating, or to add URIs that you're only using to customize which
-clone URIs are displayed to the user but don't want Phabricator to interact
+clone URIs are displayed to the user but don't want Phorge to interact
 with directly.
 
-**Read Only**: Phabricator will serve the repository from this URI in read-only
+**Read Only**: Phorge will serve the repository from this URI in read-only
 mode. Users will be able to fetch from it but will not be able to push to it.
 
-Because Phabricator must be able to serve the repository from URIs configured
+Because Phorge must be able to serve the repository from URIs configured
 in this mode, this option is only available for builtin URIs.
 
-**Read/Write**: Phabricator will serve the repository from this URI in
+**Read/Write**: Phorge will serve the repository from this URI in
 read/write mode. Users will be able to fetch from it and push to it.
 
 URIs can not be set into this mode if another URI is set to //Observe// mode,
@@ -284,7 +284,7 @@ because that would mean the repository had two different authorities: the
 observed remote copy and the hosted local copy. Take the other URI out of
 //Observe// mode first.
 
-Because Phabricator must be able to serve the repository from URIs configured
+Because Phorge must be able to serve the repository from URIs configured
 in this mode, this option is only available for builtin URIs.
 
 
@@ -293,7 +293,7 @@ Reference: Display Types
 
 This section details the available **Display Type** options for URIs.
 
-**Default**: Phabricator will guess the correct option for the URI. It
+**Default**: Phorge will guess the correct option for the URI. It
 guesses based on the configured **I/O Type** and whether the URI is
 **builtin** or not.
 
@@ -315,5 +315,5 @@ Next Steps
 
 Continue by:
 
-  - configuring Phabricator to host repositories with
+  - configuring Phorge to host repositories with
     @{article:Diffusion User Guide: Repository Hosting}.

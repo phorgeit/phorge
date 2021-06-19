@@ -6,14 +6,14 @@ Adjust environmental settings (SSL, remote IPs) using a preamble script.
 Overview
 ========
 
-If Phabricator is deployed in an environment where HTTP headers behave oddly
+If Phorge is deployed in an environment where HTTP headers behave oddly
 (usually, because it is behind a load balancer), it may not be able to detect
 some environmental features (like the client's IP, or the presence of SSL)
 correctly.
 
 You can use a special preamble script to make arbitrary adjustments to the
-environment and some parts of Phabricator's configuration in order to fix these
-problems and set up the environment which Phabricator expects.
+environment and some parts of Phorge's configuration in order to fix these
+problems and set up the environment which Phorge expects.
 
 
 Creating a Preamble Script
@@ -21,15 +21,15 @@ Creating a Preamble Script
 
 To create a preamble script, write a file to:
 
-  phabricator/support/preamble.php
+  phorge/support/preamble.php
 
-(This file is in Phabricator's `.gitignore`, so you do not need to worry about
+(This file is in Phorge's `.gitignore`, so you do not need to worry about
 colliding with `git` or interacting with updates.)
 
 This file should be a valid PHP script. If you aren't very familiar with PHP,
 you can check for syntax errors with `php -l`:
 
-  phabricator/ $ php -l support/preamble.php
+  phorge/ $ php -l support/preamble.php
   No syntax errors detected in support/preamble.php
 
 If present, this script will be executed at the very beginning of each web
@@ -40,14 +40,14 @@ examples, see the next sections.
 Adjusting Client IPs
 ====================
 
-If your install is behind a load balancer, Phabricator may incorrectly detect
+If your install is behind a load balancer, Phorge may incorrectly detect
 all requests as originating from the load balancer, rather than from the
 correct client IPs.
 
 In common cases where networks are configured like this, the `X-Forwarded-For`
 header will have trustworthy information about the real client IP. You
 can use the function `preamble_trust_x_forwarded_for_header()` in your
-preamble to tell Phabricator that you expect to receive requests from a
+preamble to tell Phorge that you expect to receive requests from a
 load balancer or proxy which modifies this header:
 
 ```name="Trust X-Forwarded-For Header", lang=php
@@ -89,9 +89,9 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 Adjusting SSL
 =============
 
-If your install is behind an SSL terminating load balancer, Phabricator may
+If your install is behind an SSL terminating load balancer, Phorge may
 detect requests as HTTP when the client sees them as HTTPS. This can cause
-Phabricator to generate links with the wrong protocol, issue cookies without
+Phorge to generate links with the wrong protocol, issue cookies without
 the SSL-only flag, or reject requests outright.
 
 To fix this, you can set `$_SERVER['HTTPS']` explicitly:
@@ -103,7 +103,7 @@ name=Explicitly Configure SSL Availability
 $_SERVER['HTTPS'] = true;
 ```
 
-You can also set this value to `false` to explicitly tell Phabricator that a
+You can also set this value to `false` to explicitly tell Phorge that a
 request is not an SSL request.
 
 

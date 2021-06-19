@@ -1,7 +1,7 @@
 @title Cluster: Daemons
 @group cluster
 
-Configuring Phabricator to use multiple daemon hosts.
+Configuring Phorge to use multiple daemon hosts.
 
 Overview
 ========
@@ -38,7 +38,7 @@ Dedicated Daemon Hosts
 
 You can launch additional daemon hosts without any special configuration.
 Daemon hosts must be able to reach other hosts on the network, but do not need
-to run any services (like HTTP or SSH). Simply deploy the Phabricator software
+to run any services (like HTTP or SSH). Simply deploy the Phorge software
 and configuration and start the daemons.
 
 Normally, there is little reason to deploy dedicated daemon hosts. They can

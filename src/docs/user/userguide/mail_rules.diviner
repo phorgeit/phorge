@@ -1,12 +1,12 @@
-@title User Guide: Managing Phabricator Email
+@title User Guide: Managing Phorge Email
 @group userguide
 
-How to effectively manage Phabricator email notifications.
+How to effectively manage Phorge email notifications.
 
 Overview
 ========
 
-Phabricator uses email as a major notification channel, but the amount of email
+Phorge uses email as a major notification channel, but the amount of email
 it sends can seem overwhelming if you're working on an active team. This
 document discusses some strategies for managing email.
 
@@ -29,13 +29,13 @@ The best approach to managing mail is to write mail rules. Simply writing rules
 to move mail from Differential, Maniphest and Herald to separate folders will
 vastly simplify mail management.
 
-Phabricator also adds mail headers (see below) which can allow you to write
+Phorge also adds mail headers (see below) which can allow you to write
 more sophisticated mail rules.
 
 Mail Headers
 ============
 
-Phabricator sends various information in mail headers that can be useful in
+Phorge sends various information in mail headers that can be useful in
 crafting rules to route and manage mail. To see a full list of headers, use
 the "View Raw Message" feature in your mail client.
 

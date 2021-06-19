@@ -1,12 +1,12 @@
 @title Contributor Introduction
 @group contrib
 
-Introduction to contributing to Phabricator and Arcanist.
+Introduction to contributing to Phorge and Arcanist.
 
 Overview
 ========
 
-If you'd like to contribute to Phabricator, this document can guide you though
+If you'd like to contribute to Phorge, this document can guide you though
 ways you can help improve the project.
 
 Writing code is valuable, but often isn't the best or easiest way to contribute.
@@ -19,24 +19,11 @@ heavy lifting.
 
 Without writing any code, learning the whole codebase, making a big time
 commitment, or having to touch PHP, here are some ways you can materially
-contribute to Phabricator:
+contribute to Phorge:
 
-  - Drop by the [[ https://phurl.io/u/discourse | community forum ]] just to
-    say "thanks". A big part of the reason we build this software is to help
-    people solve problems, and knowing that our efforts are appreciated is
-    really rewarding.
-  - Recommend Phabricator to people who you think might find it useful. Our
+  - Recommend Phorge to people who you think might find it useful. Our
     most powerful growth channel is word of mouth, and mentioning or tweeting
-    about Phabricator helps the project grow. If writing a tweet sounds like
-    too much work, you can use one of these form tweets written by our PR
-    department to quickly and easily shill on our behalf. Hail corporate!
-
-> Phabricator seems like it's pretty okay
-
-> I am not being paid to mention Phabricator in this extemporaneous, completely organic tweet
-
-> Phabricator is objectively the best thing. Source: I am a certified, internationally recognized expert.
-
+    about Phorge helps the project grow.
   - Submit high-quality bug reports by carefully following the guide in
     @{article:Contributing Bug Reports}.
 

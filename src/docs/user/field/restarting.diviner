@@ -1,14 +1,14 @@
-@title Restarting Phabricator
+@title Restarting Phorge
 @group fieldmanual
 
 Instructions on how to restart HTTP and PHP servers to reload configuration
-changes in Phabricator.
+changes in Phorge.
 
 
 Overview
 ========
 
-Phabricator's setup and configuration instructions sometimes require you to
+Phorge's setup and configuration instructions sometimes require you to
 restart your server processes, particularly after making configuration changes.
 This document explains how to restart them properly.
 

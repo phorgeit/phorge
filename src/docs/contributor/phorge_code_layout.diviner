@@ -1,19 +1,19 @@
-@title Phabricator Code Layout
+@title Phorge Code Layout
 @group developer
 
-Guide to Phabricator code layout, including how URI mapping works through
+Guide to Phorge code layout, including how URI mapping works through
 application class and subdirectory organization best practices.
 
 = URI Mapping =
 
-When a user visits a Phabricator URI, the Phabricator infrastructure parses
-that URI with a regular expression to determine what controller class to load.
+When a user visits a Phorge URI, the Phorge infrastructure parses that URI with
+ a regular expression to determine what controller class to load.
 
-The Phabricator infrastructure knows where a given controller class lives on
+The Phorge infrastructure knows where a given controller class lives on
 disk from a cache file the Arcanist phutil mapper generates. This mapping
 should be updated whenever new classes or files are added:
 
-  arc liberate /path/to/phabricator/src
+  arc liberate /path/to/phorge/src
 
 Finally, a given controller class will map to an application which will have
 most of its code in standardized subdirectories and classes.
@@ -22,11 +22,11 @@ most of its code in standardized subdirectories and classes.
 
 Suppose you were working on the application `Derp`.
 
-  phabricator/src/applications/derp/
+  phorge/src/applications/derp/
 
 If `Derp` were as simple as possible, it would have one subdirectory:
 
-  phabricator/src/applications/derp/controller/
+  phorge/src/applications/derp/controller/
 
 containing the file `DerpController.php` with the class
 
@@ -37,25 +37,25 @@ containing the file `DerpController.php` with the class
 If `Derp` were (relatively) complex, one could reasonably expect to see
 the following directory layout:
 
-  phabricator/src/applications/derp/conduit/
-  phabricator/src/applications/derp/constants/
-  phabricator/src/applications/derp/controller/
-  phabricator/src/applications/derp/editor/
-  phabricator/src/applications/derp/exception/
-  phabricator/src/applications/derp/query/
-  phabricator/src/applications/derp/replyhandler/
-  phabricator/src/applications/derp/storage/
-  phabricator/src/applications/derp/view/
+  phorge/src/applications/derp/conduit/
+  phorge/src/applications/derp/constants/
+  phorge/src/applications/derp/controller/
+  phorge/src/applications/derp/editor/
+  phorge/src/applications/derp/exception/
+  phorge/src/applications/derp/query/
+  phorge/src/applications/derp/replyhandler/
+  phorge/src/applications/derp/storage/
+  phorge/src/applications/derp/view/
 
 (The following two folders are also likely to be included for JavaScript and
 CSS respectively. However, static resources are largely outside the scope of
 this document. See @{article:Adding New CSS and JS}.)
 
-  phabricator/webroot/rsrc/js/application/derp/
-  phabricator/webroot/rsrc/css/application/derp/
+  phorge/webroot/rsrc/js/application/derp/
+  phorge/webroot/rsrc/css/application/derp/
 
-These directories under `phabricator/src/applications/derp/` represent
-the basic set of class types from which most Phabricator applications are
+These directories under `phorge/src/applications/derp/` represent
+the basic set of class types from which most Phorge applications are
 assembled. Each would contain a class file. For `Derp`, these classes could be
 something like:
 

@@ -14,7 +14,7 @@ information.
 = Overview =
 
 While `arc` has a large number of commands that interface with various
-Phabricator applications, the primary use of `arc` is to send changes for
+Phorge applications, the primary use of `arc` is to send changes for
 review in Differential (for more information on Differential, see
 @{article:Differential User Guide}). If you aren't familiar with Differential,
 it may be instructive to read that article first to understand the big picture
@@ -167,7 +167,7 @@ You can use `arc help <command>` for detailed help with any of these.
 Differential will make a guess about a next step on accepted revisions, but it
 may not be the best next step for your workflow.
 
-Phabricator will also automatically close revisions if the changes are pushed
+Phorge will also automatically close revisions if the changes are pushed
 to a repository that is tracked in Diffusion. Specifically, it will close
 revisions based on commit and tree hashes, and `Differential Revision`
 identifiers in commit messages.

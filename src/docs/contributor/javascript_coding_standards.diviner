@@ -1,12 +1,12 @@
 @title Javascript Coding Standards
 @group standards
 
-This document describes Javascript coding standards for Phabricator and Javelin.
+This document describes Javascript coding standards for Phorge and Javelin.
 
 = Overview =
 
 This document outlines technical and style guidelines which are followed in
-Phabricator and Javelin. Contributors should also follow these guidelines. Many
+Phorge and Javelin. Contributors should also follow these guidelines. Many
 of these guidelines are automatically enforced by lint.
 
 These guidelines are essentially identical to the Facebook guidelines, since I

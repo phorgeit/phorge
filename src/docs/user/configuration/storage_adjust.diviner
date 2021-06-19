@@ -6,13 +6,13 @@ Explains how to apply storage adjustments to the MySQL schemata.
 Overview
 ========
 
-Phabricator uses a workflow called //storage adjustment// to make some minor
+Phorge uses a workflow called //storage adjustment// to make some minor
 kinds of changes to the MySQL schema. This workflow compliments the //storage
 upgrade// workflow, which makes major changes.
 
 You can perform storage adjustment by running:
 
-  phabricator/ $ ./bin/storage adjust
+  phorge/ $ ./bin/storage adjust
 
 This document describes what adjustments are, how they relate to storage
 upgrades, how to perform them, and how to troubleshoot issues with storage
@@ -22,7 +22,7 @@ adjustment.
 Understanding Adjustments
 ===================
 
-Storage adjustments make minor changes to the Phabricator MySQL schemata to
+Storage adjustments make minor changes to the Phorge MySQL schemata to
 improve consistency, unicode handling, and performance. Changes covered by
 adjustment include:
 
@@ -62,7 +62,7 @@ adjustment workflow can resolve.
 
 You can also review adjustments from the CLI, by running:
 
-  phabricator/ $ ./bin/storage adjust
+  phorge/ $ ./bin/storage adjust
 
 Before you're prompted to actually apply adjustments, you'll be given a list of
 available adjustments. You can then make a choice to apply them.
@@ -73,11 +73,11 @@ Performing Adjustments
 
 To perform adjustments, run the `adjust` workflow:
 
-  phabricator/ $ ./bin/storage adjust
+  phorge/ $ ./bin/storage adjust
 
 For details about flags, use:
 
-  phabricator/ $ ./bin/storage help adjust
+  phorge/ $ ./bin/storage help adjust
 
 You do not normally need to run this workflow manually: it will be run
 automatically after you run the `upgrade` workflow.
@@ -97,7 +97,7 @@ set can safely store 4-byte unicode characters.
 
 The adjustment workflow allows us to alter the schema to primarily use
 `binary` character sets on older MySQL, and primarily use `utf8mb4` character
-sets on newer MySQL. The net effect is that Phabricator works consistently and
+sets on newer MySQL. The net effect is that Phorge works consistently and
 can store 4-byte unicode characters regardless of the MySQL version. Under
 newer MySQL, we can also take advantage of the better collation rules the
 `utf8mb4` character set offers.
@@ -143,7 +143,7 @@ upstream.
 
 In general, adjustments are not critical. If you run into issues applying
 adjustments, it is safe to file a task in the upstream describing the problem
-you've encountered and continue using Phabricator normally until the issue can
+you've encountered and continue using Phorge normally until the issue can
 be resolved.
 
 Surplus Schemata
@@ -154,13 +154,13 @@ After performing adjustment, you may receive an error that a table or column is
 
 | Target | Error |
 | --- | --- |
-| phabricator_example.example_table | Surplus |
+| phorge_example.example_table | Surplus |
 
-Generally, "Surplus" means that Phabricator does not expect the table or column
+Generally, "Surplus" means that Phorge does not expect the table or column
 to exist. These surpluses usually exist because you (or someone else
 with database access) added the table or column manually. Rarely, they can
 also exist for other reasons. They are usually safe to delete, but because
-deleting them destroys data and Phabricator can not be sure that the table or
+deleting them destroys data and Phorge can not be sure that the table or
 column doesn't have anything important in it, it does not delete them
 automatically.
 
@@ -174,18 +174,18 @@ message):
 
 ```lang=sql
 CREATE DATABASE my_backups;
-RENAME TABLE phabricator_example.example_table
+RENAME TABLE phorge_example.example_table
   TO my_backups.example_table;
 ```
 
-Phabricator will ignore tables that aren't in databases it owns, so you can
-safely move anything you aren't sure about outside of the Phabricator databases.
+Phorge will ignore tables that aren't in databases it owns, so you can
+safely move anything you aren't sure about outside of the Phorge databases.
 
 If you're sure you don't need a table, use `DROP TABLE` to destroy it,
 specifying the correct table name (the one given in the error message):
 
 ```lang=sql
-DROP TABLE phabricator_example.example_table;
+DROP TABLE phorge_example.example_table;
 ```
 
 This will destroy the table permanently.

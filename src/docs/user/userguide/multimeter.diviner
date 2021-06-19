@@ -9,7 +9,7 @@ Overview
 IMPORTANT: This document describes a prototype application.
 
 Multimeter is a sampling profiler that can give you coarse information about
-Phabricator resource usage. In particular, it can help quickly identify sources
+Phorge resource usage. In particular, it can help quickly identify sources
 of load, like bots or scripts which are making a very large number of requests.
 
 Configuring and Using Multimeter
@@ -26,7 +26,7 @@ data, at a small performance cost.
 Using Multimeter
 ================
 
-Multimeter shows you what Phabricator has spent time doing recently. By
+Multimeter shows you what Phorge has spent time doing recently. By
 looking at the samples it collects, you can identify major sources of load
 or resource use, whether they are specific users, pages, subprocesses, or
 other types of activity.
@@ -36,7 +36,7 @@ or configuration to make better use of resources (for example, rewrite bots
 that are making too many calls), or report specific, actionable issues to the
 upstream for resolution.
 
-The main screen of Multimeter shows you everything Phabricator has spent
+The main screen of Multimeter shows you everything Phorge has spent
 resources on recently, broken down by action type. Categories are folded up
 by default, with "(All)" labels.
 

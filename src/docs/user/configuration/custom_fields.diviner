@@ -5,7 +5,7 @@ How to add custom fields to applications which support them.
 
 = Overview =
 
-Several Phabricator applications allow the configuration of custom fields. These
+Several Phorge applications allow the configuration of custom fields. These
 fields allow you to add more information to objects, and in some cases reorder
 or remove builtin fields.
 
@@ -134,7 +134,7 @@ The `strings` value supports different strings per control type. They are:
     - **search.default** Text for the search interface, defaults to "(Any)".
     - **search.require** Text for the search interface, defaults to "Require".
 
-Internally, Phabricator implements some additional custom field types and
+Internally, Phorge implements some additional custom field types and
 options. These are not intended for general use and are subject to abrupt
 change, but are documented here for completeness:
 
@@ -149,7 +149,7 @@ change, but are documented here for completeness:
 
 If you want custom fields to have advanced behaviors (sophisticated rendering,
 advanced validation, complicated controls, interaction with other systems, etc),
-you can write a custom field as an extension and add it to Phabricator.
+you can write a custom field as an extension and add it to Phorge.
 
 NOTE: This API is somewhat new and fairly large. You should expect that there
 will be occasional changes to the API requiring minor updates in your code.
@@ -167,9 +167,9 @@ want to add a field to:
 | Projects | @{class:PhabricatorProjectCustomField} |
 
 The easiest way to get started is to drop your subclass into
-`phabricator/src/extensions/`. If Phabricator is configured in development
+`phorge/src/extensions/`. If Phorge is configured in development
 mode, the class should immediately be available in the UI. If not, you can
-restart Phabricator (for help, see @{article:Restarting Phabricator}).
+restart Phorge (for help, see @{article:Restarting Phorge}).
 
 For example, this is a simple template which adds a custom field to Maniphest:
 
@@ -211,6 +211,6 @@ integrations, see the base class for your application and
 
 Continue by:
 
-  - learning more about extending Phabricator with custom code in
-    @{article@phabcontrib:Adding New Classes};
+  - learning more about extending Phorge with custom code in
+    @{article@contrib:Adding New Classes};
   - or returning to the @{article: Configuration Guide}.

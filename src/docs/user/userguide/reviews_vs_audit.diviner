@@ -6,7 +6,7 @@ Discusses the differences between "review" and "audit" workflows.
 Overview
 ========
 
-Phabricator supports two similar but separate code review workflows: "review"
+Phorge supports two similar but separate code review workflows: "review"
 and "audit".
 
 Review occurs in **Differential**, before changes are published. You can learn
@@ -111,7 +111,7 @@ supplement review and is better than nothing on its own. If you are unpersuaded
 by the arguments above (or work on a team that is unswayed), audits provide
 some of the benefits of review with less friction:
 
-  - Audits are driven entirely by Phabricator: users do not need to install
+  - Audits are driven entirely by Phorge: users do not need to install
     `arc`.
   - Audits require little adjustment to existing workflows and little training.
   - Audits are completely nonblocking, and send fewer notifications than review.

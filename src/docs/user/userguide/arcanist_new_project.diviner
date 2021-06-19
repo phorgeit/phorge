@@ -15,11 +15,11 @@ An `.arcconfig` file is a JSON file which you check into your project's root.
 
 Arcanist uses `.arcconfig` files to customize a number of things about its
 behavior. The first thing you're likely to want to configure is the URI
-for your Phabricator install. A simple, valid file looks something like this:
+for your Phorge install. A simple, valid file looks something like this:
 
   name=.arcconfig
   {
-    "phabricator.uri" : "https://phabricator.example.com/"
+    "phabricator.uri" : "https://phorge.example.com/"
   }
 
 For details on available options, see below.
@@ -31,7 +31,7 @@ configuration, not user configuration.
 
 Common options are:
 
-  - **phabricator.uri**: the URI for the Phabricator install that `arc` should
+  - **phabricator.uri**: the URI for the Phorge install that `arc` should
     connect to when run in this project. This option was previously called
     `conduit_uri`.
   - **repository.callsign**: The callsign of this repository in Diffusion.
@@ -47,7 +47,7 @@ Other options include:
 
   - **load**: list of additional Phutil libraries to load at startup.
     See below for details about path resolution, or see
-    @{article@phabcontrib:Adding New Classes} for a general introduction to
+    @{article@contrib:Adding New Classes} for a general introduction to
     libphutil libraries.
   - **https.cabundle**: specifies the path to an alternate certificate bundle
     for use when making HTTPS connections.
@@ -62,9 +62,9 @@ Other options include:
 These options are supported, but their use is discouraged:
 
   - **http.basicauth.user**: specify an HTTP basic auth username for use when
-    connecting to Phabricator.
+    connecting to Phorge.
   - **http.basicauth.pass**: specify an HTTP basic auth password for use when
-    connecting to Phabricator.
+    connecting to Phorge.
   - **https.blindly-trust-domains**: a list of domains to trust blindly over
     HTTPS, even if their certificates are invalid. This is a brute force
     solution to certificate validity problems, and is discouraged. Instead,
@@ -182,7 +182,7 @@ some features won't work unless you set up an `.arcconfig` file.
 
 Without `.arcconfig`:
 
-  - You will need to set a default Phabricator URI with
+  - You will need to set a default Phorge URI with
     `arc set-config default <uri>`, or specify an explicit URI
     with `--conduit-uri` each time you run a command.
   - You will not be able to run linters through arc unless you pass `--engine`

@@ -6,7 +6,7 @@ Describes how to provide reproduction steps.
 Overview
 ========
 
-When you submit a bug report about Phabricator, you **MUST** include
+When you submit a bug report about Phorge, you **MUST** include
 reproduction steps. We can not help you with bugs we can not reproduce, and
 will not accept reports which omit reproduction steps or have incomplete or
 insufficient instructions.
@@ -15,7 +15,7 @@ This document explains what we're looking for in good reproduction steps.
 Briefly:
 
   - Reproduction steps must allow us to reproduce the problem locally on a
-    clean, up-to-date install of Phabricator.
+    clean, up-to-date install of Phorge.
   - Reproduction should be as simple as possible.
 
 Good reproduction steps can take time to write out clearly, simplify, and
@@ -70,7 +70,7 @@ Reliable Reproduction
 =====================
 
 When you file a bug report, the first thing we do to fix it is to try to
-reproduce the problem locally on an up-to-date install of Phabricator. We will
+reproduce the problem locally on an up-to-date install of Phorge. We will
 do this by following the steps you provide. If we can recreate the issue
 locally, we can almost always resolve the problem (often very promptly).
 
@@ -80,7 +80,7 @@ settings, feed stories, etc) that we don't have access to. We either can't
 follow these steps, or can't reproduce issues by following them.
 
 Reproduction steps must be complete and self-contained, and must allow
-**anyone** to reproduce the issue on a new, empty install of Phabricator. If
+**anyone** to reproduce the issue on a new, empty install of Phorge. If
 the bug you're seeing depends on data or configuration which would not be
 present on a new install, you need to include that information in your steps.
 
@@ -101,11 +101,7 @@ to private or proprietary data.
 
 Now, to verify that your steps provide a complete, self-contained way to
 reproduce the issue, follow them yourself on a new, empty, up-to-date instance
-of Phabricator.
-
-If you can't easily start an empty instance locally, you can launch an empty
-instance on Phacility in about 60 seconds (see the "Resources" section for
-details).
+of Phorge.
 
 If you can follow your steps and reproduce the issue on a clean instance,
 we'll probably be able to follow them and reproduce the issue ourselves.
@@ -126,32 +122,6 @@ Once you have working reproduction steps, your steps may have details which
 aren't actually necessary to reproduce the issue. You may be able to simplify
 them by removing some steps or describing steps more narrowly. For help, see
 "Simplifying Steps" below.
-
-
-Resources
-=========
-
-We provide some resources which can make it easier to start building steps, or
-to simplify steps.
-
-**Phacility Test Instances**: You can launch a new, up-to-date instance of
-Phabricator on Phacility in about a minute at <https://admin.phacility.com>.
-These instances run `stable`.
-
-You can use these instances to make sure that issues haven't already been
-fixed, that they reproduce on a clean install, or that your steps are really
-complete, and that the root cause isn't custom code or local extensions. Using
-a test instance will avoid disrupting other users on your install.
-
-**Test Repositories**: There are several test repositories on
-`secure.phabricator.com` which you can push commits to if you need to build
-an example to demonstrate a problem.
-
-For example, if you're seeing an issue with a certain filename but the commit
-where the problem occurs is in a proprietary internal repository, push a commit
-that affects a file with a similar name to a test repository, then reproduce
-against the test data. This will allow you to generate steps which anyone can
-follow.
 
 
 Simplifying Steps
@@ -238,10 +208,6 @@ only reproduces in your environment, or which you don't want to narrow down
 to a minimal reproduction case, we can't accept it as a bug report. These
 issues are tremendously time consuming for us to pursue and rarely benefit
 more than one install.
-
-If the issue is important but falls outside the scope of permissible bug
-reports, we're happy to provide more tailored support at consulting rates. See
-[[ https://secure.phabricator.com/w/consulting/ | Consulting ]] for details.
 
 
 Next Steps

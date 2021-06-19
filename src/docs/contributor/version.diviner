@@ -19,10 +19,10 @@ resolved because valid reproduction steps must also reproduce against a clean,
 up-to-date install. See @{article:Providing Reproduction Steps} for details.
 
 
-Phabricator Version
-===================
+Phorge Version
+==============
 
-To get Phabricator version information:
+To get Phorge version information:
 
   - Go to the {nav Config} application. You can type "Config" into the global
     search box, or navigate to `https://your.install.com/config/`. You must
@@ -52,7 +52,7 @@ prevents you from reaching the version reporting screen.
 Running a Fork?
 ===============
 
-If you've forked Phabricator and have local commits, please make sure you are
+If you've forked Phorge and have local commits, please make sure you are
 reporting upstream commit hashes, not local commit hashes. The UI will attempt
 to figure out where you branched from, but it may not be able to in all cases.
 
@@ -68,7 +68,7 @@ $ git merge-base HEAD origin/master
 ```
 
 Note that if you report a bug and have local commits, we will almost always ask
-you to reproduce the issue against a clean copy of Phabricator before we
+you to reproduce the issue against a clean copy of Phorge before we
 continue. You can get help faster by doing this //before// reporting an issue.
 
 

@@ -10,7 +10,7 @@ Overview
 If you have an existing repository, you can observe or import it into
 Diffusion.
 
-Observing a repository creates a read-only copy in Phabricator that is kept
+Observing a repository creates a read-only copy in Phorge that is kept
 up to date by continuously importing new changes.
 
 Importing a repository creates a read-write copy.
@@ -31,7 +31,7 @@ To observe an existing repository:
     **URIs** section, in **Observe** mode.
   - Activate the repository in Diffusion.
 
-This creates a read-only copy of the repository in Phabricator. Phabricator
+This creates a read-only copy of the repository in Phorge. Phorge
 will keep its copy in sync with the remote by periodically polling the remote
 for changes.
 

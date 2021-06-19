@@ -39,7 +39,7 @@ queries which each return 1 result.** This is particularly true if your database
 is on a different machine which is, say, 1-2ms away on the network. In this
 case, issuing 100 queries serially has a minimum cost of 100-200ms, even if they
 can be satisfied instantly by MySQL. This is far higher than the entire
-server-side generation cost for most Phabricator pages should be.
+server-side generation cost for most Phorge pages should be.
 
 = Batching Queries =
 

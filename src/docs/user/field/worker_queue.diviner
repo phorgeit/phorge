@@ -6,7 +6,7 @@ Advanced guide to managing the background worker task queue.
 Overview
 ========
 
-Phabricator uses daemonized worker processes to execute some tasks (like
+Phorge uses daemonized worker processes to execute some tasks (like
 importing repositories and sending mail) in the background.
 
 In most cases, this queue will automatically execute tasks in an appropriate
@@ -16,7 +16,7 @@ which tasks execute, when, and at what priority.
 Reference: Priority Levels
 ==========================
 
-Tasks queued by Phabricator use these default priority levels:
+Tasks queued by Phorge use these default priority levels:
 
 | Priority | Name | Tasks |
 |---|---|---|
@@ -33,7 +33,7 @@ with priority 2000).
 
 Any positive integer is a valid priority level, and if you adjust the priority
 of tasks with `bin/worker priority` you may select any level even if
-Phabricator would never naturally queue tasks at that level. For example, you
+Phorge would never naturally queue tasks at that level. For example, you
 may adjust tasks to priority `5678`, which will make them execute after all
 other types of natural tasks.
 
@@ -48,7 +48,7 @@ The most common case where you may want to make an adjustment to the default
 behavior of the worker queue is when importing a very large repository like
 the Linux kernel.
 
-Although Phabricator will automatically process imports of new repositories at
+Although Phorge will automatically process imports of new repositories at
 a lower priority level than all other non-import tasks, you may still run into
 issues like these:
 
@@ -63,7 +63,7 @@ import at a lower priority than all other tasks (including other imports of
 new repositories), you can run a command like this:
 
 ```
-phabricator/ $ ./bin/worker priority --priority 5000 --container R123
+phorge/ $ ./bin/worker priority --priority 5000 --container R123
 ```
 
 This means: set all tasks associated with container `R123` (in this example,
@@ -75,7 +75,7 @@ schedule tasks to execute at night or over the weekend. For example, to
 pause an import for 6 hours, run a command like this:
 
 ```
-phabricator/ $ ./bin/worker delay --until "6 hours" --container R123
+phorge/ $ ./bin/worker delay --until "6 hours" --container R123
 ```
 
 The selected tasks will not execute until 6 hours from the time this command

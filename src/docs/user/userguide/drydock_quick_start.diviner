@@ -30,7 +30,7 @@ Install `git`, `hg` or `svn` if you haven't already and set up private keys
 for `builder` so it can pull and push any repositories you want to operate
 on.
 
-If your repository and/or staging area are hosted in Phabricator, you may want
+If your repository and/or staging area are hosted in Phorge, you may want
 to create a corresponding bot account so you can add keys and give it
 permissions.
 

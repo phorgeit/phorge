@@ -1,7 +1,7 @@
 @title Diffusion User Guide
 @group userguide
 
-Guide to Diffusion, the Phabricator application for hosting and browsing
+Guide to Diffusion, the Phorge application for hosting and browsing
 repositories.
 
 Overview
@@ -16,7 +16,7 @@ other existing hosting). Both types of repositories can be browsed and
 interacted with, but hosted repositories support some additional triggers
 and access controls which are not available for observed repositories.
 
-Diffusion is integrated with the other tools in the Phabricator suite. For
+Diffusion is integrated with the other tools in the Phorge suite. For
 instance:
 
   - when you commit Differential revisions to a tracked repository, they are
@@ -61,7 +61,7 @@ API to create and edit repositories, see
 Repository Clustering
 =====================
 
-Phabricator repository hosts can be set up in a cluster configuration so you
+Phorge repository hosts can be set up in a cluster configuration so you
 can lose hosts with minimal downtime and data loss. This is an advanced feature
 which most installs do not need to pursue.
 
@@ -88,7 +88,7 @@ helpful:
 
   - get details about automatically taking actions in response to commits in
     @{article:Diffusion User Guide: Permanent Refs}; or
-  - understand how Phabricator updates repositories with
+  - understand how Phorge updates repositories with
     @{article:Diffusion User Guide: Repository Updates}; or
   - fix issues with repository imports with
     @{article:Troubleshooting Repository Imports}.

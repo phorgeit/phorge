@@ -5,7 +5,7 @@ Detailed instructions for troubleshooting HTTPS connection problems.
 
 = Overview =
 
-If you're having trouble connecting to an HTTPS install of Phabricator, and
+If you're having trouble connecting to an HTTPS install of Phorge, and
 particularly if you're receiving a "There was an error negotiating the SSL
 connection." error, this document may be able to help you diagnose and resolve
 the problem.
@@ -17,7 +17,7 @@ Connection negotiation can fail for several reasons. The major ones are:
     certificates).
   - The SSL certificate is signed for the wrong domain. For example, a
     certificate signed for `www.example.com` will not work for
-    `phabricator.example.com`.
+    `phorge.example.com`.
   - The server rejects TLSv1 SNI connections for the domain (this is
     complicated, see below).
 
@@ -50,7 +50,7 @@ with:
   $ openssl x509 -text -in <certificate>
 
 If the certificate was accidentally generated for, e.g. `www.example.com` but
-you installed Phabricator on `phabricator.example.com`, you need to generate a
+you installed Phorge on `phorge.example.com`, you need to generate a
 new certificate for the right domain.
 
 = SNI Problems =
@@ -73,7 +73,7 @@ an error in `SSL23_GET_SERVER_HELLO` with `reason(1112)`, like this:
     /SourceCache/OpenSSL098/OpenSSL098-44/src/ssl/s23_clnt.c:602:
 
 ...it indicates server is misconfigured. The most common cause of this problem
-is an Apache server that does not explicitly name the Phabricator domain as a
+is an Apache server that does not explicitly name the Phorge domain as a
 valid VirtualHost.
 
 This error occurs only for some versions of the OpenSSL client library

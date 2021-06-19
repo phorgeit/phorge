@@ -1,33 +1,34 @@
 @title Introduction
 @group intro
 
-This document provides a high-level overview of the Phabricator project.
+This document provides a high-level overview of the Phorge project.
 
-= What is Phabricator? =
+= What is Phorge? =
 
-**Phabricator** (pronounced like the word //fabricator//) is a suite of web
+**Phorge** (pronounced like the word //forge//) is a suite of web
 applications which make it easier to build software, particularly when working
-with teams. Phabricator is largely based on Facebook's internal tools.
+with teams. Phorge is a fork of Phabricator, which in turn is largely based on
+Facebook's internal tools.
 
-The major components of Phabricator are:
+The major components of Phorge are:
 
   - **Differential**, a code review tool; and
   - **Diffusion**, a repository browser; and
   - **Maniphest**, a bug tracker; and
   - **Phriction**, a wiki.
 
-Phabricator also includes a number of smaller tools.
+Phorge also includes a number of smaller tools.
 
-= Why use Phabricator? =
+= Why use Phorge? =
 
-Phabricator gives you a box of solid tools for a comparatively small setup cost.
+Phorge gives you a box of solid tools for a comparatively small setup cost.
 The tools all work together and are richly integrated. The whole thing is free
-and open source. You own all your data. Phabricator is extremely fast and proven
+and open source. You own all your data. Phorge is extremely fast and proven
 to scale both to large datasets (Facebook has 500,000+ commits across many
 repositories) and large organizations (Facebook has 500+ fulltime engineers).
-Phabricator's tools are easy to learn, understand, and use.
+Phorge's tools are easy to learn, understand, and use.
 
-However, Phabricator may also not be a good solution for you:
+However, Phorge may also not be a good solution for you:
 
   - If you develop primarily on Windows, you are likely to find integration
     with the toolsets you use lacking.
@@ -40,4 +41,4 @@ However, Phabricator may also not be a good solution for you:
 
 Continue by:
 
-  - installing Phabricator with the @{article:Installation Guide}.
+  - installing Phorge with the @{article:Installation Guide}.

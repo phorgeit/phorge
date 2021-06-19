@@ -1,12 +1,12 @@
 @title Handles Technical Documentation
-@group handles
+@group developer
 
 Technical overview of Handles.
 
 Overview
 ========
 
-Most objects in Phabricator have PHIDs, which are globally unique identifiers
+Most objects in Phorge have PHIDs, which are globally unique identifiers
 that look like `PHID-USER-2zw4hwdt4i5b5ypikv6x`. If you know the PHID for an
 object, you can load a **handle** for that object to get more information
 about it.

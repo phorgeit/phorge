@@ -1,19 +1,19 @@
 @title Diffusion User Guide: Repository Hosting
 @group userguide
 
-Guide to configuring Phabricator repository hosting.
+Guide to configuring Phorge repository hosting.
 
 Overview
 ========
 
-Phabricator can host repositories and provide authenticated read and write
+Phorge can host repositories and provide authenticated read and write
 access to them over HTTP and SSH. This document describes how to configure
 repository hosting.
 
 Understanding Supported Protocols
 =================================
 
-Phabricator supports hosting over these protocols:
+Phorge supports hosting over these protocols:
 
 | VCS | SSH | HTTP |
 |-----|-----|------|
@@ -47,12 +47,12 @@ configure it for technical reasons.
 Creating System User Accounts
 =============================
 
-Phabricator uses two system user accounts, plus a third account if you
+Phorge uses two system user accounts, plus a third account if you
 configure SSH access. This section will guide you through creating and
-configuring them. These are system user accounts on the machine Phabricator
-runs on, not Phabricator user accounts.
+configuring them. These are system user accounts on the machine Phorge
+runs on, not Phorge user accounts.
 
-The system accounts Phabricator uses are:
+The system accounts Phorge uses are:
 
   - The user the webserver runs as. We'll call this `www-user`.
   - The user the daemons run as. We'll call this `daemon-user`. This
@@ -73,22 +73,22 @@ To create these users:
     the daemons to start as this user.
   - Create a `vcs-user` if one does not already exist and you plan to set up
     SSH. When users clone repositories, they will use a URI like
-    `vcs-user@phabricator.yourcompany.com`, so common names for this user are
+    `vcs-user@phorge.yourcompany.com`, so common names for this user are
     `git` or `hg`.
 
 Continue below to configure these accounts.
 
 
-Configuring Phabricator
+Configuring Phorge
 =======================
 
-Now that you have created or identified these accounts, update the Phabricator
+Now that you have created or identified these accounts, update the Phorge
 configuration to specify them.
 
 First, set `phd.user` to the `daemon-user`:
 
 ```
-phabricator/ $ ./bin/config set phd.user daemon-user
+phorge/ $ ./bin/config set phd.user daemon-user
 ```
 
 Restart the daemons to make sure this configuration works properly. They should
@@ -97,7 +97,7 @@ start as the correct user automatically.
 If you're using a `vcs-user` for SSH, you should also configure that:
 
 ```
-phabricator/ $ ./bin/config set diffusion.ssh-user vcs-user
+phorge/ $ ./bin/config set diffusion.ssh-user vcs-user
 ```
 
 Next, you'll set up `sudo` permissions so these users can interact with one
@@ -214,7 +214,7 @@ disabled.
 If you plan to use authenticated HTTP, you (and all other users) also need to
 configure a VCS password for your account in {nav Settings > VCS Password}.
 
-Your VCS password must be a different password than your main Phabricator
+Your VCS password must be a different password than your main Phorge
 password because VCS passwords are very easy to accidentally disclose. They are
 often stored in plaintext in world-readable files, observable in `ps` output,
 and present in command output and logs. We strongly encourage you to use SSH
@@ -234,10 +234,10 @@ Configuring SSH
 SSH access requires some additional setup. You will configure and run a second,
 restricted copy of `sshd` on the machine, on a different port from the standard
 `sshd`. This special copy of `sshd` will serve repository requests and provide
-other Phabricator SSH services.
+other Phorge SSH services.
 
-NOTE: The Phabricator `sshd` service **MUST** be 6.2 or newer, because
-Phabricator relies on the `AuthorizedKeysCommand` option.
+NOTE: The Phorge `sshd` service **MUST** be 6.2 or newer, because
+Phorge relies on the `AuthorizedKeysCommand` option.
 
 Before continuing, you must choose a strategy for which port each copy of
 `sshd` will run on. The next section lays out various approaches.
@@ -273,7 +273,7 @@ This may be very easy to set up, particularly if you are hosted in AWS, and
 is often the simplest and cleanest approach.
 
 **Swap Ports**: You can move the administrative `sshd` to a new port, then run
-Phabricator `sshd` on port 22. This is somewhat complicated and can be a bit
+Phorge `sshd` on port 22. This is somewhat complicated and can be a bit
 risky if you make a mistake. See "Moving the sshd Port" below for help.
 
 **Change Client Config**: You can run on a nonstandard port, but configure SSH
@@ -282,7 +282,7 @@ when connecting to the host. To do this, add a section like this to your
 `~/.ssh/config`:
 
 ```
-Host phabricator.corporation.com
+Host phorge.corporation.com
   Port 2222
 ```
 
@@ -295,7 +295,7 @@ A downside to this approach is that your users will each need to set up their
 `~/.ssh/config` files individually.
 
 This file also allows you to define short names for hosts using the `Host` and
-`HostName` options. If you choose to do this, be aware that Phabricator uses
+`HostName` options. If you choose to do this, be aware that Phorge uses
 remote/clone URIs to figure out which repository it is operating in, but can
 not resolve host aliases defined in your `ssh` config. If you create host
 aliases they may break some features related to repository identification.
@@ -327,7 +327,7 @@ Now that you've decided how you'll handle port assignment, you're ready to
 continue `sshd` setup.
 
 If you plan to connect to a port other than `22`, you should set this port
-as `diffusion.ssh-port` in your Phabricator config:
+as `diffusion.ssh-port` in your Phorge config:
 
 ```
 $ ./bin/config set diffusion.ssh-port 2222
@@ -336,22 +336,22 @@ $ ./bin/config set diffusion.ssh-port 2222
 This port is not special, and you are free to choose a different port, provided
 you make the appropriate configuration adjustment below.
 
-**Configure and Start Phabricator SSHD**: Now, you'll configure and start a
-copy of `sshd` which will serve Phabricator services, including repositories,
+**Configure and Start Phorge SSHD**: Now, you'll configure and start a
+copy of `sshd` which will serve Phorge services, including repositories,
 over SSH.
 
 This instance will use a special locked-down configuration that uses
-Phabricator to handle authentication and command execution.
+Phorge to handle authentication and command execution.
 
 There are three major steps:
 
-  - Create a `phabricator-ssh-hook.sh` file.
-  - Create a `sshd_phabricator` config file.
+  - Create a `phorge-ssh-hook.sh` file.
+  - Create a `sshd_phorge config file.
   - Start a copy of `sshd` using the new configuration.
 
-**Create `phabricator-ssh-hook.sh`**: Copy the template in
-`phabricator/resources/sshd/phabricator-ssh-hook.sh` to somewhere like
-`/usr/libexec/phabricator-ssh-hook.sh` and edit it to have the correct
+**Create `phorge-ssh-hook.sh`**: Copy the template in
+`phorge/resources/sshd/phorge-ssh-hook.sh` to somewhere like
+`/usr/libexec/phorge-ssh-hook.sh` and edit it to have the correct
 settings.
 
 Both the script itself **and** the parent directory the script resides in must
@@ -359,15 +359,15 @@ be owned by `root`, and the script must have `755` permissions:
 
 ```
 $ sudo chown root /path/to/somewhere/
-$ sudo chown root /path/to/somewhere/phabricator-ssh-hook.sh
-$ sudo chmod 755 /path/to/somewhere/phabricator-ssh-hook.sh
+$ sudo chown root /path/to/somewhere/phorge-ssh-hook.sh
+$ sudo chmod 755 /path/to/somewhere/phorge-ssh-hook.sh
 ```
 
 If you don't do this, `sshd` will refuse to execute the hook.
 
-**Create `sshd_config` for Phabricator**: Copy the template in
-`phabricator/resources/sshd/sshd_config.phabricator.example` to somewhere like
-`/etc/ssh/sshd_config.phabricator`.
+**Create `sshd_config` for Phorge**: Copy the template in
+`phorge/resources/sshd/sshd_config.phabricator.example` to somewhere like
+`/etc/ssh/sshd_config.phorge`.
 
 Open the file and edit the `AuthorizedKeysCommand`,
 `AuthorizedKeysCommandUser`, and `AllowUsers` settings to be correct for your
@@ -376,20 +376,20 @@ system.
 This configuration file also specifies the `Port` the service should run on.
 If you intend to run on a non-default port, adjust it now.
 
-**Start SSHD**: Now, start the Phabricator `sshd`:
+**Start SSHD**: Now, start the Phorge `sshd`:
 
-  sudo /path/to/sshd -f /path/to/sshd_config.phabricator
+  sudo /path/to/sshd -f /path/to/sshd_config.phorge
 
 If you did everything correctly, you should be able to run this command:
 
 ```
-$ echo {} | ssh vcs-user@phabricator.yourcompany.com conduit conduit.ping
+$ echo {} | ssh vcs-user@phorge.yourcompany.com conduit conduit.ping
 ```
 
 ...and get a response like this:
 
 ```lang=json
-{"result":"phabricator.yourcompany.com","error_code":null,"error_info":null}
+{"result":"phorge.yourcompany.com","error_code":null,"error_info":null}
 ```
 
 If you get an authentication error, make sure you added your public key in
@@ -421,7 +421,7 @@ Troubleshooting HTTP
 
 Some general tips for troubleshooting problems with HTTP:
 
-  - Make sure `diffusion.allow-http-auth` is enabled in your Phabricator config.
+  - Make sure `diffusion.allow-http-auth` is enabled in your Phorge config.
   - Make sure HTTP serving is enabled for the repository you're trying to
     clone. You can find this in {nav Edit Repository > Hosting}.
   - Make sure you've configured a VCS password. This is separate from your main
@@ -467,20 +467,20 @@ Some general tips for troubleshooting problems with SSH:
     You should see an `svn checkout svn+ssh://...`, `git clone ssh://...` or
     `hg clone ssh://...` command. Run that command verbatim to clone the
     repository.
-  - Check your `phabricator-ssh-hook.sh` file for proper settings.
-  - Check your `sshd_config.phabricator` file for proper settings.
+  - Check your `phorge-ssh-hook.sh` file for proper settings.
+  - Check your `sshd_config.phorge` file for proper settings.
 
 To troubleshoot SSH setup: connect to the server with `ssh`, without running a
 command. You may need to use the `-T` flag, and will need to use `-p` if you
 are running on a nonstandard port. You should see a message like this one:
 
-  $ ssh -T -p 2222 vcs-user@phabricator.yourcompany.com
-  phabricator-ssh-exec: Welcome to Phabricator.
+  $ ssh -T -p 2222 vcs-user@phorge.yourcompany.com
+  phorge-ssh-exec: Welcome to Phorge.
 
   You are logged in as alincoln.
 
   You haven't specified a command to run. This means you're requesting an
-  interactive shell, but Phabricator does not provide an interactive shell over
+  interactive shell, but Phorge does not provide an interactive shell over
   SSH.
 
   Usually, you should run a command like `git clone` or `hg push` rather than
@@ -498,7 +498,7 @@ settings:
   - The `vcs-user` has `NP` in `/etc/shadow`.
   - The `vcs-user` has `/bin/sh` or some other valid shell in `/etc/passwd`.
   - Your SSH private key is correct, and you've added the corresponding
-    public key to Phabricator in the Settings panel.
+    public key to Phorge in the Settings panel.
 
 If you can get this far, but can't execute VCS commands like `git clone`, there
 is probably an issue with your `sudoers` configuration. Check:
@@ -513,7 +513,7 @@ is probably an issue with your `sudoers` configuration. Check:
 
 It may also be helpful to run `sshd` in debug mode:
 
-  $ /path/to/sshd -d -d -d -f /path/to/sshd_config.phabricator
+  $ /path/to/sshd -d -d -d -f /path/to/sshd_config.phorge
 
 This will run it in the foreground and emit a large amount of debugging
 information when you connect to it.
@@ -525,7 +525,7 @@ doing something like this:
   $ sudo -E -n -u daemon-user -- /path/to/some/vcs-binary --help
 
 That will try to run the binary via `sudo` in a manner similar to the way that
-Phabricator will run it. This can give you better error messages about issues
+Phorge will run it. This can give you better error messages about issues
 with `sudoers` configuration.
 
 
@@ -533,7 +533,7 @@ Miscellaneous Troubleshooting
 =============================
 
   - If you're getting an error about `svnlook` not being found, add the path
-    where `svnlook` is located to the Phabricator configuration
+    where `svnlook` is located to the Phorge configuration
     `environment.append-paths` (even if it already appears in PATH). This issue
     is caused by SVN wiping the environment (including PATH) when invoking
     commit hooks.
@@ -543,10 +543,10 @@ Moving the sshd Port
 ====================
 
 If you want to move the standard (administrative) `sshd` to a different port to
-make Phabricator repository URIs cleaner, this section has some tips.
+make Phorge repository URIs cleaner, this section has some tips.
 
 This is optional, and it is normally easier to do this by putting a load
-balancer in front of Phabricator and having it accept TCP traffic on port 22
+balancer in front of Phorge and having it accept TCP traffic on port 22
 and forward it to some other port.
 
 When moving `sshd`, be careful when editing the configuration. If you get it
@@ -582,8 +582,8 @@ Very carefully, restart `sshd`. Verify that you can connect on the new port:
 
   ssh -p 222 ...
 
-Now you can move the Phabricator `sshd` to port 22, then adjust the value
-for `diffusion.ssh-port` in your Phabricator configuration.
+Now you can move the Phorge `sshd` to port 22, then adjust the value
+for `diffusion.ssh-port` in your Phorge configuration.
 
 
 No Direct Pushes
@@ -591,8 +591,8 @@ No Direct Pushes
 
 You may get an error about "No Direct Pushes" when trying to push. This means
 you are pushing directly to the repository instead of pushing through
-Phabricator. This is not supported: writes to hosted repositories must go
-through Phabricator so it can perform authentication, enforce permissions,
+Phorge. This is not supported: writes to hosted repositories must go
+through Phorge so it can perform authentication, enforce permissions,
 write logs, proxy requests, apply rewriting, etc.
 
 One way to do a direct push by mistake is to use a `file:///` URI to interact
@@ -616,9 +616,9 @@ MUST configure things as described above for hosted repositories to work.
 
 The technical reason this error occurs is that the `PHABRICATOR_USER` variable
 is not defined in the environment when commit hooks run. This variable is set
-by Phabricator when a request passes through the authentication layer that this
+by Phorge when a request passes through the authentication layer that this
 document provides instructions for configuring. Its absence indicates that the
-request did not pass through Phabricator.
+request did not pass through Phorge.
 
 
 Next Steps

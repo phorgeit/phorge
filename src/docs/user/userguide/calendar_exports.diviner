@@ -9,15 +9,15 @@ Overview
 IMPORTANT: Calendar is a prototype application. See
 @{article:User Guide: Prototype Applications}.
 
-You can export events from Phabricator to other calendar applications like
+You can export events from Phorge to other calendar applications like
 **Google Calendar** or **Calendar.app**. This document will guide you through
-how to export event data from Phabricator.
+how to export event data from Phorge.
 
 When you export events into another application, they generally will not be
 editable from that application. Exporting events allows you to create one
 calendar that shows all the events you care about in whatever application you
 prefer (so you can keep track of everything you need to do), but does not let
-you edit Phabricator events from another application.
+you edit Phorge events from another application.
 
 When exporting events, you can either export individual events one at a time
 or export an entire group of events (for example, all events you are attending).
@@ -75,7 +75,7 @@ The **policy modes** for exports are:
     information, as though they were logged in with your account.
 
 WARNING: Anyone who learns the URI for an export can see the data you choose
-to export, even if they don't have a Phabricator account! Be careful about how
+to export, even if they don't have a Phorge account! Be careful about how
 much data you export and treat the URI as a secret. If you accidentally share
 a URI, you can disable the export.
 

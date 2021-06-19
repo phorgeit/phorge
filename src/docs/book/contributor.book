@@ -1,11 +1,11 @@
 {
-  "name": "phabcontrib",
-  "title": "Phabricator Contributor Documentation",
-  "short": "Phabricator Contributor Docs",
-  "preface": "Information for Phabricator contributors and developers.",
+  "name": "contrib",
+  "title": "Phorge Contributor Documentation",
+  "short": "Contributor Docs",
+  "preface": "Information for Phorge contributors and developers.",
   "root": "../../../",
   "uri.source":
-    "https://secure.phabricator.com/diffusion/P/browse/master/%f$%l",
+    "https://we.phorge.it/diffusion/P/browse/master/%f$%l",
   "rules": {
     "(\\.diviner$)": "DivinerArticleAtomizer"
   },

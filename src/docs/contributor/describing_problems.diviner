@@ -37,21 +37,21 @@ a problem and why it's important for you to resolve it.
 
 Here are some examples of good ways to start a problem description:
 
-> My company does contracting work for government agencies. Because of the
-> nature of our customers, deadlines are critical and it's very important
-> for us to keep track of where we are on a timeline. We're using Maniphest
-> to track tasks...
+(NOTE) My company does contracting work for government agencies. Because of the
+ nature of our customers, deadlines are critical and it's very important
+for us to keep track of where we are on a timeline. We're using Maniphest
+to track tasks...
 
-> I have poor eyesight, and use a screenreader to help me use software like
-> Phabricator in my job as a developer. I'm having difficulty...
+(NOTE) I have poor eyesight, and use a screenreader to help me use software like
+ Phorge in my job as a developer. I'm having difficulty...
 
-> We work on a large server program which has very long compile times.
-> Switching branches is a huge pain (you have to rebuild the binary after
-> every switch, which takes about 8 minutes), but we've recently begun using
-> `git worktree` to help, which has made life a lot better. However, ...
+(NOTE) We work on a large server program which has very long compile times.
+ Switching branches is a huge pain (you have to rebuild the binary after
+ every switch, which takes about 8 minutes), but we've recently begun using
+ `git worktree` to help, which has made life a lot better. However, ...
 
-> I triage manual test failures from our offshore QA team. Here's how our
-> workflow works...
+(NOTE) I triage manual test failures from our offshore QA team. Here's how our
+ workflow works...
 
 All of these descriptions are helpful: the provide context about what goals
 you're trying to accomplish and why.
@@ -59,19 +59,19 @@ you're trying to accomplish and why.
 Here are some examples of ways to start a problem description that probably
 are not very good:
 
-> {icon times color=red} Add custom keyboard shortcuts.
+(IMPORTANT) Add custom keyboard shortcuts.
 
-> {icon times color=red} I have a problem: there is no way to download
-> .tar archives of repositories.
+(IMPORTANT) I have a problem: there is no way to download
+ .tar archives of repositories.
 
-> {icon times color=red} I want an RSS feed of my tokens. My root problem is
-> that I do not have an RSS feed of my tokens.
+(IMPORTANT) I want an RSS feed of my tokens. My root problem is
+ that I do not have an RSS feed of my tokens.
 
-> {icon times color=red} There is no way to see other users' email addresses.
-> That is a problem.
+(IMPORTANT) There is no way to see other users' email addresses.
+ That is a problem.
 
-> {icon times color=red} I've used some other software that has a cool
-> feature. Phabricator should have that feature too.
+(IMPORTANT) I've used some other software that has a cool
+ feature. Phorge should have that feature too.
 
 These problem descriptions are not helpful. They do not describe goals or
 provide context.

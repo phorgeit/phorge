@@ -1,14 +1,14 @@
 @title CSS Coding Standards
 @group standards
 
-This document describes CSS features and coding standards for Phabricator.
+This document describes CSS features and coding standards for Phorge.
 
 = Overview =
 
 This document describes technical and style guidelines for writing CSS in
-Phabricator.
+Phorge.
 
-Phabricator has a limited CSS preprocessor. This document describes the features
+Phorge has a limited CSS preprocessor. This document describes the features
 it makes available.
 
 = Z-Indexes =
@@ -19,7 +19,7 @@ Great Z-Index War where all indexes grow without bound in an endless arms race.
 
 = Color Variables =
 
-Phabricator's preprocessor provides some standard color variables. You can
+Phorge's preprocessor provides some standard color variables. You can
 reference these with `{$color}`. For example:
 
   lang=css
@@ -60,7 +60,7 @@ by the media query.
 
 = Device Rules =
 
-Phabricator's environment defines several device classes which can be used to
+Phorge's environment defines several device classes which can be used to
 adjust behavior responsively. In particular:
 
   lang=css
@@ -86,6 +86,6 @@ either tablets or phones:
 
 = Image Inlining =
 
-Phabricator's CSS preprocessor automatically inlines images which are less than
+Phorge's CSS preprocessor automatically inlines images which are less than
 32KB using `data:` URIs. This is primarily useful for gradients or textures
 which are small and difficult to sprite.

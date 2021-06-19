@@ -18,7 +18,7 @@ Administrators
 
 **Administrators** are normal users with a few extra capabilities. Their
 primary role is to keep things running smoothly, and they are not all-powerful.
-In Phabricator, administrators are more like //janitors//.
+In Phorge, administrators are more like //janitors//.
 
 Administrators can create, delete, enable, disable, and approve user accounts.
 Various applications have a few other capabilities which are reserved for

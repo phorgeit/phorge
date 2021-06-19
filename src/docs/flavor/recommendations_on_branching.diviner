@@ -7,13 +7,13 @@ This document discusses organizing branches in your remote/origin for feature
 development and release management, not the use of local branches in Git or
 queues or bookmarks in Mercurial.
 
-This document is purely advisory. Phabricator works with a variety of branching
+This document is purely advisory. Phorge works with a variety of branching
 strategies, and diverging from the recommendations in this document
 will not impact your ability to use it for code review and source management.
 
 = Overview =
 
-This document describes a branching strategy used by Facebook and Phabricator to
+This document describes a branching strategy used by Facebook and Phorge to
 develop software. It scales well and removes the pain associated with most
 branching strategies. This strategy is most applicable to web applications, and
 may be less applicable to other types of software. The basics are:
@@ -118,7 +118,7 @@ describing similar systems:
   - Martin Fowler discusses these systems in a 2010 blog post here:
     [[http://martinfowler.com/bliki/FeatureToggle.html |
       Martin Fowler's FeatureToggle]].
-  - Phabricator just adds config options but defaults them to off. When
+  - Phorge just adds config options but defaults them to off. When
     developing, we turn them on locally. Once a feature is ready, we default it
     on. We have a vastly less context to deal with than most projects, however,
     and sometimes get away with simply not linking new features in the UI until
