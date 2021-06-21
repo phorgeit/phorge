@@ -3,7 +3,7 @@
 
 # NOTE: Edit these to the correct values for your setup.
 
-AuthorizedKeysCommand /usr/libexec/phabricator-ssh-hook.sh
+AuthorizedKeysCommand /usr/libexec/phorge-ssh-hook.sh
 AuthorizedKeysCommandUser vcs-user
 AllowUsers vcs-user
 
@@ -21,4 +21,4 @@ PasswordAuthentication no
 ChallengeResponseAuthentication no
 AuthorizedKeysFile none
 
-PidFile /var/run/sshd-phabricator.pid
+PidFile /var/run/sshd-phorge.pid
