@@ -2,7 +2,8 @@
   "exclude": [
     "(^externals/)",
     "(^webroot/rsrc/externals/(?!javelin/))",
-    "(/__tests__/data/)"
+    "(/__tests__/data/)",
+    "(^support/aphlict/server/package-lock.json)"
   ],
   "linters": {
     "chmod": {
