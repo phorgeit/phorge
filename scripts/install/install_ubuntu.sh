@@ -5,7 +5,13 @@ confirm() {
   read -e ignored
 }
 
-INSTALL_URI="   https://phurl.io/u/install"
+INSTALL_URI="   https://we.phorge.it/book/phorge/article/installation_guide/"
+CONFIG_URI="   https://we.phorge.it/book/phorge/article/configuration_guide/"
+REPOSITORY_URI="https://we.phorge.it/source"
+NAME_MAIN="phorge"
+NAME_ARC="arcanist"
+
+NAME_UPPER="$(echo $NAME_MAIN | tr a-z A-Z)"
 
 failed() {
   echo
@@ -30,8 +36,8 @@ then
   confirm
 fi
 
-echo "PHABRICATOR UBUNTU INSTALL SCRIPT";
-echo "This script will install Apache, Phabricator and its core dependencies.";
+echo "$NAME_UPPER UBUNTU INSTALL SCRIPT";
+echo "This script will install Apache, $NAME_MAIN and its core dependencies.";
 echo "Run it from the directory you want to install into.";
 echo
 
@@ -52,8 +58,8 @@ if [ "$MAJOR" -lt 16 ]
 then
   echo 'This script is intented to install on modern operating systems; Your '
   echo 'operating system is too old for this script.'
-  echo 'You can still install Phabricator manually - please consult the installation'
-  echo 'guide to see how:'
+  echo 'You can still install $NAME_MAIN manually - please consult the'
+  echo 'installation guide to see how:'
   echo
   echo $INSTALL_URI
   echo
@@ -65,7 +71,7 @@ fi
 if [ "$MAJOR" -eq 16 ]
 then
   echo 'This version of Ubuntu requires additional resources in order to install'
-  echo 'and run Phabricator.'
+  echo 'and run $NAME_MAIN.'
   echo 'We will now add a the following package repository to your system:'
   echo '  https://launchpad.net/~ondrej/+archive/ubuntu/php'
   echo
@@ -76,7 +82,7 @@ then
 fi
 
 ROOT=`pwd`
-echo "Phabricator will be installed to: ${ROOT}.";
+echo "$NAME_MAIN will be installed to: ${ROOT}.";
 confirm
 
 echo "Installing dependencies: git, apache, mysql, php...";
@@ -91,27 +97,27 @@ echo "Enabling mod_rewrite in Apache..."
 echo
 sudo a2enmod rewrite  || failed
 
-echo "Downloading Phabricator and dependencies..."
+echo "Downloading $NAME_MAIN and dependencies..."
 echo
 
-if [ ! -e arcanist ]
+if [ ! -e "$NAME_ARC" ]
 then
-  git clone https://github.com/phacility/arcanist.git
+  git clone "$REPOSITORY_URI/$NAME_ARC.git"
 else
-  (cd arcanist && git pull --rebase)
+  (cd "$NAME_ARC" && git pull --rebase)
 fi
 
-if [ ! -e phabricator ]
+if [ ! -e "$NAME_MAIN" ]
 then
-  git clone https://github.com/phacility/phabricator.git
+  git clone "$REPOSITORY_URI/$NAME_MAIN.git"
 else
-  (cd phabricator && git pull --rebase)
+  (cd "$NAME_MAIN" && git pull --rebase)
 fi
 
 echo
 echo
 echo "Install probably worked mostly correctly. Continue with the 'Configuration Guide':";
 echo
-echo "    https://secure.phabricator.com/book/phabricator/article/configuration_guide/";
+echo $CONFIG_URI
 echo
 echo 'Next step is "Configuring Apache webserver".'

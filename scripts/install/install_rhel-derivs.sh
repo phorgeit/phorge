@@ -6,18 +6,23 @@ confirm() {
 }
 
 RHEL_VER_FILE="/etc/redhat-release"
+INSTALL_URI="   https://we.phorge.it/book/phorge/article/installation_guide/"
+CONFIG_URI="   https://we.phorge.it/book/phorge/article/configuration_guide/"
+REPOSITORY_URI="https://we.phorge.it/source"
+NAME_MAIN="phorge"
+NAME_ARC="arcanist"
 
 if [[ ! -f $RHEL_VER_FILE ]]
 then
   echo "It looks like you're not running a Red Hat-derived distribution."
-  echo "This script is intended to install Phabricator on RHEL-derived"
+  echo "This script is intended to install $NAME_MAIN on RHEL-derived"
   echo "distributions such as RHEL, Fedora, CentOS, and Scientific Linux."
   echo "Proceed with caution."
   confirm
 fi
 
-echo "PHABRICATOR RED HAT DERIVATIVE INSTALLATION SCRIPT";
-echo "This script will install Phabricator and all of its core dependencies.";
+echo "$NAME_MAIN RED HAT DERIVATIVE INSTALLATION SCRIPT";
+echo "This script will install $NAME_MAIN and all of its core dependencies.";
 echo "Run it from the directory you want to install into.";
 echo
 
@@ -43,7 +48,7 @@ then
   confirm
 fi
 
-echo "Phabricator will be installed to: $(pwd).";
+echo "$NAME_MAIN will be installed to: $(pwd).";
 confirm
 
 echo "Testing sudo/root..."
@@ -117,22 +122,22 @@ fi
 
 confirm
 
-if [[ ! -e arcanist ]]
+if [[ ! -e "$NAME_ARC" ]]
 then
-  git clone https://github.com/phacility/arcanist.git
+  git clone "$REPOSITORY_URI/$NAME_ARC.git"
 else
-  (cd arcanist && git pull --rebase)
+  (cd "$NAME_ARC" && git pull --rebase)
 fi
 
-if [[ ! -e phabricator ]]
+if [[ ! -e "$NAME_MAIN" ]]
 then
-  git clone https://github.com/phacility/phabricator.git
+  git clone "$REPOSITORY_URI/$NAME_MAIN.git"
 else
-  (cd phabricator && git pull --rebase)
+  (cd "$NAME_MAIN" && git pull --rebase)
 fi
 
 echo
 echo
 echo "Install probably worked mostly correctly. Continue with the 'Configuration Guide':";
 echo
-echo "    https://secure.phabricator.com/book/phabricator/article/configuration_guide/";
+echo $CONFIG_URI
