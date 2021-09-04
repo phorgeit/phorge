@@ -5,7 +5,8 @@ final class LegalpadDocument extends LegalpadDAO
     PhabricatorPolicyInterface,
     PhabricatorSubscribableInterface,
     PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface {
+    PhabricatorDestructibleInterface,
+    PhabricatorConduitResultInterface {
 
   protected $title;
   protected $contributorCount;
@@ -159,12 +160,58 @@ final class LegalpadDocument extends LegalpadDAO
     return idx($map, $type, 'fa-user grey');
   }
 
+  public function getPreamble() {
+    return $this->preamble;
+  }
+
 
 /* -(  PhabricatorSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
     return ($this->creatorPHID == $phid);
+  }
+
+/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+
+  public function getFieldSpecificationsForConduit() {
+    return array(
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('title')
+        ->setType('string')
+        ->setDescription(pht('The title of this document')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('creatorPHID')
+        ->setType('phid')
+        ->setDescription(pht('This user who created this document')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('versions')
+        ->setType('int')
+        ->setDescription(pht('The number of versions of this document')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('requireSignature')
+        ->setType('bool')
+        ->setDescription(pht(
+          'Whether signatures on this doc are required to use this install')),
+    );
+  }
+
+  public function getFieldValuesForConduit() {
+    return array(
+      'title' => $this->title,
+      'creatorPHID' => $this->creatorPHID,
+      'versions' => $this->versions,
+      'requireSignature' => (bool)$this->requireSignature,
+    );
+  }
+
+  public function getConduitSearchAttachments() {
+    return array(
+      id(new PhabricatorLegalpadBodySearchEngineAttachment())
+        ->setAttachmentKey('body'),
+      id(new PhabricatorLegalpadSignaturesSearchEngineAttachment())
+        ->setAttachmentKey('signatures'),
+    );
   }
 
 

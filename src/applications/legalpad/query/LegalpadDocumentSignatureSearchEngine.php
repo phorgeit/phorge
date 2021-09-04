@@ -5,6 +5,75 @@ final class LegalpadDocumentSignatureSearchEngine
 
   private $document;
 
+  public function newQuery() {
+    return new LegalpadDocumentSignatureQuery();
+  }
+
+  protected function buildCustomSearchFields() {
+    return array(
+      id(new PhabricatorUsersSearchField())
+        ->setLabel(pht('Signed By'))
+        ->setKey('signerPHIDs')
+        ->setAliases(array('signer', 'signers', 'signerPHID'))
+        ->setDescription(
+          pht('Search for signatures by given users.')),
+      id(new PhabricatorPHIDsSearchField())
+        ->setLabel(pht('Documents'))
+        ->setKey('documentPHIDs')
+        ->setAliases(array('document', 'documents', 'documentPHID'))
+        ->setDescription(
+          pht('Search for signatures on the given documents')),
+      id(new PhabricatorSearchTextField())
+        ->setLabel(pht('Name Contains'))
+        ->setKey('nameContains')
+        ->setDescription(
+          pht('Search for signatures with a name containing the '.
+              'given string.')),
+      id(new PhabricatorSearchTextField())
+        ->setLabel(pht('Email Contains'))
+        ->setKey('emailContains')
+        ->setDescription(
+          pht('Search for signatures with an email containing the '.
+              'given string.')),
+      id(new PhabricatorSearchDateField())
+        ->setLabel(pht('Created After'))
+        ->setKey('createdStart'),
+      id(new PhabricatorSearchDateField())
+        ->setLabel(pht('Created Before'))
+        ->setKey('createdEnd'),
+    );
+  }
+
+  protected function buildQueryFromParameters(array $map) {
+    $query = $this->newQuery();
+
+    if ($map['signerPHIDs']) {
+      $query->withSignerPHIDs($map['signerPHIDs']);
+    }
+
+    if ($map['documentPHIDs']) {
+      $query->withDocumentPHIDs($map['documentPHIDs']);
+    }
+
+    if ($map['createdStart']) {
+      $query->withDateCreatedAfter($map['createdStart']);
+    }
+
+    if ($map['createdEnd']) {
+      $query->withDateCreatedAfter($map['createdStart']);
+    }
+
+    if ($map['nameContains']) {
+      $query->withNameContains($map['nameContains']);
+    }
+
+    if ($map['emailContains']) {
+      $query->withEmailContains($map['emailContains']);
+    }
+
+    return $query;
+  }
+
   public function getResultTypeDescription() {
     return pht('Legalpad Signatures');
   }

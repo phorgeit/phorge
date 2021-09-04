@@ -4,6 +4,7 @@ final class LegalpadDocumentSignatureQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;
+  private $phids;
   private $documentPHIDs;
   private $signerPHIDs;
   private $documentVersions;
@@ -13,6 +14,11 @@ final class LegalpadDocumentSignatureQuery
 
   public function withIDs(array $ids) {
     $this->ids = $ids;
+    return $this;
+  }
+
+  public function withPHIDs(array $phids) {
+    $this->phids = $phids;
     return $this;
   }
 
@@ -46,20 +52,14 @@ final class LegalpadDocumentSignatureQuery
     return $this;
   }
 
+  public function newResultObject() {
+    return new LegalpadDocumentSignature();
+  }
+
   protected function loadPage() {
-    $table = new LegalpadDocumentSignature();
-    $conn_r = $table->establishConnection('r');
-
-    $data = queryfx_all(
-      $conn_r,
-      'SELECT * FROM %T %Q %Q %Q',
-      $table->getTableName(),
-      $this->buildWhereClause($conn_r),
-      $this->buildOrderClause($conn_r),
-      $this->buildLimitClause($conn_r));
-
+    $table = $this->newResultObject();
+    $data = $this->loadStandardPageRows($table);
     $signatures = $table->loadAllFromArray($data);
-
     return $signatures;
   }
 
@@ -96,6 +96,13 @@ final class LegalpadDocumentSignatureQuery
         $conn,
         'id IN (%Ld)',
         $this->ids);
+    }
+
+    if ($this->phids !== null) {
+      $where[] = qsprintf(
+        $conn,
+        'phid IN (%Ls)',
+        $this->phids);
     }
 
     if ($this->documentPHIDs !== null) {
