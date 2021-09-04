@@ -495,7 +495,7 @@ final class PhabricatorEnv extends Phobject {
     );
 
     $uri = new PhutilURI(
-      'https://secure.phabricator.com/diviner/find/',
+      'https://we.phorge.it/diviner/find/',
       $params);
 
     return phutil_string_cast($uri);
