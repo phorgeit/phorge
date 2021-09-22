@@ -13,6 +13,7 @@ JX.behavior('fancy-datepicker', function(config, statics) {
   }
   statics.initialized = true;
 
+  var pht = JX.phtize(config.pht);
   var picker;
   var anchor_node;
   var root;
@@ -262,18 +263,18 @@ JX.behavior('fancy-datepicker', function(config, statics) {
     var year = valid_date.getYear() + 1900;
 
     var months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'];
+      pht('January'),
+      pht('February'),
+      pht('March'),
+      pht('April'),
+      pht('May'),
+      pht('June'),
+      pht('July'),
+      pht('August'),
+      pht('September'),
+      pht('October'),
+      pht('November'),
+      pht('December')];
 
     var buttons = [
       cell('\u25C0', 'm:-1', false, 'lrbutton'),
@@ -330,14 +331,14 @@ JX.behavior('fancy-datepicker', function(config, statics) {
     var weeks = [];
 
     // First, render the weekday names.
-    var weekdays = 'SMTWTFS';
+    var weekdays = pht('S|M|T|W|T|F|S').split('|');
     var weekday_names = [];
     var week_start = parseInt(get_week_start(), 10);
     var week_end = weekdays.length + week_start;
 
     for (var ii = week_start; ii < week_end; ii++) {
       var index = ii%7;
-      weekday_names.push(cell(weekdays.charAt(index), null, false, 'day-name'));
+      weekday_names.push(cell(weekdays[index], null, false, 'day-name'));
     }
     weeks.push(JX.$N('tr', {}, weekday_names));
 
