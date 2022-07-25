@@ -322,6 +322,7 @@ final class PhabricatorDatabaseRef
     $default_user = PhabricatorEnv::getEnvConfig('mysql.user');
 
     $default_pass = PhabricatorEnv::getEnvConfig('mysql.pass');
+    $default_pass = phutil_string_cast($default_pass);
     $default_pass = new PhutilOpaqueEnvelope($default_pass);
 
     $config = PhabricatorEnv::getEnvConfig('cluster.databases');
@@ -352,7 +353,7 @@ final class PhabricatorDatabaseRef
         $ref->setConnectionMessage(
           pht(
             'No permission to run "SHOW SLAVE STATUS". Grant this user '.
-            '"REPLICATION CLIENT" permission to allow Phabricator to '.
+            '"REPLICATION CLIENT" permission to allow this server to '.
             'monitor replica health.'));
       } catch (AphrontInvalidCredentialsQueryException $ex) {
         $ref->setConnectionStatus(self::STATUS_AUTH);

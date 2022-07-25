@@ -474,7 +474,9 @@ abstract class PhabricatorEditEngine
           ->setIsDefault(true)
           ->setIsEdit(true);
 
-        if (!strlen($first->getName())) {
+        $first_name = $first->getName();
+
+        if ($first_name === null || $first_name === '') {
           $first->setName($this->getObjectCreateShortText());
         }
     } else {
@@ -1906,6 +1908,11 @@ abstract class PhabricatorEditEngine
 
     $comment_text = $request->getStr('comment');
 
+    $comment_metadata = $request->getStr('comment_metadata');
+    if (strlen($comment_metadata)) {
+      $comment_metadata = phutil_json_decode($comment_metadata);
+    }
+
     $actions = $request->getStr('editengine.actions');
     if ($actions) {
       $actions = phutil_json_decode($actions);
@@ -1921,10 +1928,9 @@ abstract class PhabricatorEditEngine
           $viewer->getPHID(),
           $current_version);
 
-        $is_empty = (!strlen($comment_text) && !$actions);
-
         $draft
           ->setProperty('comment', $comment_text)
+          ->setProperty('metadata', $comment_metadata)
           ->setProperty('actions', $actions)
           ->save();
 
@@ -2006,6 +2012,7 @@ abstract class PhabricatorEditEngine
     if (strlen($comment_text) || !$xactions) {
       $xactions[] = id(clone $template)
         ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setMetadataValue('remarkup.control', $comment_metadata)
         ->attachComment(
           id(clone $comment_template)
             ->setContent($comment_text));

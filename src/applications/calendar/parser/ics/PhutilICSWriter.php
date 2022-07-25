@@ -128,9 +128,13 @@ final class PhutilICSWriter extends Phobject {
 
     $properties[] = $this->newTextProperty(
       'PRODID',
-      '-//Phacility//Phabricator//EN');
+      self::getICSPRODID());
 
     return $properties;
+  }
+
+  public static function getICSPRODID() {
+    return '-//Phacility//Phabricator//EN';
   }
 
   private function getEventNodeProperties(PhutilCalendarEventNode $event) {
@@ -180,14 +184,14 @@ final class PhutilICSWriter extends Phobject {
     }
 
     $name = $event->getName();
-    if (strlen($name)) {
+    if (phutil_nonempty_string($name)) {
       $properties[] = $this->newTextProperty(
         'SUMMARY',
         $name);
     }
 
     $description = $event->getDescription();
-    if (strlen($description)) {
+    if (phutil_nonempty_string($description)) {
       $properties[] = $this->newTextProperty(
         'DESCRIPTION',
         $description);

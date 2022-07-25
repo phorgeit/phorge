@@ -56,10 +56,6 @@ final class HarbormasterBuildQuery
     return new HarbormasterBuild();
   }
 
-  protected function loadPage() {
-    return $this->loadStandardPage($this->newResultObject());
-  }
-
   protected function willFilterPage(array $page) {
     $buildables = array();
 
@@ -104,13 +100,13 @@ final class HarbormasterBuildQuery
     }
 
     $build_phids = mpull($page, 'getPHID');
-    $commands = id(new HarbormasterBuildCommand())->loadAllWhere(
-      'targetPHID IN (%Ls) ORDER BY id ASC',
+    $messages = id(new HarbormasterBuildMessage())->loadAllWhere(
+      'receiverPHID IN (%Ls) AND isConsumed = 0 ORDER BY id ASC',
       $build_phids);
-    $commands = mgroup($commands, 'getTargetPHID');
+    $messages = mgroup($messages, 'getReceiverPHID');
     foreach ($page as $build) {
-      $unprocessed_commands = idx($commands, $build->getPHID(), array());
-      $build->attachUnprocessedCommands($unprocessed_commands);
+      $unprocessed_messages = idx($messages, $build->getPHID(), array());
+      $build->attachUnprocessedMessages($unprocessed_messages);
     }
 
     if ($this->needBuildTargets) {

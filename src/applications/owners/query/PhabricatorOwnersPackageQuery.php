@@ -10,6 +10,7 @@ final class PhabricatorOwnersPackageQuery
   private $repositoryPHIDs;
   private $paths;
   private $statuses;
+  private $authorityModes;
 
   private $controlMap = array();
   private $controlResults;
@@ -77,6 +78,11 @@ final class PhabricatorOwnersPackageQuery
     return $this;
   }
 
+  public function withAuthorityModes(array $modes) {
+    $this->authorityModes = $modes;
+    return $this;
+  }
+
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
       new PhabricatorOwnersPackageNameNgrams(),
@@ -94,10 +100,6 @@ final class PhabricatorOwnersPackageQuery
 
   protected function willExecute() {
     $this->controlResults = array();
-  }
-
-  protected function loadPage() {
-    return $this->loadStandardPage($this->newResultObject());
   }
 
   protected function willFilterPage(array $packages) {
@@ -229,6 +231,13 @@ final class PhabricatorOwnersPackageQuery
           $indexes);
       }
       $where[] = qsprintf($conn, '%LO', $clauses);
+    }
+
+    if ($this->authorityModes !== null) {
+      $where[] = qsprintf(
+        $conn,
+        'authorityMode IN (%Ls)',
+        $this->authorityModes);
     }
 
     return $where;

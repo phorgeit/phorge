@@ -162,10 +162,6 @@ final class PhabricatorPeopleQuery
     return new PhabricatorUser();
   }
 
-  protected function loadPage() {
-    return $this->loadStandardPage($this->newResultObject());
-  }
-
   protected function didFilterPage(array $users) {
     if ($this->needProfile) {
       $user_list = mpull($users, null, 'getPHID');
@@ -341,7 +337,7 @@ final class PhabricatorPeopleQuery
         (int)$this->isMailingList);
     }
 
-    if (strlen($this->nameLike)) {
+    if ($this->nameLike !== null) {
       $where[] = qsprintf(
         $conn,
         'user.username LIKE %~ OR user.realname LIKE %~',

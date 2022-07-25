@@ -42,7 +42,7 @@ final class DifferentialDiff
   private $unsavedChangesets = array();
   private $changesets = self::ATTACHABLE;
   private $revision = self::ATTACHABLE;
-  private $properties = array();
+  private $properties = self::ATTACHABLE;
   private $buildable = self::ATTACHABLE;
 
   private $unitMessages = self::ATTACHABLE;
@@ -338,6 +338,9 @@ final class DifferentialDiff
   }
 
   public function attachProperty($key, $value) {
+    if (!is_array($this->properties)) {
+      $this->properties = array();
+    }
     $this->properties[$key] = $value;
     return $this;
   }
@@ -547,9 +550,9 @@ final class DifferentialDiff
       'buildable.revision' =>
         pht('The differential revision ID, if applicable.'),
       'repository.callsign' =>
-        pht('The callsign of the repository in Phabricator.'),
+        pht('The callsign of the repository.'),
       'repository.phid' =>
-        pht('The PHID of the repository in Phabricator.'),
+        pht('The PHID of the repository.'),
       'repository.vcs' =>
         pht('The version control system, either "svn", "hg" or "git".'),
       'repository.uri' =>

@@ -80,7 +80,8 @@
     "xhpast": {
       "type": "xhpast",
       "include": "(\\.php$)",
-      "standard": "phutil.xhpast"
+      "standard": "phutil.xhpast",
+      "xhpast.php-version": "5.5"
     }
   }
 }

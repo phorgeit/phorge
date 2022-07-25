@@ -90,11 +90,11 @@ final class PhabricatorAuthStartController
 
       return $this->renderError(
         pht(
-          'This Phabricator install is not configured with any enabled '.
-          'authentication providers which can be used to log in. If you '.
-          'have accidentally locked yourself out by disabling all providers, '.
-          'you can use `%s` to recover access to an account.',
-          'phabricator/bin/auth recover <username>'));
+          'This server is not configured with any enabled authentication '.
+          'providers which can be used to log in. If you have accidentally '.
+          'locked yourself out by disabling all providers, you can use `%s` '.
+          'to recover access to an account.',
+          './bin/auth recover <username>'));
     }
 
     $next_uri = $request->getStr('next');
@@ -252,7 +252,7 @@ final class PhabricatorAuthStartController
 
     $message = pht(
       'ERROR: You are making a Conduit API request to "%s", but the correct '.
-      'HTTP request path to use in order to access a COnduit method is "%s" '.
+      'HTTP request path to use in order to access a Conduit method is "%s" '.
       '(for example, "%s"). Check your configuration.',
       $request_path,
       $conduit_path,
