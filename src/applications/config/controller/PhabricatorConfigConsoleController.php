@@ -138,7 +138,7 @@ final class PhabricatorConfigConsoleController
 
   private function loadVersions(PhabricatorUser $viewer) {
     $specs = array(
-      'phabricator',
+      'phorge',
       'arcanist',
     );
 
@@ -174,7 +174,14 @@ final class PhabricatorConfigConsoleController
 
     // A repository may have a bunch of remotes, but we're only going to look
     // for remotes we host to try to figure out where this repository branched.
-    $upstream_pattern = '(github\.com/phacility/|secure\.phabricator\.com/)';
+    $upstream_pattern =
+      '('.
+      implode('|', array(
+        'we\.phorge\.it/',
+        'github\.com/phacility/',
+        'secure\.phabricator\.com/',
+      )).
+      ')';
 
     $upstream_futures = array();
     $lib_upstreams = array();
