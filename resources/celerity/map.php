@@ -9,7 +9,7 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => '0e3cf785',
     'conpherence.pkg.js' => '020aebcf',
-    'core.pkg.css' => 'b816811e',
+    'core.pkg.css' => '80481fe6',
     'core.pkg.js' => 'd2de90d9',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => 'ffb69e3d',
@@ -38,7 +38,7 @@ return array(
     'rsrc/css/aphront/typeahead.css' => '8779483d',
     'rsrc/css/application/almanac/almanac.css' => '2e050f4f',
     'rsrc/css/application/auth/auth.css' => 'c2f23d74',
-    'rsrc/css/application/base/main-menu-view.css' => 'bcec20f0',
+    'rsrc/css/application/base/main-menu-view.css' => '89fc16b6',
     'rsrc/css/application/base/notification-menu.css' => '4df1ee30',
     'rsrc/css/application/base/phui-theme.css' => '35883b37',
     'rsrc/css/application/base/standard-page-view.css' => 'a374f94c',
@@ -320,7 +320,7 @@ return array(
     'rsrc/image/icon/tango/upload.png' => '3fe6b92d',
     'rsrc/image/icon/unsubscribe.png' => 'db04378a',
     'rsrc/image/lightblue-header.png' => 'e6d483c6',
-    'rsrc/image/logo/light-eye.png' => '72337472',
+    'rsrc/image/logo/project-logo.png' => '019d256f',
     'rsrc/image/main_texture.png' => '894d03c4',
     'rsrc/image/menu_texture.png' => '896c9ade',
     'rsrc/image/people/harding.png' => '95b2db63',
@@ -791,7 +791,7 @@ return array(
     'phabricator-flag-css' => '2b77be8d',
     'phabricator-keyboard-shortcut' => '1a844c06',
     'phabricator-keyboard-shortcut-manager' => '81debc48',
-    'phabricator-main-menu-view' => 'bcec20f0',
+    'phabricator-main-menu-view' => '89fc16b6',
     'phabricator-nav-view-css' => '423f92cc',
     'phabricator-notification' => 'a9b91e3f',
     'phabricator-notification-css' => '30240bd2',
@@ -1665,6 +1665,9 @@ return array(
       'javelin-stratcom',
       'javelin-install',
     ),
+    '89fc16b6' => array(
+      'phui-theme-css',
+    ),
     '8ac32fd9' => array(
       'javelin-behavior',
       'javelin-stratcom',
@@ -2009,9 +2012,6 @@ return array(
       'javelin-workflow',
       'phabricator-drag-and-drop-file-upload',
       'javelin-workboard-board',
-    ),
-    'bcec20f0' => array(
-      'phui-theme-css',
     ),
     'c03f2fb4' => array(
       'javelin-install',

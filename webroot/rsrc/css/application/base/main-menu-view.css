@@ -47,13 +47,13 @@
   padding-left: 6px;
 }
 
-.phabricator-main-menu-eye {
+.phabricator-main-menu-project-logo {
   margin: 2px 0;
   width: 40px;
   height: 40px;
   float: left;
   display: block;
-  background-image: url(/rsrc/image/logo/light-eye.png);
+  background-image: url(/rsrc/image/logo/project-logo.png);
   background-size: 40px 40px;
 }
 
