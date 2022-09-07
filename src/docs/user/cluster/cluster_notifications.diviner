@@ -1,7 +1,7 @@
 @title Cluster: Notifications
 @group cluster
 
-Configuring Phabricator to use multiple notification servers.
+Configuring Phorge to use multiple notification servers.
 
 Overview
 ========
@@ -29,7 +29,7 @@ never authoritative and never the only way for users to learn about events.
 For example, if a notification about a task update is not delivered, the next
 page you load will still show the notification in your notification menu.
 
-Generally, Phabricator works fine without notifications configured at all, so
+Generally, Phorge works fine without notifications configured at all, so
 clustering assumes that losing some messages during a disruption is acceptable.
 
 
@@ -88,7 +88,7 @@ A simple example with two servers might look like this:
 ```
 
 
-Configuring Phabricator
+Configuring Phorge
 =======================
 
 To configure clustering on the client side, add every service you run to

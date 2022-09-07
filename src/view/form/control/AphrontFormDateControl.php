@@ -267,9 +267,25 @@ final class AphrontFormDateControl extends AphrontFormControl {
     $week_key = PhabricatorWeekStartDaySetting::SETTINGKEY;
     $week_start = $viewer->getUserSetting($week_key);
 
+    $date_pht = array(
+      'S|M|T|W|T|F|S' => pht('S|M|T|W|T|F|S'),
+      'January' => pht('January'),
+      'February' => pht('February'),
+      'March' => pht('March'),
+      'April' => pht('April'),
+      'May' => pht('May'),
+      'June' => pht('June'),
+      'July' => pht('July'),
+      'August' => pht('August'),
+      'September' => pht('September'),
+      'October' => pht('October'),
+      'November' => pht('November'),
+      'December' => pht('December'),
+    );
     Javelin::initBehavior('fancy-datepicker', array(
       'format' => $this->getDateFormat(),
       'weekStart' => $week_start,
+      'pht' => $date_pht,
       ));
 
     $classes = array();

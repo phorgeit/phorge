@@ -1,21 +1,19 @@
 @title Adding New CSS and JS
 @group developer
 
-Explains how to add new CSS and JS files to Phabricator.
+Explains how to add new CSS and JS files to Phorge.
 
 = Overview =
 
-Phabricator uses a system called **Celerity** to manage static resources. If you
-are a current or former Facebook employee, Celerity is based on the Haste system
-used at Facebook and generally behaves similarly.
+Phorge uses a system called **Celerity** to manage static resources.
 
-This document is intended for Phabricator developers and contributors. This
+(NOTE) This document is intended for Phorge developers and contributors. This
 process will not work correctly for third-party code, plugins, or extensions.
 
 = Adding a New File =
 
 To add a new CSS or JS file, create it in an appropriate location in
-`webroot/rsrc/css/` or `webroot/rsrc/js/` inside your `phabricator/`
+`webroot/rsrc/css/` or `webroot/rsrc/js/` inside your `phorge/`
 directory.
 
 Each file must `@provides` itself as a component, declared in a header comment:
@@ -54,7 +52,7 @@ Then rebuild the Celerity map (see the next section).
 When you add, move or remove a file, or change the contents of existing JS or
 CSS file, you should rebuild the Celerity map:
 
-  phabricator/ $ ./bin/celerity map
+  phorge/ $ ./bin/celerity map
 
 If you've only changed file content things will generally work even if you
 don't, but they might start not working as well in the future if you skip this
@@ -64,7 +62,7 @@ The generated file `resources/celerity/map.php` causes merge conflicts
 quite often. They can be resolved by running the Celerity mapper. You can
 automate this process by running:
 
-  phabricator/ $ ./scripts/celerity/install_merge.sh
+  phorge/ $ ./scripts/celerity/install_merge.sh
 
 This will install Git merge driver which will run when a conflict in this file
 occurs.

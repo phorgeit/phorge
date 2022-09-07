@@ -11,7 +11,7 @@ final class PhabricatorMetaMTAEmailBodyParser extends Phobject {
    *
    * Or
    *
-   *   !assign epriestley
+   *   !assign alincoln
    *
    *   please, take this task I took; its hard
    *
@@ -20,9 +20,9 @@ final class PhabricatorMetaMTAEmailBodyParser extends Phobject {
    * commands. For example, this body above might parse as:
    *
    *   array(
-   *     'body' => 'please, take this task I took; its hard',
+   *     'body' => 'please, take this task I took; it's hard',
    *     'commands' => array(
-   *       array('assign', 'epriestley'),
+   *       array('assign', 'alincoln'),
    *     ),
    *   )
    *
@@ -81,6 +81,7 @@ final class PhabricatorMetaMTAEmailBodyParser extends Phobject {
   }
 
   private function stripQuotedText($body) {
+    $body = phutil_string_cast($body);
 
     // Look for "On <date>, <user> wrote:". This may be split across multiple
     // lines. We need to be careful not to remove all of a message like this:

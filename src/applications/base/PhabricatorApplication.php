@@ -135,10 +135,9 @@ abstract class PhabricatorApplication
 
 
   /**
-   * Returns true if an application is first-party (developed by Phacility)
-   * and false otherwise.
+   * Returns true if an application is first-party and false otherwise.
    *
-   * @return bool True if this application is developed by Phacility.
+   * @return bool True if this application is first-party.
    */
   final public function isFirstParty() {
     $where = id(new ReflectionClass($this))->getFileName();
@@ -557,7 +556,7 @@ abstract class PhabricatorApplication
       case PhabricatorPolicyCapability::CAN_VIEW:
         if (!$this->canUninstall()) {
           return pht(
-            'This application is required for Phabricator to operate, so all '.
+            'This application is required, so all '.
             'users must have access to it.');
         } else {
           return null;

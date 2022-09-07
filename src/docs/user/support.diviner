@@ -2,4 +2,35 @@
 @short Support
 @group intro
 
-Effective June 1, 2021: Phabricator is no longer actively supported.
+Resources for reporting bugs, requesting features, and getting support.
+
+Overview
+========
+
+The upstream provides free support for a range of problems.
+
+
+Reporting Security Vulnerabilities
+==================================
+
+The upstream accepts, fixes, and awards bounties for reports of material
+security issues with the software.
+
+To report security issues, see @{article:Reporting Security Vulnerabilities}.
+
+
+Reporting Bugs
+==============
+
+The upstream will accept **reproducible** bug reports in modern, first-party
+production code running in reasonable environments.  Before submitting a bug
+report you **must update** to the latest version of Phorge.
+
+To report bugs, see @{article:Contributing Bug Reports}.
+
+
+Contributing
+============
+
+If you'd like to contribute to Phorge, start with
+@{article:Contributor Introduction}.

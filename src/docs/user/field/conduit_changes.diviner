@@ -25,7 +25,7 @@ Methods have one of three statuses:
     them before they stabilize.
   - **Stable**: This is an established method which generally will not change.
   - **Deprecated**: This method will be removed in a future version of
-    Phabricator and callers should cease using it.
+    Phorge and callers should cease using it.
 
 Normally, a method is deprecated only when it is obsolete or a new, more
 powerful method is available to replace it.

@@ -6,7 +6,7 @@ Understanding and configuring garbage collection.
 Overview
 ========
 
-Phabricator generates various logs and caches during normal operation. Some of
+Phorge generates various logs and caches during normal operation. Some of
 these logs and caches are usually of very little use after some time has
 passed, so they are deleted automatically (often after a month or two) in a
 process called "garbage collection".
@@ -35,7 +35,7 @@ You can review the current retention policies in
 `bin/garbage set-policy` to select a new policy:
 
 ```
-phabricator/ $ ./bin/garbage set-policy --collector cache.markup --days 7
+phorge/ $ ./bin/garbage set-policy --collector cache.markup --days 7
 ```
 
 You can use `--days` to select how long data is retained for. You can also use
@@ -53,7 +53,7 @@ Troubleshooting
 You can manually run a collector with `bin/garbage collect`.
 
 ```
-phabricator/ $ ./bin/garbage collect --collector cache.general
+phorge/ $ ./bin/garbage collect --collector cache.general
 ```
 
 By using the `--trace` flag, you can inspect the operation of the collector

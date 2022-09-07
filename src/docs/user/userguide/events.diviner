@@ -1,7 +1,7 @@
 @title Events User Guide: Installing Event Listeners
 @group userguide
 
-Using Phabricator event listeners to customize behavior.
+Using Phorge event listeners to customize behavior.
 
 = Overview =
 
@@ -9,27 +9,27 @@ Using Phabricator event listeners to customize behavior.
 system is strongly discouraged. We have been removing events since 2013 and
 will continue to remove events in the future.
 
-Phabricator and Arcanist allow you to install custom runtime event listeners
+Phorge and Arcanist allow you to install custom runtime event listeners
 which can react to certain things happening (like a Maniphest Task being edited
 or a user creating a new Differential Revision) and run custom code to perform
 logging, synchronize with other systems, or modify workflows.
 
-These listeners are PHP classes which you install beside Phabricator or
-Arcanist, and which Phabricator loads at runtime and runs in-process. They
+These listeners are PHP classes which you install beside Phorge or
+Arcanist, and which Phorge loads at runtime and runs in-process. They
 require somewhat more effort upfront than simple configuration switches, but are
 the most direct and powerful way to respond to events.
 
-= Installing Event Listeners (Phabricator) =
+= Installing Event Listeners (Phorge) =
 
-To install event listeners in Phabricator, follow these steps:
+To install event listeners in Phorge, follow these steps:
 
   - Write a listener class which extends @{class@arcanist:PhutilEventListener}.
   - Add it to a libphutil library, or create a new library (for instructions,
-    see @{article@phabcontrib:Adding New Classes}.
-  - Configure Phabricator to load the library by adding it to `load-libraries`
-    in the Phabricator config.
-  - Configure Phabricator to install the event listener by adding the class
-    name to `events.listeners` in the Phabricator config.
+    see @{article@contrib:Adding New Classes}.
+  - Configure Phorge to load the library by adding it to `load-libraries`
+    in the Phorge config.
+  - Configure Phorge to install the event listener by adding the class
+    name to `events.listeners` in the Phorge config.
 
 You can verify your listener is registered in the "Events" tab of DarkConsole.
 It should appear at the top under "Registered Event Listeners". You can also
@@ -42,8 +42,8 @@ To install event listeners in Arcanist, follow these steps:
 
   - Write a listener class which extends @{class@arcanist:PhutilEventListener}.
   - Add it to a libphutil library, or create a new library (for instructions,
-    see @{article@phabcontrib:Adding New Classes}.
-  - Configure Phabricator to load the library by adding it to `load`
+    see @{article@contrib:Adding New Classes}.
+  - Configure Phorge to load the library by adding it to `load`
     in the Arcanist config (e.g., `.arcconfig`, or user/global config).
   - Configure Arcanist to install the event listener by adding the class
     name to `events.listeners` in the Arcanist config.
@@ -54,7 +54,7 @@ event listener.
 
 = Example Listener =
 
-Phabricator includes an example event listener,
+Phorge includes an example event listener,
 @{class:PhabricatorExampleEventListener}, which may be useful as a starting
 point in developing your own listeners. This listener listens for a test
 event that is emitted by the script `scripts/util/emit_test_event.php`.
@@ -80,7 +80,7 @@ test event was emitted.
 
 = Available Events =
 
-You can find a list of all Phabricator events in @{class:PhabricatorEventType}.
+You can find a list of all Phorge events in @{class:PhabricatorEventType}.
 
 == All Events ==
 
@@ -184,9 +184,9 @@ NOTE: This event is unstable and subject to change.
 
 If you're having problems with your listener, try these steps:
 
-  - If you're getting an error about Phabricator being unable to find the
+  - If you're getting an error about Phorge being unable to find the
     listener class, make sure you've added it to a libphutil library and
-    configured Phabricator to load the library with `load-libraries`.
+    configured Phorge to load the library with `load-libraries`.
   - Make sure the listener is registered. It should appear in the "Events" tab
     of DarkConsole. If it's not there, you may have forgotten to add it to
     `events.listeners`.

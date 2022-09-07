@@ -1,7 +1,7 @@
 @title Clustering Introduction
 @group cluster
 
-Guide to configuring Phabricator across multiple hosts for availability and
+Guide to configuring Phorge across multiple hosts for availability and
 performance.
 
 
@@ -12,7 +12,7 @@ WARNING: This feature is a prototype. Installs should expect a challenging
 adventure when deploying clusters. In the best of times, configuring a
 cluster is complex and requires significant operations experience.
 
-Phabricator can be configured to run on multiple hosts with redundant services
+Phorge can be configured to run on multiple hosts with redundant services
 to improve its availability and scalability, and make disaster recovery much
 easier.
 
@@ -20,7 +20,7 @@ Clustering is more complex to setup and maintain than running everything on a
 single host, but greatly reduces the cost of recovering from hardware and
 network failures.
 
-Each Phabricator service has an array of clustering options that can be
+Each Phorge service has an array of clustering options that can be
 configured somewhat independently. Configuring a cluster is inherently complex,
 and this is an advanced feature aimed at installs with large userbases and
 experienced operations personnel who need this high degree of flexibility.
@@ -55,7 +55,7 @@ See below for a walkthrough of these services in greater detail.
 Preparing for Clustering
 ========================
 
-To begin deploying Phabricator in cluster mode, set up `cluster.addresses`
+To begin deploying Phorge in cluster mode, set up `cluster.addresses`
 in your configuration.
 
 This option should contain a list of network address blocks which are considered
@@ -65,8 +65,8 @@ hosts in the cluster, so this list should be as small as possible. See "Cluster
 Whitelist Security" below for discussion.
 
 If you are deploying hardware in EC2, a reasonable approach is to launch a
-dedicated Phabricator VPC, whitelist the whole VPC as a Phabricator cluster,
-and then deploy only Phabricator services into that VPC.
+dedicated Phorge VPC, whitelist the whole VPC as a Phorge cluster,
+and then deploy only Phorge services into that VPC.
 
 If you have additional auxiliary hosts which run builds and tests via Drydock,
 you should //not// include them in the cluster address definition. For more
@@ -84,7 +84,7 @@ When you configure `cluster.addresses`, you should keep the list of trusted
 cluster hosts as small as possible. Hosts on this list gain additional
 capabilities, including these:
 
-**Trusted HTTP Headers**: Normally, Phabricator distrusts the load balancer
+**Trusted HTTP Headers**: Normally, Phorge distrusts the load balancer
 HTTP headers `X-Forwarded-For` and `X-Forwarded-Proto` because they may be
 client-controlled and can be set to arbitrary values by an attacker if no load
 balancer is deployed. In particular, clients can set `X-Forwarded-For` to any
@@ -134,7 +134,7 @@ highest impact on availability and resistance to data loss. This is usually the
 most important service to make redundant if your focus is on availability and
 disaster recovery.
 
-Configuring replicas allows Phabricator to run in read-only mode if you lose
+Configuring replicas allows Phorge to run in read-only mode if you lose
 the master and to quickly promote the replica as a replacement.
 
 For details, see @{article:Cluster: Databases}.
@@ -147,7 +147,7 @@ Configuring multiple repository hosts is complex, but is required before you
 can add multiple daemon or web hosts.
 
 Repository replicas are important for availability if you host repositories
-on Phabricator, but less important if you host repositories elsewhere
+on Phorge, but less important if you host repositories elsewhere
 (instead, you should focus on making that service more available).
 
 The distributed nature of Git and Mercurial tend to mean that they are
@@ -243,7 +243,7 @@ Cluster: Fulltext Search
 
 Configuring search services is relatively simple and has no pre-requisites.
 
-By default, Phabricator uses MySQL as a fulltext search engine, so deploying
+By default, Phorge uses MySQL as a fulltext search engine, so deploying
 multiple database hosts will effectively also deploy multiple fulltext search
 hosts.
 
@@ -257,7 +257,7 @@ Overlaying Services
 ===================
 
 Although hosts can run a single dedicated service type, certain groups of
-services work well together. Phabricator clusters usually do not need to be
+services work well together. Phorge clusters usually do not need to be
 very large, so deploying a small number of hosts with multiple services is a
 good place to start.
 

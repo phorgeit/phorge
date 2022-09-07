@@ -9,14 +9,14 @@ Overview
 IMPORTANT: Calendar is a prototype application. See
 @{article:User Guide: Prototype Applications}.
 
-You can import events into Phabricator to other calendar applications or from
+You can import events into Phorge to other calendar applications or from
 `.ics` files. This document will guide you through how to import event data
-into Phabricator.
+into Phorge.
 
 When you import events from another application, they can not be edited in
-Phabricator. Importing events allows you to share events or keep track of
+Phorge. Importing events allows you to share events or keep track of
 events from different sources, but does not let you edit events from other
-applications in Phabricator.
+applications in Phorge.
 
 
 Import Policies
@@ -36,18 +36,18 @@ Importing `.ics` Files
 event or an entire event calendar.
 
 If you have an event or calendar in `.ics` format, you can import it into
-Phabricator in two ways:
+Phorge in two ways:
 
   - Navigate to {nav Calendar > Imports > Import Events > Import .ics File}.
   - Drag and drop the file onto a Calendar.
 
-This will create a copy of the event in Phabricator.
+This will create a copy of the event in Phorge.
 
 If you want to update an imported event later, just repeat this process. The
 event will be updated with the latest information.
 
 Many applications send `.ics` files as email attachments. You can import these
-into Phabricator.
+into Phorge.
 
 
 .ics Files: Google Calendar
@@ -68,9 +68,9 @@ saving the calendar as a `.ics` file.
 You can also convert an individual event into an `.ics` file by dragging it
 from the calendar to your desktop (or any other folder).
 
-When you import an event using an `.ics` file, Phabricator can not
+When you import an event using an `.ics` file, Phorge can not
 automatically keep the event up to date. You'll need to repeat the process if
-there are changes to the event or calendar later, so Phabricator can learn
+there are changes to the event or calendar later, so Phorge can learn
 about the updates.
 
 
@@ -78,7 +78,7 @@ Importing .ics URIs
 =====================
 
 If you have a calendar in another application that supports publishing a
-`.ics` URI, you can subscribe to it in Phabricator. This will import the entire
+`.ics` URI, you can subscribe to it in Phorge. This will import the entire
 calendar, and can be configured to automatically keep it up to date and in sync
 with the external calendar.
 
@@ -87,7 +87,7 @@ below for some guidance on popular calendar applications). Then, browse to
 {nav Calendar > Imports > Import Events > Import .ics URI}.
 
 When you import a URI, you can choose to enable automatic updates. If you do,
-Phabricator will periodically update the events it imports from this source.
+Phorge will periodically update the events it imports from this source.
 You can stop this later by turning off the automatic updates or disabling
 the import.
 
@@ -121,7 +121,7 @@ shared.
 **Calendar.app** does not support subscriptions via `.ics` URIs.
 
 You can export a calendar as an `.ics` file by following the steps above, but
-Phabricator can not automatically keep events imported in this way up to date.
+Phorge can not automatically keep events imported in this way up to date.
 
 
 Next Steps

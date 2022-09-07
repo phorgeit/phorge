@@ -1,19 +1,19 @@
-@title Why does Phabricator need so many databases?
+@title Why does Phorge need so many databases?
 @group lore
 
-Phabricator uses about 60 databases (and we may have added more by the time you
+Phorge uses about 60 databases (and we may have added more by the time you
 read this document). This sometimes comes as a surprise, since you might assume
 it would only use one database.
 
 The approach we use is designed to work at scale for huge installs with many
 thousands of users. We care a lot about working well for large installs, and
 about scaling up gracefully to meet the needs of growing organizations. We want
-small startups to be able to install Phabricator and have it grow with them as
+small startups to be able to install Phorge and have it grow with them as
 they expand to many thousands of employees.
 
-A cost of this approach is that it makes Phabricator more difficult to install
+A cost of this approach is that it makes Phorge more difficult to install
 on shared hosts which require a lot of work to create or authorize access to
-each database. However, Phabricator does a lot of advanced or complex things
+each database. However, Phorge does a lot of advanced or complex things
 which are difficult to configure or manage on shared hosts, and we don't
 recommend installing it on a shared host. The install documentation explicitly
 discourages installing on shared hosts.
@@ -26,11 +26,11 @@ operating at scale.
 Listing Databases
 =================
 
-You can get a full list of the databases Phabricator needs with `bin/storage
+You can get a full list of the databases Phorge needs with `bin/storage
 databases`. It will look something like this:
 
 ```
-$ /core/lib/phabricator/bin/storage databases
+$ /core/lib/phorge/bin/storage databases
 secure_audit
 secure_calendar
 secure_chatlog
@@ -89,9 +89,9 @@ tables which are organized into separate application databases, just like it's
 easier to work with a large project if you organize source files into
 directories.
 
-If you aren't developing Phabricator and never look at the data in the
+If you aren't developing Phorge and never look at the data in the
 database, you probably won't benefit from this organization. However, if you
-are a developer or want to extend Phabricator or look under the hood, it's
+are a developer or want to extend Phorge or look under the hood, it's
 easier to find what you're looking for and work with the tables when they're
 organized by application.
 
@@ -118,7 +118,7 @@ each database, databases do cost something.
 
 However, this cost is an artificial cost imposed by the selected environment,
 and this is only the first of many issues you'll run into trying to install and
-run Phabricator on a shared host. These issues are why we strongly discourage
+run Phorge on a shared host. These issues are why we strongly discourage
 using shared hosts, and recommend against them in the install guide.
 
 

@@ -2,7 +2,8 @@
   "exclude": [
     "(^externals/)",
     "(^webroot/rsrc/externals/(?!javelin/))",
-    "(/__tests__/data/)"
+    "(/__tests__/data/)",
+    "(^support/aphlict/server/package-lock.json)"
   ],
   "linters": {
     "chmod": {
@@ -79,7 +80,8 @@
     "xhpast": {
       "type": "xhpast",
       "include": "(\\.php$)",
-      "standard": "phutil.xhpast"
+      "standard": "phutil.xhpast",
+      "xhpast.php-version": "5.5"
     }
   }
 }

@@ -8,7 +8,7 @@ Overview
 
 NOTE: This document is only partially complete.
 
-Phabricator projects are flexible, general-purpose groups of objects that you
+Phorge projects are flexible, general-purpose groups of objects that you
 can use to organize information. Projects have some basic information like
 a name and an icon, and may optionally have members.
 
@@ -37,7 +37,7 @@ only members of the "Backend" project, nor does it allow them to see it if they
 otherwise could not. Likewise, removing projects does not affect visibility.
 
 If you're familiar with other software that works differently, this may be
-unexpected, but the rule in Phabricator is simple: **adding and removing
+unexpected, but the rule in Phorge is simple: **adding and removing
 projects never affects policies.**
 
 Note that you //can// write policy rules which restrict capabilities to members
@@ -124,7 +124,7 @@ documentation to the menu to make it easy to find and access. You could also
 link to a Conpherence if you have a chatroom for a project.
 
 **Link to External Resources**: You can link to external resources outside
-of Phabricator if you have other pages which are relevant to a project.
+of Phorge if you have other pages which are relevant to a project.
 
 **Set Workboard as Default**: For projects that are mostly used to organize
 tasks, change the default item to the workboard instead of the profile to get
@@ -278,13 +278,13 @@ As discussed above, adding and removing projects never affects who can see an
 object. This is an explicit product design choice aimed at reducing the
 complexity of policy management.
 
-Phabricator projects are a flexible, general-purpose, freeform tool. This is a
+Phorge projects are a flexible, general-purpose, freeform tool. This is a
 good match for many organizational use cases, but a very poor match for
 policies. It is important that policies be predictable and rigid, because the
 cost of making a mistake with policies is high (inadvertent disclosure of
 private information).
 
-In Phabricator, each object (like a task) can be tagged with multiple projects.
+In Phorge, each object (like a task) can be tagged with multiple projects.
 This is important in a flexible organizational tool, but is a liability in a
 policy tool.
 

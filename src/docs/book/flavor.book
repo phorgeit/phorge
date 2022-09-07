@@ -1,11 +1,11 @@
 {
-  "name": "phabflavor",
-  "title": "Phabricator Flavor Text",
+  "name": "flavor",
+  "title": "Phorge Flavor Text",
   "short": "Flavor Text",
-  "preface": "Recommendations, lore, and dark rituals.",
+  "preface": "A collection of short articles which pertain to software development in general, not necessarily to Phorge specifically.",
   "root": "../../../",
   "uri.source":
-    "https://secure.phabricator.com/diffusion/P/browse/master/%f$%l",
+    "https://we.phorge.it/diffusion/P/browse/master/%f$%l",
   "rules": {
     "(\\.diviner$)": "DivinerArticleAtomizer"
   },
@@ -20,14 +20,11 @@
     "(^webroot/rsrc/externals/)"
   ],
   "groups": {
-    "overview": {
-      "name": "Overview"
-    },
     "javascript": {
       "name": "Javascript"
     },
     "lore": {
-      "name": "Phabricator Lore"
+      "name": "Phorge Lore"
     },
     "php": {
       "name": "PHP"

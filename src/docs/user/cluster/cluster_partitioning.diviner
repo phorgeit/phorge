@@ -1,12 +1,12 @@
 @title Cluster: Partitioning and Advanced Configuration
 @group cluster
 
-Guide to partitioning Phabricator applications across multiple database hosts.
+Guide to partitioning Phorge applications across multiple database hosts.
 
 Overview
 ========
 
-You can partition Phabricator's applications across multiple databases. For
+You can partition Phorge's applications across multiple databases. For
 example, you can move an application like Files or Maniphest to a dedicated
 database host.
 
@@ -18,7 +18,7 @@ The advantages of doing this are:
     operating the cluster easier.
 
 This configuration is complex, and very few installs will benefit from pursuing
-it. Phabricator will normally run comfortably with a single database master
+it. Phorge will normally run comfortably with a single database master
 even for large organizations.
 
 Partitioning generally does not do much to increase resilience or make it
@@ -41,10 +41,10 @@ See "Advanced Configuration", below, for additional discussion.
 What Partitioning Does
 ======================
 
-When you partition Phabricator, you move all of the data for one or more
+When you partition Phorge, you move all of the data for one or more
 applications (like Maniphest) to a new master database host. This is possible
-because Phabricator stores data for each application in its own logical
-database (like `phabricator_maniphest`) and performs no joins between databases.
+because Phorge stores data for each application in its own logical
+database (like `phorge_maniphest`) and performs no joins between databases.
 
 If you're running into scale limits on a single master database, you can move
 one or more of your most commonly-used applications to a second database host
@@ -78,7 +78,7 @@ each `replica` database follows. Here's a simple example config:
   {
     "host": "db001.corporation.com",
     "role": "master",
-    "user": "phabricator",
+    "user": "phorge",
     "pass": "hunter2!trustno1",
     "port": 3306,
     "partition": [
@@ -88,7 +88,7 @@ each `replica` database follows. Here's a simple example config:
   {
     "host": "db002.corporation.com",
     "role": "replica",
-    "user": "phabricator",
+    "user": "phorge",
     "pass": "hunter2!trustno1",
     "port": 3306,
     "master": "db001.corporation.com:3306"
@@ -96,7 +96,7 @@ each `replica` database follows. Here's a simple example config:
   {
     "host": "db003.corporation.com",
     "role": "master",
-    "user": "phabricator",
+    "user": "phorge",
     "pass": "hunter2!trustno1",
     "port": 3306,
     "partition": [
@@ -108,7 +108,7 @@ each `replica` database follows. Here's a simple example config:
   {
     "host": "db004.corporation.com",
     "role": "replica",
-    "user": "phabricator",
+    "user": "phorge",
     "pass": "hunter2!trustno1",
     "port": 3306,
     "master": "db003.corporation.com:3306"
@@ -137,7 +137,7 @@ configuration.
 To commit the configuration, run this command:
 
 ```
-phabricator/ $ ./bin/storage partition
+phorge/ $ ./bin/storage partition
 ```
 
 Run this command after making any partition or clustering changes. Webservers
@@ -154,16 +154,16 @@ To add a new partition, follow these steps:
   - Add the new database to `cluster.databases`, but keep its "partition"
     configuration empty (just an empty list). If this is the first time you
     are partitioning, you will need to configure your existing master as the
-    new "default". This will let Phabricator interact with it, but won't send
+    new "default". This will let Phorge interact with it, but won't send
     any traffic to it yet.
   - Run `bin/storage partition`.
   - Run `bin/storage upgrade` to initialize the schemata on the new hosts.
-  - Stop writes to the applications you want to move by putting Phabricator
+  - Stop writes to the applications you want to move by putting Phorge
     in read-only mode, or shutting down the webserver and daemons, or telling
     everyone not to touch anything.
   - Dump the data from the application databases on the old master.
   - Load the data into the application databases on the new master.
-  - Reconfigure the "partition" setup so that Phabricator knows the databases
+  - Reconfigure the "partition" setup so that Phorge knows the databases
     have moved.
   - Run `bin/storage partition`.
   - While still in read-only mode, check that all the data appears to be
@@ -178,7 +178,7 @@ end-to-end before performing a larger, higher-stakes migration.
 How Partitioning Works
 ======================
 
-If you have multiple masters, Phabricator keeps the entire set of schemata up
+If you have multiple masters, Phorge keeps the entire set of schemata up
 to date on all of them. When you run `bin/storage upgrade` or other storage
 management commands, they generally affect all masters (if they do not, they
 will prompt you to be more specific).
@@ -197,7 +197,7 @@ There are some exceptions to this rule. For example, all masters keep track
 of which patches have been applied to that particular master so that
 `bin/storage upgrade` can upgrade hosts correctly.
 
-Phabricator does not perform joins across logical databases, so there are no
+Phorge does not perform joins across logical databases, so there are no
 meaningful differences in runtime behavior if two applications are on the same
 physical host or different physical hosts.
 
@@ -212,7 +212,7 @@ only one master.
 
 `persistent` //(bool)// Enables persistent connections. Defaults to off.
 
-With persistent connections enabled, Phabricator will keep a pool of database
+With persistent connections enabled, Phorge will keep a pool of database
 connections open between web requests and reuse them when serving subsequent
 requests.
 
@@ -224,7 +224,7 @@ because requests are unable to bind to an outbound port, enabling this option
 is likely to fix the issue. This option may also slightly increase performance.
 
 The cost of using persistent connections is that you may need to raise the
-MySQL `max_connections` setting: although Phabricator will make far fewer
+MySQL `max_connections` setting: although Phorge will make far fewer
 connections, the connections it does make will be longer-lived. Raising this
 setting will increase MySQL memory requirements and may run into other limits,
 like `open_files_limit`, which may also need to be raised.

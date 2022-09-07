@@ -6,7 +6,7 @@ Guide to configuring hosts to act as cluster devices.
 Cluster Context
 ===============
 
-This document describes a step in configuring Phabricator to run on
+This document describes a step in configuring Phorge to run on
 multiple hosts in a cluster configuration. This is an advanced feature. For
 more information on clustering, see @{article:Clustering Introduction}.
 
@@ -38,7 +38,7 @@ Today, this is primarily necessary when configuring repository clusters.
 Using Almanac
 =============
 
-The tool Phabricator uses to manage cluster devices is the **Almanac**
+The tool Phorge uses to manage cluster devices is the **Almanac**
 application, and most configuration will occur through the application's web
 UI. If you are not familiar with it, see @{article:Almanac User Guide} first.
 This document assumes you are familiar with Almanac concepts.
@@ -52,7 +52,7 @@ remainder of this document walks through these points in more detail.
 
   - Create an Almanac device record for each device.
   - Generate, add, and trust SSH keys if necessary.
-  - Install Phabricator on the host.
+  - Install Phorge on the host.
   - Use `bin/almanac register` from the host to register it as a device.
 
 See below for guidance on each of these steps.
@@ -76,7 +76,7 @@ setting up a small cluster (2-3 devices) for the first time.
 Using **shared keys** makes key management easier but safety checks won't be
 able to catch a few kinds of mistakes. This may be a better choice if you are
 setting up a larger cluster, plan to expand the cluster later, or have
-experience with Phabricator clustering.
+experience with Phorge clustering.
 
 Because all cluster keys are all-powerful, there is no material difference
 between these methods from a security or trust viewpoint. Unique keys are just
@@ -87,11 +87,11 @@ easier at larger scales.
 Create Almanac Device Records
 =============================
 
-For each host you plan to make part of a Phabricator cluster, go to the
+For each host you plan to make part of a Phorge cluster, go to the
 {nav Almanac} application and create a **device** record. For guidance on this
 application, see @{article:Almanac User Guide}.
 
-Add **interfaces** to each device record so Phabricator can tell how to
+Add **interfaces** to each device record so Phorge can tell how to
 connect to these hosts. Normally, you'll add one HTTP interface (usually on
 port 80) and one SSH interface (by default, on port 2222) to each device:
 
@@ -107,9 +107,9 @@ up with records that look like these:
 
 Note that these hosts will normally run two `sshd` ports: the standard `sshd`
 which you connect to to operate and administrate the host, and the special
-Phabricator `sshd` that you connect to to clone and push repositories.
+Phorge `sshd` that you connect to to clone and push repositories.
 
-You should specify the Phabricator `sshd` port, **not** the standard `sshd`
+You should specify the Phorge `sshd` port, **not** the standard `sshd`
 port.
 
 If you're using **unique** SSH keys for each device, continue to the next step.
@@ -141,8 +141,8 @@ in the web UI and run this command from the command line for each key, to mark
 each key as trusted:
 
 ```
-phabricator/ $ ./bin/almanac trust-key --id <key-id-1>
-phabricator/ $ ./bin/almanac trust-key --id <key-id-2>
+phorge/ $ ./bin/almanac trust-key --id <key-id-1>
+phorge/ $ ./bin/almanac trust-key --id <key-id-2>
 ...
 ```
 
@@ -153,27 +153,27 @@ policy checks without requiring additional credentials. Guard them carefully!
 If you need to revoke trust for a key later, use `untrust-key`:
 
 ```
-phabricator/ $ ./bin/almanac untrust-key --id <key-id>
+phorge/ $ ./bin/almanac untrust-key --id <key-id>
 ```
 
 Once the keys are trusted, continue to the next step.
 
 
-Install Phabricator
+Install Phorge
 ===================
 
-If you haven't already, install Phabricator on each device you plan to enroll
+If you haven't already, install Phorge on each device you plan to enroll
 in the cluster. Cluster repository devices must provide services over both HTTP
 and SSH, so you need to install and configure both a webserver and a
-Phabricator `sshd` on these hosts.
+Phorge `sshd` on these hosts.
 
 Generally, you will follow whatever process you otherwise use when installing
-Phabricator.
+Phorge.
 
 NOTE: Do not start the daemons on the new devices yet. They won't work properly
 until you've finished configuring things.
 
-Once Phabricator is installed, you can enroll the devices in the cluster by
+Once Phorge is installed, you can enroll the devices in the cluster by
 registering them.
 
 
@@ -223,7 +223,7 @@ with the trusted key. The `--identify-as` flag allows several different hosts
 to share the same key but still identify as different devices.
 
 The overall effect of the `bin/almanac` command is to copy identity and key
-files into `phabricator/conf/keys/`. You can inspect the results by examining
+files into `phorge/conf/keys/`. You can inspect the results by examining
 that directory. The helper script just catches potential mistakes and makes
 sure the process is completed correctly.
 

@@ -1,12 +1,12 @@
 @title Cluster: Repositories
 @group cluster
 
-Configuring Phabricator to use multiple repository hosts.
+Configuring Phorge to use multiple repository hosts.
 
 Overview
 ========
 
-If you use Git, you can deploy Phabricator with multiple repository hosts,
+If you use Git, you can deploy Phorge with multiple repository hosts,
 configured so that each host is readable and writable. The advantages of doing
 this are:
 
@@ -22,11 +22,11 @@ This configuration is not currently supported with Subversion or Mercurial.
 How Reads and Writes Work
 =========================
 
-Phabricator repository replicas are multi-master: every node is readable and
+Phorge repository replicas are multi-master: every node is readable and
 writable, and a cluster of nodes can (almost always) survive the loss of any
 arbitrary subset of nodes so long as at least one node is still alive.
 
-Phabricator maintains an internal version for each repository, and increments
+Phorge maintains an internal version for each repository, and increments
 it when the repository is mutated.
 
 Before responding to a read, replicas make sure their version of the repository
@@ -77,7 +77,7 @@ similar agents of other rogue nations is beyond the scope of this document.
 Repository Hosts
 ================
 
-Repository hosts must run a complete, fully configured copy of Phabricator,
+Repository hosts must run a complete, fully configured copy of Phorge,
 including a webserver. They must also run a properly configured `sshd`.
 
 If you are converting existing hosts into cluster hosts, you may need to
@@ -123,7 +123,7 @@ Almanac:
 
   - First, register at least one device according to the device clustering
     instructions.
-  - Create a new service of type **Phabricator Cluster: Repository** in
+  - Create a new service of type **Phorge Cluster: Repository** in
     Almanac.
   - Bind this service to all the interfaces on the device or devices.
   - For each binding, add a `protocol` key with one of these values:
@@ -170,11 +170,11 @@ To migrate a repository back off a service, use this command:
 $ ./bin/repository clusterize <repository> --remove-service
 ```
 
-This command only changes how Phabricator connects to the repository; it does
+This command only changes how Phorge connects to the repository; it does
 not move any data or make any complex structural changes.
 
-When Phabricator needs information about a non-clustered repository, it just
-runs a command like `git log` directly on disk. When Phabricator needs
+When Phorge needs information about a non-clustered repository, it just
+runs a command like `git log` directly on disk. When Phorge needs
 information about a clustered repository, it instead makes a service call to
 another server, asking that server to run `git log` instead.
 
@@ -213,9 +213,9 @@ To expand an existing cluster, follow these general steps:
 For instructions on configuring and registering devices, see
 @{article:Cluster: Devices}.
 
-As soon as you add active bindings to a service, Phabricator will begin
+As soon as you add active bindings to a service, Phorge will begin
 synchronizing repositories and sending traffic to the new device. You do not
-need to copy any repository data to the device: Phabricator will automatically
+need to copy any repository data to the device: Phorge will automatically
 synchronize it.
 
 If you have a large amount of repository data, you may want to help this
@@ -297,7 +297,7 @@ Configuration}.
 This screen shows all the configured devices which are hosting the repository
 and the available version on that device.
 
-**Version**: When a repository is mutated by a push, Phabricator increases
+**Version**: When a repository is mutated by a push, Phorge increases
 an internal version number for the repository. This column shows which version
 is on disk on the corresponding device.
 
@@ -335,9 +335,9 @@ There are three major cluster failure modes:
     are reachable.
   - **Ambiguous Leaders**: The internal state of the repository is unclear.
 
-Phabricator can detect these issues, and responds by freezing the repository
+Phorge can detect these issues, and responds by freezing the repository
 (usually preventing all reads and writes) until the issue is resolved. These
-conditions are normally rare and very little data is at risk, but Phabricator
+conditions are normally rare and very little data is at risk, but Phorge
 errs on the side of caution and requires decisions which may result in data
 loss to be confirmed by a human.
 
@@ -357,13 +357,13 @@ in a brief window during and immediately after a write. This looks like this:
   - During or immediately after the write, lightning strikes the server
     and destroys it.
 
-Phabricator can not commit changes to a working copy (stored on disk) and to
+Phorge can not commit changes to a working copy (stored on disk) and to
 the global state (stored in a database) atomically, so there is necessarily a
 narrow window between committing these two different states when some tragedy
 can befall a server, leaving the global and local views of the repository state
 possibly divergent.
 
-In these cases, Phabricator fails into a frozen state where further writes
+In these cases, Phorge fails into a frozen state where further writes
 are not permitted until the failure is investigated and resolved. When a
 repository is frozen in this way it remains readable.
 
@@ -391,7 +391,7 @@ was complete on disk. To demote the device and release the write lock, run this
 command:
 
 ```
-phabricator/ $ ./bin/repository thaw <repository> --demote <device>
+phorge/ $ ./bin/repository thaw <repository> --demote <device>
 ```
 
 {icon exclamation-triangle, color="yellow"} Any committed but unacknowledged
@@ -411,7 +411,7 @@ this:
     and destroys it.
 
 Here, all of the "leader" devices with the most up-to-date copy of the
-repository have been lost. Phabricator will freeze the repository refuse to
+repository have been lost. Phorge will freeze the repository refuse to
 serve requests because it can not serve reads consistently and can not accept
 new writes without data loss.
 
@@ -424,7 +424,7 @@ quickly, you can use the monitoring console to review which changes are
 present on the leaders but not present on the followers by examining the
 push logs.
 
-If you are comfortable discarding these changes, you can instruct Phabricator
+If you are comfortable discarding these changes, you can instruct Phorge
 that it can forget about the leaders by doing this:
 
   - Disable the service bindings to all of the leader devices so they are no
@@ -434,7 +434,7 @@ that it can forget about the leaders by doing this:
 To demote a device, run this command:
 
 ```
-phabricator/ $ ./bin/repository thaw rXYZ --demote repo002.corp.net
+phorge/ $ ./bin/repository thaw rXYZ --demote repo002.corp.net
 ```
 
 {icon exclamation-triangle, color="red"} Any data which is only present on
@@ -450,7 +450,7 @@ devices by using `--demote <service>` and `--all-repositories`. **This is
 dangerous and discards all unreplicated data in any repository on any device.**
 
 ```
-phabricator/ $ ./bin/repository thaw --demote repo.corp.net --all-repositories
+phorge/ $ ./bin/repository thaw --demote repo.corp.net --all-repositories
 ```
 
 After you do this, continue below to promote a leader and restore the cluster
@@ -474,15 +474,15 @@ error, like these:
 
 If you are moving repositories into cluster services, you can also reach this
 state if you use `clusterize` to associate a repository with a service that is
-bound to multiple active devices. In this case, Phabricator will not know which
+bound to multiple active devices. In this case, Phorge will not know which
 device or devices have up-to-date information.
 
-When Phabricator can not tell which device in a cluster is a leader, it freezes
+When Phorge can not tell which device in a cluster is a leader, it freezes
 the cluster because it is possible that some devices have less data and others
 have more, and if it chooses a leader arbitrarily it may destroy some data
 which you would prefer to retain.
 
-To resolve this, you need to tell Phabricator which device has the most
+To resolve this, you need to tell Phorge which device has the most
 up-to-date data and promote that device to become a leader. If you know all
 devices have the same data, you are free to promote any device.
 
@@ -496,7 +496,7 @@ Once you have identified a device which has data you're happy with, use
 device will become authoritative:
 
 ```
-phabricator/ $ ./bin/repository thaw rXYZ --promote repo002.corp.net
+phorge/ $ ./bin/repository thaw rXYZ --promote repo002.corp.net
 ```
 
 {icon exclamation-triangle, color="red"} Any data which is only present on
@@ -514,7 +514,7 @@ If something issues a `--force` push that destroys branch heads, the mutation
 will propagate to the replicas.
 
 You may be able to manually restore the branches by using tools like the
-Phabricator push log or the Git reflog so it is less important to retain
+Phorge push log or the Git reflog so it is less important to retain
 repository snapshots than database snapshots, but it is still possible for
 data to be lost permanently, especially if you don't notice the problem for
 some time.
@@ -543,8 +543,8 @@ changes may either encounter conflicts or encounter problems with change
 propagation.
 
 You can encounter conflicts because directly modifying the working copy on disk
-won't prevent users or Phabricator itself from performing writes to the same
-working copy at the same time. Phabricator does not compromise the lower-level
+won't prevent users or Phorge itself from performing writes to the same
+working copy at the same time. Phorge does not compromise the lower-level
 locks provided by the VCS so this is theoretically safe -- and this rarely
 causes any significant problems in practice -- but doesn't make things any
 simpler or easier.

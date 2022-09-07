@@ -1,7 +1,24 @@
-Effective June 1, 2021: Phabricator is no longer actively maintained.
+**Phorge** is a collection of web applications which help software companies build better software.
 
-**Phabricator** is a collection of web applications for software development.
+Phorge is a community-maintained fork of [Phabricator](http://phabricator.org).
+
+Phorge includes applications for:
+
+  - reviewing and auditing source code;
+  - hosting and browsing repositories;
+  - tracking bugs;
+  - managing projects;
+  - conversing with team members;
+  - assembling a party to venture forth;
+  - writing stuff down and reading it later;
+  - hiding stuff from coworkers; and
+  - also some other things.
+
+
+Phorge is developed and maintained by [The Phorge Team](https://phorge.it).
+
+----------
 
 **LICENSE**
 
-Phabricator is released under the Apache 2.0 license except as otherwise noted.
+Phorge is released under the Apache 2.0 license except as otherwise noted.

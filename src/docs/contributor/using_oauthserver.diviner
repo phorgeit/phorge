@@ -1,19 +1,19 @@
-@title Using the Phabricator OAuth Server
+@title Using the Phorge OAuth Server
 @group developer
 
-How to use the Phabricator OAuth Server.
+How to use the Phorge OAuth Server.
 
 = Overview =
 
-Phabricator includes an OAuth Server which supports the
+Phorge includes an OAuth Server which supports the
 `Authorization Code Grant` flow as described in the OAuth 2.0
 specification:
 
 http://tools.ietf.org/html/draft-ietf-oauth-v2-23
 
 This functionality can allow clients to integrate with a given
-Phabricator instance in a secure way with granular data access.
-For example, Phabricator can be used as a central identity store for any
+Phorge instance in a secure way with granular data access.
+For example, Phorge can be used as a central identity store for any
 clients that implement OAuth 2.0.
 
 = Vocabulary =
@@ -41,7 +41,7 @@ clients that implement OAuth 2.0.
 
 = Obtaining an Authorization Code =
 
-POST or GET `https://phabricator.example.com/oauthserver/auth/` with the
+POST or GET `https://phorge.example.com/oauthserver/auth/` with the
 following parameters:
 
 - Required - **client_id** - the id of the newly registered client.
@@ -69,14 +69,14 @@ redirect_uri with a valid authorization code.
 
 If there is an error, the OAuth Server will return a descriptive error
 message. This error will be presented to the resource owner on the
-Phabricator domain if there is reason to believe there is something fishy
+Phorge domain if there is reason to believe there is something fishy
 with the client. For example, if there is an issue with the redirect_uri.
 Otherwise, the OAuth Server will redirect to the pertinent redirect_uri
 and include the pertinent error information.
 
 = Obtaining an Access Token =
 
-POST or GET `https://phabricator.example.com/oauthserver/token/`
+POST or GET `https://phorge.example.com/oauthserver/token/`
 with the following parameters:
 
 - Required - **client_id** - the id of the client
@@ -101,7 +101,7 @@ message.
 Simply include a query param with the key of "access_token" and the value
 as the earlier obtained access token. For example:
 
-```https://phabricator.example.com/api/user.whoami?access_token=ykc7ly7vtibj334oga4fnfbuvnwz4ocp```
+```https://phorge.example.com/api/user.whoami?access_token=ykc7ly7vtibj334oga4fnfbuvnwz4ocp```
 
 If the token has expired or is otherwise invalid, the client will receive
 an error indicating as such. In these cases, the client should re-initiate

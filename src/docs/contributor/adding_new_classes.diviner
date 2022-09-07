@@ -1,22 +1,22 @@
 @title Adding New Classes
 @group developer
 
-Guide to adding new classes to extend Phabricator.
+Guide to adding new classes to extend Phorge.
 
 Overview
 ========
 
-Phabricator is highly modular, and many parts of it can be extended by adding
+Phorge is highly modular, and many parts of it can be extended by adding
 new classes. This document explains how to write new classes to change or
-expand the behavior of Phabricator.
+expand the behavior of Phorge.
 
-IMPORTANT: The upstream does not offer support with extension development.
+NOTE: The upstream offers limited support with extension development.
 
 Fundamentals
 ============
 
-Phabricator primarily discovers functionality by looking at concrete subclasses
-of some base class. For example, Phabricator determines which applications are
+Phorge primarily discovers functionality by looking at concrete subclasses
+of some base class. For example, Phorge determines which applications are
 available by looking at all of the subclasses of
 @{class@phabricator:PhabricatorApplication}. It
 discovers available workflows in `arc` by looking at all of the subclasses of
@@ -24,7 +24,7 @@ discovers available workflows in `arc` by looking at all of the subclasses of
 by looking at all of the subclasses of @{class@arcanist:PhutilLocale}.
 
 This pattern holds in many cases, so you can often add functionality by adding
-new classes with no other work. Phabricator will automatically discover and
+new classes with no other work. Phorge will automatically discover and
 integrate the new capabilities or features at runtime.
 
 There are two main ways to add classes:
@@ -42,20 +42,20 @@ The next sections walk through these approaches in greater detail.
 Extensions Directory
 ====================
 
-The easiest way to extend Phabricator by adding new classes is to drop them
-into the extensions directory, at `phabricator/src/extensions/`.
+The easiest way to extend Phorge by adding new classes is to drop them
+into the extensions directory, at `pohrge/src/extensions/`.
 
 This is intended as a quick way to add small pieces of functionality, test new
-features, or get started on a larger project. Extending Phabricator like this
+features, or get started on a larger project. Extending Phorge like this
 imposes a small performance penalty compared to using a library.
 
-This directory exists in all libphutil libraries, so you can find a similar
+This directory also exists for Arcanist, so you can find a similar
 directory in `arcanist/src/extensions/`.
 
 For example, to add a new application, create a file like this one and add it
-to `phabricator/src/extensions/`.
+to `phorge/src/extensions/`.
 
-```name=phabricator/src/extensions/ExampleApplication.php, lang=php
+```name=phorge/src/extensions/ExampleApplication.php, lang=php
 <?php
 
 final class ExampleApplication extends PhabricatorApplication {
@@ -69,15 +69,15 @@ final class ExampleApplication extends PhabricatorApplication {
 
 If you load {nav Applications} in the web UI, you should now see your new
 application in the list. It won't do anything yet since you haven't defined
-any interesting behavior, but this is the basic building block of Phabricator
+any interesting behavior, but this is the basic building block of Phorge
 extensions.
 
 
 Creating Libraries
 ==================
 
-A more powerful (but more complicated) way to extend Phabricator is to create
-a libphutil library. Libraries can organize a larger amount of code, are easier
+A more powerful (but more complicated) way to extend Phorge is to create
+a library. Libraries can organize a larger amount of code, are easier
 to work with and distribute, and have slightly better performance than loose
 source files in the extensions directory.
 
@@ -85,7 +85,7 @@ In general, you'll perform these one-time setup steps to create a library:
 
   - Create a new directory.
   - Use `arc liberate` to initialize and name the library.
-  - Configure Phabricator or Arcanist to load the library.
+  - Configure Phorge or Arcanist to load the library.
 
 Then, to add new code, you do this:
 
@@ -95,7 +95,7 @@ Then, to add new code, you do this:
 Initializing a Library
 ======================
 
-To create a new libphutil library, create a directory for it and run
+To create a new library, create a directory for it and run
 `arc liberate` on the directory. This documentation will use a conventional
 directory layout, which is recommended, but you are free to deviate from this.
 
@@ -143,38 +143,38 @@ This will write three files:
     (functions and classes) in the library, which allows them to be autoloaded
     at runtime and dependencies to be statically managed by `arc liberate`.
 
-Linking with Phabricator
-========================
+Linking with Phorge
+===================
 
-If you aren't using this library with Phabricator (e.g., you are only using it
-with Arcanist or are building something else on libphutil) you can skip this
+(NOTE) If you aren't using this library with Phorge (e.g., you are only using it
+with Arcanist or are building something else) you can skip this
 step.
 
-But, if you intend to use this library with Phabricator, you need to define its
-dependency on Phabricator by creating a `.arcconfig` file which points at
-Phabricator. For example, you might write this file to
+But, if you intend to use this library with Phorge, you need to define its
+dependency on Phorge by creating a `.arcconfig` file which points at
+Phorge. For example, you might write this file to
 `libcustom/.arcconfig`:
 
 ```lang=json
 {
   "load": [
-    "phabricator/src/"
+    "phorge/src/"
   ]
 }
 ```
 
 For details on creating a `.arcconfig`, see
 @{article:Arcanist User Guide: Configuring a New Project}. In general, this
-tells `arc liberate` that it should look for symbols in Phabricator when
+tells `arc liberate` that it should look for symbols in Phorge when
 performing static analysis.
 
-NOTE: If Phabricator isn't located next to your custom library, specify a
-path which actually points to the `phabricator/` directory.
+NOTE: If Phorge isn't located next to your custom library, specify a
+path which actually points to the `phorge/` directory.
 
 You do not need to declare dependencies on `arcanist`, since `arc liberate`
 automatically loads them.
 
-Finally, edit your Phabricator config to tell it to load your library at
+Finally, edit your Phorge config to tell it to load your library at
 runtime, by adding it to `load-libraries`:
 
 ```lang=json
@@ -185,7 +185,7 @@ runtime, by adding it to `load-libraries`:
 ...
 ```
 
-Now, Phabricator will be able to load classes from your custom library.
+Now, Phorge will be able to load classes from your custom library.
 
 
 Writing Classes
@@ -206,20 +206,20 @@ This will automatically regenerate the static map of the library.
 What You Can Extend And Invoke
 ==============================
 
-Arcanist and Phabricator are strict about extensibility of classes and
+Arcanist and Pohrge are strict about extensibility of classes and
 visibility of methods and properties. Most classes are marked `final`, and
 methods have the minimum required visibility (protected or private). The goal
 of this strictness is to make it clear what you can safely extend, access, and
 invoke, so your code will keep working as the upstream changes.
 
-IMPORTANT: We'll still break APIs frequently. The upstream does not support
-extension development, and none of these APIs are stable.
+IMPORTANT: We'll still break APIs frequently. The upstream offers limited
+ support for extension development, and none of these APIs are stable.
 
-When developing libraries to work with Arcanist and Phabricator, you should
+When developing libraries to work with Arcanist and Phorge, you should
 respect method and property visibility.
 
 If you want to add features but can't figure out how to do it without changing
-Phabricator code, here are some approaches you may be able to take:
+Phorge code, here are some approaches you may be able to take:
 
   - {icon check, color=green} **Use Composition**: If possible, use composition
     rather than extension to build your feature.
@@ -228,8 +228,7 @@ Phabricator code, here are some approaches you may be able to take:
   - {icon check, color=green} **File a Feature Request**: Let us know what your
     use case is so we can make the class tree more flexible or configurable, or
     point you at the right way to do whatever you're trying to do, or explain
-    why we don't let you do it. Note that we **do not support** extension
-    development so you may have mixed luck with this one.
+    why we don't let you do it.
 
 These approaches are **discouraged**, but also possible:
 
@@ -252,5 +251,5 @@ Next Steps
 
 Continue by:
 
-  - visiting the [[ https://secure.phabricator.com/w/community_resources/ |
+  - visiting the [[ https://we.phorge.it/w/community_resources/ |
     Community Resources ]] page to find or share extensions and libraries.

@@ -36,7 +36,7 @@ identifying the corporation they are signing on behalf of) or **No One** (for
 policy documents or other documents which do not require a signature).
 
 **Require Signature** This field allows you to create a document which all of
-your users must sign before they can use Phabricator, like a terms of service
+your users must sign before they can use Phorge, like a terms of service
 document. See "Use Case: Terms of Service" below for details. These documents
 must be signable by individuals.
 
@@ -84,7 +84,7 @@ do other things with their account (you'll need to agree to it, too, as soon
 as you save your changes, so that will give you a sense of the workflow).
 
 Note that although users who have not signed all of the required documents can
-not use most Phabricator functions, they can browse other Legalpad documents
+not use most Phorge functions, they can browse other Legalpad documents
 that they have permission to see. This allows a terms document to be
 supplemented with additional policy or guideline documents that users are free
 to review before agreeing to the terms.
@@ -123,13 +123,3 @@ To add an exemption, go to **Manage Document**, then **View Signatures**, then
 You can optionally add notes about why a user is exempt from signing a document.
 To review the notes later (and see who added the exemption), click the colored
 asterisk in the list view.
-
-
-Roadmap
-========
-
-You can find discussion about the Legalpad roadmap here:
-
-https://secure.phabricator.com/T5505
-
-If there are features you'd like to see, let us know.

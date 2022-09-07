@@ -1,7 +1,7 @@
 @title Assistive Technologies
 @group developer
 
-Information about making Phabricator accessible to assistive technologies.
+Information about making Phorge accessible to assistive technologies.
 
 Overview
 ========
@@ -10,9 +10,9 @@ Assistive technologies help people with disabilities use the web. For example,
 screen readers can assist people with limited or no eyesight by reading the
 contents of pages aloud.
 
-Phabricator has some support for assistive technologies, and we'd like to have
+Phorge has some support for assistive technologies, and we'd like to have
 more support. This document describes how to use the currently available
-features to improve the accessibility of Phabricator.
+features to improve the accessibility of Phorge.
 
 
 Aural-Only Elements
@@ -72,5 +72,5 @@ Previewing Aural Pages
 ======================
 
 To verify aural markup, you can add `?__aural__=1` to any page URI. This will
-make Phabricator render the page with styles that reveal aural-only elements and
+make Phorge render the page with styles that reveal aural-only elements and
 mute visual-only elements.

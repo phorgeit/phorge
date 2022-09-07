@@ -1,7 +1,7 @@
 @title General Coding Standards
 @group standards
 
-This document is a general coding standard for contributing to Phabricator,
+This document is a general coding standard for contributing to Phorge,
 Arcanist, and Diviner.
 
 = Overview =
@@ -60,7 +60,7 @@ And, obviously, don't do this sort of thing:
     determine if code is fast or slow by measuring it.
   - Reject performance discussions that aren't rooted in concrete data.
 
-In Phabricator, you can usually use the builtin XHProf profiling to quickly
+In Phorge, you can usually use the builtin XHProf profiling to quickly
 gather concrete performance data.
 
 

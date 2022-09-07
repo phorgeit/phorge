@@ -1,7 +1,7 @@
 @title User Guide: Customizing Forms
 @group userguide
 
-Guide to prefilling and customizing forms in Phabricator applications.
+Guide to prefilling and customizing forms in Phorge applications.
 
 Overview
 ========
@@ -194,17 +194,17 @@ they go to create new objects in an application.
 Using {nav Mark as "Create" Form} from the detail page for a form
 configuration, you can mark a form to appear in the create menu.
 
-When a user visits the application, Phabricator finds all the form
+When a user visits the application, Phorge finds all the form
 configurations that are:
 
   - marked as "create" forms; and
   - visible to the user based on policy configuration; and
   - enabled.
 
-If there is only one such form, Phabricator renders a single "Create" button.
+If there is only one such form, Phorge renders a single "Create" button.
 (If there are zero forms, it renders the button but disables it.)
 
-If there are several such forms, Phabricator renders a dropdown which allows
+If there are several such forms, Phorge renders a dropdown which allows
 the user to choose between them.
 
 You can reorder these forms by returning to the configuration list and using
@@ -446,7 +446,7 @@ the report like this:
     //after// creating it and open the policies; or
   - regardless of their edit form access, they can use the Conduit API to
     change the task policy; or
-  - regardless of any policy controls in Phabricator, they can screenshot,
+  - regardless of any policy controls in Phorge, they can screenshot,
     print, or forward email about the task to anyone; or
   - regardless of any technical controls in any software, they can decline to
     report the issue to you in the first place and sell it on the black market
@@ -473,7 +473,7 @@ current configuration may not be exactly the same as the one described below.
 
 We run an open source project with a small core team, a moderate number
 of regular contributors, and a large public userbase. Access to the upstream
-Phabricator instance is open to the public.
+Phorge instance is open to the public.
 
 Although our product is fairly technical, we receive many bug reports and
 feature requests which are of very poor quality. Some users also ignore all the

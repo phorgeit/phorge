@@ -29,7 +29,7 @@ Reminders are sent 15 minutes before events begin.
 Availability
 ============
 
-Across all applications, Phabricator shows a red dot next to usernames if the
+Across all applications, Phorge shows a red dot next to usernames if the
 user is currently attending an event. This provides a hint that they may be in
 a meeting (or on vacation) and could take a while to get back to you about a
 revision or task.

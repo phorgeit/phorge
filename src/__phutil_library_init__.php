@@ -1,3 +1,3 @@
 <?php
 
-phutil_register_library('phabricator', __FILE__);
+phutil_register_library('phorge', __FILE__);

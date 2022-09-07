@@ -11,7 +11,7 @@ lists of //devices// and //services// that humans and other applications can
 use to keep track of what is running where.
 
 Almanac is an infrastructure application that will normally be used by
-administrators to configure advanced Phabricator features. In most cases,
+administrators to configure advanced Phorge features. In most cases,
 normal users will very rarely interact with Almanac directly.
 
 At a very high level, Almanac can be thought of as a bit like a DNS server.
@@ -19,11 +19,11 @@ Callers ask it for information about services, and it responds with details
 about which devices host those services. However, it can respond to a broader
 range of queries and provide more detailed responses than DNS alone can.
 
-Today, the primary use cases for Almanac are internal to Phabricator:
+Today, the primary use cases for Almanac are internal to Phorge:
 
   - Providing a list of build servers to Drydock so it can run build and
     integration tasks.
-  - Configuring Phabricator to operate in a cluster setup.
+  - Configuring Phorge to operate in a cluster setup.
 
 Beyond internal uses, Almanac is a general-purpose service and device inventory
 application and can be used to configure and manage other types of service and

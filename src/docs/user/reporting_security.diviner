@@ -1,36 +1,17 @@
 @title Reporting Security Vulnerabilities
 @group intro
 
-Describes how to report security vulnerabilities in Phabricator.
+Describes how to report security vulnerabilities in Phorge.
 
 Overview
 ========
 
-Phabricator runs a disclosure and award program through
-[[ https://www.hackerone.com/ | HackerOne ]]. This program is the best way to
-submit security issues to us, and awards responsible disclosure of
-vulnerabilities with cash bounties. You can find our project page
-here:
+Phorge accepts bug reports on the upstream install.  Please use the
+[[https://we.phorge.it/maniphest/task/edit/form/1/ | security reporting form]]
+to report security vulnerabilities.
 
-(NOTE) https://hackerone.com/phabricator
+If you aren't sure if something qualifies, you can submit the issue as a normal
+ bug report. For instructions, see @{article:Contributing Bug Reports}.
 
-The project page has detailed information about the scope of the program and
-how to participate.
-
-We have a 24 hour response timeline, and are usually able to respond to (and,
-very often, fix) issues more quickly than that.
-
-
-Other Channels
-==============
-
-If you aren't sure if something qualifies or don't want to report via
-HackerOne, you can submit the issue as a normal bug report. For instructions,
-see @{article:Contributing Bug Reports}.
-
-
-Get Updated
-===========
-
-General information about security changes is reported weekly in the
-[[ https://secure.phabricator.com/w/changelog/ | Changelog ]].
+General information about security changes is reported in the
+[[ https://we.phorge.it/w/changelog/ | Changelog ]].

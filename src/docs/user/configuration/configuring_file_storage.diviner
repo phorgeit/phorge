@@ -6,8 +6,8 @@ Setup file storage and support for large files.
 Overview
 ========
 
-This document describes how to configure Phabricator to support large file
-uploads, and how to choose where Phabricator stores files.
+This document describes how to configure Phorge to support large file
+uploads, and how to choose where Phorge stores files.
 
 There are two major things to configure:
 
@@ -17,16 +17,16 @@ There are two major things to configure:
 The following sections will guide you through this configuration.
 
 
-How Phabricator Stores Files
+How Phorge Stores Files
 ============================
 
-Phabricator stores files in "storage engines", which are modular backends
+Phorge stores files in "storage engines", which are modular backends
 that implement access to some storage system (like MySQL, the filesystem, or
 a cloud storage service like Amazon S3).
 
-Phabricator stores large files by breaking them up into many chunks (a few
+Phorge stores large files by breaking them up into many chunks (a few
 megabytes in size) and storing the chunks in an underlying storage engine.
-This makes it easier to implement new storage engines and gives Phabricator
+This makes it easier to implement new storage engines and gives Phorge
 more flexibility in managing file data.
 
 The first section of this document discusses configuring your install so that
@@ -45,7 +45,7 @@ of the stack. Generally, the minimum value of all the limits is the effective
 one.
 
 To upload large files, you need to increase all the limits to at least
-**32MB**. This will allow you to upload file chunks, which will let Phabricator
+**32MB**. This will allow you to upload file chunks, which will let Phorge
 store arbitrarily large files.
 
 The settings which limit file uploads are:
@@ -62,20 +62,20 @@ somewhat larger than the desired maximum filesize.
   - **lighttpd**: lighttpd limits requests with the lighttpd
     `server.max-request-size` directive.
 
-Set the applicable limit to at least **32MB**. Phabricator can not read these
+Set the applicable limit to at least **32MB**. Phorge can not read these
 settings, so it can not raise setup warnings if they are misconfigured.
 
 **PHP**: PHP has several directives which limit uploads. These directives are
 found in `php.ini`.
 
   - **post_max_size**: Maximum POST request size PHP will accept. If you
-    exceed this, Phabricator will give you a useful error. This often defaults
-    to `8M`. Set this to at least `32MB`. Phabricator will give you a setup
+    exceed this, Phorge will give you a useful error. This often defaults
+    to `8M`. Set this to at least `32MB`. Phorge will give you a setup
     warning about this if it is set too low.
   - **memory_limit**: For some uploads, file data will be read into memory
-    before Phabricator can adjust the memory limit. If you exceed this, PHP
+    before Phorge can adjust the memory limit. If you exceed this, PHP
     may give you a useful error, depending on your configuration. It is
-    recommended that you set this to `-1` to disable it. Phabricator will
+    recommended that you set this to `-1` to disable it. Phorge will
     give you a setup warning about this if it is set too low.
 
 You may also want to configure these PHP options:
@@ -87,7 +87,7 @@ You may also want to configure these PHP options:
   - **upload_max_filesize**: Maximum file size PHP will accept in a raw file
     upload. This is not normally used when uploading files via drag-and-drop,
     but affects some other kinds of file uploads. If you exceed this,
-    Phabricator will give you a useful error. This often defaults to `2M`. Set
+    Phorge will give you a useful error. This often defaults to `2M`. Set
     this to at least `32MB`.
 
 Once you've adjusted all this configuration, your server will be able to
@@ -98,7 +98,7 @@ enable you to store arbitrarily large files.
 Storage Engines
 ===============
 
-Phabricator supports several different file storage engines:
+Phorge supports several different file storage engines:
 
 | Engine | Setup | Cost | Notes |
 |--------|-------|------|-------|
@@ -110,7 +110,7 @@ Phabricator supports several different file storage engines:
 You can review available storage engines and their configuration by navigating
 to {nav Applications > Files > Help/Options > Storage Engines} in the web UI.
 
-By default, Phabricator is configured to store files up to 1MB in MySQL, and
+By default, Phorge is configured to store files up to 1MB in MySQL, and
 reject files larger than 1MB. To store larger files, you can either:
 
   - increase the MySQL limit to at least 8MB; or
@@ -172,7 +172,7 @@ Testing Storage Engines
 =======================
 
 You can test that things are correctly configured by dragging and dropping
-a file onto the Phabricator home page. If engines have been configured
+a file onto the Phorge home page. If engines have been configured
 properly, the file should upload.
 
 Migrating Files Between Engines
@@ -183,11 +183,11 @@ script to perform migrations. For example, suppose you previously used MySQL but
 recently set up S3 and want to migrate all your files there. First, migrate one
 file to make sure things work:
 
-  phabricator/ $ ./bin/files migrate --engine amazon-s3 F12345
+  phorge/ $ ./bin/files migrate --engine amazon-s3 F12345
 
 If that works properly, you can then migrate everything:
 
-  phabricator/ $ ./bin/files migrate --engine amazon-s3 --all
+  phorge/ $ ./bin/files migrate --engine amazon-s3 --all
 
 You can use `--dry-run` to show which migrations would be performed without
 taking any action. Run `bin/files help` for more options and information.

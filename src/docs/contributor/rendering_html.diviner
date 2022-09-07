@@ -1,11 +1,11 @@
 @title Rendering HTML
 @group developer
 
-Rendering HTML in the Phabricator environment.
+Rendering HTML in the Phorge environment.
 
 = Overview =
 
-Phabricator attempts to prevent XSS by treating strings as default-unsafe when
+Phorge attempts to prevent XSS by treating strings as default-unsafe when
 rendering. This means that if you try to build HTML through string
 concatenation, it won't work: the string will be escaped by the rendering
 pipeline, and the browser will treat it as plain text, not HTML.
@@ -51,7 +51,7 @@ content correctly (without double-escaping):
       array(),
       $content));
 
-In Phabricator, the @{function:javelin_tag} function is similar to
+In Phorge, the @{function:javelin_tag} function is similar to
 @{function@arcanist:phutil_tag}, but provides special handling for the
 `sigil` and `meta` attributes.
 
@@ -117,7 +117,7 @@ If you need to build a list of items with some element in between each of them
 
 = AphrontView Classes =
 
-Subclasses of @{class:AphrontView} in Phabricator should return a
+Subclasses of @{class:AphrontView} in Phorge should return a
 @{class@arcanist:PhutilSafeHTML} object. The easiest way to do this is to
 return `phutil_tag()` or `javelin_tag()`:
 

@@ -8,7 +8,7 @@ Overview
 
 Diviner is an application for creating technical documentation.
 
-This article is maintained in a text file in the Phabricator repository and
+This article is maintained in a text file in the Phorge repository and
 generated into the display document you are currently reading using Diviner.
 
 Beyond generating articles, Diviner can also analyze source code and generate
@@ -20,7 +20,7 @@ Generating Documentation
 
 To generate documentation, run:
 
-  phabricator/ $ ./bin/diviner generate --book <book>
+  phorge/ $ ./bin/diviner generate --book <book>
 
 
 Diviner ".book" Files

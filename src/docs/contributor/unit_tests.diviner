@@ -1,11 +1,11 @@
 @title Writing Unit Tests
 @group developer
 
-Simple guide to Arcanist and Phabricator unit tests.
+Simple guide to Arcanist and Phorge unit tests.
 
 = Overview =
 
-Arcanist and Phabricator provide and use a simple unit test framework. This
+Arcanist and Phorge provide and use a simple unit test framework. This
 document is aimed at project contributors and describes how to use it to add
 and run tests in these projects or other libphutil libraries.
 
@@ -16,11 +16,11 @@ for information on customizing engines.
 
 = Adding Tests =
 
-To add new tests to a Arcanist or Phabricator module:
+To add new tests to a Arcanist or Phorge module:
 
   - Create a `__tests__/` directory in the module if it doesn't exist yet.
   - Add classes to the `__tests__/` directory which extend from
-    @{class:PhabricatorTestCase} (in Phabricator) or
+    @{class:PhabricatorTestCase} (in Phorge) or
     @{class@arcanist:PhutilTestCase} (elsewhere).
   - Run `arc liberate` on the library root so your classes are loadable.
 
@@ -38,7 +38,7 @@ Once you've added test classes, you can run them with:
 Here's a simple example test:
 
   lang=php
-  class PhabricatorTrivialTestCase extends PhabricatorTestCase {
+  class PhorgeTrivialTestCase extends PhabricatorTestCase {
 
     private $two;
 
@@ -56,7 +56,7 @@ Here's a simple example test:
 
 You can see this class at @{class:PhabricatorTrivialTestCase} and run it with:
 
-  phabricator/ $ arc unit src/infrastructure/testing/testcase/
+  phorge/ $ arc unit src/infrastructure/testing/testcase/
    PASS   <1ms*  testAllIsRightWithTheWorld
 
 For more information on writing tests, see
@@ -64,7 +64,7 @@ For more information on writing tests, see
 
 = Database Isolation =
 
-By default, Phabricator isolates unit tests from the database. It makes a crude
+By default, Phorge isolates unit tests from the database. It makes a crude
 effort to simulate some side effects (principally, ID assignment on insert), but
 any queries which read data will fail to select any rows and throw an exception
 about isolation. In general, isolation is good, but this can make certain types

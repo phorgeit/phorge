@@ -1,7 +1,7 @@
 @title Configuration Guide
 @group config
 
-This document contains basic configuration instructions for Phabricator.
+This document contains basic configuration instructions for Phorge.
 
 = Prerequisites =
 
@@ -11,7 +11,7 @@ If you haven't, see @{article:Installation Guide}.
 The next steps are:
 
   - Configure your webserver (Apache, nginx, or lighttpd).
-  - Access Phabricator with your browser.
+  - Access Phorge with your browser.
   - Follow the instructions to complete setup.
 
 = Webserver: Configuring Apache =
@@ -24,8 +24,8 @@ documentation for help. Make sure `mod_php` and `mod_rewrite` are enabled,
 and `mod_ssl` if you intend to set up SSL.
 
 If you haven't already, set up a domain name to point to the host you're
-installing on. You can either install Phabricator on a subdomain (like
-phabricator.example.com) or an entire domain, but you can not install it in
+installing on. You can either install Phorge on a subdomain (like
+phorge.example.com) or an entire domain, but you can not install it in
 some subdirectory of an existing website. Navigate to whatever domain you're
 going to use and make sure Apache serves you something to verify that DNS
 is correctly configured.
@@ -33,32 +33,32 @@ is correctly configured.
 NOTE: The domain must contain a dot ('.'), i.e. not be just a bare name like
 'http://example/'. Some web browsers will not set cookies otherwise.
 
-Now create a VirtualHost entry for Phabricator. It should look something like
+Now create a VirtualHost entry for Phorge. It should look something like
 this:
 
   name=httpd.conf
   <VirtualHost *>
     # Change this to the domain which points to your host.
-    ServerName phabricator.example.com
+    ServerName phorge.example.com
 
-    # Change this to the path where you put 'phabricator' when you checked it
-    # out from GitHub when following the Installation Guide.
+    # Change this to the path where you put 'phorge' when you checked it
+    # out from the upstream when following the Installation Guide.
     #
     # Make sure you include "/webroot" at the end!
-    DocumentRoot /path/to/phabricator/webroot
+    DocumentRoot /path/to/phorge/webroot
 
     RewriteEngine on
     RewriteRule ^(.*)$          /index.php?__path__=$1  [B,L,QSA]
   </VirtualHost>
 
 If Apache isn't currently configured to serve documents out of the directory
-where you put Phabricator, you may also need to add `<Directory />` section. The
+where you put Phorge, you may also need to add `<Directory />` section. The
 syntax for this section depends on which version of Apache you're running.
 (If you don't know, you can usually figure this out by running `httpd -v`.)
 For Apache versions older than 2.4, use this:
 
   name="Apache Older Than 2.4"
-  <Directory "/path/to/phabricator/webroot">
+  <Directory "/path/to/phorge/webroot">
     Order allow,deny
     Allow from all
   </Directory>
@@ -66,7 +66,7 @@ For Apache versions older than 2.4, use this:
 For Apache versions 2.4 and newer, use this:
 
   name="Apache 2.4 and Newer"
-  <Directory "/path/to/phabricator/webroot">
+  <Directory "/path/to/phorge/webroot">
     Require all granted
   </Directory>
 
@@ -81,8 +81,8 @@ For nginx, use a configuration like this:
 
   name=nginx.conf
   server {
-    server_name phabricator.example.com;
-    root        /path/to/phabricator/webroot;
+    server_name phorge.example.com;
+    root        /path/to/phorge/webroot;
 
     location / {
       index index.php;
@@ -121,8 +121,8 @@ up to their sections.
 
 For lighttpd, add a section like this to your lighttpd.conf:
 
-  $HTTP["host"] =~ "phabricator(\.example\.com)?" {
-      server.document-root = "/path/to/phabricator/webroot"
+  $HTTP["host"] =~ "phorge(\.example\.com)?" {
+      server.document-root = "/path/to/phorge/webroot"
       url.rewrite-once = (
           # This simulates QSA ("query string append") mode in apache
           "^(/[^?]*)\?(.*)" => "/index.php?__path__=$1&$2",
@@ -167,22 +167,22 @@ no one else will be able to sign up or log in. For more information, see
 
 During setup, you'll need to configure MySQL. To do this, get MySQL running and
 verify you can connect to it. Consult the MySQL documentation for help. When
-MySQL works, you need to load the Phabricator schemata into it. To do this, run:
+MySQL works, you need to load the Phorge schemata into it. To do this, run:
 
-  phabricator/ $ ./bin/storage upgrade
+  phorge/ $ ./bin/storage upgrade
 
 If your configuration uses an unprivileged user to connect to the database, you
 may have to override the default user so the schema changes can be applied with
 root or some other admin user:
 
-  phabricator/ $ ./bin/storage upgrade --user <user> --password <password>
+  phorge/ $ ./bin/storage upgrade --user <user> --password <password>
 
 You can avoid the prompt the script issues by passing the `--force` flag (for
 example, if you are scripting the upgrade process).
 
-  phabricator/ $ ./bin/storage upgrade --force
+  phorge/ $ ./bin/storage upgrade --force
 
-NOTE: When you update Phabricator, run `storage upgrade` again to apply any
+NOTE: When you update Phorge, run `storage upgrade` again to apply any
 new updates.
 
 = Next Steps =
@@ -200,7 +200,7 @@ Continue by:
     @{article:Configuring a Preamble Script}; or
   - configuring where uploaded files and attachments will be stored with
     @{article:Configuring File Storage}; or
-  - configuring Phabricator so it can send mail with
+  - configuring Phorge so it can send mail with
     @{article:Configuring Outbound Email}; or
   - configuring inbound mail with @{article:Configuring Inbound Email}; or
   - importing repositories with @{article:Diffusion User Guide}; or
@@ -209,4 +209,4 @@ Continue by:
     @{article:Notifications User Guide: Setup and Configuration}; or
   - configuring backups with
     @{article:Configuring Backups and Performing Migrations}; or
-  - contributing to Phabricator with @{article:Contributor Introduction}.
+  - contributing to Phorge with @{article:Contributor Introduction}.

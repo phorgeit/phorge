@@ -90,7 +90,7 @@ Now that the repository exists, you can add URIs to it. This is optional,
 and if you're creating a //hosted// repository you may be able to skip this
 step.
 
-However, if you want Phabricator to observe an existing remote, you'll
+However, if you want Phorge to observe an existing remote, you'll
 configure it here by adding a URI in "Observe" mode. Use the PHID from the
 previous step to identify the repository you want to add a URI to, and call
 `diffusion.uri.edit` to create a new URI in Observe mode for the repository.

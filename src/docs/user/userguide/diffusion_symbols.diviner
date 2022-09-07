@@ -5,7 +5,7 @@ Guide to configuring and using the symbol index.
 
 = Overview =
 
-Phabricator can maintain a symbol index, which keeps track of where classes
+Phorge can maintain a symbol index, which keeps track of where classes
 and functions are defined in the codebase. Once you set up indexing, you can
 use the index to do things like:
 
@@ -25,11 +25,11 @@ your codebase and set up a cronjob which pipes its output to:
 
   ./scripts/symbols/import_repository_symbols.php
 
-Phabricator includes a script which can identify symbols in PHP projects:
+Phorge includes a script which can identify symbols in PHP projects:
 
   ./scripts/symbols/generate_php_symbols.php
 
-Phabricator also includes a script which can identify symbols in any
+Phorge also includes a script which can identify symbols in any
 programming language that has classes and/or functions, and is supported by
 Exuberant Ctags (http://ctags.sourceforge.net):
 
@@ -59,7 +59,7 @@ from the project root (where ".arcconfig" is) beginning with a "/".
 You can look at `generate_php_symbols.php` for an example of how you might
 write such a script, and run this command to see its output:
 
-  $ cd phabricator/
+  $ cd phorge/
   $ find . -type f -name '*.php' | ./scripts/symbols/generate_php_symbols.php
 
 To actually build the symbol index, pipe this data to the
@@ -83,12 +83,12 @@ You can configure some more options by going to {nav Diffusion > (Select
     You can leave this blank for "All languages".
   - **Uses Symbols From**: If this project depends on other repositories, add
     the other repositories which symbols should be looked for here. For example,
-    Phabricator lists "Arcanist" because it uses classes and functions defined
+    Phorge lists "Arcanist" because it uses classes and functions defined
     in `arcanist/`.
 
 == External Symbols ==
 
-By @{article@phabcontrib:Adding New Classes}, you can teach Phabricator
+By @{article@contrib:Adding New Classes}, you can teach Phorge
 about symbols from the outside world.
 Extend @{class:DiffusionExternalSymbolsSource}; Once loaded, your new
 implementation will be used any time a symbol is queried.

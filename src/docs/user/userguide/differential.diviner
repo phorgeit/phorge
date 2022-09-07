@@ -5,7 +5,7 @@ Guide to the Differential (pre-push code review) tool and workflow.
 
 = Overview =
 
-Phabricator supports two code review workflows, "review" (pre-push) and
+Phorge supports two code review workflows, "review" (pre-push) and
 "audit" (post-push). To understand the differences between the two, see
 @{article:User Guide: Review vs Audit}.
 
@@ -14,7 +14,7 @@ This document summarizes the pre-push "review" workflow implemented by the tool
 
 = How Review Works =
 
-Code review in Phabricator is a lightweight, asynchronous web-based process. If
+Code review in Phorge is a lightweight, asynchronous web-based process. If
 you are familiar with GitHub, it is similar to how pull requests work:
 
   - An author prepares a change to a codebase, then sends it for review. They

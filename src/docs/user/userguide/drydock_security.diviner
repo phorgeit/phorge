@@ -14,7 +14,7 @@ anything you aren't comfortable with.
 For example, running unit tests on Drydock normally involves running relatively
 untrusted code (it often has a single author and has not yet been reviewed)
 that needs very few capabilities (generally, it only needs to be able to report
-results back to Phabricator). In contrast, automating merge requests on Drydock
+results back to Phorge). In contrast, automating merge requests on Drydock
 involves running trusted code that needs more access (it must be able to write
 to repositories).
 
@@ -61,11 +61,11 @@ configuring Drydock.
 | Custom | Special Requirements | Use multiple pools.
 | Absolute | Special Requirements | Completely isolate all resources.
 
-**Zero Isolation**: Run Drydock operations on the same host that Phabricator
-runs on. This is only suitable for developing or testing Phabricator. Any
-Drydock operation can potentially compromise Phabricator. It is intentionally
+**Zero Isolation**: Run Drydock operations on the same host that Phorge
+runs on. This is only suitable for developing or testing Phorge. Any
+Drydock operation can potentially compromise Phorge. It is intentionally
 difficult to configure Drydock to operate in this mode. Running Drydock
-operations on the Phabricator host is strongly discouraged.
+operations on the Phorge host is strongly discouraged.
 
 **Low Isolation**: Designate a separate Drydock host and run Drydock
 operations on it. This is suitable for small installs and provides a reasonable
@@ -105,14 +105,14 @@ approach which defuses only the threats you care about.
 Attackers have three primary targets:
 
   - capturing hosts;
-  - compromising Phabricator; and
+  - compromising Phorge; and
   - compromising the integrity of other Drydock processes.
 
 **Attacks against hosts** are the least sophisticated. In this scenario, an
 attacker wants to run a program like a Bitcoin miner or botnet client on
 hardware that they aren't paying for or which can't be traced to them. They
 write a "unit test" or which launches this software, then send a revision
-containing this "unit test" for review. If Phabricator is configured to
+containing this "unit test" for review. If Phorge is configured to
 automatically run tests on new revisions, it may execute automatically and give
 the attacker access to computing resources they did not previously control and
 which can not easily be traced back to them.
@@ -125,22 +125,22 @@ prevent untrusted, anonymous contributors from running tests. For example,
 create a "Trusted Contributors" project and only run tests if a revision author
 is a member of the project.
 
-**Attacks against Phabricator** are more sophisticated. In this scenario, an
-attacker tries to compromise Phabricator itself (for example, to make themselves
+**Attacks against Phorge** are more sophisticated. In this scenario, an
+attacker tries to compromise Phorge itself (for example, to make themselves
 an administrator or gain access to an administrator account).
 
-This is made possible if Drydock is running on the same host as Phabricator or
-runs on a privileged subnet with access to resources like Phabricator database
+This is made possible if Drydock is running on the same host as Phorge or
+runs on a privileged subnet with access to resources like Phorge database
 hosts. Most installs should be concerned about this attack.
 
 The best way to defuse this attack is to run Drydock processes on a separate
 host which is not on a privileged subnet. For example, use a
 `build.mycompany.com` host or pool for Drydock processes, separate from your
-`phabricator.mycompany.com` host or pool.
+`phorge.mycompany.com` host or pool.
 
 Even if the host is not privileged, many Drydock processes have some level of
 privilege (enabling them to clone repositories, or report test results back to
-Phabricator). Be aware that tests can hijack credentials they are run with,
+Phorge). Be aware that tests can hijack credentials they are run with,
 and potentially hijack credentials given to other processes on the same hosts.
 You should use credentials with a minimum set of privileges and assume all
 processes on a host have the highest level of access that any process on the

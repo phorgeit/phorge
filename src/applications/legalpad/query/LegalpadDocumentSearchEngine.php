@@ -53,7 +53,7 @@ final class LegalpadDocumentSearchEngine
     }
 
     if ($map['contributorPHIDs']) {
-      $query->withContributorPHIDs($map['creatorPHIDs']);
+      $query->withContributorPHIDs($map['contributorPHIDs']);
     }
 
     if ($map['creatorPHIDs']) {
@@ -185,8 +185,7 @@ final class LegalpadDocumentSearchEngine
       ->setIcon($icon)
       ->setTitle(pht('Welcome to %s', $app_name))
       ->setDescription(
-        pht('Create documents and track signatures. Can also be re-used in '.
-            'other areas of Phabricator, like CLAs.'))
+        pht('Create documents and track signatures.'))
       ->addAction($create_button);
 
       return $view;

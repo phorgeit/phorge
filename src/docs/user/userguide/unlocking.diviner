@@ -6,7 +6,7 @@ Explains how to access locked or invisible objects and accounts.
 Overview
 ========
 
-Phabricator tries to make it difficult for users to lock themselves out of
+Phorge tries to make it difficult for users to lock themselves out of
 things, but you can occasionally end up in situations where no one has access
 to an object that you need access to.
 

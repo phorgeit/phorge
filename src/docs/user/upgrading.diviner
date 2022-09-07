@@ -1,12 +1,12 @@
-@title Upgrading Phabricator
+@title Upgrading Phorge
 @group intro
 
-This document contains instructions for keeping Phabricator up to date.
+This document contains instructions for keeping Phorge up to date.
 
 Overview
 ========
 
-Phabricator is under active development, and new features are released
+Phorge is under active development, and new features are released
 continuously. Staying up to date will keep your install secure.
 
 We recommend installs upgrade regularly (every 1-2 weeks). Upgrades usually go
@@ -18,8 +18,8 @@ to a useful new feature or an important security change.
 Staying On Top of Changes
 =========================
 
-We release a weekly [[https://secure.phabricator.com/w/changelog | Changelog]],
-which describes changes in the previous week. You can look at the changelogs
+We release a [[https://we.phorge.it/w/changelog | Changelog]],
+which describes changes over time. You can look at the changelogs
 for an idea of what new features are available, upcoming changes, security
 information, and warnings about compatibility issues or migrations.
 
@@ -27,21 +27,18 @@ information, and warnings about compatibility issues or migrations.
 Stable Branch
 =============
 
-You can either run the `master` or `stable` branch of Phabricator. The `stable`
-branch is run in the [[ https://phacility.com | Phacility Cluster ]], and lags
-about a week behind `master`.
+You can either run the `master` or `stable` branch of Phorge. The `stable`
+branch is a little more stable than `master`, and may be helpful if you
+administrate a larger install.
 
-The `stable` branch is a little more stable than `master`, and may be helpful
-if you administrate a larger install.
-
-We promote `master` to `stable` about once a week, then publish the changelog
-and deploy the cluster. During the week, major bugfixes are cherry-picked to
-the `stable` branch. The changelog lists the `stable` hashes for that week,
-as well as any fixes which were cherry-picked.
+We promote `master` to `stable` frequently, then publish the changelog. During
+the week, major bugfixes are cherry-picked to the `stable` branch. The changelog
+ lists the `stable` hashes for that week, as well as any fixes which were
+ cherry-picked.
 
 To switch to `stable`, check the branch out in each working copy:
 
-  phabricator/ $ git checkout stable
+  phorge/ $ git checkout stable
   arcanist/ $ git checkout stable
 
 You can now follow the upgrade process normally.
@@ -50,26 +47,26 @@ You can now follow the upgrade process normally.
 Upgrade Process
 ===============
 
-IMPORTANT: You **MUST** restart Phabricator after upgrading. For help, see
-@{article:Restarting Phabricator}.
+IMPORTANT: You **MUST** restart Phorge after upgrading. For help, see
+@{article:Restarting Phorge}.
 
-IMPORTANT: You **MUST** upgrade `arcanist` and `phabricator` at the same time.
+IMPORTANT: You **MUST** upgrade `arcanist` and `phorge` at the same time.
 
-Phabricator runs on many different systems, with many different webservers.
+Phorge runs on many different systems, with many different webservers.
 Given this diversity, we don't currently maintain a comprehensive upgrade
 script which can work on any system. However, the general steps are the same
 on every system:
 
   - Stop the webserver (including `php-fpm`, if you use it).
-  - Stop the daemons, with `phabricator/bin/phd stop`.
-  - Run `git pull` in `arcanist/` and `phabricator/`.
-  - Run `phabricator/bin/storage upgrade`.
-  - Start the daemons, with `phabricator/bin/phd start`.
+  - Stop the daemons, with `phorge/bin/phd stop`.
+  - Run `git pull` in `arcanist/` and `phorge/`.
+  - Run `phorge/bin/storage upgrade`.
+  - Start the daemons, with `phorge/bin/phd start`.
   - Restart the webserver (and `php-fpm`, if you stopped it earlier).
 
 For some more discussion details, see @{article:Configuration Guide}.
 
-This template script roughly outlines the steps required to upgrade Phabricator.
+This template script roughly outlines the steps required to upgrade Phorge.
 You'll need to adjust paths and commands a bit for your particular system:
 
 ```lang=sh
@@ -78,23 +75,23 @@ You'll need to adjust paths and commands a bit for your particular system:
 set -e
 set -x
 
-# This is an example script for updating Phabricator, similar to the one used to
-# update <https://secure.phabricator.com/>. It might not work perfectly on your
+# This is an example script for updating Phorge, similar to the one used to
+# update <https://we.phorge.it/>. It might not work perfectly on your
 # system, but hopefully it should be easy to adapt. This script is not intended
 # to work without modifications.
 
 # NOTE: This script assumes you are running it from a directory which contains
-# arcanist/, and phabricator/.
+# arcanist/, and phorge/.
 
 ROOT=`pwd` # You can hard-code the path here instead.
 
 ### STOP WEB SERVER AND DAEMONS ###############################################
 
 # Stop daemons.
-$ROOT/phabricator/bin/phd stop
+$ROOT/phorge/bin/phd stop
 
 # If running the notification server, stop it.
-# $ROOT/phabricator/bin/aphlict stop
+# $ROOT/phorge/bin/aphlict stop
 
 # Stop the webserver (apache, nginx, lighttpd, etc). This command will differ
 # depending on which system and webserver you are running: replace it with an
@@ -108,20 +105,20 @@ sudo /etc/init.d/httpd stop
 cd $ROOT/arcanist
 git pull
 
-cd $ROOT/phabricator
+cd $ROOT/phorge
 git pull
 
 # Upgrade the database schema. You may want to add the "--force" flag to allow
 # this script to run noninteractively.
-$ROOT/phabricator/bin/storage upgrade
+$ROOT/phorge/bin/storage upgrade
 
 # Restart the webserver. As above, this depends on your system and webserver.
 # NOTE: If you're running php-fpm, restart it here too.
 sudo /etc/init.d/httpd start
 
 # Restart daemons.
-$ROOT/phabricator/bin/phd start
+$ROOT/phorge/bin/phd start
 
 # If running the notification server, start it.
-# $ROOT/phabricator/bin/aphlict start
+# $ROOT/phorge/bin/aphlict start
 ```

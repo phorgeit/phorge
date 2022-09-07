@@ -1,11 +1,11 @@
 @title Managing Daemons with phd
 @group config
 
-Explains Phabricator daemons and the daemon control program `phd`.
+Explains Phorge daemons and the daemon control program `phd`.
 
 = Overview =
 
-Phabricator uses daemons (background processing scripts) to handle a number of
+Phorge uses daemons (background processing scripts) to handle a number of
 tasks:
 
   - tracking repositories, discovering new commits, and importing and parsing
@@ -16,19 +16,19 @@ tasks:
 Daemons are started and stopped with **phd** (the **Ph**abricator **D**aemon
 launcher). Daemons can be monitored via a web console.
 
-You do not need to run daemons for most parts of Phabricator to work, but some
+You do not need to run daemons for most parts of Phorge to work, but some
 features (principally, repository tracking with Diffusion) require them and
 several features will benefit in performance or stability if you configure
 daemons.
 
 = phd =
 
-**phd** is a command-line script (located at `phabricator/bin/phd`). To get
+**phd** is a command-line script (located at `phorge/bin/phd`). To get
 a list of commands, run `phd help`:
 
-  phabricator/ $ ./bin/phd help
+  phorge/ $ ./bin/phd help
   NAME
-          phd - phabricator daemon launcher
+          phd - phorge daemon launcher
   ...
 
 Generally, you will use:
@@ -43,7 +43,7 @@ If you want finer-grained control, you can use:
   - **phd launch** to launch individual daemons; and
   - **phd debug** to debug problems with daemons.
 
-NOTE: When you upgrade Phabricator or change configuration, you should restart
+NOTE: When you upgrade Phorge or change configuration, you should restart
 the daemons by running `phd restart`.
 
 = Daemon Console =
@@ -81,12 +81,12 @@ launch custom daemons, or launch special daemons like the IRC bot.
 
 To debug a daemon, use `phd debug`:
 
-  phabricator/bin/ $ ./phd debug <daemon>
+  phorge/bin/ $ ./phd debug <daemon>
 
 You can pass arguments like this (normal arguments are passed to the daemon
 control mechanism, not to the daemon itself):
 
-  phabricator/bin/ $ ./phd debug <daemon> -- --flavor apple
+  phorge/bin/ $ ./phd debug <daemon> -- --flavor apple
 
 In debug mode, daemons do not daemonize, and they print additional debugging
 output to the console. This should make it easier to debug problems. You can
@@ -94,7 +94,7 @@ terminate the daemon with `^C`.
 
 To launch a nonstandard daemon, use `phd launch`:
 
-  phabricator/bin/ $ ./phd launch <daemon>
+  phorge/bin/ $ ./phd launch <daemon>
 
 This daemon will daemonize and run normally.
 
@@ -109,7 +109,7 @@ This daemon will daemonize and run normally.
     just those started with `phd start`. If you're writing a restart script,
     have it launch any custom daemons explicitly after `phd restart`.
   - You can write your own daemons and manage them with `phd` by extending
-    @{class:PhabricatorDaemon}. See @{article@phabcontrib:Adding New Classes}.
+    @{class:PhabricatorDaemon}. See @{article@contrib:Adding New Classes}.
   - See @{article:Diffusion User Guide} for details about tuning the repository
     daemon.
 
@@ -128,4 +128,4 @@ Continue by:
 
   - learning about the repository daemon with @{article:Diffusion User Guide};
     or
-  - writing your own daemons with @{article@phabcontrib:Adding New Classes}.
+  - writing your own daemons with @{article@contrib:Adding New Classes}.

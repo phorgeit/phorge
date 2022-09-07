@@ -6,7 +6,7 @@ Discusses using Amazon RDS as a database.
 Overview
 ========
 
-Phabricator works with Amazon RDS. However, most of our documentation and setup
+Phorge works with Amazon RDS. However, most of our documentation and setup
 checks assume you are using local MySQL, and upstream support is less available
 for RDS.
 

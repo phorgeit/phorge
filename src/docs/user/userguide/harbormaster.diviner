@@ -10,7 +10,7 @@ WARNING: Harbormaster is still very rough. Read this document carefully to
 understand what it can and can not do and what to expect in the future.
 
 The Harbormaster application provides build and continuous integration support
-for Phabricator.
+for Phorge.
 
 Harbormaster is not a mature application. You should expect it to have major
 missing capabilities and to change substantially over time. The current version
@@ -95,7 +95,7 @@ plans should therefore look something like this:
   - Have the build step "Wait for Message" after the external system is
     notified.
   - Write custom code on the build server to respond to the request, run a
-    build, then report the results back to Phabricator by calling the
+    build, then report the results back to Phorge by calling the
     `harbormaster.sendmessage` Conduit API.
 
 You'll need to write a nontrivial amount of code to get this working today.
@@ -149,7 +149,7 @@ side effect of running `arc diff`. In Git, it pushes changes to a tag like
 The build system can then interact with this copy using normal VCS commands.
 This is simpler to configure, use, troubleshoot and work with than `arc patch`.
 
-With `arc patch`, the build system downloads patches from Phabricator and
+With `arc patch`, the build system downloads patches from Phorge and
 applies them to a local working copy. This is more complex and more error-prone
 than staging areas.
 
@@ -201,7 +201,7 @@ area repository and do a checkout of the relevant tag in order to perform a
 build.
 
 **`arc patch`**: You can also have the build system pull changes out of
-Phabricator as patches and apply them with `arc patch`. This mechanism is the
+Phorge as patches and apply them with `arc patch`. This mechanism is the
 most complex to configure and debug, and is much less reliable than using
 staging areas. It is not recommended.
 
@@ -225,6 +225,6 @@ line. Run it as `bin/harbormaster help` for details.
 In particular, you can run manual builds in the foreground from the CLI to see
 more details about what they're doing:
 
-  phabricator/ $ ./bin/harbormaster build D123 --plan 456 --trace
+  phorge/ $ ./bin/harbormaster build D123 --plan 456 --trace
 
 This may help you understand or debug issues with a build plan.

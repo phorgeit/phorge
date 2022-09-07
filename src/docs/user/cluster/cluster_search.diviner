@@ -4,10 +4,10 @@
 Overview
 ========
 
-You can configure Phabricator to connect to one or more fulltext search
+You can configure Phorge to connect to one or more fulltext search
 services.
 
-By default, Phabricator will use MySQL for fulltext search. This is suitable
+By default, Phorge will use MySQL for fulltext search. This is suitable
 for most installs. However, alternate engines are supported.
 
 
@@ -33,10 +33,10 @@ like this:
 ]
 ```
 
-When a user makes a change to a document, Phabricator writes the updated
+When a user makes a change to a document, Phorge writes the updated
 document into every configured, writable fulltext service.
 
-When a user issues a query, Phabricator tries configured, readable services
+When a user issues a query, Phorge tries configured, readable services
 in order until it is able to execute the query successfully.
 
 These options are supported by all service types:
@@ -141,7 +141,7 @@ After adding new search services, you will need to rebuild document indexes
 on them. To do this, first initialize the services:
 
 ```
-phabricator/ $ ./bin/search init
+phorge/ $ ./bin/search init
 ```
 
 This will perform index setup steps and other one-time configuration.
@@ -149,14 +149,14 @@ This will perform index setup steps and other one-time configuration.
 To populate documents in all indexes, run this command:
 
 ```
-phabricator/ $ ./bin/search index --force --background --type all
+phorge/ $ ./bin/search index --force --background --type all
 ```
 
 This initiates an exhaustive rebuild of the document indexes. To get a more
 detailed list of indexing options available, run:
 
 ```
-phabricator/ $ ./bin/search help index
+phorge/ $ ./bin/search help index
 ```
 
 
@@ -166,7 +166,7 @@ Advanced Example
 This is a more advanced example which shows a configuration with multiple
 different services in different roles. In this example:
 
-  - Phabricator is using an Elasticsearch 2 service as its primary fulltext
+  - Phorge is using an Elasticsearch 2 service as its primary fulltext
     service.
   - An Elasticsearch 5 service is online, but only receiving writes.
   - The MySQL service is serving as a backup if Elasticsearch fails.

@@ -2,7 +2,9 @@
 
 final class LegalpadDocumentSignature
   extends LegalpadDAO
-  implements PhabricatorPolicyInterface {
+  implements
+    PhabricatorPolicyInterface,
+    PhabricatorConduitResultInterface {
 
   const VERIFIED = 0;
   const UNVERIFIED = 1;
@@ -23,6 +25,7 @@ final class LegalpadDocumentSignature
 
   protected function getConfiguration() {
     return array(
+      self::CONFIG_AUX_PHID => true,
       self::CONFIG_SERIALIZATION => array(
         'signatureData' => self::SERIALIZATION_JSON,
       ),
@@ -51,6 +54,14 @@ final class LegalpadDocumentSignature
     ) + parent::getConfiguration();
   }
 
+  public function getPHIDType() {
+    return PhabricatorLegalpadDocumentSignaturePHIDType::TYPECONST;
+  }
+
+  public function generatePHID() {
+    return PhabricatorPHID::generateNewPHID($this->getPHIDType());
+  }
+
   public function save() {
     if (!$this->getSecretKey()) {
       $this->setSecretKey(Filesystem::readRandomCharacters(20));
@@ -69,6 +80,76 @@ final class LegalpadDocumentSignature
   public function attachDocument(LegalpadDocument $document) {
     $this->document = $document;
     return $this;
+  }
+
+  public function getSignerPHID() {
+    return $this->signerPHID;
+  }
+
+  public function getIsExemption() {
+    return (bool)$this->isExemption;
+  }
+
+  public function getExemptionPHID() {
+    return $this->exemptionPHID;
+  }
+
+  public function getSignerName() {
+    return $this->signerName;
+  }
+
+  public function getSignerEmail() {
+    return $this->signerEmail;
+  }
+
+  public function getDocumentVersion() {
+    return (int)$this->documentVersion;
+  }
+
+/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+
+  public function getFieldSpecificationsForConduit() {
+    return array(
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('documentPHID')
+        ->setType('phid')
+        ->setDescription(pht('The PHID of the document')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('signerPHID')
+        ->setType('phid?')
+        ->setDescription(pht('The PHID of the signer')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('exemptionPHID')
+        ->setType('phid?')
+        ->setDescription(pht('The PHID of the user who granted the exemption')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('signerName')
+        ->setType('string')
+        ->setDescription(pht('The name used by the signer.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('signerEmail')
+        ->setType('string')
+        ->setDescription(pht('The email used by the signer.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('isExemption')
+        ->setType('bool')
+        ->setDescription(pht('Whether or not this signature is an exemption')),
+    );
+  }
+
+  public function getFieldValuesForConduit() {
+    return array(
+      'documentPHID' => $this->getDocumentPHID(),
+      'signerPHID' => $this->getSignerPHID(),
+      'exemptionPHID' => $this->getExemptionPHID(),
+      'signerName' => $this->getSignerName(),
+      'signerEmail' => $this->getSignerEmail(),
+      'isExemption' => $this->getIsExemption(),
+    );
+  }
+
+  public function getConduitSearchAttachments() {
+    return array();
   }
 
 

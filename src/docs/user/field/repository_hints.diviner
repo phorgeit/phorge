@@ -6,7 +6,7 @@ Dealing with rewrites of published repositories and other unusual problems.
 Overview
 ========
 
-Some repositories have unusual commits. You can provide "hints" to Phabricator
+Some repositories have unusual commits. You can provide "hints" to Phorge
 about these commits to improve behavior.
 
 Supported hints are:
@@ -17,7 +17,7 @@ Supported hints are:
     new pages.
   - **Unreadable Commits**: If some commits are not readable (which is rare,
     but can happen in some cases if they are generated with an external tool)
-    you can provide hints so that Phabricator doesn't try to read them.
+    you can provide hints so that Phorge doesn't try to read them.
 
 The remainder of this document explains how to create and remove hints, and how
 to specify each type of hint.
@@ -28,7 +28,7 @@ Creating Hints
 To create hints, pipe a JSON list of hints to `bin/repository hint`:
 
 ```
-phabricator/ $ cat hints.json | ./bin/repository hint
+phorge/ $ cat hints.json | ./bin/repository hint
 ```
 
 The hints should be a list of objects like this:
@@ -76,7 +76,7 @@ For example, use a hint specification like this:
 ]
 ```
 
-Phabricator won't treat commits without any hint specially.
+Phorge won't treat commits without any hint specially.
 
 
 Hint: Rewritten Commits
@@ -104,13 +104,13 @@ For example, a hint might look like this:
 ]
 ```
 
-Phabricator will show users that the commit was rewritten in the web UI.
+Phorge will show users that the commit was rewritten in the web UI.
 
 
 Hint: Unreadable Commits
 ========================
 
-The `"unreadable"` hint allows you to tell Phabricator that it should not
+The `"unreadable"` hint allows you to tell Phorge that it should not
 bother trying to read the changes associated with a particular commit. In
 some rare cases, repositories can contain commits which aren't readable
 (for example, if they were created by external tools during an import or
@@ -130,5 +130,5 @@ For example, a hint might look like this:
 ]
 ```
 
-Phabricator won't try to read, parse, import, or display the changes associated
+Phorge won't try to read, parse, import, or display the changes associated
 with this commit.

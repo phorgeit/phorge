@@ -1,7 +1,7 @@
 @title Command Line Exit Codes
 @group fieldmanual
 
-Explains the use of exit codes in Phabricator command line scripts.
+Explains the use of exit codes in Phorge command line scripts.
 
 Overview
 ========
@@ -21,7 +21,7 @@ like `cmdx && cmdy` operate on exit codes.
 The code `0` means success. Other codes signal some sort of error or status
 condition, depending on the system and command.
 
-With rare exception, Phabricator uses //all other codes// to signal
+With rare exception, Phorge uses //all other codes// to signal
 **catastrophic failure**.
 
 This is an explicit architectural decision and one we are unlikely to deviate
@@ -35,10 +35,10 @@ they are not appropriate for communicating application state in a modern
 operational environment. This document explains the reasoning behind our use of
 exit codes in more detail.
 
-In particular, this approach is informed by a focus on operating Phabricator
+In particular, this approach is informed by a focus on operating Phorge
 clusters at scale. This is not a common deployment scenario, but we consider it
 the most important one. Our use of exit codes makes it easier to deploy and
-operate a Phabricator cluster at larger scales. It makes it slightly harder to
+operate a Phorge cluster at larger scales. It makes it slightly harder to
 deploy and operate a small cluster or single host by gluing together `bash`
 scripts. We are willingly trading the small scale away for advantages at larger
 scales.
@@ -56,11 +56,10 @@ operations environment faces different forces than the interactive shell did
 in the 1970s, particularly at scale.
 
 We consider correctness to be very important to modern operations environments.
-In particular, we manage a Phabricator cluster (Phacility) and believe that
-having reliable, repeatable processes for provisioning, configuration and
-deployment is critical to maintaining and scaling our operations. Our use of
-exit codes makes it easier to implement processes that are correct and reliable
-on top of Phabricator management scripts.
+In particular, we believe that having reliable, repeatable processes for
+provisioning, configuration and deployment is critical to maintaining and
+scaling our operations. Our use of exit codes makes it easier to implement
+processes that are correct and reliable on top of Phorge management scripts.
 
 Exit codes as signals for application state are problematic because they are
 ambiguous: you can't use them to distinguish between dissimilar failure states
@@ -228,13 +227,13 @@ particular, ease of use in a `bash` environment is not a compelling motivation.
 
 We are broadly willing to make output machine parseable or provide an explicit
 machine output mode (often a `--json` flag) if there is a reasonable use case
-for it. However, we operate a large production cluster of Phabricator instances
+for it. However, we operate a large production cluster of Phorge instances
 with the tools available in the upstream, so the lack of machine parseable
 output is not sufficient to motivate adding such output on its own: we also
 need to understand the problem you're facing, and why it isn't a problem we
 face. A simpler or cleaner approach to the problem may already exist.
 
-If you just want to write `bash` scripts on top of Phabricator scripts and you
+If you just want to write `bash` scripts on top of Phorge scripts and you
 are unswayed by these concerns, you can often just build a composite command to
 get roughly the same effect that you'd get out of an exit code.
 

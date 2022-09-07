@@ -7,7 +7,7 @@ Overview
 ========
 
 XHProf is a profiling tool which will let you understand application
-performance in Phabricator.
+performance in Phorge.
 
 After you install XHProf, you can use it from the web UI and the CLI to
 generate detailed performance profiles. It is the most powerful tool available
@@ -60,7 +60,7 @@ Using XHProf: CLI
 From the command line, use the `--xprofile <filename>` flag to generate a
 profile of any script.
 
-You can then upload this file to Phabricator (using `arc upload` may be easiest)
+You can then upload this file to Phorge (using `arc upload` may be easiest)
 and view it in the web UI.
 
 

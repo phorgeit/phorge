@@ -6,11 +6,11 @@ Guide to setting up notifications.
 Overview
 ========
 
-By default, Phabricator delivers information about events (like users creating
+By default, Phorge delivers information about events (like users creating
 tasks or commenting on code reviews) through email and in-application
 notifications.
 
-Phabricator can also be configured to deliver notifications in real time, by
+Phorge can also be configured to deliver notifications in real time, by
 popping up a message in any open browser windows if something has happened or
 an object has been updated.
 
@@ -41,13 +41,13 @@ The notification server uses Node.js, so you'll need to install it first.
 To install Node.js, follow the instructions on
 [[ http://nodejs.org | nodejs.org ]].
 
-You will also need to install the `ws` module for Node. This needs to be
+You will also need to install the dependencies for Node. This needs to be
 installed into the notification server directory:
 
-  phabricator/ $ cd support/aphlict/server/
-  phabricator/support/aphlict/server/ $ npm install ws
+  phorge/ $ cd support/aphlict/server/
+  phorge/support/aphlict/server/ $ npm install
 
-Once Node.js and the `ws` module are installed, you're ready to start the
+Once Node.js and its dependencies are installed, you're ready to start the
 server.
 
 
@@ -57,21 +57,21 @@ Running the Aphlict Server
 After installing Node.js, you can control the notification server with the
 `bin/aphlict` command. To start the server:
 
-  phabricator/ $ bin/aphlict start
+  phorge/ $ bin/aphlict start
 
 By default, the server must be able to listen on port `22280`. If you're using
 a host firewall (like a security group in EC2), make sure traffic can reach the
 server.
 
 The server configuration is controlled by a configuration file, which is
-separate from Phabricator's configuration settings. The default file can
-be found at `phabricator/conf/aphlict/aphlict.default.json`.
+separate from Phorge's configuration settings. The default file can
+be found at `phorge/conf/aphlict/aphlict.default.json`.
 
 To make adjustments to the default configuration, either copy this file to
 create `aphlict.custom.json` in the same directory (this file will be used if
 it exists) or specify a configuration file explicitly with the `--config` flag:
 
-  phabricator/ $ bin/aphlict start --config path/to/config.json
+  phorge/ $ bin/aphlict start --config path/to/config.json
 
 The configuration file has these settings:
 
@@ -118,12 +118,12 @@ installs. For more information on how to configure a cluster, see
 The defaults are appropriate for simple cases, but you may need to adjust them
 if you are running a more complex configuration.
 
-Configuring Phabricator
+Configuring Phorge
 =======================
 
-After starting the server, configure Phabricator to connect to it by adjusting
+After starting the server, configure Phorge to connect to it by adjusting
 `notification.servers`. This configuration option should have a list of servers
-that Phabricator should interact with.
+that Phorge should interact with.
 
 Normally, you'll list one client server and one admin server, like this:
 
@@ -131,7 +131,7 @@ Normally, you'll list one client server and one admin server, like this:
 [
   {
     "type": "client",
-    "host": "phabricator.mycompany.com",
+    "host": "phorge.mycompany.com",
     "port": 22280,
     "protocol": "https"
   },
@@ -165,7 +165,7 @@ Troubleshooting
 
 You can run `aphlict` in the foreground to get output to your console:
 
-  phabricator/ $ ./bin/aphlict debug
+  phorge/ $ ./bin/aphlict debug
 
 Because the notification server uses WebSockets, your browser error console
 may also have information that is useful in figuring out what's wrong.
@@ -178,10 +178,10 @@ information that is useful in resolving issues.
 SSL and HTTPS
 =============
 
-If you serve Phabricator over HTTPS, you must also serve websockets over HTTPS.
+If you serve Phorge over HTTPS, you must also serve websockets over HTTPS.
 Browsers will refuse to connect to `ws://` websockets from HTTPS pages.
 
-If a client connects to Phabricator over HTTPS, Phabricator will automatically
+If a client connects to Phorge over HTTPS, Phorge will automatically
 select an appropriate HTTPS service from `notification.servers` and instruct
 the browser to open a websocket connection with `wss://`.
 
@@ -241,10 +241,10 @@ upstream websocket_pool {
 }
 ```
 
-```lang=nginx, name=/etc/nginx/sites-enabled/phabricator.example.com.conf
+```lang=nginx, name=/etc/nginx/sites-enabled/phorge.example.com.conf
 server {
-  server_name phabricator.example.com;
-  root        /path/to/phabricator/webroot;
+  server_name phorge.example.com;
+  root        /path/to/phorge/webroot;
 
   // ...
 
@@ -260,10 +260,10 @@ server {
 
 With this approach, you should make these additional adjustments:
 
-**Phabricator Configuration**: The entry in `notification.servers` with type
+**Phorge Configuration**: The entry in `notification.servers` with type
 `"client"` should have these adjustments made:
 
-  - Set `host` to the Phabricator host.
+  - Set `host` to the Phorge host.
   - Set `port` to the standard HTTPS port (usually `443`).
   - Set `protocol` to `"https"`.
   - Set `path` to `/ws/`, so it matches the special `location` in your

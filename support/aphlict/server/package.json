@@ -1,0 +1,12 @@
+{
+  "name": "aphlict-server",
+  "description": "Phorge's aphlict's server",
+  "main": "aphlict_server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ws": "^7.5.0"
+  }
+}

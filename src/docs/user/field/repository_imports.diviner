@@ -7,7 +7,7 @@ Overview
 ========
 
 When you first import an external source code repository (or push new commits to
-a hosted repository), Phabricator imports those commits in the background.
+a hosted repository), Phorge imports those commits in the background.
 
 While a repository is initially importing, some features won't work. While
 individual commits are importing, some of their metadata won't be available in
@@ -20,7 +20,7 @@ help you understand the import process and troubleshoot problems with it.
 Understanding the Import Pipeline
 =================================
 
-Phabricator first performs commit discovery on repositories. This examines
+Phorge first performs commit discovery on repositories. This examines
 a repository and identifies all the commits in it at a very shallow level,
 then creates stub objects for them. These stub objects primarily serve to
 assign various internal IDs to each commit.
@@ -54,7 +54,7 @@ the import process is stuck.
 First, to identify which commits have missing import steps, run this command:
 
 ```
-phabricator/ $ ./bin/repository importing rXYZ
+phorge/ $ ./bin/repository importing rXYZ
 ```
 
 That will show what work remains to be done. Each line shows a commit which
@@ -69,7 +69,7 @@ sections are "Queued Tasks" (work waiting in queue) and "Leased Tasks"
 Third, run this command to look at the daemon logs:
 
 ```
-phabricator/ $ ./bin/phd log
+phorge/ $ ./bin/phd log
 ```
 
 This can show you any errors the daemons have encountered recently.
@@ -104,14 +104,14 @@ importing` and use this command to re-run any missing steps manually in the
 foreground:
 
 ```
-phabricator/ $ ./bin/repository reparse --importing --trace rXYZabcdef012...
+phorge/ $ ./bin/repository reparse --importing --trace rXYZabcdef012...
 ```
 
 This command is always safe to run, no matter what the actual root cause of
 the problem is.
 
 If this fails with an error, you've likely identified a problem with
-Phabricator. Collect as much information as you can about what makes the commit
+Phorge. Collect as much information as you can about what makes the commit
 special and file a bug in the upstream by following the instructions in
 @{article:Contributing Bug Reports}.
 
@@ -132,7 +132,7 @@ wait that long.
 
 In the Daemon console, temporarily failures usually look like tasks in the
 "Leased Tasks" column with a large "Expires" value but a low "Failures" count
-(usually 0 or 1). The "Expires" column is showing how long Phabricator is
+(usually 0 or 1). The "Expires" column is showing how long Phorge is
 waiting to retry these tasks.
 
 In the daemon log, these temporary failures might have created log entries, but
@@ -150,7 +150,7 @@ daemons, all task leases are immediately expired, so any tasks waiting for a
 long time will run right away:
 
 ```
-phabricator/ $ ./bin/phd restart
+phorge/ $ ./bin/phd restart
 ```
 
 This command is always safe to run, no matter what the actual root cause of
@@ -172,7 +172,7 @@ been too ambitious with running manual SQL commands and deleted a bunch of
 extra things they shouldn't have.
 
 There is no normal set of conditions under which this should occur, but you can
-force Phabricator to re-queue the tasks to recover from it if it does occur.
+force Phorge to re-queue the tasks to recover from it if it does occur.
 
 This will look like missing steps in `repository importing`, but nothing in the
 "Queued Tasks" or "Leased Tasks" sections of the daemon console. The daemon
@@ -182,12 +182,12 @@ To re-queue parse tasks for a repository, run this command, which will queue
 up all of the missing work in `repository importing`:
 
 ```
-phabricator/ $ ./bin/repository reparse --importing --all rXYZ
+phorge/ $ ./bin/repository reparse --importing --all rXYZ
 ```
 
 This command may cause duplicate work to occur if you have misdiagnosed the
 problem and the tasks aren't actually lost. For example, it could queue a
-second task to perform publishing, which could cause Phabricator to send a
+second task to perform publishing, which could cause Phorge to send a
 second copy of email about the commit. Other than that, it is safe to run even
 if this isn't the problem.
 
@@ -215,7 +215,7 @@ To mark a repository as imported even though it really isn't, run this
 command:
 
 ```
-phabricator/ $ ./bin/repository mark-imported rXYZ
+phorge/ $ ./bin/repository mark-imported rXYZ
 ```
 
 If you do this by mistake, you can reverse it later by using the
@@ -231,7 +231,7 @@ to any command to get more details about what it is doing. For any command,
 you can use `help` to learn more about what it does and which flag it takes:
 
 ```
-phabricator/ $ bin/repository help <command>
+phorge/ $ bin/repository help <command>
 ```
 
 In particular, you can use flags with the `repository reparse` command to

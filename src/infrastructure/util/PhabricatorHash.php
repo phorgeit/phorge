@@ -22,7 +22,7 @@ final class PhabricatorHash extends Phobject {
     if (!$key) {
       throw new Exception(
         pht(
-          "Set a '%s' in your Phabricator configuration!",
+          "Set a '%s' in your configuration!",
           'security.hmac-key'));
     }
 
@@ -224,7 +224,7 @@ final class PhabricatorHash extends Phobject {
     $cache_key = "hmac.key({$hmac_name})";
 
     $hmac_key = $cache->getKey($cache_key);
-    if (!strlen($hmac_key)) {
+    if (($hmac_key === null) || !strlen($hmac_key)) {
       $hmac_key = self::readHMACKey($hmac_name);
 
       if ($hmac_key === null) {

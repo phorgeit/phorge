@@ -13,7 +13,7 @@ interested in, even if they didn't add you as a reviewer.
 
 One way to think about Herald is that it is a lot like the mail rules you can
 set up in most email clients to organize mail based on "To", "Subject", etc.
-Herald works very similarly, but operates on Phabricator objects (like revisions
+Herald works very similarly, but operates on Phorge objects (like revisions
 and commits) instead of emails.
 
 For example, you can write a personal rule like this which triggers on tasks:

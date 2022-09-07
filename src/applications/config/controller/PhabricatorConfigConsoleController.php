@@ -56,7 +56,7 @@ final class PhabricatorConfigConsoleController
       ->setBorder(true);
 
     $box = id(new PHUIObjectBoxView())
-      ->setHeaderText(pht('Phabricator Configuation'))
+      ->setHeaderText(pht('Configuration'))
       ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
       ->setObjectList($menu);
 
@@ -72,7 +72,7 @@ final class PhabricatorConfigConsoleController
       ->setFooter($launcher_view);
 
     return $this->newPage()
-      ->setTitle(pht('Phabricator Configuation'))
+      ->setTitle(pht('Configuration'))
       ->setCrumbs($crumbs)
       ->appendChild($view);
   }
@@ -131,14 +131,14 @@ final class PhabricatorConfigConsoleController
         ));
 
     return id(new PHUIObjectBoxView())
-      ->setHeaderText(pht('Phabricator Version Information'))
+      ->setHeaderText(pht('Version Information'))
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->appendChild($table_view);
   }
 
   private function loadVersions(PhabricatorUser $viewer) {
     $specs = array(
-      'phabricator',
+      'phorge',
       'arcanist',
     );
 
@@ -174,7 +174,14 @@ final class PhabricatorConfigConsoleController
 
     // A repository may have a bunch of remotes, but we're only going to look
     // for remotes we host to try to figure out where this repository branched.
-    $upstream_pattern = '(github\.com/phacility/|secure\.phabricator\.com/)';
+    $upstream_pattern =
+      '('.
+      implode('|', array(
+        'we\.phorge\.it/',
+        'github\.com/phacility/',
+        'secure\.phabricator\.com/',
+      )).
+      ')';
 
     $upstream_futures = array();
     $lib_upstreams = array();

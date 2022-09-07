@@ -256,5 +256,5 @@ Continue by:
   - understanding Drydock security concerns with
     @{article:Drydock User Guide: Security}; or
   - learning about blueprints in @{article:Drydock Blueprints}; or
-  - allowing Phabricator to write to repositories with
+  - allowing Phorge to write to repositories with
     @{article:Drydock User Guide: Repository Automation}.

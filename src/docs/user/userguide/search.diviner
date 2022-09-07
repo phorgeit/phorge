@@ -1,12 +1,12 @@
 @title Search User Guide
 @group userguide
 
-Introduction to searching for documents in Phabricator.
+Introduction to searching for documents in Phorge.
 
 Overview
 ========
 
-Phabricator has two major ways to search for documents and objects (like tasks,
+Phorge has two major ways to search for documents and objects (like tasks,
 code reviews, users, wiki documents, and so on): **global search** and
 **application search**.
 
@@ -34,14 +34,14 @@ By default, global search queries search all document types: for example, they
 will find matching tasks, commits, wiki documents, users, etc. You can use the
 dropdown to the left of the search box to select a different search scope.
 
-If you choose the **Current Application** scope, Phabricator will search for
+If you choose the **Current Application** scope, Phorge will search for
 open documents in the current application. For example, if you're in Maniphest
 and run a search, you'll get matching tasks. If you're in Phriction and run a
 search, you'll get matching wiki documents.
 
 Some pages (like the 404 page) don't belong to an application, or belong to an
 application which doesn't have any searchable documents. In these cases,
-Phabricator will search all documents.
+Phorge will search all documents.
 
 To quickly **jump to an object** like a task, enter the object's ID in the
 global search box and search for it. For example, you can enter `T123` or
@@ -53,7 +53,7 @@ After running a search, you can scroll up to add filters and refine the result
 set. You can also select **Advanced Search** from the dropdown menu to jump
 here immediately, or press return in the search box without entering a query.
 
-This interface supports standard Phabricator search and filtering features,
+This interface supports standard Phorge search and filtering features,
 like **saved queries** and **typeaheads**. See below for more details on using
 these features.
 

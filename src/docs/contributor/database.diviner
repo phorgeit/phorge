@@ -7,10 +7,10 @@ questions like how to store new types of data.
 Database System
 ===============
 
-Phabricator uses MySQL or another MySQL-compatible database (like MariaDB
+Phorge uses MySQL or another MySQL-compatible database (like MariaDB
 or Amazon RDS).
 
-Phabricator uses the InnoDB table engine. The only exception is the
+Phorge uses the InnoDB table engine. The only exception is the
 `search_documentfield` table which uses MyISAM because MySQL doesn't support
 fulltext search in InnoDB (recent versions do, but we haven't added support
 yet).
@@ -21,22 +21,22 @@ SQLite.
 PHP Drivers
 ===========
 
-Phabricator supports [[ http://www.php.net/book.mysql | MySQL ]] and
+Phorge supports [[ http://www.php.net/book.mysql | MySQL ]] and
 [[ http://www.php.net/book.mysqli | MySQLi ]] PHP extensions.
 
 Databases
 =========
 
-Each Phabricator application has its own database. The names are prefixed by
-`phabricator_` (this is configurable).
+Each Phorge application has its own database. The names are prefixed by
+`phorge_` (this is configurable).
 
-Phabricator uses a separate database for each application. To understand why,
-see @{article:Why does Phabricator need so many databases?}.
+Phorge uses a separate database for each application. To understand why,
+see @{article:Why does Phorge need so many databases?}.
 
 Connections
 ===========
 
-Phabricator specifies if it will use any opened connection just for reading or
+Phorge specifies if it will use any opened connection just for reading or
 also for writing. This allows opening write connections to a primary and read
 connections to a replica in primary/replica setups (which are not actually
 supported yet).
@@ -45,7 +45,7 @@ Tables
 ======
 
 Most table names are prefixed by their application names. For example,
-Differential revisions are stored in database `phabricator_differential` and
+Differential revisions are stored in database `phorge_differential` and
 table `differential_revision`. This generally makes queries easier to recognize
 and understand.
 
@@ -57,7 +57,7 @@ We use lower-case table names with words separated by underscores.
 Column Names
 ============
 
-Phabricator uses `camelCase` names for columns. The main advantage is that they
+Phorge uses `camelCase` names for columns. The main advantage is that they
 directly map to properties in PHP classes.
 
 Don't use MySQL reserved words (such as `order`) for column names.
@@ -65,17 +65,17 @@ Don't use MySQL reserved words (such as `order`) for column names.
 Data Types
 ==========
 
-Phabricator defines a set of abstract data types (like `uint32`, `epoch`, and
+Phorge defines a set of abstract data types (like `uint32`, `epoch`, and
 `phid`) which map to MySQL column types. The mapping depends on the MySQL
 version.
 
-Phabricator uses `utf8mb4` character sets where available (MySQL 5.5 or newer),
+Phorge uses `utf8mb4` character sets where available (MySQL 5.5 or newer),
 and `binary` character sets in most other cases. The primary motivation is to
 allow 4-byte unicode characters to be stored (the `utf8` character set, which
 is more widely available, does not support them). On newer MySQL, we use
 `utf8mb4` to take advantage of improved collation rules.
 
-Phabricator stores dates with an `epoch` abstract data type, which maps to
+Phorge stores dates with an `epoch` abstract data type, which maps to
 `int unsigned`. Although this makes dates less readable when browsing the
 database, it makes date and time manipulation more consistent and
 straightforward in the application.
@@ -134,8 +134,8 @@ eventually, but there isn't a strong case for them at the present time.
 PHIDs
 =====
 
-Each globally referencable object in Phabricator has an associated PHID
-("Phabricator ID") which serves as a global identifier, similar to a GUID.
+Each globally referencable object in Phorge has an associated PHID
+("Phorge ID") which serves as a global identifier, similar to a GUID.
 We use PHIDs for referencing data in different databases.
 
 We use both auto-incrementing IDs and global PHIDs because each is useful in
@@ -149,6 +149,8 @@ PHID relationships: different types of objects (users, projects, mailing lists)
 are permitted to subscribe to different types of objects (revisions, tasks,
 etc). Without PHIDs, we would need to add a "type" column to avoid ID collision;
 using PHIDs makes implementing features like this simpler.
+
+For more information, see @{article:Handles Technical Documentation}
 
 Transactions
 ============
@@ -169,7 +171,7 @@ update, and understand than application code.
 Schema Denormalization
 ======================
 
-Phabricator uses schema denormalization sparingly. Avoid denormalization unless
+Phorge uses schema denormalization sparingly. Avoid denormalization unless
 there is a compelling reason (usually, performance) to denormalize.
 
 Schema Changes and Migrations

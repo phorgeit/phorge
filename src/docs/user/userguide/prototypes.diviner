@@ -6,7 +6,7 @@ Information about prototypes.
 Overview
 ========
 
-Phabricator includes //prototype applications//, which are applications in an
+Phorge includes //prototype applications//, which are applications in an
 early stage of development.
 
 When we begin working on a new application, we usually implement it as a

@@ -30,7 +30,7 @@ editor://open/?file=%f
 Mapping Repositories
 ====================
 
-When you open a file in an external editor, Phabricator needs to be able to
+When you open a file in an external editor, Phorge needs to be able to
 build a URI which includes the correct absolute path on disk to the local
 version of the file, including the repository directory.
 
