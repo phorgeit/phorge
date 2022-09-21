@@ -25,6 +25,8 @@
   border-right: 1px solid {$paste.border};
   color: {$sh-yellowtext};
   white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .phabricator-source-line > a::before {
