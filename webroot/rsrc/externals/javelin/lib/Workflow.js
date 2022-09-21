@@ -403,6 +403,16 @@ JX.install('Workflow', {
           JX.$E('Response to workflow request went unhandled.');
         }
       }
+
+      var form = JX.DOM.scry(this._root, 'form', 'jx-dialog');
+      if (form.length) {
+        JX.DOM.listen(form[0], 'keydown', null, function(e) {
+          if (e.getSpecialKey()) {
+            return;
+          }
+          JX.Stratcom.addSigil(form[0], 'dialog-keydown');
+        });
+      }
     },
     _push : function() {
       if (!this._pushed) {
@@ -533,6 +543,15 @@ JX.install('Workflow', {
 
       if (!cancel) {
         // No 'Cancel' button.
+        return;
+      }
+
+      var form = JX.DOM.scry(active._root, 'form', 'jx-dialog');
+      if (
+        form.length &&
+        JX.Stratcom.hasSigil(form[0], 'dialog-keydown') &&
+        !confirm('Form data may have changed. Are you sure you want to close this dialog?')
+      ) {
         return;
       }
 
