@@ -83,6 +83,12 @@ final class PhabricatorCalendarImportEditEngine
     $engine = $object->getEngine();
     $can_trigger = $engine->supportsTriggers($object);
 
+    // calendar URI import
+    // note that it can contains a secret token
+    // if we are here you have enough privileges to edit and see the value
+    $uri_key = PhabricatorCalendarImportICSURITransaction::PARAMKEY_URI;
+    $uri = $object->getParameter($uri_key);
+
     $fields = array(
       id(new PhabricatorTextEditField())
         ->setKey('name')
@@ -94,6 +100,15 @@ final class PhabricatorCalendarImportEditEngine
         ->setConduitTypeDescription(pht('New import name.'))
         ->setPlaceholder($object->getDisplayName())
         ->setValue($object->getName()),
+      id(new PhabricatorTextEditField())
+        ->setKey('uri')
+        ->setLabel(pht('URI'))
+        ->setDescription(pht('URI to import.'))
+        ->setTransactionType(
+          PhabricatorCalendarImportICSURITransaction::TRANSACTIONTYPE)
+        ->setConduitDescription(pht('URI to import.'))
+        ->setConduitTypeDescription(pht('New URI.'))
+        ->setValue($uri),
       id(new PhabricatorBoolEditField())
         ->setKey('disabled')
         ->setOptions(pht('Active'), pht('Disabled'))
