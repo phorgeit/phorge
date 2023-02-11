@@ -15,9 +15,16 @@ Phorge, you will need:
   - a domain name (like `phorge.example.com`);
   - basic sysadmin skills;
   - Apache, nginx, or another webserver;
-  - PHP, MySQL, and Git.
+  - PHP;
+  - MySQL (you will need a server with multiple databases);
+  - git
 
 The remainder of this document details these requirements.
+
+You may be interested also in preparing these optional stuff:
+
+  - have valid SMTP parameters for outgoing email notifications;
+  - having nothing listening on port 22, to then setup a SSH+git server
 
 Installation Requirements
 =========================
@@ -71,7 +78,9 @@ Beyond an operating system, you will need **a webserver**.
 You will also need:
 
   - **MySQL**: You need MySQL. We strongly recommend MySQL 5.5 or newer.
-  - **PHP**: You need PHP 5.5 or newer.
+    You will need a server with multiple databases.
+  - **PHP**: You need PHP 5.5 or newer. Note that PHP 8.1 and above are not
+    fully supported.
 
 You'll probably also need a **domain name**. In particular, you should read this
 note:
@@ -106,7 +115,7 @@ Here's a general description of what you need to install:
 
   - git (usually called "git" in package management systems)
   - Apache (usually "httpd" or "apache2") (or nginx)
-  - MySQL Server (usually "mysqld" or "mysql-server")
+  - MySQL Server (usually "mysqld" or "mysql-server" or "mariadb-server")
   - PHP (usually "php")
   - Required PHP extensions: mbstring, iconv, mysql (or mysqli), curl, pcntl
     (these might be something like "php-mysql" or "php5-mysqlnd")
