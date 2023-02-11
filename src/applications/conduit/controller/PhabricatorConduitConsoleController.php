@@ -248,6 +248,10 @@ final class PhabricatorConduitConsoleController
     }
 
     $view->addProperty(
+      pht('Summary'),
+      $method->getMethodSummary());
+
+    $view->addProperty(
       pht('Returns'),
       $method->getReturnType());
 
