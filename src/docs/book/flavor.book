@@ -21,7 +21,7 @@
   ],
   "groups": {
     "javascript": {
-      "name": "Javascript"
+      "name": "JavaScript"
     },
     "lore": {
       "name": "Phorge Lore"
