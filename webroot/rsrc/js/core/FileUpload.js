@@ -115,7 +115,19 @@ JX.install('PhabricatorFileUpload', {
 
       switch (this.getStatus()) {
         case 'done':
-          var link = JX.$N('a', {href: this.getPageURI()}, this.getMonogram());
+
+          // In this case the File upload was successful
+
+          var linkAttr = {};
+          linkAttr.href = this.getPageURI();
+
+          // External links are evil as default.
+          // Believe it or not, but some Phorge users brainstormed
+          // for one hour for this specific target="_blank".
+          // https://we.phorge.it/T15172
+          linkAttr.target = '_blank';
+
+          var link = JX.$N('a', linkAttr, this.getMonogram());
 
           content = [
             JX.$N('strong', {}, ['Upload Complete (', link, ')']),
