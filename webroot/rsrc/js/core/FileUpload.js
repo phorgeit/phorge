@@ -38,6 +38,20 @@ JX.install('PhabricatorFileUpload', {
       return this;
     },
 
+    /**
+     * Get the File Monogram - like 'F123'
+     */
+    getMonogram: function() {
+      return 'F' + this.getID();
+    },
+
+    /**
+     * Get the File page URI - like '/F123'
+     */
+    getPageURI: function() {
+        return '/' + this.getMonogram();
+    },
+
     setChunks: function(chunks) {
       var chunk;
       for (var ii = 0; ii < chunks.length; ii++) {
@@ -101,7 +115,7 @@ JX.install('PhabricatorFileUpload', {
 
       switch (this.getStatus()) {
         case 'done':
-          var link = JX.$N('a', {href: this.getURI()}, 'F' + this.getID());
+          var link = JX.$N('a', {href: this.getPageURI()}, this.getMonogram());
 
           content = [
             JX.$N('strong', {}, ['Upload Complete (', link, ')']),
