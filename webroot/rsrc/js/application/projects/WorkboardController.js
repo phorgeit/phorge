@@ -151,6 +151,13 @@ JX.install('WorkboardController', {
     },
 
     _onaddcard: function(e) {
+
+      // Allow CTRL+click and maybe other actions
+      if(!e.isNormalMouseEvent()) {
+        e.stop();
+        return;
+      }
+
       // We want the 'boards-dropdown-menu' behavior to see this event and
       // close the dropdown, but don't want to follow the link.
       e.prevent();
@@ -176,6 +183,13 @@ JX.install('WorkboardController', {
     },
 
     _oneditcard: function(e) {
+
+      // Allow CTRL+click and maybe other actions
+      if(!e.isNormalMouseEvent()) {
+        e.stop();
+        return;
+      }
+
       e.kill();
 
       var column_node = e.getNode('project-column');
