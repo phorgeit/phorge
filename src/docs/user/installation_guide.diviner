@@ -81,6 +81,8 @@ You will also need:
     You will need a server with multiple databases.
   - **PHP**: You need PHP 5.5 or newer. Note that PHP 8.1 and above are not
     fully supported.
+  - **git**: You need git 2.5.0 or newer on the server.
+    No particular version is needed on your clients.
 
 You'll probably also need a **domain name**. In particular, you should read this
 note:
