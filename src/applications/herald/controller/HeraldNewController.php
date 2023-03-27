@@ -333,8 +333,8 @@ final class HeraldNewController extends HeraldController {
     $cancel_params = $params;
     unset($cancel_params['type']);
 
-    $cancel_uri = $this->getApplicationURI('new/');
-    $cancel_uri = new PhutilURI($cancel_uri, $params);
+    $cancel_uri = $this->getApplicationURI('create/');
+    $cancel_uri = new PhutilURI($cancel_uri, $cancel_params);
 
     $form->appendChild(
       id(new AphrontFormSubmitControl())
