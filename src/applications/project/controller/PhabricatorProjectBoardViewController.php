@@ -696,7 +696,8 @@ final class PhabricatorProjectBoardViewController
       $column_items[] = id(new PhabricatorActionView())
         ->setIcon($spec['icon'])
         ->setName($spec['name'])
-        ->setHref($spec['uri'])
+        ->setHref(id(new PhutilURI($spec['uri']))
+          ->replaceQueryParam('tags', $project->getPrimarySlug()))
         ->setDisabled($spec['disabled'])
         ->addSigil('column-add-task')
         ->setMetadata(
