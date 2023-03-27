@@ -137,6 +137,14 @@ final class PonderQuestion extends PonderDAO
     return self::MARKUP_FIELD_CONTENT;
   }
 
+  /**
+   * Check whenever this Question has whatever closed status
+   *
+   * @return bool
+   */
+  public function isStatusClosed() {
+    return PonderQuestionStatus::isQuestionStatusClosed($this->status);
+  }
 
 /* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
 

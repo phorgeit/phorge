@@ -86,4 +86,14 @@ final class PonderQuestionStatus extends PonderConstants {
     );
   }
 
+  /**
+   * Check whenever a Ponder question status is Closed
+   *
+   * @param $status string
+   * @return bool
+   */
+  public static function isQuestionStatusClosed($status) {
+    return in_array($status, self::getQuestionStatusClosedMap(), true);
+  }
+
 }
