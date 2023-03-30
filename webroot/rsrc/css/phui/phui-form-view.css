@@ -525,7 +525,7 @@ properly, and submit values. */
 }
 
 .aphront-form-preview-hidden {
-  opacity: 0.5;
+  display: none;
 }
 
 .aphront-form-error .phui-icon-view {
