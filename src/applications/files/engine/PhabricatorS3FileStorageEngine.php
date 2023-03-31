@@ -31,11 +31,11 @@ final class PhabricatorS3FileStorageEngine
     $endpoint = PhabricatorEnv::getEnvConfig('amazon-s3.endpoint');
     $region = PhabricatorEnv::getEnvConfig('amazon-s3.region');
 
-    return (strlen($bucket) &&
-      strlen($access_key) &&
-      strlen($secret_key) &&
-      strlen($endpoint) &&
-      strlen($region));
+    return phutil_nonempty_string($bucket) &&
+      phutil_nonempty_string($access_key) &&
+      phutil_nonempty_string($secret_key) &&
+      phutil_nonempty_string($endpoint) &&
+      phutil_nonempty_string($region);
   }
 
 
@@ -57,7 +57,7 @@ final class PhabricatorS3FileStorageEngine
     $parts[] = 'phabricator';
 
     $instance_name = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance_name)) {
+    if (phutil_nonempty_string($instance_name)) {
       $parts[] = $instance_name;
     }
 

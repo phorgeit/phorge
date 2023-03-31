@@ -125,7 +125,7 @@ final class PhabricatorEnv extends Phobject {
     // If an instance identifier is defined, write it into the environment so
     // it's available to subprocesses.
     $instance = self::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       putenv('PHABRICATOR_INSTANCE='.$instance);
       $_ENV['PHABRICATOR_INSTANCE'] = $instance;
     }
@@ -432,7 +432,7 @@ final class PhabricatorEnv extends Phobject {
     $uri = new PhutilURI($raw_uri);
 
     $host = $uri->getDomain();
-    if (!strlen($host)) {
+    if (!phutil_nonempty_string($host)) {
       return false;
     }
 
@@ -455,7 +455,7 @@ final class PhabricatorEnv extends Phobject {
     $self_map = array();
     foreach ($self_uris as $self_uri) {
       $host = id(new PhutilURI($self_uri))->getDomain();
-      if (!strlen($host)) {
+      if (!phutil_nonempty_string($host)) {
         continue;
       }
 
@@ -661,7 +661,7 @@ final class PhabricatorEnv extends Phobject {
   public static function isValidLocalURIForLink($uri) {
     $uri = (string)$uri;
 
-    if (!strlen($uri)) {
+    if (!phutil_nonempty_string($uri)) {
       return false;
     }
 
@@ -726,7 +726,7 @@ final class PhabricatorEnv extends Phobject {
     $uri = new PhutilURI($raw_uri);
 
     $proto = $uri->getProtocol();
-    if (!strlen($proto)) {
+    if (!$proto) {
       throw new Exception(
         pht(
           'URI "%s" is not a valid linkable resource. A valid linkable '.
@@ -745,7 +745,7 @@ final class PhabricatorEnv extends Phobject {
     }
 
     $domain = $uri->getDomain();
-    if (!strlen($domain)) {
+    if (!$domain) {
       throw new Exception(
         pht(
           'URI "%s" is not a valid linkable resource. A valid linkable '.
@@ -793,7 +793,7 @@ final class PhabricatorEnv extends Phobject {
     $uri = new PhutilURI($raw_uri);
 
     $proto = $uri->getProtocol();
-    if (!strlen($proto)) {
+    if (!$proto) {
       throw new Exception(
         pht(
           'URI "%s" is not a valid fetchable resource. A valid fetchable '.
@@ -812,7 +812,7 @@ final class PhabricatorEnv extends Phobject {
     }
 
     $domain = $uri->getDomain();
-    if (!strlen($domain)) {
+    if (!$domain) {
       throw new Exception(
         pht(
           'URI "%s" is not a valid fetchable resource. A valid fetchable '.

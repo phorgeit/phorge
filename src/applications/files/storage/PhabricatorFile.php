@@ -856,7 +856,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // instance identity in the path allows us to distinguish between requests
     // originating from different instances but served through the same CDN.
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       $parts[] = '@'.$instance;
     }
 
@@ -903,7 +903,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $parts[] = 'xform';
 
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       $parts[] = '@'.$instance;
     }
 
