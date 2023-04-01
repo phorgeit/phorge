@@ -19,7 +19,7 @@ final class AphrontFileResponse extends AphrontResponse {
   }
 
   public function setDownload($download) {
-    if (!strlen($download)) {
+    if (!phutil_nonempty_string($download)) {
       $download = 'untitled';
     }
     $this->download = $download;

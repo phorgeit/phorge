@@ -21,7 +21,7 @@ function preamble_trust_x_forwarded_for_header($layers = 1) {
   }
 
   $forwarded_for = $_SERVER['HTTP_X_FORWARDED_FOR'];
-  if (!strlen($forwarded_for)) {
+  if (!phutil_nonempty_string($forwarded_for)) {
     return;
   }
 

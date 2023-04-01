@@ -21,7 +21,7 @@ final class AphrontWebpageResponse extends AphrontHTMLResponse {
 
   public function buildResponseString() {
     $unexpected_output = $this->getUnexpectedOutput();
-    if (strlen($unexpected_output)) {
+    if (phutil_nonempty_string($unexpected_output)) {
       $style = array(
         'background: linear-gradient(180deg, #eeddff, #ddbbff);',
         'white-space: pre-wrap;',
