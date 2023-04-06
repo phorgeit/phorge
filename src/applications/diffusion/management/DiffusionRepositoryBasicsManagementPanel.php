@@ -31,8 +31,7 @@ final class DiffusionRepositoryBasicsManagementPanel
     $repository = $this->getRepository();
     $viewer = $this->getViewer();
 
-    $action_list = id(new PhabricatorActionListView())
-      ->setViewer($viewer);
+    $action_list = $this->newActionList();
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

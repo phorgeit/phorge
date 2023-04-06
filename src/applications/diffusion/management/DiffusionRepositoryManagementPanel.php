@@ -111,6 +111,9 @@ abstract class DiffusionRepositoryManagementPanel
 
   final protected function newActionList() {
     $viewer = $this->getViewer();
+
+    // Generating this ID allows to spawn the "Actions" menu
+    // on mobile on the header
     $action_id = celerity_generate_unique_node_id();
 
     return id(new PhabricatorActionListView())
