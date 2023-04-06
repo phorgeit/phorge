@@ -197,7 +197,8 @@
 .phui-timeline-core-content .comment-deleted {
   font-style: italic;
 }
-.phui-timeline-shell-removed .phui-timeline-image {
+.phui-timeline-shell-removed .phui-timeline-image,
+.phui-timeline-shell-removed .phui-timeline-badges {
   opacity: 0.5;
 }
 .phui-timeline-shell-removed,
