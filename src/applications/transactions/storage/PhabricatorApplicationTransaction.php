@@ -539,7 +539,7 @@ abstract class PhabricatorApplicationTransaction
       case PhabricatorTransactions::TYPE_COMMENT;
         $comment = $this->getComment();
         if ($comment && $comment->getIsRemoved()) {
-          return 'black';
+          return 'grey';
         }
         break;
       case PhabricatorTransactions::TYPE_EDGE:

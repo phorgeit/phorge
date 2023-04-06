@@ -189,9 +189,29 @@
   overflow-x: auto;
 }
 
+/*
+ * Start Customization for removed comments
+ * https://we.phorge.it/T15192
+ */
+
 .phui-timeline-core-content .comment-deleted {
   font-style: italic;
 }
+.phui-timeline-shell-removed .phui-timeline-image {
+  opacity: 0.5;
+}
+.phui-timeline-shell-removed,
+.phui-timeline-shell-removed a,
+.phui-timeline-shell-removed .phui-timeline-title {
+  color:#888; /* grey */
+}
+.phui-timeline-shell-removed
+  .phui-timeline-major-event
+    .phui-timeline-content .phui-timeline-core-content {
+      padding:4px 16px; /* reduce vertical space from 16px */
+}
+
+/* End Customization for removed comments */
 
 .device .phui-timeline-event-view {
   min-height: 23px;
