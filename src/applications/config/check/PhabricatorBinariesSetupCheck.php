@@ -104,7 +104,17 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
 
       switch ($vcs['versionControlSystem']) {
         case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-          $bad_versions = array();
+          $bad_versions = array(
+            // We need 2.5.0 to use "git cat-file -t -- <hash>:<file>"
+            // https://we.phorge.it/T15179
+            '< 2.5.0' => pht(
+              'The minimum supported version of Git on the server is %s, '.
+              'which was released in %s. In older versions, the Git server '.
+              'may not be able to escape arguments with the "--" operator. '.
+              'Note: your users do not require a particular version of Git.',
+              '2.5.0',
+              '2015'),
+          );
           break;
         case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
           $bad_versions = array(
