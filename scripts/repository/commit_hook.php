@@ -119,12 +119,14 @@ if ($is_svnrevprop) {
   exit($err);
 } else if ($repository->isGit() || $repository->isHg()) {
   $username = getenv(DiffusionCommitHookEngine::ENV_USER);
-  if (!phutil_nonempty_string($username)) {
-    throw new Exception(
-      pht(
-        'No Direct Pushes: You are pushing directly to a hosted repository. '.
-        'This will not work. See "No Direct Pushes" in the documentation '.
-        'for more information.'));
+  if ($username !== false) {
+    if (!phutil_nonempty_string($username)) {
+      throw new Exception(
+        pht(
+          'No Direct Pushes: You are pushing directly to a hosted repository. '.
+          'This will not work. See "No Direct Pushes" in the documentation '.
+          'for more information.'));
+    }
   }
 
   if ($repository->isHg()) {
@@ -181,18 +183,24 @@ $engine->setStdin($stdin);
 $engine->setOriginalArgv(array_slice($argv, 2));
 
 $remote_address = getenv(DiffusionCommitHookEngine::ENV_REMOTE_ADDRESS);
-if (phutil_nonempty_string($remote_address)) {
-  $engine->setRemoteAddress($remote_address);
+if ($remote_address !== false) {
+  if (phutil_nonempty_string($remote_address)) {
+    $engine->setRemoteAddress($remote_address);
+  }
 }
 
 $remote_protocol = getenv(DiffusionCommitHookEngine::ENV_REMOTE_PROTOCOL);
-if (phutil_nonempty_string($remote_protocol)) {
-  $engine->setRemoteProtocol($remote_protocol);
+if ($remote_protocol !== false) {
+  if (phutil_nonempty_string($remote_protocol)) {
+    $engine->setRemoteProtocol($remote_protocol);
+  }
 }
 
 $request_identifier = getenv(DiffusionCommitHookEngine::ENV_REQUEST);
-if (phutil_nonempty_string($request_identifier)) {
-  $engine->setRequestIdentifier($request_identifier);
+if ($request_identifier !== false) {
+  if (phutil_nonempty_string($request_identifier)) {
+    $engine->setRequestIdentifier($request_identifier);
+  }
 }
 
 try {
