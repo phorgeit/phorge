@@ -125,7 +125,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
 
 
   /**
-   * Return the default priority for this instance of Phabricator.
+   * Return the default priority for this instance of Phorge.
    *
    * @return int The value of the default priority constant.
    */

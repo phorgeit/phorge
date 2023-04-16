@@ -24,7 +24,7 @@ final class PhabricatorEmailStampsSetting
     return pht(<<<EOREMARKUP
 Outgoing mail is stamped with labels like `actor(alice)` which can be used to
 write client mail rules to organize mail. By default, these stamps are sent
-in an `X-Phabricator-Stamps` header.
+in an `X-Phorge-Stamps` header.
 
 If you use a client which can not use headers to route mail (like Gmail),
 you can also include the stamps in the message body so mail rules based on

@@ -67,7 +67,7 @@ $map = array();
 
 foreach ($applications as $application) {
   $old_name = 'PhabricatorApplication'.$application;
-  $new_name = 'Phabricator'.$application.'Application';
+  $new_name = 'Phorge'.$application.'Application';
   $map[$old_name] = $new_name;
 }
 
@@ -84,7 +84,7 @@ foreach ($applications as $application) {
 // This originally migrated dashboard install locations, but was removed
 // after about 5 years.
 
-/* -(  Phabricator configuration  )------------------------------------------ */
+/* -(  Phorge configuration  )------------------------------------------ */
 
 $config_key = 'phorge.uninstalled-applications';
 echo pht('Migrating `%s` config...', $config_key)."\n";

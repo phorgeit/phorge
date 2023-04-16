@@ -20,7 +20,7 @@ final class PhabricatorDaemonOverseerModule
   }
 
   /**
-   * Calculate a version number for the current Phabricator configuration.
+   * Calculate a version number for the current Phorge configuration.
    *
    * The version number has no real meaning and does not provide any real
    * indication of whether a configuration entry has been changed. The config

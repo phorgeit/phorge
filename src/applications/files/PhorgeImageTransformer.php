@@ -17,7 +17,7 @@ final class PhabricatorImageTransformer extends Phobject {
    * Optionally, you can specify a preferred MIME type like `"image/png"`.
    * Generally, you should specify the MIME type of the original file if you're
    * applying file transformations. The MIME type may not be honored if
-   * Phabricator can not encode images in the given format (based on available
+   * Phorge can not encode images in the given format (based on available
    * extensions), but can save images in another format.
    *
    * @param   resource  GD image resource.

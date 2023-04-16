@@ -72,7 +72,7 @@ final class PhabricatorAuthLoginController
     }
 
     if ($account->getUserPHID()) {
-      // The account is already attached to a Phabricator user, so this is
+      // The account is already attached to a Phorge user, so this is
       // either a login or a bad account link request.
       if (!$viewer->isLoggedIn()) {
         if ($provider->shouldAllowLogin()) {
@@ -104,7 +104,7 @@ final class PhabricatorAuthLoginController
             PlatformSymbols::getPlatformServerName()));
       }
     } else {
-      // The account is not yet attached to a Phabricator user, so this is
+      // The account is not yet attached to a Phorge user, so this is
       // either a registration or an account link request.
       if (!$viewer->isLoggedIn()) {
         if ($provider->shouldAllowRegistration() || $invite) {

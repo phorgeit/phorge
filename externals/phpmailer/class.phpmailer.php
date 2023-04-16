@@ -1693,7 +1693,7 @@ class PHPMailer {
   }
 
   /**
-   * NOTE: Phabricator patch to remove use of "/e". See D2147.
+   * NOTE: Phorge patch to remove use of "/e". See D2147.
    */
   private function encodeQCallback(array $matches) {
     return '='.sprintf('%02X', ord($matches[1]));
@@ -1709,7 +1709,7 @@ class PHPMailer {
    */
   public function EncodeQ ($str, $position = 'text') {
 
-    // NOTE: Phabricator patch to remove use of "/e". See D2147.
+    // NOTE: Phorge patch to remove use of "/e". See D2147.
 
     // There should not be any EOL in the string
     $encoded = preg_replace('/[\r\n]*/', '', $str);

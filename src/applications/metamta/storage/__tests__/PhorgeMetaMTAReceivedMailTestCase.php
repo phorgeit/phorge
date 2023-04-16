@@ -12,7 +12,7 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
     $mail = new PhabricatorMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
-        'X-Phabricator-Sent-This-Message' => 'yes',
+        'X-Phorge-Sent-This-Message' => 'yes',
       ));
     $mail->save();
 

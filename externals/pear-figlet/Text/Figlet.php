@@ -369,7 +369,7 @@ class Text_Figlet
         if ($inhtml) {
           self::raiseError(
             'Do not use the HTML escaping provided by this class in '.
-            'a Phabricator context.');
+            'a Phorge context.');
         }
 
         return $str;

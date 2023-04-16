@@ -39,7 +39,7 @@ Phorge sends various information in mail headers that can be useful in
 crafting rules to route and manage mail. To see a full list of headers, use
 the "View Raw Message" feature in your mail client.
 
-The most useful header for routing is generally `X-Phabricator-Stamps`. This
+The most useful header for routing is generally `X-Phorge-Stamps`. This
 is a list of attributes which describe the object the mail is about and the
 actions which the mail informs you about.
 

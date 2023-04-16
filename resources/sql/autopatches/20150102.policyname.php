@@ -11,7 +11,7 @@ $map = array();
 
 foreach ($policies as $policy) {
   $old_name = "PhabricatorPolicyRule{$policy}";
-  $new_name = "Phabricator{$policy}PolicyRule";
+  $new_name = "Phorge{$policy}PolicyRule";
   $map[$old_name] = $new_name;
 }
 

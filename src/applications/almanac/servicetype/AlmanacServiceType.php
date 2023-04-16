@@ -40,12 +40,12 @@ abstract class AlmanacServiceType extends Phobject {
   }
 
   /**
-   * Return `true` if this service type is a Phabricator cluster service type.
+   * Return `true` if this service type is a Phorge cluster service type.
    *
-   * These special services change the behavior of Phabricator, and require
+   * These special services change the behavior of Phorge, and require
    * elevated permission to create and edit.
    *
-   * @return bool True if this is a Phabricator cluster service type.
+   * @return bool True if this is a Phorge cluster service type.
    */
   public function isClusterServiceType() {
     return false;

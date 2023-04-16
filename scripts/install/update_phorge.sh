@@ -3,7 +3,7 @@
 set -e
 set -x
 
-# This is an example script for updating Phabricator. It might not work
+# This is an example script for updating Phorge. It might not work
 # perfectly on your system, but hopefully it should be easy to adapt. This
 # script is not intended to work without modifications.
 

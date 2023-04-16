@@ -109,7 +109,7 @@ final class PhameBlog extends PhameDAO
 
   /**
    * Makes sure a given custom blog uri is properly configured in DNS
-   * to point at this Phabricator instance. If there is an error in
+   * to point at this Phorge instance. If there is an error in
    * the configuration, return a string describing the error and how
    * to fix it. If there is no error, return an empty string.
    *

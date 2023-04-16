@@ -526,7 +526,7 @@ final class PhabricatorRepositoryPullEngine
     // may encounter.
 
     // We do this for both hosted and observed repositories. Although it is
-    // not terribly common to clone from Phabricator's copy of an observed
+    // not terribly common to clone from Phorge's copy of an observed
     // repository, it works fine and makes sense occasionally.
 
     if ($repository->isWorkingCopyBare()) {

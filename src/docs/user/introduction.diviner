@@ -7,7 +7,7 @@ This document provides a high-level overview of the Phorge project.
 
 **Phorge** (pronounced like the word //forge//) is a suite of web
 applications which make it easier to build software, particularly when working
-with teams. Phorge is a fork of Phabricator, which in turn is largely based on
+with teams. Phorge is a fork of Phorge, which in turn is largely based on
 Facebook's internal tools.
 
 The major components of Phorge are:

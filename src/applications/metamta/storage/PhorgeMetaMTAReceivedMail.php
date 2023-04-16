@@ -356,7 +356,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
   }
 
   /**
-   * If Phabricator sent the mail, always drop it immediately. This prevents
+   * If Phorge sent the mail, always drop it immediately. This prevents
    * loops where, e.g., the public bug address is also a user email address
    * and creating a bug sends them an email, which loops.
    */
@@ -369,7 +369,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       MetaMTAReceivedMailStatus::STATUS_FROM_PHORGE,
       pht(
         "Ignoring email with '%s' header to avoid loops.",
-        'X-Phabricator-Sent-This-Message'));
+        'X-Phorge-Sent-This-Message'));
   }
 
   /**
@@ -421,8 +421,8 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       return;
     }
 
-    // Only send an error email if the user is talking to just Phabricator.
-    // We can assume if there is only one "To" address it is a Phabricator
+    // Only send an error email if the user is talking to just Phorge.
+    // We can assume if there is only one "To" address it is a Phorge
     // address since this code is running and everything.
     $is_direct_mail = (count($this->getToAddresses()) == 1) &&
                       (count($this->getCCAddresses()) == 0);

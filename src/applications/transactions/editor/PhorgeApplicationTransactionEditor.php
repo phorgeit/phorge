@@ -3633,7 +3633,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $project_tags = implode(', ', $project_tags);
-    $template->addHeader('X-Phabricator-Projects', $project_tags);
+    $template->addHeader('X-Phorge-Projects', $project_tags);
   }
 
 

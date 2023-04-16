@@ -45,7 +45,7 @@ final class DiffusionServeController extends DiffusionController {
 
     $content_type = $request->getHTTPHeader('Content-Type');
     $user_agent = idx($_SERVER, 'HTTP_USER_AGENT');
-    $request_type = $request->getHTTPHeader('X-Phabricator-Request-Type');
+    $request_type = $request->getHTTPHeader('X-Phorge-Request-Type');
 
     // This may have a "charset" suffix, so only match the prefix.
     $lfs_pattern = '(^application/vnd\\.git-lfs\\+json(;|\z))';
@@ -1115,7 +1115,7 @@ final class DiffusionServeController extends DiffusionController {
             'href' => $get_uri,
             'header' => array(
               'Authorization' => $no_authorization,
-              'X-Phabricator-Request-Type' => 'git-lfs',
+              'X-Phorge-Request-Type' => 'git-lfs',
             ),
           );
         } else {
@@ -1144,7 +1144,7 @@ final class DiffusionServeController extends DiffusionController {
           'href' => $put_uri,
           'header' => array(
             'Authorization' => $authorization,
-            'X-Phabricator-Request-Type' => 'git-lfs',
+            'X-Phorge-Request-Type' => 'git-lfs',
           ),
         );
       }

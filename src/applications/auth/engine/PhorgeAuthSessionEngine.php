@@ -239,7 +239,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
 
 
   /**
-   * Issue a new session key for a given identity. Phabricator supports
+   * Issue a new session key for a given identity. Phorge supports
    * different types of sessions (like "web" and "conduit") and each session
    * type may have multiple concurrent sessions (this allows a user to be
    * logged in on multiple browsers at the same time, for instance).
@@ -248,7 +248,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * issue other types of tokens, it ONLY generates a new session key.
    *
    * You can configure the maximum number of concurrent sessions for various
-   * session types in the Phabricator configuration.
+   * session types in the Phorge configuration.
    *
    * @param   const     Session type constant (see
    *                    @{class:PhabricatorAuthSession}).

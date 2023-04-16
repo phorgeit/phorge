@@ -42,7 +42,7 @@ final class PhabricatorVCSResponse extends AphrontResponse {
     if ($this->getHTTPResponseCode() == 401) {
       $headers[] = array(
         'WWW-Authenticate',
-        'Basic realm="Phabricator Repositories"',
+        'Basic realm="Phorge Repositories"',
       );
     }
 
@@ -50,7 +50,7 @@ final class PhabricatorVCSResponse extends AphrontResponse {
     if (strlen($message)) {
       foreach (phutil_split_lines($message, false) as $line) {
         $headers[] = array(
-          'X-Phabricator-Message',
+          'X-Phorge-Message',
           $line,
         );
       }

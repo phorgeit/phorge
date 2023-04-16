@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Consolidates Phabricator application cookies, including registration
+ * Consolidates Phorge application cookies, including registration
  * and session management.
  *
  * @task clientid   Client ID Cookie

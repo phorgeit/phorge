@@ -88,7 +88,7 @@ final class DiffusionMercurialCommandEngine
     // the output of the command being piped/read from another process.
     //
     // When printing color output Mercurial may run into some issue with the
-    // terminal info. This should never happen in Phabricator since color
+    // terminal info. This should never happen in Phorge since color
     // output should be turned off, however in the event it shows up we should
     // filter it out anyways.
 

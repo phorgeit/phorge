@@ -247,7 +247,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
     $config = $this->getProviderConfig();
 
     // When a user logs in with a provider like username/password, they
-    // always already have a Phabricator account (since there's no way they
+    // always already have a Phorge account (since there's no way they
     // could have a username otherwise).
 
     // These users should never go to registration, so we're building a

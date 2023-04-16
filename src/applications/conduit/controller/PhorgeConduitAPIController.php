@@ -157,7 +157,7 @@ final class PhabricatorConduitAPIController
   }
 
   /**
-   * Authenticate the client making the request to a Phabricator user account.
+   * Authenticate the client making the request to a Phorge user account.
    *
    * @param   ConduitAPIRequest Request being executed.
    * @param   dict              Request metadata.
@@ -357,7 +357,7 @@ final class PhabricatorConduitAPIController
         }
       }
 
-      // If this is a "clr-" token, Phabricator must be configured in cluster
+      // If this is a "clr-" token, Phorge must be configured in cluster
       // mode and the remote address must be a cluster node.
       if ($token->getTokenType() == PhabricatorConduitToken::TYPE_CLUSTER) {
         if (!PhabricatorEnv::isClusterRemoteAddress()) {

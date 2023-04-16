@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Authentication adapter for Phabricator OAuth2.
+ * Authentication adapter for Phorge OAuth2.
  */
 final class PhutilPhabricatorAuthAdapter extends PhutilOAuthAuthAdapter {
 

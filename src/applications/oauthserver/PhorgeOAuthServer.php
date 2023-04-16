@@ -17,7 +17,7 @@
  * code.
  * 2) Access Token - the client should send the authorization code received in
  * step 1 along with its id and secret to the OAuth server to receive an
- * access token. This access token can later be used to access Phabricator
+ * access token. This access token can later be used to access Phorge
  * data on behalf of the user.
  *
  * @task auth Authorizing @{class:PhabricatorOAuthServerClient}s and

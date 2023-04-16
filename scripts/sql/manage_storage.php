@@ -84,7 +84,7 @@ try {
   exit(77);
 }
 
-// First, test that the Phabricator configuration is set up correctly. After
+// First, test that the Phorge configuration is set up correctly. After
 // we know this works we'll test any administrative credentials specifically.
 
 $refs = PhabricatorDatabaseRef::getActiveDatabaseRefs();

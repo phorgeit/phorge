@@ -8,6 +8,6 @@
 // and a version of this migration against the modern schema isn't easy to
 // implement or test, just skip the migration.
 
-// This means that installs which upgrade from a version of Phabricator
-// released prior to Feb 2014 to a version of Phabricator relased after
+// This means that installs which upgrade from a version of Phorge
+// released prior to Feb 2014 to a version of Phorge relased after
 // Jan 2018 will need to have users reset VCS passwords.

@@ -34,7 +34,7 @@
  * representing it for its own children to depend on. This means the server code
  * is free to call initBehavior in any order.
  *
- * In Phabricator, AphrontJavelinView demonstrates how to handle this correctly.
+ * In Phorge, AphrontJavelinView demonstrates how to handle this correctly.
  *
  * config: {
  *   id: Node id to replace.

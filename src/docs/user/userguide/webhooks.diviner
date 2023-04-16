@@ -52,7 +52,7 @@ verify that Phorge originated a request.
 
 When you receive a request, compute the SHA256 HMAC value of the request body
 using the HMAC key as the key. The value should match the value in the
-`X-Phabricator-Webhook-Signature` field.
+`X-Phorge-Webhook-Signature` field.
 
 To compute the SHA256 HMAC of a string in PHP, do this:
 

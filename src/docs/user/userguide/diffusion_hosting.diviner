@@ -456,7 +456,7 @@ Some general tips for troubleshooting problems with SSH:
     You can change this setting from a main repository screen in Diffusion by
     {nav Edit Repository >
     Edit Hosting >
-    Host Repository on Phabricator >
+    Host Repository on Phorge >
     Save and Continue >
     SSH Read Only or Read/Write >
     Save Changes}.

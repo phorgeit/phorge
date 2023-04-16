@@ -54,10 +54,10 @@ tools were less negatively received than the older versions. By December 2010,
 Evan started open sourcing them; Haste became //Celerity// and Alite became
 //Aphront//. He wrote Maniphest to track open issues with the project in January
 or February, left Facebook in April, and shortly after, open sourced
-Phabricator.
+Phorge.
 
 = Phork =
-In 2021, Evan announced that Phabricator was no longer maintained.  A group of
+In 2021, Evan announced that Phorge was no longer maintained.  A group of
 open-source contributors came together and forked it.  This new
 group called renamed the project "Phorge" and continues to maintain this
 beloved and well-used project.

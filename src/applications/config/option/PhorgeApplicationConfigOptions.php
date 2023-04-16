@@ -79,7 +79,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   public function getKey() {
     $class = get_class($this);
     $matches = null;
-    if (preg_match('/^Phabricator(.*)ConfigOptions$/', $class, $matches)) {
+    if (preg_match('/^Phorge(.*)ConfigOptions$/', $class, $matches)) {
       return strtolower($matches[1]);
     }
     return strtolower(get_class($this));

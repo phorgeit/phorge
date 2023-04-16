@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base class for Phabricator search engine providers. Each engine must offer
+ * Base class for Phorge search engine providers. Each engine must offer
  * three capabilities: indexing, searching, and reconstruction (this can be
  * stubbed out if an engine can't reasonably do it, it is used for debugging).
  */

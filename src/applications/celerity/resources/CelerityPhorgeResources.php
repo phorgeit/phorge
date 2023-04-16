@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Defines Phabricator's static resources.
+ * Defines Phorge's static resources.
  */
 final class CelerityPhabricatorResources extends CelerityResourcesOnDisk {
 

@@ -199,7 +199,7 @@ final class PhabricatorStorageManagementDumpWorkflow
 
         // NOTE: It's possible for us to find tables in these database which
         // we don't expect to be there. For example, an older version of
-        // Phabricator may have had a table that was later dropped. We assume
+        // Phorge may have had a table that was later dropped. We assume
         // these are data tables and always dump them, erring on the side of
         // caution.
 

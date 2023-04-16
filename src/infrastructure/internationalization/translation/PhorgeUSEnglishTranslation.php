@@ -496,9 +496,9 @@ final class PhabricatorUSEnglishTranslation
         'Install these PHP extensions:',
       ),
 
-      'The current Phabricator configuration has these %d value(s):' => array(
-        'The current Phabricator configuration has this value:',
-        'The current Phabricator configuration has these values:',
+      'The current Phorge configuration has these %d value(s):' => array(
+        'The current Phorge configuration has this value:',
+        'The current Phorge configuration has these values:',
       ),
 
       'The current MySQL configuration has these %d value(s):' => array(
@@ -1056,14 +1056,14 @@ final class PhabricatorUSEnglishTranslation
         'The configurations differ in these ways:',
       ),
 
-      'Phabricator is configured with an email domain whitelist (in %s), so '.
+      'Phorge is configured with an email domain whitelist (in %s), so '.
       'only users with a verified email address at one of these %s '.
       'allowed domain(s) will be able to register an account: %s' => array(
         array(
-          'Phabricator is configured with an email domain whitelist (in %s), '.
+          'Phorge is configured with an email domain whitelist (in %s), '.
           'so only users with a verified email address at %3$s will be '.
           'allowed to register an account.',
-          'Phabricator is configured with an email domain whitelist (in %s), '.
+          'Phorge is configured with an email domain whitelist (in %s), '.
           'so only users with a verified email address at one of these '.
           'allowed domains will be able to register an account: %3$s',
         ),

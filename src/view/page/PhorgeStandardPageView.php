@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is a standard Phabricator page with menus, Javelin, DarkConsole, and
+ * This is a standard Phorge page with menus, Javelin, DarkConsole, and
  * basic styles.
  */
 final class PhabricatorStandardPageView extends PhabricatorBarePageView

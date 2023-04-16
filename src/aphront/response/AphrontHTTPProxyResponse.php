@@ -33,7 +33,7 @@ final class AphrontHTTPProxyResponse extends AphrontResponse {
       parent::getHeaders(),
       $this->headers,
       array(
-        array('X-Phabricator-Proxy', 'true'),
+        array('X-Phorge-Proxy', 'true'),
       ));
   }
 

@@ -11,7 +11,7 @@ final class PhabricatorRepositoryIdentityChangeWorker
 
     // Retain backward compatibility with older tasks which may still be in
     // queue. Previously, this worker accepted a single "userPHID". See
-    // T13444. This can be removed in some future version of Phabricator once
+    // T13444. This can be removed in some future version of Phorge once
     // these tasks have likely flushed out of queue.
     $legacy_phid = $this->getTaskDataValue('userPHID');
     if ($legacy_phid) {

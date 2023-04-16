@@ -15,7 +15,7 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
   }
 
   public static function getProfilerHeader() {
-    return 'X-Phabricator-Profiler';
+    return 'X-Phorge-Profiler';
   }
 
   public static function isProfilerRequested() {

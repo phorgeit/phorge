@@ -6,7 +6,7 @@
  *
  * These workers are invoked by feed infrastructure during normal task queue
  * operations. They read feed stories and publish information about them to
- * external systems, generally mirroring comments and updates in Phabricator
+ * external systems, generally mirroring comments and updates in Phorge
  * into remote systems by making API calls.
  *
  * @task publish  Publishing Stories
@@ -35,7 +35,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
 
   /**
    * Enable or disable the worker. Normally, this checks configuration to
-   * see if Phabricator is linked to applicable external systems.
+   * see if Phorge is linked to applicable external systems.
    *
    * @return bool True if this worker should try to publish stories.
    * @task publish

@@ -51,7 +51,7 @@ final class PhabricatorConfigEditor
         $v = $xaction->getNewValue();
 
         // If this is a defined configuration option (vs a straggler from an
-        // old version of Phabricator or a configuration file misspelling)
+        // old version of Phorge or a configuration file misspelling)
         // submit it to the validation gauntlet.
         $key = $object->getConfigKey();
         $all_options = PhabricatorApplicationConfigOptions::loadAllOptions();

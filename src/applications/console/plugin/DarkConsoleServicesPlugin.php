@@ -13,7 +13,7 @@ final class DarkConsoleServicesPlugin extends DarkConsolePlugin {
   }
 
   public static function getQueryAnalyzerHeader() {
-    return 'X-Phabricator-QueryAnalyzer';
+    return 'X-Phorge-QueryAnalyzer';
   }
 
   public static function isQueryAnalyzerRequested() {

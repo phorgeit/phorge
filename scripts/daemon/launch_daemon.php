@@ -2,7 +2,7 @@
 <?php
 
 // NOTE: This is substantially the same as the libphutil/ "launch_daemon.php"
-// script, except it loads the Phabricator environment and adds some Phabricator
+// script, except it loads the Phorge environment and adds some Phorge
 // specific flags.
 
 if (function_exists('pcntl_async_signals')) {

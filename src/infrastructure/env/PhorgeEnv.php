@@ -9,7 +9,7 @@
  * = Reading Configuration =
  *
  * The primary role of this class is to provide an API for reading
- * Phabricator configuration, @{method:getEnvConfig}:
+ * Phorge configuration, @{method:getEnvConfig}:
  *
  *   $value = PhabricatorEnv::getEnvConfig('some.key', $default);
  *
@@ -94,7 +94,7 @@ final class PhabricatorEnv extends Phobject {
     self::resetUmask();
     self::buildConfigurationSourceStack($config_optional);
 
-    // Force a valid timezone. If both PHP and Phabricator configuration are
+    // Force a valid timezone. If both PHP and Phorge configuration are
     // invalid, use UTC.
     $tz = self::getEnvConfig('phorge.timezone');
     if ($tz) {
@@ -973,7 +973,7 @@ final class PhabricatorEnv extends Phobject {
 
   /**
    * Get the path to an empty directory which is readable by all of the system
-   * user accounts that Phabricator acts as.
+   * user accounts that Phorge acts as.
    *
    * In some cases, a binary needs some valid HOME or CWD to continue, but not
    * all user accounts have valid home directories and even if they do they

@@ -8,7 +8,7 @@ final class PhabricatorFaviconController
   }
 
   public function handleRequest(AphrontRequest $request) {
-    // See PHI1719. Phabricator uses "<link /"> tags in the document body
+    // See PHI1719. Phorge uses "<link /"> tags in the document body
     // to direct user agents to icons, like this:
     //
     //   <link rel="icon" href="..." />

@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage audits'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **audit** __command__ [__options__]
-    Manage Phabricator audits.
+    Manage Phorge audits.
 
 EOSYNOPSIS
   );

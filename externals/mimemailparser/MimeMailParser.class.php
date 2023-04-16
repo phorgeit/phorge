@@ -111,7 +111,7 @@ class MimeMailParser {
 	 * @param $data String
 	 */
 	public function setText($data) {
-	// NOTE: This has been modified for Phabricator. If the input data does not
+	// NOTE: This has been modified for Phorge. If the input data does not
 	// end in a newline, Mailparse fails to include the last line in the mail
 	// body. This happens somewhere deep, deep inside the mailparse extension,
 	// so adding a newline here seems like the most straightforward fix.
@@ -190,7 +190,7 @@ class MimeMailParser {
 	 */
 	public function getMessageBody($type = 'text') {
 
-	  // NOTE: This function has been modified for Phabricator. The default
+	  // NOTE: This function has been modified for Phorge. The default
 	  // implementation returns the last matching part, which throws away text
 	  // for many emails. Instead, we concatenate all matching parts. See
 	  // issue 22 for discussion:
@@ -257,7 +257,7 @@ class MimeMailParser {
 	 * @param $type Object[optional]
 	 */
 	public function getAttachments() {
-    // NOTE: This has been modified for Phabricator. Some mail clients do not
+    // NOTE: This has been modified for Phorge. Some mail clients do not
     // send attachments with "Content-Disposition" headers.
 		$attachments = array();
 		$dispositions = array("attachment","inline");

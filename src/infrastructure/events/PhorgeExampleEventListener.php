@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Example event listener. For details about installing Phabricator event hooks,
+ * Example event listener. For details about installing Phorge event hooks,
  * refer to @{article:Events User Guide: Installing Event Listeners}.
  */
 final class PhabricatorExampleEventListener extends PhabricatorEventListener {

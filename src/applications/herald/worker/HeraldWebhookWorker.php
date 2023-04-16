@@ -188,7 +188,7 @@ final class HeraldWebhookWorker
     $future = id(new HTTPSFuture($uri))
       ->setMethod('POST')
       ->addHeader('Content-Type', 'application/json')
-      ->addHeader('X-Phabricator-Webhook-Signature', $signature)
+      ->addHeader('X-Phorge-Webhook-Signature', $signature)
       ->setTimeout(15)
       ->setData($payload);
 

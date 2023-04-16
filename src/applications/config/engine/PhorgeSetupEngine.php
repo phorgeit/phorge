@@ -37,8 +37,8 @@ final class PhabricatorSetupEngine
       // If we've discovered a fatal, we reset any in-flight state to push
       // web hosts out of service.
 
-      // This can happen if Phabricator starts during a disaster and some
-      // databases can not be reached. We allow Phabricator to start up in
+      // This can happen if Phorge starts during a disaster and some
+      // databases can not be reached. We allow Phorge to start up in
       // this situation, since it may still be able to usefully serve requests
       // without risk to data.
 

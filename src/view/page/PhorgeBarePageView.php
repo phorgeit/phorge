@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This is a bare HTML page view which has access to Phabricator page
+ * This is a bare HTML page view which has access to Phorge page
  * infrastructure like Celerity, but no content or builtin static resources.
  * You basically get a valid HMTL5 document and an empty body tag.
  *

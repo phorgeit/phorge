@@ -6,7 +6,7 @@ final class PhabricatorMailUtil
   /**
    * Normalize an email address for comparison or lookup.
    *
-   * Phabricator can be configured to prepend a prefix to all reply addresses,
+   * Phorge can be configured to prepend a prefix to all reply addresses,
    * which can make forwarding rules easier to write. This method strips the
    * prefix if it is present, and normalizes casing and whitespace.
    *

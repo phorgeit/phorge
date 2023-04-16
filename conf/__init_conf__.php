@@ -11,7 +11,7 @@ function phorge_read_config_file($original_config) {
     // These are very old configuration files which we used to ship with
     // by default. File based configuration was de-emphasized once web-based
     // configuration was built. The actual files were removed to reduce
-    // user confusion over how to configure Phabricator.
+    // user confusion over how to configure Phorge.
 
     switch ($config) {
       case 'default':

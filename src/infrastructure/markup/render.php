@@ -35,7 +35,7 @@ function phutil_tag($tag, array $attributes = array(), $content = null) {
       // This function is deep in the core and performance sensitive, so we're
       // doing a cheap version of this test first to avoid calling preg_match()
       // on URIs which begin with '/' or `#`. These cover essentially all URIs
-      // in Phabricator.
+      // in Phorge.
       if (($href[0] !== '/') && ($href[0] !== '#')) {
         // Chrome 33 and IE 11 both interpret "javascript\n:" as a Javascript
         // URI, and all browsers interpret "  javascript:" as a Javascript URI,

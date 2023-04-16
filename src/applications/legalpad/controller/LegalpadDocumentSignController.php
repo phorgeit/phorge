@@ -207,7 +207,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
         // If the viewer is logged in, signing for themselves, send them to
         // the document page, which will show that they have signed the
         // document. Unless of course they were required to sign the
-        // document to use Phabricator; in that case try really hard to
+        // document to use Phorge; in that case try really hard to
         // re-direct them to where they wanted to go.
         //
         // Otherwise, send them to a completion page.
@@ -265,7 +265,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
       ->setEpoch($content_updated);
 
     // If we're showing the user this document because it's required to use
-    // Phabricator and they haven't signed it, don't show the "Manage" button,
+    // Phorge and they haven't signed it, don't show the "Manage" button,
     // since it won't work.
     $is_gate = $this->getIsSessionGate();
     if (!$is_gate) {

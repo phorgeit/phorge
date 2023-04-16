@@ -1075,7 +1075,7 @@ final class PhabricatorMetaMTAMail
     $unfiltered = $this->getParam('headers.unfiltered');
 
     if ($unfiltered === null) {
-      // Older versions of Phabricator did not filter headers, and thus did
+      // Older versions of Phorge did not filter headers, and thus did
       // not record unfiltered headers. If we don't have unfiltered header
       // data just return the delivered headers for compatibility.
       return $this->getDeliveredHeaders();

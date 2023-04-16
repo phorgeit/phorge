@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage cache'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **cache** __command__ [__options__]
-    Manage Phabricator caches.
+    Manage Phorge caches.
 
 EOSYNOPSIS
   );

@@ -140,7 +140,7 @@ final class PhabricatorSetupIssue extends Phobject {
    * Set an explicit value to display when showing the user PHP configuration
    * values.
    *
-   * If Phabricator has changed a value by the time a config issue is raised,
+   * If Phorge has changed a value by the time a config issue is raised,
    * you can provide the original value here so the UI makes sense. For example,
    * we alter `memory_limit` during startup, so if the original value is not
    * provided it will look like it is always set to `-1`.

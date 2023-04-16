@@ -122,7 +122,7 @@ abstract class NuanceSourceDefinition extends Phobject {
   }
 
   /**
-   * A human readable string like "Twitter" or "Phabricator Form".
+   * A human readable string like "Twitter" or "Phorge Form".
    */
   abstract public function getName();
 

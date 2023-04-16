@@ -66,9 +66,9 @@
       "rule": ".login-PayPal",
       "hash": "dfa09f45369c93bb0fd82a333b0fe927"
     },
-    "login-Phabricator": {
-      "name": "login-Phabricator",
-      "rule": ".login-Phabricator",
+    "login-Phorge": {
+      "name": "login-Phorge",
+      "rule": ".login-Phorge",
       "hash": "54f5ddae4b9d138c438ec00ed42544d2"
     },
     "login-Slack": {

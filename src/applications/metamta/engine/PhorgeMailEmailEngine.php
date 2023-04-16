@@ -79,7 +79,7 @@ final class PhabricatorMailEmailEngine
     $stamps = $mail->getMailStamps();
     if ($stamps) {
       $headers[] = $this->newEmailHeader(
-        'X-Phabricator-Stamps',
+        'X-Phorge-Stamps',
         implode(' ', $stamps));
     }
 
@@ -344,7 +344,7 @@ final class PhabricatorMailEmailEngine
     $headers = array();
 
     $headers[] = $this->newEmailHeader(
-      'X-Phabricator-Sent-This-Message',
+      'X-Phorge-Sent-This-Message',
       'Yes');
     $headers[] = $this->newEmailHeader(
       'X-Mail-Transport-Agent',
@@ -363,7 +363,7 @@ final class PhabricatorMailEmailEngine
       }
       $tag_header = implode(', ', $tag_header);
       $headers[] = $this->newEmailHeader(
-        'X-Phabricator-Mail-Tags',
+        'X-Phorge-Mail-Tags',
         $tag_header);
     }
 
@@ -382,7 +382,7 @@ final class PhabricatorMailEmailEngine
     }
 
     if ($mail->getMustEncrypt()) {
-      $headers[] = $this->newEmailHeader('X-Phabricator-Must-Encrypt', 'Yes');
+      $headers[] = $this->newEmailHeader('X-Phorge-Must-Encrypt', 'Yes');
     }
 
     $related_phid = $mail->getRelatedPHID();
@@ -391,12 +391,12 @@ final class PhabricatorMailEmailEngine
     }
 
     $headers[] = $this->newEmailHeader(
-      'X-Phabricator-Mail-ID',
+      'X-Phorge-Mail-ID',
       $mail->getID());
 
     $unique = Filesystem::readRandomCharacters(16);
     $headers[] = $this->newEmailHeader(
-      'X-Phabricator-Send-Attempt',
+      'X-Phorge-Send-Attempt',
       $unique);
 
     return $headers;
@@ -555,13 +555,13 @@ final class PhabricatorMailEmailEngine
       'X-Mail-Transport-Agent',
       'X-Auto-Response-Suppress',
 
-      'X-Phabricator-Sent-This-Message',
-      'X-Phabricator-Must-Encrypt',
-      'X-Phabricator-Mail-ID',
-      'X-Phabricator-Send-Attempt',
+      'X-Phorge-Sent-This-Message',
+      'X-Phorge-Must-Encrypt',
+      'X-Phorge-Mail-ID',
+      'X-Phorge-Send-Attempt',
     );
 
-    // NOTE: The major header we want to drop is "X-Phabricator-Mail-Tags".
+    // NOTE: The major header we want to drop is "X-Phorge-Mail-Tags".
     // This header contains a significant amount of meaningful information
     // about the object.
 

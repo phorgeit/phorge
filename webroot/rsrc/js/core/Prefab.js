@@ -56,7 +56,7 @@ JX.install('Prefab', {
     },
 
     /**
-     * Build a Phabricator tokenizer out of a configuration with application
+     * Build a Phorge tokenizer out of a configuration with application
      * sorting, datasource and placeholder rules.
      *
      *   - `id` Root tokenizer ID (alternatively, pass `root`).

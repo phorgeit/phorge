@@ -90,7 +90,7 @@ final class PhabricatorTranslationSetting
       unset($groups['silly']);
     }
 
-    // Omit limited and test translations if Phabricator is not in developer
+    // Omit limited and test translations if Phorge is not in developer
     // mode.
     $is_dev = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
     if (!$is_dev) {

@@ -91,8 +91,8 @@ final class PhabricatorMailTarget extends Phobject {
       }
     }
 
-    $mail->addPHIDHeaders('X-Phabricator-To', $this->rawToPHIDs);
-    $mail->addPHIDHeaders('X-Phabricator-Cc', $this->rawCCPHIDs);
+    $mail->addPHIDHeaders('X-Phorge-To', $this->rawToPHIDs);
+    $mail->addPHIDHeaders('X-Phorge-Cc', $this->rawCCPHIDs);
 
     $to_handles = $viewer->loadHandles($this->rawToPHIDs);
     $cc_handles = $viewer->loadHandles($this->rawCCPHIDs);

@@ -2,7 +2,7 @@
 
 /**
  * Resolve an author or committer name, like
- * `"Abraham Lincoln <alincoln@logcab.in>"`, into a valid Phabricator user
+ * `"Abraham Lincoln <alincoln@logcab.in>"`, into a valid Phorge user
  * account, like `@alincoln`.
  */
 final class DiffusionResolveUserQuery extends Phobject {

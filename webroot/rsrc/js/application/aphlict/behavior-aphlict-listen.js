@@ -43,7 +43,7 @@ JX.behavior('aphlict-listen', function(config) {
   });
 
   // Respond to a notification from the Aphlict notification server. We send
-  // a request to Phabricator to get notification details.
+  // a request to Phorge to get notification details.
   function onAphlictMessage(message) {
     switch (message.type) {
       case 'aphlict.server':
@@ -60,7 +60,7 @@ JX.behavior('aphlict-listen', function(config) {
     }
   }
 
-  // Respond to a response from Phabricator about a specific notification.
+  // Respond to a response from Phorge about a specific notification.
   function onNotification(response) {
     if (!response.pertinent) {
       return;

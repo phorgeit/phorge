@@ -196,7 +196,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
         return $response;
       }
     } else if ($issue_keys) {
-      // If Phabricator is configured in a cluster with multiple web devices,
+      // If Phorge is configured in a cluster with multiple web devices,
       // we can end up with setup issues cached on every device. This can cause
       // a warning banner to show on every device so that each one needs to
       // be dismissed individually, which is pretty annoying. See T10876.

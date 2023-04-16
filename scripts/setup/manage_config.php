@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage configuration'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **config** __command__ [__options__]
-    Manage Phabricator configuration.
+    Manage Phorge configuration.
 
 EOSYNOPSIS
   );

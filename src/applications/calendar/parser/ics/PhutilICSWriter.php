@@ -134,7 +134,7 @@ final class PhutilICSWriter extends Phobject {
   }
 
   public static function getICSPRODID() {
-    return '-//Phacility//Phabricator//EN';
+    return '-//Phacility//Phorge//EN';
   }
 
   private function getEventNodeProperties(PhutilCalendarEventNode $event) {

@@ -95,7 +95,7 @@ final class PhutilKeyValueCacheTestCase extends PhutilTestCase {
     $keys = array(
       'key1' => mt_rand(),
       'key2' => '',
-      'key3' => 'Phabricator',
+      'key3' => 'Phorge',
     );
     $cache->setKeys($keys);
     $cached_keys = $in_request_cache->getAllKeys();

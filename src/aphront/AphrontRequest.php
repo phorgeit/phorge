@@ -3,7 +3,7 @@
 /**
  * @task data     Accessing Request Data
  * @task cookie   Managing Cookies
- * @task cluster  Working With a Phabricator Cluster
+ * @task cluster  Working With a Phorge Cluster
  */
 final class AphrontRequest extends Phobject {
 
@@ -328,11 +328,11 @@ final class AphrontRequest extends Phobject {
   }
 
   public static function getCSRFHeaderName() {
-    return 'X-Phabricator-Csrf';
+    return 'X-Phorge-Csrf';
   }
 
   public static function getViaHeaderName() {
-    return 'X-Phabricator-Via';
+    return 'X-Phorge-Via';
   }
 
   public function validateCSRF() {
@@ -812,11 +812,11 @@ final class AphrontRequest extends Phobject {
   }
 
 
-/* -(  Working With a Phabricator Cluster  )--------------------------------- */
+/* -(  Working With a Phorge Cluster  )--------------------------------- */
 
 
   /**
-   * Is this a proxied request originating from within the Phabricator cluster?
+   * Is this a proxied request originating from within the Phorge cluster?
    *
    * IMPORTANT: This means the request is dangerous!
    *
@@ -827,7 +827,7 @@ final class AphrontRequest extends Phobject {
    * safe.
    */
   public function isProxiedClusterRequest() {
-    return (bool)self::getHTTPHeader('X-Phabricator-Cluster');
+    return (bool)self::getHTTPHeader('X-Phorge-Cluster');
   }
 
 
@@ -881,7 +881,7 @@ final class AphrontRequest extends Phobject {
 
     $future = id(new HTTPSFuture($uri))
       ->addHeader('Host', self::getHost())
-      ->addHeader('X-Phabricator-Cluster', true)
+      ->addHeader('X-Phorge-Cluster', true)
       ->setMethod($_SERVER['REQUEST_METHOD'])
       ->write($input);
 

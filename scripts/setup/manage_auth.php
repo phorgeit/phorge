@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage authentication'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **auth** __command__ [__options__]
-    Manage Phabricator authentication configuration.
+    Manage Phorge authentication configuration.
 
 EOSYNOPSIS
   );

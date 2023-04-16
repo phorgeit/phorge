@@ -57,11 +57,11 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
 
     // Check for `disable_functions` or `disable_classes`. Although it's
     // possible to disable a bunch of functions (say, `array_change_key_case()`)
-    // and classes and still have Phabricator work fine, it's unreasonably
+    // and classes and still have Phorge work fine, it's unreasonably
     // difficult for us to be sure we'll even survive setup if these options
-    // are enabled. Phabricator needs access to the most dangerous functions,
+    // are enabled. Phorge needs access to the most dangerous functions,
     // so there is no reasonable configuration value here which actually
-    // provides a benefit while guaranteeing Phabricator will run properly.
+    // provides a benefit while guaranteeing Phorge will run properly.
 
     $disable_options = array('disable_functions', 'disable_classes');
     foreach ($disable_options as $disable_option) {
