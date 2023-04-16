@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFaviconController
-  extends PhabricatorController {
+final class PhorgeFaviconController
+  extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;
@@ -17,15 +17,15 @@ final class PhabricatorFaviconController
     // directly. To tidy the logs, serve some reasonable response rather than
     // a 404.
 
-    // NOTE: Right now, this only works for the "PhabricatorPlatformSite".
+    // NOTE: Right now, this only works for the "PhorgePlatformSite".
     // Other sites (like custom Phame blogs) won't currently route this
     // path.
 
-    $ref = id(new PhabricatorFaviconRef())
+    $ref = id(new PhorgeFaviconRef())
       ->setWidth(64)
       ->setHeight(64);
 
-    id(new PhabricatorFaviconRefQuery())
+    id(new PhorgeFaviconRefQuery())
       ->withRefs(array($ref))
       ->execute();
 

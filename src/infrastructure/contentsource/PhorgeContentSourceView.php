@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorContentSourceView extends AphrontView {
+final class PhorgeContentSourceView extends AphrontView {
 
   private $contentSource;
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }

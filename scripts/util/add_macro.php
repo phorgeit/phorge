@@ -41,21 +41,21 @@ if ($name === null) {
   $name = head(explode('.', basename($path)));
 }
 
-$existing = id(new PhabricatorFileImageMacro())->loadOneWhere(
+$existing = id(new PhorgeFileImageMacro())->loadOneWhere(
   'name = %s',
   $name);
 if ($existing) {
   throw new Exception(pht("A macro already exists with the name '%s'!", $name));
 }
 
-$file = PhabricatorFile::newFromFileData(
+$file = PhorgeFile::newFromFileData(
   $data,
   array(
     'name' => basename($path),
     'canCDN' => true,
   ));
 
-$macro = id(new PhabricatorFileImageMacro())
+$macro = id(new PhorgeFileImageMacro())
   ->setFilePHID($file->getPHID())
   ->setName($name)
   ->save();

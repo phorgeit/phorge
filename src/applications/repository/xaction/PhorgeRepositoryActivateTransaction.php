@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryActivateTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryActivateTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:activate';
 
@@ -26,7 +26,7 @@ final class PhabricatorRepositoryActivateTransaction
     // should be migrated.
     $is_deactivate =
       (!$new) ||
-      ($new == PhabricatorRepository::STATUS_INACTIVE);
+      ($new == PhorgeRepository::STATUS_INACTIVE);
 
     if (!$is_deactivate) {
       return pht(
@@ -42,7 +42,7 @@ final class PhabricatorRepositoryActivateTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $status_map = PhabricatorRepository::getStatusMap();
+    $status_map = PhorgeRepository::getStatusMap();
     foreach ($xactions as $xaction) {
       $status = $xaction->getNewValue();
       if (empty($status_map[$status])) {

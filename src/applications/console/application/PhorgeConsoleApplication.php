@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConsoleApplication extends PhabricatorApplication {
+final class PhorgeConsoleApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Console');

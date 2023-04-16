@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIDsSearchField
-  extends PhabricatorSearchField {
+final class PhorgeIDsSearchField
+  extends PhorgeSearchField {
 
   protected function getDefaultValue() {
     return array();

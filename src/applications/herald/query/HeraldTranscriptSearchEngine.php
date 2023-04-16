@@ -1,14 +1,14 @@
 <?php
 
 final class HeraldTranscriptSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Herald Transcripts');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,7 +16,7 @@ final class HeraldTranscriptSearchEngine
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $object_monograms = $request->getStrList('objectMonograms');
     $saved->setParameter('objectMonograms', $object_monograms);
@@ -34,12 +34,12 @@ final class HeraldTranscriptSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new HeraldTranscriptQuery());
 
     $object_monograms = $saved->getParameter('objectMonograms');
     if ($object_monograms) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($this->requireViewer())
         ->withNames($object_monograms)
         ->execute();
@@ -56,7 +56,7 @@ final class HeraldTranscriptSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $object_monograms = $saved->getParameter('objectMonograms', array());
     $ids = $saved->getParameter('ids', array());
@@ -100,13 +100,13 @@ final class HeraldTranscriptSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $transcripts,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return mpull($transcripts, 'getObjectPHID');
   }
 
   protected function renderResultList(
     array $transcripts,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($transcripts, 'HeraldTranscript');
 
@@ -137,7 +137,7 @@ final class HeraldTranscriptSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No transcripts found.'));
 

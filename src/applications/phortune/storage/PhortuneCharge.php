@@ -8,8 +8,8 @@
  */
 final class PhortuneCharge extends PhortuneDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   const STATUS_CHARGING   = 'charge:charging';
   const STATUS_CHARGED    = 'charge:charged';
@@ -111,7 +111,7 @@ final class PhortuneCharge extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortuneChargePHIDType::TYPECONST);
   }
 
@@ -158,22 +158,22 @@ final class PhortuneCharge extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
-    if ($capability === PhabricatorPolicyCapability::CAN_VIEW) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
+    if ($capability === PhorgePolicyCapability::CAN_VIEW) {
       $any_edit = PhortuneMerchantQuery::canViewersEditMerchants(
         array($viewer->getPHID()),
         array($this->getMerchantPHID()));
@@ -186,10 +186,10 @@ final class PhortuneCharge extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     if ($this->hasAutomaticCapability($capability, $viewer)) {
       return array();
     }
@@ -197,7 +197,7 @@ final class PhortuneCharge extends PhortuneDAO
     return array(
       array(
         $this->getAccount(),
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

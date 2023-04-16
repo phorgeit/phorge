@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerTriggerQuery
-  extends PhabricatorPolicyAwareQuery {
+final class PhorgeWorkerTriggerQuery
+  extends PhorgePolicyAwareQuery {
 
   // NOTE: This is a PolicyAware query so it can work with other infrastructure
   // like handles; triggers themselves are low-level and do not have
@@ -78,7 +78,7 @@ final class PhabricatorWorkerTriggerQuery
   }
 
   protected function loadPage() {
-    $task_table = new PhabricatorWorkerTrigger();
+    $task_table = new PhorgeWorkerTrigger();
 
     $conn_r = $task_table->establishConnection('r');
 
@@ -97,7 +97,7 @@ final class PhabricatorWorkerTriggerQuery
       if ($this->needEvents) {
         $ids = mpull($triggers, 'getID');
 
-        $events = id(new PhabricatorWorkerTriggerEvent())->loadAllWhere(
+        $events = id(new PhorgeWorkerTriggerEvent())->loadAllWhere(
           'triggerID IN (%Ld)',
           $ids);
         $events = mpull($events, null, 'getTriggerID');
@@ -110,7 +110,7 @@ final class PhabricatorWorkerTriggerQuery
 
       foreach ($triggers as $key => $trigger) {
         $clock_class = $trigger->getClockClass();
-        if (!is_subclass_of($clock_class, 'PhabricatorTriggerClock')) {
+        if (!is_subclass_of($clock_class, 'PhorgeTriggerClock')) {
           unset($triggers[$key]);
           continue;
         }
@@ -129,7 +129,7 @@ final class PhabricatorWorkerTriggerQuery
 
       foreach ($triggers as $key => $trigger) {
         $action_class = $trigger->getActionClass();
-        if (!is_subclass_of($action_class, 'PhabricatorTriggerAction')) {
+        if (!is_subclass_of($action_class, 'PhorgeTriggerAction')) {
           unset($triggers[$key]);
           continue;
         }
@@ -158,7 +158,7 @@ final class PhabricatorWorkerTriggerQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T e ON e.triggerID = t.id',
-        id(new PhabricatorWorkerTriggerEvent())->getTableName());
+        id(new PhorgeWorkerTriggerEvent())->getTableName());
     }
 
     if ($joins) {

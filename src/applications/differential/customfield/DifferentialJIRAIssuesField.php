@@ -14,7 +14,7 @@ final class DifferentialJIRAIssuesField
   }
 
   public function isFieldEnabled() {
-    return (bool)PhabricatorJIRAAuthProvider::getJIRAProvider();
+    return (bool)PhorgeJIRAAuthProvider::getJIRAProvider();
   }
 
   public function canDisableField() {
@@ -66,7 +66,7 @@ final class DifferentialJIRAIssuesField
   }
 
   private function buildDoorkeeperRefs($value) {
-    $provider = PhabricatorJIRAAuthProvider::getJIRAProvider();
+    $provider = PhorgeJIRAAuthProvider::getJIRAProvider();
 
     $refs = array();
     if ($value) {
@@ -97,11 +97,11 @@ final class DifferentialJIRAIssuesField
   }
 
   public function shouldAppearInEditView() {
-    return PhabricatorJIRAAuthProvider::getJIRAProvider();
+    return PhorgeJIRAAuthProvider::getJIRAProvider();
   }
 
   public function shouldAppearInApplicationTransactions() {
-    return PhabricatorJIRAAuthProvider::getJIRAProvider();
+    return PhorgeJIRAAuthProvider::getJIRAProvider();
   }
 
   public function readValueFromRequest(AphrontRequest $request) {
@@ -128,7 +128,7 @@ final class DifferentialJIRAIssuesField
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -161,7 +161,7 @@ final class DifferentialJIRAIssuesField
           ->execute();
       } catch (DoorkeeperMissingLinkException $ex) {
         $this->error = pht('Not Linked');
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $type,
           pht('Not Linked'),
           pht(
@@ -184,7 +184,7 @@ final class DifferentialJIRAIssuesField
         $bad = implode(', ', $bad);
         $this->error = pht('Invalid');
 
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $type,
           pht('Invalid'),
           pht(
@@ -199,7 +199,7 @@ final class DifferentialJIRAIssuesField
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $xaction->getOldValue();
     if (!is_array($old)) {
@@ -241,7 +241,7 @@ final class DifferentialJIRAIssuesField
   }
 
   public function applyApplicationTransactionExternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // Update the CustomField storage.
     parent::applyApplicationTransactionExternalEffects($xaction);
@@ -250,15 +250,15 @@ final class DifferentialJIRAIssuesField
     $revision = $this->getObject();
     $revision_phid = $revision->getPHID();
 
-    $edge_type = PhabricatorJiraIssueHasObjectEdgeType::EDGECONST;
+    $edge_type = PhorgeJiraIssueHasObjectEdgeType::EDGECONST;
     $xobjs = $this->loadDoorkeeperExternalObjects($xaction->getNewValue());
     $edge_dsts = mpull($xobjs, 'getPHID');
 
-    $edges = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $edges = PhorgeEdgeQuery::loadDestinationPHIDs(
       $revision_phid,
       $edge_type);
 
-    $editor = new PhabricatorEdgeEditor();
+    $editor = new PhorgeEdgeEditor();
 
     foreach (array_diff($edges, $edge_dsts) as $rem_edge) {
       $editor->removeEdge($revision_phid, $edge_type, $rem_edge);

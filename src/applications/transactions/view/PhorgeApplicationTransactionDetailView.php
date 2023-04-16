@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionDetailView
+abstract class PhorgeApplicationTransactionDetailView
   extends AphrontView {
     protected $oldText;
     protected $newText;

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorProjectTypeTransaction
-  extends PhabricatorProjectTransactionType {
+abstract class PhorgeProjectTypeTransaction
+  extends PhorgeProjectTransactionType {
 
   public function validateTransactions($object, array $xactions) {
     $errors = array();
@@ -25,13 +25,13 @@ abstract class PhabricatorProjectTypeTransaction
       return $errors;
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($this->getActor())
       ->withPHIDs(array($parent_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
     if (!$projects) {
@@ -54,7 +54,7 @@ abstract class PhabricatorProjectTypeTransaction
       return $errors;
     }
 
-    $limit = PhabricatorProject::getProjectDepthLimit();
+    $limit = PhorgeProject::getProjectDepthLimit();
     if ($project->getProjectDepth() >= ($limit - 1)) {
       $errors[] = $this->newInvalidError(
         pht(

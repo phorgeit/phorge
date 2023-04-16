@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorSSHPublicKeyInterface {
+interface PhorgeSSHPublicKeyInterface {
 
   /**
    * Provide a URI for SSH key workflows to return to after completing.
@@ -9,7 +9,7 @@ interface PhabricatorSSHPublicKeyInterface {
    * this URI. For example, editing user keys returns the actor to the settings
    * panel. Editing device keys returns the actor to the device page.
    */
-  public function getSSHPublicKeyManagementURI(PhabricatorUser $viewer);
+  public function getSSHPublicKeyManagementURI(PhorgeUser $viewer);
 
 
   /**

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSyntaxStyle extends Phobject {
+abstract class PhorgeSyntaxStyle extends Phobject {
 
   abstract public function getStyleName();
   abstract public function getStyleMap();

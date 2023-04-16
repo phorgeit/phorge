@@ -15,7 +15,7 @@ final class Aphront404Response extends AphrontHTMLResponse {
 
     // (This may not be the best possible place to send users who are currently
     // on "real" sites, like the BlogSite.)
-    $return_uri = PhabricatorEnv::getURI('/');
+    $return_uri = PhorgeEnv::getURI('/');
 
     $dialog = id(new AphrontDialogView())
       ->setViewer($viewer)
@@ -29,7 +29,7 @@ final class Aphront404Response extends AphrontHTMLResponse {
           'Perhaps the real treasure was the friends you made '.
           'along the way.'));
 
-    $view = id(new PhabricatorStandardPageView())
+    $view = id(new PhorgeStandardPageView())
       ->setTitle(pht('404 Not Found'))
       ->setRequest($request)
       ->setDeviceReady(true)

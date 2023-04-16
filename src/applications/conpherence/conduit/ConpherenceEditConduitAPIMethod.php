@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'conpherence.edit';

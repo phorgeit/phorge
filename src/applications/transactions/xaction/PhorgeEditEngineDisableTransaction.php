@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineDisableTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineDisableTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.disable';
 

@@ -1,6 +1,6 @@
 <?php
 
-final class LiskIsolationTestCase extends PhabricatorTestCase {
+final class LiskIsolationTestCase extends PhorgeTestCase {
 
   public function testIsolatedWrites() {
     $dao = new LiskIsolationTestDAO();

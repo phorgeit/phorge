@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorManualActivitySetupCheck
-  extends PhabricatorSetupCheck {
+final class PhorgeManualActivitySetupCheck
+  extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   protected function executeChecks() {
-    $activities = id(new PhabricatorConfigManualActivity())->loadAll();
+    $activities = id(new PhorgeConfigManualActivity())->loadAll();
 
     foreach ($activities as $activity) {
       $type = $activity->getActivityType();
 
       switch ($type) {
-        case PhabricatorConfigManualActivity::TYPE_REINDEX:
+        case PhorgeConfigManualActivity::TYPE_REINDEX:
           $this->raiseSearchReindexIssue();
           break;
 
-        case PhabricatorConfigManualActivity::TYPE_IDENTITIES:
+        case PhorgeConfigManualActivity::TYPE_IDENTITIES:
           $this->raiseRebuildIdentitiesIssue();
           break;
 

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionStatusDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Statuses');
@@ -12,7 +12,7 @@ final class DifferentialRevisionStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function loadResults() {
@@ -32,7 +32,7 @@ final class DifferentialRevisionStatusDatasource
     foreach ($statuses as $status) {
       $key = $status->getKey();
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon($status->getIcon())
         ->setPHID($key)
         ->setName($status->getDisplayName());

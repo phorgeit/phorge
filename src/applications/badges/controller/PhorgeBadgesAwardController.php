@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorBadgesAwardController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesAwardController
+  extends PhorgeBadgesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -19,13 +19,13 @@ final class PhabricatorBadgesAwardController
 
     if ($request->isFormPost()) {
       $badge_phids = $request->getArr('badgePHIDs');
-      $badges = id(new PhabricatorBadgesQuery())
+      $badges = id(new PhorgeBadgesQuery())
         ->setViewer($viewer)
         ->withPHIDs($badge_phids)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_EDIT,
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
           ))
         ->execute();
       if (!$badges) {
@@ -35,12 +35,12 @@ final class PhabricatorBadgesAwardController
 
       foreach ($badges as $badge) {
         $xactions = array();
-        $xactions[] = id(new PhabricatorBadgesTransaction())
+        $xactions[] = id(new PhorgeBadgesTransaction())
           ->setTransactionType(
-            PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
+            PhorgeBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
           ->setNewValue($award_phids);
 
-        $editor = id(new PhabricatorBadgesEditor())
+        $editor = id(new PhorgeBadgesEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true)
@@ -59,7 +59,7 @@ final class PhabricatorBadgesAwardController
           ->setLabel(pht('Badge'))
           ->setName('badgePHIDs')
           ->setDatasource(
-            id(new PhabricatorBadgesDatasource())
+            id(new PhorgeBadgesDatasource())
               ->setParameters(
                 array(
                   'recipientPHID' => $user->getPHID(),

@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorSetConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeSetConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'set';
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     return id(new AphrontFormTextAreaControl())
       ->setCaption(pht('Separate values with newlines or commas.'));
   }
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $value = preg_split('/[\n,]+/', $value);
@@ -26,7 +26,7 @@ final class PhabricatorSetConfigType
   }
 
   public function newValueFromCommandLineValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     try {
@@ -58,13 +58,13 @@ final class PhabricatorSetConfigType
   }
 
   public function newDisplayValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return implode("\n", array_keys($value));
   }
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_array($value)) {

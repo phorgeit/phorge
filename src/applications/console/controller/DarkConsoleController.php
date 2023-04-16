@@ -1,16 +1,16 @@
 <?php
 
-final class DarkConsoleController extends PhabricatorController {
+final class DarkConsoleController extends PhorgeController {
 
   protected $op;
   protected $data;
 
   public function shouldRequireLogin() {
-    return !PhabricatorEnv::getEnvConfig('darkconsole.always-on');
+    return !PhorgeEnv::getEnvConfig('darkconsole.always-on');
   }
 
   public function shouldRequireEnabledUser() {
-    return !PhabricatorEnv::getEnvConfig('darkconsole.always-on');
+    return !PhorgeEnv::getEnvConfig('darkconsole.always-on');
   }
 
   public function shouldAllowPartialSessions() {
@@ -28,7 +28,7 @@ final class DarkConsoleController extends PhabricatorController {
     $visible = $request->getStr('visible');
     if (strlen($visible)) {
       $this->writeDarkConsoleSetting(
-        PhabricatorDarkConsoleVisibleSetting::SETTINGKEY,
+        PhorgeDarkConsoleVisibleSetting::SETTINGKEY,
         (int)$visible);
       return $response;
     }
@@ -36,7 +36,7 @@ final class DarkConsoleController extends PhabricatorController {
     $tab = $request->getStr('tab');
     if (strlen($tab)) {
       $this->writeDarkConsoleSetting(
-        PhabricatorDarkConsoleTabSetting::SETTINGKEY,
+        PhorgeDarkConsoleTabSetting::SETTINGKEY,
         $tab);
       return $response;
     }
@@ -48,9 +48,9 @@ final class DarkConsoleController extends PhabricatorController {
     $viewer = $this->getViewer();
     $request = $this->getRequest();
 
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+    $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnNoEffect(true)
@@ -65,7 +65,7 @@ final class DarkConsoleController extends PhabricatorController {
     // fills that are only filling because you toggled the console or switched
     // tabs. This makes it harder to see what's really going on, so just force
     // a cache regeneration here.
-    id(new PhabricatorPeopleQuery())
+    id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($viewer->getPHID()))
       ->needUserSettings(true)

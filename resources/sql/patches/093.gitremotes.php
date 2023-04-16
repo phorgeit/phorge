@@ -2,7 +2,7 @@
 
 echo pht('Stripping remotes from repository default branches...')."\n";
 
-$table = new PhabricatorRepository();
+$table = new PhorgeRepository();
 $table->openTransaction();
 $conn_w = $table->establishConnection('w');
 

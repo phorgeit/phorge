@@ -18,15 +18,15 @@ final class HeraldCommitAdapter
   private $buildRequests = array();
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function newObject() {
-    return new PhabricatorRepositoryCommit();
+    return new PhorgeRepositoryCommit();
   }
 
   public function isTestAdapterForObject($object) {
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
   public function getAdapterTestDescription() {
@@ -34,7 +34,7 @@ final class HeraldCommitAdapter
       'Test rules which run after a commit is discovered and imported.');
   }
 
-  public function newTestAdapter(PhabricatorUser $viewer, $object) {
+  public function newTestAdapter(PhorgeUser $viewer, $object) {
     return id(clone $this)
       ->setObject($object);
   }
@@ -97,17 +97,17 @@ final class HeraldCommitAdapter
   }
 
   public function canTriggerOnObject($object) {
-    if ($object instanceof PhabricatorRepository) {
+    if ($object instanceof PhorgeRepository) {
       return true;
     }
-    if ($object instanceof PhabricatorProject) {
+    if ($object instanceof PhorgeProject) {
       return true;
     }
     return false;
   }
 
   public function getTriggerObjectPHIDs() {
-    $project_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    $project_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
 
     $repository_phid = $this->getRepository()->getPHID();
     $commit_phid = $this->getObject()->getPHID();
@@ -118,7 +118,7 @@ final class HeraldCommitAdapter
 
     // NOTE: This is projects for the repository, not for the commit. When
     // Herald evaluates, commits normally can not have any project tags yet.
-    $repository_project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $repository_project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $repository_phid,
       $project_type);
     foreach ($repository_project_phids as $phid) {
@@ -143,7 +143,7 @@ final class HeraldCommitAdapter
     $viewer = $this->getViewer();
 
     if ($this->affectedPaths === null) {
-      $result = PhabricatorOwnerPathQuery::loadAffectedPaths(
+      $result = PhorgeOwnerPathQuery::loadAffectedPaths(
         $this->getRepository(),
         $this->commit,
         $viewer);
@@ -155,7 +155,7 @@ final class HeraldCommitAdapter
 
   public function loadAffectedPackages() {
     if ($this->affectedPackages === null) {
-      $packages = PhabricatorOwnersPackage::loadAffectedPackages(
+      $packages = PhorgeOwnersPackage::loadAffectedPackages(
         $this->getRepository(),
         $this->loadAffectedPaths());
       $this->affectedPackages = $packages;
@@ -166,10 +166,10 @@ final class HeraldCommitAdapter
   public function loadAuditNeededPackages() {
     if ($this->auditNeededPackages === null) {
       $status_arr = array(
-        PhabricatorAuditRequestStatus::AUDIT_REQUIRED,
-        PhabricatorAuditRequestStatus::CONCERNED,
+        PhorgeAuditRequestStatus::AUDIT_REQUIRED,
+        PhorgeAuditRequestStatus::CONCERNED,
       );
-      $requests = id(new PhabricatorRepositoryAuditRequest())
+      $requests = id(new PhorgeRepositoryAuditRequest())
           ->loadAllWhere(
         'commitPHID = %s AND auditStatus IN (%Ls)',
         $this->commit->getPHID(),
@@ -254,7 +254,7 @@ final class HeraldCommitAdapter
     }
 
     $file_phid = $diff_info['filePHID'];
-    $diff_file = id(new PhabricatorFileQuery())
+    $diff_file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();

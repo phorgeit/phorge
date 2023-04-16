@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserProfile extends PhabricatorUserDAO {
+final class PhorgeUserProfile extends PhorgeUserDAO {
 
   protected $userPHID;
   protected $title;
@@ -8,8 +8,8 @@ final class PhabricatorUserProfile extends PhabricatorUserDAO {
   protected $profileImagePHID;
   protected $icon;
 
-  public static function initializeNewProfile(PhabricatorUser $user) {
-    $default_icon = PhabricatorPeopleIconSet::getDefaultIconKey();
+  public static function initializeNewProfile(PhorgeUser $user) {
+    $default_icon = PhorgePeopleIconSet::getDefaultIconKey();
 
     return id(new self())
       ->setUserPHID($user->getPHID())
@@ -42,7 +42,7 @@ final class PhabricatorUserProfile extends PhabricatorUserDAO {
     }
 
     $icon_key = $this->getIcon();
-    return PhabricatorPeopleIconSet::getIconName($icon_key);
+    return PhorgePeopleIconSet::getIconName($icon_key);
   }
 
 }

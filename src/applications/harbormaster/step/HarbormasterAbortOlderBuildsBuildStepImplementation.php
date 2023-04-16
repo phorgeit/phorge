@@ -36,7 +36,7 @@ EOTEXT
   }
 
   public function willStartBuild(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuildable $buildable,
     HarbormasterBuild $build,
     HarbormasterBuildPlan $plan,

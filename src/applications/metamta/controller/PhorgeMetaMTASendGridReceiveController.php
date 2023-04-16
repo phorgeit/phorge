@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTASendGridReceiveController
-  extends PhabricatorMetaMTAController {
+final class PhorgeMetaMTASendGridReceiveController
+  extends PhorgeMetaMTAController {
 
   public function shouldRequireLogin() {
     return false;
@@ -11,11 +11,11 @@ final class PhabricatorMetaMTASendGridReceiveController
     // SendGrid doesn't sign payloads so we can't be sure that SendGrid
     // actually sent this request, but require a configured SendGrid mailer
     // before we activate this endpoint.
-    $mailers = PhabricatorMetaMTAMail::newMailers(
+    $mailers = PhorgeMetaMTAMail::newMailers(
       array(
         'inbound' => true,
         'types' => array(
-          PhabricatorMailSendGridAdapter::ADAPTERTYPE,
+          PhorgeMailSendGridAdapter::ADAPTERTYPE,
         ),
       ));
     if (!$mailers) {
@@ -40,7 +40,7 @@ final class PhabricatorMetaMTASendGridReceiveController
       'subject' => $request->getStr('subject'),
     ) + $raw_dict;
 
-    $received = new PhabricatorMetaMTAReceivedMail();
+    $received = new PhorgeMetaMTAReceivedMail();
     $received->setHeaders($headers);
     $received->setBodies(array(
       'text' => $request->getStr('text'),
@@ -50,10 +50,10 @@ final class PhabricatorMetaMTASendGridReceiveController
     $file_phids = array();
     foreach ($_FILES as $file_raw) {
       try {
-        $file = PhabricatorFile::newFromPHPUpload(
+        $file = PhorgeFile::newFromPHPUpload(
           $file_raw,
           array(
-            'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+            'viewPolicy' => PhorgePolicies::POLICY_NOONE,
           ));
         $file_phids[] = $file->getPHID();
       } catch (Exception $ex) {

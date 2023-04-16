@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOwnersAuditRule
+final class PhorgeOwnersAuditRule
   extends Phobject {
 
   const AUDITING_NONE = 'none';

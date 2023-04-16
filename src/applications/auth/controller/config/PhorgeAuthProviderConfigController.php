@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorAuthProviderConfigController
-  extends PhabricatorAuthProviderController {}
+abstract class PhorgeAuthProviderConfigController
+  extends PhorgeAuthProviderController {}

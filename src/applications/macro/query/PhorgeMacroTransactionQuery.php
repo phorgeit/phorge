@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorMacroTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeMacroTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorMacroTransaction();
+    return new PhorgeMacroTransaction();
   }
 
 }

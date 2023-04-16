@@ -32,22 +32,22 @@ final class ProjectAddProjectsEmailCommand
   }
 
   public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv) {
 
-    $project_phids = id(new PhabricatorObjectListQuery())
+    $project_phids = id(new PhorgeObjectListQuery())
       ->setViewer($viewer)
       ->setAllowedTypes(
         array(
-          PhabricatorProjectProjectPHIDType::TYPECONST,
+          PhorgeProjectProjectPHIDType::TYPECONST,
         ))
       ->setObjectList(implode(' ', $argv))
       ->setAllowPartialResults(true)
@@ -55,9 +55,9 @@ final class ProjectAddProjectsEmailCommand
 
     $xactions = array();
 
-    $type_project = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    $type_project = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
     $xactions[] = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $type_project)
       ->setNewValue(
         array(

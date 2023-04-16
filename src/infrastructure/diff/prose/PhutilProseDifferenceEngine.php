@@ -213,13 +213,13 @@ final class PhutilProseDifferenceEngine extends Phobject {
 
   private function newHashDiff(array $u_parts, array $v_parts) {
 
-    $u_ref = new PhabricatorDocumentRef();
-    $v_ref = new PhabricatorDocumentRef();
+    $u_ref = new PhorgeDocumentRef();
+    $v_ref = new PhorgeDocumentRef();
 
     $u_blocks = $this->newDocumentEngineBlocks($u_parts);
     $v_blocks = $this->newDocumentEngineBlocks($v_parts);
 
-    $rows = id(new PhabricatorDocumentEngineBlocks())
+    $rows = id(new PhorgeDocumentEngineBlocks())
       ->addBlockList($u_ref, $u_blocks)
       ->addBlockList($v_ref, $v_blocks)
       ->newTwoUpLayout();
@@ -249,9 +249,9 @@ final class PhutilProseDifferenceEngine extends Phobject {
     $blocks = array();
 
     foreach ($parts as $part) {
-      $hash = PhabricatorHash::digestForIndex($part);
+      $hash = PhorgeHash::digestForIndex($part);
 
-      $blocks[] = id(new PhabricatorDocumentEngineBlock())
+      $blocks[] = id(new PhorgeDocumentEngineBlock())
         ->setContent($part)
         ->setDifferenceHash($hash);
     }

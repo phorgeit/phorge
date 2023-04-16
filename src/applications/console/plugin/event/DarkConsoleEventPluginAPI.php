@@ -1,6 +1,6 @@
 <?php
 
-final class DarkConsoleEventPluginAPI extends PhabricatorEventListener {
+final class DarkConsoleEventPluginAPI extends PhorgeEventListener {
 
   private static $events = array();
   private static $discardMode = false;
@@ -14,7 +14,7 @@ final class DarkConsoleEventPluginAPI extends PhabricatorEventListener {
   }
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_ALL);
+    $this->listen(PhorgeEventType::TYPE_ALL);
   }
 
   public function handleEvent(PhutilEvent $event) {

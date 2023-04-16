@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarImportSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCalendarImportSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Calendar Imports');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,7 +16,7 @@ final class PhabricatorCalendarImportSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorCalendarImportQuery();
+    return new PhorgeCalendarImportQuery();
   }
 
   protected function buildCustomSearchFields() {
@@ -55,10 +55,10 @@ final class PhabricatorCalendarImportSearchEngine
 
   protected function renderResultList(
     array $imports,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($imports, 'PhabricatorCalendarImport');
+    assert_instances_of($imports, 'PhorgeCalendarImport');
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
@@ -76,7 +76,7 @@ final class PhabricatorCalendarImportSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No imports found.'));
 

@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorProjectMembersRemoveController
-  extends PhabricatorProjectController {
+final class PhorgeProjectMembersRemoveController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $type = $request->getURIData('type');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needMembers(true)
       ->needWatchers(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$project) {
@@ -25,14 +25,14 @@ final class PhabricatorProjectMembersRemoveController
 
     if ($type == 'watchers') {
       $is_watcher = true;
-      $edge_type = PhabricatorObjectHasWatcherEdgeType::EDGECONST;
+      $edge_type = PhorgeObjectHasWatcherEdgeType::EDGECONST;
     } else {
       if (!$project->supportsEditMembers()) {
         return new Aphront404Response();
       }
 
       $is_watcher = false;
-      $edge_type = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+      $edge_type = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
     }
 
     $members_uri = $this->getApplicationURI('members/'.$project->getID().'/');
@@ -41,15 +41,15 @@ final class PhabricatorProjectMembersRemoveController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      $xactions[] = id(new PhorgeProjectTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $edge_type)
         ->setNewValue(
           array(
             '-' => array($remove_phid => $remove_phid),
           ));
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -60,7 +60,7 @@ final class PhabricatorProjectMembersRemoveController
         ->setURI($members_uri);
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($remove_phid))
       ->executeOne();

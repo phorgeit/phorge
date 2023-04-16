@@ -3,11 +3,11 @@
 final class AlmanacNetwork
   extends AlmanacDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorNgramsInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeNgramsInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $viewPolicy;
@@ -15,8 +15,8 @@ final class AlmanacNetwork
 
   public static function initializeNewNetwork() {
     return id(new AlmanacNetwork())
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN);
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
+      ->setEditPolicy(PhorgePolicies::POLICY_ADMIN);
   }
 
   protected function getConfiguration() {
@@ -45,7 +45,7 @@ final class AlmanacNetwork
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -57,35 +57,35 @@ final class AlmanacNetwork
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $interfaces = id(new AlmanacInterfaceQuery())
       ->setViewer($engine->getViewer())
@@ -100,7 +100,7 @@ final class AlmanacNetwork
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
@@ -111,12 +111,12 @@ final class AlmanacNetwork
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the network.')),

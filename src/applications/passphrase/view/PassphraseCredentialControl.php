@@ -66,11 +66,11 @@ final class PassphraseCredentialControl extends AphrontFormControl {
             $user_credential->getMonogram(),
             $user_credential->getName());
         }
-      } catch (PhabricatorPolicyException $policy_exception) {
+      } catch (PhorgePolicyException $policy_exception) {
         // Pull the credential with the omnipotent viewer so we can look up
         // the ID and provide the monogram.
         $omnipotent_credential = id(new PassphraseCredentialQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withPHIDs(array($current_phid))
           ->executeOne();
         if ($omnipotent_credential) {
@@ -156,13 +156,13 @@ final class PassphraseCredentialControl extends AphrontFormControl {
    *   - If you do change the credential, the new credential must be one you
    *     can use.
    *
-   * @param PhabricatorUser The acting user.
-   * @param list<PhabricatorApplicationTransaction> List of credential altering
+   * @param PhorgeUser The acting user.
+   * @param list<PhorgeApplicationTransaction> List of credential altering
    *        transactions.
    * @return bool True if the transactions are valid.
    */
   public static function validateTransactions(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     array $xactions) {
 
     $new_phids = array();

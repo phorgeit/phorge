@@ -1,14 +1,14 @@
 <?php
 
 final class HeraldWebhookSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Webhooks');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function newQuery() {
@@ -27,7 +27,7 @@ final class HeraldWebhookSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setDescription(
@@ -70,7 +70,7 @@ final class HeraldWebhookSearchEngine
 
   protected function renderResultList(
     array $hooks,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($hooks, 'HeraldWebhook');
 
@@ -94,7 +94,7 @@ final class HeraldWebhookSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No webhooks found.'));
   }

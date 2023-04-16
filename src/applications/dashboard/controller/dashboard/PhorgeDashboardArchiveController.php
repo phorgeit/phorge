@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorDashboardArchiveController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardArchiveController
+  extends PhorgeDashboardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $dashboard = id(new PhabricatorDashboardQuery())
+    $dashboard = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$dashboard) {
@@ -24,19 +24,19 @@ final class PhabricatorDashboardArchiveController
 
     if ($request->isFormPost()) {
       if ($dashboard->isArchived()) {
-        $new_status = PhabricatorDashboard::STATUS_ACTIVE;
+        $new_status = PhorgeDashboard::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorDashboard::STATUS_ARCHIVED;
+        $new_status = PhorgeDashboard::STATUS_ARCHIVED;
       }
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorDashboardTransaction())
+      $xactions[] = id(new PhorgeDashboardTransaction())
         ->setTransactionType(
-          PhabricatorDashboardStatusTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      id(new PhabricatorDashboardTransactionEditor())
+      id(new PhorgeDashboardTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

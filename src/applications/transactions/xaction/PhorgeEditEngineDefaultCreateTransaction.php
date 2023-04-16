@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineDefaultCreateTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineDefaultCreateTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.default.create';
 

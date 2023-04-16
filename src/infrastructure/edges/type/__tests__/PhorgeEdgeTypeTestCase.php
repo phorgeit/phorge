@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorEdgeTypeTestCase extends PhabricatorTestCase {
+final class PhorgeEdgeTypeTestCase extends PhorgeTestCase {
 
   public function testGetAllTypes() {
-    PhabricatorEdgeType::getAllTypes();
+    PhorgeEdgeType::getAllTypes();
     $this->assertTrue(true);
   }
 

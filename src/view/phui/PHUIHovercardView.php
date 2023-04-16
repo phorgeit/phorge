@@ -7,7 +7,7 @@
 final class PHUIHovercardView extends AphrontTagView {
 
   /**
-   * @var PhabricatorObjectHandle
+   * @var PhorgeObjectHandle
    */
   private $handle;
   private $object;
@@ -20,7 +20,7 @@ final class PHUIHovercardView extends AphrontTagView {
   private $badges = array();
   private $isExiled;
 
-  public function setObjectHandle(PhabricatorObjectHandle $handle) {
+  public function setObjectHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }

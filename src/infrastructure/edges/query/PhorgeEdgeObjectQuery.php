@@ -1,11 +1,11 @@
 <?php
 
 /**
- * This is a more formal version of @{class:PhabricatorEdgeQuery} that is used
+ * This is a more formal version of @{class:PhorgeEdgeQuery} that is used
  * to expose edges to Conduit.
  */
-final class PhabricatorEdgeObjectQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeEdgeObjectQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $sourcePHIDs;
   private $sourcePHIDType;
@@ -41,7 +41,7 @@ final class PhabricatorEdgeObjectQuery
     $phid_type = null;
     foreach ($source_phids as $phid) {
       $this_type = phid_get_type($phid);
-      if ($this_type == PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+      if ($this_type == PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
         throw new Exception(
           pht(
             'Source PHID "%s" in edge object query has unknown PHID type.',
@@ -72,13 +72,13 @@ final class PhabricatorEdgeObjectQuery
 
   protected function loadPage() {
     $type = $this->sourcePHIDType;
-    $conn = PhabricatorEdgeConfig::establishConnection($type, 'r');
-    $table = PhabricatorEdgeConfig::TABLE_NAME_EDGE;
+    $conn = PhorgeEdgeConfig::establishConnection($type, 'r');
+    $table = PhorgeEdgeConfig::TABLE_NAME_EDGE;
     $rows = $this->loadStandardPageRowsWithConnection($conn, $table);
 
     $result = array();
     foreach ($rows as $row) {
-      $result[] = PhabricatorEdgeObject::newFromRow($row);
+      $result[] = PhorgeEdgeObject::newFromRow($row);
     }
 
     return $result;
@@ -144,13 +144,13 @@ final class PhabricatorEdgeObjectQuery
     // Instead of actually loading an edge, we're just making a fake edge
     // with the properties the cursor describes.
 
-    $edge_object = PhabricatorEdgeObject::newFromRow(
+    $edge_object = PhorgeEdgeObject::newFromRow(
       array(
         'dateCreated' => $epoch,
         'seq' => $sequence,
       ));
 
-    return id(new PhabricatorQueryCursor())
+    return id(new PhorgeQueryCursor())
       ->setObject($edge_object);
   }
 

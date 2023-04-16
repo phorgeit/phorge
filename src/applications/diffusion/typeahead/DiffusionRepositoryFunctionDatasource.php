@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Repositories');
@@ -12,7 +12,7 @@ final class DiffusionRepositoryFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getComponentDatasources() {

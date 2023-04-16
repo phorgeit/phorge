@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAlmanacApplication extends PhabricatorApplication {
+final class PhorgeAlmanacApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/almanac/';
@@ -26,11 +26,11 @@ final class PhabricatorAlmanacApplication extends PhabricatorApplication {
     return self::GROUP_UTILITIES;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Almanac User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Almanac User Guide'),
+        'href' => PhorgeEnv::getDoclink('Almanac User Guide'),
       ),
     );
   }
@@ -83,26 +83,26 @@ final class PhabricatorAlmanacApplication extends PhabricatorApplication {
       phutil_tag(
         'a',
         array(
-          'href' => PhabricatorEnv::getDoclink('Clustering Introduction'),
+          'href' => PhorgeEnv::getDoclink('Clustering Introduction'),
           'target' => '_blank',
         ),
         pht('Learn More')));
 
     return array(
       AlmanacCreateServicesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       AlmanacCreateDevicesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       AlmanacCreateNetworksCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       AlmanacCreateNamespacesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       AlmanacManageClusterServicesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_NOONE,
+        'default' => PhorgePolicies::POLICY_NOONE,
         'caption' => $cluster_caption,
       ),
     );

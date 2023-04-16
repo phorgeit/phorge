@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorRepositorySearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeRepositorySearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Repositories');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorRepositoryQuery())
+    return id(new PhorgeRepositoryQuery())
       ->needProjectPHIDs(true)
       ->needCommitCounts(true)
       ->needMostRecentCommits(true)
@@ -21,30 +21,30 @@ final class PhabricatorRepositorySearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Callsigns'))
         ->setKey('callsigns'),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Short Names'))
         ->setKey('shortNames'),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Status'))
         ->setKey('status')
         ->setOptions($this->getStatusOptions()),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Hosted'))
         ->setKey('hosted')
         ->setOptions($this->getHostedOptions()),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Types'))
         ->setKey('types')
-        ->setOptions(PhabricatorRepositoryType::getAllRepositoryTypes()),
-      id(new PhabricatorSearchStringListField())
+        ->setOptions(PhorgeRepositoryType::getAllRepositoryTypes()),
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('URIs'))
         ->setKey('uris')
         ->setDescription(
           pht('Search for repositories by clone/checkout URI.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Services'))
         ->setKey('almanacServicePHIDs')
         ->setAliases(
@@ -134,9 +134,9 @@ final class PhabricatorRepositorySearchEngine
 
   private function getStatusValues() {
     return array(
-      '' => PhabricatorRepositoryQuery::STATUS_ALL,
-      'open' => PhabricatorRepositoryQuery::STATUS_OPEN,
-      'closed' => PhabricatorRepositoryQuery::STATUS_CLOSED,
+      '' => PhorgeRepositoryQuery::STATUS_ALL,
+      'open' => PhorgeRepositoryQuery::STATUS_OPEN,
+      'closed' => PhorgeRepositoryQuery::STATUS_CLOSED,
     );
   }
 
@@ -150,23 +150,23 @@ final class PhabricatorRepositorySearchEngine
 
   private function getHostedValues() {
     return array(
-      '' => PhabricatorRepositoryQuery::HOSTED_ALL,
-      'phorge' => PhabricatorRepositoryQuery::HOSTED_PHORGE,
-      'remote' => PhabricatorRepositoryQuery::HOSTED_REMOTE,
+      '' => PhorgeRepositoryQuery::HOSTED_ALL,
+      'phorge' => PhorgeRepositoryQuery::HOSTED_PHORGE,
+      'remote' => PhorgeRepositoryQuery::HOSTED_REMOTE,
     );
   }
 
   protected function getRequiredHandlePHIDsForResultList(
     array $repositories,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return array_mergev(mpull($repositories, 'getProjectPHIDs'));
   }
 
   protected function renderResultList(
     array $repositories,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($repositories, 'PhabricatorRepository');
+    assert_instances_of($repositories, 'PhorgeRepository');
 
     $viewer = $this->requireViewer();
 
@@ -200,7 +200,7 @@ final class PhabricatorRepositorySearchEngine
 
       $item->addIcon(
         'none',
-        PhabricatorRepositoryType::getNameForRepositoryType(
+        PhorgeRepositoryType::getNameForRepositoryType(
           $repository->getVersionControlSystem()));
 
       $size = $repository->getCommitCount();
@@ -241,14 +241,14 @@ final class PhabricatorRepositorySearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No repositories found for this query.'));
 
     return $result;
   }
 
-  protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {
+  protected function willUseSavedQuery(PhorgeSavedQuery $saved) {
     $project_phids = $saved->getParameter('projectPHIDs', array());
 
     $old = $saved->getParameter('projects', array());

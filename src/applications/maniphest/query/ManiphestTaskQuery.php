@@ -4,7 +4,7 @@
  * Query tasks by specific criteria. This class uses the higher-performance
  * but less-general Maniphest indexes to satisfy queries.
  */
-final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class ManiphestTaskQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $taskIDs;
   private $taskPHIDs;
@@ -78,8 +78,8 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       throw new Exception(pht('Empty withOwners() constraint is not valid.'));
     }
 
-    $no_owner = PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN;
-    $any_owner = PhabricatorPeopleAnyOwnerDatasource::FUNCTION_TOKEN;
+    $no_owner = PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN;
+    $any_owner = PhorgePeopleAnyOwnerDatasource::FUNCTION_TOKEN;
 
     foreach ($owners as $k => $phid) {
       if ($phid === $no_owner || $phid === null) {
@@ -296,7 +296,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     if ($this->groupBy == self::GROUP_PROJECT) {
       // We should only return project groups which the user can actually see.
       $project_phids = mpull($tasks, 'getGroupByProjectPHID');
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($project_phids)
         ->execute();
@@ -323,11 +323,11 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     $phids = mpull($tasks, 'getPHID');
 
     if ($this->needProjectPHIDs) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs($phids)
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
       $edge_query->execute();
 
@@ -339,7 +339,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($this->needSubscriberPHIDs) {
-      $subscriber_sets = id(new PhabricatorSubscribersQuery())
+      $subscriber_sets = id(new PhorgeSubscribersQuery())
         ->withObjectPHIDs($phids)
         ->execute();
       foreach ($tasks as $task) {
@@ -459,13 +459,13 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     if ($this->columnPHIDs !== null) {
       $viewer = $this->getViewer();
 
-      $columns = id(new PhabricatorProjectColumnQuery())
+      $columns = id(new PhorgeProjectColumnQuery())
         ->setParentQuery($this)
         ->setViewer($viewer)
         ->withPHIDs($this->columnPHIDs)
         ->execute();
       if (!$columns) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       // We must do board layout before we move forward because the column
@@ -486,11 +486,11 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       // project, not just tasks). We could narrow it by querying the edge
       // table on the Maniphest side, but there's currently no way to build
       // that query with EdgeQuery.
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(array_keys($projects))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectProjectHasObjectEdgeType::EDGECONST,
+            PhorgeProjectProjectHasObjectEdgeType::EDGECONST,
           ));
 
       $edge_query->execute();
@@ -507,11 +507,11 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       // possibly hit anything so we're all done.
       $task_phids = array_fuse($all_phids);
       if (!$task_phids) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       // We know everything we need to know, so perform board layout.
-      $engine = id(new PhabricatorBoardLayoutEngine())
+      $engine = id(new PhorgeBoardLayoutEngine())
         ->setViewer($viewer)
         ->setFetchAllBoards(true)
         ->setBoardPHIDs(array_keys($projects))
@@ -531,7 +531,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       }
 
       if (!$select_phids) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $where[] = qsprintf(
@@ -615,7 +615,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   protected function buildJoinClauseParts(AphrontDatabaseConnection $conn) {
     $open_statuses = ManiphestTaskStatus::getOpenStatusConstants();
-    $edge_table = PhabricatorEdgeConfig::TABLE_NAME_EDGE;
+    $edge_table = PhorgeEdgeConfig::TABLE_NAME_EDGE;
     $task_table = $this->newResultObject()->getTableName();
 
     $parent_type = ManiphestTaskDependedOnByTaskEdgeType::EDGECONST;
@@ -674,8 +674,8 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
         'JOIN %T e_ccs ON e_ccs.src = task.phid '.
         'AND e_ccs.type = %s '.
         'AND e_ccs.dst in (%Ls)',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorObjectHasSubscriberEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeObjectHasSubscriberEdgeType::EDGECONST,
         $this->subscriberPHIDs);
     }
 
@@ -689,7 +689,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
               AND projectGroup.type = %d
               AND projectGroup.dst NOT IN (%Ls)',
             $edge_table,
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
             $ignore_group_phids);
         } else {
           $joins[] = qsprintf(
@@ -697,7 +697,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
             'LEFT JOIN %T projectGroup ON task.phid = projectGroup.src
               AND projectGroup.type = %d',
             $edge_table,
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
         }
         $joins[] = qsprintf(
           $conn,
@@ -814,7 +814,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     // Investigate this on real data? This is likely very rare.
 
     $edge_types = array(
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
     );
 
     $phids = array();
@@ -822,13 +822,13 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     $phids[] = $this->getEdgeLogicValues(
       $edge_types,
       array(
-        PhabricatorQueryConstraint::OPERATOR_AND,
+        PhorgeQueryConstraint::OPERATOR_AND,
       ));
 
     $any = $this->getEdgeLogicValues(
       $edge_types,
       array(
-        PhabricatorQueryConstraint::OPERATOR_OR,
+        PhorgeQueryConstraint::OPERATOR_OR,
       ));
     if (count($any) == 1) {
       $phids[] = $any;
@@ -930,7 +930,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   protected function newPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $task = $cursor->getObject();
@@ -950,7 +950,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
       $group_phid = $task->getGroupByProjectPHID();
       if ($group_phid) {
-        $paging_projects = id(new PhabricatorProjectQuery())
+        $paging_projects = id(new PhorgeProjectQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs(array($group_phid))
           ->execute();
@@ -988,7 +988,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     $cursor_object = parent::newInternalCursorFromExternalCursor($cursor);
 
     if ($group_phid !== null) {
-      $project = id(new PhabricatorProjectQuery())
+      $project = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(array($group_phid))
         ->execute();
@@ -1008,7 +1008,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   protected function applyExternalCursorConstraintsToQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $subquery,
+    PhorgeCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
     list($task_id, $group_phid) = $this->parseCursor($cursor);
 
@@ -1048,7 +1048,7 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
 }

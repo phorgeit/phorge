@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSessionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthSessionQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,13 +35,13 @@ final class PhabricatorAuthSessionQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthSession();
+    return new PhorgeAuthSession();
   }
 
   protected function willFilterPage(array $sessions) {
     $identity_phids = mpull($sessions, 'getUserPHID');
 
-    $identity_objects = id(new PhabricatorObjectQuery())
+    $identity_objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($identity_phids)
@@ -87,7 +87,7 @@ final class PhabricatorAuthSessionQuery
     if ($this->sessionKeys !== null) {
       $hashes = array();
       foreach ($this->sessionKeys as $session_key) {
-        $hashes[] = PhabricatorAuthSession::newSessionDigest(
+        $hashes[] = PhorgeAuthSession::newSessionDigest(
           new PhutilOpaqueEnvelope($session_key));
       }
       $where[] = qsprintf(
@@ -107,7 +107,7 @@ final class PhabricatorAuthSessionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

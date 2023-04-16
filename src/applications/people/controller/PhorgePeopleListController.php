@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleListController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleListController
+  extends PhorgePeopleController {
 
   public function shouldAllowPublic() {
     return true;
@@ -15,9 +15,9 @@ final class PhabricatorPeopleListController
     $this->requireApplicationCapability(
       PeopleBrowseUserDirectoryCapability::CAPABILITY);
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorPeopleSearchEngine())
+      ->setSearchEngine(new PhorgePeopleSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);

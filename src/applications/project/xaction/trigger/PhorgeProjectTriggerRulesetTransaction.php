@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerRulesetTransaction
-  extends PhabricatorProjectTriggerTransactionType {
+final class PhorgeProjectTriggerRulesetTransaction
+  extends PhorgeProjectTriggerTransactionType {
 
   const TRANSACTIONTYPE = 'ruleset';
 
@@ -28,11 +28,11 @@ final class PhabricatorProjectTriggerRulesetTransaction
 
       try {
         $rules =
-          PhabricatorProjectTrigger::newTriggerRulesFromRuleSpecifications(
+          PhorgeProjectTrigger::newTriggerRulesFromRuleSpecifications(
             $ruleset,
             $allow_invalid = false,
             $actor);
-      } catch (PhabricatorProjectTriggerCorruptionException $ex) {
+      } catch (PhorgeProjectTriggerCorruptionException $ex) {
         $errors[] = $this->newInvalidError(
           pht(
             'Ruleset specification is not valid. %s',
@@ -72,7 +72,7 @@ final class PhabricatorProjectTriggerRulesetTransaction
     $old_json = $json->encodeAsList($old);
     $new_json = $json->encodeAsList($new);
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($old_json)
       ->setNewText($new_json);

@@ -1,6 +1,6 @@
 <?php
 
-final class PholioDefaultViewCapability extends PhabricatorPolicyCapability {
+final class PholioDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'pholio.default.view';
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemReadOnlyController
-  extends PhabricatorController {
+final class PhorgeSystemReadOnlyController
+  extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;
@@ -13,7 +13,7 @@ final class PhabricatorSystemReadOnlyController
 
     $body = array();
     switch ($reason) {
-      case PhabricatorEnv::READONLY_CONFIG:
+      case PhorgeEnv::READONLY_CONFIG:
         $title = pht('Administrative Read-Only Mode');
         $body[] = pht(
           'An Administrator has placed this server into read-only mode.');
@@ -33,7 +33,7 @@ final class PhabricatorSystemReadOnlyController
           phutil_tag('tt', array(), 'cluster.read-only'));
         $button = pht('Wait Patiently');
         break;
-      case PhabricatorEnv::READONLY_MASTERLESS:
+      case PhorgeEnv::READONLY_MASTERLESS:
         $title = pht('No Writable Database');
         $body[] = pht(
           'This server is currently configured with no writable ("master") '.
@@ -50,7 +50,7 @@ final class PhabricatorSystemReadOnlyController
           phutil_tag('tt', array(), 'cluster.databases'));
         $button = pht('Wait Patiently');
         break;
-      case PhabricatorEnv::READONLY_UNREACHABLE:
+      case PhorgeEnv::READONLY_UNREACHABLE:
         $title = pht('Unable to Reach Master');
         $body[] = pht(
           'This server was unable to connect to the writable ("master") '.
@@ -68,7 +68,7 @@ final class PhabricatorSystemReadOnlyController
           'read-only mode until the issue is resolved.');
         $button = pht('Quite Unsettling');
         break;
-      case PhabricatorEnv::READONLY_SEVERED:
+      case PhorgeEnv::READONLY_SEVERED:
         $title = pht('Severed From Master');
         $body[] = pht(
           'This server has consistently been unable to reach the writable '.
@@ -92,8 +92,8 @@ final class PhabricatorSystemReadOnlyController
     }
 
     switch ($reason) {
-      case PhabricatorEnv::READONLY_UNREACHABLE:
-      case PhabricatorEnv::READONLY_SEVERED:
+      case PhorgeEnv::READONLY_UNREACHABLE:
+      case PhorgeEnv::READONLY_SEVERED:
         $body[] = pht(
           'This request was served from a replica database. Replica '.
           'databases may lag behind the master, so very recent activity '.

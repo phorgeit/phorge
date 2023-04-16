@@ -47,7 +47,7 @@ abstract class HeraldTranscriptResult
     return $this->getSpecificationProperty('name');
   }
 
-  abstract public function newDetailsView(PhabricatorUser $viewer);
+  abstract public function newDetailsView(PhorgeUser $viewer);
 
   final protected function getDataProperty($key, $default = null) {
     $data = $this->getResultData();

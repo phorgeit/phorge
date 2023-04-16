@@ -1,10 +1,10 @@
 <?php
 
 final class PhameBlogFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $blog = $object;
@@ -12,16 +12,16 @@ final class PhameBlogFulltextEngine
     $document->setDocumentTitle($blog->getName());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $blog->getDescription());
 
     $document->addRelationship(
       $blog->isArchived()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $blog->getPHID(),
-      PhabricatorPhameBlogPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgePhameBlogPHIDType::TYPECONST,
+      PhorgeTime::getNow());
 
   }
 

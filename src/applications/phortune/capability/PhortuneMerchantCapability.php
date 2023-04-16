@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneMerchantCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'phortune.merchant';
 

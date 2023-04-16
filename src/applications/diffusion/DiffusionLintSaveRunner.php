@@ -63,8 +63,8 @@ final class DiffusionLintSaveRunner extends Phobject {
     $uuid = $api->getRepositoryUUID();
     $remote_uri = $api->getRemoteURI();
 
-    $repository_query = id(new PhabricatorRepositoryQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser());
+    $repository_query = id(new PhorgeRepositoryQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser());
 
     if ($callsign) {
       $repository_query->withCallsigns(array($callsign));
@@ -81,7 +81,7 @@ final class DiffusionLintSaveRunner extends Phobject {
       throw new Exception(pht('No repository was found.'));
     }
 
-    $this->branch = PhabricatorRepositoryBranch::loadOrCreateBranch(
+    $this->branch = PhorgeRepositoryBranch::loadOrCreateBranch(
       $repository->getID(),
       $branch_name);
     $this->conn = $this->branch->establishConnection('w');
@@ -111,7 +111,7 @@ final class DiffusionLintSaveRunner extends Phobject {
       queryfx(
         $this->conn,
         'DELETE FROM %T WHERE branchID = %d %Q',
-        PhabricatorRepository::TABLE_LINTMESSAGE,
+        PhorgeRepository::TABLE_LINTMESSAGE,
         $this->branch->getID(),
         $where);
       $all_files = $api->getAllFiles();
@@ -219,7 +219,7 @@ final class DiffusionLintSaveRunner extends Phobject {
       queryfx(
         $this->conn,
         'DELETE FROM %T WHERE branchID = %d AND path IN (%Ls)',
-        PhabricatorRepository::TABLE_LINTMESSAGE,
+        PhorgeRepository::TABLE_LINTMESSAGE,
         $this->branch->getID(),
         $paths);
     }
@@ -230,7 +230,7 @@ final class DiffusionLintSaveRunner extends Phobject {
         'INSERT INTO %T
           (branchID, path, line, code, severity, name, description)
           VALUES %LQ',
-        PhabricatorRepository::TABLE_LINTMESSAGE,
+        PhorgeRepository::TABLE_LINTMESSAGE,
         $values);
     }
 
@@ -242,8 +242,8 @@ final class DiffusionLintSaveRunner extends Phobject {
 
 
   private function blameAuthors() {
-    $repository = id(new PhabricatorRepositoryQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $repository = id(new PhorgeRepositoryQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIDs(array($this->branch->getRepositoryID()))
       ->executeOne();
 
@@ -251,7 +251,7 @@ final class DiffusionLintSaveRunner extends Phobject {
     $futures = array();
     foreach ($this->blame as $path => $lines) {
       $drequest = DiffusionRequest::newFromDictionary(array(
-        'user' => PhabricatorUser::getOmnipotentUser(),
+        'user' => PhorgeUser::getOmnipotentUser(),
         'repository' => $repository,
         'branch' => $this->branch->getName(),
         'path' => $path,
@@ -296,7 +296,7 @@ final class DiffusionLintSaveRunner extends Phobject {
         queryfx(
           $this->conn,
           'UPDATE %T SET authorPHID = %s WHERE %LO',
-          PhabricatorRepository::TABLE_LINTMESSAGE,
+          PhorgeRepository::TABLE_LINTMESSAGE,
           $author,
           $where);
       }

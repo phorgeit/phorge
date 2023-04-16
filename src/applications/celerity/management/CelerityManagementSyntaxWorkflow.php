@@ -13,7 +13,7 @@ final class CelerityManagementSyntaxWorkflow
   }
 
   public function execute(PhutilArgumentParser $args) {
-    $styles = PhabricatorSyntaxStyle::getAllStyles();
+    $styles = PhorgeSyntaxStyle::getAllStyles();
 
     $root = dirname(phutil_get_library_root('phorge'));
     $root = $root.'/webroot/rsrc/css/syntax/';
@@ -33,7 +33,7 @@ final class CelerityManagementSyntaxWorkflow
     return 0;
   }
 
-  private function generateCSS(PhabricatorSyntaxStyle $style) {
+  private function generateCSS(PhorgeSyntaxStyle $style) {
     $key = $style->getSyntaxStyleKey();
     $provides = "syntax-{$key}-css";
     $generated = 'generated';

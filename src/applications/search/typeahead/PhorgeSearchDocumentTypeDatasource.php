@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchDocumentTypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeSearchDocumentTypeDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Document Types');
@@ -12,7 +12,7 @@ final class PhabricatorSearchDocumentTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   public function loadResults() {
@@ -27,10 +27,10 @@ final class PhabricatorSearchDocumentTypeDatasource
   private function buildResults() {
     $viewer = $this->getViewer();
     $types =
-      PhabricatorSearchApplicationSearchEngine::getIndexableDocumentTypes(
+      PhorgeSearchApplicationSearchEngine::getIndexableDocumentTypes(
         $viewer);
 
-    $phid_types = mpull(PhabricatorPHIDType::getAllTypes(),
+    $phid_types = mpull(PhorgePHIDType::getAllTypes(),
       null,
       'getTypeConstant');
 
@@ -41,10 +41,10 @@ final class PhabricatorSearchDocumentTypeDatasource
         continue;
       }
       $application_class = $type_object->getPHIDTypeApplicationClass();
-      $application = PhabricatorApplication::getByClass($application_class);
+      $application = PhorgeApplication::getByClass($application_class);
       $application_name = $application->getName();
 
-      $results[$type] = id(new PhabricatorTypeaheadResult())
+      $results[$type] = id(new PhorgeTypeaheadResult())
         ->setPHID($type)
         ->setName($name)
         ->addAttribute($application_name)

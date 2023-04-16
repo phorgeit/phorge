@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteStatusTransaction
-  extends PhabricatorPasteTransactionType {
+final class PhorgePasteStatusTransaction
+  extends PhorgePasteTransactionType {
 
   const TRANSACTIONTYPE = 'paste.status';
 
@@ -14,7 +14,7 @@ final class PhabricatorPasteStatusTransaction
   }
 
   private function isActivate() {
-    return ($this->getNewValue() == PhabricatorPaste::STATUS_ACTIVE);
+    return ($this->getNewValue() == PhorgePaste::STATUS_ACTIVE);
   }
 
   public function getIcon() {

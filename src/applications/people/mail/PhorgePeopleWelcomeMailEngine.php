@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleWelcomeMailEngine
-  extends PhabricatorPeopleMailEngine {
+final class PhorgePeopleWelcomeMailEngine
+  extends PhorgePeopleMailEngine {
 
   private $welcomeMessage;
 
@@ -49,14 +49,14 @@ final class PhabricatorPeopleWelcomeMailEngine
     $sender = $this->getSender();
     $recipient = $this->getRecipient();
 
-    $base_uri = PhabricatorEnv::getProductionURI('/');
+    $base_uri = PhorgeEnv::getProductionURI('/');
 
-    $engine = new PhabricatorAuthSessionEngine();
+    $engine = new PhorgeAuthSessionEngine();
 
     $uri = $engine->getOneTimeLoginURI(
       $recipient,
       $recipient->loadPrimaryEmail(),
-      PhabricatorAuthSessionEngine::ONETIME_WELCOME);
+      PhorgeAuthSessionEngine::ONETIME_WELCOME);
 
     $message = array();
 
@@ -79,7 +79,7 @@ final class PhabricatorPeopleWelcomeMailEngine
     // If we aren't sure what they're supposed to be doing and passwords are
     // not enabled, just give them generic instructions.
 
-    $use_passwords = PhabricatorPasswordAuthProvider::getPasswordProvider();
+    $use_passwords = PhorgePasswordAuthProvider::getPasswordProvider();
     if ($use_passwords) {
       $message[] = pht(
         'To log in, follow this link and set a password:');
@@ -105,7 +105,7 @@ final class PhabricatorPeopleWelcomeMailEngine
 
     $message = implode("\n\n", $message);
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject(
         pht(
           '[%s] Welcome to %s',
@@ -122,14 +122,14 @@ final class PhabricatorPeopleWelcomeMailEngine
       return $this->newRemarkupText($custom_body);
     }
 
-    $default_body = PhabricatorAuthMessage::loadMessageText(
+    $default_body = PhorgeAuthMessage::loadMessageText(
       $recipient,
-      PhabricatorAuthWelcomeMailMessageType::MESSAGEKEY);
+      PhorgeAuthWelcomeMailMessageType::MESSAGEKEY);
     if (strlen($default_body)) {
       return $this->newRemarkupText($default_body);
     }
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     if (!$is_serious) {
       return pht(
         "Love,\n%s",

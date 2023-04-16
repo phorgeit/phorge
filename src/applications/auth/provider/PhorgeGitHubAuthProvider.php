@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorGitHubAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeGitHubAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('GitHub');
   }
 
   protected function getProviderConfigurationHelp() {
-    $uri = PhabricatorEnv::getProductionURI('/');
-    $callback_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $uri = PhorgeEnv::getProductionURI('/');
+    $callback_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure GitHub OAuth, create a new GitHub Application here:".
@@ -37,7 +37,7 @@ final class PhabricatorGitHubAuthProvider
   }
 
   public function getLoginURI() {
-    // TODO: Clean this up. See PhabricatorAuthOldOAuthRedirectController.
+    // TODO: Clean this up. See PhorgeAuthOldOAuthRedirectController.
     return '/oauth/github/login/';
   }
 

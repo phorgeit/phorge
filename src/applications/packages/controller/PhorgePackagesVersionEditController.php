@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPackagesVersionEditController
-  extends PhabricatorPackagesVersionController {
+final class PhorgePackagesVersionEditController
+  extends PhorgePackagesVersionController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPackagesVersionEditEngine())
+    return id(new PhorgePackagesVersionEditEngine())
       ->setController($this)
       ->buildResponse();
   }

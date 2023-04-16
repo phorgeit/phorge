@@ -1,6 +1,6 @@
 <?php
 
-final class FundBackerPHIDType extends PhabricatorPHIDType {
+final class FundBackerPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'FBAK';
 
@@ -13,11 +13,11 @@ final class FundBackerPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new FundInitiativeQuery())
@@ -25,7 +25,7 @@ final class FundBackerPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

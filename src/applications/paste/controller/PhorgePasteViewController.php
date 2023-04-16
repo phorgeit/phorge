@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasteViewController extends PhabricatorPasteController {
+final class PhorgePasteViewController extends PhorgePasteController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $paste = id(new PhabricatorPasteQuery())
+    $paste = id(new PhorgePasteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needContent(true)
@@ -42,9 +42,9 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
 
     $timeline = $this->buildTransactionTimeline(
       $paste,
-      new PhabricatorPasteTransactionQuery());
+      new PhorgePasteTransactionQuery());
 
-    $comment_view = id(new PhabricatorPasteEditEngine())
+    $comment_view = id(new PhorgePasteEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($paste);
 
@@ -75,7 +75,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
       ->appendChild($paste_view);
   }
 
-  private function buildHeaderView(PhabricatorPaste $paste) {
+  private function buildHeaderView(PhorgePaste $paste) {
     $title = (nonempty($paste->getTitle())) ?
       $paste->getTitle() : pht('(An Untitled Masterwork)');
 
@@ -99,14 +99,14 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
     return $header;
   }
 
-  private function buildCurtain(PhabricatorPaste $paste) {
+  private function buildCurtain(PhorgePaste $paste) {
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($paste);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $paste,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $paste->getID();
     $edit_uri = $this->getApplicationURI("edit/{$id}/");
@@ -114,7 +114,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
     $raw_uri = $this->getApplicationURI("raw/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Paste'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -122,7 +122,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
 
     if ($paste->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Paste'))
           ->setIcon('fa-check')
           ->setDisabled(!$can_edit)
@@ -130,7 +130,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
           ->setHref($archive_uri));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Paste'))
           ->setIcon('fa-ban')
           ->setDisabled(!$can_edit)
@@ -139,7 +139,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Raw File'))
         ->setIcon('fa-file-text-o')
         ->setHref($raw_uri));
@@ -149,14 +149,14 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
 
 
   private function buildSubheaderView(
-    PhabricatorPaste $paste) {
+    PhorgePaste $paste) {
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($paste->getAuthorPHID())->render();
     $date = phorge_datetime($paste->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
-    $author_info = id(new PhabricatorPeopleQuery())
+    $author_info = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($paste->getAuthorPHID()))
       ->needProfileImage(true)
@@ -173,18 +173,18 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
       ->setContent($content);
   }
 
-  private function newDocumentRecommendationView(PhabricatorPaste $paste) {
+  private function newDocumentRecommendationView(PhorgePaste $paste) {
     $viewer = $this->getViewer();
 
     // See PHI1703. If a viewer is looking at a document in Paste which has
     // a good rendering via a DocumentEngine, suggest they view the content
     // in Files instead so they can see it rendered.
 
-    $ref = id(new PhabricatorDocumentRef())
+    $ref = id(new PhorgeDocumentRef())
       ->setName($paste->getTitle())
       ->setData($paste->getRawContent());
 
-    $engines = PhabricatorDocumentEngine::getEnginesForRef($viewer, $ref);
+    $engines = PhorgeDocumentEngine::getEnginesForRef($viewer, $ref);
     if (!$engines) {
       return null;
     }
@@ -194,7 +194,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
       return null;
     }
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($paste->getFilePHID()))
       ->executeOne();
@@ -202,10 +202,10 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
       return null;
     }
 
-    $file_ref = id(new PhabricatorDocumentRef())
+    $file_ref = id(new PhorgeDocumentRef())
       ->setFile($file);
 
-    $view_uri = id(new PhabricatorFileDocumentRenderingEngine())
+    $view_uri = id(new PhorgeFileDocumentRenderingEngine())
       ->getRefViewURI($file_ref, $engine);
 
     $view_as_label = $engine->getViewAsLabel($file_ref);

@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorAuditTransaction();
+$table = new PhorgeAuditTransaction();
 $conn = $table->establishConnection('w');
 
 $status_map = array(

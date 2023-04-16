@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchRelationshipSourceController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchRelationshipSourceController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -17,19 +17,19 @@ final class PhabricatorSearchRelationshipSourceController
     }
 
     $source = $relationship->newSource();
-    $query = new PhabricatorSavedQuery();
+    $query = new PhorgeSavedQuery();
 
     $action = $request->getURIData('action');
     $query_str = $request->getStr('query');
     $filter = $request->getStr('filter');
 
-    $query->setEngineClassName('PhabricatorSearchApplicationSearchEngine');
+    $query->setEngineClassName('PhorgeSearchApplicationSearchEngine');
     $query->setParameter('query', $query_str);
 
     $types = $source->getResultPHIDTypes();
     $query->setParameter('types', $types);
 
-    $status_open = PhabricatorSearchRelationship::RELATIONSHIP_OPEN;
+    $status_open = PhorgeSearchRelationship::RELATIONSHIP_OPEN;
 
     switch ($filter) {
       case 'assigned':
@@ -49,7 +49,7 @@ final class PhabricatorSearchRelationshipSourceController
 
     $capabilities = $relationship->getRequiredRelationshipCapabilities();
 
-    $results = id(new PhabricatorSearchDocumentQuery())
+    $results = id(new PhorgeSearchDocumentQuery())
       ->setViewer($viewer)
       ->requireObjectCapabilities($capabilities)
       ->withSavedQuery($query)
@@ -65,7 +65,7 @@ final class PhabricatorSearchRelationshipSourceController
 
     $data = array();
     foreach ($handles as $handle) {
-      $view = new PhabricatorHandleObjectSelectorDataView($handle);
+      $view = new PhorgeHandleObjectSelectorDataView($handle);
       $data[] = $view->renderData();
     }
 
@@ -73,7 +73,7 @@ final class PhabricatorSearchRelationshipSourceController
   }
 
   private function queryObjectNames(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $capabilities) {
 
     $request = $this->getRequest();
@@ -82,7 +82,7 @@ final class PhabricatorSearchRelationshipSourceController
     $types = $query->getParameter('types');
     $match = $query->getParameter('query');
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities($capabilities)
       ->withTypes($query->getParameter('types'))

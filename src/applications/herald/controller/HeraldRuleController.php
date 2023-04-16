@@ -15,8 +15,8 @@ final class HeraldRuleController extends HeraldController {
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$rule) {
@@ -73,13 +73,13 @@ final class HeraldRuleController extends HeraldController {
 
       if ($rule->isObjectRule()) {
         $rule->setTriggerObjectPHID($request->getStr('targetPHID'));
-        $object = id(new PhabricatorObjectQuery())
+        $object = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($rule->getTriggerObjectPHID()))
           ->requireCapabilities(
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ))
           ->executeOne();
         if (!$object) {
@@ -365,7 +365,7 @@ final class HeraldRuleController extends HeraldController {
       $is_new = (bool)(!$rule->getID());
       if ($is_new) {
         $xactions[] = id(new HeraldRuleTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
       }
 
       $xactions[] = id(new HeraldRuleTransaction())

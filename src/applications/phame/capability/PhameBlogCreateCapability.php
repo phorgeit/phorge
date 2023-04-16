@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogCreateCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'phame.blog.default.create';
 

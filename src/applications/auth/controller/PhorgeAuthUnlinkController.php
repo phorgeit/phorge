@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorAuthUnlinkController
-  extends PhabricatorAuthController {
+final class PhorgeAuthUnlinkController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $account = id(new PhabricatorExternalAccountQuery())
+    $account = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$account) {
@@ -38,7 +38,7 @@ final class PhabricatorAuthUnlinkController
     // Check that this account isn't the only account which can be used to
     // login. We warn you when you remove your only login account.
     if ($account->isUsableForLogin()) {
-      $other_accounts = id(new PhabricatorExternalAccountQuery())
+      $other_accounts = id(new PhorgeExternalAccountQuery())
         ->setViewer($viewer)
         ->withUserPHIDs(array($viewer->getPHID()))
         ->execute();
@@ -63,22 +63,22 @@ final class PhabricatorAuthUnlinkController
       'account.unlink(%s)',
       $account->getPHID());
 
-    $hisec_token = id(new PhabricatorAuthSessionEngine())
+    $hisec_token = id(new PhorgeAuthSessionEngine())
       ->setWorkflowKey($workflow_key)
       ->requireHighSecurityToken($viewer, $request, $done_uri);
 
     $account->unlinkAccount();
 
-    id(new PhabricatorAuthSessionEngine())->terminateLoginSessions(
+    id(new PhorgeAuthSessionEngine())->terminateLoginSessions(
       $viewer,
       new PhutilOpaqueEnvelope(
-        $request->getCookie(PhabricatorCookies::COOKIE_SESSION)));
+        $request->getCookie(PhorgeCookies::COOKIE_SESSION)));
 
     return id(new AphrontRedirectResponse())->setURI($done_uri);
   }
 
   private function renderNotUnlinkableErrorDialog(
-    PhabricatorAuthProvider $provider,
+    PhorgeAuthProvider $provider,
     $done_uri) {
 
     return $this->newDialog()
@@ -114,7 +114,7 @@ final class PhabricatorAuthUnlinkController
 
   private function renderConfirmDialog(
     array $confirmations,
-    PhabricatorAuthProviderConfig $config,
+    PhorgeAuthProviderConfig $config,
     $done_uri) {
 
     $confirmations[] = 'unlink';

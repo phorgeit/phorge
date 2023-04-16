@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGuideItemView extends Phobject {
+final class PhorgeGuideItemView extends Phobject {
 
   private $title;
   private $href;

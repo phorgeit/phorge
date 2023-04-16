@@ -1,7 +1,7 @@
 <?php
 
 final class PonderAnswerTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
     return new PonderAnswerTransaction();

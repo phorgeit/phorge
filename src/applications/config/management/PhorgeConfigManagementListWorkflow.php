@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementListWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementListWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -11,7 +11,7 @@ final class PhabricatorConfigManagementListWorkflow
   }
 
   public function execute(PhutilArgumentParser $args) {
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     ksort($options);
 
     $console = PhutilConsole::getConsole();

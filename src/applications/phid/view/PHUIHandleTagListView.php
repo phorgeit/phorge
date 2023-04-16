@@ -61,7 +61,7 @@ final class PHUIHandleTagListView extends AphrontTagView {
       }
     }
 
-    // We may be passed a PhabricatorHandleList; if we are, convert it into
+    // We may be passed a PhorgeHandleList; if we are, convert it into
     // a normal array.
     if (!is_array($handles)) {
       $handles = iterator_to_array($handles);

@@ -1,15 +1,15 @@
 <?php
 
 final class PhortuneAccountQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
   private $memberPHIDs;
 
   public static function loadAccountsForUser(
-    PhabricatorUser $user,
-    PhabricatorContentSource $content_source) {
+    PhorgeUser $user,
+    PhorgeContentSource $content_source) {
 
     $accounts = id(new PhortuneAccountQuery())
       ->setViewer($user)
@@ -47,7 +47,7 @@ final class PhortuneAccountQuery
   }
 
   protected function willFilterPage(array $accounts) {
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(mpull($accounts, 'getPHID'))
       ->withEdgeTypes(
         array(
@@ -116,7 +116,7 @@ final class PhortuneAccountQuery
       $joins[] = qsprintf(
         $conn,
         'LEFT JOIN %T m ON a.phid = m.src AND m.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         PhortuneAccountHasMemberEdgeType::EDGECONST);
     }
 
@@ -124,7 +124,7 @@ final class PhortuneAccountQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function getPrimaryTableAlias() {

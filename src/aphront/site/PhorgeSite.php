@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSite extends AphrontSite {
+abstract class PhorgeSite extends AphrontSite {
 
   public function shouldRequireHTTPS() {
     // If this is an intracluster request, it's okay for it to use HTTP even
@@ -8,11 +8,11 @@ abstract class PhabricatorSite extends AphrontSite {
     // a load balancer and use plain HTTP from then on, and administrators are
     // usually not concerned about attackers observing traffic within a
     // datacenter.
-    if (PhabricatorEnv::isClusterRemoteAddress()) {
+    if (PhorgeEnv::isClusterRemoteAddress()) {
       return false;
     }
 
-    return PhabricatorEnv::getEnvConfig('security.require-https');
+    return PhorgeEnv::getEnvConfig('security.require-https');
   }
 
 }

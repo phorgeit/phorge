@@ -1,13 +1,13 @@
 <?php
 
 final class DifferentialHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'differential';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDifferentialApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeDifferentialApplication');
   }
 
   public function getExtensionName() {
@@ -36,7 +36,7 @@ final class DifferentialHovercardEngineExtension
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $object,
     $data) {
 

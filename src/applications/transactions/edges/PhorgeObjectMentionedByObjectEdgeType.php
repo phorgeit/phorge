@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorObjectMentionedByObjectEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeObjectMentionedByObjectEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 51;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
+    return PhorgeObjectMentionsObjectEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPackagesPackageListController
-  extends PhabricatorPackagesPackageController {
+final class PhorgePackagesPackageListController
+  extends PhorgePackagesPackageController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPackagesPackageSearchEngine())
+    return id(new PhorgePackagesPackageSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorPackagesPackageListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorPackagesPackageEditEngine())
+    id(new PhorgePackagesPackageEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

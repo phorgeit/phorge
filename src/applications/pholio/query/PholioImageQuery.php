@@ -1,7 +1,7 @@
 <?php
 
 final class PholioImageQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -119,7 +119,7 @@ final class PholioImageQuery
 
     $file_phids = mpull($images, 'getFilePHID');
 
-    $all_files = id(new PhabricatorFileQuery())
+    $all_files = id(new PhorgeFileQuery())
       ->setParentQuery($this)
       ->setViewer($this->getViewer())
       ->withPHIDs($file_phids)
@@ -139,7 +139,7 @@ final class PholioImageQuery
     foreach ($images as $image) {
       $file = idx($all_files, $image->getFilePHID());
       if (!$file) {
-        $file = PhabricatorFile::loadBuiltin($this->getViewer(), 'missing.png');
+        $file = PhorgeFile::loadBuiltin($this->getViewer(), 'missing.png');
       }
       $image->attachFile($file);
       if ($this->needInlineComments) {
@@ -152,7 +152,7 @@ final class PholioImageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
 }

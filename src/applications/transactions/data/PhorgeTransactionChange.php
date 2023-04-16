@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorTransactionChange extends Phobject {
+abstract class PhorgeTransactionChange extends Phobject {
 
   private $transaction;
   private $metadata = array();
@@ -8,7 +8,7 @@ abstract class PhabricatorTransactionChange extends Phobject {
   private $newValue;
 
   final public function setTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->transaction = $xaction;
     return $this;
   }

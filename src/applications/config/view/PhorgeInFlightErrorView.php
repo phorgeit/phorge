@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorInFlightErrorView extends AphrontView {
+final class PhorgeInFlightErrorView extends AphrontView {
 
   private $message;
 

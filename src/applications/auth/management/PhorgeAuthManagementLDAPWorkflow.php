@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementLDAPWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementLDAPWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -15,9 +15,9 @@ final class PhabricatorAuthManagementLDAPWorkflow
     $console = PhutilConsole::getConsole();
     $console->getServer()->setEnableLog(true);
 
-    PhabricatorLDAPAuthProvider::assertLDAPExtensionInstalled();
+    PhorgeLDAPAuthProvider::assertLDAPExtensionInstalled();
 
-    $provider = PhabricatorLDAPAuthProvider::getLDAPProvider();
+    $provider = PhorgeLDAPAuthProvider::getLDAPProvider();
     if (!$provider) {
       $console->writeOut(
         "%s\n",

@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryCommit();
+$table = new PhorgeRepositoryCommit();
 $conn = $table->establishConnection('w');
 
 $status_map = array(

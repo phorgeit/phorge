@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTestApplication extends PhabricatorApplication {
+final class PhorgeTestApplication extends PhorgeApplication {
 
   private $policies = array();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLCreateCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePhurlURLCreateCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'phurl.url.create';
 

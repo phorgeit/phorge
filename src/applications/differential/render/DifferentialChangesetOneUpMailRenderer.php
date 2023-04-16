@@ -143,7 +143,7 @@ final class DifferentialChangesetOneUpMailRenderer
         $line['render']);
     }
 
-    $style_map = id(new PhabricatorDefaultSyntaxStyle())
+    $style_map = id(new PhorgeDefaultSyntaxStyle())
       ->getRemarkupStyleMap();
 
     $styled_body = id(new PhutilPygmentizeParser())

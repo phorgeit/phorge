@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorProjectUIEventListener
-  extends PhabricatorEventListener {
+final class PhorgeProjectUIEventListener
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES);
+    $this->listen(PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES);
   }
 
   public function handleEvent(PhutilEvent $event) {
     $object = $event->getValue('object');
 
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES:
+      case PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES:
         // Hacky solution so that property list view on Diffusion
         // commits shows build status, but not Projects, Subscriptions,
         // or Tokens.
-        if ($object instanceof PhabricatorRepositoryCommit) {
+        if ($object instanceof PhorgeRepositoryCommit) {
           return;
         }
         $this->handlePropertyEvent($event);
@@ -32,17 +32,17 @@ final class PhabricatorProjectUIEventListener
       return;
     }
 
-    if (!($object instanceof PhabricatorProjectInterface)) {
+    if (!($object instanceof PhorgeProjectInterface)) {
       // This object doesn't have projects.
       return;
     }
 
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
     if ($project_phids) {
       $project_phids = array_reverse($project_phids);
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($user)
         ->withPHIDs($project_phids)
         ->execute();
@@ -57,7 +57,7 @@ final class PhabricatorProjectUIEventListener
 
     $annotations = array();
     if ($handles && $can_appear_on_boards) {
-      $engine = id(new PhabricatorBoardLayoutEngine())
+      $engine = id(new PhorgeBoardLayoutEngine())
         ->setViewer($user)
         ->setBoardPHIDs($project_phids)
         ->setObjectPHIDs(array($object->getPHID()))

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberMFAEngine
-  extends PhabricatorEditEngineMFAEngine {
+final class PhorgeAuthContactNumberMFAEngine
+  extends PhorgeEditEngineMFAEngine {
 
   public function shouldTryMFA() {
     return true;

@@ -7,7 +7,7 @@
  *
  * @task common Checking Common Passwords
  */
-final class PhabricatorCommonPasswords extends Phobject {
+final class PhorgeCommonPasswords extends Phobject {
 
 
 /* -(  Checking Common Passwords  )------------------------------------------ */

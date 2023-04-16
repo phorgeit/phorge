@@ -1,26 +1,26 @@
 <?php
 
-final class PhabricatorSpacesExportEngineExtension
-  extends PhabricatorExportEngineExtension {
+final class PhorgeSpacesExportEngineExtension
+  extends PhorgeExportEngineExtension {
 
   const EXTENSIONKEY = 'spaces';
 
   public function supportsObject($object) {
     $viewer = $this->getViewer();
 
-    if (!PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
+    if (!PhorgeSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       return false;
     }
 
-    return ($object instanceof PhabricatorSpacesInterface);
+    return ($object instanceof PhorgeSpacesInterface);
   }
 
   public function newExportFields() {
     return array(
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('spacePHID')
         ->setLabel(pht('Space PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('space')
         ->setLabel(pht('Space')),
     );
@@ -31,14 +31,14 @@ final class PhabricatorSpacesExportEngineExtension
 
     $space_phids = array();
     foreach ($objects as $object) {
-      $space_phids[] = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+      $space_phids[] = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
         $object);
     }
     $handles = $viewer->loadHandles($space_phids);
 
     $map = array();
     foreach ($objects as $object) {
-      $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+      $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
         $object);
 
       $map[] = array(

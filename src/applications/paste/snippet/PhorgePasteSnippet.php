@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasteSnippet extends Phobject {
+final class PhorgePasteSnippet extends Phobject {
 
   const FULL = 'full';
   const FIRST_LINES = 'first_lines';

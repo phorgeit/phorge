@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldTranscriptTestCase extends PhabricatorTestCase {
+final class HeraldTranscriptTestCase extends PhorgeTestCase {
 
   public function testTranscriptTruncation() {
     $long_string = str_repeat('x', 1024 * 1024);

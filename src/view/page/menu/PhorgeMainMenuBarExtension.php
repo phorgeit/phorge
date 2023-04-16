@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorMainMenuBarExtension extends Phobject {
+abstract class PhorgeMainMenuBarExtension extends Phobject {
 
   private $viewer;
   private $application;
   private $controller;
   private $isFullSession;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -16,7 +16,7 @@ abstract class PhabricatorMainMenuBarExtension extends Phobject {
     return $this->viewer;
   }
 
-  public function setApplication(PhabricatorApplication $application) {
+  public function setApplication(PhorgeApplication $application) {
     $this->application = $application;
     return $this;
   }
@@ -25,7 +25,7 @@ abstract class PhabricatorMainMenuBarExtension extends Phobject {
     return $this->application;
   }
 
-  public function setController(PhabricatorController $controller) {
+  public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -55,7 +55,7 @@ abstract class PhabricatorMainMenuBarExtension extends Phobject {
     return true;
   }
 
-  public function isExtensionEnabledForViewer(PhabricatorUser $viewer) {
+  public function isExtensionEnabledForViewer(PhorgeUser $viewer) {
     if (!$viewer->isLoggedIn()) {
       return false;
     }

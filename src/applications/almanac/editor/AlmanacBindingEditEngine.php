@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacBindingEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'almanac.binding';
 
@@ -36,7 +36,7 @@ final class AlmanacBindingEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -73,8 +73,8 @@ final class AlmanacBindingEditEngine
       ->withPHIDs(array($service_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$service) {
@@ -133,7 +133,7 @@ final class AlmanacBindingEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('service')
         ->setLabel(pht('Service'))
         ->setIsFormField(false)
@@ -143,7 +143,7 @@ final class AlmanacBindingEditEngine
         ->setConduitDescription(pht('Select the service to bind.'))
         ->setConduitTypeDescription(pht('Service PHID.'))
         ->setValue($object->getServicePHID()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('interface')
         ->setLabel(pht('Interface'))
         ->setIsFormField(false)
@@ -153,7 +153,7 @@ final class AlmanacBindingEditEngine
         ->setConduitDescription(pht('Set the interface to bind.'))
         ->setConduitTypeDescription(pht('Interface PHID.'))
         ->setValue($object->getInterfacePHID()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('disabled')
         ->setLabel(pht('Disabled'))
         ->setIsFormField(false)

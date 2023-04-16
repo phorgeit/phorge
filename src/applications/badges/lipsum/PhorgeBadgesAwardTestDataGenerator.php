@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesAwardTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeBadgesAwardTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'badges.award';
 
@@ -12,7 +12,7 @@ final class PhabricatorBadgesAwardTestDataGenerator
   public function generateObject() {
     $author = $this->loadRandomUser();
     $recipient = $this->loadRandomUser();
-    $badge_phid = $this->loadRandomPHID(new PhabricatorBadgesBadge());
+    $badge_phid = $this->loadRandomPHID(new PhorgeBadgesBadge());
 
     $xactions = array();
 

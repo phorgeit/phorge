@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHomeProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeHomeProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'home.dashboard';
 
@@ -18,12 +18,12 @@ final class PhabricatorHomeProfileMenuItem
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -34,7 +34,7 @@ final class PhabricatorHomeProfileMenuItem
   }
 
   public function newPageContent(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
 
     return id(new PHUIHomeView())
@@ -42,9 +42,9 @@ final class PhabricatorHomeProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -53,7 +53,7 @@ final class PhabricatorHomeProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
 
     $name = $this->getDisplayName($config);

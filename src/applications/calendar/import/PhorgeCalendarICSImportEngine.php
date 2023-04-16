@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorCalendarICSImportEngine
-  extends PhabricatorCalendarImportEngine {
+abstract class PhorgeCalendarICSImportEngine
+  extends PhorgeCalendarImportEngine {
 
   final protected function importICSData(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     $data) {
 
     $parser = new PhutilICSParser();
@@ -19,7 +19,7 @@ abstract class PhabricatorCalendarICSImportEngine
       // failure occurred.
 
       $import->newLogMessage(
-        PhabricatorCalendarImportICSLogType::LOGTYPE,
+        PhorgeCalendarImportICSLogType::LOGTYPE,
         array(
           'ics.code' => $ex->getParserFailureCode(),
           'ics.message' => $ex->getMessage(),
@@ -30,7 +30,7 @@ abstract class PhabricatorCalendarICSImportEngine
 
     foreach ($parser->getWarnings() as $warning) {
       $import->newLogMessage(
-        PhabricatorCalendarImportICSWarningLogType::LOGTYPE,
+        PhorgeCalendarImportICSWarningLogType::LOGTYPE,
         array(
           'ics.warning.code' => $warning['code'],
           'ics.warning.line' => $warning['line'],

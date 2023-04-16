@@ -9,7 +9,7 @@ final class PonderQuestionListController extends PonderController {
   public function handleRequest(AphrontRequest $request) {
     $query_key = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
       ->setSearchEngine(new PonderQuestionSearchEngine())
       ->setNavigation($this->buildSideNavView());

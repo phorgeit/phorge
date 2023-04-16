@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardFavoritesInstallWorkflow
-  extends PhabricatorDashboardApplicationInstallWorkflow {
+final class PhorgeDashboardFavoritesInstallWorkflow
+  extends PhorgeDashboardApplicationInstallWorkflow {
 
   const WORKFLOWKEY = 'favorites';
 
@@ -20,11 +20,11 @@ final class PhabricatorDashboardFavoritesInstallWorkflow
   }
 
   protected function newProfileEngine() {
-    return new PhabricatorFavoritesProfileMenuEngine();
+    return new PhorgeFavoritesProfileMenuEngine();
   }
 
   protected function newApplication() {
-    return new PhabricatorFavoritesApplication();
+    return new PhorgeFavoritesApplication();
   }
 
   protected function newApplicationModeDialog() {

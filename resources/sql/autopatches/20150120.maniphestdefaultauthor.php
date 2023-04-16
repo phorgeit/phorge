@@ -2,14 +2,14 @@
 
 $key = 'metamta.maniphest.default-public-author';
 echo pht("Migrating `%s` to new application email infrastructure...\n", $key);
-$value = PhabricatorEnv::getEnvConfigIfExists($key);
-$maniphest = new PhabricatorManiphestApplication();
+$value = PhorgeEnv::getEnvConfigIfExists($key);
+$maniphest = new PhorgeManiphestApplication();
 $config_key =
-  PhabricatorMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR;
+  PhorgeMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR;
 
 if ($value) {
-  $app_emails = id(new PhabricatorMetaMTAApplicationEmailQuery())
-    ->setViewer(PhabricatorUser::getOmnipotentUser())
+  $app_emails = id(new PhorgeMetaMTAApplicationEmailQuery())
+    ->setViewer(PhorgeUser::getOmnipotentUser())
     ->withApplicationPHIDs(array($maniphest->getPHID()))
     ->execute();
 

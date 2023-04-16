@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionDraftEngine
-  extends PhabricatorDraftEngine {
+  extends PhorgeDraftEngine {
 
   protected function hasCustomDraftContent() {
     $viewer = $this->getViewer();

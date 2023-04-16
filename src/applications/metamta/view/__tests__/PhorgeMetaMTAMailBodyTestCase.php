@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAMailBodyTestCase extends PhabricatorTestCase {
+final class PhorgeMetaMTAMailBodyTestCase extends PhorgeTestCase {
 
   public function testBodyRender() {
     $expect = <<<EOTEXT
@@ -16,7 +16,7 @@ EOTEXT;
   }
 
   private function assertEmail($expect) {
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
     $body->addRawSection('salmon');
     $body->addTextSection('HEADER', "bass\ntrout\n");
 

@@ -25,7 +25,7 @@ final class HarbormasterDrydockCommandBuildStepImplementation
   public function execute(
     HarbormasterBuild $build,
     HarbormasterBuildTarget $build_target) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $settings = $this->getSettings();
     $variables = $build_target->getVariables();

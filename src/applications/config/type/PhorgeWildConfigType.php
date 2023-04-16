@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorWildConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeWildConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'wild';
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $raw_value = $value;
@@ -31,7 +31,7 @@ final class PhabricatorWildConfigType
   }
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return;
   }

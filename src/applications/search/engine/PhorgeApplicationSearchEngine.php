@@ -14,7 +14,7 @@
  * @task exec       Paging and Executing Queries
  * @task render     Rendering Results
  */
-abstract class PhabricatorApplicationSearchEngine extends Phobject {
+abstract class PhorgeApplicationSearchEngine extends Phobject {
 
   private $application;
   private $viewer;
@@ -30,7 +30,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
   const BUCKET_NONE = 'none';
 
-  public function setController(PhabricatorController $controller) {
+  public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -43,7 +43,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $controller = $this->getController();
     $request = $controller->getRequest();
 
-    $search = id(new PhabricatorApplicationSearchController())
+    $search = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine($this);
 
@@ -67,7 +67,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return null;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -102,7 +102,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return true;
   }
 
-  public function saveQuery(PhabricatorSavedQuery $query) {
+  public function saveQuery(PhorgeSavedQuery $query) {
     if ($query->getID()) {
       throw new Exception(
         pht(
@@ -126,13 +126,13 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Create a saved query object from the request.
    *
    * @param AphrontRequest The search request.
-   * @return PhabricatorSavedQuery
+   * @return PhorgeSavedQuery
    */
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
     $fields = $this->buildSearchFields();
     $viewer = $this->requireViewer();
 
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
     foreach ($fields as $field) {
       $field->setViewer($viewer);
 
@@ -146,10 +146,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Executes the saved query.
    *
-   * @param PhabricatorSavedQuery The saved query to operate on.
-   * @return PhabricatorQuery The result of the query.
+   * @param PhorgeSavedQuery The saved query to operate on.
+   * @return PhorgeQuery The result of the query.
    */
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $original) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $original) {
     $saved = clone $original;
     $this->willUseSavedQuery($saved);
 
@@ -200,10 +200,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * hook to keep old queries working the way users expect, by reading,
    * adjusting, and overwriting parameters.
    *
-   * @param PhabricatorSavedQuery Saved query which will be executed.
+   * @param PhorgeSavedQuery Saved query which will be executed.
    * @return void
    */
-  protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {
+  protected function willUseSavedQuery(PhorgeSavedQuery $saved) {
     return;
   }
 
@@ -215,12 +215,12 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Builds the search form using the request.
    *
    * @param AphrontFormView       Form to populate.
-   * @param PhabricatorSavedQuery The query from which to build the form.
+   * @param PhorgeSavedQuery The query from which to build the form.
    * @return void
    */
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $saved = clone $saved;
     $this->willUseSavedQuery($saved);
@@ -268,7 +268,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       $orders = $query->getBuiltinOrders();
       $orders = ipull($orders, 'name');
 
-      $fields[] = id(new PhabricatorSearchOrderField())
+      $fields[] = id(new PhorgeSearchOrderField())
         ->setLabel(pht('Order By'))
         ->setKey('order')
         ->setOrderAliases($query->getBuiltinOrderAliasMap())
@@ -281,7 +281,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
         self::BUCKET_NONE => pht('No Bucketing'),
       ) + mpull($buckets, 'getResultBucketName');
 
-      $fields[] = id(new PhabricatorSearchSelectField())
+      $fields[] = id(new PhorgeSearchSelectField())
         ->setLabel(pht('Bucket'))
         ->setKey('bucket')
         ->setOptions($bucket_options);
@@ -462,7 +462,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
 
   public function newSavedQuery() {
-    return id(new PhabricatorSavedQuery())
+    return id(new PhorgeSavedQuery())
       ->setEngineClassName(get_class($this));
   }
 
@@ -500,13 +500,13 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $builtin = $this->getBuiltinQueries();
 
     if ($this->namedQueries === null) {
-      $named_queries = id(new PhabricatorNamedQueryQuery())
+      $named_queries = id(new PhorgeNamedQueryQuery())
         ->setViewer($viewer)
         ->withEngineClassNames(array(get_class($this)))
         ->withUserPHIDs(
           array(
             $viewer->getPHID(),
-            PhabricatorNamedQuery::SCOPE_GLOBAL,
+            PhorgeNamedQuery::SCOPE_GLOBAL,
           ))
         ->execute();
       $named_queries = mpull($named_queries, null, 'getQueryKey');
@@ -546,18 +546,18 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   public function getDefaultQueryKey() {
     $viewer = $this->requireViewer();
 
-    $configs = id(new PhabricatorNamedQueryConfigQuery())
+    $configs = id(new PhorgeNamedQueryConfigQuery())
       ->setViewer($viewer)
       ->withEngineClassNames(array(get_class($this)))
       ->withScopePHIDs(
         array(
           $viewer->getPHID(),
-          PhabricatorNamedQueryConfig::SCOPE_GLOBAL,
+          PhorgeNamedQueryConfig::SCOPE_GLOBAL,
         ))
       ->execute();
     $configs = msortv($configs, 'getStrengthSortVector');
 
-    $key_pinned = PhabricatorNamedQueryConfig::PROPERTY_PINNED;
+    $key_pinned = PhorgeNamedQueryConfig::PROPERTY_PINNED;
     $map = $this->loadEnabledNamedQueries();
     foreach ($configs as $config) {
       $pinned = $config->getConfigProperty($key_pinned);
@@ -572,10 +572,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
   protected function setQueryProjects(
-    PhabricatorCursorPagedPolicyAwareQuery $query,
-    PhabricatorSavedQuery $saved) {
+    PhorgeCursorPagedPolicyAwareQuery $query,
+    PhorgeSavedQuery $saved) {
 
-    $datasource = id(new PhabricatorProjectLogicalDatasource())
+    $datasource = id(new PhorgeProjectLogicalDatasource())
       ->setViewer($this->requireViewer());
 
     $projects = $saved->getParameter('projects', array());
@@ -583,7 +583,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     if ($constraints) {
       $query->withEdgeLogicConstraints(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         $constraints);
     }
 
@@ -602,7 +602,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     if (!$this->application) {
       $class = $this->getApplicationClassName();
 
-      $this->application = id(new PhabricatorApplicationQuery())
+      $this->application = id(new PhorgeApplicationQuery())
         ->setViewer($this->requireViewer())
         ->withClasses(array($class))
         ->withInstalled(true)
@@ -628,7 +628,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Load all available application search engines.
    *
-   * @return list<PhabricatorApplicationSearchEngine> All available engines.
+   * @return list<PhorgeApplicationSearchEngine> All available engines.
    * @task construct
    */
   public static function getAllEngines() {
@@ -641,7 +641,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Get an engine by class name, if it exists.
    *
-   * @return PhabricatorApplicationSearchEngine|null Engine, or null if it does
+   * @return PhorgeApplicationSearchEngine|null Engine, or null if it does
    *   not exist.
    * @task construct
    */
@@ -662,8 +662,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $queries = array();
     $sequence = 0;
     foreach ($names as $key => $name) {
-      $queries[$key] = id(new PhabricatorNamedQuery())
-        ->setUserPHID(PhabricatorNamedQuery::SCOPE_GLOBAL)
+      $queries[$key] = id(new PhorgeNamedQuery())
+        ->setUserPHID(PhorgeNamedQuery::SCOPE_GLOBAL)
         ->setEngineClassName(get_class($this))
         ->setQueryName($name)
         ->setQueryKey($key)
@@ -743,7 +743,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $phids = array();
     $names = array();
     $allow_types = array_fuse($allow_types);
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     foreach ($list as $item) {
       $type = phid_get_type($item);
       if ($type == $user_type) {
@@ -751,7 +751,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       } else if (isset($allow_types[$type])) {
         $phids[] = $item;
       } else {
-        if (PhabricatorTypeaheadDatasource::isFunctionToken($item)) {
+        if (PhorgeTypeaheadDatasource::isFunctionToken($item)) {
           // If this is a function, pass it through unchanged; we'll evaluate
           // it later.
           $phids[] = $item;
@@ -762,7 +762,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     if ($names) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->requireViewer())
         ->withUsernames($names)
         ->execute();
@@ -791,7 +791,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       $request,
       $key,
       array(
-        PhabricatorProjectProjectPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
       ));
   }
 
@@ -816,7 +816,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $list = $this->readListFromRequest($request, $key);
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->requireViewer())
       ->withNames($list)
       ->execute();
@@ -879,7 +879,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
 
-  protected function getBoolFromQuery(PhabricatorSavedQuery $query, $key) {
+  protected function getBoolFromQuery(PhorgeSavedQuery $query, $key) {
     $value = $query->getParameter($key);
     if ($value === null) {
       return $value;
@@ -899,7 +899,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       return null;
     }
 
-    return PhabricatorTime::parseLocalTime($date_time, $this->requireViewer());
+    return PhorgeTime::parseLocalTime($date_time, $this->requireViewer());
   }
 
 
@@ -908,7 +908,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    */
   protected function buildDateRange(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query,
+    PhorgeSavedQuery $saved_query,
     $start_key,
     $start_name,
     $end_key,
@@ -968,7 +968,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return array();
   }
 
-  public function getResultBucket(PhabricatorSavedQuery $saved) {
+  public function getResultBucket(PhorgeSavedQuery $saved) {
     $key = $saved->getParameter('bucket');
     if ($key == self::BUCKET_NONE) {
       return null;
@@ -979,7 +979,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     $bucket = $this->getResultBucket($saved);
 
     $limit = (int)$saved->getParameter('limit');
@@ -1004,7 +1004,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
 
-  public function newPagerForSavedQuery(PhabricatorSavedQuery $saved) {
+  public function newPagerForSavedQuery(PhorgeSavedQuery $saved) {
     if ($this->shouldUseOffsetPaging()) {
       $pager = new PHUIPagerView();
     } else {
@@ -1027,7 +1027,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
 
   public function executeQuery(
-    PhabricatorPolicyAwareQuery $query,
+    PhorgePolicyAwareQuery $query,
     AphrontView $pager) {
 
     $query->setViewer($this->requireViewer());
@@ -1043,7 +1043,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $objects;
   }
 
-  protected function didExecuteQuery(PhabricatorPolicyAwareQuery $query) {
+  protected function didExecuteQuery(PhorgePolicyAwareQuery $query) {
     return;
   }
 
@@ -1062,12 +1062,12 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
   public function renderResults(
     array $objects,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = $this->getRequiredHandlePHIDsForResultList($objects, $query);
 
     if ($phids) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($this->requireViewer())
         ->witHPHIDs($phids)
         ->execute();
@@ -1080,13 +1080,13 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
   protected function getRequiredHandlePHIDsForResultList(
     array $objects,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return array();
   }
 
   abstract protected function renderResultList(
     array $objects,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles);
 
 
@@ -1138,11 +1138,11 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $query_key = $request->getValue('queryKey');
     if (!strlen($query_key)) {
-      $saved_query = new PhabricatorSavedQuery();
+      $saved_query = new PhorgeSavedQuery();
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);
     } else {
-      $saved_query = id(new PhabricatorSavedQueryQuery())
+      $saved_query = id(new PhorgeSavedQueryQuery())
         ->setViewer($viewer)
         ->withQueryKeys(array($query_key))
         ->executeOne();
@@ -1317,7 +1317,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
   private function getEngineExtensions() {
-    $extensions = PhabricatorSearchEngineExtension::getAllEnabledExtensions();
+    $extensions = PhorgeSearchEngineExtension::getAllEnabledExtensions();
 
     foreach ($extensions as $key => $extension) {
       $extension
@@ -1468,7 +1468,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return null;
   }
 
-  public function newUseResultsActions(PhabricatorSavedQuery $saved) {
+  public function newUseResultsActions(PhorgeSavedQuery $saved) {
     return array();
   }
 
@@ -1485,13 +1485,13 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $object = $this->newResultObject();
 
     $builtin_fields = array(
-      id(new PhabricatorIDExportField())
+      id(new PhorgeIDExportField())
         ->setKey('id')
         ->setLabel(pht('ID')),
     );
 
     if ($object->getConfigOption(LiskDAO::CONFIG_AUX_PHID)) {
-      $builtin_fields[] = id(new PhabricatorPHIDExportField())
+      $builtin_fields[] = id(new PhorgePHIDExportField())
         ->setKey('phid')
         ->setLabel(pht('PHID'));
     }
@@ -1608,7 +1608,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $object = $this->newResultObject();
     $viewer = $this->requireViewer();
 
-    $extensions = PhabricatorExportEngineExtension::getAllExtensions();
+    $extensions = PhorgeExportEngineExtension::getAllExtensions();
 
     $supported = array();
     foreach ($extensions as $extension) {

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialViewStateGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'differential.viewstate';
 

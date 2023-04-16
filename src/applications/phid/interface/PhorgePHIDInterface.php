@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorPHIDInterface {
+interface PhorgePHIDInterface {
 
   public function getPHID();
 

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorTaskmasterDaemon extends PhabricatorDaemon {
+final class PhorgeTaskmasterDaemon extends PhorgeDaemon {
 
   protected function run() {
     do {
-      PhabricatorCaches::destroyRequestCache();
+      PhorgeCaches::destroyRequestCache();
 
-      $tasks = id(new PhabricatorWorkerLeaseQuery())
+      $tasks = id(new PhorgeWorkerLeaseQuery())
         ->setLimit(1)
         ->execute();
 
@@ -22,7 +22,7 @@ final class PhabricatorTaskmasterDaemon extends PhabricatorDaemon {
           $task = $task->executeTask();
           $ex = $task->getExecutionException();
           if ($ex) {
-            if ($ex instanceof PhabricatorWorkerPermanentFailureException) {
+            if ($ex instanceof PhorgeWorkerPermanentFailureException) {
               // NOTE: Make sure these reach the daemon log, even when not
               // running in verbose mode. See T12803 for discussion.
               $log_exception = new PhutilProxyException(
@@ -32,7 +32,7 @@ final class PhabricatorTaskmasterDaemon extends PhabricatorDaemon {
                   $id),
                 $ex);
               phlog($log_exception);
-            } else if ($ex instanceof PhabricatorWorkerYieldException) {
+            } else if ($ex instanceof PhorgeWorkerYieldException) {
               $this->log(pht('Task %s yielded.', $id));
             } else {
               $this->log(pht('Task %d failed!', $id));

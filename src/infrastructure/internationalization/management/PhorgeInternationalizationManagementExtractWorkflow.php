@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorInternationalizationManagementExtractWorkflow
-  extends PhabricatorInternationalizationManagementWorkflow {
+final class PhorgeInternationalizationManagementExtractWorkflow
+  extends PhorgeInternationalizationManagementWorkflow {
 
   const CACHE_VERSION = 1;
 

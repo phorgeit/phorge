@@ -26,7 +26,7 @@ final class LegalpadRequireSignatureHeraldAction
     $current = $adapter->loadEdgePHIDs($edgetype_legal);
 
     $allowed_types = array(
-      PhabricatorLegalpadDocumentPHIDType::TYPECONST,
+      PhorgeLegalpadDocumentPHIDType::TYPECONST,
     );
 
     $targets = $this->loadStandardTargets($phids, $allowed_types, $current);
@@ -40,7 +40,7 @@ final class LegalpadRequireSignatureHeraldAction
     $author_phid = $object->getAuthorPHID();
 
     $signatures = id(new LegalpadDocumentSignatureQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withDocumentPHIDs($phids)
       ->withSignerPHIDs(array($author_phid))
       ->execute();
@@ -63,7 +63,7 @@ final class LegalpadRequireSignatureHeraldAction
     }
 
     $xaction = $adapter->newTransaction()
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $edgetype_legal)
       ->setNewValue(
         array(
@@ -132,7 +132,7 @@ final class LegalpadRequireSignatureHeraldAction
   }
 
   public function isActionAvailable() {
-    return id(new PhabricatorLegalpadApplication())->isInstalled();
+    return id(new PhorgeLegalpadApplication())->isInstalled();
   }
 
 }

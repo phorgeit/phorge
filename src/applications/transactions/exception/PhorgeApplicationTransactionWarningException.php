@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionWarningException
+final class PhorgeApplicationTransactionWarningException
   extends Exception {
 
   private $xactions;

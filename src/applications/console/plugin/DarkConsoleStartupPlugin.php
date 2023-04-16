@@ -11,10 +11,10 @@ final class DarkConsoleStartupPlugin extends DarkConsolePlugin {
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function generateData() {
-    return PhabricatorStartup::getPhases();
+    return PhorgeStartup::getPhases();
   }
 
   public function renderPanel() {

@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitDraftEngine
-  extends PhabricatorDraftEngine {
+  extends PhorgeDraftEngine {
 
   protected function hasCustomDraftContent() {
     $viewer = $this->getViewer();

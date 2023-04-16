@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserNotificationCountCacheType
-  extends PhabricatorUserCacheType {
+final class PhorgeUserNotificationCountCacheType
+  extends PhorgeUserCacheType {
 
   const CACHETYPE = 'notification.count';
 
@@ -28,7 +28,7 @@ final class PhabricatorUserNotificationCountCacheType
 
     $user_phids = mpull($users, 'getPHID');
 
-    $table = new PhabricatorFeedStoryNotification();
+    $table = new PhorgeFeedStoryNotification();
     $conn_r = $table->establishConnection('r');
 
     $rows = queryfx_all(

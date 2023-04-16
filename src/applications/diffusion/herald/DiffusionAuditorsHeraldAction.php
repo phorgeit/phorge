@@ -11,7 +11,7 @@ abstract class DiffusionAuditorsHeraldAction
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
   protected function applyAuditors(array $phids, HeraldRule $rule) {
@@ -42,9 +42,9 @@ abstract class DiffusionAuditorsHeraldAction
     }
 
     $allowed_types = array(
-      PhabricatorPeopleUserPHIDType::TYPECONST,
-      PhabricatorProjectProjectPHIDType::TYPECONST,
-      PhabricatorOwnersPackagePHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
+      PhorgeOwnersPackagePHIDType::TYPECONST,
     );
 
     $targets = $this->loadStandardTargets($phids, $allowed_types, $current);

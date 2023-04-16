@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskSubtypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Subtypes');
@@ -12,7 +12,7 @@ final class ManiphestTaskSubtypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function loadResults() {
@@ -30,7 +30,7 @@ final class ManiphestTaskSubtypeDatasource
     $subtype_map = id(new ManiphestTask())->newEditEngineSubtypeMap();
     foreach ($subtype_map->getSubtypes() as $key => $subtype) {
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon($subtype->getIcon())
         ->setColor($subtype->getColor())
         ->setPHID($key)

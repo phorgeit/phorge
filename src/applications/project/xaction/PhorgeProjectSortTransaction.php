@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSortTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectSortTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:sort';
 

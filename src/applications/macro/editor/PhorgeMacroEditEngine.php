@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeMacroEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'macro.image';
 
@@ -18,7 +18,7 @@ final class PhabricatorMacroEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function isEngineConfigurable() {
@@ -27,11 +27,11 @@ final class PhabricatorMacroEditEngine
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorFileImageMacro::initializeNewFileImageMacro($viewer);
+    return PhorgeFileImageMacro::initializeNewFileImageMacro($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorMacroQuery();
+    return new PhorgeMacroQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -64,13 +64,13 @@ final class PhabricatorMacroEditEngine
 
   protected function getCreateNewObjectPolicy() {
     return $this->getApplication()->getPolicy(
-      PhabricatorMacroManageCapability::CAPABILITY);
+      PhorgeMacroManageCapability::CAPABILITY);
   }
 
   protected function willConfigureFields($object, array $fields) {
     if ($this->getIsCreate()) {
       $subscribers_field = idx($fields,
-        PhabricatorSubscriptionsEditEngineExtension::FIELDKEY);
+        PhorgeSubscriptionsEditEngineExtension::FIELDKEY);
       if ($subscribers_field) {
         // By default, hide the subscribers field when creating a macro
         // because it makes the workflow SO HARD and wastes SO MUCH TIME.
@@ -83,20 +83,20 @@ final class PhabricatorMacroEditEngine
   protected function buildCustomEditFields($object) {
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Macro name.'))
         ->setConduitDescription(pht('Name of the macro.'))
         ->setConduitTypeDescription(pht('New macro name.'))
-        ->setTransactionType(PhabricatorMacroNameTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeMacroNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorFileEditField())
+      id(new PhorgeFileEditField())
         ->setKey('filePHID')
         ->setLabel(pht('Image File'))
         ->setDescription(pht('Image file to import.'))
-        ->setTransactionType(PhabricatorMacroFileTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeMacroFileTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('File PHID to import.'))
         ->setConduitTypeDescription(pht('File PHID.'))
         ->setValue($object->getFilePHID()),

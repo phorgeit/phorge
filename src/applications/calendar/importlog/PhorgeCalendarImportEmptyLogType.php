@@ -1,31 +1,31 @@
 <?php
 
-final class PhabricatorCalendarImportEmptyLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportEmptyLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'empty';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('No Events Imported');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('Found no valid events to import.');
   }
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-ban';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'red';
   }
 

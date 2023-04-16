@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPasswordHasherTestCase extends PhabricatorTestCase {
+final class PhorgePasswordHasherTestCase extends PhorgeTestCase {
 
   public function testHasherSyntax() {
     $caught = null;
     try {
-      PhabricatorPasswordHasher::getHasherForHash(
+      PhorgePasswordHasher::getHasherForHash(
         new PhutilOpaqueEnvelope('xxx'));
     } catch (Exception $ex) {
       $caught = $ex;
@@ -17,19 +17,19 @@ final class PhabricatorPasswordHasherTestCase extends PhabricatorTestCase {
 
     $caught = null;
     try {
-      PhabricatorPasswordHasher::getHasherForHash(
+      PhorgePasswordHasher::getHasherForHash(
         new PhutilOpaqueEnvelope('__test__:yyy'));
     } catch (Exception $ex) {
       $caught = $ex;
     }
 
     $this->assertTrue(
-      ($caught instanceof PhabricatorPasswordHasherUnavailableException),
+      ($caught instanceof PhorgePasswordHasherUnavailableException),
       pht('Fictional hasher unavailable.'));
   }
 
   public function testGetAllHashers() {
-    PhabricatorPasswordHasher::getAllHashers();
+    PhorgePasswordHasher::getAllHashers();
     $this->assertTrue(true);
   }
 

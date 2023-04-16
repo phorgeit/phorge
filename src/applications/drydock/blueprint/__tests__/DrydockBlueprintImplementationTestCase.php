@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockBlueprintImplementationTestCase extends PhabricatorTestCase {
+final class DrydockBlueprintImplementationTestCase extends PhorgeTestCase {
 
   public function testGetAllBlueprintImplementations() {
     DrydockBlueprintImplementation::getAllBlueprintImplementations();

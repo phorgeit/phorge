@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportQueryKeyTransaction
-  extends PhabricatorCalendarExportTransactionType {
+final class PhorgeCalendarExportQueryKeyTransaction
+  extends PhorgeCalendarExportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.export.querykey';
 
@@ -27,16 +27,16 @@ final class PhabricatorCalendarExportQueryKeyTransaction
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
 
-      $query = id(new PhabricatorSavedQueryQuery())
+      $query = id(new PhorgeSavedQueryQuery())
         ->setViewer($actor)
-        ->withEngineClassNames(array('PhabricatorCalendarEventSearchEngine'))
+        ->withEngineClassNames(array('PhorgeCalendarEventSearchEngine'))
         ->withQueryKeys(array($value))
         ->executeOne();
       if ($query) {
         continue;
       }
 
-      $builtin = id(new PhabricatorCalendarEventSearchEngine())
+      $builtin = id(new PhorgeCalendarEventSearchEngine())
         ->setViewer($actor)
         ->getBuiltinQueries($actor);
       if (isset($builtin[$value])) {

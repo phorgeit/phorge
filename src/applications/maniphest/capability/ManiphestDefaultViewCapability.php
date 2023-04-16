@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestDefaultViewCapability extends PhabricatorPolicyCapability {
+final class ManiphestDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'maniphest.default.view';
 

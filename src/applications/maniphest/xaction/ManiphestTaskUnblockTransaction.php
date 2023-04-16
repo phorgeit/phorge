@@ -125,7 +125,7 @@ final class ManiphestTaskUnblockTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // When you close a task, we want to apply this transaction to its parents
     // even if you can not edit (or even see) those parents, so don't require

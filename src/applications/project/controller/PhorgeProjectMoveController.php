@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMoveController
-  extends PhabricatorProjectController {
+final class PhorgeProjectMoveController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -17,10 +17,10 @@ final class PhabricatorProjectMoveController
 
     $order = $request->getStr('order');
     if (!strlen($order)) {
-      $order = PhabricatorProjectColumnNaturalOrder::ORDERKEY;
+      $order = PhorgeProjectColumnNaturalOrder::ORDERKEY;
     }
 
-    $ordering = PhabricatorProjectColumnOrder::getOrderByKey($order);
+    $ordering = PhorgeProjectColumnOrder::getOrderByKey($order);
     $ordering = id(clone $ordering)
       ->setViewer($viewer);
 
@@ -32,11 +32,11 @@ final class PhabricatorProjectMoveController
       $edit_header = array();
     }
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->withIDs(array($id))
       ->executeOne();
@@ -59,8 +59,8 @@ final class PhabricatorProjectMoveController
       ->needProjectPHIDs(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 
@@ -68,7 +68,7 @@ final class PhabricatorProjectMoveController
       return new Aphront404Response();
     }
 
-    $columns = id(new PhabricatorProjectColumnQuery())
+    $columns = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withProjectPHIDs(array($project->getPHID()))
       ->needTriggers(true)
@@ -82,7 +82,7 @@ final class PhabricatorProjectMoveController
       return new Aphront404Response();
     }
 
-    $engine = id(new PhabricatorBoardLayoutEngine())
+    $engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board_phid))
       ->setObjectPHIDs(array($object_phid))
@@ -95,7 +95,7 @@ final class PhabricatorProjectMoveController
 
     $xactions = array();
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+      ->setTransactionType(PhorgeTransactions::TYPE_COLUMNS)
       ->setNewValue(
         array(
           array(

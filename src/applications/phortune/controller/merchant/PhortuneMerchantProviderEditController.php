@@ -20,8 +20,8 @@ final class PhortuneMerchantProviderEditController
         ->withMerchantPHIDs(array($merchant->getPHID()))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$provider_config) {

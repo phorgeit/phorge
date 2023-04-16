@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCacheTTLGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeCacheTTLGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'cache.general.ttl';
 
@@ -14,7 +14,7 @@ final class PhabricatorCacheTTLGarbageCollector
   }
 
   protected function collectGarbage() {
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
     $conn_w = $cache->establishConnection('w');
 
     queryfx(
@@ -22,7 +22,7 @@ final class PhabricatorCacheTTLGarbageCollector
       'DELETE FROM %T WHERE cacheExpires < %d
         ORDER BY cacheExpires ASC LIMIT 100',
       $cache->getTableName(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
     return ($conn_w->getAffectedRows() == 100);
   }

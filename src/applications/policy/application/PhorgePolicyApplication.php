@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyApplication extends PhabricatorApplication {
+final class PhorgePolicyApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Policy');
@@ -18,7 +18,7 @@ final class PhabricatorPolicyApplication extends PhabricatorApplication {
     return array(
       '/policy/' => array(
         'explain/(?P<phid>[^/]+)/(?P<capability>[^/]+)/'
-          => 'PhabricatorPolicyExplainController',
+          => 'PhorgePolicyExplainController',
         'edit/'.
           '(?:'.
             'object/(?P<objectPHID>[^/]+)'.
@@ -27,7 +27,7 @@ final class PhabricatorPolicyApplication extends PhabricatorApplication {
             '|'.
             'template/(?P<templateType>[^/]+)'.
           ')/'.
-          '(?:(?P<phid>[^/]+)/)?' => 'PhabricatorPolicyEditController',
+          '(?:(?P<phid>[^/]+)/)?' => 'PhorgePolicyEditController',
       ),
     );
   }

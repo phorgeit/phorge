@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPeopleProfileController
-  extends PhabricatorPeopleController {
+abstract class PhorgePeopleProfileController
+  extends PhorgePeopleController {
 
   private $user;
 
@@ -9,7 +9,7 @@ abstract class PhabricatorPeopleProfileController
     return false;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -38,7 +38,7 @@ abstract class PhabricatorPeopleProfileController
     $profile = $user->loadUserProfile();
     $picture = $user->getProfileImageURI();
 
-    $profile_icon = PhabricatorPeopleIconSet::getIconIcon($profile->getIcon());
+    $profile_icon = PhorgePeopleIconSet::getIconIcon($profile->getIcon());
     $profile_title = $profile->getDisplayTitle();
 
 
@@ -96,10 +96,10 @@ abstract class PhabricatorPeopleProfileController
       $header->setStatus($profile_icon, 'bluegrey', $profile_title);
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $user,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($can_edit) {
       $id = $user->getID();
@@ -110,12 +110,12 @@ abstract class PhabricatorPeopleProfileController
   }
 
   final protected function newNavigation(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $item_identifier) {
 
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorPeopleProfileMenuEngine())
+    $engine = id(new PhorgePeopleProfileMenuEngine())
       ->setViewer($viewer)
       ->setController($this)
       ->setProfileObject($user);

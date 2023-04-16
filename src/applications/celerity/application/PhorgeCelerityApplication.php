@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCelerityApplication extends PhabricatorApplication {
+final class PhorgeCelerityApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Celerity');
@@ -37,7 +37,7 @@ final class PhabricatorCelerityApplication extends PhabricatorApplication {
         '(?P<library>[^/]+)/'.
         '(?P<hash>[a-f0-9]{8})/'.
         '(?P<path>.+\.(?:'.$extensions.'))'
-          => 'CelerityPhabricatorResourceController',
+          => 'CelerityPhorgeResourceController',
       ),
     );
   }

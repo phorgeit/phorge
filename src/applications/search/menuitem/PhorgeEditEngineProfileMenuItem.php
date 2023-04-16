@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeEditEngineProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'editengine';
 
@@ -36,9 +36,9 @@ final class PhabricatorEditEngineProfileMenuItem
 
   public function willGetMenuItemViewList(array $items) {
     $viewer = $this->getViewer();
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = PhorgeEditEngine::getAllEditEngines();
     $engine_keys = array_keys($engines);
-    $forms = id(new PhabricatorEditEngineConfigurationQuery())
+    $forms = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys($engine_keys)
       ->withIsDisabled(false)
@@ -53,7 +53,7 @@ final class PhabricatorEditEngineProfileMenuItem
 
     foreach ($items as $item) {
       $key = $item->getMenuItemProperty('formKey');
-      list($engine_key, $form_key) = PhabricatorEditEngine::splitFullKey($key);
+      list($engine_key, $form_key) = PhorgeEditEngine::splitFullKey($key);
 
       if (is_numeric($form_key)) {
         $form = idx($form_ids, $form_key, null);
@@ -66,7 +66,7 @@ final class PhabricatorEditEngineProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $form = $this->getForm();
     if (!$form) {
       return pht('(Restricted/Invalid Form)');
@@ -79,15 +79,15 @@ final class PhabricatorEditEngineProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey(self::FIELD_FORM)
         ->setLabel(pht('Form'))
         ->setIsRequired(true)
-        ->setDatasource(new PhabricatorEditEngineDatasource())
+        ->setDatasource(new PhorgeEditEngineDatasource())
         ->setSingleValue($config->getMenuItemProperty('formKey')),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setValue($this->getName($config)),
@@ -95,12 +95,12 @@ final class PhabricatorEditEngineProfileMenuItem
   }
 
   private function getName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $form = $this->getForm();
     if (!$form) {
@@ -126,7 +126,7 @@ final class PhabricatorEditEngineProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -152,10 +152,10 @@ final class PhabricatorEditEngineProfileMenuItem
           continue;
         }
 
-        list($engine_key, $form_key) = PhabricatorEditEngine::splitFullKey(
+        list($engine_key, $form_key) = PhorgeEditEngine::splitFullKey(
           $new);
 
-        $forms = id(new PhabricatorEditEngineConfigurationQuery())
+        $forms = id(new PhorgeEditEngineConfigurationQuery())
           ->setViewer($viewer)
           ->withEngineKeys(array($engine_key))
           ->withIdentifiers(array($form_key))

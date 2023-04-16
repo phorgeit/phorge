@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConfigIssueListController
-  extends PhabricatorConfigController {
+final class PhorgeConfigIssueListController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $engine = new PhabricatorSetupEngine();
+    $engine = new PhorgeSetupEngine();
     $response = $engine->execute();
     if ($response) {
       return $response;
@@ -15,19 +15,19 @@ final class PhabricatorConfigIssueListController
 
     $important = $this->buildIssueList(
       $issues,
-      PhabricatorSetupCheck::GROUP_IMPORTANT,
+      PhorgeSetupCheck::GROUP_IMPORTANT,
       'fa-warning');
     $php = $this->buildIssueList(
       $issues,
-      PhabricatorSetupCheck::GROUP_PHP,
+      PhorgeSetupCheck::GROUP_PHP,
       'fa-code');
     $mysql = $this->buildIssueList(
       $issues,
-      PhabricatorSetupCheck::GROUP_MYSQL,
+      PhorgeSetupCheck::GROUP_MYSQL,
       'fa-database');
     $other = $this->buildIssueList(
       $issues,
-      PhabricatorSetupCheck::GROUP_OTHER,
+      PhorgeSetupCheck::GROUP_OTHER,
       'fa-question-circle');
 
     $title = pht('Setup Issues');
@@ -68,7 +68,7 @@ final class PhabricatorConfigIssueListController
   }
 
   private function buildIssueList(array $issues, $group, $fonticon) {
-    assert_instances_of($issues, 'PhabricatorSetupIssue');
+    assert_instances_of($issues, 'PhorgeSetupIssue');
     $list = new PHUIObjectItemListView();
     $list->setBig(true);
     $ignored_items = array();

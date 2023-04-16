@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPDFResourcesObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFResourcesObject
+  extends PhorgePDFObject {
 
   private $fontObjects = array();
 
-  public function addFontObject(PhabricatorPDFFontObject $font) {
+  public function addFontObject(PhorgePDFFontObject $font) {
     $this->fontObjects[] = $this->newChildObject($font);
     return $this;
   }

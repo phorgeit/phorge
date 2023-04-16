@@ -28,7 +28,7 @@ final class FundBackerCart extends PhortuneCartImplementation {
   }
 
   public function willCreateCart(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PhortuneCart $cart) {
 
     $initiative = $this->getInitiative();
@@ -40,7 +40,7 @@ final class FundBackerCart extends PhortuneCartImplementation {
   }
 
   public function loadImplementationsForCarts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $carts) {
 
     $phids = array();

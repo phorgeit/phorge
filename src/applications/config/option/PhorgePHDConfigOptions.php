@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPHDConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgePHDConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Daemons');

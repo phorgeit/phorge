@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorPasteArchiveController
-  extends PhabricatorPasteController {
+final class PhorgePasteArchiveController
+  extends PhorgePasteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $paste = id(new PhabricatorPasteQuery())
+    $paste = id(new PhorgePasteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$paste) {
@@ -24,18 +24,18 @@ final class PhabricatorPasteArchiveController
 
     if ($request->isFormPost()) {
       if ($paste->isArchived()) {
-        $new_status = PhabricatorPaste::STATUS_ACTIVE;
+        $new_status = PhorgePaste::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorPaste::STATUS_ARCHIVED;
+        $new_status = PhorgePaste::STATUS_ARCHIVED;
       }
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorPasteTransaction())
-        ->setTransactionType(PhabricatorPasteStatusTransaction::TRANSACTIONTYPE)
+      $xactions[] = id(new PhorgePasteTransaction())
+        ->setTransactionType(PhorgePasteStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      id(new PhabricatorPasteEditor())
+      id(new PhorgePasteEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectBoardDefaultController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardDefaultController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -27,7 +27,7 @@ final class PhabricatorProjectBoardDefaultController
         $button = pht('Save Default Filter');
 
         $xaction_value = $state->getQueryKey();
-        $xaction_type = PhabricatorProjectFilterTransaction::TRANSACTIONTYPE;
+        $xaction_type = PhorgeProjectFilterTransaction::TRANSACTIONTYPE;
 
         $remove_param = 'filter';
         break;
@@ -40,7 +40,7 @@ final class PhabricatorProjectBoardDefaultController
         $button = pht('Save Default Order');
 
         $xaction_value = $state->getOrder();
-        $xaction_type = PhabricatorProjectSortTransaction::TRANSACTIONTYPE;
+        $xaction_type = PhorgeProjectSortTransaction::TRANSACTIONTYPE;
 
         $remove_param = 'order';
         break;
@@ -53,11 +53,11 @@ final class PhabricatorProjectBoardDefaultController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType($xaction_type)
         ->setNewValue($xaction_value);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

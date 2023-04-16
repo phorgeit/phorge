@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionDefaultEditCapability extends PhabricatorPolicyCapability {
+final class DiffusionDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diffusion.default.edit';
 

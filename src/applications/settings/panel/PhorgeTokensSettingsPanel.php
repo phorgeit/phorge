@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTokensSettingsPanel extends PhabricatorSettingsPanel {
+final class PhorgeTokensSettingsPanel extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'tokens';
@@ -15,13 +15,13 @@ final class PhabricatorTokensSettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsLogsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsLogsPanelGroup::PANELGROUPKEY;
   }
 
   public function processRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $tokens = id(new PhabricatorAuthTemporaryTokenQuery())
+    $tokens = id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($viewer)
       ->withTokenResources(array($viewer->getPHID()))
       ->execute();

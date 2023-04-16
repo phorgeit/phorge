@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorAuditReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+final class PhorgeAuditReplyHandler
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
-    if (!($mail_receiver instanceof PhabricatorRepositoryCommit)) {
+    if (!($mail_receiver instanceof PhorgeRepositoryCommit)) {
       throw new Exception(
         pht(
           'Mail receiver is not a %s!',
-          'PhabricatorRepositoryCommit'));
+          'PhorgeRepositoryCommit'));
     }
   }
 

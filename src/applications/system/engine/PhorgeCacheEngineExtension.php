@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCacheEngineExtension extends Phobject {
+abstract class PhorgeCacheEngineExtension extends Phobject {
 
   final public function getExtensionKey() {
     return $this->getPhobjectClassConstant('EXTENSIONKEY');
@@ -9,13 +9,13 @@ abstract class PhabricatorCacheEngineExtension extends Phobject {
   abstract public function getExtensionName();
 
   public function discoverLinkedObjects(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
     return array();
   }
 
   public function deleteCaches(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
     return null;
   }

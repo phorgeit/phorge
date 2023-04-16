@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorUIExample extends Phobject {
+abstract class PhorgeUIExample extends Phobject {
 
   private $request;
 
@@ -25,10 +25,10 @@ abstract class PhabricatorUIExample extends Phobject {
     $uri = null) {
 
     $id = mt_rand(15, 9999);
-    $handle = new PhabricatorObjectHandle();
+    $handle = new PhorgeObjectHandle();
     $handle->setName($name);
     $handle->setType($type);
-    $handle->setPHID(PhabricatorPHID::generateNewPHID($type));
+    $handle->setPHID(PhorgePHID::generateNewPHID($type));
 
     if ($fullname) {
       $handle->setFullName($fullname);

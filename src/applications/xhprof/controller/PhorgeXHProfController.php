@@ -1,5 +1,5 @@
 <?php
 
-abstract class PhabricatorXHProfController extends PhabricatorController {
+abstract class PhorgeXHProfController extends PhorgeController {
 
 }

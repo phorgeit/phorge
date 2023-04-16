@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationListController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationListController
+  extends PhorgeEditEngineController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,7 +13,7 @@ final class PhabricatorEditEngineConfigurationListController
     $engine_key = $request->getURIData('engineKey');
     $this->setEngineKey($engine_key);
 
-    $engine = PhabricatorEditEngine::getByKey($viewer, $engine_key)
+    $engine = PhorgeEditEngine::getByKey($viewer, $engine_key)
       ->setViewer($viewer);
 
     if (!$engine->isEngineConfigurable()) {
@@ -31,10 +31,10 @@ final class PhabricatorEditEngineConfigurationListController
     $builtins = $engine->getBuiltinEngineConfigurations();
     $builtin = head($builtins);
 
-    $can_sort = PhabricatorPolicyFilter::hasCapability(
+    $can_sort = PhorgePolicyFilter::hasCapability(
       $viewer,
       $builtin,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $items[] = id(new PHUIListItemView())
       ->setType(PHUIListItemView::TYPE_LINK)
@@ -50,7 +50,7 @@ final class PhabricatorEditEngineConfigurationListController
       ->setWorkflow(true)
       ->setDisabled(!$can_sort);
 
-    return id(new PhabricatorEditEngineConfigurationSearchEngine())
+    return id(new PhorgeEditEngineConfigurationSearchEngine())
       ->setController($this)
       ->setEngineKey($this->getEngineKey())
       ->setNavigationItems($items)
@@ -62,9 +62,9 @@ final class PhabricatorEditEngineConfigurationListController
     $crumbs = parent::buildApplicationCrumbs();
 
     $target_key = $this->getEngineKey();
-    $target_engine = PhabricatorEditEngine::getByKey($viewer, $target_key);
+    $target_engine = PhorgeEditEngine::getByKey($viewer, $target_key);
 
-    id(new PhabricatorEditEngineConfigurationEditEngine())
+    id(new PhorgeEditEngineConfigurationEditEngine())
       ->setTargetEngine($target_engine)
       ->setViewer($viewer)
       ->addActionToCrumbs($crumbs);

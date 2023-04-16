@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryGitCommitMessageParserWorker
-  extends PhabricatorRepositoryCommitMessageParserWorker {
+final class PhorgeRepositoryGitCommitMessageParserWorker
+  extends PhorgeRepositoryCommitMessageParserWorker {
 
   protected function getFollowupTaskClass() {
-    return 'PhabricatorRepositoryGitCommitChangeParserWorker';
+    return 'PhorgeRepositoryGitCommitChangeParserWorker';
   }
 
 }

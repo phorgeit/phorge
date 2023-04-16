@@ -2,18 +2,18 @@
 
 final class PholioMock extends PholioDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorTimelineInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgePolicyInterface,
+    PhorgeSubscribableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeFlaggableInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeTimelineInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSpacesInterface,
+    PhorgeMentionableInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   const STATUS_OPEN = 'open';
   const STATUS_CLOSED = 'closed';
@@ -32,10 +32,10 @@ final class PholioMock extends PholioDAO
   private $coverFile = self::ATTACHABLE;
   private $tokenCount = self::ATTACHABLE;
 
-  public static function initializeNewMock(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewMock(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPholioApplication'))
+      ->withClasses(array('PhorgePholioApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PholioDefaultViewCapability::CAPABILITY);
@@ -102,7 +102,7 @@ final class PholioMock extends PholioDAO
     return $images;
   }
 
-  public function attachCoverFile(PhabricatorFile $file) {
+  public function attachCoverFile(PhorgeFile $file) {
     $this->coverFile = $file;
     return $this;
   }
@@ -158,7 +158,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface Implementation  )-------------------- */
+/* -(  PhorgeSubscribableInterface Implementation  )-------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -166,26 +166,26 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getAuthorPHID());
   }
 
@@ -194,7 +194,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -206,7 +206,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -216,11 +216,11 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $images = id(new PholioImageQuery())
@@ -236,7 +236,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -244,7 +244,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -252,7 +252,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -260,7 +260,7 @@ final class PholioMock extends PholioDAO
   }
 
 
-/* -(  PhabricatorTimelineInterace  )---------------------------------------- */
+/* -(  PhorgeTimelineInterace  )---------------------------------------- */
 
 
   public function newTimelineEngine() {

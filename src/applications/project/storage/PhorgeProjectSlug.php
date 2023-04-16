@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectSlug extends PhabricatorProjectDAO {
+final class PhorgeProjectSlug extends PhorgeProjectDAO {
 
   protected $slug;
   protected $projectPHID;

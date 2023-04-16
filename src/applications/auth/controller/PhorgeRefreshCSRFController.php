@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRefreshCSRFController extends PhabricatorAuthController {
+final class PhorgeRefreshCSRFController extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();

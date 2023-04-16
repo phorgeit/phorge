@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorWorkerBulkJobSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeWorkerBulkJobSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Daemon Bulk Jobs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDaemonsApplication';
+    return 'PhorgeDaemonsApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorWorkerBulkJobQuery());
+    return id(new PhorgeWorkerBulkJobQuery());
   }
 
   public function canUseInPanelContext() {
@@ -31,7 +31,7 @@ final class PhabricatorWorkerBulkJobSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
@@ -73,9 +73,9 @@ final class PhabricatorWorkerBulkJobSearchEngine
 
   protected function renderResultList(
     array $jobs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($jobs, 'PhabricatorWorkerBulkJob');
+    assert_instances_of($jobs, 'PhorgeWorkerBulkJob');
 
     $viewer = $this->requireViewer();
 
@@ -95,7 +95,7 @@ final class PhabricatorWorkerBulkJobSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($list);
   }
 }

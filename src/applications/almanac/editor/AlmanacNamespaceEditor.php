@@ -22,20 +22,20 @@ final class AlmanacNamespaceEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
 
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
+    $errors[] = new PhorgeApplicationTransactionValidationError(
       null,
       pht('Invalid'),
       pht(
@@ -43,7 +43,7 @@ final class AlmanacNamespaceEditor
         'must have a unique name.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 }

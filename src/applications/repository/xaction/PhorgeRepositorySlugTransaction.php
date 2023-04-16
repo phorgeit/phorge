@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositorySlugTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositorySlugTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:slug';
 
@@ -59,7 +59,7 @@ final class PhabricatorRepositorySlugTransaction
       }
 
       try {
-        PhabricatorRepository::assertValidRepositorySlug($new);
+        PhorgeRepository::assertValidRepositorySlug($new);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError(
           $ex->getMessage(),
@@ -67,8 +67,8 @@ final class PhabricatorRepositorySlugTransaction
         continue;
       }
 
-      $other = id(new PhabricatorRepositoryQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $other = id(new PhorgeRepositoryQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withSlugs(array($new))
         ->executeOne();
       if ($other && ($other->getID() !== $object->getID())) {

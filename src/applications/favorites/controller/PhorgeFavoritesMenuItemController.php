@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorFavoritesMenuItemController
-  extends PhabricatorFavoritesController {
+final class PhorgeFavoritesMenuItemController
+  extends PhorgeFavoritesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $application = 'PhabricatorFavoritesApplication';
-    $favorites = id(new PhabricatorApplicationQuery())
+    $application = 'PhorgeFavoritesApplication';
+    $favorites = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application))
       ->withInstalled(true)
       ->executeOne();
 
-    $engine = id(new PhabricatorFavoritesProfileMenuEngine())
+    $engine = id(new PhorgeFavoritesProfileMenuEngine())
       ->setProfileObject($favorites)
       ->setCustomPHID($viewer->getPHID())
       ->setController($this);

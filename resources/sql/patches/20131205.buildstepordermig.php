@@ -2,7 +2,7 @@
 
 $table = new HarbormasterBuildPlan();
 $conn_w = $table->establishConnection('w');
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
 // Since HarbormasterBuildStepQuery has been updated to handle the
 // correct order, we can't use the built in database access.

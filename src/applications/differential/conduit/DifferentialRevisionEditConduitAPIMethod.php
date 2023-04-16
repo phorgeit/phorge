@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'differential.revision.edit';

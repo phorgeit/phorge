@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeProjectTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'projects';
 
@@ -11,16 +11,16 @@ final class PhabricatorProjectTestDataGenerator
 
   public function generateObject() {
     $author = $this->loadRandomUser();
-    $project = PhabricatorProject::initializeNewProject($author);
+    $project = PhorgeProject::initializeNewProject($author);
 
     $xactions = array();
 
     $xactions[] = $this->newTransaction(
-      PhabricatorProjectNameTransaction::TRANSACTIONTYPE,
+      PhorgeProjectNameTransaction::TRANSACTIONTYPE,
       $this->newProjectTitle());
 
     $xactions[] = $this->newTransaction(
-      PhabricatorProjectStatusTransaction::TRANSACTIONTYPE,
+      PhorgeProjectStatusTransaction::TRANSACTIONTYPE,
       $this->newProjectStatus());
 
     // Almost always make the author a member.
@@ -36,15 +36,15 @@ final class PhabricatorProjectTestDataGenerator
     }
 
     $xactions[] = $this->newTransaction(
-      PhabricatorTransactions::TYPE_EDGE,
+      PhorgeTransactions::TYPE_EDGE,
       array(
         '+' => array_fuse($members),
       ),
       array(
-        'edge:type' => PhabricatorProjectProjectHasMemberEdgeType::EDGECONST,
+        'edge:type' => PhorgeProjectProjectHasMemberEdgeType::EDGECONST,
       ));
 
-    $editor = id(new PhabricatorProjectTransactionEditor())
+    $editor = id(new PhorgeProjectTransactionEditor())
       ->setActor($author)
       ->setContentSource($this->getLipsumContentSource())
       ->setContinueOnNoEffect(true)
@@ -54,19 +54,19 @@ final class PhabricatorProjectTestDataGenerator
   }
 
   protected function newEmptyTransaction() {
-    return new PhabricatorProjectTransaction();
+    return new PhorgeProjectTransaction();
   }
 
   public function newProjectTitle() {
-    return id(new PhabricatorProjectNameContextFreeGrammar())
+    return id(new PhorgeProjectNameContextFreeGrammar())
       ->generate();
   }
 
   public function newProjectStatus() {
     if ($this->roll(1, 20) > 5) {
-      return PhabricatorProjectStatus::STATUS_ACTIVE;
+      return PhorgeProjectStatus::STATUS_ACTIVE;
     } else {
-      return PhabricatorProjectStatus::STATUS_ARCHIVED;
+      return PhorgeProjectStatus::STATUS_ARCHIVED;
     }
   }
 }

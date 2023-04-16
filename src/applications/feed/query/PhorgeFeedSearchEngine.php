@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorFeedSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeFeedSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Feed Stories');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFeedApplication';
+    return 'PhorgeFeedApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorFeedQuery();
+    return new PhorgeFeedQuery();
   }
 
   protected function shouldShowOrderField() {
@@ -21,26 +21,26 @@ final class PhabricatorFeedSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Include Users'))
         ->setKey('userPHIDs'),
       // NOTE: This query is not executed with EdgeLogic, so we can't use
       // a fancy logical datasource.
-      id(new PhabricatorSearchDatasourceField())
-        ->setDatasource(new PhabricatorProjectDatasource())
+      id(new PhorgeSearchDatasourceField())
+        ->setDatasource(new PhorgeProjectDatasource())
         ->setLabel(pht('Include Projects'))
         ->setKey('projectPHIDs'),
-      id(new PhabricatorSearchDateControlField())
+      id(new PhorgeSearchDateControlField())
         ->setLabel(pht('Occurs After'))
         ->setKey('rangeStart'),
-      id(new PhabricatorSearchDateControlField())
+      id(new PhorgeSearchDateControlField())
         ->setLabel(pht('Occurs Before'))
         ->setKey('rangeEnd'),
 
       // NOTE: This is a legacy field retained only for backward
       // compatibility. If the projects field used EdgeLogic, we could use
       // `viewerprojects()` to execute an equivalent query.
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('viewerProjects')
         ->setOptions(
           array(
@@ -66,7 +66,7 @@ final class PhabricatorFeedSearchEngine
     $viewer_projects = $map['viewerProjects'];
     if ($viewer_projects) {
       $viewer = $this->requireViewer();
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withMemberPHIDs(array($viewer->getPHID()))
         ->execute();
@@ -89,7 +89,7 @@ final class PhabricatorFeedSearchEngine
 
     if ($range_min && $range_max) {
       if ($range_min > $range_max) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'The specified "Occurs Before" date is earlier in time than the '.
             'specified "Occurs After" date, so this query can never match '.
@@ -137,10 +137,10 @@ final class PhabricatorFeedSearchEngine
 
   protected function renderResultList(
     array $objects,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    $builder = new PhabricatorFeedBuilder($objects);
+    $builder = new PhorgeFeedBuilder($objects);
 
     if ($this->isPanelContext()) {
       $builder->setShowHovercards(false);
@@ -153,7 +153,7 @@ final class PhabricatorFeedSearchEngine
 
     $list = phutil_tag_div('phorge-feed-frame', $view);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($list);
 
     return $result;

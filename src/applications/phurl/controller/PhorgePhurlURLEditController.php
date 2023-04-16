@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPhurlURLEditController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlURLEditController
+  extends PhorgePhurlController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPhurlURLEditEngine())
+    return id(new PhorgePhurlURLEditEngine())
       ->setController($this)
       ->buildResponse();
   }

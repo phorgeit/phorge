@@ -1,10 +1,10 @@
 <?php
 
-$table = new PhabricatorOwnersPath();
+$table = new PhorgeOwnersPath();
 $conn = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $path) {
-  $index = PhabricatorHash::digestForIndex($path->getPath());
+  $index = PhorgeHash::digestForIndex($path->getPath());
 
   if ($index === $path->getPathIndex()) {
     continue;

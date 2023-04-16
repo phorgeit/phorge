@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthEmailLoginAction extends PhabricatorSystemAction {
+final class PhorgeAuthEmailLoginAction extends PhorgeSystemAction {
 
   const TYPECONST = 'mail.login';
 

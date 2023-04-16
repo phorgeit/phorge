@@ -173,7 +173,7 @@ final class DifferentialDiffViewController extends DifferentialController {
   }
 
   private function loadSelectableRevisions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $selected_id) {
 
     $revisions = id(new DifferentialRevisionQuery())
@@ -182,8 +182,8 @@ final class DifferentialDiffViewController extends DifferentialController {
       ->withIsOpen(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
     $revisions = mpull($revisions, null, 'getID');
@@ -201,8 +201,8 @@ final class DifferentialDiffViewController extends DifferentialController {
           ->withIDs(array($selected_id))
           ->requireCapabilities(
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ))
           ->execute();
         $revisions = mpull($selected, null, 'getID') + $revisions;

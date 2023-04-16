@@ -5,7 +5,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
   private $viewer;
   private $authorPHID;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -23,7 +23,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
     return $this->authorPHID;
   }
 
-  public function newDiffFromCommit(PhabricatorRepositoryCommit $commit) {
+  public function newDiffFromCommit(PhorgeRepositoryCommit $commit) {
     $viewer = $this->getViewer();
 
     // If we already have an unattached diff for this commit, just reuse it.
@@ -58,7 +58,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
       ));
 
     $file_phid = $diff_info['filePHID'];
-    $diff_file = id(new PhabricatorFileQuery())
+    $diff_file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -117,7 +117,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
   }
 
   public function isDiffChangedBeforeCommit(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     DifferentialDiff $old,
     DifferentialDiff $new) {
 
@@ -155,8 +155,8 @@ final class DifferentialDiffExtractionEngine extends Phobject {
 
     $files = array();
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $files = id(new PhorgeFileQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($file_phids)
         ->execute();
       $files = mpull($files, null, 'getPHID');
@@ -198,7 +198,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
           return true;
         }
 
-        $new_file = id(new PhabricatorFileQuery())
+        $new_file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($new_file_phid))
           ->executeOne();
@@ -238,9 +238,9 @@ final class DifferentialDiffExtractionEngine extends Phobject {
 
   public function updateRevisionWithCommit(
     DifferentialRevision $revision,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     array $more_xactions,
-    PhabricatorContentSource $content_source) {
+    PhorgeContentSource $content_source) {
 
     $viewer = $this->getViewer();
     $new_diff = $this->newDiffFromCommit($commit);
@@ -264,7 +264,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
           $new_id = $new_diff->getID();
 
           $changed_uri = "/{$revision_monogram}?vs={$old_id}&id={$new_id}#toc";
-          $changed_uri = PhabricatorEnv::getProductionURI($changed_uri);
+          $changed_uri = PhorgeEnv::getProductionURI($changed_uri);
         }
       }
     }
@@ -333,7 +333,7 @@ final class DifferentialDiffExtractionEngine extends Phobject {
   }
 
   public static function loadConcerningBuilds(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialRevision $revision,
     $strict) {
 

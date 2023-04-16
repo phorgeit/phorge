@@ -1,10 +1,10 @@
 <?php
 
 final class PhortuneAccountEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -17,12 +17,12 @@ final class PhortuneAccountEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
     return $types;
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -31,7 +31,7 @@ final class PhortuneAccountEditor
     $viewer = $this->requireActor();
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         foreach ($xactions as $xaction) {
           switch ($xaction->getMetadataValue('edge:type')) {
             case PhortuneAccountHasMemberEdgeType::EDGECONST:
@@ -46,12 +46,12 @@ final class PhortuneAccountEditor
                   continue;
                 }
 
-                $user = id(new PhabricatorPeopleQuery())
+                $user = id(new PhorgePeopleQuery())
                   ->setViewer($viewer)
                   ->withPHIDs(array($new_phid))
                   ->executeOne();
                 if (!$user) {
-                  $error = new PhabricatorApplicationTransactionValidationError(
+                  $error = new PhorgeApplicationTransactionValidationError(
                     $type,
                     pht('Invalid'),
                     pht(
@@ -64,7 +64,7 @@ final class PhortuneAccountEditor
 
               $actor_phid = $this->getActingAsPHID();
               if (isset($old[$actor_phid]) && !isset($new[$actor_phid])) {
-                $error = new PhabricatorApplicationTransactionValidationError(
+                $error = new PhorgeApplicationTransactionValidationError(
                   $type,
                   pht('Invalid'),
                   pht('You can not remove yourself as an account manager.'),

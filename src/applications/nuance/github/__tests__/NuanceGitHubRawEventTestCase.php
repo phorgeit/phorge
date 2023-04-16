@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceGitHubRawEventTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testIssueEvents() {
     $path = dirname(__FILE__).'/issueevents/';

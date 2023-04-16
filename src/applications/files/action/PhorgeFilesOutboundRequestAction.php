@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesOutboundRequestAction
-  extends PhabricatorSystemAction {
+final class PhorgeFilesOutboundRequestAction
+  extends PhorgeSystemAction {
 
   const TYPECONST = 'files.outbound';
 

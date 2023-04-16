@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeExtraConfigSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -9,13 +9,13 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
   protected function executeChecks() {
     $ancient_config = self::getAncientConfig();
 
-    $all_keys = PhabricatorEnv::getAllConfigKeys();
+    $all_keys = PhorgeEnv::getAllConfigKeys();
     $all_keys = array_keys($all_keys);
     sort($all_keys);
 
-    $defined_keys = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $defined_keys = PhorgeApplicationConfigOptions::loadAllOptions();
 
-    $stack = PhabricatorEnv::getConfigSourceStack();
+    $stack = PhorgeEnv::getConfigSourceStack();
     $stack = $stack->getStack();
 
     foreach ($all_keys as $key) {
@@ -59,10 +59,10 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
         $value = $source->getKeys(array($key));
         if ($value) {
           $found[] = $source->getName();
-          if ($source instanceof PhabricatorConfigDatabaseSource) {
+          if ($source instanceof PhorgeConfigDatabaseSource) {
             $found_database = true;
           }
-          if ($source instanceof PhabricatorConfigLocalSource) {
+          if ($source instanceof PhorgeConfigLocalSource) {
             $found_local = true;
           }
         }
@@ -81,11 +81,11 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
       }
 
       if ($found_database) {
-        $issue->addPhabricatorConfig($key);
+        $issue->addPhorgeConfig($key);
       }
     }
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     foreach ($defined_keys as $key => $value) {
       $option = idx($options, $key);
       if (!$option) {
@@ -100,7 +100,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
       foreach ($stack as $source_key => $source) {
         $value = $source->getKeys(array($key));
         if ($value) {
-          if ($source instanceof PhabricatorConfigDatabaseSource) {
+          if ($source instanceof PhorgeConfigDatabaseSource) {
             $found_database = true;
             break;
           }
@@ -129,7 +129,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
       }
 
       $doc_name = 'Configuration Guide: Locked and Hidden Configuration';
-      $doc_href = PhabricatorEnv::getDoclink($doc_name);
+      $doc_href = PhorgeEnv::getDoclink($doc_name);
 
       $set_command = phutil_tag(
         'tt',
@@ -179,14 +179,14 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
         ->setSummary($summary)
         ->setMessage($message)
         ->addCommand($command)
-        ->addPhabricatorConfig($key);
+        ->addPhorgeConfig($key);
     }
 
-    if (PhabricatorEnv::getEnvConfig('feed.http-hooks')) {
+    if (PhorgeEnv::getEnvConfig('feed.http-hooks')) {
       $this->newIssue('config.deprecated.feed.http-hooks')
         ->setShortName(pht('Feed Hooks Deprecated'))
         ->setName(pht('Migrate From "feed.http-hooks" to Webhooks'))
-        ->addPhabricatorConfig('feed.http-hooks')
+        ->addPhorgeConfig('feed.http-hooks')
         ->setMessage(
           pht(
             'The "feed.http-hooks" option is deprecated in favor of '.
@@ -262,8 +262,8 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
     $markup_reason = pht(
       'Custom remarkup rules are now added by subclassing '.
       '%s or %s.',
-      'PhabricatorRemarkupCustomInlineRule',
-      'PhabricatorRemarkupCustomBlockRule');
+      'PhorgeRemarkupCustomInlineRule',
+      'PhorgeRemarkupCustomBlockRule');
 
     $session_reason = pht(
       'Sessions now expire and are garbage collected rather than having an '.
@@ -329,7 +329,7 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
         pht(
           'External loaders have been replaced. Extend `%s` '.
           'to implement new PHID and handle types.',
-          'PhabricatorPHIDType'),
+          'PhorgePHIDType'),
       'maniphest.custom-task-extensions-class' =>
         pht(
           'Maniphest fields are now loaded automatically. '.

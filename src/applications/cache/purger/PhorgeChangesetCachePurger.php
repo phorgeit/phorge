@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChangesetCachePurger
-  extends PhabricatorCachePurger {
+final class PhorgeChangesetCachePurger
+  extends PhorgeCachePurger {
 
   const PURGERKEY = 'changeset';
 

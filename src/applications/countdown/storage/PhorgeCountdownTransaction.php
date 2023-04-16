@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeCountdownTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS = 'countdown:details';
   const MAILTAG_COMMENT = 'countdown:comment';
@@ -12,27 +12,27 @@ final class PhabricatorCountdownTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorCountdownCountdownPHIDType::TYPECONST;
+    return PhorgeCountdownCountdownPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorCountdownTransactionComment();
+    return new PhorgeCountdownTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCountdownTransactionType';
+    return 'PhorgeCountdownTransactionType';
   }
 
   public function getMailTags() {
     $tags = parent::getMailTags();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
-      case PhabricatorCountdownTitleTransaction::TRANSACTIONTYPE:
-      case PhabricatorCountdownEpochTransaction::TRANSACTIONTYPE:
-      case PhabricatorCountdownDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgeCountdownTitleTransaction::TRANSACTIONTYPE:
+      case PhorgeCountdownEpochTransaction::TRANSACTIONTYPE:
+      case PhorgeCountdownDescriptionTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_DETAILS;
         break;
       default:

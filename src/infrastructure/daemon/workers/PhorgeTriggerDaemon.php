@@ -7,8 +7,8 @@
  *
  * @task garbage Garbage Collection
  */
-final class PhabricatorTriggerDaemon
-  extends PhabricatorDaemon {
+final class PhorgeTriggerDaemon
+  extends PhorgeDaemon {
 
   const COUNTER_VERSION = 'trigger.version';
   const COUNTER_CURSOR = 'trigger.cursor';
@@ -68,12 +68,12 @@ final class PhabricatorTriggerDaemon
     // processes or the daemon.
 
     // We want to start the first GC cycle right away, not wait 4 hours.
-    $this->nextCollection = PhabricatorTime::getNow();
+    $this->nextCollection = PhorgeTime::getNow();
 
     do {
-      PhabricatorCaches::destroyRequestCache();
+      PhorgeCaches::destroyRequestCache();
 
-      $lock = PhabricatorGlobalLock::newLock('trigger');
+      $lock = PhorgeGlobalLock::newLock('trigger');
 
       try {
         $lock->lock(5);
@@ -128,10 +128,10 @@ final class PhabricatorTriggerDaemon
   private function scheduleTriggers($cursor) {
     $limit = 100;
 
-    $query = id(new PhabricatorWorkerTriggerQuery())
+    $query = id(new PhorgeWorkerTriggerQuery())
       ->setViewer($this->getViewer())
       ->withVersionBetween($cursor, null)
-      ->setOrder(PhabricatorWorkerTriggerQuery::ORDER_VERSION)
+      ->setOrder(PhorgeWorkerTriggerQuery::ORDER_VERSION)
       ->needEvents(true)
       ->setLimit($limit);
     while (true) {
@@ -149,7 +149,7 @@ final class PhabricatorTriggerDaemon
           $last_epoch,
           $is_reschedule = false);
 
-        $new_event = PhabricatorWorkerTriggerEvent::initializeNewEvent($trigger)
+        $new_event = PhorgeWorkerTriggerEvent::initializeNewEvent($trigger)
           ->setLastEventEpoch($last_epoch)
           ->setNextEventEpoch($next_epoch);
 
@@ -208,11 +208,11 @@ final class PhabricatorTriggerDaemon
     // processing trigger updates and doing rescheduling.
 
     $limit = 100;
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
-    $triggers = id(new PhabricatorWorkerTriggerQuery())
+    $triggers = id(new PhorgeWorkerTriggerQuery())
       ->setViewer($this->getViewer())
-      ->setOrder(PhabricatorWorkerTriggerQuery::ORDER_EXECUTION)
+      ->setOrder(PhorgeWorkerTriggerQuery::ORDER_EXECUTION)
       ->withNextEventBetween(null, $now)
       ->needEvents(true)
       ->setLimit($limit)
@@ -249,7 +249,7 @@ final class PhabricatorTriggerDaemon
             $last_epoch));
       }
 
-      $new_event = PhabricatorWorkerTriggerEvent::initializeNewEvent($trigger)
+      $new_event = PhorgeWorkerTriggerEvent::initializeNewEvent($trigger)
         ->setLastEventEpoch($last_epoch)
         ->setNextEventEpoch($reschedule_epoch);
 
@@ -277,9 +277,9 @@ final class PhabricatorTriggerDaemon
   private function getSleepDuration() {
     $sleep = phutil_units('3 minutes in seconds');
 
-    $next_triggers = id(new PhabricatorWorkerTriggerQuery())
+    $next_triggers = id(new PhorgeWorkerTriggerQuery())
       ->setViewer($this->getViewer())
-      ->setOrder(PhabricatorWorkerTriggerQuery::ORDER_EXECUTION)
+      ->setOrder(PhorgeWorkerTriggerQuery::ORDER_EXECUTION)
       ->withNextEventBetween(0, null)
       ->setLimit(1)
       ->needEvents(true)
@@ -287,7 +287,7 @@ final class PhabricatorTriggerDaemon
     if ($next_triggers) {
       $next_trigger = head($next_triggers);
       $next_epoch = $next_trigger->getEvent()->getNextEventEpoch();
-      $until = max(0, $next_epoch - PhabricatorTime::getNow());
+      $until = max(0, $next_epoch - PhorgeTime::getNow());
       $sleep = min($sleep, $until);
     }
 
@@ -308,14 +308,14 @@ final class PhabricatorTriggerDaemon
 
   private function updateCursor($value) {
     LiskDAO::overwriteCounterValue(
-      id(new PhabricatorWorkerTrigger())->establishConnection('w'),
+      id(new PhorgeWorkerTrigger())->establishConnection('w'),
       self::COUNTER_CURSOR,
       $value);
   }
 
   private function loadCurrentCounter($counter_name) {
     return (int)LiskDAO::loadCurrentCounterValue(
-      id(new PhabricatorWorkerTrigger())->establishConnection('w'),
+      id(new PhorgeWorkerTrigger())->establishConnection('w'),
       $counter_name);
   }
 
@@ -331,7 +331,7 @@ final class PhabricatorTriggerDaemon
    * @task garbage
    */
   private function runGarbageCollection($duration) {
-    $run_until = (PhabricatorTime::getNow() + $duration);
+    $run_until = (PhorgeTime::getNow() + $duration);
 
     // NOTE: We always run at least one GC cycle to make sure the GC can make
     // progress even if the trigger queue is busy.
@@ -342,9 +342,9 @@ final class PhabricatorTriggerDaemon
         // done.
         break;
       }
-    } while (PhabricatorTime::getNow() <= $run_until);
+    } while (PhorgeTime::getNow() <= $run_until);
 
-    $remaining = max(0, $run_until - PhabricatorTime::getNow());
+    $remaining = max(0, $run_until - PhorgeTime::getNow());
 
     return $remaining;
   }
@@ -360,10 +360,10 @@ final class PhabricatorTriggerDaemon
     // If we're ready to start the next collection cycle, load all the
     // collectors.
     $next = $this->nextCollection;
-    if ($next && (PhabricatorTime::getNow() >= $next)) {
+    if ($next && (PhorgeTime::getNow() >= $next)) {
       $this->nextCollection = null;
 
-      $all_collectors = PhabricatorGarbageCollector::getAllCollectors();
+      $all_collectors = PhorgeGarbageCollector::getAllCollectors();
       $this->garbageCollectors = $all_collectors;
     }
 
@@ -385,7 +385,7 @@ final class PhabricatorTriggerDaemon
       }
 
       // Otherwise, reschedule another cycle in 4 hours.
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       $wait = phutil_units('4 hours in seconds');
       $this->nextCollection = $now + $wait;
     }
@@ -398,24 +398,24 @@ final class PhabricatorTriggerDaemon
 
 
   private function runNuanceImportCursors($duration) {
-    $run_until = (PhabricatorTime::getNow() + $duration);
+    $run_until = (PhorgeTime::getNow() + $duration);
 
     do {
       $more_data = $this->updateNuanceImportCursors();
       if (!$more_data) {
         break;
       }
-    } while (PhabricatorTime::getNow() <= $run_until);
+    } while (PhorgeTime::getNow() <= $run_until);
 
-    $remaining = max(0, $run_until - PhabricatorTime::getNow());
+    $remaining = max(0, $run_until - PhorgeTime::getNow());
 
     return $remaining;
   }
 
 
   private function updateNuanceImportCursors() {
-    $nuance_app = 'PhabricatorNuanceApplication';
-    if (!PhabricatorApplication::isClassInstalled($nuance_app)) {
+    $nuance_app = 'PhorgeNuanceApplication';
+    if (!PhorgeApplication::isClassInstalled($nuance_app)) {
       return false;
     }
 
@@ -469,15 +469,15 @@ final class PhabricatorTriggerDaemon
 
 
   private function runCalendarNotifier($duration) {
-    $run_until = (PhabricatorTime::getNow() + $duration);
+    $run_until = (PhorgeTime::getNow() + $duration);
 
     if (!$this->calendarEngine) {
-      $this->calendarEngine = new PhabricatorCalendarNotificationEngine();
+      $this->calendarEngine = new PhorgeCalendarNotificationEngine();
     }
 
     $this->calendarEngine->publishNotifications();
 
-    $remaining = max(0, $run_until - PhabricatorTime::getNow());
+    $remaining = max(0, $run_until - PhorgeTime::getNow());
     return $remaining;
   }
 

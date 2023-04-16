@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUSEnglishTranslation
+final class PhorgeUSEnglishTranslation
   extends PhutilTranslation {
 
   public function getLocaleCode() {

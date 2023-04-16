@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailSMSEngine
-  extends PhabricatorMailMessageEngine {
+final class PhorgeMailSMSEngine
+  extends PhorgeMailMessageEngine {
 
   public function newMessage() {
     $mailer = $this->getMailer();
     $mail = $this->getMail();
 
-    $message = new PhabricatorMailSMSMessage();
+    $message = new PhorgeMailSMSMessage();
 
     $phids = $mail->getToPHIDs();
     if (!$phids) {
@@ -33,14 +33,14 @@ final class PhabricatorMailSMSEngine
       return null;
     }
 
-    $omnipotent = PhabricatorUser::getOmnipotentUser();
+    $omnipotent = PhorgeUser::getOmnipotentUser();
 
-    $contact_numbers = id(new PhabricatorAuthContactNumberQuery())
+    $contact_numbers = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($omnipotent)
       ->withObjectPHIDs(array($phid))
       ->withStatuses(
         array(
-          PhabricatorAuthContactNumber::STATUS_ACTIVE,
+          PhorgeAuthContactNumber::STATUS_ACTIVE,
         ))
       ->withIsPrimary(true)
       ->execute();
@@ -61,7 +61,7 @@ final class PhabricatorMailSMSEngine
 
     $contact_number = head($contact_numbers);
     $contact_number = $contact_number->getContactNumber();
-    $to_number = new PhabricatorPhoneNumber($contact_number);
+    $to_number = new PhorgePhoneNumber($contact_number);
     $message->setToNumber($to_number);
 
     $body = $mail->getBody();

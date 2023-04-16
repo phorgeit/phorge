@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskMFAEngine
-  extends PhabricatorEditEngineMFAEngine {
+  extends PhorgeEditEngineMFAEngine {
 
   public function shouldRequireMFA() {
     $status = $this->getObject()->getStatus();

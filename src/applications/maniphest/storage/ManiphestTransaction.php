@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const MAILTAG_STATUS = 'maniphest-status';
   const MAILTAG_OWNER = 'maniphest-owner';
@@ -100,7 +100,7 @@ final class ManiphestTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return pht('Changed Project Column');
     }
 
@@ -109,7 +109,7 @@ final class ManiphestTransaction
 
   public function getIcon() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return 'fa-columns';
     }
 
@@ -124,7 +124,7 @@ final class ManiphestTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
         return pht(
           '%s changed the subtype of this task from "%s" to "%s".',
           $this->renderHandleLink($author_phid),
@@ -144,7 +144,7 @@ final class ManiphestTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
         return pht(
           '%s changed the subtype of %s from "%s" to "%s".',
           $this->renderHandleLink($author_phid),
@@ -166,12 +166,12 @@ final class ManiphestTransaction
       case ManiphestTaskOwnerTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_OWNER;
         break;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $tags[] = self::MAILTAG_CC;
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
-          case PhabricatorProjectObjectHasProjectEdgeType::EDGECONST:
+          case PhorgeProjectObjectHasProjectEdgeType::EDGECONST:
             $tags[] = self::MAILTAG_PROJECTS;
             break;
           default:
@@ -185,10 +185,10 @@ final class ManiphestTransaction
       case ManiphestTaskUnblockTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_UNBLOCK;
         break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         $tags[] = self::MAILTAG_COLUMN;
         break;
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       default:

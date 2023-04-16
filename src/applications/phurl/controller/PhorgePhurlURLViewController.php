@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLViewController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlURLViewController
+  extends PhorgePhurlController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,7 +13,7 @@ final class PhabricatorPhurlURLViewController
 
     $timeline = null;
 
-    $url = id(new PhabricatorPhurlURLQuery())
+    $url = id(new PhorgePhurlURLQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -29,7 +29,7 @@ final class PhabricatorPhurlURLViewController
 
     $timeline = $this->buildTransactionTimeline(
       $url,
-      new PhabricatorPhurlURLTransactionQuery());
+      new PhorgePhurlURLTransactionQuery());
     $timeline->setQuoteRef($url->getMonogram());
 
     $header = $this->buildHeaderView($url);
@@ -62,9 +62,9 @@ final class PhabricatorPhurlURLViewController
       ));
   }
 
-  private function buildCommentForm(PhabricatorPhurlURL $url, $timeline) {
+  private function buildCommentForm(PhorgePhurlURL $url, $timeline) {
     $viewer = $this->getViewer();
-    $box = id(new PhabricatorPhurlURLEditEngine())
+    $box = id(new PhorgePhurlURLEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($url)
       ->setTransactionTimeline($timeline);
@@ -72,7 +72,7 @@ final class PhabricatorPhurlURLViewController
     return $box;
   }
 
-  private function buildHeaderView(PhabricatorPhurlURL $url) {
+  private function buildHeaderView(PhorgePhurlURL $url) {
     $viewer = $this->getViewer();
     $icon = 'fa-check';
     $color = 'bluegrey';
@@ -97,20 +97,20 @@ final class PhabricatorPhurlURLViewController
     return $header;
   }
 
-  private function buildCurtain(PhabricatorPhurlURL $url) {
+  private function buildCurtain(PhorgePhurlURL $url) {
     $viewer = $this->getViewer();
     $id = $url->getID();
 
     $curtain = $this->newCurtainView($url);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $url,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Edit Phurl'))
           ->setIcon('fa-pencil')
           ->setHref($this->getApplicationURI("url/edit/{$id}/"))
@@ -120,7 +120,7 @@ final class PhabricatorPhurlURLViewController
     return $curtain;
   }
 
-  private function buildPropertySectionView(PhabricatorPhurlURL $url) {
+  private function buildPropertySectionView(PhorgePhurlURL $url) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())

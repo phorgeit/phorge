@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChangesetViewState
+final class PhorgeChangesetViewState
   extends Phobject {
 
   private $highlightLanguage;

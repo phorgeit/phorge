@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommentEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeCommentEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'transactions.comment';
   const EDITKEY = 'comment';
@@ -19,8 +19,8 @@ final class PhabricatorCommentEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
     $xaction = $object->getApplicationTransactionTemplate();
     $comment = $xaction->getApplicationTransactionCommentObject();
@@ -28,25 +28,25 @@ final class PhabricatorCommentEditEngineExtension
     return (bool)$comment;
   }
 
-  public function newBulkEditGroups(PhabricatorEditEngine $engine) {
+  public function newBulkEditGroups(PhorgeEditEngine $engine) {
     return array(
-      id(new PhabricatorBulkEditGroup())
+      id(new PhorgeBulkEditGroup())
         ->setKey('comments')
         ->setLabel(pht('Comments')),
     );
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    $comment_type = PhabricatorTransactions::TYPE_COMMENT;
+    $comment_type = PhorgeTransactions::TYPE_COMMENT;
 
     // Comments have a lot of special behavior which doesn't always check
     // this flag, but we set it for consistency.
     $is_interact = true;
 
-    $comment_field = id(new PhabricatorCommentEditField())
+    $comment_field = id(new PhorgeCommentEditField())
       ->setKey(self::EDITKEY)
       ->setLabel(pht('Comments'))
       ->setBulkEditLabel(pht('Add comment'))

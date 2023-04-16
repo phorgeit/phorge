@@ -1,29 +1,29 @@
 <?php
 
-final class PhabricatorSubscriptionsMuteController
-  extends PhabricatorController {
+final class PhorgeSubscriptionsMuteController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $phid = $request->getURIData('phid');
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       return new Aphront400Response();
     }
 
-    $muted_type = PhabricatorMutedByEdgeType::EDGECONST;
+    $muted_type = PhorgeMutedByEdgeType::EDGECONST;
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($object->getPHID()))
       ->withEdgeTypes(array($muted_type))
       ->withDestinationPHIDs(array($viewer->getPHID()));
@@ -45,7 +45,7 @@ final class PhabricatorSubscriptionsMuteController
       }
 
       $xaction = id($object->getApplicationTransactionTemplate())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $muted_type)
         ->setNewValue($xaction_value);
 

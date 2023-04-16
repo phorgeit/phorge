@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMacroTestCase
+  extends PhorgeTestCase {
 
   public function testMacroNames() {
     $lit = "\xF0\x9F\x94\xA5";
@@ -39,7 +39,7 @@ final class PhabricatorMacroTestCase
     foreach ($cases as $input => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorMacroNameTransaction::isValidMacroName($input),
+        PhorgeMacroNameTransaction::isValidMacroName($input),
         pht('Validity of macro "%s"', $input));
     }
   }

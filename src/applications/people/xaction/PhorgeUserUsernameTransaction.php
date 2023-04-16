@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserUsernameTransaction
-  extends PhabricatorUserTransactionType {
+final class PhorgeUserUsernameTransaction
+  extends PhorgeUserTransactionType {
 
   const TRANSACTIONTYPE = 'user.rename';
 
@@ -26,9 +26,9 @@ final class PhabricatorUserUsernameTransaction
 
     // The SSH key cache currently includes usernames, so dirty it. See T12554
     // for discussion.
-    PhabricatorAuthSSHKeyQuery::deleteSSHKeyCache();
+    PhorgeAuthSSHKeyQuery::deleteSSHKeyCache();
 
-    id(new PhabricatorPeopleUsernameMailEngine())
+    id(new PhorgePeopleUsernameMailEngine())
       ->setSender($actor)
       ->setRecipient($object)
       ->setOldUsername($old_username)
@@ -74,14 +74,14 @@ final class PhabricatorUserUsernameTransaction
         $errors[] = $this->newInvalidError(
           pht('New username is required.'),
           $xaction);
-      } else if (!PhabricatorUser::validateUsername($new)) {
+      } else if (!PhorgeUser::validateUsername($new)) {
         $errors[] = $this->newInvalidError(
-          PhabricatorUser::describeValidUsername(),
+          PhorgeUser::describeValidUsername(),
           $xaction);
       }
 
-      $user = id(new PhabricatorPeopleQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $user = id(new PhorgePeopleQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withUsernames(array($new))
         ->executeOne();
       if ($user) {
@@ -104,7 +104,7 @@ final class PhabricatorUserUsernameTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // Unlike normal user edits, renames require admin permissions, which
     // is enforced by validateTransactions().
@@ -114,7 +114,7 @@ final class PhabricatorUserUsernameTransaction
 
   public function shouldTryMFA(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return true;
   }
 

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthProviderConfigEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeAuthProviderConfigEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,110 +14,110 @@ final class PhabricatorAuthProviderConfigEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_LINK;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN;
-    $types[] = PhabricatorAuthProviderConfigTransaction::TYPE_PROPERTY;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_ENABLE;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_LOGIN;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_LINK;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_UNLINK;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN;
+    $types[] = PhorgeAuthProviderConfigTransaction::TYPE_PROPERTY;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE:
+      case PhorgeAuthProviderConfigTransaction::TYPE_ENABLE:
         if ($object->getIsEnabled() === null) {
           return null;
         } else {
           return (int)$object->getIsEnabled();
         }
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LOGIN:
         return (int)$object->getShouldAllowLogin();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION:
+      case PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION:
         return (int)$object->getShouldAllowRegistration();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LINK:
         return (int)$object->getShouldAllowLink();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_UNLINK:
         return (int)$object->getShouldAllowUnlink();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
+      case PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
         return (int)$object->getShouldTrustEmails();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
         return (int)$object->getShouldAutoLogin();
-      case PhabricatorAuthProviderConfigTransaction::TYPE_PROPERTY:
+      case PhorgeAuthProviderConfigTransaction::TYPE_PROPERTY:
         $key = $xaction->getMetadataValue(
-          PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+          PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
         return $object->getProperty($key);
     }
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LINK:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_PROPERTY:
+      case PhorgeAuthProviderConfigTransaction::TYPE_ENABLE:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_UNLINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
+      case PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_PROPERTY:
         return $xaction->getNewValue();
     }
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     $v = $xaction->getNewValue();
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE:
+      case PhorgeAuthProviderConfigTransaction::TYPE_ENABLE:
         return $object->setIsEnabled($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LOGIN:
         return $object->setShouldAllowLogin($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION:
+      case PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION:
         return $object->setShouldAllowRegistration($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LINK:
         return $object->setShouldAllowLink($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_UNLINK:
         return $object->setShouldAllowUnlink($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
+      case PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
         return $object->setShouldTrustEmails($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
         return $object->setShouldAutoLogin($v);
-      case PhabricatorAuthProviderConfigTransaction::TYPE_PROPERTY:
+      case PhorgeAuthProviderConfigTransaction::TYPE_PROPERTY:
         $key = $xaction->getMetadataValue(
-          PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+          PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
         return $object->setProperty($key, $v);
     }
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     return;
   }
 
   protected function mergeTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $type = $u->getTransactionType();
     switch ($type) {
-      case PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_LINK:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
-      case PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_ENABLE:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LOGIN:
+      case PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION:
+      case PhorgeAuthProviderConfigTransaction::TYPE_LINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_UNLINK:
+      case PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS:
+      case PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN:
         // For these types, last transaction wins.
         return $v;
     }
@@ -126,16 +126,16 @@ final class PhabricatorAuthProviderConfigEditor
   }
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $errors = parent::validateAllTransactions($object, $xactions);
 
     $locked_config_key = 'auth.lock-config';
-    $is_locked = PhabricatorEnv::getEnvConfig($locked_config_key);
+    $is_locked = PhorgeEnv::getEnvConfig($locked_config_key);
 
     if ($is_locked) {
-      $errors[] = new PhabricatorApplicationTransactionValidationError(
+      $errors[] = new PhorgeApplicationTransactionValidationError(
         null,
         pht('Config Locked'),
         pht('Authentication provider configuration is locked, and can not be '.

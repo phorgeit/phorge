@@ -26,12 +26,12 @@ foreach ($rows as $row) {
       break;
   }
 
-  $comment_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+  $comment_phid = PhorgePHID::generateNewPHID(
+    PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
     $type);
 
-  $xaction_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+  $xaction_phid = PhorgePHID::generateNewPHID(
+    PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
     $type);
 
   queryfx(
@@ -48,8 +48,8 @@ foreach ($rows as $row) {
     $row['authorPHID'],
     1,
     $row['content'],
-    PhabricatorContentSource::newForSource(
-      PhabricatorOldWorldContentSource::SOURCECONST)->serialize(),
+    PhorgeContentSource::newForSource(
+      PhorgeOldWorldContentSource::SOURCECONST)->serialize(),
     0,
     $row['dateCreated'],
     $row['dateModified']);
@@ -68,11 +68,11 @@ foreach ($rows as $row) {
     $row['authorPHID'],
     $comment_phid,
     1,
-    PhabricatorTransactions::TYPE_COMMENT,
+    PhorgeTransactions::TYPE_COMMENT,
     'null',
     'null',
-    PhabricatorContentSource::newForSource(
-      PhabricatorOldWorldContentSource::SOURCECONST)->serialize(),
+    PhorgeContentSource::newForSource(
+      PhorgeOldWorldContentSource::SOURCECONST)->serialize(),
     '[]',
     $row['dateCreated'],
     $row['dateModified']);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitCallManagementWorkflow
-  extends PhabricatorConduitManagementWorkflow {
+final class PhorgeConduitCallManagementWorkflow
+  extends PhorgeConduitManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -54,7 +54,7 @@ final class PhabricatorConduitCallManagementWorkflow
 
     $as = $args->getArg('as');
     if (strlen($as)) {
-      $actor = id(new PhabricatorPeopleQuery())
+      $actor = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($as))
         ->executeOne();

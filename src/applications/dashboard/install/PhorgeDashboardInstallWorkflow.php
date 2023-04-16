@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDashboardInstallWorkflow
+abstract class PhorgeDashboardInstallWorkflow
   extends Phobject {
 
   private $request;
@@ -8,7 +8,7 @@ abstract class PhabricatorDashboardInstallWorkflow
   private $dashboard;
   private $mode;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -17,7 +17,7 @@ abstract class PhabricatorDashboardInstallWorkflow
     return $this->viewer;
   }
 
-  final public function setDashboard(PhabricatorDashboard $dashboard) {
+  final public function setDashboard(PhorgeDashboard $dashboard) {
     $this->dashboard = $dashboard;
     return $this;
   }
@@ -112,16 +112,16 @@ abstract class PhabricatorDashboardInstallWorkflow
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
-    $config = PhabricatorProfileMenuItemConfiguration::initializeNewItem(
+    $config = PhorgeProfileMenuItemConfiguration::initializeNewItem(
       $profile_object,
-      new PhabricatorDashboardProfileMenuItem(),
+      new PhorgeDashboardProfileMenuItem(),
       $custom_phid);
 
     $config->setMenuItemProperty('dashboardPHID', $dashboard->getPHID());
 
     $xactions = array();
 
-    $editor = id(new PhabricatorProfileMenuEditor())
+    $editor = id(new PhorgeProfileMenuEditor())
       ->setActor($viewer)
       ->setContinueOnNoEffect(true)
       ->setContinueOnMissingFields(true)

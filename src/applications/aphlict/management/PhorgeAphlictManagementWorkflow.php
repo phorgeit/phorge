@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAphlictManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeAphlictManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   private $debug = false;
   private $configData;
@@ -495,7 +495,7 @@ abstract class PhabricatorAphlictManagementWorkflow
 
     $start = time();
     do {
-      if (!PhabricatorDaemonReference::isProcessRunning($pid)) {
+      if (!PhorgeDaemonReference::isProcessRunning($pid)) {
         $console->writeOut(
           "%s\n",
           pht('Aphlict Server (%s) exited normally.', $pid));

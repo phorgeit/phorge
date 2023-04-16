@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorOAuthClientAuthorization
-  extends PhabricatorOAuthServerDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeOAuthClientAuthorization
+  extends PhorgeOAuthServerDAO
+  implements PhorgePolicyInterface {
 
   protected $userPHID;
   protected $clientPHID;
@@ -41,36 +41,36 @@ final class PhabricatorOAuthClientAuthorization
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorOAuthServerClientAuthorizationPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeOAuthServerClientAuthorizationPHIDType::TYPECONST);
   }
 
   public function getClient() {
     return $this->assertAttached($this->client);
   }
 
-  public function attachClient(PhabricatorOAuthServerClient $client) {
+  public function attachClient(PhorgeOAuthServerClient $client) {
     $this->client = $client;
     return $this;
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getUserPHID());
   }
 

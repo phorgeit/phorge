@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTransactionWarning
+final class PhorgeTransactionWarning
   extends Phobject {
 
   private $titleText;

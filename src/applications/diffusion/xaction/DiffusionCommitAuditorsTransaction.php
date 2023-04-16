@@ -16,7 +16,7 @@ final class DiffusionCommitAuditorsTransaction
     $auditors = $this->generateOldValue($object);
     $old_auditors = $auditors;
 
-    $request_status = PhabricatorAuditRequestStatus::AUDIT_REQUESTED;
+    $request_status = PhorgeAuditRequestStatus::AUDIT_REQUESTED;
 
     $rem = idx($value, '-', array());
     foreach ($rem as $phid) {
@@ -60,8 +60,8 @@ final class DiffusionCommitAuditorsTransaction
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $u_new = $u->getNewValue();
     $v_new = $v->getNewValue();
@@ -184,7 +184,7 @@ final class DiffusionCommitAuditorsTransaction
 
     $author_phid = $object->getEffectiveAuthorPHID();
     $can_author_close_key = 'audit.can-author-close-audit';
-    $can_author_close = PhabricatorEnv::getEnvConfig($can_author_close_key);
+    $can_author_close = PhorgeEnv::getEnvConfig($can_author_close_key);
 
     $old = $this->generateOldValue($object);
     foreach ($xactions as $xaction) {
@@ -195,7 +195,7 @@ final class DiffusionCommitAuditorsTransaction
         continue;
       }
 
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($actor)
         ->withPHIDs(array_keys($add))
         ->execute();
@@ -212,9 +212,9 @@ final class DiffusionCommitAuditorsTransaction
         }
 
         switch (phid_get_type($phid)) {
-          case PhabricatorPeopleUserPHIDType::TYPECONST:
-          case PhabricatorOwnersPackagePHIDType::TYPECONST:
-          case PhabricatorProjectProjectPHIDType::TYPECONST:
+          case PhorgePeopleUserPHIDType::TYPECONST:
+          case PhorgeOwnersPackagePHIDType::TYPECONST:
+          case PhorgeProjectProjectPHIDType::TYPECONST:
             break;
           default:
             $errors[] = $this->newInvalidError(

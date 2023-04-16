@@ -1,7 +1,7 @@
 <?php
 
-$pull = new PhabricatorRepositoryPullEvent();
-$push = new PhabricatorRepositoryPushEvent();
+$pull = new PhorgeRepositoryPullEvent();
+$push = new PhorgeRepositoryPushEvent();
 
 $conn_w = $pull->establishConnection('w');
 

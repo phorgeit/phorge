@@ -8,8 +8,8 @@
  * format is for testing, developing, and understanding encoding formats and
  * is not intended for production use.
  */
-final class PhabricatorFileROT13StorageFormat
-  extends PhabricatorFileStorageFormat {
+final class PhorgeFileROT13StorageFormat
+  extends PhorgeFileStorageFormat {
 
   const FORMATKEY = 'rot13';
 

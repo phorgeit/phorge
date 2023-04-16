@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDestructionEngine extends Phobject {
+final class PhorgeDestructionEngine extends Phobject {
 
   private $rootLogID;
   private $collectNotes;
@@ -19,7 +19,7 @@ final class PhabricatorDestructionEngine extends Phobject {
   }
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   public function setWaitToFinalizeDestruction($wait) {
@@ -31,11 +31,11 @@ final class PhabricatorDestructionEngine extends Phobject {
     return $this->waitToFinalizeDestruction;
   }
 
-  public function destroyObject(PhabricatorDestructibleInterface $object) {
+  public function destroyObject(PhorgeDestructibleInterface $object) {
     $this->depth++;
 
-    $log = id(new PhabricatorSystemDestructionLog())
-      ->setEpoch(PhabricatorTime::getNow())
+    $log = id(new PhorgeSystemDestructionLog())
+      ->setEpoch(PhorgeTime::getNow())
       ->setObjectClass(get_class($object));
 
     if ($this->rootLogID) {
@@ -62,8 +62,8 @@ final class PhabricatorDestructionEngine extends Phobject {
     }
 
     if ($this->collectNotes) {
-      if ($object instanceof PhabricatorDestructibleCodexInterface) {
-        $codex = PhabricatorDestructibleCodex::newFromObject(
+      if ($object instanceof PhorgeDestructibleCodexInterface) {
+        $codex = PhorgeDestructibleCodex::newFromObject(
           $object,
           $this->getViewer());
 
@@ -76,7 +76,7 @@ final class PhabricatorDestructionEngine extends Phobject {
     $object->destroyObjectPermanently($this);
 
     if ($object_phid) {
-      $extensions = PhabricatorDestructionEngineExtension::getAllExtensions();
+      $extensions = PhorgeDestructionEngineExtension::getAllExtensions();
       foreach ($extensions as $key => $extension) {
         if (!$extension->canDestroyObject($this, $object)) {
           unset($extensions[$key]);
@@ -108,7 +108,7 @@ final class PhabricatorDestructionEngine extends Phobject {
   }
 
   public function finalizeDestruction() {
-    $extensions = PhabricatorDestructionEngineExtension::getAllExtensions();
+    $extensions = PhorgeDestructionEngineExtension::getAllExtensions();
 
     foreach ($this->destroyedObjects as $object) {
       foreach ($extensions as $extension) {

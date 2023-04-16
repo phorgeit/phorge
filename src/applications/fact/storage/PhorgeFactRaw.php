@@ -3,7 +3,7 @@
 /**
  * Raw fact about an object.
  */
-final class PhabricatorFactRaw extends PhabricatorFactDAO {
+final class PhorgeFactRaw extends PhorgeFactDAO {
 
   protected $factType;
   protected $objectPHID;

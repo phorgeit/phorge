@@ -38,7 +38,7 @@ final class DiffusionUpdateCoverageConduitAPIMethod
     $viewer = $request->getUser();
 
     $repository_phid = $request->getValue('repositoryPHID');
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($repository_phid))
       ->executeOne();
@@ -59,7 +59,7 @@ final class DiffusionUpdateCoverageConduitAPIMethod
         pht('No commit exists with identifier "%s".', $commit_name));
     }
 
-    $branch = PhabricatorRepositoryBranch::loadOrCreateBranch(
+    $branch = PhorgeRepositoryBranch::loadOrCreateBranch(
       $repository->getID(),
       $request->getValue('branch'));
 
@@ -103,7 +103,7 @@ final class DiffusionUpdateCoverageConduitAPIMethod
           throw new Exception(pht('Invalid mode "%s".', $mode));
       }
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'INSERT INTO %T (branchID, pathID, commitID, coverage) VALUES %LQ'.

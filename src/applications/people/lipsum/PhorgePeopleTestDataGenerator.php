@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgePeopleTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'users';
 
@@ -17,16 +17,16 @@ final class PhabricatorPeopleTestDataGenerator
         $username = $this->generateUsername($realname);
         $email = $this->generateEmail($username);
 
-        $admin = PhabricatorUser::getOmnipotentUser();
-        $user = new PhabricatorUser();
+        $admin = PhorgeUser::getOmnipotentUser();
+        $user = new PhorgeUser();
         $user->setUsername($username);
         $user->setRealname($realname);
 
-        $email_object = id(new PhabricatorUserEmail())
+        $email_object = id(new PhorgeUserEmail())
           ->setAddress($email)
           ->setIsVerified(1);
 
-        id(new PhabricatorUserEditor())
+        id(new PhorgeUserEditor())
           ->setActor($admin)
           ->createNewUser($user, $email_object);
 

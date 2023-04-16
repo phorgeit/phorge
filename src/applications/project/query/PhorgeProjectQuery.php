@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeProjectQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -163,7 +163,7 @@ final class PhabricatorProjectQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorProject();
+    return new PhorgeProject();
   }
 
   protected function getDefaultOrderVector() {
@@ -222,8 +222,8 @@ final class PhabricatorProjectQuery
     $this->allSlugs = array();
     if ($this->slugs) {
       foreach ($this->slugs as $slug) {
-        if (PhabricatorSlug::isValidProjectSlug($slug)) {
-          $normal = PhabricatorSlug::normalizeProjectSlug($slug);
+        if (PhorgeSlug::isValidProjectSlug($slug)) {
+          $normal = PhorgeSlug::normalizeProjectSlug($slug);
           $this->slugNormals[$slug] = $normal;
           $this->allSlugs[$normal] = $normal;
         }
@@ -245,7 +245,7 @@ final class PhabricatorProjectQuery
     }
 
     if ($ancestor_paths) {
-      $ancestors = id(new PhabricatorProject())->loadAllWhere(
+      $ancestors = id(new PhorgeProject())->loadAllWhere(
         'projectPath IN (%Ls)',
         $ancestor_paths);
     } else {
@@ -256,8 +256,8 @@ final class PhabricatorProjectQuery
 
     $viewer_phid = $this->getViewer()->getPHID();
 
-    $material_type = PhabricatorProjectMaterializedMemberEdgeType::EDGECONST;
-    $watcher_type = PhabricatorObjectHasWatcherEdgeType::EDGECONST;
+    $material_type = PhorgeProjectMaterializedMemberEdgeType::EDGECONST;
+    $watcher_type = PhorgeObjectHasWatcherEdgeType::EDGECONST;
 
     $types = array();
     $types[] = $material_type;
@@ -304,7 +304,7 @@ final class PhabricatorProjectQuery
       $all_sources[$phid] = $phid;
     }
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($all_sources)
       ->withEdgeTypes($types);
 
@@ -399,7 +399,7 @@ final class PhabricatorProjectQuery
       }
 
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($viewer)
           ->withPHIDs($file_phids)
@@ -425,10 +425,10 @@ final class PhabricatorProjectQuery
         foreach ($need_images as $key => $project) {
           $icon = $project->getIcon();
 
-          $builtin_name = PhabricatorProjectIconSet::getIconImage($icon);
+          $builtin_name = PhorgeProjectIconSet::getIconImage($icon);
           $builtin_name = 'projects/'.$builtin_name;
 
-          $builtin = id(new PhabricatorFilesOnDiskBuiltinFile())
+          $builtin = id(new PhorgeFilesOnDiskBuiltinFile())
             ->setName($builtin_name);
 
           $builtin_key = $builtin->getBuiltinFileKey();
@@ -437,7 +437,7 @@ final class PhabricatorProjectQuery
           $builtin_map[$key] = $builtin_key;
         }
 
-        $builtin_files = PhabricatorFile::loadBuiltins(
+        $builtin_files = PhorgeFile::loadBuiltins(
           $viewer,
           $builtins);
 
@@ -462,13 +462,13 @@ final class PhabricatorProjectQuery
         case self::STATUS_OPEN:
         case self::STATUS_ACTIVE:
           $filter = array(
-            PhabricatorProjectStatus::STATUS_ACTIVE,
+            PhorgeProjectStatus::STATUS_ACTIVE,
           );
           break;
         case self::STATUS_CLOSED:
         case self::STATUS_ARCHIVED:
           $filter = array(
-            PhabricatorProjectStatus::STATUS_ARCHIVED,
+            PhorgeProjectStatus::STATUS_ARCHIVED,
           );
           break;
         default:
@@ -568,10 +568,10 @@ final class PhabricatorProjectQuery
       $ancestor_paths = queryfx_all(
         $conn,
         'SELECT projectPath, projectDepth FROM %T WHERE phid IN (%Ls)',
-        id(new PhabricatorProject())->getTableName(),
+        id(new PhorgeProject())->getTableName(),
         $this->ancestorPHIDs);
       if (!$ancestor_paths) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $sql = array();
@@ -667,23 +667,23 @@ final class PhabricatorProjectQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T e ON e.src = project.phid AND e.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorProjectMaterializedMemberEdgeType::EDGECONST);
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeProjectMaterializedMemberEdgeType::EDGECONST);
     }
 
     if ($this->watcherPHIDs !== null) {
       $joins[] = qsprintf(
         $conn,
         'JOIN %T w ON w.src = project.phid AND w.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorObjectHasWatcherEdgeType::EDGECONST);
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeObjectHasWatcherEdgeType::EDGECONST);
     }
 
     if ($this->slugs !== null) {
       $joins[] = qsprintf(
         $conn,
         'JOIN %T slug on slug.projectPHID = project.phid',
-        id(new PhabricatorProjectSlug())->getTableName());
+        id(new PhorgeProjectSlug())->getTableName());
     }
 
     if ($this->nameTokens !== null) {
@@ -693,7 +693,7 @@ final class PhabricatorProjectQuery
         $joins[] = qsprintf(
           $conn,
           'JOIN %T %T ON %T.projectID = project.id AND %T.token LIKE %>',
-          PhabricatorProject::TABLE_DATASOURCE_TOKEN,
+          PhorgeProject::TABLE_DATASOURCE_TOKEN,
           $token_table,
           $token_table,
           $token_table,
@@ -705,7 +705,7 @@ final class PhabricatorProjectQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function getPrimaryTableAlias() {
@@ -836,11 +836,11 @@ final class PhabricatorProjectQuery
     // If we've mapped everything, we don't have to do any work.
     $project_phids = mpull($projects, 'getPHID');
     if ($this->needSlugs) {
-      $slugs = id(new PhabricatorProjectSlug())->loadAllWhere(
+      $slugs = id(new PhorgeProjectSlug())->loadAllWhere(
         'projectPHID IN (%Ls)',
         $project_phids);
     } else if ($unknown) {
-      $slugs = id(new PhabricatorProjectSlug())->loadAllWhere(
+      $slugs = id(new PhorgeProjectSlug())->loadAllWhere(
         'projectPHID IN (%Ls) AND slug IN (%Ls)',
         $project_phids,
         $unknown);

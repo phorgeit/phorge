@@ -1,6 +1,6 @@
 <?php
 
-final class CelerityResourceTransformerTestCase extends PhabricatorTestCase {
+final class CelerityResourceTransformerTestCase extends PhorgeTestCase {
 
   public function testTransformation() {
     $files = dirname(__FILE__).'/transformer/';

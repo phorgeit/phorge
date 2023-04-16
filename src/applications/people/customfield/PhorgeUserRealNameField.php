@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserRealNameField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserRealNameField
+  extends PhorgeUserCustomField {
 
   private $value;
 
@@ -37,7 +37,7 @@ final class PhabricatorUserRealNameField
     return true;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $this->value = $object->getRealName();
   }
 
@@ -53,7 +53,7 @@ final class PhabricatorUserRealNameField
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->getObject()->setRealName($xaction->getNewValue());
   }
 
@@ -75,7 +75,7 @@ final class PhabricatorUserRealNameField
   }
 
   private function isEditable() {
-    return PhabricatorEnv::getEnvConfig('account.editable');
+    return PhorgeEnv::getEnvConfig('account.editable');
   }
 
   public function shouldAppearInConduitTransactions() {

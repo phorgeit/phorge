@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventHostPolicyRule
-  extends PhabricatorPolicyRule {
+final class PhorgeCalendarEventHostPolicyRule
+  extends PhorgePolicyRule {
 
   public function getObjectPolicyKey() {
     return 'calendar.event.host';
@@ -19,14 +19,14 @@ final class PhabricatorCalendarEventHostPolicyRule
     return pht('event host');
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
-    return ($object instanceof PhabricatorCalendarEvent);
+  public function canApplyToObject(PhorgePolicyInterface $object) {
+    return ($object instanceof PhorgeCalendarEvent);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorOAuthServerController
-  extends PhabricatorController {
+abstract class PhorgeOAuthServerController
+  extends PhorgeController {
 
   const CONTEXT_AUTHORIZE = 'oauthserver.authorize';
 

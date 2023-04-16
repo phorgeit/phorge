@@ -10,13 +10,13 @@ $policies = array(
 $map = array();
 
 foreach ($policies as $policy) {
-  $old_name = "PhabricatorPolicyRule{$policy}";
+  $old_name = "PhorgePolicyRule{$policy}";
   $new_name = "Phorge{$policy}PolicyRule";
   $map[$old_name] = $new_name;
 }
 
 echo pht('Migrating policies...')."\n";
-$table = new PhabricatorPolicy();
+$table = new PhorgePolicy();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $policy) {

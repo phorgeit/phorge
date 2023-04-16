@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuth1SecretTemporaryTokenType
-  extends PhabricatorAuthTemporaryTokenType {
+final class PhorgeOAuth1SecretTemporaryTokenType
+  extends PhorgeAuthTemporaryTokenType {
 
   const TOKENTYPE = 'oauth1:request:secret';
 
@@ -10,7 +10,7 @@ final class PhabricatorOAuth1SecretTemporaryTokenType
   }
 
   public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token) {
+    PhorgeAuthTemporaryToken $token) {
     return pht('OAuth1 Handshake Token');
   }
 

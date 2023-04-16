@@ -9,7 +9,7 @@ final class HeraldRuleAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function getAdapterContentDescription() {

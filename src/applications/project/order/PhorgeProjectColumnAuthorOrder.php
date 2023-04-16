@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnAuthorOrder
-  extends PhabricatorProjectColumnOrder {
+final class PhorgeProjectColumnAuthorOrder
+  extends PhorgeProjectColumnOrder {
 
   const ORDERKEY = 'author';
 
@@ -39,7 +39,7 @@ final class PhabricatorProjectColumnAuthorOrder
     $author_phids = array_filter($author_phids);
 
     if ($author_phids) {
-      $author_users = id(new PhabricatorPeopleQuery())
+      $author_users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($author_phids)
         ->execute();
@@ -64,7 +64,7 @@ final class PhabricatorProjectColumnAuthorOrder
     return $vectors;
   }
 
-  private function newSortVectorForAuthor(PhabricatorUser $user) {
+  private function newSortVectorForAuthor(PhorgeUser $user) {
     return array(
       1,
       $user->getUsername(),
@@ -84,7 +84,7 @@ final class PhabricatorProjectColumnAuthorOrder
     $author_phids = array_filter($author_phids);
 
     if ($author_phids) {
-      $author_users = id(new PhabricatorPeopleQuery())
+      $author_users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($author_phids)
         ->needProfileImage(true)

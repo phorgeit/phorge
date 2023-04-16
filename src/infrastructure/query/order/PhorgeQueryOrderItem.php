@@ -3,19 +3,19 @@
 /**
  * Structural class representing one item in an order vector.
  *
- * See @{class:PhabricatorQueryOrderVector} for discussion of order vectors.
+ * See @{class:PhorgeQueryOrderVector} for discussion of order vectors.
  * This represents one item in an order vector, like "id". When combined with
  * the other items in the vector, a complete ordering (like "name, id") is
  * described.
  *
  * Construct an item using @{method:newFromScalar}:
  *
- *   $item = PhabricatorQueryOrderItem::newFromScalar('id');
+ *   $item = PhorgeQueryOrderItem::newFromScalar('id');
  *
  * This class is primarily internal to the query infrastructure, and most
  * application code should not need to interact with it directly.
  */
-final class PhabricatorQueryOrderItem extends Phobject {
+final class PhorgeQueryOrderItem extends Phobject {
 
   private $orderKey;
   private $isReversed;
@@ -33,7 +33,7 @@ final class PhabricatorQueryOrderItem extends Phobject {
       $scalar = substr($scalar, 1);
     }
 
-    $item = new PhabricatorQueryOrderItem();
+    $item = new PhorgeQueryOrderItem();
     $item->orderKey = $scalar;
     $item->isReversed = $is_reversed;
 

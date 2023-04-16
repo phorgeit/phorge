@@ -65,18 +65,18 @@ final class NuanceSourceViewController
     $viewer = $this->getViewer();
     $id = $source->getID();
 
-    $actions = id(new PhabricatorActionListView())
+    $actions = id(new PhorgeActionListView())
       ->setUser($viewer);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $source,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($source);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Source'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("source/edit/{$id}/"))

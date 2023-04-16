@@ -3,8 +3,8 @@
 /**
  * Triggers an event exactly once, at a specific epoch time.
  */
-final class PhabricatorOneTimeTriggerClock
-  extends PhabricatorTriggerClock {
+final class PhorgeOneTimeTriggerClock
+  extends PhorgeTriggerClock {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(

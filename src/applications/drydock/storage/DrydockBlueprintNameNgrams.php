@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintNameNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'blueprintname';

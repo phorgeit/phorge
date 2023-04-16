@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFeedBuilder extends Phobject {
+final class PhorgeFeedBuilder extends Phobject {
 
   private $user;
   private $stories;
@@ -8,11 +8,11 @@ final class PhabricatorFeedBuilder extends Phobject {
   private $noDataString;
 
   public function __construct(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, 'PhorgeFeedStory');
     $this->stories = $stories;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }

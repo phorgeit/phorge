@@ -3,15 +3,15 @@
 final class AlmanacDevice
   extends AlmanacDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorProjectInterface,
-    PhabricatorSSHPublicKeyInterface,
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeProjectInterface,
+    PhorgeSSHPublicKeyInterface,
     AlmanacPropertyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorNgramsInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgeDestructibleInterface,
+    PhorgeNgramsInterface,
+    PhorgeConduitResultInterface,
+    PhorgeExtendedPolicyInterface {
 
   protected $name;
   protected $nameIndex;
@@ -24,8 +24,8 @@ final class AlmanacDevice
 
   public static function initializeNewDevice() {
     return id(new AlmanacDevice())
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN)
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
+      ->setEditPolicy(PhorgePolicies::POLICY_ADMIN)
       ->setStatus(AlmanacDeviceStatus::ACTIVE)
       ->attachAlmanacProperties(array())
       ->setIsBoundToClusterService(0);
@@ -59,7 +59,7 @@ final class AlmanacDevice
   public function save() {
     AlmanacNames::validateName($this->getName());
 
-    $this->nameIndex = PhabricatorHash::digestForIndex($this->getName());
+    $this->nameIndex = PhorgeHash::digestForIndex($this->getName());
 
     return parent::save();
   }
@@ -72,7 +72,7 @@ final class AlmanacDevice
 
   public function rebuildClusterBindingStatus() {
     $services = id(new AlmanacServiceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withDevicePHIDs(array($this->getPHID()))
       ->execute();
 
@@ -163,40 +163,40 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->isClusterDevice()) {
           return array(
             array(
-              new PhabricatorAlmanacApplication(),
+              new PhorgeAlmanacApplication(),
               AlmanacManageClusterServicesCapability::CAPABILITY,
             ),
           );
@@ -208,7 +208,7 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -220,10 +220,10 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorSSHPublicKeyInterface  )----------------------------------- */
+/* -(  PhorgeSSHPublicKeyInterface  )----------------------------------- */
 
 
-  public function getSSHPublicKeyManagementURI(PhabricatorUser $viewer) {
+  public function getSSHPublicKeyManagementURI(PhorgeUser $viewer) {
     return $this->getURI();
   }
 
@@ -240,11 +240,11 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $interfaces = id(new AlmanacInterfaceQuery())
       ->setViewer($engine->getViewer())
@@ -258,7 +258,7 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
@@ -269,20 +269,20 @@ final class AlmanacDevice
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the device.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Device status information.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('disabled')
         ->setType('bool')
         ->setDescription(pht('True if device is disabled.')),

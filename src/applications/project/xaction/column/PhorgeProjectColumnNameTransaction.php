@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnNameTransaction
-  extends PhabricatorProjectColumnTransactionType {
+final class PhorgeProjectColumnNameTransaction
+  extends PhorgeProjectColumnTransactionType {
 
   const TRANSACTIONTYPE = 'project:col:name';
 

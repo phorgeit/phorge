@@ -5,15 +5,15 @@
  *
  * This is a low-level piece of plumbing which code will not normally interact
  * with directly. For discussion of the handle pool mechanism, see
- * @{class:PhabricatorHandleList}.
+ * @{class:PhorgeHandleList}.
  */
-final class PhabricatorHandlePool extends Phobject {
+final class PhorgeHandlePool extends Phobject {
 
   private $viewer;
   private $handles = array();
   private $unloadedPHIDs = array();
 
-  public function setViewer(PhabricatorUser $user) {
+  public function setViewer(PhorgeUser $user) {
     $this->viewer = $user;
     return $this;
   }
@@ -36,7 +36,7 @@ final class PhabricatorHandlePool extends Phobject {
       $unique[$phid] = $phid;
     }
 
-    return id(new PhabricatorHandleList())
+    return id(new PhorgeHandleList())
       ->setHandlePool($this)
       ->setPHIDs(array_values($unique));
   }
@@ -67,7 +67,7 @@ final class PhabricatorHandlePool extends Phobject {
       $fetch_phids = array_keys($this->unloadedPHIDs);
       $this->unloadedPHIDs = array();
 
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($fetch_phids)
         ->execute();

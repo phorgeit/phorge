@@ -30,7 +30,7 @@ final class ChatLogRecordConduitAPIMethod extends ChatLogConduitAPIMethod {
       $logs = array();
     }
 
-    $template = new PhabricatorChatLogEvent();
+    $template = new PhorgeChatLogEvent();
     $template->setLoggedByPHID($request->getUser()->getPHID());
 
     $objs = array();
@@ -39,19 +39,19 @@ final class ChatLogRecordConduitAPIMethod extends ChatLogConduitAPIMethod {
       $service_name = idx($log, 'serviceName');
       $service_type = idx($log, 'serviceType');
 
-      $channel = id(new PhabricatorChatLogChannel())->loadOneWhere(
+      $channel = id(new PhorgeChatLogChannel())->loadOneWhere(
         'channelName = %s AND serviceName = %s AND serviceType = %s',
         $channel_name,
         $service_name,
         $service_type);
 
       if (!$channel) {
-        $channel = id(new PhabricatorChatLogChannel())
+        $channel = id(new PhorgeChatLogChannel())
           ->setChannelName($channel_name)
           ->setserviceName($service_name)
           ->setServiceType($service_type)
-          ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-          ->setEditPolicy(PhabricatorPolicies::POLICY_USER)
+          ->setViewPolicy(PhorgePolicies::POLICY_USER)
+          ->setEditPolicy(PhorgePolicies::POLICY_USER)
           ->save();
       }
 

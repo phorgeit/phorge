@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldTranscriptPHIDType extends PhabricatorPHIDType {
+final class HeraldTranscriptPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'HLXS';
 
@@ -13,11 +13,11 @@ final class HeraldTranscriptPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new HeraldTranscriptQuery())
@@ -25,7 +25,7 @@ final class HeraldTranscriptPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

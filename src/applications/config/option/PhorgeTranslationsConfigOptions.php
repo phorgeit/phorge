@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTranslationsConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeTranslationsConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Translations');

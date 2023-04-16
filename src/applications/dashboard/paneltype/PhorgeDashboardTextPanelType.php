@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardTextPanelType
-  extends PhabricatorDashboardPanelType {
+final class PhorgeDashboardTextPanelType
+  extends PhorgeDashboardPanelType {
 
   public function getPanelTypeKey() {
     return 'text';
@@ -21,13 +21,13 @@ final class PhabricatorDashboardTextPanelType
       'context.');
   }
 
-  protected function newEditEngineFields(PhabricatorDashboardPanel $panel) {
+  protected function newEditEngineFields(PhorgeDashboardPanel $panel) {
     return array(
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('text')
         ->setLabel(pht('Text'))
         ->setTransactionType(
-          PhabricatorDashboardTextPanelTextTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardTextPanelTextTransaction::TRANSACTIONTYPE)
         ->setValue($panel->getProperty('text', '')),
     );
   }
@@ -38,22 +38,22 @@ final class PhabricatorDashboardTextPanelType
   }
 
   public function renderPanelContent(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine) {
 
     $text = $panel->getProperty('text', '');
-    $oneoff = id(new PhabricatorMarkupOneOff())->setContent($text);
+    $oneoff = id(new PhorgeMarkupOneOff())->setContent($text);
     $field = 'default';
 
     // NOTE: We're taking extra steps here to prevent creation of a text panel
     // which embeds itself using `{Wnnn}`, recursing indefinitely.
 
-    $parent_key = PhabricatorDashboardRemarkupRule::KEY_PARENT_PANEL_PHIDS;
+    $parent_key = PhorgeDashboardRemarkupRule::KEY_PARENT_PANEL_PHIDS;
     $parent_phids = $engine->getParentPanelPHIDs();
     $parent_phids[] = $panel->getPHID();
 
-    $markup_engine = id(new PhabricatorMarkupEngine())
+    $markup_engine = id(new PhorgeMarkupEngine())
       ->setViewer($viewer)
       ->setContextObject($panel)
       ->setAuxiliaryConfig($parent_key, $parent_phids);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelStatusTransaction
-  extends PhabricatorDashboardPanelTransactionType {
+final class PhorgeDashboardPanelStatusTransaction
+  extends PhorgeDashboardPanelTransactionType {
 
   const TRANSACTIONTYPE = 'dashpanel:archive';
 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailStamp
+abstract class PhorgeMailStamp
   extends Phobject {
 
   private $key;
@@ -30,7 +30,7 @@ abstract class PhabricatorMailStamp
     return $this->value;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditorURIEngineTestCase
-  extends PhabricatorTestCase {
+final class PhorgeEditorURIEngineTestCase
+  extends PhorgeTestCase {
 
   public function testPatternParsing() {
     $map = array(
@@ -64,7 +64,7 @@ final class PhabricatorEditorURIEngineTestCase
 
     foreach ($map as $input => $expect) {
       try {
-        $actual = PhabricatorEditorURIEngine::newPatternTokens($input);
+        $actual = PhorgeEditorURIEngine::newPatternTokens($input);
       } catch (Exception $ex) {
         if ($expect !== false) {
           throw $ex;
@@ -85,7 +85,7 @@ final class PhabricatorEditorURIEngineTestCase
     );
     $protocols = array_fuse($protocols);
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('uri.allowed-editor-protocols', $protocols);
 
     $map = array(
@@ -111,12 +111,12 @@ final class PhabricatorEditorURIEngineTestCase
 
     foreach ($map as $input => $expect) {
       try {
-        id(new PhabricatorEditorURIEngine())
+        id(new PhorgeEditorURIEngine())
           ->setPattern($input)
           ->validatePattern();
 
         $actual = true;
-      } catch (PhabricatorEditorURIParserException $ex) {
+      } catch (PhorgeEditorURIParserException $ex) {
         $actual = false;
       }
 

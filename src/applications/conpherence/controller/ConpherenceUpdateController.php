@@ -11,17 +11,17 @@ final class ConpherenceUpdateController
     }
 
     $need_participants = false;
-    $needed_capabilities = array(PhabricatorPolicyCapability::CAN_VIEW);
+    $needed_capabilities = array(PhorgePolicyCapability::CAN_VIEW);
     $action = $request->getStr('action');
     switch ($action) {
       case ConpherenceUpdateActions::REMOVE_PERSON:
         $person_phid = $request->getStr('remove_person');
         if ($person_phid != $user->getPHID()) {
-          $needed_capabilities[] = PhabricatorPolicyCapability::CAN_EDIT;
+          $needed_capabilities[] = PhorgePolicyCapability::CAN_EDIT;
         }
         break;
       case ConpherenceUpdateActions::ADD_PERSON:
-        $needed_capabilities[] = PhabricatorPolicyCapability::CAN_EDIT;
+        $needed_capabilities[] = PhorgePolicyCapability::CAN_EDIT;
         break;
       case ConpherenceUpdateActions::LOAD:
         break;
@@ -48,7 +48,7 @@ final class ConpherenceUpdateController
 
       switch ($action) {
         case ConpherenceUpdateActions::DRAFT:
-          $draft = PhabricatorDraft::newFromUserAndKey(
+          $draft = PhorgeDraft::newFromUserAndKey(
             $user,
             $conpherence->getPHID());
           $draft->setDraft($request->getStr('text'));
@@ -122,13 +122,13 @@ final class ConpherenceUpdateController
         try {
           $xactions = $editor->applyTransactions($conpherence, $xactions);
           if ($delete_draft) {
-            $draft = PhabricatorDraft::newFromUserAndKey(
+            $draft = PhorgeDraft::newFromUserAndKey(
               $user,
               $conpherence->getPHID());
             $draft->delete();
           }
-        } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-          return id(new PhabricatorApplicationTransactionNoEffectResponse())
+        } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+          return id(new PhorgeApplicationTransactionNoEffectResponse())
             ->setCancelURI($this->getApplicationURI($conpherence_id.'/'))
             ->setException($ex);
         }
@@ -204,7 +204,7 @@ final class ConpherenceUpdateController
         id(new AphrontFormTokenizerControl())
           ->setName('add_person')
           ->setUser($user)
-          ->setDatasource(new PhabricatorPeopleDatasource()));
+          ->setDatasource(new PhorgePeopleDatasource()));
 
     $view = id(new AphrontDialogView())
       ->setTitle(pht('Add Participants'))
@@ -225,7 +225,7 @@ final class ConpherenceUpdateController
     $remove_person = $request->getStr('remove_person');
     $participants = $conpherence->getParticipants();
 
-    $removed_user = id(new PhabricatorPeopleQuery())
+    $removed_user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($remove_person))
       ->executeOne();
@@ -238,10 +238,10 @@ final class ConpherenceUpdateController
 
     $test_conpherence = clone $conpherence;
     $test_conpherence->attachParticipants(array());
-    $still_visible = PhabricatorPolicyFilter::hasCapability(
+    $still_visible = PhorgePolicyFilter::hasCapability(
       $removed_user,
       $test_conpherence,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     $body = array();
 
@@ -334,7 +334,7 @@ final class ConpherenceUpdateController
       $data = ConpherenceTransactionRenderer::renderTransactions(
         $user,
         $conpherence);
-      $key = PhabricatorConpherenceColumnMinimizeSetting::SETTINGKEY;
+      $key = PhorgeConpherenceColumnMinimizeSetting::SETTINGKEY;
       $minimized = $user->getUserSetting($key);
       if (!$minimized) {
         $participant->markUpToDate($conpherence);
@@ -404,15 +404,15 @@ final class ConpherenceUpdateController
   }
 
   protected function getSoundForParticipant(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     ConpherenceParticipant $participant) {
 
-    $sound_key = PhabricatorConpherenceSoundSetting::SETTINGKEY;
+    $sound_key = PhorgeConpherenceSoundSetting::SETTINGKEY;
     $sound_default = $user->getUserSetting($sound_key);
 
     $settings = $participant->getSettings();
     $sounds = idx($settings, 'sounds', array());
-    $map = PhabricatorConpherenceSoundSetting::getDefaultSound($sound_default);
+    $map = PhorgeConpherenceSoundSetting::getDefaultSound($sound_default);
 
     $receive = idx($sounds,
       ConpherenceRoomSettings::SOUND_RECEIVE,

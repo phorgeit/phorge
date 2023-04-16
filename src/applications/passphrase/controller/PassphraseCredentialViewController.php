@@ -68,7 +68,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
     $date = phorge_datetime($credential->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
-    $person = id(new PhabricatorPeopleQuery())
+    $person = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($credential->getAuthorPHID()))
       ->needProfileImage(true)
@@ -114,17 +114,17 @@ final class PassphraseCredentialViewController extends PassphraseController {
       $credential_conduit_icon = 'fa-wrench';
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $credential,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $can_conduit = ($can_edit && !$is_locked);
 
     $curtain = $this->newCurtainView($credential);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Credential'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("edit/{$id}/"))
@@ -133,7 +133,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
 
     if (!$credential->getIsDestroyed()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Destroy Credential'))
           ->setIcon('fa-times')
           ->setHref($this->getApplicationURI("destroy/{$id}/"))
@@ -141,7 +141,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
           ->setWorkflow(true));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Show Secret'))
           ->setIcon('fa-eye')
           ->setHref($this->getApplicationURI("reveal/{$id}/"))
@@ -150,7 +150,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
 
       if ($type->hasPublicKey()) {
         $curtain->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Show Public Key'))
             ->setIcon('fa-download')
             ->setHref($this->getApplicationURI("public/{$id}/"))
@@ -158,7 +158,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
       }
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($credential_conduit_text)
           ->setIcon($credential_conduit_icon)
           ->setHref($this->getApplicationURI("conduit/{$id}/"))
@@ -166,7 +166,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
           ->setWorkflow(true));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($credential_lock_text)
           ->setIcon($credential_lock_icon)
           ->setHref($this->getApplicationURI("lock/{$id}/"))

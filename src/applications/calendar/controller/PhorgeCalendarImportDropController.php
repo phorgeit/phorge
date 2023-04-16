@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportDropController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarImportDropController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -14,7 +14,7 @@ final class PhabricatorCalendarImportDropController
 
     $ids = $request->getStrList('h');
     if ($ids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withIDs($ids)
         ->setRaisePolicyExceptions(true)
@@ -33,20 +33,20 @@ final class PhabricatorCalendarImportDropController
         ->addCancelButton($cancel_uri, pht('Done'));
     }
 
-    $engine = new PhabricatorCalendarICSFileImportEngine();
+    $engine = new PhorgeCalendarICSFileImportEngine();
     $imports = array();
     foreach ($files as $file) {
-      $import = PhabricatorCalendarImport::initializeNewCalendarImport(
+      $import = PhorgeCalendarImport::initializeNewCalendarImport(
         $viewer,
         clone $engine);
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorCalendarImportTransaction())
+      $xactions[] = id(new PhorgeCalendarImportTransaction())
         ->setTransactionType(
-          PhabricatorCalendarImportICSFileTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportICSFileTransaction::TRANSACTIONTYPE)
         ->setNewValue($file->getPHID());
 
-      $editor = id(new PhabricatorCalendarImportEditor())
+      $editor = id(new PhorgeCalendarImportEditor())
         ->setActor($viewer)
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true)
@@ -58,7 +58,7 @@ final class PhabricatorCalendarImportDropController
     }
 
     $import_phids = mpull($imports, 'getPHID');
-    $events = id(new PhabricatorCalendarEventQuery())
+    $events = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withImportSourcePHIDs($import_phids)
       ->execute();

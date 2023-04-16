@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailAmazonSESAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailAmazonSESAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'ses';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
     );
   }
 
@@ -34,7 +34,7 @@ final class PhabricatorMailAmazonSESAdapter
   /**
    * @phutil-external-symbol class PHPMailerLite
    */
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $root = phutil_get_library_root('phorge');
     $root = dirname($root);
     require_once $root.'/externals/phpmailer/class.phpmailer-lite.php';
@@ -63,7 +63,7 @@ final class PhabricatorMailAmazonSESAdapter
 
     $data = phutil_build_http_querystring($data);
 
-    $future = id(new PhabricatorAWSSESFuture())
+    $future = id(new PhorgeAWSSESFuture())
       ->setAccessKey($key)
       ->setSecretKey($secret)
       ->setRegion($region)

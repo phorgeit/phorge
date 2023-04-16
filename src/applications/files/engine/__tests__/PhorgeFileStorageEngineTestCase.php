@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorFileStorageEngineTestCase extends PhabricatorTestCase {
+final class PhorgeFileStorageEngineTestCase extends PhorgeTestCase {
 
   public function testLoadAllEngines() {
-    PhabricatorFileStorageEngine::loadAllEngines();
+    PhorgeFileStorageEngine::loadAllEngines();
     $this->assertTrue(true);
   }
 

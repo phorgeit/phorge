@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRemarkupCowsayBlockInterpreter
+final class PhorgeRemarkupCowsayBlockInterpreter
   extends PhutilRemarkupBlockInterpreter {
 
   public function getInterpreterName() {
@@ -41,7 +41,7 @@ final class PhabricatorRemarkupCowsayBlockInterpreter
     return phutil_tag(
       'div',
       array(
-        'class' => 'PhabricatorMonospaced remarkup-cowsay',
+        'class' => 'PhorgeMonospaced remarkup-cowsay',
       ),
       $result);
   }

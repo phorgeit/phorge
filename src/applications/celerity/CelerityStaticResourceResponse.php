@@ -363,15 +363,15 @@ final class CelerityStaticResourceResponse extends Phobject {
     // changes to Ajaxed-in CSS to work (you must clear your cache or rerun
     // the map script). In production, we can assume the map script gets run
     // after changes, and safely skip this.
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       $mtime = $map->getModifiedTimeForName($name);
       $uri = preg_replace('@^/res/@', '/res/'.$mtime.'T/', $uri);
     }
 
     if ($use_primary_domain) {
-      return PhabricatorEnv::getURI($uri);
+      return PhorgeEnv::getURI($uri);
     } else {
-      return PhabricatorEnv::getCDNURI($uri);
+      return PhorgeEnv::getCDNURI($uri);
     }
   }
 

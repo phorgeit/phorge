@@ -76,7 +76,7 @@ final class DrydockRepositoryOperationQuery extends DrydockQuery {
 
     $repository_phids = mpull($operations, 'getRepositoryPHID');
     if ($repository_phids) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($repository_phids)
@@ -102,7 +102,7 @@ final class DrydockRepositoryOperationQuery extends DrydockQuery {
   protected function didFilterPage(array $operations) {
     $object_phids = mpull($operations, 'getObjectPHID');
     if ($object_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($object_phids)

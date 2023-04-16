@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorSpacesNamespaceTransactionType
-  extends PhabricatorModularTransactionType {}
+abstract class PhorgeSpacesNamespaceTransactionType
+  extends PhorgeModularTransactionType {}

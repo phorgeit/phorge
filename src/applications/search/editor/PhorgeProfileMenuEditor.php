@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProfileMenuEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeProfileMenuEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -15,57 +15,57 @@ final class PhabricatorProfileMenuEditor
     $types = parent::getTransactionTypes();
 
     $types[] =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
     $types[] =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER;
     $types[] =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
         $key = $xaction->getMetadataValue('property.key');
         return $object->getMenuItemProperty($key, null);
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER:
         return $object->getMenuItemOrder();
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
         return $object->getVisibility();
     }
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
         return $xaction->getNewValue();
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER:
         return (int)$xaction->getNewValue();
     }
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
         $key = $xaction->getMetadataValue('property.key');
         $value = $xaction->getNewValue();
         $object->setMenuItemProperty($key, $value);
         return;
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER:
         $object->setMenuItemOrder($xaction->getNewValue());
         return;
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
         $object->setVisibility($xaction->getNewValue());
         return;
     }
@@ -74,13 +74,13 @@ final class PhabricatorProfileMenuEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER:
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY:
         return;
     }
 
@@ -88,7 +88,7 @@ final class PhabricatorProfileMenuEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -99,7 +99,7 @@ final class PhabricatorProfileMenuEditor
     $menu_item->setViewer($actor);
 
     switch ($type) {
-      case PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
+      case PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY:
         $key_map = array();
         foreach ($xactions as $xaction) {
           $xaction_key = $xaction->getMetadataValue('property.key');

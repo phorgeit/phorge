@@ -21,7 +21,7 @@ final class HarbormasterCircleCIBuildStepImplementation
 
   public function getEditInstructions() {
     $hook_uri = '/harbormaster/hook/circleci/';
-    $hook_uri = PhabricatorEnv::getProductionURI($hook_uri);
+    $hook_uri = PhorgeEnv::getProductionURI($hook_uri);
 
     return pht(<<<EOTEXT
 WARNING: This build step is new and experimental!
@@ -82,9 +82,9 @@ EOTEXT
   public function execute(
     HarbormasterBuild $build,
     HarbormasterBuildTarget $build_target) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->logSilencedCall($build, $build_target, pht('CircleCI'));
       throw new HarbormasterBuildFailureException();
     }

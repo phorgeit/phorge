@@ -1,6 +1,6 @@
 <?php
 
-abstract class DivinerWorkflow extends PhabricatorManagementWorkflow {
+abstract class DivinerWorkflow extends PhorgeManagementWorkflow {
 
   private $config;
   private $bookConfigPath;

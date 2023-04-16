@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorConfigPurgeCacheController
-  extends PhabricatorConfigController {
+final class PhorgeConfigPurgeCacheController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $cancel_uri = $this->getApplicationURI('cache/');
 
-    $opcode_cache = PhabricatorOpcodeCacheSpec::getActiveCacheSpec();
-    $data_cache = PhabricatorDataCacheSpec::getActiveCacheSpec();
+    $opcode_cache = PhorgeOpcodeCacheSpec::getActiveCacheSpec();
+    $data_cache = PhorgeDataCacheSpec::getActiveCacheSpec();
 
     $opcode_clearable = $opcode_cache->getClearCacheCallback();
     $data_clearable = $data_cache->getClearCacheCallback();

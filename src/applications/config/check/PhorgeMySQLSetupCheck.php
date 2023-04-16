@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeMySQLSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_MYSQL;
   }
 
   protected function executeChecks() {
-    $refs = PhabricatorDatabaseRef::getActiveDatabaseRefs();
+    $refs = PhorgeDatabaseRef::getActiveDatabaseRefs();
     foreach ($refs as $ref) {
       try {
         $this->executeRefChecks($ref);
@@ -19,7 +19,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     }
   }
 
-  private function executeRefChecks(PhabricatorDatabaseRef $ref) {
+  private function executeRefChecks(PhorgeDatabaseRef $ref) {
     $max_allowed_packet = $ref->loadRawMySQLConfigValue('max_allowed_packet');
 
     $host_name = $ref->getRefKey();
@@ -104,7 +104,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     $is_innodb_fulltext = false;
     $is_myisam_fulltext = false;
     if ($this->shouldUseMySQLSearchEngine()) {
-      if (PhabricatorSearchDocument::isInnoDBFulltextEngineAvailable()) {
+      if (PhorgeSearchDocument::isInnoDBFulltextEngineAvailable()) {
         $is_innodb_fulltext = true;
       } else {
         $is_myisam_fulltext = true;
@@ -142,7 +142,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
         $stopword_path = $root.'/resources/sql/stopwords.txt';
         $stopword_path = Filesystem::resolvePath($stopword_path);
 
-        $namespace = PhabricatorEnv::getEnvConfig('storage.default-namespace');
+        $namespace = PhorgeEnv::getEnvConfig('storage.default-namespace');
 
         $summary = pht(
           'MySQL (on host "%s") is using a default stopword file, which '.
@@ -193,7 +193,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     if ($is_myisam_fulltext) {
       $min_len = $ref->loadRawMySQLConfigValue('ft_min_word_len');
       if ($min_len >= 4) {
-        $namespace = PhabricatorEnv::getEnvConfig('storage.default-namespace');
+        $namespace = PhorgeEnv::getEnvConfig('storage.default-namespace');
 
         $summary = pht(
           'MySQL is configured (on host "%s") to only index words with at '.
@@ -305,7 +305,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
 
     $conn = $ref->newManagementConnection();
 
-    $ok = PhabricatorStorageManagementAPI::isCharacterSetAvailableOnConnection(
+    $ok = PhorgeStorageManagementAPI::isCharacterSetAvailableOnConnection(
       'utf8mb4',
       $conn);
     if (!$ok) {
@@ -334,7 +334,7 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
       'SELECT UNIX_TIMESTAMP() epoch');
 
     $epoch = (int)$info['epoch'];
-    $local = PhabricatorTime::getNow();
+    $local = PhorgeTime::getNow();
     $delta = (int)abs($local - $epoch);
     if ($delta > 60) {
       $this->newIssue('mysql.clock')
@@ -387,9 +387,9 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
   }
 
   protected function shouldUseMySQLSearchEngine() {
-    $services = PhabricatorSearchService::getAllServices();
+    $services = PhorgeSearchService::getAllServices();
     foreach ($services as $service) {
-      if ($service instanceof PhabricatorMySQLSearchHost) {
+      if ($service instanceof PhorgeMySQLSearchHost) {
         return true;
       }
     }

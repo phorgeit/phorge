@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFlagColor extends PhabricatorFlagConstants {
+final class PhorgeFlagColor extends PhorgeFlagConstants {
 
   const COLOR_RED       = 0;
   const COLOR_ORANGE    = 1;

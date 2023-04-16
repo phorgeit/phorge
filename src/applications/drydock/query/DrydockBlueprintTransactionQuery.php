@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new DrydockBlueprintTransaction();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryPullEventPHIDType extends PhabricatorPHIDType {
+final class PhorgeRepositoryPullEventPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PULE';
 
@@ -9,23 +9,23 @@ final class PhabricatorRepositoryPullEventPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorRepositoryPullEvent();
+    return new PhorgeRepositoryPullEvent();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositoryPullEventQuery())
+    return id(new PhorgeRepositoryPullEventQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,6 +1,6 @@
 <?php
 
-$conn_w = id(new PhabricatorMetaMTAMail())->establishConnection('w');
+$conn_w = id(new PhorgeMetaMTAMail())->establishConnection('w');
 $lists = new LiskRawMigrationIterator($conn_w, 'metamta_mailinglist');
 
 echo pht('Migrating mailing lists...')."\n";
@@ -27,8 +27,8 @@ foreach ($lists as $list) {
       $effective_username = $username.$suffix;
     }
 
-    $collision = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $collision = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUsernames(array($effective_username))
       ->executeOne();
     if (!$collision) {
@@ -46,7 +46,7 @@ foreach ($lists as $list) {
   }
 
   $username = $effective_username;
-  if (!PhabricatorUser::validateUsername($username)) {
+  if (!PhorgeUser::validateUsername($username)) {
     echo pht(
       'Failed to migrate mailing list "%s": unable to generate a valid '.
       'username for it.',
@@ -54,7 +54,7 @@ foreach ($lists as $list) {
     continue;
   }
 
-  $address = id(new PhabricatorUserEmail())->loadOneWhere(
+  $address = id(new PhorgeUserEmail())->loadOneWhere(
     'address = %s',
     $email);
   if ($address) {
@@ -66,18 +66,18 @@ foreach ($lists as $list) {
     continue;
   }
 
-  $user = id(new PhabricatorUser())
+  $user = id(new PhorgeUser())
     ->setUsername($username)
     ->setRealName(pht('Mailing List "%s"', $name))
     ->setIsApproved(1)
     ->setIsMailingList(1);
 
-  $email_object = id(new PhabricatorUserEmail())
+  $email_object = id(new PhorgeUserEmail())
     ->setAddress($email)
     ->setIsVerified(1);
 
   try {
-    id(new PhabricatorUserEditor())
+    id(new PhorgeUserEditor())
       ->setActor($user)
       ->createNewUser($user, $email_object);
   } catch (Exception $ex) {
@@ -93,10 +93,10 @@ foreach ($lists as $list) {
   // NOTE: After the PHID type is removed we can't use any Edge code to
   // modify edges.
 
-  $edge_type = PhabricatorSubscribedToObjectEdgeType::EDGECONST;
-  $edge_inverse = PhabricatorObjectHasSubscriberEdgeType::EDGECONST;
+  $edge_type = PhorgeSubscribedToObjectEdgeType::EDGECONST;
+  $edge_inverse = PhorgeObjectHasSubscriberEdgeType::EDGECONST;
 
-  $map = PhabricatorPHIDType::getAllTypes();
+  $map = PhorgePHIDType::getAllTypes();
   foreach ($map as $type => $spec) {
     try {
       $object = $spec->newObject();
@@ -107,7 +107,7 @@ foreach ($lists as $list) {
       queryfx(
         $object_conn_w,
         'UPDATE %T SET dst = %s WHERE dst = %s AND type = %s',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         $new_phid,
         $old_phid,
         $edge_inverse);
@@ -121,11 +121,11 @@ foreach ($lists as $list) {
     $dst_phids = queryfx_all(
       $conn_w,
       'SELECT dst FROM %T WHERE src = %s AND type = %s',
-      PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+      PhorgeEdgeConfig::TABLE_NAME_EDGE,
       $old_phid,
       $edge_type);
     if ($dst_phids) {
-      $editor = new PhabricatorEdgeEditor();
+      $editor = new PhorgeEdgeEditor();
       foreach ($dst_phids as $dst_phid) {
         $editor->addEdge($new_phid, $edge_type, $dst_phid['dst']);
       }

@@ -27,7 +27,7 @@ final class ManiphestTaskAssignOtherHeraldAction
   }
 
   public function renderActionDescription($value) {
-    if (head($value) === PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN) {
+    if (head($value) === PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN) {
       return pht('Unassign task.');
     } else {
       return pht('Assign task to: %s.', $this->renderHandleList($value));

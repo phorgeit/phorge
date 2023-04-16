@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBuiltinPatchList extends PhabricatorSQLPatchList {
+final class PhorgeBuiltinPatchList extends PhorgeSQLPatchList {
 
   public function getNamespace() {
     return 'phorge';

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDraft extends PhabricatorDraftDAO {
+final class PhorgeDraft extends PhorgeDraftDAO {
 
   protected $authorPHID;
   protected $draftKey;
@@ -49,9 +49,9 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
     return $this->deleted;
   }
 
-  public static function newFromUserAndKey(PhabricatorUser $user, $key) {
+  public static function newFromUserAndKey(PhorgeUser $user, $key) {
     if ($user->getPHID() && strlen($key)) {
-      $draft = id(new PhabricatorDraft())->loadOneWhere(
+      $draft = id(new PhorgeDraft())->loadOneWhere(
         'authorPHID = %s AND draftKey = %s',
         $user->getPHID(),
         $key);
@@ -60,7 +60,7 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
       }
     }
 
-    $draft = new PhabricatorDraft();
+    $draft = new PhorgeDraft();
     if ($user->getPHID()) {
       $draft
         ->setAuthorPHID($user->getPHID())
@@ -80,7 +80,7 @@ final class PhabricatorDraft extends PhabricatorDraftDAO {
       return null;
     }
 
-    $draft = id(new PhabricatorDraft())
+    $draft = id(new PhorgeDraft())
       ->setAuthorPHID($user->getPHID())
       ->setDraftKey($request->getStr('__draft__'));
 

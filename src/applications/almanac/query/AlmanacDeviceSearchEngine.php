@@ -1,14 +1,14 @@
 <?php
 
 final class AlmanacDeviceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Almanac Devices');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function newQuery() {
@@ -20,20 +20,20 @@ final class AlmanacDeviceSearchEngine
     $status_options = mpull($status_options, 'getName');
 
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for devices by name substring.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Exact Names'))
         ->setKey('names')
         ->setDescription(pht('Search for devices with specific names.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setDescription(pht('Search for devices with given statuses.'))
         ->setOptions($status_options),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Cluster Device'))
         ->setKey('isClusterDevice')
         ->setOptions(
@@ -95,7 +95,7 @@ final class AlmanacDeviceSearchEngine
 
   protected function renderResultList(
     array $devices,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($devices, 'AlmanacDevice');
 
@@ -130,7 +130,7 @@ final class AlmanacDeviceSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No Almanac Devices found.'));
 

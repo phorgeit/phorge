@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSpacesNamespaceTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeSpacesNamespaceTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorSpacesNamespaceTransaction();
+    return new PhorgeSpacesNamespaceTransaction();
   }
 
 }

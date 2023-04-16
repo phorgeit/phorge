@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadDocumentQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -127,7 +127,7 @@ final class LegalpadDocumentQuery
         $conn,
         'JOIN edge contributor ON contributor.src = d.phid
           AND contributor.type = %d',
-        PhabricatorObjectHasContributorEdgeType::EDGECONST);
+        PhorgeObjectHasContributorEdgeType::EDGECONST);
     }
 
     if ($this->signerPHIDs !== null) {
@@ -226,8 +226,8 @@ final class LegalpadDocumentQuery
 
   private function loadContributors(array $documents) {
     $document_map = mpull($documents, null, 'getPHID');
-    $edge_type = PhabricatorObjectHasContributorEdgeType::EDGECONST;
-    $contributor_data = id(new PhabricatorEdgeQuery())
+    $edge_type = PhorgeObjectHasContributorEdgeType::EDGECONST;
+    $contributor_data = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array_keys($document_map))
       ->withEdgeTypes(array($edge_type))
       ->execute();
@@ -259,7 +259,7 @@ final class LegalpadDocumentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   protected function getPrimaryTableAlias() {

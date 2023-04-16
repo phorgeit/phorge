@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorGuidanceEngineExtension
+abstract class PhorgeGuidanceEngineExtension
   extends Phobject {
 
   final public function getExtensionKey() {
@@ -8,25 +8,25 @@ abstract class PhabricatorGuidanceEngineExtension
   }
 
   abstract public function canGenerateGuidance(
-    PhabricatorGuidanceContext $context);
+    PhorgeGuidanceContext $context);
 
   abstract public function generateGuidance(
-    PhabricatorGuidanceContext $context);
+    PhorgeGuidanceContext $context);
 
   public function didGenerateGuidance(
-    PhabricatorGuidanceContext $context,
+    PhorgeGuidanceContext $context,
     array $guidance) {
     return $guidance;
   }
 
   final protected function newGuidance($key) {
-    return id(new PhabricatorGuidanceMessage())
+    return id(new PhorgeGuidanceMessage())
       ->setKey($key);
   }
 
   final protected function newWarning($key) {
     return $this->newGuidance($key)
-      ->setSeverity(PhabricatorGuidanceMessage::SEVERITY_WARNING);
+      ->setSeverity(PhorgeGuidanceMessage::SEVERITY_WARNING);
   }
 
   final public static function getAllExtensions() {

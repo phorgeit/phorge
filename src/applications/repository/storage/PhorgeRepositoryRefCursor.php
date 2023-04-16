@@ -5,9 +5,9 @@
  * out how a repository has changed when we discover new commits or branch
  * heads.
  */
-final class PhabricatorRepositoryRefCursor
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryRefCursor
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   const TYPE_BRANCH = 'branch';
   const TYPE_TAG = 'tag';
@@ -47,8 +47,8 @@ final class PhabricatorRepositoryRefCursor
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryRefCursorPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryRefCursorPHIDType::TYPECONST);
   }
 
   public function getRefName() {
@@ -59,13 +59,13 @@ final class PhabricatorRepositoryRefCursor
 
   public function setRefName($ref_raw) {
     $this->setRefNameRaw($ref_raw);
-    $this->setRefNameHash(PhabricatorHash::digestForIndex($ref_raw));
+    $this->setRefNameHash(PhorgeHash::digestForIndex($ref_raw));
     $this->setRefNameEncoding($this->detectEncodingForStorage($ref_raw));
 
     return $this;
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -75,7 +75,7 @@ final class PhabricatorRepositoryRefCursor
   }
 
   public function attachPositions(array $positions) {
-    assert_instances_of($positions, 'PhabricatorRepositoryRefPosition');
+    assert_instances_of($positions, 'PhorgeRepositoryRefPosition');
     $this->positions = $positions;
     return $this;
   }
@@ -95,12 +95,12 @@ final class PhabricatorRepositoryRefCursor
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -108,7 +108,7 @@ final class PhabricatorRepositoryRefCursor
     return $this->getRepository()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getRepository()->hasAutomaticCapability($capability, $viewer);
   }
 

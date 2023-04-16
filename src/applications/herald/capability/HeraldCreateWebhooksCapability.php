@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldCreateWebhooksCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'herald.webhooks';
 

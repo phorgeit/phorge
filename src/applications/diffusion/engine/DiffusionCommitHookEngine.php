@@ -34,7 +34,7 @@ final class DiffusionCommitHookEngine extends Phobject {
   private $startTime;
 
   private $heraldViewerProjects;
-  private $rejectCode = PhabricatorRepositoryPushLog::REJECT_BROKEN;
+  private $rejectCode = PhorgeRepositoryPushLog::REJECT_BROKEN;
   private $rejectDetails;
   private $emailPHIDs = array();
   private $changesets = array();
@@ -105,7 +105,7 @@ final class DiffusionCommitHookEngine extends Phobject {
     return $this->originalArgv;
   }
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -114,7 +114,7 @@ final class DiffusionCommitHookEngine extends Phobject {
     return $this->repository;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -148,7 +148,7 @@ final class DiffusionCommitHookEngine extends Phobject {
       } catch (DiffusionCommitHookRejectException $ex) {
         // If we're rejecting dangerous changes, flag everything that we've
         // seen as rejected so it's clear that none of it was accepted.
-        $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_DANGEROUS;
+        $this->rejectCode = PhorgeRepositoryPushLog::REJECT_DANGEROUS;
         throw $ex;
       }
 
@@ -171,7 +171,7 @@ final class DiffusionCommitHookEngine extends Phobject {
         }
       } catch (DiffusionCommitHookRejectException $ex) {
         // If we're rejecting oversized files, flag everything.
-        $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_OVERSIZED;
+        $this->rejectCode = PhorgeRepositoryPushLog::REJECT_OVERSIZED;
         throw $ex;
       }
 
@@ -180,7 +180,7 @@ final class DiffusionCommitHookEngine extends Phobject {
           $this->rejectCommitsAffectingTooManyPaths($content_updates);
         }
       } catch (DiffusionCommitHookRejectException $ex) {
-        $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_TOUCHES;
+        $this->rejectCode = PhorgeRepositoryPushLog::REJECT_TOUCHES;
         throw $ex;
       }
 
@@ -190,7 +190,7 @@ final class DiffusionCommitHookEngine extends Phobject {
         }
       } catch (DiffusionCommitHookRejectException $ex) {
         // If we're rejecting enormous changes, flag everything.
-        $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_ENORMOUS;
+        $this->rejectCode = PhorgeRepositoryPushLog::REJECT_ENORMOUS;
         throw $ex;
       }
 
@@ -203,7 +203,7 @@ final class DiffusionCommitHookEngine extends Phobject {
 
       // If we make it this far, we're accepting these changes. Mark all the
       // logs as accepted.
-      $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_ACCEPT;
+      $this->rejectCode = PhorgeRepositoryPushLog::REJECT_ACCEPT;
     } catch (Exception $ex) {
       // We'll throw this again in a minute, but we want to save all the logs
       // first.
@@ -238,15 +238,15 @@ final class DiffusionCommitHookEngine extends Phobject {
       // (We do need to pull some commit info here because the commit objects
       // may not exist yet when this worker runs, which could be immediately.)
 
-      PhabricatorWorker::scheduleTask(
-        'PhabricatorRepositoryPushMailWorker',
+      PhorgeWorker::scheduleTask(
+        'PhorgeRepositoryPushMailWorker',
         array(
           'eventPHID' => $event->getPHID(),
           'emailPHIDs' => array_values($this->emailPHIDs),
           'info' => $this->loadCommitInfoForWorker($all_updates),
         ),
         array(
-          'priority' => PhabricatorWorker::PRIORITY_ALERTS,
+          'priority' => PhorgeWorker::PRIORITY_ALERTS,
         ));
     }
 
@@ -256,11 +256,11 @@ final class DiffusionCommitHookEngine extends Phobject {
   private function findRefUpdates() {
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         return $this->findGitRefUpdates();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         return $this->findMercurialRefUpdates();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         return $this->findSubversionRefUpdates();
       default:
         throw new Exception(pht('Unsupported repository type "%s"!', $type));
@@ -268,14 +268,14 @@ final class DiffusionCommitHookEngine extends Phobject {
   }
 
   private function rejectDangerousChanges(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, 'PhorgeRepositoryPushLog');
 
     $repository = $this->getRepository();
     if ($repository->shouldAllowDangerousChanges()) {
       return;
     }
 
-    $flag_dangerous = PhabricatorRepositoryPushLog::CHANGEFLAG_DANGEROUS;
+    $flag_dangerous = PhorgeRepositoryPushLog::CHANGEFLAG_DANGEROUS;
 
     foreach ($ref_updates as $ref_update) {
       if (!$ref_update->hasChangeFlags($flag_dangerous)) {
@@ -297,15 +297,15 @@ final class DiffusionCommitHookEngine extends Phobject {
   }
 
   private function findContentUpdates(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, 'PhorgeRepositoryPushLog');
 
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         return $this->findGitContentUpdates($ref_updates);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         return $this->findMercurialContentUpdates($ref_updates);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         return $this->findSubversionContentUpdates($ref_updates);
       default:
         throw new Exception(pht('Unsupported repository type "%s"!', $type));
@@ -380,7 +380,7 @@ final class DiffusionCommitHookEngine extends Phobject {
     if ($blocking_effect) {
       $rule = $blocking_effect->getRule();
 
-      $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_HERALD;
+      $this->rejectCode = PhorgeRepositoryPushLog::REJECT_HERALD;
       $this->rejectDetails = $rule->getPHID();
 
       $message = $blocking_effect->getTarget();
@@ -404,7 +404,7 @@ final class DiffusionCommitHookEngine extends Phobject {
           $blocked_name,
           $rule->getName(),
           $message,
-          PhabricatorEnv::getProductionURI(
+          PhorgeEnv::getProductionURI(
             '/herald/transcript/'.$blocking_xscript->getID().'/')));
     }
   }
@@ -413,7 +413,7 @@ final class DiffusionCommitHookEngine extends Phobject {
     // This just caches the viewer's projects so we don't need to load them
     // over and over again when applying Herald rules.
     if ($this->heraldViewerProjects === null) {
-      $this->heraldViewerProjects = id(new PhabricatorProjectQuery())
+      $this->heraldViewerProjects = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withMemberPHIDs(array($this->getViewer()->getPHID()))
         ->execute();
@@ -447,13 +447,13 @@ final class DiffusionCommitHookEngine extends Phobject {
       $ref_raw = $parts[2];
 
       if (preg_match('(^refs/heads/)', $ref_raw)) {
-        $ref_type = PhabricatorRepositoryPushLog::REFTYPE_BRANCH;
+        $ref_type = PhorgeRepositoryPushLog::REFTYPE_BRANCH;
         $ref_raw = substr($ref_raw, strlen('refs/heads/'));
       } else if (preg_match('(^refs/tags/)', $ref_raw)) {
-        $ref_type = PhabricatorRepositoryPushLog::REFTYPE_TAG;
+        $ref_type = PhorgeRepositoryPushLog::REFTYPE_TAG;
         $ref_raw = substr($ref_raw, strlen('refs/tags/'));
       } else {
-        $ref_type = PhabricatorRepositoryPushLog::REFTYPE_REF;
+        $ref_type = PhorgeRepositoryPushLog::REFTYPE_REF;
       }
 
       $ref_update = $this->newPushLog()
@@ -473,7 +473,7 @@ final class DiffusionCommitHookEngine extends Phobject {
 
 
   private function findGitMergeBases(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, 'PhorgeRepositoryPushLog');
 
     $futures = array();
     foreach ($ref_updates as $key => $ref_update) {
@@ -524,7 +524,7 @@ final class DiffusionCommitHookEngine extends Phobject {
 
 
   private function findGitChangeFlags(array $ref_updates) {
-    assert_instances_of($ref_updates, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($ref_updates, 'PhorgeRepositoryPushLog');
 
     foreach ($ref_updates as $key => $ref_update) {
       $ref_old = $ref_update->getRefOld();
@@ -538,13 +538,13 @@ final class DiffusionCommitHookEngine extends Phobject {
         // This happens if you try to delete a tag or branch which does not
         // exist by pushing directly to the ref. Git will warn about it but
         // allow it. Just call it a delete, without flagging it as dangerous.
-        $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE;
+        $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DELETE;
       } else if ($ref_old === self::EMPTY_HASH) {
-        $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_ADD;
+        $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_ADD;
       } else if ($ref_new === self::EMPTY_HASH) {
-        $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE;
-        if ($ref_type == PhabricatorRepositoryPushLog::REFTYPE_BRANCH) {
-          $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DANGEROUS;
+        $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DELETE;
+        if ($ref_type == PhorgeRepositoryPushLog::REFTYPE_BRANCH) {
+          $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DANGEROUS;
           $dangerous = pht(
             "The change you're attempting to push deletes the branch '%s'.",
             $ref_update->getRefName());
@@ -554,17 +554,17 @@ final class DiffusionCommitHookEngine extends Phobject {
         if ($merge_base == $ref_old) {
           // This is a fast-forward update to an existing branch.
           // These are safe.
-          $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_APPEND;
+          $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_APPEND;
         } else {
-          $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_REWRITE;
+          $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_REWRITE;
 
           // For now, we don't consider deleting or moving tags to be a
           // "dangerous" update. It's way harder to get wrong and should be easy
           // to recover from once we have better logging. Only add the dangerous
           // flag if this ref is a branch.
 
-          if ($ref_type == PhabricatorRepositoryPushLog::REFTYPE_BRANCH) {
-            $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DANGEROUS;
+          if ($ref_type == PhorgeRepositoryPushLog::REFTYPE_BRANCH) {
+            $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DANGEROUS;
 
             $dangerous = pht(
               "The change you're attempting to push updates the branch '%s' ".
@@ -588,7 +588,7 @@ final class DiffusionCommitHookEngine extends Phobject {
 
 
   private function findGitContentUpdates(array $ref_updates) {
-    $flag_delete = PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE;
+    $flag_delete = PhorgeRepositoryPushLog::CHANGEFLAG_DELETE;
 
     $futures = array();
     foreach ($ref_updates as $key => $ref_update) {
@@ -626,7 +626,7 @@ final class DiffusionCommitHookEngine extends Phobject {
       // since any other branch heads are necessarily behind them.
       $branch_name = null;
       $ref_update = $ref_updates[$key];
-      $type_branch = PhabricatorRepositoryPushLog::REFTYPE_BRANCH;
+      $type_branch = PhorgeRepositoryPushLog::REFTYPE_BRANCH;
       if ($ref_update->getRefType() == $type_branch) {
         $branch_name = $ref_update->getRefName();
       }
@@ -636,9 +636,9 @@ final class DiffusionCommitHookEngine extends Phobject {
           $this->gitCommits[$commit][] = $branch_name;
         }
         $content_updates[$commit] = $this->newPushLog()
-          ->setRefType(PhabricatorRepositoryPushLog::REFTYPE_COMMIT)
+          ->setRefType(PhorgeRepositoryPushLog::REFTYPE_COMMIT)
           ->setRefNew($commit)
-          ->setChangeFlags(PhabricatorRepositoryPushLog::CHANGEFLAG_ADD);
+          ->setChangeFlags(PhorgeRepositoryPushLog::CHANGEFLAG_ADD);
       }
     }
 
@@ -684,7 +684,7 @@ final class DiffusionCommitHookEngine extends Phobject {
           continue;
         }
 
-        $this->rejectCode = PhabricatorRepositoryPushLog::REJECT_EXTERNAL;
+        $this->rejectCode = PhorgeRepositoryPushLog::REJECT_EXTERNAL;
         $this->rejectDetails = basename($hook);
 
         throw new DiffusionCommitHookRejectException(
@@ -884,9 +884,9 @@ final class DiffusionCommitHookEngine extends Phobject {
           $ref_flags = 0;
           $dangerous = null;
           if ($old_head == self::EMPTY_HASH) {
-            $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_ADD;
+            $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_ADD;
           } else {
-            $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_APPEND;
+            $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_APPEND;
           }
 
 
@@ -901,7 +901,7 @@ final class DiffusionCommitHookEngine extends Phobject {
               $readable_child_heads[] = substr($child_head, 0, 12);
             }
 
-            $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DANGEROUS;
+            $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DANGEROUS;
 
             if ($splits_existing_head) {
               // We're splitting an existing head into two or more heads.
@@ -937,11 +937,11 @@ final class DiffusionCommitHookEngine extends Phobject {
             // Mercurial does not prompt you for any special flags when pushing
             // a `--close-branch` commit by default.
 
-            $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE;
+            $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DELETE;
           }
 
           $ref_update = $this->newPushLog()
-            ->setRefType(PhabricatorRepositoryPushLog::REFTYPE_BRANCH)
+            ->setRefType(PhorgeRepositoryPushLog::REFTYPE_BRANCH)
             ->setRefName($ref)
             ->setRefOld($old_head)
             ->setRefNew($new_head)
@@ -1001,9 +1001,9 @@ final class DiffusionCommitHookEngine extends Phobject {
     $ref_flags = 0;
     $merge_base = null;
     if ($key_old === null) {
-      $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_ADD;
+      $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_ADD;
     } else if ($key_new === null) {
-      $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE;
+      $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_DELETE;
     } else {
       list($merge_base_raw) = $this->getRepository()->execxLocalCommand(
         'log --template %s --rev %s',
@@ -1015,14 +1015,14 @@ final class DiffusionCommitHookEngine extends Phobject {
       }
 
       if ($merge_base && ($merge_base === $key_old)) {
-        $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_APPEND;
+        $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_APPEND;
       } else {
-        $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_REWRITE;
+        $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_REWRITE;
       }
     }
 
     $ref_update = $this->newPushLog()
-      ->setRefType(PhabricatorRepositoryPushLog::REFTYPE_BOOKMARK)
+      ->setRefType(PhorgeRepositoryPushLog::REFTYPE_BOOKMARK)
       ->setRefName($key_name)
       ->setRefOld(coalesce($key_old, self::EMPTY_HASH))
       ->setRefNew(coalesce($key_new, self::EMPTY_HASH))
@@ -1036,9 +1036,9 @@ final class DiffusionCommitHookEngine extends Phobject {
 
     foreach ($this->mercurialCommits as $commit => $branches) {
       $content_updates[$commit] = $this->newPushLog()
-        ->setRefType(PhabricatorRepositoryPushLog::REFTYPE_COMMIT)
+        ->setRefType(PhorgeRepositoryPushLog::REFTYPE_COMMIT)
         ->setRefNew($commit)
-        ->setChangeFlags(PhabricatorRepositoryPushLog::CHANGEFLAG_ADD);
+        ->setChangeFlags(PhorgeRepositoryPushLog::CHANGEFLAG_ADD);
     }
 
     return $content_updates;
@@ -1085,11 +1085,11 @@ final class DiffusionCommitHookEngine extends Phobject {
     $ref_new = (int)$youngest + 1;
 
     $ref_flags = 0;
-    $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_ADD;
-    $ref_flags |= PhabricatorRepositoryPushLog::CHANGEFLAG_APPEND;
+    $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_ADD;
+    $ref_flags |= PhorgeRepositoryPushLog::CHANGEFLAG_APPEND;
 
     $ref_content = $this->newPushLog()
-      ->setRefType(PhabricatorRepositoryPushLog::REFTYPE_COMMIT)
+      ->setRefType(PhorgeRepositoryPushLog::REFTYPE_COMMIT)
       ->setRefNew($ref_new)
       ->setChangeFlags($ref_flags);
 
@@ -1103,7 +1103,7 @@ final class DiffusionCommitHookEngine extends Phobject {
   private function newPushLog() {
     // NOTE: We generate PHIDs up front so the Herald transcripts can pick them
     // up.
-    $phid = id(new PhabricatorRepositoryPushLog())->generatePHID();
+    $phid = id(new PhorgeRepositoryPushLog())->generatePHID();
 
     $device = AlmanacKeys::getLiveDevice();
     if ($device) {
@@ -1112,12 +1112,12 @@ final class DiffusionCommitHookEngine extends Phobject {
       $device_phid = null;
     }
 
-    return PhabricatorRepositoryPushLog::initializeNewLog($this->getViewer())
+    return PhorgeRepositoryPushLog::initializeNewLog($this->getViewer())
       ->setPHID($phid)
       ->setDevicePHID($device_phid)
       ->setRepositoryPHID($this->getRepository()->getPHID())
       ->attachRepository($this->getRepository())
-      ->setEpoch(PhabricatorTime::getNow());
+      ->setEpoch(PhorgeTime::getNow());
   }
 
   private function newPushEvent() {
@@ -1125,11 +1125,11 @@ final class DiffusionCommitHookEngine extends Phobject {
 
     $hook_start = $this->getStartTime();
 
-    $event = PhabricatorRepositoryPushEvent::initializeNewEvent($viewer)
+    $event = PhorgeRepositoryPushEvent::initializeNewEvent($viewer)
       ->setRepositoryPHID($this->getRepository()->getPHID())
       ->setRemoteAddress($this->getRemoteAddress())
       ->setRemoteProtocol($this->getRemoteProtocol())
-      ->setEpoch(PhabricatorTime::getNow())
+      ->setEpoch(PhorgeTime::getNow())
       ->setHookWait(phutil_microseconds_since($hook_start));
 
     $identifier = $this->getRequestIdentifier();
@@ -1187,8 +1187,8 @@ final class DiffusionCommitHookEngine extends Phobject {
 
     $vcs = $this->getRepository()->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         // For git and hg, we can use normal commands.
         $drequest = DiffusionRequest::newFromDictionary(
           array(
@@ -1203,7 +1203,7 @@ final class DiffusionCommitHookEngine extends Phobject {
           ->setLinesOfContext(0)
           ->executeInline();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // TODO: This diff has 3 lines of context, which produces slightly
         // incorrect "added file content" and "removed file content" results.
         // This may also choke on binaries, but "svnlook diff" does not support
@@ -1356,13 +1356,13 @@ final class DiffusionCommitHookEngine extends Phobject {
     $repository = $this->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         return id(new DiffusionLowLevelCommitQuery())
           ->setRepository($repository)
           ->withIdentifier($identifier)
           ->execute();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // For subversion, we need to use `svnlook`.
         list($message) = execx(
           'svnlook log -t %s %s',
@@ -1381,21 +1381,21 @@ final class DiffusionCommitHookEngine extends Phobject {
     $repository = $this->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         return idx($this->gitCommits, $identifier, array());
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         // NOTE: This will be "the branch the commit was made to", not
         // "a list of all branch heads which descend from the commit".
         // This is consistent with Mercurial, but possibly confusing.
         return idx($this->mercurialCommits, $identifier, array());
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // Subversion doesn't have branches.
         return array();
     }
   }
 
   private function loadCommitInfoForWorker(array $all_updates) {
-    $type_commit = PhabricatorRepositoryPushLog::REFTYPE_COMMIT;
+    $type_commit = PhorgeRepositoryPushLog::REFTYPE_COMMIT;
 
     $map = array();
     foreach ($all_updates as $update) {
@@ -1421,7 +1421,7 @@ final class DiffusionCommitHookEngine extends Phobject {
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // There is no meaningful way to import history into Subversion by
         // pushing.
         return false;
@@ -1442,7 +1442,7 @@ final class DiffusionCommitHookEngine extends Phobject {
     // heuristic might be good enough.
 
     $commit_count = 0;
-    $type_commit = PhabricatorRepositoryPushLog::REFTYPE_COMMIT;
+    $type_commit = PhorgeRepositoryPushLog::REFTYPE_COMMIT;
     foreach ($all_updates as $update) {
       if ($update->getRefType() != $type_commit) {
         continue;
@@ -1450,7 +1450,7 @@ final class DiffusionCommitHookEngine extends Phobject {
       $commit_count++;
     }
 
-    if ($commit_count <= PhabricatorRepository::IMPORT_THRESHOLD) {
+    if ($commit_count <= PhorgeRepository::IMPORT_THRESHOLD) {
       // If this pushes a very small number of commits, assume it's an
       // initial commit or stack of a few initial commits.
       return false;

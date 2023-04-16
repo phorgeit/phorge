@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanEditAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'harbormaster.buildplan.edit';

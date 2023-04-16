@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactObjectDimension
-  extends PhabricatorFactDimension {
+final class PhorgeFactObjectDimension
+  extends PhorgeFactDimension {
 
   protected $objectPHID;
 

@@ -30,7 +30,7 @@ final class ManiphestStatusSearchConduitAPIMethod
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $config = PhabricatorEnv::getEnvConfig('maniphest.statuses');
+    $config = PhorgeEnv::getEnvConfig('maniphest.statuses');
     $results = array();
     foreach ($config as $code => $status) {
       $stripped_status = array(

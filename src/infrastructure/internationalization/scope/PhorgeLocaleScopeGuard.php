@@ -3,10 +3,10 @@
 /**
  * Change the effective locale for the lifetime of this guard.
  *
- * Use @{method:PhabricatorEnv::beginScopedLocale} to acquire a guard.
+ * Use @{method:PhorgeEnv::beginScopedLocale} to acquire a guard.
  * Guards are released when they exit scope.
  */
-final class PhabricatorLocaleScopeGuard
+final class PhorgeLocaleScopeGuard
   extends Phobject {
 
   private static $stack = array();
@@ -17,7 +17,7 @@ final class PhabricatorLocaleScopeGuard
     // If this is the first time we're building a guard, push the default
     // locale onto the bottom of the stack. We'll never remove it.
     if (empty(self::$stack)) {
-      self::$stack[] = PhabricatorEnv::getLocaleCode();
+      self::$stack[] = PhorgeEnv::getLocaleCode();
     }
 
     // If there's no locale, use the server default locale.
@@ -31,7 +31,7 @@ final class PhabricatorLocaleScopeGuard
     self::$stack[] = $code;
     $this->key = last_key(self::$stack);
 
-    PhabricatorEnv::setLocaleCode($code);
+    PhorgeEnv::setLocaleCode($code);
   }
 
   public function __destruct() {
@@ -48,7 +48,7 @@ final class PhabricatorLocaleScopeGuard
     // change the locale, just set it to its current value again.
 
     unset(self::$stack[$this->key]);
-    PhabricatorEnv::setLocaleCode(end(self::$stack));
+    PhorgeEnv::setLocaleCode(end(self::$stack));
   }
 
 }

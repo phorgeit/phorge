@@ -3,7 +3,7 @@
 final class PhortuneAdHocCart extends PhortuneCartImplementation {
 
   public function loadImplementationsForCarts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $carts) {
 
     $results = array();
@@ -31,7 +31,7 @@ final class PhortuneAdHocCart extends PhortuneCartImplementation {
   }
 
   public function willCreateCart(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PhortuneCart $cart) {
     return;
   }

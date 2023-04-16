@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const TYPE_NAME = 'drydock:blueprint:name';
   const TYPE_DISABLED = 'drydock:blueprint:disabled';

@@ -3,7 +3,7 @@
 /**
  * Trivial example test case.
  */
-final class PhabricatorTrivialTestCase extends PhabricatorTestCase {
+final class PhorgeTrivialTestCase extends PhorgeTestCase {
 
   // NOTE: Update developer/unit_tests.diviner when updating this class!
 

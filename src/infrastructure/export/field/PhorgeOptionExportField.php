@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOptionExportField
-  extends PhabricatorExportField {
+final class PhorgeOptionExportField
+  extends PhorgeExportField {
 
   private $options;
 

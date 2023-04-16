@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorSpacesInterface extends PhabricatorPHIDInterface {
+interface PhorgeSpacesInterface extends PhorgePHIDInterface {
 
   public function getSpacePHID();
 
@@ -8,7 +8,7 @@ interface PhabricatorSpacesInterface extends PhabricatorPHIDInterface {
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 /*
 
   public function getSpacePHID() {

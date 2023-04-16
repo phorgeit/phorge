@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorCalendarICSWriter extends Phobject {
+final class PhorgeCalendarICSWriter extends Phobject {
 
   private $viewer;
   private $events = array();
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorCalendarICSWriter extends Phobject {
   }
 
   public function setEvents(array $events) {
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, 'PhorgeCalendarEvent');
     $this->events = $events;
     return $this;
   }
@@ -31,7 +31,7 @@ final class PhabricatorCalendarICSWriter extends Phobject {
     $events = mpull($events, null, 'getPHID');
 
     if ($events) {
-      $child_map = id(new PhabricatorCalendarEventQuery())
+      $child_map = id(new PhorgeCalendarEventQuery())
         ->setViewer($viewer)
         ->withParentEventPHIDs(array_keys($events))
         ->execute();

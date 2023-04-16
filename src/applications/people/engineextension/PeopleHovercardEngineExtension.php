@@ -1,7 +1,7 @@
 <?php
 
 final class PeopleHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'people';
 
@@ -14,14 +14,14 @@ final class PeopleHovercardEngineExtension
   }
 
   public function canRenderObjectHovercard($object) {
-    return ($object instanceof PhabricatorUser);
+    return ($object instanceof PhorgeUser);
   }
 
   public function willRenderHovercards(array $objects) {
     $viewer = $this->getViewer();
     $phids = mpull($objects, 'getPHID');
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->needAvailability(true)
@@ -37,7 +37,7 @@ final class PeopleHovercardEngineExtension
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $object,
     $data) {
     $viewer = $this->getViewer();
@@ -49,7 +49,7 @@ final class PeopleHovercardEngineExtension
 
     $is_exiled = $hovercard->getIsExiled();
 
-    $user_card = id(new PhabricatorUserCardView())
+    $user_card = id(new PhorgeUserCardView())
       ->setProfile($user)
       ->setViewer($viewer)
       ->setIsExiled($is_exiled);

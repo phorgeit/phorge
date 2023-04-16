@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDividerProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeDividerProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'divider';
 
@@ -18,14 +18,14 @@ final class PhabricatorDividerProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return pht("\xE2\x80\x94");
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorInstructionsEditField())
+      id(new PhorgeInstructionsEditField())
         ->setValue(
           pht(
             'This is a visual divider which you can use to separate '.
@@ -35,7 +35,7 @@ final class PhabricatorDividerProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $item = $this->newItemView()
       ->setIsDivider(true);

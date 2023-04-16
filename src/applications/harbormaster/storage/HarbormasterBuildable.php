@@ -3,11 +3,11 @@
 final class HarbormasterBuildable
   extends HarbormasterDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
     HarbormasterBuildableInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeConduitResultInterface,
+    PhorgeDestructibleInterface {
 
   protected $buildablePHID;
   protected $containerPHID;
@@ -18,7 +18,7 @@ final class HarbormasterBuildable
   private $containerObject = self::ATTACHABLE;
   private $builds = self::ATTACHABLE;
 
-  public static function initializeNewBuildable(PhabricatorUser $actor) {
+  public static function initializeNewBuildable(PhorgeUser $actor) {
     return id(new HarbormasterBuildable())
       ->setIsManualBuildable(0)
       ->setBuildableStatus(HarbormasterBuildableStatus::STATUS_PREPARING);
@@ -37,7 +37,7 @@ final class HarbormasterBuildable
    * new buildable implicitly if needed.
    */
   public static function createOrLoadExisting(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     $buildable_object_phid,
     $container_object_phid) {
 
@@ -79,12 +79,12 @@ final class HarbormasterBuildable
     // Skip all of this logic if the Harbormaster application
     // isn't currently installed.
 
-    $harbormaster_app = 'PhabricatorHarbormasterApplication';
-    if (!PhabricatorApplication::isClassInstalled($harbormaster_app)) {
+    $harbormaster_app = 'PhorgeHarbormasterApplication';
+    if (!PhorgeApplication::isClassInstalled($harbormaster_app)) {
       return;
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $buildable = self::createOrLoadExisting(
       $viewer,
@@ -125,7 +125,7 @@ final class HarbormasterBuildable
     array $parameters,
     $initiator_phid) {
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $build = HarbormasterBuild::initializeNewBuild($viewer)
       ->setBuildablePHID($this->getPHID())
       ->setBuildPlanPHID($plan->getPHID())
@@ -151,7 +151,7 @@ final class HarbormasterBuildable
       $step->willStartBuild($viewer, $this, $build, $plan);
     }
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'HarbormasterBuildWorker',
       array(
         'buildID' => $build->getID(),
@@ -186,7 +186,7 @@ final class HarbormasterBuildable
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildablePHIDType::TYPECONST);
   }
 
@@ -252,7 +252,7 @@ final class HarbormasterBuildable
 
 
   public function sendMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $message_type,
     $queue_update) {
 
@@ -262,7 +262,7 @@ final class HarbormasterBuildable
       ->save();
 
     if ($queue_update) {
-      PhabricatorWorker::scheduleTask(
+      PhorgeWorker::scheduleTask(
         'HarbormasterBuildWorker',
         array(
           'buildablePHID' => $this->getPHID(),
@@ -276,7 +276,7 @@ final class HarbormasterBuildable
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -288,13 +288,13 @@ final class HarbormasterBuildable
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -302,7 +302,7 @@ final class HarbormasterBuildable
     return $this->getBuildableObject()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuildableObject()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -345,28 +345,28 @@ final class HarbormasterBuildable
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('objectPHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the object that is built.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('containerPHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the object containing this buildable.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildableStatus')
         ->setType('map<string, wild>')
         ->setDescription(pht('The current status of this buildable.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isManual')
         ->setType('bool')
         ->setDescription(pht('True if this is a manual buildable.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('uri')
         ->setType('uri')
         ->setDescription(pht('View URI for the buildable.')),
@@ -381,7 +381,7 @@ final class HarbormasterBuildable
         'value' => $this->getBuildableStatus(),
       ),
       'isManual' => (bool)$this->getIsManualBuildable(),
-      'uri' => PhabricatorEnv::getURI($this->getURI()),
+      'uri' => PhorgeEnv::getURI($this->getURI()),
     );
   }
 
@@ -390,11 +390,11 @@ final class HarbormasterBuildable
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
 
     $this->openTransaction();

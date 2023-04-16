@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type a blueprint name...');
@@ -12,7 +12,7 @@ final class DrydockBlueprintDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function loadResults() {
@@ -24,7 +24,7 @@ final class DrydockBlueprintDatasource
       ->withDatasourceQuery($raw_query)
       ->execute();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(mpull($blueprints, 'getPHID'))
       ->execute();
@@ -33,7 +33,7 @@ final class DrydockBlueprintDatasource
     foreach ($blueprints as $blueprint) {
       $handle = $handles[$blueprint->getPHID()];
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($handle->getFullName())
         ->setPHID($handle->getPHID());
 

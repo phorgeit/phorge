@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBoardColumnsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeBoardColumnsSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Workboard Columns');
@@ -17,17 +17,17 @@ final class PhabricatorBoardColumnsSearchEngineAttachment
     $objects = mpull($objects, null, 'getPHID');
     $object_phids = array_keys($objects);
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($object_phids)
       ->withEdgeTypes(
         array(
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         ));
     $edge_query->execute();
 
     $project_phids = $edge_query->getDestinationPHIDs();
 
-    $engine = id(new PhabricatorBoardLayoutEngine())
+    $engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs($project_phids)
       ->setObjectPHIDs($object_phids)

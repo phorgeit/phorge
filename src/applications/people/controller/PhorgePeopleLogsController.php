@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPeopleLogsController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleLogsController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
-   $controller = id(new PhabricatorApplicationSearchController())
+   $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorPeopleLogSearchEngine())
+      ->setSearchEngine(new PhorgePeopleLogSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);
@@ -18,7 +18,7 @@ final class PhabricatorPeopleLogsController
 
     $viewer = $this->getRequest()->getUser();
 
-    id(new PhabricatorPeopleLogSearchEngine())
+    id(new PhorgePeopleLogSearchEngine())
       ->setViewer($viewer)
       ->addNavigationItems($nav->getMenu());
 

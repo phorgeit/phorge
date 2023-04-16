@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhortuneController extends PhabricatorController {
+abstract class PhortuneController extends PhorgeController {
 
   private function loadEnabledProvidersForMerchant(PhortuneMerchant $merchant) {
     $viewer = $this->getRequest()->getUser();

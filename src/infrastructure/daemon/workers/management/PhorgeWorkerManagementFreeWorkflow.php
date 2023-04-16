@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementFreeWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementFreeWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -48,7 +48,7 @@ final class PhabricatorWorkerManagementFreeWorkflow
 
       $task
         ->setLeaseOwner(null)
-        ->setLeaseExpires(PhabricatorTime::getNow())
+        ->setLeaseExpires(PhorgeTime::getNow())
         ->save();
 
       $this->logInfo(

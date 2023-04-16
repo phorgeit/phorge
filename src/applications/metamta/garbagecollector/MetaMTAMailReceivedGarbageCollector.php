@@ -1,7 +1,7 @@
 <?php
 
 final class MetaMTAMailReceivedGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'metamta.received';
 
@@ -14,7 +14,7 @@ final class MetaMTAMailReceivedGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorMetaMTAReceivedMail();
+    $table = new PhorgeMetaMTAReceivedMail();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

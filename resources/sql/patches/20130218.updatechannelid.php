@@ -1,8 +1,8 @@
 <?php
 
 echo pht('Updating channel IDs of previous chatlog events...')."\n";
-$event_table = new PhabricatorChatLogEvent();
-$channel_table = new PhabricatorChatLogChannel();
+$event_table = new PhorgeChatLogEvent();
+$channel_table = new PhorgeChatLogChannel();
 
 $event_table->openTransaction();
 $channel_table->openTransaction();
@@ -35,12 +35,12 @@ foreach ($events as $event) {
     '');
 
   if (!$matched) {
-    $matched = id(new PhabricatorChatLogChannel())
+    $matched = id(new PhorgeChatLogChannel())
       ->setChannelName($event_channel)
       ->setServiceType('')
       ->setServiceName('')
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setEditPolicy(PhabricatorPolicies::POLICY_USER)
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
+      ->setEditPolicy(PhorgePolicies::POLICY_USER)
       ->save();
     $matched_id = $matched->getID();
   } else {

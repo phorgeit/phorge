@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFeedManagementRepublishWorkflow
-  extends PhabricatorFeedManagementWorkflow {
+final class PhorgeFeedManagementRepublishWorkflow
+  extends PhorgeFeedManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -33,7 +33,7 @@ final class PhabricatorFeedManagementRepublishWorkflow
     }
     $key = head($key);
 
-    $story = id(new PhabricatorFeedQuery())
+    $story = id(new PhorgeFeedQuery())
       ->setViewer($viewer)
       ->withChronologicalKeys(array($key))
       ->executeOne();
@@ -45,9 +45,9 @@ final class PhabricatorFeedManagementRepublishWorkflow
 
     $console->writeOut("%s\n", pht('Republishing story...'));
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'FeedPublisherWorker',
       array(
         'key' => $key,

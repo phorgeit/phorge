@@ -8,7 +8,7 @@ final class AlmanacNetworkListController
   }
 
   public function handleRequest(AphrontRequest $request) {
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine(new AlmanacNetworkSearchEngine())
       ->setNavigation($this->buildSideNavView());

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMetaMTAEmailHeraldAction
+abstract class PhorgeMetaMTAEmailHeraldAction
   extends HeraldAction {
 
   const DO_SEND = 'do.send';
@@ -24,7 +24,7 @@ abstract class PhabricatorMetaMTAEmailHeraldAction
       return false;
     }
 
-    if ($object instanceof PhabricatorMetaMTAMail) {
+    if ($object instanceof PhorgeMetaMTAMail) {
       return false;
     }
 
@@ -39,8 +39,8 @@ abstract class PhabricatorMetaMTAEmailHeraldAction
     $adapter = $this->getAdapter();
 
     $allowed_types = array(
-      PhabricatorPeopleUserPHIDType::TYPECONST,
-      PhabricatorProjectProjectPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
     );
 
     // There's no stateful behavior for this action: we always just send an

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorFactDaemon extends PhabricatorDaemon {
+final class PhorgeFactDaemon extends PhorgeDaemon {
 
   private $engines;
 
   protected function run() {
-    $this->setEngines(PhabricatorFactEngine::loadAllEngines());
+    $this->setEngines(PhorgeFactEngine::loadAllEngines());
     do {
-      PhabricatorCaches::destroyRequestCache();
+      PhorgeCaches::destroyRequestCache();
 
       $iterators = $this->getAllApplicationIterators();
       foreach ($iterators as $iterator_name => $iterator) {
@@ -25,12 +25,12 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
   }
 
   public static function getAllApplicationIterators() {
-    $apps = PhabricatorApplication::getAllInstalledApplications();
+    $apps = PhorgeApplication::getAllInstalledApplications();
 
     $iterators = array();
     foreach ($apps as $app) {
       foreach ($app->getFactObjectsForAnalysis() as $object) {
-        $iterator = new PhabricatorFactUpdateIterator($object);
+        $iterator = new PhorgeFactUpdateIterator($object);
         $iterators[get_class($object)] = $iterator;
       }
     }
@@ -41,11 +41,11 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
   public function processIteratorWithCursor($iterator_name, $iterator) {
     $this->log(pht("Processing cursor '%s'.", $iterator_name));
 
-    $cursor = id(new PhabricatorFactCursor())->loadOneWhere(
+    $cursor = id(new PhorgeFactCursor())->loadOneWhere(
       'name = %s',
       $iterator_name);
     if (!$cursor) {
-      $cursor = new PhabricatorFactCursor();
+      $cursor = new PhorgeFactCursor();
       $cursor->setName($iterator_name);
       $position = null;
     } else {
@@ -65,9 +65,9 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
   }
 
   public function setEngines(array $engines) {
-    assert_instances_of($engines, 'PhabricatorFactEngine');
+    assert_instances_of($engines, 'PhorgeFactEngine');
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     foreach ($engines as $engine) {
       $engine->setViewer($viewer);
     }
@@ -107,7 +107,7 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     return $result;
   }
 
-  private function newDatapoints(PhabricatorLiskDAO $object) {
+  private function newDatapoints(PhorgeLiskDAO $object) {
     $facts = array();
     foreach ($this->engines as $engine) {
       if (!$engine->supportsDatapointsForObject($object)) {
@@ -121,7 +121,7 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
 
   private function updateDatapoints(array $map) {
     foreach ($map as $phid => $facts) {
-      assert_instances_of($facts, 'PhabricatorFactIntDatapoint');
+      assert_instances_of($facts, 'PhorgeFactIntDatapoint');
     }
 
     $phids = array_keys($map);
@@ -145,12 +145,12 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
       }
     }
 
-    $key_map = id(new PhabricatorFactKeyDimension())
+    $key_map = id(new PhorgeFactKeyDimension())
       ->newDimensionMap(array_keys($fact_keys), true);
-    $object_map = id(new PhabricatorFactObjectDimension())
+    $object_map = id(new PhorgeFactObjectDimension())
       ->newDimensionMap(array_keys($objects), true);
 
-    $table = new PhabricatorFactIntDatapoint();
+    $table = new PhorgeFactIntDatapoint();
     $conn = $table->establishConnection('w');
     $table_name = $table->getTableName();
 
@@ -189,7 +189,7 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
         $rebuilt_ids);
 
       if ($sql) {
-        foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+        foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
           queryfx(
             $conn,
             'INSERT INTO %T

@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRefDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Branches');
@@ -15,14 +15,14 @@ final class DiffusionRefDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
     $raw_query = $this->getRawQuery();
 
-    $query = id(new PhabricatorRepositoryRefCursorQuery())
+    $query = id(new PhorgeRepositoryRefCursorQuery())
       ->withDatasourceQuery($raw_query);
 
     $types = $this->getParameter('refTypes');
@@ -39,7 +39,7 @@ final class DiffusionRefDatasource
 
     $results = array();
     foreach ($refs as $ref) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($ref->getRefName())
         ->setPHID($ref->getPHID());
     }

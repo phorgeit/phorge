@@ -4,7 +4,7 @@ final class DiffusionSubversionCommandEngine
   extends DiffusionCommandEngine {
 
   protected function canBuildForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isSVN();
   }
 
@@ -25,7 +25,7 @@ final class DiffusionSubversionCommandEngine
       if ($credential_phid) {
         $key = PassphrasePasswordKey::loadFromPHID(
           $credential_phid,
-          PhabricatorUser::getOmnipotentUser());
+          PhorgeUser::getOmnipotentUser());
 
         $flags[] = '--username %P';
         $args[] = $key->getUsernameEnvelope();

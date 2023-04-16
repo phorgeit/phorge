@@ -1,14 +1,14 @@
 <?php
 
 final class PonderQuestionSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Ponder Questions');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
   public function newQuery() {
@@ -36,15 +36,15 @@ final class PonderQuestionSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('authors'))
         ->setLabel(pht('Authors')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('answerers')
         ->setAliases(array('answerers'))
         ->setLabel(pht('Answered By')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Status'))
         ->setKey('statuses')
         ->setOptions(PonderQuestionStatus::getQuestionStatusMap()),
@@ -105,13 +105,13 @@ final class PonderQuestionSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $questions,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return mpull($questions, 'getAuthorPHID');
   }
 
   protected function renderResultList(
     array $questions,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($questions, 'PonderQuestion');
 
@@ -124,7 +124,7 @@ final class PonderQuestionSearchEngine
       }
     }
 
-    $proj_handles = id(new PhabricatorHandleQuery())
+    $proj_handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($proj_phids)
       ->execute();
@@ -176,7 +176,7 @@ final class PonderQuestionSearchEngine
       $view->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($view);
     $result->setNoDataString(pht('No questions found.'));
 

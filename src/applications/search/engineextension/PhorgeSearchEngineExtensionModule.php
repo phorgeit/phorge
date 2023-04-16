@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchEngineExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeSearchEngineExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'searchengine';
@@ -14,7 +14,7 @@ final class PhabricatorSearchEngineExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorSearchEngineExtension::getAllExtensions();
+    $extensions = PhorgeSearchEngineExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

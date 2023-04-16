@@ -117,15 +117,15 @@ final class FundInitiativeViewController
 
     $id = $initiative->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $initiative,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($initiative);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Initiative'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -141,7 +141,7 @@ final class FundInitiativeViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($close_name)
         ->setIcon($close_icon)
         ->setDisabled(!$can_edit)
@@ -149,7 +149,7 @@ final class FundInitiativeViewController
         ->setHref($this->getApplicationURI("/close/{$id}/")));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Back Initiative'))
         ->setIcon('fa-money')
         ->setDisabled($initiative->isClosed())
@@ -157,7 +157,7 @@ final class FundInitiativeViewController
         ->setHref($this->getApplicationURI("/back/{$id}/")));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Backers'))
         ->setIcon('fa-bank')
         ->setHref($this->getApplicationURI("/backers/{$id}/")));

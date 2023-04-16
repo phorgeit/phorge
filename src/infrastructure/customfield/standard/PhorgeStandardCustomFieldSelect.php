@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldSelect
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldSelect
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'select';
@@ -19,14 +19,14 @@ final class PhabricatorStandardCustomFieldSelect
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
     return $request->getArr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     if ($value) {
       $query->withApplicationSearchContainsConstraint(
@@ -36,7 +36,7 @@ final class PhabricatorStandardCustomFieldSelect
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -80,7 +80,7 @@ final class PhabricatorStandardCustomFieldSelect
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -123,11 +123,11 @@ final class PhabricatorStandardCustomFieldSelect
   public function getHeraldFieldValueType($condition) {
     $parameters = array(
       'object' => get_class($this->getObject()),
-      'role' => PhabricatorCustomField::ROLE_HERALD,
+      'role' => PhorgeCustomField::ROLE_HERALD,
       'key' => $this->getFieldKey(),
     );
 
-    $datasource = id(new PhabricatorStandardSelectCustomFieldDatasource())
+    $datasource = id(new PhorgeStandardSelectCustomFieldDatasource())
       ->setParameters($parameters);
 
     return id(new HeraldTokenizerFieldValue())
@@ -154,7 +154,7 @@ final class PhabricatorStandardCustomFieldSelect
   }
 
   protected function newExportFieldType() {
-    return id(new PhabricatorOptionExportField())
+    return id(new PhorgeOptionExportField())
       ->setOptions($this->getOptions());
   }
 

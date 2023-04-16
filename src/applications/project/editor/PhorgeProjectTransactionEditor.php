@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeProjectTransactionEditor
+  extends PhorgeApplicationTransactionEditor {
 
   private $isMilestone;
 
@@ -15,7 +15,7 @@ final class PhabricatorProjectTransactionEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -33,16 +33,16 @@ final class PhabricatorProjectTransactionEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_JOIN_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_JOIN_POLICY;
 
     return $types;
   }
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $errors = array();
@@ -52,8 +52,8 @@ final class PhabricatorProjectTransactionEditor
     $parent_xaction = null;
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorProjectParentTransaction::TRANSACTIONTYPE:
-        case PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE:
+        case PhorgeProjectParentTransaction::TRANSACTIONTYPE:
+        case PhorgeProjectMilestoneTransaction::TRANSACTIONTYPE:
           if ($xaction->getNewValue() === null) {
             continue 2;
           }
@@ -63,7 +63,7 @@ final class PhabricatorProjectTransactionEditor
             continue 2;
           }
 
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $xaction->getTransactionType(),
             pht('Invalid'),
             pht(
@@ -81,14 +81,14 @@ final class PhabricatorProjectTransactionEditor
 
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_EDGE:
+        case PhorgeTransactions::TYPE_EDGE:
           $type = $xaction->getMetadataValue('edge:type');
-          if ($type != PhabricatorProjectProjectHasMemberEdgeType::EDGECONST) {
+          if ($type != PhorgeProjectProjectHasMemberEdgeType::EDGECONST) {
             break;
           }
 
           if ($is_parent) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $xaction->getTransactionType(),
               pht('Invalid'),
               pht(
@@ -99,7 +99,7 @@ final class PhabricatorProjectTransactionEditor
           }
 
           if ($is_milestone) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $xaction->getTransactionType(),
               pht('Invalid'),
               pht(
@@ -114,18 +114,18 @@ final class PhabricatorProjectTransactionEditor
     return $errors;
   }
 
-  protected function willPublish(PhabricatorLiskDAO $object, array $xactions) {
+  protected function willPublish(PhorgeLiskDAO $object, array $xactions) {
     // NOTE: We're using the omnipotent user here because the original actor
     // may no longer have permission to view the object.
-    return id(new PhabricatorProjectQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    return id(new PhorgeProjectQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($object->getPHID()))
       ->needAncestorMembers(true)
       ->executeOne();
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -134,43 +134,43 @@ final class PhabricatorProjectTransactionEditor
     return pht('[Project]');
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $this->getActingAsPHID(),
     );
   }
 
-  protected function getMailCc(PhabricatorLiskDAO $object) {
+  protected function getMailCc(PhorgeLiskDAO $object) {
     return array();
   }
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorProjectTransaction::MAILTAG_METADATA =>
+      PhorgeProjectTransaction::MAILTAG_METADATA =>
         pht('Project name, hashtags, icon, image, or color changes.'),
-      PhabricatorProjectTransaction::MAILTAG_MEMBERS =>
+      PhorgeProjectTransaction::MAILTAG_MEMBERS =>
         pht('Project membership changes.'),
-      PhabricatorProjectTransaction::MAILTAG_WATCHERS =>
+      PhorgeProjectTransaction::MAILTAG_WATCHERS =>
         pht('Project watcher list changes.'),
-      PhabricatorProjectTransaction::MAILTAG_OTHER =>
+      PhorgeProjectTransaction::MAILTAG_OTHER =>
         pht('Other project activity not listed above occurs.'),
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new ProjectReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("{$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -178,13 +178,13 @@ final class PhabricatorProjectTransactionEditor
     $uri = '/project/profile/'.$object->getID().'/';
     $body->addLinkSection(
       pht('PROJECT DETAIL'),
-      PhabricatorEnv::getProductionURI($uri));
+      PhorgeEnv::getProductionURI($uri));
 
     return $body;
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -194,22 +194,22 @@ final class PhabricatorProjectTransactionEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $materialize = false;
     $new_parent = null;
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_EDGE:
+        case PhorgeTransactions::TYPE_EDGE:
           switch ($xaction->getMetadataValue('edge:type')) {
-            case PhabricatorProjectProjectHasMemberEdgeType::EDGECONST:
+            case PhorgeProjectProjectHasMemberEdgeType::EDGECONST:
               $materialize = true;
               break;
           }
           break;
-        case PhabricatorProjectParentTransaction::TRANSACTIONTYPE:
-        case PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE:
+        case PhorgeProjectParentTransaction::TRANSACTIONTYPE:
+        case PhorgeProjectMilestoneTransaction::TRANSACTIONTYPE:
           $materialize = true;
           $new_parent = $object->getParentProject();
           break;
@@ -220,14 +220,14 @@ final class PhabricatorProjectTransactionEditor
       // If we just created the first subproject of this parent, we want to
       // copy all of the real members to the subproject.
       if (!$new_parent->getHasSubprojects()) {
-        $member_type = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+        $member_type = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
-        $project_members = PhabricatorEdgeQuery::loadDestinationPHIDs(
+        $project_members = PhorgeEdgeQuery::loadDestinationPHIDs(
           $new_parent->getPHID(),
           $member_type);
 
         if ($project_members) {
-          $editor = id(new PhabricatorEdgeEditor());
+          $editor = id(new PhorgeEdgeEditor());
           foreach ($project_members as $phid) {
             $editor->addEdge($object->getPHID(), $member_type, $phid);
           }
@@ -240,12 +240,12 @@ final class PhabricatorProjectTransactionEditor
     // project to show that we created the sub-thing.
 
     if ($materialize) {
-      id(new PhabricatorProjectsMembershipIndexEngineExtension())
+      id(new PhorgeProjectsMembershipIndexEngineExtension())
         ->rematerialize($object);
     }
 
     if ($new_parent) {
-      id(new PhabricatorProjectsMembershipIndexEngineExtension())
+      id(new PhorgeProjectsMembershipIndexEngineExtension())
         ->rematerialize($new_parent);
     }
 
@@ -263,9 +263,9 @@ final class PhabricatorProjectTransactionEditor
     return parent::applyFinalEffects($object, $xactions);
   }
 
-  public function addSlug(PhabricatorProject $project, $slug, $force) {
-    $slug = PhabricatorSlug::normalizeProjectSlug($slug);
-    $table = new PhabricatorProjectSlug();
+  public function addSlug(PhorgeProject $project, $slug, $force) {
+    $slug = PhorgeSlug::normalizeProjectSlug($slug);
+    $table = new PhorgeProjectSlug();
     $project_phid = $project->getPHID();
 
     if ($force) {
@@ -288,13 +288,13 @@ final class PhabricatorProjectTransactionEditor
       return;
     }
 
-    return id(new PhabricatorProjectSlug())
+    return id(new PhorgeProjectSlug())
       ->setSlug($slug)
       ->setProjectPHID($project_phid)
       ->save();
   }
 
-  public function removeSlugs(PhabricatorProject $project, array $slugs) {
+  public function removeSlugs(PhorgeProject $project, array $slugs) {
     if (!$slugs) {
       return;
     }
@@ -306,7 +306,7 @@ final class PhabricatorProjectTransactionEditor
       $slugs[] = $slug;
     }
 
-    $objects = id(new PhabricatorProjectSlug())->loadAllWhere(
+    $objects = id(new PhorgeProjectSlug())->loadAllWhere(
       'projectPHID = %s AND slug IN (%Ls)',
       $project->getPHID(),
       $slugs);
@@ -318,7 +318,7 @@ final class PhabricatorProjectTransactionEditor
 
   public function normalizeSlugs(array $slugs) {
     foreach ($slugs as $key => $slug) {
-      $slugs[$key] = PhabricatorSlug::normalizeProjectSlug($slug);
+      $slugs[$key] = PhorgeSlug::normalizeProjectSlug($slug);
     }
 
     $slugs = array_unique($slugs);
@@ -328,13 +328,13 @@ final class PhabricatorProjectTransactionEditor
   }
 
   protected function adjustObjectForPolicyChecks(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $copy = parent::adjustObjectForPolicyChecks($object, $xactions);
 
-    $type_edge = PhabricatorTransactions::TYPE_EDGE;
-    $edgetype_member = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+    $type_edge = PhorgeTransactions::TYPE_EDGE;
+    $edgetype_member = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
     // See T13462. If we're creating a milestone, set a dummy milestone
     // number so the project behaves like a milestone and uses milestone
@@ -353,7 +353,7 @@ final class PhabricatorProjectTransactionEditor
 
       $parent = $copy->getParentProject();
 
-      $parent = id(new PhabricatorProjectQuery())
+      $parent = id(new PhorgeProjectQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($parent->getPHID()))
         ->needMembers(true)
@@ -380,7 +380,7 @@ final class PhabricatorProjectTransactionEditor
         $object_phid = $object->getPHID();
 
         if ($object_phid) {
-          $project = id(new PhabricatorProjectQuery())
+          $project = id(new PhorgeProjectQuery())
             ->setViewer($this->getActor())
             ->withPHIDs(array($object_phid))
             ->needMembers(true)
@@ -397,8 +397,8 @@ final class PhabricatorProjectTransactionEditor
     }
 
     if ($hint !== null) {
-      $rule = new PhabricatorProjectMembersPolicyRule();
-      PhabricatorPolicyRule::passTransactionHintToRule(
+      $rule = new PhorgeProjectMembersPolicyRule();
+      PhorgePolicyRule::passTransactionHintToRule(
         $copy,
         $rule,
         $hint);
@@ -408,7 +408,7 @@ final class PhabricatorProjectTransactionEditor
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $actor = $this->getActor();
@@ -419,7 +419,7 @@ final class PhabricatorProjectTransactionEditor
     $is_milestone = $object->isMilestone();
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE:
+        case PhorgeProjectMilestoneTransaction::TRANSACTIONTYPE:
           if ($xaction->getNewValue() !== null) {
             $is_milestone = true;
           }
@@ -433,24 +433,24 @@ final class PhabricatorProjectTransactionEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // Herald rules may run on behalf of other users and need to execute
     // membership checks against ancestors.
-    $project = id(new PhabricatorProjectQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $project = id(new PhorgeProjectQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($object->getPHID()))
       ->needAncestorMembers(true)
       ->executeOne();
 
-    return id(new PhabricatorProjectHeraldAdapter())
+    return id(new PhorgeProjectHeraldAdapter())
       ->setProject($project);
   }
 

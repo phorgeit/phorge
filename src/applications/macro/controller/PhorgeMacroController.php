@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMacroController extends PhabricatorController {
+abstract class PhorgeMacroController extends PhorgeController {
 
   protected function buildSideNavView($for_app = false) {
     $nav = new AphrontSideNavFilterView();
@@ -13,7 +13,7 @@ abstract class PhabricatorMacroController extends PhabricatorController {
         $this->getApplicationURI('/create/'));
     }
 
-    id(new PhabricatorMacroSearchEngine())
+    id(new PhorgeMacroSearchEngine())
       ->setViewer($this->getRequest()->getUser())
       ->addNavigationItems($nav->getMenu());
 
@@ -28,7 +28,7 @@ abstract class PhabricatorMacroController extends PhabricatorController {
     $crumbs = parent::buildApplicationCrumbs();
 
     $can_manage = $this->hasApplicationCapability(
-      PhabricatorMacroManageCapability::CAPABILITY);
+      PhorgeMacroManageCapability::CAPABILITY);
 
     $crumbs->addAction(
       id(new PHUIListItemView())

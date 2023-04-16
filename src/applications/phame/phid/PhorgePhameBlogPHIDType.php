@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhameBlogPHIDType extends PhabricatorPHIDType {
+final class PhorgePhameBlogPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'BLOG';
 
@@ -13,11 +13,11 @@ final class PhabricatorPhameBlogPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhameBlogQuery())
@@ -25,7 +25,7 @@ final class PhabricatorPhameBlogPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -36,7 +36,7 @@ final class PhabricatorPhameBlogPHIDType extends PhabricatorPHIDType {
       $handle->setURI('/phame/blog/view/'.$blog->getID().'/');
 
       if ($blog->isArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
 
     }

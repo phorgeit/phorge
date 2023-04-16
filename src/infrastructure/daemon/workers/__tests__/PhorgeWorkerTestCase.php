@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
+final class PhorgeWorkerTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -13,7 +13,7 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
 
     // Before we run these test cases, clear the queue. After D20412, we may
     // have queued tasks from migrations.
-    $task_table = new PhabricatorWorkerActiveTask();
+    $task_table = new PhorgeWorkerActiveTask();
     $conn = $task_table->establishConnection('w');
 
     queryfx(
@@ -67,7 +67,7 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
 
     $this->assertEqual(true, $task->isArchived());
     $this->assertEqual(
-      PhabricatorWorkerArchiveTask::RESULT_SUCCESS,
+      PhorgeWorkerArchiveTask::RESULT_SUCCESS,
       $task->getResult());
   }
 
@@ -79,7 +79,7 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
 
     $this->assertEqual(true, $task->isArchived());
     $this->assertEqual(
-      PhabricatorWorkerArchiveTask::RESULT_FAILURE,
+      PhorgeWorkerArchiveTask::RESULT_FAILURE,
       $task->getResult());
   }
 
@@ -133,7 +133,7 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
     $task = $task->executeTask();
     $this->assertTrue($task->isArchived());
     $this->assertEqual(
-      PhabricatorWorkerArchiveTask::RESULT_FAILURE,
+      PhorgeWorkerArchiveTask::RESULT_FAILURE,
       $task->getResult());
   }
 
@@ -192,7 +192,7 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
   }
 
   private function expectNextLease($task, $message = null) {
-    $leased = id(new PhabricatorWorkerLeaseQuery())
+    $leased = id(new PhorgeWorkerLeaseQuery())
       ->setLimit(1)
       ->execute();
 
@@ -220,8 +220,8 @@ final class PhabricatorWorkerTestCase extends PhabricatorTestCase {
   }
 
   private function scheduleTask(array $data = array(), $priority = null) {
-    return PhabricatorWorker::scheduleTask(
-      'PhabricatorTestWorker',
+    return PhorgeWorker::scheduleTask(
+      'PhorgeTestWorker',
       $data,
       array('priority' => $priority));
   }

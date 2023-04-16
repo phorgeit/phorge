@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialResponsibleDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Responsible Users');
@@ -12,7 +12,7 @@ final class DifferentialResponsibleDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getComponentDatasources() {
@@ -20,18 +20,18 @@ final class DifferentialResponsibleDatasource
       new DifferentialResponsibleUserDatasource(),
       new DifferentialResponsibleViewerFunctionDatasource(),
       new DifferentialExactUserFunctionDatasource(),
-      new PhabricatorProjectDatasource(),
-      new PhabricatorOwnersPackageDatasource(),
+      new PhorgeProjectDatasource(),
+      new PhorgeOwnersPackageDatasource(),
     );
   }
 
   public static function expandResponsibleUsers(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values) {
 
     $phids = array();
     foreach ($values as $value) {
-      if (phid_get_type($value) == PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($value) == PhorgePeopleUserPHIDType::TYPECONST) {
         $phids[] = $value;
       }
     }
@@ -40,7 +40,7 @@ final class DifferentialResponsibleDatasource
       return $values;
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
        ->setViewer($viewer)
        ->withMemberPHIDs($phids)
        ->execute();
@@ -49,7 +49,7 @@ final class DifferentialResponsibleDatasource
       $values[] = $project->getPHID();
     }
 
-    $packages = id(new PhabricatorOwnersPackageQuery())
+    $packages = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withOwnerPHIDs($phids)
       ->execute();

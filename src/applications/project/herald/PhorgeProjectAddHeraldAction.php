@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectAddHeraldAction
-  extends PhabricatorProjectHeraldAction {
+final class PhorgeProjectAddHeraldAction
+  extends PhorgeProjectHeraldAction {
 
   const ACTIONCONST = 'projects.add';
 
@@ -18,7 +18,7 @@ final class PhabricatorProjectAddHeraldAction
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
   public function renderActionDescription($value) {

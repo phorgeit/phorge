@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyViewController
-  extends PhabricatorAuthSSHKeyController {
+final class PhorgeAuthSSHKeyViewController
+  extends PhorgeAuthSSHKeyController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorAuthSSHKeyViewController
 
     $id = $request->getURIData('id');
 
-    $ssh_key = id(new PhabricatorAuthSSHKeyQuery())
+    $ssh_key = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -51,7 +51,7 @@ final class PhabricatorAuthSSHKeyViewController
 
     $timeline = $this->buildTransactionTimeline(
       $ssh_key,
-      new PhabricatorAuthSSHKeyTransactionQuery());
+      new PhorgeAuthSSHKeyTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -69,13 +69,13 @@ final class PhabricatorAuthSSHKeyViewController
       ->appendChild($view);
   }
 
-  private function buildCurtain(PhabricatorAuthSSHKey $ssh_key) {
+  private function buildCurtain(PhorgeAuthSSHKey $ssh_key) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $ssh_key,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $ssh_key->getID();
 
@@ -85,7 +85,7 @@ final class PhabricatorAuthSSHKeyViewController
     $curtain = $this->newCurtainView($ssh_key);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit SSH Key'))
         ->setHref($edit_uri)
@@ -93,7 +93,7 @@ final class PhabricatorAuthSSHKeyViewController
         ->setDisabled(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-times')
         ->setName(pht('Revoke SSH Key'))
         ->setHref($revoke_uri)
@@ -104,7 +104,7 @@ final class PhabricatorAuthSSHKeyViewController
   }
 
   private function buildPropertySection(
-    PhabricatorAuthSSHKey $ssh_key) {
+    PhorgeAuthSSHKey $ssh_key) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())

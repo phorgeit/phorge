@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserBadgesCacheType
-  extends PhabricatorUserCacheType {
+final class PhorgeUserBadgesCacheType
+  extends PhorgeUserCacheType {
 
   const CACHETYPE = 'badges.award';
 
@@ -32,10 +32,10 @@ final class PhabricatorUserBadgesCacheType
 
     $results = array();
     foreach ($user_phids as $user_phid) {
-      $awards = id(new PhabricatorBadgesAwardQuery())
+      $awards = id(new PhorgeBadgesAwardQuery())
         ->setViewer($this->getViewer())
         ->withRecipientPHIDs(array($user_phid))
-        ->withBadgeStatuses(array(PhabricatorBadgesBadge::STATUS_ACTIVE))
+        ->withBadgeStatuses(array(PhorgeBadgesBadge::STATUS_ACTIVE))
         ->setLimit(self::BADGE_COUNT)
         ->execute();
 

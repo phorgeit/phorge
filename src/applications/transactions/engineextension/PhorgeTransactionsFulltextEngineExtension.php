@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTransactionsFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeTransactionsFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'transactions';
 
@@ -10,14 +10,14 @@ final class PhabricatorTransactionsFulltextEngineExtension
   }
 
   public function shouldEnrichFulltextObject($object) {
-    return ($object instanceof PhabricatorApplicationTransactionInterface);
+    return ($object instanceof PhorgeApplicationTransactionInterface);
   }
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($object);
     if (!$query) {
       return;
     }
@@ -53,7 +53,7 @@ final class PhabricatorTransactionsFulltextEngineExtension
       $comment = $xaction->getComment();
 
       $document->addField(
-        PhabricatorSearchDocumentFieldType::FIELD_COMMENT,
+        PhorgeSearchDocumentFieldType::FIELD_COMMENT,
         $comment->getContent());
     }
   }

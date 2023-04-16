@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhurlLinkRemarkupRule extends PhutilRemarkupRule {
+final class PhorgePhurlLinkRemarkupRule extends PhutilRemarkupRule {
 
   public function getPriority() {
     return 200.0;
@@ -30,7 +30,7 @@ final class PhabricatorPhurlLinkRemarkupRule extends PhutilRemarkupRule {
     $monogram = null;
     $is_monogram = '/^U(?P<id>[1-9]\d*)/';
 
-    $query = id(new PhabricatorPhurlURLQuery())
+    $query = id(new PhorgePhurlURLQuery())
       ->setViewer($viewer);
 
     if (preg_match($is_monogram, $ref, $monogram)) {
@@ -50,7 +50,7 @@ final class PhabricatorPhurlLinkRemarkupRule extends PhutilRemarkupRule {
     $name = $phurl->getDisplayName();
 
     if ($text_mode || $html_mode) {
-      $uri = PhabricatorEnv::getProductionURI($uri);
+      $uri = PhorgeEnv::getProductionURI($uri);
     }
 
     if ($text_mode) {

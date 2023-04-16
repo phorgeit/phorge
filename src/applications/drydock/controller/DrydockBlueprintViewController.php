@@ -35,9 +35,9 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
     $crumbs->addTextCrumb(pht('Blueprint %d', $blueprint->getID()));
     $crumbs->setBorder(true);
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $blueprint,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($blueprint);
@@ -93,13 +93,13 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
     $curtain = $this->newCurtainView($blueprint);
     $edit_uri = $this->getApplicationURI("blueprint/edit/{$id}/");
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $blueprint,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($edit_uri)
         ->setName(pht('Edit Blueprint'))
         ->setIcon('fa-pencil')
@@ -117,7 +117,7 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($disable_uri)
         ->setName($disable_name)
         ->setIcon($disable_icon)

@@ -27,9 +27,9 @@ final class ManiphestAssignEmailCommand
   }
 
   public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv) {
     $xactions = array();
@@ -38,7 +38,7 @@ final class ManiphestAssignEmailCommand
 
     $assign_to = head($argv);
     if ($assign_to) {
-      $assign_user = id(new PhabricatorPeopleQuery())
+      $assign_user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($assign_to))
         ->executeOne();

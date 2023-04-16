@@ -12,7 +12,7 @@ final class PassphraseCredentialPublicController
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->executeOne();
     if (!$credential) {

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorStatusController extends PhabricatorController {
+final class PhorgeStatusController extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;

@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+  extends PhorgeManagementWorkflow {
 
   protected function loadServices(array $names) {
     if (!$names) {

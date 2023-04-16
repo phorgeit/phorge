@@ -42,7 +42,7 @@ final class DarkConsoleServicesPlugin extends DarkConsolePlugin {
 
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function generateData() {
     $should_analyze = self::isQueryAnalyzerRequested();
@@ -69,7 +69,7 @@ final class DarkConsoleServicesPlugin extends DarkConsolePlugin {
       // For each SELECT query, go issue an EXPLAIN on it so we can flag stuff
       // causing table scans, etc.
       if (preg_match('/^\s*SELECT\b/i', $entry['query'])) {
-        $conn = PhabricatorDatabaseRef::newRawConnection($entry['config']);
+        $conn = PhorgeDatabaseRef::newRawConnection($entry['config']);
         try {
           $explain = queryfx_all(
             $conn,
@@ -158,7 +158,7 @@ final class DarkConsoleServicesPlugin extends DarkConsolePlugin {
     }
 
     return array(
-      'start' => PhabricatorStartup::getStartTime(),
+      'start' => PhorgeStartup::getStartTime(),
       'end'   => microtime(true),
       'log'   => $log,
       'analyzeURI' => (string)$this

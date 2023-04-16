@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeCountdownEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'countdown.countdown';
 
@@ -22,16 +22,16 @@ final class PhabricatorCountdownEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return 'PhorgeCountdownApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorCountdown::initializeNewCountdown(
+    return PhorgeCountdown::initializeNewCountdown(
       $this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorCountdownQuery());
+    return id(new PhorgeCountdownQuery());
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -73,34 +73,34 @@ final class PhabricatorCountdownEditEngine
   protected function buildCustomEditFields($object) {
     $epoch_value = $object->getEpoch();
     if ($epoch_value === null) {
-      $epoch_value = PhabricatorTime::getNow();
+      $epoch_value = PhorgeTime::getNow();
     }
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setIsRequired(true)
         ->setTransactionType(
-            PhabricatorCountdownTitleTransaction::TRANSACTIONTYPE)
+            PhorgeCountdownTitleTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('The countdown name.'))
         ->setConduitDescription(pht('Rename the countdown.'))
         ->setConduitTypeDescription(pht('New countdown name.'))
         ->setValue($object->getTitle()),
-      id(new PhabricatorEpochEditField())
+      id(new PhorgeEpochEditField())
         ->setKey('epoch')
         ->setLabel(pht('End Date'))
         ->setTransactionType(
-            PhabricatorCountdownEpochTransaction::TRANSACTIONTYPE)
+            PhorgeCountdownEpochTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Date when the countdown ends.'))
         ->setConduitDescription(pht('Change the end date of the countdown.'))
         ->setConduitTypeDescription(pht('New countdown end date.'))
         ->setValue($epoch_value),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setTransactionType(
-            PhabricatorCountdownDescriptionTransaction::TRANSACTIONTYPE)
+            PhorgeCountdownDescriptionTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Description of the countdown.'))
         ->setConduitDescription(pht('Change the countdown description.'))
         ->setConduitTypeDescription(pht('New description.'))

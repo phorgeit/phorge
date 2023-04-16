@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFileSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgeFileSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'file.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorFileSearchEngine();
+    return new PhorgeFileSearchEngine();
   }
 
   public function getMethodSummary() {

@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIObjectItemListExample extends PhabricatorUIExample {
+final class PHUIObjectItemListExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Object Item List');
@@ -16,7 +16,7 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
     $request = $this->getRequest();
     $user = $request->getUser();
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs(array($user->getPHID()))
       ->executeOne();
@@ -307,8 +307,8 @@ final class PHUIObjectItemListExample extends PhabricatorUIExample {
     $list = new PHUIObjectItemListView();
     $list->setFlush(true);
 
-    $default_profile = PhabricatorFile::loadBuiltin($user, 'profile.png');
-    $default_project = PhabricatorFile::loadBuiltin($user, 'project.png');
+    $default_profile = PhorgeFile::loadBuiltin($user, 'profile.png');
+    $default_project = PhorgeFile::loadBuiltin($user, 'project.png');
 
     $list->addItem(
       id(new PHUIObjectItemView())

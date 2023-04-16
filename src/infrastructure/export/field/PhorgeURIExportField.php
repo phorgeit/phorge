@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorURIExportField
-  extends PhabricatorExportField {}
+final class PhorgeURIExportField
+  extends PhorgeExportField {}

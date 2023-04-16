@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSettingsAdjustController
-  extends PhabricatorController {
+final class PhorgeSettingsAdjustController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+    $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnNoEffect(true)

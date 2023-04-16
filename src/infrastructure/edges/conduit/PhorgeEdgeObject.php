@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorEdgeObject
+final class PhorgeEdgeObject
   extends Phobject
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   private $id;
   private $src;
@@ -53,23 +53,23 @@ final class PhabricatorEdgeObject
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorConfigResponse extends AphrontStandaloneHTMLResponse {
+final class PhorgeConfigResponse extends AphrontStandaloneHTMLResponse {
 
   private $view;
 
-  public function setView(PhabricatorSetupIssueView $view) {
+  public function setView(PhorgeSetupIssueView $view) {
     $this->view = $view;
     return $this;
   }
@@ -25,7 +25,7 @@ final class PhabricatorConfigResponse extends AphrontStandaloneHTMLResponse {
   }
 
   protected function getResponseBodyClass() {
-    if (PhabricatorSetupCheck::isInFlight()) {
+    if (PhorgeSetupCheck::isInFlight()) {
       return 'setup-fatal in-flight';
     } else {
       return 'setup-fatal';
@@ -35,7 +35,7 @@ final class PhabricatorConfigResponse extends AphrontStandaloneHTMLResponse {
   protected function getResponseBody() {
     $view = $this->view;
 
-    if (PhabricatorSetupCheck::isInFlight()) {
+    if (PhorgeSetupCheck::isInFlight()) {
       return $view->renderInFlight();
     } else {
       return $view->render();

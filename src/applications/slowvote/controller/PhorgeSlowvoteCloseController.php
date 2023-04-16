@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorSlowvoteCloseController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvoteCloseController
+  extends PhorgeSlowvoteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $poll = id(new PhabricatorSlowvoteQuery())
+    $poll = id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$poll) {
@@ -31,12 +31,12 @@ final class PhabricatorSlowvoteCloseController
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorSlowvoteTransaction())
+      $xactions[] = id(new PhorgeSlowvoteTransaction())
         ->setTransactionType(
-            PhabricatorSlowvoteStatusTransaction::TRANSACTIONTYPE)
+            PhorgeSlowvoteStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      id(new PhabricatorSlowvoteEditor())
+      id(new PhorgeSlowvoteEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectListController
-  extends PhabricatorProjectController {
+final class PhorgeProjectListController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorProjectSearchEngine())
+    return id(new PhorgeProjectSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorProjectListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorProjectEditEngine())
+    id(new PhorgeProjectEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

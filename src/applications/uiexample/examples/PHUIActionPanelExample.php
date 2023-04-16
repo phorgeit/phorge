@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIActionPanelExample extends PhabricatorUIExample {
+final class PHUIActionPanelExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Action Panel');
@@ -16,7 +16,7 @@ final class PHUIActionPanelExample extends PhabricatorUIExample {
     $view = id(new AphrontMultiColumnView())
       ->setFluidLayout(true);
 
-    $credit = PhabricatorFile::loadBuiltin(
+    $credit = PhorgeFile::loadBuiltin(
       $viewer, 'projects/v3/creditcard.png');
     $image = $credit->getBestURI();
 

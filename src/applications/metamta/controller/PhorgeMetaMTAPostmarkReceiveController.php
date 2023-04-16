@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorMetaMTAPostmarkReceiveController
-  extends PhabricatorMetaMTAController {
+final class PhorgeMetaMTAPostmarkReceiveController
+  extends PhorgeMetaMTAController {
 
   public function shouldRequireLogin() {
     return false;
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function handleRequest(AphrontRequest $request) {
     // Don't process requests if we don't have a configured Postmark adapter.
-    $mailers = PhabricatorMetaMTAMail::newMailers(
+    $mailers = PhorgeMetaMTAMail::newMailers(
       array(
         'inbound' => true,
         'types' => array(
-          PhabricatorMailPostmarkAdapter::ADAPTERTYPE,
+          PhorgeMailPostmarkAdapter::ADAPTERTYPE,
         ),
       ));
     if (!$mailers) {
@@ -39,7 +39,7 @@ final class PhabricatorMetaMTAPostmarkReceiveController
     }
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-    $raw_input = PhabricatorStartup::getRawInput();
+    $raw_input = PhorgeStartup::getRawInput();
 
     try {
       $data = phutil_json_decode($raw_input);
@@ -63,7 +63,7 @@ final class PhabricatorMetaMTAPostmarkReceiveController
     ) + $raw_headers;
 
 
-    $received = id(new PhabricatorMetaMTAReceivedMail())
+    $received = id(new PhorgeMetaMTAReceivedMail())
       ->setHeaders($headers)
       ->setBodies(
         array(
@@ -78,11 +78,11 @@ final class PhabricatorMetaMTAPostmarkReceiveController
       $file_data = base64_decode($file_data);
 
       try {
-        $file = PhabricatorFile::newFromFileData(
+        $file = PhorgeFile::newFromFileData(
           $file_data,
           array(
             'name' => idx($attachment, 'Name'),
-            'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+            'viewPolicy' => PhorgePolicies::POLICY_NOONE,
           ));
         $file_phids[] = $file->getPHID();
       } catch (Exception $ex) {

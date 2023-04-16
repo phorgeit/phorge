@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldRuleTypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Rule Types');
@@ -12,7 +12,7 @@ final class HeraldRuleTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function loadResults() {
@@ -29,7 +29,7 @@ final class HeraldRuleTypeDatasource
 
     $type_map = HeraldRuleTypeConfig::getRuleTypeMap();
     foreach ($type_map as $type => $name) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($type)
         ->setName($name);
 

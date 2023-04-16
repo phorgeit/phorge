@@ -1,14 +1,14 @@
 <?php
 
 final class UserEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'user.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorUserEditEngine();
+    return new PhorgeUserEditEngine();
   }
 
   public function getMethodSummary() {

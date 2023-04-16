@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionTimelineEngine
-  extends PhabricatorTimelineEngine {
+  extends PhorgeTimelineEngine {
 
   protected function newTimelineView() {
     $viewer = $this->getViewer();
@@ -59,7 +59,7 @@ final class DifferentialRevisionTimelineEngine
 
     $old = array_select_keys($changesets, $old_ids);
     $new = array_select_keys($changesets, $new_ids);
-    id(new PhabricatorInlineCommentAdjustmentEngine())
+    id(new PhorgeInlineCommentAdjustmentEngine())
       ->setViewer($viewer)
       ->setRevision($revision)
       ->setOldChangesets($old)

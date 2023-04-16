@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPolicyRef
+final class PhorgePolicyRef
   extends Phobject {
 
   private $viewer;
   private $policy;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorPolicyRef
     return $this->viewer;
   }
 
-  public function setPolicy(PhabricatorPolicy $policy) {
+  public function setPolicy(PhorgePolicy $policy) {
     $this->policy = $policy;
     return $this;
   }
@@ -31,7 +31,7 @@ final class PhabricatorPolicyRef
 
   public function newTransactionLink(
     $mode,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $policy = $this->getPolicy();
 

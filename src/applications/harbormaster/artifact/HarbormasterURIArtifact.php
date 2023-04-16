@@ -55,7 +55,7 @@ final class HarbormasterURIArtifact extends HarbormasterArtifact {
     );
   }
 
-  public function renderArtifactSummary(PhabricatorUser $viewer) {
+  public function renderArtifactSummary(PhorgeUser $viewer) {
     return $this->renderLink();
   }
 
@@ -86,7 +86,7 @@ final class HarbormasterURIArtifact extends HarbormasterArtifact {
       $name);
   }
 
-  public function willCreateArtifact(PhabricatorUser $actor) {
+  public function willCreateArtifact(PhorgeUser $actor) {
     $artifact = $this->getBuildArtifact();
     $uri = $artifact->getProperty('uri');
     $this->validateURI($uri);
@@ -105,7 +105,7 @@ final class HarbormasterURIArtifact extends HarbormasterArtifact {
     }
 
     $protocol_key = 'uri.allowed-protocols';
-    $protocols = PhabricatorEnv::getEnvConfig($protocol_key);
+    $protocols = PhorgeEnv::getEnvConfig($protocol_key);
     if (empty($protocols[$protocol])) {
       throw new Exception(
         pht(

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
     if (!($mail_receiver instanceof ManiphestTask)) {
@@ -14,7 +14,7 @@ final class ManiphestReplyHandler
   }
 
   protected function didReceiveMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     $body) {
 
     $object = $this->getMailReceiver();
@@ -25,7 +25,7 @@ final class ManiphestReplyHandler
 
     if ($is_new) {
       $xactions[] = $this->newTransaction()
-        ->setTransactionType(PhabricatorTransactions::TYPE_CREATE)
+        ->setTransactionType(PhorgeTransactions::TYPE_CREATE)
         ->setNewValue(true);
 
       $xactions[] = $this->newTransaction()
@@ -40,7 +40,7 @@ final class ManiphestReplyHandler
       $actor_phid = $actor->getPHID();
       if ($actor_phid) {
         $xactions[] = $this->newTransaction()
-          ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+          ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
           ->setNewValue(
             array(
               '+' => array($actor_phid),

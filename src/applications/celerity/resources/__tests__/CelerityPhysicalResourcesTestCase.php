@@ -1,6 +1,6 @@
 <?php
 
-final class CelerityPhysicalResourcesTestCase extends PhabricatorTestCase {
+final class CelerityPhysicalResourcesTestCase extends PhorgeTestCase {
 
   public function testGetAll() {
     CelerityPhysicalResources::getAll();

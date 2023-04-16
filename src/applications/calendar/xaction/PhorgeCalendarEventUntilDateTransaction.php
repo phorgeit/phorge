@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventUntilDateTransaction
-  extends PhabricatorCalendarEventDateTransaction {
+final class PhorgeCalendarEventUntilDateTransaction
+  extends PhorgeCalendarEventDateTransaction {
 
   const TRANSACTIONTYPE = 'calendar.recurrenceenddate';
 

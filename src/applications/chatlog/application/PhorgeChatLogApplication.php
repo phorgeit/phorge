@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChatLogApplication extends PhabricatorApplication {
+final class PhorgeChatLogApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/chatlog/';
@@ -33,9 +33,9 @@ final class PhabricatorChatLogApplication extends PhabricatorApplication {
  public function getRoutes() {
     return array(
       '/chatlog/' => array(
-       '' => 'PhabricatorChatLogChannelListController',
+       '' => 'PhorgeChatLogChannelListController',
        'channel/(?P<channelID>[^/]+)/'
-          => 'PhabricatorChatLogChannelLogController',
+          => 'PhorgeChatLogChannelLogController',
        ),
     );
   }

@@ -24,8 +24,8 @@
  *
  * @task pull   Pulling Repositories
  */
-final class PhabricatorRepositoryPullLocalDaemon
-  extends PhabricatorDaemon {
+final class PhorgeRepositoryPullLocalDaemon
+  extends PhorgeDaemon {
 
   private $statusMessageCursor = 0;
 
@@ -82,7 +82,7 @@ final class PhabricatorRepositoryPullLocalDaemon
     $last_sync = array();
 
     while (!$this->shouldExit()) {
-      PhabricatorCaches::destroyRequestCache();
+      PhorgeCaches::destroyRequestCache();
       $device = AlmanacKeys::getLiveDevice();
 
       $pullable = $this->loadPullableRepositories($include, $exclude, $device);
@@ -106,7 +106,7 @@ final class PhabricatorRepositoryPullLocalDaemon
 
       if ($device) {
         $unsynchronized = $this->loadUnsynchronizedRepositories($device);
-        $now = PhabricatorTime::getNow();
+        $now = PhorgeTime::getNow();
         foreach ($unsynchronized as $repository) {
           $id = $repository->getID();
 
@@ -144,7 +144,7 @@ final class PhabricatorRepositoryPullLocalDaemon
 
       // Figure out which repositories we need to queue for an update.
       foreach ($pullable as $id => $repository) {
-        $now = PhabricatorTime::getNow();
+        $now = PhorgeTime::getNow();
         $display_name = $repository->getDisplayName();
 
         if (isset($futures[$id])) {
@@ -292,7 +292,7 @@ final class PhabricatorRepositoryPullLocalDaemon
    * @task pull
    */
   private function buildUpdateFuture(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $no_discovery) {
 
     $bin = dirname(phutil_get_library_root('phorge')).'/bin/repository';
@@ -348,8 +348,8 @@ final class PhabricatorRepositoryPullLocalDaemon
    * @task pull
    */
   private function loadRepositoryUpdateMessages($consume = false) {
-    $type_need_update = PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE;
-    $messages = id(new PhabricatorRepositoryStatusMessage())->loadAllWhere(
+    $type_need_update = PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE;
+    $messages = id(new PhorgeRepositoryStatusMessage())->loadAllWhere(
       'statusType = %s AND id > %d',
       $type_need_update,
       $this->statusMessageCursor);
@@ -376,8 +376,8 @@ final class PhabricatorRepositoryPullLocalDaemon
   /**
    * @task pull
    */
-  private function loadLastUpdate(PhabricatorRepository $repository) {
-    $table = new PhabricatorRepositoryStatusMessage();
+  private function loadLastUpdate(PhorgeRepository $repository) {
+    $table = new PhorgeRepositoryStatusMessage();
     $conn = $table->establishConnection('r');
 
     $epoch = queryfx_one(
@@ -388,15 +388,15 @@ final class PhabricatorRepositoryPullLocalDaemon
       $table->getTableName(),
       $repository->getID(),
       array(
-        PhabricatorRepositoryStatusMessage::TYPE_INIT,
-        PhabricatorRepositoryStatusMessage::TYPE_FETCH,
+        PhorgeRepositoryStatusMessage::TYPE_INIT,
+        PhorgeRepositoryStatusMessage::TYPE_FETCH,
       ));
 
     if ($epoch) {
       return (int)$epoch['last_update'];
     }
 
-    return PhabricatorTime::getNow();
+    return PhorgeTime::getNow();
   }
 
   /**
@@ -407,7 +407,7 @@ final class PhabricatorRepositoryPullLocalDaemon
     array $exclude,
     AlmanacDevice $device = null) {
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer());
 
     if ($include) {
@@ -430,7 +430,7 @@ final class PhabricatorRepositoryPullLocalDaemon
     }
 
     if ($exclude) {
-      $xquery = id(new PhabricatorRepositoryQuery())
+      $xquery = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withIdentifiers($exclude);
 
@@ -484,7 +484,7 @@ final class PhabricatorRepositoryPullLocalDaemon
    * @task pull
    */
   private function resolveUpdateFuture(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     ExecFuture $future,
     $min_sleep) {
 
@@ -503,7 +503,7 @@ final class PhabricatorRepositoryPullLocalDaemon
       phlog($proxy);
 
       $smart_wait = $repository->loadUpdateInterval($min_sleep);
-      return PhabricatorTime::getNow() + $smart_wait;
+      return PhorgeTime::getNow() + $smart_wait;
     }
 
     if (strlen($stderr)) {
@@ -523,7 +523,7 @@ final class PhabricatorRepositoryPullLocalDaemon
         $display_name,
         new PhutilNumber($smart_wait)));
 
-    return PhabricatorTime::getNow() + $smart_wait;
+    return PhorgeTime::getNow() + $smart_wait;
   }
 
 
@@ -573,7 +573,7 @@ final class PhabricatorRepositoryPullLocalDaemon
 
   private function loadUnsynchronizedRepositories(AlmanacDevice $device) {
     $viewer = $this->getViewer();
-    $table = new PhabricatorRepositoryWorkingCopyVersion();
+    $table = new PhorgeRepositoryWorkingCopyVersion();
     $conn = $table->establishConnection('r');
 
     $our_versions = queryfx_all(
@@ -602,7 +602,7 @@ final class PhabricatorRepositoryPullLocalDaemon
       return array();
     }
 
-    return id(new PhabricatorRepositoryQuery())
+    return id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs($unsynchronized_phids)
       ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileDetachController
-  extends PhabricatorFileController {
+final class PhorgeFileDetachController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorFileDetachController
     $object_phid = $request->getURIData('objectPHID');
     $file_phid = $request->getURIData('filePHID');
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->executeOne();
@@ -35,7 +35,7 @@ final class PhabricatorFileDetachController
     $file_link = phutil_tag('strong', array(), $file_handle->renderLink());
     $object_link = phutil_tag('strong', array(), $object_handle->renderLink());
 
-    $attachment = id(new PhabricatorFileAttachmentQuery())
+    $attachment = id(new PhorgeFileAttachmentQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
       ->withFilePHIDs(array($file_phid))
@@ -51,7 +51,7 @@ final class PhabricatorFileDetachController
       return $dialog->appendParagraph($body);
     }
 
-    $mode_reference = PhabricatorFileAttachment::MODE_REFERENCE;
+    $mode_reference = PhorgeFileAttachment::MODE_REFERENCE;
     if ($attachment->getAttachmentMode() === $mode_reference) {
       $body = pht(
         'The file %s is referenced by the object %s, but not attached to '.
@@ -83,13 +83,13 @@ final class PhabricatorFileDetachController
       return $dialog;
     }
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       $dialog->appendParagraph(
         pht(
           'This object (of class "%s") does not implement the required '.
           'interface ("%s"), so files can not be manually detached from it.',
           get_class($object),
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
 
       return $dialog;
     }
@@ -105,10 +105,10 @@ final class PhabricatorFileDetachController
     $xactions = array();
 
     $xactions[] = id(clone $template)
-      ->setTransactionType(PhabricatorTransactions::TYPE_FILE)
+      ->setTransactionType(PhorgeTransactions::TYPE_FILE)
       ->setNewValue(
         array(
-          $file_phid => PhabricatorFileAttachment::MODE_DETACH,
+          $file_phid => PhorgeFileAttachment::MODE_DETACH,
         ));
 
     $editor->applyTransactions($object, $xactions);

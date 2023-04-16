@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLipsumGenerateWorkflow
-  extends PhabricatorLipsumManagementWorkflow {
+final class PhorgeLipsumGenerateWorkflow
+  extends PhorgeLipsumManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -30,7 +30,7 @@ final class PhabricatorLipsumGenerateWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $config_key = 'phorge.developer-mode';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       throw new PhutilArgumentUsageException(
         pht(
           'lipsum is a development and testing tool and may only be run '.
@@ -40,7 +40,7 @@ final class PhabricatorLipsumGenerateWorkflow
     }
 
     $all_generators = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTestDataGenerator')
+      ->setAncestorClass('PhorgeTestDataGenerator')
       ->setUniqueMethod('getGeneratorKey')
       ->execute();
 

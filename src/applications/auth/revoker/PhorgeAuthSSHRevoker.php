@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHRevoker
-  extends PhabricatorAuthRevoker {
+final class PhorgeAuthSSHRevoker
+  extends PhorgeAuthRevoker {
 
   const REVOKERKEY = 'ssh';
 
@@ -18,18 +18,18 @@ final class PhabricatorAuthSSHRevoker
   }
 
   public function revokeAllCredentials() {
-    $query = new PhabricatorAuthSSHKeyQuery();
+    $query = new PhorgeAuthSSHKeyQuery();
     return $this->revokeWithQuery($query);
   }
 
   public function revokeCredentialsFrom($object) {
-    $query = id(new PhabricatorAuthSSHKeyQuery())
+    $query = id(new PhorgeAuthSSHKeyQuery())
       ->withObjectPHIDs(array($object->getPHID()));
 
     return $this->revokeWithQuery($query);
   }
 
-  private function revokeWithQuery(PhabricatorAuthSSHKeyQuery $query) {
+  private function revokeWithQuery(PhorgeAuthSSHKeyQuery $query) {
     $viewer = $this->getViewer();
 
     // We're only going to revoke keys which have not already been revoked.
@@ -39,14 +39,14 @@ final class PhabricatorAuthSSHRevoker
       ->withIsActive(true)
       ->execute();
 
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
 
-    $auth_phid = id(new PhabricatorAuthApplication())->getPHID();
+    $auth_phid = id(new PhorgeAuthApplication())->getPHID();
     foreach ($ssh_keys as $ssh_key) {
       $xactions = array();
       $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-        ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE)
+        ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE)
         ->setNewValue(1);
 
       $editor = $ssh_key->getApplicationTransactionEditor()

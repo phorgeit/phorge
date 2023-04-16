@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionPackageTransaction
-  extends PhabricatorPackagesVersionTransactionType {
+final class PhorgePackagesVersionPackageTransaction
+  extends PhorgePackagesVersionTransactionType {
 
   const TRANSACTIONTYPE = 'packages.version.package';
 
@@ -35,14 +35,14 @@ final class PhabricatorPackagesVersionPackageTransaction
     foreach ($xactions as $xaction) {
       $package_phid = $xaction->getNewValue();
 
-      $package = id(new PhabricatorPackagesPackageQuery())
+      $package = id(new PhorgePackagesPackageQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($package_phid))
         ->setRaisePolicyExceptions(false)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
 

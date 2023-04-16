@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+final class PhorgeCalendarReplyHandler
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
-    if (!($mail_receiver instanceof PhabricatorCalendarEvent)) {
+    if (!($mail_receiver instanceof PhorgeCalendarEvent)) {
       throw new Exception(
         pht(
           'Mail receiver is not a %s!',
-          'PhabricatorCalendarEvent'));
+          'PhorgeCalendarEvent'));
     }
   }
 

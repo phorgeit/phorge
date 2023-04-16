@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementMaintenanceWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementMaintenanceWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -59,7 +59,7 @@ final class PhabricatorRepositoryManagementMaintenanceWorkflow
     }
 
     $content_source = $this->newContentSource();
-    $diffusion_phid = id(new PhabricatorDiffusionApplication())->getPHID();
+    $diffusion_phid = id(new PhorgeDiffusionApplication())->getPHID();
 
     if ($is_start) {
       $new_value = $message;
@@ -72,7 +72,7 @@ final class PhabricatorRepositoryManagementMaintenanceWorkflow
 
       $xactions[] = $repository->getApplicationTransactionTemplate()
         ->setTransactionType(
-          PhabricatorRepositoryMaintenanceTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryMaintenanceTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_value);
 
       $repository->getApplicationTransactionEditor()

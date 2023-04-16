@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorRegexListConfigType
-  extends PhabricatorTextListConfigType {
+final class PhorgeRegexListConfigType
+  extends PhorgeTextListConfigType {
 
   const TYPEKEY = 'list<regex>';
 
   protected function validateStoredItem(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $ok = @preg_match($value, '');

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeBadgesTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS = 'badges:details';
   const MAILTAG_COMMENT = 'badges:comment';
@@ -12,34 +12,34 @@ final class PhabricatorBadgesTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorBadgesPHIDType::TYPECONST;
+    return PhorgeBadgesPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorBadgesTransactionComment();
+    return new PhorgeBadgesTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorBadgesBadgeTransactionType';
+    return 'PhorgeBadgesBadgeTransactionType';
   }
 
   public function getMailTags() {
     $tags = parent::getMailTags();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
-      case PhabricatorBadgesBadgeNameTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeDescriptionTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeFlavorTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeIconTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeStatusTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeQualityTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeNameTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeFlavorTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeIconTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeStatusTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeQualityTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_DETAILS;
         break;
-      case PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE:
-      case PhabricatorBadgesBadgeRevokeTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeAwardTransaction::TRANSACTIONTYPE:
+      case PhorgeBadgesBadgeRevokeTransaction::TRANSACTIONTYPE:
       default:
         $tags[] = self::MAILTAG_OTHER;
         break;

@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorPasteSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePasteSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Pastes');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorPasteQuery())
+    return id(new PhorgePasteQuery())
       ->needSnippets(true);
   }
 
@@ -44,35 +44,35 @@ final class PhabricatorPasteSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setAliases(array('authors'))
         ->setKey('authorPHIDs')
         ->setConduitKey('authors')
         ->setLabel(pht('Authors'))
         ->setDescription(
           pht('Search for pastes with specific authors.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('languages')
         ->setLabel(pht('Languages'))
         ->setDescription(
           pht('Search for pastes highlighted in specific languages.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setKey('createdStart')
         ->setLabel(pht('Created After'))
         ->setDescription(
           pht('Search for pastes created after a given time.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setKey('createdEnd')
         ->setLabel(pht('Created Before'))
         ->setDescription(
           pht('Search for pastes created before a given time.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setDescription(
           pht('Search for archived or active pastes.'))
         ->setOptions(
-          id(new PhabricatorPaste())
+          id(new PhorgePaste())
             ->getStatusNameMap()),
     );
   }
@@ -112,7 +112,7 @@ final class PhabricatorPasteSearchEngine
         return $query->setParameter(
           'statuses',
           array(
-            PhabricatorPaste::STATUS_ACTIVE,
+            PhorgePaste::STATUS_ACTIVE,
           ));
       case 'all':
         return $query;
@@ -127,19 +127,19 @@ final class PhabricatorPasteSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $pastes,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return mpull($pastes, 'getAuthorPHID');
   }
 
   protected function renderResultList(
     array $pastes,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($pastes, 'PhabricatorPaste');
+    assert_instances_of($pastes, 'PhorgePaste');
 
     $viewer = $this->requireViewer();
 
-    $lang_map = PhabricatorEnv::getEnvConfig('pygments.dropdown-choices');
+    $lang_map = PhorgeEnv::getEnvConfig('pygments.dropdown-choices');
 
     $list = new PHUIObjectItemListView();
     $list->setUser($viewer);
@@ -150,12 +150,12 @@ final class PhabricatorPasteSearchEngine
       $snippet_type = $paste->getSnippet()->getType();
       $lines = phutil_split_lines($paste->getSnippet()->getContent());
 
-      $preview = id(new PhabricatorSourceCodeView())
+      $preview = id(new PhorgeSourceCodeView())
         ->setLines($lines)
         ->setTruncatedFirstBytes(
-          $snippet_type == PhabricatorPasteSnippet::FIRST_BYTES)
+          $snippet_type == PhorgePasteSnippet::FIRST_BYTES)
         ->setTruncatedFirstLines(
-          $snippet_type == PhabricatorPasteSnippet::FIRST_LINES)
+          $snippet_type == PhorgePasteSnippet::FIRST_LINES)
         ->setURI(new PhutilURI($paste->getURI()));
 
       $source_code = phutil_tag(
@@ -196,7 +196,7 @@ final class PhabricatorPasteSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No pastes found.'));
 
@@ -206,7 +206,7 @@ final class PhabricatorPasteSearchEngine
   protected function getNewUserBody() {
     $viewer = $this->requireViewer();
 
-    $create_button = id(new PhabricatorPasteEditEngine())
+    $create_button = id(new PhorgePasteEditEngine())
       ->setViewer($viewer)
       ->newNUXButton(pht('Create a Paste'));
 

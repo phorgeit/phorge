@@ -2,10 +2,10 @@
 
 final class DivinerLiveSymbol extends DivinerDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorFulltextInterface {
+    PhorgePolicyInterface,
+    PhorgeMarkupInterface,
+    PhorgeDestructibleInterface,
+    PhorgeFulltextInterface {
 
   protected $bookPHID;
   protected $repositoryPHID;
@@ -86,7 +86,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(DivinerAtomPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(DivinerAtomPHIDType::TYPECONST);
   }
 
   public function getBook() {
@@ -102,7 +102,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this->assertAttached($this->repository);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(PhorgeRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -155,7 +155,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     // We don't use it directly, but its existence prevents duplicate records.
 
     if (!$this->identityHash) {
-      $this->identityHash = PhabricatorHash::digestForIndex(
+      $this->identityHash = PhorgeHash::digestForIndex(
         serialize(
           array(
             'bookPHID' => $this->getBookPHID(),
@@ -184,7 +184,7 @@ final class DivinerLiveSymbol extends DivinerDAO
 
     if (strlen($value)) {
       $slug = DivinerAtomRef::normalizeTitleString($value);
-      $hash = PhabricatorHash::digestForIndex($slug);
+      $hash = PhorgeHash::digestForIndex($slug);
       $this->titleSlugHash = $hash;
     } else {
       $this->titleSlugHash = null;
@@ -214,7 +214,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
@@ -225,7 +225,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this->getBook()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBook()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -234,7 +234,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
 
-/* -( PhabricatorMarkupInterface  )------------------------------------------ */
+/* -( PhorgeMarkupInterface  )------------------------------------------ */
 
 
   public function getMarkupFieldKey($field) {
@@ -242,7 +242,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::getEngine('diviner');
+    return PhorgeMarkupEngine::getEngine('diviner');
   }
 
   public function getMarkupText($field) {
@@ -262,11 +262,11 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $conn_w = $this->establishConnection('w');
@@ -282,7 +282,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {

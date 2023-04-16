@@ -36,7 +36,7 @@ abstract class DiffusionGitSSHWorkflow
     $path = head($args->getArg('dir'));
     return $this->loadRepositoryWithPath(
       $path,
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
+      PhorgeRepositoryType::REPOSITORY_TYPE_GIT);
   }
 
   protected function waitForGitClient() {
@@ -53,7 +53,7 @@ abstract class DiffusionGitSSHWorkflow
   }
 
   protected function raiseWrongVCSException(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     throw new Exception(
       pht(
         'This repository ("%s") is not a Git repository. Use "%s" to '.
@@ -75,7 +75,7 @@ abstract class DiffusionGitSSHWorkflow
 
     // While developing, do this to write a full protocol log to disk:
     //
-    // return new PhabricatorProtocolLog('/tmp/git-protocol.log');
+    // return new PhorgeProtocolLog('/tmp/git-protocol.log');
 
     return null;
   }
@@ -84,7 +84,7 @@ abstract class DiffusionGitSSHWorkflow
     return $this->protocolLog;
   }
 
-  final protected function setProtocolLog(PhabricatorProtocolLog $log) {
+  final protected function setProtocolLog(PhorgeProtocolLog $log) {
     $this->protocolLog = $log;
   }
 
@@ -99,7 +99,7 @@ abstract class DiffusionGitSSHWorkflow
   }
 
   public function willWriteMessageCallback(
-    PhabricatorSSHPassthruCommand $command,
+    PhorgeSSHPassthruCommand $command,
     $message) {
 
     $this->ioBytesWritten += strlen($message);
@@ -118,7 +118,7 @@ abstract class DiffusionGitSSHWorkflow
   }
 
   public function willReadMessageCallback(
-    PhabricatorSSHPassthruCommand $command,
+    PhorgeSSHPassthruCommand $command,
     $message) {
 
     $log = $this->getProtocolLog();
@@ -168,7 +168,7 @@ abstract class DiffusionGitSSHWorkflow
             $ref->getDeviceName()));
       }
 
-      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+      $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
       $future = id(new ExecFuture('%C', $command))
         ->setEnv($this->getEnvironment());

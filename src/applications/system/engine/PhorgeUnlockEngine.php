@@ -1,29 +1,29 @@
 <?php
 
-abstract class PhabricatorUnlockEngine
+abstract class PhorgeUnlockEngine
   extends Phobject {
 
   final public static function newUnlockEngineForObject($object) {
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       throw new Exception(
         pht(
           'Object ("%s") does not implement interface "%s", so this type '.
           'of object can not be unlocked.',
           phutil_describe_type($object),
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
     }
 
-    if ($object instanceof PhabricatorUnlockableInterface) {
+    if ($object instanceof PhorgeUnlockableInterface) {
       $engine = $object->newUnlockEngine();
     } else {
-      $engine = new PhabricatorDefaultUnlockEngine();
+      $engine = new PhorgeDefaultUnlockEngine();
     }
 
     return $engine;
   }
 
   public function newUnlockViewTransactions($object, $user) {
-    $type_view = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $type_view = PhorgeTransactions::TYPE_VIEW_POLICY;
 
     if (!$this->canApplyTransactionType($object, $type_view)) {
       throw new Exception(
@@ -40,7 +40,7 @@ abstract class PhabricatorUnlockEngine
   }
 
   public function newUnlockEditTransactions($object, $user) {
-    $type_edit = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $type_edit = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     if (!$this->canApplyTransactionType($object, $type_edit)) {
       throw new Exception(

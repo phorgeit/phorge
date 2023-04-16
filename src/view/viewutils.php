@@ -1,6 +1,6 @@
 <?php
 
-function phorge_date($epoch, PhabricatorUser $user) {
+function phorge_date($epoch, PhorgeUser $user) {
   return phorge_format_local_time(
     $epoch,
     $user,
@@ -31,7 +31,7 @@ function phorge_relative_date($epoch, $user, $on = false) {
 }
 
 function phorge_time($epoch, $user) {
-  $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
+  $time_key = PhorgeTimeFormatSetting::SETTINGKEY;
   return phorge_format_local_time(
     $epoch,
     $user,
@@ -72,7 +72,7 @@ function phorge_absolute_datetime($epoch, $user) {
 }
 
 function phorge_datetime($epoch, $user) {
-  $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
+  $time_key = PhorgeTimeFormatSetting::SETTINGKEY;
   return phorge_format_local_time(
     $epoch,
     $user,
@@ -105,7 +105,7 @@ function phorge_datetimezone($epoch, $user) {
  * @{function:phorge_datetime}.
  *
  * @param int Unix epoch timestamp.
- * @param PhabricatorUser User viewing the timestamp.
+ * @param PhorgeUser User viewing the timestamp.
  * @param string Date format, as per DateTime class.
  * @return string Formatted, local date/time.
  */

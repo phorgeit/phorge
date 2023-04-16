@@ -66,7 +66,7 @@ $applications = array(
 $map = array();
 
 foreach ($applications as $application) {
-  $old_name = 'PhabricatorApplication'.$application;
+  $old_name = 'PhorgeApplication'.$application;
   $new_name = 'Phorge'.$application.'Application';
   $map[$old_name] = $new_name;
 }
@@ -89,7 +89,7 @@ foreach ($applications as $application) {
 $config_key = 'phorge.uninstalled-applications';
 echo pht('Migrating `%s` config...', $config_key)."\n";
 
-$config = PhabricatorConfigEntry::loadConfigEntry($config_key);
+$config = PhorgeConfigEntry::loadConfigEntry($config_key);
 $old_config = $config->getValue();
 $new_config = array();
 
@@ -110,7 +110,7 @@ if ($old_config) {
 $config_key = 'phorge.application-settings';
 echo pht('Migrating `%s` config...', $config_key)."\n";
 
-$config = PhabricatorConfigEntry::loadConfigEntry($config_key);
+$config = PhorgeConfigEntry::loadConfigEntry($config_key);
 $old_config = $config->getValue();
 $new_config = array();
 

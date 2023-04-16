@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactHomeController
-  extends PhabricatorFactController {
+final class PhorgeFactHomeController
+  extends PhorgeFactController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorFactHomeController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $chart = id(new PhabricatorDemoChartEngine())
+    $chart = id(new PhorgeDemoChartEngine())
       ->setViewer($viewer)
       ->newStoredChart();
 

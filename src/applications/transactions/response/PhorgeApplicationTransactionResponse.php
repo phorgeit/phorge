@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionResponse
+final class PhorgeApplicationTransactionResponse
   extends AphrontProxyResponse {
 
   private $viewer;
@@ -15,7 +15,7 @@ final class PhabricatorApplicationTransactionResponse
   }
 
   public function setTransactions($transactions) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($transactions, 'PhorgeApplicationTransaction');
 
     $this->transactions = $transactions;
     return $this;
@@ -34,7 +34,7 @@ final class PhabricatorApplicationTransactionResponse
     return $this->object;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -71,7 +71,7 @@ final class PhabricatorApplicationTransactionResponse
     $viewer = $this->getViewer();
     $xactions = $this->getTransactions();
 
-    $timeline_engine = PhabricatorTimelineEngine::newForObject($object)
+    $timeline_engine = PhorgeTimelineEngine::newForObject($object)
       ->setViewer($viewer)
       ->setTransactions($xactions)
       ->setViewData($this->viewData);

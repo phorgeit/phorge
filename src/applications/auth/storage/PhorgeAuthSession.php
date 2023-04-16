@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSession extends PhabricatorAuthDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeAuthSession extends PhorgeAuthDAO
+  implements PhorgePolicyInterface {
 
   const TYPE_WEB      = 'web';
   const TYPE_CONDUIT  = 'conduit';
@@ -20,7 +20,7 @@ final class PhabricatorAuthSession extends PhabricatorAuthDAO
   private $identityObject = self::ATTACHABLE;
 
   public static function newSessionDigest(PhutilOpaqueEnvelope $session_token) {
-    return PhabricatorHash::digestWithNamedKey(
+    return PhorgeHash::digestWithNamedKey(
       $session_token->openEnvelope(),
       self::SESSION_DIGEST_KEY);
   }
@@ -60,7 +60,7 @@ final class PhabricatorAuthSession extends PhabricatorAuthDAO
 
   public function getTableName() {
     // This is a very old table with a nonstandard name.
-    return PhabricatorUser::SESSION_TABLE;
+    return PhorgeUser::SESSION_TABLE;
   }
 
   public function attachIdentityObject($identity_object) {
@@ -88,7 +88,7 @@ final class PhabricatorAuthSession extends PhabricatorAuthDAO
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthSessionPHIDType::TYPECONST;
+    return PhorgeAuthSessionPHIDType::TYPECONST;
   }
 
   public function isHighSecuritySession() {
@@ -98,7 +98,7 @@ final class PhabricatorAuthSession extends PhabricatorAuthDAO
       return false;
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     if ($until < $now) {
       return false;
     }
@@ -107,28 +107,28 @@ final class PhabricatorAuthSession extends PhabricatorAuthDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if (!$viewer->getPHID()) {
       return false;
     }
 
     $object = $this->getIdentityObject();
-    if ($object instanceof PhabricatorUser) {
+    if ($object instanceof PhorgeUser) {
       return ($object->getPHID() == $viewer->getPHID());
-    } else if ($object instanceof PhabricatorExternalAccount) {
+    } else if ($object instanceof PhorgeExternalAccount) {
       return ($object->getUserPHID() == $viewer->getPHID());
     }
 

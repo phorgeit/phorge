@@ -1,23 +1,23 @@
 <?php
 
-final class PhabricatorProject extends PhabricatorProjectDAO
+final class PhorgeProject extends PhorgeProjectDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorColumnProxyInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorEditEngineSubtypeInterface,
-    PhabricatorWorkboardInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeFlaggableInterface,
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeDestructibleInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeConduitResultInterface,
+    PhorgeColumnProxyInterface,
+    PhorgeSpacesInterface,
+    PhorgeEditEngineSubtypeInterface,
+    PhorgeWorkboardInterface {
 
   protected $name;
-  protected $status = PhabricatorProjectStatus::STATUS_ACTIVE;
+  protected $status = PhorgeProjectStatus::STATUS_ACTIVE;
   protected $authorPHID;
   protected $primarySlug;
   protected $profileImagePHID;
@@ -66,12 +66,12 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   const ITEM_SUBPROJECTS = 'project.subprojects';
 
   public static function initializeNewProject(
-    PhabricatorUser $actor,
-    PhabricatorProject $parent = null) {
+    PhorgeUser $actor,
+    PhorgeProject $parent = null) {
 
-    $app = id(new PhabricatorApplicationQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withClasses(array('PhabricatorProjectApplication'))
+    $app = id(new PhorgeApplicationQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
+      ->withClasses(array('PhorgeProjectApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -89,10 +89,10 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       $space_phid = $actor->getDefaultSpacePHID();
     }
 
-    $default_icon = PhabricatorProjectIconSet::getDefaultIconKey();
-    $default_color = PhabricatorProjectIconSet::getDefaultColorKey();
+    $default_icon = PhorgeProjectIconSet::getDefaultIconKey();
+    $default_color = PhorgeProjectIconSet::getDefaultColorKey();
 
-    return id(new PhabricatorProject())
+    return id(new PhorgeProject())
       ->setAuthorPHID($actor->getPHID())
       ->setIcon($default_icon)
       ->setColor($default_color)
@@ -106,15 +106,15 @@ final class PhabricatorProject extends PhabricatorProjectDAO
       ->setHasWorkboard(0)
       ->setHasMilestones(0)
       ->setHasSubprojects(0)
-      ->setSubtype(PhabricatorEditEngineSubtype::SUBTYPE_DEFAULT)
+      ->setSubtype(PhorgeEditEngineSubtype::SUBTYPE_DEFAULT)
       ->attachParentProject($parent);
   }
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
-      PhabricatorPolicyCapability::CAN_JOIN,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_JOIN,
     );
   }
 
@@ -124,35 +124,35 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     }
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
-      case PhabricatorPolicyCapability::CAN_JOIN:
+      case PhorgePolicyCapability::CAN_JOIN:
         return $this->getJoinPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->isMilestone()) {
       return $this->getParentProject()->hasAutomaticCapability(
         $capability,
         $viewer);
     }
 
-    $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
+    $can_edit = PhorgePolicyCapability::CAN_EDIT;
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->isUserMember($viewer->getPHID())) {
           // Project members can always view a project.
           return true;
         }
         break;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         $parent = $this->getParentProject();
         if ($parent) {
-          $can_edit_parent = PhabricatorPolicyFilter::hasCapability(
+          $can_edit_parent = PhorgePolicyFilter::hasCapability(
             $viewer,
             $parent,
             $can_edit);
@@ -161,8 +161,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
           }
         }
         break;
-      case PhabricatorPolicyCapability::CAN_JOIN:
-        if (PhabricatorPolicyFilter::hasCapability($viewer, $this, $can_edit)) {
+      case PhorgePolicyCapability::CAN_JOIN:
+        if (PhorgePolicyFilter::hasCapability($viewer, $this, $can_edit)) {
           // Project editors can always join a project.
           return true;
         }
@@ -177,24 +177,24 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     // TODO: Clarify the additional rules that parent and subprojects imply.
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht('Members of a project can always view it.');
-      case PhabricatorPolicyCapability::CAN_JOIN:
+      case PhorgePolicyCapability::CAN_JOIN:
         return pht('Users who can edit a project can always join it.');
     }
     return null;
   }
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $parent = $this->getParentProject();
         if ($parent) {
           $extended[] = array(
             $parent,
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_VIEW,
           );
         }
         break;
@@ -271,8 +271,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorProjectProjectPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeProjectProjectPHIDType::TYPECONST);
   }
 
   public function attachMemberPHIDs(array $phids) {
@@ -285,14 +285,14 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function isArchived() {
-    return ($this->getStatus() == PhabricatorProjectStatus::STATUS_ARCHIVED);
+    return ($this->getStatus() == PhorgeProjectStatus::STATUS_ARCHIVED);
   }
 
   public function getProfileImageURI() {
     return $this->getProfileImageFile()->getBestURI();
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
@@ -414,7 +414,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
     $path_key = $this->getProjectPathKey();
     if ($path_key === null || $path_key === '') {
-      $hash = PhabricatorHash::digestForIndex($this->getPHID());
+      $hash = PhorgeHash::digestForIndex($this->getPHID());
       $hash = substr($hash, 0, 4);
       $this->setProjectPathKey($hash);
     }
@@ -459,14 +459,14 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     $slugs = queryfx_all(
       $conn_w,
       'SELECT * FROM %T WHERE projectPHID = %s',
-      id(new PhabricatorProjectSlug())->getTableName(),
+      id(new PhorgeProjectSlug())->getTableName(),
       $this->getPHID());
 
     $all_strings = ipull($slugs, 'slug');
     $all_strings[] = $this->getDisplayName();
     $all_strings = implode(' ', $all_strings);
 
-    $tokens = PhabricatorTypeaheadDatasource::tokenizeString($all_strings);
+    $tokens = PhorgeTypeaheadDatasource::tokenizeString($all_strings);
 
     $sql = array();
     foreach ($tokens as $token) {
@@ -480,7 +480,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
         $table,
         $id);
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn_w,
           'INSERT INTO %T (projectID, token) VALUES %LQ',
@@ -498,7 +498,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this->assertAttached($this->parentProject);
   }
 
-  public function attachParentProject(PhabricatorProject $project = null) {
+  public function attachParentProject(PhorgeProject $project = null) {
     $this->parentProject = $project;
     return $this;
   }
@@ -590,7 +590,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
   public function getDisplayIconKey() {
     if ($this->isMilestone()) {
-      $key = PhabricatorProjectIconSet::getMilestoneIconKey();
+      $key = PhorgeProjectIconSet::getMilestoneIconKey();
     } else {
       $key = $this->getIcon();
     }
@@ -600,12 +600,12 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
   public function getDisplayIconIcon() {
     $key = $this->getDisplayIconKey();
-    return PhabricatorProjectIconSet::getIconIcon($key);
+    return PhorgeProjectIconSet::getIconIcon($key);
   }
 
   public function getDisplayIconName() {
     $key = $this->getDisplayIconKey();
-    return PhabricatorProjectIconSet::getIconName($key);
+    return PhorgeProjectIconSet::getIconName($key);
   }
 
   public function getDisplayColor() {
@@ -683,40 +683,40 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('projects.fields');
+    return PhorgeEnv::getEnvConfig('projects.fields');
   }
 
   public function getCustomFieldBaseClass() {
-    return 'PhabricatorProjectCustomField';
+    return 'PhorgeProjectCustomField';
   }
 
   public function getCustomFields() {
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorProjectTransactionEditor();
+    return new PhorgeProjectTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorProjectTransaction();
+    return new PhorgeProjectTransaction();
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -727,22 +727,22 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
 
-      $columns = id(new PhabricatorProjectColumn())
+      $columns = id(new PhorgeProjectColumn())
         ->loadAllWhere('projectPHID = %s', $this->getPHID());
       foreach ($columns as $column) {
         $engine->destroyObject($column);
       }
 
-      $slugs = id(new PhabricatorProjectSlug())
+      $slugs = id(new PhorgeProjectSlug())
         ->loadAllWhere('projectPHID = %s', $this->getPHID());
       foreach ($slugs as $slug) {
         $slug->delete();
@@ -752,62 +752,62 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
-    return new PhabricatorProjectFulltextEngine();
+    return new PhorgeProjectFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )--------------------------------------- */
+/* -(  PhorgeFerretInterface  )--------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorProjectFerretEngine();
+    return new PhorgeProjectFerretEngine();
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the project.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('slug')
         ->setType('string')
         ->setDescription(pht('Primary slug/hashtag.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('subtype')
         ->setType('string')
         ->setDescription(pht('Subtype of the project.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('milestone')
         ->setType('int?')
         ->setDescription(pht('For milestones, milestone sequence number.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('parent')
         ->setType('map<string, wild>?')
         ->setDescription(
           pht(
             'For subprojects and milestones, a brief description of the '.
             'parent project.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('depth')
         ->setType('int')
         ->setDescription(
           pht(
             'For subprojects and milestones, depth of this project in the '.
             'tree. Root projects have depth 0.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('icon')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about the project icon.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('color')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about the project color.')),
@@ -816,7 +816,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
   public function getFieldValuesForConduit() {
     $color_key = $this->getColor();
-    $color_name = PhabricatorProjectIconSet::getColorName($color_key);
+    $color_name = PhorgeProjectIconSet::getColorName($color_key);
 
     if ($this->isMilestone()) {
       $milestone = (int)$this->getMilestoneNumber();
@@ -852,11 +852,11 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorProjectsMembersSearchEngineAttachment())
+      id(new PhorgeProjectsMembersSearchEngineAttachment())
         ->setAttachmentKey('members'),
-      id(new PhabricatorProjectsWatchersSearchEngineAttachment())
+      id(new PhorgeProjectsWatchersSearchEngineAttachment())
         ->setAttachmentKey('watchers'),
-      id(new PhabricatorProjectsAncestorsSearchEngineAttachment())
+      id(new PhorgeProjectsAncestorsSearchEngineAttachment())
         ->setAttachmentKey('ancestors'),
     );
   }
@@ -874,7 +874,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
 
-/* -(  PhabricatorColumnProxyInterface  )------------------------------------ */
+/* -(  PhorgeColumnProxyInterface  )------------------------------------ */
 
 
   public function getProxyColumnName() {
@@ -894,7 +894,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
 
-/* -(  PhabricatorEditEngineSubtypeInterface  )------------------------------ */
+/* -(  PhorgeEditEngineSubtypeInterface  )------------------------------ */
 
 
   public function getEditEngineSubtype() {
@@ -906,9 +906,9 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function newEditEngineSubtypeMap() {
-    $config = PhabricatorEnv::getEnvConfig('projects.subtypes');
-    return PhabricatorEditEngineSubtype::newSubtypeMap($config)
-      ->setDatasource(new PhabricatorProjectSubtypeDatasource());
+    $config = PhorgeEnv::getEnvConfig('projects.subtypes');
+    return PhorgeEditEngineSubtype::newSubtypeMap($config)
+      ->setDatasource(new PhorgeProjectSubtypeDatasource());
   }
 
   public function newSubtypeObject() {

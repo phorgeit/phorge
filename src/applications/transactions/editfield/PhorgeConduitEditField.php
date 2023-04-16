@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitEditField
-  extends PhabricatorEditField {
+final class PhorgeConduitEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
     return null;

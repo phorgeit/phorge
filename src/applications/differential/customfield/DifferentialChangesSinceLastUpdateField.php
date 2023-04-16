@@ -20,8 +20,8 @@ final class DifferentialChangesSinceLastUpdateField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     if ($editor->isFirstBroadcast()) {
@@ -52,7 +52,7 @@ final class DifferentialChangesSinceLastUpdateField
     $new_id = $current->getID();
 
     $uri = '/'.$revision->getMonogram().'?vs='.$old_id.'&id='.$new_id;
-    $uri = PhabricatorEnv::getProductionURI($uri);
+    $uri = PhorgeEnv::getProductionURI($uri);
 
     $body->addLinkSection(pht('CHANGES SINCE LAST UPDATE'), $uri);
   }

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorOAuthClientViewController
-  extends PhabricatorOAuthClientController {
+final class PhorgeOAuthClientViewController
+  extends PhorgeOAuthClientController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $client = id(new PhabricatorOAuthServerClientQuery())
+    $client = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -23,7 +23,7 @@ final class PhabricatorOAuthClientViewController
 
     $timeline = $this->buildTransactionTimeline(
       $client,
-      new PhabricatorOAuthServerTransactionQuery());
+      new PhorgeOAuthServerTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $box = id(new PHUIObjectBoxView())
@@ -50,7 +50,7 @@ final class PhabricatorOAuthClientViewController
       ->appendChild($columns);
   }
 
-  private function buildHeaderView(PhabricatorOAuthServerClient $client) {
+  private function buildHeaderView(PhorgeOAuthServerClient $client) {
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
@@ -67,25 +67,25 @@ final class PhabricatorOAuthClientViewController
     return $header;
   }
 
-  private function buildCurtain(PhabricatorOAuthServerClient $client) {
+  private function buildCurtain(PhorgeOAuthServerClient $client) {
     $viewer = $this->getViewer();
     $actions = array();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $client,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $client->getID();
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('Edit Application'))
       ->setIcon('fa-pencil')
       ->setWorkflow(!$can_edit)
       ->setDisabled(!$can_edit)
       ->setHref($client->getEditURI());
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('Show Application Secret'))
       ->setIcon('fa-eye')
       ->setHref($this->getApplicationURI("client/secret/{$id}/"))
@@ -103,14 +103,14 @@ final class PhabricatorOAuthClientViewController
 
     $disable_uri = $this->getApplicationURI("client/disable/{$id}/");
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName($disable_text)
       ->setIcon($disable_icon)
       ->setWorkflow(true)
       ->setDisabled(!$can_edit)
       ->setHref($disable_uri);
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('Generate Test Token'))
       ->setIcon('fa-plus')
       ->setWorkflow(true)
@@ -125,7 +125,7 @@ final class PhabricatorOAuthClientViewController
     return $curtain;
   }
 
-  private function buildPropertyListView(PhabricatorOAuthServerClient $client) {
+  private function buildPropertyListView(PhorgeOAuthServerClient $client) {
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())

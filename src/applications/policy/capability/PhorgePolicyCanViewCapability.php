@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyCanViewCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePolicyCanViewCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = self::CAN_VIEW;
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigSettingsListController
-  extends PhabricatorConfigSettingsController {
+final class PhorgeConfigSettingsListController
+  extends PhorgeConfigSettingsController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -26,7 +26,7 @@ final class PhabricatorConfigSettingsListController
       $title = pht('All Settings');
     }
 
-    $db_values = id(new PhabricatorConfigEntry())
+    $db_values = id(new PhorgeConfigEntry())
       ->loadAllWhere('namespace = %s', 'default');
     $db_values = mpull($db_values, null, 'getConfigKey');
 
@@ -35,7 +35,7 @@ final class PhabricatorConfigSettingsListController
       ->setFlush(true);
 
     $rows = array();
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     ksort($options);
     foreach ($options as $option) {
       $key = $option->getKey();
@@ -74,8 +74,8 @@ final class PhabricatorConfigSettingsListController
   }
 
   private function newConfigOptionView(
-    PhabricatorConfigOption $option,
-    PhabricatorConfigEntry $stored_value = null) {
+    PhorgeConfigOption $option,
+    PhorgeConfigEntry $stored_value = null) {
 
     $summary = $option->getSummary();
 

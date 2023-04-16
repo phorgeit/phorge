@@ -3,7 +3,7 @@
 $service_table = new AlmanacService();
 $service_conn = $service_table->establishConnection('w');
 
-$properties_table = new PhabricatorMetaMTAMailProperties();
+$properties_table = new PhorgeMetaMTAMailProperties();
 $conn = $properties_table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator(
@@ -23,6 +23,6 @@ foreach ($iterator as $row) {
       array(
         'mailKey' => $row['mailKey'],
       )),
-    PhabricatorTime::getNow(),
-    PhabricatorTime::getNow());
+    PhorgeTime::getNow(),
+    PhorgeTime::getNow());
 }

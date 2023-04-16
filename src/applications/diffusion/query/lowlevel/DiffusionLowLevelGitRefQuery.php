@@ -14,9 +14,9 @@ final class DiffusionLowLevelGitRefQuery extends DiffusionLowLevelQuery {
   }
 
   protected function executeQuery() {
-    $type_branch = PhabricatorRepositoryRefCursor::TYPE_BRANCH;
-    $type_tag = PhabricatorRepositoryRefCursor::TYPE_TAG;
-    $type_ref = PhabricatorRepositoryRefCursor::TYPE_REF;
+    $type_branch = PhorgeRepositoryRefCursor::TYPE_BRANCH;
+    $type_tag = PhorgeRepositoryRefCursor::TYPE_TAG;
+    $type_ref = PhorgeRepositoryRefCursor::TYPE_REF;
 
     $ref_types = $this->refTypes;
     if (!$ref_types) {

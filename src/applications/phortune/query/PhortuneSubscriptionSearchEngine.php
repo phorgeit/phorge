@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneSubscriptionSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $merchant;
   private $account;
@@ -34,16 +34,16 @@ final class PhortuneSubscriptionSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new PhortuneSubscriptionQuery());
 
     $viewer = $this->requireViewer();
@@ -51,10 +51,10 @@ final class PhortuneSubscriptionSearchEngine
     $merchant = $this->getMerchant();
     $account = $this->getAccount();
     if ($merchant) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $merchant,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       if (!$can_edit) {
         throw new Exception(
           pht(
@@ -63,10 +63,10 @@ final class PhortuneSubscriptionSearchEngine
       }
       $query->withMerchantPHIDs(array($merchant->getPHID()));
     } else if ($account) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $account,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       if (!$can_edit) {
         throw new Exception(
           pht(
@@ -90,7 +90,7 @@ final class PhortuneSubscriptionSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {}
+    PhorgeSavedQuery $saved_query) {}
 
   protected function getURI($path) {
     $merchant = $this->getMerchant();
@@ -127,7 +127,7 @@ final class PhortuneSubscriptionSearchEngine
 
   protected function renderResultList(
     array $subscriptions,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($subscriptions, 'PhortuneSubscription');
 
@@ -147,7 +147,7 @@ final class PhortuneSubscriptionSearchEngine
 
     $table->setNotice($header);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
 
     return $result;

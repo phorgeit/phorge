@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleProfileBadgesController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileBadgesController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfileImage(true)
@@ -16,8 +16,8 @@ final class PhabricatorPeopleProfileBadgesController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorBadgesApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeBadgesApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
 
@@ -32,7 +32,7 @@ final class PhabricatorPeopleProfileBadgesController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_BADGES);
+      PhorgePeopleProfileMenuEngine::ITEM_BADGES);
 
     $button = id(new PHUIButtonView())
       ->setTag('a')
@@ -59,17 +59,17 @@ final class PhabricatorPeopleProfileBadgesController
       ->appendChild($view);
   }
 
-  private function buildBadgesView(PhabricatorUser $user) {
+  private function buildBadgesView(PhorgeUser $user) {
     $viewer = $this->getViewer();
     $request = $this->getRequest();
 
     $pager = id(new AphrontCursorPagerView())
       ->readFromRequest($request);
 
-    $query = id(new PhabricatorBadgesAwardQuery())
+    $query = id(new PhorgeBadgesAwardQuery())
       ->setViewer($viewer)
       ->withRecipientPHIDs(array($user->getPHID()))
-      ->withBadgeStatuses(array(PhabricatorBadgesBadge::STATUS_ACTIVE));
+      ->withBadgeStatuses(array(PhorgeBadgesBadge::STATUS_ACTIVE));
 
     $awards = $query->executeWithCursorPager($pager);
 

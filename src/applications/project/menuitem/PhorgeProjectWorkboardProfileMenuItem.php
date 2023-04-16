@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectWorkboardProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeProjectWorkboardProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'project.workboard';
 
@@ -18,7 +18,7 @@ final class PhabricatorProjectWorkboardProfileMenuItem
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
@@ -26,8 +26,8 @@ final class PhabricatorProjectWorkboardProfileMenuItem
     $viewer = $this->getViewer();
 
     // Workboards are only available if Maniphest is installed.
-    $class = 'PhabricatorManiphestApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeManiphestApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }
 
@@ -35,7 +35,7 @@ final class PhabricatorProjectWorkboardProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -46,9 +46,9 @@ final class PhabricatorProjectWorkboardProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -57,7 +57,7 @@ final class PhabricatorProjectWorkboardProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $project = $config->getProfileObject();
 
     $id = $project->getID();

@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorAuthSSHKeyTestCase extends PhabricatorTestCase {
+final class PhorgeAuthSSHKeyTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -12,15 +12,15 @@ final class PhabricatorAuthSSHKeyTestCase extends PhabricatorTestCase {
     $user = $this->generateNewTestUser();
     $raw_key = 'ssh-rsa hunter2';
 
-    $ssh_key = PhabricatorAuthSSHKey::initializeNewSSHKey($user, $user);
+    $ssh_key = PhorgeAuthSSHKey::initializeNewSSHKey($user, $user);
 
     // Add the key to the user's account.
     $xactions = array();
     $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_NAME)
+      ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_NAME)
       ->setNewValue('key1');
     $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_KEY)
+      ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_KEY)
       ->setNewValue($raw_key);
     $this->applyTransactions($user, $ssh_key, $xactions);
 
@@ -30,7 +30,7 @@ final class PhabricatorAuthSSHKeyTestCase extends PhabricatorTestCase {
     // Revoke it.
     $xactions = array();
     $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE)
+      ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE)
       ->setNewValue(true);
     $this->applyTransactions($user, $ssh_key, $xactions);
 
@@ -39,30 +39,30 @@ final class PhabricatorAuthSSHKeyTestCase extends PhabricatorTestCase {
 
     // Try to add the revoked key back. This should fail with a validation
     // error because the key was previously revoked by the user.
-    $revoked_key = PhabricatorAuthSSHKey::initializeNewSSHKey($user, $user);
+    $revoked_key = PhorgeAuthSSHKey::initializeNewSSHKey($user, $user);
     $xactions = array();
     $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_NAME)
+      ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_NAME)
       ->setNewValue('key2');
     $xactions[] = $ssh_key->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_KEY)
+      ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_KEY)
       ->setNewValue($raw_key);
 
     $caught = null;
     try {
       $this->applyTransactions($user, $ssh_key, $xactions);
-    } catch (PhabricatorApplicationTransactionValidationException $ex) {
+    } catch (PhorgeApplicationTransactionValidationException $ex) {
       $errors = $ex->getErrors();
       $this->assertEqual(1, count($errors));
       $caught = head($errors)->getType();
     }
 
-    $this->assertEqual(PhabricatorAuthSSHKeyTransaction::TYPE_KEY, $caught);
+    $this->assertEqual(PhorgeAuthSSHKeyTransaction::TYPE_KEY, $caught);
   }
 
   private function applyTransactions(
-    PhabricatorUser $actor,
-    PhabricatorAuthSSHKey $key,
+    PhorgeUser $actor,
+    PhorgeAuthSSHKey $key,
     array $xactions) {
 
     $content_source = $this->newContentSource();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectHeraldFieldGroup extends HeraldFieldGroup {
+final class PhorgeProjectHeraldFieldGroup extends HeraldFieldGroup {
 
   const FIELDGROUPKEY = 'projects.project';
 

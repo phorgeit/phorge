@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardFullLayoutMode
-  extends PhabricatorDashboardLayoutMode {
+final class PhorgeDashboardFullLayoutMode
+  extends PhorgeDashboardLayoutMode {
 
   const LAYOUTMODE = 'layout-mode-full';
 

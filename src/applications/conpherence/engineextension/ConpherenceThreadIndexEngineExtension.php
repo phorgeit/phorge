@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'conpherence.thread';
 
@@ -14,7 +14,7 @@ final class ConpherenceThreadIndexEngineExtension
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     $force = $this->shouldForceFullReindex();
@@ -29,7 +29,7 @@ final class ConpherenceThreadIndexEngineExtension
     $query = id(new ConpherenceTransactionQuery())
       ->setViewer($this->getViewer())
       ->withObjectPHIDs(array($object->getPHID()))
-      ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT))
+      ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT))
       ->needComments(true);
 
     if (!$force) {
@@ -58,7 +58,7 @@ final class ConpherenceThreadIndexEngineExtension
     $previous_xactions = id(new ConpherenceTransactionQuery())
       ->setViewer($this->getViewer())
       ->withObjectPHIDs(array($thread->getPHID()))
-      ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT))
+      ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT))
       ->executeWithCursorPager($pager);
     $previous = head($previous_xactions);
 

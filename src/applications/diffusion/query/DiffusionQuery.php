@@ -1,6 +1,6 @@
 <?php
 
-abstract class DiffusionQuery extends PhabricatorQuery {
+abstract class DiffusionQuery extends PhorgeQuery {
 
   private $request;
 
@@ -22,12 +22,12 @@ abstract class DiffusionQuery extends PhabricatorQuery {
 
   final protected static function initQueryObject(
     $base_class,
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
 
     $map = array(
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT        => 'Git',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL  => 'Mercurial',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_SVN        => 'Svn',
+      PhorgeRepositoryType::REPOSITORY_TYPE_GIT        => 'Git',
+      PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL  => 'Mercurial',
+      PhorgeRepositoryType::REPOSITORY_TYPE_SVN        => 'Svn',
     );
 
     $name = idx($map, $repository->getVersionControlSystem());
@@ -45,7 +45,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
   }
 
   final public static function callConduitWithDiffusionRequest(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     DiffusionRequest $drequest,
     $method,
     array $params = array(),
@@ -108,7 +108,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
 
     $repository = $drequest->getRepository();
 
-    $commits = id(new PhabricatorRepositoryCommit())->loadAllWhere(
+    $commits = id(new PhorgeRepositoryCommit())->loadAllWhere(
       'repositoryID = %d AND commitIdentifier IN (%Ls)',
         $repository->getID(),
       $identifiers);
@@ -123,7 +123,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
     foreach ($identifiers as $identifier) {
       $commit_obj = idx($commits, $identifier);
       if (!$commit_obj) {
-        $commit_obj = new PhabricatorRepositoryCommit();
+        $commit_obj = new PhorgeRepositoryCommit();
         $commit_obj->setRepositoryID($repository->getID());
         $commit_obj->setCommitIdentifier($identifier);
         $commit_obj->makeEphemeral();
@@ -134,7 +134,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
 
     $commit_ids = array_filter(mpull($commits, 'getID'));
     if ($commit_ids) {
-      $commit_data = id(new PhabricatorRepositoryCommitData())->loadAllWhere(
+      $commit_data = id(new PhorgeRepositoryCommitData())->loadAllWhere(
         'commitID in (%Ld)',
         $commit_ids);
       $commit_data = mpull($commit_data, null, 'getCommitID');
@@ -175,7 +175,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
     $paths = queryfx_all(
       $conn_r,
       'SELECT id, path FROM %T WHERE pathHash IN (%Ls)',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       array(md5($path_normal)));
     $paths = ipull($paths, 'id', 'path');
     $path_id = idx($paths, $path_normal);
@@ -187,7 +187,7 @@ abstract class DiffusionQuery extends PhabricatorQuery {
       $path_changes = queryfx_all(
         $conn_r,
         'SELECT * FROM %T WHERE commitID IN (%Ld) AND pathID = %d',
-        PhabricatorRepository::TABLE_PATHCHANGE,
+        PhorgeRepository::TABLE_PATHCHANGE,
         $commit_ids,
         $path_id);
       $path_changes = ipull($path_changes, null, 'commitID');

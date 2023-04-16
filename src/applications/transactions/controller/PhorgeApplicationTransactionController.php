@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionController
-  extends PhabricatorController {
+abstract class PhorgeApplicationTransactionController
+  extends PhorgeController {
 
   protected function guessCancelURI(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeUser $viewer,
+    PhorgeApplicationTransaction $xaction) {
 
     // Take an educated guess at the URI where the transactions appear so we
     // can send the cancel button somewhere sensible. This won't always get the
@@ -13,7 +13,7 @@ abstract class PhabricatorApplicationTransactionController
     // than the main object view page) but should always get a reasonable one.
 
     $cancel_uri = '/';
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($xaction->getObjectPHID()))
       ->executeOne();

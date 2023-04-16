@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPHIDTypeTestCase extends PhutilTestCase {
+final class PhorgePHIDTypeTestCase extends PhutilTestCase {
 
   public function testGetAllTypes() {
-    PhabricatorPHIDType::getAllTypes();
+    PhorgePHIDType::getAllTypes();
     $this->assertTrue(true);
   }
 
   public function testGetPHIDTypeApplicationClass() {
-    $types = PhabricatorPHIDType::getAllTypes();
+    $types = PhorgePHIDType::getAllTypes();
 
     foreach ($types as $type) {
       $application_class = $type->getPHIDTypeApplicationClass();

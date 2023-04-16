@@ -6,11 +6,11 @@
  * This class simplifies the process of converting a list of mixed token types
  * (like some PHIDs and some usernames) into a list of just PHIDs.
  */
-abstract class PhabricatorPHIDResolver extends Phobject {
+abstract class PhorgePHIDResolver extends Phobject {
 
   private $viewer;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -20,7 +20,7 @@ abstract class PhabricatorPHIDResolver extends Phobject {
   }
 
   final public function resolvePHIDs(array $phids) {
-    $type_unknown = PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+    $type_unknown = PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
 
     $names = array();
     foreach ($phids as $key => $phid) {

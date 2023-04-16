@@ -17,8 +17,8 @@ final class DifferentialReviewedByCommitMessageField
     return $this->parseObjectList(
       $value,
       array(
-        PhabricatorPeopleUserPHIDType::TYPECONST,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
       ),
       $allow_partial = true);
   }

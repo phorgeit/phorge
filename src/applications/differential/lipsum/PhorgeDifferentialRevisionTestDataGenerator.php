@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialRevisionTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeDifferentialRevisionTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'revisions';
 
@@ -10,7 +10,7 @@ final class PhabricatorDifferentialRevisionTestDataGenerator
   }
 
   public function generateObject() {
-    $author = $this->loadPhabricatorUser();
+    $author = $this->loadPhorgeUser();
 
     $revision = DifferentialRevision::initializeNewRevision($author);
     $revision->attachReviewers(array());
@@ -41,13 +41,13 @@ final class PhabricatorDifferentialRevisionTestDataGenerator
   public function getCCPHIDs() {
     $ccs = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $ccs[] = $this->loadPhabricatorUserPHID();
+      $ccs[] = $this->loadPhorgeUserPHID();
     }
     return $ccs;
   }
 
   public function generateDiff($author) {
-    $paste_generator = new PhabricatorPasteTestDataGenerator();
+    $paste_generator = new PhorgePasteTestDataGenerator();
     $languages = $paste_generator->getSupportedLanguages();
     $language = array_rand($languages);
     $spec = $languages[$language];
@@ -55,7 +55,7 @@ final class PhabricatorDifferentialRevisionTestDataGenerator
     $code = $paste_generator->generateContent($spec);
     $altcode = $paste_generator->generateContent($spec);
     $newcode = $this->randomlyModify($code, $altcode);
-    $diff = id(new PhabricatorDifferenceEngine())
+    $diff = id(new PhorgeDifferenceEngine())
       ->generateRawDiffFromFileContent($code, $newcode);
      $call = new ConduitCall(
       'differential.createrawdiff',

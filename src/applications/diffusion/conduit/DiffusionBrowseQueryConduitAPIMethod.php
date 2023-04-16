@@ -404,7 +404,7 @@ final class DiffusionBrowseQueryConduitAPIMethod
       'SELECT pathID, max(svnCommit) maxCommit FROM %T WHERE
         repositoryID = %d AND parentID = %d
         %Q GROUP BY pathID',
-      PhabricatorRepository::TABLE_FILESYSTEM,
+      PhorgeRepository::TABLE_FILESYSTEM,
       $repository->getID(),
       $path_id,
       $slice_clause);
@@ -426,7 +426,7 @@ final class DiffusionBrowseQueryConduitAPIMethod
               AND parentID = %d
               AND pathID = %d
             %Q ORDER BY svnCommit DESC LIMIT 2',
-          PhabricatorRepository::TABLE_FILESYSTEM,
+          PhorgeRepository::TABLE_FILESYSTEM,
           $repository->getID(),
           $parent_path_id,
           $path_id,
@@ -481,8 +481,8 @@ final class DiffusionBrowseQueryConduitAPIMethod
           AND existed = 1
         AND (%LO)
         ORDER BY pathName',
-      PhabricatorRepository::TABLE_FILESYSTEM,
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_FILESYSTEM,
+      PhorgeRepository::TABLE_PATH,
       $repository->getID(),
       $path_id,
       $sql);
@@ -502,13 +502,13 @@ final class DiffusionBrowseQueryConduitAPIMethod
     if ($loadable_commits) {
       // NOTE: Even though these are integers, use '%Ls' because MySQL doesn't
       // use the second part of the key otherwise!
-      $commits = id(new PhabricatorRepositoryCommit())->loadAllWhere(
+      $commits = id(new PhorgeRepositoryCommit())->loadAllWhere(
         'repositoryID = %d AND commitIdentifier IN (%Ls)',
         $repository->getID(),
         $loadable_commits);
       $commits = mpull($commits, null, 'getCommitIdentifier');
       if ($commits) {
-        $commit_data = id(new PhabricatorRepositoryCommitData())->loadAllWhere(
+        $commit_data = id(new PhorgeRepositoryCommitData())->loadAllWhere(
           'commitID in (%Ld)',
           mpull($commits, 'getID'));
         $commit_data = mpull($commit_data, null, 'getCommitID');

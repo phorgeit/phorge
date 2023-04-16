@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeDashboardEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'dashboard';
 
@@ -22,16 +22,16 @@ final class PhabricatorDashboardEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorDashboard::initializeNewDashboard($viewer);
+    return PhorgeDashboard::initializeNewDashboard($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorDashboardQuery();
+    return new PhorgeDashboardQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -67,37 +67,37 @@ final class PhabricatorDashboardEditEngine
   }
 
   protected function buildCustomEditFields($object) {
-    $layout_options = PhabricatorDashboardLayoutMode::getLayoutModeMap();
+    $layout_options = PhorgeDashboardLayoutMode::getLayoutModeMap();
 
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the dashboard.'))
         ->setConduitDescription(pht('Rename the dashboard.'))
         ->setConduitTypeDescription(pht('New dashboard name.'))
         ->setTransactionType(
-          PhabricatorDashboardNameTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorIconSetEditField())
+      id(new PhorgeIconSetEditField())
         ->setKey('icon')
         ->setLabel(pht('Icon'))
         ->setTransactionType(
-            PhabricatorDashboardIconTransaction::TRANSACTIONTYPE)
-        ->setIconSet(new PhabricatorDashboardIconSet())
+            PhorgeDashboardIconTransaction::TRANSACTIONTYPE)
+        ->setIconSet(new PhorgeDashboardIconSet())
         ->setDescription(pht('Dashboard icon.'))
         ->setConduitDescription(pht('Change the dashboard icon.'))
         ->setConduitTypeDescription(pht('New dashboard icon.'))
         ->setValue($object->getIcon()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('layout')
         ->setLabel(pht('Layout'))
         ->setDescription(pht('Dashboard layout mode.'))
         ->setConduitDescription(pht('Change the dashboard layout mode.'))
         ->setConduitTypeDescription(pht('New dashboard layout mode.'))
         ->setTransactionType(
-          PhabricatorDashboardLayoutTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardLayoutTransaction::TRANSACTIONTYPE)
         ->setOptions($layout_options)
         ->setValue($object->getRawLayoutMode()),
     );

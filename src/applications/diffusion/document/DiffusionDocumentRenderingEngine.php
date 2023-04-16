@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionDocumentRenderingEngine
-  extends PhabricatorDocumentRenderingEngine {
+  extends PhorgeDocumentRenderingEngine {
 
   private $diffusionRequest;
 
@@ -15,8 +15,8 @@ final class DiffusionDocumentRenderingEngine
   }
 
   protected function newRefViewURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine) {
 
     $file = $ref->getFile();
     $engine_key = $engine->getDocumentEngineKey();
@@ -33,8 +33,8 @@ final class DiffusionDocumentRenderingEngine
   }
 
   protected function newRefRenderURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine) {
 
     $engine_key = $engine->getDocumentEngineKey();
 
@@ -65,11 +65,11 @@ final class DiffusionDocumentRenderingEngine
 
   protected function addApplicationCrumbs(
     PHUICrumbsView $crumbs,
-    PhabricatorDocumentRef $ref = null) {
+    PhorgeDocumentRef $ref = null) {
     return;
   }
 
-  protected function willStageRef(PhabricatorDocumentRef $ref) {
+  protected function willStageRef(PhorgeDocumentRef $ref) {
     $drequest = $this->getDiffusionRequest();
 
     $blame_uri = (string)$drequest->generateURI(
@@ -81,7 +81,7 @@ final class DiffusionDocumentRenderingEngine
     $ref->setBlameURI($blame_uri);
   }
 
-  protected function willRenderRef(PhabricatorDocumentRef $ref) {
+  protected function willRenderRef(PhorgeDocumentRef $ref) {
     $drequest = $this->getDiffusionRequest();
 
     $ref->setSymbolMetadata($this->getSymbolMetadata());

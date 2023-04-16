@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPolicyEditController
-  extends PhabricatorPolicyController {
+final class PhorgePolicyEditController
+  extends PhorgePolicyController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
     $object_phid = $request->getURIData('objectPHID');
     if ($object_phid) {
-      $object = id(new PhabricatorObjectQuery())
+      $object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($object_phid))
         ->executeOne();
@@ -21,7 +21,7 @@ final class PhabricatorPolicyEditController
         $object_type = $request->getURIData('templateType');
       }
 
-      $phid_types = PhabricatorPHIDType::getAllInstalledTypes($viewer);
+      $phid_types = PhorgePHIDType::getAllInstalledTypes($viewer);
       if (empty($phid_types[$object_type])) {
         return new Aphront404Response();
       }
@@ -43,12 +43,12 @@ final class PhabricatorPolicyEditController
     }
 
     $action_options = array(
-      PhabricatorPolicy::ACTION_ALLOW => pht('Allow'),
-      PhabricatorPolicy::ACTION_DENY => pht('Deny'),
+      PhorgePolicy::ACTION_ALLOW => pht('Allow'),
+      PhorgePolicy::ACTION_DENY => pht('Deny'),
     );
 
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyRule')
+      ->setAncestorClass('PhorgePolicyRule')
       ->execute();
 
     foreach ($rules as $key => $rule) {
@@ -66,7 +66,7 @@ final class PhabricatorPolicyEditController
     );
 
     if ($phid) {
-      $policies = id(new PhabricatorPolicyQuery())
+      $policies = id(new PhorgePolicyQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($phid))
         ->execute();
@@ -75,9 +75,9 @@ final class PhabricatorPolicyEditController
       }
       $policy = head($policies);
     } else {
-      $policy = id(new PhabricatorPolicy())
+      $policy = id(new PhorgePolicy())
         ->setRules(array($default_rule))
-        ->setDefaultAction(PhabricatorPolicy::ACTION_DENY);
+        ->setDefaultAction(PhorgePolicy::ACTION_DENY);
     }
 
     $root_id = celerity_generate_unique_node_id();
@@ -143,7 +143,7 @@ final class PhabricatorPolicyEditController
       // custom policies.
 
       if (!$errors) {
-        $new_policy = new PhabricatorPolicy();
+        $new_policy = new PhorgePolicy();
         $new_policy->setRules($valid_rules);
         $new_policy->setDefaultAction($request->getStr('default'));
         $new_policy->save();
@@ -247,7 +247,7 @@ final class PhabricatorPolicyEditController
 
     $key = $request->getStr('capability');
     if ($key) {
-      $capability = PhabricatorPolicyCapability::getCapabilityByKey($key);
+      $capability = PhorgePolicyCapability::getCapabilityByKey($key);
       $title = pht('Custom "%s" Policy', $capability->getCapabilityName());
     }
 
@@ -272,7 +272,7 @@ final class PhabricatorPolicyEditController
       $project_phids = $request->getArr('projectPHIDs');
       $project_phid = head($project_phids);
 
-      $project = id(new PhabricatorObjectQuery())
+      $project = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($project_phid))
         ->executeOne();
@@ -281,7 +281,7 @@ final class PhabricatorPolicyEditController
         // Save this project as one of the user's most recently used projects,
         // so we'll show it by default in future menus.
 
-        $favorites_key = PhabricatorPolicyFavoritesSetting::SETTINGKEY;
+        $favorites_key = PhorgePolicyFavoritesSetting::SETTINGKEY;
         $favorites = $viewer->getUserSetting($favorites_key);
         if (!is_array($favorites)) {
           $favorites = array();
@@ -291,9 +291,9 @@ final class PhabricatorPolicyEditController
         unset($favorites[$project_phid]);
         $favorites[$project_phid] = true;
 
-        $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+        $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-        $editor = id(new PhabricatorUserPreferencesEditor())
+        $editor = id(new PhorgeUserPreferencesEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true)
@@ -319,7 +319,7 @@ final class PhabricatorPolicyEditController
       }
     }
 
-    $project_datasource = id(new PhabricatorProjectDatasource())
+    $project_datasource = id(new PhorgeProjectDatasource())
       ->setParameters(
         array(
           'policy' => 1,

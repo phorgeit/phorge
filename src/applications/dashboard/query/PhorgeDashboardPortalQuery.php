@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeDashboardPortalQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -23,7 +23,7 @@ final class PhabricatorDashboardPortalQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorDashboardPortal();
+    return new PhorgeDashboardPortal();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -54,7 +54,7 @@ final class PhabricatorDashboardPortalQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function getPrimaryTableAlias() {

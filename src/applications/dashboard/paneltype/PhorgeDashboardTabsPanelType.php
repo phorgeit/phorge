@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardTabsPanelType
-  extends PhabricatorDashboardPanelType {
+final class PhorgeDashboardTabsPanelType
+  extends PhorgeDashboardPanelType {
 
   public function getPanelTypeKey() {
     return 'tabs';
@@ -19,7 +19,7 @@ final class PhabricatorDashboardTabsPanelType
     return pht('Use tabs to switch between several other panels.');
   }
 
-  protected function newEditEngineFields(PhabricatorDashboardPanel $panel) {
+  protected function newEditEngineFields(PhorgeDashboardPanel $panel) {
     return array();
   }
 
@@ -28,7 +28,7 @@ final class PhabricatorDashboardTabsPanelType
     return false;
   }
 
-  public function getPanelConfiguration(PhabricatorDashboardPanel $panel) {
+  public function getPanelConfiguration(PhorgeDashboardPanel $panel) {
     $config = $panel->getProperty('config');
 
     if (!is_array($config)) {
@@ -44,9 +44,9 @@ final class PhabricatorDashboardTabsPanelType
   }
 
   public function renderPanelContent(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine) {
 
     $is_edit = $engine->isEditMode();
     $config = $this->getPanelConfiguration($panel);
@@ -63,7 +63,7 @@ final class PhabricatorDashboardTabsPanelType
 
     $ids = ipull($config, 'panelID');
     if ($ids) {
-      $panels = id(new PhabricatorDashboardPanelQuery())
+      $panels = id(new PhorgeDashboardPanelQuery())
         ->setViewer($viewer)
         ->withIDs($ids)
         ->execute();
@@ -119,7 +119,7 @@ final class PhabricatorDashboardTabsPanelType
         ->setName($name);
 
       if ($is_edit) {
-        $dropdown_menu = id(new PhabricatorActionListView())
+        $dropdown_menu = id(new PhorgeActionListView())
           ->setViewer($viewer);
 
         $remove_tab_uri = id(clone $remove_uri)
@@ -138,16 +138,16 @@ final class PhabricatorDashboardTabsPanelType
           '/dashboard/panel/edit/%d/',
           $panel_id);
         if ($subpanel) {
-          $can_edit = PhabricatorPolicyFilter::hasCapability(
+          $can_edit = PhorgePolicyFilter::hasCapability(
             $viewer,
             $subpanel,
-            PhabricatorPolicyCapability::CAN_EDIT);
+            PhorgePolicyCapability::CAN_EDIT);
         } else {
           $can_edit = false;
         }
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Rename Tab'))
             ->setIcon('fa-pencil')
             ->setHref($rename_tab_uri)
@@ -174,7 +174,7 @@ final class PhabricatorDashboardTabsPanelType
         $next_uri = new PhutilURI($move_uri, $next_params);
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Move Tab Left'))
             ->setIcon('fa-chevron-left')
             ->setHref($prev_uri)
@@ -182,7 +182,7 @@ final class PhabricatorDashboardTabsPanelType
             ->setDisabled(($prev_key === null) || !$can_edit));
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Move Tab Right'))
             ->setIcon('fa-chevron-right')
             ->setHref($next_uri)
@@ -190,18 +190,18 @@ final class PhabricatorDashboardTabsPanelType
             ->setDisabled(($next_key === null) || !$can_edit));
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Remove Tab'))
             ->setIcon('fa-times')
             ->setHref($remove_tab_uri)
             ->setWorkflow(true));
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
-            ->setType(PhabricatorActionView::TYPE_DIVIDER));
+          id(new PhorgeActionView())
+            ->setType(PhorgeActionView::TYPE_DIVIDER));
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Edit Panel'))
             ->setIcon('fa-pencil')
             ->setHref($edit_uri)
@@ -209,7 +209,7 @@ final class PhabricatorDashboardTabsPanelType
             ->setDisabled(!$can_edit));
 
         $dropdown_menu->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('View Panel Details'))
             ->setIcon('fa-window-maximize')
             ->setHref($details_uri)
@@ -225,7 +225,7 @@ final class PhabricatorDashboardTabsPanelType
 
 
     if ($is_edit) {
-      $actions = id(new PhabricatorActionListView())
+      $actions = id(new PhorgeActionListView())
         ->setViewer($viewer);
 
       $add_last_uri = clone $add_uri;
@@ -236,7 +236,7 @@ final class PhabricatorDashboardTabsPanelType
       }
 
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Add Existing Panel'))
           ->setIcon('fa-window-maximize')
           ->setHref($add_last_uri)
@@ -261,13 +261,13 @@ final class PhabricatorDashboardTabsPanelType
 
     $content = array();
     $panel_list = array();
-    $no_headers = PhabricatorDashboardPanelRenderingEngine::HEADER_MODE_NONE;
+    $no_headers = PhorgeDashboardPanelRenderingEngine::HEADER_MODE_NONE;
     foreach ($config as $idx => $tab_spec) {
       $panel_id = idx($tab_spec, 'panelID');
       $subpanel = idx($panels, $panel_id);
 
       if ($subpanel) {
-        $panel_content = id(new PhabricatorDashboardPanelRenderingEngine())
+        $panel_content = id(new PhorgeDashboardPanelRenderingEngine())
           ->setViewer($viewer)
           ->setEnableAsyncRendering(true)
           ->setContextObject($context_object)
@@ -334,7 +334,7 @@ final class PhabricatorDashboardTabsPanelType
       ));
   }
 
-  public function getSubpanelPHIDs(PhabricatorDashboardPanel $panel) {
+  public function getSubpanelPHIDs(PhorgeDashboardPanel $panel) {
     $config = $this->getPanelConfiguration($panel);
 
     $panel_ids = array();
@@ -343,8 +343,8 @@ final class PhabricatorDashboardTabsPanelType
     }
 
     if ($panel_ids) {
-      $panels = id(new PhabricatorDashboardPanelQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $panels = id(new PhorgeDashboardPanelQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withIDs($panel_ids)
         ->execute();
     } else {

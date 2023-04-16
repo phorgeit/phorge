@@ -103,7 +103,7 @@ final class HarbormasterBuildPlanBehaviorTransaction
   }
 
   private function getBehaviorKeyForTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $metadata_key = HarbormasterBuildPlanBehavior::getTransactionMetadataKey();
     return $xaction->getMetadataValue($metadata_key);
   }

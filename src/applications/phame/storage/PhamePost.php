@@ -2,18 +2,18 @@
 
 final class PhamePost extends PhameDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorProjectInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorEditEngineLockableInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgePolicyInterface,
+    PhorgeMarkupInterface,
+    PhorgeFlaggableInterface,
+    PhorgeProjectInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeSubscribableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeConduitResultInterface,
+    PhorgeEditEngineLockableInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   const MARKUP_FIELD_BODY    = 'markup:body';
 
@@ -34,14 +34,14 @@ final class PhamePost extends PhameDAO
   private $headerImageFile = self::ATTACHABLE;
 
   public static function initializePost(
-    PhabricatorUser $blogger,
+    PhorgeUser $blogger,
     PhameBlog $blog) {
 
     $post = id(new PhamePost())
       ->setBloggerPHID($blogger->getPHID())
       ->setBlogPHID($blog->getPHID())
       ->attachBlog($blog)
-      ->setDatePublished(PhabricatorTime::getNow())
+      ->setDatePublished(PhorgeTime::getNow())
       ->setVisibility(PhameConstants::VISIBILITY_PUBLISHED)
       ->setInteractPolicy(
         id(new PhameInheritBlogPolicyRule())
@@ -174,19 +174,19 @@ final class PhamePost extends PhameDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPhamePostPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePhamePostPHIDType::TYPECONST);
   }
 
   public function getSlug() {
-    return PhabricatorSlug::normalizeProjectSlug($this->getTitle());
+    return PhorgeSlug::normalizeProjectSlug($this->getTitle());
   }
 
   public function getHeaderImageURI() {
     return $this->getHeaderImageFile()->getBestURI();
   }
 
-  public function attachHeaderImageFile(PhabricatorFile $file) {
+  public function attachHeaderImageFile(PhorgeFile $file) {
     $this->headerImageFile = $file;
     return $this;
   }
@@ -196,14 +196,14 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
-      PhabricatorPolicyCapability::CAN_INTERACT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_INTERACT,
     );
   }
 
@@ -213,34 +213,34 @@ final class PhamePost extends PhameDAO
     // the blog is visible to.
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if (!$this->isDraft() && !$this->isArchived() && $this->getBlog()) {
           return $this->getBlog()->getViewPolicy();
         } else if ($this->getBlog()) {
           return $this->getBlog()->getEditPolicy();
         } else {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         }
         break;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->getBlog()) {
           return $this->getBlog()->getEditPolicy();
         } else {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         }
-      case PhabricatorPolicyCapability::CAN_INTERACT:
+      case PhorgePolicyCapability::CAN_INTERACT:
         return $this->getInteractPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     // A blog post's author can always view it.
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_EDIT:
         return ($user->getPHID() == $this->getBloggerPHID());
-      case PhabricatorPolicyCapability::CAN_INTERACT:
+      case PhorgePolicyCapability::CAN_INTERACT:
         return false;
     }
   }
@@ -250,16 +250,16 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorMarkupInterface Implementation  )-------------------------- */
+/* -(  PhorgeMarkupInterface Implementation  )-------------------------- */
 
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newPhameMarkupEngine();
+    return PhorgeMarkupEngine::newPhameMarkupEngine();
   }
 
   public function getMarkupText($field) {
@@ -281,7 +281,7 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -293,11 +293,11 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
@@ -305,7 +305,7 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -315,7 +315,7 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface Implementation  )-------------------- */
+/* -(  PhorgeSubscribableInterface Implementation  )-------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -323,32 +323,32 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('Title of the post.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('slug')
         ->setType('string')
         ->setDescription(pht('Slug for the post.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('blogPHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the blog that the post belongs to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the author of the post.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('body')
         ->setType('string')
         ->setDescription(pht('Body of the post.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('datePublished')
         ->setType('epoch?')
         ->setDescription(pht('Publish date, if the post has been published.')),
@@ -380,14 +380,14 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
     return new PhamePostFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -395,7 +395,7 @@ final class PhamePost extends PhameDAO
   }
 
 
-/* -(  PhabricatorEditEngineLockableInterface  )----------------------------- */
+/* -(  PhorgeEditEngineLockableInterface  )----------------------------- */
 
   public function newEditEngineLock() {
     return new PhamePostEditEngineLock();

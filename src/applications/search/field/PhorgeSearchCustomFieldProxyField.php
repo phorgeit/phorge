@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorSearchCustomFieldProxyField
-  extends PhabricatorSearchField {
+final class PhorgeSearchCustomFieldProxyField
+  extends PhorgeSearchField {
 
   private $searchEngine;
   private $customField;
 
-  public function setSearchEngine(PhabricatorApplicationSearchEngine $engine) {
+  public function setSearchEngine(PhorgeApplicationSearchEngine $engine) {
     $this->searchEngine = $engine;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorSearchCustomFieldProxyField
     return $this->searchEngine;
   }
 
-  public function setCustomField(PhabricatorCustomField $field) {
+  public function setCustomField(PhorgeCustomField $field) {
     $this->customField = $field;
     $this->setKey('custom:'.$field->getFieldIndex());
 

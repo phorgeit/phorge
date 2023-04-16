@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCalendarEventSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   private $calendarYear;
   private $calendarMonth;
@@ -12,13 +12,13 @@ final class PhabricatorCalendarEventSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function newQuery() {
     $viewer = $this->requireViewer();
 
-    return id(new PhabricatorCalendarEventQuery())
+    return id(new PhorgeCalendarEventQuery())
       ->needRSVPs(array($viewer->getPHID()));
   }
 
@@ -28,37 +28,37 @@ final class PhabricatorCalendarEventSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Hosts'))
         ->setKey('hostPHIDs')
         ->setAliases(array('host', 'hostPHID', 'hosts'))
-        ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
-      id(new PhabricatorSearchDatasourceField())
+        ->setDatasource(new PhorgePeopleUserFunctionDatasource()),
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Invited'))
         ->setKey('invitedPHIDs')
-        ->setDatasource(new PhabricatorCalendarInviteeDatasource()),
-      id(new PhabricatorSearchDateControlField())
+        ->setDatasource(new PhorgeCalendarInviteeDatasource()),
+      id(new PhorgeSearchDateControlField())
         ->setLabel(pht('Occurs After'))
         ->setKey('rangeStart'),
-      id(new PhabricatorSearchDateControlField())
+      id(new PhorgeSearchDateControlField())
         ->setLabel(pht('Occurs Before'))
         ->setKey('rangeEnd')
         ->setAliases(array('rangeEnd')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('upcoming')
         ->setOptions(array(
           'upcoming' => pht('Show only upcoming events.'),
           )),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Cancelled Events'))
         ->setKey('isCancelled')
         ->setOptions($this->getCancelledOptions())
         ->setDefault('active'),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Import Sources'))
         ->setKey('importSourcePHIDs')
         ->setAliases(array('importSourcePHID')),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Display Options'))
         ->setKey('display')
         ->setOptions($this->getViewOptions())
@@ -82,7 +82,7 @@ final class PhabricatorCalendarEventSearchEngine
     );
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = parent::buildQueryFromSavedQuery($saved);
 
     // If this is an export query for generating an ".ics" file, don't
@@ -182,7 +182,7 @@ final class PhabricatorCalendarEventSearchEngine
       $display_end = $next->format('U');
 
       $start_of_week = $viewer->getUserSetting(
-        PhabricatorWeekStartDaySetting::SETTINGKEY);
+        PhorgeWeekStartDaySetting::SETTINGKEY);
 
       $end_of_week = ($start_of_week + 6) % 7;
 
@@ -214,7 +214,7 @@ final class PhabricatorCalendarEventSearchEngine
     }
 
     if ($upcoming) {
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       if ($min_range) {
         $min_range = max($now, $min_range);
       } else {
@@ -272,7 +272,7 @@ final class PhabricatorCalendarEventSearchEngine
 
   protected function renderResultList(
     array $events,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     if ($this->isMonthView($query)) {
@@ -288,9 +288,9 @@ final class PhabricatorCalendarEventSearchEngine
 
   private function buildCalendarListView(
     array $events,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, 'PhorgeCalendarEvent');
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
 
@@ -337,11 +337,11 @@ final class PhabricatorCalendarEventSearchEngine
 
   private function buildCalendarMonthView(
     array $events,
-    PhabricatorSavedQuery $query) {
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    PhorgeSavedQuery $query) {
+    assert_instances_of($events, 'PhorgeCalendarEvent');
 
     $viewer = $this->requireViewer();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     list($start_year, $start_month) =
       $this->getDisplayYearAndMonthAndDay(
@@ -413,7 +413,7 @@ final class PhabricatorCalendarEventSearchEngine
 
   private function buildCalendarDayView(
     array $events,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $viewer = $this->requireViewer();
 
@@ -436,10 +436,10 @@ final class PhabricatorCalendarEventSearchEngine
     $phids = mpull($events, 'getHostPHID');
 
     foreach ($events as $event) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $event,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       $epoch_min = $event->getStartDateTimeEpoch();
       $epoch_max = $event->getEndDateTimeEpoch();
@@ -517,7 +517,7 @@ final class PhabricatorCalendarEventSearchEngine
     return array($start_year, $start_month, $start_day);
   }
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     if ($this->isMonthView($saved) || $this->isDayView($saved)) {
       return $saved->getParameter('limit', 1000);
     } else {
@@ -525,7 +525,7 @@ final class PhabricatorCalendarEventSearchEngine
     }
   }
 
-  private function getQueryDateFrom(PhabricatorSavedQuery $saved) {
+  private function getQueryDateFrom(PhorgeSavedQuery $saved) {
     if ($this->calendarYear && $this->calendarMonth) {
       $viewer = $this->requireViewer();
 
@@ -543,11 +543,11 @@ final class PhabricatorCalendarEventSearchEngine
     return $this->getQueryDate($saved, 'rangeStart');
   }
 
-  private function getQueryDateTo(PhabricatorSavedQuery $saved) {
+  private function getQueryDateTo(PhorgeSavedQuery $saved) {
     return $this->getQueryDate($saved, 'rangeEnd');
   }
 
-  private function getQueryDate(PhabricatorSavedQuery $saved, $key) {
+  private function getQueryDate(PhorgeSavedQuery $saved, $key) {
     $viewer = $this->requireViewer();
 
     $wild = $saved->getParameter($key);
@@ -566,7 +566,7 @@ final class PhabricatorCalendarEventSearchEngine
     } else {
       $value = AphrontFormDateControlValue::newFromEpoch(
         $viewer,
-        PhabricatorTime::getTodayMidnightDateTime($viewer)->format('U'));
+        PhorgeTime::getTodayMidnightDateTime($viewer)->format('U'));
       $value->setEnabled(false);
     }
 
@@ -575,7 +575,7 @@ final class PhabricatorCalendarEventSearchEngine
     return $value;
   }
 
-  private function isMonthView(PhabricatorSavedQuery $query) {
+  private function isMonthView(PhorgeSavedQuery $query) {
     if ($this->isDayView($query)) {
       return false;
     }
@@ -584,7 +584,7 @@ final class PhabricatorCalendarEventSearchEngine
     }
   }
 
-  private function isDayView(PhabricatorSavedQuery $query) {
+  private function isDayView(PhorgeSavedQuery $query) {
     if ($query->getParameter('display') == 'day') {
       return true;
     }
@@ -595,12 +595,12 @@ final class PhabricatorCalendarEventSearchEngine
     return false;
   }
 
-  public function newUseResultsActions(PhabricatorSavedQuery $saved) {
+  public function newUseResultsActions(PhorgeSavedQuery $saved) {
     $viewer = $this->requireViewer();
     $can_export = $viewer->isLoggedIn();
 
     return array(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-download')
         ->setName(pht('Export Query as .ics'))
         ->setDisabled(!$can_export)
@@ -614,11 +614,11 @@ final class PhabricatorCalendarEventSearchEngine
     // so you can import ".ics" files by dropping them directly onto the
     // calendar.
     if (!$this->isPanelContext()) {
-      $drop_upload = id(new PhabricatorGlobalUploadTargetView())
+      $drop_upload = id(new PhorgeGlobalUploadTargetView())
         ->setViewer($this->requireViewer())
         ->setHintText("\xE2\x87\xAA ".pht('Drop .ics Files to Import'))
         ->setSubmitURI('/calendar/import/drop/')
-        ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE);
+        ->setViewPolicy(PhorgePolicies::POLICY_NOONE);
 
       $content = array(
         $drop_upload,
@@ -626,7 +626,7 @@ final class PhabricatorCalendarEventSearchEngine
       );
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($content);
   }
 

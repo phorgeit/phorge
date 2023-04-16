@@ -1,6 +1,6 @@
 <?php
 
-final class NuanceImportCursorPHIDType extends PhabricatorPHIDType {
+final class NuanceImportCursorPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'NUAC';
 
@@ -13,11 +13,11 @@ final class NuanceImportCursorPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new NuanceImportCursorDataQuery())
@@ -25,7 +25,7 @@ final class NuanceImportCursorPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

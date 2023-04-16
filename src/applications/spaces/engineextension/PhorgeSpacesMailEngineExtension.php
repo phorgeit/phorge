@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorSpacesMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+final class PhorgeSpacesMailEngineExtension
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'spaces';
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSpacesInterface);
+    return ($object instanceof PhorgeSpacesInterface);
   }
 
   public function newMailStampTemplates($object) {
     return array(
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('space')
         ->setLabel(pht('Space')),
     );
@@ -21,11 +21,11 @@ final class PhabricatorSpacesMailEngineExtension
     $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
-    if (!PhabricatorSpacesNamespaceQuery::getSpacesExist()) {
+    if (!PhorgeSpacesNamespaceQuery::getSpacesExist()) {
       return;
     }
 
-    $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+    $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
       $object);
 
     $this->getMailStamp('space')

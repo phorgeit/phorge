@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProfileMenuEngine extends Phobject {
+abstract class PhorgeProfileMenuEngine extends Phobject {
 
   private $viewer;
   private $profileObject;
@@ -19,7 +19,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   const MODE_GLOBAL = 'global';
   const MODE_CUSTOM = 'custom';
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -61,7 +61,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $custom_phid;
   }
 
-  public function setController(PhabricatorController $controller) {
+  public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -330,7 +330,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
 
     $items = $this->loadBuiltinProfileItems($mode);
 
-    $query = id(new PhabricatorProfileMenuItemConfigurationQuery())
+    $query = id(new PhorgeProfileMenuItemConfigurationQuery())
       ->setViewer($viewer)
       ->withProfilePHIDs(array($object->getPHID()));
 
@@ -408,7 +408,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         break;
     }
 
-    $items = PhabricatorProfileMenuItem::getAllMenuItems();
+    $items = PhorgeProfileMenuItem::getAllMenuItems();
     $viewer = $this->getViewer();
 
     $order = 1;
@@ -498,12 +498,12 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     $custom_phid = $this->getEditModeCustomPHID();
 
     if (!$custom_phid) {
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $object,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     } else {
-      $policy_object = id(new PhabricatorObjectQuery())
+      $policy_object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($custom_phid))
         ->executeOne();
@@ -515,10 +515,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
             $custom_phid));
       }
 
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $policy_object,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     $controller = $this->getController();
@@ -560,17 +560,17 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     $items = array_select_keys($items, $key_order) + $items;
 
     $type_order =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_ORDER;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_ORDER;
 
     $order = 1;
     foreach ($items as $item) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProfileMenuItemConfigurationTransaction())
+      $xactions[] = id(new PhorgeProfileMenuItemConfigurationTransaction())
         ->setTransactionType($type_order)
         ->setNewValue($order);
 
-      $editor = id(new PhabricatorProfileMenuEditor())
+      $editor = id(new PhorgeProfileMenuEditor())
         ->setContentSourceFromRequest($request)
         ->setActor($viewer)
         ->setContinueOnMissingFields(true)
@@ -585,7 +585,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   protected function buildItemViewContent(
-    PhabricatorProfileMenuItemConfiguration $item) {
+    PhorgeProfileMenuItemConfiguration $item) {
     return $item->newPageContent();
   }
 
@@ -599,10 +599,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     }
 
     $object = $this->getProfileObject();
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($can_edit) {
       $modes[] = self::MODE_GLOBAL;
@@ -695,10 +695,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     // to be able to edit the Favorites application to add new items to the
     // Favorites menu.
     if (!$this->getCustomPHID()) {
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $object,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     $list_id = celerity_generate_unique_node_id();
@@ -721,10 +721,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $id = $item->getID();
       $builtin_key = $item->getBuiltinKey();
 
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $item,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       $view = id(new PHUIObjectItemView());
 
@@ -821,10 +821,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $list->addItem($view);
     }
 
-    $item_types = PhabricatorProfileMenuItem::getAllMenuItems();
+    $item_types = PhorgeProfileMenuItem::getAllMenuItems();
     $object = $this->getProfileObject();
 
-    $action_list = id(new PhabricatorActionListView())
+    $action_list = id(new PhorgeActionListView())
       ->setViewer($viewer);
 
     // See T12167. This makes the "Actions" dropdown button show up in the
@@ -832,7 +832,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     $action_list->setID(celerity_generate_unique_node_id());
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setLabel(true)
         ->setName(pht('Add New Menu Item...')));
 
@@ -845,7 +845,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $edit_mode = $this->getEditMode();
 
       $action_list->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon($item_type->getMenuItemTypeIcon())
           ->setName($item_type->getMenuItemTypeName())
           ->setHref($this->getItemURI("new/{$edit_mode}/{$item_key}/"))
@@ -853,15 +853,15 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     }
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setLabel(true)
         ->setName(pht('Documentation')));
 
-    $doc_link = PhabricatorEnv::getDoclink('Profile Menu User Guide');
+    $doc_link = PhorgeEnv::getDoclink('Profile Menu User Guide');
     $doc_name = pht('Profile Menu User Guide');
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-book')
         ->setHref($doc_link)
         ->setName($doc_name));
@@ -899,7 +899,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function buildItemNewContent($item_key, $mode) {
-    $item_types = PhabricatorProfileMenuItem::getAllMenuItems();
+    $item_types = PhorgeProfileMenuItem::getAllMenuItems();
     $item_type = idx($item_types, $item_key);
     if (!$item_type) {
       return new Aphront404Response();
@@ -912,21 +912,21 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
 
     $custom_phid = $this->getEditModeCustomPHID();
 
-    $configuration = PhabricatorProfileMenuItemConfiguration::initializeNewItem(
+    $configuration = PhorgeProfileMenuItemConfiguration::initializeNewItem(
       $object,
       $item_type,
       $custom_phid);
 
     $viewer = $this->getViewer();
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $configuration,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $controller = $this->getController();
 
-    return id(new PhabricatorProfileMenuEditEngine())
+    return id(new PhorgeProfileMenuEditEngine())
       ->setMenuEngine($this)
       ->setProfileObject($object)
       ->setNewMenuItemConfiguration($configuration)
@@ -941,7 +941,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     $controller = $this->getController();
     $custom_phid = $this->getEditModeCustomPHID();
 
-    return id(new PhabricatorProfileMenuEditEngine())
+    return id(new PhorgeProfileMenuEditEngine())
       ->setMenuEngine($this)
       ->setProfileObject($object)
       ->setController($controller)
@@ -950,7 +950,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function buildItemBuiltinContent(
-    PhabricatorProfileMenuItemConfiguration $configuration) {
+    PhorgeProfileMenuItemConfiguration $configuration) {
 
     // If this builtin item has already been persisted, redirect to the
     // edit page.
@@ -964,16 +964,16 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     // with the builtin template.
     $viewer = $this->getViewer();
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $configuration,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $object = $this->getProfileObject();
     $controller = $this->getController();
     $custom_phid = $this->getEditModeCustomPHID();
 
-    return id(new PhabricatorProfileMenuEditEngine())
+    return id(new PhorgeProfileMenuEditEngine())
       ->setIsBuiltin(true)
       ->setMenuEngine($this)
       ->setProfileObject($object)
@@ -984,16 +984,16 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function buildItemHideContent(
-    PhabricatorProfileMenuItemConfiguration $configuration) {
+    PhorgeProfileMenuItemConfiguration $configuration) {
 
     $controller = $this->getController();
     $request = $controller->getRequest();
     $viewer = $this->getViewer();
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $configuration,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if (!$configuration->canHideMenuItem()) {
       return $controller->newDialog()
@@ -1010,14 +1010,14 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $body = pht('Delete this menu item?');
       $button = pht('Delete Menu Item');
     } else if ($configuration->isDisabled()) {
-      $new_value = PhabricatorProfileMenuItemConfiguration::VISIBILITY_VISIBLE;
+      $new_value = PhorgeProfileMenuItemConfiguration::VISIBILITY_VISIBLE;
 
       $title = pht('Enable Menu Item');
       $body = pht(
         'Enable this menu item? It will appear in the menu again.');
       $button = pht('Enable Menu Item');
     } else {
-      $new_value = PhabricatorProfileMenuItemConfiguration::VISIBILITY_DISABLED;
+      $new_value = PhorgeProfileMenuItemConfiguration::VISIBILITY_DISABLED;
 
       $title = pht('Disable Menu Item');
       $body = pht(
@@ -1032,16 +1032,16 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $configuration->delete();
       } else {
         $type_visibility =
-          PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
+          PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
 
         $xactions = array();
 
         $xactions[] =
-          id(new PhabricatorProfileMenuItemConfigurationTransaction())
+          id(new PhorgeProfileMenuItemConfigurationTransaction())
             ->setTransactionType($type_visibility)
             ->setNewValue($new_value);
 
-        $editor = id(new PhabricatorProfileMenuEditor())
+        $editor = id(new PhorgeProfileMenuEditor())
           ->setContentSourceFromRequest($request)
           ->setActor($viewer)
           ->setContinueOnMissingFields(true)
@@ -1061,16 +1061,16 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function buildItemDefaultContent(
-    PhabricatorProfileMenuItemConfiguration $configuration) {
+    PhorgeProfileMenuItemConfiguration $configuration) {
 
     $controller = $this->getController();
     $request = $controller->getRequest();
     $viewer = $this->getViewer();
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $configuration,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $done_uri = $this->getConfigureURI();
 
@@ -1117,20 +1117,20 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   protected function newItem() {
-    return PhabricatorProfileMenuItemConfiguration::initializeNewBuiltin();
+    return PhorgeProfileMenuItemConfiguration::initializeNewBuiltin();
   }
 
   protected function newManageItem() {
     return $this->newItem()
       ->setBuiltinKey(self::ITEM_MANAGE)
-      ->setMenuItemKey(PhabricatorManageProfileMenuItem::MENUITEMKEY)
+      ->setMenuItemKey(PhorgeManageProfileMenuItem::MENUITEMKEY)
       ->setIsTailItem(true);
   }
 
   protected function newDividerItem($key) {
     return $this->newItem()
       ->setBuiltinKey($key)
-      ->setMenuItemKey(PhabricatorDividerProfileMenuItem::MENUITEMKEY)
+      ->setMenuItemKey(PhorgeDividerProfileMenuItem::MENUITEMKEY)
       ->setIsTailItem(true);
   }
 
@@ -1179,10 +1179,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     }
 
     $type_visibility =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_VISIBILITY;
 
-    $v_visible = PhabricatorProfileMenuItemConfiguration::VISIBILITY_VISIBLE;
-    $v_default = PhabricatorProfileMenuItemConfiguration::VISIBILITY_DEFAULT;
+    $v_visible = PhorgeProfileMenuItemConfiguration::VISIBILITY_VISIBLE;
+    $v_default = PhorgeProfileMenuItemConfiguration::VISIBILITY_DEFAULT;
 
     $apply = array(
       array($v_visible, $visible),
@@ -1195,11 +1195,11 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $xactions = array();
 
         $xactions[] =
-          id(new PhabricatorProfileMenuItemConfigurationTransaction())
+          id(new PhorgeProfileMenuItemConfigurationTransaction())
             ->setTransactionType($type_visibility)
             ->setNewValue($value);
 
-        $editor = id(new PhabricatorProfileMenuEditor())
+        $editor = id(new PhorgeProfileMenuEditor())
           ->setContentSourceFromRequest($request)
           ->setActor($viewer)
           ->setContinueOnMissingFields(true)
@@ -1230,10 +1230,10 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
           if ($seen_custom && !$seen_global) {
             $list[] = $this->newItem()
               ->setBuiltinKey(self::ITEM_CUSTOM_DIVIDER)
-              ->setMenuItemKey(PhabricatorDividerProfileMenuItem::MENUITEMKEY)
+              ->setMenuItemKey(PhorgeDividerProfileMenuItem::MENUITEMKEY)
               ->attachProfileObject($object)
               ->attachMenuItem(
-                new PhabricatorDividerProfileMenuItem());
+                new PhorgeDividerProfileMenuItem());
           }
           $seen_global = true;
         }
@@ -1286,7 +1286,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $item->willGetMenuItemViewList($group);
     }
 
-    $view_list = id(new PhabricatorProfileMenuItemViewList())
+    $view_list = id(new PhorgeProfileMenuItemViewList())
       ->setProfileMenuEngine($this);
 
     foreach ($items as $item) {
@@ -1300,7 +1300,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function selectViewItem(
-    PhabricatorProfileMenuItemViewList $view_list,
+    PhorgeProfileMenuItemViewList $view_list,
     $item_id) {
 
     // Figure out which view's content we're going to render. In most cases,
@@ -1331,7 +1331,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   }
 
   private function selectEditItem(
-    PhabricatorProfileMenuItemViewList $view_list,
+    PhorgeProfileMenuItemViewList $view_list,
     $item_id) {
 
     // First, try to select a visible item using the normal view selection

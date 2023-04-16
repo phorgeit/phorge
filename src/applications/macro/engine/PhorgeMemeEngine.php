@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMemeEngine extends Phobject {
+final class PhorgeMemeEngine extends Phobject {
 
   private $viewer;
   private $template;
@@ -10,7 +10,7 @@ final class PhabricatorMemeEngine extends Phobject {
   private $templateFile;
   private $metrics;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -74,7 +74,7 @@ final class PhabricatorMemeEngine extends Phobject {
 
     $asset = $this->newAssetFile($template);
 
-    $xfile = id(new PhabricatorTransformedFile())
+    $xfile = id(new PhorgeTransformedFile())
       ->setOriginalPHID($template->getPHID())
       ->setTransformedPHID($asset->getPHID())
       ->setTransform($hash);
@@ -113,7 +113,7 @@ final class PhabricatorMemeEngine extends Phobject {
 
     $properties = phutil_json_encode($properties);
 
-    return PhabricatorHash::digestForIndex($properties);
+    return PhorgeHash::digestForIndex($properties);
   }
 
   public function loadCachedFile() {
@@ -126,7 +126,7 @@ final class PhabricatorMemeEngine extends Phobject {
 
     $hash = $this->newTransformHash();
 
-    $xform = id(new PhabricatorTransformedFile())->loadOneWhere(
+    $xform = id(new PhorgeTransformedFile())->loadOneWhere(
       'originalPHID = %s AND transform = %s',
       $template_file->getPHID(),
       $hash);
@@ -134,7 +134,7 @@ final class PhabricatorMemeEngine extends Phobject {
       return null;
     }
 
-    return id(new PhabricatorFileQuery())
+    return id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($xform->getTransformedPHID()))
       ->executeOne();
@@ -145,7 +145,7 @@ final class PhabricatorMemeEngine extends Phobject {
       $viewer = $this->getViewer();
       $template = $this->getTemplate();
 
-      $macro = id(new PhabricatorMacroQuery())
+      $macro = id(new PhorgeMacroQuery())
         ->setViewer($viewer)
         ->withNames(array($template))
         ->needFiles(true)
@@ -160,9 +160,9 @@ final class PhabricatorMemeEngine extends Phobject {
     return $this->templateFile;
   }
 
-  private function newAssetFile(PhabricatorFile $template) {
+  private function newAssetFile(PhorgeFile $template) {
     $data = $this->newAssetData($template);
-    return PhabricatorFile::newFromFileData(
+    return PhorgeFile::newFromFileData(
       $data,
       array(
         'name' => 'meme-'.$template->getName(),
@@ -174,7 +174,7 @@ final class PhabricatorMemeEngine extends Phobject {
       ));
   }
 
-  private function newAssetData(PhabricatorFile $template) {
+  private function newAssetData(PhorgeFile $template) {
     $template_data = $template->loadFileData();
 
     // When we aren't adding text, just return the data unmodified. This saves
@@ -195,7 +195,7 @@ final class PhabricatorMemeEngine extends Phobject {
   }
 
   private function newImagemagickAsset(
-    PhabricatorFile $template,
+    PhorgeFile $template,
     $template_data) {
 
     // We're only going to use Imagemagick on GIFs.
@@ -205,7 +205,7 @@ final class PhabricatorMemeEngine extends Phobject {
     }
 
     // We're only going to use Imagemagick if it is actually available.
-    $available = PhabricatorEnv::getEnvConfig('files.enable-imagemagick');
+    $available = PhorgeEnv::getEnvConfig('files.enable-imagemagick');
     if (!$available) {
       return null;
     }
@@ -257,7 +257,7 @@ final class PhabricatorMemeEngine extends Phobject {
     return Filesystem::readFile($output);
   }
 
-  private function newGDAsset(PhabricatorFile $template, $data) {
+  private function newGDAsset(PhorgeFile $template, $data) {
     $img = imagecreatefromstring($data);
     if (!$img) {
       throw new Exception(
@@ -287,7 +287,7 @@ final class PhabricatorMemeEngine extends Phobject {
       $this->drawText($img, $font, $metrics['size'], $x, $y, $below);
     }
 
-    return PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    return PhorgeImageTransformer::saveImageDataInAnyFormat(
       $img,
       $template->getMimeType());
   }

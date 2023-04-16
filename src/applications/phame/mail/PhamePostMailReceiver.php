@@ -1,18 +1,18 @@
 <?php
 
 final class PhamePostMailReceiver
-  extends PhabricatorObjectMailReceiver {
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhameApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgePhameApplication');
   }
 
   protected function getObjectPattern() {
     return 'J[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new PhamePostQuery())

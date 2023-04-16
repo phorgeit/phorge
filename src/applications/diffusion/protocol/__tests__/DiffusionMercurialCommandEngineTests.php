@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionMercurialCommandEngineTests extends PhabricatorTestCase {
+final class DiffusionMercurialCommandEngineTests extends PhorgeTestCase {
 
   public function testFilteringDebugOutput() {
     $map = array(

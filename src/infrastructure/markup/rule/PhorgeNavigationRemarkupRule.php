@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNavigationRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeNavigationRemarkupRule extends PhutilRemarkupRule {
 
   public function getPriority() {
     return 200.0;
@@ -71,7 +71,7 @@ final class PhabricatorNavigationRemarkupRule extends PhutilRemarkupRule {
       }
 
       if ($item['href'] !== null) {
-        if (PhabricatorEnv::isValidRemoteURIForLink($item['href'])) {
+        if (PhorgeEnv::isValidRemoteURIForLink($item['href'])) {
           $tag->setHref($item['href']);
           $tag->setExternal(true);
         }

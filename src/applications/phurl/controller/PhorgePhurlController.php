@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorPhurlController extends PhabricatorController {
+abstract class PhorgePhurlController extends PhorgeController {
 
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
-    id(new PhabricatorPhurlURLEditEngine())
+    id(new PhorgePhurlURLEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

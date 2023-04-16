@@ -1,4 +1,4 @@
 <?php
 
 abstract class ConpherenceThreadTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

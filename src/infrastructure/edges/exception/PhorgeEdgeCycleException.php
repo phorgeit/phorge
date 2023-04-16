@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEdgeCycleException extends Exception {
+final class PhorgeEdgeCycleException extends Exception {
 
   private $cycleEdgeType;
   private $cycle;

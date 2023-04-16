@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDocumentRenderingEngine
+abstract class PhorgeDocumentRenderingEngine
   extends Phobject {
 
   private $request;
@@ -21,7 +21,7 @@ abstract class PhabricatorDocumentRenderingEngine
     return $this->request;
   }
 
-  final public function setController(PhabricatorController $controller) {
+  final public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -42,11 +42,11 @@ abstract class PhabricatorDocumentRenderingEngine
     return $this->ref;
   }
 
-  final public function newDocumentView(PhabricatorDocumentRef $ref) {
+  final public function newDocumentView(PhorgeDocumentRef $ref) {
     $request = $this->getRequest();
     $viewer = $request->getViewer();
 
-    $engines = PhabricatorDocumentEngine::getEnginesForRef($viewer, $ref);
+    $engines = PhorgeDocumentEngine::getEnginesForRef($viewer, $ref);
 
     $engine_key = $this->getSelectedDocumentEngineKey();
     if (!isset($engines[$engine_key])) {
@@ -188,14 +188,14 @@ abstract class PhabricatorDocumentRenderingEngine
       ->appendChild($viewport);
   }
 
-  final public function newRenderResponse(PhabricatorDocumentRef $ref) {
+  final public function newRenderResponse(PhorgeDocumentRef $ref) {
     $this->willStageRef($ref);
     $this->willRenderRef($ref);
 
     $request = $this->getRequest();
     $viewer = $request->getViewer();
 
-    $engines = PhabricatorDocumentEngine::getEnginesForRef($viewer, $ref);
+    $engines = PhorgeDocumentEngine::getEnginesForRef($viewer, $ref);
     $engine_key = $this->getSelectedDocumentEngineKey();
     if (!isset($engines[$engine_key])) {
       return $this->newErrorResponse(
@@ -306,18 +306,18 @@ abstract class PhabricatorDocumentRenderingEngine
   }
 
   public function getRefViewURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine) {
     return $this->newRefViewURI($ref, $engine);
   }
 
   abstract protected function newRefViewURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine);
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine);
 
   abstract protected function newRefRenderURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine);
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine);
 
   protected function getSelectedDocumentEngineKey() {
     return $this->getRequest()->getURIData('engineKey');
@@ -329,15 +329,15 @@ abstract class PhabricatorDocumentRenderingEngine
 
   protected function addApplicationCrumbs(
     PHUICrumbsView $crumbs,
-    PhabricatorDocumentRef $ref = null) {
+    PhorgeDocumentRef $ref = null) {
     return;
   }
 
-  protected function willStageRef(PhabricatorDocumentRef $ref) {
+  protected function willStageRef(PhorgeDocumentRef $ref) {
     return;
   }
 
-  protected function willRenderRef(PhabricatorDocumentRef $ref) {
+  protected function willRenderRef(PhorgeDocumentRef $ref) {
     return;
   }
 

@@ -1,7 +1,7 @@
 <?php
 
 final class PhrequentUserTimeQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const ORDER_ID_ASC        = 0;
   const ORDER_ID_DESC       = 1;
@@ -170,7 +170,7 @@ final class PhrequentUserTimeQuery
             (dateEnded IS NULL OR dateEnded > %d))',
           $event->getUserPHID(),
           $event->getDateStarted(),
-          nonempty($event->getDateEnded(), PhabricatorTime::getNow()),
+          nonempty($event->getDateEnded(), PhorgeTime::getNow()),
           $event->getDateStarted());
       }
 
@@ -252,7 +252,7 @@ final class PhrequentUserTimeQuery
   }
 
   public static function getUserTotalObjectsTracked(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $limit = PHP_INT_MAX) {
 
     $usertime_dao = new PhrequentUserTime();
@@ -271,7 +271,7 @@ final class PhrequentUserTimeQuery
   }
 
   public static function isUserTrackingObject(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $phid) {
 
     $usertime_dao = new PhrequentUserTime();
@@ -290,7 +290,7 @@ final class PhrequentUserTimeQuery
   }
 
   public static function getUserTimeSpentOnObject(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $phid) {
 
     $usertime_dao = new PhrequentUserTime();
@@ -326,7 +326,7 @@ final class PhrequentUserTimeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhrequentApplication';
+    return 'PhorgePhrequentApplication';
   }
 
 }

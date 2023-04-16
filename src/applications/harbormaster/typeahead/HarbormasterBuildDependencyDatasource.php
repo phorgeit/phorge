@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildDependencyDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function isBrowsable() {
     // TODO: This should be browsable, but fixing it is involved.
@@ -17,7 +17,7 @@ final class HarbormasterBuildDependencyDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function loadResults() {
@@ -42,7 +42,7 @@ final class HarbormasterBuildDependencyDatasource
         continue;
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($step->getName())
         ->setURI('/')
         ->setPHID($phid);

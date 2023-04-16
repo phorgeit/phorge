@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCacheMarkupGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeCacheMarkupGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'cache.markup';
 
@@ -14,7 +14,7 @@ final class PhabricatorCacheMarkupGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorMarkupCache();
+    $table = new PhorgeMarkupCache();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

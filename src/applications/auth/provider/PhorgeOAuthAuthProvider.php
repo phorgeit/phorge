@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorOAuthAuthProvider extends PhabricatorAuthProvider {
+abstract class PhorgeOAuthAuthProvider extends PhorgeAuthProvider {
 
   const PROPERTY_NOTE = 'oauth:app:note';
 
@@ -134,13 +134,13 @@ abstract class PhabricatorOAuthAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function renderConfigPropertyTransactionTitle(
-    PhabricatorAuthProviderConfigTransaction $xaction) {
+    PhorgeAuthProviderConfigTransaction $xaction) {
 
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
     $key = $xaction->getMetadataValue(
-      PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+      PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
 
     switch ($key) {
       case self::PROPERTY_NOTE:
@@ -159,12 +159,12 @@ abstract class PhabricatorOAuthAuthProvider extends PhabricatorAuthProvider {
     return parent::renderConfigPropertyTransactionTitle($xaction);
   }
 
-  protected function willSaveAccount(PhabricatorExternalAccount $account) {
+  protected function willSaveAccount(PhorgeExternalAccount $account) {
     parent::willSaveAccount($account);
     $this->synchronizeOAuthAccount($account);
   }
 
   abstract protected function synchronizeOAuthAccount(
-    PhabricatorExternalAccount $account);
+    PhorgeExternalAccount $account);
 
 }

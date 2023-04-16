@@ -1,25 +1,25 @@
 <?php
 
-final class PhabricatorSubscriptionsUIEventListener
-  extends PhabricatorEventListener {
+final class PhorgeSubscriptionsUIEventListener
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
-    $this->listen(PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES);
+    $this->listen(PhorgeEventType::TYPE_UI_DIDRENDERACTIONS);
+    $this->listen(PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES);
   }
 
   public function handleEvent(PhutilEvent $event) {
     $object = $event->getValue('object');
 
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
+      case PhorgeEventType::TYPE_UI_DIDRENDERACTIONS:
         $this->handleActionEvent($event);
         break;
-      case PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES:
+      case PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES:
         // Hacky solution so that property list view on Diffusion
         // commits shows build status, but not Projects, Subscriptions,
         // or Tokens.
-        if ($object instanceof PhabricatorRepositoryCommit) {
+        if ($object instanceof PhorgeRepositoryCommit) {
           return;
         }
         $this->handlePropertyEvent($event);
@@ -37,16 +37,16 @@ final class PhabricatorSubscriptionsUIEventListener
       return;
     }
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       // This object isn't subscribable.
       return;
     }
 
     $src_phid = $object->getPHID();
-    $subscribed_type = PhabricatorObjectHasSubscriberEdgeType::EDGECONST;
-    $muted_type = PhabricatorMutedByEdgeType::EDGECONST;
+    $subscribed_type = PhorgeObjectHasSubscriberEdgeType::EDGECONST;
+    $muted_type = PhorgeMutedByEdgeType::EDGECONST;
 
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(
         array(
@@ -65,7 +65,7 @@ final class PhabricatorSubscriptionsUIEventListener
     }
 
     if ($user_phid && $object->isAutomaticallySubscribed($user_phid)) {
-      $sub_action = id(new PhabricatorActionView())
+      $sub_action = id(new PhorgeActionView())
         ->setWorkflow(true)
         ->setDisabled(true)
         ->setRenderAsForm(true)
@@ -74,14 +74,14 @@ final class PhabricatorSubscriptionsUIEventListener
         ->setIcon('fa-check-circle lightgreytext');
     } else {
       if ($is_subscribed) {
-        $sub_action = id(new PhabricatorActionView())
+        $sub_action = id(new PhorgeActionView())
           ->setWorkflow(true)
           ->setRenderAsForm(true)
           ->setHref('/subscriptions/delete/'.$object->getPHID().'/')
           ->setName(pht('Unsubscribe'))
           ->setIcon('fa-minus-circle');
       } else {
-        $sub_action = id(new PhabricatorActionView())
+        $sub_action = id(new PhorgeActionView())
           ->setWorkflow(true)
           ->setRenderAsForm(true)
           ->setHref('/subscriptions/add/'.$object->getPHID().'/')
@@ -94,7 +94,7 @@ final class PhabricatorSubscriptionsUIEventListener
       }
     }
 
-    $mute_action = id(new PhabricatorActionView())
+    $mute_action = id(new PhorgeActionView())
       ->setWorkflow(true)
       ->setHref('/subscriptions/mute/'.$object->getPHID().'/')
       ->setDisabled(!$user_phid);
@@ -107,7 +107,7 @@ final class PhabricatorSubscriptionsUIEventListener
       $mute_action
         ->setName(pht('Unmute Notifications'))
         ->setIcon('fa-volume-off')
-        ->setColor(PhabricatorActionView::RED);
+        ->setColor(PhorgeActionView::RED);
     }
 
 
@@ -126,15 +126,15 @@ final class PhabricatorSubscriptionsUIEventListener
       return;
     }
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       // This object isn't subscribable.
       return;
     }
 
-    $subscribers = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $subscribers = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $object->getPHID());
     if ($subscribers) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($user)
         ->withPHIDs($subscribers)
         ->execute();

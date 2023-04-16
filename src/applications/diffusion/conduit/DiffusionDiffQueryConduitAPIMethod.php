@@ -144,7 +144,7 @@ final class DiffusionDiffQueryConduitAPIMethod
     $old_data = idx($futures, 'old', '');
     $new_data = idx($futures, 'new', '');
 
-    $engine = new PhabricatorDifferenceEngine();
+    $engine = new PhorgeDifferenceEngine();
     $engine->setOldName($old_name);
     $engine->setNewName($new_name);
     $raw_diff = $engine->generateRawDiffFromFileContent($old_data, $new_data);

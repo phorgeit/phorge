@@ -37,7 +37,7 @@ final class DrydockObjectAuthorizationView extends AphrontView {
       $handles = $viewer->loadHandles($blueprint_phids);
 
       $authorizations = id(new DrydockAuthorizationQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withObjectPHIDs(array($object_phid))
         ->withBlueprintPHIDs($blueprint_phids)
         ->execute();

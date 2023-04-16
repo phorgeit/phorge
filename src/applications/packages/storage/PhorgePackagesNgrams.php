@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPackagesNgrams
-  extends PhabricatorSearchNgrams {
+abstract class PhorgePackagesNgrams
+  extends PhorgeSearchNgrams {
 
   public function getApplicationName() {
     return 'packages';

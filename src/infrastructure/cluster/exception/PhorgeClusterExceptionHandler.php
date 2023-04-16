@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorClusterExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeClusterExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 300000;
@@ -14,7 +14,7 @@ final class PhabricatorClusterExceptionHandler
   public function canHandleRequestThrowable(
     AphrontRequest $request,
     $throwable) {
-    return ($throwable instanceof PhabricatorClusterException);
+    return ($throwable instanceof PhorgeClusterException);
   }
 
   public function handleRequestThrowable(

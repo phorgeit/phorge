@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackagePathsTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackagePathsTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.paths';
 
@@ -32,7 +32,7 @@ final class PhabricatorOwnersPackagePathsTransaction
   }
 
   public function getTransactionHasEffect($object, $old, $new) {
-    list($add, $rem) = PhabricatorOwnersPath::getTransactionValueChanges(
+    list($add, $rem) = PhorgeOwnersPath::getTransactionValueChanges(
       $old,
       $new);
 
@@ -87,14 +87,14 @@ final class PhabricatorOwnersPackagePathsTransaction
 
       // Check that any new paths reference legitimate repositories which
       // the viewer has permission to see.
-      list($rem, $add) = PhabricatorOwnersPath::getTransactionValueChanges(
+      list($rem, $add) = PhorgeOwnersPath::getTransactionValueChanges(
         $old,
         $new);
 
       if ($add) {
         $repository_phids = ipull($add, 'repositoryPHID');
 
-        $repositories = id(new PhabricatorRepositoryQuery())
+        $repositories = id(new PhorgeRepositoryQuery())
           ->setViewer($this->getActor())
           ->withPHIDs($repository_phids)
           ->execute();
@@ -148,13 +148,13 @@ final class PhabricatorOwnersPackagePathsTransaction
       $seen_map[$repository_phid][$raw_path] = true;
     }
 
-    $diffs = PhabricatorOwnersPath::getTransactionValueChanges($old, $new);
+    $diffs = PhorgeOwnersPath::getTransactionValueChanges($old, $new);
     list($rem, $add) = $diffs;
 
-    $set = PhabricatorOwnersPath::getSetFromTransactionValue($rem);
+    $set = PhorgeOwnersPath::getSetFromTransactionValue($rem);
     foreach ($paths as $path) {
       $ref = $path->getRef();
-      if (PhabricatorOwnersPath::isRefInSet($ref, $set)) {
+      if (PhorgeOwnersPath::isRefInSet($ref, $set)) {
         $path->delete();
         continue;
       }
@@ -171,7 +171,7 @@ final class PhabricatorOwnersPackagePathsTransaction
     }
 
     foreach ($add as $ref) {
-      $path = PhabricatorOwnersPath::newFromRef($ref)
+      $path = PhorgeOwnersPath::newFromRef($ref)
         ->setPackageID($object->getID())
         ->setPathDisplay($display_map[$ref['path']])
         ->save();
@@ -193,7 +193,7 @@ final class PhabricatorOwnersPackagePathsTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    $diffs = PhabricatorOwnersPath::getTransactionValueChanges($old, $new);
+    $diffs = PhorgeOwnersPath::getTransactionValueChanges($old, $new);
     list($rem, $add) = $diffs;
 
     $rows = array();

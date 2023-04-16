@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialDiffTransaction
-  extends PhabricatorApplicationTransaction {
+  extends PhorgeApplicationTransaction {
 
   const TYPE_DIFF_CREATE = 'differential:diff:create';
 
@@ -55,7 +55,7 @@ final class DifferentialDiffTransaction
   public function getColor() {
     switch ($this->getTransactionType()) {
       case self::TYPE_DIFF_CREATE:
-        return PhabricatorTransactions::COLOR_SKY;
+        return PhorgeTransactions::COLOR_SKY;
     }
 
     return parent::getColor();

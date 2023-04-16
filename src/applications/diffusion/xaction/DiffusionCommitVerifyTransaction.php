@@ -39,7 +39,7 @@ final class DiffusionCommitVerifyTransaction
     $object->setAuditStatus(DiffusionCommitAuditStatus::NEEDS_VERIFICATION);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if (!$this->isViewerCommitAuthor($object, $viewer)) {
       throw new Exception(
         pht(

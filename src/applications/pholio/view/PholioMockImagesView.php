@@ -70,15 +70,15 @@ final class PholioMockImagesView extends AphrontView {
     // image shown on the review stage.
     $viewer = $this->getUser();
 
-    $default = PhabricatorFile::loadBuiltin($viewer, 'image-100x100.png');
+    $default = PhorgeFile::loadBuiltin($viewer, 'image-100x100.png');
 
     $images = array();
     $current_set = 0;
     foreach ($mock->getImages() as $image) {
       $file = $image->getFile();
       $metadata = $file->getMetadata();
-      $x = idx($metadata, PhabricatorFile::METADATA_IMAGE_WIDTH);
-      $y = idx($metadata, PhabricatorFile::METADATA_IMAGE_HEIGHT);
+      $x = idx($metadata, PhorgeFile::METADATA_IMAGE_WIDTH);
+      $y = idx($metadata, PhorgeFile::METADATA_IMAGE_HEIGHT);
 
       $is_obs = (bool)$image->getIsObsolete();
       if (!$is_obs) {

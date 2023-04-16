@@ -1,5 +1,5 @@
-/* PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST = 23 */
-/* PhabricatorProjectSilencedEdgeType::EDGECONST = 61 */
+/* PhorgeObjectHasUnsubscriberEdgeType::EDGECONST = 23 */
+/* PhorgeProjectSilencedEdgeType::EDGECONST = 61 */
 
 /* This is converting existing unsubscribes into disabled mail. */
 

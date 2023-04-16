@@ -75,10 +75,10 @@ final class PhameBlogViewController extends PhameLiveController {
         ->setDescription(
           pht('No one has written any blog posts yet.'));
 
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $blog,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       if ($can_edit) {
         $post_list->addAction($create_button);
@@ -123,17 +123,17 @@ final class PhameBlogViewController extends PhameLiveController {
   private function renderActions(PhameBlog $blog) {
     $viewer = $this->getViewer();
 
-    $actions = id(new PhabricatorActionListView())
+    $actions = id(new PhorgeActionListView())
       ->setObject($blog)
       ->setUser($viewer);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $blog,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-plus')
         ->setHref($this->getApplicationURI('post/edit/?blog='.$blog->getID()))
         ->setName(pht('Write Post'))
@@ -141,7 +141,7 @@ final class PhameBlogViewController extends PhameLiveController {
         ->setWorkflow(!$can_edit));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setUser($viewer)
         ->setIcon('fa-search')
         ->setHref(
@@ -149,14 +149,14 @@ final class PhameBlogViewController extends PhameLiveController {
         ->setName(pht('Search Posts')));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setUser($viewer)
         ->setIcon('fa-globe')
         ->setHref($blog->getLiveURI())
         ->setName(pht('View Live')));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI('blog/manage/'.$blog->getID().'/'))
         ->setName(pht('Manage Blog')));

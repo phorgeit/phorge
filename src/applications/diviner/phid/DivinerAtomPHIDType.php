@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerAtomPHIDType extends PhabricatorPHIDType {
+final class DivinerAtomPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ATOM';
 
@@ -17,11 +17,11 @@ final class DivinerAtomPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DivinerAtomQuery())
@@ -29,7 +29,7 @@ final class DivinerAtomPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -45,8 +45,8 @@ final class DivinerAtomPHIDType extends PhabricatorPHIDType {
         ->setTitle($atom->getTitle())
         ->setURI("/book/{$book}/{$type}/{$name}/")
         ->setStatus($atom->getGraphHash()
-          ? PhabricatorObjectHandle::STATUS_OPEN
-          : PhabricatorObjectHandle::STATUS_CLOSED);
+          ? PhorgeObjectHandle::STATUS_OPEN
+          : PhorgeObjectHandle::STATUS_CLOSED);
     }
   }
 

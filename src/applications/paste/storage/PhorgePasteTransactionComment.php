@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPasteTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+final class PhorgePasteTransactionComment
+  extends PhorgeApplicationTransactionComment {
 
   protected $lineNumber;
   protected $lineLength;
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorPasteTransaction();
+    return new PhorgePasteTransaction();
   }
 
   public function shouldUseMarkupCache($field) {

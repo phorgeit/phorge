@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldCredential
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldCredential
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'credential';
@@ -62,7 +62,7 @@ final class PhabricatorStandardCustomFieldCredential
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -77,7 +77,7 @@ final class PhabricatorStandardCustomFieldCredential
 
     if (!$ok) {
       foreach ($xactions as $xaction) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $type,
           pht('Invalid'),
           pht(
@@ -92,7 +92,7 @@ final class PhabricatorStandardCustomFieldCredential
   }
 
   public function getApplicationTransactionRequiredHandlePHIDs(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $phids = array();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -107,7 +107,7 @@ final class PhabricatorStandardCustomFieldCredential
 
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
 
     $old = $xaction->getOldValue();

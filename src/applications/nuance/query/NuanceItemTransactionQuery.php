@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceItemTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new NuanceItemTransaction();

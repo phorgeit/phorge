@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneSubscriptionWorker extends PhabricatorWorker {
+final class PhortuneSubscriptionWorker extends PhorgeWorker {
 
   protected function doWork() {
     $subscription = $this->loadSubscription();
@@ -26,7 +26,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
     $account = $subscription->getAccount();
     $merchant = $subscription->getMerchant();
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $product = id(new PhortuneProductQuery())
       ->setViewer($viewer)
@@ -44,7 +44,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
     // able to create these invoices "as" the application it is acting on
     // behalf of.
 
-    $members = id(new PhabricatorPeopleQuery())
+    $members = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs($account->getMemberPHIDs())
       ->execute();
@@ -86,7 +86,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
           $account->getPHID(),
           $subscription->getPHID());
       }
-      throw new PhabricatorWorkerPermanentFailureException($message);
+      throw new PhorgeWorkerPermanentFailureException($message);
     }
 
     $cart = $account->newCart($actor, $cart_implementation, $merchant);
@@ -133,10 +133,10 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
       ->setTransactionType(PhortuneCartTransaction::TYPE_INVOICED)
       ->setNewValue(true);
 
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorPhortuneContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgePhortuneContentSource::SOURCECONST);
 
-    $acting_phid = id(new PhabricatorPhortuneApplication())->getPHID();
+    $acting_phid = id(new PhorgePhortuneApplication())->getPHID();
     $editor = id(new PhortuneCartEditor())
       ->setActor($viewer)
       ->setActingAsPHID($acting_phid)
@@ -148,7 +148,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
 
 
   private function chargeSubscription(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PhortuneSubscription $subscription,
     PhortuneCart $cart) {
 
@@ -200,7 +200,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
    * @return PhortuneSubscription The subscription to invoice.
    */
   private function loadSubscription() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $data = $this->getTaskData();
     $subscription_phid = idx($data, 'subscriptionPHID');
@@ -210,7 +210,7 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
       ->withPHIDs(array($subscription_phid))
       ->executeOne();
     if (!$subscription) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Failed to load subscription with PHID "%s".',
           $subscription_phid));
@@ -238,19 +238,19 @@ final class PhortuneSubscriptionWorker extends PhabricatorWorker {
     $this_epoch = idx($data, 'trigger.this-epoch');
 
     if (!$last_epoch || !$this_epoch) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Subscription is missing billing period information.'));
     }
 
     $period_length = ($this_epoch - $last_epoch);
     if ($period_length <= 0) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Subscription has invalid billing period.'));
     }
 
     if (empty($data['manual'])) {
-      if (PhabricatorTime::getNow() < $this_epoch) {
+      if (PhorgeTime::getNow() < $this_epoch) {
         throw new Exception(
           pht(
             'Refusing to generate a subscription invoice for a billing period '.

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryParsedChange extends Phobject {
+final class PhorgeRepositoryParsedChange extends Phobject {
 
   private $pathID;
   private $targetPathID;

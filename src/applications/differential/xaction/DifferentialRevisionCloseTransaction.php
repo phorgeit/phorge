@@ -8,13 +8,13 @@ final class DifferentialRevisionCloseTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Close Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('This revision will be closed.');
   }
 
@@ -54,7 +54,7 @@ final class DifferentialRevisionCloseTransaction
     $object->setShouldBroadcast(true);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($this->hasEditor()) {
       if ($this->getEditor()->getIsCloseByCommit()) {
         // If we're closing a revision because we discovered a commit, we don't
@@ -78,7 +78,7 @@ final class DifferentialRevisionCloseTransaction
     }
 
     $config_key = 'differential.always-allow-close';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       if (!$this->isViewerRevisionAuthor($object, $viewer)) {
         throw new Exception(
           pht(

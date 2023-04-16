@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderListController
-  extends PhabricatorAuthProviderController {
+final class PhorgeAuthFactorProviderListController
+  extends PhorgeAuthProviderController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorAuthFactorProviderListController
     $can_manage = $this->hasApplicationCapability(
       AuthManageProvidersCapability::CAPABILITY);
 
-    $providers = id(new PhabricatorAuthFactorProviderQuery())
+    $providers = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->execute();
 

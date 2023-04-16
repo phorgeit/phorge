@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectsWatchersSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeProjectsWatchersSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Project Watchers');

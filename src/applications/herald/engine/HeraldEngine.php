@@ -36,7 +36,7 @@ final class HeraldEngine extends Phobject {
 
   public function loadRulesForAdapter(HeraldAdapter $adapter) {
     return id(new HeraldRuleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withDisabled(false)
       ->withContentTypes(array($adapter->getAdapterContentType()))
       ->needConditionsAndActions(true)
@@ -715,10 +715,10 @@ final class HeraldEngine extends Phobject {
     // write a personal rule that CC's you on revisions you wouldn't otherwise
     // be able to see, for example.
     $object = $adapter->getObject();
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $rule->getAuthor(),
       $object,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
   }
 
   private function canRuleApplyToObject(

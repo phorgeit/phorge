@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuthFactorProviderDuoUsernamesTransaction
-  extends PhabricatorAuthFactorProviderTransactionType {
+final class PhorgeAuthFactorProviderDuoUsernamesTransaction
+  extends PhorgeAuthFactorProviderTransactionType {
 
   const TRANSACTIONTYPE = 'duo.usernames';
 
   public function generateOldValue($object) {
-    $key = PhabricatorDuoAuthFactor::PROP_USERNAMES;
+    $key = PhorgeDuoAuthFactor::PROP_USERNAMES;
     return $object->getAuthFactorProviderProperty($key);
   }
 
   public function applyInternalEffects($object, $value) {
-    $key = PhabricatorDuoAuthFactor::PROP_USERNAMES;
+    $key = PhorgeDuoAuthFactor::PROP_USERNAMES;
     $object->setAuthFactorProviderProperty($key, $value);
   }
 

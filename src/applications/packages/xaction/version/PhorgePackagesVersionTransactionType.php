@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorPackagesVersionTransactionType
-  extends PhabricatorPackagesTransactionType {}
+abstract class PhorgePackagesVersionTransactionType
+  extends PhorgePackagesTransactionType {}

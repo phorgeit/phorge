@@ -1,11 +1,11 @@
 <?php
 
-interface PhabricatorCustomFieldInterface {
+interface PhorgeCustomFieldInterface {
 
   public function getCustomFieldBaseClass();
   public function getCustomFieldSpecificationForRole($role);
   public function getCustomFields();
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields);
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields);
 
 }
 
@@ -13,13 +13,13 @@ interface PhabricatorCustomFieldInterface {
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 /*
 
   private $customFields = self::ATTACHABLE;
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig(<<<'application.fields'>>>);
+    return PhorgeEnv::getEnvConfig(<<<'application.fields'>>>);
   }
 
   public function getCustomFieldBaseClass() {
@@ -30,7 +30,7 @@ interface PhabricatorCustomFieldInterface {
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }

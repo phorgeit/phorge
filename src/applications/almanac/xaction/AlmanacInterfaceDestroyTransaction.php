@@ -10,7 +10,7 @@ final class AlmanacInterfaceDestroyTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    id(new PhabricatorDestructionEngine())
+    id(new PhorgeDestructionEngine())
       ->destroyObject($object);
   }
 

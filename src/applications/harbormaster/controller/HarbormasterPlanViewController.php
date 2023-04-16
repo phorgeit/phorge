@@ -100,10 +100,10 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
       ->execute();
     $steps = mpull($steps, null, 'getPHID');
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $plan,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $step_list = id(new PHUIObjectItemListView())
       ->setUser($viewer)
@@ -237,13 +237,13 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
 
     $curtain = $this->newCurtainView($plan);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $plan,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Plan'))
         ->setHref($this->getApplicationURI("plan/edit/{$id}/"))
         ->setWorkflow(!$can_edit)
@@ -252,7 +252,7 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
 
     if ($plan->isDisabled()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Enable Plan'))
           ->setHref($this->getApplicationURI("plan/disable/{$id}/"))
           ->setWorkflow(true)
@@ -260,7 +260,7 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
           ->setIcon('fa-check'));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Disable Plan'))
           ->setHref($this->getApplicationURI("plan/disable/{$id}/"))
           ->setWorkflow(true)
@@ -271,7 +271,7 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
     $can_run = ($plan->hasRunCapability($viewer) && $plan->canRunManually());
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Run Plan Manually'))
         ->setHref($this->getApplicationURI("plan/run/{$id}/"))
         ->setWorkflow(true)
@@ -547,10 +547,10 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
   private function newOptionsView(HarbormasterBuildPlan $plan) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $plan,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $behaviors = HarbormasterBuildPlanBehavior::newPlanBehaviors();
 

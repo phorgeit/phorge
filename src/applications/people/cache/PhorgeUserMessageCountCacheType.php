@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserMessageCountCacheType
-  extends PhabricatorUserCacheType {
+final class PhorgeUserMessageCountCacheType
+  extends PhorgeUserCacheType {
 
   const CACHETYPE = 'message.count';
 

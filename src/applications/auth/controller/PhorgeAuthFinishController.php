@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFinishController
-  extends PhabricatorAuthController {
+final class PhorgeAuthFinishController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -25,14 +25,14 @@ final class PhabricatorAuthFinishController
       return id(new AphrontRedirectResponse())->setURI('/');
     }
 
-    $engine = new PhabricatorAuthSessionEngine();
+    $engine = new PhorgeAuthSessionEngine();
 
     // If this cookie is set, the user is headed into a high security area
     // after login (normally because of a password reset) so if they are
     // able to pass the checkpoint we just want to put their account directly
     // into high security mode, rather than prompt them again for the same
     // set of credentials.
-    $jump_into_hisec = $request->getCookie(PhabricatorCookies::COOKIE_HISEC);
+    $jump_into_hisec = $request->getCookie(PhorgeCookies::COOKIE_HISEC);
 
     try {
       $token = $engine->requireHighSecuritySession(
@@ -40,8 +40,8 @@ final class PhabricatorAuthFinishController
         $request,
         '/logout/',
         $jump_into_hisec);
-    } catch (PhabricatorAuthHighSecurityRequiredException $ex) {
-      $form = id(new PhabricatorAuthSessionEngine())->renderHighSecurityForm(
+    } catch (PhorgeAuthHighSecurityRequiredException $ex) {
+      $form = id(new PhorgeAuthSessionEngine())->renderHighSecurityForm(
         $ex->getFactors(),
         $ex->getFactorValidationResults(),
         $viewer,
@@ -69,11 +69,11 @@ final class PhabricatorAuthFinishController
     // TODO: It might be nice to add options like "bind this session to my IP"
     // here, even for accounts without multi-factor auth attached to them.
 
-    $next = PhabricatorCookies::getNextURICookie($request);
-    $request->clearCookie(PhabricatorCookies::COOKIE_NEXTURI);
-    $request->clearCookie(PhabricatorCookies::COOKIE_HISEC);
+    $next = PhorgeCookies::getNextURICookie($request);
+    $request->clearCookie(PhorgeCookies::COOKIE_NEXTURI);
+    $request->clearCookie(PhorgeCookies::COOKIE_HISEC);
 
-    if (!PhabricatorEnv::isValidLocalURIForLink($next)) {
+    if (!PhorgeEnv::isValidLocalURIForLink($next)) {
       $next = '/';
     }
 

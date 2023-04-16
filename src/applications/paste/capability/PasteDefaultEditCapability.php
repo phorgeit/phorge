@@ -1,6 +1,6 @@
 <?php
 
-final class PasteDefaultEditCapability extends PhabricatorPolicyCapability {
+final class PasteDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'paste.default.edit';
 

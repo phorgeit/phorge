@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+final class PhorgeCountdownTransactionComment
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorCountdownTransaction();
+    return new PhorgeCountdownTransaction();
   }
 
 }

@@ -3,11 +3,11 @@
 /**
  * Configurable test object for implementing Policy unit tests.
  */
-final class PhabricatorPolicyTestObject
+final class PhorgePolicyTestObject
   extends Phobject
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   private $phid;
   private $capabilities = array();
@@ -32,7 +32,7 @@ final class PhabricatorPolicyTestObject
     return idx($this->policies, $capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $auto = idx($this->automaticCapabilities, $capability, array());
     return idx($auto, $viewer->getPHID());
   }
@@ -57,7 +57,7 @@ final class PhabricatorPolicyTestObject
     return $this;
   }
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return idx($this->extendedPolicies, $capability, array());
   }
 

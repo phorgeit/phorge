@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportICSWarningLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportICSWarningLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'ics.warning';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('ICS Parser Warning');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht(
       'Warning ("%s") while parsing ICS data (near line %s): %s',
       $log->getParameter('ics.warning.code'),
@@ -23,14 +23,14 @@ final class PhabricatorCalendarImportICSWarningLogType
 
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-exclamation-triangle';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'yellow';
   }
 

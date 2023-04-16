@@ -1,6 +1,6 @@
 <?php
 
-$audit_table = new PhabricatorAuditTransaction();
+$audit_table = new PhorgeAuditTransaction();
 $conn_w = $audit_table->establishConnection('w');
 $conn_w->openTransaction();
 
@@ -9,8 +9,8 @@ $dst_table = 'audit_transaction_comment';
 
 echo pht('Migrating Audit inline comments to new format...')."\n";
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 $rows = new LiskRawMigrationIterator($conn_w, $src_table);
 foreach ($rows as $row) {
@@ -19,16 +19,16 @@ foreach ($rows as $row) {
   echo pht('Migrating inline #%d...', $id);
 
   if ($row['auditCommentID']) {
-    $xaction_phid = PhabricatorPHID::generateNewPHID(
-      PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
-      PhabricatorRepositoryCommitPHIDType::TYPECONST);
+    $xaction_phid = PhorgePHID::generateNewPHID(
+      PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
+      PhorgeRepositoryCommitPHIDType::TYPECONST);
   } else {
     $xaction_phid = null;
   }
 
-  $comment_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorPHIDConstants::PHID_TYPE_XCMT,
-    PhabricatorRepositoryCommitPHIDType::TYPECONST);
+  $comment_phid = PhorgePHID::generateNewPHID(
+    PhorgePHIDConstants::PHID_TYPE_XCMT,
+    PhorgeRepositoryCommitPHIDType::TYPECONST);
 
   queryfx(
     $conn_w,

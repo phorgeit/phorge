@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFailHisecUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeFailHisecUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'hisec-fail';
 

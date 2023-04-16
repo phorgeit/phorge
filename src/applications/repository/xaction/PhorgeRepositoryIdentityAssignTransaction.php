@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryIdentityAssignTransaction
-  extends PhabricatorRepositoryIdentityTransactionType {
+final class PhorgeRepositoryIdentityAssignTransaction
+  extends PhorgeRepositoryIdentityTransactionType {
 
   const TRANSACTIONTYPE = 'repository:identity:assign';
 
@@ -64,7 +64,7 @@ final class PhabricatorRepositoryIdentityAssignTransaction
         continue;
       }
 
-      $assignee_list = id(new PhabricatorPeopleQuery())
+      $assignee_list = id(new PhorgePeopleQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($new))
         ->execute();

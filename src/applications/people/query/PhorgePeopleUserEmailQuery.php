@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleUserEmailQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePeopleUserEmailQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -17,7 +17,7 @@ final class PhabricatorPeopleUserEmailQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorUserEmail();
+    return new PhorgeUserEmail();
   }
 
   protected function getPrimaryTableAlias() {
@@ -48,7 +48,7 @@ final class PhabricatorPeopleUserEmailQuery
 
     $user_phids = mpull($page, 'getUserPHID');
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($user_phids)
@@ -71,7 +71,7 @@ final class PhabricatorPeopleUserEmailQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
 }

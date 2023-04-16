@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldWebhookRequestPHIDType extends PhabricatorPHIDType {
+final class HeraldWebhookRequestPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'HWBR';
 
@@ -13,11 +13,11 @@ final class HeraldWebhookRequestPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new HeraldWebhookRequestQuery())
@@ -25,7 +25,7 @@ final class HeraldWebhookRequestPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

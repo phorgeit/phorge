@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDaemonBulkJobListController
-  extends PhabricatorDaemonBulkJobController {
+final class PhorgeDaemonBulkJobListController
+  extends PhorgeDaemonBulkJobController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorWorkerBulkJobSearchEngine())
+    return id(new PhorgeWorkerBulkJobSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhluxController extends PhabricatorController {
+abstract class PhluxController extends PhorgeController {
 
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();

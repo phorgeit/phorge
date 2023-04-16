@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorAuthFactorProviderTransactionType
-  extends PhabricatorModularTransactionType {
+abstract class PhorgeAuthFactorProviderTransactionType
+  extends PhorgeModularTransactionType {
 
   final protected function isDuoProvider(
-    PhabricatorAuthFactorProvider $provider) {
-    $duo_key = id(new PhabricatorDuoAuthFactor())->getFactorKey();
+    PhorgeAuthFactorProvider $provider) {
+    $duo_key = id(new PhorgeDuoAuthFactor())->getFactorKey();
     return ($provider->getProviderFactorKey() === $duo_key);
   }
 

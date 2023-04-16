@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockLeaseSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $resource;
 
@@ -19,7 +19,7 @@ final class DrydockLeaseSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function newQuery() {
@@ -53,16 +53,16 @@ final class DrydockLeaseSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setOptions(DrydockLeaseStatus::getStatusMap()),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Owners'))
         ->setKey('ownerPHIDs')
         ->setAliases(array('owner', 'owners', 'ownerPHID'))
         ->setDescription(pht('Search leases by owner.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Resources'))
         ->setKey('resourcePHIDs')
         ->setAliases(array('resorucePHID', 'resource', 'resources'))
@@ -109,14 +109,14 @@ final class DrydockLeaseSearchEngine
 
   protected function renderResultList(
     array $leases,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $handles) {
 
     $list = id(new DrydockLeaseListView())
       ->setUser($this->requireViewer())
       ->setLeases($leases);
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($list);
   }
 

@@ -70,7 +70,7 @@ final class ConpherenceColumnViewController extends
       $participant->markUpToDate($conpherence);
       unset($write_guard);
 
-      $draft = PhabricatorDraft::newFromUserAndKey(
+      $draft = PhorgeDraft::newFromUserAndKey(
         $user,
         $conpherence->getPHID());
 
@@ -81,10 +81,10 @@ final class ConpherenceColumnViewController extends
       $conpherence_id = $conpherence->getID();
       $conpherence_phid = $conpherence->getPHID();
       $latest_transaction_id = $latest_transaction->getID();
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $user,
         $conpherence,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     $dropdown_query = id(new AphlictDropdownDataQuery())

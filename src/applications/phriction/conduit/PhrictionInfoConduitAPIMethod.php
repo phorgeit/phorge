@@ -41,7 +41,7 @@ final class PhrictionInfoConduitAPIMethod extends PhrictionConduitAPIMethod {
 
     $document = id(new PhrictionDocumentQuery())
       ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+      ->withSlugs(array(PhorgeSlug::normalize($slug)))
       ->needContent(true)
       ->executeOne();
     if (!$document) {

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorPeopleMailEngine
+abstract class PhorgePeopleMailEngine
   extends Phobject {
 
   private $sender;
@@ -8,7 +8,7 @@ abstract class PhabricatorPeopleMailEngine
   private $recipientAddress;
   private $activityLog;
 
-  final public function setSender(PhabricatorUser $sender) {
+  final public function setSender(PhorgeUser $sender) {
     $this->sender = $sender;
     return $this;
   }
@@ -20,7 +20,7 @@ abstract class PhabricatorPeopleMailEngine
     return $this->sender;
   }
 
-  final public function setRecipient(PhabricatorUser $recipient) {
+  final public function setRecipient(PhorgeUser $recipient) {
     $this->recipient = $recipient;
     return $this;
   }
@@ -48,7 +48,7 @@ abstract class PhabricatorPeopleMailEngine
     return ($this->recipientAddress !== null);
   }
 
-  final public function setActivityLog(PhabricatorUserLog $activity_log) {
+  final public function setActivityLog(PhorgeUserLog $activity_log) {
     $this->activityLog = $activity_log;
     return $this;
   }
@@ -61,7 +61,7 @@ abstract class PhabricatorPeopleMailEngine
     try {
       $this->validateMail();
       return true;
-    } catch (PhabricatorPeopleMailEngineException $ex) {
+    } catch (PhorgePeopleMailEngineException $ex) {
       return false;
     }
   }
@@ -101,15 +101,15 @@ abstract class PhabricatorPeopleMailEngine
   abstract protected function newMail();
 
   final protected function throwValidationException($title, $body) {
-    throw new PhabricatorPeopleMailEngineException($title, $body);
+    throw new PhorgePeopleMailEngineException($title, $body);
   }
 
   final protected function newRemarkupText($text) {
     $recipient = $this->getRecipient();
 
-    $engine = PhabricatorMarkupEngine::newMarkupEngine(array())
+    $engine = PhorgeMarkupEngine::newMarkupEngine(array())
       ->setConfig('viewer', $recipient)
-      ->setConfig('uri.base', PhabricatorEnv::getProductionURI('/'))
+      ->setConfig('uri.base', PhorgeEnv::getProductionURI('/'))
       ->setMode(PhutilRemarkupEngine::MODE_TEXT);
 
     $rendered_text = $engine->markupText($text);

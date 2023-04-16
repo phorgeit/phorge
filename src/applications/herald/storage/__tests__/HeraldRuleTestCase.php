@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldRuleTestCase extends PhabricatorTestCase {
+final class HeraldRuleTestCase extends PhorgeTestCase {
 
   public function testHeraldRuleExecutionOrder() {
     $rules = array(

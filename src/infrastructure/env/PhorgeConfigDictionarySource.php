@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigDictionarySource
-  extends PhabricatorConfigSource {
+final class PhorgeConfigDictionarySource
+  extends PhorgeConfigSource {
 
   private $dictionary;
 

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorAuthInviteSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeAuthInviteSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Auth Email Invites');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,20 +16,20 @@ final class PhabricatorAuthInviteSearchEngine
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorAuthInviteQuery());
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = id(new PhorgeAuthInviteQuery());
 
     return $query;
   }
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {}
+    PhorgeSavedQuery $saved) {}
 
   protected function getURI($path) {
     return '/people/invite/'.$path;
@@ -57,7 +57,7 @@ final class PhabricatorAuthInviteSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $invites,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = array();
     foreach ($invites as $invite) {
@@ -72,9 +72,9 @@ final class PhabricatorAuthInviteSearchEngine
 
   protected function renderResultList(
     array $invites,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($invites, 'PhabricatorAuthInvite');
+    assert_instances_of($invites, 'PhorgeAuthInvite');
 
     $viewer = $this->requireViewer();
 
@@ -106,7 +106,7 @@ final class PhabricatorAuthInviteSearchEngine
           'right',
         ));
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
 
     return $result;

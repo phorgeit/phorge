@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyFilter extends Phobject {
+final class PhorgePolicyFilter extends Phobject {
 
   private $viewer;
   private $objects;
@@ -12,8 +12,8 @@ final class PhabricatorPolicyFilter extends Phobject {
   private $forcedPolicy;
 
   public static function mustRetainCapability(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $user,
+    PhorgePolicyInterface $object,
     $capability) {
 
     if (!self::hasCapability($user, $object, $capability)) {
@@ -26,10 +26,10 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public static function requireCapability(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $user,
+    PhorgePolicyInterface $object,
     $capability) {
-    $filter = id(new PhabricatorPolicyFilter())
+    $filter = id(new PhorgePolicyFilter())
       ->setViewer($user)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -43,29 +43,29 @@ final class PhabricatorPolicyFilter extends Phobject {
    *
    * Specifically, a check like this:
    *
-   *   PhabricatorPolicyFilter::requireCapabilityWithForcedPolicy(
+   *   PhorgePolicyFilter::requireCapabilityWithForcedPolicy(
    *     $viewer,
    *     $object,
-   *     PhabricatorPolicyCapability::CAN_EDIT,
+   *     PhorgePolicyCapability::CAN_EDIT,
    *     $potential_new_policy);
    *
-   * ...will throw a @{class:PhabricatorPolicyException} if the new policy would
+   * ...will throw a @{class:PhorgePolicyException} if the new policy would
    * remove the user's ability to edit the object.
    *
-   * @param PhabricatorUser   The viewer to perform a policy check for.
-   * @param PhabricatorPolicyInterface The object to perform a policy check on.
+   * @param PhorgeUser   The viewer to perform a policy check for.
+   * @param PhorgePolicyInterface The object to perform a policy check on.
    * @param string            Capability to test.
    * @param string            Perform the test as though the object has this
    *                          policy instead of the policy it actually has.
    * @return void
    */
   public static function requireCapabilityWithForcedPolicy(
-    PhabricatorUser $viewer,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $viewer,
+    PhorgePolicyInterface $object,
     $capability,
     $forced_policy) {
 
-    id(new PhabricatorPolicyFilter())
+    id(new PhorgePolicyFilter())
       ->setViewer($viewer)
       ->requireCapabilities(array($capability))
       ->raisePolicyExceptions(true)
@@ -74,11 +74,11 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public static function hasCapability(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $user,
+    PhorgePolicyInterface $object,
     $capability) {
 
-    $filter = new PhabricatorPolicyFilter();
+    $filter = new PhorgePolicyFilter();
     $filter->setViewer($user);
     $filter->requireCapabilities(array($capability));
     $result = $filter->apply(array($object));
@@ -87,8 +87,8 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public static function canInteract(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object) {
+    PhorgeUser $user,
+    PhorgePolicyInterface $object) {
 
     $capabilities = self::getRequiredInteractCapabilities($object);
 
@@ -102,8 +102,8 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public static function requireCanInteract(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object) {
+    PhorgeUser $user,
+    PhorgePolicyInterface $object) {
 
     $capabilities = self::getRequiredInteractCapabilities($object);
     foreach ($capabilities as $capability) {
@@ -112,12 +112,12 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   private static function getRequiredInteractCapabilities(
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
     $capabilities = $object->getCapabilities();
     $capabilities = array_fuse($capabilities);
 
-    $can_interact = PhabricatorPolicyCapability::CAN_INTERACT;
-    $can_view = PhabricatorPolicyCapability::CAN_VIEW;
+    $can_interact = PhorgePolicyCapability::CAN_INTERACT;
+    $can_view = PhorgePolicyCapability::CAN_VIEW;
 
     $require = array();
 
@@ -133,7 +133,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     return $require;
   }
 
-  public function setViewer(PhabricatorUser $user) {
+  public function setViewer(PhorgeUser $user) {
     $this->viewer = $user;
     return $this;
   }
@@ -154,7 +154,7 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public function apply(array $objects) {
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, 'PhorgePolicyInterface');
 
     $viewer       = $this->viewer;
     $capabilities = $this->capabilities;
@@ -200,18 +200,18 @@ final class PhabricatorPolicyFilter extends Phobject {
 
         $policy = $this->getObjectPolicy($object, $capability);
 
-        if (PhabricatorPolicyQuery::isObjectPolicy($policy)) {
+        if (PhorgePolicyQuery::isObjectPolicy($policy)) {
           $need_objpolicies[$policy][] = $object;
           continue;
         }
 
         $type = phid_get_type($policy);
-        if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
+        if ($type == PhorgeProjectProjectPHIDType::TYPECONST) {
           $need_projects[$policy] = $policy;
           continue;
         }
 
-        if ($type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
+        if ($type == PhorgePolicyPHIDTypePolicy::TYPECONST) {
           $need_policies[$policy][] = $object;
           continue;
         }
@@ -231,7 +231,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     // common case.
     if ($need_projects) {
       foreach ($objects as $object) {
-        if ($object instanceof PhabricatorProject) {
+        if ($object instanceof PhorgeProject) {
           $project_phid = $object->getPHID();
           if (isset($need_projects[$project_phid])) {
             $is_member = $object->isUserMember($viewer_phid);
@@ -252,8 +252,8 @@ final class PhabricatorPolicyFilter extends Phobject {
       // visibility anyway. Without this, we may load other projects and
       // re-enter the policy filter and generally create a huge mess.
 
-      $projects = id(new PhabricatorProjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $projects = id(new PhorgeProjectQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withMemberPHIDs(array($viewer->getPHID()))
         ->withPHIDs($need_projects)
         ->execute();
@@ -280,7 +280,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $results = array();
     $extended = array();
     foreach ($filtered as $key => $object) {
-      if ($object instanceof PhabricatorExtendedPolicyInterface) {
+      if ($object instanceof PhorgeExtendedPolicyInterface) {
         $extended[$key] = $object;
       } else {
         $results[$key] = $object;
@@ -354,8 +354,8 @@ final class PhabricatorPolicyFilter extends Phobject {
     if ($all_phids) {
       // We can pull these with the omnipotent user because we're immediately
       // filtering them.
-      $ref_objects = id(new PhabricatorObjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $ref_objects = id(new PhorgeObjectQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($all_phids)
         ->execute();
       $ref_objects = mpull($ref_objects, null, 'getPHID');
@@ -450,7 +450,7 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   private function executeExtendedPolicyChecks(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $capabilities,
     array $objects,
     array $key_map) {
@@ -479,7 +479,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
     $caught = null;
     try {
-      $result = id(new PhabricatorPolicyFilter())
+      $result = id(new PhorgePolicyFilter())
         ->setViewer($viewer)
         ->requireCapabilities($capabilities)
         ->apply($objects);
@@ -497,28 +497,28 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   private function checkCapability(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability) {
 
     $policy = $this->getObjectPolicy($object, $capability);
 
     if (!$policy) {
       // TODO: Formalize this somehow?
-      $policy = PhabricatorPolicies::POLICY_USER;
+      $policy = PhorgePolicies::POLICY_USER;
     }
 
-    if ($policy == PhabricatorPolicies::POLICY_PUBLIC) {
+    if ($policy == PhorgePolicies::POLICY_PUBLIC) {
       // If the object is set to "public" but that policy is disabled for this
       // install, restrict the policy to "user".
-      if (!PhabricatorEnv::getEnvConfig('policy.allow-public')) {
-        $policy = PhabricatorPolicies::POLICY_USER;
+      if (!PhorgeEnv::getEnvConfig('policy.allow-public')) {
+        $policy = PhorgePolicies::POLICY_USER;
       }
 
       // If the object is set to "public" but the capability is not a public
       // capability, restrict the policy to "user".
-      $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+      $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
       if (!$capobj || !$capobj->shouldAllowPublicPolicySetting()) {
-        $policy = PhabricatorPolicies::POLICY_USER;
+        $policy = PhorgePolicies::POLICY_USER;
       }
     }
 
@@ -528,7 +528,7 @@ final class PhabricatorPolicyFilter extends Phobject {
       return true;
     }
 
-    if ($object instanceof PhabricatorSpacesInterface) {
+    if ($object instanceof PhorgeSpacesInterface) {
       $space_phid = $object->getSpacePHID();
       if (!$this->canViewerSeeObjectsInSpace($viewer, $space_phid)) {
         $this->rejectObjectFromSpace($object, $space_phid);
@@ -541,27 +541,27 @@ final class PhabricatorPolicyFilter extends Phobject {
     }
 
     switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
+      case PhorgePolicies::POLICY_PUBLIC:
         return true;
-      case PhabricatorPolicies::POLICY_USER:
+      case PhorgePolicies::POLICY_USER:
         if ($viewer->getPHID()) {
           return true;
         } else {
           $this->rejectObject($object, $policy, $capability);
         }
         break;
-      case PhabricatorPolicies::POLICY_ADMIN:
+      case PhorgePolicies::POLICY_ADMIN:
         if ($viewer->getIsAdmin()) {
           return true;
         } else {
           $this->rejectObject($object, $policy, $capability);
         }
         break;
-      case PhabricatorPolicies::POLICY_NOONE:
+      case PhorgePolicies::POLICY_NOONE:
         $this->rejectObject($object, $policy, $capability);
         break;
       default:
-        if (PhabricatorPolicyQuery::isObjectPolicy($policy)) {
+        if (PhorgePolicyQuery::isObjectPolicy($policy)) {
           if ($this->checkObjectPolicy($policy, $object)) {
             return true;
           } else {
@@ -571,19 +571,19 @@ final class PhabricatorPolicyFilter extends Phobject {
         }
 
         $type = phid_get_type($policy);
-        if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
+        if ($type == PhorgeProjectProjectPHIDType::TYPECONST) {
           if (!empty($this->userProjects[$viewer->getPHID()][$policy])) {
             return true;
           } else {
             $this->rejectObject($object, $policy, $capability);
           }
-        } else if ($type == PhabricatorPeopleUserPHIDType::TYPECONST) {
+        } else if ($type == PhorgePeopleUserPHIDType::TYPECONST) {
           if ($viewer->getPHID() == $policy) {
             return true;
           } else {
             $this->rejectObject($object, $policy, $capability);
           }
-        } else if ($type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
+        } else if ($type == PhorgePolicyPHIDTypePolicy::TYPECONST) {
           if ($this->checkCustomPolicy($policy, $object)) {
             return true;
           } else {
@@ -599,7 +599,7 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   public function rejectObject(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $policy,
     $capability) {
     $viewer = $this->viewer;
@@ -617,7 +617,7 @@ final class PhabricatorPolicyFilter extends Phobject {
       return;
     }
 
-    $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+    $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
     $rejection = null;
     if ($capobj) {
       $rejection = $capobj->describeCapabilityRejection();
@@ -643,7 +643,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     // have "CAN_VIEW" on the object, we give you an "opaque" explanation.
     // Otherwise, we give you a more detailed explanation.
 
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
     if ($capability === $view_capability) {
       $show_details = false;
     } else {
@@ -661,18 +661,18 @@ final class PhabricatorPolicyFilter extends Phobject {
     $more = null;
 
     if ($show_details) {
-      $head = PhabricatorPolicy::getPolicyExplanation($viewer, $policy);
+      $head = PhorgePolicy::getPolicyExplanation($viewer, $policy);
 
-      $policy_type = PhabricatorPolicyPHIDTypePolicy::TYPECONST;
+      $policy_type = PhorgePolicyPHIDTypePolicy::TYPECONST;
       $is_custom = (phid_get_type($policy) === $policy_type);
       if ($is_custom) {
-        $policy_map = PhabricatorPolicyQuery::loadPolicies(
+        $policy_map = PhorgePolicyQuery::loadPolicies(
           $viewer,
           $object);
         if (isset($policy_map[$capability])) {
           require_celerity_resource('phui-policy-section-view-css');
 
-          $more = id(new PhabricatorPolicyRulesView())
+          $more = id(new PhorgePolicyRulesView())
             ->setViewer($viewer)
             ->setPolicy($policy_map[$capability]);
 
@@ -685,12 +685,12 @@ final class PhabricatorPolicyFilter extends Phobject {
         }
       }
     } else {
-      $head = PhabricatorPolicy::getOpaquePolicyExplanation($viewer, $policy);
+      $head = PhorgePolicy::getOpaquePolicyExplanation($viewer, $policy);
     }
 
     $head = (array)$head;
 
-    $exceptions = PhabricatorPolicy::getSpecialRules(
+    $exceptions = PhorgePolicy::getSpecialRules(
       $object,
       $this->viewer,
       $capability,
@@ -710,7 +710,7 @@ final class PhabricatorPolicyFilter extends Phobject {
       $rejection,
       $text_details);
 
-    $exception = id(new PhabricatorPolicyException($full_message))
+    $exception = id(new PhorgePolicyException($full_message))
       ->setTitle($access_denied)
       ->setObjectPHID($object->getPHID())
       ->setRejection($rejection)
@@ -725,7 +725,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $viewer = $this->viewer;
     $viewer_phid = $viewer->getPHID();
 
-    $rules = PhabricatorPolicyQuery::getObjectPolicyRules(null);
+    $rules = PhorgePolicyQuery::getObjectPolicyRules(null);
 
     // Make sure we have clean, empty policy rule objects.
     foreach ($rules as $key => $rule) {
@@ -756,7 +756,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $viewer = $this->viewer;
     $viewer_phid = $viewer->getPHID();
 
-    $custom_policies = id(new PhabricatorPolicyQuery())
+    $custom_policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->withPHIDs(array_keys($map))
       ->execute();
@@ -808,7 +808,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
   private function checkObjectPolicy(
     $policy_phid,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
     $viewer = $this->viewer;
     $viewer_phid = $viewer->getPHID();
 
@@ -826,7 +826,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
   private function checkCustomPolicy(
     $policy_phid,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $viewer = $this->viewer;
     $viewer_phid = $viewer->getPHID();
@@ -867,7 +867,7 @@ final class PhabricatorPolicyFilter extends Phobject {
       $action = $policy->getDefaultAction();
     }
 
-    if ($action === PhabricatorPolicy::ACTION_ALLOW) {
+    if ($action === PhorgePolicy::ACTION_ALLOW) {
       return true;
     }
 
@@ -875,7 +875,7 @@ final class PhabricatorPolicyFilter extends Phobject {
   }
 
   private function getObjectPolicy(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability) {
 
     if ($this->forcedPolicy) {
@@ -885,19 +885,19 @@ final class PhabricatorPolicyFilter extends Phobject {
     }
   }
 
-  private function renderAccessDenied(PhabricatorPolicyInterface $object) {
+  private function renderAccessDenied(PhorgePolicyInterface $object) {
     // NOTE: Not every type of policy object has a real PHID; just load an
     // empty handle if a real PHID isn't available.
-    $phid = nonempty($object->getPHID(), PhabricatorPHIDConstants::PHID_VOID);
+    $phid = nonempty($object->getPHID(), PhorgePHIDConstants::PHID_VOID);
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($this->viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
     $object_name = $handle->getObjectName();
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     if ($is_serious) {
       $access_denied = pht(
         'Access Denied: %s',
@@ -913,10 +913,10 @@ final class PhabricatorPolicyFilter extends Phobject {
 
 
   private function canViewerSeeObjectsInSpace(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $space_phid) {
 
-    $spaces = PhabricatorSpacesNamespaceQuery::getAllSpaces();
+    $spaces = PhorgeSpacesNamespaceQuery::getAllSpaces();
 
     // If there are no spaces, everything exists in an implicit default space
     // with no policy controls. This is the default state.
@@ -929,7 +929,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     }
 
     if ($space_phid === null) {
-      $space = PhabricatorSpacesNamespaceQuery::getDefaultSpace();
+      $space = PhorgeSpacesNamespaceQuery::getDefaultSpace();
     } else {
       $space = idx($spaces, $space_phid);
     }
@@ -943,11 +943,11 @@ final class PhabricatorPolicyFilter extends Phobject {
     return self::hasCapability(
       $viewer,
       $space,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
   }
 
   private function rejectObjectFromSpace(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $space_phid) {
 
     if (!$this->raisePolicyExceptions) {
@@ -964,11 +964,11 @@ final class PhabricatorPolicyFilter extends Phobject {
       'This object is in a space you do not have permission to access.');
     $full_message = pht('[%s] %s', $access_denied, $rejection);
 
-    $exception = id(new PhabricatorPolicyException($full_message))
+    $exception = id(new PhorgePolicyException($full_message))
       ->setTitle($access_denied)
       ->setObjectPHID($object->getPHID())
       ->setRejection($rejection)
-      ->setCapability(PhabricatorPolicyCapability::CAN_VIEW);
+      ->setCapability(PhorgePolicyCapability::CAN_VIEW);
 
     throw $exception;
   }
@@ -982,11 +982,11 @@ final class PhabricatorPolicyFilter extends Phobject {
       // that application. Note that the application policies still apply to
       // the underlying object, so these will be "Restricted Object" handles.
 
-      // If we don't let these through, PhabricatorHandleQuery will completely
+      // If we don't let these through, PhorgeHandleQuery will completely
       // fail to load results for PHIDs that are part of applications which
       // the viewer can not see, but a fundamental property of handles is that
       // we always load something and they can safely be assumed to load.
-      if ($object instanceof PhabricatorObjectHandle) {
+      if ($object instanceof PhorgeObjectHandle) {
         continue;
       }
 
@@ -1000,7 +1000,7 @@ final class PhabricatorPolicyFilter extends Phobject {
         continue;
       }
 
-      $can_see = PhabricatorApplication::isClassInstalledForViewer(
+      $can_see = PhorgeApplication::isClassInstalledForViewer(
         $application_class,
         $viewer);
       if ($can_see) {
@@ -1012,8 +1012,8 @@ final class PhabricatorPolicyFilter extends Phobject {
       $application = newv($application_class, array());
       $this->rejectObject(
         $application,
-        $application->getPolicy(PhabricatorPolicyCapability::CAN_VIEW),
-        PhabricatorPolicyCapability::CAN_VIEW);
+        $application->getPolicy(PhorgePolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW);
     }
 
     return $objects;
@@ -1024,7 +1024,7 @@ final class PhabricatorPolicyFilter extends Phobject {
 
     $phid_type = phid_get_type($phid);
     if (!isset($class_map[$phid_type])) {
-      $type_objects = PhabricatorPHIDType::getTypes(array($phid_type));
+      $type_objects = PhorgePHIDType::getTypes(array($phid_type));
       $type_object = idx($type_objects, $phid_type);
       if (!$type_object) {
         $class = false;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalOnlyDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeProjectLogicalOnlyDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Only');
@@ -12,7 +12,7 @@ final class PhabricatorProjectLogicalOnlyDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -43,8 +43,8 @@ final class PhabricatorProjectLogicalOnlyDatasource
   protected function evaluateFunction($function, array $argv_list) {
     $results = array();
 
-    $results[] = new PhabricatorQueryConstraint(
-      PhabricatorQueryConstraint::OPERATOR_ONLY,
+    $results[] = new PhorgeQueryConstraint(
+      PhorgeQueryConstraint::OPERATOR_ONLY,
       null);
 
     return $results;
@@ -56,7 +56,7 @@ final class PhabricatorProjectLogicalOnlyDatasource
 
     $tokens = array();
     foreach ($argv_list as $argv) {
-      $tokens[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $tokens[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->renderOnlyFunctionToken());
     }
 

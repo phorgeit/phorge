@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryURIsIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'diffusion.repositories.uri';
 
@@ -10,17 +10,17 @@ final class DiffusionRepositoryURIsIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    return ($object instanceof PhabricatorRepository);
+    return ($object instanceof PhorgeRepository);
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     // Reload the repository to pick up URIs, which we need in order to update
     // the URI index.
-    $object = id(new PhabricatorRepositoryQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $object = id(new PhorgeRepositoryQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($object->getPHID()))
       ->needURIs(true)
       ->executeOne();

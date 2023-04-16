@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorBulkEngine extends Phobject {
+abstract class PhorgeBulkEngine extends Phobject {
 
   private $viewer;
   private $controller;
@@ -61,7 +61,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
     return $this->getQueryURI('bulk/'.ltrim($path, '/'));
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -70,7 +70,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
     return $this->viewer;
   }
 
-  final public function setController(PhabricatorController $controller) {
+  final public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -157,7 +157,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
       if ($search_engine->isBuiltinQuery($query_key)) {
         $saved = $search_engine->buildSavedQueryFromBuiltin($query_key);
       } else {
-        $saved = id(new PhabricatorSavedQueryQuery())
+        $saved = id(new PhorgeSavedQueryQuery())
           ->setViewer($viewer)
           ->withQueryKeys(array($query_key))
           ->executeOne();
@@ -212,12 +212,12 @@ abstract class PhabricatorBulkEngine extends Phobject {
     // query matches whether they're editable or not, but indicate which ones
     // can not be edited to the user.
 
-    $editable_list = id(new PhabricatorPolicyFilter())
+    $editable_list = id(new PhorgePolicyFilter())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->apply($object_list);
     $this->editableList = mpull($editable_list, null, 'getPHID');
@@ -233,7 +233,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
 
     $handles = $viewer->loadHandles(array_keys($objects));
 
-    $status_closed = PhabricatorObjectHandle::STATUS_CLOSED;
+    $status_closed = PhorgeObjectHandle::STATUS_CLOSED;
 
     $list = id(new PHUIObjectItemListView())
       ->setViewer($viewer)
@@ -426,9 +426,9 @@ abstract class PhabricatorBulkEngine extends Phobject {
     $cancel_uri = $this->getCancelURI();
     $done_uri = $this->getDoneURI();
 
-    $job = PhabricatorWorkerBulkJob::initializeNewJob(
+    $job = PhorgeWorkerBulkJob::initializeNewJob(
       $viewer,
-      new PhabricatorEditEngineBulkJobType(),
+      new PhorgeEditEngineBulkJobType(),
       array(
         'objectPHIDs' => mpull($objects, 'getPHID'),
         'xactions' => $xactions,
@@ -436,14 +436,14 @@ abstract class PhabricatorBulkEngine extends Phobject {
         'doneURI' => $done_uri,
       ));
 
-    $type_status = PhabricatorWorkerBulkJobTransaction::TYPE_STATUS;
+    $type_status = PhorgeWorkerBulkJobTransaction::TYPE_STATUS;
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorWorkerBulkJobTransaction())
+    $xactions[] = id(new PhorgeWorkerBulkJobTransaction())
       ->setTransactionType($type_status)
-      ->setNewValue(PhabricatorWorkerBulkJob::STATUS_CONFIRM);
+      ->setNewValue(PhorgeWorkerBulkJob::STATUS_CONFIRM);
 
-    $editor = id(new PhabricatorWorkerBulkJobEditor())
+    $editor = id(new PhorgeWorkerBulkJobEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnMissingFields(true)

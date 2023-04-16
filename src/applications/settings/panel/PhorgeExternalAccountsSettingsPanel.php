@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExternalAccountsSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeExternalAccountsSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'external';
@@ -16,22 +16,22 @@ final class PhabricatorExternalAccountsSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function processRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $providers = PhabricatorAuthProvider::getAllProviders();
+    $providers = PhorgeAuthProvider::getAllProviders();
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->needImages(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -90,7 +90,7 @@ final class PhabricatorExternalAccountsSettingsPanel
       ->setNoDataString(
         pht('Your account is linked with all available providers.'));
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->withIsEnabled(true)
       ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDarkConsoleVisibleSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeDarkConsoleVisibleSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'darkconsole.visible';
 

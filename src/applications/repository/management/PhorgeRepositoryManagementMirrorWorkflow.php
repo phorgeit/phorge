@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementMirrorWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementMirrorWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -38,7 +38,7 @@ final class PhabricatorRepositoryManagementMirrorWorkflow
           'Pushing "%s" to mirrors...',
           $repo->getDisplayName()));
 
-      $engine = id(new PhabricatorRepositoryMirrorEngine())
+      $engine = id(new PhorgeRepositoryMirrorEngine())
         ->setRepository($repo)
         ->setVerbose($args->getArg('verbose'))
         ->pushToMirrors();

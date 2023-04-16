@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeDashboardPanelQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -39,10 +39,10 @@ final class PhabricatorDashboardPanelQuery
     // enumerate custom fields. For now, just give the panel a default panel
     // type so custom fields work. In the long run, we may want to find a
     // cleaner or more general approach for this.
-    $text_type = id(new PhabricatorDashboardTextPanelType())
+    $text_type = id(new PhorgeDashboardTextPanelType())
       ->getPanelTypeKey();
 
-    return id(new PhabricatorDashboardPanel())
+    return id(new PhorgeDashboardPanel())
       ->setPanelType($text_type);
   }
 
@@ -88,7 +88,7 @@ final class PhabricatorDashboardPanelQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function getPrimaryTableAlias() {

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSSHKeysSettingsPanel extends PhabricatorSettingsPanel {
+final class PhorgeSSHKeysSettingsPanel extends PhorgeSettingsPanel {
 
   public function isManagementPanel() {
     if ($this->getUser()->getIsMailingList()) {
@@ -23,20 +23,20 @@ final class PhabricatorSSHKeysSettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function processRequest(AphrontRequest $request) {
     $user = $this->getUser();
     $viewer = $request->getUser();
 
-    $keys = id(new PhabricatorAuthSSHKeyQuery())
+    $keys = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withIsActive(true)
       ->execute();
 
-    $table = id(new PhabricatorAuthSSHKeyTableView())
+    $table = id(new PhorgeAuthSSHKeyTableView())
       ->setUser($viewer)
       ->setKeys($keys)
       ->setCanEdit(true)
@@ -45,7 +45,7 @@ final class PhabricatorSSHKeysSettingsPanel extends PhabricatorSettingsPanel {
     $panel = new PHUIObjectBoxView();
     $header = new PHUIHeaderView();
 
-    $ssh_actions = PhabricatorAuthSSHKeyTableView::newKeyActionsMenu(
+    $ssh_actions = PhorgeAuthSSHKeyTableView::newKeyActionsMenu(
       $viewer,
       $user);
 

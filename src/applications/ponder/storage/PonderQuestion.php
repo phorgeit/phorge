@@ -2,17 +2,17 @@
 
 final class PonderQuestion extends PonderDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeMarkupInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgePolicyInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSpacesInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   const MARKUP_FIELD_CONTENT = 'markup:content';
 
@@ -35,10 +35,10 @@ final class PonderQuestion extends PonderDAO
 
   private $projectPHIDs = self::ATTACHABLE;
 
-  public static function initializeNewQuestion(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewQuestion(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPonderApplication'))
+      ->withClasses(array('PhorgePonderApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -85,16 +85,16 @@ final class PonderQuestion extends PonderDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(PonderQuestionPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(PonderQuestionPHIDType::TYPECONST);
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source->serialize();
     return $this;
   }
 
   public function getContentSource() {
-    return PhabricatorContentSource::newFromSerialized($this->contentSource);
+    return PhorgeContentSource::newFromSerialized($this->contentSource);
   }
 
   public function setComments($comments) {
@@ -146,7 +146,7 @@ final class PonderQuestion extends PonderDAO
     return PonderQuestionStatus::isQuestionStatusClosed($this->status);
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -162,7 +162,7 @@ final class PonderQuestion extends PonderDAO
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
   public function getMarkupText($field) {
@@ -170,7 +170,7 @@ final class PonderQuestion extends PonderDAO
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::getEngine();
+    return PhorgeMarkupEngine::getEngine();
   }
 
   public function didMarkupText(
@@ -198,30 +198,30 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        $app = PhabricatorApplication::getByClass(
-          'PhabricatorPonderApplication');
+      case PhorgePolicyCapability::CAN_EDIT:
+        $app = PhorgeApplication::getByClass(
+          'PhorgePonderApplication');
         return $app->getPolicy(PonderModerateCapability::CAPABILITY);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
-      if (PhabricatorPolicyFilter::hasCapability(
-        $viewer, $this, PhabricatorPolicyCapability::CAN_EDIT)) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
+      if (PhorgePolicyFilter::hasCapability(
+        $viewer, $this, PhorgePolicyCapability::CAN_EDIT)) {
         return true;
       }
     }
@@ -233,7 +233,7 @@ final class PonderQuestion extends PonderDAO
     $out = array();
     $out[] = pht('The user who asked a question can always view and edit it.');
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $out[] = pht(
           'A moderator can always view the question.');
         break;
@@ -242,7 +242,7 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -250,7 +250,7 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -260,10 +260,10 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $answers = id(new PonderAnswer())->loadAllWhere(
@@ -278,7 +278,7 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -286,7 +286,7 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -294,7 +294,7 @@ final class PonderQuestion extends PonderDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {

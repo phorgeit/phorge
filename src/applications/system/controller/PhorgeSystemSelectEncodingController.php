@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemSelectEncodingController
-  extends PhabricatorController {
+final class PhorgeSystemSelectEncodingController
+  extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;

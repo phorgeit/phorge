@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'drydock.blueprint.search';

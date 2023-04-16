@@ -1,11 +1,11 @@
 <?php
 
 final class ManiphestTaskBulkEngine
-  extends PhabricatorBulkEngine {
+  extends PhorgeBulkEngine {
 
   private $workboard;
 
-  public function setWorkboard(PhabricatorProject $workboard) {
+  public function setWorkboard(PhorgeProject $workboard) {
     $this->workboard = $workboard;
     return $this;
   }

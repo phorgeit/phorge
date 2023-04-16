@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberStatusTransaction
-  extends PhabricatorAuthContactNumberTransactionType {
+final class PhorgeAuthContactNumberStatusTransaction
+  extends PhorgeAuthContactNumberTransactionType {
 
   const TRANSACTIONTYPE = 'status';
 
@@ -16,7 +16,7 @@ final class PhabricatorAuthContactNumberStatusTransaction
   public function getTitle() {
     $new = $this->getNewValue();
 
-    if ($new === PhabricatorAuthContactNumber::STATUS_DISABLED) {
+    if ($new === PhorgeAuthContactNumber::STATUS_DISABLED) {
       return pht(
         '%s disabled this contact number.',
         $this->renderAuthor());
@@ -30,7 +30,7 @@ final class PhabricatorAuthContactNumberStatusTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $map = PhabricatorAuthContactNumber::getStatusNameMap();
+    $map = PhorgeAuthContactNumber::getStatusNameMap();
 
     foreach ($xactions as $xaction) {
       $new_value = $xaction->getNewValue();

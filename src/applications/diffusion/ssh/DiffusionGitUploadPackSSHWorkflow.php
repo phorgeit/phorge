@@ -42,7 +42,7 @@ final class DiffusionGitUploadPackSSHWorkflow
       }
     }
 
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
     $pull_event = $this->newPullEvent();
 
@@ -55,7 +55,7 @@ final class DiffusionGitUploadPackSSHWorkflow
       $log->didStartSession($command);
     }
 
-    if (PhabricatorEnv::getEnvConfig('phorge.show-prototypes')) {
+    if (PhorgeEnv::getEnvConfig('phorge.show-prototypes')) {
       $protocol = new DiffusionGitUploadPackWireProtocol();
       if ($log) {
         $protocol->setProtocolLog($log);
@@ -74,11 +74,11 @@ final class DiffusionGitUploadPackSSHWorkflow
 
     if ($err) {
       $pull_event
-        ->setResultType(PhabricatorRepositoryPullEvent::RESULT_ERROR)
+        ->setResultType(PhorgeRepositoryPullEvent::RESULT_ERROR)
         ->setResultCode($err);
     } else {
       $pull_event
-        ->setResultType(PhabricatorRepositoryPullEvent::RESULT_PULL)
+        ->setResultType(PhorgeRepositoryPullEvent::RESULT_PULL)
         ->setResultCode(0);
     }
 

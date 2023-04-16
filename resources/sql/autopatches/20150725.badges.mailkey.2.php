@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorBadgesBadge();
+$table = new PhorgeBadgesBadge();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $badge) {

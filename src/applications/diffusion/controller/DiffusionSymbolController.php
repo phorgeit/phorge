@@ -32,7 +32,7 @@ final class DiffusionSymbolController extends DiffusionController {
       $phids = array_filter($phids);
 
       if ($phids) {
-        $repos = id(new PhabricatorRepositoryQuery())
+        $repos = id(new PhorgeRepositoryQuery())
           ->setViewer($request->getUser())
           ->withPHIDs($phids)
           ->execute();
@@ -99,11 +99,11 @@ final class DiffusionSymbolController extends DiffusionController {
       }
 
       try {
-        assert_instances_of($source_results, 'PhabricatorRepositorySymbol');
+        assert_instances_of($source_results, 'PhorgeRepositorySymbol');
       } catch (InvalidArgumentException $ex) {
         throw new Exception(
           pht(
-            'Expected a list of PhabricatorRepositorySymbol objects '.
+            'Expected a list of PhorgeRepositorySymbol objects '.
             'from external symbol source "%s".',
             get_class($source)));
       }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserLogTypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeUserLogTypeDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Log Types');
@@ -12,7 +12,7 @@ final class PhabricatorUserLogTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function loadResults() {
@@ -27,10 +27,10 @@ final class PhabricatorUserLogTypeDatasource
   private function buildResults() {
     $results = array();
 
-    $type_map = PhabricatorUserLogType::getAllLogTypes();
+    $type_map = PhorgeUserLogType::getAllLogTypes();
     foreach ($type_map as $type_key => $type) {
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($type_key)
         ->setName($type->getLogTypeName());
 

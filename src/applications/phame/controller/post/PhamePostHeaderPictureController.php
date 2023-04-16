@@ -13,8 +13,8 @@ final class PhamePostHeaderPictureController
       ->needHeaderImage(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$post) {
@@ -23,14 +23,14 @@ final class PhamePostHeaderPictureController
 
     $post_uri = '/phame/post/view/'.$id;
 
-    $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    $supported_formats = PhorgeFile::getTransformableImageFormats();
     $e_file = true;
     $errors = array();
     $delete_header = ($request->getInt('delete') == 1);
 
     if ($request->isFormPost()) {
       if ($request->getFileExists('header')) {
-        $file = PhabricatorFile::newFromPHPUpload(
+        $file = PhorgeFile::newFromPHPUpload(
           $_FILES['header'],
           array(
             'authorPHID' => $viewer->getPHID(),

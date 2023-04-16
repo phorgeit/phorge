@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMetaMTAEmailBodyParserTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMetaMTAEmailBodyParserTestCase
+  extends PhorgeTestCase {
 
   public function testQuotedTextStripping() {
     $bodies = $this->getEmailBodies();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $stripped = $parser->stripTextBody($body);
       $this->assertEqual('OKAY', $stripped);
     }
@@ -15,7 +15,7 @@ final class PhabricatorMetaMTAEmailBodyParserTestCase
   public function testEmailBodyCommandParsing() {
     $bodies = $this->getEmailBodiesWithFullCommands();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $body_data = $parser->parseBody($body);
       $this->assertEqual('OKAY', $body_data['body']);
       $this->assertEqual(
@@ -27,7 +27,7 @@ final class PhabricatorMetaMTAEmailBodyParserTestCase
 
     $bodies = $this->getEmailBodiesWithPartialCommands();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $body_data = $parser->parseBody($body);
       $this->assertEqual('OKAY', $body_data['body']);
       $this->assertEqual(
@@ -39,7 +39,7 @@ final class PhabricatorMetaMTAEmailBodyParserTestCase
 
     $bodies = $this->getEmailBodiesWithMultipleCommands();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $body_data = $parser->parseBody($body);
       $this->assertEqual("preface\n\nOKAY", $body_data['body']);
       $this->assertEqual(
@@ -52,7 +52,7 @@ final class PhabricatorMetaMTAEmailBodyParserTestCase
 
     $bodies = $this->getEmailBodiesWithSplitCommands();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $body_data = $parser->parseBody($body);
       $this->assertEqual('OKAY', $body_data['body']);
       $this->assertEqual(
@@ -65,7 +65,7 @@ final class PhabricatorMetaMTAEmailBodyParserTestCase
 
     $bodies = $this->getEmailBodiesWithMiddleCommands();
     foreach ($bodies as $body) {
-      $parser = new PhabricatorMetaMTAEmailBodyParser();
+      $parser = new PhorgeMetaMTAEmailBodyParser();
       $body_data = $parser->parseBody($body);
       $this->assertEqual("HEAD\n!cmd2\nTAIL", $body_data['body']);
     }
@@ -80,7 +80,7 @@ On Sep 23, alincoln wrote:
 > Hey bro do you want to go ride horses tomorrow?
 EOEMAIL;
 
-    $parser = new PhabricatorMetaMTAEmailBodyParser();
+    $parser = new PhorgeMetaMTAEmailBodyParser();
     $stripped = $parser->stripTextBody($body);
     $this->assertEqual('On which horse shall you ride?', $stripped);
   }

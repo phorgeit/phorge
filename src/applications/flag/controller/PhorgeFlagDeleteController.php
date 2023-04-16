@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorFlagDeleteController extends PhabricatorFlagController {
+final class PhorgeFlagDeleteController extends PhorgeFlagController {
 
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $flag = id(new PhabricatorFlag())->load($id);
+    $flag = id(new PhorgeFlag())->load($id);
     if (!$flag) {
       return new Aphront404Response();
     }

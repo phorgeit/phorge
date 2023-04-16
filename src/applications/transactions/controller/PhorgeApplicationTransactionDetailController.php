@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionDetailController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionDetailController
+  extends PhorgeApplicationTransactionController {
 
   private $objectHandle;
 
@@ -16,7 +16,7 @@ final class PhabricatorApplicationTransactionDetailController
     $viewer = $this->getViewer();
     $phid = $request->getURIData('phid');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();

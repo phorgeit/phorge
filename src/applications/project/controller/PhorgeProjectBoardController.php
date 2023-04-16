@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorProjectBoardController
-  extends PhabricatorProjectController {
+abstract class PhorgeProjectBoardController
+  extends PhorgeProjectController {
 
   private $viewState;
 
@@ -17,7 +17,7 @@ abstract class PhabricatorProjectBoardController
     $project = $this->getProject();
     $request = $this->getRequest();
 
-    return id(new PhabricatorWorkboardViewState())
+    return id(new PhorgeWorkboardViewState())
       ->setProject($project)
       ->readFromRequest($request);
   }

@@ -26,8 +26,8 @@ final class LegalpadDocumentSignatureViewController extends LegalpadController {
       ->withIDs(array($signature->getDocument()->getID()))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$document) {

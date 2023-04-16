@@ -1,6 +1,6 @@
 <?php
 
-final class AphrontRedirectResponseTestCase extends PhabricatorTestCase {
+final class AphrontRedirectResponseTestCase extends PhorgeTestCase {
 
   public function testLocalRedirectURIs() {
     // Format a bunch of URIs for local and remote redirection, making sure

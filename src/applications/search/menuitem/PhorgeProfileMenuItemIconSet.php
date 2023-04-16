@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemIconSet
-  extends PhabricatorIconSet {
+final class PhorgeProfileMenuItemIconSet
+  extends PhorgeIconSet {
 
   const ICONSETKEY = 'profilemenuitem';
 
@@ -60,7 +60,7 @@ final class PhabricatorProfileMenuItemIconSet
 
     $icons = array();
     foreach ($list as $spec) {
-      $icons[] = id(new PhabricatorIconSetIcon())
+      $icons[] = id(new PhorgeIconSetIcon())
         ->setKey($spec['key'])
         ->setIcon($spec['icon'])
         ->setLabel($spec['name']);

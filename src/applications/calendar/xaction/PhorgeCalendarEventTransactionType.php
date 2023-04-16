@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorCalendarEventTransactionType
-  extends PhabricatorModularTransactionType {
+abstract class PhorgeCalendarEventTransactionType
+  extends PhorgeModularTransactionType {
 
   public function isInheritedEdit() {
     return true;

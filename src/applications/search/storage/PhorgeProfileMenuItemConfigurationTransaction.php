@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemConfigurationTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeProfileMenuItemConfigurationTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_PROPERTY = 'profilepanel.property';
   const TYPE_ORDER = 'profilepanel.order';
@@ -17,7 +17,7 @@ final class PhabricatorProfileMenuItemConfigurationTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorProfileMenuItemPHIDType::TYPECONST;
+    return PhorgeProfileMenuItemPHIDType::TYPECONST;
   }
 
 }

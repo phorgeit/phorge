@@ -150,7 +150,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
     $artifact_type) {
 
     $steps = id(new HarbormasterBuildStepQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withBuildPlanPHIDs(array($build_plan->getPHID()))
       ->execute();
 
@@ -254,7 +254,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
     array $futures) {
 
     $did_close = false;
-    $wait_start = PhabricatorTime::getNow();
+    $wait_start = PhorgeTime::getNow();
 
     $futures = new FutureIterator($futures);
     foreach ($futures->setUpdateInterval(5) as $key => $future) {
@@ -272,7 +272,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
       // of processes babysitting an `ssh ... ./run-huge-build.sh` process on
       // a build host.
       if (!$did_close) {
-        $now = PhabricatorTime::getNow();
+        $now = PhorgeTime::getNow();
         $elapsed = ($now - $wait_start);
         $idle_limit = 5;
 
@@ -329,7 +329,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
   }
 
   public function willStartBuild(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuildable $buildable,
     HarbormasterBuild $build,
     HarbormasterBuildPlan $plan,

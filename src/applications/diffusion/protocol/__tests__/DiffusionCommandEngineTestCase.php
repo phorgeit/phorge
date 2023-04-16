@@ -1,11 +1,11 @@
 <?php
 
-final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
+final class DiffusionCommandEngineTestCase extends PhorgeTestCase {
 
   public function testCommandEngine() {
-    $type_git = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
-    $type_hg = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
-    $type_svn = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
+    $type_git = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
+    $type_hg = PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL;
+    $type_svn = PhorgeRepositoryType::REPOSITORY_TYPE_SVN;
 
     $root = dirname(phutil_get_library_root('phorge'));
     $ssh_wrapper = $root.'/bin/ssh-connect';
@@ -186,7 +186,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     array $env,
     array $inputs) {
 
-    $repository = id(new PhabricatorRepository())
+    $repository = id(new PhorgeRepository())
       ->setVersionControlSystem($inputs['vcs']);
 
     $future = DiffusionCommandEngine::newCommandEngine($repository)

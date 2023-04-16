@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacBindingPHIDType extends PhabricatorPHIDType {
+final class AlmanacBindingPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ABND';
 
@@ -13,11 +13,11 @@ final class AlmanacBindingPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacBindingQuery())
@@ -25,7 +25,7 @@ final class AlmanacBindingPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

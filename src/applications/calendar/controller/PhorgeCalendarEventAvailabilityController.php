@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarEventAvailabilityController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventAvailabilityController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -40,7 +40,7 @@ final class PhabricatorCalendarEventAvailabilityController
 
     $invitee = $event->getInviteeForPHID($viewer->getPHID());
 
-    $map = PhabricatorCalendarEventInvitee::getAvailabilityMap();
+    $map = PhorgeCalendarEventInvitee::getAvailabilityMap();
     $new_availability = $request->getURIData('availability');
     if (isset($map[$new_availability])) {
       $invitee

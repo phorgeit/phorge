@@ -3,16 +3,16 @@
 /**
  * A collection of dashboard panels with a specific layout.
  */
-final class PhabricatorDashboard extends PhabricatorDashboardDAO
+final class PhorgeDashboard extends PhorgeDashboardDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorProjectInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorDashboardPanelContainerInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeProjectInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeDashboardPanelContainerInterface {
 
   protected $name;
   protected $authorPHID;
@@ -27,11 +27,11 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
 
   private $panelRefList;
 
-  public static function initializeNewDashboard(PhabricatorUser $actor) {
-    return id(new PhabricatorDashboard())
+  public static function initializeNewDashboard(PhorgeUser $actor) {
+    return id(new PhorgeDashboard())
       ->setName('')
       ->setIcon('fa-dashboard')
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
       ->setEditPolicy($actor->getPHID())
       ->setStatus(self::STATUS_ACTIVE)
       ->setAuthorPHID($actor->getPHID());
@@ -60,7 +60,7 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
   }
 
   public function getPHIDType() {
-    return PhabricatorDashboardDashboardPHIDType::TYPECONST;
+    return PhorgeDashboardDashboardPHIDType::TYPECONST;
   }
 
   public function getRawLayoutMode() {
@@ -123,7 +123,7 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
 
   private function newPanelRefList() {
     $raw_config = $this->getLayoutConfig();
-    return PhabricatorDashboardPanelRefList::newFromDictionary($raw_config);
+    return PhorgeDashboardPanelRefList::newFromDictionary($raw_config);
   }
 
   public function getPanelPHIDs() {
@@ -132,66 +132,66 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
     return array_unique($phids);
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorDashboardTransactionEditor();
+    return new PhorgeDashboardTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorDashboardTransaction();
+    return new PhorgeDashboardTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
-/* -(  PhabricatorDashboardPanelContainerInterface  )------------------------ */
+/* -(  PhorgeDashboardPanelContainerInterface  )------------------------ */
 
   public function getDashboardPanelContainerPanelPHIDs() {
     return $this->getPanelPHIDs();
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
-    return new PhabricatorDashboardFulltextEngine();
+    return new PhorgeDashboardFulltextEngine();
   }
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
   public function newFerretEngine() {
-    return new PhabricatorDashboardFerretEngine();
+    return new PhorgeDashboardFerretEngine();
   }
 
 }

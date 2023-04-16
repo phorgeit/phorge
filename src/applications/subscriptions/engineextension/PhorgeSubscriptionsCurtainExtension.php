@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorSubscriptionsCurtainExtension
+final class PhorgeSubscriptionsCurtainExtension
   extends PHUICurtainExtension {
 
   const EXTENSIONKEY = 'subscriptions.subscribers';
 
   public function shouldEnableForObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorSubscriptionsApplication();
+    return new PhorgeSubscriptionsApplication();
   }
 
   public function buildCurtainPanel($object) {
@@ -24,7 +24,7 @@ final class PhabricatorSubscriptionsCurtainExtension
     // TODO: We should limit the number of subscriber PHIDs we'll load, so
     // we degrade gracefully when objects have thousands of subscribers.
 
-    $subscriber_phids = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $subscriber_phids = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $object_phid);
     $subscriber_count = count($subscriber_phids);
 
@@ -62,7 +62,7 @@ final class PhabricatorSubscriptionsCurtainExtension
       $handles = $viewer->loadHandles($visible_phids);
     }
 
-    PhabricatorPolicyFilterSet::loadHandleViewCapabilities(
+    PhorgePolicyFilterSet::loadHandleViewCapabilities(
       $viewer,
       $handles,
       array($object));
@@ -112,13 +112,13 @@ final class PhabricatorSubscriptionsCurtainExtension
 
     $viewer = $this->getViewer();
 
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     $viewer_phid = $viewer->getPHID();
 
     $type_order_map = array(
-      PhabricatorPeopleUserPHIDType::TYPECONST => 0,
-      PhabricatorProjectProjectPHIDType::TYPECONST => 1,
-      PhabricatorOwnersPackagePHIDType::TYPECONST => 2,
+      PhorgePeopleUserPHIDType::TYPECONST => 0,
+      PhorgeProjectProjectPHIDType::TYPECONST => 1,
+      PhorgeOwnersPackagePHIDType::TYPECONST => 2,
     );
     $default_type_order = count($type_order_map);
 

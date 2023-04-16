@@ -1,7 +1,7 @@
 <?php
 
-$repos = id(new PhabricatorRepositoryQuery())
-  ->setViewer(PhabricatorUser::getOmnipotentUser())
+$repos = id(new PhorgeRepositoryQuery())
+  ->setViewer(PhorgeUser::getOmnipotentUser())
   ->needURIs(true)
   ->execute();
 

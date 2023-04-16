@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchManagementNgramsWorkflow
-  extends PhabricatorSearchManagementWorkflow {
+final class PhorgeSearchManagementNgramsWorkflow
+  extends PhorgeSearchManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -56,7 +56,7 @@ final class PhabricatorSearchManagementNgramsWorkflow
     }
 
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass('PhorgeFerretInterface')
       ->execute();
 
     foreach ($all_objects as $object) {
@@ -119,7 +119,7 @@ final class PhabricatorSearchManagementNgramsWorkflow
           $ngram['ngram']);
       }
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'INSERT IGNORE INTO %T (ngram, needsCollection)

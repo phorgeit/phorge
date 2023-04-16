@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardTextPanelTextTransaction
-  extends PhabricatorDashboardPanelPropertyTransaction {
+final class PhorgeDashboardTextPanelTextTransaction
+  extends PhorgeDashboardPanelPropertyTransaction {
 
   const TRANSACTIONTYPE = 'text.text';
 

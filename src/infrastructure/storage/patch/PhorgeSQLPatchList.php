@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSQLPatchList extends Phobject {
+abstract class PhorgeSQLPatchList extends Phobject {
 
   abstract public function getNamespace();
   abstract public function getPatches();
@@ -55,10 +55,10 @@ abstract class PhabricatorSQLPatchList extends Phobject {
     $specs = array();
     $seen_namespaces = array();
 
-    $phases = PhabricatorStoragePatch::getPhaseList();
+    $phases = PhorgeStoragePatch::getPhaseList();
     $phases = array_fuse($phases);
 
-    $default_phase = PhabricatorStoragePatch::getDefaultPhase();
+    $default_phase = PhorgeStoragePatch::getDefaultPhase();
 
     foreach ($patch_lists as $patch_list) {
       $last_keys = array_fill_keys(
@@ -247,7 +247,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
 
     $patches = array();
     foreach ($specs as $full_key => $spec) {
-      $patches[$full_key] = new PhabricatorStoragePatch($spec);
+      $patches[$full_key] = new PhorgeStoragePatch($spec);
     }
 
     // TODO: Detect cycles?
@@ -260,7 +260,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
   private function getPHPPatchAttributes($patch_name, $full_path) {
     $data = Filesystem::readFile($full_path);
 
-    $phase_list = PhabricatorStoragePatch::getPhaseList();
+    $phase_list = PhorgeStoragePatch::getPhaseList();
     $phase_map = array_fuse($phase_list);
 
     $attributes = array();

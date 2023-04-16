@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPhurlURLEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgePhurlURLEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -25,29 +25,29 @@ final class PhabricatorPhurlURLEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorPhurlURLTransaction::MAILTAG_DETAILS =>
+      PhorgePhurlURLTransaction::MAILTAG_DETAILS =>
         pht(
           "A URL's details change."),
     );
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -56,23 +56,23 @@ final class PhabricatorPhurlURLEditor
     return pht('[Phurl]');
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
     $phids[] = $this->getActingAsPHID();
 
     return $phids;
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("U{$id}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $description = $object->getDescription();
@@ -86,29 +86,29 @@ final class PhabricatorPhurlURLEditor
 
     $body->addLinkSection(
       pht('URL DETAIL'),
-      PhabricatorEnv::getProductionURI('/U'.$object->getID()));
+      PhorgeEnv::getProductionURI('/U'.$object->getID()));
 
 
     return $body;
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorPhurlURLAliasTransaction::TRANSACTIONTYPE,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgePhurlURLAliasTransaction::TRANSACTIONTYPE,
       pht('Duplicate'),
       pht('This alias is already in use.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorPhurlURLReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgePhurlURLReplyHandler())
       ->setMailReceiver($object);
   }
 

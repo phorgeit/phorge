@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgeDashboardRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   const KEY_PARENT_PANEL_PHIDS = 'dashboard.parentPanelPHIDs';
 
@@ -12,7 +12,7 @@ final class PhabricatorDashboardRemarkupRule
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorDashboardPanelQuery())
+    return id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();
@@ -20,7 +20,7 @@ final class PhabricatorDashboardRemarkupRule
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $engine = $this->getEngine();
@@ -29,7 +29,7 @@ final class PhabricatorDashboardRemarkupRule
     $parent_key = self::KEY_PARENT_PANEL_PHIDS;
     $parent_phids = $engine->getConfig($parent_key, array());
 
-    return id(new PhabricatorDashboardPanelRenderingEngine())
+    return id(new PhorgeDashboardPanelRenderingEngine())
       ->setViewer($viewer)
       ->setPanel($object)
       ->setPanelPHID($object->getPHID())

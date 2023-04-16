@@ -7,7 +7,7 @@ final class PHUIDiffInlineCommentPreviewListView
   private $ownerPHID;
 
   public function setInlineComments(array $comments) {
-    assert_instances_of($comments, 'PhabricatorApplicationTransactionComment');
+    assert_instances_of($comments, 'PhorgeApplicationTransactionComment');
     $this->inlineComments = $comments;
     return $this;
   }
@@ -33,12 +33,12 @@ final class PHUIDiffInlineCommentPreviewListView
       $inlines[$key] = $inline->newInlineCommentObject();
     }
 
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
     $engine->setViewer($viewer);
     foreach ($inlines as $inline) {
       $engine->addObject(
         $inline,
-        PhabricatorInlineComment::MARKUP_FIELD_BODY);
+        PhorgeInlineComment::MARKUP_FIELD_BODY);
     }
     $engine->process();
 

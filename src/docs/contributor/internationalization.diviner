@@ -275,7 +275,7 @@ return pht('This will take %s hour(s).', new PhutilNumber($count));
 
 If you now load the web UI, you'll see "hour(s)" literally in the UI. To fix
 this so the translation sounds better in English, provide translations for this
-string in the @{class:PhabricatorUSEnglishTranslation} file:
+string in the @{class:PhorgeUSEnglishTranslation} file:
 
 ```lang=php
 'This will take %s hour(s).' => array(

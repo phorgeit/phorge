@@ -5,7 +5,7 @@
  * for "normal" Lisk objects: objects with an auto-increment ID and a
  * dateModified column.
  */
-final class PhabricatorFactUpdateIterator extends PhutilBufferedIterator {
+final class PhorgeFactUpdateIterator extends PhutilBufferedIterator {
 
   private $cursor;
   private $object;

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConduitDAO extends PhabricatorLiskDAO {
+abstract class PhorgeConduitDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'conduit';

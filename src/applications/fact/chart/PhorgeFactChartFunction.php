@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactChartFunction
-  extends PhabricatorChartFunction {
+final class PhorgeFactChartFunction
+  extends PhorgeChartFunction {
 
   const FUNCTIONKEY = 'fact';
 
@@ -26,7 +26,7 @@ final class PhabricatorFactChartFunction
   public function loadData() {
     $fact = $this->fact;
 
-    $key_id = id(new PhabricatorFactKeyDimension())
+    $key_id = id(new PhorgeFactKeyDimension())
       ->newDimensionID($fact->getKey());
     if (!$key_id) {
       $this->map = array();
@@ -87,10 +87,10 @@ final class PhabricatorFactChartFunction
     $min = head_key($this->map);
     $max = last_key($this->map);
 
-    return new PhabricatorChartInterval($min, $max);
+    return new PhorgeChartInterval($min, $max);
   }
 
-  public function newInputValues(PhabricatorChartDataQuery $query) {
+  public function newInputValues(PhorgeChartDataQuery $query) {
     return array_keys($this->map);
   }
 
@@ -120,7 +120,7 @@ final class PhabricatorFactChartFunction
     $datapoint_table = $fact->newDatapoint();
     $conn = $datapoint_table->establishConnection('r');
 
-    $dimension_table = new PhabricatorFactObjectDimension();
+    $dimension_table = new PhorgeFactObjectDimension();
 
     $where = array();
 

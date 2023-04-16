@@ -1,7 +1,7 @@
 <?php
 
 final class PholioMockQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -120,7 +120,7 @@ final class PholioMockQuery
     }
 
     if ($this->needCoverFiles) {
-      $cover_files = id(new PhabricatorFileQuery())
+      $cover_files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($mocks, 'getCoverPHID'))
         ->execute();
@@ -129,7 +129,7 @@ final class PholioMockQuery
       foreach ($mocks as $mock) {
         $file = idx($cover_files, $mock->getCoverPHID());
         if (!$file) {
-          $file = PhabricatorFile::loadBuiltin(
+          $file = PhorgeFile::loadBuiltin(
             $viewer,
             'missing.png');
         }
@@ -138,7 +138,7 @@ final class PholioMockQuery
     }
 
     if ($this->needTokenCounts) {
-      $counts = id(new PhabricatorTokenCountQuery())
+      $counts = id(new PhorgeTokenCountQuery())
         ->withObjectPHIDs(mpull($mocks, 'getPHID'))
         ->execute();
 
@@ -152,7 +152,7 @@ final class PholioMockQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
   protected function getPrimaryTableAlias() {

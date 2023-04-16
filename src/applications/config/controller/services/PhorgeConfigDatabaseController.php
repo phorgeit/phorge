@@ -1,17 +1,17 @@
 <?php
 
-abstract class PhabricatorConfigDatabaseController
-  extends PhabricatorConfigServicesController {
+abstract class PhorgeConfigDatabaseController
+  extends PhorgeConfigServicesController {
 
   protected function renderIcon($status) {
     switch ($status) {
-      case PhabricatorConfigStorageSchema::STATUS_OKAY:
+      case PhorgeConfigStorageSchema::STATUS_OKAY:
         $icon = 'fa-check-circle green';
         break;
-      case PhabricatorConfigStorageSchema::STATUS_WARN:
+      case PhorgeConfigStorageSchema::STATUS_WARN:
         $icon = 'fa-exclamation-circle yellow';
         break;
-      case PhabricatorConfigStorageSchema::STATUS_FAIL:
+      case PhorgeConfigStorageSchema::STATUS_FAIL:
       default:
         $icon = 'fa-times-circle red';
         break;

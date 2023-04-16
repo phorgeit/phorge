@@ -65,7 +65,7 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
   }
 
   public function setPackages(array $packages) {
-    assert_instances_of($packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($packages, 'PhorgeOwnersPackage');
     $this->packages = mpull($packages, null, 'getPHID');
     return $this;
   }

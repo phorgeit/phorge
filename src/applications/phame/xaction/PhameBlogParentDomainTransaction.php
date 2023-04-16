@@ -60,7 +60,7 @@ final class PhameBlogParentDomainTransaction
     }
 
     try {
-      PhabricatorEnv::requireValidRemoteURIForLink($parent_domain);
+      PhorgeEnv::requireValidRemoteURIForLink($parent_domain);
     } catch (Exception $ex) {
       $errors[] = $this->newInvalidError(
         pht('Parent Domain must be set to a valid Remote URI.'));

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryRepositoryPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeRepositoryRepositoryPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'REPO';
 
@@ -14,23 +14,23 @@ final class PhabricatorRepositoryRepositoryPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorRepository();
+    return new PhorgeRepository();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositoryQuery())
+    return id(new PhorgeRepositoryQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -47,8 +47,8 @@ final class PhabricatorRepositoryRepositoryPHIDType
         ->setURI($uri)
         ->setMailStampName($monogram);
 
-      if ($repository->getStatus() !== PhabricatorRepository::STATUS_ACTIVE) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+      if ($repository->getStatus() !== PhorgeRepository::STATUS_ACTIVE) {
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -58,7 +58,7 @@ final class PhabricatorRepositoryRepositoryPHIDType
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $results = array();
@@ -69,7 +69,7 @@ final class PhabricatorRepositoryRepositoryPHIDType
       $names[$key] = substr($name, 1);
     }
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($query->getViewer())
       ->withIdentifiers($names);
 

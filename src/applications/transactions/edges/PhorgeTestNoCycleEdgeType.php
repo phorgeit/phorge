@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTestNoCycleEdgeType extends PhabricatorEdgeType {
+final class PhorgeTestNoCycleEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 9000;
 

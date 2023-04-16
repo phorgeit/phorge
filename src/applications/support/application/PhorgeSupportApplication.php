@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSupportApplication extends PhabricatorApplication {
+final class PhorgeSupportApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Support');
@@ -17,7 +17,7 @@ final class PhabricatorSupportApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/help/' => array(
-        'keyboardshortcut/' => 'PhabricatorHelpKeyboardShortcutController',
+        'keyboardshortcut/' => 'PhorgeHelpKeyboardShortcutController',
       ),
     );
   }

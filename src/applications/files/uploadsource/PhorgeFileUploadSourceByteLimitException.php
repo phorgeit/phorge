@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorFileUploadSourceByteLimitException
+final class PhorgeFileUploadSourceByteLimitException
   extends Exception {}

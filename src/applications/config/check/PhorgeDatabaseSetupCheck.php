@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeDatabaseSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_IMPORTANT;
@@ -12,7 +12,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
   }
 
   protected function executeChecks() {
-    $host = PhabricatorEnv::getEnvConfig('mysql.host');
+    $host = PhorgeEnv::getEnvConfig('mysql.host');
     $matches = null;
     if (preg_match('/^([^:]+):(\d+)$/', $host, $matches)) {
       $host = $matches[1];
@@ -31,8 +31,8 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
             'is deprecated. Instead, put the port number in `%s`.',
             'mysql.host',
             'mysql.port'))
-        ->addPhabricatorConfig('mysql.host')
-        ->addPhabricatorConfig('mysql.port')
+        ->addPhorgeConfig('mysql.host')
+        ->addPhorgeConfig('mysql.port')
         ->addCommand(
           hsprintf(
             '<tt>$</tt> ./bin/config set mysql.host %s',
@@ -43,7 +43,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
             $port));
     }
 
-    $refs = PhabricatorDatabaseRef::queryAll();
+    $refs = PhorgeDatabaseRef::queryAll();
     $refs = mpull($refs, null, 'getRefKey');
 
     // Test if we can connect to each database first. If we can not connect
@@ -79,7 +79,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
       $is_fatal = !$any_connection;
 
       foreach ($connect_map as $ref_key => $database_exception) {
-        $issue = PhabricatorSetupIssue::newDatabaseConnectionIssue(
+        $issue = PhorgeSetupIssue::newDatabaseConnectionIssue(
           $database_exception,
           $is_fatal);
         $this->addIssue($issue);
@@ -93,7 +93,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
     }
   }
 
-  private function executeRefChecks(PhabricatorDatabaseRef $ref) {
+  private function executeRefChecks(PhorgeDatabaseRef $ref) {
     $conn_raw = $ref->newManagementConnection();
     $ref_key = $ref->getRefKey();
 
@@ -119,7 +119,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
       return true;
     }
 
-    $namespace = PhabricatorEnv::getEnvConfig('storage.default-namespace');
+    $namespace = PhorgeEnv::getEnvConfig('storage.default-namespace');
 
     $databases = queryfx_all($conn_raw, 'SHOW DATABASES');
     $databases = ipull($databases, 'Database', 'Database');
@@ -145,7 +145,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
     $applied = queryfx_all($conn_meta, 'SELECT patch FROM patch_status');
     $applied = ipull($applied, 'patch', 'patch');
 
-    $all = PhabricatorSQLPatchList::buildAllPatches();
+    $all = PhorgeSQLPatchList::buildAllPatches();
     $diff = array_diff_key($all, $applied);
 
     if ($diff) {
@@ -172,7 +172,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
     // "Database Servers" console.
 
     switch ($ref->getReplicaStatus()) {
-      case PhabricatorDatabaseRef::REPLICATION_MASTER_REPLICA:
+      case PhorgeDatabaseRef::REPLICATION_MASTER_REPLICA:
         $message = pht(
           'Database host "%s" is configured as a master, but is replicating '.
           'another host. This is dangerous and can mangle or destroy data. '.
@@ -186,8 +186,8 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
           ->setMessage($message);
 
         return true;
-      case PhabricatorDatabaseRef::REPLICATION_REPLICA_NONE:
-      case PhabricatorDatabaseRef::REPLICATION_NOT_REPLICATING:
+      case PhorgeDatabaseRef::REPLICATION_REPLICA_NONE:
+      case PhorgeDatabaseRef::REPLICATION_NOT_REPLICATING:
         if (!$ref->getIsMaster()) {
           $message = pht(
             'Database replica "%s" is listed as a replica, but is not '.
@@ -208,12 +208,12 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
     // If we have more than one master, we require that the cluster database
     // configuration written to each database node is exactly the same as the
     // one we are running with.
-    $masters = PhabricatorDatabaseRef::getAllMasterDatabaseRefs();
+    $masters = PhorgeDatabaseRef::getAllMasterDatabaseRefs();
     if (count($masters) > 1) {
       $state_actual = queryfx_one(
         $conn_meta,
         'SELECT stateValue FROM %T WHERE stateKey = %s',
-        PhabricatorStorageManagementAPI::TABLE_HOSTSTATE,
+        PhorgeStorageManagementAPI::TABLE_HOSTSTATE,
         'cluster.databases');
       if ($state_actual) {
         $state_actual = $state_actual['stateValue'];

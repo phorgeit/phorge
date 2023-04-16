@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorBuiltinDraftEngine
-  extends PhabricatorDraftEngine {}
+final class PhorgeBuiltinDraftEngine
+  extends PhorgeDraftEngine {}

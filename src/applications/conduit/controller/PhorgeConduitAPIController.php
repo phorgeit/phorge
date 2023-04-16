@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitAPIController
-  extends PhabricatorConduitController {
+final class PhorgeConduitAPIController
+  extends PhorgeConduitController {
 
   public function shouldRequireLogin() {
     return false;
@@ -14,7 +14,7 @@ final class PhabricatorConduitAPIController
     $api_request = null;
     $method_implementation = null;
 
-    $log = new PhabricatorConduitMethodCallLog();
+    $log = new PhorgeConduitMethodCallLog();
     $log->setMethod($method);
     $metadata = array();
 
@@ -61,7 +61,7 @@ final class PhabricatorConduitAPIController
         }
       }
 
-      $access_log = PhabricatorAccessLog::getLog();
+      $access_log = PhorgeAccessLog::getLog();
       if ($access_log) {
         $access_log->setData(
           array(
@@ -122,7 +122,7 @@ final class PhabricatorConduitAPIController
       ->setError((string)$error_code)
       ->setDuration(phutil_microseconds_since($time_start));
 
-    if (!PhabricatorEnv::isReadOnly()) {
+    if (!PhorgeEnv::isReadOnly()) {
       $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
       $log->save();
       unset($unguarded);
@@ -193,7 +193,7 @@ final class PhabricatorConduitAPIController
       // TODO: Validate that we are the host!
 
       $raw_key = idx($metadata, 'auth.key');
-      $public_key = PhabricatorAuthSSHPublicKey::newFromRawKey($raw_key);
+      $public_key = PhorgeAuthSSHPublicKey::newFromRawKey($raw_key);
       $ssl_public_key = $public_key->toPKCS8();
 
       // First, verify the signature.
@@ -216,8 +216,8 @@ final class PhabricatorConduitAPIController
       // If the signature is valid, find the user or device which is
       // associated with this public key.
 
-      $stored_key = id(new PhabricatorAuthSSHKeyQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $stored_key = id(new PhorgeAuthSSHKeyQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withKeys(array($public_key))
         ->withIsActive(true)
         ->executeOne();
@@ -235,7 +235,7 @@ final class PhabricatorConduitAPIController
 
       $object = $stored_key->getObject();
 
-      if ($object instanceof PhabricatorUser) {
+      if ($object instanceof PhorgeUser) {
         $user = $object;
       } else {
         if ($object->isDisabled()) {
@@ -257,7 +257,7 @@ final class PhabricatorConduitAPIController
           );
         }
 
-        if (!PhabricatorEnv::isClusterRemoteAddress()) {
+        if (!PhorgeEnv::isClusterRemoteAddress()) {
           return array(
             'ERR-INVALID-AUTH',
             pht(
@@ -267,7 +267,7 @@ final class PhabricatorConduitAPIController
           );
         }
 
-        $user = PhabricatorUser::getOmnipotentUser();
+        $user = PhorgeUser::getOmnipotentUser();
 
         // Flag this as an intracluster request.
         $api_request->setIsClusterRequest(true);
@@ -303,7 +303,7 @@ final class PhabricatorConduitAPIController
       }
 
       $type = head(explode('-', $token_string));
-      $valid_types = PhabricatorConduitToken::getAllTokenTypes();
+      $valid_types = PhorgeConduitToken::getAllTokenTypes();
       $valid_types = array_fuse($valid_types);
       if (empty($valid_types[$type])) {
         return array(
@@ -316,14 +316,14 @@ final class PhabricatorConduitAPIController
           );
       }
 
-      $token = id(new PhabricatorConduitTokenQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $token = id(new PhorgeConduitTokenQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withTokens(array($token_string))
         ->withExpired(false)
         ->executeOne();
       if (!$token) {
-        $token = id(new PhabricatorConduitTokenQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $token = id(new PhorgeConduitTokenQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withTokens(array($token_string))
           ->withExpired(true)
           ->executeOne();
@@ -348,7 +348,7 @@ final class PhabricatorConduitAPIController
       // by default. Once it is actually used, we extend its lifetime and make
       // it permanent. This allows stray tokens to get cleaned up automatically
       // if they aren't being used.
-      if ($token->getTokenType() == PhabricatorConduitToken::TYPE_COMMANDLINE) {
+      if ($token->getTokenType() == PhorgeConduitToken::TYPE_COMMANDLINE) {
         if ($token->getExpires()) {
           $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
             $token->setExpires(null);
@@ -359,8 +359,8 @@ final class PhabricatorConduitAPIController
 
       // If this is a "clr-" token, Phorge must be configured in cluster
       // mode and the remote address must be a cluster node.
-      if ($token->getTokenType() == PhabricatorConduitToken::TYPE_CLUSTER) {
-        if (!PhabricatorEnv::isClusterRemoteAddress()) {
+      if ($token->getTokenType() == PhorgeConduitToken::TYPE_CLUSTER) {
+        if (!PhorgeEnv::isClusterRemoteAddress()) {
           return array(
             'ERR-INVALID-AUTH',
             pht(
@@ -375,7 +375,7 @@ final class PhabricatorConduitAPIController
       }
 
       $user = $token->getObject();
-      if (!($user instanceof PhabricatorUser)) {
+      if (!($user instanceof PhorgeUser)) {
         return array(
           'ERR-INVALID-AUTH',
           pht('API token is not associated with a valid user.'),
@@ -389,7 +389,7 @@ final class PhabricatorConduitAPIController
 
     $access_token = idx($metadata, 'access_token');
     if ($access_token) {
-      $token = id(new PhabricatorOAuthServerAccessToken())
+      $token = id(new PhorgeOAuthServerAccessToken())
         ->loadOneWhere('token = %s', $access_token);
       if (!$token) {
         return array(
@@ -398,7 +398,7 @@ final class PhabricatorConduitAPIController
         );
       }
 
-      $oauth_server = new PhabricatorOAuthServer();
+      $oauth_server = new PhorgeOAuthServer();
       $authorization = $oauth_server->authorizeToken($token);
       if (!$authorization) {
         return array(
@@ -407,8 +407,8 @@ final class PhabricatorConduitAPIController
         );
       }
 
-      $user = id(new PhabricatorPeopleQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $user = id(new PhorgePeopleQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs(array($token->getUserPHID()))
         ->executeOne();
       if (!$user) {
@@ -438,11 +438,11 @@ final class PhabricatorConduitAPIController
     // information is provided. We could do this safely for any request,
     // but making the API fully public means there's no way to disable badly
     // behaved clients.
-    if (PhabricatorEnv::isClusterRemoteAddress()) {
-      if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {
+    if (PhorgeEnv::isClusterRemoteAddress()) {
+      if (PhorgeEnv::getEnvConfig('policy.allow-public')) {
         $api_request->setIsClusterRequest(true);
 
-        $user = new PhabricatorUser();
+        $user = new PhorgeUser();
         return $this->validateAuthenticatedUser(
           $api_request,
           $user);
@@ -455,7 +455,7 @@ final class PhabricatorConduitAPIController
     // TODO: Remove this in favor of token-based auth.
 
     if (isset($metadata['authUser'])) {
-      $user = id(new PhabricatorUser())->loadOneWhere(
+      $user = id(new PhorgeUser())->loadOneWhere(
         'userName = %s',
         $metadata['authUser']);
       if (!$user) {
@@ -490,8 +490,8 @@ final class PhabricatorConduitAPIController
       );
     }
 
-    $user = id(new PhabricatorAuthSessionEngine())
-      ->loadUserForSession(PhabricatorAuthSession::TYPE_CONDUIT, $session_key);
+    $user = id(new PhorgeAuthSessionEngine())
+      ->loadUserForSession(PhorgeAuthSession::TYPE_CONDUIT, $session_key);
 
     if (!$user) {
       return array(
@@ -507,7 +507,7 @@ final class PhabricatorConduitAPIController
 
   private function validateAuthenticatedUser(
     ConduitAPIRequest $request,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     if (!$user->canEstablishAPISessions()) {
       return array(
@@ -518,7 +518,7 @@ final class PhabricatorConduitAPIController
 
     $request->setUser($user);
 
-    id(new PhabricatorAuthSessionEngine())
+    id(new PhorgeAuthSessionEngine())
       ->willServeRequestForUser($user);
 
     return null;
@@ -718,7 +718,7 @@ final class PhabricatorConduitAPIController
   }
 
   private function authorizeOAuthMethodAccess(
-    PhabricatorOAuthClientAuthorization $authorization,
+    PhorgeOAuthClientAuthorization $authorization,
     $method_name) {
 
     $method = ConduitAPIMethod::getConduitMethod($method_name);

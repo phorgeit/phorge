@@ -2,7 +2,7 @@
 
 echo pht('Backfilling commit summaries...')."\n";
 
-$table = new PhabricatorRepositoryCommit();
+$table = new PhorgeRepositoryCommit();
 $conn_w = $table->establishConnection('w');
 $commits = new LiskMigrationIterator($table);
 foreach ($commits as $commit) {
@@ -12,7 +12,7 @@ foreach ($commits as $commit) {
     continue;
   }
 
-  $data = id(new PhabricatorRepositoryCommitData())->loadOneWhere(
+  $data = id(new PhorgeRepositoryCommitData())->loadOneWhere(
     'commitID = %d',
     $commit->getID());
 

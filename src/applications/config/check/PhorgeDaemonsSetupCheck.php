@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeDaemonsSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_IMPORTANT;
@@ -9,10 +9,10 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
   protected function executeChecks() {
 
     try {
-      $task_daemons = id(new PhabricatorDaemonLogQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
-        ->withStatus(PhabricatorDaemonLogQuery::STATUS_ALIVE)
-        ->withDaemonClasses(array('PhabricatorTaskmasterDaemon'))
+      $task_daemons = id(new PhorgeDaemonLogQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
+        ->withStatus(PhorgeDaemonLogQuery::STATUS_ALIVE)
+        ->withDaemonClasses(array('PhorgeTaskmasterDaemon'))
         ->setLimit(1)
         ->execute();
 
@@ -23,7 +23,7 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
     }
 
     if ($no_daemons) {
-      $doc_href = PhabricatorEnv::getDoclink('Managing Daemons with phd');
+      $doc_href = PhorgeEnv::getDoclink('Managing Daemons with phd');
 
       $summary = pht(
         'You must start the daemons to send email, rebuild search indexes, '.
@@ -52,13 +52,13 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
         ->addCommand('$ ./bin/phd start');
     }
 
-    $expect_user = PhabricatorEnv::getEnvConfig('phd.user');
+    $expect_user = PhorgeEnv::getEnvConfig('phd.user');
     if (strlen($expect_user)) {
 
       try {
-        $all_daemons = id(new PhabricatorDaemonLogQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
-          ->withStatus(PhabricatorDaemonLogQuery::STATUS_ALIVE)
+        $all_daemons = id(new PhorgeDaemonLogQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
+          ->withStatus(PhorgeDaemonLogQuery::STATUS_ALIVE)
           ->execute();
       } catch (Exception $ex) {
         // If this query fails for some reason, just skip this check.
@@ -89,7 +89,7 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
           ->setName(pht('Daemon Running as Wrong User'))
           ->setSummary($summary)
           ->setMessage($message)
-          ->addPhabricatorConfig('phd.user')
+          ->addPhorgeConfig('phd.user')
           ->addCommand('$ ./bin/phd restart');
 
         break;

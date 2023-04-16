@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorDashboardRenderingEngine extends Phobject {
+final class PhorgeDashboardRenderingEngine extends Phobject {
 
   private $dashboard;
   private $viewer;
   private $arrangeMode;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
     return $this->viewer;
   }
 
-  public function setDashboard(PhabricatorDashboard $dashboard) {
+  public function setDashboard(PhorgeDashboard $dashboard) {
     $this->dashboard = $dashboard;
     return $this;
   }
@@ -37,14 +37,14 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
     $is_editable = $this->arrangeMode;
 
     if ($is_editable) {
-      $h_mode = PhabricatorDashboardPanelRenderingEngine::HEADER_MODE_EDIT;
+      $h_mode = PhorgeDashboardPanelRenderingEngine::HEADER_MODE_EDIT;
     } else {
-      $h_mode = PhabricatorDashboardPanelRenderingEngine::HEADER_MODE_NORMAL;
+      $h_mode = PhorgeDashboardPanelRenderingEngine::HEADER_MODE_NORMAL;
     }
 
     $panel_phids = $dashboard->getPanelPHIDs();
     if ($panel_phids) {
-      $panels = id(new PhabricatorDashboardPanelQuery())
+      $panels = id(new PhorgeDashboardPanelQuery())
         ->setViewer($viewer)
         ->withPHIDs($panel_phids)
         ->execute();
@@ -71,7 +71,7 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
       foreach ($column->getPanelRefs() as $panel_ref) {
         $panel_phid = $panel_ref->getPanelPHID();
 
-        $panel_engine = id(new PhabricatorDashboardPanelRenderingEngine())
+        $panel_engine = id(new PhorgeDashboardPanelRenderingEngine())
           ->setViewer($viewer)
           ->setEnableAsyncRendering(true)
           ->setContextObject($dashboard)
@@ -155,7 +155,7 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
       pht('This column does not have any panels yet.'));
   }
 
-  private function renderAddPanelUI(PhabricatorDashboardColumn $column) {
+  private function renderAddPanelUI(PhorgeDashboardColumn $column) {
     $dashboard = $this->getDashboard();
     $column_key = $column->getColumnKey();
 

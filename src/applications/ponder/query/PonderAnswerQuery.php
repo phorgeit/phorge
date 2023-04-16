@@ -1,7 +1,7 @@
 <?php
 
 final class PonderAnswerQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -78,7 +78,7 @@ final class PonderAnswerQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
 }

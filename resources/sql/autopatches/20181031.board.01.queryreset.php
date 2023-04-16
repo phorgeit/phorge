@@ -4,9 +4,9 @@
 // saved query, causing loss of the first query. Find projects which have their
 // default query set to an invalid query and throw the setting away.
 
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn = $table->establishConnection('w');
 
 $iterator = new LiskMigrationIterator($table);
@@ -23,7 +23,7 @@ foreach ($iterator as $project) {
     continue;
   }
 
-  $saved = id(new PhabricatorSavedQueryQuery())
+  $saved = id(new PhorgeSavedQueryQuery())
     ->setViewer($viewer)
     ->withQueryKeys(array($default_filter))
     ->executeOne();

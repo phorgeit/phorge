@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportICSURITransaction
-  extends PhabricatorCalendarImportTransactionType {
+final class PhorgeCalendarImportICSURITransaction
+  extends PhorgeCalendarImportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.import.ics.uri';
   const PARAMKEY_URI = 'ics.uri';
@@ -26,7 +26,7 @@ final class PhabricatorCalendarImportICSURITransaction
     $viewer = $this->getActor();
     $errors = array();
 
-    $ics_type = PhabricatorCalendarICSURIImportEngine::ENGINETYPE;
+    $ics_type = PhorgeCalendarICSURIImportEngine::ENGINETYPE;
     $import_type = $object->getEngine()->getImportEngineType();
     if ($import_type != $ics_type) {
       if (!$xactions) {
@@ -50,7 +50,7 @@ final class PhabricatorCalendarImportICSURITransaction
       }
 
       try {
-        PhabricatorEnv::requireValidRemoteURIForFetch(
+        PhorgeEnv::requireValidRemoteURIForFetch(
           $new_value,
           array(
             'http',

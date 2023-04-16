@@ -35,7 +35,7 @@ class AphrontRedirectResponse extends AphrontResponse {
   }
 
   public function shouldStopForDebugging() {
-    return PhabricatorEnv::getEnvConfig('debug.stop-on-redirect');
+    return PhorgeEnv::getEnvConfig('debug.stop-on-redirect');
   }
 
   public function setCloseDialogBeforeRedirect($close) {
@@ -62,7 +62,7 @@ class AphrontRedirectResponse extends AphrontResponse {
       $request = $this->getRequest();
       $viewer = $request->getUser();
 
-      $view = new PhabricatorStandardPageView();
+      $view = new PhorgeStandardPageView();
       $view->setRequest($this->getRequest());
       $view->setApplicationName(pht('Debug'));
       $view->setTitle(pht('Stopped on Redirect'));
@@ -137,7 +137,7 @@ class AphrontRedirectResponse extends AphrontResponse {
       }
 
       // Check that it's a valid remote resource.
-      if (!PhabricatorEnv::isValidURIForLink($uri)) {
+      if (!PhorgeEnv::isValidURIForLink($uri)) {
         throw new Exception(
           pht(
             'Refusing to redirect to external URI "%s". This URI '.
@@ -158,7 +158,7 @@ class AphrontRedirectResponse extends AphrontResponse {
       }
 
       // If this is a local resource, it must be a valid local resource.
-      if (!PhabricatorEnv::isValidLocalURIForLink($uri)) {
+      if (!PhorgeEnv::isValidLocalURIForLink($uri)) {
         throw new Exception(
           pht(
             'Refusing to redirect to local resource "%s". This URI is not '.
@@ -167,7 +167,7 @@ class AphrontRedirectResponse extends AphrontResponse {
       }
 
       // Fully qualify the result URI.
-      $uri = PhabricatorEnv::getURI((string)$uri);
+      $uri = PhorgeEnv::getURI((string)$uri);
     }
 
     return (string)$uri;

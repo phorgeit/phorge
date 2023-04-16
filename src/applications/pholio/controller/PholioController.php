@@ -1,6 +1,6 @@
 <?php
 
-abstract class PholioController extends PhabricatorController {
+abstract class PholioController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()

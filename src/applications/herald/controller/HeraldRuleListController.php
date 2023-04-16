@@ -9,7 +9,7 @@ final class HeraldRuleListController extends HeraldController {
   public function handleRequest(AphrontRequest $request) {
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine(new HeraldRuleSearchEngine())
       ->setNavigation($this->buildSideNavView());

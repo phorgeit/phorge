@@ -1,3 +1,3 @@
 <?php
 
-final class PhabricatorTypeaheadInvalidTokenException extends Exception {}
+final class PhorgeTypeaheadInvalidTokenException extends Exception {}

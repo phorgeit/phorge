@@ -51,7 +51,7 @@ abstract class DoorkeeperFeedStoryPublisher extends Phobject {
     return $this->renderWithImpliedContext;
   }
 
-  public function setFeedStory(PhabricatorFeedStory $feed_story) {
+  public function setFeedStory(PhorgeFeedStory $feed_story) {
     $this->feedStory = $feed_story;
     return $this;
   }
@@ -60,7 +60,7 @@ abstract class DoorkeeperFeedStoryPublisher extends Phobject {
     return $this->feedStory;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -70,7 +70,7 @@ abstract class DoorkeeperFeedStoryPublisher extends Phobject {
   }
 
   abstract public function canPublishStory(
-    PhabricatorFeedStory $story,
+    PhorgeFeedStory $story,
     $object);
 
   /**

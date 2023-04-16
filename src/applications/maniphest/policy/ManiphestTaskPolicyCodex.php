@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskPolicyCodex
-  extends PhabricatorPolicyCodex {
+  extends PhorgePolicyCodex {
 
   public function getPolicyShortName() {
     $object = $this->getObject();
@@ -42,8 +42,8 @@ final class ManiphestTaskPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setDescription(
         pht('The owner of a task can always view and edit it.'));
@@ -51,7 +51,7 @@ final class ManiphestTaskPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setIsActive($object->areEditsLocked())
       ->setDescription(
@@ -69,7 +69,7 @@ final class ManiphestTaskPolicyCodex
     // correct value. Return the real value stored on the object.
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getObject()->getEditPolicy();
     }
 

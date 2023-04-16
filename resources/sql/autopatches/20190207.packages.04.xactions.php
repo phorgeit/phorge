@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorOwnersPackageTransaction();
+$table = new PhorgeOwnersPackageTransaction();
 $conn = $table->establishConnection('w');
 $iterator = new LiskRawMigrationIterator($conn, $table->getTableName());
 

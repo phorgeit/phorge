@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventRSVPEmailCommand
-  extends PhabricatorCalendarEventEmailCommand {
+final class PhorgeCalendarEventRSVPEmailCommand
+  extends PhorgeCalendarEventEmailCommand {
 
   public function getCommand() {
     return 'rsvp';
@@ -16,8 +16,8 @@ final class PhabricatorCalendarEventRSVPEmailCommand
   }
 
   public function getCommandDescription() {
-    $status_attending = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
-    $status_declined = PhabricatorCalendarEventInvitee::STATUS_DECLINED;
+    $status_attending = PhorgeCalendarEventInvitee::STATUS_ATTENDING;
+    $status_declined = PhorgeCalendarEventInvitee::STATUS_DECLINED;
 
     $yes_values = implode(', ', $this->getYesValues());
     $no_values = implode(', ', $this->getNoValues());
@@ -39,9 +39,9 @@ final class PhabricatorCalendarEventRSVPEmailCommand
   }
 
   public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv) {
 
@@ -51,9 +51,9 @@ final class PhabricatorCalendarEventRSVPEmailCommand
     $no_values = $this->getNoValues();
 
     if (in_array($target, $yes_values)) {
-      $rsvp = PhabricatorCalendarEventAcceptTransaction::TRANSACTIONTYPE;
+      $rsvp = PhorgeCalendarEventAcceptTransaction::TRANSACTIONTYPE;
     } else if (in_array($target, $no_values)) {
-      $rsvp = PhabricatorCalendarEventDeclineTransaction::TRANSACTIONTYPE;
+      $rsvp = PhorgeCalendarEventDeclineTransaction::TRANSACTIONTYPE;
     } else {
       return array();
     }

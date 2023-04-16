@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEditorURIEngine
+final class PhorgeEditorURIEngine
   extends Phobject {
 
   private $viewer;
@@ -9,12 +9,12 @@ final class PhabricatorEditorURIEngine
   private $rawTokens;
   private $repositoryTokens;
 
-  public static function newForViewer(PhabricatorUser $viewer) {
+  public static function newForViewer(PhorgeUser $viewer) {
     if (!$viewer->isLoggedIn()) {
       return null;
     }
 
-    $pattern = $viewer->getUserSetting(PhabricatorEditorSetting::SETTINGKEY);
+    $pattern = $viewer->getUserSetting(PhorgeEditorSetting::SETTINGKEY);
 
     if (!strlen(trim($pattern))) {
       return null;
@@ -28,14 +28,14 @@ final class PhabricatorEditorURIEngine
 
     try {
       $engine->validatePattern();
-    } catch (PhabricatorEditorURIParserException $ex) {
+    } catch (PhorgeEditorURIParserException $ex) {
       return null;
     }
 
     return $engine;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -44,7 +44,7 @@ final class PhabricatorEditorURIEngine
     return $this->viewer;
   }
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -173,7 +173,7 @@ final class PhabricatorEditorURIEngine
         continue;
       }
 
-      throw new PhabricatorEditorURIParserException(
+      throw new PhorgeEditorURIParserException(
         pht(
           'Editor pattern "%s" is invalid: the pattern contains an '.
           'unrecognized variable ("%s"). Use "%%%%" to encode a literal '.
@@ -198,7 +198,7 @@ final class PhabricatorEditorURIEngine
       }
 
       if ($first_literal === null) {
-        throw new PhabricatorEditorURIParserException(
+        throw new PhorgeEditorURIParserException(
           pht(
             'Editor pattern "%s" is invalid: the pattern must begin with '.
             'a valid editor protocol, but begins with a variable. This is '.
@@ -211,7 +211,7 @@ final class PhabricatorEditorURIEngine
     $editor_protocol = $uri->getProtocol();
 
     if (!$editor_protocol) {
-      throw new PhabricatorEditorURIParserException(
+      throw new PhorgeEditorURIParserException(
         pht(
           'Editor pattern "%s" is invalid: the pattern must begin with '.
           'a valid editor protocol, but does not begin with a recognized '.
@@ -220,9 +220,9 @@ final class PhabricatorEditorURIEngine
     }
 
     $allowed_key = 'uri.allowed-editor-protocols';
-    $allowed_protocols = PhabricatorEnv::getEnvConfig($allowed_key);
+    $allowed_protocols = PhorgeEnv::getEnvConfig($allowed_key);
     if (empty($allowed_protocols[$editor_protocol])) {
-      throw new PhabricatorEditorURIParserException(
+      throw new PhorgeEditorURIParserException(
         pht(
           'Editor pattern "%s" is invalid: the pattern must begin with '.
           'a valid editor protocol, but the protocol "%s://" is not allowed.',
@@ -319,7 +319,7 @@ final class PhabricatorEditorURIEngine
       $c = $raw_pattern[$ii];
       if ($c === '%') {
         if (!isset($raw_pattern[$ii + 1])) {
-          throw new PhabricatorEditorURIParserException(
+          throw new PhorgeEditorURIParserException(
             pht(
               'Editor pattern "%s" is invalid: the final character in a '.
               'pattern may not be an unencoded percent symbol ("%%"). '.

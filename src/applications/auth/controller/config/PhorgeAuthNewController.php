@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthNewController
-  extends PhabricatorAuthProviderConfigController {
+final class PhorgeAuthNewController
+  extends PhorgeAuthProviderConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
@@ -10,7 +10,7 @@ final class PhabricatorAuthNewController
     $viewer = $this->getViewer();
     $cancel_uri = $this->getApplicationURI();
     $locked_config_key = 'auth.lock-config';
-    $is_locked = PhabricatorEnv::getEnvConfig($locked_config_key);
+    $is_locked = PhorgeEnv::getEnvConfig($locked_config_key);
 
     if ($is_locked) {
       $message = pht(
@@ -31,9 +31,9 @@ final class PhabricatorAuthNewController
         ->addCancelButton($cancel_uri);
     }
 
-    $providers = PhabricatorAuthProvider::getAllBaseProviders();
+    $providers = PhorgeAuthProvider::getAllBaseProviders();
 
-    $configured = PhabricatorAuthProvider::getAllProviders();
+    $configured = PhorgeAuthProvider::getAllProviders();
     $configured_classes = array();
     foreach ($configured as $configured_provider) {
       $configured_classes[get_class($configured_provider)] = true;

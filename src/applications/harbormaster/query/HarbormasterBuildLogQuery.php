@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -80,7 +80,7 @@ final class HarbormasterBuildLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
 }

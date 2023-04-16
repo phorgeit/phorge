@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageNameTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageNameTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.name';
 

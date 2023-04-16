@@ -2,8 +2,8 @@
 
 final class PhortuneMerchant extends PhortuneDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface {
 
   protected $name;
   protected $description;
@@ -15,7 +15,7 @@ final class PhortuneMerchant extends PhortuneDAO
   private $memberPHIDs = self::ATTACHABLE;
   private $profileImageFile = self::ATTACHABLE;
 
-  public static function initializeNewMerchant(PhabricatorUser $actor) {
+  public static function initializeNewMerchant(PhorgeUser $actor) {
     return id(new PhortuneMerchant())
       ->attachMemberPHIDs(array())
       ->setContactInfo('')
@@ -38,7 +38,7 @@ final class PhortuneMerchant extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortuneMerchantPHIDType::TYPECONST);
   }
 
@@ -59,7 +59,7 @@ final class PhortuneMerchant extends PhortuneDAO
     return $this->getProfileImageFile()->getBestURI();
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
@@ -116,7 +116,7 @@ final class PhortuneMerchant extends PhortuneDAO
       $this->getID());
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -128,26 +128,26 @@ final class PhortuneMerchant extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $members = array_fuse($this->getMemberPHIDs());
     if (isset($members[$viewer->getPHID()])) {
       return true;

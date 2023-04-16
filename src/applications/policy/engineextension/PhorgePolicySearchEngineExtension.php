@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicySearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgePolicySearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'policy';
 
@@ -14,7 +14,7 @@ final class PhabricatorPolicySearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorPolicyInterface);
+    return ($object instanceof PhorgePolicyInterface);
   }
 
   public function getExtensionOrder() {
@@ -23,7 +23,7 @@ final class PhabricatorPolicySearchEngineExtension
 
   public function getFieldSpecificationsForConduit($object) {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('policy')
         ->setType('map<string, wild>')
         ->setDescription(pht('Map of capabilities to current policies.')),

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorSSHLog extends Phobject {
+final class PhorgeSSHLog extends Phobject {
 
   private static $log;
 
   public static function getLog() {
     if (!self::$log) {
-      $path = PhabricatorEnv::getEnvConfig('log.ssh.path');
-      $format = PhabricatorEnv::getEnvConfig('log.ssh.format');
+      $path = PhorgeEnv::getEnvConfig('log.ssh.path');
+      $format = PhorgeEnv::getEnvConfig('log.ssh.format');
       $format = nonempty(
         $format,
         "[%D]\t%p\t%h\t%r\t%s\t%S\t%u\t%C\t%U\t%c\t%T\t%i\t%o");
@@ -20,10 +20,10 @@ final class PhabricatorSSHLog extends Phobject {
         'h' => php_uname('n'),
         'p' => getmypid(),
         'e' => time(),
-        'I' => PhabricatorEnv::getEnvConfig('cluster.instance'),
+        'I' => PhorgeEnv::getEnvConfig('cluster.instance'),
       );
 
-      $sudo_user = PhabricatorEnv::getEnvConfig('phd.user');
+      $sudo_user = PhorgeEnv::getEnvConfig('phd.user');
       if (phutil_nonempty_string($sudo_user)) {
         $data['S'] = $sudo_user;
       }

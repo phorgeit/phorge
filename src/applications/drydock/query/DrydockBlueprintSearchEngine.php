@@ -1,14 +1,14 @@
 <?php
 
 final class DrydockBlueprintSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Drydock Blueprints');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function newQuery() {
@@ -31,11 +31,11 @@ final class DrydockBlueprintSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for blueprints by name substring.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Disabled'))
         ->setKey('isDisabled')
         ->setOptions(
@@ -72,18 +72,18 @@ final class DrydockBlueprintSearchEngine
 
   protected function renderResultList(
     array $blueprints,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($blueprints, 'DrydockBlueprint');
 
     $viewer = $this->requireViewer();
 
     if ($blueprints) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($blueprints, 'getPHID'))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
 
       $edge_query->execute();
@@ -131,7 +131,7 @@ final class DrydockBlueprintSearchEngine
       $view->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($view);
     $result->setNoDataString(pht('No blueprints found.'));
 

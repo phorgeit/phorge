@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementRefsWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementRefsWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -44,7 +44,7 @@ final class PhabricatorRepositoryManagementRefsWorkflow
           'Updating refs in "%s"...',
           $repo->getDisplayName()));
 
-      $engine = id(new PhabricatorRepositoryRefEngine())
+      $engine = id(new PhorgeRepositoryRefEngine())
         ->setRepository($repo)
         ->setVerbose($args->getArg('verbose'))
         ->setRebuild($args->getArg('rebuild'))

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthRevokeTokenController
-  extends PhabricatorAuthController {
+final class PhorgeAuthRevokeTokenController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorAuthRevokeTokenController
 
     $is_all = ($id === 'all');
 
-    $query = id(new PhabricatorAuthTemporaryTokenQuery())
+    $query = id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($viewer)
       ->withTokenResources(array($viewer->getPHID()));
     if (!$is_all) {
@@ -24,7 +24,7 @@ final class PhabricatorAuthRevokeTokenController
       }
     }
 
-    $panel_uri = id(new PhabricatorTokensSettingsPanel())
+    $panel_uri = id(new PhorgeTokensSettingsPanel())
       ->setViewer($viewer)
       ->setUser($viewer)
       ->getPanelURI();

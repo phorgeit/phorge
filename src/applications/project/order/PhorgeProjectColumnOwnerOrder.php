@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnOwnerOrder
-  extends PhabricatorProjectColumnOrder {
+final class PhorgeProjectColumnOwnerOrder
+  extends PhorgeProjectColumnOrder {
 
   const ORDERKEY = 'owner';
 
@@ -43,7 +43,7 @@ final class PhabricatorProjectColumnOwnerOrder
     $owner_phids = array_filter($owner_phids);
 
     if ($owner_phids) {
-      $owner_users = id(new PhabricatorPeopleQuery())
+      $owner_users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($owner_phids)
         ->execute();
@@ -79,7 +79,7 @@ final class PhabricatorProjectColumnOwnerOrder
     );
   }
 
-  private function newSortVectorForOwner(PhabricatorUser $user) {
+  private function newSortVectorForOwner(PhorgeUser $user) {
     // Put assigned tasks with a valid owner after "Unassigned", but above
     // assigned tasks with an invalid owner. Sort these tasks by the owner's
     // username.
@@ -105,7 +105,7 @@ final class PhabricatorProjectColumnOwnerOrder
     $owner_phids = array_filter($owner_phids);
 
     if ($owner_phids) {
-      $owner_users = id(new PhabricatorPeopleQuery())
+      $owner_users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($owner_phids)
         ->needProfileImage(true)

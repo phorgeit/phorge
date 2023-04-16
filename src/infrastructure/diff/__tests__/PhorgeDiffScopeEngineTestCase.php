@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffScopeEngineTestCase
-  extends PhabricatorTestCase {
+final class PhorgeDiffScopeEngineTestCase
+  extends PhorgeTestCase {
 
   private $engines = array();
 
@@ -42,7 +42,7 @@ final class PhabricatorDiffScopeEngineTestCase
       $map[$key + 1] = $line;
     }
 
-    $engine = id(new PhabricatorDiffScopeEngine())
+    $engine = id(new PhorgeDiffScopeEngine())
       ->setLineTextMap($map);
 
     return $engine;

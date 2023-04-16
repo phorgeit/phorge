@@ -43,7 +43,7 @@ final class UserDisableConduitAPIMethod extends UserConduitAPIMethod {
 
     $phids = $request->getValue('phids');
 
-    $users = id(new PhabricatorUser())->loadAllWhere(
+    $users = id(new PhorgeUser())->loadAllWhere(
       'phid IN (%Ls)',
       $phids);
 

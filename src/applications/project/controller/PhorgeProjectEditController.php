@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorProjectEditController
-  extends PhabricatorProjectController {
+final class PhorgeProjectEditController
+  extends PhorgeProjectController {
 
   private $engine;
 
-  public function setEngine(PhabricatorProjectEditEngine $engine) {
+  public function setEngine(PhorgeProjectEditEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
@@ -17,7 +17,7 @@ final class PhabricatorProjectEditController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorProjectEditEngine())
+    $engine = id(new PhorgeProjectEditEngine())
       ->setController($this);
 
     $this->setEngine($engine);
@@ -45,13 +45,13 @@ final class PhabricatorProjectEditController
       }
 
       if ($parent_id) {
-        $query = id(new PhabricatorProjectQuery())
+        $query = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->needImages(true)
           ->requireCapabilities(
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ));
 
         if (ctype_digit($parent_id)) {

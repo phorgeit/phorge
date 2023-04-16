@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCacheGeneralGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeCacheGeneralGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'cache.general';
 
@@ -14,7 +14,7 @@ final class PhabricatorCacheGeneralGarbageCollector
   }
 
   protected function collectGarbage() {
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
     $conn_w = $cache->establishConnection('w');
 
     queryfx(

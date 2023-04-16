@@ -17,7 +17,7 @@ final class DiffusionLowLevelFilesizeQuery
 
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->loadGitFilesizes();
         break;
       default:

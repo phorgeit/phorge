@@ -1,6 +1,6 @@
 <?php
 
-$conn_r = id(new PhabricatorMetaMTAMail())->establishConnection('r');
+$conn_r = id(new PhorgeMetaMTAMail())->establishConnection('r');
 
 $rows = queryfx_all(
   $conn_r,
@@ -16,7 +16,7 @@ foreach ($rows as $row) {
   $list_map[phutil_utf8_strtolower($row['email'])] = $row['phid'];
 }
 
-$emails = id(new PhabricatorUserEmail())->loadAllWhere(
+$emails = id(new PhorgeUserEmail())->loadAllWhere(
   'address IN (%Ls)',
   array_keys($list_map));
 if (!$emails) {

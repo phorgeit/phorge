@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorUserPreferences
-  extends PhabricatorUserDAO
+final class PhorgeUserPreferences
+  extends PhorgeUserDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface {
 
   const BUILTIN_GLOBAL_DEFAULT = 'global';
 
@@ -40,8 +40,8 @@ final class PhabricatorUserPreferences
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorUserPreferencesPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeUserPreferencesPHIDType::TYPECONST);
   }
 
   public function getPreference($key, $default = null) {
@@ -84,16 +84,16 @@ final class PhabricatorUserPreferences
   }
 
   private static function getSettingObject($key) {
-    $settings = PhabricatorSetting::getAllSettings();
+    $settings = PhorgeSetting::getAllSettings();
     return idx($settings, $key);
   }
 
-  public function attachDefaultSettings(PhabricatorUserPreferences $settings) {
+  public function attachDefaultSettings(PhorgeUserPreferences $settings) {
     $this->defaultSettings = $settings;
     return $this;
   }
 
-  public function attachUser(PhabricatorUser $user = null) {
+  public function attachUser(PhorgeUser $user = null) {
     $this->user = $user;
     return $this;
   }
@@ -119,10 +119,10 @@ final class PhabricatorUserPreferences
   /**
    * Load or create a preferences object for the given user.
    *
-   * @param PhabricatorUser User to load or create preferences for.
+   * @param PhorgeUser User to load or create preferences for.
    */
-  public static function loadUserPreferences(PhabricatorUser $user) {
-    return id(new PhabricatorUserPreferencesQuery())
+  public static function loadUserPreferences(PhorgeUser $user) {
+    return id(new PhorgeUserPreferencesQuery())
       ->setViewer($user)
       ->withUsers(array($user))
       ->needSyntheticPreferences(true)
@@ -134,10 +134,10 @@ final class PhabricatorUserPreferences
    *
    * If no global preferences exist, an empty preferences object is returned.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    */
-  public static function loadGlobalPreferences(PhabricatorUser $viewer) {
-    $global = id(new PhabricatorUserPreferencesQuery())
+  public static function loadGlobalPreferences(PhorgeUser $viewer) {
+    $global = id(new PhorgeUserPreferencesQuery())
       ->setViewer($viewer)
       ->withBuiltinKeys(
         array(
@@ -147,15 +147,15 @@ final class PhabricatorUserPreferences
 
     if (!$global) {
       $global = id(new self())
-        ->attachUser(new PhabricatorUser());
+        ->attachUser(new PhorgeUser());
     }
 
     return $global;
   }
 
   public function newTransaction($key, $value) {
-    $setting_property = PhabricatorUserPreferencesTransaction::PROPERTY_SETTING;
-    $xaction_type = PhabricatorUserPreferencesTransaction::TYPE_SETTING;
+    $setting_property = PhorgeUserPreferencesTransaction::PROPERTY_SETTING;
+    $xaction_type = PhorgeUserPreferencesTransaction::TYPE_SETTING;
 
     return id(clone $this->getApplicationTransactionTemplate())
       ->setTransactionType($xaction_type)
@@ -179,28 +179,28 @@ final class PhabricatorUserPreferences
     return pht('Personal Settings');
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $user_phid = $this->getUserPHID();
         if ($user_phid) {
           return $user_phid;
         }
 
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->hasManagedUser()) {
-          return PhabricatorPolicies::POLICY_ADMIN;
+          return PhorgePolicies::POLICY_ADMIN;
         }
 
         $user_phid = $this->getUserPHID();
@@ -208,11 +208,11 @@ final class PhabricatorUserPreferences
           return $user_phid;
         }
 
-        return PhabricatorPolicies::POLICY_ADMIN;
+        return PhorgePolicies::POLICY_ADMIN;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->hasManagedUser()) {
       if ($viewer->getIsAdmin()) {
         return true;
@@ -222,7 +222,7 @@ final class PhabricatorUserPreferences
     $builtin_key = $this->getBuiltinKey();
 
     $is_global = ($builtin_key === self::BUILTIN_GLOBAL_DEFAULT);
-    $is_view = ($capability === PhabricatorPolicyCapability::CAN_VIEW);
+    $is_view = ($capability === PhorgePolicyCapability::CAN_VIEW);
 
     if ($is_global && $is_view) {
       // NOTE: Without this policy exception, the logged-out viewer can not
@@ -233,24 +233,24 @@ final class PhabricatorUserPreferences
     return false;
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorUserPreferencesEditor();
+    return new PhorgeUserPreferencesEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorUserPreferencesTransaction();
+    return new PhorgeUserPreferencesTransaction();
   }
 
 }

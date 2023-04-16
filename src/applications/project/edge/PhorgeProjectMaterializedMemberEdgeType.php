@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMaterializedMemberEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeProjectMaterializedMemberEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 60;
 

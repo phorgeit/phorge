@@ -7,8 +7,8 @@
  * Subclasses of this source can read external configuration sources (like a
  * remote server).
  */
-abstract class PhabricatorConfigSiteSource
-  extends PhabricatorConfigProxySource {
+abstract class PhorgeConfigSiteSource
+  extends PhorgeConfigProxySource {
 
   public function getPriority() {
     return 1000.0;

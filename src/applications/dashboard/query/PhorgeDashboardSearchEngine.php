@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorDashboardSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeDashboardSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Dashboards');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorDashboardQuery());
+    return id(new PhorgeDashboardQuery());
   }
 
   public function canUseInPanelContext() {
@@ -21,15 +21,15 @@ final class PhabricatorDashboardSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Authored By'))
         ->setKey('authorPHIDs')
-        ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
-      id(new PhabricatorSearchCheckboxesField())
+        ->setDatasource(new PhorgePeopleUserFunctionDatasource()),
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
-        ->setOptions(PhabricatorDashboard::getStatusNameMap()),
-      id(new PhabricatorSearchCheckboxesField())
+        ->setOptions(PhorgeDashboard::getStatusNameMap()),
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('editable')
         ->setLabel(pht('Editable'))
         ->setOptions(array('editable' => null)),
@@ -71,7 +71,7 @@ final class PhabricatorDashboardSearchEngine
         return $query->setParameter(
           'statuses',
           array(
-            PhabricatorDashboard::STATUS_ACTIVE,
+            PhorgeDashboard::STATUS_ACTIVE,
           ));
     }
 
@@ -98,7 +98,7 @@ final class PhabricatorDashboardSearchEngine
 
   protected function renderResultList(
     array $dashboards,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $viewer = $this->requireViewer();
@@ -114,11 +114,11 @@ final class PhabricatorDashboardSearchEngine
     $handles = $viewer->loadHandles($phids);
 
     if ($dashboards) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($dashboards, 'getPHID'))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
 
       $edge_query->execute();
@@ -166,7 +166,7 @@ final class PhabricatorDashboardSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No dashboards found.'));
 

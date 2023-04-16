@@ -22,13 +22,13 @@ final class DiffusionLowLevelCommitQuery
 
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->loadGitCommitRef();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->loadMercurialCommitRef();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $result = $this->loadSubversionCommitRef();
         break;
       default:

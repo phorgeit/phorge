@@ -46,8 +46,8 @@ if (count($identifiers) !== 1) {
 }
 
 $identifier = head($identifiers);
-$repository = id(new PhabricatorRepositoryQuery())
-  ->setViewer(PhabricatorUser::getOmnipotentUser())
+$repository = id(new PhorgeRepositoryQuery())
+  ->setViewer(PhorgeUser::getOmnipotentUser())
   ->withIdentifiers($identifiers)
   ->executeOne();
 
@@ -69,15 +69,15 @@ $input = explode("\n", $input);
 
 function commit_symbols(
   array $symbols,
-  PhabricatorRepository $repository,
+  PhorgeRepository $repository,
   $no_purge) {
 
   echo pht('Looking up path IDs...'), "\n";
   $path_map =
-    PhabricatorRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
+    PhorgeRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
       ipull($symbols, 'path'));
 
-  $symbol = new PhabricatorRepositorySymbol();
+  $symbol = new PhorgeRepositorySymbol();
   $conn_w = $symbol->establishConnection('w');
 
   echo pht('Preparing queries...'), "\n";

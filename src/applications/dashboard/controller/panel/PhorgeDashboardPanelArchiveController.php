@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorDashboardPanelArchiveController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelArchiveController
+  extends PhorgeDashboardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $panel = id(new PhabricatorDashboardPanelQuery())
+    $panel = id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$panel) {
@@ -24,12 +24,12 @@ final class PhabricatorDashboardPanelArchiveController
 
     if ($request->isFormPost()) {
       $xactions = array();
-      $xactions[] = id(new PhabricatorDashboardPanelTransaction())
+      $xactions[] = id(new PhorgeDashboardPanelTransaction())
         ->setTransactionType(
-          PhabricatorDashboardPanelStatusTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardPanelStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue((int)!$panel->getIsArchived());
 
-      id(new PhabricatorDashboardPanelTransactionEditor())
+      id(new PhorgeDashboardPanelTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->applyTransactions($panel, $xactions);

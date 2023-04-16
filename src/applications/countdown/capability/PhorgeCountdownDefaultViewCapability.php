@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeCountdownDefaultViewCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'countdown.default.view';
 

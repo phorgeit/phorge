@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadMembersPolicyRule
-  extends PhabricatorPolicyRule {
+  extends PhorgePolicyRule {
 
   public function getObjectPolicyKey() {
     return 'conpherence.members';
@@ -23,14 +23,14 @@ final class ConpherenceThreadMembersPolicyRule
     return 'fa-comments';
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
+  public function canApplyToObject(PhorgePolicyInterface $object) {
     return ($object instanceof ConpherenceThread);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {
       return false;

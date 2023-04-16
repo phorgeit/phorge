@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorSubscribableInterface {
+interface PhorgeSubscribableInterface {
 
   /**
    * Return true to indicate that the given PHID is automatically subscribed
@@ -17,7 +17,7 @@ interface PhabricatorSubscribableInterface {
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 /*
 
   public function isAutomaticallySubscribed($phid) {

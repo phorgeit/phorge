@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementFloodWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementFloodWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -35,8 +35,8 @@ final class PhabricatorWorkerManagementFloodWorkflow
 
     $n = 0;
     while (true) {
-      PhabricatorWorker::scheduleTask(
-        'PhabricatorTestWorker',
+      PhorgeWorker::scheduleTask(
+        'PhorgeTestWorker',
         array(
           'duration' => $duration,
         ));

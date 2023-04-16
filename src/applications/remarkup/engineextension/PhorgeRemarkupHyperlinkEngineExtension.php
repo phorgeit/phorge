@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorRemarkupHyperlinkEngineExtension
+abstract class PhorgeRemarkupHyperlinkEngineExtension
   extends PhutilRemarkupHyperlinkEngineExtension {
 
   final protected function getSelfLinks(array $hyperlinks) {
@@ -15,7 +15,7 @@ abstract class PhabricatorRemarkupHyperlinkEngineExtension
     foreach ($hyperlinks as $link) {
       $uri = $link->getURI();
 
-      if (!PhabricatorEnv::isSelfURI($uri)) {
+      if (!PhorgeEnv::isSelfURI($uri)) {
         continue;
       }
 

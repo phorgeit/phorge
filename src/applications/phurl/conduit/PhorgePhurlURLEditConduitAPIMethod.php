@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPhurlURLEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+final class PhorgePhurlURLEditConduitAPIMethod
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'phurls.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorPhurlURLEditEngine();
+    return new PhorgePhurlURLEditEngine();
   }
 
   public function getMethodSummary() {

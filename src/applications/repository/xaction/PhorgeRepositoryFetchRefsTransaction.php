@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryFetchRefsTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryFetchRefsTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'fetch-refs';
 

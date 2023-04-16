@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerBulkJobTaskWorker
-  extends PhabricatorWorkerBulkJobWorker {
+final class PhorgeWorkerBulkJobTaskWorker
+  extends PhorgeWorkerBulkJobWorker {
 
   protected function doWork() {
     $lock = $this->acquireTaskLock();
@@ -9,18 +9,18 @@ final class PhabricatorWorkerBulkJobTaskWorker
     $task = $this->loadTask();
     $status = $task->getStatus();
     switch ($task->getStatus()) {
-      case PhabricatorWorkerBulkTask::STATUS_WAITING:
+      case PhorgeWorkerBulkTask::STATUS_WAITING:
         // This is what we expect.
         break;
       default:
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Found unexpected task status ("%s").',
             $status));
     }
 
     $task
-      ->setStatus(PhabricatorWorkerBulkTask::STATUS_RUNNING)
+      ->setStatus(PhorgeWorkerBulkTask::STATUS_RUNNING)
       ->save();
 
     $lock->unlock();
@@ -30,10 +30,10 @@ final class PhabricatorWorkerBulkJobTaskWorker
 
     try {
       $job->runTask($actor, $task);
-      $status = PhabricatorWorkerBulkTask::STATUS_DONE;
+      $status = PhorgeWorkerBulkTask::STATUS_DONE;
     } catch (Exception $ex) {
       phlog($ex);
-      $status = PhabricatorWorkerBulkTask::STATUS_FAIL;
+      $status = PhorgeWorkerBulkTask::STATUS_FAIL;
     }
 
     $task

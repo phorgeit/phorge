@@ -1,19 +1,19 @@
 <?php
 
 abstract class DiffusionCommitRelationship
-  extends PhabricatorObjectRelationship {
+  extends PhorgeObjectRelationship {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+    $has_app = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDiffusionApplication',
       $viewer);
     if (!$has_app) {
       return false;
     }
 
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
 }

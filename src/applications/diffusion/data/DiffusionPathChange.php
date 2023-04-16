@@ -141,7 +141,7 @@ final class DiffusionPathChange extends Phobject {
   }
 
   public static function convertToDifferentialChangesets(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     array $changes) {
     assert_instances_of($changes, __CLASS__);
     $arcanist_changes = self::convertToArcanistChanges($changes);
@@ -179,9 +179,9 @@ final class DiffusionPathChange extends Phobject {
   public static function newFromConduit(array $dicts) {
     $results = array();
     foreach ($dicts as $dict) {
-      $commit = PhabricatorRepositoryCommit::newFromDictionary($dict['commit']);
+      $commit = PhorgeRepositoryCommit::newFromDictionary($dict['commit']);
       $commit_data =
-        PhabricatorRepositoryCommitData::newFromDictionary(
+        PhorgeRepositoryCommitData::newFromDictionary(
           $dict['commitData']);
       $results[] = id(new DiffusionPathChange())
         ->setPath($dict['path'])

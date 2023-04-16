@@ -15,7 +15,7 @@ final class PhamePostVisibilityTransaction
     } else if ($value == PhameConstants::VISIBILITY_ARCHIVED) {
       $object->setDatePublished(0);
     } else {
-      $object->setDatePublished(PhabricatorTime::getNow());
+      $object->setDatePublished(PhorgeTime::getNow());
     }
     $object->setVisibility($value);
   }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProjectHeraldAction
+abstract class PhorgeProjectHeraldAction
   extends HeraldAction {
 
   const DO_ADD_PROJECTS = 'do.add-projects';
@@ -11,7 +11,7 @@ abstract class PhabricatorProjectHeraldAction
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function supportsRuleType($rule_type) {
@@ -22,7 +22,7 @@ abstract class PhabricatorProjectHeraldAction
     $adapter = $this->getAdapter();
 
     $allowed_types = array(
-      PhabricatorProjectProjectPHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
     );
 
     // Detection of "No Effect" is a bit tricky for this action, so just do it
@@ -36,7 +36,7 @@ abstract class PhabricatorProjectHeraldAction
 
     $phids = array_fuse(array_keys($targets));
 
-    $project_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    $project_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
     $current = $adapter->loadEdgePHIDs($project_type);
 
     if ($is_add) {
@@ -76,7 +76,7 @@ abstract class PhabricatorProjectHeraldAction
     }
 
     $xaction = $adapter->newTransaction()
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $project_type)
       ->setNewValue(
         array(

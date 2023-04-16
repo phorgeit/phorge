@@ -1,17 +1,17 @@
 <?php
 
-final class ManiphestTaskMailReceiver extends PhabricatorObjectMailReceiver {
+final class ManiphestTaskMailReceiver extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorManiphestApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeManiphestApplication');
   }
 
   protected function getObjectPattern() {
     return 'T[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new ManiphestTaskQuery())

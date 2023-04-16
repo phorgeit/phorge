@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorObjectHasDraftEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeObjectHasDraftEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 64;
 

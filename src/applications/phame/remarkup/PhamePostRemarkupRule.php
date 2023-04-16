@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'J';

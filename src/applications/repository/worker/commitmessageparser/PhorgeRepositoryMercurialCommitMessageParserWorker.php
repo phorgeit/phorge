@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryMercurialCommitMessageParserWorker
-  extends PhabricatorRepositoryCommitMessageParserWorker {
+final class PhorgeRepositoryMercurialCommitMessageParserWorker
+  extends PhorgeRepositoryCommitMessageParserWorker {
 
   protected function getFollowupTaskClass() {
-    return 'PhabricatorRepositoryMercurialCommitChangeParserWorker';
+    return 'PhorgeRepositoryMercurialCommitChangeParserWorker';
   }
 
 }

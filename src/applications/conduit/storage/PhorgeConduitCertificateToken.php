@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConduitCertificateToken extends PhabricatorConduitDAO {
+final class PhorgeConduitCertificateToken extends PhorgeConduitDAO {
 
   protected $userPHID;
   protected $token;

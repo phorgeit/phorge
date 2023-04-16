@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailConfigTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMailConfigTestCase
+  extends PhorgeTestCase {
 
   public function testMailerPriorities() {
     $mailers = $this->newMailersWithConfig(
@@ -188,10 +188,10 @@ final class PhabricatorMailConfigTestCase
     array $config,
     array $constraints = array()) {
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('cluster.mailers', $config);
 
-    $mailers = PhabricatorMetaMTAMail::newMailers($constraints);
+    $mailers = PhorgeMetaMTAMail::newMailers($constraints);
 
     unset($env);
     return $mailers;

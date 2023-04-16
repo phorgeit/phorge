@@ -49,8 +49,8 @@ final class DifferentialRepositoryField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     $repository = $this->getObject()->getRepository();

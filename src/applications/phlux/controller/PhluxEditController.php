@@ -9,15 +9,15 @@ final class PhluxEditController extends PhluxController {
     $is_new = ($key === null);
     if ($is_new) {
       $var = new PhluxVariable();
-      $var->setViewPolicy(PhabricatorPolicies::POLICY_USER);
-      $var->setEditPolicy(PhabricatorPolicies::POLICY_USER);
+      $var->setViewPolicy(PhorgePolicies::POLICY_USER);
+      $var->setEditPolicy(PhorgePolicies::POLICY_USER);
     } else {
       $var = id(new PhluxVariableQuery())
         ->setViewer($viewer)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->withKeys(array($key))
         ->executeOne();
@@ -75,11 +75,11 @@ final class PhluxEditController extends PhluxController {
           ->setNewValue($value);
 
         $xactions[] = id(new PhluxTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+          ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
           ->setNewValue($request->getStr('viewPolicy'));
 
         $xactions[] = id(new PhluxTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+          ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
           ->setNewValue($request->getStr('editPolicy'));
 
         try {
@@ -103,7 +103,7 @@ final class PhluxEditController extends PhluxController {
       }
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($var)
       ->execute();
@@ -129,13 +129,13 @@ final class PhluxEditController extends PhluxController {
         id(new AphrontFormPolicyControl())
           ->setName('viewPolicy')
           ->setPolicyObject($var)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setPolicies($policies))
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setName('editPolicy')
           ->setPolicyObject($var)
-          ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
+          ->setCapability(PhorgePolicyCapability::CAN_EDIT)
           ->setPolicies($policies));
 
     if ($is_new) {

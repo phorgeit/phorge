@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorEdgeTestCase extends PhabricatorTestCase {
+final class PhorgeEdgeTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -13,16 +13,16 @@ final class PhabricatorEdgeTestCase extends PhabricatorTestCase {
     // The editor should detect that this introduces a cycle and prevent the
     // edit.
 
-    $user = new PhabricatorUser();
+    $user = new PhorgeUser();
 
     $obj1 = id(new HarbormasterObject())->save();
     $obj2 = id(new HarbormasterObject())->save();
     $phid1 = $obj1->getPHID();
     $phid2 = $obj2->getPHID();
 
-    $editor = id(new PhabricatorEdgeEditor())
-      ->addEdge($phid1, PhabricatorTestNoCycleEdgeType::EDGECONST , $phid2)
-      ->addEdge($phid2, PhabricatorTestNoCycleEdgeType::EDGECONST , $phid1);
+    $editor = id(new PhorgeEdgeEditor())
+      ->addEdge($phid1, PhorgeTestNoCycleEdgeType::EDGECONST , $phid2)
+      ->addEdge($phid2, PhorgeTestNoCycleEdgeType::EDGECONST , $phid1);
 
     $caught = null;
     try {
@@ -37,12 +37,12 @@ final class PhabricatorEdgeTestCase extends PhabricatorTestCase {
     // The first edit should go through (no cycle), bu the second one should
     // fail (it introduces a cycle).
 
-    $editor = id(new PhabricatorEdgeEditor())
-      ->addEdge($phid1, PhabricatorTestNoCycleEdgeType::EDGECONST , $phid2)
+    $editor = id(new PhorgeEdgeEditor())
+      ->addEdge($phid1, PhorgeTestNoCycleEdgeType::EDGECONST , $phid2)
       ->save();
 
-    $editor = id(new PhabricatorEdgeEditor())
-      ->addEdge($phid2, PhabricatorTestNoCycleEdgeType::EDGECONST , $phid1);
+    $editor = id(new PhorgeEdgeEditor())
+      ->addEdge($phid2, PhorgeTestNoCycleEdgeType::EDGECONST , $phid1);
 
     $caught = null;
     try {

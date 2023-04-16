@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacTransactionType
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   protected function getAlmanacPropertyOldValue($object) {
     $property_key = $this->getMetadataValue('almanac.property');

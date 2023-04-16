@@ -12,8 +12,8 @@ final class PassphraseCredentialRevealController
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->needSecrets(true)
       ->executeOne();
@@ -47,7 +47,7 @@ final class PassphraseCredentialRevealController
             id(new AphrontFormTextAreaControl())
               ->setLabel(pht('Plaintext'))
               ->setReadOnly(true)
-              ->setCustomClass('PhabricatorMonospaced')
+              ->setCustomClass('PhorgeMonospaced')
               ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
               ->setValue($secret->openEnvelope()));
       }
@@ -80,7 +80,7 @@ final class PassphraseCredentialRevealController
       return id(new AphrontDialogResponse())->setDialog($dialog);
     }
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
 
     if ($is_serious) {
       $body = pht(

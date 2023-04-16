@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigConfigPHIDType extends PhabricatorPHIDType {
+final class PhorgeConfigConfigPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CONF';
 
@@ -9,23 +9,23 @@ final class PhabricatorConfigConfigPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorConfigEntry();
+    return new PhorgeConfigEntry();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorConfigApplication';
+    return 'PhorgeConfigApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorConfigEntryQuery())
+    return id(new PhorgeConfigEntryQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

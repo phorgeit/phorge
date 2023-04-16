@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPinnedApplicationsSetting
-  extends PhabricatorInternalSetting {
+final class PhorgePinnedApplicationsSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'app-pinned';
 
@@ -10,9 +10,9 @@ final class PhabricatorPinnedApplicationsSetting
   }
 
   public function getSettingDefaultValue() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $applications = id(new PhabricatorApplicationQuery())
+    $applications = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withInstalled(true)
       ->withUnlisted(false)

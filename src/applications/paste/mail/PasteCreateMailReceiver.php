@@ -1,14 +1,14 @@
 <?php
 
 final class PasteCreateMailReceiver
-  extends PhabricatorApplicationMailReceiver {
+  extends PhorgeApplicationMailReceiver {
 
   protected function newApplication() {
-    return new PhabricatorPasteApplication();
+    return new PhorgePasteApplication();
   }
 
   protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
     $author = $this->getAuthor();
 
@@ -19,19 +19,19 @@ final class PasteCreateMailReceiver
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorPasteTransaction())
-      ->setTransactionType(PhabricatorPasteContentTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgePasteTransaction())
+      ->setTransactionType(PhorgePasteContentTransaction::TRANSACTIONTYPE)
       ->setNewValue($mail->getCleanTextBody());
 
-    $xactions[] = id(new PhabricatorPasteTransaction())
-      ->setTransactionType(PhabricatorPasteTitleTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgePasteTransaction())
+      ->setTransactionType(PhorgePasteTitleTransaction::TRANSACTIONTYPE)
       ->setNewValue($title);
 
-    $paste = PhabricatorPaste::initializeNewPaste($author);
+    $paste = PhorgePaste::initializeNewPaste($author);
 
     $content_source = $mail->newContentSource();
 
-    $editor = id(new PhabricatorPasteEditor())
+    $editor = id(new PhorgePasteEditor())
       ->setActor($author)
       ->setContentSource($content_source)
       ->setContinueOnNoEffect(true);
@@ -46,12 +46,12 @@ final class PasteCreateMailReceiver
 
     $subject_prefix = pht('[Paste]');
     $subject = pht('You successfully created a paste.');
-    $paste_uri = PhabricatorEnv::getProductionURI($paste->getURI());
-    $body = new PhabricatorMetaMTAMailBody();
+    $paste_uri = PhorgeEnv::getProductionURI($paste->getURI());
+    $body = new PhorgeMetaMTAMailBody();
     $body->addRawSection($subject);
     $body->addTextSection(pht('PASTE LINK'), $paste_uri);
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addTos(array($sender->getPHID()))
       ->setSubject($subject)
       ->setSubjectPrefix($subject_prefix)

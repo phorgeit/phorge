@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorApplicationsController extends PhabricatorController {
+abstract class PhorgeApplicationsController extends PhorgeController {
 
   public function buildSideNavView($for_app = false) {
     $user = $this->getRequest()->getUser();
@@ -8,7 +8,7 @@ abstract class PhabricatorApplicationsController extends PhabricatorController {
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorAppSearchEngine())
+    id(new PhorgeAppSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 
@@ -23,7 +23,7 @@ abstract class PhabricatorApplicationsController extends PhabricatorController {
 
   protected function addApplicationCrumb(
     PHUICrumbsView $crumbs,
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
 
     $crumbs->addTextCrumb(
       $application->getName(),

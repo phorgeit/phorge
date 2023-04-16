@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAEmailOthersHeraldAction
-  extends PhabricatorMetaMTAEmailHeraldAction {
+final class PhorgeMetaMTAEmailOthersHeraldAction
+  extends PhorgeMetaMTAEmailHeraldAction {
 
   const ACTIONCONST = 'email.other';
 
@@ -22,7 +22,7 @@ final class PhabricatorMetaMTAEmailOthersHeraldAction
   }
 
   protected function getDatasource() {
-    return new PhabricatorMetaMTAMailableDatasource();
+    return new PhorgeMetaMTAMailableDatasource();
   }
 
   public function renderActionDescription($value) {

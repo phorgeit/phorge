@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldApplicationSearchNoneFunctionDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeCustomFieldApplicationSearchNoneFunctionDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse No Value');
@@ -41,8 +41,8 @@ final class PhabricatorCustomFieldApplicationSearchNoneFunctionDatasource
     $results = array();
 
     foreach ($argv_list as $argv) {
-      $results[] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_NULL,
+      $results[] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_NULL,
         null);
     }
 
@@ -52,7 +52,7 @@ final class PhabricatorCustomFieldApplicationSearchNoneFunctionDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->newNoneFunction());
     }
     return $results;

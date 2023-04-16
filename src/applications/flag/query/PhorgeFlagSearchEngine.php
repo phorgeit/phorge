@@ -1,26 +1,26 @@
 <?php
 
-final class PhabricatorFlagSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeFlagSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Flags');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFlagsApplication';
+    return 'PhorgeFlagsApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
     $saved->setParameter('colors', $request->getArr('colors'));
     $saved->setParameter('group', $request->getStr('group'));
     $saved->setParameter('objectFilter', $request->getStr('objectFilter'));
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorFlagQuery())
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = id(new PhorgeFlagQuery())
       ->needHandles(true)
       ->withOwnerPHIDs(array($this->requireViewer()->getPHID()));
 
@@ -45,11 +45,11 @@ final class PhabricatorFlagSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {
+    PhorgeSavedQuery $saved_query) {
 
     $form
       ->appendChild(
-        id(new PhabricatorFlagSelectControl())
+        id(new PhorgeFlagSelectControl())
         ->setName('colors')
         ->setLabel(pht('Colors'))
         ->setValue($saved_query->getParameter('colors', array())))
@@ -94,17 +94,17 @@ final class PhabricatorFlagSearchEngine
 
   private function getGroupOptions() {
     return array(
-      PhabricatorFlagQuery::GROUP_NONE => pht('None'),
-      PhabricatorFlagQuery::GROUP_COLOR => pht('Color'),
+      PhorgeFlagQuery::GROUP_NONE => pht('None'),
+      PhorgeFlagQuery::GROUP_COLOR => pht('Color'),
     );
   }
 
   private function getObjectFilterOptions() {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFlaggableInterface')
+      ->setAncestorClass('PhorgeFlaggableInterface')
       ->execute();
 
-    $all_types = PhabricatorPHIDType::getAllTypes();
+    $all_types = PhorgePHIDType::getAllTypes();
     $options = array();
 
     foreach ($objects as $object) {
@@ -128,9 +128,9 @@ final class PhabricatorFlagSearchEngine
 
   protected function renderResultList(
     array $flags,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($flags, 'PhabricatorFlag');
+    assert_instances_of($flags, 'PhorgeFlag');
 
     $viewer = $this->requireViewer();
 
@@ -140,7 +140,7 @@ final class PhabricatorFlagSearchEngine
       $id = $flag->getID();
       $phid = $flag->getObjectPHID();
 
-      $class = PhabricatorFlagColor::getCSSClass($flag->getColor());
+      $class = PhorgeFlagColor::getCSSClass($flag->getColor());
 
       $flag_icon = phutil_tag(
         'div',
@@ -154,7 +154,7 @@ final class PhabricatorFlagSearchEngine
         ->setHeader($flag->getHandle()->getFullName())
         ->setHref($flag->getHandle()->getURI());
 
-      $status_open = PhabricatorObjectHandle::STATUS_OPEN;
+      $status_open = PhorgeObjectHandle::STATUS_OPEN;
       if ($flag->getHandle()->getStatus() != $status_open) {
         $item->setDisabled(true);
       }
@@ -182,7 +182,7 @@ final class PhabricatorFlagSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No flags found.'));
 

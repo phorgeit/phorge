@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEnvTestCase extends PhabricatorTestCase {
+final class PhorgeEnvTestCase extends PhorgeTestCase {
 
   public function testLocalURIForLink() {
     $map = array(
@@ -19,7 +19,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
     foreach ($map as $uri => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorEnv::isValidLocalURIForLink($uri),
+        PhorgeEnv::isValidLocalURIForLink($uri),
         pht('Valid local resource: %s', $uri));
     }
   }
@@ -36,7 +36,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
     foreach ($map as $uri => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorEnv::isValidRemoteURIForLink($uri),
+        PhorgeEnv::isValidRemoteURIForLink($uri),
         pht('Valid linkable remote URI: %s', $uri));
     }
   }
@@ -77,13 +77,13 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
     foreach ($map as $uri => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorEnv::isValidRemoteURIForFetch($uri, $protocols),
+        PhorgeEnv::isValidRemoteURIForFetch($uri, $protocols),
         pht('Valid fetchable remote URI: %s', $uri));
     }
   }
 
   public function testDictionarySource() {
-    $source = new PhabricatorConfigDictionarySource(array('x' => 1));
+    $source = new PhorgeConfigDictionarySource(array('x' => 1));
 
     $this->assertEqual(
       array(
@@ -119,10 +119,10 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
   }
 
   public function testStackSource() {
-    $s1 = new PhabricatorConfigDictionarySource(array('x' => 1));
-    $s2 = new PhabricatorConfigDictionarySource(array('x' => 2));
+    $s1 = new PhorgeConfigDictionarySource(array('x' => 1));
+    $s2 = new PhorgeConfigDictionarySource(array('x' => 2));
 
-    $stack = new PhabricatorConfigStackSource();
+    $stack = new PhorgeConfigStackSource();
 
     $this->assertEqual(array(), $stack->getKeys(array('x')));
 
@@ -152,20 +152,20 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
   }
 
   public function testOverrides() {
-    $outer = PhabricatorEnv::beginScopedEnv();
+    $outer = PhorgeEnv::beginScopedEnv();
 
       $outer->overrideEnvConfig('test.value', 1);
-      $this->assertEqual(1, PhabricatorEnv::getEnvConfig('test.value'));
+      $this->assertEqual(1, PhorgeEnv::getEnvConfig('test.value'));
 
-      $inner = PhabricatorEnv::beginScopedEnv();
+      $inner = PhorgeEnv::beginScopedEnv();
         $inner->overrideEnvConfig('test.value', 2);
-        $this->assertEqual(2, PhabricatorEnv::getEnvConfig('test.value'));
+        $this->assertEqual(2, PhorgeEnv::getEnvConfig('test.value'));
       if (phutil_is_hiphop_runtime()) {
         $inner->__destruct();
       }
       unset($inner);
 
-      $this->assertEqual(1, PhabricatorEnv::getEnvConfig('test.value'));
+      $this->assertEqual(1, PhorgeEnv::getEnvConfig('test.value'));
     if (phutil_is_hiphop_runtime()) {
       $outer->__destruct();
     }
@@ -173,8 +173,8 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
   }
 
   public function testOverrideOrder() {
-    $outer = PhabricatorEnv::beginScopedEnv();
-    $inner = PhabricatorEnv::beginScopedEnv();
+    $outer = PhorgeEnv::beginScopedEnv();
+    $inner = PhorgeEnv::beginScopedEnv();
 
     $caught = null;
     try {
@@ -203,7 +203,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
   public function testGetEnvExceptions() {
     $caught = null;
     try {
-      PhabricatorEnv::getEnvConfig('not.a.real.config.option');
+      PhorgeEnv::getEnvConfig('not.a.real.config.option');
     } catch (Exception $ex) {
       $caught = $ex;
     }
@@ -211,7 +211,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
 
     $caught = null;
     try {
-      PhabricatorEnv::getEnvConfig('test.value');
+      PhorgeEnv::getEnvConfig('test.value');
     } catch (Exception $ex) {
       $caught = $ex;
     }
@@ -225,7 +225,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
       'https://old.example.com/',
     );
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('phorge.base-uri', $base_uri);
     $env->overrideEnvConfig('phorge.allowed-uris', $allowed_uris);
 
@@ -248,7 +248,7 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
     foreach ($map as $input => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorEnv::isSelfURI($input),
+        PhorgeEnv::isSelfURI($input),
         pht('Is self URI? %s', $input));
     }
   }

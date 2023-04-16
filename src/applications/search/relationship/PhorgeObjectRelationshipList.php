@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorObjectRelationshipList extends Phobject {
+final class PhorgeObjectRelationshipList extends Phobject {
 
   private $viewer;
   private $object;
   private $relationships;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -33,7 +33,7 @@ final class PhabricatorObjectRelationshipList extends Phobject {
   }
 
   public function setRelationships(array $relationships) {
-    assert_instances_of($relationships, 'PhabricatorObjectRelationship');
+    assert_instances_of($relationships, 'PhorgeObjectRelationship');
     $this->relationships = $relationships;
     return $this;
   }
@@ -53,7 +53,7 @@ final class PhabricatorObjectRelationshipList extends Phobject {
 
     foreach ($keys as $key) {
       // If we're passed a menu item, just include it verbatim.
-      if ($key instanceof PhabricatorActionView) {
+      if ($key instanceof PhorgeActionView) {
         $actions[] = $key;
         continue;
       }
@@ -105,7 +105,7 @@ final class PhabricatorObjectRelationshipList extends Phobject {
       }
     }
 
-    return id(new PhabricatorActionView())
+    return id(new PhorgeActionView())
       ->setDisabled(!$any_enabled)
       ->setSubmenu($actions);
   }
@@ -114,8 +114,8 @@ final class PhabricatorObjectRelationshipList extends Phobject {
     return idx($this->relationships, $key);
   }
 
-  public static function newForObject(PhabricatorUser $viewer, $object) {
-    $relationships = PhabricatorObjectRelationship::getAllRelationships();
+  public static function newForObject(PhorgeUser $viewer, $object) {
+    $relationships = PhorgeObjectRelationship::getAllRelationships();
 
     $results = array();
     foreach ($relationships as $key => $relationship) {

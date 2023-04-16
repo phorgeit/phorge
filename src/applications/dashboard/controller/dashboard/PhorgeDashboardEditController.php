@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDashboardEditController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardEditController
+  extends PhorgeDashboardController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorDashboardEditEngine())
+    return id(new PhorgeDashboardEditEngine())
       ->setController($this)
       ->buildResponse();
   }

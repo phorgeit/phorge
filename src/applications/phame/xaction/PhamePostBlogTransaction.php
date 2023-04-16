@@ -42,8 +42,8 @@ final class PhamePostBlogTransaction
         ->withPHIDs(array($new_phid))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->execute();
 

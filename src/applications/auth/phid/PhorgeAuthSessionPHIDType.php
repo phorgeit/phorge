@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSessionPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeAuthSessionPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'SSSN';
 
@@ -10,22 +10,22 @@ final class PhabricatorAuthSessionPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorAuthSession();
+    return new PhorgeAuthSession();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
-    return id(new PhabricatorAuthSessionQuery())
+    return id(new PhorgeAuthSessionQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
     return;

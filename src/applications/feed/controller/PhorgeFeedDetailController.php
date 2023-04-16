@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorFeedDetailController extends PhabricatorFeedController {
+final class PhorgeFeedDetailController extends PhorgeFeedController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $story = id(new PhabricatorFeedQuery())
+    $story = id(new PhorgeFeedQuery())
       ->setViewer($viewer)
       ->withChronologicalKeys(array($id))
       ->executeOne();
@@ -20,7 +20,7 @@ final class PhabricatorFeedDetailController extends PhabricatorFeedController {
     }
 
     $feed = array($story);
-    $builder = new PhabricatorFeedBuilder($feed);
+    $builder = new PhorgeFeedBuilder($feed);
     $builder->setUser($viewer);
     $feed_view = $builder->buildView();
 

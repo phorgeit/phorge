@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeCustomFieldEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'customfield.fields';
 
@@ -18,28 +18,28 @@ final class PhabricatorCustomFieldEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
-  public function newBulkEditGroups(PhabricatorEditEngine $engine) {
+  public function newBulkEditGroups(PhorgeEditEngine $engine) {
     return array(
-      id(new PhabricatorBulkEditGroup())
+      id(new PhorgeBulkEditGroup())
         ->setKey('custom')
         ->setLabel(pht('Custom Fields')),
     );
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
     $viewer = $this->getViewer();
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_EDITENGINE);
+      PhorgeCustomField::ROLE_EDITENGINE);
 
     $field_list->setViewer($viewer);
 

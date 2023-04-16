@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryIdentity
-  extends PhabricatorRepositoryDAO
+final class PhorgeRepositoryIdentity
+  extends PhorgeRepositoryDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $authorPHID;
   protected $identityNameHash;
@@ -42,12 +42,12 @@ final class PhabricatorRepositoryIdentity
   }
 
   public function getPHIDType() {
-    return PhabricatorRepositoryIdentityPHIDType::TYPECONST;
+    return PhorgeRepositoryIdentityPHIDType::TYPECONST;
   }
 
   public function setIdentityName($name_raw) {
     $this->setIdentityNameRaw($name_raw);
-    $this->setIdentityNameHash(PhabricatorHash::digestForIndex($name_raw));
+    $this->setIdentityNameHash(PhorgeHash::digestForIndex($name_raw));
     $this->setIdentityNameEncoding($this->detectEncodingForStorage($name_raw));
 
     return $this;
@@ -131,28 +131,28 @@ final class PhabricatorRepositoryIdentity
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
   public function hasAutomaticCapability(
     $capability,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -160,7 +160,7 @@ final class PhabricatorRepositoryIdentity
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorRepositoryIdentityTransaction();
+    return new PhorgeRepositoryIdentityTransaction();
   }
 
 }

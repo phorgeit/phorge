@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLegalpadBodySearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeLegalpadBodySearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Legalpad Document Body');

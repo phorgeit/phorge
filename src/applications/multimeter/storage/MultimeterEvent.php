@@ -41,7 +41,7 @@ final class MultimeterEvent extends MultimeterDAO {
   }
 
   public static function formatResourceCost(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $type,
     $cost) {
 

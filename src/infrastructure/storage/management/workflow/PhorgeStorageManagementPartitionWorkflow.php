@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementPartitionWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementPartitionWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -27,7 +27,7 @@ final class PhabricatorStorageManagementPartitionWorkflow
         'INSERT INTO %T.%T (stateKey, stateValue) VALUES (%s, %s)
           ON DUPLICATE KEY UPDATE stateValue = VALUES(stateValue)',
         $api->getDatabaseName('meta_data'),
-        PhabricatorStorageManagementAPI::TABLE_HOSTSTATE,
+        PhorgeStorageManagementAPI::TABLE_HOSTSTATE,
         'cluster.databases',
         $state);
 

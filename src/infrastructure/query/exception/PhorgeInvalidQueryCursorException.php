@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorInvalidQueryCursorException
+final class PhorgeInvalidQueryCursorException
   extends Exception {}

@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorSlowvoteMailReceiver
-  extends PhabricatorObjectMailReceiver {
+final class PhorgeSlowvoteMailReceiver
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSlowvoteApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeSlowvoteApplication');
   }
 
   protected function getObjectPattern() {
     return 'V[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
-    return id(new PhabricatorSlowvoteQuery())
+    return id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorSlowvoteReplyHandler();
+    return new PhorgeSlowvoteReplyHandler();
   }
 
 }

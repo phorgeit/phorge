@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExternalEditorSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeExternalEditorSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'editor';
 
@@ -14,7 +14,7 @@ final class PhabricatorExternalEditorSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsApplicationsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsApplicationsPanelGroup::PANELGROUPKEY;
   }
 
   public function isTemplatePanel() {
@@ -22,7 +22,7 @@ final class PhabricatorExternalEditorSettingsPanel
   }
 
   public function newSettingsPanelEditFormHeadContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
 
     // The "Editor" setting stored in the database may be invalidated by
     // configuration or software changes. If a saved URI becomes invalid
@@ -37,7 +37,7 @@ final class PhabricatorExternalEditorSettingsPanel
     }
 
     $viewer = $this->getViewer();
-    $pattern = $viewer->getUserSetting(PhabricatorEditorSetting::SETTINGKEY);
+    $pattern = $viewer->getUserSetting(PhorgeEditorSetting::SETTINGKEY);
 
     if (!strlen($pattern)) {
       return null;
@@ -45,10 +45,10 @@ final class PhabricatorExternalEditorSettingsPanel
 
     $caught = null;
     try {
-      id(new PhabricatorEditorURIEngine())
+      id(new PhorgeEditorURIEngine())
         ->setPattern($pattern)
         ->validatePattern();
-    } catch (PhabricatorEditorURIParserException $ex) {
+    } catch (PhorgeEditorURIParserException $ex) {
       $caught = $ex;
     }
 
@@ -62,10 +62,10 @@ final class PhabricatorExternalEditorSettingsPanel
   }
 
   public function newSettingsPanelEditFormTailContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
     $viewer = $this->getViewer();
 
-    $variables = PhabricatorEditorURIEngine::getVariableDefinitions();
+    $variables = PhorgeEditorURIEngine::getVariableDefinitions();
 
     $rows = array();
     foreach ($variables as $key => $variable) {
@@ -112,7 +112,7 @@ final class PhabricatorExternalEditorSettingsPanel
 
     $config_key = 'uri.allowed-editor-protocols';
 
-    $protocols = PhabricatorEnv::getEnvConfig($config_key);
+    $protocols = PhorgeEnv::getEnvConfig($config_key);
     $protocols = array_keys($protocols);
     sort($protocols);
 

@@ -10,7 +10,7 @@
  * @task email      Adding, Removing and Changing Email
  * @task internal   Internals
  */
-final class PhabricatorUserEditor extends PhabricatorEditor {
+final class PhorgeUserEditor extends PhorgeEditor {
 
   private $logs = array();
 
@@ -22,8 +22,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * @task edit
    */
   public function createNewUser(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email,
+    PhorgeUser $user,
+    PhorgeUserEmail $email,
     $allow_reassign = false) {
 
     if ($user->getID()) {
@@ -43,8 +43,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
       }
     }
 
-    if (!PhabricatorUser::validateUsername($user->getUsername())) {
-      $valid = PhabricatorUser::describeValidUsername();
+    if (!PhorgeUser::validateUsername($user->getUsername())) {
+      $valid = PhorgeUser::describeValidUsername();
       throw new Exception(pht('Username is invalid! %s', $valid));
     }
 
@@ -75,10 +75,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
       }
 
       if ($is_reassign) {
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           $this->requireActor(),
           $user->getPHID(),
-          PhabricatorReassignEmailUserLogType::LOGTYPE);
+          PhorgeReassignEmailUserLogType::LOGTYPE);
         $log->setNewValue($email->getAddress());
         $log->save();
       }
@@ -101,7 +101,7 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
   /**
    * @task role
    */
-  public function makeSystemAgentUser(PhabricatorUser $user, $system_agent) {
+  public function makeSystemAgentUser(PhorgeUser $user, $system_agent) {
     $actor = $this->requireActor();
 
     if (!$user->getID()) {
@@ -130,7 +130,7 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
   /**
    * @task role
    */
-  public function makeMailingListUser(PhabricatorUser $user, $mailing_list) {
+  public function makeMailingListUser(PhorgeUser $user, $mailing_list) {
     $actor = $this->requireActor();
 
     if (!$user->getID()) {
@@ -163,8 +163,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * @task email
    */
   public function addEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
 
     $actor = $this->requireActor();
 
@@ -195,10 +195,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           throw $ex;
         }
 
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           $actor,
           $user->getPHID(),
-          PhabricatorAddEmailUserLogType::LOGTYPE);
+          PhorgeAddEmailUserLogType::LOGTYPE);
         $log->setNewValue($email->getAddress());
         $log->save();
 
@@ -216,8 +216,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * @task email
    */
   public function removeEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
 
     $actor = $this->requireActor();
 
@@ -241,14 +241,14 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           throw new Exception(pht('Email not owned by user!'));
         }
 
-        $destruction_engine = id(new PhabricatorDestructionEngine())
+        $destruction_engine = id(new PhorgeDestructionEngine())
           ->setWaitToFinalizeDestruction(true)
           ->destroyObject($email);
 
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           $actor,
           $user->getPHID(),
-          PhabricatorRemoveEmailUserLogType::LOGTYPE);
+          PhorgeRemoveEmailUserLogType::LOGTYPE);
         $log->setOldValue($email->getAddress());
         $log->save();
 
@@ -266,8 +266,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * @task email
    */
   public function changePrimaryEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
     $actor = $this->requireActor();
 
     if (!$user->getID()) {
@@ -312,10 +312,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           $user->save();
         }
 
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           $actor,
           $user->getPHID(),
-          PhabricatorPrimaryEmailUserLogType::LOGTYPE);
+          PhorgePrimaryEmailUserLogType::LOGTYPE);
         $log->setOldValue($old_primary ? $old_primary->getAddress() : null);
         $log->setNewValue($email->getAddress());
 
@@ -345,8 +345,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * @task email
    */
   public function verifyEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
     $actor = $this->requireActor();
 
     if (!$user->getID()) {
@@ -370,10 +370,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           $email->setIsVerified(1);
           $email->save();
 
-          $log = PhabricatorUserLog::initializeNewLog(
+          $log = PhorgeUserLog::initializeNewLog(
             $actor,
             $user->getPHID(),
-            PhabricatorVerifyEmailUserLogType::LOGTYPE);
+            PhorgeVerifyEmailUserLogType::LOGTYPE);
           $log->setNewValue($email->getAddress());
           $log->save();
         }
@@ -399,8 +399,8 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
    * Reassign an unverified email address.
    */
   public function reassignEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
     $actor = $this->requireActor();
 
     if (!$user->getID()) {
@@ -432,10 +432,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           $email->setUserPHID($user->getPHID());
           $email->save();
 
-          $log = PhabricatorUserLog::initializeNewLog(
+          $log = PhorgeUserLog::initializeNewLog(
             $actor,
             $user->getPHID(),
-            PhabricatorReassignEmailUserLogType::LOGTYPE);
+            PhorgeReassignEmailUserLogType::LOGTYPE);
           $log->setNewValue($email->getAddress());
           $log->save();
         }
@@ -454,23 +454,23 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
   /**
    * @task internal
    */
-  private function willAddEmail(PhabricatorUserEmail $email) {
+  private function willAddEmail(PhorgeUserEmail $email) {
 
     // Hard check before write to prevent creation of disallowed email
     // addresses. Normally, the application does checks and raises more
     // user friendly errors for us, but we omit the courtesy checks on some
     // pathways like administrative scripts for simplicity.
 
-    if (!PhabricatorUserEmail::isValidAddress($email->getAddress())) {
-      throw new Exception(PhabricatorUserEmail::describeValidAddresses());
+    if (!PhorgeUserEmail::isValidAddress($email->getAddress())) {
+      throw new Exception(PhorgeUserEmail::describeValidAddresses());
     }
 
-    if (!PhabricatorUserEmail::isAllowedAddress($email->getAddress())) {
-      throw new Exception(PhabricatorUserEmail::describeAllowedAddresses());
+    if (!PhorgeUserEmail::isAllowedAddress($email->getAddress())) {
+      throw new Exception(PhorgeUserEmail::describeAllowedAddresses());
     }
 
-    $application_email = id(new PhabricatorMetaMTAApplicationEmailQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $application_email = id(new PhorgeMetaMTAApplicationEmailQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withAddresses(array($email->getAddress()))
       ->executeOne();
     if ($application_email) {
@@ -478,32 +478,32 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
     }
   }
 
-  public function revokePasswordResetLinks(PhabricatorUser $user) {
+  public function revokePasswordResetLinks(PhorgeUser $user) {
     // Revoke any outstanding password reset links. If an attacker compromises
     // an account, changes the email address, and sends themselves a password
     // reset link, it could otherwise remain live for a short period of time
     // and allow them to compromise the account again later.
 
-    PhabricatorAuthTemporaryToken::revokeTokens(
+    PhorgeAuthTemporaryToken::revokeTokens(
       $user,
       array($user->getPHID()),
       array(
-        PhabricatorAuthOneTimeLoginTemporaryTokenType::TOKENTYPE,
-        PhabricatorAuthPasswordResetTemporaryTokenType::TOKENTYPE,
+        PhorgeAuthOneTimeLoginTemporaryTokenType::TOKENTYPE,
+        PhorgeAuthPasswordResetTemporaryTokenType::TOKENTYPE,
       ));
   }
 
   private function didVerifyEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email) {
+    PhorgeUser $user,
+    PhorgeUserEmail $email) {
 
-    $event_type = PhabricatorEventType::TYPE_AUTH_DIDVERIFYEMAIL;
+    $event_type = PhorgeEventType::TYPE_AUTH_DIDVERIFYEMAIL;
     $event_data = array(
       'user' => $user,
       'email' => $email,
     );
 
-    $event = id(new PhabricatorEvent($event_type, $event_data))
+    $event = id(new PhorgeEvent($event_type, $event_data))
       ->setUser($user);
     PhutilEventEngine::dispatchEvent($event);
   }

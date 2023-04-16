@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPDFObject
-  extends PhabricatorPDFFragment {
+abstract class PhorgePDFObject
+  extends PhorgePDFFragment {
 
   private $generator;
   private $objectIndex;
@@ -30,7 +30,7 @@ abstract class PhabricatorPDFObject
   }
 
   final public function setGenerator(
-    PhabricatorPDFGenerator $generator,
+    PhorgePDFGenerator $generator,
     $index) {
 
     if ($this->getGenerator()) {
@@ -66,7 +66,7 @@ abstract class PhabricatorPDFObject
     return $this->objectIndex;
   }
 
-  final protected function newChildObject(PhabricatorPDFObject $object) {
+  final protected function newChildObject(PhorgePDFObject $object) {
     if ($this->generator) {
       throw new Exception(
         pht(

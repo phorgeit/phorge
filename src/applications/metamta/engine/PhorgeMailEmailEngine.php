@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailEmailEngine
-  extends PhabricatorMailMessageEngine {
+final class PhorgeMailEmailEngine
+  extends PhorgeMailMessageEngine {
 
   public function newMessage() {
     $mailer = $this->getMailer();
     $mail = $this->getMail();
 
-    $message = new PhabricatorMailEmailMessage();
+    $message = new PhorgeMailEmailMessage();
 
     $from_address = $this->newFromEmailAddress();
     $message->setFromAddress($from_address);
@@ -103,7 +103,7 @@ final class PhabricatorMailEmailEngine
       if (strlen($encrypt_uri)) {
         $parts[] = pht(
           'This secure message is notifying you of a change to this object:');
-        $parts[] = PhabricatorEnv::getProductionURI($encrypt_uri);
+        $parts[] = PhorgeEnv::getProductionURI($encrypt_uri);
       }
 
       $parts[] = pht(
@@ -111,14 +111,14 @@ final class PhabricatorMailEmailEngine
         'secure channel. To view the message content, follow this '.
         'link:');
 
-      $parts[] = PhabricatorEnv::getProductionURI($mail->getURI());
+      $parts[] = PhorgeEnv::getProductionURI($mail->getURI());
 
       $body = implode("\n\n", $parts);
     } else {
       $body = $raw_body;
     }
 
-    $body_limit = PhabricatorEnv::getEnvConfig('metamta.email-body-limit');
+    $body_limit = PhorgeEnv::getEnvConfig('metamta.email-body-limit');
 
     $body = phutil_string_cast($body);
     if (strlen($body) > $body_limit) {
@@ -165,7 +165,7 @@ final class PhabricatorMailEmailEngine
     $mail->setUnfilteredHeaders($headers);
     $mail->setDeliveredHeaders($headers);
 
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $mail->setMessage(
         pht(
           'This software is running in silent mode. See `%s` '.
@@ -210,7 +210,7 @@ final class PhabricatorMailEmailEngine
       $actor_name = null;
     }
 
-    $send_as_user = PhabricatorEnv::getEnvConfig('metamta.can-send-as-user');
+    $send_as_user = PhorgeEnv::getEnvConfig('metamta.can-send-as-user');
     if ($send_as_user) {
       if ($actor_email !== null) {
         $from_address->setAddress($actor_email);
@@ -461,34 +461,34 @@ final class PhabricatorMailEmailEngine
     $preferences = $this->getPreferences();
 
     $value = $preferences->getSettingValue(
-      PhabricatorEmailRePrefixSetting::SETTINGKEY);
+      PhorgeEmailRePrefixSetting::SETTINGKEY);
 
-    return ($value == PhabricatorEmailRePrefixSetting::VALUE_RE_PREFIX);
+    return ($value == PhorgeEmailRePrefixSetting::VALUE_RE_PREFIX);
   }
 
   private function shouldVarySubject() {
     $preferences = $this->getPreferences();
 
     $value = $preferences->getSettingValue(
-      PhabricatorEmailVarySubjectsSetting::SETTINGKEY);
+      PhorgeEmailVarySubjectsSetting::SETTINGKEY);
 
-    return ($value == PhabricatorEmailVarySubjectsSetting::VALUE_VARY_SUBJECTS);
+    return ($value == PhorgeEmailVarySubjectsSetting::VALUE_VARY_SUBJECTS);
   }
 
   private function shouldSendHTML() {
     $preferences = $this->getPreferences();
 
     $value = $preferences->getSettingValue(
-      PhabricatorEmailFormatSetting::SETTINGKEY);
+      PhorgeEmailFormatSetting::SETTINGKEY);
 
-    return ($value == PhabricatorEmailFormatSetting::VALUE_HTML_EMAIL);
+    return ($value == PhorgeEmailFormatSetting::VALUE_HTML_EMAIL);
   }
 
 
 /* -(  Utilities  )---------------------------------------------------------- */
 
   private function newEmailHeader($name, $value) {
-    return id(new PhabricatorMailHeader())
+    return id(new PhorgeMailHeader())
       ->setName($name)
       ->setValue($value);
   }
@@ -505,7 +505,7 @@ final class PhabricatorMailEmailEngine
   }
 
   public function newDefaultEmailAddress() {
-    $raw_address = PhabricatorEnv::getEnvConfig('metamta.default-address');
+    $raw_address = PhorgeEnv::getEnvConfig('metamta.default-address');
 
     if (!$raw_address) {
       $domain = $this->newMailDomain();
@@ -526,19 +526,19 @@ final class PhabricatorMailEmailEngine
   }
 
   private function newMailDomain() {
-    $domain = PhabricatorEnv::getEnvConfig('metamta.reply-handler-domain');
+    $domain = PhorgeEnv::getEnvConfig('metamta.reply-handler-domain');
     if ($domain) {
       return $domain;
     }
 
-    $install_uri = PhabricatorEnv::getURI('/');
+    $install_uri = PhorgeEnv::getURI('/');
     $install_uri = new PhutilURI($install_uri);
 
     return $install_uri->getDomain();
   }
 
   private function filterHeaders(array $headers, $must_encrypt) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, 'PhorgeMailHeader');
 
     if (!$must_encrypt) {
       return $headers;
@@ -641,12 +641,12 @@ final class PhabricatorMailEmailEngine
 
   private function shouldRateLimitMail(array $all_recipients) {
     try {
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         $all_recipients,
-        new PhabricatorMetaMTAErrorMailAction(),
+        new PhorgeMetaMTAErrorMailAction(),
         1);
       return false;
-    } catch (PhabricatorSystemActionRateLimitException $ex) {
+    } catch (PhorgeSystemActionRateLimitException $ex) {
       return true;
     }
   }

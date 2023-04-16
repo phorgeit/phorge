@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchController
+  extends PhorgeSearchBaseController {
 
   const SCOPE_CURRENT_APPLICATION = 'application';
 
@@ -14,7 +14,7 @@ final class PhabricatorSearchController
     $query = $request->getStr('query');
 
     if ($request->getStr('jump') != 'no' && strlen($query)) {
-      $jump_uri = id(new PhabricatorDatasourceEngine())
+      $jump_uri = id(new PhorgeDatasourceEngine())
         ->setViewer($viewer)
         ->newJumpURI($query);
 
@@ -23,7 +23,7 @@ final class PhabricatorSearchController
       }
     }
 
-    $engine = new PhabricatorSearchApplicationSearchEngine();
+    $engine = new PhorgeSearchApplicationSearchEngine();
     $engine->setViewer($viewer);
 
     // If we're coming from primary search, do some special handling to
@@ -42,14 +42,14 @@ final class PhabricatorSearchController
       $saved = null;
 
       if ($scope == self::SCOPE_CURRENT_APPLICATION) {
-        $application = id(new PhabricatorApplicationQuery())
+        $application = id(new PhorgeApplicationQuery())
           ->setViewer($viewer)
           ->withClasses(array($request->getStr('search:application')))
           ->executeOne();
         if ($application) {
           $types = $application->getApplicationSearchDocumentTypes();
           if ($types) {
-            $saved = id(new PhabricatorSavedQuery())
+            $saved = id(new PhorgeSavedQuery())
               ->setEngineClassName(get_class($engine))
               ->setParameter('types', $types)
               ->setParameter('statuses', array('open'));
@@ -58,7 +58,7 @@ final class PhabricatorSearchController
       }
 
       if (!$saved && !$engine->isBuiltinQuery($scope)) {
-        $saved = id(new PhabricatorSavedQueryQuery())
+        $saved = id(new PhorgeSavedQueryQuery())
           ->setViewer($viewer)
           ->withQueryKeys(array($scope))
           ->executeOne();
@@ -88,7 +88,7 @@ final class PhabricatorSearchController
       return id(new AphrontRedirectResponse())->setURI($results_uri);
     }
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNavView());
@@ -102,7 +102,7 @@ final class PhabricatorSearchController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorSearchApplicationSearchEngine())
+    id(new PhorgeSearchApplicationSearchEngine())
       ->setViewer($viewer)
       ->addNavigationItems($nav->getMenu());
 

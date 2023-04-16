@@ -31,11 +31,11 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * example, a type might lookup usernames or project names. These types need
    * to use the current viewer to execute queries.
    *
-   * @param PhabricatorUser Current viewer.
+   * @param PhorgeUser Current viewer.
    * @return this
    * @task read
    */
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -44,7 +44,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
   /**
    * Get the current viewer.
    *
-   * @return PhabricatorUser Current viewer.
+   * @return PhorgeUser Current viewer.
    * @task read
    */
   final public function getViewer() {

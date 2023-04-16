@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorLunarPhasePolicyRule extends PhabricatorPolicyRule {
+final class PhorgeLunarPhasePolicyRule extends PhorgePolicyRule {
 
   const PHASE_FULL   = 'full';
   const PHASE_NEW    = 'new';
@@ -12,11 +12,11 @@ final class PhabricatorLunarPhasePolicyRule extends PhabricatorPolicyRule {
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
-    $moon = new PhutilLunarPhase(PhabricatorTime::getNow());
+    $moon = new PhutilLunarPhase(PhorgeTime::getNow());
 
     switch ($value) {
       case 'full':

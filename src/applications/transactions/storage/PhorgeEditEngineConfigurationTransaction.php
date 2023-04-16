@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeEditEngineConfigurationTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'search';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorEditEngineConfigurationPHIDType::TYPECONST;
+    return PhorgeEditEngineConfigurationPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorEditEngineTransactionType';
+    return 'PhorgeEditEngineTransactionType';
   }
 
 }

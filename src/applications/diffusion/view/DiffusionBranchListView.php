@@ -12,7 +12,7 @@ final class DiffusionBranchListView extends DiffusionView {
   }
 
   public function setCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
     $this->commits = mpull($commits, null, 'getCommitIdentifier');
     return $this;
   }

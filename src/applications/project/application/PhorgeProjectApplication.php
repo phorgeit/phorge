@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectApplication extends PhabricatorApplication {
+final class PhorgeProjectApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Projects');
@@ -10,7 +10,7 @@ final class PhabricatorProjectApplication extends PhabricatorApplication {
     return pht('Projects, Tags, and Teams');
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
@@ -34,99 +34,99 @@ final class PhabricatorProjectApplication extends PhabricatorApplication {
 
   public function getEventListeners() {
     return array(
-      new PhabricatorProjectUIEventListener(),
+      new PhorgeProjectUIEventListener(),
     );
   }
 
   public function getRoutes() {
     return array(
       '/project/' => array(
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorProjectListController',
-        'filter/(?P<filter>[^/]+)/' => 'PhabricatorProjectListController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeProjectListController',
+        'filter/(?P<filter>[^/]+)/' => 'PhorgeProjectListController',
         'archive/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectArchiveController',
+          => 'PhorgeProjectArchiveController',
         'lock/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectLockController',
+          => 'PhorgeProjectLockController',
         'members/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectMembersViewController',
+          => 'PhorgeProjectMembersViewController',
         'members/(?P<id>[1-9]\d*)/add/'
-          => 'PhabricatorProjectMembersAddController',
+          => 'PhorgeProjectMembersAddController',
         '(?P<type>members|watchers)/(?P<id>[1-9]\d*)/remove/'
-          => 'PhabricatorProjectMembersRemoveController',
+          => 'PhorgeProjectMembersRemoveController',
         'profile/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectProfileController',
+          => 'PhorgeProjectProfileController',
         'view/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectViewController',
+          => 'PhorgeProjectViewController',
         'picture/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectEditPictureController',
+          => 'PhorgeProjectEditPictureController',
         $this->getEditRoutePattern('edit/')
-          => 'PhabricatorProjectEditController',
+          => 'PhorgeProjectEditController',
         '(?P<projectID>[1-9]\d*)/item/' => $this->getProfileMenuRouting(
-          'PhabricatorProjectMenuItemController'),
+          'PhorgeProjectMenuItemController'),
         'subprojects/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectSubprojectsController',
+          => 'PhorgeProjectSubprojectsController',
         'board/(?P<id>[1-9]\d*)/'.
           '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorProjectBoardViewController',
-        'move/(?P<id>[1-9]\d*)/' => 'PhabricatorProjectMoveController',
-        'cover/' => 'PhabricatorProjectCoverController',
+          => 'PhorgeProjectBoardViewController',
+        'move/(?P<id>[1-9]\d*)/' => 'PhorgeProjectMoveController',
+        'cover/' => 'PhorgeProjectCoverController',
         'reports/(?P<projectID>[1-9]\d*)/' =>
-          'PhabricatorProjectReportsController',
+          'PhorgeProjectReportsController',
         'board/(?P<projectID>[1-9]\d*)/' => array(
           'edit/(?:(?P<id>\d+)/)?'
-            => 'PhabricatorProjectColumnEditController',
+            => 'PhorgeProjectColumnEditController',
           'hide/(?:(?P<id>\d+)/)?'
-            => 'PhabricatorProjectColumnHideController',
+            => 'PhorgeProjectColumnHideController',
           'column/(?:(?P<id>\d+)/)?'
-            => 'PhabricatorProjectColumnDetailController',
+            => 'PhorgeProjectColumnDetailController',
           'viewquery/(?P<columnID>\d+)/'
-            => 'PhabricatorProjectColumnViewQueryController',
+            => 'PhorgeProjectColumnViewQueryController',
           'bulk/(?P<columnID>\d+)/'
-            => 'PhabricatorProjectColumnBulkEditController',
+            => 'PhorgeProjectColumnBulkEditController',
           'bulkmove/(?P<columnID>\d+)/(?P<mode>project|column)/'
-            => 'PhabricatorProjectColumnBulkMoveController',
+            => 'PhorgeProjectColumnBulkMoveController',
           'import/'
-            => 'PhabricatorProjectBoardImportController',
+            => 'PhorgeProjectBoardImportController',
           'reorder/'
-            => 'PhabricatorProjectBoardReorderController',
+            => 'PhorgeProjectBoardReorderController',
           'disable/'
-            => 'PhabricatorProjectBoardDisableController',
+            => 'PhorgeProjectBoardDisableController',
           'manage/'
-            => 'PhabricatorProjectBoardManageController',
+            => 'PhorgeProjectBoardManageController',
           'background/'
-            => 'PhabricatorProjectBoardBackgroundController',
+            => 'PhorgeProjectBoardBackgroundController',
           'default/(?P<target>[^/]+)/'
-            => 'PhabricatorProjectBoardDefaultController',
+            => 'PhorgeProjectBoardDefaultController',
           'filter/(?:query/(?P<queryKey>[^/]+)/)?'
-            => 'PhabricatorProjectBoardFilterController',
+            => 'PhorgeProjectBoardFilterController',
           'reload/'
-            => 'PhabricatorProjectBoardReloadController',
+            => 'PhorgeProjectBoardReloadController',
         ),
         'column/' => array(
           'remove/(?P<id>\d+)/' =>
-            'PhabricatorProjectColumnRemoveTriggerController',
+            'PhorgeProjectColumnRemoveTriggerController',
         ),
         'trigger/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorProjectTriggerListController',
+            'PhorgeProjectTriggerListController',
           '(?P<id>[1-9]\d*)/' =>
-            'PhabricatorProjectTriggerViewController',
+            'PhorgeProjectTriggerViewController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorProjectTriggerEditController',
+            'PhorgeProjectTriggerEditController',
         ),
         'update/(?P<id>[1-9]\d*)/(?P<action>[^/]+)/'
-          => 'PhabricatorProjectUpdateController',
-        'manage/(?P<id>[1-9]\d*)/' => 'PhabricatorProjectManageController',
+          => 'PhorgeProjectUpdateController',
+        'manage/(?P<id>[1-9]\d*)/' => 'PhorgeProjectManageController',
         '(?P<action>watch|unwatch)/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectWatchController',
+          => 'PhorgeProjectWatchController',
         'silence/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectSilenceController',
+          => 'PhorgeProjectSilenceController',
         'warning/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorProjectSubprojectWarningController',
+          => 'PhorgeProjectSubprojectWarningController',
       ),
       '/tag/' => array(
-        '(?P<slug>[^/]+)/' => 'PhabricatorProjectViewController',
-        '(?P<slug>[^/]+)/board/' => 'PhabricatorProjectBoardViewController',
+        '(?P<slug>[^/]+)/' => 'PhorgeProjectViewController',
+        '(?P<slug>[^/]+)/board/' => 'PhorgeProjectBoardViewController',
       ),
     );
   }
@@ -135,29 +135,29 @@ final class PhabricatorProjectApplication extends PhabricatorApplication {
     return array(
       ProjectCreateProjectsCapability::CAPABILITY => array(),
       ProjectCanLockProjectsCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       ProjectDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created projects.'),
-        'template' => PhabricatorProjectProjectPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeProjectProjectPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       ProjectDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created projects.'),
-        'template' => PhabricatorProjectProjectPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgeProjectProjectPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
       ProjectDefaultJoinCapability::CAPABILITY => array(
         'caption' => pht('Default join policy for newly created projects.'),
-        'template' => PhabricatorProjectProjectPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_JOIN,
+        'template' => PhorgeProjectProjectPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_JOIN,
       ),
     );
   }
 
   public function getApplicationSearchDocumentTypes() {
     return array(
-      PhabricatorProjectProjectPHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
     );
   }
 
@@ -165,11 +165,11 @@ final class PhabricatorProjectApplication extends PhabricatorApplication {
     return 0.150;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Projects User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Projects User Guide'),
+        'href' => PhorgeEnv::getDoclink('Projects User Guide'),
       ),
     );
   }

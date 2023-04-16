@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasteApplication extends PhabricatorApplication {
+final class PhorgePasteApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Paste');
@@ -28,19 +28,19 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorPasteRemarkupRule(),
+      new PhorgePasteRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
       '/P(?P<id>[1-9]\d*)(?:\$(?P<lines>\d+(?:-\d+)?))?'
-        => 'PhabricatorPasteViewController',
+        => 'PhorgePasteViewController',
       '/paste/' => array(
-        '(query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorPasteListController',
-        $this->getEditRoutePattern('edit/') => 'PhabricatorPasteEditController',
-        'raw/(?P<id>[1-9]\d*)/' => 'PhabricatorPasteRawController',
-        'archive/(?P<id>[1-9]\d*)/' => 'PhabricatorPasteArchiveController',
+        '(query/(?P<queryKey>[^/]+)/)?' => 'PhorgePasteListController',
+        $this->getEditRoutePattern('edit/') => 'PhorgePasteEditController',
+        'raw/(?P<id>[1-9]\d*)/' => 'PhorgePasteRawController',
+        'archive/(?P<id>[1-9]\d*)/' => 'PhorgePasteArchiveController',
       ),
     );
   }
@@ -64,13 +64,13 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
     return array(
       PasteDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created pastes.'),
-        'template' => PhabricatorPastePastePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgePastePastePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       PasteDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created pastes.'),
-        'template' => PhabricatorPastePastePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgePastePastePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }
@@ -80,7 +80,7 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
       'paste' => array(
         'name' => pht('Email Commands: Pastes'),
         'header' => pht('Interacting with Pastes'),
-        'object' => new PhabricatorPaste(),
+        'object' => new PhorgePaste(),
         'summary' => pht(
           'This page documents the commands you can use to interact with '.
           'pastes.'),

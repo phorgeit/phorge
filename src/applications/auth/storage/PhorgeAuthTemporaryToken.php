@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTemporaryToken extends PhabricatorAuthDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeAuthTemporaryToken extends PhorgeAuthDAO
+  implements PhorgePolicyInterface {
 
   // NOTE: This is usually a PHID, but may be some other kind of resource
   // identifier for some token types.
@@ -43,7 +43,7 @@ final class PhabricatorAuthTemporaryToken extends PhabricatorAuthDAO
   }
 
   private function newTokenTypeImplementation() {
-    $types = PhabricatorAuthTemporaryTokenType::getAllTypes();
+    $types = PhorgeAuthTemporaryTokenType::getAllTypes();
 
     $type = idx($types, $this->tokenType);
     if ($type) {
@@ -77,17 +77,17 @@ final class PhabricatorAuthTemporaryToken extends PhabricatorAuthDAO
 
   public function revokeToken() {
     if ($this->isRevocable()) {
-      $this->setTokenExpires(PhabricatorTime::getNow() - 1)->save();
+      $this->setTokenExpires(PhorgeTime::getNow() - 1)->save();
     }
     return $this;
   }
 
   public static function revokeTokens(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $token_resources,
     array $token_types) {
 
-    $tokens = id(new PhabricatorAuthTemporaryTokenQuery())
+    $tokens = id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($viewer)
       ->withTokenResources($token_resources)
       ->withTokenTypes($token_types)
@@ -126,22 +126,22 @@ final class PhabricatorAuthTemporaryToken extends PhabricatorAuthDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     // We're just implement this interface to get access to the standard
     // query infrastructure.
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

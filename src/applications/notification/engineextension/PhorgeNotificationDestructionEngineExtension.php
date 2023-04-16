@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeNotificationDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'notifications';
 
@@ -10,10 +10,10 @@ final class PhabricatorNotificationDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
-    $table = new PhabricatorFeedStoryNotification();
+    $table = new PhorgeFeedStoryNotification();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

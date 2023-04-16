@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCelerityTestCase extends PhabricatorTestCase {
+final class PhorgeCelerityTestCase extends PhorgeTestCase {
 
   /**
    * This is more of an acceptance test case instead of a unit test. It verifies

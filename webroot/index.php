@@ -4,13 +4,13 @@ phorge_startup();
 
 $fatal_exception = null;
 try {
-  PhabricatorStartup::beginStartupPhase('libraries');
-  PhabricatorStartup::loadCoreLibraries();
+  PhorgeStartup::beginStartupPhase('libraries');
+  PhorgeStartup::loadCoreLibraries();
 
-  PhabricatorStartup::beginStartupPhase('purge');
-  PhabricatorCaches::destroyRequestCache();
+  PhorgeStartup::beginStartupPhase('purge');
+  PhorgeCaches::destroyRequestCache();
 
-  PhabricatorStartup::beginStartupPhase('sink');
+  PhorgeStartup::beginStartupPhase('sink');
   $sink = new AphrontPHPHTTPSink();
 
   // PHP introduced a "Throwable" interface in PHP 7 and began making more
@@ -31,7 +31,7 @@ try {
 
   $main_exception = null;
   try {
-    PhabricatorStartup::beginStartupPhase('run');
+    PhorgeStartup::beginStartupPhase('run');
     AphrontApplicationConfiguration::runHTTPRequest($sink);
   } catch (Exception $ex) {
     $main_exception = $ex;
@@ -46,7 +46,7 @@ try {
       $response->setException($main_exception);
       $response->setShowStackTraces($sink->getShowStackTraces());
 
-      PhabricatorStartup::endOutputCapture();
+      PhorgeStartup::endOutputCapture();
       $sink->writeResponse($response);
     } catch (Exception $ex) {
       $response_exception = $ex;
@@ -69,22 +69,22 @@ try {
 }
 
 if ($fatal_exception) {
-  PhabricatorStartup::didEncounterFatalException(
+  PhorgeStartup::didEncounterFatalException(
     'Core Exception',
     $fatal_exception,
     false);
 }
 
 function phorge_startup() {
-  // Load the PhabricatorStartup class itself.
+  // Load the PhorgeStartup class itself.
   $t_startup = microtime(true);
   $root = dirname(dirname(__FILE__));
-  require_once $root.'/support/startup/PhabricatorStartup.php';
+  require_once $root.'/support/startup/PhorgeStartup.php';
 
   // Load client limit classes so the preamble can configure limits.
-  require_once $root.'/support/startup/PhabricatorClientLimit.php';
-  require_once $root.'/support/startup/PhabricatorClientRateLimit.php';
-  require_once $root.'/support/startup/PhabricatorClientConnectionLimit.php';
+  require_once $root.'/support/startup/PhorgeClientLimit.php';
+  require_once $root.'/support/startup/PhorgeClientRateLimit.php';
+  require_once $root.'/support/startup/PhorgeClientConnectionLimit.php';
   require_once $root.'/support/startup/preamble-utils.php';
 
   // If the preamble script exists, load it.
@@ -95,9 +95,9 @@ function phorge_startup() {
   }
 
   $t_hook = microtime(true);
-  PhabricatorStartup::didStartup($t_startup);
+  PhorgeStartup::didStartup($t_startup);
 
-  PhabricatorStartup::recordStartupPhase('startup.init', $t_startup);
-  PhabricatorStartup::recordStartupPhase('preamble', $t_preamble);
-  PhabricatorStartup::recordStartupPhase('hook', $t_hook);
+  PhorgeStartup::recordStartupPhase('startup.init', $t_startup);
+  PhorgeStartup::recordStartupPhase('preamble', $t_preamble);
+  PhorgeStartup::recordStartupPhase('hook', $t_hook);
 }

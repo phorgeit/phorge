@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorBadgesMailReceiver
-  extends PhabricatorObjectMailReceiver {
+final class PhorgeBadgesMailReceiver
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorBadgesApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeBadgesApplication');
   }
 
   protected function getObjectPattern() {
     return 'BDGE[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 4);
 
-    return id(new PhabricatorBadgesQuery())
+    return id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorBadgesReplyHandler();
+    return new PhorgeBadgesReplyHandler();
   }
 
 }

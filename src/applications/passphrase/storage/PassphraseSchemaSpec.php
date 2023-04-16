@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new PassphraseCredential());

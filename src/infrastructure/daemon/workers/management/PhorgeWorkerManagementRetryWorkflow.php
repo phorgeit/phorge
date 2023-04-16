@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementRetryWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementRetryWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -46,7 +46,7 @@ final class PhabricatorWorkerManagementRetryWorkflow
         continue;
       }
 
-      $result_success = PhabricatorWorkerArchiveTask::RESULT_SUCCESS;
+      $result_success = PhorgeWorkerArchiveTask::RESULT_SUCCESS;
       if ($task->getResult() == $result_success) {
         if (!$is_repeat) {
           $this->logWarn(

@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorStandardCustomFieldInterface {
+interface PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace();
 

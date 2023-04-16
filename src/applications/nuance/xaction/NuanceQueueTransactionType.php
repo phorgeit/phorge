@@ -1,4 +1,4 @@
 <?php
 
 abstract class NuanceQueueTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

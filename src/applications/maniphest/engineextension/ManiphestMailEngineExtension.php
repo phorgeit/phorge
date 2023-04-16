@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'maniphest';
 
@@ -11,22 +11,22 @@ final class ManiphestMailEngineExtension
 
   public function newMailStampTemplates($object) {
     return array(
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('author')
         ->setLabel(pht('Author')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('task-owner')
         ->setLabel(pht('Task Owner')),
-      id(new PhabricatorBoolMailStamp())
+      id(new PhorgeBoolMailStamp())
         ->setKey('task-unassigned')
         ->setLabel(pht('Task Unassigned')),
-      id(new PhabricatorStringMailStamp())
+      id(new PhorgeStringMailStamp())
         ->setKey('task-priority')
         ->setLabel(pht('Task Priority')),
-      id(new PhabricatorStringMailStamp())
+      id(new PhorgeStringMailStamp())
         ->setKey('task-status')
         ->setLabel(pht('Task Status')),
-      id(new PhabricatorStringMailStamp())
+      id(new PhorgeStringMailStamp())
         ->setKey('subtype')
         ->setLabel(pht('Subtype')),
     );

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialHunkQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $changesets;
   private $shouldAttachToChangesets;
@@ -78,7 +78,7 @@ final class DifferentialHunkQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function getDefaultOrderVector() {

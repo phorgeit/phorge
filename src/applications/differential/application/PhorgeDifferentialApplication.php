@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialApplication
-  extends PhabricatorApplication {
+final class PhorgeDifferentialApplication
+  extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/differential/';
@@ -19,15 +19,15 @@ final class PhabricatorDifferentialApplication
     return 'fa-cog';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Differential User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Differential User Guide'),
+        'href' => PhorgeEnv::getDoclink('Differential User Guide'),
       ),
     );
   }
@@ -83,7 +83,7 @@ final class PhabricatorDifferentialApplication
               => 'DifferentialInlineCommentEditController',
           ),
         ),
-        'preview/' => 'PhabricatorMarkupPreviewController',
+        'preview/' => 'PhorgeMarkupPreviewController',
       ),
     );
   }
@@ -120,7 +120,7 @@ final class PhabricatorDifferentialApplication
       DifferentialDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created revisions.'),
         'template' => DifferentialRevisionPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
     );
   }

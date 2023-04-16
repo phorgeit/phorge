@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonLockLog
-  extends PhabricatorDaemonDAO {
+final class PhorgeDaemonLockLog
+  extends PhorgeDaemonDAO {
 
   protected $lockName;
   protected $lockReleased;

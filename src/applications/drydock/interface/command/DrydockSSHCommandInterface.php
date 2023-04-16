@@ -11,7 +11,7 @@ final class DrydockSSHCommandInterface extends DrydockCommandInterface {
 
       $this->credential = PassphraseSSHKey::loadFromPHID(
         $credential_phid,
-        PhabricatorUser::getOmnipotentUser());
+        PhorgeUser::getOmnipotentUser());
     }
 
     return $this->credential;

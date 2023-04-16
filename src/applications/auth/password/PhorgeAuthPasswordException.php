@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthPasswordException
+final class PhorgeAuthPasswordException
   extends Exception {
 
   private $passwordError;

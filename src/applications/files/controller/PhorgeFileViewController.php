@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileViewController extends PhabricatorFileController {
+final class PhorgeFileViewController extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     $phid = $request->getURIData('phid');
 
     if ($phid) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($phid))
         ->withIsDeleted(false)
@@ -24,7 +24,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
       return id(new AphrontRedirectResponse())->setURI($file->getInfoURI());
     }
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withIsDeleted(false)
@@ -93,14 +93,14 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
       ->appendChild($view);
   }
 
-  private function buildTransactionView(PhabricatorFile $file) {
+  private function buildTransactionView(PhorgeFile $file) {
     $viewer = $this->getViewer();
 
     $timeline = $this->buildTransactionTimeline(
       $file,
-      new PhabricatorFileTransactionQuery());
+      new PhorgeFileTransactionQuery());
 
-    $comment_view = id(new PhabricatorFileEditEngine())
+    $comment_view = id(new PhorgeFileEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($file);
 
@@ -115,15 +115,15 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     );
   }
 
-  private function buildCurtainView(PhabricatorFile $file) {
+  private function buildCurtainView(PhorgeFile $file) {
     $viewer = $this->getViewer();
 
     $id = $file->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $file,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($file);
 
@@ -131,7 +131,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
     if ($file->isViewableInBrowser()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('View File'))
           ->setIcon('fa-file-o')
           ->setHref($file->getViewURI())
@@ -139,7 +139,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
           ->setWorkflow(!$can_download));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setUser($viewer)
           ->setDownload($can_download)
           ->setName(pht('Download File'))
@@ -150,7 +150,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit File'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("/edit/{$id}/"))
@@ -158,7 +158,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
         ->setDisabled(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Delete File'))
         ->setIcon('fa-times')
         ->setHref($this->getApplicationURI("/delete/{$id}/"))
@@ -166,7 +166,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
         ->setDisabled(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Transforms'))
         ->setIcon('fa-crop')
         ->setHref($this->getApplicationURI("/transforms/{$id}/")));
@@ -217,7 +217,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
   private function buildPropertyViews(
     PHUIObjectBoxView $box,
-    PhabricatorFile $file) {
+    PhorgeFile $file) {
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
@@ -238,7 +238,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
     $ttl = $file->getTtl();
     if ($ttl) {
-      $delta = $ttl - PhabricatorTime::getNow();
+      $delta = $ttl - PhorgeTime::getNow();
 
       $finfo->addProperty(
         pht('Expires'),
@@ -297,7 +297,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
       $format_name = pht('Chunks');
     } else {
       $format_key = $file->getStorageFormat();
-      $format = PhabricatorFileStorageFormat::getFormat($format_key);
+      $format = PhorgeFileStorageFormat::getFormat($format_key);
       if ($format) {
         $format_name = $format->getStorageFormatName();
       } else {
@@ -339,7 +339,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
             ->setKey('chunks')
             ->appendChild($chunkinfo));
 
-        $chunks = id(new PhabricatorFileChunkQuery())
+        $chunks = id(new PhorgeFileChunkQuery())
           ->setViewer($viewer)
           ->withChunkHandles(array($file->getStorageHandle()))
           ->execute();
@@ -389,7 +389,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
   }
 
-  private function loadStorageEngine(PhabricatorFile $file) {
+  private function loadStorageEngine(PhorgeFile $file) {
     $engine = null;
 
     try {
@@ -401,22 +401,22 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     return $engine;
   }
 
-  private function newFileContent(PhabricatorFile $file) {
+  private function newFileContent(PhorgeFile $file) {
     $request = $this->getRequest();
 
-    $ref = id(new PhabricatorDocumentRef())
+    $ref = id(new PhorgeDocumentRef())
       ->setFile($file);
 
-    $engine = id(new PhabricatorFileDocumentRenderingEngine())
+    $engine = id(new PhorgeFileDocumentRenderingEngine())
       ->setRequest($request);
 
     return $engine->newDocumentView($ref);
   }
 
-  private function newAttachmentsView(PhabricatorFile $file) {
+  private function newAttachmentsView(PhorgeFile $file) {
     $viewer = $this->getViewer();
 
-    $attachments = id(new PhabricatorFileAttachmentQuery())
+    $attachments = id(new PhorgeFileAttachmentQuery())
       ->setViewer($viewer)
       ->withFilePHIDs(array($file->getPHID()))
       ->execute();
@@ -425,8 +425,8 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
 
     $rows = array();
 
-    $mode_map = PhabricatorFileAttachment::getModeNameMap();
-    $mode_attach = PhabricatorFileAttachment::MODE_ATTACH;
+    $mode_map = PhorgeFileAttachment::getModeNameMap();
+    $mode_attach = PhorgeFileAttachment::MODE_ATTACH;
 
     foreach ($attachments as $attachment) {
       $object_phid = $attachment->getObjectPHID();

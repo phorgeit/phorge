@@ -1,7 +1,7 @@
 <?php
 
 final class PholioTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   protected $imageID;
   protected $x;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemSelectHighlightController
-  extends PhabricatorController {
+final class PhorgeSystemSelectHighlightController
+  extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;
@@ -17,7 +17,7 @@ final class PhabricatorSystemSelectHighlightController
 
     $languages = array(
       '' => pht('(Use Default)'),
-    ) + PhabricatorEnv::getEnvConfig('pygments.dropdown-choices');
+    ) + PhorgeEnv::getEnvConfig('pygments.dropdown-choices');
 
     $form = id(new AphrontFormView())
       ->setUser($this->getRequest()->getUser())

@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorRepositoryURITestCase
-  extends PhabricatorTestCase {
+final class PhorgeRepositoryURITestCase
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testRepositoryURICanonicalization() {
-    $repo = id(new PhabricatorRepository())
+    $repo = id(new PhorgeRepository())
       ->makeEphemeral()
       ->setID(123);
 
@@ -51,9 +51,9 @@ final class PhabricatorRepositoryURITestCase
   }
 
   public function testURIGeneration() {
-    $svn = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
-    $git = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
-    $hg = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
+    $svn = PhorgeRepositoryType::REPOSITORY_TYPE_SVN;
+    $git = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
+    $hg = PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL;
 
     $user = $this->generateNewTestUser();
 
@@ -66,7 +66,7 @@ final class PhabricatorRepositoryURITestCase
       ->setSecretID($http_secret->getID())
       ->save();
 
-    $repo = PhabricatorRepository::initializeNewRepository($user)
+    $repo = PhorgeRepository::initializeNewRepository($user)
       ->setVersionControlSystem($svn)
       ->setName(pht('Test Repo'))
       ->setCallsign('TESTREPO')

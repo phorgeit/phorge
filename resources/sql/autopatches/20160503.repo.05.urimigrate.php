@@ -1,19 +1,19 @@
 <?php
 
-$table = new PhabricatorRepository();
+$table = new PhorgeRepository();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $repository) {
   $uris = array();
 
   $serve_http = $repository->getDetail('serve-over-http');
-  $http_io = PhabricatorRepositoryURI::IO_DEFAULT;
+  $http_io = PhorgeRepositoryURI::IO_DEFAULT;
   $disable_http = false;
   switch ($serve_http) {
     case 'readwrite':
       break;
     case 'readonly':
-      $http_io = PhabricatorRepositoryURI::IO_READ;
+      $http_io = PhorgeRepositoryURI::IO_READ;
       break;
     case 'off':
     default:
@@ -22,13 +22,13 @@ foreach (new LiskMigrationIterator($table) as $repository) {
   }
 
   $serve_ssh = $repository->getDetail('serve-over-ssh');
-  $ssh_io = PhabricatorRepositoryURI::IO_DEFAULT;
+  $ssh_io = PhorgeRepositoryURI::IO_DEFAULT;
   $disable_ssh = false;
   switch ($serve_ssh) {
     case 'readwrite':
       break;
     case 'readonly':
-      $ssh_io = PhabricatorRepositoryURI::IO_READ;
+      $ssh_io = PhorgeRepositoryURI::IO_READ;
       break;
     case 'off':
     default:
@@ -40,7 +40,7 @@ foreach (new LiskMigrationIterator($table) as $repository) {
 
   foreach ($uris as $uri) {
     $builtin_protocol = $uri->getBuiltinProtocol();
-    if ($builtin_protocol == PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH) {
+    if ($builtin_protocol == PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH) {
       $uri->setIsDisabled((int)$disable_ssh);
       $uri->setIoType($ssh_io);
     } else {
@@ -52,17 +52,17 @@ foreach (new LiskMigrationIterator($table) as $repository) {
   if (!$repository->isHosted()) {
     $remote_uri = $repository->getDetail('remote-uri');
     if (strlen($remote_uri)) {
-      $uris[] = PhabricatorRepositoryURI::initializeNewURI()
+      $uris[] = PhorgeRepositoryURI::initializeNewURI()
         ->setRepositoryPHID($repository->getPHID())
         ->attachRepository($repository)
         ->setURI($remote_uri)
         ->setCredentialPHID($repository->getCredentialPHID())
-        ->setIOType(PhabricatorRepositoryURI::IO_OBSERVE);
+        ->setIOType(PhorgeRepositoryURI::IO_OBSERVE);
     }
   }
 
   foreach ($uris as $uri) {
-    $already_exists = id(new PhabricatorRepositoryURI())->loadOneWhere(
+    $already_exists = id(new PhorgeRepositoryURI())->loadOneWhere(
       'repositoryPHID = %s AND uri = %s LIMIT 1',
       $repository->getPHID(),
       $uri->getURI());

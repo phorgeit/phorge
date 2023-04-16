@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementMigrateWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementMigrateWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -15,15 +15,15 @@ final class PhabricatorConfigManagementMigrateWorkflow
     $console = PhutilConsole::getConsole();
     $key_count = 0;
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
-    $local_config = new PhabricatorConfigLocalSource();
-    $database_config = new PhabricatorConfigDatabaseSource('default');
-    $config_sources = PhabricatorEnv::getConfigSourceStack()->getStack();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
+    $local_config = new PhorgeConfigLocalSource();
+    $database_config = new PhorgeConfigDatabaseSource('default');
+    $config_sources = PhorgeEnv::getConfigSourceStack()->getStack();
     $console->writeOut(
       "%s\n",
       pht('Migrating file-based config to more modern config...'));
     foreach ($config_sources as $config_source) {
-      if (!($config_source instanceof PhabricatorConfigFileSource)) {
+      if (!($config_source instanceof PhorgeConfigFileSource)) {
         $console->writeOut(
           "%s\n",
           pht(
@@ -61,7 +61,7 @@ final class PhabricatorConfigManagementMigrateWorkflow
               pht('Skipping option "%s"; already in database config.', $key));
             continue;
           } else {
-            $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+            $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
             $config_entry->setValue($value);
             $config_entry->save();
             $key_count++;

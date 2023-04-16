@@ -9,7 +9,7 @@
  *  - Instruct the user to install it in `/support/debug.php`.
  *  - Tell them to visit `/debug/`.
  */
-final class PhabricatorDebugController extends PhabricatorController {
+final class PhorgeDebugController extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;

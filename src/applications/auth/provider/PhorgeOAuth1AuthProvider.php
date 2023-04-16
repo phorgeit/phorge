@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorOAuth1AuthProvider
-  extends PhabricatorOAuthAuthProvider {
+abstract class PhorgeOAuth1AuthProvider
+  extends PhorgeOAuthAuthProvider {
 
   protected $adapter;
 
@@ -24,7 +24,7 @@ abstract class PhabricatorOAuth1AuthProvider
     if (phutil_nonempty_string($secret)) {
       $adapter->setConsumerSecret(new PhutilOpaqueEnvelope($secret));
     }
-    $adapter->setCallbackURI(PhabricatorEnv::getURI($this->getLoginURI()));
+    $adapter->setCallbackURI(PhorgeEnv::getURI($this->getLoginURI()));
     return $adapter;
   }
 
@@ -37,7 +37,7 @@ abstract class PhabricatorOAuth1AuthProvider
   }
 
   public function processLoginRequest(
-    PhabricatorAuthLoginController $controller) {
+    PhorgeAuthLoginController $controller) {
 
     $request = $controller->getRequest();
     $adapter = $this->getAdapter();
@@ -150,13 +150,13 @@ abstract class PhabricatorOAuth1AuthProvider
   }
 
   public function renderConfigPropertyTransactionTitle(
-    PhabricatorAuthProviderConfigTransaction $xaction) {
+    PhorgeAuthProviderConfigTransaction $xaction) {
 
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
     $key = $xaction->getMetadataValue(
-      PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+      PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
 
     switch ($key) {
       case self::PROPERTY_CONSUMER_KEY:
@@ -190,7 +190,7 @@ abstract class PhabricatorOAuth1AuthProvider
   }
 
   protected function synchronizeOAuthAccount(
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
     $adapter = $this->getAdapter();
 
     $oauth_token = $adapter->getToken();
@@ -201,9 +201,9 @@ abstract class PhabricatorOAuth1AuthProvider
   }
 
   public function willRenderLinkedAccount(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PHUIObjectItemView $item,
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
 
     $item->addAttribute(pht('OAuth1 Account'));
 
@@ -218,13 +218,13 @@ abstract class PhabricatorOAuth1AuthProvider
 
 
   private function saveHandshakeTokenSecret($client_code, $secret) {
-    $secret_type = PhabricatorOAuth1SecretTemporaryTokenType::TOKENTYPE;
+    $secret_type = PhorgeOAuth1SecretTemporaryTokenType::TOKENTYPE;
     $key = $this->getHandshakeTokenKeyFromClientCode($client_code);
     $type = $this->getTemporaryTokenType($secret_type);
 
     // Wipe out an existing token, if one exists.
-    $token = id(new PhabricatorAuthTemporaryTokenQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $token = id(new PhorgeAuthTemporaryTokenQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTokenResources(array($key))
       ->withTokenTypes(array($type))
       ->executeOne();
@@ -233,7 +233,7 @@ abstract class PhabricatorOAuth1AuthProvider
     }
 
     // Save the new secret.
-    id(new PhabricatorAuthTemporaryToken())
+    id(new PhorgeAuthTemporaryToken())
       ->setTokenResource($key)
       ->setTokenType($type)
       ->setTokenExpires(time() + phutil_units('1 hour in seconds'))
@@ -242,12 +242,12 @@ abstract class PhabricatorOAuth1AuthProvider
   }
 
   private function loadHandshakeTokenSecret($client_code) {
-    $secret_type = PhabricatorOAuth1SecretTemporaryTokenType::TOKENTYPE;
+    $secret_type = PhorgeOAuth1SecretTemporaryTokenType::TOKENTYPE;
     $key = $this->getHandshakeTokenKeyFromClientCode($client_code);
     $type = $this->getTemporaryTokenType($secret_type);
 
-    $token = id(new PhabricatorAuthTemporaryTokenQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $token = id(new PhorgeAuthTemporaryTokenQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTokenResources(array($key))
       ->withTokenTypes(array($type))
       ->withExpired(false)

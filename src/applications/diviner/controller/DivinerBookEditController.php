@@ -11,8 +11,8 @@ final class DivinerBookEditController extends DivinerController {
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->needProjectPHIDs(true)
       ->withNames(array($book_name))
@@ -31,19 +31,19 @@ final class DivinerBookEditController extends DivinerController {
 
       $xactions = array();
       $xactions[] = id(new DivinerLiveBookTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
         ->setNewValue(
           array(
             '=' => array_fuse($v_projects),
           ));
       $xactions[] = id(new DivinerLiveBookTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($v_view);
       $xactions[] = id(new DivinerLiveBookTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
         ->setNewValue($v_edit);
 
       id(new DivinerLiveBookEditor())
@@ -62,18 +62,18 @@ final class DivinerBookEditController extends DivinerController {
     $title = pht('Edit Book: %s', $book->getTitle());
     $header_icon = 'fa-pencil';
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($book)
       ->execute();
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
-    $edit_capability = PhabricatorPolicyCapability::CAN_EDIT;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
+    $edit_capability = PhorgePolicyCapability::CAN_EDIT;
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorProjectDatasource())
+          ->setDatasource(new PhorgeProjectDatasource())
           ->setName('projectPHIDs')
           ->setLabel(pht('Tags'))
           ->setValue($book->getProjectPHIDs()))

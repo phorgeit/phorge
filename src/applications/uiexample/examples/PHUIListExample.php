@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIListExample extends PhabricatorUIExample {
+final class PHUIListExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Lists');

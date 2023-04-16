@@ -7,7 +7,7 @@
 
 $table = new DifferentialChangeset();
 $conn = $table->establishConnection('w');
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
 $iterator = new LiskRawMigrationIterator(
   $conn,
@@ -34,12 +34,12 @@ foreach ($iterator as $changeset) {
     }
 
     foreach ($phids as $phid) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($phid))
         ->executeOne();
       if ($file) {
-        id(new PhabricatorDestructionEngine())
+        id(new PhorgeDestructionEngine())
           ->destroyObject($file);
       }
     }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitMethodQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeConduitMethodQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $isDeprecated;
   private $isStable;
@@ -125,7 +125,7 @@ final class PhabricatorConduitMethodQuery
     }
 
     if ($application_phids) {
-      $applications = id(new PhabricatorApplicationQuery())
+      $applications = id(new PhorgeApplicationQuery())
         ->setParentQuery($this)
         ->setViewer($this->getViewer())
         ->withPHIDs($application_phids)
@@ -152,7 +152,7 @@ final class PhabricatorConduitMethodQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConduitApplication';
+    return 'PhorgeConduitApplication';
   }
 
 }

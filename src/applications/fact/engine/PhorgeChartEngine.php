@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorChartEngine
+abstract class PhorgeChartEngine
   extends Phobject {
 
   private $viewer;
@@ -9,7 +9,7 @@ abstract class PhabricatorChartEngine
   const KEY_ENGINE = 'engineKey';
   const KEY_PARAMETERS = 'engineParameters';
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -31,7 +31,7 @@ abstract class PhabricatorChartEngine
     return $this->engineParameters;
   }
 
-  final public static function newFromChart(PhabricatorFactChart $chart) {
+  final public static function newFromChart(PhorgeFactChart $chart) {
     $engine_key = $chart->getChartParameter(self::KEY_ENGINE);
 
     $engine_map = self::getAllChartEngines();
@@ -56,23 +56,23 @@ abstract class PhabricatorChartEngine
     return $this->getPhobjectClassConstant('CHARTENGINEKEY', 32);
   }
 
-  final public function buildChart(PhabricatorFactChart $chart) {
+  final public function buildChart(PhorgeFactChart $chart) {
     $map = $chart->getChartParameter(self::KEY_PARAMETERS, array());
     return $this->newChart($chart, $map);
   }
 
-  abstract protected function newChart(PhabricatorFactChart $chart, array $map);
+  abstract protected function newChart(PhorgeFactChart $chart, array $map);
 
   final public function newStoredChart() {
     $viewer = $this->getViewer();
 
     $parameters = $this->getEngineParameters();
 
-    $chart = id(new PhabricatorFactChart())
+    $chart = id(new PhorgeFactChart())
       ->setChartParameter(self::KEY_ENGINE, $this->getChartEngineKey())
       ->setChartParameter(self::KEY_PARAMETERS, $this->getEngineParameters());
 
-    $rendering_engine = id(new PhabricatorChartRenderingEngine())
+    $rendering_engine = id(new PhorgeChartRenderingEngine())
       ->setViewer($viewer)
       ->setChart($chart);
 
@@ -82,10 +82,10 @@ abstract class PhabricatorChartEngine
   final public function buildChartPanel() {
     $chart = $this->newStoredChart();
 
-    $panel_type = id(new PhabricatorDashboardChartPanelType())
+    $panel_type = id(new PhorgeDashboardChartPanelType())
       ->getPanelTypeKey();
 
-    $chart_panel = id(new PhabricatorDashboardPanel())
+    $chart_panel = id(new PhorgeDashboardPanel())
       ->setPanelType($panel_type)
       ->setProperty('chartKey', $chart->getChartKey());
 
@@ -94,7 +94,7 @@ abstract class PhabricatorChartEngine
 
   final protected function newFunction($name /* , ... */) {
     $argv = func_get_args();
-    return id(new PhabricatorComposeChartFunction())
+    return id(new PhorgeComposeChartFunction())
       ->setArguments($argv);
   }
 

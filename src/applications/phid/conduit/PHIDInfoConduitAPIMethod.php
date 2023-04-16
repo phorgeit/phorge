@@ -37,7 +37,7 @@ final class PHIDInfoConduitAPIMethod extends PHIDConduitAPIMethod {
   protected function execute(ConduitAPIRequest $request) {
     $phid = $request->getValue('phid');
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($request->getUser())
       ->withPHIDs(array($phid))
       ->executeOne();

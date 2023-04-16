@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositorySyncEventQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositorySyncEventQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -31,7 +31,7 @@ final class PhabricatorRepositorySyncEventQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositorySyncEvent();
+    return new PhorgeRepositorySyncEvent();
   }
 
   protected function willFilterPage(array $events) {
@@ -39,7 +39,7 @@ final class PhabricatorRepositorySyncEventQuery
     $repository_phids = array_filter($repository_phids);
 
     if ($repository_phids) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($repository_phids)
         ->execute();
@@ -105,7 +105,7 @@ final class PhabricatorRepositorySyncEventQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

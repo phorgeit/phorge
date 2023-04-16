@@ -154,7 +154,7 @@ final class DiffusionChangeController extends DiffusionController {
 
   protected function buildPropertyView(
     DiffusionRequest $drequest,
-    PhabricatorActionListView $actions) {
+    PhorgeActionListView $actions) {
 
     $viewer = $this->getRequest()->getUser();
 

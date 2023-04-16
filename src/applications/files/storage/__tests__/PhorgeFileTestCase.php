@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorFileTestCase extends PhabricatorTestCase {
+final class PhorgeFileTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -11,31 +11,31 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   public function testFileDirectScramble() {
     // Changes to a file's view policy should scramble the file secret.
 
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
     $data = Filesystem::readRandomCharacters(64);
 
     $author = $this->generateNewTestUser();
 
     $params = array(
       'name' => 'test.dat',
-      'viewPolicy' => PhabricatorPolicies::POLICY_USER,
+      'viewPolicy' => PhorgePolicies::POLICY_USER,
       'authorPHID' => $author->getPHID(),
       'storageEngines' => array(
         $engine,
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
 
     $secret1 = $file->getSecretKey();
 
     // First, change the name: this should not scramble the secret.
     $xactions = array();
-    $xactions[] = id(new PhabricatorFileTransaction())
-      ->setTransactionType(PhabricatorFileNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeFileTransaction())
+      ->setTransactionType(PhorgeFileNameTransaction::TRANSACTIONTYPE)
       ->setNewValue('test.dat2');
 
-    $engine = id(new PhabricatorFileEditor())
+    $engine = id(new PhorgeFileEditor())
       ->setActor($author)
       ->setContentSource($this->newContentSource())
       ->applyTransactions($file, $xactions);
@@ -51,11 +51,11 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     // Now, change the view policy. This should scramble the secret.
     $xactions = array();
-    $xactions[] = id(new PhabricatorFileTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+    $xactions[] = id(new PhorgeFileTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
       ->setNewValue($author->getPHID());
 
-    $engine = id(new PhabricatorFileEditor())
+    $engine = id(new PhorgeFileEditor())
       ->setActor($author)
       ->setContentSource($this->newContentSource())
       ->applyTransactions($file, $xactions);
@@ -73,7 +73,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
     // policy changes, the file secret should be scrambled. This invalidates
     // old URIs if tasks get locked down.
 
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
     $data = Filesystem::readRandomCharacters(64);
 
     $author = $this->generateNewTestUser();
@@ -87,7 +87,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
     $secret1 = $file->getSecretKey();
 
     $task = ManiphestTask::initializeNewTask($author);
@@ -126,7 +126,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $xactions = array();
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+      ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
       ->setNewValue($author->getPHID());
 
     id(new ManiphestTransactionEditor())
@@ -144,7 +144,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
 
   public function testFileVisibility() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
     $data = Filesystem::readRandomCharacters(64);
 
     $author = $this->generateNewTestUser();
@@ -153,15 +153,15 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $params = array(
       'name' => 'test.dat',
-      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       'authorPHID' => $author->getPHID(),
       'storageEngines' => array(
         $engine,
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
-    $filter = new PhabricatorPolicyFilter();
+    $file = PhorgeFile::newFromFileData($data, $params);
+    $filter = new PhorgePolicyFilter();
 
     // Test bare file policies.
     $this->assertEqual(
@@ -176,21 +176,21 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $object = ManiphestTask::initializeNewTask($author)
       ->setTitle(pht('File Visibility Test Task'))
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
       ->save();
 
     $this->assertTrue(
       $filter->hasCapability(
         $author,
         $object,
-        PhabricatorPolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW),
       pht('Object Visible to Author'));
 
     $this->assertTrue(
       $filter->hasCapability(
         $viewer,
         $object,
-        PhabricatorPolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW),
       pht('Object Visible to Others'));
 
     // Reference the file in a comment. This should not affect the file
@@ -200,7 +200,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $xactions = array();
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->attachComment(
         id(new ManiphestTransactionComment())
           ->setContent($file_ref));
@@ -224,7 +224,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $xactions = array();
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->setMetadataValue(
         'remarkup.control',
         array(
@@ -253,15 +253,15 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
     // Create a "thumbnail" of the original file.
     $params = array(
       'name' => 'test.thumb.dat',
-      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       'storageEngines' => array(
         $engine,
       ),
     );
 
-    $xform = PhabricatorFile::newFromFileData($data, $params);
+    $xform = PhorgeFile::newFromFileData($data, $params);
 
-    id(new PhabricatorTransformedFile())
+    id(new PhorgeTransformedFile())
       ->setOriginalPHID($file->getPHID())
       ->setTransform('test-thumb')
       ->setTransformedPHID($xform->getPHID())
@@ -277,10 +277,10 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       pht('Attached Thumbnail Visibility'));
   }
 
-  private function canViewFile(array $users, PhabricatorFile $file) {
+  private function canViewFile(array $users, PhorgeFile $file) {
     $results = array();
     foreach ($users as $user) {
-      $results[] = (bool)id(new PhabricatorFileQuery())
+      $results[] = (bool)id(new PhorgeFileQuery())
         ->setViewer($user)
         ->withPHIDs(array($file->getPHID()))
         ->execute();
@@ -289,7 +289,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   }
 
   public function testFileStorageReadWrite() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
 
@@ -300,7 +300,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
 
     // Test that the storage engine worked, and was the target of the write. We
     // don't actually care what the data is (future changes may compress or
@@ -312,7 +312,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   }
 
   public function testFileStorageUploadDifferentFiles() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
     $other_data = Filesystem::readRandomCharacters(64);
@@ -324,9 +324,9 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $first_file = PhabricatorFile::newFromFileData($data, $params);
+    $first_file = PhorgeFile::newFromFileData($data, $params);
 
-    $second_file = PhabricatorFile::newFromFileData($other_data, $params);
+    $second_file = PhorgeFile::newFromFileData($other_data, $params);
 
     // Test that the second file uses  different storage handle from
     // the first file.
@@ -337,11 +337,11 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   }
 
   public function testFileStorageUploadSameFile() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
 
-    $hash = PhabricatorFile::hashFileContent($data);
+    $hash = PhorgeFile::hashFileContent($data);
     if ($hash === null) {
       $this->assertSkipped(pht('File content hashing is not available.'));
     }
@@ -353,9 +353,9 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $first_file = PhabricatorFile::newFromFileData($data, $params);
+    $first_file = PhorgeFile::newFromFileData($data, $params);
 
-    $second_file = PhabricatorFile::newFromFileData($data, $params);
+    $second_file = PhorgeFile::newFromFileData($data, $params);
 
     // Test that the second file uses the same storage handle as
     // the first file.
@@ -366,7 +366,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   }
 
   public function testFileStorageDelete() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
 
@@ -377,7 +377,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
     $handle = $file->getStorageHandle();
     $file->delete();
 
@@ -392,7 +392,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
   }
 
   public function testFileStorageDeleteSharedHandle() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
 
@@ -403,19 +403,19 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $first_file = PhabricatorFile::newFromFileData($data, $params);
-    $second_file = PhabricatorFile::newFromFileData($data, $params);
+    $first_file = PhorgeFile::newFromFileData($data, $params);
+    $second_file = PhorgeFile::newFromFileData($data, $params);
     $first_file->delete();
 
     $this->assertEqual($data, $second_file->loadFileData());
   }
 
   public function testReadWriteTtlFiles() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $data = Filesystem::readRandomCharacters(64);
 
-    $ttl = (PhabricatorTime::getNow() + phutil_units('24 hours in seconds'));
+    $ttl = (PhorgeTime::getNow() + phutil_units('24 hours in seconds'));
 
     $params = array(
       'name' => 'test.dat',
@@ -425,7 +425,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
     $this->assertEqual($ttl, $file->getTTL());
   }
 
@@ -435,7 +435,7 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     // First, we create a chain of transforms, A -> B -> C.
 
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $params = array(
       'name' => 'test.txt',
@@ -444,17 +444,17 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $a = PhabricatorFile::newFromFileData('a', $params);
-    $b = PhabricatorFile::newFromFileData('b', $params);
-    $c = PhabricatorFile::newFromFileData('c', $params);
+    $a = PhorgeFile::newFromFileData('a', $params);
+    $b = PhorgeFile::newFromFileData('b', $params);
+    $c = PhorgeFile::newFromFileData('c', $params);
 
-    id(new PhabricatorTransformedFile())
+    id(new PhorgeTransformedFile())
       ->setOriginalPHID($a->getPHID())
       ->setTransform('test:a->b')
       ->setTransformedPHID($b->getPHID())
       ->save();
 
-    id(new PhabricatorTransformedFile())
+    id(new PhorgeTransformedFile())
       ->setOriginalPHID($b->getPHID())
       ->setTransform('test:b->c')
       ->setTransformedPHID($c->getPHID())
@@ -462,8 +462,8 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     // Now, verify that A -> B and B -> C exist.
 
-    $xform_a = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $xform_a = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTransforms(
         array(
           array(
@@ -476,8 +476,8 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
     $this->assertEqual(1, count($xform_a));
     $this->assertEqual($b->getPHID(), head($xform_a)->getPHID());
 
-    $xform_b = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $xform_b = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTransforms(
         array(
           array(
@@ -496,8 +496,8 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     // Now, verify that the A -> B and B -> C links are gone.
 
-    $xform_a = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $xform_a = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTransforms(
         array(
           array(
@@ -509,8 +509,8 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     $this->assertEqual(0, count($xform_a));
 
-    $xform_b = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $xform_b = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTransforms(
         array(
           array(
@@ -524,8 +524,8 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
 
     // Also verify that C has been deleted.
 
-    $alternate_c = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $alternate_c = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($c->getPHID()))
       ->execute();
 

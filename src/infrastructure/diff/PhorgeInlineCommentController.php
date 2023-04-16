@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorInlineCommentController
-  extends PhabricatorController {
+abstract class PhorgeInlineCommentController
+  extends PhorgeController {
 
   private $containerObject;
 
@@ -9,7 +9,7 @@ abstract class PhabricatorInlineCommentController
   abstract protected function newInlineCommentQuery();
   abstract protected function loadCommentForDone($id);
   abstract protected function loadObjectOwnerPHID(
-    PhabricatorInlineComment $inline);
+    PhorgeInlineComment $inline);
   abstract protected function newContainerObject();
 
   final protected function getContainerObject() {
@@ -120,20 +120,20 @@ abstract class PhabricatorInlineCommentController
         $is_draft_state = false;
         $is_checked = false;
         switch ($inline->getFixedState()) {
-          case PhabricatorInlineComment::STATE_DRAFT:
-            $next_state = PhabricatorInlineComment::STATE_UNDONE;
+          case PhorgeInlineComment::STATE_DRAFT:
+            $next_state = PhorgeInlineComment::STATE_UNDONE;
             break;
-          case PhabricatorInlineComment::STATE_UNDRAFT:
-            $next_state = PhabricatorInlineComment::STATE_DONE;
+          case PhorgeInlineComment::STATE_UNDRAFT:
+            $next_state = PhorgeInlineComment::STATE_DONE;
             $is_checked = true;
             break;
-          case PhabricatorInlineComment::STATE_DONE:
-            $next_state = PhabricatorInlineComment::STATE_UNDRAFT;
+          case PhorgeInlineComment::STATE_DONE:
+            $next_state = PhorgeInlineComment::STATE_UNDRAFT;
             $is_draft_state = true;
             break;
           default:
-          case PhabricatorInlineComment::STATE_UNDONE:
-            $next_state = PhabricatorInlineComment::STATE_DRAFT;
+          case PhorgeInlineComment::STATE_UNDONE:
+            $next_state = PhorgeInlineComment::STATE_DRAFT;
             $is_draft_state = true;
             $is_checked = true;
             break;
@@ -229,7 +229,7 @@ abstract class PhabricatorInlineCommentController
           $this->updateCommentContentState($inline);
           $is_dirty = true;
         } else {
-          PhabricatorInlineComment::loadAndAttachVersionedDrafts(
+          PhorgeInlineComment::loadAndAttachVersionedDrafts(
             $viewer,
             array($inline));
         }
@@ -260,7 +260,7 @@ abstract class PhabricatorInlineCommentController
       case 'draft':
         $inline = $this->loadCommentByIDForEdit($this->getCommentID());
 
-        $versioned_draft = PhabricatorVersionedDraft::loadOrCreateDraft(
+        $versioned_draft = PhorgeVersionedDraft::loadOrCreateDraft(
           $inline->getPHID(),
           $viewer->getPHID(),
           $inline->getID());
@@ -313,7 +313,7 @@ abstract class PhabricatorInlineCommentController
         $owner_phid = $this->loadObjectOwnerPHID($inline);
         if ($owner_phid) {
           if ($viewer->getPHID() == $owner_phid) {
-            $fixed_state = PhabricatorInlineComment::STATE_DRAFT;
+            $fixed_state = PhorgeInlineComment::STATE_DRAFT;
             $inline->setFixedState($fixed_state);
           }
         }
@@ -400,7 +400,7 @@ abstract class PhabricatorInlineCommentController
     }
   }
 
-  private function buildEditDialog(PhabricatorInlineComment $inline) {
+  private function buildEditDialog(PhorgeInlineComment $inline) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
@@ -423,17 +423,17 @@ abstract class PhabricatorInlineCommentController
   }
 
   private function buildRenderedCommentResponse(
-    PhabricatorInlineComment $inline,
+    PhorgeInlineComment $inline,
     $on_right) {
 
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
     $engine->setViewer($viewer);
     $engine->addObject(
       $inline,
-      PhabricatorInlineComment::MARKUP_FIELD_BODY);
+      PhorgeInlineComment::MARKUP_FIELD_BODY);
     $engine->process();
 
     $phids = array($viewer->getPHID());
@@ -467,7 +467,7 @@ abstract class PhabricatorInlineCommentController
   }
 
   private function newInlineResponse(
-    PhabricatorInlineComment $inline,
+    PhorgeInlineComment $inline,
     $view,
     $is_edit) {
     $viewer = $this->getViewer();
@@ -538,7 +538,7 @@ abstract class PhabricatorInlineCommentController
   }
 
   private function loadCommentByQuery(
-    PhabricatorDiffInlineCommentQuery $query) {
+    PhorgeDiffInlineCommentQuery $query) {
     $viewer = $this->getViewer();
 
     $inline = $query
@@ -562,7 +562,7 @@ abstract class PhabricatorInlineCommentController
     return $inline->newContentStateFromRequest($request);
   }
 
-  private function updateCommentContentState(PhabricatorInlineComment $inline) {
+  private function updateCommentContentState(PhorgeInlineComment $inline) {
     if (!$this->hasContentState()) {
       throw new Exception(
         pht(
@@ -574,14 +574,14 @@ abstract class PhabricatorInlineCommentController
     $inline->setContentState($state);
   }
 
-  private function saveComment(PhabricatorInlineComment $inline) {
+  private function saveComment(PhorgeInlineComment $inline) {
     $viewer = $this->getViewer();
     $draft_engine = $this->newDraftEngine();
 
     $inline->openTransaction();
       $inline->save();
 
-      PhabricatorVersionedDraft::purgeDrafts(
+      PhorgeVersionedDraft::purgeDrafts(
         $inline->getPHID(),
         $viewer->getPHID());
 
@@ -596,7 +596,7 @@ abstract class PhabricatorInlineCommentController
     $viewer = $this->getViewer();
     $object = $this->getContainerObject();
 
-    if (!($object instanceof PhabricatorDraftInterface)) {
+    if (!($object instanceof PhorgeDraftInterface)) {
       return null;
     }
 

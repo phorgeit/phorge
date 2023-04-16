@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigEdgeModule extends PhabricatorConfigModule {
+final class PhorgeConfigEdgeModule extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'edge';
@@ -13,7 +13,7 @@ final class PhabricatorConfigEdgeModule extends PhabricatorConfigModule {
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $types = PhabricatorEdgeType::getAllTypes();
+    $types = PhorgeEdgeType::getAllTypes();
     $types = msort($types, 'getEdgeConstant');
 
     $rows = array();

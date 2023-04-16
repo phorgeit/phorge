@@ -2,16 +2,16 @@
 
 final class ManiphestConfiguredCustomField
   extends ManiphestCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'maniphest';
   }
 
   public function createFields($object) {
-    $config = PhabricatorEnv::getEnvConfig(
+    $config = PhorgeEnv::getEnvConfig(
       'maniphest.custom-field-definitions');
-    $fields = PhabricatorStandardCustomField::buildStandardFields(
+    $fields = PhorgeStandardCustomField::buildStandardFields(
       $this,
       $config);
 

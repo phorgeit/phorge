@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarEventSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgeCalendarEventSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'calendar.event.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorCalendarEventSearchEngine();
+    return new PhorgeCalendarEventSearchEngine();
   }
 
   public function getMethodSummary() {

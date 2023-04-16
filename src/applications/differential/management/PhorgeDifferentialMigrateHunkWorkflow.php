@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialMigrateHunkWorkflow
-  extends PhabricatorDifferentialManagementWorkflow {
+final class PhorgeDifferentialMigrateHunkWorkflow
+  extends PhorgeDifferentialManagementWorkflow {
 
   protected function didConstruct() {
     $this

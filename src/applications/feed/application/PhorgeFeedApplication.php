@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFeedApplication extends PhabricatorApplication {
+final class PhorgeFeedApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/feed/';
@@ -29,11 +29,11 @@ final class PhabricatorFeedApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/feed/' => array(
-        '(?P<id>\d+)/' => 'PhabricatorFeedDetailController',
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorFeedListController',
+        '(?P<id>\d+)/' => 'PhorgeFeedDetailController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeFeedListController',
         'transactions/' => array(
           $this->getQueryRoutePattern()
-            => 'PhabricatorFeedTransactionListController',
+            => 'PhorgeFeedTransactionListController',
         ),
       ),
     );

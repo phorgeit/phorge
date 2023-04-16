@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorApplicationConfigurationPanelTestCase
-  extends PhabricatorTestCase {
+final class PhorgeApplicationConfigurationPanelTestCase
+  extends PhorgeTestCase {
 
   public function testLoadAllPanels() {
-    PhabricatorApplicationConfigurationPanel::loadAllPanels();
+    PhorgeApplicationConfigurationPanel::loadAllPanels();
     $this->assertTrue(true);
   }
 

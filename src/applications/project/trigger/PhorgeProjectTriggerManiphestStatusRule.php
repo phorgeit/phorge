@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerManiphestStatusRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerManiphestStatusRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'task.status';
 

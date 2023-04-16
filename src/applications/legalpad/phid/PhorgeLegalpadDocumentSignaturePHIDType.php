@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLegalpadDocumentSignaturePHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeLegalpadDocumentSignaturePHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'LEGS';
 
@@ -18,11 +18,11 @@ final class PhabricatorLegalpadDocumentSignaturePHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new LegalpadDocumentSignatureQuery())
@@ -30,7 +30,7 @@ final class PhabricatorLegalpadDocumentSignaturePHIDType
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

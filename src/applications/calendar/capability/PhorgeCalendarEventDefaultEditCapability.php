@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeCalendarEventDefaultEditCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'calendar.event.default.edit';
 

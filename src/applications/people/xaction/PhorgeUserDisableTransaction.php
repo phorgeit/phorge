@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserDisableTransaction
-  extends PhabricatorUserTransactionType {
+final class PhorgeUserDisableTransaction
+  extends PhorgeUserTransactionType {
 
   const TRANSACTIONTYPE = 'user.disable';
 
@@ -61,7 +61,7 @@ final class PhabricatorUserDisableTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // You do not need to be able to edit users to disable them. Instead, this
     // requirement is replaced with a requirement that you have the "Can

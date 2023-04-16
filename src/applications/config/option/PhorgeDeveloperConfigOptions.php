@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDeveloperConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeDeveloperConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Developer / Debugging');

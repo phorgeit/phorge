@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorInlineCommentInterface {
+interface PhorgeInlineCommentInterface {
 
   public function newInlineCommentObject();
 

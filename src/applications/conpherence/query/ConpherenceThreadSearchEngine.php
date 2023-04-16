@@ -1,14 +1,14 @@
 <?php
 
 final class ConpherenceThreadSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Conpherence Rooms');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   public function newQuery() {
@@ -18,16 +18,16 @@ final class ConpherenceThreadSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Participants'))
         ->setKey('participants')
         ->setAliases(array('participant')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Rooms'))
         ->setKey('phids')
         ->setDescription(pht('Search by room titles.'))
         ->setDatasource(id(new ConpherenceThreadDatasource())),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Room Contains Words'))
         ->setKey('fulltext'),
     );
@@ -93,7 +93,7 @@ final class ConpherenceThreadSearchEngine
 
   protected function renderResultList(
     array $conpherences,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($conpherences, 'ConpherenceThread');
 
@@ -113,7 +113,7 @@ final class ConpherenceThreadSearchEngine
       foreach ($context as $phid => $messages) {
         $conpherence = $conpherences[$phid];
 
-        $engine = id(new PhabricatorMarkupEngine())
+        $engine = id(new PhorgeMarkupEngine())
           ->setViewer($viewer)
           ->setContextObject($conpherence);
 
@@ -124,7 +124,7 @@ final class ConpherenceThreadSearchEngine
               $author_phids[] = $xaction->getAuthorPHID();
               $engine->addObject(
                 $xaction->getComment(),
-                PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT);
+                PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT);
             }
           }
         }
@@ -223,7 +223,7 @@ final class ConpherenceThreadSearchEngine
         ->appendChild($content);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($content);
     $result->setNoDataString(pht('No results found.'));
 

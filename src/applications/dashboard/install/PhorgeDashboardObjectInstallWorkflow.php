@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDashboardObjectInstallWorkflow
-  extends PhabricatorDashboardInstallWorkflow {
+abstract class PhorgeDashboardObjectInstallWorkflow
+  extends PhorgeDashboardInstallWorkflow {
 
   abstract protected function newQuery();
   abstract protected function newConfirmDialog($object);
@@ -55,10 +55,10 @@ abstract class PhabricatorDashboardObjectInstallWorkflow
     }
 
     if ($target) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $target,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     } else {
       $can_edit = null;
     }

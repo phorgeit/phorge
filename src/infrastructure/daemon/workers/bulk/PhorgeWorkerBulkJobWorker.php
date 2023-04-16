@@ -1,15 +1,15 @@
 <?php
 
-abstract class PhabricatorWorkerBulkJobWorker
-  extends PhabricatorWorker {
+abstract class PhorgeWorkerBulkJobWorker
+  extends PhorgeWorker {
 
   final protected function acquireJobLock() {
-    return PhabricatorGlobalLock::newLock('bulkjob.'.$this->getJobID())
+    return PhorgeGlobalLock::newLock('bulkjob.'.$this->getJobID())
       ->lock(15);
   }
 
   final protected function acquireTaskLock() {
-    return PhabricatorGlobalLock::newLock('bulktask.'.$this->getTaskID())
+    return PhorgeGlobalLock::newLock('bulktask.'.$this->getTaskID())
       ->lock(15);
   }
 
@@ -17,7 +17,7 @@ abstract class PhabricatorWorkerBulkJobWorker
     $data = $this->getTaskData();
     $id = idx($data, 'jobID');
     if (!$id) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Worker has no job ID.'));
     }
     return $id;
@@ -27,7 +27,7 @@ abstract class PhabricatorWorkerBulkJobWorker
     $data = $this->getTaskData();
     $id = idx($data, 'taskID');
     if (!$id) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Worker has no task ID.'));
     }
     return $id;
@@ -35,12 +35,12 @@ abstract class PhabricatorWorkerBulkJobWorker
 
   final protected function loadJob() {
     $id = $this->getJobID();
-    $job = id(new PhabricatorWorkerBulkJobQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $job = id(new PhorgeWorkerBulkJobQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIDs(array($id))
       ->executeOne();
     if (!$job) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Worker has invalid job ID ("%s").', $id));
     }
     return $job;
@@ -48,32 +48,32 @@ abstract class PhabricatorWorkerBulkJobWorker
 
   final protected function loadTask() {
     $id = $this->getTaskID();
-    $task = id(new PhabricatorWorkerBulkTask())->load($id);
+    $task = id(new PhorgeWorkerBulkTask())->load($id);
     if (!$task) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Worker has invalid task ID ("%s").', $id));
     }
     return $task;
   }
 
-  final protected function loadActor(PhabricatorWorkerBulkJob $job) {
+  final protected function loadActor(PhorgeWorkerBulkJob $job) {
     $actor_phid = $job->getAuthorPHID();
-    $actor = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $actor = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($actor_phid))
       ->executeOne();
     if (!$actor) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Worker has invalid actor PHID ("%s").', $actor_phid));
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $actor,
       $job,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if (!$can_edit) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Job actor does not have permission to edit job.'));
     }
 
@@ -84,7 +84,7 @@ abstract class PhabricatorWorkerBulkJobWorker
     return $actor;
   }
 
-  final protected function updateJob(PhabricatorWorkerBulkJob $job) {
+  final protected function updateJob(PhorgeWorkerBulkJob $job) {
     $has_work = $this->hasRemainingWork($job);
     if ($has_work) {
       return;
@@ -93,44 +93,44 @@ abstract class PhabricatorWorkerBulkJobWorker
     $lock = $this->acquireJobLock();
 
     $job = $this->loadJob();
-    if ($job->getStatus() == PhabricatorWorkerBulkJob::STATUS_RUNNING) {
+    if ($job->getStatus() == PhorgeWorkerBulkJob::STATUS_RUNNING) {
       if (!$this->hasRemainingWork($job)) {
         $this->updateJobStatus(
           $job,
-          PhabricatorWorkerBulkJob::STATUS_COMPLETE);
+          PhorgeWorkerBulkJob::STATUS_COMPLETE);
       }
     }
 
     $lock->unlock();
   }
 
-  private function hasRemainingWork(PhabricatorWorkerBulkJob $job) {
+  private function hasRemainingWork(PhorgeWorkerBulkJob $job) {
     return (bool)queryfx_one(
       $job->establishConnection('r'),
       'SELECT * FROM %T WHERE bulkJobPHID = %s
         AND status NOT IN (%Ls) LIMIT 1',
-      id(new PhabricatorWorkerBulkTask())->getTableName(),
+      id(new PhorgeWorkerBulkTask())->getTableName(),
       $job->getPHID(),
       array(
-        PhabricatorWorkerBulkTask::STATUS_DONE,
-        PhabricatorWorkerBulkTask::STATUS_FAIL,
+        PhorgeWorkerBulkTask::STATUS_DONE,
+        PhorgeWorkerBulkTask::STATUS_FAIL,
       ));
   }
 
-  protected function updateJobStatus(PhabricatorWorkerBulkJob $job, $status) {
-    $type_status = PhabricatorWorkerBulkJobTransaction::TYPE_STATUS;
+  protected function updateJobStatus(PhorgeWorkerBulkJob $job, $status) {
+    $type_status = PhorgeWorkerBulkJobTransaction::TYPE_STATUS;
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorWorkerBulkJobTransaction())
+    $xactions[] = id(new PhorgeWorkerBulkJobTransaction())
       ->setTransactionType($type_status)
       ->setNewValue($status);
 
     $daemon_source = $this->newContentSource();
 
-    $app_phid = id(new PhabricatorDaemonsApplication())->getPHID();
+    $app_phid = id(new PhorgeDaemonsApplication())->getPHID();
 
-    $editor = id(new PhabricatorWorkerBulkJobEditor())
-      ->setActor(PhabricatorUser::getOmnipotentUser())
+    $editor = id(new PhorgeWorkerBulkJobEditor())
+      ->setActor(PhorgeUser::getOmnipotentUser())
       ->setActingAsPHID($app_phid)
       ->setContentSource($daemon_source)
       ->setContinueOnMissingFields(true)

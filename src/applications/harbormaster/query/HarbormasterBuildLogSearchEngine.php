@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterBuildLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Build Logs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -17,7 +17,7 @@ final class HarbormasterBuildLogSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Build Targets'))
         ->setKey('buildTargetPHIDs')
         ->setAliases(
@@ -69,7 +69,7 @@ final class HarbormasterBuildLogSearchEngine
 
   protected function renderResultList(
     array $builds,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     // For now, this SearchEngine is only for driving the API.

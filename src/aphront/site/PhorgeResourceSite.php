@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorResourceSite extends PhabricatorSite {
+final class PhorgeResourceSite extends PhorgeSite {
 
   public function getDescription() {
     return pht('Serves static resources like images, CSS and JS.');
@@ -13,20 +13,20 @@ final class PhabricatorResourceSite extends PhabricatorSite {
   public function newSiteForRequest(AphrontRequest $request) {
     $host = $request->getHost();
 
-    $uri = PhabricatorEnv::getEnvConfig('security.alternate-file-domain');
+    $uri = PhorgeEnv::getEnvConfig('security.alternate-file-domain');
     if (!phutil_nonempty_string($uri)) {
       return null;
     }
 
     if ($this->isHostMatch($host, array($uri))) {
-      return new PhabricatorResourceSite();
+      return new PhorgeResourceSite();
     }
 
     return null;
   }
 
   public function getRoutingMaps() {
-    $applications = PhabricatorApplication::getAllInstalledApplications();
+    $applications = PhorgeApplication::getAllInstalledApplications();
 
     $maps = array();
     foreach ($applications as $application) {

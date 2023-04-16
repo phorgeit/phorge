@@ -130,7 +130,7 @@ final class ManiphestTaskPriorityTransaction
     $errors = array();
 
     $content_source = $this->getEditor()->getContentSource();
-    $is_web = ($content_source instanceof PhabricatorWebContentSource);
+    $is_web = ($content_source instanceof PhorgeWebContentSource);
 
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();

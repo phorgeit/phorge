@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorTokenController extends PhabricatorController {
+abstract class PhorgeTokenController extends PhorgeController {
 
   protected function buildSideNav() {
     $nav = new AphrontSideNavFilterView();

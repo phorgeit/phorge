@@ -1,10 +1,10 @@
 <?php
 
 final class DiffusionCommitFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $commit = id(new DiffusionCommitQuery())
@@ -31,29 +31,29 @@ final class DiffusionCommitFulltextEngine
       ->setDocumentTitle($title);
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $commit_message);
 
     if ($author_phid) {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+        PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
         $author_phid,
-        PhabricatorPeopleUserPHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
         $date_created);
     }
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_REPOSITORY,
+      PhorgeSearchRelationship::RELATIONSHIP_REPOSITORY,
       $repository->getPHID(),
-      PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
+      PhorgeRepositoryRepositoryPHIDType::TYPECONST,
       $date_created);
 
     $document->addRelationship(
       $commit->isUnreachable()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $commit->getPHID(),
-      PhabricatorRepositoryCommitPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeRepositoryCommitPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 }

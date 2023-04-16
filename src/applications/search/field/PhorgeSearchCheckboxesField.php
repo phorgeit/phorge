@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchCheckboxesField
-  extends PhabricatorSearchField {
+final class PhorgeSearchCheckboxesField
+  extends PhorgeSearchField {
 
   private $options;
   private $deprecatedOptions = array();

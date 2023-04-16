@@ -130,7 +130,7 @@ final class DivinerDefaultRenderer extends DivinerRenderer {
     }
 
     $text = $this->getAtomDescription($atom);
-    return PhabricatorMarkupEngine::summarize($text);
+    return PhorgeMarkupEngine::summarize($text);
   }
 
   public function renderAtomIndex(array $refs) {
@@ -182,10 +182,10 @@ final class DivinerDefaultRenderer extends DivinerRenderer {
   }
 
   protected function getBlockMarkupEngine() {
-    $engine = PhabricatorMarkupEngine::newMarkupEngine(array());
+    $engine = PhorgeMarkupEngine::newMarkupEngine(array());
 
     $engine->setConfig('preserve-linebreaks', false);
-    $engine->setConfig('viewer', new PhabricatorUser());
+    $engine->setConfig('viewer', new PhorgeUser());
     $engine->setConfig('diviner.renderer', $this);
     $engine->setConfig('header.generate-toc', true);
 

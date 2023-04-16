@@ -1,13 +1,13 @@
 <?php
 
 final class DiffusionDiffInlineCommentQuery
-  extends PhabricatorDiffInlineCommentQuery {
+  extends PhorgeDiffInlineCommentQuery {
 
   private $commitPHIDs;
   private $pathIDs;
 
   protected function newApplicationTransactionCommentTemplate() {
-    return new PhabricatorAuditTransactionComment();
+    return new PhorgeAuditTransactionComment();
   }
 
   public function withCommitPHIDs(array $phids) {
@@ -71,7 +71,7 @@ final class DiffusionDiffInlineCommentQuery
   }
 
   protected function newInlineContextFromCacheData(array $map) {
-    return PhabricatorDiffInlineCommentContext::newFromCacheData($map);
+    return PhorgeDiffInlineCommentContext::newFromCacheData($map);
   }
 
 }

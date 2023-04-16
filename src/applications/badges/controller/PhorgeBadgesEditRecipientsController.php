@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorBadgesEditRecipientsController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesEditRecipientsController
+  extends PhorgeBadgesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $xactions = array();
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->executeOne();
     if (!$badge) {
@@ -33,12 +33,12 @@ final class PhabricatorBadgesEditRecipientsController
         }
       }
 
-      $xactions[] = id(new PhabricatorBadgesTransaction())
+      $xactions[] = id(new PhorgeBadgesTransaction())
         ->setTransactionType(
-          PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
         ->setNewValue($award_phids);
 
-      $editor = id(new PhabricatorBadgesEditor())
+      $editor = id(new PhorgeBadgesEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -49,10 +49,10 @@ final class PhabricatorBadgesEditRecipientsController
         ->setURI($view_uri);
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $form_box = null;
     $title = pht('Add Recipient');
@@ -67,7 +67,7 @@ final class PhabricatorBadgesEditRecipientsController
           id(new AphrontFormTokenizerControl())
             ->setName('phids')
             ->setLabel(pht('Recipients'))
-            ->setDatasource(new PhabricatorPeopleDatasource()));
+            ->setDatasource(new PhorgePeopleDatasource()));
     }
 
     $dialog = id(new AphrontDialogView())

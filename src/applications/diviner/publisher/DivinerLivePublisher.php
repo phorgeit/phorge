@@ -15,8 +15,8 @@ final class DivinerLivePublisher extends DivinerPublisher {
       if (!$book) {
         $book = id(new DivinerLiveBook())
           ->setName($book_name)
-          ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
-          ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN)
+          ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
+          ->setEditPolicy(PhorgePolicies::POLICY_ADMIN)
           ->save();
       }
 
@@ -40,7 +40,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
       $conn_w->saveTransaction();
       $this->book = $book;
 
-      PhabricatorSearchWorker::queueDocumentForIndexing($book->getPHID());
+      PhorgeSearchWorker::queueDocumentForIndexing($book->getPHID());
     }
 
     return $this->book;
@@ -48,7 +48,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
 
   private function loadSymbolForAtom(DivinerAtom $atom) {
     $symbol = id(new DivinerAtomQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withBookPHIDs(array($this->getBook()->getPHID()))
       ->withTypes(array($atom->getType()))
       ->withNames(array($atom->getName()))
@@ -83,7 +83,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
 
   protected function loadAllPublishedHashes() {
     $symbols = id(new DivinerAtomQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withBookPHIDs(array($this->getBook()->getPHID()))
       ->withGhosts(false)
       ->execute();
@@ -101,7 +101,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
       $strings[] = qsprintf($conn_w, '%s', $hash);
     }
 
-    foreach (PhabricatorLiskDAO::chunkSQL($strings) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($strings) as $chunk) {
       queryfx(
         $conn_w,
         'UPDATE %T SET graphHash = NULL, nodeHash = NULL
@@ -146,7 +146,7 @@ final class DivinerLivePublisher extends DivinerPublisher {
 
       $symbol->save();
 
-      PhabricatorSearchWorker::queueDocumentForIndexing($symbol->getPHID());
+      PhorgeSearchWorker::queueDocumentForIndexing($symbol->getPHID());
 
       // TODO: We probably need a finer-grained sense of what "documentable"
       // atoms are. Neither files nor methods are currently considered

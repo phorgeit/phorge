@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerTriggerManagementFireWorkflow
-  extends PhabricatorWorkerTriggerManagementWorkflow {
+final class PhorgeWorkerTriggerManagementFireWorkflow
+  extends PhorgeWorkerTriggerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -49,21 +49,21 @@ final class PhabricatorWorkerTriggerManagementFireWorkflow
     $now = $args->getArg('now');
     $now = $this->parseTimeArgument($now);
     if (!$now) {
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
     }
 
-    $time_guard = PhabricatorTime::pushTime($now, date_default_timezone_get());
+    $time_guard = PhorgeTime::pushTime($now, date_default_timezone_get());
 
     $console->writeOut(
       "%s\n",
       pht(
         'Set current time to %s.',
-        phorge_datetime(PhabricatorTime::getNow(), $viewer)));
+        phorge_datetime(PhorgeTime::getNow(), $viewer)));
 
     $last_time = $this->parseTimeArgument($args->getArg('last'));
     $next_time = $this->parseTimeArgument($args->getArg('next'));
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     foreach ($triggers as $trigger) {
       $console->writeOut(

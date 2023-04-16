@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageDominionTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageDominionTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.dominion';
 
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageDominionTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $map = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $map = PhorgeOwnersPackage::getDominionOptionsMap();
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
 
@@ -37,7 +37,7 @@ final class PhabricatorOwnersPackageDominionTransaction
   }
 
   public function getTitle() {
-    $map = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $map = PhorgeOwnersPackage::getDominionOptionsMap();
     $map = ipull($map, 'short');
 
     $old = $this->getOldValue();

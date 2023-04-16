@@ -10,7 +10,7 @@ final class DiffusionExternalController extends DiffusionController {
     $uri = $request->getStr('uri');
     $id  = $request->getStr('id');
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($request->getUser())
       ->execute();
 
@@ -53,7 +53,7 @@ final class DiffusionExternalController extends DiffusionController {
 
     // TODO: This is a rare query but does a table scan, add a key?
 
-    $commits = id(new PhabricatorRepositoryCommit())->loadAllWhere(
+    $commits = id(new PhorgeRepositoryCommit())->loadAllWhere(
       'commitIdentifier = %s',
       $id);
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
+final class PhorgeDataCacheSpec extends PhorgeCacheSpec {
 
   private $cacheSummary;
 
@@ -14,7 +14,7 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
   }
 
   public static function getActiveCacheSpec() {
-    $spec = new PhabricatorDataCacheSpec();
+    $spec = new PhorgeDataCacheSpec();
 
     // NOTE: If APCu is installed, it reports that APC is installed.
     if (extension_loaded('apc') && !extension_loaded('apcu')) {
@@ -140,7 +140,7 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
   private static function getKeyPattern($key) {
     // If this key isn't in the current cache namespace, don't reveal any
     // information about it.
-    $namespace = PhabricatorEnv::getEnvConfig('phorge.cache-namespace');
+    $namespace = PhorgeEnv::getEnvConfig('phorge.cache-namespace');
     if (strncmp($key, $namespace.':', strlen($namespace) + 1)) {
       return '<other-namespace>';
     }

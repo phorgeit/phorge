@@ -3,10 +3,10 @@
 // Move timezone, translation and pronoun from the user object to preferences
 // so they can be defaulted and edited like other settings.
 
-$table = new PhabricatorUser();
+$table = new PhorgeUser();
 $conn_w = $table->establishConnection('w');
 $table_name = $table->getTableName();
-$prefs_table = new PhabricatorUserPreferences();
+$prefs_table = new PhorgeUserPreferences();
 
 foreach (new LiskRawMigrationIterator($conn_w, $table_name) as $row) {
   $phid = $row['phid'];
@@ -29,17 +29,17 @@ foreach (new LiskRawMigrationIterator($conn_w, $table_name) as $row) {
 
   $zone = $row['timezoneIdentifier'];
   if (strlen($zone)) {
-    $prefs[PhabricatorTimezoneSetting::SETTINGKEY] = $zone;
+    $prefs[PhorgeTimezoneSetting::SETTINGKEY] = $zone;
   }
 
   $pronoun = $row['sex'];
   if (strlen($pronoun)) {
-    $prefs[PhabricatorPronounSetting::SETTINGKEY] = $pronoun;
+    $prefs[PhorgePronounSetting::SETTINGKEY] = $pronoun;
   }
 
   $translation = $row['translation'];
   if (strlen($translation)) {
-    $prefs[PhabricatorTranslationSetting::SETTINGKEY] = $translation;
+    $prefs[PhorgeTranslationSetting::SETTINGKEY] = $translation;
   }
 
   if ($prefs) {
@@ -55,5 +55,5 @@ foreach (new LiskRawMigrationIterator($conn_w, $table_name) as $row) {
   }
 }
 
-$prefs_key = PhabricatorUserPreferencesCacheType::KEY_PREFERENCES;
-PhabricatorUserCache::clearCacheForAllUsers($prefs_key);
+$prefs_key = PhorgeUserPreferencesCacheType::KEY_PREFERENCES;
+PhorgeUserCache::clearCacheForAllUsers($prefs_key);

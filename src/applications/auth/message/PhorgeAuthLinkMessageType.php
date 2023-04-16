@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthLinkMessageType
-  extends PhabricatorAuthMessageType {
+final class PhorgeAuthLinkMessageType
+  extends PhorgeAuthMessageType {
 
   const MESSAGEKEY = 'auth.link';
 

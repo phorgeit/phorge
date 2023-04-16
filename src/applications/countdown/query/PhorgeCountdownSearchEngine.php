@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorCountdownSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCountdownSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Countdowns');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCountdownApplication';
+    return 'PhorgeCountdownApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorCountdownQuery();
+    return new PhorgeCountdownQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -31,11 +31,11 @@ final class PhabricatorCountdownSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('upcoming')
         ->setOptions(
           array(
@@ -81,17 +81,17 @@ final class PhabricatorCountdownSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $countdowns,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     return mpull($countdowns, 'getAuthorPHID');
   }
 
   protected function renderResultList(
     array $countdowns,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($countdowns, 'PhabricatorCountdown');
+    assert_instances_of($countdowns, 'PhorgeCountdown');
 
     $viewer = $this->requireViewer();
 
@@ -101,7 +101,7 @@ final class PhabricatorCountdownSearchEngine
       $id = $countdown->getID();
       $ended = false;
       $epoch = $countdown->getEpoch();
-      if ($epoch <= PhabricatorTime::getNow()) {
+      if ($epoch <= PhorgeTime::getNow()) {
         $ended = true;
       }
 
@@ -121,7 +121,7 @@ final class PhabricatorCountdownSearchEngine
           pht('Launched on %s', phorge_datetime($epoch, $viewer)));
         $item->setDisabled(true);
       } else {
-        $time_left = ($epoch - PhabricatorTime::getNow());
+        $time_left = ($epoch - PhorgeTime::getNow());
         $num = round($time_left / (60 * 60 * 24));
         $noun = pht('Days');
         if ($num < 1) {
@@ -136,7 +136,7 @@ final class PhabricatorCountdownSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No countdowns found.'));
 

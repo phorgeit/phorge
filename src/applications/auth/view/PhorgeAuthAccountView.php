@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuthAccountView extends AphrontView {
+final class PhorgeAuthAccountView extends AphrontView {
 
   private $externalAccount;
   private $provider;
 
   public function setExternalAccount(
-    PhabricatorExternalAccount $external_account) {
+    PhorgeExternalAccount $external_account) {
     $this->externalAccount = $external_account;
     return $this;
   }
 
-  public function setAuthProvider(PhabricatorAuthProvider $provider) {
+  public function setAuthProvider(PhorgeAuthProvider $provider) {
     $this->provider = $provider;
     return $this;
   }
@@ -67,7 +67,7 @@ final class PhabricatorAuthAccountView extends AphrontView {
       // Make sure we don't link a "javascript:" URI if a user somehow
       // managed to get one here.
 
-      if (PhabricatorEnv::isValidRemoteURIForLink($account_uri)) {
+      if (PhorgeEnv::isValidRemoteURIForLink($account_uri)) {
         $account_uri = phutil_tag(
           'a',
           array(
@@ -87,8 +87,8 @@ final class PhabricatorAuthAccountView extends AphrontView {
     }
 
     $image_file = $account->getProfileImageFile();
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
     $image_uri = $image_file->getURIForTransform($xform);
     list($x, $y) = $xform->getTransformedDimensions($image_file);
 

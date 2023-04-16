@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockResourceStatus
-  extends PhabricatorObjectStatus {
+  extends PhorgeObjectStatus {
 
   const STATUS_PENDING = 'pending';
   const STATUS_ACTIVE = 'active';

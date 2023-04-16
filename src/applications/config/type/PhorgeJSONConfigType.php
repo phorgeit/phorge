@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorJSONConfigType
-  extends PhabricatorTextConfigType {
+abstract class PhorgeJSONConfigType
+  extends PhorgeTextConfigType {
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     try {
@@ -22,17 +22,17 @@ abstract class PhabricatorJSONConfigType
     return $value;
   }
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     return id(new AphrontFormTextAreaControl())
       ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
-      ->setCustomClass('PhabricatorMonospaced')
+      ->setCustomClass('PhorgeMonospaced')
       ->setCaption(pht('Enter value in JSON.'));
   }
 
   public function newDisplayValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
-    return PhabricatorConfigJSON::prettyPrintJSON($value);
+    return PhorgeConfigJSON::prettyPrintJSON($value);
   }
 
 }

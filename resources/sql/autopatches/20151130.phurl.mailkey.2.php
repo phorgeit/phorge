@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorPhurlURL();
+$table = new PhorgePhurlURL();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $url) {

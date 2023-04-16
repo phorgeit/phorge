@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSlackAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeSlackAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('Slack');
   }
 
   protected function getProviderConfigurationHelp() {
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure Slack OAuth, create a new application here:".

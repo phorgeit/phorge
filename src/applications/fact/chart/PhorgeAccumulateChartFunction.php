@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAccumulateChartFunction
-  extends PhabricatorHigherOrderChartFunction {
+final class PhorgeAccumulateChartFunction
+  extends PhorgeHigherOrderChartFunction {
 
   const FUNCTIONKEY = 'accumulate';
 
@@ -23,7 +23,7 @@ final class PhabricatorAccumulateChartFunction
     // source. We need to accumulate data since the beginning of time to
     // figure out the right Y-intercept -- otherwise, we'll always start at
     // "0" wherever our domain begins.
-    $empty_query = new PhabricatorChartDataQuery();
+    $empty_query = new PhorgeChartDataQuery();
 
     $datasource_xv = $datasource->newInputValues($empty_query);
     if (!$datasource_xv) {

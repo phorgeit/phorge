@@ -15,7 +15,7 @@ abstract class HeraldFieldValue extends Phobject {
   abstract public function renderFieldValue($value);
   abstract public function renderEditorValue($value);
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

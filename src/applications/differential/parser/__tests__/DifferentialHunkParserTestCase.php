@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
+final class DifferentialHunkParserTestCase extends PhorgeTestCase {
 
   private function createComment() {
     $comment = new DifferentialInlineComment();
@@ -41,7 +41,7 @@ final class DifferentialHunkParserTestCase extends PhabricatorTestCase {
     }
 
     $diff = DifferentialDiff::newFromRawChanges(
-      PhabricatorUser::getOmnipotentUser(),
+      PhorgeUser::getOmnipotentUser(),
       $changes);
     return head($diff->getChangesets())->getHunks();
   }

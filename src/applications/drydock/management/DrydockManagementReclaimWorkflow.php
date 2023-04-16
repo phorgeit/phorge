@@ -12,9 +12,9 @@ final class DrydockManagementReclaimWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $viewer = $this->getViewer();
-    $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+    $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     $resources = id(new DrydockResourceQuery())
       ->setViewer($viewer)

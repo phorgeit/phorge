@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorJIRAAuthProvider
-  extends PhabricatorOAuth1AuthProvider
+final class PhorgeJIRAAuthProvider
+  extends PhorgeOAuth1AuthProvider
   implements DoorkeeperRemarkupURIInterface {
 
   public function getProviderName() {
@@ -22,7 +22,7 @@ final class PhabricatorJIRAAuthProvider
         "**Step 1 of 2**: Provide the name and URI for your JIRA install.\n\n".
         "In the next step, you will configure JIRA.");
     } else {
-      $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+      $login_uri = PhorgeEnv::getURI($this->getLoginURI());
       return pht(
         "**Step 2 of 2**: In this step, you will configure JIRA.\n\n".
         "**Create a JIRA Application**: Log into JIRA and go to ".
@@ -47,7 +47,7 @@ final class PhabricatorJIRAAuthProvider
         "  - **Consumer Callback URL**: `%s`\n".
         "Click **Save** in JIRA. Authentication should now be configured, ".
         "and this provider should work correctly.",
-        PhabricatorEnv::getProductionURI('/'),
+        PhorgeEnv::getProductionURI('/'),
         PlatformSymbols::getPlatformServerName(),
         PlatformSymbols::getPlatformServerName(),
         $login_uri);
@@ -300,7 +300,7 @@ final class PhabricatorJIRAAuthProvider
     $providers = self::getAllEnabledProviders();
 
     foreach ($providers as $provider) {
-      if ($provider instanceof PhabricatorJIRAAuthProvider) {
+      if ($provider instanceof PhorgeJIRAAuthProvider) {
         return $provider;
       }
     }
@@ -309,7 +309,7 @@ final class PhabricatorJIRAAuthProvider
   }
 
   public function newJIRAFuture(
-    PhabricatorExternalAccount $account,
+    PhorgeExternalAccount $account,
     $path,
     $method,
     $params = array()) {

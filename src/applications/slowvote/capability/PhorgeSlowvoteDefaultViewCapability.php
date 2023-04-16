@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeSlowvoteDefaultViewCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'slowvote.default.view';
 

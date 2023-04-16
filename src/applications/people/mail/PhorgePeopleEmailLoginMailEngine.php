@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleEmailLoginMailEngine
-  extends PhabricatorPeopleMailEngine {
+final class PhorgePeopleEmailLoginMailEngine
+  extends PhorgePeopleMailEngine {
 
   public function validateMail() {
     $recipient = $this->getRecipient();
@@ -39,29 +39,29 @@ final class PhabricatorPeopleEmailLoginMailEngine
 
     $recipient = $this->getRecipient();
 
-    PhabricatorSystemActionEngine::willTakeAction(
+    PhorgeSystemActionEngine::willTakeAction(
       array($recipient->getPHID()),
-      new PhabricatorAuthEmailLoginAction(),
+      new PhorgeAuthEmailLoginAction(),
       1);
 
-    $engine = new PhabricatorAuthSessionEngine();
+    $engine = new PhorgeAuthSessionEngine();
     $login_uri = $engine->getOneTimeLoginURI(
       $recipient,
       null,
-      PhabricatorAuthSessionEngine::ONETIME_RESET);
+      PhorgeAuthSessionEngine::ONETIME_RESET);
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     $have_passwords = $this->isPasswordAuthEnabled();
 
     $body = array();
 
     if ($is_set_password) {
-      $message_key = PhabricatorAuthEmailSetPasswordMessageType::MESSAGEKEY;
+      $message_key = PhorgeAuthEmailSetPasswordMessageType::MESSAGEKEY;
     } else {
-      $message_key = PhabricatorAuthEmailLoginMessageType::MESSAGEKEY;
+      $message_key = PhorgeAuthEmailLoginMessageType::MESSAGEKEY;
     }
 
-    $message_body = PhabricatorAuthMessage::loadMessageText(
+    $message_body = PhorgeAuthMessage::loadMessageText(
       $recipient,
       $message_key);
     if (strlen($message_body)) {
@@ -88,7 +88,7 @@ final class PhabricatorPeopleEmailLoginMailEngine
           "sticky note and attaching it to your monitor so you don't ".
           "forget again! Choosing a very short, easy-to-remember password ".
           "like \"cat\" or \"1234\" might also help.\n\n".
-          "Best Wishes,\nPhabricator\n",
+          "Best Wishes,\nPhorge\n",
           $login_uri);
 
       }
@@ -102,13 +102,13 @@ final class PhabricatorPeopleEmailLoginMailEngine
 
     $body = implode("\n\n", $body);
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($subject)
       ->setBody($body);
   }
 
   private function isPasswordAuthEnabled() {
-    return (bool)PhabricatorPasswordAuthProvider::getPasswordProvider();
+    return (bool)PhorgePasswordAuthProvider::getPasswordProvider();
   }
 
   private function isSetPasswordWorkflow() {

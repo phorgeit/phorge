@@ -39,7 +39,7 @@ final class HarbormasterManagementBuildWorkflow
 
     $name = head($names);
 
-    $buildable = id(new PhabricatorObjectQuery())
+    $buildable = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($names)
       ->executeOne();
@@ -97,14 +97,14 @@ final class HarbormasterManagementBuildWorkflow
 
     $console->writeOut(
       "\n    %s\n\n",
-      PhabricatorEnv::getProductionURI('/B'.$buildable->getID()));
+      PhorgeEnv::getProductionURI('/B'.$buildable->getID()));
 
     if (!$args->getArg('background')) {
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
     }
 
     if ($viewer->isOmnipotent()) {
-      $initiator = id(new PhabricatorHarbormasterApplication())->getPHID();
+      $initiator = id(new PhorgeHarbormasterApplication())->getPHID();
     } else {
       $initiator =  $viewer->getPHID();
     }

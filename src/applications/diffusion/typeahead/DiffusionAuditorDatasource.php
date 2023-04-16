@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionAuditorDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Auditors');
@@ -12,14 +12,14 @@ final class DiffusionAuditorDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectDatasource(),
-      new PhabricatorOwnersPackageDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectDatasource(),
+      new PhorgeOwnersPackageDatasource(),
     );
   }
 

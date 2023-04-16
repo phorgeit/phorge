@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorCalendarEventEditController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventEditController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorCalendarEventEditEngine())
+    $engine = id(new PhorgeCalendarEventEditEngine())
       ->setController($this);
 
     $id = $request->getURIData('id');
     if ($id) {
-      $event = id(new PhabricatorCalendarEventQuery())
+      $event = id(new PhorgeCalendarEventQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->executeOne();
@@ -40,7 +40,7 @@ final class PhabricatorCalendarEventEditController
         // comments to every instance of an event, and the other actions don't
         // make much sense to apply to all instances either.
         if ($engine->isCommentAction()) {
-          $mode = PhabricatorCalendarEventEditEngine::MODE_THIS;
+          $mode = PhorgeCalendarEventEditEngine::MODE_THIS;
         } else {
           $mode = $request->getStr('mode');
         }
@@ -56,15 +56,15 @@ final class PhabricatorCalendarEventEditController
             ->appendControl(
               id(new AphrontFormRadioButtonControl())
                 ->setName('mode')
-                ->setValue(PhabricatorCalendarEventEditEngine::MODE_THIS)
+                ->setValue(PhorgeCalendarEventEditEngine::MODE_THIS)
                 ->addButton(
-                  PhabricatorCalendarEventEditEngine::MODE_THIS,
+                  PhorgeCalendarEventEditEngine::MODE_THIS,
                   pht('Edit Only This Event'),
                   pht(
                     'Edit only the event which occurs at %s.',
                     $start_time))
                 ->addButton(
-                  PhabricatorCalendarEventEditEngine::MODE_FUTURE,
+                  PhorgeCalendarEventEditEngine::MODE_FUTURE,
                   pht('Edit This And All Later Events'),
                   pht(
                     'Edit this event and all events in the series which '.

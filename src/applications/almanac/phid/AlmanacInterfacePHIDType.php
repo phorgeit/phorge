@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacInterfacePHIDType extends PhabricatorPHIDType {
+final class AlmanacInterfacePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'AINT';
 
@@ -13,11 +13,11 @@ final class AlmanacInterfacePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacInterfaceQuery())
@@ -25,7 +25,7 @@ final class AlmanacInterfacePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -51,7 +51,7 @@ final class AlmanacInterfacePHIDType extends PhabricatorPHIDType {
       $handle->setName($name);
 
       if ($device->isDisabled()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCustomFieldHeraldActionGroup
+final class PhorgeCustomFieldHeraldActionGroup
   extends HeraldActionGroup {
 
   const ACTIONGROUPKEY = 'customfield';

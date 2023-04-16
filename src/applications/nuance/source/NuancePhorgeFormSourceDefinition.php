@@ -1,6 +1,6 @@
 <?php
 
-final class NuancePhabricatorFormSourceDefinition
+final class NuancePhorgeFormSourceDefinition
   extends NuanceSourceDefinition {
 
   public function getName() {
@@ -18,7 +18,7 @@ final class NuancePhabricatorFormSourceDefinition
   public function getSourceViewActions(AphrontRequest $request) {
     $actions = array();
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('View Form'))
       ->setIcon('fa-align-justify')
       ->setHref($this->getActionURI());
@@ -36,7 +36,7 @@ final class NuancePhabricatorFormSourceDefinition
         'complaint' => (string)$request->getStr('complaint'),
       );
 
-      $content_source = PhabricatorContentSource::newFromRequest($request);
+      $content_source = PhorgeContentSource::newFromRequest($request);
 
       $item = $this->newItemFromProperties(
         NuanceFormItemType::ITEMTYPE,
@@ -70,14 +70,14 @@ final class NuancePhabricatorFormSourceDefinition
   }
 
   public function renderItemEditProperties(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     NuanceItem $item,
     PHUIPropertyListView $view) {
     $this->renderItemCommonProperties($viewer, $item, $view);
   }
 
   private function renderItemCommonProperties(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     NuanceItem $item,
     PHUIPropertyListView $view) {
 

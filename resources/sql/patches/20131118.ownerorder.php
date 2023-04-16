@@ -3,7 +3,7 @@
 $table = new ManiphestTask();
 $conn_w = $table->establishConnection('w');
 
-$user_table = new PhabricatorUser();
+$user_table = new PhorgeUser();
 $user_conn = $user_table->establishConnection('r');
 
 foreach (new LiskMigrationIterator($table) as $task) {

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectSilenceController
-  extends PhabricatorProjectController {
+final class PhorgeProjectSilenceController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $action = $request->getURIData('action');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needMembers(true)
@@ -17,7 +17,7 @@ final class PhabricatorProjectSilenceController
       return new Aphront404Response();
     }
 
-    $edge_type = PhabricatorProjectSilencedEdgeType::EDGECONST;
+    $edge_type = PhorgeProjectSilencedEdgeType::EDGECONST;
     $done_uri = "/project/members/{$id}/";
     $viewer_phid = $viewer->getPHID();
 
@@ -31,7 +31,7 @@ final class PhabricatorProjectSilenceController
         ->addCancelButton($done_uri);
     }
 
-    $silenced = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $silenced = PhorgeEdgeQuery::loadDestinationPHIDs(
       $project->getPHID(),
       $edge_type);
     $silenced = array_fuse($silenced);
@@ -45,15 +45,15 @@ final class PhabricatorProjectSilenceController
       }
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorProjectTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      $xactions[] = id(new PhorgeProjectTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $edge_type)
         ->setNewValue(
           array(
             $edge_action => array($viewer_phid => $viewer_phid),
           ));
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

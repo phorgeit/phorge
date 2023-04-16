@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionRemarkupPreviewController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionRemarkupPreviewController
+  extends PhorgeApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;

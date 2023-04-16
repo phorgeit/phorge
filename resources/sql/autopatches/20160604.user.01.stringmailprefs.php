@@ -1,7 +1,7 @@
 <?php
 
 
-$table = new PhabricatorUserPreferences();
+$table = new PhorgeUserPreferences();
 $conn_w = $table->establishConnection('w');
 
 // Convert "Mail Format", "Re Prefix" and "Vary Subjects" mail settings to
@@ -43,5 +43,5 @@ foreach (new LiskMigrationIterator($table) as $row) {
     $row->getID());
 }
 
-$prefs_key = PhabricatorUserPreferencesCacheType::KEY_PREFERENCES;
-PhabricatorUserCache::clearCacheForAllUsers($prefs_key);
+$prefs_key = PhorgeUserPreferencesCacheType::KEY_PREFERENCES;
+PhorgeUserCache::clearCacheForAllUsers($prefs_key);

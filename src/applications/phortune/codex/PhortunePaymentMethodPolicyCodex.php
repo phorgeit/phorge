@@ -1,7 +1,7 @@
 <?php
 
 final class PhortunePaymentMethodPolicyCodex
-  extends PhabricatorPolicyCodex {
+  extends PhorgePolicyCodex {
 
   public function getPolicySpecialRuleDescriptions() {
     $object = $this->getObject();
@@ -11,8 +11,8 @@ final class PhortunePaymentMethodPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setIsActive(true)
       ->setDescription(
@@ -22,7 +22,7 @@ final class PhortunePaymentMethodPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->setIsActive(true)
       ->setDescription(

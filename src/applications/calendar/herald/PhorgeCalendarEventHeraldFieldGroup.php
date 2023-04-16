@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarEventHeraldFieldGroup
+final class PhorgeCalendarEventHeraldFieldGroup
   extends HeraldFieldGroup {
 
   const FIELDGROUPKEY = 'calendar.event';

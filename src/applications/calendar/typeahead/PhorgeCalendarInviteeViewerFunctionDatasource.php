@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarInviteeViewerFunctionDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeCalendarInviteeViewerFunctionDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Viewer');
@@ -12,7 +12,7 @@ final class PhabricatorCalendarInviteeViewerFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -52,7 +52,7 @@ final class PhabricatorCalendarInviteeViewerFunctionDatasource
       $results[] = $this->getViewer()->getPHID();
     }
 
-    return PhabricatorCalendarInviteeDatasource::expandInvitees(
+    return PhorgeCalendarInviteeDatasource::expandInvitees(
       $this->getViewer(),
       $results);
   }
@@ -60,7 +60,7 @@ final class PhabricatorCalendarInviteeViewerFunctionDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $tokens = array();
     foreach ($argv_list as $argv) {
-      $tokens[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $tokens[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->renderViewerFunctionToken());
     }
     return $tokens;

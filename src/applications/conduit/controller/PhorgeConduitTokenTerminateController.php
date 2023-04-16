@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitTokenTerminateController
-  extends PhabricatorConduitController {
+final class PhorgeConduitTokenTerminateController
+  extends PhorgeConduitController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,14 +9,14 @@ final class PhabricatorConduitTokenTerminateController
     $id = $request->getURIData('id');
 
     if ($id) {
-      $token = id(new PhabricatorConduitTokenQuery())
+      $token = id(new PhorgeConduitTokenQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->withExpired(false)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$token) {
@@ -32,14 +32,14 @@ final class PhabricatorConduitTokenTerminateController
         'will no longer be able to make API requests.');
       $submit_button = pht('Terminate Token');
     } else {
-      $tokens = id(new PhabricatorConduitTokenQuery())
+      $tokens = id(new PhorgeConduitTokenQuery())
         ->setViewer($viewer)
         ->withObjectPHIDs(array($object_phid))
         ->withExpired(false)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->execute();
 
@@ -51,7 +51,7 @@ final class PhabricatorConduitTokenTerminateController
     }
 
     if ($object_phid != $viewer->getPHID()) {
-      $object = id(new PhabricatorObjectQuery())
+      $object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($object_phid))
         ->executeOne();
@@ -62,12 +62,12 @@ final class PhabricatorConduitTokenTerminateController
       $object = $viewer;
     }
 
-    $panel_uri = id(new PhabricatorConduitTokensSettingsPanel())
+    $panel_uri = id(new PhorgeConduitTokensSettingsPanel())
       ->setViewer($viewer)
       ->setUser($object)
       ->getPanelURI();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $panel_uri);
@@ -83,7 +83,7 @@ final class PhabricatorConduitTokenTerminateController
     if ($request->isFormPost()) {
       foreach ($tokens as $token) {
         $token
-          ->setExpires(PhabricatorTime::getNow() - 60)
+          ->setExpires(PhorgeTime::getNow() - 60)
           ->save();
       }
       return id(new AphrontRedirectResponse())->setURI($panel_uri);

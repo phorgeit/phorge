@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMarkupCache extends PhabricatorCacheDAO {
+final class PhorgeMarkupCache extends PhorgeCacheDAO {
 
   protected $cacheKey;
   protected $cacheData;
@@ -31,7 +31,7 @@ final class PhabricatorMarkupCache extends PhabricatorCacheDAO {
   }
 
   public function getSchemaPersistence() {
-    return PhabricatorConfigTableSchema::PERSISTENCE_CACHE;
+    return PhorgeConfigTableSchema::PERSISTENCE_CACHE;
   }
 
 }

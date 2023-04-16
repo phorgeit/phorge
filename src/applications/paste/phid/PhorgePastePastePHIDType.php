@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPastePastePHIDType extends PhabricatorPHIDType {
+final class PhorgePastePastePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PSTE';
 
@@ -9,23 +9,23 @@ final class PhabricatorPastePastePHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorPaste();
+    return new PhorgePaste();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPasteQuery())
+    return id(new PhorgePasteQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -46,7 +46,7 @@ final class PhabricatorPastePastePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -55,7 +55,7 @@ final class PhabricatorPastePastePHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorPasteQuery())
+    $objects = id(new PhorgePasteQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorXHProfSampleListController
-  extends PhabricatorXHProfController {
+final class PhorgeXHProfSampleListController
+  extends PhorgeXHProfController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorXHProfSampleSearchEngine())
+    return id(new PhorgeXHProfSampleSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

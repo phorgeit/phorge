@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownView extends AphrontView {
+final class PhorgeCountdownView extends AphrontView {
 
   private $countdown;
 
-  public function setCountdown(PhabricatorCountdown $countdown) {
+  public function setCountdown(PhorgeCountdown $countdown) {
     $this->countdown = $countdown;
     return $this;
   }

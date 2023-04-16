@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOwnersApplication extends PhabricatorApplication {
+final class PhorgeOwnersApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Owners');
@@ -22,11 +22,11 @@ final class PhabricatorOwnersApplication extends PhabricatorApplication {
     return "\xE2\x98\x81";
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Owners User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Owners User Guide'),
+        'href' => PhorgeEnv::getDoclink('Owners User Guide'),
       ),
     );
   }
@@ -41,36 +41,36 @@ final class PhabricatorOwnersApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorOwnersPackageRemarkupRule(),
+      new PhorgeOwnersPackageRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
       '/owners/' => array(
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorOwnersListController',
-        'new/' => 'PhabricatorOwnersEditController',
-        'package/(?P<id>[1-9]\d*)/' => 'PhabricatorOwnersDetailController',
-        'archive/(?P<id>[1-9]\d*)/' => 'PhabricatorOwnersArchiveController',
-        'paths/(?P<id>[1-9]\d*)/' => 'PhabricatorOwnersPathsController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeOwnersListController',
+        'new/' => 'PhorgeOwnersEditController',
+        'package/(?P<id>[1-9]\d*)/' => 'PhorgeOwnersDetailController',
+        'archive/(?P<id>[1-9]\d*)/' => 'PhorgeOwnersArchiveController',
+        'paths/(?P<id>[1-9]\d*)/' => 'PhorgeOwnersPathsController',
 
         $this->getEditRoutePattern('edit/')
-          => 'PhabricatorOwnersEditController',
+          => 'PhorgeOwnersEditController',
       ),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorOwnersDefaultViewCapability::CAPABILITY => array(
+      PhorgeOwnersDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created packages.'),
-        'template' => PhabricatorOwnersPackagePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeOwnersPackagePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
-      PhabricatorOwnersDefaultEditCapability::CAPABILITY => array(
+      PhorgeOwnersDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created packages.'),
-        'template' => PhabricatorOwnersPackagePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgeOwnersPackagePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

@@ -9,7 +9,7 @@ final class HeraldPonderQuestionAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
   public function getAdapterContentDescription() {

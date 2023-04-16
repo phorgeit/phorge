@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorSettingsIssueController
-  extends PhabricatorController {
+final class PhorgeSettingsIssueController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $setup_uri = id(new PhabricatorEmailAddressesSettingsPanel())
+    $setup_uri = id(new PhorgeEmailAddressesSettingsPanel())
       ->setViewer($viewer)
       ->setUser($viewer)
       ->getPanelURI();

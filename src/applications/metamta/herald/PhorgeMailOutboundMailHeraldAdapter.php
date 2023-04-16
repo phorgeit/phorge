@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMailOutboundMailHeraldAdapter
+final class PhorgeMailOutboundMailHeraldAdapter
   extends HeraldAdapter {
 
   private $mail;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   public function getAdapterContentDescription() {
@@ -18,11 +18,11 @@ final class PhabricatorMailOutboundMailHeraldAdapter
   }
 
   protected function newObject() {
-    return new PhabricatorMetaMTAMail();
+    return new PhorgeMetaMTAMail();
   }
 
   public function isTestAdapterForObject($object) {
-    return ($object instanceof PhabricatorMetaMTAMail);
+    return ($object instanceof PhorgeMetaMTAMail);
   }
 
   public function getAdapterTestDescription() {
@@ -36,7 +36,7 @@ final class PhabricatorMailOutboundMailHeraldAdapter
     return $this->mail;
   }
 
-  public function setObject(PhabricatorMetaMTAMail $mail) {
+  public function setObject(PhorgeMetaMTAMail $mail) {
     $this->mail = $mail;
     return $this;
   }

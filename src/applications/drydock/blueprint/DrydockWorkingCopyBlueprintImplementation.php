@@ -421,7 +421,7 @@ final class DrydockWorkingCopyBlueprintImplementation
   private function loadRepositories(array $phids) {
     $viewer = $this->getViewer();
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();
@@ -439,7 +439,7 @@ final class DrydockWorkingCopyBlueprintImplementation
     foreach ($repositories as $repository) {
       $repository_vcs = $repository->getVersionControlSystem();
       switch ($repository_vcs) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
           break;
         default:
           throw new Exception(

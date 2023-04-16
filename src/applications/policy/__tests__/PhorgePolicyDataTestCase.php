@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
+final class PhorgePolicyDataTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -11,19 +11,19 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
   public function testProjectPolicyMembership() {
     $author = $this->generateNewTestUser();
 
-    $proj_a = PhabricatorProject::initializeNewProject($author)
+    $proj_a = PhorgeProject::initializeNewProject($author)
       ->setName('A')
       ->save();
-    $proj_b = PhabricatorProject::initializeNewProject($author)
+    $proj_b = PhorgeProject::initializeNewProject($author)
       ->setName('B')
       ->save();
 
     $proj_a->setViewPolicy($proj_b->getPHID())->save();
     $proj_b->setViewPolicy($proj_a->getPHID())->save();
 
-    $user = new PhabricatorUser();
+    $user = new PhorgeUser();
 
-    $results = id(new PhabricatorProjectQuery())
+    $results = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->execute();
 
@@ -35,12 +35,12 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $user_b = $this->generateNewTestUser();
     $author = $this->generateNewTestUser();
 
-    $policy = id(new PhabricatorPolicy())
+    $policy = id(new PhorgePolicy())
       ->setRules(
         array(
           array(
-            'action' => PhabricatorPolicy::ACTION_ALLOW,
-            'rule' => 'PhabricatorUsersPolicyRule',
+            'action' => PhorgePolicy::ACTION_ALLOW,
+            'rule' => 'PhorgeUsersPolicyRule',
             'value' => array($user_a->getPHID()),
           ),
         ))
@@ -50,17 +50,17 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $task->setViewPolicy($policy->getPHID());
     $task->save();
 
-    $can_a_view = PhabricatorPolicyFilter::hasCapability(
+    $can_a_view = PhorgePolicyFilter::hasCapability(
       $user_a,
       $task,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     $this->assertTrue($can_a_view);
 
-    $can_b_view = PhabricatorPolicyFilter::hasCapability(
+    $can_b_view = PhorgePolicyFilter::hasCapability(
       $user_b,
       $task,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     $this->assertFalse($can_b_view);
   }
@@ -71,12 +71,12 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $user_b = $this->generateNewTestUser();
     $author = $this->generateNewTestUser();
 
-    $policy = id(new PhabricatorPolicy())
+    $policy = id(new PhorgePolicy())
       ->setRules(
         array(
           array(
-            'action' => PhabricatorPolicy::ACTION_ALLOW,
-            'rule' => 'PhabricatorAdministratorsPolicyRule',
+            'action' => PhorgePolicy::ACTION_ALLOW,
+            'rule' => 'PhorgeAdministratorsPolicyRule',
             'value' => null,
           ),
         ))
@@ -86,17 +86,17 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $task->setViewPolicy($policy->getPHID());
     $task->save();
 
-    $can_a_view = PhabricatorPolicyFilter::hasCapability(
+    $can_a_view = PhorgePolicyFilter::hasCapability(
       $user_a,
       $task,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     $this->assertTrue($can_a_view);
 
-    $can_b_view = PhabricatorPolicyFilter::hasCapability(
+    $can_b_view = PhorgePolicyFilter::hasCapability(
       $user_b,
       $task,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     $this->assertFalse($can_b_view);
   }
@@ -105,12 +105,12 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $user_a = $this->generateNewTestUser();
     $author = $this->generateNewTestUser();
 
-    $policy = id(new PhabricatorPolicy())
+    $policy = id(new PhorgePolicy())
       ->setRules(
         array(
           array(
-            'action' => PhabricatorPolicy::ACTION_ALLOW,
-            'rule' => 'PhabricatorLunarPhasePolicyRule',
+            'action' => PhorgePolicy::ACTION_ALLOW,
+            'rule' => 'PhorgeLunarPhasePolicyRule',
             'value' => 'new',
           ),
         ))
@@ -120,23 +120,23 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $task->setViewPolicy($policy->getPHID());
     $task->save();
 
-    $time_a = PhabricatorTime::pushTime(934354800, 'UTC');
+    $time_a = PhorgeTime::pushTime(934354800, 'UTC');
 
-      $can_a_view = PhabricatorPolicyFilter::hasCapability(
+      $can_a_view = PhorgePolicyFilter::hasCapability(
         $user_a,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW);
+        PhorgePolicyCapability::CAN_VIEW);
       $this->assertTrue($can_a_view);
 
     unset($time_a);
 
 
-    $time_b = PhabricatorTime::pushTime(1116745200, 'UTC');
+    $time_b = PhorgeTime::pushTime(1116745200, 'UTC');
 
-      $can_a_view = PhabricatorPolicyFilter::hasCapability(
+      $can_a_view = PhorgePolicyFilter::hasCapability(
         $user_a,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW);
+        PhorgePolicyCapability::CAN_VIEW);
       $this->assertFalse($can_a_view);
 
     unset($time_b);
@@ -153,16 +153,16 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $task->save();
 
     $this->assertTrue(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $author,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
     $this->assertFalse(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $viewer,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
   }
 
   public function testObjectPolicyRuleThreadMembers() {
@@ -176,16 +176,16 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $thread->save();
 
     $this->assertFalse(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $author,
         $thread,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
     $this->assertFalse(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $viewer,
         $thread,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
     $participant = id(new ConpherenceParticipant())
       ->setParticipantPHID($viewer->getPHID())
@@ -194,38 +194,38 @@ final class PhabricatorPolicyDataTestCase extends PhabricatorTestCase {
     $thread->attachParticipants(array($viewer->getPHID() => $participant));
 
     $this->assertTrue(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $viewer,
         $thread,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
   }
 
   public function testObjectPolicyRuleSubscribers() {
     $author = $this->generateNewTestUser();
 
-    $rule = new PhabricatorSubscriptionsSubscribersPolicyRule();
+    $rule = new PhorgeSubscriptionsSubscribersPolicyRule();
 
     $task = ManiphestTask::initializeNewTask($author);
     $task->setViewPolicy($rule->getObjectPolicyFullKey());
     $task->save();
 
     $this->assertFalse(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $author,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
-    id(new PhabricatorSubscriptionsEditor())
+    id(new PhorgeSubscriptionsEditor())
       ->setActor($author)
       ->setObject($task)
       ->subscribeExplicit(array($author->getPHID()))
       ->save();
 
     $this->assertTrue(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $author,
         $task,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
   }
 
 }

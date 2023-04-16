@@ -39,7 +39,7 @@ final class SlowvoteInfoConduitAPIMethod extends SlowvoteConduitAPIMethod {
 
     $poll_id = $request->getValue('poll_id');
 
-    $poll = id(new PhabricatorSlowvoteQuery())
+    $poll = id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($poll_id))
       ->executeOne();
@@ -52,7 +52,7 @@ final class SlowvoteInfoConduitAPIMethod extends SlowvoteConduitAPIMethod {
       'phid'        => $poll->getPHID(),
       'authorPHID'  => $poll->getAuthorPHID(),
       'question'    => $poll->getQuestion(),
-      'uri'         => PhabricatorEnv::getProductionURI('/V'.$poll->getID()),
+      'uri'         => PhorgeEnv::getProductionURI('/V'.$poll->getID()),
     );
 
     return $result;

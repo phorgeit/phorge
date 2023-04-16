@@ -36,8 +36,8 @@ final class NuanceQueueWorkController
         ))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setLimit(5)
       ->execute();
@@ -100,7 +100,7 @@ final class NuanceQueueWorkController
       $action_uri = $this->getApplicationURI($action_uri);
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($command->getName())
           ->setIcon($command->getIcon())
           ->setHref($action_uri)
@@ -108,16 +108,16 @@ final class NuanceQueueWorkController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_LABEL)
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_LABEL)
         ->setName(pht('Queue Actions')));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Manage Queue'))
         ->setIcon('fa-cog')
         ->setHref($this->getApplicationURI("queue/view/{$id}/")));

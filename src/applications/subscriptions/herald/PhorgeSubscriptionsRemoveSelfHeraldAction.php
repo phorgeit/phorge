@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsRemoveSelfHeraldAction
-  extends PhabricatorSubscriptionsHeraldAction {
+final class PhorgeSubscriptionsRemoveSelfHeraldAction
+  extends PhorgeSubscriptionsHeraldAction {
 
   const ACTIONCONST = 'subscribers.self.remove';
 

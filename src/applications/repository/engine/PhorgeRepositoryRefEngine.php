@@ -4,8 +4,8 @@
  * Update the ref cursors for a repository, which track the positions of
  * branches, bookmarks, and tags.
  */
-final class PhabricatorRepositoryRefEngine
-  extends PhabricatorRepositoryEngine {
+final class PhorgeRepositoryRefEngine
+  extends PhorgeRepositoryEngine {
 
   private $newPositions = array();
   private $deadPositions = array();
@@ -33,21 +33,21 @@ final class PhabricatorRepositoryRefEngine
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // No meaningful refs of any type in Subversion.
         $maps = array();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $branches = $this->loadMercurialBranchPositions($repository);
         $bookmarks = $this->loadMercurialBookmarkPositions($repository);
         $maps = array(
-          PhabricatorRepositoryRefCursor::TYPE_BRANCH => $branches,
-          PhabricatorRepositoryRefCursor::TYPE_BOOKMARK => $bookmarks,
+          PhorgeRepositoryRefCursor::TYPE_BRANCH => $branches,
+          PhorgeRepositoryRefCursor::TYPE_BOOKMARK => $bookmarks,
         );
 
         $branches_may_close = true;
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $maps = $this->loadGitRefPositions($repository);
         break;
       default:
@@ -56,13 +56,13 @@ final class PhabricatorRepositoryRefEngine
 
     // Fill in any missing types with empty lists.
     $maps = $maps + array(
-      PhabricatorRepositoryRefCursor::TYPE_BRANCH => array(),
-      PhabricatorRepositoryRefCursor::TYPE_TAG => array(),
-      PhabricatorRepositoryRefCursor::TYPE_BOOKMARK => array(),
-      PhabricatorRepositoryRefCursor::TYPE_REF => array(),
+      PhorgeRepositoryRefCursor::TYPE_BRANCH => array(),
+      PhorgeRepositoryRefCursor::TYPE_TAG => array(),
+      PhorgeRepositoryRefCursor::TYPE_BOOKMARK => array(),
+      PhorgeRepositoryRefCursor::TYPE_REF => array(),
     );
 
-    $all_cursors = id(new PhabricatorRepositoryRefCursorQuery())
+    $all_cursors = id(new PhorgeRepositoryRefCursorQuery())
       ->setViewer($viewer)
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->needPositions(true)
@@ -115,16 +115,16 @@ final class PhabricatorRepositoryRefEngine
       $repository->saveTransaction();
     }
 
-    $branches = $maps[PhabricatorRepositoryRefCursor::TYPE_BRANCH];
+    $branches = $maps[PhorgeRepositoryRefCursor::TYPE_BRANCH];
     if ($branches && $branches_may_close) {
       $this->updateBranchStates($repository, $branches);
     }
   }
 
   private function getCursorsForUpdate(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $cursors) {
-    assert_instances_of($cursors, 'PhabricatorRepositoryRefCursor');
+    assert_instances_of($cursors, 'PhorgeRepositoryRefCursor');
 
     $publisher = $repository->newPublisher();
 
@@ -146,20 +146,20 @@ final class PhabricatorRepositoryRefEngine
   }
 
   private function updateBranchStates(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $branches) {
 
     assert_instances_of($branches, 'DiffusionRepositoryRef');
     $viewer = $this->getViewer();
 
-    $all_cursors = id(new PhabricatorRepositoryRefCursorQuery())
+    $all_cursors = id(new PhorgeRepositoryRefCursorQuery())
       ->setViewer($viewer)
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->needPositions(true)
       ->execute();
 
     $state_map = array();
-    $type_branch = PhabricatorRepositoryRefCursor::TYPE_BRANCH;
+    $type_branch = PhorgeRepositoryRefCursor::TYPE_BRANCH;
     foreach ($all_cursors as $cursor) {
       if ($cursor->getRefType() !== $type_branch) {
         continue;
@@ -191,7 +191,7 @@ final class PhabricatorRepositoryRefEngine
     }
 
     if ($updates) {
-      $position_table = id(new PhabricatorRepositoryRefPosition());
+      $position_table = id(new PhorgeRepositoryRefPosition());
       $conn = $position_table->establishConnection('w');
 
       $position_table->openTransaction();
@@ -208,13 +208,13 @@ final class PhabricatorRepositoryRefEngine
   }
 
   private function markPositionNew(
-    PhabricatorRepositoryRefPosition $position) {
+    PhorgeRepositoryRefPosition $position) {
     $this->newPositions[] = $position;
     return $this;
   }
 
   private function markPositionDead(
-    PhabricatorRepositoryRefPosition $position) {
+    PhorgeRepositoryRefPosition $position) {
     $this->deadPositions[] = $position;
     return $this;
   }
@@ -336,7 +336,7 @@ final class PhabricatorRepositoryRefEngine
             $name);
         }
 
-        $new_position = id(new PhabricatorRepositoryRefPosition())
+        $new_position = id(new PhorgeRepositoryRefPosition())
           ->setCursorID($ref_cursor->getID())
           ->setCommitIdentifier($identifier)
           ->setIsClosed(0);
@@ -418,7 +418,7 @@ final class PhabricatorRepositoryRefEngine
     $repository = $this->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         if ($all_closing_heads) {
           $parts = array();
           foreach ($all_closing_heads as $head) {
@@ -462,7 +462,7 @@ final class PhabricatorRepositoryRefEngine
           return array();
         }
         return phutil_split_lines($stdout, $retain_newlines = false);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         if ($all_closing_heads) {
 
           // See PHI1474. This length of list may exceed the maximum size of
@@ -507,19 +507,19 @@ final class PhabricatorRepositoryRefEngine
    */
   private function setPermanentFlagOnCommits(array $identifiers) {
     $repository = $this->getRepository();
-    $commit_table = new PhabricatorRepositoryCommit();
+    $commit_table = new PhorgeRepositoryCommit();
     $conn = $commit_table->establishConnection('w');
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        $class = 'PhabricatorRepositoryGitCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+        $class = 'PhorgeRepositoryGitCommitMessageParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-        $class = 'PhabricatorRepositorySvnCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+        $class = 'PhorgeRepositorySvnCommitMessageParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-        $class = 'PhabricatorRepositoryMercurialCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        $class = 'PhorgeRepositoryMercurialCommitMessageParserWorker';
         break;
       default:
         throw new Exception(pht("Unknown repository type '%s'!", $vcs));
@@ -534,7 +534,7 @@ final class PhabricatorRepositoryRefEngine
     }
 
     $all_commits = array();
-    foreach (PhabricatorLiskDAO::chunkSQL($identifier_tokens) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($identifier_tokens) as $chunk) {
       $rows = queryfx_all(
         $conn,
         'SELECT id, phid, commitIdentifier, importStatus FROM %T
@@ -555,7 +555,7 @@ final class PhabricatorRepositoryRefEngine
       // discovered, so we'll get the right result even without filling
       // these records out in detail.
 
-      $commit_refs[] = id(new PhabricatorRepositoryCommitRef())
+      $commit_refs[] = id(new PhorgeRepositoryCommitRef())
         ->setIdentifier($identifier);
     }
 
@@ -563,8 +563,8 @@ final class PhabricatorRepositoryRefEngine
       $repository,
       $commit_refs);
 
-    $permanent_flag = PhabricatorRepositoryCommit::IMPORTED_PERMANENT;
-    $published_flag = PhabricatorRepositoryCommit::IMPORTED_PUBLISH;
+    $permanent_flag = PhorgeRepositoryCommit::IMPORTED_PERMANENT;
+    $published_flag = PhorgeRepositoryCommit::IMPORTED_PUBLISH;
 
     $all_commits = ipull($all_commits, null, 'commitIdentifier');
     foreach ($identifiers as $identifier) {
@@ -607,11 +607,11 @@ final class PhabricatorRepositoryRefEngine
   }
 
   private function newRefCursor(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $ref_type,
     $ref_name) {
 
-    $cursor = id(new PhabricatorRepositoryRefCursor())
+    $cursor = id(new PhorgeRepositoryRefCursor())
       ->setRepositoryPHID($repository->getPHID())
       ->setRefType($ref_type)
       ->setRefName($ref_name);
@@ -632,7 +632,7 @@ final class PhabricatorRepositoryRefEngine
 
     $viewer = $this->getViewer();
 
-    $cursor = id(new PhabricatorRepositoryRefCursorQuery())
+    $cursor = id(new PhorgeRepositoryRefCursorQuery())
       ->setViewer($viewer)
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->withRefTypes(array($ref_type))
@@ -676,7 +676,7 @@ final class PhabricatorRepositoryRefEngine
     foreach ($positions as $position) {
       // Shove this ref into the old refs table so the discovery engine
       // can check if any commits have been rendered unreachable.
-      id(new PhabricatorRepositoryOldRef())
+      id(new PhorgeRepositoryOldRef())
         ->setRepositoryPHID($repository->getPHID())
         ->setCommitIdentifier($position->getCommitIdentifier())
         ->save();
@@ -695,7 +695,7 @@ final class PhabricatorRepositoryRefEngine
   /**
    * @task git
    */
-  private function loadGitRefPositions(PhabricatorRepository $repository) {
+  private function loadGitRefPositions(PhorgeRepository $repository) {
     $refs = id(new DiffusionLowLevelGitRefQuery())
       ->setRepository($repository)
       ->execute();
@@ -711,7 +711,7 @@ final class PhabricatorRepositoryRefEngine
    * @task hg
    */
   private function loadMercurialBranchPositions(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return id(new DiffusionLowLevelMercurialBranchesQuery())
       ->setRepository($repository)
       ->execute();
@@ -722,7 +722,7 @@ final class PhabricatorRepositoryRefEngine
    * @task hg
    */
   private function loadMercurialBookmarkPositions(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     // TODO: Implement support for Mercurial bookmarks.
     return array();
   }

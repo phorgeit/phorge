@@ -1,10 +1,10 @@
 <?php
 
 final class PhortuneAccountEmailEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -16,13 +16,13 @@ final class PhortuneAccountEmailEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
 
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
+    $errors[] = new PhorgeApplicationTransactionValidationError(
       PhortuneAccountEmailAddressTransaction::TRANSACTIONTYPE,
       pht('Duplicate'),
       pht(
@@ -30,7 +30,7 @@ final class PhortuneAccountEmailEditor
         $object->getAddress()),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 }

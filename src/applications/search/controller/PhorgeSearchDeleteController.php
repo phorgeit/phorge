@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorSearchDeleteController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchDeleteController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
     $id = $request->getURIData('id');
     if ($id) {
-      $named_query = id(new PhabricatorNamedQueryQuery())
+      $named_query = id(new PhorgeNamedQueryQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$named_query) {
@@ -29,7 +29,7 @@ final class PhabricatorSearchDeleteController
       $key = $request->getURIData('queryKey');
       $engine_class = $request->getURIData('engine');
 
-      $base_class = 'PhabricatorApplicationSearchEngine';
+      $base_class = 'PhorgeApplicationSearchEngine';
       if (!is_subclass_of($engine_class, $base_class)) {
         return new Aphront400Response();
       }
@@ -46,15 +46,15 @@ final class PhabricatorSearchDeleteController
       // After loading a global query, make sure the viewer actually has
       // permission to view and edit it.
 
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $named_query,
-        PhabricatorPolicyCapability::CAN_VIEW);
+        PhorgePolicyCapability::CAN_VIEW);
 
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $named_query,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     $builtin = null;

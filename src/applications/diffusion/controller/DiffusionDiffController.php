@@ -62,7 +62,7 @@ final class DiffusionDiffController extends DiffusionController {
 
     $commit = $drequest->loadCommit();
 
-    $viewstate_engine = id(new PhabricatorChangesetViewStateEngine())
+    $viewstate_engine = id(new PhorgeChangesetViewStateEngine())
       ->setViewer($viewer)
       ->setObjectPHID($commit->getPHID())
       ->setChangeset($changeset);
@@ -118,13 +118,13 @@ final class DiffusionDiffController extends DiffusionController {
       $parser->setHandles($handles);
     }
 
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
     $engine->setViewer($viewer);
 
     foreach ($inlines as $inline) {
       $engine->addObject(
         $inline,
-        PhabricatorInlineComment::MARKUP_FIELD_BODY);
+        PhorgeInlineComment::MARKUP_FIELD_BODY);
     }
 
     $engine->process();

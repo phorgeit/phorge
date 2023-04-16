@@ -26,7 +26,7 @@ foreach ($conpherences as $conpherence) {
   foreach ($transactions as $transaction) {
     $participants_to_cache[] = $transaction->getAuthorPHID();
     if ($transaction->getTransactionType() ==
-      PhabricatorTransactions::TYPE_COMMENT) {
+      PhorgeTransactions::TYPE_COMMENT) {
       $message_count++;
     }
     $participants_to_update = idx(

@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacPropertiesEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'almanac.properties';
 
@@ -14,14 +14,14 @@ final class AlmanacPropertiesEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
     return ($object instanceof AlmanacPropertyInterface);
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
     return array(
       id(new AlmanacSetPropertyEditField())

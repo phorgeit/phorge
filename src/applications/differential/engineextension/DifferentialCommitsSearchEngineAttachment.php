@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCommitsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Diff Commits');

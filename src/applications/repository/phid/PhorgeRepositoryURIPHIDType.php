@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryURIPHIDType extends PhabricatorPHIDType {
+final class PhorgeRepositoryURIPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'RURI';
 
@@ -9,23 +9,23 @@ final class PhabricatorRepositoryURIPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorRepositoryURI();
+    return new PhorgeRepositoryURI();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositoryURIQuery())
+    return id(new PhorgeRepositoryURIQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

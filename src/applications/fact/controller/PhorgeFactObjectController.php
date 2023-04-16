@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorFactObjectController
-  extends PhabricatorFactController {
+final class PhorgeFactObjectController
+  extends PhorgeFactController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
     $phid = $request->getURIData('phid');
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($phid))
       ->executeOne();
@@ -15,7 +15,7 @@ final class PhabricatorFactObjectController
       return new Aphront404Response();
     }
 
-    $engines = PhabricatorFactEngine::loadAllEngines();
+    $engines = PhorgeFactEngine::loadAllEngines();
     foreach ($engines as $key => $engine) {
       $engine = id(clone $engine)
         ->setViewer($viewer);
@@ -35,7 +35,7 @@ final class PhabricatorFactObjectController
         ->addCancelButton($this->getApplicationURI());
     }
 
-    $key_dimension = new PhabricatorFactKeyDimension();
+    $key_dimension = new PhorgeFactKeyDimension();
     $object_phid = $object->getPHID();
 
     $facts = array();
@@ -53,10 +53,10 @@ final class PhabricatorFactObjectController
       $timings[$key] = ($t_end - $t_start);
     }
 
-    $object_id = id(new PhabricatorFactObjectDimension())
+    $object_id = id(new PhorgeFactObjectDimension())
       ->newDimensionID($object_phid, true);
 
-    $stored_datapoints = id(new PhabricatorFactDatapointQuery())
+    $stored_datapoints = id(new PhorgeFactDatapointQuery())
       ->withFacts(array_mergev($facts))
       ->withObjectPHIDs(array($object_phid))
       ->needVectors(true)
@@ -101,7 +101,7 @@ final class PhabricatorFactObjectController
 
     $handles = $viewer->loadHandles($handle_phids);
 
-    $dimension_map = id(new PhabricatorFactObjectDimension())
+    $dimension_map = id(new PhorgeFactObjectDimension())
       ->newDimensionMap($handle_phids, true);
 
     $content = array();
@@ -202,7 +202,7 @@ final class PhabricatorFactObjectController
       }
 
       foreach ($facts[$key] as $fact) {
-        $has_any = id(new PhabricatorFactDatapointQuery())
+        $has_any = id(new PhorgeFactDatapointQuery())
           ->withFacts(array($fact))
           ->setLimit(1)
           ->execute();
@@ -255,7 +255,7 @@ final class PhabricatorFactObjectController
 
       $content[] = $box;
 
-      if ($engine instanceof PhabricatorTransactionFactEngine) {
+      if ($engine instanceof PhorgeTransactionFactEngine) {
         $groups = $engine->newTransactionGroupsForObject($object);
         $groups = array_values($groups);
 

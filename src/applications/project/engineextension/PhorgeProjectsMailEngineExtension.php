@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorProjectsMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+final class PhorgeProjectsMailEngineExtension
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'projects';
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function newMailStampTemplates($object) {
     return array(
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('tag')
         ->setLabel(pht('Tagged with Project')),
     );
@@ -21,9 +21,9 @@ final class PhabricatorProjectsMailEngineExtension
     $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
     $this->getMailStamp('tag')
       ->setValue($project_phids);

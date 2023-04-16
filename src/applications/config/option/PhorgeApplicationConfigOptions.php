@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorApplicationConfigOptions extends Phobject {
+abstract class PhorgeApplicationConfigOptions extends Phobject {
 
   abstract public function getName();
   abstract public function getDescription();
@@ -11,7 +11,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
     return 'fa-sliders';
   }
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     if ($value === $option->getDefault()) {
       return;
     }
@@ -25,13 +25,13 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
       try {
         $type->validateStoredValue($option, $value);
         $this->didValidateOption($option, $value);
-      } catch (PhabricatorConfigValidationException $ex) {
+      } catch (PhorgeConfigValidationException $ex) {
         throw $ex;
       } catch (Exception $ex) {
         // If custom validators threw exceptions other than validation
         // exceptions, convert them to validation exceptions so we repair the
         // configuration and raise an error.
-        throw new PhabricatorConfigValidationException($ex->getMessage());
+        throw new PhorgeConfigValidationException($ex->getMessage());
       }
 
       return;
@@ -41,7 +41,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
       try {
         return $option->getCustomObject()->validateOption($option, $value);
       } catch (Exception $ex) {
-        throw new PhabricatorConfigValidationException($ex->getMessage());
+        throw new PhorgeConfigValidationException($ex->getMessage());
       }
     } else {
       throw new Exception(
@@ -54,7 +54,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   }
 
   protected function didValidateOption(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     // Hook for subclasses to do complex validation.
     return;
@@ -65,13 +65,13 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
    * or other context. For example, this is used to show workspace IDs when
    * configuring `asana.workspace-id`.
    *
-   * @param   PhabricatorConfigOption   Option being rendered.
+   * @param   PhorgeConfigOption   Option being rendered.
    * @param   AphrontRequest            Active request.
    * @return  wild                      Additional contextual description
    *                                    information.
    */
   public function renderContextualDescription(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
     return null;
   }
@@ -86,7 +86,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
   }
 
   final protected function newOption($key, $type, $default) {
-    return id(new PhabricatorConfigOption())
+    return id(new PhorgeConfigOption())
       ->setKey($key)
       ->setType($type)
       ->setDefault($default)

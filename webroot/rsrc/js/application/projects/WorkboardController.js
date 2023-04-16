@@ -51,11 +51,11 @@ JX.install('WorkboardController', {
     },
 
     _setupCoverImageHandlers: function() {
-      if (!JX.PhabricatorDragAndDropFileUpload.isSupported()) {
+      if (!JX.PhorgeDragAndDropFileUpload.isSupported()) {
         return;
       }
 
-      var drop = new JX.PhabricatorDragAndDropFileUpload('project-card')
+      var drop = new JX.PhorgeDragAndDropFileUpload('project-card')
         .setURI(this.getUploadURI())
         .setChunkThreshold(this.getChunkThreshold());
 

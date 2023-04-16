@@ -166,7 +166,7 @@ final class HarbormasterBuildViewController
 
       $when = array();
       $started = $build_target->getDateStarted();
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       if ($started) {
         $ended = $build_target->getDateCompleted();
         if ($ended) {
@@ -549,7 +549,7 @@ final class HarbormasterBuildViewController
         $id);
       $message_uri = $this->getApplicationURI($message_uri);
 
-      $action = id(new PhabricatorActionView())
+      $action = id(new PhorgeActionView())
         ->setName($message->getHarbormasterBuildMessageName())
         ->setIcon($message->getIcon())
         ->setHref($message_uri)
@@ -568,7 +568,7 @@ final class HarbormasterBuildViewController
     $properties = id(new PHUIPropertyListView())
       ->setUser($viewer);
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array(
         $build->getBuildablePHID(),
@@ -641,7 +641,7 @@ final class HarbormasterBuildViewController
     $viewer = $this->getRequest()->getUser();
 
     if ($messages) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($messages, 'getAuthorPHID'))
         ->execute();

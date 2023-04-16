@@ -3,7 +3,7 @@
 // TODO: See T13321. After the removal of daemon PID files this class
 // no longer makes as much sense as it once did.
 
-final class PhabricatorDaemonReference extends Phobject {
+final class PhorgeDaemonReference extends Phobject {
 
   public static function isProcessRunning($pid) {
     if (!$pid) {

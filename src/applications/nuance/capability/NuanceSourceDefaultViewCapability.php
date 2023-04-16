@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceSourceDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'nuance.source.default.view';
 

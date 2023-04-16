@@ -1,9 +1,9 @@
 <?php
 
-$table = new PhabricatorRepository();
+$table = new PhorgeRepository();
 $conn_w = $table->establishConnection('w');
 
-$default_path = PhabricatorEnv::getEnvConfig('repository.default-local-path');
+$default_path = PhorgeEnv::getEnvConfig('repository.default-local-path');
 $default_path = rtrim($default_path, '/');
 
 foreach (new LiskMigrationIterator($table) as $repository) {

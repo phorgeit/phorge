@@ -11,7 +11,7 @@
  * @task hasher   Implementing a Hasher
  * @task hashing  Using Hashers
  */
-abstract class PhabricatorPasswordHasher extends Phobject {
+abstract class PhorgePasswordHasher extends Phobject {
 
   const MAXIMUM_STORAGE_SIZE = 128;
 
@@ -208,7 +208,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * Get all available password hashers. This may include hashers which can not
    * actually be used (for example, a required extension is missing).
    *
-   * @return list<PhabricatorPasswordHasher> Hasher objects.
+   * @return list<PhorgePasswordHasher> Hasher objects.
    * @task hashing
    */
   public static function getAllHashers() {
@@ -243,7 +243,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * Get all usable password hashers. This may include hashers which are
    * not desirable or advisable.
    *
-   * @return list<PhabricatorPasswordHasher> Hasher objects.
+   * @return list<PhorgePasswordHasher> Hasher objects.
    * @task hashing
    */
   public static function getAllUsableHashers() {
@@ -260,7 +260,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Get the best (strongest) available hasher.
    *
-   * @return PhabricatorPasswordHasher Best hasher.
+   * @return PhorgePasswordHasher Best hasher.
    * @task hashing
    */
   public static function getBestHasher() {
@@ -269,7 +269,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
 
     $hasher = last($hashers);
     if (!$hasher) {
-      throw new PhabricatorPasswordHasherUnavailableException(
+      throw new PhorgePasswordHasherUnavailableException(
         pht(
           'There are no password hashers available which are usable for '.
           'new passwords.'));
@@ -282,7 +282,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Get the hasher for a given stored hash.
    *
-   * @return PhabricatorPasswordHasher Corresponding hasher.
+   * @return PhorgePasswordHasher Corresponding hasher.
    * @task hashing
    */
   public static function getHasherForHash(PhutilOpaqueEnvelope $hash) {
@@ -296,7 +296,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
 
     $all = self::getAllHashers();
     if (isset($all[$name])) {
-      throw new PhabricatorPasswordHasherUnavailableException(
+      throw new PhorgePasswordHasherUnavailableException(
         pht(
           'Attempting to compare a password saved with the "%s" hash. The '.
           'hasher exists, but is not currently usable. %s',
@@ -304,7 +304,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
           $all[$name]->getInstallInstructions()));
     }
 
-    throw new PhabricatorPasswordHasherUnavailableException(
+    throw new PhorgePasswordHasherUnavailableException(
       pht(
         'Attempting to compare a password saved with the "%s" hash. No such '.
         'hasher is known.',

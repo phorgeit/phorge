@@ -12,7 +12,7 @@ final class DiffusionPathIDQuery extends Phobject {
   }
 
   public function loadPathIDs() {
-    $repository = new PhabricatorRepository();
+    $repository = new PhorgeRepository();
 
     $path_normal_map = array();
     foreach ($this->paths as $path) {
@@ -23,7 +23,7 @@ final class DiffusionPathIDQuery extends Phobject {
     $paths = queryfx_all(
       $repository->establishConnection('r'),
       'SELECT * FROM %T WHERE pathHash IN (%Ls)',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       array_map('md5', array_keys($path_normal_map)));
     $paths = ipull($paths, 'id', 'path');
 

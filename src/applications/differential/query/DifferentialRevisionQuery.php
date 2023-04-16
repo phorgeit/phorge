@@ -6,7 +6,7 @@
  * @task internal Internals
  */
 final class DifferentialRevisionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $authors = array();
   private $draftAuthors = array();
@@ -341,7 +341,7 @@ final class DifferentialRevisionQuery
 
     $repositories = array();
     if ($repository_phids) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($repository_phids)
         ->execute();
@@ -355,7 +355,7 @@ final class DifferentialRevisionQuery
     //
     // In the latter case, we'll load the revision but not load the repository.
 
-    $can_view = PhabricatorPolicyCapability::CAN_VIEW;
+    $can_view = PhorgePolicyCapability::CAN_VIEW;
     foreach ($revisions as $key => $revision) {
       $repo_phid = $revision->getRepositoryPHID();
       if (!$repo_phid) {
@@ -431,7 +431,7 @@ final class DifferentialRevisionQuery
     $viewer = $this->getViewer();
 
     if ($this->needFlags) {
-      $flags = id(new PhabricatorFlagQuery())
+      $flags = id(new PhorgeFlagQuery())
         ->setViewer($viewer)
         ->withOwnerPHIDs(array($viewer->getPHID()))
         ->withObjectPHIDs(mpull($revisions, 'getPHID'))
@@ -445,7 +445,7 @@ final class DifferentialRevisionQuery
     }
 
     if ($this->needDrafts) {
-      PhabricatorDraftEngine::attachDrafts(
+      PhorgeDraftEngine::attachDrafts(
         $viewer,
         $revisions);
     }
@@ -582,8 +582,8 @@ final class DifferentialRevisionQuery
         'JOIN %T e_ccs ON e_ccs.src = r.phid '.
         'AND e_ccs.type = %s '.
         'AND e_ccs.dst in (%Ls)',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorObjectHasSubscriberEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeObjectHasSubscriberEdgeType::EDGECONST,
         $this->ccs);
     }
 
@@ -613,8 +613,8 @@ final class DifferentialRevisionQuery
         'JOIN %T has_draft ON has_draft.srcPHID = r.phid
           AND has_draft.type = %s
           AND has_draft.dstPHID IN (%Ls)',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorObjectHasDraftEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeObjectHasDraftEdgeType::EDGECONST,
         $this->draftAuthors);
     }
 
@@ -640,7 +640,7 @@ final class DifferentialRevisionQuery
       if (!$path_map) {
         // If none of the paths have entries in the PathID table, we can not
         // possibly find any revisions affecting them.
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $where[] = qsprintf(
@@ -651,14 +651,14 @@ final class DifferentialRevisionQuery
       // If we have repository PHIDs, additionally constrain this query to
       // try to help MySQL execute it efficiently.
       if ($this->repositoryPHIDs !== null) {
-        $repositories = id(new PhabricatorRepositoryQuery())
+        $repositories = id(new PhorgeRepositoryQuery())
           ->setViewer($viewer)
           ->setParentQuery($this)
           ->withPHIDs($this->repositoryPHIDs)
           ->execute();
 
         if (!$repositories) {
-          throw new PhabricatorEmptyQueryException();
+          throw new PhorgeEmptyQueryException();
         }
 
         $repository_ids = mpull($repositories, 'getID');
@@ -871,7 +871,7 @@ final class DifferentialRevisionQuery
 
     $revisions = mpull($revisions, null, 'getPHID');
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array_keys($revisions))
       ->withEdgeTypes(
         array(
@@ -977,7 +977,7 @@ final class DifferentialRevisionQuery
     $viewer_phid = $viewer->getPHID();
 
     $allow_key = 'differential.allow-self-accept';
-    $allow_self = PhabricatorEnv::getEnvConfig($allow_key);
+    $allow_self = PhorgeEnv::getEnvConfig($allow_key);
 
     // Figure out which of these reviewers the viewer has authority to act as.
     if ($this->needReviewerAuthority && $viewer_phid) {
@@ -1025,8 +1025,8 @@ final class DifferentialRevisionQuery
     // over.
     $project_phids = array();
     $package_phids = array();
-    $project_type = PhabricatorProjectProjectPHIDType::TYPECONST;
-    $package_type = PhabricatorOwnersPackagePHIDType::TYPECONST;
+    $project_type = PhorgeProjectProjectPHIDType::TYPECONST;
+    $package_type = PhorgeOwnersPackagePHIDType::TYPECONST;
 
     foreach ($reviewers as $revision_phid => $reviewer_list) {
       if (!$allow_self) {
@@ -1056,7 +1056,7 @@ final class DifferentialRevisionQuery
     // And over any projects they are a member of.
     $project_authority = array();
     if ($project_phids) {
-      $project_authority = id(new PhabricatorProjectQuery())
+      $project_authority = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($project_phids)
         ->withMemberPHIDs(array($viewer_phid))
@@ -1068,7 +1068,7 @@ final class DifferentialRevisionQuery
     // And over any packages they own.
     $package_authority = array();
     if ($package_phids) {
-      $package_authority = id(new PhabricatorOwnersPackageQuery())
+      $package_authority = id(new PhorgeOwnersPackageQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($package_phids)
         ->withAuthorityPHIDs(array($viewer_phid))
@@ -1081,7 +1081,7 @@ final class DifferentialRevisionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function getPrimaryTableAlias() {

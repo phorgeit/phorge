@@ -23,7 +23,7 @@ final class HeraldConditionResult
     return ($this->getSpecificationProperty('match') === true);
   }
 
-  public function newDetailsView(PhabricatorUser $viewer) {
+  public function newDetailsView(PhorgeUser $viewer) {
     switch ($this->getResultCode()) {
       case self::RESULT_OBJECT_STATE:
         $reason = $this->getDataProperty('reason');

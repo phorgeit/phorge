@@ -1,7 +1,7 @@
 <?php
 
 final class FundBackerSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $initiative;
 
@@ -19,11 +19,11 @@ final class FundBackerSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter(
       'backerPHIDs',
@@ -32,7 +32,7 @@ final class FundBackerSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new FundBackerQuery());
 
     $query->withStatuses(array(FundBacker::STATUS_PURCHASED));
@@ -54,7 +54,7 @@ final class FundBackerSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $backer_phids = $saved->getParameter('backerPHIDs', array());
 
@@ -63,7 +63,7 @@ final class FundBackerSearchEngine
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Backers'))
           ->setName('backers')
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setValue($backer_phids));
   }
 
@@ -96,7 +96,7 @@ final class FundBackerSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $backers,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = array();
     foreach ($backers as $backer) {
@@ -109,7 +109,7 @@ final class FundBackerSearchEngine
 
   protected function renderResultList(
     array $backers,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($backers, 'FundBacker');
 
@@ -142,7 +142,7 @@ final class FundBackerSearchEngine
           'right',
         ));
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
 
     return $result;

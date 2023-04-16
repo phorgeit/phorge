@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorVersionedDraft extends PhabricatorDraftDAO {
+final class PhorgeVersionedDraft extends PhorgeDraftDAO {
 
   const KEY_VERSION = 'draft.version';
 
@@ -56,7 +56,7 @@ final class PhabricatorVersionedDraft extends PhabricatorDraftDAO {
     $object_phid,
     $viewer_phid) {
 
-    return id(new PhabricatorVersionedDraft())->loadOneWhere(
+    return id(new PhorgeVersionedDraft())->loadOneWhere(
       'objectPHID = %s AND authorPHID = %s ORDER BY version DESC LIMIT 1',
       $object_phid,
       $viewer_phid);
@@ -99,7 +99,7 @@ final class PhabricatorVersionedDraft extends PhabricatorDraftDAO {
     $object_phid,
     $viewer_phid) {
 
-    $draft = new PhabricatorVersionedDraft();
+    $draft = new PhorgeVersionedDraft();
     $conn_w = $draft->establishConnection('w');
 
     queryfx(

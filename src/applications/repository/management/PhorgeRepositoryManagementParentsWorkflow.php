@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementParentsWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementParentsWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -23,7 +23,7 @@ final class PhabricatorRepositoryManagementParentsWorkflow
   public function execute(PhutilArgumentParser $args) {
     $repos = $this->loadRepositories($args, 'repos');
     if (!$repos) {
-      $repos = id(new PhabricatorRepositoryQuery())
+      $repos = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->execute();
     }
@@ -46,13 +46,13 @@ final class PhabricatorRepositoryManagementParentsWorkflow
     return 0;
   }
 
-  private function rebuildRepository(PhabricatorRepository $repo) {
+  private function rebuildRepository(PhorgeRepository $repo) {
     $console = PhutilConsole::getConsole();
     $console->writeOut("%s\n", pht('Rebuilding "%s"...', $repo->getMonogram()));
 
-    $refs = id(new PhabricatorRepositoryRefCursorQuery())
+    $refs = id(new PhorgeRepositoryRefCursorQuery())
       ->setViewer($this->getViewer())
-      ->withRefTypes(array(PhabricatorRepositoryRefCursor::TYPE_BRANCH))
+      ->withRefTypes(array(PhorgeRepositoryRefCursor::TYPE_BRANCH))
       ->withRepositoryPHIDs(array($repo->getPHID()))
       ->needPositions(true)
       ->execute();
@@ -69,9 +69,9 @@ final class PhabricatorRepositoryManagementParentsWorkflow
 
       foreach ($ref->getPositionIdentifiers() as $commit) {
         if ($repo->isGit()) {
-          $stream = new PhabricatorGitGraphStream($repo, $commit);
+          $stream = new PhorgeGitGraphStream($repo, $commit);
         } else {
-          $stream = new PhabricatorMercurialGraphStream($repo, $commit);
+          $stream = new PhorgeMercurialGraphStream($repo, $commit);
         }
 
         $discover = array($commit);
@@ -94,7 +94,7 @@ final class PhabricatorRepositoryManagementParentsWorkflow
         'Found %s total commit(s); updating...',
         phutil_count($graph)));
 
-    $commit_table = id(new PhabricatorRepositoryCommit());
+    $commit_table = id(new PhorgeRepositoryCommit());
     $commit_table_name = $commit_table->getTableName();
     $conn_w = $commit_table->establishConnection('w');
 
@@ -158,19 +158,19 @@ final class PhabricatorRepositoryManagementParentsWorkflow
     }
 
     $commit_table->openTransaction();
-    foreach (PhabricatorLiskDAO::chunkSQL($delete_sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($delete_sql) as $chunk) {
       queryfx(
         $conn_w,
         'DELETE FROM %T WHERE childCommitID IN (%LQ)',
-        PhabricatorRepository::TABLE_PARENTS,
+        PhorgeRepository::TABLE_PARENTS,
         $chunk);
     }
 
-    foreach (PhabricatorLiskDAO::chunkSQL($insert_sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($insert_sql) as $chunk) {
       queryfx(
         $conn_w,
         'INSERT INTO %T (childCommitID, parentCommitID) VALUES %LQ',
-        PhabricatorRepository::TABLE_PARENTS,
+        PhorgeRepository::TABLE_PARENTS,
         $chunk);
     }
     $commit_table->saveTransaction();

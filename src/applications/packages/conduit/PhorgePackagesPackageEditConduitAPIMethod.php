@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPackagesPackageEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+final class PhorgePackagesPackageEditConduitAPIMethod
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'packages.package.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorPackagesPackageEditEngine();
+    return new PhorgePackagesPackageEditEngine();
   }
 
   public function getMethodSummary() {

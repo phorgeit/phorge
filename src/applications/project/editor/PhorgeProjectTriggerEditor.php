@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProjectTriggerEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeProjectTriggerEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -22,7 +22,7 @@ final class PhabricatorProjectTriggerEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }

@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorObjectListQueryTestCase extends PhabricatorTestCase {
+final class PhorgeObjectListQueryTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -38,7 +38,7 @@ final class PhabricatorObjectListQueryTestCase extends PhabricatorTestCase {
       ),
       $result);
 
-    $package = PhabricatorOwnersPackage::initializeNewPackage($user)
+    $package = PhorgeOwnersPackage::initializeNewPackage($user)
       ->setName(pht('Query Test Package'))
       ->save();
 
@@ -110,8 +110,8 @@ final class PhabricatorObjectListQueryTestCase extends PhabricatorTestCase {
     $allow_partial = false,
     $suffixes = array()) {
 
-    $query = id(new PhabricatorObjectListQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $query = id(new PhorgeObjectListQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->setObjectList($list);
 
     if ($types) {

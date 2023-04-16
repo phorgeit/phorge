@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsAddSelfHeraldAction
-  extends PhabricatorSubscriptionsHeraldAction {
+final class PhorgeSubscriptionsAddSelfHeraldAction
+  extends PhorgeSubscriptionsHeraldAction {
 
   const ACTIONCONST = 'subscribers.self.add';
 

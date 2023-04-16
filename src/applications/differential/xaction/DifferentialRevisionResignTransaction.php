@@ -8,13 +8,13 @@ final class DifferentialRevisionResignTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Resign as Reviewer');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('You will resign as a reviewer for this change.');
   }
 
@@ -59,7 +59,7 @@ final class DifferentialRevisionResignTransaction
     $this->applyReviewerEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isClosed()) {
       throw new Exception(
         pht(

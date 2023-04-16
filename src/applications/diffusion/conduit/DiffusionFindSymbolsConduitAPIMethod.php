@@ -65,7 +65,7 @@ final class DiffusionFindSymbolsConduitAPIMethod
     foreach ($results as $result) {
       $uri = $result->getURI();
       if ($uri) {
-        $uri = PhabricatorEnv::getProductionURI($uri);
+        $uri = PhorgeEnv::getProductionURI($uri);
       }
 
       $response[] = array(

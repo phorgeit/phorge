@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMainMenuView extends AphrontView {
+final class PhorgeMainMenuView extends AphrontView {
 
   private $controller;
   private $applicationMenu;
@@ -14,7 +14,7 @@ final class PhabricatorMainMenuView extends AphrontView {
     return $this->applicationMenu;
   }
 
-  public function setController(PhabricatorController $controller) {
+  public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -26,11 +26,11 @@ final class PhabricatorMainMenuView extends AphrontView {
   private static function getFavicons() {
     $refs = array();
 
-    $refs['favicon'] = id(new PhabricatorFaviconRef())
+    $refs['favicon'] = id(new PhorgeFaviconRef())
       ->setWidth(64)
       ->setHeight(64);
 
-    $refs['message_favicon'] = id(new PhabricatorFaviconRef())
+    $refs['message_favicon'] = id(new PhorgeFaviconRef())
       ->setWidth(64)
       ->setHeight(64)
       ->setEmblems(
@@ -41,7 +41,7 @@ final class PhabricatorMainMenuView extends AphrontView {
           null,
         ));
 
-    id(new PhabricatorFaviconRefQuery())
+    id(new PhorgeFaviconRefQuery())
       ->withRefs($refs)
       ->execute();
 
@@ -72,13 +72,13 @@ final class PhabricatorMainMenuView extends AphrontView {
       $search_button = $this->renderSearchMenuButton($header_id);
     } else if (!$viewer->isLoggedIn()) {
       $app_button = $this->renderApplicationMenuButton();
-      if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {
+      if (PhorgeEnv::getEnvConfig('policy.allow-public')) {
         $search_button = $this->renderSearchMenuButton($header_id);
       }
     }
 
     if ($search_button) {
-      $search_menu = $this->renderPhabricatorSearchMenu();
+      $search_menu = $this->renderPhorgeSearchMenu();
     } else {
       $search_menu = null;
     }
@@ -102,7 +102,7 @@ final class PhabricatorMainMenuView extends AphrontView {
         phutil_implode_html(' ', $aural));
     }
 
-    $extensions = PhabricatorMainMenuBarExtension::getAllEnabledExtensions();
+    $extensions = PhorgeMainMenuBarExtension::getAllEnabledExtensions();
     foreach ($extensions as $extension) {
       $extension
         ->setViewer($viewer)
@@ -161,7 +161,7 @@ final class PhabricatorMainMenuView extends AphrontView {
       array(
         $app_button,
         $search_button,
-        $this->renderPhabricatorLogo(),
+        $this->renderPhorgeLogo(),
         $alerts,
         $aural,
         $search_menu,
@@ -181,11 +181,11 @@ final class PhabricatorMainMenuView extends AphrontView {
     if ($viewer->isLoggedIn()) {
       $show_search = $viewer->isUserActivated();
     } else {
-      $show_search = PhabricatorEnv::getEnvConfig('policy.allow-public');
+      $show_search = PhorgeEnv::getEnvConfig('policy.allow-public');
     }
 
     if ($show_search) {
-      $search = new PhabricatorMainMenuSearchView();
+      $search = new PhorgeMainMenuSearchView();
       $search->setViewer($viewer);
 
       $application = null;
@@ -241,11 +241,11 @@ final class PhabricatorMainMenuView extends AphrontView {
     $view = $this->getApplicationMenu();
     if ($view) {
       $items = $view->getItems();
-      $view = id(new PhabricatorActionListView())
+      $view = id(new PhorgeActionListView())
         ->setViewer($viewer);
       foreach ($items as $item) {
         $view->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName($item->getName())
             ->setHref($item->getHref())
             ->setType($item->getType()));
@@ -279,7 +279,7 @@ final class PhabricatorMainMenuView extends AphrontView {
       ''));
   }
 
-  private function renderPhabricatorSearchMenu() {
+  private function renderPhorgeSearchMenu() {
 
     $view = new PHUIListView();
     $view->addClass('phorge-search-menu');
@@ -292,12 +292,12 @@ final class PhabricatorMainMenuView extends AphrontView {
     return $view;
   }
 
-  private function renderPhabricatorLogo() {
-    $custom_header = PhabricatorCustomLogoConfigType::getLogoImagePHID();
+  private function renderPhorgeLogo() {
+    $custom_header = PhorgeCustomLogoConfigType::getLogoImagePHID();
 
     $logo_style = array();
     if ($custom_header) {
-      $cache = PhabricatorCaches::getImmutableCache();
+      $cache = PhorgeCaches::getImmutableCache();
       $cache_key_logo = 'ui.custom-header.logo-phid.v3.'.$custom_header;
 
       $logo_uri = $cache->getKey($cache_key_logo);
@@ -306,7 +306,7 @@ final class PhabricatorMainMenuView extends AphrontView {
         // miss here and just show the default logo. The cache will fill later
         // when someone who can see the file loads the page. This might be a
         // little spooky, see T11982.
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs(array($custom_header))
           ->execute();
@@ -332,7 +332,7 @@ final class PhabricatorMainMenuView extends AphrontView {
       ));
 
 
-    $wordmark_text = PhabricatorCustomLogoConfigType::getLogoWordmark();
+    $wordmark_text = PhorgeCustomLogoConfigType::getLogoWordmark();
     if (!strlen($wordmark_text)) {
       $wordmark_text = PlatformSymbols::getPlatformServerName();
     }
@@ -377,7 +377,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $message_tag = '';
     $message_notification_dropdown = '';
-    $conpherence_app = 'PhabricatorConpherenceApplication';
+    $conpherence_app = 'PhorgeConpherenceApplication';
     $conpherence_data = $dropdown_data[$conpherence_app];
     if ($conpherence_data['isInstalled']) {
       $message_id = celerity_generate_unique_node_id();
@@ -458,7 +458,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $bubble_tag = '';
     $notification_dropdown = '';
-    $notification_app = 'PhabricatorNotificationsApplication';
+    $notification_app = 'PhorgeNotificationsApplication';
     $notification_data = $dropdown_data[$notification_app];
     if ($notification_data['isInstalled']) {
       $count_id = celerity_generate_unique_node_id();
@@ -538,7 +538,7 @@ final class PhabricatorMainMenuView extends AphrontView {
     $setup_tag = '';
     $setup_notification_dropdown = '';
     if ($viewer && $viewer->getIsAdmin()) {
-      $open = PhabricatorSetupCheck::getOpenSetupIssueKeys();
+      $open = PhorgeSetupCheck::getOpenSetupIssueKeys();
       if ($open) {
         $setup_id = celerity_generate_unique_node_id();
         $setup_count_id = celerity_generate_unique_node_id();
@@ -625,7 +625,7 @@ final class PhabricatorMainMenuView extends AphrontView {
         $count_id = celerity_generate_unique_node_id();
         $dropdown_id = celerity_generate_unique_node_id();
 
-        $settings_uri = id(new PhabricatorEmailAddressesSettingsPanel())
+        $settings_uri = id(new PhorgeEmailAddressesSettingsPanel())
           ->setViewer($viewer)
           ->setUser($viewer)
           ->getPanelURI();
@@ -699,7 +699,7 @@ final class PhabricatorMainMenuView extends AphrontView {
     );
   }
 
-  private function isFullSession(PhabricatorUser $viewer) {
+  private function isFullSession(PhorgeUser $viewer) {
     if (!$viewer->isLoggedIn()) {
       return false;
     }
@@ -722,7 +722,7 @@ final class PhabricatorMainMenuView extends AphrontView {
     }
 
     $mfa_key = 'security.require-multi-factor-auth';
-    $need_mfa = PhabricatorEnv::getEnvConfig($mfa_key);
+    $need_mfa = PhorgeEnv::getEnvConfig($mfa_key);
     if ($need_mfa) {
       $have_mfa = $viewer->getIsEnrolledInMultiFactor();
       if (!$have_mfa) {

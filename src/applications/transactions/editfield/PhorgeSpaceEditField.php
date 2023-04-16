@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorSpaceEditField
-  extends PhabricatorEditField {
+final class PhorgeSpaceEditField
+  extends PhorgeEditField {
 
   private $policyField;
 
-  public function setPolicyField(PhabricatorPolicyEditField $policy_field) {
+  public function setPolicyField(PhorgePolicyEditField $policy_field) {
     $this->policyField = $policy_field;
     return $this;
   }

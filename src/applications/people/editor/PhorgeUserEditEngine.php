@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeUserEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'people.user';
 
@@ -22,15 +22,15 @@ final class PhabricatorUserEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   protected function newEditableObject() {
-    return new PhabricatorUser();
+    return new PhorgeUser();
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorPeopleQuery());
+    return id(new PhorgePeopleQuery());
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -60,27 +60,27 @@ final class PhabricatorUserEditEngine
   protected function getCreateNewObjectPolicy() {
     // At least for now, forbid creating new users via EditEngine. This is
     // primarily enforcing that "user.edit" can not create users via the API.
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('disabled')
         ->setOptions(pht('Active'), pht('Disabled'))
         ->setLabel(pht('Disabled'))
         ->setDescription(pht('Disable the user.'))
-        ->setTransactionType(PhabricatorUserDisableTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeUserDisableTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Disable or enable the user.'))
         ->setConduitTypeDescription(pht('True to disable the user.'))
         ->setValue($object->getIsDisabled()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('approved')
         ->setOptions(pht('Approved'), pht('Unapproved'))
         ->setLabel(pht('Approved'))
         ->setDescription(pht('Approve the user.'))
-        ->setTransactionType(PhabricatorUserApproveTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeUserApproveTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Approve or reject the user.'))
         ->setConduitTypeDescription(pht('True to approve the user.'))

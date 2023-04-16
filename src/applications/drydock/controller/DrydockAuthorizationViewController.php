@@ -70,10 +70,10 @@ final class DrydockAuthorizationViewController
 
     $curtain = $this->newCurtainView($authorization);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $authorization,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $authorize_uri = $this->getApplicationURI("authorization/{$id}/authorize/");
     $decline_uri = $this->getApplicationURI("authorization/{$id}/decline/");
@@ -86,7 +86,7 @@ final class DrydockAuthorizationViewController
     $can_decline = $can_edit && ($state != $state_declined);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($authorize_uri)
         ->setName(pht('Approve Authorization'))
         ->setIcon('fa-check')
@@ -94,7 +94,7 @@ final class DrydockAuthorizationViewController
         ->setDisabled(!$can_authorize));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($decline_uri)
         ->setName(pht('Decline Authorization'))
         ->setIcon('fa-times')

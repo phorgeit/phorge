@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorFileAttachment
-  extends PhabricatorFileDAO
+final class PhorgeFileAttachment
+  extends PhorgeFileDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   protected $objectPHID;
   protected $filePHID;
@@ -71,7 +71,7 @@ final class PhabricatorFileAttachment
     return $this->assertAttached($this->object);
   }
 
-  public function attachFile(PhabricatorFile $file = null) {
+  public function attachFile(PhorgeFile $file = null) {
     $this->file = $file;
     return $this;
   }
@@ -90,31 +90,31 @@ final class PhabricatorFileAttachment
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
       array($this->getObject(), $capability),
     );

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialChangesetSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $diff;
 
@@ -19,7 +19,7 @@ final class DifferentialChangesetSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function canUseInPanelContext() {
@@ -48,7 +48,7 @@ final class DifferentialChangesetSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Diffs'))
         ->setKey('diffPHIDs')
         ->setAliases(array('diff', 'diffs', 'diffPHID'))
@@ -88,7 +88,7 @@ final class DifferentialChangesetSearchEngine
 
   protected function renderResultList(
     array $changesets,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     assert_instances_of($changesets, 'DifferentialChangeset');
@@ -142,7 +142,7 @@ final class DifferentialChangesetSearchEngine
           'pri wide',
         ));
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table);
   }
 

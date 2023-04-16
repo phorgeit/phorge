@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectColumnPHIDType extends PhabricatorPHIDType {
+final class PhorgeProjectColumnPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PCOL';
 
@@ -13,23 +13,23 @@ final class PhabricatorProjectColumnPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorProjectColumn();
+    return new PhorgeProjectColumn();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorProjectColumnQuery())
+    return id(new PhorgeProjectColumnQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -40,7 +40,7 @@ final class PhabricatorProjectColumnPHIDType extends PhabricatorPHIDType {
       $handle->setURI($column->getWorkboardURI());
 
       if ($column->isHidden()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

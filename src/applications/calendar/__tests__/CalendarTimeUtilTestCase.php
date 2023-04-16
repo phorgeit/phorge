@@ -1,9 +1,9 @@
 <?php
 
-final class CalendarTimeUtilTestCase extends PhabricatorTestCase {
+final class CalendarTimeUtilTestCase extends PhorgeTestCase {
 
   public function testTimestampsAtMidnight() {
-    $u = new PhabricatorUser();
+    $u = new PhorgeUser();
     $u->overrideTimezoneIdentifier('America/Los_Angeles');
     $days = $this->getAllDays();
     foreach ($days as $day) {
@@ -16,7 +16,7 @@ final class CalendarTimeUtilTestCase extends PhabricatorTestCase {
   }
 
   public function testTimestampsStartDay() {
-    $u = new PhabricatorUser();
+    $u = new PhorgeUser();
     $u->overrideTimezoneIdentifier('America/Los_Angeles');
     $days = $this->getAllDays();
     foreach ($days as $day) {
@@ -31,7 +31,7 @@ final class CalendarTimeUtilTestCase extends PhabricatorTestCase {
     }
 
     $t = 1370202281; // 2013-06-02 12:44:41 -0700 -- a Sunday
-    $time = PhabricatorTime::pushTime($t, 'America/Los_Angeles');
+    $time = PhorgeTime::pushTime($t, 'America/Los_Angeles');
     foreach ($days as $day) {
       $data = CalendarTimeUtil::getTimestamps(
         $u,

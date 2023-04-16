@@ -7,10 +7,10 @@
 final class PhortunePaymentMethod
   extends PhortuneDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorPolicyCodexInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgePolicyCodexInterface,
+    PhorgeApplicationTransactionInterface {
 
   const STATUS_ACTIVE     = 'payment:active';
   const STATUS_DISABLED   = 'payment:disabled';
@@ -55,7 +55,7 @@ final class PhortunePaymentMethod
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortunePaymentMethodPHIDType::TYPECONST);
   }
 
@@ -153,7 +153,7 @@ final class PhortunePaymentMethod
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -165,24 +165,24 @@ final class PhortunePaymentMethod
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     // See T13366. If you can edit the merchant associated with this payment
     // method, you can view the payment method.
-    if ($capability === PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability === PhorgePolicyCapability::CAN_VIEW) {
       $any_edit = PhortuneMerchantQuery::canViewersEditMerchants(
         array($viewer->getPHID()),
         array($this->getMerchantPHID()));
@@ -195,10 +195,10 @@ final class PhortunePaymentMethod
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     if ($this->hasAutomaticCapability($capability, $viewer)) {
       return array();
     }
@@ -208,13 +208,13 @@ final class PhortunePaymentMethod
     return array(
       array(
         $this->getAccount(),
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }
 
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
 
   public function newPolicyCodex() {

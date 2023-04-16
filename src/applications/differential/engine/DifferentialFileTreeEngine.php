@@ -111,11 +111,11 @@ final class DifferentialFileTreeEngine
   }
 
   private function getVisibleSettingKey() {
-    return PhabricatorFiletreeVisibleSetting::SETTINGKEY;
+    return PhorgeFiletreeVisibleSetting::SETTINGKEY;
   }
 
   private function getWidthSettingKey() {
-    return PhabricatorFiletreeWidthSetting::SETTINGKEY;
+    return PhorgeFiletreeWidthSetting::SETTINGKEY;
   }
 
   private function getWidth() {

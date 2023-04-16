@@ -2,8 +2,8 @@
 
 /**
  * Manages execution of `git pull` and `hg pull` commands for
- * @{class:PhabricatorRepository} objects. Used by
- * @{class:PhabricatorRepositoryPullLocalDaemon}.
+ * @{class:PhorgeRepository} objects. Used by
+ * @{class:PhorgeRepositoryPullLocalDaemon}.
  *
  * This class also covers initial working copy setup through `git clone`,
  * `git init`, `hg clone`, `hg init`, or `svnadmin create`.
@@ -14,8 +14,8 @@
  * @task svn      Pulling Subversion Working Copies
  * @task internal Internals
  */
-final class PhabricatorRepositoryPullEngine
-  extends PhabricatorRepositoryEngine {
+final class PhorgeRepositoryPullEngine
+  extends PhorgeRepositoryEngine {
 
 
 /* -(  Pulling Working Copies  )--------------------------------------------- */
@@ -50,7 +50,7 @@ final class PhabricatorRepositoryPullEngine
 
   private function pullRepositoryWithLock() {
     $repository = $this->getRepository();
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     if ($repository->isReadOnly()) {
       $this->skipPull(
@@ -66,7 +66,7 @@ final class PhabricatorRepositoryPullEngine
     $vcs = $repository->getVersionControlSystem();
 
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // We never pull a local copy of non-hosted Subversion repositories.
         if (!$repository->isHosted()) {
           $this->skipPull(
@@ -78,10 +78,10 @@ final class PhabricatorRepositoryPullEngine
         }
         $is_svn = true;
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $is_git = true;
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $is_hg = true;
         break;
       default:
@@ -173,7 +173,7 @@ final class PhabricatorRepositoryPullEngine
   }
 
   private function abortPull($message, Exception $ex = null) {
-    $code_error = PhabricatorRepositoryStatusMessage::CODE_ERROR;
+    $code_error = PhorgeRepositoryStatusMessage::CODE_ERROR;
     $this->updateRepositoryInitStatus($code_error, $message);
     if ($ex) {
       throw $ex;
@@ -187,13 +187,13 @@ final class PhabricatorRepositoryPullEngine
   }
 
   private function donePull() {
-    $code_okay = PhabricatorRepositoryStatusMessage::CODE_OKAY;
+    $code_okay = PhorgeRepositoryStatusMessage::CODE_OKAY;
     $this->updateRepositoryInitStatus($code_okay);
   }
 
   private function updateRepositoryInitStatus($code, $message = null) {
     $this->getRepository()->writeStatusMessage(
-      PhabricatorRepositoryStatusMessage::TYPE_INIT,
+      PhorgeRepositoryStatusMessage::TYPE_INIT,
       $code,
       array(
         'message' => $message,
@@ -226,7 +226,7 @@ final class PhabricatorRepositoryPullEngine
   private function installHookDirectory($path) {
     $readme = pht(
       "To add custom hook scripts to this repository, add them to this ".
-      "directory.\n\nPhabricator will run any executables in this directory ".
+      "directory.\n\nPhorge will run any executables in this directory ".
       "after running its own checks, as though they were normal hook ".
       "scripts.");
 
@@ -234,10 +234,10 @@ final class PhabricatorRepositoryPullEngine
     Filesystem::writeFile($path.'/README', $readme);
   }
 
-  private function getHookContextIdentifier(PhabricatorRepository $repository) {
+  private function getHookContextIdentifier(PhorgeRepository $repository) {
     $identifier = $repository->getPHID();
 
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if (phutil_nonempty_string($instance)) {
       $identifier = "{$identifier}:{$instance}";
     }
@@ -453,7 +453,7 @@ final class PhabricatorRepositoryPullEngine
       ->resolvex();
   }
 
-  private function getGitRefRules(PhabricatorRepository $repository) {
+  private function getGitRefRules(PhorgeRepository $repository) {
     $ref_rules = $repository->getFetchRules($repository);
 
     if (!$ref_rules) {
@@ -465,7 +465,7 @@ final class PhabricatorRepositoryPullEngine
     return $ref_rules;
   }
 
-  private function getGitFetchRules(PhabricatorRepository $repository) {
+  private function getGitFetchRules(PhorgeRepository $repository) {
     $ref_rules = $this->getGitRefRules($repository);
 
     // Rewrite each ref rule "X" into "+X:X".
@@ -539,7 +539,7 @@ final class PhabricatorRepositoryPullEngine
   }
 
   private function loadGitRemoteRefs(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     PhutilOpaqueEnvelope $remote_envelope,
     $is_local) {
 
@@ -602,7 +602,7 @@ final class PhabricatorRepositoryPullEngine
     return $map;
   }
 
-  private function loadGitLocalRefs(PhabricatorRepository $repository) {
+  private function loadGitLocalRefs(PhorgeRepository $repository) {
     $refs = id(new DiffusionLowLevelGitRefQuery())
       ->setRepository($repository)
       ->execute();

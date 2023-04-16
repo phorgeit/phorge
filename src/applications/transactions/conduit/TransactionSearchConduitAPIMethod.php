@@ -13,7 +13,7 @@ final class TransactionSearchConduitAPIMethod
       'or an entire object type.');
   }
 
-  protected function newDocumentationPages(PhabricatorUser $viewer) {
+  protected function newDocumentationPages(PhorgeUser $viewer) {
     $markup = pht(<<<EOREMARKUP
 When an object (like a task) is edited, the relevant application creates a
 "transaction" and applies it. This list of transactions on each object is the
@@ -105,7 +105,7 @@ EOREMARKUP
 
     $object = $this->loadTemplateObject($request);
 
-    $xaction_query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+    $xaction_query = PhorgeApplicationTransactionQuery::newQueryForObject(
       $object);
 
     $xaction_query
@@ -127,7 +127,7 @@ EOREMARKUP
       $template = head($xactions)->getApplicationTransactionCommentObject();
       if ($template) {
 
-        $query = new PhabricatorApplicationTransactionTemplatedCommentQuery();
+        $query = new PhorgeApplicationTransactionTemplatedCommentQuery();
 
         $comment_map = $query
           ->setViewer($viewer)
@@ -145,7 +145,7 @@ EOREMARKUP
     $modular_objects = array();
     $modular_xactions = array();
     foreach ($xactions as $xaction) {
-      if (!$xaction instanceof PhabricatorModularTransaction) {
+      if (!$xaction instanceof PhorgeModularTransaction) {
         continue;
       }
 
@@ -240,21 +240,21 @@ EOREMARKUP
       // types. Ideally, we'll modularize everything some day.
       if ($type === null) {
         switch ($xaction->getTransactionType()) {
-          case PhabricatorTransactions::TYPE_COMMENT:
+          case PhorgeTransactions::TYPE_COMMENT:
             $type = 'comment';
             break;
-          case PhabricatorTransactions::TYPE_CREATE:
+          case PhorgeTransactions::TYPE_CREATE:
             $type = 'create';
             break;
-          case PhabricatorTransactions::TYPE_EDGE:
+          case PhorgeTransactions::TYPE_EDGE:
             switch ($xaction->getMetadataValue('edge:type')) {
-              case PhabricatorProjectObjectHasProjectEdgeType::EDGECONST:
+              case PhorgeProjectObjectHasProjectEdgeType::EDGECONST:
                 $type = 'projects';
                 $fields = $this->newEdgeTransactionFields($xaction);
                 break;
             }
             break;
-          case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+          case PhorgeTransactions::TYPE_SUBSCRIBERS:
             $type = 'subscribers';
             $fields = $this->newEdgeTransactionFields($xaction);
             break;
@@ -291,7 +291,7 @@ EOREMARKUP
 
   private function applyConstraints(
     array $constraints,
-    PhabricatorApplicationTransactionQuery $query) {
+    PhorgeApplicationTransactionQuery $query) {
 
     PhutilTypeSpec::checkMap(
       $constraints,
@@ -329,9 +329,9 @@ EOREMARKUP
   }
 
   private function newEdgeTransactionFields(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
-    $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+    $record = PhorgeEdgeChangeRecord::newFromTransaction($xaction);
 
     $operations = array();
     foreach ($record->getAddedPHIDs() as $phid) {
@@ -375,7 +375,7 @@ EOREMARKUP
     }
 
     if ($has_type) {
-      $all_types = PhabricatorPHIDType::getAllTypes();
+      $all_types = PhorgePHIDType::getAllTypes();
 
       if (!isset($all_types[$object_type])) {
         ksort($all_types);
@@ -389,7 +389,7 @@ EOREMARKUP
 
       $object = $all_types[$object_type]->newObject();
     } else {
-      $object = id(new PhabricatorObjectQuery())
+      $object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames(array($object_identifier))
         ->executeOne();
@@ -402,13 +402,13 @@ EOREMARKUP
       }
     }
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       throw new Exception(
         pht(
           'In call to "transaction.search", selected object (of type "%s") '.
           'does not implement "%s", so transactions can not be loaded for it.',
           get_class($object),
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
     }
 
     return $object;

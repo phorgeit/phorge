@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorClusterException
+abstract class PhorgeClusterException
   extends Exception {
 
   abstract public function getExceptionTitle();

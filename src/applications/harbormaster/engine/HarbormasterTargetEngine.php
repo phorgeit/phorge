@@ -6,7 +6,7 @@ final class HarbormasterTargetEngine extends Phobject {
   private $object;
   private $autoTargetKeys;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -201,7 +201,7 @@ final class HarbormasterTargetEngine extends Phobject {
       // This is fine as long as autotargets are empty containers that don't
       // do any work, which they always should be.
 
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
       try {
 
         // NOTE: We might race another process here to create the same build
@@ -211,9 +211,9 @@ final class HarbormasterTargetEngine extends Phobject {
         // to be more careful here if use of autotargets expands.
 
         $build = $buildable->applyPlan($plan, array(), $initiator_phid);
-        PhabricatorWorker::setRunAllTasksInProcess(false);
+        PhorgeWorker::setRunAllTasksInProcess(false);
       } catch (Exception $ex) {
-        PhabricatorWorker::setRunAllTasksInProcess(false);
+        PhorgeWorker::setRunAllTasksInProcess(false);
         throw $ex;
       }
 

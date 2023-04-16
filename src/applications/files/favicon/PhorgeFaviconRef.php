@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFaviconRef extends Phobject {
+final class PhorgeFaviconRef extends Phobject {
 
   private $viewer;
   private $width;
@@ -13,7 +13,7 @@ final class PhabricatorFaviconRef extends Phobject {
     $this->emblems = array(null, null, null, null);
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -75,7 +75,7 @@ final class PhabricatorFaviconRef extends Phobject {
   }
 
   public function newDigest() {
-    return PhabricatorHash::digestForIndex(serialize($this->toDictionary()));
+    return PhorgeHash::digestForIndex(serialize($this->toDictionary()));
   }
 
   public function toDictionary() {
@@ -93,16 +93,16 @@ final class PhabricatorFaviconRef extends Phobject {
     // Try to dirty it automatically if any relevant configuration changes.
     $inputs = array(
       'resources' => $all_resources,
-      'prod' => PhabricatorEnv::getProductionURI('/'),
-      'cdn' => PhabricatorEnv::getEnvConfig('security.alternate-file-domain'),
+      'prod' => PhorgeEnv::getProductionURI('/'),
+      'cdn' => PhorgeEnv::getEnvConfig('security.alternate-file-domain'),
       'havepng' => function_exists('imagepng'),
     );
 
-    return PhabricatorHash::digestForIndex(serialize($inputs));
+    return PhorgeHash::digestForIndex(serialize($inputs));
   }
 
   private static function getAllResources() {
-    $custom_resources = PhabricatorEnv::getEnvConfig('ui.favicons');
+    $custom_resources = PhorgeEnv::getEnvConfig('ui.favicons');
 
     foreach ($custom_resources as $key => $custom_resource) {
       $custom_resources[$key] = array(
@@ -191,7 +191,7 @@ final class PhabricatorFaviconRef extends Phobject {
     try {
       $favicon_file = $this->newFaviconFile($data);
 
-      $xform = id(new PhabricatorTransformedFile())
+      $xform = id(new PhorgeTransformedFile())
         ->setOriginalPHID($template_file->getPHID())
         ->setTransformedPHID($favicon_file->getPHID())
         ->setTransform($this->getCacheKey());
@@ -206,7 +206,7 @@ final class PhabricatorFaviconRef extends Phobject {
           throw $ex;
         }
 
-        id(new PhabricatorDestructionEngine())
+        id(new PhorgeDestructionEngine())
           ->destroyObject($favicon_file);
 
         return $cache->getViewURI();
@@ -224,10 +224,10 @@ final class PhabricatorFaviconRef extends Phobject {
     return $favicon_file->getViewURI();
   }
 
-  private function loadCachedFile(PhabricatorFile $template_file) {
+  private function loadCachedFile(PhorgeFile $template_file) {
     $viewer = $this->getViewer();
 
-    $xform = id(new PhabricatorTransformedFile())->loadOneWhere(
+    $xform = id(new PhorgeTransformedFile())->loadOneWhere(
       'originalPHID = %s AND transform = %s',
       $template_file->getPHID(),
       $this->getCacheKey());
@@ -235,7 +235,7 @@ final class PhabricatorFaviconRef extends Phobject {
       return null;
     }
 
-    return id(new PhabricatorFileQuery())
+    return id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($xform->getTransformedPHID()))
       ->executeOne();
@@ -336,7 +336,7 @@ final class PhabricatorFaviconRef extends Phobject {
         $emblem_template['height']);
     }
 
-    return PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    return PhorgeImageTransformer::saveImageDataInAnyFormat(
       $dst,
       'image/png');
   }
@@ -415,7 +415,7 @@ final class PhabricatorFaviconRef extends Phobject {
 
     $resource = $all_resources[$best_score];
     if ($resource['source-type'] === 'builtin') {
-      $file = PhabricatorFile::loadBuiltin($viewer, $resource['source']);
+      $file = PhorgeFile::loadBuiltin($viewer, $resource['source']);
       if (!$file) {
         throw new Exception(
           pht(
@@ -423,7 +423,7 @@ final class PhabricatorFaviconRef extends Phobject {
             $resource['source']));
       }
     } else {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($resource['source']))
         ->executeOne();
@@ -443,7 +443,7 @@ final class PhabricatorFaviconRef extends Phobject {
   }
 
   private function newFaviconFile($data) {
-    return PhabricatorFile::newFromFileData(
+    return PhorgeFile::newFromFileData(
       $data,
       array(
         'name' => 'favicon',

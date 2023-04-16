@@ -92,7 +92,7 @@ final class AlmanacNamespaceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

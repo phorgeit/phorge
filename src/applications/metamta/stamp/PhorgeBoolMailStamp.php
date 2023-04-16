@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBoolMailStamp
-  extends PhabricatorMailStamp {
+final class PhorgeBoolMailStamp
+  extends PhorgeMailStamp {
 
   const STAMPTYPE = 'bool';
 

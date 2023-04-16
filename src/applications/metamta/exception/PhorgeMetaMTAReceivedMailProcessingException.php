@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAReceivedMailProcessingException
+final class PhorgeMetaMTAReceivedMailProcessingException
   extends Exception {
 
   private $statusCode;

@@ -1,17 +1,17 @@
 <?php
 
-final class OwnersPackageReplyHandler extends PhabricatorMailReplyHandler {
+final class OwnersPackageReplyHandler extends PhorgeMailReplyHandler {
   public function validateMailReceiver($mail_receiver) {
-    if (!($mail_receiver instanceof PhabricatorOwnersPackage)) {
+    if (!($mail_receiver instanceof PhorgeOwnersPackage)) {
       throw new Exception(
         pht(
           'Receiver is not a %s!',
-          'PhabricatorOwnersPackage'));
+          'PhorgeOwnersPackage'));
     }
   }
 
   public function getPrivateReplyHandlerEmailAddress(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
     return null;
   }
 
@@ -19,7 +19,7 @@ final class OwnersPackageReplyHandler extends PhabricatorMailReplyHandler {
     return null;
   }
 
-  protected function receiveEmail(PhabricatorMetaMTAReceivedMail $mail) {
+  protected function receiveEmail(PhorgeMetaMTAReceivedMail $mail) {
     return;
   }
 }

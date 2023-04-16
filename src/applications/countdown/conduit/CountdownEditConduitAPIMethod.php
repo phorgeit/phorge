@@ -1,14 +1,14 @@
 <?php
 
 final class CountdownEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'countdown.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorCountdownEditEngine();
+    return new PhorgeCountdownEditEngine();
   }
 
   public function getMethodSummary() {

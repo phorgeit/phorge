@@ -5,7 +5,7 @@
  * three capabilities: indexing, searching, and reconstruction (this can be
  * stubbed out if an engine can't reasonably do it, it is used for debugging).
  */
-abstract class PhabricatorFulltextStorageEngine extends Phobject {
+abstract class PhorgeFulltextStorageEngine extends Phobject {
 
   protected $service;
 
@@ -13,13 +13,13 @@ abstract class PhabricatorFulltextStorageEngine extends Phobject {
     return $this->service->getHosts();
   }
 
-  public function setService(PhabricatorSearchService $service) {
+  public function setService(PhorgeSearchService $service) {
     $this->service = $service;
     return $this;
   }
 
   /**
-   * @return PhabricatorSearchService
+   * @return PhorgeSearchService
    */
   public function getService() {
     return $this->service;
@@ -27,8 +27,8 @@ abstract class PhabricatorFulltextStorageEngine extends Phobject {
 
   /**
    * Implementations must return a prototype host instance which is cloned
-   * by the PhabricatorSearchService infrastructure to configure each engine.
-   * @return PhabricatorSearchHost
+   * by the PhorgeSearchService infrastructure to configure each engine.
+   * @return PhorgeSearchHost
    */
   abstract public function getHostType();
 
@@ -47,19 +47,19 @@ abstract class PhabricatorFulltextStorageEngine extends Phobject {
   /**
    * Update the index for an abstract document.
    *
-   * @param PhabricatorSearchAbstractDocument Document to update.
+   * @param PhorgeSearchAbstractDocument Document to update.
    * @return void
    */
   abstract public function reindexAbstractDocument(
-    PhabricatorSearchAbstractDocument $document);
+    PhorgeSearchAbstractDocument $document);
 
   /**
    * Execute a search query.
    *
-   * @param PhabricatorSavedQuery A query to execute.
+   * @param PhorgeSavedQuery A query to execute.
    * @return list A list of matching PHIDs.
    */
-  abstract public function executeSearch(PhabricatorSavedQuery $query);
+  abstract public function executeSearch(PhorgeSavedQuery $query);
 
   /**
    * Does the search index exist?

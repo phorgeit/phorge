@@ -20,7 +20,7 @@ abstract class PhortuneExternalController
   }
 
   final protected function getExternalViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   final public function handleRequest(AphrontRequest $request) {
@@ -40,10 +40,10 @@ abstract class PhortuneExternalController
 
     $account = $email->getAccount();
 
-    $can_see = PhabricatorPolicyFilter::hasCapability(
+    $can_see = PhorgePolicyFilter::hasCapability(
       $viewer,
       $account,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $email_display = phutil_tag('strong', array(), $email->getAddress());
     $user_display = phutil_tag('strong', array(), $viewer->getUsername());

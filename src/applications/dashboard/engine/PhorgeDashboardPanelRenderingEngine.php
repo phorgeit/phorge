@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
+final class PhorgeDashboardPanelRenderingEngine extends Phobject {
 
   const HEADER_MODE_NORMAL = 'normal';
   const HEADER_MODE_NONE   = 'none';
@@ -45,7 +45,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
     return $this->headerMode;
   }
 
-  public function setPanelHandle(PhabricatorObjectHandle $panel_handle) {
+  public function setPanelHandle(PhorgeObjectHandle $panel_handle) {
     $this->panelHandle = $panel_handle;
     return $this;
   }
@@ -80,7 +80,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
     return $this->parentPanelPHIDs;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -89,7 +89,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
     return $this->viewer;
   }
 
-  public function setPanel(PhabricatorDashboardPanel $panel) {
+  public function setPanel(PhorgeDashboardPanel $panel) {
     $this->panel = $panel;
     return $this;
   }
@@ -252,7 +252,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
 
     $box = new PHUIObjectBoxView();
 
-    $interface = 'PhabricatorApplicationSearchResultView';
+    $interface = 'PhorgeApplicationSearchResultView';
     if ($content instanceof $interface) {
       if ($content->getObjectList()) {
         $box->setObjectList($content->getObjectList());
@@ -333,7 +333,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
           $viewer,
           $context_phid);
       } catch (Exception $ex) {
-        $error_action = id(new PhabricatorActionView())
+        $error_action = id(new PhorgeActionView())
           ->setIcon('fa-exclamation-triangle red')
           ->setName(pht('<Rendering Exception>'));
         $panel_actions[] = $error_action;
@@ -343,8 +343,8 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
         foreach ($panel_actions as $panel_action) {
           $actions[] = $panel_action;
         }
-        $actions[] = id(new PhabricatorActionView())
-          ->setType(PhabricatorActionView::TYPE_DIVIDER);
+        $actions[] = id(new PhorgeActionView())
+          ->setType(PhorgeActionView::TYPE_DIVIDER);
       }
 
       $panel_id = $panel->getID();
@@ -355,12 +355,12 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
       );
       $edit_uri = new PhutilURI($edit_uri, $params);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Panel'))
         ->setHref($edit_uri);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-window-maximize')
         ->setName(pht('View Panel Details'))
         ->setHref($panel->getURI());
@@ -376,14 +376,14 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
       );
       $remove_uri = new PhutilURI($remove_uri, $params);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-times')
         ->setHref($remove_uri)
         ->setName(pht('Remove Panel'))
         ->setWorkflow(true);
     }
 
-    $dropdown_menu = id(new PhabricatorActionListView())
+    $dropdown_menu = id(new PhorgeActionListView())
       ->setViewer($viewer);
 
     foreach ($actions as $action) {
@@ -411,10 +411,10 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
    * panel. Generally, all of this stuff is ridiculous and we just want to
    * shut it down.
    *
-   * @param PhabricatorDashboardPanel Panel being rendered.
+   * @param PhorgeDashboardPanel Panel being rendered.
    * @return void
    */
-  private function detectRenderingCycle(PhabricatorDashboardPanel $panel) {
+  private function detectRenderingCycle(PhorgeDashboardPanel $panel) {
     if ($this->parentPanelPHIDs === null) {
       throw new PhutilInvalidStateException('setParentPanelPHIDs');
     }

@@ -21,7 +21,7 @@ foreach ($chunk_iter as $chunk) {
     }
 
     $type_diff = DifferentialDiffPHIDType::TYPECONST;
-    $new_phid = PhabricatorPHID::generateNewPHID($type_diff);
+    $new_phid = PhorgePHID::generateNewPHID($type_diff);
 
     $sql[] = qsprintf(
       $conn_w,
@@ -34,7 +34,7 @@ foreach ($chunk_iter as $chunk) {
     continue;
   }
 
-  foreach (PhabricatorLiskDAO::chunkSQL($sql) as $sql_chunk) {
+  foreach (PhorgeLiskDAO::chunkSQL($sql) as $sql_chunk) {
     queryfx(
       $conn_w,
       'INSERT IGNORE INTO %T (id, phid) VALUES %LQ

@@ -8,10 +8,10 @@ final class HarbormasterCircleCIHookHandler
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function handleRequest(AphrontRequest $request) {
-    $raw_body = PhabricatorStartup::getRawInput();
+    $raw_body = PhorgeStartup::getRawInput();
     $body = phutil_json_decode($raw_body);
 
     $payload = $body['payload'];
@@ -30,7 +30,7 @@ final class HarbormasterCircleCIHookHandler
     // like branch updates.
 
     if ($target_phid) {
-      $viewer = PhabricatorUser::getOmnipotentUser();
+      $viewer = PhorgeUser::getOmnipotentUser();
       $target = id(new HarbormasterBuildTargetQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($target_phid))
@@ -71,7 +71,7 @@ final class HarbormasterCircleCIHookHandler
         break;
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $api_method = 'harbormaster.sendmessage';
     $api_params = array(

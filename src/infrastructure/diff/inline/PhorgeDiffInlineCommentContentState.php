@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffInlineCommentContentState
-  extends PhabricatorInlineCommentContentState {
+final class PhorgeDiffInlineCommentContentState
+  extends PhorgeInlineCommentContentState {
 
   private $hasSuggestion = false;
   private $suggestionText = '';

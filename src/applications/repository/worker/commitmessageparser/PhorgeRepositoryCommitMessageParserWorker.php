@@ -1,17 +1,17 @@
 <?php
 
-abstract class PhabricatorRepositoryCommitMessageParserWorker
-  extends PhabricatorRepositoryCommitParserWorker {
+abstract class PhorgeRepositoryCommitMessageParserWorker
+  extends PhorgeRepositoryCommitParserWorker {
 
   protected function getImportStepFlag() {
-    return PhabricatorRepositoryCommit::IMPORTED_MESSAGE;
+    return PhorgeRepositoryCommit::IMPORTED_MESSAGE;
   }
 
   abstract protected function getFollowupTaskClass();
 
   final protected function parseCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     if (!$this->shouldSkipImportStep()) {
       $viewer = $this->getViewer();
@@ -28,8 +28,8 @@ abstract class PhabricatorRepositoryCommitMessageParserWorker
   }
 
   final protected function updateCommitData(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorRepositoryCommitData $data) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeRepositoryCommitData $data) {
 
     $ref = $data->getCommitRef();
     $viewer = $this->getViewer();
@@ -112,7 +112,7 @@ abstract class PhabricatorRepositoryCommitMessageParserWorker
     $data->save();
 
     $commit->writeImportStatusFlag(
-      PhabricatorRepositoryCommit::IMPORTED_MESSAGE);
+      PhorgeRepositoryCommit::IMPORTED_MESSAGE);
   }
 
 }

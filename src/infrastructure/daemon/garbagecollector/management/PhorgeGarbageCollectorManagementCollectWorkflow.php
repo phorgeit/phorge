@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorGarbageCollectorManagementCollectWorkflow
-  extends PhabricatorGarbageCollectorManagementWorkflow {
+final class PhorgeGarbageCollectorManagementCollectWorkflow
+  extends PhorgeGarbageCollectorManagementWorkflow {
 
   protected function didConstruct() {
     $this

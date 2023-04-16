@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCoreCreateTransaction
-  extends PhabricatorCoreTransactionType {
+final class PhorgeCoreCreateTransaction
+  extends PhorgeCoreTransactionType {
 
   const TRANSACTIONTYPE = 'core:create';
 

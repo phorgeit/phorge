@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementShowInboundWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementShowInboundWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -31,7 +31,7 @@ final class PhabricatorMailManagementShowInboundWorkflow
           '--id'));
     }
 
-    $messages = id(new PhabricatorMetaMTAReceivedMail())->loadAllWhere(
+    $messages = id(new PhorgeMetaMTAReceivedMail())->loadAllWhere(
       'id IN (%Ld)',
       $ids);
 

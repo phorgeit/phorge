@@ -4,9 +4,9 @@
  * Groups a set of push logs corresponding to changes which were all pushed in
  * the same transaction.
  */
-final class PhabricatorRepositoryPushEvent
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryPushEvent
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   protected $repositoryPHID;
   protected $epoch;
@@ -24,8 +24,8 @@ final class PhabricatorRepositoryPushEvent
   private $repository = self::ATTACHABLE;
   private $logs = self::ATTACHABLE;
 
-  public static function initializeNewEvent(PhabricatorUser $viewer) {
-    return id(new PhabricatorRepositoryPushEvent())
+  public static function initializeNewEvent(PhorgeUser $viewer) {
+    return id(new PhorgeRepositoryPushEvent())
       ->setPusherPHID($viewer->getPHID());
   }
 
@@ -59,11 +59,11 @@ final class PhabricatorRepositoryPushEvent
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryPushEventPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryPushEventPHIDType::TYPECONST);
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -82,7 +82,7 @@ final class PhabricatorRepositoryPushEvent
   }
 
   public function saveWithLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($logs, 'PhorgeRepositoryPushLog');
 
     $this->openTransaction();
       $this->save();
@@ -97,12 +97,12 @@ final class PhabricatorRepositoryPushEvent
     return $this;
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -110,7 +110,7 @@ final class PhabricatorRepositoryPushEvent
     return $this->getRepository()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getRepository()->hasAutomaticCapability($capability, $viewer);
   }
 

@@ -1,4 +1,4 @@
 <?php
 
 abstract class PhrictionDocumentTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

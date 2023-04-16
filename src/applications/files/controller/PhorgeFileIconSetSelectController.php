@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorFileIconSetSelectController
-  extends PhabricatorFileController {
+final class PhorgeFileIconSetSelectController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $key = $request->getURIData('key');
 
-    $set = PhabricatorIconSet::getIconSetByKey($key);
+    $set = PhorgeIconSet::getIconSetByKey($key);
     if (!$set) {
       return new Aphront404Response();
     }

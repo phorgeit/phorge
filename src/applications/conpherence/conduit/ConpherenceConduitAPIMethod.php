@@ -3,13 +3,13 @@
 abstract class ConpherenceConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass(
-      'PhabricatorConpherenceApplication');
+    return PhorgeApplication::getByClass(
+      'PhorgeConpherenceApplication');
   }
 
   final protected function getConpherenceURI(ConpherenceThread $conpherence) {
     $id = $conpherence->getID();
-    return PhabricatorEnv::getProductionURI(
+    return PhorgeEnv::getProductionURI(
       $this->getApplication()->getApplicationURI($id));
   }
 

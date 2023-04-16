@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLockController
-  extends PhabricatorProjectController {
+final class PhorgeProjectLockController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
@@ -14,13 +14,13 @@ final class PhabricatorProjectLockController
       ProjectCanLockProjectsCapability::CAPABILITY);
 
     $id = $request->getURIData('id');
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$project) {
@@ -48,12 +48,12 @@ final class PhabricatorProjectLockController
         $new_value = 1;
       }
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectLockTransaction::TRANSACTIONTYPE)
+            PhorgeProjectLockTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_value);
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

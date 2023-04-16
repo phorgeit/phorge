@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryPublisherHoldReason
+final class PhorgeRepositoryPublisherHoldReason
   extends Phobject {
 
   private $key;
@@ -44,29 +44,29 @@ final class PhabricatorRepositoryPublisherHoldReason
 
   private static function getHoldReasonSpecs() {
     $map = array(
-      PhabricatorRepositoryPublisher::HOLD_IMPORTING => array(
+      PhorgeRepositoryPublisher::HOLD_IMPORTING => array(
         'name' => pht('Repository Importing'),
         'summary' => pht('This repository is still importing.'),
       ),
-      PhabricatorRepositoryPublisher::HOLD_PUBLISHING_DISABLED => array(
+      PhorgeRepositoryPublisher::HOLD_PUBLISHING_DISABLED => array(
         'name' => pht('Publishing Disabled'),
         'summary' => pht('All publishing is disabled for this repository.'),
       ),
-      PhabricatorRepositoryPublisher::HOLD_NOT_REACHABLE_FROM_PERMANENT_REF =>
+      PhorgeRepositoryPublisher::HOLD_NOT_REACHABLE_FROM_PERMANENT_REF =>
       array(
         'name' => pht('Not On Permanent Ref'),
         'summary' => pht(
           'This commit is not an ancestor of any permanent ref.'),
       ),
-      PhabricatorRepositoryPublisher::HOLD_REF_NOT_BRANCH => array(
+      PhorgeRepositoryPublisher::HOLD_REF_NOT_BRANCH => array(
         'name' => pht('Not a Branch'),
         'summary' => pht('This ref is not a branch.'),
       ),
-      PhabricatorRepositoryPublisher::HOLD_UNTRACKED => array(
+      PhorgeRepositoryPublisher::HOLD_UNTRACKED => array(
         'name' => pht('Untracked Ref'),
         'summary' => pht('This ref is configured as untracked.'),
       ),
-      PhabricatorRepositoryPublisher::HOLD_NOT_PERMANENT_REF => array(
+      PhorgeRepositoryPublisher::HOLD_NOT_PERMANENT_REF => array(
         'name' => pht('Not a Permanent Ref'),
         'summary' => pht('This ref is not configured as a permanent ref.'),
       ),

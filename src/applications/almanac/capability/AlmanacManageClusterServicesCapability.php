@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacManageClusterServicesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'almanac.cluster';
 

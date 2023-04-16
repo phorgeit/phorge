@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFileSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeFileSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Files');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,31 +16,31 @@ final class PhabricatorFileSearchEngine
   }
 
   public function newQuery() {
-    $query = new PhabricatorFileQuery();
+    $query = new PhorgeFileQuery();
     $query->withIsDeleted(false);
     return $query;
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors'))
         ->setLabel(pht('Authors')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setKey('explicit')
         ->setLabel(pht('Upload Source'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Manually Uploaded Files'),
           pht('Hide Manually Uploaded Files')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setKey('createdStart')
         ->setLabel(pht('Created After')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setKey('createdEnd')
         ->setLabel(pht('Created Before')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name')
         ->setDescription(pht('Search for files by name substring.')),
@@ -118,16 +118,16 @@ final class PhabricatorFileSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $files,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return mpull($files, 'getAuthorPHID');
   }
 
   protected function renderResultList(
     array $files,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($files, 'PhabricatorFile');
+    assert_instances_of($files, 'PhorgeFile');
 
     $request = $this->getRequest();
     if ($request) {
@@ -182,11 +182,11 @@ final class PhabricatorFileSearchEngine
       $list_view->addItem($item);
     }
 
-    $list_view->appendChild(id(new PhabricatorGlobalUploadTargetView())
+    $list_view->appendChild(id(new PhorgeGlobalUploadTargetView())
       ->setUser($viewer));
 
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($list_view);
 
     return $result;

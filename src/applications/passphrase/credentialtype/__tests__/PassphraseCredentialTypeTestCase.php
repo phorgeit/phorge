@@ -1,6 +1,6 @@
 <?php
 
-final class PassphraseCredentialTypeTestCase extends PhabricatorTestCase {
+final class PassphraseCredentialTypeTestCase extends PhorgeTestCase {
 
   public function testGetAllTypes() {
     PassphraseCredentialType::getAllTypes();

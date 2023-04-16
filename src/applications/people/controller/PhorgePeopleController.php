@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorPeopleController extends PhabricatorController {
+abstract class PhorgePeopleController extends PhorgeController {
 
   public function shouldRequireAdmin() {
     return true;
@@ -22,7 +22,7 @@ abstract class PhabricatorPeopleController extends PhabricatorController {
 
     if (!$name) {
       $viewer = $this->getRequest()->getUser();
-      id(new PhabricatorPeopleSearchEngine())
+      id(new PhorgePeopleSearchEngine())
         ->setViewer($viewer)
         ->addNavigationItems($nav->getMenu());
 

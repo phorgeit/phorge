@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorUserPreferencesEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeUserPreferencesEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return 'PhorgeSettingsApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,17 +14,17 @@ final class PhabricatorUserPreferencesEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorUserPreferencesTransaction::TYPE_SETTING;
+    $types[] = PhorgeUserPreferencesTransaction::TYPE_SETTING;
 
     return $types;
   }
 
   protected function expandTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $setting_key = $xaction->getMetadataValue(
-      PhabricatorUserPreferencesTransaction::PROPERTY_SETTING);
+      PhorgeUserPreferencesTransaction::PROPERTY_SETTING);
 
     $settings = $this->getSettings();
     $setting = idx($settings, $setting_key);
@@ -37,14 +37,14 @@ final class PhabricatorUserPreferencesEditor
 
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $setting_key = $xaction->getMetadataValue(
-      PhabricatorUserPreferencesTransaction::PROPERTY_SETTING);
+      PhorgeUserPreferencesTransaction::PROPERTY_SETTING);
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorUserPreferencesTransaction::TYPE_SETTING:
+      case PhorgeUserPreferencesTransaction::TYPE_SETTING:
         return $object->getPreference($setting_key);
     }
 
@@ -52,19 +52,19 @@ final class PhabricatorUserPreferencesEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $actor = $this->getActor();
 
     $setting_key = $xaction->getMetadataValue(
-      PhabricatorUserPreferencesTransaction::PROPERTY_SETTING);
+      PhorgeUserPreferencesTransaction::PROPERTY_SETTING);
 
-    $settings = PhabricatorSetting::getAllEnabledSettings($actor);
+    $settings = PhorgeSetting::getAllEnabledSettings($actor);
     $setting = $settings[$setting_key];
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorUserPreferencesTransaction::TYPE_SETTING:
+      case PhorgeUserPreferencesTransaction::TYPE_SETTING:
         $value = $xaction->getNewValue();
         $value = $setting->getTransactionNewValue($value);
         return $value;
@@ -74,14 +74,14 @@ final class PhabricatorUserPreferencesEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $setting_key = $xaction->getMetadataValue(
-      PhabricatorUserPreferencesTransaction::PROPERTY_SETTING);
+      PhorgeUserPreferencesTransaction::PROPERTY_SETTING);
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorUserPreferencesTransaction::TYPE_SETTING:
+      case PhorgeUserPreferencesTransaction::TYPE_SETTING:
         $new_value = $xaction->getNewValue();
         if ($new_value === null) {
           $object->unsetPreference($setting_key);
@@ -95,11 +95,11 @@ final class PhabricatorUserPreferencesEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorUserPreferencesTransaction::TYPE_SETTING:
+      case PhorgeUserPreferencesTransaction::TYPE_SETTING:
         return;
     }
 
@@ -107,7 +107,7 @@ final class PhabricatorUserPreferencesEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -115,14 +115,14 @@ final class PhabricatorUserPreferencesEditor
     $settings = $this->getSettings();
 
     switch ($type) {
-      case PhabricatorUserPreferencesTransaction::TYPE_SETTING:
+      case PhorgeUserPreferencesTransaction::TYPE_SETTING:
         foreach ($xactions as $xaction) {
           $setting_key = $xaction->getMetadataValue(
-            PhabricatorUserPreferencesTransaction::PROPERTY_SETTING);
+            PhorgeUserPreferencesTransaction::PROPERTY_SETTING);
 
           $setting = idx($settings, $setting_key);
           if (!$setting) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -135,7 +135,7 @@ final class PhabricatorUserPreferencesEditor
           try {
             $setting->validateTransactionValue($xaction->getNewValue());
           } catch (Exception $ex) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               $ex->getMessage(),
@@ -149,20 +149,20 @@ final class PhabricatorUserPreferencesEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $user_phid = $object->getUserPHID();
     if ($user_phid) {
-      PhabricatorUserCache::clearCache(
-        PhabricatorUserPreferencesCacheType::KEY_PREFERENCES,
+      PhorgeUserCache::clearCache(
+        PhorgeUserPreferencesCacheType::KEY_PREFERENCES,
         $user_phid);
     } else {
-      $cache = PhabricatorCaches::getMutableStructureCache();
-      $cache->deleteKey(PhabricatorUser::getGlobalSettingsCacheKey());
+      $cache = PhorgeCaches::getMutableStructureCache();
+      $cache->deleteKey(PhorgeUser::getGlobalSettingsCacheKey());
 
-      PhabricatorUserCache::clearCacheForAllUsers(
-        PhabricatorUserPreferencesCacheType::KEY_PREFERENCES);
+      PhorgeUserCache::clearCacheForAllUsers(
+        PhorgeUserPreferencesCacheType::KEY_PREFERENCES);
     }
 
     return $xactions;
@@ -170,7 +170,7 @@ final class PhabricatorUserPreferencesEditor
 
   private function getSettings() {
     $actor = $this->getActor();
-    $settings = PhabricatorSetting::getAllEnabledSettings($actor);
+    $settings = PhorgeSetting::getAllEnabledSettings($actor);
 
     foreach ($settings as $key => $setting) {
       $setting = clone $setting;

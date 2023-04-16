@@ -20,7 +20,7 @@ To add new tests to a Arcanist or Phorge module:
 
   - Create a `__tests__/` directory in the module if it doesn't exist yet.
   - Add classes to the `__tests__/` directory which extend from
-    @{class:PhabricatorTestCase} (in Phorge) or
+    @{class:PhorgeTestCase} (in Phorge) or
     @{class@arcanist:PhutilTestCase} (elsewhere).
   - Run `arc liberate` on the library root so your classes are loadable.
 
@@ -38,7 +38,7 @@ Once you've added test classes, you can run them with:
 Here's a simple example test:
 
   lang=php
-  class PhorgeTrivialTestCase extends PhabricatorTestCase {
+  class PhorgeTrivialTestCase extends PhorgeTestCase {
 
     private $two;
 
@@ -54,13 +54,13 @@ Here's a simple example test:
 
   }
 
-You can see this class at @{class:PhabricatorTrivialTestCase} and run it with:
+You can see this class at @{class:PhorgeTrivialTestCase} and run it with:
 
   phorge/ $ arc unit src/infrastructure/testing/testcase/
    PASS   <1ms*  testAllIsRightWithTheWorld
 
 For more information on writing tests, see
-@{class@arcanist:PhutilTestCase} and @{class:PhabricatorTestCase}.
+@{class@arcanist:PhutilTestCase} and @{class:PhorgeTestCase}.
 
 = Database Isolation =
 
@@ -80,7 +80,7 @@ in a number of ways. From best to worst:
     and `LiskDAO::beginIsolateAllLiskEffectsToCurrentProcess();` after your
     test. This will disable isolation for one test. NOT RECOMMENDED.
   - Disable isolation for your entire test case by overriding
-    `getPhabricatorTestCaseConfiguration()` and providing
+    `getPhorgeTestCaseConfiguration()` and providing
     `self::PHORGE_TESTCONFIG_ISOLATE_LISK => false` in the configuration
     dictionary you return. This will disable isolation entirely. STRONGLY NOT
     RECOMMENDED.

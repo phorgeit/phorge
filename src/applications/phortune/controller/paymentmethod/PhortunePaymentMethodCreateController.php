@@ -12,8 +12,8 @@ final class PhortunePaymentMethodCreateController
       ->withIDs(array($account_id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$account) {
@@ -204,7 +204,7 @@ final class PhortunePaymentMethodCreateController
       // is intended as a line of defense against using Phortune to validate a
       // large list of stolen credit card numbers.
 
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
         new PhortuneAddPaymentMethodAction(),
         1);
@@ -255,7 +255,7 @@ final class PhortunePaymentMethodCreateController
         $xactions = array();
 
         $xactions[] = $method->getApplicationTransactionTemplate()
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE)
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE)
           ->setNewValue(true);
 
         $editor = id(new PhortunePaymentMethodEditor())

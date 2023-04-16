@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPackagesPublisherEditController
-  extends PhabricatorPackagesPublisherController {
+final class PhorgePackagesPublisherEditController
+  extends PhorgePackagesPublisherController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPackagesPublisherEditEngine())
+    return id(new PhorgePackagesPublisherEditEngine())
       ->setController($this)
       ->buildResponse();
   }

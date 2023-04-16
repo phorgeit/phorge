@@ -9,7 +9,7 @@ final class PassphraseCredentialListController extends PassphraseController {
   public function handleRequest(AphrontRequest $request) {
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine(new PassphraseCredentialSearchEngine())
       ->setNavigation($this->buildSideNavView());

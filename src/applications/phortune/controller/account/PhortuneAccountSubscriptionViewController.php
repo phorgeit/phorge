@@ -19,10 +19,10 @@ final class PhortuneAccountSubscriptionViewController
       return new Aphront404Response();
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $subscription,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $merchant = $subscription->getMerchant();
     $account = $subscription->getAccount();
@@ -163,10 +163,10 @@ final class PhortuneAccountSubscriptionViewController
       $subscription->getID());
     $add_method_uri = $this->getApplicationURI($add_method_uri);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $subscription,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $methods = id(new PhortunePaymentMethodQuery())
       ->setViewer($viewer)

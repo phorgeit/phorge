@@ -1,15 +1,15 @@
 <?php
 
 final class HarbormasterUIEventListener
-  extends PhabricatorEventListener {
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES);
+    $this->listen(PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES);
   }
 
   public function handleEvent(PhutilEvent $event) {
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES:
+      case PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES:
         $this->handlePropertyEvent($event);
         break;
     }
@@ -59,7 +59,7 @@ final class HarbormasterUIEventListener
         ->needBuilds(true)
         ->needTargets(true)
         ->executeOne();
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       // TODO: See PHI430. When this query raises a policy exception, it
       // fatals the whole page because it happens very late in execution,
       // during final page rendering. If the viewer can't see the buildable or

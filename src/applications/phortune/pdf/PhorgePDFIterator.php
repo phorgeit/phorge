@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPDFIterator
+final class PhorgePDFIterator
   extends Phobject
   implements Iterator {
 
@@ -13,7 +13,7 @@ final class PhabricatorPDFIterator
   private $fragmentOffsets = array();
   private $byteLength;
 
-  public function setGenerator(PhabricatorPDFGenerator $generator) {
+  public function setGenerator(PhorgePDFGenerator $generator) {
     if ($this->generator) {
       throw new Exception(
         pht(
@@ -57,7 +57,7 @@ final class PhabricatorPDFIterator
 
     $fragment = $this->fragments[$this->fragmentKey];
 
-    $this->fragmentOffsets[] = id(new PhabricatorPDFFragmentOffset())
+    $this->fragmentOffsets[] = id(new PhorgePDFFragmentOffset())
       ->setFragment($fragment)
       ->setOffset($this->byteLength);
 
@@ -79,13 +79,13 @@ final class PhabricatorPDFIterator
     $objects = $generator->getObjects();
 
     $this->fragments = array();
-    $this->fragments[] = new PhabricatorPDFHeadFragment();
+    $this->fragments[] = new PhorgePDFHeadFragment();
 
     foreach ($objects as $object) {
       $this->fragments[] = $object;
     }
 
-    $this->fragments[] = id(new PhabricatorPDFTailFragment())
+    $this->fragments[] = id(new PhorgePDFTailFragment())
       ->setIterator($this);
 
     $this->hasRewound = true;

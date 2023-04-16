@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeDaemonLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const STATUS_ALL = 'status-all';
   const STATUS_ALIVE = 'status-alive';
@@ -53,7 +53,7 @@ final class PhabricatorDaemonLogQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorDaemonLog();
+    $table = new PhorgeDaemonLog();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -71,12 +71,12 @@ final class PhabricatorDaemonLogQuery
     $unknown_delay = self::getTimeUntilUnknown();
     $dead_delay = self::getTimeUntilDead();
 
-    $status_running = PhabricatorDaemonLog::STATUS_RUNNING;
-    $status_unknown = PhabricatorDaemonLog::STATUS_UNKNOWN;
-    $status_wait = PhabricatorDaemonLog::STATUS_WAIT;
-    $status_exiting = PhabricatorDaemonLog::STATUS_EXITING;
-    $status_exited = PhabricatorDaemonLog::STATUS_EXITED;
-    $status_dead = PhabricatorDaemonLog::STATUS_DEAD;
+    $status_running = PhorgeDaemonLog::STATUS_RUNNING;
+    $status_unknown = PhorgeDaemonLog::STATUS_UNKNOWN;
+    $status_wait = PhorgeDaemonLog::STATUS_WAIT;
+    $status_exiting = PhorgeDaemonLog::STATUS_EXITING;
+    $status_exited = PhorgeDaemonLog::STATUS_EXITED;
+    $status_dead = PhorgeDaemonLog::STATUS_DEAD;
 
     $filter = array_fuse($this->getStatusConstants());
 
@@ -174,14 +174,14 @@ final class PhabricatorDaemonLogQuery
         return array();
       case self::STATUS_RUNNING:
         return array(
-          PhabricatorDaemonLog::STATUS_RUNNING,
+          PhorgeDaemonLog::STATUS_RUNNING,
         );
       case self::STATUS_ALIVE:
         return array(
-          PhabricatorDaemonLog::STATUS_UNKNOWN,
-          PhabricatorDaemonLog::STATUS_RUNNING,
-          PhabricatorDaemonLog::STATUS_WAIT,
-          PhabricatorDaemonLog::STATUS_EXITING,
+          PhorgeDaemonLog::STATUS_UNKNOWN,
+          PhorgeDaemonLog::STATUS_RUNNING,
+          PhorgeDaemonLog::STATUS_WAIT,
+          PhorgeDaemonLog::STATUS_EXITING,
         );
       default:
         throw new Exception(pht('Unknown status "%s"!', $status));
@@ -189,7 +189,7 @@ final class PhabricatorDaemonLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return 'PhorgeDaemonsApplication';
   }
 
 }

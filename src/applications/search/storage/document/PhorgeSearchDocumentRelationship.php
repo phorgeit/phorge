@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchDocumentRelationship extends PhabricatorSearchDAO {
+final class PhorgeSearchDocumentRelationship extends PhorgeSearchDAO {
 
   protected $relatedPHID;
   protected $relation;

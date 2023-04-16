@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorAuthSSHKeyEditController
-  extends PhabricatorAuthSSHKeyController {
+final class PhorgeAuthSSHKeyEditController
+  extends PhorgeAuthSSHKeyController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
     if ($id) {
-      $key = id(new PhabricatorAuthSSHKeyQuery())
+      $key = id(new PhorgeAuthSSHKeyQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$key) {
@@ -48,7 +48,7 @@ final class PhabricatorAuthSSHKeyEditController
         ->addCancelButton($cancel_uri, pht('Okay'));
     }
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $cancel_uri);
@@ -61,9 +61,9 @@ final class PhabricatorAuthSSHKeyEditController
 
     $validation_exception = null;
     if ($request->isFormPost()) {
-      $type_create = PhabricatorTransactions::TYPE_CREATE;
-      $type_name = PhabricatorAuthSSHKeyTransaction::TYPE_NAME;
-      $type_key = PhabricatorAuthSSHKeyTransaction::TYPE_KEY;
+      $type_create = PhorgeTransactions::TYPE_CREATE;
+      $type_name = PhorgeAuthSSHKeyTransaction::TYPE_NAME;
+      $type_key = PhorgeAuthSSHKeyTransaction::TYPE_KEY;
 
       $e_name = null;
       $e_key = null;
@@ -74,19 +74,19 @@ final class PhabricatorAuthSSHKeyEditController
       $xactions = array();
 
       if (!$key->getID()) {
-        $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+        $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
       }
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
         ->setTransactionType($type_name)
         ->setNewValue($v_name);
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
         ->setTransactionType($type_key)
         ->setNewValue($v_key);
 
-      $editor = id(new PhabricatorAuthSSHKeyEditor())
+      $editor = id(new PhorgeAuthSSHKeyEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true);
@@ -94,7 +94,7 @@ final class PhabricatorAuthSSHKeyEditController
       try {
         $editor->applyTransactions($key, $xactions);
         return id(new AphrontRedirectResponse())->setURI($cancel_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_name = $ex->getShortMessage($type_name);
         $e_key = $ex->getShortMessage($type_key);

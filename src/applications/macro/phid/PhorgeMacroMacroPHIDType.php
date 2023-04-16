@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMacroMacroPHIDType extends PhabricatorPHIDType {
+final class PhorgeMacroMacroPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'MCRO';
 
@@ -9,7 +9,7 @@ final class PhabricatorMacroMacroPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function getTypeIcon() {
@@ -17,19 +17,19 @@ final class PhabricatorMacroMacroPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorFileImageMacro();
+    return new PhorgeFileImageMacro();
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorMacroQuery())
+    return id(new PhorgeMacroQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

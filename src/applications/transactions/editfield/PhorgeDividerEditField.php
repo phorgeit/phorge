@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDividerEditField
-  extends PhabricatorEditField {
+final class PhorgeDividerEditField
+  extends PhorgeEditField {
 
   protected function renderControl() {
     return new AphrontFormDividerControl();

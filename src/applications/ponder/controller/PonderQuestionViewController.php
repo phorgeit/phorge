@@ -46,19 +46,19 @@ final class PonderQuestionViewController extends PonderController {
     $curtain = $this->buildCurtain($question);
     $details = $this->buildPropertySectionView($question);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $question,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $content_id = celerity_generate_unique_node_id();
     $timeline = $this->buildTransactionTimeline(
       $question,
       id(new PonderQuestionTransactionQuery())
-      ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT)));
+      ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT)));
     $xactions = $timeline->getTransactions();
 
-    $add_comment = id(new PhabricatorApplicationTransactionCommentView())
+    $add_comment = id(new PhorgeApplicationTransactionCommentView())
       ->setUser($viewer)
       ->setObjectPHID($question->getPHID())
       ->setShowPreview(false)
@@ -137,10 +137,10 @@ final class PonderQuestionViewController extends PonderController {
     $viewer = $this->getViewer();
     $id = $question->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $question,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($question);
 
@@ -153,7 +153,7 @@ final class PonderQuestionViewController extends PonderController {
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setIcon('fa-pencil')
       ->setName(pht('Edit Question'))
       ->setHref($this->getApplicationURI("/question/edit/{$id}/"))
@@ -161,7 +161,7 @@ final class PonderQuestionViewController extends PonderController {
       ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($name)
         ->setIcon($icon)
         ->setWorkflow(true)
@@ -169,7 +169,7 @@ final class PonderQuestionViewController extends PonderController {
         ->setHref($this->getApplicationURI("/question/status/{$id}/")));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-list')
         ->setName(pht('View History'))
         ->setHref($this->getApplicationURI("/question/history/{$id}/")));
@@ -185,7 +185,7 @@ final class PonderQuestionViewController extends PonderController {
     $date = phorge_datetime($question->getDateCreated(), $viewer);
     $asker = phutil_tag('strong', array(), $asker);
 
-    $author = id(new PhabricatorPeopleQuery())
+    $author = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($question->getAuthorPHID()))
       ->needProfileImage(true)
@@ -206,7 +206,7 @@ final class PonderQuestionViewController extends PonderController {
     PonderQuestion $question) {
     $viewer = $this->getViewer();
 
-    $question_details = PhabricatorMarkupEngine::renderOneObject(
+    $question_details = PhorgeMarkupEngine::renderOneObject(
       $question,
       $question->getMarkupField(),
       $viewer);
@@ -247,7 +247,7 @@ final class PonderQuestionViewController extends PonderController {
         $timeline = $this->buildTransactionTimeline(
           $answer,
           id(new PonderAnswerTransactionQuery())
-          ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT)));
+          ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT)));
         $xactions = $timeline->getTransactions();
 
         $view[] = id(new PonderAnswerView())

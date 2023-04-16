@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorClusterDatabasesConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeClusterDatabasesConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'cluster.databases';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     foreach ($value as $index => $spec) {

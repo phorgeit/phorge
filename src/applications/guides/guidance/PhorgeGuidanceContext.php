@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorGuidanceContext
+abstract class PhorgeGuidanceContext
   extends Phobject {}

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCalendarExportViewController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarExportViewController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $export = id(new PhabricatorCalendarExportQuery())
+    $export = id(new PhorgeCalendarExportQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -23,7 +23,7 @@ final class PhabricatorCalendarExportViewController
 
     $timeline = $this->buildTransactionTimeline(
       $export,
-      new PhabricatorCalendarExportTransactionQuery());
+      new PhorgeCalendarExportTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $header = $this->buildHeaderView($export);
@@ -49,7 +49,7 @@ final class PhabricatorCalendarExportViewController
   }
 
   private function buildHeaderView(
-    PhabricatorCalendarExport $export) {
+    PhorgeCalendarExport $export) {
     $viewer = $this->getViewer();
     $id = $export->getID();
 
@@ -72,16 +72,16 @@ final class PhabricatorCalendarExportViewController
     return $header;
   }
 
-  private function buildCurtain(PhabricatorCalendarExport $export) {
+  private function buildCurtain(PhorgeCalendarExport $export) {
     $viewer = $this->getRequest()->getUser();
     $id = $export->getID();
 
     $curtain = $this->newCurtainView($export);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $export,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $ics_uri = $export->getICSURI();
 
@@ -89,7 +89,7 @@ final class PhabricatorCalendarExportViewController
     $edit_uri = $this->getApplicationURI($edit_uri);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Export'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -97,7 +97,7 @@ final class PhabricatorCalendarExportViewController
         ->setHref($edit_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Export as .ics'))
         ->setIcon('fa-download')
         ->setHref($ics_uri));
@@ -113,7 +113,7 @@ final class PhabricatorCalendarExportViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setDisabled(!$can_edit)
@@ -124,7 +124,7 @@ final class PhabricatorCalendarExportViewController
   }
 
   private function buildPropertySection(
-    PhabricatorCalendarExport $export) {
+    PhorgeCalendarExport $export) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -132,10 +132,10 @@ final class PhabricatorCalendarExportViewController
 
     $mode = $export->getPolicyMode();
 
-    $policy_icon = PhabricatorCalendarExport::getPolicyModeIcon($mode);
-    $policy_name = PhabricatorCalendarExport::getPolicyModeName($mode);
-    $policy_desc = PhabricatorCalendarExport::getPolicyModeDescription($mode);
-    $policy_color = PhabricatorCalendarExport::getPolicyModeColor($mode);
+    $policy_icon = PhorgeCalendarExport::getPolicyModeIcon($mode);
+    $policy_name = PhorgeCalendarExport::getPolicyModeName($mode);
+    $policy_desc = PhorgeCalendarExport::getPolicyModeDescription($mode);
+    $policy_color = PhorgeCalendarExport::getPolicyModeColor($mode);
 
     $policy_view = id(new PHUIStatusListView())
       ->addItem(
@@ -156,7 +156,7 @@ final class PhabricatorCalendarExportViewController
     $properties->addProperty(pht('Query'), $query_link);
 
     $ics_uri = $export->getICSURI();
-    $ics_uri = PhabricatorEnv::getURI($ics_uri);
+    $ics_uri = PhorgeEnv::getURI($ics_uri);
 
     if ($export->getIsDisabled()) {
       $ics_href = phutil_tag('em', array(), $ics_uri);

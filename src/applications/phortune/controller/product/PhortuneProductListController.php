@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneProductListController extends PhabricatorController {
+final class PhortuneProductListController extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();

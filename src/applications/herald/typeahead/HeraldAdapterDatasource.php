@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldAdapterDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Herald Adapters');
@@ -12,7 +12,7 @@ final class HeraldAdapterDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function loadResults() {
@@ -32,7 +32,7 @@ final class HeraldAdapterDatasource
       $value = $adapter->getAdapterContentType();
       $name = $adapter->getAdapterContentName();
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($value)
         ->setName($name);
 

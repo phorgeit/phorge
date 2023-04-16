@@ -26,11 +26,11 @@ final class PHUIBadgeView extends AphrontTagView {
   }
 
   private function getQualityColor() {
-    return PhabricatorBadgesQuality::getQualityColor($this->quality);
+    return PhorgeBadgesQuality::getQualityColor($this->quality);
   }
 
   private function getQualityName() {
-    return PhabricatorBadgesQuality::getQualityName($this->quality);
+    return PhorgeBadgesQuality::getQualityName($this->quality);
   }
 
   public function setSource($source) {

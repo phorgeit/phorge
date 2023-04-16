@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskOpenStatusDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   const FUNCTION_TOKEN = 'open()';
 
@@ -14,7 +14,7 @@ final class ManiphestTaskOpenStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -54,7 +54,7 @@ final class ManiphestTaskOpenStatusDatasource
     $results = array();
 
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildOpenResult());
     }
 

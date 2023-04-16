@@ -8,8 +8,8 @@
  */
 final class PhortuneAccount extends PhortuneDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface {
 
   protected $name;
   protected $billingName;
@@ -18,7 +18,7 @@ final class PhortuneAccount extends PhortuneDAO
   private $memberPHIDs = self::ATTACHABLE;
   private $merchantPHIDs = self::ATTACHABLE;
 
-  public static function initializeNewAccount(PhabricatorUser $actor) {
+  public static function initializeNewAccount(PhorgeUser $actor) {
     return id(new self())
       ->setBillingName('')
       ->setBillingAddress('')
@@ -27,8 +27,8 @@ final class PhortuneAccount extends PhortuneDAO
   }
 
   public static function createNewAccount(
-    PhabricatorUser $actor,
-    PhabricatorContentSource $content_source) {
+    PhorgeUser $actor,
+    PhorgeContentSource $content_source) {
 
     $account = self::initializeNewAccount($actor);
 
@@ -38,7 +38,7 @@ final class PhortuneAccount extends PhortuneDAO
       ->setNewValue(pht('Default Account'));
 
     $xactions[] = id(new PhortuneAccountTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
         PhortuneAccountHasMemberEdgeType::EDGECONST)
@@ -62,7 +62,7 @@ final class PhortuneAccount extends PhortuneDAO
   }
 
   public function newCart(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortuneCartImplementation $implementation,
     PhortuneMerchant $merchant) {
 
@@ -88,7 +88,7 @@ final class PhortuneAccount extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortuneAccountPHIDType::TYPECONST);
   }
 
@@ -171,14 +171,14 @@ final class PhortuneAccount extends PhortuneDAO
     $edge_type = PhortuneAccountHasMerchantEdgeType::EDGECONST;
     $edge_dst = $merchant->getPHID();
 
-    id(new PhabricatorEdgeEditor())
+    id(new PhorgeEdgeEditor())
       ->addEdge($edge_src, $edge_type, $edge_dst)
       ->save();
 
     return $this;
   }
 
-  public function isUserAccountMember(PhabricatorUser $user) {
+  public function isUserAccountMember(PhorgeUser $user) {
     $user_phid = $user->getPHID();
     if (!$user_phid) {
       return null;
@@ -189,7 +189,7 @@ final class PhortuneAccount extends PhortuneDAO
     return isset($member_map[$user_phid]);
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -201,37 +201,37 @@ final class PhortuneAccount extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->getPHID() === null) {
           // Allow a user to create an account for themselves.
-          return PhabricatorPolicies::POLICY_USER;
+          return PhorgePolicies::POLICY_USER;
         } else {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         }
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->isUserAccountMember($viewer)) {
       return true;
     }
 
     // See T13366. If the viewer can edit any merchant that this payment
     // account has a relationship with, they can see the payment account.
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
       $viewer_phids = array($viewer->getPHID());
       $merchant_phids = $this->getMerchantPHIDs();
 

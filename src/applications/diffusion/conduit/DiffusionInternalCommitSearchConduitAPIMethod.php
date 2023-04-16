@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionInternalCommitSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'internal.commit.search';
@@ -44,7 +44,7 @@ final class DiffusionInternalCommitSearchConduitAPIMethod
           'constraint with exactly one value.'));
     }
 
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($repository_phid))
       ->executeOne();

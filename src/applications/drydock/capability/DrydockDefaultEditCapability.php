@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockDefaultEditCapability extends PhabricatorPolicyCapability {
+final class DrydockDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'drydock.default.edit';
 

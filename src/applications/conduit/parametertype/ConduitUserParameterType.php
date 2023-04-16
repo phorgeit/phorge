@@ -17,7 +17,7 @@ final class ConduitUserParameterType
         pht('Expected PHID or null, got something else.'));
     }
 
-    $user_phids = id(new PhabricatorUserPHIDResolver())
+    $user_phids = id(new PhorgeUserPHIDResolver())
       ->setViewer($this->getViewer())
       ->resolvePHIDs(array($value));
 

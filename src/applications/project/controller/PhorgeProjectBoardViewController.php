@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectBoardViewController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardViewController
+  extends PhorgeProjectBoardController {
 
   public function shouldAllowPublic() {
     return true;
@@ -46,10 +46,10 @@ final class PhabricatorProjectBoardViewController
         }
       }
 
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $project,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       if (!$has_normal_columns) {
         if (!$can_edit) {
@@ -71,7 +71,7 @@ final class PhabricatorProjectBoardViewController
 
       $nav = $this->newNavigation(
         $project,
-        PhabricatorProject::ITEM_WORKBOARD);
+        PhorgeProject::ITEM_WORKBOARD);
 
       $crumbs = $this->buildApplicationCrumbs();
       $crumbs->addTextCrumb(pht('Workboard'));
@@ -89,9 +89,9 @@ final class PhabricatorProjectBoardViewController
 
     $tasks = $state->getObjects();
 
-    $task_can_edit_map = id(new PhabricatorPolicyFilter())
+    $task_can_edit_map = id(new PhorgePolicyFilter())
       ->setViewer($viewer)
-      ->requireCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT))
+      ->requireCapabilities(array(PhorgePolicyCapability::CAN_EDIT))
       ->apply($tasks);
 
     $board_id = celerity_generate_unique_node_id();
@@ -139,7 +139,7 @@ final class PhabricatorProjectBoardViewController
 
     $container_phids = $state->getBoardContainerPHIDs();
 
-    $rendering_engine = id(new PhabricatorBoardRenderingEngine())
+    $rendering_engine = id(new PhorgeBoardRenderingEngine())
       ->setViewer($viewer)
       ->setObjects(array_select_keys($tasks, $visible_phids))
       ->setEditMap($task_can_edit_map)
@@ -258,7 +258,7 @@ final class PhabricatorProjectBoardViewController
 
     $order_key = $state->getOrder();
 
-    $ordering_map = PhabricatorProjectColumnOrder::getEnabledOrders();
+    $ordering_map = PhorgeProjectColumnOrder::getEnabledOrders();
     $ordering = id(clone $ordering_map[$order_key])
       ->setViewer($viewer);
 
@@ -279,7 +279,7 @@ final class PhabricatorProjectBoardViewController
     $properties = array();
     foreach ($all_tasks as $task) {
       $properties[$task->getPHID()] =
-        PhabricatorBoardResponseEngine::newTaskProperties($task);
+        PhorgeBoardResponseEngine::newTaskProperties($task);
     }
 
     $behavior_config = array(
@@ -287,7 +287,7 @@ final class PhabricatorProjectBoardViewController
       'uploadURI' => '/file/dropupload/',
       'coverURI' => $this->getApplicationURI('cover/'),
       'reloadURI' => phutil_string_cast($state->newWorkboardURI('reload/')),
-      'chunkThreshold' => PhabricatorFileStorageEngine::getChunkThreshold(),
+      'chunkThreshold' => PhorgeFileStorageEngine::getChunkThreshold(),
       'pointsEnabled' => ManiphestTaskPoints::getIsEnabled(),
 
       'boardPHID' => $project->getPHID(),
@@ -334,7 +334,7 @@ final class PhabricatorProjectBoardViewController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_WORKBOARD);
+      PhorgeProject::ITEM_WORKBOARD);
 
     $divider = id(new PHUIListItemView())
       ->setType(PHUIListItemView::TYPE_DIVIDER);
@@ -384,8 +384,8 @@ final class PhabricatorProjectBoardViewController
   }
 
   private function buildSortMenu(
-    PhabricatorUser $viewer,
-    PhabricatorProject $project,
+    PhorgeUser $viewer,
+    PhorgeProject $project,
     $sort_key,
     array $ordering_map) {
 
@@ -407,7 +407,7 @@ final class PhabricatorProjectBoardViewController
         $active_icon = $ordering_icon;
       }
 
-      $item = id(new PhabricatorActionView())
+      $item = id(new PhorgeActionView())
         ->setIcon($ordering_icon)
         ->setSelected($is_selected)
         ->setName($ordering_name);
@@ -422,22 +422,22 @@ final class PhabricatorProjectBoardViewController
 
     $save_uri = $state->newWorkboardURI('default/sort/');
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $items[] = id(new PhabricatorActionView())
-      ->setType(PhabricatorActionView::TYPE_DIVIDER);
+    $items[] = id(new PhorgeActionView())
+      ->setType(PhorgeActionView::TYPE_DIVIDER);
 
-    $items[] = id(new PhabricatorActionView())
+    $items[] = id(new PhorgeActionView())
       ->setIcon('fa-floppy-o')
       ->setName(pht('Save as Default'))
       ->setHref($save_uri)
       ->setWorkflow(true)
       ->setDisabled(!$can_edit);
 
-    $sort_menu = id(new PhabricatorActionListView())
+    $sort_menu = id(new PhorgeActionListView())
       ->setUser($viewer);
     foreach ($items as $item) {
       $sort_menu->addAction($item);
@@ -457,10 +457,10 @@ final class PhabricatorProjectBoardViewController
   }
 
   private function buildFilterMenu(
-    PhabricatorUser $viewer,
-    PhabricatorProject $project,
+    PhorgeUser $viewer,
+    PhorgeProject $project,
     $custom_query,
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     $query_key) {
 
     $state = $this->getViewState();
@@ -490,7 +490,7 @@ final class PhabricatorProjectBoardViewController
         $is_custom = ($key == $custom_query->getQueryKey());
       }
 
-      $item = id(new PhabricatorActionView())
+      $item = id(new PhorgeActionView())
         ->setIcon('fa-search')
         ->setSelected($is_selected)
         ->setName($name);
@@ -517,7 +517,7 @@ final class PhabricatorProjectBoardViewController
 
     $filter_uri = $state->newWorkboardURI('filter/');
 
-    $items[] = id(new PhabricatorActionView())
+    $items[] = id(new PhorgeActionView())
       ->setIcon('fa-cog')
       ->setHref($filter_uri)
       ->setWorkflow(true)
@@ -525,22 +525,22 @@ final class PhabricatorProjectBoardViewController
 
     $save_uri = $state->newWorkboardURI('default/filter/');
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $items[] = id(new PhabricatorActionView())
-      ->setType(PhabricatorActionView::TYPE_DIVIDER);
+    $items[] = id(new PhorgeActionView())
+      ->setType(PhorgeActionView::TYPE_DIVIDER);
 
-    $items[] = id(new PhabricatorActionView())
+    $items[] = id(new PhorgeActionView())
       ->setIcon('fa-floppy-o')
       ->setName(pht('Save as Default'))
       ->setHref($save_uri)
       ->setWorkflow(true)
       ->setDisabled(!$can_edit);
 
-    $filter_menu = id(new PhabricatorActionListView())
+    $filter_menu = id(new PhorgeActionListView())
         ->setUser($viewer);
     foreach ($items as $item) {
       $filter_menu->addAction($item);
@@ -560,7 +560,7 @@ final class PhabricatorProjectBoardViewController
   }
 
   private function buildManageMenu(
-    PhabricatorProject $project,
+    PhorgeProject $project,
     $show_hidden) {
 
     $request = $this->getRequest();
@@ -572,14 +572,14 @@ final class PhabricatorProjectBoardViewController
     $manage_uri = $this->getApplicationURI("board/{$id}/manage/");
     $add_uri = $this->getApplicationURI("board/{$id}/edit/");
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $manage_items = array();
 
-    $manage_items[] = id(new PhabricatorActionView())
+    $manage_items[] = id(new PhorgeActionView())
       ->setIcon('fa-plus')
       ->setName(pht('Add Column'))
       ->setHref($add_uri)
@@ -587,7 +587,7 @@ final class PhabricatorProjectBoardViewController
       ->setWorkflow(true);
 
     $reorder_uri = $this->getApplicationURI("board/{$id}/reorder/");
-    $manage_items[] = id(new PhabricatorActionView())
+    $manage_items[] = id(new PhorgeActionView())
       ->setIcon('fa-exchange')
       ->setName(pht('Reorder Columns'))
       ->setHref($reorder_uri)
@@ -606,16 +606,16 @@ final class PhabricatorProjectBoardViewController
       $hidden_text = pht('Show Hidden Columns');
     }
 
-    $manage_items[] = id(new PhabricatorActionView())
+    $manage_items[] = id(new PhorgeActionView())
       ->setIcon($hidden_icon)
       ->setName($hidden_text)
       ->setHref($hidden_uri);
 
-    $manage_items[] = id(new PhabricatorActionView())
-      ->setType(PhabricatorActionView::TYPE_DIVIDER);
+    $manage_items[] = id(new PhorgeActionView())
+      ->setType(PhorgeActionView::TYPE_DIVIDER);
 
     $background_uri = $this->getApplicationURI("board/{$id}/background/");
-    $manage_items[] = id(new PhabricatorActionView())
+    $manage_items[] = id(new PhorgeActionView())
       ->setIcon('fa-paint-brush')
       ->setName(pht('Change Background Color'))
       ->setHref($background_uri)
@@ -623,12 +623,12 @@ final class PhabricatorProjectBoardViewController
       ->setWorkflow(false);
 
     $manage_uri = $this->getApplicationURI("board/{$id}/manage/");
-    $manage_items[] = id(new PhabricatorActionView())
+    $manage_items[] = id(new PhorgeActionView())
       ->setIcon('fa-gear')
       ->setName(pht('Manage Workboard'))
       ->setHref($manage_uri);
 
-    $manage_menu = id(new PhabricatorActionListView())
+    $manage_menu = id(new PhorgeActionListView())
         ->setUser($viewer);
     foreach ($manage_items as $item) {
       $manage_menu->addAction($item);
@@ -668,17 +668,17 @@ final class PhabricatorProjectBoardViewController
   }
 
   private function buildColumnMenu(
-    PhabricatorProject $project,
-    PhabricatorProjectColumn $column) {
+    PhorgeProject $project,
+    PhorgeProjectColumn $column) {
 
     $request = $this->getRequest();
     $viewer = $request->getUser();
     $state = $this->getViewState();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $column_items = array();
 
@@ -702,7 +702,7 @@ final class PhabricatorProjectBoardViewController
         $spec_href->replaceQueryParam('tags', $spec_slug);
       }
 
-      $column_items[] = id(new PhabricatorActionView())
+      $column_items[] = id(new PhorgeActionView())
         ->setIcon($spec['icon'])
         ->setName($spec['name'])
         ->setHref($spec_href)
@@ -717,13 +717,13 @@ final class PhabricatorProjectBoardViewController
           ));
     }
 
-    $column_items[] = id(new PhabricatorActionView())
-      ->setType(PhabricatorActionView::TYPE_DIVIDER);
+    $column_items[] = id(new PhorgeActionView())
+      ->setType(PhorgeActionView::TYPE_DIVIDER);
 
     $query_uri = urisprintf('viewquery/%d/', $column->getID());
     $query_uri = $state->newWorkboardURI($query_uri);
 
-    $column_items[] = id(new PhabricatorActionView())
+    $column_items[] = id(new PhorgeActionView())
       ->setName(pht('View Tasks as Query'))
       ->setIcon('fa-search')
       ->setHref($query_uri);
@@ -731,7 +731,7 @@ final class PhabricatorProjectBoardViewController
     $column_move_uri = urisprintf('bulkmove/%d/column/', $column->getID());
     $column_move_uri = $state->newWorkboardURI($column_move_uri);
 
-    $column_items[] = id(new PhabricatorActionView())
+    $column_items[] = id(new PhorgeActionView())
       ->setIcon('fa-arrows-h')
       ->setName(pht('Move Tasks to Column...'))
       ->setHref($column_move_uri)
@@ -740,7 +740,7 @@ final class PhabricatorProjectBoardViewController
     $project_move_uri = urisprintf('bulkmove/%d/project/', $column->getID());
     $project_move_uri = $state->newWorkboardURI($project_move_uri);
 
-    $column_items[] = id(new PhabricatorActionView())
+    $column_items[] = id(new PhorgeActionView())
       ->setIcon('fa-arrows')
       ->setName(pht('Move Tasks to Project...'))
       ->setHref($project_move_uri)
@@ -749,23 +749,23 @@ final class PhabricatorProjectBoardViewController
     $bulk_edit_uri = urisprintf('bulk/%d/', $column->getID());
     $bulk_edit_uri = $state->newWorkboardURI($bulk_edit_uri);
 
-    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_bulk_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      PhorgeApplication::getByClass('PhorgeManiphestApplication'),
       ManiphestBulkEditCapability::CAPABILITY);
 
-    $column_items[] = id(new PhabricatorActionView())
+    $column_items[] = id(new PhorgeActionView())
       ->setIcon('fa-pencil-square-o')
       ->setName(pht('Bulk Edit Tasks...'))
       ->setHref($bulk_edit_uri)
       ->setDisabled(!$can_bulk_edit);
 
-    $column_items[] = id(new PhabricatorActionView())
-      ->setType(PhabricatorActionView::TYPE_DIVIDER);
+    $column_items[] = id(new PhorgeActionView())
+      ->setType(PhorgeActionView::TYPE_DIVIDER);
 
 
     $edit_uri = 'board/'.$project->getID().'/edit/'.$column->getID().'/';
-    $column_items[] = id(new PhabricatorActionView())
+    $column_items[] = id(new PhorgeActionView())
       ->setName(pht('Edit Column'))
       ->setIcon('fa-pencil')
       ->setHref($this->getApplicationURI($edit_uri))
@@ -778,14 +778,14 @@ final class PhabricatorProjectBoardViewController
     $hide_uri = $state->newWorkboardURI($hide_uri);
 
     if (!$column->isHidden()) {
-      $column_items[] = id(new PhabricatorActionView())
+      $column_items[] = id(new PhorgeActionView())
         ->setName(pht('Hide Column'))
         ->setIcon('fa-eye-slash')
         ->setHref($hide_uri)
         ->setDisabled(!$can_hide)
         ->setWorkflow(true);
     } else {
-      $column_items[] = id(new PhabricatorActionView())
+      $column_items[] = id(new PhorgeActionView())
         ->setName(pht('Show Column'))
         ->setIcon('fa-eye')
         ->setHref($hide_uri)
@@ -793,7 +793,7 @@ final class PhabricatorProjectBoardViewController
         ->setWorkflow(true);
     }
 
-    $column_menu = id(new PhabricatorActionListView())
+    $column_menu = id(new PhorgeActionListView())
       ->setUser($viewer);
     foreach ($column_items as $item) {
       $column_menu->addAction($item);
@@ -811,14 +811,14 @@ final class PhabricatorProjectBoardViewController
     return $column_button;
   }
 
-  private function buildTriggerMenu(PhabricatorProjectColumn $column) {
+  private function buildTriggerMenu(PhorgeProjectColumn $column) {
     $viewer = $this->getViewer();
     $trigger = $column->getTrigger();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $column,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $trigger_items = array();
     if (!$trigger) {
@@ -829,13 +829,13 @@ final class PhabricatorProjectBoardViewController
             'columnPHID' => $column->getPHID(),
           )));
 
-      $trigger_items[] = id(new PhabricatorActionView())
+      $trigger_items[] = id(new PhorgeActionView())
         ->setIcon('fa-cogs')
         ->setName(pht('New Trigger...'))
         ->setHref($set_uri)
         ->setDisabled(!$can_edit);
     } else {
-      $trigger_items[] = id(new PhabricatorActionView())
+      $trigger_items[] = id(new PhorgeActionView())
         ->setIcon('fa-cogs')
         ->setName(pht('View Trigger'))
         ->setHref($trigger->getURI())
@@ -848,14 +848,14 @@ final class PhabricatorProjectBoardViewController
           'column/remove/%d/',
           $column->getID())));
 
-    $trigger_items[] = id(new PhabricatorActionView())
+    $trigger_items[] = id(new PhorgeActionView())
       ->setIcon('fa-times')
       ->setName(pht('Remove Trigger'))
       ->setHref($remove_uri)
       ->setWorkflow(true)
       ->setDisabled(!$can_edit || !$trigger);
 
-    $trigger_menu = id(new PhabricatorActionListView())
+    $trigger_menu = id(new PhorgeActionListView())
       ->setUser($viewer);
     foreach ($trigger_items as $item) {
       $trigger_menu->addAction($item);
@@ -881,7 +881,7 @@ final class PhabricatorProjectBoardViewController
     return $trigger_button;
   }
 
-  private function buildInitializeContent(PhabricatorProject $project) {
+  private function buildInitializeContent(PhorgeProject $project) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
@@ -897,24 +897,24 @@ final class PhabricatorProjectBoardViewController
     if ($set_default) {
       $this
         ->getProfileMenuEngine()
-        ->adjustDefault(PhabricatorProject::ITEM_WORKBOARD);
+        ->adjustDefault(PhorgeProject::ITEM_WORKBOARD);
     }
 
     if ($request->isFormPost()) {
       if ($type == 'backlog-only') {
-        $column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+        $column = PhorgeProjectColumn::initializeNewColumn($viewer)
           ->setSequence(0)
           ->setProperty('isDefault', true)
           ->setProjectPHID($project->getPHID())
           ->save();
 
           $xactions = array();
-          $xactions[] = id(new PhabricatorProjectTransaction())
+          $xactions[] = id(new PhorgeProjectTransaction())
             ->setTransactionType(
-                PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+                PhorgeProjectWorkboardTransaction::TRANSACTIONTYPE)
             ->setNewValue(1);
 
-          id(new PhabricatorProjectTransactionEditor())
+          id(new PhorgeProjectTransactionEditor())
             ->setActor($viewer)
             ->setContentSourceFromRequest($request)
             ->setContinueOnNoEffect(true)
@@ -973,7 +973,7 @@ final class PhabricatorProjectBoardViewController
     return $box;
   }
 
-  private function buildNoAccessContent(PhabricatorProject $project) {
+  private function buildNoAccessContent(PhorgeProject $project) {
     $viewer = $this->getViewer();
 
     $id = $project->getID();
@@ -991,7 +991,7 @@ final class PhabricatorProjectBoardViewController
   }
 
 
-  private function buildEnableContent(PhabricatorProject $project) {
+  private function buildEnableContent(PhorgeProject $project) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
@@ -1002,12 +1002,12 @@ final class PhabricatorProjectBoardViewController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+            PhorgeProjectWorkboardTransaction::TRANSACTIONTYPE)
         ->setNewValue(1);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -1029,7 +1029,7 @@ final class PhabricatorProjectBoardViewController
       ->addSubmitButton(pht('Enable Workboard'));
   }
 
-  private function buildDisabledContent(PhabricatorProject $project) {
+  private function buildDisabledContent(PhorgeProject $project) {
     $viewer = $this->getViewer();
 
     $id = $project->getID();

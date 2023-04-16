@@ -8,13 +8,13 @@ final class DifferentialRevisionReopenTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Reopen Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('This revision will be reopened for review.');
   }
 
@@ -43,7 +43,7 @@ final class DifferentialRevisionReopenTransaction
     $object->setModernRevisionStatus($status_review);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if (!$object->isPublished()) {
       throw new Exception(
         pht(
@@ -52,7 +52,7 @@ final class DifferentialRevisionReopenTransaction
     }
 
     $config_key = 'differential.allow-reopen';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       throw new Exception(
         pht(
           'You can not reopen this revision because configuration prevents '.

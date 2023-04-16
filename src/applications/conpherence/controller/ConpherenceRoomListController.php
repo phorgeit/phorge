@@ -9,7 +9,7 @@ final class ConpherenceRoomListController extends ConpherenceController {
   public function handleRequest(AphrontRequest $request) {
     $user = $request->getUser();
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine(
         new ConpherenceThreadSearchEngine())

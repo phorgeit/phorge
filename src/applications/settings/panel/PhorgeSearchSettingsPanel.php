@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeSearchSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'search';
 
@@ -14,7 +14,7 @@ final class PhabricatorSearchSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsApplicationsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsApplicationsPanelGroup::PANELGROUPKEY;
   }
 
   public function isTemplatePanel() {

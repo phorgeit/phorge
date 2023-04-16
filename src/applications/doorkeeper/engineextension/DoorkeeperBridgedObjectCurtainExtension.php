@@ -10,7 +10,7 @@ final class DoorkeeperBridgedObjectCurtainExtension
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorDoorkeeperApplication();
+    return new PhorgeDoorkeeperApplication();
   }
 
   public function buildCurtainPanel($object) {

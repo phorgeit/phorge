@@ -25,7 +25,7 @@ final class DiffusionDocumentController extends DiffusionController {
 
     $file_phid = $request->getStr('filePHID');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -36,7 +36,7 @@ final class DiffusionDocumentController extends DiffusionController {
           $file_phid));
     }
 
-    $ref = id(new PhabricatorDocumentRef())
+    $ref = id(new PhorgeDocumentRef())
       ->setFile($file);
 
     return $engine->newRenderResponse($ref);

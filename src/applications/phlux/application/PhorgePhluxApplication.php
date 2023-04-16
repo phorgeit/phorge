@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhluxApplication extends PhabricatorApplication {
+final class PhorgePhluxApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phlux');

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskAuthorPolicyRule
-  extends PhabricatorPolicyRule {
+  extends PhorgePolicyRule {
 
   public function getObjectPolicyKey() {
     return 'maniphest.author';
@@ -19,14 +19,14 @@ final class ManiphestTaskAuthorPolicyRule
     return pht('task author');
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
+  public function canApplyToObject(PhorgePolicyInterface $object) {
     return ($object instanceof ManiphestTask);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {

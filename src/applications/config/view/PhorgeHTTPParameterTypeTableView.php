@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHTTPParameterTypeTableView
+final class PhorgeHTTPParameterTypeTableView
   extends AphrontView {
 
   private $types;

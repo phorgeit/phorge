@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorDashboardPanelSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeDashboardPanelSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Dashboard Panels');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorDashboardPanelQuery();
+    return new PhorgeDashboardPanelQuery();
   }
 
   public function canUseInPanelContext() {
@@ -48,21 +48,21 @@ final class PhabricatorDashboardPanelSearchEngine
   protected function buildCustomSearchFields() {
 
     return array(
-        id(new PhabricatorSearchDatasourceField())
+        id(new PhorgeSearchDatasourceField())
           ->setLabel(pht('Authored By'))
           ->setKey('authorPHIDs')
-          ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
-        id(new PhabricatorSearchSelectField())
+          ->setDatasource(new PhorgePeopleUserFunctionDatasource()),
+        id(new PhorgeSearchSelectField())
           ->setKey('status')
           ->setLabel(pht('Status'))
           ->setOptions(
-            id(new PhabricatorDashboardPanel())
+            id(new PhorgeDashboardPanel())
               ->getStatuses()),
-        id(new PhabricatorSearchSelectField())
+        id(new PhorgeSearchSelectField())
           ->setKey('paneltype')
           ->setLabel(pht('Panel Type'))
           ->setOptions(
-            id(new PhabricatorDashboardPanel())
+            id(new PhorgeDashboardPanel())
               ->getPanelTypes()),
     );
   }
@@ -107,7 +107,7 @@ final class PhabricatorDashboardPanelSearchEngine
 
   protected function renderResultList(
     array $panels,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $viewer = $this->requireViewer();
@@ -140,7 +140,7 @@ final class PhabricatorDashboardPanelSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No panels found.'));
 

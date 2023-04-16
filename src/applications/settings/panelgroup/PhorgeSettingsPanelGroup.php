@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSettingsPanelGroup extends Phobject {
+abstract class PhorgeSettingsPanelGroup extends Phobject {
 
   private $panels;
 
@@ -32,7 +32,7 @@ abstract class PhabricatorSettingsPanelGroup extends Phobject {
   final public static function getAllPanelGroupsWithPanels() {
     $groups = self::getAllPanelGroups();
 
-    $panels = PhabricatorSettingsPanel::getAllPanels();
+    $panels = PhorgeSettingsPanel::getAllPanels();
     $panels = mgroup($panels, 'getPanelGroupKey');
     foreach ($groups as $key => $group) {
       $group->panels = idx($panels, $key, array());

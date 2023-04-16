@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchNgramsDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeSearchNgramsDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'search.ngrams';
 
@@ -10,13 +10,13 @@ final class PhabricatorSearchNgramsDestructionEngineExtension
   }
 
   public function canDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
-    return ($object instanceof PhabricatorNgramsInterface);
+    return ($object instanceof PhorgeNgramsInterface);
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     foreach ($object->newNgrams() as $ngram) {

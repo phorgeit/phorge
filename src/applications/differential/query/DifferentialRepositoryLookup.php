@@ -13,7 +13,7 @@ final class DifferentialRepositoryLookup extends Phobject {
     return $this;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -24,7 +24,7 @@ final class DifferentialRepositoryLookup extends Phobject {
 
     // Look for a repository UUID.
     if ($diff->getRepositoryUUID()) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withUUIDs(array($diff->getRepositoryUUID()))
         ->execute();
@@ -35,8 +35,8 @@ final class DifferentialRepositoryLookup extends Phobject {
 
     // Look for the base commit in Git and Mercurial.
     $vcs = $diff->getSourceControlSystem();
-    $vcs_git = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
-    $vcs_hg = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
+    $vcs_git = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
+    $vcs_hg = PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL;
     if ($vcs == $vcs_git || $vcs == $vcs_hg) {
       $base = $diff->getSourceControlBaseRevision();
       if ($base) {
@@ -47,7 +47,7 @@ final class DifferentialRepositoryLookup extends Phobject {
         $commits = mgroup($commits, 'getRepositoryID');
         if (count($commits) == 1) {
           $repository_id = key($commits);
-          $repositories = id(new PhabricatorRepositoryQuery())
+          $repositories = id(new PhorgeRepositoryQuery())
             ->setViewer($viewer)
             ->withIDs(array($repository_id))
             ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationIsEditController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationIsEditController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -15,15 +15,15 @@ final class PhabricatorEditEngineConfigurationIsEditController
     $key = $config->getIdentifier();
     $cancel_uri = "/transactions/editengine/{$engine_key}/view/{$key}/";
 
-    $type = PhabricatorEditEngineIsEditTransaction::TRANSACTIONTYPE;
+    $type = PhorgeEditEngineIsEditTransaction::TRANSACTIONTYPE;
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+      $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
         ->setTransactionType($type)
         ->setNewValue(!$config->getIsEdit());
 
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)

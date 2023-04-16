@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCommentEditType extends PhabricatorEditType {
+final class PhorgeCommentEditType extends PhorgeEditType {
 
   protected function newConduitParameterType() {
     return new ConduitStringParameterType();
@@ -11,7 +11,7 @@ final class PhabricatorCommentEditType extends PhabricatorEditType {
   }
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $comment = $template->getApplicationTransactionCommentObject()

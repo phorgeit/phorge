@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarImportListController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarImportListController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorCalendarImportSearchEngine())
+    return id(new PhorgeCalendarImportSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

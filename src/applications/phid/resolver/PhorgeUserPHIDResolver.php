@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserPHIDResolver
-  extends PhabricatorPHIDResolver {
+final class PhorgeUserPHIDResolver
+  extends PhorgePHIDResolver {
 
   protected function getResolutionMap(array $names) {
     // Pick up the normalization and case rules from the PHID type query.
@@ -10,10 +10,10 @@ final class PhabricatorUserPHIDResolver
       $names[$key] = '@'.$name;
     }
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer());
 
-    $users = id(new PhabricatorPeopleUserPHIDType())
+    $users = id(new PhorgePeopleUserPHIDType())
       ->loadNamedObjects($query, $names);
 
     $results = array();

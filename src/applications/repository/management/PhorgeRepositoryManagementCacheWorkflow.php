@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementCacheWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementCacheWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -51,7 +51,7 @@ final class PhabricatorRepositoryManagementCacheWorkflow
     }
     $path_id = $path_map[$path_name];
 
-    $graph_cache = new PhabricatorRepositoryGraphCache();
+    $graph_cache = new PhorgeRepositoryGraphCache();
 
     $t_start = microtime(true);
     $cache_result = $graph_cache->loadLastModifiedCommitID(

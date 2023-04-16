@@ -1,6 +1,6 @@
 <?php
 
-final class HarbormasterSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class HarbormasterSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new HarbormasterBuildable());
@@ -9,7 +9,7 @@ final class HarbormasterSchemaSpec extends PhabricatorConfigSchemaSpec {
     // by unit tests.
     $this->buildRawSchema(
       id(new HarbormasterObject())->getApplicationName(),
-      PhabricatorLiskDAO::COUNTER_TABLE_NAME,
+      PhorgeLiskDAO::COUNTER_TABLE_NAME,
       array(
         'counterName' => 'text32',
         'counterValue' => 'id64',

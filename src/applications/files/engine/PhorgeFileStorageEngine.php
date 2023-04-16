@@ -14,7 +14,7 @@
  * @task file Managing File Data
  * @task load Loading Storage Engines
  */
-abstract class PhabricatorFileStorageEngine extends Phobject {
+abstract class PhorgeFileStorageEngine extends Phobject {
 
   const HMAC_INTEGRITY = 'file.integrity';
 
@@ -153,7 +153,7 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
    * some metadata keys (like "name" and "author") in it. You should be prepared
    * to handle writes which specify no metadata, but might want to optionally
    * use some keys in this array for debugging or logging purposes. This is
-   * the same dictionary passed to @{method:PhabricatorFile::newFromFileData},
+   * the same dictionary passed to @{method:PhorgeFile::newFromFileData},
    * so you could conceivably do custom things with it.
    *
    * If you are unable to write for whatever reason (e.g., the disk is full),
@@ -328,10 +328,10 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
   }
 
   public function getRawFileDataIterator(
-    PhabricatorFile $file,
+    PhorgeFile $file,
     $begin,
     $end,
-    PhabricatorFileStorageFormat $format) {
+    PhorgeFileStorageFormat $format) {
 
     $formatted_data = $this->readFile($file->getStorageHandle());
 
@@ -339,7 +339,7 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
     if ($known_integrity !== null) {
       $new_integrity = $this->newIntegrityHash($formatted_data, $format);
       if (!phutil_hashes_are_identical($known_integrity, $new_integrity)) {
-        throw new PhabricatorFileIntegrityException(
+        throw new PhorgeFileIntegrityException(
           pht(
             'File data integrity check failed. Dark forces have corrupted '.
             'or tampered with this file. The file data can not be read.'));
@@ -367,16 +367,16 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
 
   public function newIntegrityHash(
     $data,
-    PhabricatorFileStorageFormat $format) {
+    PhorgeFileStorageFormat $format) {
 
     $hmac_name = self::HMAC_INTEGRITY;
 
-    $data_hash = PhabricatorHash::digestWithNamedKey($data, $hmac_name);
+    $data_hash = PhorgeHash::digestWithNamedKey($data, $hmac_name);
     $format_hash = $format->newFormatIntegrityHash();
 
     $full_hash = "{$data_hash}/{$format_hash}";
 
-    return PhabricatorHash::digestWithNamedKey($full_hash, $hmac_name);
+    return PhorgeHash::digestWithNamedKey($full_hash, $hmac_name);
   }
 
 }

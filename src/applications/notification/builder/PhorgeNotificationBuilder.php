@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNotificationBuilder extends Phobject {
+final class PhorgeNotificationBuilder extends Phobject {
 
   private $stories;
   private $parsedStories;
@@ -8,7 +8,7 @@ final class PhabricatorNotificationBuilder extends Phobject {
   private $showTimestamps = true;
 
   public function __construct(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, 'PhorgeFeedStory');
     $this->stories = $stories;
   }
 
@@ -145,13 +145,13 @@ final class PhabricatorNotificationBuilder extends Phobject {
     $dict = array();
 
     $viewer = $this->user;
-    $key = PhabricatorNotificationsSetting::SETTINGKEY;
+    $key = PhorgeNotificationsSetting::SETTINGKEY;
     $setting = $viewer->getUserSetting($key);
-    $desktop_ready = PhabricatorNotificationsSetting::desktopReady($setting);
-    $web_ready = PhabricatorNotificationsSetting::webReady($setting);
+    $desktop_ready = PhorgeNotificationsSetting::desktopReady($setting);
+    $web_ready = PhorgeNotificationsSetting::webReady($setting);
 
     foreach ($stories as $story) {
-      if ($story instanceof PhabricatorApplicationTransactionFeedStory) {
+      if ($story instanceof PhorgeApplicationTransactionFeedStory) {
         $dict[] = array(
           'showAnyNotification' => $web_ready,
           'showDesktopNotification' => $desktop_ready,

@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionContentPHIDType
-  extends PhabricatorPHIDType {
+  extends PhorgePHIDType {
 
   const TYPECONST = 'WRDS';
 
@@ -14,11 +14,11 @@ final class PhrictionContentPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhrictionContentQuery())
@@ -26,7 +26,7 @@ final class PhrictionContentPHIDType
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

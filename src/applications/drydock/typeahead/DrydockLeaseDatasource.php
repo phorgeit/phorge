@@ -1,14 +1,14 @@
 <?php
 
 final class DrydockLeaseDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type a lease ID (exact match)...');
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function loadResults() {
@@ -20,14 +20,14 @@ final class DrydockLeaseDatasource
       ->withDatasourceQuery($raw_query)
       ->execute();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(mpull($leases, 'getPHID'))
       ->execute();
 
     $results = array();
     foreach ($handles as $handle) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($handle->getName())
         ->setPHID($handle->getPHID());
     }

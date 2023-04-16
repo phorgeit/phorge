@@ -1,7 +1,7 @@
 <?php
 
 abstract class DiffusionCommitResultBucket
-  extends PhabricatorSearchResultBucket {
+  extends PhorgeSearchResultBucket {
 
   public static function getAllResultBuckets() {
     return id(new PhutilClassMapQuery())
@@ -11,7 +11,7 @@ abstract class DiffusionCommitResultBucket
   }
 
   protected function hasAuditorsWithStatus(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     array $phids,
     array $statuses) {
 

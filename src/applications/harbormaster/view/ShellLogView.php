@@ -88,7 +88,7 @@ final class ShellLogView extends AphrontView {
     $classes = array();
     $classes[] = 'phorge-source-code-view';
     $classes[] = 'remarkup-code';
-    $classes[] = 'PhabricatorMonospaced';
+    $classes[] = 'PhorgeMonospaced';
 
     return phutil_tag(
       'div',

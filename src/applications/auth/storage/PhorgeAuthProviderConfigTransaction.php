@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthProviderConfigTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeAuthProviderConfigTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_ENABLE         = 'config:enable';
   const TYPE_LOGIN          = 'config:login';
@@ -23,7 +23,7 @@ final class PhabricatorAuthProviderConfigTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorAuthAuthProviderPHIDType::TYPECONST;
+    return PhorgeAuthAuthProviderPHIDType::TYPECONST;
   }
 
   public function getIcon() {

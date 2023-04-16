@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersCustomFieldStorage
-  extends PhabricatorCustomFieldStorage {
+final class PhorgeOwnersCustomFieldStorage
+  extends PhorgeCustomFieldStorage {
 
   public function getApplicationName() {
     return 'owners';

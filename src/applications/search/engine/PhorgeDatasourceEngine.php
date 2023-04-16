@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDatasourceEngine extends Phobject {
+final class PhorgeDatasourceEngine extends Phobject {
 
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -14,12 +14,12 @@ final class PhabricatorDatasourceEngine extends Phobject {
   }
 
   public function getAllQuickSearchDatasources() {
-    return PhabricatorDatasourceEngineExtension::getAllQuickSearchDatasources();
+    return PhorgeDatasourceEngineExtension::getAllQuickSearchDatasources();
   }
 
   public function newJumpURI($query) {
     $viewer = $this->getViewer();
-    $extensions = PhabricatorDatasourceEngineExtension::getAllExtensions();
+    $extensions = PhorgeDatasourceEngineExtension::getAllExtensions();
 
     foreach ($extensions as $extension) {
       $jump_uri = id(clone $extension)
@@ -35,9 +35,9 @@ final class PhabricatorDatasourceEngine extends Phobject {
   }
 
   public function newDatasourcesForCompositeDatasource(
-    PhabricatorTypeaheadCompositeDatasource $datasource) {
+    PhorgeTypeaheadCompositeDatasource $datasource) {
     $viewer = $this->getViewer();
-    $extensions = PhabricatorDatasourceEngineExtension::getAllExtensions();
+    $extensions = PhorgeDatasourceEngineExtension::getAllExtensions();
 
     $sources = array();
     foreach ($extensions as $extension) {

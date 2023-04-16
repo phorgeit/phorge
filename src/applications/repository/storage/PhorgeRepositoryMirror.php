@@ -5,8 +5,8 @@
  * passed. It currently exists only so that "bin/storage adjust" does not
  * complain about the table.
  */
-final class PhabricatorRepositoryMirror
-  extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryMirror
+  extends PhorgeRepositoryDAO {
 
   protected $repositoryPHID;
   protected $remoteURI;

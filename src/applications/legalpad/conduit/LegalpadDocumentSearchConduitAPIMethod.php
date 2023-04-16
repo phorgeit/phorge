@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadDocumentSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'legalpad.document.search';

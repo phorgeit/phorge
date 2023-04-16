@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeFlavorTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeFlavorTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.flavor';
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSystemDestructionLog extends PhabricatorSystemDAO {
+final class PhorgeSystemDestructionLog extends PhorgeSystemDAO {
 
   protected $objectClass;
   protected $rootLogID;

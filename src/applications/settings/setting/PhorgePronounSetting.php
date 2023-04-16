@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPronounSetting
-  extends PhabricatorSelectSetting {
+final class PhorgePronounSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'pronoun';
 
@@ -10,7 +10,7 @@ final class PhabricatorPronounSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorLanguageSettingsPanel::PANELKEY;
+    return PhorgeLanguageSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

@@ -25,7 +25,7 @@ final class ConduitAPIRequest extends Phobject {
     return $this->params;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -37,7 +37,7 @@ final class ConduitAPIRequest extends Phobject {
    * shouldRequireAuthentication() to return false) the user object will NEVER
    * be available.
    *
-   * @return PhabricatorUser Authentic user, available ONLY if the method
+   * @return PhorgeUser Authentic user, available ONLY if the method
    *                         requires authentication.
    */
   public function getUser() {
@@ -56,7 +56,7 @@ final class ConduitAPIRequest extends Phobject {
   }
 
   public function setOAuthToken(
-    PhabricatorOAuthServerAccessToken $oauth_token) {
+    PhorgeOAuthServerAccessToken $oauth_token) {
     $this->oauthToken = $oauth_token;
     return $this;
   }
@@ -79,8 +79,8 @@ final class ConduitAPIRequest extends Phobject {
   }
 
   public function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorConduitContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgeConduitContentSource::SOURCECONST);
   }
 
 }

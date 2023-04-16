@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailHeader
+final class PhorgeMailHeader
   extends Phobject {
 
   private $name;

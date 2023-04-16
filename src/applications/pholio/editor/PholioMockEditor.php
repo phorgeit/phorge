@@ -1,11 +1,11 @@
 <?php
 
-final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
+final class PholioMockEditor extends PhorgeApplicationTransactionEditor {
 
   private $images = array();
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -23,34 +23,34 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PholioReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $monogram = $object->getMonogram();
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("{$monogram}: {$name}");
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->requireActor()->getPHID(),
@@ -58,16 +58,16 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $viewer = $this->requireActor();
 
-    $body = id(new PhabricatorMetaMTAMailBody())
+    $body = id(new PhorgeMetaMTAMailBody())
       ->setViewer($viewer);
 
     $mock_uri = $object->getURI();
-    $mock_uri = PhabricatorEnv::getProductionURI($mock_uri);
+    $mock_uri = PhorgeEnv::getProductionURI($mock_uri);
 
     $this->addHeadersAndCommentsToMailBody(
       $body,
@@ -88,7 +88,7 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
 
     $body->addLinkSection(
       pht('MOCK DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getURI()));
+      PhorgeEnv::getProductionURI($object->getURI()));
 
     return $body;
   }
@@ -96,7 +96,7 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   private function appendInlineCommentsForMail(
     $object,
     array $inlines,
-    PhabricatorMetaMTAMailBody $body) {
+    PhorgeMetaMTAMailBody $body) {
 
     if (!$inlines) {
       return;
@@ -156,7 +156,7 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -166,13 +166,13 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return id(new HeraldPholioMockAdapter())
@@ -197,8 +197,8 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   protected function shouldImplyCC(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PholioMockInlineTransaction::TRANSACTIONTYPE:

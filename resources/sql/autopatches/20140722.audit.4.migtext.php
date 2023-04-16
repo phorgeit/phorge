@@ -1,10 +1,10 @@
 <?php
 
-$conn_w = id(new PhabricatorAuditTransaction())->establishConnection('w');
+$conn_w = id(new PhorgeAuditTransaction())->establishConnection('w');
 $rows = new LiskRawMigrationIterator($conn_w, 'audit_comment');
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 echo pht('Migrating Audit comment text to modern storage...')."\n";
 foreach ($rows as $row) {
@@ -15,13 +15,13 @@ foreach ($rows as $row) {
     continue;
   }
 
-  $xaction_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
-    PhabricatorRepositoryCommitPHIDType::TYPECONST);
+  $xaction_phid = PhorgePHID::generateNewPHID(
+    PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
+    PhorgeRepositoryCommitPHIDType::TYPECONST);
 
-  $comment_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorPHIDConstants::PHID_TYPE_XCMT,
-    PhabricatorRepositoryCommitPHIDType::TYPECONST);
+  $comment_phid = PhorgePHID::generateNewPHID(
+    PhorgePHIDConstants::PHID_TYPE_XCMT,
+    PhorgeRepositoryCommitPHIDType::TYPECONST);
 
   queryfx(
     $conn_w,

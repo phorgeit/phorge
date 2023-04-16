@@ -8,13 +8,13 @@ final class DifferentialRevisionReclaimTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Reclaim Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('This revision will be reclaimed and reopened.');
   }
 
@@ -59,7 +59,7 @@ final class DifferentialRevisionReclaimTransaction
     $object->setModernRevisionStatus($new_status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if (!$object->isAbandoned()) {
       throw new Exception(
         pht(

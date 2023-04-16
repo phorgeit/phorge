@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSMSAuthFactor
-  extends PhabricatorAuthFactor {
+final class PhorgeSMSAuthFactor
+  extends PhorgeAuthFactor {
 
   public function getFactorKey() {
     return 'sms';
@@ -72,8 +72,8 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function canCreateNewConfiguration(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     if (!$this->loadUserContactNumber($user)) {
       return false;
@@ -87,8 +87,8 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function getConfigurationCreateDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     $messages = array();
 
@@ -118,8 +118,8 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function getEnrollDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return pht(
       'To verify your phone as an authentication factor, a text message with '.
       'a secret code will be sent to the phone number you have listed as '.
@@ -127,18 +127,18 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function getEnrollButtonText(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     $contact_number = $this->loadUserContactNumber($user);
 
     return pht('Send SMS: %s', $contact_number->getDisplayName());
   }
 
   public function processAddFactorForm(
-    PhabricatorAuthFactorProvider $provider,
+    PhorgeAuthFactorProvider $provider,
     AphrontFormView $form,
     AphrontRequest $request,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $token = $this->loadMFASyncToken($provider, $request, $form, $user);
     $code = $request->getStr('sms.code');
@@ -179,8 +179,8 @@ final class PhabricatorSMSAuthFactor
   }
 
   protected function newIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     // If we already issued a valid challenge for this workflow and session,
@@ -231,13 +231,13 @@ final class PhabricatorSMSAuthFactor
     return array(
       $this->newChallenge($config, $viewer)
         ->setChallengeKey($challenge_code)
-        ->setChallengeTTL(PhabricatorTime::getNow() + $ttl_seconds),
+        ->setChallengeTTL(PhorgeTime::getNow() + $ttl_seconds),
     );
   }
 
   protected function newResultFromIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     $challenge = $this->getChallengeForCurrentContext(
@@ -254,10 +254,10 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function renderValidateFactorForm(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontFormView $form,
-    PhabricatorUser $viewer,
-    PhabricatorAuthFactorResult $result) {
+    PhorgeUser $viewer,
+    PhorgeAuthFactorResult $result) {
 
     $control = $this->newAutomaticControl($result);
     if (!$control) {
@@ -280,15 +280,15 @@ final class PhabricatorSMSAuthFactor
   }
 
   public function getRequestHasChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontRequest $request) {
     $value = $this->getChallengeResponseFromRequest($config, $request);
     return (bool)strlen($value);
   }
 
   protected function newResultFromChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
 
@@ -309,7 +309,7 @@ final class PhabricatorSMSAuthFactor
     }
 
     if (phutil_hashes_are_identical($code, $challenge->getChallengeKey())) {
-      $ttl = PhabricatorTime::getNow() + phutil_units('15 minutes in seconds');
+      $ttl = PhorgeTime::getNow() + phutil_units('15 minutes in seconds');
 
       $challenge
         ->markChallengeAsAnswered($ttl);
@@ -335,24 +335,24 @@ final class PhabricatorSMSAuthFactor
   }
 
   private function isSMSMailerConfigured() {
-    $mailers = PhabricatorMetaMTAMail::newMailers(
+    $mailers = PhorgeMetaMTAMail::newMailers(
       array(
         'outbound' => true,
         'media' => array(
-          PhabricatorMailSMSMessage::MESSAGETYPE,
+          PhorgeMailSMSMessage::MESSAGETYPE,
         ),
       ));
 
     return (bool)$mailers;
   }
 
-  private function loadUserContactNumber(PhabricatorUser $user) {
-    $contact_numbers = id(new PhabricatorAuthContactNumberQuery())
+  private function loadUserContactNumber(PhorgeUser $user) {
+    $contact_numbers = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($user)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withStatuses(
         array(
-          PhabricatorAuthContactNumber::STATUS_ACTIVE,
+          PhorgeAuthContactNumber::STATUS_ACTIVE,
         ))
       ->withIsPrimary(true)
       ->execute();
@@ -365,8 +365,8 @@ final class PhabricatorSMSAuthFactor
   }
 
   protected function newMFASyncTokenProperties(
-    PhabricatorAuthFactorProvider $providerr,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $providerr,
+    PhorgeUser $user) {
 
     $sms_code = $this->newSMSChallengeCode();
 
@@ -380,9 +380,9 @@ final class PhabricatorSMSAuthFactor
 
   private function sendSMSCodeToUser(
     PhutilOpaqueEnvelope $envelope,
-    PhabricatorUser $user) {
-    return id(new PhabricatorMetaMTAMail())
-      ->setMessageType(PhabricatorMailSMSMessage::MESSAGETYPE)
+    PhorgeUser $user) {
+    return id(new PhorgeMetaMTAMail())
+      ->setMessageType(PhorgeMailSMSMessage::MESSAGETYPE)
       ->addTos(array($user->getPHID()))
       ->setForceDelivery(true)
       ->setSensitiveContent(true)

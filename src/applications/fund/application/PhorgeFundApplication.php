@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFundApplication extends PhabricatorApplication {
+final class PhorgeFundApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Fund');
@@ -59,7 +59,7 @@ final class PhabricatorFundApplication extends PhabricatorApplication {
         'template' => FundInitiativePHIDType::TYPECONST,
       ),
       FundCreateInitiativesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

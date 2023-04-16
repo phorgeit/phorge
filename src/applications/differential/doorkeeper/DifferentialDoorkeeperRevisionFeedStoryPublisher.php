@@ -3,7 +3,7 @@
 final class DifferentialDoorkeeperRevisionFeedStoryPublisher
   extends DoorkeeperFeedStoryPublisher {
 
-  public function canPublishStory(PhabricatorFeedStory $story, $object) {
+  public function canPublishStory(PhorgeFeedStory $story, $object) {
     return ($object instanceof DifferentialRevision);
   }
 
@@ -51,7 +51,7 @@ final class DifferentialDoorkeeperRevisionFeedStoryPublisher
   }
 
   public function getCCUserPHIDs($object) {
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    return PhorgeSubscribersQuery::loadSubscribersForPHID(
       $object->getPHID());
   }
 
@@ -64,7 +64,7 @@ final class DifferentialDoorkeeperRevisionFeedStoryPublisher
   }
 
   public function getObjectURI($object) {
-    return PhabricatorEnv::getProductionURI('/D'.$object->getID());
+    return PhorgeEnv::getProductionURI('/D'.$object->getID());
   }
 
   public function getObjectDescription($object) {

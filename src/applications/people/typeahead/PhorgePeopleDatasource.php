@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgePeopleDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Users');
@@ -12,13 +12,13 @@ final class PhabricatorPeopleDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
 
-    $query = id(new PhabricatorPeopleQuery())
+    $query = id(new PhorgePeopleQuery())
       ->setOrderVector(array('username'))
       ->needAvailability(true);
 
@@ -38,7 +38,7 @@ final class PhabricatorPeopleDatasource
 
     if ($is_browse && $users) {
       $phids = mpull($users, 'getPHID');
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs($phids)
         ->execute();
@@ -59,7 +59,7 @@ final class PhabricatorPeopleDatasource
 
       $username = $user->getUsername();
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($user->getFullName())
         ->setURI('/p/'.$username.'/')
         ->setPHID($phid)
@@ -100,7 +100,7 @@ final class PhabricatorPeopleDatasource
       $until = $user->getAwayUntil();
       if ($until) {
         $availability = $user->getDisplayAvailability();
-        $color = PhabricatorCalendarEventInvitee::getAvailabilityColor(
+        $color = PhorgeCalendarEventInvitee::getAvailabilityColor(
           $availability);
         $result->setAvailabilityColor($color);
       }

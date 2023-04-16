@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDatasourceURIEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+final class PhorgeDatasourceURIEngineExtension
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array();
@@ -10,7 +10,7 @@ final class PhabricatorDatasourceURIEngineExtension
   public function newJumpURI($query) {
     // If you search for a URI on the local install, just redirect to that
     // URI as though you had pasted it into the URI bar.
-    if (PhabricatorEnv::isSelfURI($query)) {
+    if (PhorgeEnv::isSelfURI($query)) {
       // Strip off the absolute part of the URI. If we don't, the URI redirect
       // validator will get upset that we're performing an unmarked external
       // redirect.

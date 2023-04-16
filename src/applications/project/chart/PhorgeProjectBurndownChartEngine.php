@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorProjectBurndownChartEngine
-  extends PhabricatorChartEngine {
+final class PhorgeProjectBurndownChartEngine
+  extends PhorgeChartEngine {
 
   const CHARTENGINEKEY = 'project.burndown';
 
   public function setProjects(array $projects) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, 'PhorgeProject');
     $project_phids = mpull($projects, 'getPHID');
     return $this->setEngineParameter('projectPHIDs', $project_phids);
   }
 
-  protected function newChart(PhabricatorFactChart $chart, array $map) {
+  protected function newChart(PhorgeFactChart $chart, array $map) {
     $viewer = $this->getViewer();
 
     $map = $map + array(
@@ -19,7 +19,7 @@ final class PhabricatorProjectBurndownChartEngine
     );
 
     if ($map['projectPHIDs']) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withPHIDs($map['projectPHIDs'])
         ->execute();
@@ -81,7 +81,7 @@ final class PhabricatorProjectBurndownChartEngine
 
     $datasets = array();
 
-    $dataset = id(new PhabricatorChartStackedAreaDataset())
+    $dataset = id(new PhorgeChartStackedAreaDataset())
       ->setFunctions(
         array(
           $open_function,

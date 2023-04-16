@@ -4,13 +4,13 @@
  * MySQL blob storage engine. This engine is the easiest to set up but doesn't
  * scale very well.
  *
- * It uses the @{class:PhabricatorFileStorageBlob} to actually access the
+ * It uses the @{class:PhorgeFileStorageBlob} to actually access the
  * underlying database table.
  *
  * @task internal Internals
  */
-final class PhabricatorMySQLFileStorageEngine
-  extends PhabricatorFileStorageEngine {
+final class PhorgeMySQLFileStorageEngine
+  extends PhorgeFileStorageEngine {
 
 
 /* -(  Engine Metadata  )---------------------------------------------------- */
@@ -38,7 +38,7 @@ final class PhabricatorMySQLFileStorageEngine
 
 
   public function getFilesizeLimit() {
-    return PhabricatorEnv::getEnvConfig('storage.mysql-engine.max-size');
+    return PhorgeEnv::getEnvConfig('storage.mysql-engine.max-size');
   }
 
 
@@ -50,7 +50,7 @@ final class PhabricatorMySQLFileStorageEngine
    * ID as the file data handle.
    */
   public function writeFile($data, array $params) {
-    $blob = new PhabricatorFileStorageBlob();
+    $blob = new PhorgeFileStorageBlob();
     $blob->setData($data);
     $blob->save();
 
@@ -81,11 +81,11 @@ final class PhabricatorMySQLFileStorageEngine
    * Load the Lisk object that stores the file data for a handle.
    *
    * @param string  File data handle.
-   * @return PhabricatorFileStorageBlob Data DAO.
+   * @return PhorgeFileStorageBlob Data DAO.
    * @task internal
    */
   private function loadFromMySQLFileStorage($handle) {
-    $blob = id(new PhabricatorFileStorageBlob())->load($handle);
+    $blob = id(new PhorgeFileStorageBlob())->load($handle);
     if (!$blob) {
       throw new Exception(pht("Unable to load MySQL blob file '%s'!", $handle));
     }

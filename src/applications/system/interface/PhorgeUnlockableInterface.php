@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorUnlockableInterface {
+interface PhorgeUnlockableInterface {
 
   public function newUnlockEngine();
 
@@ -8,7 +8,7 @@ interface PhabricatorUnlockableInterface {
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorUnlockableInterface  )------------------------------------- */
+/* -(  PhorgeUnlockableInterface  )------------------------------------- */
 /*
 
   public function newUnlockEngine() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenCountQuery
-  extends PhabricatorOffsetPagedQuery {
+final class PhorgeTokenCountQuery
+  extends PhorgeOffsetPagedQuery {
 
   private $objectPHIDs;
 
@@ -11,7 +11,7 @@ final class PhabricatorTokenCountQuery
   }
 
   public function execute() {
-    $table = new PhabricatorTokenCount();
+    $table = new PhorgeTokenCount();
     $conn_r = $table->establishConnection('r');
 
     $rows = queryfx_all(

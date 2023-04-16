@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDocumentEngineBlock
+final class PhorgeDocumentEngineBlock
   extends Phobject {
 
   private $blockKey;

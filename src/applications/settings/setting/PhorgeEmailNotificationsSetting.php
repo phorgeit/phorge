@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailNotificationsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailNotificationsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'no-mail';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailNotificationsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailDeliverySettingsPanel::PANELKEY;
+    return PhorgeEmailDeliverySettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

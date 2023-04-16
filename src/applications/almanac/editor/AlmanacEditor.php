@@ -1,10 +1,10 @@
 <?php
 
 abstract class AlmanacEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

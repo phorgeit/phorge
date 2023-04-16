@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeApplicationDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Applications');
@@ -12,7 +12,7 @@ final class PhabricatorApplicationDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return 'PhorgeApplicationsApplication';
   }
 
   public function loadResults() {
@@ -21,13 +21,13 @@ final class PhabricatorApplicationDatasource
 
     $results = array();
 
-    $applications = PhabricatorApplication::getAllInstalledApplications();
+    $applications = PhorgeApplication::getAllInstalledApplications();
     foreach ($applications as $application) {
       $uri = $application->getTypeaheadURI();
       if (!$uri) {
         continue;
       }
-      $is_installed = PhabricatorApplication::isClassInstalledForViewer(
+      $is_installed = PhorgeApplication::isClassInstalledForViewer(
         get_class($application),
         $viewer);
       if (!$is_installed) {
@@ -35,7 +35,7 @@ final class PhabricatorApplicationDatasource
       }
       $name = $application->getName().' '.$application->getShortDescription();
       $img = 'phui-font-fa phui-icon-view '.$application->getIcon();
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($name)
         ->setURI($uri)
         ->setPHID($application->getPHID())

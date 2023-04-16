@@ -1,13 +1,13 @@
 <?php
 
 abstract class ManiphestTaskRelationship
-  extends PhabricatorObjectRelationship {
+  extends PhorgeObjectRelationship {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+    $has_app = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeManiphestApplication',
       $viewer);
     if (!$has_app) {
       return false;
@@ -35,7 +35,7 @@ abstract class ManiphestTaskRelationship
       ->setNewValue(mpull($tasks, 'getPHID'));
 
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+      ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
       ->setNewValue(array('+' => $subscriber_phids));
 
     return $xactions;
@@ -49,7 +49,7 @@ abstract class ManiphestTaskRelationship
       $phids[] = $task->getOwnerPHID();
     }
 
-    $subscribers = id(new PhabricatorSubscribersQuery())
+    $subscribers = id(new PhorgeSubscribersQuery())
       ->withObjectPHIDs(mpull($tasks, 'getPHID'))
       ->execute();
 

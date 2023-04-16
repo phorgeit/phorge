@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialExactUserFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Users');
@@ -12,12 +12,12 @@ final class DifferentialExactUserFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
+      new PhorgePeopleDatasource(),
     );
   }
 
@@ -42,7 +42,7 @@ final class DifferentialExactUserFunctionDatasource
     foreach ($results as $result) {
       $result
         ->setColor(null)
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-asterisk')
         ->setPHID('exact('.$result->getPHID().')')
         ->setDisplayName(pht('Exact User: %s', $result->getDisplayName()))
@@ -78,7 +78,7 @@ final class DifferentialExactUserFunctionDatasource
       } else {
         $token
           ->setIcon('fa-asterisk')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setKey('exact('.$token->getKey().')')
           ->setValue(pht('Exact User: %s', $token->getValue()));
       }
@@ -90,13 +90,13 @@ final class DifferentialExactUserFunctionDatasource
   private function resolvePHIDs(array $phids) {
     $usernames = array();
     foreach ($phids as $key => $phid) {
-      if (phid_get_type($phid) != PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($phid) != PhorgePeopleUserPHIDType::TYPECONST) {
         $usernames[$key] = $phid;
       }
     }
 
     if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($usernames)
         ->execute();

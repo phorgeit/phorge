@@ -5,7 +5,7 @@ final class SlowvoteEmbedView extends AphrontView {
   private $poll;
   private $handles;
 
-  public function setPoll(PhabricatorSlowvotePoll $poll) {
+  public function setPoll(PhorgeSlowvotePoll $poll) {
     $this->poll = $poll;
     return $this;
   }
@@ -27,7 +27,7 @@ final class SlowvoteEmbedView extends AphrontView {
     }
     $phids[] = $poll->getAuthorPHID();
 
-    $this->handles = id(new PhabricatorHandleQuery())
+    $this->handles = id(new PhorgeHandleQuery())
       ->setViewer($this->getUser())
       ->withPHIDs($phids)
       ->execute();
@@ -153,7 +153,7 @@ final class SlowvoteEmbedView extends AphrontView {
       ->addClass('slowvote-poll-view');
   }
 
-  private function renderLabel(PhabricatorSlowvoteOption $option, $selected) {
+  private function renderLabel(PhorgeSlowvoteOption $option, $selected) {
     $classes = array();
     $classes[] = 'slowvote-option-label';
 
@@ -193,7 +193,7 @@ final class SlowvoteEmbedView extends AphrontView {
       ));
   }
 
-  private function renderBar(PhabricatorSlowvoteOption $option) {
+  private function renderBar(PhorgeSlowvoteOption $option) {
     if (!$this->areResultsVisible()) {
       return null;
     }
@@ -222,7 +222,7 @@ final class SlowvoteEmbedView extends AphrontView {
       ));
   }
 
-  private function renderControl(PhabricatorSlowvoteOption $option, $selected) {
+  private function renderControl(PhorgeSlowvoteOption $option, $selected) {
     $types = array(
       SlowvotePollVotingMethod::METHOD_PLURALITY => 'radio',
       SlowvotePollVotingMethod::METHOD_APPROVAL => 'checkbox',
@@ -241,7 +241,7 @@ final class SlowvoteEmbedView extends AphrontView {
       ));
   }
 
-  private function renderVoters(PhabricatorSlowvoteOption $option) {
+  private function renderVoters(PhorgeSlowvoteOption $option) {
     if (!$this->areResultsVisible()) {
       return null;
     }
@@ -288,7 +288,7 @@ final class SlowvoteEmbedView extends AphrontView {
       $voters);
   }
 
-  private function renderStatus(PhabricatorSlowvoteOption $option) {
+  private function renderStatus(PhorgeSlowvoteOption $option) {
     if (!$this->areResultsVisible()) {
       return null;
     }

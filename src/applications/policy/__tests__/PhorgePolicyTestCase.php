@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
+final class PhorgePolicyTestCase extends PhorgeTestCase {
 
   /**
    * Verify that any user can view an object with POLICY_PUBLIC.
    */
   public function testPublicPolicyEnabled() {
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('policy.allow-public', true);
 
     $this->expectVisibility(
-      $this->buildObject(PhabricatorPolicies::POLICY_PUBLIC),
+      $this->buildObject(PhorgePolicies::POLICY_PUBLIC),
       array(
         'public'  => true,
         'user'    => true,
@@ -25,11 +25,11 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * policies are disallowed.
    */
   public function testPublicPolicyDisabled() {
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('policy.allow-public', false);
 
     $this->expectVisibility(
-      $this->buildObject(PhabricatorPolicies::POLICY_PUBLIC),
+      $this->buildObject(PhorgePolicies::POLICY_PUBLIC),
       array(
         'public'  => false,
         'user'    => true,
@@ -45,7 +45,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testUsersPolicy() {
     $this->expectVisibility(
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
       array(
         'public'  => false,
         'user'    => true,
@@ -60,7 +60,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testAdminPolicy() {
     $this->expectVisibility(
-      $this->buildObject(PhabricatorPolicies::POLICY_ADMIN),
+      $this->buildObject(PhorgePolicies::POLICY_ADMIN),
       array(
         'public'  => false,
         'user'    => false,
@@ -75,7 +75,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testNoOnePolicy() {
     $this->expectVisibility(
-      $this->buildObject(PhabricatorPolicies::POLICY_NOONE),
+      $this->buildObject(PhorgePolicies::POLICY_NOONE),
       array(
         'public'  => false,
         'user'    => false,
@@ -90,15 +90,15 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testOffsets() {
     $results = array(
-      $this->buildObject(PhabricatorPolicies::POLICY_NOONE),
-      $this->buildObject(PhabricatorPolicies::POLICY_NOONE),
-      $this->buildObject(PhabricatorPolicies::POLICY_NOONE),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_NOONE),
+      $this->buildObject(PhorgePolicies::POLICY_NOONE),
+      $this->buildObject(PhorgePolicies::POLICY_NOONE),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
     );
 
-    $query = new PhabricatorPolicyAwareTestQuery();
+    $query = new PhorgePolicyAwareTestQuery();
     $query->setResults($results);
     $query->setViewer($this->buildUser('user'));
 
@@ -129,15 +129,15 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testLimits() {
     $results = array(
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
-      $this->buildObject(PhabricatorPolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
+      $this->buildObject(PhorgePolicies::POLICY_USER),
     );
 
-    $query = new PhabricatorPolicyAwareTestQuery();
+    $query = new PhorgePolicyAwareTestQuery();
     $query->setResults($results);
     $query->setViewer($this->buildUser('user'));
 
@@ -158,12 +158,12 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    */
   public function testOmnipotence() {
     $results = array(
-      $this->buildObject(PhabricatorPolicies::POLICY_NOONE),
+      $this->buildObject(PhorgePolicies::POLICY_NOONE),
     );
 
-    $query = new PhabricatorPolicyAwareTestQuery();
+    $query = new PhorgePolicyAwareTestQuery();
     $query->setResults($results);
-    $query->setViewer(PhabricatorUser::getOmnipotentUser());
+    $query->setViewer(PhorgeUser::getOmnipotentUser());
 
     $this->assertEqual(
       1,
@@ -193,7 +193,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * Test that extended policies work.
    */
   public function testExtendedPolicies() {
-    $object = $this->buildObject(PhabricatorPolicies::POLICY_USER)
+    $object = $this->buildObject(PhorgePolicies::POLICY_USER)
       ->setPHID('PHID-TEST-1');
 
     $this->expectVisibility(
@@ -206,12 +206,12 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
       pht('No Extended Policy'));
 
     // Add a restrictive extended policy.
-    $extended = $this->buildObject(PhabricatorPolicies::POLICY_ADMIN)
+    $extended = $this->buildObject(PhorgePolicies::POLICY_ADMIN)
       ->setPHID('PHID-TEST-2');
     $object->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
-          array($extended, PhabricatorPolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW => array(
+          array($extended, PhorgePolicyCapability::CAN_VIEW),
         ),
       ));
 
@@ -227,16 +227,16 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
     // Depend on a different capability.
     $object->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
-          array($extended, PhabricatorPolicyCapability::CAN_EDIT),
+        PhorgePolicyCapability::CAN_VIEW => array(
+          array($extended, PhorgePolicyCapability::CAN_EDIT),
         ),
       ));
 
-    $extended->setCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT));
+    $extended->setCapabilities(array(PhorgePolicyCapability::CAN_EDIT));
     $extended->setPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_EDIT =>
-          PhabricatorPolicies::POLICY_NOONE,
+        PhorgePolicyCapability::CAN_EDIT =>
+          PhorgePolicies::POLICY_NOONE,
       ));
 
     $this->expectVisibility(
@@ -254,7 +254,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * Test that cyclic extended policies are arrested properly.
    */
   public function testExtendedPolicyCycles() {
-    $object = $this->buildObject(PhabricatorPolicies::POLICY_USER)
+    $object = $this->buildObject(PhorgePolicies::POLICY_USER)
       ->setPHID('PHID-TEST-1');
 
     $this->expectVisibility(
@@ -270,8 +270,8 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
     // make it fail all policy checks.
     $object->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
-          array($object, PhabricatorPolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW => array(
+          array($object, PhorgePolicyCapability::CAN_VIEW),
         ),
       ));
 
@@ -293,24 +293,24 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * unusual inputs to slip objects through the filter. See D14993.
    */
   public function testBulkExtendedPolicies() {
-    $object1 = $this->buildObject(PhabricatorPolicies::POLICY_USER)
+    $object1 = $this->buildObject(PhorgePolicies::POLICY_USER)
       ->setPHID('PHID-TEST-1');
-    $object2 = $this->buildObject(PhabricatorPolicies::POLICY_USER)
+    $object2 = $this->buildObject(PhorgePolicies::POLICY_USER)
       ->setPHID('PHID-TEST-2');
-    $object3 = $this->buildObject(PhabricatorPolicies::POLICY_USER)
+    $object3 = $this->buildObject(PhorgePolicies::POLICY_USER)
       ->setPHID('PHID-TEST-3');
 
-    $extended = $this->buildObject(PhabricatorPolicies::POLICY_ADMIN)
+    $extended = $this->buildObject(PhorgePolicies::POLICY_ADMIN)
       ->setPHID('PHID-TEST-999');
 
     $object1->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
+        PhorgePolicyCapability::CAN_VIEW => array(
           array(
             $extended,
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ),
           ),
         ),
@@ -318,19 +318,19 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
 
     $object2->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
-          array($extended, PhabricatorPolicyCapability::CAN_VIEW),
+        PhorgePolicyCapability::CAN_VIEW => array(
+          array($extended, PhorgePolicyCapability::CAN_VIEW),
         ),
       ));
 
     $object3->setExtendedPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => array(
+        PhorgePolicyCapability::CAN_VIEW => array(
           array(
             $extended,
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ),
           ),
         ),
@@ -338,11 +338,11 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
 
     $user = $this->buildUser('user');
 
-    $visible = id(new PhabricatorPolicyFilter())
+    $visible = id(new PhorgePolicyFilter())
       ->setViewer($user)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->apply(
         array(
@@ -367,9 +367,9 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
       $object,
     );
 
-    $query = new PhabricatorPolicyAwareTestQuery();
+    $query = new PhorgePolicyAwareTestQuery();
     $query->setResults($results);
-    $query->setViewer(PhabricatorUser::getOmnipotentUser());
+    $query->setViewer(PhorgeUser::getOmnipotentUser());
 
     $this->assertEqual(
       1,
@@ -378,7 +378,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
 
   public function testAllQueriesBelongToActualApplications() {
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyAwareQuery')
+      ->setAncestorClass('PhorgePolicyAwareQuery')
       ->execute();
 
     foreach ($queries as $qclass => $query) {
@@ -387,7 +387,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
         continue;
       }
       $this->assertTrue(
-        (bool)PhabricatorApplication::getByClass($class),
+        (bool)PhorgeApplication::getByClass($class),
         pht(
           "Application class '%s' for query '%s'.",
           $class,
@@ -396,25 +396,25 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
   }
 
   public function testMultipleCapabilities() {
-    $object = new PhabricatorPolicyTestObject();
+    $object = new PhorgePolicyTestObject();
     $object->setCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
     $object->setPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW
-          => PhabricatorPolicies::POLICY_USER,
-        PhabricatorPolicyCapability::CAN_EDIT
-          => PhabricatorPolicies::POLICY_NOONE,
+        PhorgePolicyCapability::CAN_VIEW
+          => PhorgePolicies::POLICY_USER,
+        PhorgePolicyCapability::CAN_EDIT
+          => PhorgePolicies::POLICY_NOONE,
       ));
 
-    $filter = new PhabricatorPolicyFilter();
+    $filter = new PhorgePolicyFilter();
     $filter->requireCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
     $filter->setViewer($this->buildUser('user'));
 
@@ -424,14 +424,14 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
   }
 
   public function testPolicyStrength() {
-    $public = PhabricatorPolicyQuery::getGlobalPolicy(
-      PhabricatorPolicies::POLICY_PUBLIC);
-    $user = PhabricatorPolicyQuery::getGlobalPolicy(
-      PhabricatorPolicies::POLICY_USER);
-    $admin = PhabricatorPolicyQuery::getGlobalPolicy(
-      PhabricatorPolicies::POLICY_ADMIN);
-    $noone = PhabricatorPolicyQuery::getGlobalPolicy(
-      PhabricatorPolicies::POLICY_NOONE);
+    $public = PhorgePolicyQuery::getGlobalPolicy(
+      PhorgePolicies::POLICY_PUBLIC);
+    $user = PhorgePolicyQuery::getGlobalPolicy(
+      PhorgePolicies::POLICY_USER);
+    $admin = PhorgePolicyQuery::getGlobalPolicy(
+      PhorgePolicies::POLICY_ADMIN);
+    $noone = PhorgePolicyQuery::getGlobalPolicy(
+      PhorgePolicies::POLICY_NOONE);
 
     $this->assertFalse($public->isStrongerThan($public));
     $this->assertFalse($public->isStrongerThan($user));
@@ -459,14 +459,14 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * Test an object for visibility across multiple user specifications.
    */
   private function expectVisibility(
-    PhabricatorPolicyTestObject $object,
+    PhorgePolicyTestObject $object,
     array $map,
     $description) {
 
     foreach ($map as $spec => $expect) {
       $viewer = $this->buildUser($spec);
 
-      $query = new PhabricatorPolicyAwareTestQuery();
+      $query = new PhorgePolicyAwareTestQuery();
       $query->setResults(array($object));
       $query->setViewer($viewer);
 
@@ -474,7 +474,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
       $result = null;
       try {
         $result = $query->executeOne();
-      } catch (PhabricatorPolicyException $ex) {
+      } catch (PhorgePolicyException $ex) {
         $caught = $ex;
       }
 
@@ -485,7 +485,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
           pht('%s with user %s should succeed.', $description, $spec));
       } else {
         $this->assertTrue(
-          $caught instanceof PhabricatorPolicyException,
+          $caught instanceof PhorgePolicyException,
           pht('%s with user %s should fail.', $description, $spec));
       }
     }
@@ -496,16 +496,16 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * Build a test object to spec.
    */
   private function buildObject($policy) {
-    $object = new PhabricatorPolicyTestObject();
+    $object = new PhorgePolicyTestObject();
     $object->setCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
     $object->setPolicies(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW => $policy,
-        PhabricatorPolicyCapability::CAN_EDIT => $policy,
+        PhorgePolicyCapability::CAN_VIEW => $policy,
+        PhorgePolicyCapability::CAN_EDIT => $policy,
       ));
 
     return $object;
@@ -516,7 +516,7 @@ final class PhabricatorPolicyTestCase extends PhabricatorTestCase {
    * Build a test user to spec.
    */
   private function buildUser($spec) {
-    $user = new PhabricatorUser();
+    $user = new PhorgeUser();
 
     switch ($spec) {
       case 'public':

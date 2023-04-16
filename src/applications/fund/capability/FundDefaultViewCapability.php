@@ -1,6 +1,6 @@
 <?php
 
-final class FundDefaultViewCapability extends PhabricatorPolicyCapability {
+final class FundDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'fund.default.view';
 

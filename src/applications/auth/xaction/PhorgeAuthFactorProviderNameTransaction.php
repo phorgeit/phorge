@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderNameTransaction
-  extends PhabricatorAuthFactorProviderTransactionType {
+final class PhorgeAuthFactorProviderNameTransaction
+  extends PhorgeAuthFactorProviderTransactionType {
 
   const TRANSACTIONTYPE = 'name';
 

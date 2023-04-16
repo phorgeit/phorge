@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestBulkEditCapability extends PhabricatorPolicyCapability {
+final class ManiphestBulkEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'maniphest.edit.bulk';
 

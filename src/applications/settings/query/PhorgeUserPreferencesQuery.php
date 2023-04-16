@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserPreferencesQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeUserPreferencesQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -32,7 +32,7 @@ final class PhabricatorUserPreferencesQuery
   }
 
   public function withUsers(array $users) {
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, 'PhorgeUser');
     $this->users = mpull($users, null, 'getPHID');
     $this->withUserPHIDs(array_keys($this->users));
     return $this;
@@ -57,7 +57,7 @@ final class PhabricatorUserPreferencesQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorUserPreferences();
+    return new PhorgeUserPreferences();
   }
 
   protected function loadPage() {
@@ -92,7 +92,7 @@ final class PhabricatorUserPreferencesQuery
       $load_phids = array_keys($load_phids);
 
       if ($load_phids) {
-        $load_users = id(new PhabricatorPeopleQuery())
+        $load_users = id(new PhorgePeopleQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs($load_phids)
           ->execute();
@@ -130,7 +130,7 @@ final class PhabricatorUserPreferencesQuery
         ->setViewer($this->getViewer())
         ->withBuiltinKeys(
           array(
-            PhabricatorUserPreferences::BUILTIN_GLOBAL_DEFAULT,
+            PhorgeUserPreferences::BUILTIN_GLOBAL_DEFAULT,
           ))
         ->executeOne();
       if ($global) {
@@ -190,7 +190,7 @@ final class PhabricatorUserPreferencesQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return 'PhorgeSettingsApplication';
   }
 
 }

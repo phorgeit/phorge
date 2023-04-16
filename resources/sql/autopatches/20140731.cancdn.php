@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorFile();
+$table = new PhorgeFile();
 $conn_w = $table->establishConnection('w');
 foreach (new LiskMigrationIterator($table) as $file) {
   $id = $file->getID();

@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -61,7 +61,7 @@ final class HarbormasterBuildQuery
 
     $buildable_phids = array_filter(mpull($page, 'getBuildablePHID'));
     if ($buildable_phids) {
-      $buildables = id(new PhabricatorObjectQuery())
+      $buildables = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($buildable_phids)
         ->setParentQuery($this)
@@ -86,7 +86,7 @@ final class HarbormasterBuildQuery
 
     $plan_phids = array_filter(mpull($page, 'getBuildPlanPHID'));
     if ($plan_phids) {
-      $plans = id(new PhabricatorObjectQuery())
+      $plans = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($plan_phids)
         ->setParentQuery($this)
@@ -219,7 +219,7 @@ final class HarbormasterBuildQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   protected function getPrimaryTableAlias() {

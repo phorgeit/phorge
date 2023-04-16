@@ -1,3 +1,3 @@
 <?php
 
-final class PhabricatorLibraryTestCase extends PhutilLibraryTestCase {}
+final class PhorgeLibraryTestCase extends PhutilLibraryTestCase {}

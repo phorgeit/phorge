@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelInstallController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardQueryPanelInstallController
+  extends PhorgeDashboardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -22,7 +22,7 @@ final class PhabricatorDashboardQueryPanelInstallController
       $v_query = $request->getURIData('queryKey');
     }
 
-    $engines = PhabricatorApplicationSearchEngine::getAllEngines();
+    $engines = PhorgeApplicationSearchEngine::getAllEngines();
     $engine = idx($engines, $v_engine);
     if ($engine) {
       $engine = id(clone $engine)
@@ -40,11 +40,11 @@ final class PhabricatorDashboardQueryPanelInstallController
 
     $errors = array();
 
-    $xaction_name = PhabricatorDashboardPanelNameTransaction::TRANSACTIONTYPE;
+    $xaction_name = PhorgeDashboardPanelNameTransaction::TRANSACTIONTYPE;
     $xaction_engine =
-      PhabricatorDashboardQueryPanelApplicationTransaction::TRANSACTIONTYPE;
+      PhorgeDashboardQueryPanelApplicationTransaction::TRANSACTIONTYPE;
     $xaction_query =
-      PhabricatorDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE;
+      PhorgeDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE;
 
     if ($request->isFormPost()) {
       $v_name = $request->getStr('name');
@@ -58,7 +58,7 @@ final class PhabricatorDashboardQueryPanelInstallController
         $errors[] = pht('You must select a dashboard.');
         $e_dashboard = pht('Required');
       } else {
-        $dashboard = id(new PhabricatorDashboardQuery())
+        $dashboard = id(new PhorgeDashboardQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($v_dashboard))
           ->executeOne();
@@ -67,10 +67,10 @@ final class PhabricatorDashboardQueryPanelInstallController
           $e_dashboard = pht('Invalid');
         }
 
-        $can_edit = PhabricatorPolicyFilter::hasCapability(
+        $can_edit = PhorgePolicyFilter::hasCapability(
           $viewer,
           $dashboard,
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
         if (!$can_edit) {
           $errors[] = pht(
             'You must select a dashboard you have permission to edit.');
@@ -82,10 +82,10 @@ final class PhabricatorDashboardQueryPanelInstallController
 
         // First, create a new panel.
 
-        $panel_type = id(new PhabricatorDashboardQueryPanelType())
+        $panel_type = id(new PhorgeDashboardQueryPanelType())
           ->getPanelTypeKey();
 
-        $panel = PhabricatorDashboardPanel::initializeNewPanel($viewer)
+        $panel = PhorgeDashboardPanel::initializeNewPanel($viewer)
           ->setPanelType($panel_type);
 
         $xactions = array();
@@ -117,7 +117,7 @@ final class PhabricatorDashboardQueryPanelInstallController
 
         $xactions[] = $dashboard->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorDashboardPanelsTransaction::TRANSACTIONTYPE)
+            PhorgeDashboardPanelsTransaction::TRANSACTIONTYPE)
           ->setNewValue($new_panels);
 
         $editor = $dashboard->getApplicationTransactionEditor()
@@ -151,7 +151,7 @@ final class PhabricatorDashboardQueryPanelInstallController
           ->setError($e_dashboard)
           ->setName('dashboardPHIDs')
           ->setLimit(1)
-          ->setDatasource(new PhabricatorDashboardDatasource())
+          ->setDatasource(new PhorgeDashboardDatasource())
           ->setLabel(pht('Dashboard')));
 
     return $this->newDialog()

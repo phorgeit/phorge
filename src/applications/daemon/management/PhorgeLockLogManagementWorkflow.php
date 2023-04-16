@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLockLogManagementWorkflow
-  extends PhabricatorLockManagementWorkflow {
+final class PhorgeLockLogManagementWorkflow
+  extends PhorgeLockManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -45,12 +45,12 @@ final class PhabricatorLockLogManagementWorkflow
             'parameters like "--name".'));
       }
 
-      $gc = new PhabricatorDaemonLockLogGarbageCollector();
+      $gc = new PhorgeDaemonLockLogGarbageCollector();
       $is_enabled = (bool)$gc->getRetentionPolicy();
 
       $config_key = 'phd.garbage-collection';
       $const = $gc->getCollectorConstant();
-      $value = PhabricatorEnv::getEnvConfig($config_key);
+      $value = PhorgeEnv::getEnvConfig($config_key);
 
       if ($is_disable) {
         if (!$is_enabled) {
@@ -78,7 +78,7 @@ final class PhabricatorLockLogManagementWorkflow
         $value[$const] = phutil_units('24 hours in seconds');
       }
 
-      id(new PhabricatorConfigLocalSource())
+      id(new PhorgeConfigLocalSource())
         ->setKeys(
           array(
             $config_key => $value,
@@ -95,7 +95,7 @@ final class PhabricatorLockLogManagementWorkflow
       return 0;
     }
 
-    $table = new PhabricatorDaemonLockLog();
+    $table = new PhorgeDaemonLockLog();
     $conn = $table->establishConnection('r');
 
     $parts = array();

@@ -6,8 +6,8 @@
  *
  * @task internal Internals
  */
-final class PhabricatorS3FileStorageEngine
-  extends PhabricatorFileStorageEngine {
+final class PhorgeS3FileStorageEngine
+  extends PhorgeFileStorageEngine {
 
 
 /* -(  Engine Metadata  )---------------------------------------------------- */
@@ -25,11 +25,11 @@ final class PhabricatorS3FileStorageEngine
   }
 
   public function canWriteFiles() {
-    $bucket = PhabricatorEnv::getEnvConfig('storage.s3.bucket');
-    $access_key = PhabricatorEnv::getEnvConfig('amazon-s3.access-key');
-    $secret_key = PhabricatorEnv::getEnvConfig('amazon-s3.secret-key');
-    $endpoint = PhabricatorEnv::getEnvConfig('amazon-s3.endpoint');
-    $region = PhabricatorEnv::getEnvConfig('amazon-s3.region');
+    $bucket = PhorgeEnv::getEnvConfig('storage.s3.bucket');
+    $access_key = PhorgeEnv::getEnvConfig('amazon-s3.access-key');
+    $secret_key = PhorgeEnv::getEnvConfig('amazon-s3.secret-key');
+    $endpoint = PhorgeEnv::getEnvConfig('amazon-s3.endpoint');
+    $region = PhorgeEnv::getEnvConfig('amazon-s3.region');
 
     return phutil_nonempty_string($bucket) &&
       phutil_nonempty_string($access_key) &&
@@ -56,7 +56,7 @@ final class PhabricatorS3FileStorageEngine
     $parts = array();
     $parts[] = 'phorge';
 
-    $instance_name = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance_name = PhorgeEnv::getEnvConfig('cluster.instance');
     if (phutil_nonempty_string($instance_name)) {
       $parts[] = $instance_name;
     }
@@ -139,9 +139,9 @@ final class PhabricatorS3FileStorageEngine
    * @task internal
    */
   private function getBucketName() {
-    $bucket = PhabricatorEnv::getEnvConfig('storage.s3.bucket');
+    $bucket = PhorgeEnv::getEnvConfig('storage.s3.bucket');
     if (!$bucket) {
-      throw new PhabricatorFileStorageConfigurationException(
+      throw new PhorgeFileStorageConfigurationException(
         pht(
           "No '%s' specified!",
           'storage.s3.bucket'));
@@ -155,10 +155,10 @@ final class PhabricatorS3FileStorageEngine
    * @task internal
    */
   private function newS3API() {
-    $access_key = PhabricatorEnv::getEnvConfig('amazon-s3.access-key');
-    $secret_key = PhabricatorEnv::getEnvConfig('amazon-s3.secret-key');
-    $region = PhabricatorEnv::getEnvConfig('amazon-s3.region');
-    $endpoint = PhabricatorEnv::getEnvConfig('amazon-s3.endpoint');
+    $access_key = PhorgeEnv::getEnvConfig('amazon-s3.access-key');
+    $secret_key = PhorgeEnv::getEnvConfig('amazon-s3.secret-key');
+    $region = PhorgeEnv::getEnvConfig('amazon-s3.region');
+    $endpoint = PhorgeEnv::getEnvConfig('amazon-s3.endpoint');
 
     return id(new PhutilAWSS3Future())
       ->setAccessKey($access_key)

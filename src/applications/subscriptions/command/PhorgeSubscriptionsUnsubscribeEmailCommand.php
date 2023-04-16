@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSubscriptionsUnsubscribeEmailCommand
+final class PhorgeSubscriptionsUnsubscribeEmailCommand
   extends MetaMTAEmailTransactionCommand {
 
   public function getCommand() {
@@ -12,20 +12,20 @@ final class PhabricatorSubscriptionsUnsubscribeEmailCommand
   }
 
   public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv) {
     $xactions = array();
 
     $xactions[] = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+      ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
       ->setNewValue(
         array(
           '-' => array($viewer->getPHID()),

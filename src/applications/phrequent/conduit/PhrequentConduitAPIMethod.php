@@ -3,8 +3,8 @@
 abstract class PhrequentConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass(
-      'PhabricatorPhrequentApplication');
+    return PhorgeApplication::getByClass(
+      'PhorgePhrequentApplication');
   }
 
 }

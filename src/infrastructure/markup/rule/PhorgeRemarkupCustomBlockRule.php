@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorRemarkupCustomBlockRule
+abstract class PhorgeRemarkupCustomBlockRule
   extends PhutilRemarkupBlockRule {
 
   public function getRuleVersion() {

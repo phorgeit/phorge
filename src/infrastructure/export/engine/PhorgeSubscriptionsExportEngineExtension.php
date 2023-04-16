@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorSubscriptionsExportEngineExtension
-  extends PhabricatorExportEngineExtension {
+final class PhorgeSubscriptionsExportEngineExtension
+  extends PhorgeExportEngineExtension {
 
   const EXTENSIONKEY = 'subscriptions';
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function newExportFields() {
     return array(
-      id(new PhabricatorPHIDListExportField())
+      id(new PhorgePHIDListExportField())
         ->setKey('subscriberPHIDs')
         ->setLabel(pht('Subscriber PHIDs')),
-      id(new PhabricatorStringListExportField())
+      id(new PhorgeStringListExportField())
         ->setKey('subscribers')
         ->setLabel(pht('Subscribers')),
     );
@@ -25,11 +25,11 @@ final class PhabricatorSubscriptionsExportEngineExtension
 
     $object_phids = mpull($objects, 'getPHID');
 
-    $projects_query = id(new PhabricatorEdgeQuery())
+    $projects_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($object_phids)
       ->withEdgeTypes(
         array(
-          PhabricatorObjectHasSubscriberEdgeType::EDGECONST,
+          PhorgeObjectHasSubscriberEdgeType::EDGECONST,
         ));
     $projects_query->execute();
 
@@ -41,7 +41,7 @@ final class PhabricatorSubscriptionsExportEngineExtension
 
       $project_phids = $projects_query->getDestinationPHIDs(
         array($object_phid),
-        array(PhabricatorObjectHasSubscriberEdgeType::EDGECONST));
+        array(PhorgeObjectHasSubscriberEdgeType::EDGECONST));
 
       $handle_list = $handles->newSublist($project_phids);
       $handle_list = iterator_to_array($handle_list);

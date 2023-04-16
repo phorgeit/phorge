@@ -138,7 +138,7 @@ abstract class DiffusionView extends AphrontView {
   }
 
   final public static function linkCommit(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $commit,
     $summary = '') {
 
@@ -157,7 +157,7 @@ abstract class DiffusionView extends AphrontView {
   }
 
   final public static function linkDetail(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $commit,
     $detail) {
 
@@ -222,7 +222,7 @@ abstract class DiffusionView extends AphrontView {
   }
 
   final protected function loadBuildables(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
 
     if (!$commits) {
       return array();
@@ -230,8 +230,8 @@ abstract class DiffusionView extends AphrontView {
 
     $viewer = $this->getUser();
 
-    $harbormaster_app = 'PhabricatorHarbormasterApplication';
-    $have_harbormaster = PhabricatorApplication::isClassInstalledForViewer(
+    $harbormaster_app = 'PhorgeHarbormasterApplication';
+    $have_harbormaster = PhorgeApplication::isClassInstalledForViewer(
       $harbormaster_app,
       $viewer);
 

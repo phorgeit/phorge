@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorImageMacroRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeImageMacroRemarkupRule extends PhutilRemarkupRule {
 
   private $macros;
 
@@ -18,9 +18,9 @@ final class PhabricatorImageMacroRemarkupRule extends PhutilRemarkupRule {
       $this->macros = array();
 
       $viewer = $this->getEngine()->getConfig('viewer');
-      $rows = id(new PhabricatorMacroQuery())
+      $rows = id(new PhorgeMacroQuery())
         ->setViewer($viewer)
-        ->withStatus(PhabricatorMacroQuery::STATUS_ACTIVE)
+        ->withStatus(PhorgeMacroQuery::STATUS_ACTIVE)
         ->execute();
 
       $this->macros = mpull($rows, 'getPHID', 'getName');
@@ -62,9 +62,9 @@ final class PhabricatorImageMacroRemarkupRule extends PhutilRemarkupRule {
     $viewer = $this->getEngine()->getConfig('viewer');
 
     // Load all the macros.
-    $macros = id(new PhabricatorMacroQuery())
+    $macros = id(new PhorgeMacroQuery())
       ->setViewer($viewer)
-      ->withStatus(PhabricatorMacroQuery::STATUS_ACTIVE)
+      ->withStatus(PhorgeMacroQuery::STATUS_ACTIVE)
       ->withPHIDs($phids)
       ->execute();
     $macros = mpull($macros, null, 'getPHID');
@@ -78,7 +78,7 @@ final class PhabricatorImageMacroRemarkupRule extends PhutilRemarkupRule {
 
     $files = array();
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($file_phids)
         ->execute();
@@ -110,19 +110,19 @@ final class PhabricatorImageMacroRemarkupRule extends PhutilRemarkupRule {
         $engine->overwriteStoredText($spec['token'], $result);
         continue;
       } else if ($this->getEngine()->isHTMLMailMode()) {
-        $src_uri = PhabricatorEnv::getProductionURI($src_uri);
+        $src_uri = PhorgeEnv::getProductionURI($src_uri);
       }
 
       $id = null;
       $audio = idx($files, $macro->getAudioPHID());
       $should_play = ($audio && $macro->getAudioBehavior() !=
-        PhabricatorFileImageMacro::AUDIO_BEHAVIOR_NONE);
+        PhorgeFileImageMacro::AUDIO_BEHAVIOR_NONE);
       if ($should_play) {
         $id = celerity_generate_unique_node_id();
 
         $loop = null;
         switch ($macro->getAudioBehavior()) {
-          case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP:
+          case PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP:
             $loop = true;
             break;
         }

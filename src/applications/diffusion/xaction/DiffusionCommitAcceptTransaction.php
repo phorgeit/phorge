@@ -31,14 +31,14 @@ final class DiffusionCommitAcceptTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $status = PhabricatorAuditRequestStatus::ACCEPTED;
+    $status = PhorgeAuditRequestStatus::ACCEPTED;
     $actor = $this->getActor();
     $this->applyAuditorEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     $config_key = 'audit.can-author-close-audit';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       if ($this->isViewerCommitAuthor($object, $viewer)) {
         throw new Exception(
           pht(

@@ -23,7 +23,7 @@ final class PHUIRemarkupView extends AphrontView {
   const OPTION_PRESERVE_LINEBREAKS = 'preserve-linebreaks';
   const OPTION_GENERATE_TOC = 'header.generate-toc';
 
-  public function __construct(PhabricatorUser $viewer, $corpus) {
+  public function __construct(PhorgeUser $viewer, $corpus) {
     $this->setUser($viewer);
     $this->corpus = $corpus;
   }
@@ -69,7 +69,7 @@ final class PHUIRemarkupView extends AphrontView {
 
     $options = $this->options;
 
-    $oneoff = id(new PhabricatorMarkupOneOff())
+    $oneoff = id(new PhorgeMarkupOneOff())
       ->setContent($corpus)
       ->setContentCacheFragment($this->getContentCacheFragment());
 
@@ -83,7 +83,7 @@ final class PHUIRemarkupView extends AphrontView {
     $oneoff->setGenerateTableOfContents($generate_toc);
     $this->oneoff = $oneoff;
 
-    $content = PhabricatorMarkupEngine::renderOneObject(
+    $content = PhorgeMarkupEngine::renderOneObject(
       $oneoff,
       'default',
       $viewer,
@@ -99,12 +99,12 @@ final class PHUIRemarkupView extends AphrontView {
     $viewer_key = $viewer->getCacheFragment();
     $engine_key = $this->getEngineCacheFragment();
 
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache_key = "remarkup.engine({$viewer_key}, {$engine_key})";
 
     $engine = $cache->getKey($cache_key);
     if (!$engine) {
-      $engine = PhabricatorMarkupEngine::newMarkupEngine($options);
+      $engine = PhorgeMarkupEngine::newMarkupEngine($options);
       $cache->setKey($cache_key, $engine);
     }
 
@@ -117,7 +117,7 @@ final class PHUIRemarkupView extends AphrontView {
     ksort($options);
 
     $engine_key = serialize($options);
-    $engine_key = PhabricatorHash::digestForIndex($engine_key);
+    $engine_key = PhorgeHash::digestForIndex($engine_key);
 
     return $engine_key;
   }
@@ -125,12 +125,12 @@ final class PHUIRemarkupView extends AphrontView {
   private function getContentCacheFragment() {
     $corpus = $this->corpus;
 
-    $content_fragment = PhabricatorHash::digestForIndex($corpus);
+    $content_fragment = PhorgeHash::digestForIndex($corpus);
     $options_fragment = array(
       'toc' => $this->getGenerateTableOfContents(),
     );
     $options_fragment = serialize($options_fragment);
-    $options_fragment = PhabricatorHash::digestForIndex($options_fragment);
+    $options_fragment = PhorgeHash::digestForIndex($options_fragment);
 
     return "remarkup({$content_fragment}, {$options_fragment})";
   }

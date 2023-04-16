@@ -30,7 +30,7 @@ final class HarbormasterManagementPublishWorkflow
           'Name one or more buildables to publish, like "B123".'));
     }
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($buildable_names);
 

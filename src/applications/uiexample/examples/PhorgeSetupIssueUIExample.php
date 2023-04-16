@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSetupIssueUIExample extends PhabricatorUIExample {
+final class PhorgeSetupIssueUIExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Setup Issue');
@@ -18,7 +18,7 @@ final class PhabricatorSetupIssueUIExample extends PhabricatorUIExample {
     $request = $this->getRequest();
     $user = $request->getUser();
 
-    $issue = id(new PhabricatorSetupIssue())
+    $issue = id(new PhorgeSetupIssue())
       ->setShortName(pht('Short Name'))
       ->setName(pht('Name'))
       ->setSummary(pht('Summary'))
@@ -27,14 +27,14 @@ final class PhabricatorSetupIssueUIExample extends PhabricatorUIExample {
       ->addCommand('$ # Add Command')
       ->addCommand(hsprintf('<tt>$</tt> %s', '$ ls -1 > /dev/null'))
       ->addPHPConfig('php.config.example')
-      ->addPhabricatorConfig('test.value')
+      ->addPhorgeConfig('test.value')
       ->addPHPExtension('libexample');
 
     // NOTE: Since setup issues may be rendered before we can build the page
     // chrome, they don't explicitly include resources.
     require_celerity_resource('setup-issue-css');
 
-    $view = id(new PhabricatorSetupIssueView())
+    $view = id(new PhorgeSetupIssueView())
       ->setIssue($issue);
 
     return $view;

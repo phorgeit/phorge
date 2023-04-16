@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerUsageIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+final class PhorgeProjectTriggerUsageIndexEngineExtension
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'trigger.usage';
 
@@ -10,7 +10,7 @@ final class PhabricatorProjectTriggerUsageIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    if (!($object instanceof PhabricatorProjectTrigger)) {
+    if (!($object instanceof PhorgeProjectTrigger)) {
       return false;
     }
 
@@ -18,16 +18,16 @@ final class PhabricatorProjectTriggerUsageIndexEngineExtension
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
-    $usage_table = new PhabricatorProjectTriggerUsage();
-    $column_table = new PhabricatorProjectColumn();
+    $usage_table = new PhorgeProjectTriggerUsage();
+    $column_table = new PhorgeProjectColumn();
 
     $conn_w = $object->establishConnection('w');
 
     $active_statuses = array(
-      PhabricatorProjectColumn::STATUS_ACTIVE,
+      PhorgeProjectColumn::STATUS_ACTIVE,
     );
 
     // Select summary information to populate the usage index. When picking

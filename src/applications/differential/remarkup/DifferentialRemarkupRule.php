@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class DifferentialRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'D';

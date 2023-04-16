@@ -2,7 +2,7 @@
 
 final class PassphrasePasswordKey extends PassphraseAbstractKey {
 
-  public static function loadFromPHID($phid, PhabricatorUser $viewer) {
+  public static function loadFromPHID($phid, PhorgeUser $viewer) {
     $key = new PassphrasePasswordKey();
     return $key->loadAndValidateFromPHID(
       $phid,

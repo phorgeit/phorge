@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorPasteEditController extends PhabricatorPasteController {
+final class PhorgePasteEditController extends PhorgePasteController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPasteEditEngine())
+    return id(new PhorgePasteEditEngine())
       ->setController($this)
       ->buildResponse();
   }

@@ -2,9 +2,9 @@
 
 final class PhluxVariable extends PhluxDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeFlaggableInterface,
+    PhorgePolicyInterface {
 
   protected $variableKey;
   protected $variableValue;
@@ -30,11 +30,11 @@ final class PhluxVariable extends PhluxDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(PhluxVariablePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(PhluxVariablePHIDType::TYPECONST);
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -46,26 +46,26 @@ final class PhluxVariable extends PhluxDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->viewPolicy;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->editPolicy;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

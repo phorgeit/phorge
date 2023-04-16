@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnViewQueryController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnViewQueryController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -22,7 +22,7 @@ final class PhabricatorProjectColumnViewQueryController
 
     $board_phid = $project->getPHID();
 
-    $layout_engine = id(new PhabricatorBoardLayoutEngine())
+    $layout_engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board_phid))
       ->setFetchAllBoards(true)

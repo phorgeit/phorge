@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMultimeterApplication
-  extends PhabricatorApplication {
+final class PhorgeMultimeterApplication
+  extends PhorgeApplication {
 
   public function getName() {
     return pht('Multimeter');
@@ -43,11 +43,11 @@ final class PhabricatorMultimeterApplication
     );
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Multimeter User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Multimeter User Guide'),
+        'href' => PhorgeEnv::getDoclink('Multimeter User Guide'),
       ),
     );
   }

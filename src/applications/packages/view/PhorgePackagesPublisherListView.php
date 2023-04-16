@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPackagesPublisherListView
-  extends PhabricatorPackagesView {
+final class PhorgePackagesPublisherListView
+  extends PhorgePackagesView {
 
   private $publishers;
 
   public function setPublishers(array $publishers) {
-    assert_instances_of($publishers, 'PhabricatorPackagesPublisher');
+    assert_instances_of($publishers, 'PhorgePackagesPublisher');
     $this->publishers = $publishers;
     return $this;
   }

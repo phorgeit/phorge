@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditField extends Phobject {
+abstract class PhorgeEditField extends Phobject {
 
   private $key;
   private $viewer;
@@ -85,7 +85,7 @@ abstract class PhabricatorEditField extends Phobject {
     return $this->bulkEditGroupKey;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -542,12 +542,12 @@ abstract class PhabricatorEditField extends Phobject {
     return $this->getHTTPParameterValue($request, $key);
   }
 
-  public function readValueFromField(PhabricatorEditField $other) {
+  public function readValueFromField(PhorgeEditField $other) {
     $this->value = $this->getValueFromField($other);
     return $this;
   }
 
-  protected function getValueFromField(PhabricatorEditField $other) {
+  protected function getValueFromField(PhorgeEditField $other) {
     return $other->getValue();
   }
 
@@ -699,7 +699,7 @@ abstract class PhabricatorEditField extends Phobject {
   }
 
   protected function newEditType() {
-    return new PhabricatorSimpleEditType();
+    return new PhorgeSimpleEditType();
   }
 
   protected function getEditType() {
@@ -901,7 +901,7 @@ abstract class PhabricatorEditField extends Phobject {
   }
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $edit_type = $this->getEditType();

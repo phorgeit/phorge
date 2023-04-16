@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFlagQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFlagQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const GROUP_COLOR = 'color';
   const GROUP_NONE  = 'none';
@@ -61,9 +61,9 @@ final class PhabricatorFlagQuery
     return $this;
   }
 
-  public static function loadUserFlag(PhabricatorUser $user, $object_phid) {
+  public static function loadUserFlag(PhorgeUser $user, $object_phid) {
     // Specifying the type in the query allows us to use a key.
-    return id(new PhabricatorFlagQuery())
+    return id(new PhorgeFlagQuery())
       ->setViewer($user)
       ->withOwnerPHIDs(array($user->getPHID()))
       ->withTypes(array(phid_get_type($object_phid)))
@@ -72,7 +72,7 @@ final class PhabricatorFlagQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorFlag();
+    $table = new PhorgeFlag();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -88,7 +88,7 @@ final class PhabricatorFlagQuery
 
   protected function willFilterPage(array $flags) {
     if ($this->needObjects) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(mpull($flags, 'getObjectPHID'))
         ->execute();
@@ -104,7 +104,7 @@ final class PhabricatorFlagQuery
     }
 
     if ($this->needHandles) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(mpull($flags, 'getObjectPHID'))
         ->execute();
@@ -173,7 +173,7 @@ final class PhabricatorFlagQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFlagsApplication';
+    return 'PhorgeFlagsApplication';
   }
 
 }

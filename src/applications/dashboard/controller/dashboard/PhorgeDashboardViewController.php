@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardViewController
-  extends PhabricatorDashboardProfileController {
+final class PhorgeDashboardViewController
+  extends PhorgeDashboardProfileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorDashboardViewController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $dashboard = id(new PhabricatorDashboardQuery())
+    $dashboard = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -20,10 +20,10 @@ final class PhabricatorDashboardViewController
     }
     $this->setDashboard($dashboard);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $dashboard,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $title = $dashboard->getName();
     $crumbs = $this->buildApplicationCrumbs();
@@ -35,10 +35,10 @@ final class PhabricatorDashboardViewController
 
     $timeline = $this->buildTransactionTimeline(
       $dashboard,
-      new PhabricatorDashboardTransactionQuery());
+      new PhorgeDashboardTransactionQuery());
     $timeline->setShouldTerminate(true);
 
-    $rendered_dashboard = id(new PhabricatorDashboardRenderingEngine())
+    $rendered_dashboard = id(new PhorgeDashboardRenderingEngine())
       ->setViewer($viewer)
       ->setDashboard($dashboard)
       ->setArrangeMode($can_edit)
@@ -65,19 +65,19 @@ final class PhabricatorDashboardViewController
 
   }
 
-  private function buildCurtainView(PhabricatorDashboard $dashboard) {
+  private function buildCurtainView(PhorgeDashboard $dashboard) {
     $viewer = $this->getViewer();
     $id = $dashboard->getID();
 
     $curtain = $this->newCurtainView($dashboard);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $dashboard,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Dashboard'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("edit/{$id}/"))
@@ -85,7 +85,7 @@ final class PhabricatorDashboardViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Add Dashboard to Menu'))
         ->setIcon('fa-wrench')
         ->setHref($this->getApplicationURI("/install/{$id}/"))
@@ -93,7 +93,7 @@ final class PhabricatorDashboardViewController
 
     if ($dashboard->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Dashboard'))
           ->setIcon('fa-check')
           ->setHref($this->getApplicationURI("archive/{$id}/"))
@@ -101,7 +101,7 @@ final class PhabricatorDashboardViewController
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Dashboard'))
           ->setIcon('fa-ban')
           ->setHref($this->getApplicationURI("archive/{$id}/"))
@@ -112,7 +112,7 @@ final class PhabricatorDashboardViewController
     return $curtain;
   }
 
-  private function newUsageView(PhabricatorDashboard $dashboard) {
+  private function newUsageView(PhorgeDashboard $dashboard) {
     $viewer = $this->getViewer();
 
     $custom_phids = array();
@@ -120,7 +120,7 @@ final class PhabricatorDashboardViewController
       $custom_phids[] = $viewer->getPHID();
     }
 
-    $items = id(new PhabricatorProfileMenuItemConfigurationQuery())
+    $items = id(new PhorgeProfileMenuItemConfigurationQuery())
       ->setViewer($viewer)
       ->withAffectedObjectPHIDs(
         array(

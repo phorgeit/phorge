@@ -249,7 +249,7 @@ JX.behavior('phorge-remarkup-assist', function(config) {
             for (var ii = 0; ii < files.length; ii++) {
               var file = files[ii];
 
-              var upload = new JX.PhabricatorFileUpload()
+              var upload = new JX.PhorgeFileUpload()
                 .setID(file.id)
                 .setPHID(file.phid)
                 .setURI(file.uri);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardIconTransaction
-  extends PhabricatorDashboardTransactionType {
+final class PhorgeDashboardIconTransaction
+  extends PhorgeDashboardTransactionType {
 
   const TRANSACTIONTYPE = 'dashboard:icon';
 

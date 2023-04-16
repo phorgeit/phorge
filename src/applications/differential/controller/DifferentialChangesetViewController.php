@@ -167,7 +167,7 @@ final class DifferentialChangesetViewController extends DifferentialController {
       $container_phid = $diff->getPHID();
     }
 
-    $viewstate_engine = id(new PhabricatorChangesetViewStateEngine())
+    $viewstate_engine = id(new PhorgeChangesetViewStateEngine())
       ->setViewer($viewer)
       ->setObjectPHID($container_phid)
       ->setChangeset($changeset);
@@ -205,7 +205,7 @@ final class DifferentialChangesetViewController extends DifferentialController {
 
       $inlines = mpull($inlines, 'newInlineCommentObject');
 
-      $inlines = id(new PhabricatorInlineCommentAdjustmentEngine())
+      $inlines = id(new PhorgeInlineCommentAdjustmentEngine())
         ->setViewer($viewer)
         ->setRevision($revision)
         ->setOldChangesets($old)
@@ -240,13 +240,13 @@ final class DifferentialChangesetViewController extends DifferentialController {
     $handles = $this->loadViewerHandles($phids);
     $parser->setHandles($handles);
 
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
     $engine->setViewer($viewer);
 
     foreach ($inlines as $inline) {
       $engine->addObject(
         $inline,
-        PhabricatorInlineComment::MARKUP_FIELD_BODY);
+        PhorgeInlineComment::MARKUP_FIELD_BODY);
     }
 
     $engine->process();
@@ -340,7 +340,7 @@ final class DifferentialChangesetViewController extends DifferentialController {
     $file = null;
     $phid = idx($metadata, $key);
     if ($phid) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($phid))
         ->execute();
@@ -362,13 +362,13 @@ final class DifferentialChangesetViewController extends DifferentialController {
 
       $diff = $changeset->getDiff();
 
-      $file = PhabricatorFile::newFromFileData(
+      $file = PhorgeFile::newFromFileData(
         $data,
         array(
           'name' => $changeset->getFilename(),
           'mime-type' => 'text/plain',
           'ttl.relative' => phutil_units('24 hours in seconds'),
-          'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+          'viewPolicy' => PhorgePolicies::POLICY_NOONE,
         ));
 
       $file->attachToObject($diff->getPHID());

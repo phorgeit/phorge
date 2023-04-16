@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacNamespaceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'almanac.namespace';
 
@@ -22,7 +22,7 @@ final class AlmanacNamespaceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -77,7 +77,7 @@ final class AlmanacNamespaceEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the namespace.'))

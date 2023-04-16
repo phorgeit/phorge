@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAphlictManagementNotifyWorkflow
-  extends PhabricatorAphlictManagementWorkflow {
+final class PhorgeAphlictManagementNotifyWorkflow
+  extends PhorgeAphlictManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -32,7 +32,7 @@ final class PhabricatorAphlictManagementNotifyWorkflow
           'Specify a user to notify with "--user".'));
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withUsernames(array($username))
       ->executeOne();
@@ -51,20 +51,20 @@ final class PhabricatorAphlictManagementNotifyWorkflow
           'Specify a message to send with "--message".'));
     }
 
-    $application_phid = id(new PhabricatorNotificationsApplication())
+    $application_phid = id(new PhorgeNotificationsApplication())
       ->getPHID();
 
     $content_source = $this->newContentSource();
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorUserTransaction())
+    $xactions[] = id(new PhorgeUserTransaction())
       ->setTransactionType(
-        PhabricatorUserNotifyTransaction::TRANSACTIONTYPE)
+        PhorgeUserNotifyTransaction::TRANSACTIONTYPE)
       ->setNewValue($message)
       ->setForceNotifyPHIDs(array($user->getPHID()));
 
-    $editor = id(new PhabricatorUserTransactionEditor())
+    $editor = id(new PhorgeUserTransactionEditor())
       ->setActor($viewer)
       ->setActingAsPHID($application_phid)
       ->setContentSource($content_source);

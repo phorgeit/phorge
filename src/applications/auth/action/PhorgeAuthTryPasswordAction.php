@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTryPasswordAction
-  extends PhabricatorSystemAction {
+final class PhorgeAuthTryPasswordAction
+  extends PhorgeSystemAction {
 
   const TYPECONST = 'auth.password';
 

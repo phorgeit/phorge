@@ -46,7 +46,7 @@ final class PhrictionDiffController extends PhrictionController {
     $text_l = $content_l->getContent();
     $text_r = $content_r->getContent();
 
-    $diff_view = id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    $diff_view = id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setOldText($text_l)
       ->setNewText($text_r);
 

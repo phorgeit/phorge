@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorPackagesQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+abstract class PhorgePackagesQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   protected function buildFullKeyClauseParts(
@@ -29,7 +29,7 @@ abstract class PhabricatorPackagesQuery
     // If none of the full keys we were provided were valid, we don't
     // match any results.
     if (!$parts) {
-      throw new PhabricatorEmptyQueryException();
+      throw new PhorgeEmptyQueryException();
     }
 
     return qsprintf($conn, '%LO', $parts);

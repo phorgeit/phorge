@@ -3,8 +3,8 @@
 $conn_w = id(new DifferentialRevision())->establishConnection('w');
 $rows = new LiskRawMigrationIterator($conn_w, 'differential_comment');
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 echo pht('Migrating Differential comments to modern storage...')."\n";
 foreach ($rows as $row) {
@@ -117,7 +117,7 @@ foreach ($rows as $row) {
     }
 
     $xactions[] = array(
-      'type' => PhabricatorTransactions::TYPE_EDGE,
+      'type' => PhorgeTransactions::TYPE_EDGE,
       'old' => $old,
       'new' => $new,
       'meta' => array(
@@ -134,7 +134,7 @@ foreach ($rows as $row) {
 
   if ($add_cc) {
     $xactions[] = array(
-      'type' => PhabricatorTransactions::TYPE_SUBSCRIBERS,
+      'type' => PhorgeTransactions::TYPE_SUBSCRIBERS,
       'old' => array(),
       'new' => array_fuse($add_cc),
     );
@@ -144,7 +144,7 @@ foreach ($rows as $row) {
   // Build the main comment transaction.
   foreach ($main_comments as $main) {
     $xactions[] = array(
-      'type' => PhabricatorTransactions::TYPE_COMMENT,
+      'type' => PhorgeTransactions::TYPE_COMMENT,
       'old' => null,
       'new' => null,
       'phid' => $main['transactionPHID'],
@@ -169,8 +169,8 @@ foreach ($rows as $row) {
     // easier, so we only need to write to one table.
     $xaction_phid = idx($xaction, 'phid');
     if (!$xaction_phid) {
-      $xaction_phid = PhabricatorPHID::generateNewPHID(
-        PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+      $xaction_phid = PhorgePHID::generateNewPHID(
+        PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
         DifferentialRevisionPHIDType::TYPECONST);
     }
     unset($xaction['phid']);

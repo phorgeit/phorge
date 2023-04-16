@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionWarningResponse
+final class PhorgeApplicationTransactionWarningResponse
   extends AphrontProxyResponse {
 
   private $viewer;
@@ -23,7 +23,7 @@ final class PhabricatorApplicationTransactionWarningResponse
   }
 
   public function setException(
-    PhabricatorApplicationTransactionWarningException $exception) {
+    PhorgeApplicationTransactionWarningException $exception) {
     $this->exception = $exception;
     return $this;
   }
@@ -52,11 +52,11 @@ final class PhabricatorApplicationTransactionWarningResponse
         $object,
         $xaction_group);
 
-      if (!($warning instanceof PhabricatorTransactionWarning)) {
+      if (!($warning instanceof PhorgeTransactionWarning)) {
         throw new Exception(
           pht(
             'Expected "newTransactionWarning()" to return an object of '.
-            'class "PhabricatorTransactionWarning", got something else '.
+            'class "PhorgeTransactionWarning", got something else '.
             '("%s") from transaction of class "%s".',
             phutil_describe_type($warning),
             get_class($xaction)));

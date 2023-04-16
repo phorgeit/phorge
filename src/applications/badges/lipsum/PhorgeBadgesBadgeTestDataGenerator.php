@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeBadgesBadgeTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'badges';
 
@@ -48,7 +48,7 @@ final class PhabricatorBadgesBadgeTestDataGenerator
   }
 
   private function newLoot() {
-    $drop = id(new PhabricatorBadgesLootContextFreeGrammar())
+    $drop = id(new PhorgeBadgesLootContextFreeGrammar())
       ->generate();
 
     $drop = preg_replace_callback(
@@ -68,12 +68,12 @@ final class PhabricatorBadgesBadgeTestDataGenerator
 
     $drop = preg_replace($effect_pattern, '', $drop);
 
-    $quality_map = PhabricatorBadgesQuality::getQualityMap();
+    $quality_map = PhorgeBadgesQuality::getQualityMap();
     shuffle($quality_map);
     $quality = head($quality_map);
     $rarity = $quality['rarity'];
 
-    $icon_map = id(new PhabricatorBadgesIconSet())->getIcons();
+    $icon_map = id(new PhorgeBadgesIconSet())->getIcons();
     shuffle($icon_map);
     $icon_map = head($icon_map);
     $icon = $icon_map->getKey();

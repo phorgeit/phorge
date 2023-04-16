@@ -1,6 +1,6 @@
 <?php
 
-final class LiskDAOTestCase extends PhabricatorTestCase {
+final class LiskDAOTestCase extends PhorgeTestCase {
 
   public function testCheckProperty() {
     $scratch = new HarbormasterScratchTable();

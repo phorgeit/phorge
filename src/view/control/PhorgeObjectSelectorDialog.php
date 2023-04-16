@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorObjectSelectorDialog extends Phobject {
+final class PhorgeObjectSelectorDialog extends Phobject {
 
   private $user;
   private $filters = array();
@@ -39,7 +39,7 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -188,7 +188,7 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
     $handle_views = array();
     foreach ($this->handles as $handle) {
       $phid = $handle->getPHID();
-      $view = new PhabricatorHandleObjectSelectorDataView($handle);
+      $view = new PhorgeHandleObjectSelectorDataView($handle);
       $handle_views[$phid] = $view->renderData();
     }
 

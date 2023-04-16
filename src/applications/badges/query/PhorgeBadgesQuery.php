@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeBadgesQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -30,7 +30,7 @@ final class PhabricatorBadgesQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      id(new PhabricatorBadgesBadgeNameNgrams()),
+      id(new PhorgeBadgesBadgeNameNgrams()),
       $ngrams);
   }
 
@@ -39,7 +39,7 @@ final class PhabricatorBadgesQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorBadgesBadge();
+    return new PhorgeBadgesBadge();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -77,7 +77,7 @@ final class PhabricatorBadgesQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   public function getBuiltinOrders() {

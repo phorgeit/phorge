@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProjectTriggerRule
+abstract class PhorgeProjectTriggerRule
   extends Phobject {
 
   private $record;
@@ -20,7 +20,7 @@ abstract class PhabricatorProjectTriggerRule
       ->execute();
   }
 
-  final public function setRecord(PhabricatorProjectTriggerRuleRecord $record) {
+  final public function setRecord(PhorgeProjectTriggerRuleRecord $record) {
     $value = $record->getValue();
 
     $this->assertValidRuleRecordFormat($value);
@@ -87,7 +87,7 @@ abstract class PhabricatorProjectTriggerRule
     return $this->newDropTransactions($object, $value);
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -96,7 +96,7 @@ abstract class PhabricatorProjectTriggerRule
     return $this->viewer;
   }
 
-  final public function setColumn(PhabricatorProjectColumn $column) {
+  final public function setColumn(PhorgeProjectColumn $column) {
     $this->column = $column;
     return $this;
   }
@@ -105,7 +105,7 @@ abstract class PhabricatorProjectTriggerRule
     return $this->column;
   }
 
-  final public function setTrigger(PhabricatorProjectTrigger $trigger) {
+  final public function setTrigger(PhorgeProjectTrigger $trigger) {
     $this->trigger = $trigger;
     return $this;
   }
@@ -115,7 +115,7 @@ abstract class PhabricatorProjectTriggerRule
   }
 
   final public function setObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -133,7 +133,7 @@ abstract class PhabricatorProjectTriggerRule
   }
 
   final protected function newEffect() {
-    return id(new PhabricatorProjectDropEffect())
+    return id(new PhorgeProjectDropEffect())
       ->setIsTriggerEffect(true);
   }
 

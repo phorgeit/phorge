@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasteFilenameContextFreeGrammar
+final class PhorgePasteFilenameContextFreeGrammar
   extends PhutilContextFreeGrammar {
 
   protected function getRules() {

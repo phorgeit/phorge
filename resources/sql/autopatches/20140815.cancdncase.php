@@ -3,7 +3,7 @@
 // This corrects files which incorrectly had a 'cancdn' property written;
 // the property should be 'canCDN'.
 
-$table = new PhabricatorFile();
+$table = new PhorgeFile();
 $conn_w = $table->establishConnection('w');
 foreach (new LiskMigrationIterator($table) as $file) {
   $id = $file->getID();

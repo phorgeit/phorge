@@ -22,7 +22,7 @@ $icon_map = array(
   'fa-flask' => 'experimental',
 );
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn_w = $table->establishConnection('w');
 foreach ($icon_map as $old_icon => $new_key) {
   queryfx(

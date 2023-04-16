@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorObjectHandle
+final class PhorgeObjectHandle
   extends Phobject
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   const AVAILABILITY_FULL = 'full';
   const AVAILABILITY_NONE = 'none';
@@ -290,7 +290,7 @@ final class PhabricatorObjectHandle
    * completely loaded (e.g., the type or data for the PHID could not be
    * identified or located).
    *
-   * Basically, @{class:PhabricatorHandleQuery} gives you back a handle for
+   * Basically, @{class:PhorgeHandleQuery} gives you back a handle for
    * any PHID you give it, but it gives you a complete handle only for valid
    * PHIDs.
    *
@@ -351,7 +351,7 @@ final class PhabricatorObjectHandle
       );
     }
 
-    if ($this->getType() == PhabricatorPeopleUserPHIDType::TYPECONST) {
+    if ($this->getType() == PhorgePeopleUserPHIDType::TYPECONST) {
       $classes[] = 'phui-link-person';
     }
 
@@ -386,7 +386,7 @@ final class PhabricatorObjectHandle
 
   public function getLinkName() {
     switch ($this->getType()) {
-      case PhabricatorPeopleUserPHIDType::TYPECONST:
+      case PhorgePeopleUserPHIDType::TYPECONST:
         $name = $this->getName();
         break;
       default:
@@ -397,7 +397,7 @@ final class PhabricatorObjectHandle
   }
 
   protected function getPHIDType() {
-    $types = PhabricatorPHIDType::getAllTypes();
+    $types = PhorgePHIDType::getAllTypes();
     return idx($types, $this->getType());
   }
 
@@ -406,11 +406,11 @@ final class PhabricatorObjectHandle
       return false;
     }
 
-    return ($this->getType() === PhabricatorPeopleUserPHIDType::TYPECONST);
+    return ($this->getType() === PhorgePeopleUserPHIDType::TYPECONST);
   }
 
   public function attachCapability(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability,
     $has_capability) {
 
@@ -431,12 +431,12 @@ final class PhabricatorObjectHandle
     return $this;
   }
 
-  public function hasViewCapability(PhabricatorPolicyInterface $object) {
-    return $this->hasCapability($object, PhabricatorPolicyCapability::CAN_VIEW);
+  public function hasViewCapability(PhorgePolicyInterface $object) {
+    return $this->hasCapability($object, PhorgePolicyCapability::CAN_VIEW);
   }
 
   private function hasCapability(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability) {
 
     $object_key = $this->getObjectCapabilityKey($object);
@@ -453,7 +453,7 @@ final class PhabricatorObjectHandle
     return $this->capabilities[$object_key][$capability];
   }
 
-  private function getObjectCapabilityKey(PhabricatorPolicyInterface $object) {
+  private function getObjectCapabilityKey(PhorgePolicyInterface $object) {
     $object_phid = $object->getPHID();
 
     if (!$object_phid) {
@@ -468,20 +468,20 @@ final class PhabricatorObjectHandle
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_PUBLIC;
+    return PhorgePolicies::POLICY_PUBLIC;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     // NOTE: Handles are always visible, they just don't get populated with
     // data if the user can't see the underlying object.
     return true;

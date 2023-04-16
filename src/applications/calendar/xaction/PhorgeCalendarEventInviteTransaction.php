@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCalendarEventInviteTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventInviteTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.invite';
 
   public function generateOldValue($object) {
-    $status_uninvited = PhabricatorCalendarEventInvitee::STATUS_UNINVITED;
+    $status_uninvited = PhorgeCalendarEventInvitee::STATUS_UNINVITED;
 
     $invitees = $object->getInvitees();
     foreach ($invitees as $key => $invitee) {
@@ -19,9 +19,9 @@ final class PhabricatorCalendarEventInviteTransaction
   }
 
   private function generateChangeMap($object, $new_value) {
-    $status_invited = PhabricatorCalendarEventInvitee::STATUS_INVITED;
-    $status_uninvited = PhabricatorCalendarEventInvitee::STATUS_UNINVITED;
-    $status_attending = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
+    $status_invited = PhorgeCalendarEventInvitee::STATUS_INVITED;
+    $status_uninvited = PhorgeCalendarEventInvitee::STATUS_UNINVITED;
+    $status_attending = PhorgeCalendarEventInvitee::STATUS_ATTENDING;
 
     $old = $this->generateOldValue($object);
 
@@ -58,7 +58,7 @@ final class PhabricatorCalendarEventInviteTransaction
     foreach ($map as $phid => $status) {
       $invitee = idx($invitees, $phid);
       if (!$invitee) {
-        $invitee = id(new PhabricatorCalendarEventInvitee())
+        $invitee = id(new PhorgeCalendarEventInvitee())
           ->setEventPHID($object->getPHID())
           ->setInviteePHID($phid)
           ->setInviterPHID($this->getActingAsPHID());
@@ -89,7 +89,7 @@ final class PhabricatorCalendarEventInviteTransaction
       // In the UI, we only allow you to invite mailable objects, but there
       // is no definitive marker for "invitable object" today. Just allow
       // any valid object to be invited.
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($actor)
         ->withPHIDs($add)
         ->execute();

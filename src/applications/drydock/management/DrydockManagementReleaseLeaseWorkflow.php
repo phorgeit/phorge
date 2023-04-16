@@ -69,9 +69,9 @@ final class DrydockManagementReleaseLeaseWorkflow
       return 0;
     }
 
-    $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+    $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     foreach ($leases as $lease) {
       if (!$lease->canRelease()) {

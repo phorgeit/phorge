@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorChartFunction
+abstract class PhorgeChartFunction
   extends Phobject {
 
   private $argumentParser;
@@ -32,7 +32,7 @@ abstract class PhabricatorChartFunction
           phutil_describe_type($specs)));
     }
 
-    assert_instances_of($specs, 'PhabricatorChartFunctionArgument');
+    assert_instances_of($specs, 'PhorgeChartFunctionArgument');
 
     foreach ($specs as $spec) {
       $parser->addArgument($spec);
@@ -44,14 +44,14 @@ abstract class PhabricatorChartFunction
     return $this;
   }
 
-  public function setFunctionLabel(PhabricatorChartFunctionLabel $label) {
+  public function setFunctionLabel(PhorgeChartFunctionLabel $label) {
     $this->functionLabel = $label;
     return $this;
   }
 
   public function getFunctionLabel() {
     if (!$this->functionLabel) {
-      $this->functionLabel = id(new PhabricatorChartFunctionLabel())
+      $this->functionLabel = id(new PhorgeChartFunctionLabel())
         ->setName(pht('Unlabeled Function'))
         ->setColor('rgba(255, 0, 0, 1)')
         ->setFillColor('rgba(255, 0, 0, 0.15)');
@@ -127,7 +127,7 @@ abstract class PhabricatorChartFunction
     return $results;
   }
 
-  public function newDatapoints(PhabricatorChartDataQuery $query) {
+  public function newDatapoints(PhorgeChartDataQuery $query) {
     $xv = $this->newInputValues($query);
 
     if ($xv === null) {
@@ -159,7 +159,7 @@ abstract class PhabricatorChartFunction
   abstract protected function newArguments();
 
   final protected function newArgument() {
-    return new PhabricatorChartFunctionArgument();
+    return new PhorgeChartFunctionArgument();
   }
 
   final protected function getArgument($key) {
@@ -168,7 +168,7 @@ abstract class PhabricatorChartFunction
 
   final protected function getArgumentParser() {
     if (!$this->argumentParser) {
-      $parser = id(new PhabricatorChartFunctionArgumentParser())
+      $parser = id(new PhorgeChartFunctionArgumentParser())
         ->setFunction($this);
 
       $this->argumentParser = $parser;
@@ -184,7 +184,7 @@ abstract class PhabricatorChartFunction
     return null;
   }
 
-  public function newInputValues(PhabricatorChartDataQuery $query) {
+  public function newInputValues(PhorgeChartDataQuery $query) {
     return null;
   }
 
@@ -192,7 +192,7 @@ abstract class PhabricatorChartFunction
     return;
   }
 
-  protected function newDefaultInputValues(PhabricatorChartDataQuery $query) {
+  protected function newDefaultInputValues(PhorgeChartDataQuery $query) {
     $x_min = $query->getMinimumValue();
     $x_max = $query->getMaximumValue();
     $limit = $query->getLimit();

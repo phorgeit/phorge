@@ -22,7 +22,7 @@ final class DiffusionCommitReviewerHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
 }

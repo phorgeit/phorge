@@ -1,7 +1,7 @@
 <?php
 
 final class ConduitTokenGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'conduit.tokens';
 
@@ -14,7 +14,7 @@ final class ConduitTokenGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorConduitToken();
+    $table = new PhorgeConduitToken();
     $conn_w = $table->establishConnection('w');
 
     queryfx(
@@ -22,7 +22,7 @@ final class ConduitTokenGarbageCollector
       'DELETE FROM %T WHERE expires <= %d
         ORDER BY dateCreated ASC LIMIT 100',
       $table->getTableName(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
     return ($conn_w->getAffectedRows() == 100);
   }

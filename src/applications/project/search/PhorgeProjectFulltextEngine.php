@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorProjectFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeProjectFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $project = $object;
     $viewer = $this->getViewer();
 
     // Reload the project to get slugs.
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->withIDs(array($project->getID()))
       ->setViewer($viewer)
       ->needSlugs(true)
@@ -27,15 +27,15 @@ final class PhabricatorProjectFulltextEngine
 
     $document
       ->setDocumentTitle($project->getDisplayName())
-      ->addField(PhabricatorSearchDocumentFieldType::FIELD_BODY, $body);
+      ->addField(PhorgeSearchDocumentFieldType::FIELD_BODY, $body);
 
     $document->addRelationship(
       $project->isArchived()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $project->getPHID(),
-      PhabricatorProjectProjectPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeProjectProjectPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepository();
+$table = new PhorgeRepository();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $repository) {
@@ -16,7 +16,7 @@ foreach (new LiskMigrationIterator($table) as $repository) {
     continue;
   }
 
-  if (!PhabricatorRepository::isValidRepositorySlug($clone_name)) {
+  if (!PhorgeRepository::isValidRepositorySlug($clone_name)) {
     echo tsprintf(
       "%s\n",
       pht(

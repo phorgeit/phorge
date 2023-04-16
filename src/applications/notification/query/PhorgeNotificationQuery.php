@@ -4,8 +4,8 @@
  * @task config Configuring the Query
  * @task exec   Query Execution
  */
-final class PhabricatorNotificationQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeNotificationQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $userPHIDs;
   private $keys;
@@ -46,8 +46,8 @@ final class PhabricatorNotificationQuery
 
 
   protected function loadPage() {
-    $story_table = new PhabricatorFeedStoryData();
-    $notification_table = new PhabricatorFeedStoryNotification();
+    $story_table = new PhorgeFeedStoryData();
+    $notification_table = new PhorgeFeedStoryNotification();
 
     $conn = $story_table->establishConnection('r');
 
@@ -100,7 +100,7 @@ final class PhabricatorNotificationQuery
     // Two ways this can arise: destroy an object; or change an object's
     // view policy to exclude a user.
 
-    // "PhabricatorFeedStory::loadAllFromRows()" does its own policy filtering.
+    // "PhorgeFeedStory::loadAllFromRows()" does its own policy filtering.
     // This doesn't align well with modern query sequencing, but we should be
     // able to get away with it by loading here.
 
@@ -109,7 +109,7 @@ final class PhabricatorNotificationQuery
     $story_map = ipull($rows, null, 'chronologicalKey');
 
     $viewer = $this->getViewer();
-    $stories = PhabricatorFeedStory::loadAllFromRows($story_map, $viewer);
+    $stories = PhorgeFeedStory::loadAllFromRows($story_map, $viewer);
     $stories = mpull($stories, null, 'getChronologicalKey');
 
     $results = array();
@@ -166,7 +166,7 @@ final class PhabricatorNotificationQuery
   }
 
   protected function applyExternalCursorConstraintsToQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $subquery,
+    PhorgeCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
 
     $subquery
@@ -190,7 +190,7 @@ final class PhabricatorNotificationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorNotificationsApplication';
+    return 'PhorgeNotificationsApplication';
   }
 
 }

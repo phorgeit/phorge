@@ -1,6 +1,6 @@
 <?php
 
-final class PholioImagePHIDType extends PhabricatorPHIDType {
+final class PholioImagePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PIMG';
 
@@ -13,11 +13,11 @@ final class PholioImagePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PholioImageQuery())
@@ -25,7 +25,7 @@ final class PholioImagePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

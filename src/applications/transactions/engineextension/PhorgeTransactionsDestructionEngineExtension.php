@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTransactionsDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeTransactionsDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'transactions';
 
@@ -10,13 +10,13 @@ final class PhabricatorTransactionsDestructionEngineExtension
   }
 
   public function canDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
-    return ($object instanceof PhabricatorApplicationTransactionInterface);
+    return ($object instanceof PhorgeApplicationTransactionInterface);
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $template = $object->getApplicationTransactionTemplate();

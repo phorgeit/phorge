@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEdgeChangeRecordTestCase extends PhabricatorTestCase {
+final class PhorgeEdgeChangeRecordTestCase extends PhorgeTestCase {
 
 
   public function testEdgeStorageFormats() {
@@ -140,10 +140,10 @@ EOJSON
     $slim_xaction->setOldValue($old_slim);
     $slim_xaction->setNewValue($new_slim);
 
-    $bulky_record = PhabricatorEdgeChangeRecord::newFromTransaction(
+    $bulky_record = PhorgeEdgeChangeRecord::newFromTransaction(
       $bulky_xaction);
 
-    $slim_record = PhabricatorEdgeChangeRecord::newFromTransaction(
+    $slim_record = PhorgeEdgeChangeRecord::newFromTransaction(
       $slim_xaction);
 
     $this->assertEqual(

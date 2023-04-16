@@ -62,7 +62,7 @@ if ($args->getArg('process-duplicates')) {
   $headers['message-id'] = Filesystem::readRandomCharacters(64);
 }
 
-$received = new PhabricatorMetaMTAReceivedMail();
+$received = new PhorgeMetaMTAReceivedMail();
 $received->setHeaders($headers);
 $received->setBodies($content);
 
@@ -77,11 +77,11 @@ foreach ($parser->getAttachments() as $attachment) {
     continue;
   }
 
-  $file = PhabricatorFile::newFromFileData(
+  $file = PhorgeFile::newFromFileData(
     $attachment->getContent(),
     array(
       'name' => $attachment->getFilename(),
-      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'viewPolicy' => PhorgePolicies::POLICY_NOONE,
     ));
   $attachments[] = $file->getPHID();
 }

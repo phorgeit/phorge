@@ -7,15 +7,15 @@ final class DiffusionRepositoryProfilePictureController
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfileImage(true)
       ->needURIs(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 
@@ -23,7 +23,7 @@ final class DiffusionRepositoryProfilePictureController
       return new Aphront404Response();
     }
 
-    $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    $supported_formats = PhorgeFile::getTransformableImageFormats();
     $e_file = true;
     $errors = array();
     $done_uri = $repository->getURI();
@@ -31,17 +31,17 @@ final class DiffusionRepositoryProfilePictureController
     if ($request->isFormPost()) {
       $phid = $request->getStr('phid');
       $is_default = false;
-      if ($phid == PhabricatorPHIDConstants::PHID_VOID) {
+      if ($phid == PhorgePHIDConstants::PHID_VOID) {
         $phid = null;
         $is_default = true;
       } else if ($phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($phid))
           ->executeOne();
       } else {
         if ($request->getFileExists('picture')) {
-          $file = PhabricatorFile::newFromPHPUpload(
+          $file = PhorgeFile::newFromPHPUpload(
             $_FILES['picture'],
             array(
               'authorPHID' => $viewer->getPHID(),
@@ -61,8 +61,8 @@ final class DiffusionRepositoryProfilePictureController
             'This server only supports these image formats: %s.',
             implode(', ', $supported_formats));
         } else {
-          $xform = PhabricatorFileTransform::getTransformByKey(
-            PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+          $xform = PhorgeFileTransform::getTransformByKey(
+            PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
           $xformed = $xform->executeTransform($file);
         }
       }
@@ -84,7 +84,7 @@ final class DiffusionRepositoryProfilePictureController
     $form = id(new PHUIFormLayoutView())
       ->setUser($viewer);
 
-    $default_image = PhabricatorFile::loadBuiltin(
+    $default_image = PhorgeFile::loadBuiltin(
       $viewer, 'repo/code.png');
 
     $images = array();
@@ -92,7 +92,7 @@ final class DiffusionRepositoryProfilePictureController
     $current = $repository->getProfileImagePHID();
     $has_current = false;
     if ($current) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($current))
         ->execute();
@@ -126,14 +126,14 @@ final class DiffusionRepositoryProfilePictureController
       'repo/servers.png',
     );
     foreach ($builtins as $builtin) {
-      $file = PhabricatorFile::loadBuiltin($viewer, $builtin);
+      $file = PhorgeFile::loadBuiltin($viewer, $builtin);
       $images[$file->getPHID()] = array(
         'uri' => $file->getBestURI(),
         'tip' => pht('Builtin Image'),
       );
     }
 
-    $images[PhabricatorPHIDConstants::PHID_VOID] = array(
+    $images[PhorgePHIDConstants::PHID_VOID] = array(
       'uri' => $default_image->getBestURI(),
       'tip' => pht('Default Picture'),
     );

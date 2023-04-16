@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadFunctionHelpController
-  extends PhabricatorTypeaheadDatasourceController {
+final class PhorgeTypeaheadFunctionHelpController
+  extends PhorgeTypeaheadDatasourceController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorTypeaheadFunctionHelpController
     $class = $request->getURIData('class');
 
     $sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTypeaheadDatasource')
+      ->setAncestorClass('PhorgeTypeaheadDatasource')
       ->execute();
 
     if (!isset($sources[$class])) {
@@ -39,7 +39,7 @@ final class PhabricatorTypeaheadFunctionHelpController
     }
 
     if ($application_class) {
-      $result = id(new PhabricatorApplicationQuery())
+      $result = id(new PhorgeApplicationQuery())
         ->setViewer($this->getViewer())
         ->withClasses(array($application_class))
         ->execute();
@@ -70,7 +70,7 @@ final class PhabricatorTypeaheadFunctionHelpController
       '(depending on what the control is doing), so these specific functions '.
       'may not work everywhere. You can always check the help for a control '.
       'to review which functions are available for that control.',
-      PhabricatorEnv::getDoclink('Search User Guide'));
+      PhorgeEnv::getDoclink('Search User Guide'));
 
     $table = array();
 

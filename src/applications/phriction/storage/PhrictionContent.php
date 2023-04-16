@@ -3,9 +3,9 @@
 final class PhrictionContent
   extends PhrictionDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $documentPHID;
   protected $version;
@@ -52,7 +52,7 @@ final class PhrictionContent
     return PhrictionContentPHIDType::TYPECONST;
   }
 
-  public function newRemarkupView(PhabricatorUser $viewer) {
+  public function newRemarkupView(PhorgeUser $viewer) {
     return id(new PHUIRemarkupView($viewer, $this->getContent()))
       ->setContextObject($this)
       ->setRemarkupOption(PHUIRemarkupView::OPTION_GENERATE_TOC, true)
@@ -69,53 +69,53 @@ final class PhrictionContent
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
-      array($this->getDocument(), PhabricatorPolicyCapability::CAN_VIEW),
+      array($this->getDocument(), PhorgePolicyCapability::CAN_VIEW),
     );
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('documentPHID')
         ->setType('phid')
         ->setDescription(pht('Document this content is for.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('version')
         ->setType('int')
         ->setDescription(pht('Content version.')),

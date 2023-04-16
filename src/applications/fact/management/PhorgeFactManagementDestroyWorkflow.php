@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactManagementDestroyWorkflow
-  extends PhabricatorFactManagementWorkflow {
+final class PhorgeFactManagementDestroyWorkflow
+  extends PhorgeFactManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -23,12 +23,12 @@ final class PhabricatorFactManagementDestroyWorkflow
     }
 
     $tables = array();
-    $tables[] = new PhabricatorFactCursor();
+    $tables[] = new PhorgeFactCursor();
 
-    $tables[] = new PhabricatorFactIntDatapoint();
+    $tables[] = new PhorgeFactIntDatapoint();
 
-    $tables[] = new PhabricatorFactObjectDimension();
-    $tables[] = new PhabricatorFactKeyDimension();
+    $tables[] = new PhorgeFactObjectDimension();
+    $tables[] = new PhorgeFactKeyDimension();
 
     foreach ($tables as $table) {
       $conn = $table->establishConnection('w');

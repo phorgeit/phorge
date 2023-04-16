@@ -1,6 +1,6 @@
 <?php
 
-abstract class FundDAO extends PhabricatorLiskDAO {
+abstract class FundDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'fund';

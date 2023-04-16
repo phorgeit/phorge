@@ -54,15 +54,15 @@ abstract class PhortuneAccountController
   private function loadAccountForEdit() {
     return $this->loadAccountWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
   }
 
   private function loadAccountForView() {
     return $this->loadAccountWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       ));
   }
 
@@ -106,8 +106,8 @@ abstract class PhortuneAccountController
         ->withMemberPHIDs(array($viewer->getPHID()))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->execute();
 

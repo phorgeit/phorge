@@ -41,7 +41,7 @@ final class FileInfoConduitAPIMethod extends FileConduitAPIMethod {
     $phid = $request->getValue('phid');
     $id   = $request->getValue('id');
 
-    $query = id(new PhabricatorFileQuery())
+    $query = id(new PhorgeFileQuery())
       ->setViewer($request->getUser());
     if ($id) {
       $query->withIDs(array($id));
@@ -67,7 +67,7 @@ final class FileInfoConduitAPIMethod extends FileConduitAPIMethod {
       'authorPHID'    => $file->getAuthorPHID(),
       'dateCreated'   => $file->getDateCreated(),
       'dateModified'  => $file->getDateModified(),
-      'uri'           => PhabricatorEnv::getProductionURI($uri),
+      'uri'           => PhorgeEnv::getProductionURI($uri),
     );
   }
 

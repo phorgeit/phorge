@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectsFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeProjectsFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'projects';
 
@@ -10,16 +10,16 @@ final class PhabricatorProjectsFulltextEngineExtension
   }
 
   public function shouldEnrichFulltextObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
     if (!$project_phids) {
       return;
@@ -27,9 +27,9 @@ final class PhabricatorProjectsFulltextEngineExtension
 
     foreach ($project_phids as $project_phid) {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_PROJECT,
+        PhorgeSearchRelationship::RELATIONSHIP_PROJECT,
         $project_phid,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
         $document->getDocumentModified()); // Bogus timestamp.
     }
   }

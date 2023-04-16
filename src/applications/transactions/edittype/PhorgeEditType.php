@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditType extends Phobject {
+abstract class PhorgeEditType extends Phobject {
 
   private $editType;
   private $editField;
@@ -80,11 +80,11 @@ abstract class PhabricatorEditType extends Phobject {
   }
 
   abstract public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec);
 
   protected function newTransaction(
-    PhabricatorApplicationTransaction $template) {
+    PhorgeApplicationTransaction $template) {
 
     $xaction = id(clone $template)
       ->setTransactionType($this->getTransactionType());
@@ -96,7 +96,7 @@ abstract class PhabricatorEditType extends Phobject {
     return $xaction;
   }
 
-  public function setEditField(PhabricatorEditField $edit_field) {
+  public function setEditField(PhorgeEditField $edit_field) {
     $this->editField = $edit_field;
     return $this;
   }

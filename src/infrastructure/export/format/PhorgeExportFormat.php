@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorExportFormat
+abstract class PhorgeExportFormat
   extends Phobject {
 
   private $viewer;
@@ -10,7 +10,7 @@ abstract class PhabricatorExportFormat
     return $this->getPhobjectClassConstant('EXPORTKEY');
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

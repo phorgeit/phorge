@@ -1,7 +1,7 @@
 <?php
 
 abstract class PassphraseCredentialTransactionType
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   public function destroySecret($secret_id) {
     $table = new PassphraseSecret();

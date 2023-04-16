@@ -1,7 +1,7 @@
 <?php
 
 final class FundInitiativeTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new FundInitiativeTransaction();

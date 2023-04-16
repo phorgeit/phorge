@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorJSONExportFormat
-  extends PhabricatorExportFormat {
+final class PhorgeJSONExportFormat
+  extends PhorgeExportFormat {
 
   const EXPORTKEY = 'json';
 

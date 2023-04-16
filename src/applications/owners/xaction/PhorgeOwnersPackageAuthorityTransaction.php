@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageAuthorityTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageAuthorityTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.authority';
 
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageAuthorityTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $map = PhabricatorOwnersPackage::getAuthorityOptionsMap();
+    $map = PhorgeOwnersPackage::getAuthorityOptionsMap();
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
 
@@ -37,7 +37,7 @@ final class PhabricatorOwnersPackageAuthorityTransaction
   }
 
   public function getTitle() {
-    $map = PhabricatorOwnersPackage::getAuthorityOptionsMap();
+    $map = PhorgeOwnersPackage::getAuthorityOptionsMap();
     $map = ipull($map, 'short');
 
     $old = $this->getOldValue();

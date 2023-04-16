@@ -73,7 +73,7 @@ JX.behavior('pholio-mock-edit', function(config, statics) {
 
 
   var build_drop_upload = function(node) {
-    var drop = new JX.PhabricatorDragAndDropFileUpload(node)
+    var drop = new JX.PhorgeDragAndDropFileUpload(node)
       .setURI(config.uploadURI);
 
     drop.listen('didBeginDrag', function() {
@@ -120,7 +120,7 @@ JX.behavior('pholio-mock-edit', function(config, statics) {
           for (var ii = 0; ii < files.length; ii++) {
             var file = files[ii];
 
-            var upload = new JX.PhabricatorFileUpload()
+            var upload = new JX.PhorgeFileUpload()
               .setID(file.id)
               .setPHID(file.phid)
               .setURI(file.uri);
@@ -200,7 +200,7 @@ JX.behavior('pholio-mock-edit', function(config, statics) {
           for (var ii = 0; ii < files.length; ii++) {
             var file = files[ii];
 
-            var upload = new JX.PhabricatorFileUpload()
+            var upload = new JX.PhorgeFileUpload()
               .setID(file.id)
               .setPHID(file.phid)
               .setURI(file.uri);

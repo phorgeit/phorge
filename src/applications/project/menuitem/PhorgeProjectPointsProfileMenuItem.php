@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectPointsProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeProjectPointsProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'project.points';
 
@@ -27,8 +27,8 @@ final class PhabricatorProjectPointsProfileMenuItem
     }
 
     // Points are only available if Maniphest is installed.
-    $class = 'PhabricatorManiphestApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeManiphestApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }
 
@@ -36,14 +36,14 @@ final class PhabricatorProjectPointsProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $this->getDefaultName();
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorInstructionsEditField())
+      id(new PhorgeInstructionsEditField())
         ->setValue(
           pht(
             'This is a progress bar which shows how many points of work '.
@@ -53,7 +53,7 @@ final class PhabricatorProjectPointsProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
     $project = $config->getProfileObject();
 
@@ -62,8 +62,8 @@ final class PhabricatorProjectPointsProfileMenuItem
     $tasks = id(new ManiphestTaskQuery())
       ->setViewer($viewer)
       ->withEdgeLogicPHIDs(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_AND,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeQueryConstraint::OPERATOR_AND,
         array($project->getPHID()))
       ->setLimit($limit + 1)
       ->execute();

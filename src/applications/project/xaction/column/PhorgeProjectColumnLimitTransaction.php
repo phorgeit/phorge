@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnLimitTransaction
-  extends PhabricatorProjectColumnTransactionType {
+final class PhorgeProjectColumnLimitTransaction
+  extends PhorgeProjectColumnTransactionType {
 
   const TRANSACTIONTYPE = 'project:col:limit';
 

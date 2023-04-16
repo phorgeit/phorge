@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementVolumeWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementVolumeWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -35,10 +35,10 @@ final class PhabricatorMailManagementVolumeWorkflow
 
     $duration = phutil_units("{$days} days in seconds");
 
-    $since = (PhabricatorTime::getNow() - $duration);
-    $until = PhabricatorTime::getNow();
+    $since = (PhorgeTime::getNow() - $duration);
+    $until = PhorgeTime::getNow();
 
-    $mails = id(new PhabricatorMetaMTAMailQuery())
+    $mails = id(new PhorgeMetaMTAMailQuery())
       ->setViewer($viewer)
       ->withDateCreatedBetween($since, $until)
       ->execute();

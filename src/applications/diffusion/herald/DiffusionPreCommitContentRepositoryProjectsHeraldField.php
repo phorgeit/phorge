@@ -10,9 +10,9 @@ final class DiffusionPreCommitContentRepositoryProjectsHeraldField
   }
 
   public function getHeraldFieldValue($object) {
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $this->getAdapter()->getHookEngine()->getRepository()->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -20,7 +20,7 @@ final class DiffusionPreCommitContentRepositoryProjectsHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

@@ -15,7 +15,7 @@ EOSYNOPSIS
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorSystemRemoveWorkflow')
+  ->setAncestorClass('PhorgeSystemRemoveWorkflow')
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

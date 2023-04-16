@@ -1,7 +1,7 @@
 <?php
 
 final class ProjectDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'project.default.view';
 

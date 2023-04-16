@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthStartController
-  extends PhabricatorAuthController {
+final class PhorgeAuthStartController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -28,21 +28,21 @@ final class PhabricatorAuthStartController
     // they'd have been logged in above and never made it here. Try to clear
     // it and warn the user they may need to nuke their cookies.
 
-    $session_token = $request->getCookie(PhabricatorCookies::COOKIE_SESSION);
+    $session_token = $request->getCookie(PhorgeCookies::COOKIE_SESSION);
     $did_clear = $request->getStr('cleared');
 
     if (strlen($session_token)) {
-      $kind = PhabricatorAuthSessionEngine::getSessionKindFromToken(
+      $kind = PhorgeAuthSessionEngine::getSessionKindFromToken(
         $session_token);
       switch ($kind) {
-        case PhabricatorAuthSessionEngine::KIND_ANONYMOUS:
+        case PhorgeAuthSessionEngine::KIND_ANONYMOUS:
           // If this is an anonymous session. It's expected that they won't
           // be logged in, so we can just continue.
           break;
         default:
           // The session cookie is invalid, so try to clear it.
-          $request->clearCookie(PhabricatorCookies::COOKIE_USERNAME);
-          $request->clearCookie(PhabricatorCookies::COOKIE_SESSION);
+          $request->clearCookie(PhorgeCookies::COOKIE_USERNAME);
+          $request->clearCookie(PhorgeCookies::COOKIE_SESSION);
 
           // We've previously tried to clear the cookie but we ended up back
           // here, so it didn't work. Hard fatal instead of trying again.
@@ -68,7 +68,7 @@ final class PhabricatorAuthStartController
       return id(new AphrontRedirectResponse())->setURI($redirect_uri);
     }
 
-    $providers = PhabricatorAuthProvider::getAllEnabledProviders();
+    $providers = PhorgeAuthProvider::getAllEnabledProviders();
     foreach ($providers as $key => $provider) {
       if (!$provider->shouldAllowLogin()) {
         unset($providers[$key]);
@@ -113,9 +113,9 @@ final class PhabricatorAuthStartController
 
     if (!$request->isFormPost()) {
       if (strlen($next_uri)) {
-        PhabricatorCookies::setNextURICookie($request, $next_uri);
+        PhorgeCookies::setNextURICookie($request, $next_uri);
       }
-      PhabricatorCookies::setClientIDCookie($request);
+      PhorgeCookies::setClientIDCookie($request);
     }
 
     $auto_response = $this->tryAutoLogin($providers);
@@ -227,7 +227,7 @@ final class PhabricatorAuthStartController
     $via_header = AphrontRequest::getViaHeaderName();
     $via_uri = AphrontRequest::getHTTPHeader($via_header);
     if (strlen($via_uri)) {
-      PhabricatorCookies::setNextURICookie($request, $via_uri, $force = true);
+      PhorgeCookies::setNextURICookie($request, $via_uri, $force = true);
     }
 
     return $this->newDialog()
@@ -299,7 +299,7 @@ final class PhabricatorAuthStartController
   }
 
   private function newEmailLoginView(array $configs) {
-    assert_instances_of($configs, 'PhabricatorAuthProviderConfig');
+    assert_instances_of($configs, 'PhorgeAuthProviderConfig');
 
     // Check if password auth is enabled. If it is, the password login form
     // renders a "Forgot password?" link, so we don't need to provide a
@@ -308,7 +308,7 @@ final class PhabricatorAuthStartController
     $has_password = false;
     foreach ($configs as $config) {
       $provider = $config->getProvider();
-      if ($provider instanceof PhabricatorPasswordAuthProvider) {
+      if ($provider instanceof PhorgePasswordAuthProvider) {
         $has_password = true;
       }
     }

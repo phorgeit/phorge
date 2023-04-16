@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorIteratedMD5PasswordHasherTestCase
-  extends PhabricatorTestCase {
+final class PhorgeIteratedMD5PasswordHasherTestCase
+  extends PhorgeTestCase {
 
   public function testHasher() {
-    $hasher = new PhabricatorIteratedMD5PasswordHasher();
+    $hasher = new PhorgeIteratedMD5PasswordHasher();
 
     $this->assertEqual(
       'md5:4824a35493d8b5dceab36f017d68425f',

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTestWorker extends PhabricatorWorker {
+final class PhorgeTestWorker extends PhorgeWorker {
 
   public function getRequiredLeaseTime() {
     return idx(
@@ -16,7 +16,7 @@ final class PhabricatorTestWorker extends PhabricatorWorker {
       parent::getMaximumRetryCount());
   }
 
-  public function getWaitBeforeRetry(PhabricatorWorkerTask $task) {
+  public function getWaitBeforeRetry(PhorgeWorkerTask $task) {
     return idx(
       $this->getTaskData(),
       'getWaitBeforeRetry',
@@ -35,7 +35,7 @@ final class PhabricatorTestWorker extends PhabricatorWorker {
       case 'fail-temporary':
         throw new Exception(pht('Temporary failure!'));
       case 'fail-permanent':
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht('Permanent failure!'));
       default:
         return;

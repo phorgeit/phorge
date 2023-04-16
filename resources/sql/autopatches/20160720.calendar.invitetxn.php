@@ -1,13 +1,13 @@
 <?php
 
-$table = new PhabricatorCalendarEventTransaction();
+$table = new PhorgeCalendarEventTransaction();
 $conn_w = $table->establishConnection('w');
 
 echo pht(
   "Restructuring calendar invite transactions...\n");
 
 foreach (new LiskMigrationIterator($table) as $txn) {
-  $type = PhabricatorCalendarEventInviteTransaction::TRANSACTIONTYPE;
+  $type = PhorgeCalendarEventInviteTransaction::TRANSACTIONTYPE;
   if ($txn->getTransactionType() != $type) {
     continue;
   }

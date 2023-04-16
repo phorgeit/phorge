@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSourceCodeView extends AphrontView {
+final class PhorgeSourceCodeView extends AphrontView {
 
   private $lines;
   private $uri;
@@ -225,7 +225,7 @@ final class PhabricatorSourceCodeView extends AphrontView {
     $classes = array();
     $classes[] = 'phorge-source-code-view';
     $classes[] = 'remarkup-code';
-    $classes[] = 'PhabricatorMonospaced';
+    $classes[] = 'PhorgeMonospaced';
 
     $symbol_metadata = $this->getSymbolMetadata();
 

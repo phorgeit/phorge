@@ -3,8 +3,8 @@
 abstract class PhrictionConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass(
-      'PhabricatorPhrictionApplication');
+    return PhorgeApplication::getByClass(
+      'PhorgePhrictionApplication');
   }
 
   final protected function buildDocumentInfoDictionary(PhrictionDocument $doc) {
@@ -17,7 +17,7 @@ abstract class PhrictionConduitAPIMethod extends ConduitAPIMethod {
     PhrictionContent $content) {
 
     $uri = PhrictionDocument::getSlugURI($content->getSlug());
-    $uri = PhabricatorEnv::getProductionURI($uri);
+    $uri = PhorgeEnv::getProductionURI($uri);
 
     $doc_status = $doc->getStatus();
 

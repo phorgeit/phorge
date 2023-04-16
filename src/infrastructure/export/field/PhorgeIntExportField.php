@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIntExportField
-  extends PhabricatorExportField {
+final class PhorgeIntExportField
+  extends PhorgeExportField {
 
   public function getNaturalValue($value) {
     if ($value === null) {

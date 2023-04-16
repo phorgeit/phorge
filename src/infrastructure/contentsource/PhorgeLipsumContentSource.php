@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLipsumContentSource
-  extends PhabricatorContentSource {
+final class PhorgeLipsumContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'lipsum';
 

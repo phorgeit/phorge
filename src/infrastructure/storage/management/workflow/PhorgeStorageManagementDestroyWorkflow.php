@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementDestroyWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementDestroyWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -15,7 +15,7 @@ final class PhabricatorStorageManagementDestroyWorkflow
             'help'  => pht(
               'Restrict **destroy** operations to databases created '.
               'by %s test fixtures.',
-              'PhabricatorTestCase'),
+              'PhorgeTestCase'),
           ),
         ));
   }
@@ -84,7 +84,7 @@ final class PhabricatorStorageManagementDestroyWorkflow
         'SELECT DISTINCT(TABLE_SCHEMA) AS db '.
         'FROM INFORMATION_SCHEMA.TABLES '.
         'WHERE TABLE_SCHEMA LIKE %>',
-        PhabricatorTestCase::NAMESPACE_PREFIX);
+        PhorgeTestCase::NAMESPACE_PREFIX);
       $databases = ipull($databases, 'db');
     } else {
       $databases = $api->getDatabaseList($patches);

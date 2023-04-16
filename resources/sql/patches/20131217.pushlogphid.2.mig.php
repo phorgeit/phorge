@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryPushLog();
+$table = new PhorgeRepositoryPushLog();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Assigning PHIDs to push logs...')."\n";

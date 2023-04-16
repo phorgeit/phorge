@@ -9,7 +9,7 @@
  * @task onetime  One Time Login URIs
  * @task cache    User Cache
  */
-final class PhabricatorAuthSessionEngine extends Phobject {
+final class PhorgeAuthSessionEngine extends Phobject {
 
   /**
    * Session issued to normal users after they login through a standard channel.
@@ -111,7 +111,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    *
    * @param const The type of session to load.
    * @param string The session token.
-   * @return PhabricatorUser|null
+   * @return PhorgeUser|null
    * @task use
    */
   public function loadUserForSession($session_type, $session_token) {
@@ -132,15 +132,15 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         return null;
     }
 
-    $session_table = new PhabricatorAuthSession();
-    $user_table = new PhabricatorUser();
+    $session_table = new PhorgeAuthSession();
+    $user_table = new PhorgeUser();
     $conn = $session_table->establishConnection('r');
 
     // TODO: See T13225. We're moving sessions to a more modern digest
     // algorithm, but still accept older cookies for compatibility.
-    $session_key = PhabricatorAuthSession::newSessionDigest(
+    $session_key = PhorgeAuthSession::newSessionDigest(
       new PhutilOpaqueEnvelope($session_token));
-    $weak_key = PhabricatorHash::weakDigest($session_token);
+    $weak_key = PhorgeHash::weakDigest($session_token);
 
     $cache_parts = $this->getUserCacheQueryParts($conn);
     list($cache_selects, $cache_joins, $cache_map, $types_map) = $cache_parts;
@@ -204,7 +204,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     $user->attachRawCacheData($cache_raw);
 
     switch ($session_type) {
-      case PhabricatorAuthSession::TYPE_WEB:
+      case PhorgeAuthSession::TYPE_WEB:
         // Explicitly prevent bots and mailing lists from establishing web
         // sessions. It's normally impossible to attach authentication to these
         // accounts, and likewise impossible to generate sessions, but it's
@@ -216,7 +216,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         break;
     }
 
-    $session = id(new PhabricatorAuthSession())->loadFromArray($session_dict);
+    $session = id(new PhorgeAuthSession())->loadFromArray($session_dict);
 
     $this->extendSession($session);
 
@@ -251,7 +251,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * session types in the Phorge configuration.
    *
    * @param   const     Session type constant (see
-   *                    @{class:PhabricatorAuthSession}).
+   *                    @{class:PhorgeAuthSession}).
    * @param   phid|null Identity to establish a session for, usually a user
    *                    PHID. With `null`, generates an anonymous session.
    * @param   bool      True to issue a partial session.
@@ -266,21 +266,21 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       return self::KIND_ANONYMOUS.'/'.$session_key;
     }
 
-    $session_table = new PhabricatorAuthSession();
+    $session_table = new PhorgeAuthSession();
     $conn_w = $session_table->establishConnection('w');
 
     // This has a side effect of validating the session type.
-    $session_ttl = PhabricatorAuthSession::getSessionTypeTTL(
+    $session_ttl = PhorgeAuthSession::getSessionTypeTTL(
       $session_type,
       $partial);
 
-    $digest_key = PhabricatorAuthSession::newSessionDigest(
+    $digest_key = PhorgeAuthSession::newSessionDigest(
       new PhutilOpaqueEnvelope($session_key));
 
     // Logging-in users don't have CSRF stuff yet, so we have to unguard this
     // write.
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-      id(new PhabricatorAuthSession())
+      id(new PhorgeAuthSession())
         ->setUserPHID($identity_phid)
         ->setType($session_type)
         ->setSessionKey($digest_key)
@@ -290,12 +290,12 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         ->setSignedLegalpadDocuments(0)
         ->save();
 
-      $log = PhabricatorUserLog::initializeNewLog(
+      $log = PhorgeUserLog::initializeNewLog(
         null,
         $identity_phid,
         ($partial
-          ? PhabricatorPartialLoginUserLogType::LOGTYPE
-          : PhabricatorLoginUserLogType::LOGTYPE));
+          ? PhorgePartialLoginUserLogType::LOGTYPE
+          : PhorgeLoginUserLogType::LOGTYPE));
 
       $log->setDetails(
         array(
@@ -305,12 +305,12 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       $log->save();
     unset($unguarded);
 
-    $info = id(new PhabricatorAuthSessionInfo())
+    $info = id(new PhorgeAuthSessionInfo())
       ->setSessionType($session_type)
       ->setIdentityPHID($identity_phid)
       ->setIsPartial($partial);
 
-    $extensions = PhabricatorAuthSessionEngineExtension::getAllExtensions();
+    $extensions = PhorgeAuthSessionEngineExtension::getAllExtensions();
     foreach ($extensions as $extension) {
       $extension->didEstablishSession($info);
     }
@@ -325,23 +325,23 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * This is used when users change passwords, linked accounts, or add
    * multifactor authentication.
    *
-   * @param PhabricatorUser User whose sessions should be terminated.
+   * @param PhorgeUser User whose sessions should be terminated.
    * @param string|null Optionally, one session to keep. Normally, the current
    *   login session.
    *
    * @return void
    */
   public function terminateLoginSessions(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     PhutilOpaqueEnvelope $except_session = null) {
 
-    $sessions = id(new PhabricatorAuthSessionQuery())
+    $sessions = id(new PhorgeAuthSessionQuery())
       ->setViewer($user)
       ->withIdentityPHIDs(array($user->getPHID()))
       ->execute();
 
     if ($except_session !== null) {
-      $except_session = PhabricatorAuthSession::newSessionDigest(
+      $except_session = PhorgeAuthSession::newSessionDigest(
         $except_session);
     }
 
@@ -360,16 +360,16 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   }
 
   public function logoutSession(
-    PhabricatorUser $user,
-    PhabricatorAuthSession $session) {
+    PhorgeUser $user,
+    PhorgeAuthSession $session) {
 
-    $log = PhabricatorUserLog::initializeNewLog(
+    $log = PhorgeUserLog::initializeNewLog(
       $user,
       $user->getPHID(),
-      PhabricatorLogoutUserLogType::LOGTYPE);
+      PhorgeLogoutUserLogType::LOGTYPE);
     $log->save();
 
-    $extensions = PhabricatorAuthSessionEngineExtension::getAllExtensions();
+    $extensions = PhorgeAuthSessionEngineExtension::getAllExtensions();
     foreach ($extensions as $extension) {
       $extension->didLogout($user, array($session));
     }
@@ -388,14 +388,14 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * does not upgrade the user's session as a side effect. This method is
    * appropriate for one-time checks.
    *
-   * @param PhabricatorUser User whose session needs to be in high security.
+   * @param PhorgeUser User whose session needs to be in high security.
    * @param AphrontRequest  Current request.
    * @param string          URI to return the user to if they cancel.
-   * @return PhabricatorAuthHighSecurityToken Security token.
+   * @return PhorgeAuthHighSecurityToken Security token.
    * @task hisec
    */
   public function requireHighSecurityToken(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     $cancel_uri) {
 
@@ -420,17 +420,17 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * take multiple high security actions. To perform a one-time check instead,
    * use @{method:requireHighSecurityToken}.
    *
-   * @param PhabricatorUser User whose session needs to be in high security.
+   * @param PhorgeUser User whose session needs to be in high security.
    * @param AphrontRequest  Current request.
    * @param string          URI to return the user to if they cancel.
    * @param bool            True to jump partial sessions directly into high
    *                        security instead of just upgrading them to full
    *                        sessions.
-   * @return PhabricatorAuthHighSecurityToken Security token.
+   * @return PhorgeAuthHighSecurityToken Security token.
    * @task hisec
    */
   public function requireHighSecuritySession(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     $cancel_uri,
     $jump_into_hisec = false) {
@@ -444,7 +444,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   }
 
   private function newHighSecurityToken(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     $cancel_uri,
     $jump_into_hisec,
@@ -470,13 +470,13 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     // Load the multi-factor auth sources attached to this account. Note that
     // we order factors from oldest to newest, which is not the default query
     // ordering but makes the greatest sense in context.
-    $factors = id(new PhabricatorAuthFactorConfigQuery())
+    $factors = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withFactorProviderStatuses(
         array(
-          PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
-          PhabricatorAuthFactorProviderStatus::STATUS_DEPRECATED,
+          PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
+          PhorgeAuthFactorProviderStatus::STATUS_DEPRECATED,
         ))
       ->execute();
 
@@ -504,26 +504,26 @@ final class PhabricatorAuthSessionEngine extends Phobject {
 
     // Check for a rate limit without awarding points, so the user doesn't
     // get partway through the workflow only to get blocked.
-    PhabricatorSystemActionEngine::willTakeAction(
+    PhorgeSystemActionEngine::willTakeAction(
       array($viewer->getPHID()),
-      new PhabricatorAuthTryFactorAction(),
+      new PhorgeAuthTryFactorAction(),
       0);
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // We need to do challenge validation first, since this happens whether you
     // submitted responses or not. You can't get a "bad response" error before
     // you actually submit a response, but you can get a "wait, we can't
     // issue a challenge yet" response. Load all issued challenges which are
     // currently valid.
-    $challenges = id(new PhabricatorAuthChallengeQuery())
+    $challenges = id(new PhorgeAuthChallengeQuery())
       ->setViewer($viewer)
       ->withFactorPHIDs(mpull($factors, 'getPHID'))
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withChallengeTTLBetween($now, null)
       ->execute();
 
-    PhabricatorAuthChallenge::newChallengeResponsesFromRequest(
+    PhorgeAuthChallenge::newChallengeResponsesFromRequest(
       $challenges,
       $request);
 
@@ -549,7 +549,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       // NOTE: We may get a list of challenges back, or may just get an early
       // result. For example, this can happen on an SMS factor if all SMS
       // mailers have been disabled.
-      if ($new_challenges instanceof PhabricatorAuthFactorResult) {
+      if ($new_challenges instanceof PhorgeAuthFactorResult) {
         $result = $new_challenges;
 
         if (!$result->getIsValid()) {
@@ -612,9 +612,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         }
 
         if ($any_attempt) {
-          PhabricatorSystemActionEngine::willTakeAction(
+          PhorgeSystemActionEngine::willTakeAction(
             array($viewer->getPHID()),
-            new PhabricatorAuthTryFactorAction(),
+            new PhorgeAuthTryFactorAction(),
             1);
         }
 
@@ -658,9 +658,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
 
           // Give the user a credit back for a successful factor verification.
           if ($any_attempt) {
-            PhabricatorSystemActionEngine::willTakeAction(
+            PhorgeSystemActionEngine::willTakeAction(
               array($viewer->getPHID()),
-              new PhabricatorAuthTryFactorAction(),
+              new PhorgeAuthTryFactorAction(),
               -1);
           }
 
@@ -686,16 +686,16 @@ final class PhabricatorAuthSessionEngine extends Phobject {
             $until,
             $session->getID());
 
-          $log = PhabricatorUserLog::initializeNewLog(
+          $log = PhorgeUserLog::initializeNewLog(
             $viewer,
             $viewer->getPHID(),
-            PhabricatorEnterHisecUserLogType::LOGTYPE);
+            PhorgeEnterHisecUserLogType::LOGTYPE);
           $log->save();
         } else {
-          $log = PhabricatorUserLog::initializeNewLog(
+          $log = PhorgeUserLog::initializeNewLog(
             $viewer,
             $viewer->getPHID(),
-            PhabricatorFailHisecUserLogType::LOGTYPE);
+            PhorgeFailHisecUserLogType::LOGTYPE);
           $log->save();
         }
       }
@@ -725,7 +725,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         $issued_challenges);
     }
 
-    throw id(new PhabricatorAuthHighSecurityRequiredException())
+    throw id(new PhorgeAuthHighSecurityRequiredException())
       ->setCancelURI($cancel_uri)
       ->setIsSessionUpgrade($upgrade_session)
       ->setFactors($factors)
@@ -736,17 +736,17 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Issue a high security token for a session, if authorized.
    *
-   * @param PhabricatorAuthSession Session to issue a token for.
+   * @param PhorgeAuthSession Session to issue a token for.
    * @param bool Force token issue.
-   * @return PhabricatorAuthHighSecurityToken|null Token, if authorized.
+   * @return PhorgeAuthHighSecurityToken|null Token, if authorized.
    * @task hisec
    */
   private function issueHighSecurityToken(
-    PhabricatorAuthSession $session,
+    PhorgeAuthSession $session,
     $force = false) {
 
     if ($session->isHighSecuritySession() || $force) {
-      return new PhabricatorAuthHighSecurityToken();
+      return new PhorgeAuthHighSecurityToken();
     }
 
     return null;
@@ -756,7 +756,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Render a form for providing relevant multi-factor credentials.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @param AphrontRequest Current request.
    * @return AphrontFormView Renderable form.
    * @task hisec
@@ -764,9 +764,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   public function renderHighSecurityForm(
     array $factors,
     array $validation_results,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     AphrontRequest $request) {
-    assert_instances_of($validation_results, 'PhabricatorAuthFactorResult');
+    assert_instances_of($validation_results, 'PhorgeAuthFactorResult');
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)
@@ -794,7 +794,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     $form->appendRemarkupInstructions('');
 
     if ($answered) {
-      $http_params = PhabricatorAuthChallenge::newHTTPParametersFromChallenges(
+      $http_params = PhorgeAuthChallenge::newHTTPParametersFromChallenges(
         $answered);
       foreach ($http_params as $key => $value) {
         $form->addHiddenInput($key, $value);
@@ -810,14 +810,14 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    *
    * Kicks a session out of high security and logs the exit.
    *
-   * @param PhabricatorUser Acting user.
-   * @param PhabricatorAuthSession Session to return to normal security.
+   * @param PhorgeUser Acting user.
+   * @param PhorgeAuthSession Session to return to normal security.
    * @return void
    * @task hisec
    */
   public function exitHighSecurity(
-    PhabricatorUser $viewer,
-    PhabricatorAuthSession $session) {
+    PhorgeUser $viewer,
+    PhorgeAuthSession $session) {
 
     if (!$session->getHighSecurityUntil()) {
       return;
@@ -829,10 +829,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       $session->getTableName(),
       $session->getID());
 
-    $log = PhabricatorUserLog::initializeNewLog(
+    $log = PhorgeUserLog::initializeNewLog(
       $viewer,
       $viewer->getPHID(),
-      PhabricatorExitHisecUserLogType::LOGTYPE);
+      PhorgeExitHisecUserLogType::LOGTYPE);
     $log->save();
   }
 
@@ -843,11 +843,11 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Upgrade a partial session to a full session.
    *
-   * @param PhabricatorAuthSession Session to upgrade.
+   * @param PhorgeAuthSession Session to upgrade.
    * @return void
    * @task partial
    */
-  public function upgradePartialSession(PhabricatorUser $viewer) {
+  public function upgradePartialSession(PhorgeUser $viewer) {
 
     if (!$viewer->hasSession()) {
       throw new Exception(
@@ -870,10 +870,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         0,
         $session->getID());
 
-      $log = PhabricatorUserLog::initializeNewLog(
+      $log = PhorgeUserLog::initializeNewLog(
         $viewer,
         $viewer->getPHID(),
-        PhabricatorFullLoginUserLogType::LOGTYPE);
+        PhorgeFullLoginUserLogType::LOGTYPE);
       $log->save();
     unset($unguarded);
   }
@@ -885,12 +885,12 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Upgrade a session to have all legalpad documents signed.
    *
-   * @param PhabricatorUser User whose session should upgrade.
+   * @param PhorgeUser User whose session should upgrade.
    * @param array LegalpadDocument objects
    * @return void
    * @task partial
    */
-  public function signLegalpadDocuments(PhabricatorUser $viewer, array $docs) {
+  public function signLegalpadDocuments(PhorgeUser $viewer, array $docs) {
 
     if (!$viewer->hasSession()) {
       throw new Exception(
@@ -915,10 +915,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         $session->getID());
 
       if (!empty($docs)) {
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           $viewer,
           $viewer->getPHID(),
-          PhabricatorSignDocumentsUserLogType::LOGTYPE);
+          PhorgeSignDocumentsUserLogType::LOGTYPE);
         $log->save();
       }
     unset($unguarded);
@@ -934,8 +934,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * These URIs are used for password recovery and to regain access to accounts
    * which users have been locked out of.
    *
-   * @param PhabricatorUser User to generate a URI for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhorgeUser User to generate a URI for.
+   * @param PhorgeUserEmail Optionally, email to verify when
    *  link is used.
    * @param string Optional context string for the URI. This is purely cosmetic
    *  and used only to customize workflow and error messages.
@@ -945,17 +945,17 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * @task onetime
    */
   public function getOneTimeLoginURI(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    PhorgeUser $user,
+    PhorgeUserEmail $email = null,
     $type = self::ONETIME_RESET,
     $force_full_session = false) {
 
     $key = Filesystem::readRandomCharacters(32);
     $key_hash = $this->getOneTimeLoginKeyHash($user, $email, $key);
-    $onetime_type = PhabricatorAuthOneTimeLoginTemporaryTokenType::TOKENTYPE;
+    $onetime_type = PhorgeAuthOneTimeLoginTemporaryTokenType::TOKENTYPE;
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-      $token = id(new PhabricatorAuthTemporaryToken())
+      $token = id(new PhorgeAuthTemporaryToken())
         ->setTokenResource($user->getPHID())
         ->setTokenType($onetime_type)
         ->setTokenExpires(time() + phutil_units('1 day in seconds'))
@@ -970,7 +970,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     }
 
     try {
-      $uri = PhabricatorEnv::getProductionURI($uri);
+      $uri = PhorgeEnv::getProductionURI($uri);
     } catch (Exception $ex) {
       // If a user runs `bin/auth recover` before configuring the base URI,
       // just show the path. We don't have any way to figure out the domain.
@@ -984,22 +984,22 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Load the temporary token associated with a given one-time login key.
    *
-   * @param PhabricatorUser User to load the token for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhorgeUser User to load the token for.
+   * @param PhorgeUserEmail Optionally, email to verify when
    *  link is used.
    * @param string Key user is presenting as a valid one-time login key.
-   * @return PhabricatorAuthTemporaryToken|null Token, if one exists.
+   * @return PhorgeAuthTemporaryToken|null Token, if one exists.
    * @task onetime
    */
   public function loadOneTimeLoginKey(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    PhorgeUser $user,
+    PhorgeUserEmail $email = null,
     $key = null) {
 
     $key_hash = $this->getOneTimeLoginKeyHash($user, $email, $key);
-    $onetime_type = PhabricatorAuthOneTimeLoginTemporaryTokenType::TOKENTYPE;
+    $onetime_type = PhorgeAuthOneTimeLoginTemporaryTokenType::TOKENTYPE;
 
-    return id(new PhabricatorAuthTemporaryTokenQuery())
+    return id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($user)
       ->withTokenResources(array($user->getPHID()))
       ->withTokenTypes(array($onetime_type))
@@ -1012,16 +1012,16 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Hash a one-time login key for storage as a temporary token.
    *
-   * @param PhabricatorUser User this key is for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhorgeUser User this key is for.
+   * @param PhorgeUserEmail Optionally, email to verify when
    *  link is used.
    * @param string The one time login key.
    * @return string Hash of the key.
    * task onetime
    */
   private function getOneTimeLoginKeyHash(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    PhorgeUser $user,
+    PhorgeUserEmail $email = null,
     $key = null) {
 
     $parts = array(
@@ -1033,7 +1033,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       $parts[] = $email->getVerificationCode();
     }
 
-    return PhabricatorHash::weakDigest(implode(':', $parts));
+    return PhorgeHash::weakDigest(implode(':', $parts));
   }
 
 
@@ -1051,7 +1051,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     $keys = array();
     $types_map = array();
 
-    $cache_types = PhabricatorUserCacheType::getAllCacheTypes();
+    $cache_types = PhorgeUserCacheType::getAllCacheTypes();
     foreach ($cache_types as $cache_type) {
       foreach ($cache_type->getAutoloadKeys() as $autoload_key) {
         $keys[] = $autoload_key;
@@ -1059,7 +1059,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       }
     }
 
-    $cache_table = id(new PhabricatorUserCache())->getTableName();
+    $cache_table = id(new PhorgeUserCache())->getTableName();
 
     $cache_idx = 1;
     foreach ($keys as $key) {
@@ -1080,7 +1080,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
         $join_as,
         $join_as,
         $join_as,
-        PhabricatorHash::digestForIndex($key));
+        PhorgeHash::digestForIndex($key));
 
       $cache_map[$select_as] = $key;
 
@@ -1103,7 +1103,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   }
 
   private function filterRawCacheData(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     array $types_map,
     array $cache_raw) {
 
@@ -1119,20 +1119,20 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     return $cache_raw;
   }
 
-  public function willServeRequestForUser(PhabricatorUser $user) {
+  public function willServeRequestForUser(PhorgeUser $user) {
     // We allow the login user to generate any missing cache data inline.
     $user->setAllowInlineCacheGeneration(true);
 
     // Switch to the user's translation.
-    PhabricatorEnv::setLocaleCode($user->getTranslation());
+    PhorgeEnv::setLocaleCode($user->getTranslation());
 
-    $extensions = PhabricatorAuthSessionEngineExtension::getAllExtensions();
+    $extensions = PhorgeAuthSessionEngineExtension::getAllExtensions();
     foreach ($extensions as $extension) {
       $extension->willServeRequestForUser($user);
     }
   }
 
-  private function extendSession(PhabricatorAuthSession $session) {
+  private function extendSession(PhorgeAuthSession $session) {
     $is_partial = $session->getIsPartial();
 
     // Don't extend partial sessions. You have a relatively short window to
@@ -1143,7 +1143,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
 
     $session_type = $session->getType();
 
-    $ttl = PhabricatorAuthSession::getSessionTypeTTL(
+    $ttl = PhorgeAuthSession::getSessionTypeTTL(
       $session_type,
       $session->getIsPartial());
 
@@ -1151,7 +1151,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     // TTL back up to the full duration. The idea here is that sessions are
     // good forever if used regularly, but get GC'd when they fall out of use.
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     if ($now + (0.80 * $ttl) <= $session->getSessionExpires()) {
       return;
     }

@@ -3,10 +3,10 @@
 // Populate VCS passwords (which we copied from the old "VCS Password" table
 // in the last migration) with new PHIDs.
 
-$table = new PhabricatorAuthPassword();
+$table = new PhorgeAuthPassword();
 $conn = $table->establishConnection('w');
 
-$password_type = PhabricatorAuthPasswordPHIDType::TYPECONST;
+$password_type = PhorgeAuthPasswordPHIDType::TYPECONST;
 
 foreach (new LiskMigrationIterator($table) as $row) {
   if (phid_get_type($row->getPHID()) == $password_type) {

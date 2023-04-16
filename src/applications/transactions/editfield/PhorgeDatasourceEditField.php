@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorDatasourceEditField
-  extends PhabricatorTokenizerEditField {
+final class PhorgeDatasourceEditField
+  extends PhorgeTokenizerEditField {
 
   private $datasource;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

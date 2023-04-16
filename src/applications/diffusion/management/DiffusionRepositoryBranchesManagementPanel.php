@@ -14,7 +14,7 @@ final class DiffusionRepositoryBranchesManagementPanel
   }
 
   public function shouldEnableForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return ($repository->isGit() || $repository->isHg());
   }
 
@@ -48,15 +48,15 @@ final class DiffusionRepositoryBranchesManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $branches_uri = $this->getEditPageURI();
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Branches'))
         ->setHref($branches_uri)
@@ -75,7 +75,7 @@ final class DiffusionRepositoryBranchesManagementPanel
       ));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-code-fork')
         ->setName(pht('View Branches'))
         ->setHref($view_uri));

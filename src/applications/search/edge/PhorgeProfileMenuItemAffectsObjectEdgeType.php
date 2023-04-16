@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemAffectsObjectEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeProfileMenuItemAffectsObjectEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 70;
 

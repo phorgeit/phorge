@@ -1,7 +1,7 @@
 <?php
 
 final class FundInitiativeEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'fund.initiative';
 
@@ -10,7 +10,7 @@ final class FundInitiativeEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   public function getSummaryHeader() {
@@ -78,8 +78,8 @@ final class FundInitiativeEditEngine
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -108,7 +108,7 @@ final class FundInitiativeEditEngine
     }
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Initiative name.'))
@@ -117,7 +117,7 @@ final class FundInitiativeEditEngine
           FundInitiativeNameTransaction::TRANSACTIONTYPE)
         ->setValue($object->getName())
         ->setIsRequired(true),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('merchantPHID')
         ->setLabel(pht('Merchant'))
         ->setDescription(pht('Merchant operating the initiative.'))
@@ -128,7 +128,7 @@ final class FundInitiativeEditEngine
           FundInitiativeMerchantTransaction::TRANSACTIONTYPE)
         ->setOptions($merchant_options)
         ->setIsRequired(true),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('Initiative long description.'))
@@ -136,7 +136,7 @@ final class FundInitiativeEditEngine
         ->setTransactionType(
           FundInitiativeDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('risks')
         ->setLabel(pht('Risks/Challenges'))
         ->setDescription(pht('Initiative risks and challenges.'))

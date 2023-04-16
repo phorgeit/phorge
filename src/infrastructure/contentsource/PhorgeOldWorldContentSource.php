@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOldWorldContentSource
-  extends PhabricatorContentSource {
+final class PhorgeOldWorldContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'legacy';
 

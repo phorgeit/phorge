@@ -1,14 +1,14 @@
 <?php
 
-abstract class PhabricatorPHIDListEditType
-  extends PhabricatorEditType {
+abstract class PhorgePHIDListEditType
+  extends PhorgeEditType {
 
   private $datasource;
   private $isSingleValue;
   private $defaultValue;
   private $isNullable;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

@@ -47,7 +47,7 @@ final class DiffusionExternalSymbolQuery extends Phobject {
   }
 
   public function withRepositories(array $repositories) {
-    assert_instances_of($repositories, 'PhabricatorRepository');
+    assert_instances_of($repositories, 'PhorgeRepository');
     $this->repositories = $repositories;
     return $this;
   }

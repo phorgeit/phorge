@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationPanelController
-  extends PhabricatorNotificationController {
+final class PhorgeNotificationPanelController
+  extends PhorgeNotificationController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -10,7 +10,7 @@ final class PhabricatorNotificationPanelController
 
     $warning = $this->prunePhantomNotifications($unread_count);
 
-    $query = id(new PhabricatorNotificationQuery())
+    $query = id(new PhorgeNotificationQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->setLimit(10);
@@ -20,7 +20,7 @@ final class PhabricatorNotificationPanelController
     $clear_ui_class = 'phorge-notification-clear-all';
     $clear_uri = id(new PhutilURI('/notification/clear/'));
     if ($stories) {
-      $builder = id(new PhabricatorNotificationBuilder($stories))
+      $builder = id(new PhorgeNotificationBuilder($stories))
         ->setUser($viewer);
 
       $notifications_view = $builder->buildView();
@@ -50,7 +50,7 @@ final class PhabricatorNotificationPanelController
       ),
       pht('Notifications'));
 
-    $connection_status = new PhabricatorNotificationStatusView();
+    $connection_status = new PhorgeNotificationStatusView();
 
     $connection_ui = phutil_tag(
       'div',
@@ -96,7 +96,7 @@ final class PhabricatorNotificationPanelController
       return null;
     }
 
-    $table = new PhabricatorFeedStoryNotification();
+    $table = new PhorgeFeedStoryNotification();
     $conn = $table->establishConnection('r');
 
     $rows = queryfx_all(
@@ -142,8 +142,8 @@ final class PhabricatorNotificationPanelController
       $viewer->getPHID(),
       $purge_keys);
 
-    PhabricatorUserCache::clearCache(
-      PhabricatorUserNotificationCountCacheType::KEY_COUNT,
+    PhorgeUserCache::clearCache(
+      PhorgeUserNotificationCountCacheType::KEY_COUNT,
       $viewer->getPHID());
 
     unset($unguarded);

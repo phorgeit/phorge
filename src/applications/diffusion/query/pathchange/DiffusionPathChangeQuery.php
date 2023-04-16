@@ -61,9 +61,9 @@ final class DiffusionPathChangeQuery extends Phobject {
           LEFT JOIN %T t ON c.targetPathID = t.id
           LEFT JOIN %T i ON c.targetCommitID = i.id
         WHERE c.commitID = %d AND isDirect = 1 %Q',
-      PhabricatorRepository::TABLE_PATHCHANGE,
-      PhabricatorRepository::TABLE_PATH,
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATHCHANGE,
+      PhorgeRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       $commit->getTableName(),
       $commit->getID(),
       $limit);

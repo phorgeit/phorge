@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProjectsEditField
-  extends PhabricatorTokenizerEditField {
+final class PhorgeProjectsEditField
+  extends PhorgeTokenizerEditField {
 
   protected function newDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
   protected function newHTTPParameterType() {

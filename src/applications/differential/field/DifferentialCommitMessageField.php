@@ -6,7 +6,7 @@ abstract class DifferentialCommitMessageField
   private $viewer;
   private $customFieldStorage;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -78,7 +78,7 @@ abstract class DifferentialCommitMessageField
     return $this->getPhobjectClassConstant('FIELDKEY', 64);
   }
 
-  final public static function newEnabledFields(PhabricatorUser $viewer) {
+  final public static function newEnabledFields(PhorgeUser $viewer) {
     $fields = self::getAllFields();
 
     $results = array();
@@ -114,7 +114,7 @@ abstract class DifferentialCommitMessageField
     array $types,
     $allow_partial = false,
     array $suffixes = array()) {
-    return id(new PhabricatorObjectListQuery())
+    return id(new PhorgeObjectListQuery())
       ->setViewer($this->getViewer())
       ->setAllowedTypes($types)
       ->setObjectList($value)
@@ -180,7 +180,7 @@ abstract class DifferentialCommitMessageField
   }
 
   protected function isCustomFieldEnabled($key) {
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       new DifferentialRevision(),
       DifferentialCustomField::ROLE_DEFAULT);
 

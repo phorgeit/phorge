@@ -12,7 +12,7 @@
  * trigger. This is used to implement comment previews in Differential and
  * Maniphest.
  */
-JX.install('PhabricatorShapedRequest', {
+JX.install('PhorgeShapedRequest', {
 
   construct : function(uri, callback, data_callback) {
     this._uri = uri;

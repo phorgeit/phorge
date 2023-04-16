@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorAuthMessageTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeAuthMessageTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'auth';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorAuthMessagePHIDType::TYPECONST;
+    return PhorgeAuthMessagePHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorAuthMessageTransactionType';
+    return 'PhorgeAuthMessageTransactionType';
   }
 
 }

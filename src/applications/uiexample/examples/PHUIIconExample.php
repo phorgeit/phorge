@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIIconExample extends PhabricatorUIExample {
+final class PHUIIconExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Icons and Images');

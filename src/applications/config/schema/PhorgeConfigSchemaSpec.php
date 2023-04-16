@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConfigSchemaSpec extends Phobject {
+abstract class PhorgeConfigSchemaSpec extends Phobject {
 
   private $server;
   private $utf8Charset;
@@ -36,7 +36,7 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
     return $this->utf8Charset;
   }
 
-  public function setServer(PhabricatorConfigServerSchema $server) {
+  public function setServer(PhorgeConfigServerSchema $server) {
     $this->server = $server;
     return $this;
   }
@@ -47,7 +47,7 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
 
   abstract public function buildSchemata();
 
-  protected function buildLiskObjectSchema(PhabricatorLiskDAO $object) {
+  protected function buildLiskObjectSchema(PhorgeLiskDAO $object) {
     $index_options = array();
 
     $persistence = $object->getSchemaPersistence();
@@ -63,9 +63,9 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
       $index_options);
   }
 
-  protected function buildFerretIndexSchema(PhabricatorFerretEngine $engine) {
+  protected function buildFerretIndexSchema(PhorgeFerretEngine $engine) {
     $index_options = array(
-      'persistence' => PhabricatorConfigTableSchema::PERSISTENCE_INDEX,
+      'persistence' => PhorgeConfigTableSchema::PERSISTENCE_INDEX,
     );
 
     $this->buildRawSchema(
@@ -117,7 +117,7 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
 
     $table = $this->newTable($table_name);
 
-    if (PhabricatorSearchDocument::isInnoDBFulltextEngineAvailable()) {
+    if (PhorgeSearchDocument::isInnoDBFulltextEngineAvailable()) {
       $fulltext_engine = 'InnoDB';
     } else {
       $fulltext_engine = 'MyISAM';
@@ -179,10 +179,10 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
     $database->addTable($table);
   }
 
-  protected function buildEdgeSchemata(PhabricatorLiskDAO $object) {
+  protected function buildEdgeSchemata(PhorgeLiskDAO $object) {
     $this->buildRawSchema(
       $object->getApplicationName(),
-      PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+      PhorgeEdgeConfig::TABLE_NAME_EDGE,
       array(
         'src' => 'phid',
         'type' => 'uint32',
@@ -207,7 +207,7 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
 
     $this->buildRawSchema(
       $object->getApplicationName(),
-      PhabricatorEdgeConfig::TABLE_NAME_EDGEDATA,
+      PhorgeEdgeConfig::TABLE_NAME_EDGEDATA,
       array(
         'id' => 'auto',
         'data' => 'text',
@@ -233,31 +233,31 @@ abstract class PhabricatorConfigSchemaSpec extends Phobject {
   }
 
   protected function newDatabase($name) {
-    return id(new PhabricatorConfigDatabaseSchema())
+    return id(new PhorgeConfigDatabaseSchema())
       ->setName($this->getNamespacedDatabase($name))
       ->setCharacterSet($this->getUTF8Charset())
       ->setCollation($this->getUTF8BinaryCollation());
   }
 
   protected function getNamespacedDatabase($name) {
-    $namespace = PhabricatorLiskDAO::getStorageNamespace();
+    $namespace = PhorgeLiskDAO::getStorageNamespace();
     return $namespace.'_'.$name;
   }
 
   protected function newTable($name) {
-    return id(new PhabricatorConfigTableSchema())
+    return id(new PhorgeConfigTableSchema())
       ->setName($name)
       ->setCollation($this->getUTF8BinaryCollation())
       ->setEngine('InnoDB');
   }
 
   protected function newColumn($name) {
-    return id(new PhabricatorConfigColumnSchema())
+    return id(new PhorgeConfigColumnSchema())
       ->setName($name);
   }
 
   protected function newKey($name) {
-    return id(new PhabricatorConfigKeySchema())
+    return id(new PhorgeConfigKeySchema())
       ->setName($name);
   }
 

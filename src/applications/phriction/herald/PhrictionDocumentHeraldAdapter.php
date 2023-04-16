@@ -5,7 +5,7 @@ final class PhrictionDocumentHeraldAdapter extends HeraldAdapter {
   private $document;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   public function getAdapterContentDescription() {

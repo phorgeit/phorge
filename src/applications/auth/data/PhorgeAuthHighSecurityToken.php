@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthHighSecurityToken
+final class PhorgeAuthHighSecurityToken
   extends Phobject {
 
   private $isUnchallengedToken = false;

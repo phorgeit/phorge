@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeRepositoryConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Repositories');

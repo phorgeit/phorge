@@ -216,7 +216,7 @@ final class DiffusionHistoryQueryConduitAPIMethod
     $paths = queryfx_all(
       $conn_r,
       'SELECT id, path FROM %T WHERE pathHash IN (%Ls)',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       array(md5('/'.trim($path, '/'))));
     $paths = ipull($paths, 'id', 'path');
     $path_id = idx($paths, '/'.trim($path, '/'));
@@ -246,7 +246,7 @@ final class DiffusionHistoryQueryConduitAPIMethod
         %Q
         ORDER BY commitSequence DESC
         LIMIT %d, %d',
-      PhabricatorRepository::TABLE_PATHCHANGE,
+      PhorgeRepository::TABLE_PATHCHANGE,
       $repository->getID(),
       $path_id,
       $commit ? $commit : 0x7FFFFFFF,
@@ -259,11 +259,11 @@ final class DiffusionHistoryQueryConduitAPIMethod
 
     $commit_ids = ipull($history_data, 'commitID');
     if ($commit_ids) {
-      $commits = id(new PhabricatorRepositoryCommit())->loadAllWhere(
+      $commits = id(new PhorgeRepositoryCommit())->loadAllWhere(
         'id IN (%Ld)',
         $commit_ids);
       if ($commits) {
-        $commit_data = id(new PhabricatorRepositoryCommitData())->loadAllWhere(
+        $commit_data = id(new PhorgeRepositoryCommitData())->loadAllWhere(
           'commitID in (%Ld)',
           $commit_ids);
         $commit_data = mpull($commit_data, null, 'getCommitID');

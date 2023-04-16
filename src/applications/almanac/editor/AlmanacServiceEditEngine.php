@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacServiceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'almanac.service';
 
@@ -33,7 +33,7 @@ final class AlmanacServiceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -126,14 +126,14 @@ final class AlmanacServiceEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the service.'))
         ->setTransactionType(AlmanacServiceNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('type')
         ->setLabel(pht('Type'))
         ->setIsFormField(false)

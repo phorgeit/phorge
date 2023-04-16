@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTransactionsApplication extends PhabricatorApplication {
+final class PhorgeTransactionsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Transactions');
@@ -18,51 +18,51 @@ final class PhabricatorTransactionsApplication extends PhabricatorApplication {
     return array(
       '/transactions/' => array(
         'edit/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionCommentEditController',
+          => 'PhorgeApplicationTransactionCommentEditController',
         'remove/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionCommentRemoveController',
+          => 'PhorgeApplicationTransactionCommentRemoveController',
         'history/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionCommentHistoryController',
+          => 'PhorgeApplicationTransactionCommentHistoryController',
         'quote/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionCommentQuoteController',
+          => 'PhorgeApplicationTransactionCommentQuoteController',
         'raw/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionCommentRawController',
+          => 'PhorgeApplicationTransactionCommentRawController',
         'detail/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionDetailController',
+          => 'PhorgeApplicationTransactionDetailController',
         'showolder/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionShowOlderController',
+          => 'PhorgeApplicationTransactionShowOlderController',
         '(?P<value>old|new)/(?<phid>[^/]+)/'
-          => 'PhabricatorApplicationTransactionValueController',
+          => 'PhorgeApplicationTransactionValueController',
         'remarkuppreview/'
-          => 'PhabricatorApplicationTransactionRemarkupPreviewController',
+          => 'PhorgeApplicationTransactionRemarkupPreviewController',
         'editengine/' => array(
           $this->getQueryRoutePattern()
-            => 'PhabricatorEditEngineListController',
+            => 'PhorgeEditEngineListController',
           '(?P<engineKey>[^/]+)/' => array(
             $this->getQueryRoutePattern() =>
-              'PhabricatorEditEngineConfigurationListController',
+              'PhorgeEditEngineConfigurationListController',
             $this->getEditRoutePattern('edit/') =>
-              'PhabricatorEditEngineConfigurationEditController',
+              'PhorgeEditEngineConfigurationEditController',
             'sort/(?P<type>edit|create)/' =>
-              'PhabricatorEditEngineConfigurationSortController',
+              'PhorgeEditEngineConfigurationSortController',
             'view/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationViewController',
+              'PhorgeEditEngineConfigurationViewController',
             'save/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationSaveController',
+              'PhorgeEditEngineConfigurationSaveController',
             'reorder/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationReorderController',
+              'PhorgeEditEngineConfigurationReorderController',
             'defaults/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationDefaultsController',
+              'PhorgeEditEngineConfigurationDefaultsController',
             'lock/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationLockController',
+              'PhorgeEditEngineConfigurationLockController',
             'subtype/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationSubtypeController',
+              'PhorgeEditEngineConfigurationSubtypeController',
             'defaultcreate/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationDefaultCreateController',
+              'PhorgeEditEngineConfigurationDefaultCreateController',
             'defaultedit/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationIsEditController',
+              'PhorgeEditEngineConfigurationIsEditController',
             'disable/(?P<key>[^/]+)/' =>
-              'PhabricatorEditEngineConfigurationDisableController',
+              'PhorgeEditEngineConfigurationDisableController',
           ),
         ),
       ),

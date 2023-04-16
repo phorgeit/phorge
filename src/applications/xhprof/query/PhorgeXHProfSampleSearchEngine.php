@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorXHProfSampleSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeXHProfSampleSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('XHProf Samples');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorXHProfApplication';
+    return 'PhorgeXHProfApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorXHProfSampleQuery());
+    return id(new PhorgeXHProfSampleQuery());
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -51,9 +51,9 @@ final class PhabricatorXHProfSampleSearchEngine
 
   protected function renderResultList(
     array $samples,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($samples, 'PhabricatorXHProfSample');
+    assert_instances_of($samples, 'PhorgeXHProfSample');
 
     $viewer = $this->requireViewer();
 
@@ -101,11 +101,11 @@ final class PhabricatorXHProfSampleSearchEngine
     // so you can import profiles by dropping them into the list.
 
     if (!$this->isPanelContext()) {
-      $drop_upload = id(new PhabricatorGlobalUploadTargetView())
+      $drop_upload = id(new PhorgeGlobalUploadTargetView())
         ->setViewer($this->requireViewer())
         ->setHintText("\xE2\x87\xAA ".pht('Drop .xhprof Files to Import'))
         ->setSubmitURI('/xhprof/import/drop/')
-        ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE);
+        ->setViewPolicy(PhorgePolicies::POLICY_NOONE);
 
       $content = array(
         $drop_upload,
@@ -113,7 +113,7 @@ final class PhabricatorXHProfSampleSearchEngine
       );
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($content);
   }
 

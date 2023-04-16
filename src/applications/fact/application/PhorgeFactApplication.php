@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFactApplication extends PhabricatorApplication {
+final class PhorgeFactApplication extends PhorgeApplication {
 
   public function getShortDescription() {
     return pht('Chart and Analyze Data');
@@ -25,10 +25,10 @@ final class PhabricatorFactApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/fact/' => array(
-        '' => 'PhabricatorFactHomeController',
+        '' => 'PhorgeFactHomeController',
         'chart/(?P<chartKey>[^/]+)/(?:(?P<mode>draw)/)?' =>
-          'PhabricatorFactChartController',
-        'object/(?<phid>[^/]+)/' => 'PhabricatorFactObjectController',
+          'PhorgeFactChartController',
+        'object/(?<phid>[^/]+)/' => 'PhorgeFactObjectController',
       ),
     );
   }

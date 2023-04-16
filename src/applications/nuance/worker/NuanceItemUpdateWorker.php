@@ -153,9 +153,9 @@ final class NuanceItemUpdateWorker
   }
 
   private function newLock($item_phid) {
-    $hash = PhabricatorHash::digestForIndex($item_phid);
+    $hash = PhorgeHash::digestForIndex($item_phid);
     $lock_key = "nuance.item.{$hash}";
-    return PhabricatorGlobalLock::newLock($lock_key);
+    return PhorgeGlobalLock::newLock($lock_key);
   }
 
 }

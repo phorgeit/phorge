@@ -130,7 +130,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
    * @return int The value of the default priority constant.
    */
   public static function getDefaultPriority() {
-    return PhabricatorEnv::getEnvConfig('maniphest.default-priority');
+    return PhorgeEnv::getEnvConfig('maniphest.default-priority');
   }
 
 
@@ -177,7 +177,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   }
 
   public static function getConfig() {
-    $config = PhabricatorEnv::getEnvConfig('maniphest.priorities');
+    $config = PhorgeEnv::getEnvConfig('maniphest.priorities');
     krsort($config);
     return $config;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteContentTransaction
-  extends PhabricatorPasteTransactionType {
+final class PhorgePasteContentTransaction
+  extends PhorgePasteTransactionType {
 
   const TRANSACTIONTYPE = 'paste.create';
 
@@ -64,7 +64,7 @@ final class PhabricatorPasteContentTransaction
     return $file->getPHID();
   }
 
-  private function newFileForPaste(PhabricatorUser $actor, $data) {
+  private function newFileForPaste(PhorgeUser $actor, $data) {
     $editor = $this->getEditor();
 
     $file_name = $editor->getNewPasteTitle();
@@ -72,13 +72,13 @@ final class PhabricatorPasteContentTransaction
       $file_name = 'raw-paste-data.txt';
     }
 
-    return PhabricatorFile::newFromFileData(
+    return PhorgeFile::newFromFileData(
       $data,
       array(
         'name' => $file_name,
         'mime-type' => 'text/plain; charset=utf-8',
         'authorPHID' => $actor->getPHID(),
-        'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+        'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       ));
   }
 
@@ -113,7 +113,7 @@ final class PhabricatorPasteContentTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($old, $new))
       ->execute();
@@ -129,7 +129,7 @@ final class PhabricatorPasteContentTransaction
       $new_text = $files[$new]->loadFileData();
     }
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($old_text)
       ->setNewText($new_text);

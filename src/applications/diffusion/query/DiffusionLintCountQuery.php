@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionLintCountQuery extends PhabricatorQuery {
+final class DiffusionLintCountQuery extends PhorgeQuery {
 
   private $branchIDs;
   private $paths;
@@ -30,7 +30,7 @@ final class DiffusionLintCountQuery extends PhabricatorQuery {
       throw new PhutilInvalidStateException('withBranchIDs');
     }
 
-    $conn_r = id(new PhabricatorRepositoryCommit())->establishConnection('r');
+    $conn_r = id(new PhorgeRepositoryCommit())->establishConnection('r');
 
     $this->paths = array_unique($this->paths);
     list($dirs, $paths) = $this->processPaths();
@@ -55,7 +55,7 @@ final class DiffusionLintCountQuery extends PhabricatorQuery {
         $conn_r,
         'SELECT %s path_prefix, COUNT(*) N FROM %T %Q',
         $key,
-        PhabricatorRepository::TABLE_LINTMESSAGE,
+        PhorgeRepository::TABLE_LINTMESSAGE,
         $this->buildCustomWhereClause($conn_r, $part));
     }
 

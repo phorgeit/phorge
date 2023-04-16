@@ -2,17 +2,17 @@
 
 /**
  * Look up the type of a PHID. Returns
- * PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN if it fails to look up the type
+ * PhorgePHIDConstants::PHID_TYPE_UNKNOWN if it fails to look up the type
  *
  * @param   phid Anything.
- * @return  string A value from PhabricatorPHIDConstants (ideally)
+ * @return  string A value from PhorgePHIDConstants (ideally)
  */
 function phid_get_type($phid) {
   $matches = null;
   if (is_string($phid) && preg_match('/^PHID-([^-]{4})-/', $phid, $matches)) {
     return $matches[1];
   }
-  return PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+  return PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
 }
 
 /**

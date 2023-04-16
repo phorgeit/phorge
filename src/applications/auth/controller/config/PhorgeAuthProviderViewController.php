@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthProviderViewController
-  extends PhabricatorAuthProviderConfigController {
+final class PhorgeAuthProviderViewController
+  extends PhorgeAuthProviderConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
@@ -10,12 +10,12 @@ final class PhabricatorAuthProviderViewController
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $config = id(new PhabricatorAuthProviderConfigQuery())
+    $config = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($id))
       ->executeOne();
@@ -29,7 +29,7 @@ final class PhabricatorAuthProviderViewController
 
     $timeline = $this->buildTransactionTimeline(
       $config,
-      new PhabricatorAuthProviderConfigTransactionQuery());
+      new PhorgeAuthProviderConfigTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -48,7 +48,7 @@ final class PhabricatorAuthProviderViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorAuthProviderConfig $config) {
+  private function buildHeaderView(PhorgeAuthProviderConfig $config) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIHeaderView())
@@ -64,19 +64,19 @@ final class PhabricatorAuthProviderViewController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorAuthProviderConfig $config) {
+  private function buildCurtain(PhorgeAuthProviderConfig $config) {
     $viewer = $this->getViewer();
     $id = $config->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $config,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($config);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Auth Provider'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("config/edit/{$id}/"))
@@ -94,7 +94,7 @@ final class PhabricatorAuthProviderViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_text)
         ->setIcon($disable_icon)
         ->setHref($disable_uri)
@@ -104,7 +104,7 @@ final class PhabricatorAuthProviderViewController
     return $curtain;
   }
 
-  private function buildPropertiesView(PhabricatorAuthProviderConfig $config) {
+  private function buildPropertiesView(PhorgeAuthProviderConfig $config) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -120,7 +120,7 @@ final class PhabricatorAuthProviderViewController
     return $view;
   }
 
-  private function buildStatus(PhabricatorAuthProviderConfig $config) {
+  private function buildStatus(PhorgeAuthProviderConfig $config) {
     $viewer = $this->getViewer();
     $view = id(new PHUIStatusListView())
       ->setViewer($viewer);

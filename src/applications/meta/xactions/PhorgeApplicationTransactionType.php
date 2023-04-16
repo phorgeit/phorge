@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionType
-  extends PhabricatorModularTransactionType {}
+abstract class PhorgeApplicationTransactionType
+  extends PhorgeModularTransactionType {}

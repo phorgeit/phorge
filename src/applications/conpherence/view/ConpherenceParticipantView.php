@@ -32,10 +32,10 @@ final class ConpherenceParticipantView extends AphrontView {
     $head_handles = mpull($head_handles, null, 'getName');
     $handles = $head_handles + $handles;
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $conpherence,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $body = array();
     foreach ($handles as $handle) {

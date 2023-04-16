@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCustomFieldImplementationIncompleteException
+final class PhorgeCustomFieldImplementationIncompleteException
   extends Exception {
 
   public function __construct(
-    PhabricatorCustomField $field,
+    PhorgeCustomField $field,
     $field_key_is_incomplete = false) {
 
     if ($field_key_is_incomplete) {

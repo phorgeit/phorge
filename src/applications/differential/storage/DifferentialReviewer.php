@@ -40,21 +40,21 @@ final class DifferentialReviewer
   }
 
   public function isUser() {
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     return (phid_get_type($this->getReviewerPHID()) == $user_type);
   }
 
   public function isPackage() {
-    $package_type = PhabricatorOwnersPackagePHIDType::TYPECONST;
+    $package_type = PhorgeOwnersPackagePHIDType::TYPECONST;
     return (phid_get_type($this->getReviewerPHID()) == $package_type);
   }
 
-  public function attachAuthority(PhabricatorUser $user, $has_authority) {
+  public function attachAuthority(PhorgeUser $user, $has_authority) {
     $this->authority[$user->getCacheFragment()] = $has_authority;
     return $this;
   }
 
-  public function hasAuthority(PhabricatorUser $viewer) {
+  public function hasAuthority(PhorgeUser $viewer) {
     $cache_fragment = $viewer->getCacheFragment();
     return $this->assertAttachedKey($this->authority, $cache_fragment);
   }
@@ -125,7 +125,7 @@ final class DifferentialReviewer
     }
 
     $sticky_key = 'differential.sticky-accept';
-    $is_sticky = PhabricatorEnv::getEnvConfig($sticky_key);
+    $is_sticky = PhorgeEnv::getEnvConfig($sticky_key);
 
     if ($is_sticky) {
       return true;

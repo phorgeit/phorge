@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailMessageEngine
+abstract class PhorgeMailMessageEngine
   extends Phobject {
 
   private $mailer;
@@ -8,7 +8,7 @@ abstract class PhabricatorMailMessageEngine
   private $actors = array();
   private $preferences;
 
-  final public function setMailer(PhabricatorMailAdapter $mailer) {
+  final public function setMailer(PhorgeMailAdapter $mailer) {
 
     $this->mailer = $mailer;
     return $this;
@@ -18,7 +18,7 @@ abstract class PhabricatorMailMessageEngine
     return $this->mailer;
   }
 
-  final public function setMail(PhabricatorMetaMTAMail $mail) {
+  final public function setMail(PhorgeMetaMTAMail $mail) {
     $this->mail = $mail;
     return $this;
   }
@@ -28,7 +28,7 @@ abstract class PhabricatorMailMessageEngine
   }
 
   final public function setActors(array $actors) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, 'PhorgeMetaMTAActor');
     $this->actors = $actors;
     return $this;
   }
@@ -42,7 +42,7 @@ abstract class PhabricatorMailMessageEngine
   }
 
   final public function setPreferences(
-    PhabricatorUserPreferences $preferences) {
+    PhorgeUserPreferences $preferences) {
     $this->preferences = $preferences;
     return $this;
   }

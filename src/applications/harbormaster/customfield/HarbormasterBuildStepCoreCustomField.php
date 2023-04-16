@@ -2,7 +2,7 @@
 
 final class HarbormasterBuildStepCoreCustomField
   extends HarbormasterBuildStepCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'harbormaster:core';
@@ -49,20 +49,20 @@ final class HarbormasterBuildStepCoreCustomField
       );
     }
 
-    return PhabricatorStandardCustomField::buildStandardFields($this, $specs);
+    return PhorgeStandardCustomField::buildStandardFields($this, $specs);
   }
 
   public function shouldUseStorage() {
     return false;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $key = $this->getProxy()->getRawStandardFieldKey();
     $this->setValueFromStorage($object->getDetail($key));
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $object = $this->getObject();
     $key = $this->getProxy()->getRawStandardFieldKey();
 

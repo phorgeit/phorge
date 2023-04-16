@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicies extends PhabricatorPolicyConstants {
+final class PhorgePolicies extends PhorgePolicyConstants {
 
   const POLICY_PUBLIC   = 'public';
   const POLICY_USER     = 'users';
@@ -14,7 +14,7 @@ final class PhabricatorPolicies extends PhabricatorPolicyConstants {
    * @return const Most open working policy constant.
    */
   public static function getMostOpenPolicy() {
-    if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {
+    if (PhorgeEnv::getEnvConfig('policy.allow-public')) {
       return self::POLICY_PUBLIC;
     } else {
       return self::POLICY_USER;

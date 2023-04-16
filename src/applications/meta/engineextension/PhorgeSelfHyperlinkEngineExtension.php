@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSelfHyperlinkEngineExtension
-  extends PhabricatorRemarkupHyperlinkEngineExtension {
+final class PhorgeSelfHyperlinkEngineExtension
+  extends PhorgeRemarkupHyperlinkEngineExtension {
 
   const LINKENGINEKEY = 'phorge-self';
 
@@ -33,7 +33,7 @@ final class PhabricatorSelfHyperlinkEngineExtension
     }
 
     if ($object_names) {
-      $object_query = id(new PhabricatorObjectQuery())
+      $object_query = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames($object_names);
 
@@ -78,7 +78,7 @@ final class PhabricatorSelfHyperlinkEngineExtension
       unset($self_links[$key]);
     }
 
-    $key_mentioned = PhabricatorObjectRemarkupRule::KEY_MENTIONED_OBJECTS;
+    $key_mentioned = PhorgeObjectRemarkupRule::KEY_MENTIONED_OBJECTS;
     $mentioned_phids = $engine->getTextMetadata($key_mentioned, array());
     foreach ($object_phids as $object_phid) {
       $mentioned_phids[$object_phid] = $object_phid;

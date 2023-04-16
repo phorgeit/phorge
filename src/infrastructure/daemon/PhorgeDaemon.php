@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDaemon extends PhutilDaemon {
+abstract class PhorgeDaemon extends PhutilDaemon {
 
   protected function willRun() {
     parent::willRun();
@@ -16,7 +16,7 @@ abstract class PhabricatorDaemon extends PhutilDaemon {
   }
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
 
@@ -28,7 +28,7 @@ abstract class PhabricatorDaemon extends PhutilDaemon {
    * @return  PhutilCommandString `sudo` version of the command.
    */
   public static function sudoCommandAsDaemonUser($command) {
-    $user = PhabricatorEnv::getEnvConfig('phd.user');
+    $user = PhorgeEnv::getEnvConfig('phd.user');
     if (!$user) {
       // No daemon user is set, so just run this as ourselves.
       return $command;

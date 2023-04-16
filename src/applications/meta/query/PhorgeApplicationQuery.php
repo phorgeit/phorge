@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeApplicationQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $installed;
   private $prototypes;
@@ -69,7 +69,7 @@ final class PhabricatorApplicationQuery
   }
 
   protected function loadPage() {
-    $apps = PhabricatorApplication::getAllApplications();
+    $apps = PhorgeApplication::getAllApplications();
 
     if ($this->classes) {
       $classes = array_fuse($this->classes);

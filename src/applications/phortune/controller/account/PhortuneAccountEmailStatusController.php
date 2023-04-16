@@ -17,8 +17,8 @@ final class PhortuneAccountEmailStatusController
       ->withIDs(array($request->getURIData('addressID')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$address) {

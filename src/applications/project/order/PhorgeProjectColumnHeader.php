@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectColumnHeader
+final class PhorgeProjectColumnHeader
   extends Phobject {
 
   private $orderKey;
@@ -65,7 +65,7 @@ final class PhabricatorProjectColumnHeader
     return $this->editProperties;
   }
 
-  public function addDropEffect(PhabricatorProjectDropEffect $effect) {
+  public function addDropEffect(PhorgeProjectDropEffect $effect) {
     $this->dropEffects[] = $effect;
     return $this;
   }

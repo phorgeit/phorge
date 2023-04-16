@@ -3,11 +3,11 @@
 /**
  * @task recipients   Managing Recipients
  */
-final class PhabricatorMetaMTAMail
-  extends PhabricatorMetaMTADAO
+final class PhorgeMetaMTAMail
+  extends PhorgeMetaMTADAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   const RETRY_DELAY   = 5;
 
@@ -22,7 +22,7 @@ final class PhabricatorMetaMTAMail
 
   public function __construct() {
 
-    $this->status     = PhabricatorMailOutboundStatus::STATUS_QUEUE;
+    $this->status     = PhorgeMailOutboundStatus::STATUS_QUEUE;
     $this->parameters = array(
       'sensitive' => true,
       'mustEncrypt' => false,
@@ -64,8 +64,8 @@ final class PhabricatorMetaMTAMail
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorMetaMTAMailPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeMetaMTAMailPHIDType::TYPECONST);
   }
 
   protected function setParam($param, $value) {
@@ -195,7 +195,7 @@ final class PhabricatorMetaMTAMail
     return $this->getParam('headers', array());
   }
 
-  public function addAttachment(PhabricatorMailAttachment $attachment) {
+  public function addAttachment(PhorgeMailAttachment $attachment) {
     $this->parameters['attachments'][] = $attachment->toDictionary();
     return $this;
   }
@@ -205,7 +205,7 @@ final class PhabricatorMetaMTAMail
 
     $result = array();
     foreach ($dicts as $dict) {
-      $result[] = PhabricatorMailAttachment::newFromDictionary($dict);
+      $result[] = PhorgeMailAttachment::newFromDictionary($dict);
     }
     return $result;
   }
@@ -226,21 +226,21 @@ final class PhabricatorMetaMTAMail
     return $file_phids;
   }
 
-  public function loadAttachedFiles(PhabricatorUser $viewer) {
+  public function loadAttachedFiles(PhorgeUser $viewer) {
     $file_phids = $this->getAttachmentFilePHIDs();
 
     if (!$file_phids) {
       return array();
     }
 
-    return id(new PhabricatorFileQuery())
+    return id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs($file_phids)
       ->execute();
   }
 
   public function setAttachments(array $attachments) {
-    assert_instances_of($attachments, 'PhabricatorMailAttachment');
+    assert_instances_of($attachments, 'PhorgeMailAttachment');
     $this->setParam('attachments', mpull($attachments, 'toDictionary'));
     return $this;
   }
@@ -407,7 +407,7 @@ final class PhabricatorMetaMTAMail
   public function getMessageType() {
     return $this->getParam(
       'message.type',
-      PhabricatorMailEmailMessage::MESSAGETYPE);
+      PhorgeMailEmailMessage::MESSAGETYPE);
   }
 
 
@@ -501,8 +501,8 @@ final class PhabricatorMetaMTAMail
       $result = parent::save();
 
       // Write the recipient edges.
-      $editor = new PhabricatorEdgeEditor();
-      $edge_type = PhabricatorMetaMTAMailHasRecipientEdgeType::EDGECONST;
+      $editor = new PhorgeEdgeEditor();
+      $edge_type = PhorgeMetaMTAMailHasRecipientEdgeType::EDGECONST;
       $recipient_phids = array_merge(
         $this->getToPHIDs(),
         $this->getCcPHIDs());
@@ -518,11 +518,11 @@ final class PhabricatorMetaMTAMail
     $this->saveTransaction();
 
     // Queue a task to send this mail.
-    $mailer_task = PhabricatorWorker::scheduleTask(
-      'PhabricatorMetaMTAWorker',
+    $mailer_task = PhorgeWorker::scheduleTask(
+      'PhorgeMetaMTAWorker',
       $this->getID(),
       array(
-        'priority' => PhabricatorWorker::PRIORITY_ALERTS,
+        'priority' => PhorgeWorker::PRIORITY_ALERTS,
       ));
 
     return $result;
@@ -534,7 +534,7 @@ final class PhabricatorMetaMTAMail
    * @return void
    */
   public function sendNow() {
-    if ($this->getStatus() != PhabricatorMailOutboundStatus::STATUS_QUEUE) {
+    if ($this->getStatus() != PhorgeMailOutboundStatus::STATUS_QUEUE) {
       throw new Exception(pht('Trying to send an already-sent mail!'));
     }
 
@@ -567,9 +567,9 @@ final class PhabricatorMetaMTAMail
 
     $mailers = array();
 
-    $config = PhabricatorEnv::getEnvConfig('cluster.mailers');
+    $config = PhorgeEnv::getEnvConfig('cluster.mailers');
 
-    $adapters = PhabricatorMailAdapter::getAllAdapters();
+    $adapters = PhorgeMailAdapter::getAllAdapters();
     $next_priority = -1;
 
     foreach ($config as $spec) {
@@ -689,7 +689,7 @@ final class PhabricatorMetaMTAMail
       }
 
       return $this
-        ->setStatus(PhabricatorMailOutboundStatus::STATUS_VOID)
+        ->setStatus(PhorgeMailOutboundStatus::STATUS_VOID)
         ->setMessage($void_message)
         ->save();
     }
@@ -708,13 +708,13 @@ final class PhabricatorMetaMTAMail
 
     // Attach any files we're about to send to this message, so the recipients
     // can view them.
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $files = $this->loadAttachedFiles($viewer);
     foreach ($files as $file) {
       $file->attachToObject($this->getPHID());
     }
 
-    $type_map = PhabricatorMailExternalMessage::getAllMessageTypes();
+    $type_map = PhorgeMailExternalMessage::getAllMessageTypes();
     $type = idx($type_map, $this->getMessageType());
     if (!$type) {
       throw new Exception(
@@ -742,17 +742,17 @@ final class PhabricatorMetaMTAMail
         // need to be sent (for example, because recipients have declined to
         // receive the mail). Void it and return.
         return $this
-          ->setStatus(PhabricatorMailOutboundStatus::STATUS_VOID)
+          ->setStatus(PhorgeMailOutboundStatus::STATUS_VOID)
           ->save();
       }
 
       try {
         $mailer->sendMessage($message);
-      } catch (PhabricatorMetaMTAPermanentFailureException $ex) {
+      } catch (PhorgeMetaMTAPermanentFailureException $ex) {
         // If any mailer raises a permanent failure, stop trying to send the
         // mail with other mailers.
         $this
-          ->setStatus(PhabricatorMailOutboundStatus::STATUS_FAIL)
+          ->setStatus(PhorgeMailOutboundStatus::STATUS_FAIL)
           ->setMessage($ex->getMessage())
           ->save();
 
@@ -782,7 +782,7 @@ final class PhabricatorMetaMTAMail
       $this->setParam('routingmap.sent', $this->getRoutingRuleMap());
 
       return $this
-        ->setStatus(PhabricatorMailOutboundStatus::STATUS_SENT)
+        ->setStatus(PhorgeMailOutboundStatus::STATUS_SENT)
         ->save();
     }
 
@@ -811,7 +811,7 @@ final class PhabricatorMetaMTAMail
 
 
   public static function shouldMailEachRecipient() {
-    return PhabricatorEnv::getEnvConfig('metamta.one-mail-per-recipient');
+    return PhorgeEnv::getEnvConfig('metamta.one-mail-per-recipient');
   }
 
 
@@ -865,8 +865,8 @@ final class PhabricatorMetaMTAMail
   public function expandRecipients(array $phids) {
     if ($this->recipientExpansionMap === null) {
       $all_phids = $this->getAllActorPHIDs();
-      $this->recipientExpansionMap = id(new PhabricatorMetaMTAMemberQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $this->recipientExpansionMap = id(new PhorgeMetaMTAMemberQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($all_phids)
         ->execute();
     }
@@ -882,7 +882,7 @@ final class PhabricatorMetaMTAMail
   }
 
   private function filterDeliverableActors(array $actors) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, 'PhorgeMetaMTAActor');
     $deliverable_actors = array();
     foreach ($actors as $phid => $actor) {
       if ($actor->isDeliverable()) {
@@ -894,9 +894,9 @@ final class PhabricatorMetaMTAMail
 
   private function loadActors(array $actor_phids) {
     $actor_phids = array_filter($actor_phids);
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $actors = id(new PhabricatorMetaMTAActorQuery())
+    $actors = id(new PhorgeMetaMTAActorQuery())
       ->setViewer($viewer)
       ->withPHIDs($actor_phids)
       ->execute();
@@ -911,7 +911,7 @@ final class PhabricatorMetaMTAMail
       // always be obvious why the mail hit this rule (e.g., it is a password
       // reset mail).
       foreach ($actors as $actor) {
-        $actor->setDeliverable(PhabricatorMetaMTAActor::REASON_FORCE);
+        $actor->setDeliverable(PhorgeMetaMTAActor::REASON_FORCE);
       }
       return $actors;
     }
@@ -922,7 +922,7 @@ final class PhabricatorMetaMTAMail
       if (!$actor) {
         continue;
       }
-      $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_RESPONSE);
+      $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_RESPONSE);
     }
 
     // Before running more rules, save a list of the actors who were
@@ -945,7 +945,7 @@ final class PhabricatorMetaMTAMail
       if (!$muted_actor) {
         continue;
       }
-      $muted_actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_MUTED);
+      $muted_actor->setUndeliverable(PhorgeMetaMTAActor::REASON_MUTED);
     }
 
     // For the rest of the rules, order matters. We're going to run all the
@@ -957,29 +957,29 @@ final class PhabricatorMetaMTAMail
     $from_phid = $this->getParam('from');
     $from_actor = idx($actors, $from_phid);
     if ($from_actor) {
-      $from_user = id(new PhabricatorPeopleQuery())
+      $from_user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($from_phid))
         ->needUserSettings(true)
         ->execute();
       $from_user = head($from_user);
       if ($from_user) {
-        $pref_key = PhabricatorEmailSelfActionsSetting::SETTINGKEY;
+        $pref_key = PhorgeEmailSelfActionsSetting::SETTINGKEY;
         $exclude_self = $from_user->getUserSetting($pref_key);
         if ($exclude_self) {
-          $from_actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_SELF);
+          $from_actor->setUndeliverable(PhorgeMetaMTAActor::REASON_SELF);
         }
       }
     }
 
-    $all_prefs = id(new PhabricatorUserPreferencesQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $all_prefs = id(new PhorgeUserPreferencesQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUserPHIDs($actor_phids)
       ->needSyntheticPreferences(true)
       ->execute();
     $all_prefs = mpull($all_prefs, null, 'getUserPHID');
 
-    $value_email = PhabricatorEmailTagsSetting::VALUE_EMAIL;
+    $value_email = PhorgeEmailTagsSetting::VALUE_EMAIL;
 
     // Exclude all recipients who have set preferences to not receive this type
     // of email (for example, a user who says they don't want emails about task
@@ -988,7 +988,7 @@ final class PhabricatorMetaMTAMail
     if ($tags) {
       foreach ($all_prefs as $phid => $prefs) {
         $user_mailtags = $prefs->getSettingValue(
-          PhabricatorEmailTagsSetting::SETTINGKEY);
+          PhorgeEmailTagsSetting::SETTINGKEY);
 
         // The user must have elected to receive mail for at least one
         // of the mailtags.
@@ -1002,20 +1002,20 @@ final class PhabricatorMetaMTAMail
 
         if (!$send) {
           $actors[$phid]->setUndeliverable(
-            PhabricatorMetaMTAActor::REASON_MAILTAGS);
+            PhorgeMetaMTAActor::REASON_MAILTAGS);
         }
       }
     }
 
     foreach ($deliverable as $phid) {
       switch ($this->getRoutingRule($phid)) {
-        case PhabricatorMailRoutingRule::ROUTE_AS_NOTIFICATION:
+        case PhorgeMailRoutingRule::ROUTE_AS_NOTIFICATION:
           $actors[$phid]->setUndeliverable(
-            PhabricatorMetaMTAActor::REASON_ROUTE_AS_NOTIFICATION);
+            PhorgeMetaMTAActor::REASON_ROUTE_AS_NOTIFICATION);
           break;
-        case PhabricatorMailRoutingRule::ROUTE_AS_MAIL:
+        case PhorgeMailRoutingRule::ROUTE_AS_MAIL:
           $actors[$phid]->setDeliverable(
-            PhabricatorMetaMTAActor::REASON_ROUTE_AS_MAIL);
+            PhorgeMetaMTAActor::REASON_ROUTE_AS_MAIL);
           break;
         default:
           // No change.
@@ -1033,7 +1033,7 @@ final class PhabricatorMetaMTAMail
       foreach ($deliverable as $phid) {
         if (isset($force_recipients[$phid])) {
           $actors[$phid]->setDeliverable(
-            PhabricatorMetaMTAActor::REASON_FORCE_HERALD);
+            PhorgeMetaMTAActor::REASON_FORCE_HERALD);
         }
       }
     }
@@ -1042,10 +1042,10 @@ final class PhabricatorMetaMTAMail
     // and runs last.
     foreach ($all_prefs as $phid => $prefs) {
       $exclude = $prefs->getSettingValue(
-        PhabricatorEmailNotificationsSetting::SETTINGKEY);
+        PhorgeEmailNotificationsSetting::SETTINGKEY);
       if ($exclude) {
         $actors[$phid]->setUndeliverable(
-          PhabricatorMetaMTAActor::REASON_MAIL_DISABLED);
+          PhorgeMetaMTAActor::REASON_MAIL_DISABLED);
       }
     }
 
@@ -1056,7 +1056,7 @@ final class PhabricatorMetaMTAMail
         continue;
       }
 
-      $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_UNVERIFIED);
+      $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_UNVERIFIED);
     }
 
     return $actors;
@@ -1090,7 +1090,7 @@ final class PhabricatorMetaMTAMail
   }
 
   private function flattenHeaders(array $headers) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, 'PhorgeMailHeader');
 
     $list = array();
     foreach ($list as $header) {
@@ -1175,7 +1175,7 @@ final class PhabricatorMetaMTAMail
           if ($current_rule === null) {
             $is_stronger = true;
           } else {
-            $is_stronger = PhabricatorMailRoutingRule::isStrongerThan(
+            $is_stronger = PhorgeMailRoutingRule::isStrongerThan(
               $new_rule,
               $current_rule);
           }
@@ -1199,10 +1199,10 @@ final class PhabricatorMetaMTAMail
 
 
   private function loadPreferences($target_phid) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     if (self::shouldMailEachRecipient()) {
-      $preferences = id(new PhabricatorUserPreferencesQuery())
+      $preferences = id(new PhorgeUserPreferencesQuery())
         ->setViewer($viewer)
         ->withUserPHIDs(array($target_phid))
         ->needSyntheticPreferences(true)
@@ -1212,32 +1212,32 @@ final class PhabricatorMetaMTAMail
       }
     }
 
-    return PhabricatorUserPreferences::loadGlobalPreferences($viewer);
+    return PhorgeUserPreferences::loadGlobalPreferences($viewer);
   }
 
   public function shouldRenderMailStampsInBody($viewer) {
     $preferences = $this->loadPreferences($viewer->getPHID());
     $value = $preferences->getSettingValue(
-      PhabricatorEmailStampsSetting::SETTINGKEY);
+      PhorgeEmailStampsSetting::SETTINGKEY);
 
-    return ($value == PhabricatorEmailStampsSetting::VALUE_BODY_STAMPS);
+    return ($value == PhorgeEmailStampsSetting::VALUE_BODY_STAMPS);
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $actor_phids = $this->getExpandedRecipientPHIDs();
     return in_array($viewer->getPHID(), $actor_phids);
   }
@@ -1248,11 +1248,11 @@ final class PhabricatorMetaMTAMail
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $files = $this->loadAttachedFiles($engine->getViewer());
     foreach ($files as $file) {

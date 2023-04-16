@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineColumnsCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEngineColumnsCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   private $columnMap;
 

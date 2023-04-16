@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorFileStorageFormat
+abstract class PhorgeFileStorageFormat
   extends Phobject {
 
   private $file;
 
-  final public function setFile(PhabricatorFile $file) {
+  final public function setFile(PhorgeFile $file) {
     $this->file = $file;
     return $this;
   }

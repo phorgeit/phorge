@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorConfigLocalSource extends PhabricatorConfigProxySource {
+final class PhorgeConfigLocalSource extends PhorgeConfigProxySource {
 
   public function __construct() {
     $config = $this->loadConfig();
-    $this->setSource(new PhabricatorConfigDictionarySource($config));
+    $this->setSource(new PhorgeConfigDictionarySource($config));
   }
 
   public function setKeys(array $keys) {

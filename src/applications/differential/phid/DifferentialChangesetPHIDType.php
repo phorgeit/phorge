@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialChangesetPHIDType extends PhabricatorPHIDType {
+final class DifferentialChangesetPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DCNG';
 
@@ -13,11 +13,11 @@ final class DifferentialChangesetPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DifferentialChangesetQuery())
@@ -25,7 +25,7 @@ final class DifferentialChangesetPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

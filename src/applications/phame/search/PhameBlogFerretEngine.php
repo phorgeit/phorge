@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'phame';

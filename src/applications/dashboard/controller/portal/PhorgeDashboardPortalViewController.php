@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorDashboardPortalViewController
-  extends PhabricatorDashboardPortalController {
+final class PhorgeDashboardPortalViewController
+  extends PhorgeDashboardPortalController {
 
   private $portal;
 
-  public function setPortal(PhabricatorDashboardPortal $portal) {
+  public function setPortal(PhorgeDashboardPortal $portal) {
     $this->portal = $portal;
     return $this;
   }
@@ -22,7 +22,7 @@ final class PhabricatorDashboardPortalViewController
     $viewer = $this->getViewer();
     $id = $request->getURIData('portalID');
 
-    $portal = id(new PhabricatorDashboardPortalQuery())
+    $portal = id(new PhorgeDashboardPortalQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -32,7 +32,7 @@ final class PhabricatorDashboardPortalViewController
 
     $this->setPortal($portal);
 
-    $engine = id(new PhabricatorDashboardPortalProfileMenuEngine())
+    $engine = id(new PhorgeDashboardPortalProfileMenuEngine())
       ->setProfileObject($portal)
       ->setController($this);
 
@@ -53,7 +53,7 @@ final class PhabricatorDashboardPortalViewController
   public function newTimelineView() {
     return $this->buildTransactionTimeline(
       $this->getPortal(),
-      new PhabricatorDashboardPortalTransactionQuery());
+      new PhorgeDashboardPortalTransactionQuery());
   }
 
 }

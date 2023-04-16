@@ -3,9 +3,9 @@
 /**
  * Noncritical PHP configuration checks.
  *
- * For critical checks, see @{class:PhabricatorPHPPreflightSetupCheck}.
+ * For critical checks, see @{class:PhorgePHPPreflightSetupCheck}.
  */
-final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
+final class PhorgePHPConfigSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_PHP;
@@ -14,7 +14,7 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
   protected function executeChecks() {
 
     if (empty($_SERVER['REMOTE_ADDR'])) {
-      $doc_href = PhabricatorEnv::getDoclink('Configuring a Preamble Script');
+      $doc_href = PhorgeEnv::getDoclink('Configuring a Preamble Script');
 
       $summary = pht(
         'You likely need to fix your preamble script so '.

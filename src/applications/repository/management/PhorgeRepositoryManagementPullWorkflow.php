@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementPullWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementPullWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -44,7 +44,7 @@ final class PhabricatorRepositoryManagementPullWorkflow
           'Pulling "%s"...',
           $repo->getDisplayName()));
 
-      id(new PhabricatorRepositoryPullEngine())
+      id(new PhorgeRepositoryPullEngine())
         ->setRepository($repo)
         ->setVerbose($args->getArg('verbose'))
         ->pullRepository();

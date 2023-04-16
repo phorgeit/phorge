@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRemarkupEditField
-  extends PhabricatorEditField {
+final class PhorgeRemarkupEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
-    return new PhabricatorRemarkupControl();
+    return new PhorgeRemarkupControl();
   }
 
   protected function newHTTPParameterType() {

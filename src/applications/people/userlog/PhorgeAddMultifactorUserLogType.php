@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAddMultifactorUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeAddMultifactorUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'multi-add';
 

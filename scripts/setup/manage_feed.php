@@ -15,7 +15,7 @@ EOSYNOPSIS
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorFeedManagementWorkflow')
+  ->setAncestorClass('PhorgeFeedManagementWorkflow')
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

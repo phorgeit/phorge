@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorActionView extends AphrontView {
+final class PhorgeActionView extends AphrontView {
 
   private $name;
   private $icon;

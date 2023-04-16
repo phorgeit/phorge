@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorBadgesEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+final class PhorgeBadgesEditConduitAPIMethod
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'badge.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorBadgesEditEngine();
+    return new PhorgeBadgesEditEngine();
   }
 
   public function getMethodSummary() {

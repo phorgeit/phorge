@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorNotificationIndividualController
-  extends PhabricatorNotificationController {
+final class PhorgeNotificationIndividualController
+  extends PhorgeNotificationController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $stories = id(new PhabricatorNotificationQuery())
+    $stories = id(new PhorgeNotificationQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withKeys(array($request->getStr('key')))
@@ -30,7 +30,7 @@ final class PhabricatorNotificationIndividualController
       return $this->buildEmptyResponse();
     }
 
-    $builder = id(new PhabricatorNotificationBuilder(array($story)))
+    $builder = id(new PhorgeNotificationBuilder(array($story)))
       ->setUser($viewer)
       ->setShowTimestamps(false);
 

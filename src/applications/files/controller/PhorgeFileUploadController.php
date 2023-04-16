@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileUploadController extends PhabricatorFileController {
+final class PhorgeFileUploadController extends PhorgeFileController {
 
   public function isGlobalDragAndDropUploadEnabled() {
     return true;
@@ -9,7 +9,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $file = PhabricatorFile::initializeNewFile();
+    $file = PhorgeFile::initializeNewFile();
 
     $e_file = true;
     $errors = array();
@@ -20,7 +20,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
         $e_file = pht('Required');
         $errors[] = pht('You must select a file to upload.');
       } else {
-        $file = PhabricatorFile::newFromPHPUpload(
+        $file = PhorgeFile::newFromPHPUpload(
           idx($_FILES, 'file'),
           array(
             'name'        => $request->getStr('name'),
@@ -48,7 +48,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
           'You can also upload files by dragging and dropping them from your '.
           'desktop onto this page or the home page.')));
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($file)
       ->execute();
@@ -69,7 +69,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setUser($viewer)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setPolicyObject($file)
           ->setPolicies($policies)
           ->setName('viewPolicy'))
@@ -85,7 +85,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
 
     $title = pht('Upload File');
 
-    $global_upload = id(new PhabricatorGlobalUploadTargetView())
+    $global_upload = id(new PhorgeGlobalUploadTargetView())
       ->setUser($viewer)
       ->setShowIfSupportedID($support_id);
 

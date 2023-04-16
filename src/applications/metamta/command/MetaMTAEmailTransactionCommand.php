@@ -42,12 +42,12 @@ abstract class MetaMTAEmailTransactionCommand extends Phobject {
   }
 
   abstract public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object);
+    PhorgeApplicationTransactionInterface $object);
 
   abstract public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv);
 
@@ -68,7 +68,7 @@ abstract class MetaMTAEmailTransactionCommand extends Phobject {
   }
 
   public static function getAllCommandsForObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
 
     $commands = self::getAllCommands();
     foreach ($commands as $key => $command) {

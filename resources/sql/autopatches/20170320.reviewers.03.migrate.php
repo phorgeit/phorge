@@ -4,8 +4,8 @@ $table = new DifferentialRevision();
 $diff_table = new DifferentialDiff();
 $reviewer_table = new DifferentialReviewer();
 
-$table_name = PhabricatorEdgeConfig::TABLE_NAME_EDGE;
-$data_name = PhabricatorEdgeConfig::TABLE_NAME_EDGEDATA;
+$table_name = PhorgeEdgeConfig::TABLE_NAME_EDGE;
+$data_name = PhorgeEdgeConfig::TABLE_NAME_EDGEDATA;
 
 $conn = $table->establishConnection('w');
 

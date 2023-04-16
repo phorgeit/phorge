@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorPeopleLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePeopleLogSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Account Activity');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     return 500;
   }
 
   public function newQuery() {
-    $query = new PhabricatorPeopleLogQuery();
+    $query = new PhorgePeopleLogQuery();
 
     // NOTE: If the viewer isn't an administrator, always restrict the query to
     // related records. This echoes the policy logic of these logs. This is
@@ -64,37 +64,37 @@ final class PhabricatorPeopleLogSearchEngine
   }
 
   protected function buildCustomSearchFields() {
-    $types = PhabricatorUserLogType::getAllLogTypes();
+    $types = PhorgeUserLogType::getAllLogTypes();
     $types = mpull($types, 'getLogTypeName', 'getLogTypeKey');
 
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('userPHIDs')
         ->setAliases(array('users', 'user', 'userPHID'))
         ->setLabel(pht('Users'))
         ->setDescription(pht('Search for activity affecting specific users.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('actorPHIDs')
         ->setAliases(array('actors', 'actor', 'actorPHID'))
         ->setLabel(pht('Actors'))
         ->setDescription(pht('Search for activity by specific users.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setKey('actions')
         ->setLabel(pht('Actions'))
         ->setDescription(pht('Search for particular types of activity.'))
-        ->setDatasource(new PhabricatorUserLogTypeDatasource()),
-      id(new PhabricatorSearchTextField())
+        ->setDatasource(new PhorgeUserLogTypeDatasource()),
+      id(new PhorgeSearchTextField())
         ->setKey('ip')
         ->setLabel(pht('Filter IP'))
         ->setDescription(pht('Search for actions by remote address.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('sessions')
         ->setLabel(pht('Sessions'))
         ->setDescription(pht('Search for activity in particular sessions.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -126,13 +126,13 @@ final class PhabricatorPeopleLogSearchEngine
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($logs, 'PhabricatorUserLog');
+    assert_instances_of($logs, 'PhorgeUserLog');
 
     $viewer = $this->requireViewer();
 
-    $table = id(new PhabricatorUserLogView())
+    $table = id(new PhorgeUserLogView())
       ->setUser($viewer)
       ->setLogs($logs);
 
@@ -140,7 +140,7 @@ final class PhabricatorPeopleLogSearchEngine
       $table->setSearchBaseURI($this->getApplicationURI('logs/'));
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table);
   }
 
@@ -148,37 +148,37 @@ final class PhabricatorPeopleLogSearchEngine
     $viewer = $this->requireViewer();
 
     $fields = array(
-      $fields[] = id(new PhabricatorPHIDExportField())
+      $fields[] = id(new PhorgePHIDExportField())
         ->setKey('actorPHID')
         ->setLabel(pht('Actor PHID')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('actor')
         ->setLabel(pht('Actor')),
-      $fields[] = id(new PhabricatorPHIDExportField())
+      $fields[] = id(new PhorgePHIDExportField())
         ->setKey('userPHID')
         ->setLabel(pht('User PHID')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('user')
         ->setLabel(pht('User')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('action')
         ->setLabel(pht('Action')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('actionName')
         ->setLabel(pht('Action Name')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('session')
         ->setLabel(pht('Session')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('old')
         ->setLabel(pht('Old Value')),
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('new')
         ->setLabel(pht('New Value')),
     );
 
     if ($viewer->getIsAdmin()) {
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('remoteAddress')
         ->setLabel(pht('Remote Address'));
     }
@@ -197,7 +197,7 @@ final class PhabricatorPeopleLogSearchEngine
     }
     $handles = $viewer->loadHandles($phids);
 
-    $types = PhabricatorUserLogType::getAllLogTypes();
+    $types = PhorgeUserLogType::getAllLogTypes();
     $types = mpull($types, 'getLogTypeName', 'getLogTypeKey');
 
     $export = array();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGuideApplication extends PhabricatorApplication {
+final class PhorgeGuideApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/guides/';
@@ -25,8 +25,8 @@ final class PhabricatorGuideApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/guides/' => array(
-        '' => 'PhabricatorGuideModuleController',
-        '(?P<module>[^/]+)/' => 'PhabricatorGuideModuleController',
+        '' => 'PhorgeGuideModuleController',
+        '(?P<module>[^/]+)/' => 'PhorgeGuideModuleController',
        ),
     );
   }

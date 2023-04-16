@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNamespaceNameTransaction
-  extends PhabricatorSpacesNamespaceTransactionType {
+final class PhorgeSpacesNamespaceNameTransaction
+  extends PhorgeSpacesNamespaceTransactionType {
 
   const TRANSACTIONTYPE = 'spaces:name';
 

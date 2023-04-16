@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthHMACKey
-  extends PhabricatorAuthDAO {
+final class PhorgeAuthHMACKey
+  extends PhorgeAuthDAO {
 
   protected $keyName;
   protected $keyValue;

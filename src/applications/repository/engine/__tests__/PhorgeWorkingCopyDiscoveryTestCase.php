@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkingCopyDiscoveryTestCase
-  extends PhabricatorWorkingCopyTestCase {
+final class PhorgeWorkingCopyDiscoveryTestCase
+  extends PhorgeWorkingCopyTestCase {
 
   public function testSubversionCommitDiscovery() {
     $this->requireBinaryForTest('svn');
@@ -40,7 +40,7 @@ final class PhabricatorWorkingCopyDiscoveryTestCase
   private function discoverRefs($callsign) {
     $repo = $this->buildPulledRepository($callsign);
 
-    $engine = id(new PhabricatorRepositoryDiscoveryEngine())
+    $engine = id(new PhorgeRepositoryDiscoveryEngine())
       ->setRepository($repo);
 
     $refs = $engine->discoverCommits($repo);

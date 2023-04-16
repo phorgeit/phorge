@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDaemonLogEvent extends PhabricatorDaemonDAO {
+final class PhorgeDaemonLogEvent extends PhorgeDaemonDAO {
 
   protected $logID;
   protected $logType;

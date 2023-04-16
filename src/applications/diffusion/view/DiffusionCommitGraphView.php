@@ -27,7 +27,7 @@ final class DiffusionCommitGraphView
   }
 
   public function setCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
     $this->commits = $commits;
     return $this;
   }
@@ -313,8 +313,8 @@ final class DiffusionCommitGraphView
   private function shouldShowBuilds() {
     $viewer = $this->getViewer();
 
-    $show_builds = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorHarbormasterApplication',
+    $show_builds = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeHarbormasterApplication',
       $this->getUser());
 
     return $show_builds;
@@ -323,8 +323,8 @@ final class DiffusionCommitGraphView
   private function shouldShowRevisions() {
     $viewer = $this->getViewer();
 
-    $show_revisions = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+    $show_revisions = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDifferentialApplication',
       $viewer);
 
     return $show_revisions;
@@ -370,8 +370,8 @@ final class DiffusionCommitGraphView
     }
 
     // We can show details once the message and change have been imported.
-    $partial_import = PhabricatorRepositoryCommit::IMPORTED_MESSAGE |
-                      PhabricatorRepositoryCommit::IMPORTED_CHANGE;
+    $partial_import = PhorgeRepositoryCommit::IMPORTED_MESSAGE |
+                      PhorgeRepositoryCommit::IMPORTED_CHANGE;
     if (!$commit->isPartiallyImported($partial_import)) {
       return phutil_tag('em', array(), pht("Importing\xE2\x80\xA6"));
     }
@@ -548,7 +548,7 @@ final class DiffusionCommitGraphView
       ->setColor($color);
   }
 
-  private function getBuildable(PhabricatorRepositoryCommit $commit) {
+  private function getBuildable(PhorgeRepositoryCommit $commit) {
     $buildable_map = $this->getBuildableMap();
     return idx($buildable_map, $commit->getPHID());
   }
@@ -563,7 +563,7 @@ final class DiffusionCommitGraphView
     return $this->buildableMap;
   }
 
-  private function getRevisions(PhabricatorRepositoryCommit $commit) {
+  private function getRevisions(PhorgeRepositoryCommit $commit) {
     $revision_map = $this->getRevisionMap();
     return idx($revision_map, $commit->getPHID(), array());
   }
@@ -624,7 +624,7 @@ final class DiffusionCommitGraphView
   }
 
   private function newAuditorList(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $handles) {
 
     $auditors = $commit->getAudits();

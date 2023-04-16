@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchDatasourceField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeSearchDatasourceField
+  extends PhorgeSearchTokenizerField {
 
   private $datasource;
   private $conduitParameterType;
@@ -10,7 +10,7 @@ final class PhabricatorSearchDatasourceField
     return id(clone $this->datasource);
   }
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

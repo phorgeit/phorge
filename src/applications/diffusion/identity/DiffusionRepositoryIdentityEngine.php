@@ -7,7 +7,7 @@ final class DiffusionRepositoryIdentityEngine
   private $sourcePHID;
   private $dryRun;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -48,14 +48,14 @@ final class DiffusionRepositoryIdentityEngine
     return $this->updateIdentity($identity);
   }
 
-  public function newUpdatedIdentity(PhabricatorRepositoryIdentity $identity) {
+  public function newUpdatedIdentity(PhorgeRepositoryIdentity $identity) {
     return $this->updateIdentity($identity);
   }
 
   private function loadRawIdentity($raw_identity) {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorRepositoryIdentityQuery())
+    return id(new PhorgeRepositoryIdentityQuery())
       ->setViewer($viewer)
       ->withIdentityNames(array($raw_identity))
       ->executeOne();
@@ -64,12 +64,12 @@ final class DiffusionRepositoryIdentityEngine
   private function newIdentity($raw_identity) {
     $source_phid = $this->getSourcePHID();
 
-    return id(new PhabricatorRepositoryIdentity())
+    return id(new PhorgeRepositoryIdentity())
       ->setAuthorPHID($source_phid)
       ->setIdentityName($raw_identity);
   }
 
-  private function resolveIdentity(PhabricatorRepositoryIdentity $identity) {
+  private function resolveIdentity(PhorgeRepositoryIdentity $identity) {
     $raw_identity = $identity->getIdentityName();
 
     return id(new DiffusionResolveUserQuery())
@@ -77,7 +77,7 @@ final class DiffusionRepositoryIdentityEngine
       ->execute();
   }
 
-  private function updateIdentity(PhabricatorRepositoryIdentity $identity) {
+  private function updateIdentity(PhorgeRepositoryIdentity $identity) {
 
     // If we're updating an identity and it has a manual user PHID associated
     // with it but the user is no longer valid, remove the value. This likely
@@ -87,7 +87,7 @@ final class DiffusionRepositoryIdentityEngine
     $unassigned = DiffusionIdentityUnassignedDatasource::FUNCTION_TOKEN;
     if ($assigned_phid && ($assigned_phid !== $unassigned)) {
       $viewer = $this->getViewer();
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($assigned_phid))
         ->executeOne();
@@ -110,8 +110,8 @@ final class DiffusionRepositoryIdentityEngine
   }
 
   public function didUpdateEmailAddress($raw_address) {
-    PhabricatorWorker::scheduleTask(
-      'PhabricatorRepositoryIdentityChangeWorker',
+    PhorgeWorker::scheduleTask(
+      'PhorgeRepositoryIdentityChangeWorker',
       array(
         'emailAddresses' => array($raw_address),
       ));

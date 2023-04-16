@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectManageController
-  extends PhabricatorProjectController {
+final class PhorgeProjectManageController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
@@ -23,7 +23,7 @@ final class PhabricatorProjectManageController
       ->setUser($viewer)
       ->setPolicyObject($project);
 
-    if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ACTIVE) {
+    if ($project->getStatus() == PhorgeProjectStatus::STATUS_ACTIVE) {
       $header->setStatus('fa-check', 'bluegrey', pht('Active'));
     } else {
       $header->setStatus('fa-ban', 'red', pht('Archived'));
@@ -34,12 +34,12 @@ final class PhabricatorProjectManageController
 
     $timeline = $this->buildTransactionTimeline(
       $project,
-      new PhabricatorProjectTransactionQuery());
+      new PhorgeProjectTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_MANAGE);
+      PhorgeProject::ITEM_MANAGE);
 
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->addTextCrumb(pht('Manage'));
@@ -72,19 +72,19 @@ final class PhabricatorProjectManageController
         ));
   }
 
-  private function buildCurtain(PhabricatorProject $project) {
+  private function buildCurtain(PhorgeProject $project) {
     $viewer = $this->getViewer();
 
     $id = $project->getID();
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($project);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Details'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("edit/{$id}/"))
@@ -92,7 +92,7 @@ final class PhabricatorProjectManageController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Menu'))
         ->setIcon('fa-th-list')
         ->setHref($this->getApplicationURI("{$id}/item/configure/"))
@@ -100,7 +100,7 @@ final class PhabricatorProjectManageController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Picture'))
         ->setIcon('fa-picture-o')
         ->setHref($this->getApplicationURI("picture/{$id}/"))
@@ -109,7 +109,7 @@ final class PhabricatorProjectManageController
 
     if ($project->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Project'))
           ->setIcon('fa-check')
           ->setHref($this->getApplicationURI("archive/{$id}/"))
@@ -117,7 +117,7 @@ final class PhabricatorProjectManageController
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Project'))
           ->setIcon('fa-ban')
           ->setHref($this->getApplicationURI("archive/{$id}/"))
@@ -129,7 +129,7 @@ final class PhabricatorProjectManageController
   }
 
   private function buildPropertyListView(
-    PhabricatorProject $project) {
+    PhorgeProject $project) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -146,9 +146,9 @@ final class PhabricatorProjectManageController
       pht('Hashtags'),
       $this->renderHashtags($tags));
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $project,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list->appendFieldsToPropertyList($project, $viewer, $view);
 
     return $view;

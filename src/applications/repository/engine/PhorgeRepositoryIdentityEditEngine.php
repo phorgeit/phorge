@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryIdentityEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeRepositoryIdentityEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'repository.identity';
 
@@ -22,15 +22,15 @@ final class PhabricatorRepositoryIdentityEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function newEditableObject() {
-    return new PhabricatorRepositoryIdentity();
+    return new PhorgeRepositoryIdentity();
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorRepositoryIdentityQuery();
+    return new PhorgeRepositoryIdentityQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -70,7 +70,7 @@ final class PhabricatorRepositoryIdentityEditEngine
   }
 
   protected function getCreateNewObjectPolicy() {
-    return PhabricatorPolicies::POLICY_USER;
+    return PhorgePolicies::POLICY_USER;
   }
 
   protected function buildCustomEditFields($object) {
@@ -80,7 +80,7 @@ final class PhabricatorRepositoryIdentityEditEngine
         ->setLabel(pht('Assigned To'))
         ->setDescription(pht('Override this identity\'s assignment.'))
         ->setTransactionType(
-          PhabricatorRepositoryIdentityAssignTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryIdentityAssignTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setIsNullable(true)
         ->setSingleValue($object->getManuallySetUserPHID()),

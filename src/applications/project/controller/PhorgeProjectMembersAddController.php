@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorProjectMembersAddController
-  extends PhabricatorProjectController {
+final class PhorgeProjectMembersAddController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$project) {
@@ -36,19 +36,19 @@ final class PhabricatorProjectMembersAddController
     if ($request->isFormPost()) {
       $member_phids = $request->getArr('memberPHIDs');
 
-      $type_member = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+      $type_member = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      $xactions[] = id(new PhorgeProjectTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $type_member)
         ->setNewValue(
           array(
             '+' => array_fuse($member_phids),
           ));
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -65,7 +65,7 @@ final class PhabricatorProjectMembersAddController
         id(new AphrontFormTokenizerControl())
           ->setName('memberPHIDs')
           ->setLabel(pht('Members'))
-          ->setDatasource(new PhabricatorPeopleDatasource()));
+          ->setDatasource(new PhorgePeopleDatasource()));
 
     return $this->newDialog()
       ->setTitle(pht('Add Members'))

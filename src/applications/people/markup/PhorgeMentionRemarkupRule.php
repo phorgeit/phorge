@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeMentionRemarkupRule extends PhutilRemarkupRule {
 
   const KEY_RULE_MENTION          = 'rule.mention';
   const KEY_RULE_MENTION_ORIGINAL = 'rule.mention.original';
@@ -69,7 +69,7 @@ final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
 
     $usernames = array_keys($metadata);
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($this->getEngine()->getConfig('viewer'))
       ->withUsernames($usernames)
       ->needAvailability(true)
@@ -89,18 +89,18 @@ final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
 
     $policy_object = null;
     if ($context_object) {
-      if ($context_object instanceof PhabricatorPolicyInterface) {
+      if ($context_object instanceof PhorgePolicyInterface) {
         $policy_object = $context_object;
       }
     }
 
     if ($policy_object) {
-      $policy_set = new PhabricatorPolicyFilterSet();
+      $policy_set = new PhorgePolicyFilterSet();
       foreach ($actual_users as $user) {
         $policy_set->addCapability(
           $user,
           $policy_object,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
       }
     }
 
@@ -116,13 +116,13 @@ final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
           $user_can_not_view = !$policy_set->hasCapability(
             $user,
             $policy_object,
-            PhabricatorPolicyCapability::CAN_VIEW);
+            PhorgePolicyCapability::CAN_VIEW);
         }
 
         $user_href = '/p/'.$user->getUserName().'/';
 
         if ($engine->isHTMLMailMode()) {
-          $user_href = PhabricatorEnv::getProductionURI($user_href);
+          $user_href = PhorgeEnv::getProductionURI($user_href);
 
           if ($user_can_not_view) {
             $colors = '
@@ -149,7 +149,7 @@ final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
             '@'.$user->getUserName());
         } else {
           if ($engine->getConfig('uri.full')) {
-            $user_href = PhabricatorEnv::getURI($user_href);
+            $user_href = PhorgeEnv::getURI($user_href);
           }
 
           $tag = id(new PHUITagView())
@@ -173,7 +173,7 @@ final class PhabricatorMentionRemarkupRule extends PhutilRemarkupRule {
             $tag->setDotColor(PHUITagView::COLOR_VIOLET);
           } else {
             if ($user->getAwayUntil()) {
-              $away = PhabricatorCalendarEventInvitee::AVAILABILITY_AWAY;
+              $away = PhorgeCalendarEventInvitee::AVAILABILITY_AWAY;
               if ($user->getDisplayAvailability() == $away) {
                 $tag->setDotColor(PHUITagView::COLOR_RED);
               } else {

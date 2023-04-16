@@ -1,25 +1,25 @@
 <?php
 
-final class PhabricatorAuthInviteWorker
-  extends PhabricatorWorker {
+final class PhorgeAuthInviteWorker
+  extends PhorgeWorker {
 
   protected function doWork() {
     $data = $this->getTaskData();
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $address = idx($data, 'address');
     $author_phid = idx($data, 'authorPHID');
 
-    $author = id(new PhabricatorPeopleQuery())
+    $author = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($author_phid))
       ->executeOne();
     if (!$author) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Invite has invalid author PHID ("%s").', $author_phid));
     }
 
-    $invite = id(new PhabricatorAuthInviteQuery())
+    $invite = id(new PhorgeAuthInviteQuery())
       ->setViewer($viewer)
       ->withEmailAddresses(array($address))
       ->executeOne();
@@ -29,7 +29,7 @@ final class PhabricatorAuthInviteWorker
       $invite->regenerateVerificationCode();
     } else {
       // Otherwise, we're creating a new invite.
-      $invite = id(new PhabricatorAuthInvite())
+      $invite = id(new PhorgeAuthInvite())
         ->setEmailAddress($address);
     }
 
@@ -39,14 +39,14 @@ final class PhabricatorAuthInviteWorker
 
     $code = $invite->getVerificationCode();
     $invite_uri = '/auth/invite/'.$code.'/';
-    $invite_uri = PhabricatorEnv::getProductionURI($invite_uri);
+    $invite_uri = PhorgeEnv::getProductionURI($invite_uri);
 
     $template = idx($data, 'template');
     $template = str_replace('{$INVITE_URI}', $invite_uri, $template);
 
     $invite->save();
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addRawTos(array($invite->getEmailAddress()))
       ->setForceDelivery(true)
       ->setSubject(

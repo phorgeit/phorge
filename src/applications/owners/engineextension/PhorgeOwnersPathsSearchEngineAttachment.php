@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPathsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeOwnersPathsSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Included Paths');

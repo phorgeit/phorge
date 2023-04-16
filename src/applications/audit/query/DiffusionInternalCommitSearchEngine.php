@@ -1,14 +1,14 @@
 <?php
 
 final class DiffusionInternalCommitSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Diffusion Raw Commits');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
@@ -27,7 +27,7 @@ final class DiffusionInternalCommitSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Repositories'))
         ->setKey('repositoryPHIDs')
         ->setDatasource(new DiffusionRepositoryFunctionDatasource())
@@ -41,7 +41,7 @@ final class DiffusionInternalCommitSearchEngine
 
   protected function renderResultList(
     array $commits,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     return null;
   }

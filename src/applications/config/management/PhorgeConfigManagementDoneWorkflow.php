@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementDoneWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementDoneWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -34,7 +34,7 @@ final class PhabricatorConfigManagementDoneWorkflow
     }
 
     foreach ($activities as $type) {
-      $activity = id(new PhabricatorConfigManualActivity())->loadOneWhere(
+      $activity = id(new PhorgeConfigManualActivity())->loadOneWhere(
         'activityType = %s',
         $type);
       if (!$activity) {

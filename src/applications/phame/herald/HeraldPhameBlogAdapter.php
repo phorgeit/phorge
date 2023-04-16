@@ -9,7 +9,7 @@ final class HeraldPhameBlogAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function getAdapterContentDescription() {

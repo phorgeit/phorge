@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthPassword
-  extends PhabricatorAuthDAO
+final class PhorgeAuthPassword
+  extends PhorgeAuthDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $objectPHID;
   protected $passwordType;
@@ -21,7 +21,7 @@ final class PhabricatorAuthPassword
   const PASSWORD_TYPE_TEST = 'test';
 
   public static function initializeNewPassword(
-    PhabricatorAuthPasswordHashInterface $object,
+    PhorgeAuthPasswordHashInterface $object,
     $type) {
 
     return id(new self())
@@ -50,7 +50,7 @@ final class PhabricatorAuthPassword
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthPasswordPHIDType::TYPECONST;
+    return PhorgeAuthPasswordPHIDType::TYPECONST;
   }
 
   public function getObject() {
@@ -64,7 +64,7 @@ final class PhabricatorAuthPassword
 
   public function getHasher() {
     $hash = $this->newPasswordEnvelope();
-    return PhabricatorPasswordHasher::getHasherForHash($hash);
+    return PhorgePasswordHasher::getHasherForHash($hash);
   }
 
   public function canUpgrade() {
@@ -75,12 +75,12 @@ final class PhabricatorAuthPassword
     }
 
     $hash = $this->newPasswordEnvelope();
-    return PhabricatorPasswordHasher::canUpgradeHash($hash);
+    return PhorgePasswordHasher::canUpgradeHash($hash);
   }
 
   public function upgradePasswordHasher(
     PhutilOpaqueEnvelope $envelope,
-    PhabricatorAuthPasswordHashInterface $object) {
+    PhorgeAuthPasswordHashInterface $object) {
 
     // Before we make changes, double check that this is really the correct
     // password. It could be really bad if we "upgraded" a password and changed
@@ -98,16 +98,16 @@ final class PhabricatorAuthPassword
 
   public function setPassword(
     PhutilOpaqueEnvelope $password,
-    PhabricatorAuthPasswordHashInterface $object) {
+    PhorgeAuthPasswordHashInterface $object) {
 
-    $hasher = PhabricatorPasswordHasher::getBestHasher();
+    $hasher = PhorgePasswordHasher::getBestHasher();
     return $this->setPasswordWithHasher($password, $object, $hasher);
   }
 
   public function setPasswordWithHasher(
     PhutilOpaqueEnvelope $password,
-    PhabricatorAuthPasswordHashInterface $object,
-    PhabricatorPasswordHasher $hasher) {
+    PhorgeAuthPasswordHashInterface $object,
+    PhorgePasswordHasher $hasher) {
 
     if (!strlen($password->openEnvelope())) {
       throw new Exception(
@@ -130,12 +130,12 @@ final class PhabricatorAuthPassword
 
   public function comparePassword(
     PhutilOpaqueEnvelope $password,
-    PhabricatorAuthPasswordHashInterface $object) {
+    PhorgeAuthPasswordHashInterface $object) {
 
     $digest = $this->digestPassword($password, $object);
     $hash = $this->newPasswordEnvelope();
 
-    return PhabricatorPasswordHasher::comparePassword($digest, $hash);
+    return PhorgePasswordHasher::comparePassword($digest, $hash);
   }
 
   public function newPasswordEnvelope() {
@@ -144,7 +144,7 @@ final class PhabricatorAuthPassword
 
   private function digestPassword(
     PhutilOpaqueEnvelope $password,
-    PhabricatorAuthPasswordHashInterface $object) {
+    PhorgeAuthPasswordHashInterface $object) {
 
     $object_phid = $object->getPHID();
 
@@ -172,53 +172,53 @@ final class PhabricatorAuthPassword
 
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
       array($this->getObject(), $capability),
     );
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthPasswordEditor();
+    return new PhorgeAuthPasswordEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthPasswordTransaction();
+    return new PhorgeAuthPasswordTransaction();
   }
 
 }

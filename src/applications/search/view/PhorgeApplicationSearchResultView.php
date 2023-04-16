@@ -5,7 +5,7 @@
  * and Dashboard Panel rendering, describing the results and
  * controls for presentation.
  */
-final class PhabricatorApplicationSearchResultView extends Phobject {
+final class PhorgeApplicationSearchResultView extends Phobject {
 
   private $objectList = null;
   private $table = null;

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorOAuthClientListController
-  extends PhabricatorOAuthClientController {
+final class PhorgeOAuthClientListController
+  extends PhorgeOAuthClientController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorOAuthServerClientSearchEngine())
+    return id(new PhorgeOAuthServerClientSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorOAuthClientListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorOAuthServerEditEngine())
+    id(new PhorgeOAuthServerEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

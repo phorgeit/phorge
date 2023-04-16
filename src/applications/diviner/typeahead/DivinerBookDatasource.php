@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerBookDatasource extends PhabricatorTypeaheadDatasource {
+final class DivinerBookDatasource extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Books');
@@ -11,7 +11,7 @@ final class DivinerBookDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
   public function loadResults() {
@@ -24,7 +24,7 @@ final class DivinerBookDatasource extends PhabricatorTypeaheadDatasource {
 
     $results = array();
     foreach ($books as $book) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($book->getTitle())
         ->setURI('/book/'.$book->getName().'/')
         ->setPHID($book->getPHID())

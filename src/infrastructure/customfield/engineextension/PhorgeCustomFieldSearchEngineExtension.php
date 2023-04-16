@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeCustomFieldSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'customfield';
 
@@ -14,7 +14,7 @@ final class PhabricatorCustomFieldSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
   public function getExtensionOrder() {
@@ -27,7 +27,7 @@ final class PhabricatorCustomFieldSearchEngineExtension
 
     $fields = array();
     foreach ($custom_fields as $field) {
-      $fields[] = id(new PhabricatorSearchCustomFieldProxyField())
+      $fields[] = id(new PhorgeSearchCustomFieldProxyField())
         ->setSearchEngine($engine)
         ->setCustomField($field);
     }
@@ -38,7 +38,7 @@ final class PhabricatorCustomFieldSearchEngineExtension
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     $engine = $this->getSearchEngine();
@@ -53,25 +53,25 @@ final class PhabricatorCustomFieldSearchEngineExtension
   }
 
   private function getCustomFields($object) {
-    $fields = PhabricatorCustomField::getObjectFields(
+    $fields = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_APPLICATIONSEARCH);
+      PhorgeCustomField::ROLE_APPLICATIONSEARCH);
     $fields->setViewer($this->getViewer());
 
     return $fields->getFields();
   }
 
   public function getFieldSpecificationsForConduit($object) {
-    $fields = PhabricatorCustomField::getObjectFields(
+    $fields = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_CONDUIT);
+      PhorgeCustomField::ROLE_CONDUIT);
 
     $map = array();
     foreach ($fields->getFields() as $field) {
       $key = $field->getModernFieldKey();
 
       // TODO: These should have proper types.
-      $map[] = id(new PhabricatorConduitSearchFieldSpecification())
+      $map[] = id(new PhorgeConduitSearchFieldSpecification())
         ->setKey($key)
         ->setType('wild')
         ->setDescription($field->getFieldDescription());
@@ -87,9 +87,9 @@ final class PhabricatorCustomFieldSearchEngineExtension
     foreach ($objects as $object) {
       $object_phid = $object->getPHID();
 
-      $fields = PhabricatorCustomField::getObjectFields(
+      $fields = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_CONDUIT);
+        PhorgeCustomField::ROLE_CONDUIT);
 
       $fields
         ->setViewer($viewer)
@@ -105,7 +105,7 @@ final class PhabricatorCustomFieldSearchEngineExtension
       }
     }
 
-    id(new PhabricatorCustomFieldStorageQuery())
+    id(new PhorgeCustomFieldStorageQuery())
       ->addFields($all_fields)
       ->execute();
 

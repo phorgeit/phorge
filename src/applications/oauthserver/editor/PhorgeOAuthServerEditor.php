@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorOAuthServerEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeOAuthServerEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,55 +14,55 @@ final class PhabricatorOAuthServerEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorOAuthServerTransaction::TYPE_NAME;
-    $types[] = PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI;
-    $types[] = PhabricatorOAuthServerTransaction::TYPE_DISABLED;
+    $types[] = PhorgeOAuthServerTransaction::TYPE_NAME;
+    $types[] = PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI;
+    $types[] = PhorgeOAuthServerTransaction::TYPE_DISABLED;
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorOAuthServerTransaction::TYPE_NAME:
+      case PhorgeOAuthServerTransaction::TYPE_NAME:
         return $object->getName();
-      case PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI:
+      case PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI:
         return $object->getRedirectURI();
-      case PhabricatorOAuthServerTransaction::TYPE_DISABLED:
+      case PhorgeOAuthServerTransaction::TYPE_DISABLED:
         return $object->getIsDisabled();
     }
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorOAuthServerTransaction::TYPE_NAME:
-      case PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI:
+      case PhorgeOAuthServerTransaction::TYPE_NAME:
+      case PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI:
         return $xaction->getNewValue();
-      case PhabricatorOAuthServerTransaction::TYPE_DISABLED:
+      case PhorgeOAuthServerTransaction::TYPE_DISABLED:
         return (int)$xaction->getNewValue();
     }
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorOAuthServerTransaction::TYPE_NAME:
+      case PhorgeOAuthServerTransaction::TYPE_NAME:
         $object->setName($xaction->getNewValue());
         return;
-      case PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI:
+      case PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI:
         $object->setRedirectURI($xaction->getNewValue());
         return;
-      case PhabricatorOAuthServerTransaction::TYPE_DISABLED:
+      case PhorgeOAuthServerTransaction::TYPE_DISABLED:
         $object->setIsDisabled($xaction->getNewValue());
         return;
     }
@@ -71,13 +71,13 @@ final class PhabricatorOAuthServerEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorOAuthServerTransaction::TYPE_NAME:
-      case PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI:
-      case PhabricatorOAuthServerTransaction::TYPE_DISABLED:
+      case PhorgeOAuthServerTransaction::TYPE_NAME:
+      case PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI:
+      case PhorgeOAuthServerTransaction::TYPE_DISABLED:
         return;
     }
 
@@ -85,20 +85,20 @@ final class PhabricatorOAuthServerEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
     $errors = parent::validateTransaction($object, $type, $xactions);
 
     switch ($type) {
-      case PhabricatorOAuthServerTransaction::TYPE_NAME:
+      case PhorgeOAuthServerTransaction::TYPE_NAME:
         $missing = $this->validateIsEmptyTextField(
           $object->getName(),
           $xactions);
 
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('OAuth applications must have a name.'),
@@ -108,12 +108,12 @@ final class PhabricatorOAuthServerEditor
           $errors[] = $error;
         }
         break;
-      case PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI:
+      case PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI:
         $missing = $this->validateIsEmptyTextField(
           $object->getRedirectURI(),
           $xactions);
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('OAuth applications must have a valid redirect URI.'),
@@ -126,10 +126,10 @@ final class PhabricatorOAuthServerEditor
             $redirect_uri = $xaction->getNewValue();
 
             try {
-              $server = new PhabricatorOAuthServer();
+              $server = new PhorgeOAuthServer();
               $server->assertValidRedirectURI($redirect_uri);
             } catch (Exception $ex) {
-              $errors[] = new PhabricatorApplicationTransactionValidationError(
+              $errors[] = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Invalid'),
                 $ex->getMessage(),

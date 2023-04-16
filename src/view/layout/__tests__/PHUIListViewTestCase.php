@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIListViewTestCase extends PhabricatorTestCase {
+final class PHUIListViewTestCase extends PhorgeTestCase {
 
   public function testAppend() {
     $menu = $this->newABCMenu();

@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorPhurlURLSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePhurlURLSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phurl URLs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorPhurlURLQuery();
+    return new PhorgePhurlURLQuery();
   }
 
   protected function shouldShowOrderField() {
@@ -21,19 +21,19 @@ final class PhabricatorPhurlURLSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Created By'))
         ->setKey('authorPHIDs')
-        ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
-      id(new PhabricatorSearchTextField())
+        ->setDatasource(new PhorgePeopleUserFunctionDatasource()),
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name')
         ->setDescription(pht('Search for Phurl URLs by name substring.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Aliases'))
         ->setKey('aliases')
         ->setDescription(pht('Search for Phurl URLs by alias.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Long URLs'))
         ->setKey('longurls')
         ->setDescription(
@@ -93,10 +93,10 @@ final class PhabricatorPhurlURLSearchEngine
 
   protected function renderResultList(
     array $urls,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($urls, 'PhabricatorPhurlURL');
+    assert_instances_of($urls, 'PhorgePhurlURL');
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
     $handles = $viewer->loadHandles(mpull($urls, 'getAuthorPHID'));
@@ -116,7 +116,7 @@ final class PhabricatorPhurlURLSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No URLs found.'));
 
@@ -124,7 +124,7 @@ final class PhabricatorPhurlURLSearchEngine
   }
 
   protected function getNewUserBody() {
-    $create_uri = id(new PhabricatorPhurlURLEditEngine())
+    $create_uri = id(new PhorgePhurlURLEditEngine())
       ->getEditURI();
 
     $create_button = id(new PHUIButtonView())

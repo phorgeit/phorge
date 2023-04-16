@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacNetworkPHIDType extends PhabricatorPHIDType {
+final class AlmanacNetworkPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ANET';
 
@@ -13,11 +13,11 @@ final class AlmanacNetworkPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacNetworkQuery())
@@ -25,7 +25,7 @@ final class AlmanacNetworkPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

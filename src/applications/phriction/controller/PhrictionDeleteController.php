@@ -12,8 +12,8 @@ final class PhrictionDeleteController extends PhrictionController {
       ->needContent(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->executeOne();
     if (!$document) {
@@ -37,7 +37,7 @@ final class PhrictionDeleteController extends PhrictionController {
         try {
           $editor->applyTransactions($document, $xactions);
           return id(new AphrontRedirectResponse())->setURI($document_uri);
-        } catch (PhabricatorApplicationTransactionValidationException $ex) {
+        } catch (PhorgeApplicationTransactionValidationException $ex) {
           $e_text = phutil_implode_html("\n", $ex->getErrorMessages());
         }
     }

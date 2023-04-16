@@ -1,10 +1,10 @@
 <?php
 
 final class PhameBlogEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -22,26 +22,26 @@ final class PhameBlogEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_INTERACT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_INTERACT_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-   protected function getMailTo(PhabricatorLiskDAO $object) {
+   protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
     $phids[] = $this->requireActor()->getPHID();
     $phids[] = $object->getCreatorPHID();
@@ -49,27 +49,27 @@ final class PhameBlogEditor
     return $phids;
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($name);
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PhameBlogReplyHandler())
       ->setMailReceiver($object);
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addLinkSection(
       pht('BLOG DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getViewURI()));
+      PhorgeEnv::getProductionURI($object->getViewURI()));
 
     return $body;
   }
@@ -95,13 +95,13 @@ final class PhameBlogEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return id(new HeraldPhameBlogAdapter())

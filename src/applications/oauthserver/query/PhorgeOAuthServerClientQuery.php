@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerClientQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeOAuthServerClientQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -23,7 +23,7 @@ final class PhabricatorOAuthServerClientQuery
   }
 
   protected function loadPage() {
-    $table  = new PhabricatorOAuthServerClient();
+    $table  = new PhorgeOAuthServerClient();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -67,7 +67,7 @@ final class PhabricatorOAuthServerClientQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
 }

@@ -1,26 +1,26 @@
 <?php
 
-final class PhabricatorConduitSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeConduitSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Conduit Methods');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConduitApplication';
+    return 'PhorgeConduitApplication';
   }
 
   public function canUseInPanelContext() {
     return false;
   }
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     return PHP_INT_MAX - 1;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter('isStable', $request->getStr('isStable'));
     $saved->setParameter('isUnstable', $request->getStr('isUnstable'));
@@ -30,8 +30,8 @@ final class PhabricatorConduitSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorConduitMethodQuery());
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = id(new PhorgeConduitMethodQuery());
 
     $query->withIsStable($saved->getParameter('isStable'));
     $query->withIsUnstable($saved->getParameter('isUnstable'));
@@ -48,7 +48,7 @@ final class PhabricatorConduitSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $form
       ->appendChild(
@@ -124,7 +124,7 @@ final class PhabricatorConduitSearchEngine
 
   protected function renderResultList(
     array $methods,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($methods, 'ConduitAPIMethod');
 
@@ -183,7 +183,7 @@ final class PhabricatorConduitSearchEngine
       $out[] = $list;
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($out);
 
     return $result;

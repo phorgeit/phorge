@@ -82,10 +82,10 @@ final class HarbormasterBuildableViewController
 
     $curtain = $this->newCurtainView($buildable);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $buildable,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $messages = array(
       new HarbormasterBuildMessageRestartTransaction(),
@@ -111,7 +111,7 @@ final class HarbormasterBuildableViewController
         $message->getHarbormasterBuildMessageType());
       $message_uri = $this->getApplicationURI($message_uri);
 
-      $action = id(new PhabricatorActionView())
+      $action = id(new PhorgeActionView())
         ->setName($message->getHarbormasterBuildableMessageName())
         ->setIcon($message->getIcon())
         ->setHref($message_uri)

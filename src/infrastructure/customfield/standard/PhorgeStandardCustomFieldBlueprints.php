@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldBlueprints
-  extends PhabricatorStandardCustomFieldTokenizer {
+final class PhorgeStandardCustomFieldBlueprints
+  extends PhorgeStandardCustomFieldTokenizer {
 
   public function getFieldType() {
     return 'blueprints';
@@ -12,7 +12,7 @@ final class PhabricatorStandardCustomFieldBlueprints
   }
 
   public function applyApplicationTransactionExternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $this->decodeValue($xaction->getOldValue());
     $new = $this->decodeValue($xaction->getNewValue());

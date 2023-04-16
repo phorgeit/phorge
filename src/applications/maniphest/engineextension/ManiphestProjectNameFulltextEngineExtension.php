@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestProjectNameFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'maniphest.project.name';
 
@@ -10,12 +10,12 @@ final class ManiphestProjectNameFulltextEngineExtension
   }
 
   public function shouldIndexFulltextObject($object) {
-    return ($object instanceof PhabricatorProject);
+    return ($object instanceof PhorgeProject);
   }
 
   public function indexFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     ManiphestNameIndex::updateIndex(
       $object->getPHID(),

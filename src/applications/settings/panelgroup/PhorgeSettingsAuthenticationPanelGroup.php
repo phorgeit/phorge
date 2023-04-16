@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSettingsAuthenticationPanelGroup
-  extends PhabricatorSettingsPanelGroup {
+final class PhorgeSettingsAuthenticationPanelGroup
+  extends PhorgeSettingsPanelGroup {
 
   const PANELGROUPKEY = 'authentication';
 

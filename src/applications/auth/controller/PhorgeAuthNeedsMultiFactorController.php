@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthNeedsMultiFactorController
-  extends PhabricatorAuthController {
+final class PhorgeAuthNeedsMultiFactorController
+  extends PhorgeAuthController {
 
   public function shouldRequireMultiFactorEnrollment() {
     // Users need access to this controller in order to enroll in multi-factor
@@ -32,7 +32,7 @@ final class PhabricatorAuthNeedsMultiFactorController
 
     $panels = $this->loadPanels();
 
-    $multifactor_key = id(new PhabricatorMultiFactorSettingsPanel())
+    $multifactor_key = id(new PhorgeMultiFactorSettingsPanel())
       ->getPanelKey();
 
     $panel_key = $request->getURIData('pageKey');
@@ -95,9 +95,9 @@ final class PhabricatorAuthNeedsMultiFactorController
 
   private function loadPanels() {
     $viewer = $this->getViewer();
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+    $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-    $panels = PhabricatorSettingsPanel::getAllDisplayPanels();
+    $panels = PhorgeSettingsPanel::getAllDisplayPanels();
     $base_uri = $this->newEnrollBaseURI();
 
     $result = array();
@@ -143,7 +143,7 @@ final class PhabricatorAuthNeedsMultiFactorController
     $nav = id(new AphrontSideNavFilterView())
       ->setBaseURI(new PhutilURI($enroll_uri));
 
-    $multifactor_key = id(new PhabricatorMultiFactorSettingsPanel())
+    $multifactor_key = id(new PhorgeMultiFactorSettingsPanel())
       ->getPanelKey();
 
     $nav->addFilter(
@@ -215,11 +215,11 @@ final class PhabricatorAuthNeedsMultiFactorController
     $views[] = $view;
 
 
-    $providers = id(new PhabricatorAuthFactorProviderQuery())
+    $providers = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->withStatuses(
         array(
-          PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
+          PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
         ))
       ->execute();
     if (!$providers) {

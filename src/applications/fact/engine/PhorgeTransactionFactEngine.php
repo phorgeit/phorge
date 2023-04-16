@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorTransactionFactEngine
-  extends PhabricatorFactEngine {
+abstract class PhorgeTransactionFactEngine
+  extends PhorgeFactEngine {
 
-  public function newTransactionGroupsForObject(PhabricatorLiskDAO $object) {
+  public function newTransactionGroupsForObject(PhorgeLiskDAO $object) {
     $viewer = $this->getViewer();
 
-    $xaction_query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+    $xaction_query = PhorgeApplicationTransactionQuery::newQueryForObject(
       $object);
     $xactions = $xaction_query
       ->setViewer($viewer)
@@ -26,7 +26,7 @@ abstract class PhabricatorTransactionFactEngine
     $breaks = array();
 
     $touch_window = phutil_units('15 minutes in seconds');
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
 
     $last_actor = null;
     $last_epoch = null;

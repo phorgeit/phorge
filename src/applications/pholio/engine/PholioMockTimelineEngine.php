@@ -1,7 +1,7 @@
 <?php
 
 final class PholioMockTimelineEngine
-  extends PhabricatorTimelineEngine {
+  extends PhorgeTimelineEngine {
 
   protected function newTimelineView() {
     $viewer = $this->getViewer();

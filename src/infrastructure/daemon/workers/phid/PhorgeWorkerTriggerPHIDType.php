@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWorkerTriggerPHIDType extends PhabricatorPHIDType {
+final class PhorgeWorkerTriggerPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'TRIG';
 
@@ -9,23 +9,23 @@ final class PhabricatorWorkerTriggerPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorWorkerTrigger();
+    return new PhorgeWorkerTrigger();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return 'PhorgeDaemonsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorWorkerTriggerQuery())
+    return id(new PhorgeWorkerTriggerQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

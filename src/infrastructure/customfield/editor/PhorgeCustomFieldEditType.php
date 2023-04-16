@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorCustomFieldEditType
-  extends PhabricatorEditType {
+final class PhorgeCustomFieldEditType
+  extends PhorgeEditType {
 
   private $customField;
 
-  public function setCustomField(PhabricatorCustomField $custom_field) {
+  public function setCustomField(PhorgeCustomField $custom_field) {
     $this->customField = $custom_field;
     return $this;
   }
@@ -20,7 +20,7 @@ final class PhabricatorCustomFieldEditType
   }
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $value = idx($spec, 'value');
@@ -28,7 +28,7 @@ final class PhabricatorCustomFieldEditType
     $xaction = $this->newTransaction($template)
       ->setNewValue($value);
 
-    $custom_type = PhabricatorTransactions::TYPE_CUSTOMFIELD;
+    $custom_type = PhorgeTransactions::TYPE_CUSTOMFIELD;
     if ($xaction->getTransactionType() == $custom_type) {
       $field = $this->getCustomField();
 

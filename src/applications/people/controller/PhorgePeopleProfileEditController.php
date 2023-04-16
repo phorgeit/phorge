@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorPeopleProfileEditController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileEditController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfileImage(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$user) {
@@ -25,9 +25,9 @@ final class PhabricatorPeopleProfileEditController
 
     $done_uri = $this->getApplicationURI("manage/{$id}/");
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $user,
-      PhabricatorCustomField::ROLE_EDIT);
+      PhorgeCustomField::ROLE_EDIT);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($user);
@@ -35,10 +35,10 @@ final class PhabricatorPeopleProfileEditController
     $validation_exception = null;
     if ($request->isFormPost()) {
       $xactions = $field_list->buildFieldTransactionsFromRequest(
-        new PhabricatorUserTransaction(),
+        new PhorgeUserTransaction(),
         $request);
 
-      $editor = id(new PhabricatorUserTransactionEditor())
+      $editor = id(new PhorgeUserTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true);
@@ -46,7 +46,7 @@ final class PhabricatorPeopleProfileEditController
       try {
         $editor->applyTransactions($user, $xactions);
         return id(new AphrontRedirectResponse())->setURI($done_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
     }
@@ -63,7 +63,7 @@ final class PhabricatorPeopleProfileEditController
           ->addCancelButton($done_uri)
           ->setValue(pht('Save Profile')));
 
-    $allow_public = PhabricatorEnv::getEnvConfig('policy.allow-public');
+    $allow_public = PhorgeEnv::getEnvConfig('policy.allow-public');
     $note = null;
     if ($allow_public) {
       $note = id(new PHUIInfoView())
@@ -85,7 +85,7 @@ final class PhabricatorPeopleProfileEditController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_MANAGE);
+      PhorgePeopleProfileMenuEngine::ITEM_MANAGE);
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Edit Profile: %s', $user->getFullName()))

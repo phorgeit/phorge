@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProfileMenuItemViewList
+final class PhorgeProfileMenuItemViewList
   extends Phobject {
 
   private $engine;
   private $views = array();
   private $selectedView;
 
-  public function setProfileMenuEngine(PhabricatorProfileMenuEngine $engine) {
+  public function setProfileMenuEngine(PhorgeProfileMenuEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
@@ -16,7 +16,7 @@ final class PhabricatorProfileMenuItemViewList
     return $this->engine;
   }
 
-  public function addItemView(PhabricatorProfileMenuItemView $view) {
+  public function addItemView(PhorgeProfileMenuItemView $view) {
     $this->views[] = $view;
     return $this;
   }
@@ -25,7 +25,7 @@ final class PhabricatorProfileMenuItemViewList
     return $this->views;
   }
 
-  public function setSelectedView(PhabricatorProfileMenuItemView $view) {
+  public function setSelectedView(PhorgeProfileMenuItemView $view) {
     $found = false;
     foreach ($this->getItemViews() as $item_view) {
       if ($view === $item_view) {
@@ -242,7 +242,7 @@ final class PhabricatorProfileMenuItemViewList
 
     $request_domain = $request_uri->getDomain();
 
-    $production_uri = PhabricatorEnv::getProductionURI('/');
+    $production_uri = PhorgeEnv::getProductionURI('/');
     $production_domain = id(new PhutilURI($production_uri))
       ->getDomain();
 

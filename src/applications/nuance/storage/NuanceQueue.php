@@ -3,8 +3,8 @@
 final class NuanceQueue
   extends NuanceDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $name;
   protected $mailKey;
@@ -22,14 +22,14 @@ final class NuanceQueue
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       NuanceQueuePHIDType::TYPECONST);
   }
 
   public static function initializeNewQueue() {
     return id(new self())
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setEditPolicy(PhabricatorPolicies::POLICY_USER);
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
+      ->setEditPolicy(PhorgePolicies::POLICY_USER);
   }
 
   public function save() {
@@ -48,31 +48,31 @@ final class NuanceQueue
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {

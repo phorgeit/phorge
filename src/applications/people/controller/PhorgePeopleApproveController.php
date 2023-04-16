@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPeopleApproveController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleApproveController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -34,11 +34,11 @@ final class PhabricatorPeopleApproveController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorUserTransaction())
-        ->setTransactionType(PhabricatorUserApproveTransaction::TRANSACTIONTYPE)
+      $xactions[] = id(new PhorgeUserTransaction())
+        ->setTransactionType(PhorgeUserApproveTransaction::TRANSACTIONTYPE)
         ->setNewValue(true);
 
-      id(new PhabricatorUserTransactionEditor())
+      id(new PhorgeUserTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)

@@ -15,8 +15,8 @@ final class LegalpadDocumentSignatureListController extends LegalpadController {
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$document) {
@@ -32,7 +32,7 @@ final class LegalpadDocumentSignatureListController extends LegalpadController {
       $engine->setDocument($this->document);
     }
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNav());

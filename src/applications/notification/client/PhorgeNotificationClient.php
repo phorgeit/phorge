@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorNotificationClient extends Phobject {
+final class PhorgeNotificationClient extends Phobject {
 
   public static function tryAnyConnection() {
-    $servers = PhabricatorNotificationServerRef::getEnabledAdminServers();
+    $servers = PhorgeNotificationServerRef::getEnabledAdminServers();
 
     if (!$servers) {
       return;
@@ -23,7 +23,7 @@ final class PhabricatorNotificationClient extends Phobject {
       'uniqueID' => $unique_id,
     );
 
-    $servers = PhabricatorNotificationServerRef::getEnabledAdminServers();
+    $servers = PhorgeNotificationServerRef::getEnabledAdminServers();
 
     shuffle($servers);
 
@@ -38,7 +38,7 @@ final class PhabricatorNotificationClient extends Phobject {
   }
 
   public static function isEnabled() {
-    return (bool)PhabricatorNotificationServerRef::getEnabledAdminServers();
+    return (bool)PhorgeNotificationServerRef::getEnabledAdminServers();
   }
 
 }

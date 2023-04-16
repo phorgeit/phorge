@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementEncodeWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementEncodeWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();
@@ -37,7 +37,7 @@ final class PhabricatorFilesManagementEncodeWorkflow
 
     $force = (bool)$args->getArg('force');
 
-    $format_list = PhabricatorFileStorageFormat::getAllFormats();
+    $format_list = PhorgeFileStorageFormat::getAllFormats();
     $format_list = array_keys($format_list);
     $format_list = implode(', ', $format_list);
 
@@ -50,7 +50,7 @@ final class PhabricatorFilesManagementEncodeWorkflow
           $format_list));
     }
 
-    $format = PhabricatorFileStorageFormat::getFormat($format_key);
+    $format = PhorgeFileStorageFormat::getFormat($format_key);
     if (!$format) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -64,7 +64,7 @@ final class PhabricatorFilesManagementEncodeWorkflow
       $format->selectMasterKey($key_name);
     }
 
-    $engines = PhabricatorFileStorageEngine::loadAllEngines();
+    $engines = PhorgeFileStorageEngine::loadAllEngines();
 
     $failed = array();
     foreach ($iterator as $file) {

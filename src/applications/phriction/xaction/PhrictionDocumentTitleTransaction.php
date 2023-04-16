@@ -94,7 +94,7 @@ final class PhrictionDocumentTitleTransaction
     if ($this->isNewObject()) {
       // No ancestral slugs is "/". No ancestry checks apply when creating the
       // root document.
-      $ancestral_slugs = PhabricatorSlug::getAncestry($object->getSlug());
+      $ancestral_slugs = PhorgeSlug::getAncestry($object->getSlug());
       if ($ancestral_slugs) {
         // You must be able to view and edit the parent document to create a new
         // child.
@@ -103,8 +103,8 @@ final class PhrictionDocumentTitleTransaction
           ->withSlugs(array(last($ancestral_slugs)))
           ->requireCapabilities(
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ))
           ->executeOne();
         if (!$parent_document) {

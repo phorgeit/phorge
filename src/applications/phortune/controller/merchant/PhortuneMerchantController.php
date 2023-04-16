@@ -38,15 +38,15 @@ abstract class PhortuneMerchantController
   private function loadMerchantForEdit() {
     return $this->loadMerchantWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
   }
 
   private function loadMerchantForView() {
     return $this->loadMerchantWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       ));
   }
 

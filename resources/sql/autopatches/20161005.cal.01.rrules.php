@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn = $table->establishConnection('w');
 $table_name = 'calendar_event';
 

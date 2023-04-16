@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitHintQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $repositoryPHIDs;
@@ -26,7 +26,7 @@ final class DiffusionCommitHintQuery
   }
 
   public function withCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
 
     $repository_phids = array();
     foreach ($commits as $commit) {
@@ -49,7 +49,7 @@ final class DiffusionCommitHintQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryCommitHint();
+    return new PhorgeRepositoryCommitHint();
   }
 
   protected function willExecute() {
@@ -106,7 +106,7 @@ final class DiffusionCommitHintQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

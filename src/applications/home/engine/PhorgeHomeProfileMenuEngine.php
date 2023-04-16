@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHomeProfileMenuEngine
-  extends PhabricatorProfileMenuEngine {
+final class PhorgeHomeProfileMenuEngine
+  extends PhorgeProfileMenuEngine {
 
   protected function isMenuEngineConfigurable() {
     return true;
@@ -12,13 +12,13 @@ final class PhabricatorHomeProfileMenuEngine
   }
 
   protected function buildItemViewContent(
-    PhabricatorProfileMenuItemConfiguration $item) {
+    PhorgeProfileMenuItemConfiguration $item) {
     $viewer = $this->getViewer();
 
     // Add content to the document so that you can drag-and-drop files onto
     // the home page or any home dashboard to upload them.
 
-    $upload = id(new PhabricatorGlobalUploadTargetView())
+    $upload = id(new PhorgeGlobalUploadTargetView())
       ->setUser($viewer);
 
     $content = parent::buildItemViewContent($item);
@@ -34,7 +34,7 @@ final class PhabricatorHomeProfileMenuEngine
     $items = array();
     $custom_phid = $this->getCustomPHID();
 
-    $applications = id(new PhabricatorApplicationQuery())
+    $applications = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withInstalled(true)
       ->withUnlisted(false)
@@ -43,12 +43,12 @@ final class PhabricatorHomeProfileMenuEngine
 
     // Default Home Dashboard
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorHomeConstants::ITEM_HOME)
-      ->setMenuItemKey(PhabricatorHomeProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeHomeConstants::ITEM_HOME)
+      ->setMenuItemKey(PhorgeHomeProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorHomeConstants::ITEM_APPS_LABEL)
-      ->setMenuItemKey(PhabricatorLabelProfileMenuItem::MENUITEMKEY)
+      ->setBuiltinKey(PhorgeHomeConstants::ITEM_APPS_LABEL)
+      ->setMenuItemKey(PhorgeLabelProfileMenuItem::MENUITEMKEY)
       ->setMenuItemProperties(array('name' => pht('Favorites')));
 
     foreach ($applications as $application) {
@@ -63,13 +63,13 @@ final class PhabricatorHomeProfileMenuEngine
 
       $items[] = $this->newItem()
         ->setBuiltinKey($application->getPHID())
-        ->setMenuItemKey(PhabricatorApplicationProfileMenuItem::MENUITEMKEY)
+        ->setMenuItemKey(PhorgeApplicationProfileMenuItem::MENUITEMKEY)
         ->setMenuItemProperties($properties);
     }
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorHomeConstants::ITEM_LAUNCHER)
-      ->setMenuItemKey(PhabricatorHomeLauncherProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeHomeConstants::ITEM_LAUNCHER)
+      ->setMenuItemKey(PhorgeHomeLauncherProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newDividerItem('tail');
 

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorMacroEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeMacroEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -20,38 +20,38 @@ final class PhabricatorMacroEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorMacroReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeMacroReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $name = $object->getName();
     $name = 'Image Macro "'.$name.'"';
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($name);
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $this->requireActor()->getPHID(),
     );
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
     $body->addLinkSection(
       pht('MACRO DETAIL'),
-      PhabricatorEnv::getProductionURI('/macro/view/'.$object->getID().'/'));
+      PhorgeEnv::getProductionURI('/macro/view/'.$object->getID().'/'));
 
     return $body;
   }
@@ -61,7 +61,7 @@ final class PhabricatorMacroEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

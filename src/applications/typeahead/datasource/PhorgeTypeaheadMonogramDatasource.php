@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadMonogramDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeTypeaheadMonogramDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function isBrowsable() {
     // This source isn't meaningfully browsable. Although it's technically
@@ -28,18 +28,18 @@ final class PhabricatorTypeaheadMonogramDatasource
 
     $results = array();
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($raw_query))
       ->execute();
     if ($objects) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($objects, 'getPHID'))
         ->execute();
       $handle = head($handles);
       if ($handle) {
-        $results[] = id(new PhabricatorTypeaheadResult())
+        $results[] = id(new PhorgeTypeaheadResult())
           ->setName($handle->getFullName())
           ->setDisplayType($handle->getTypeName())
           ->setURI($handle->getURI())

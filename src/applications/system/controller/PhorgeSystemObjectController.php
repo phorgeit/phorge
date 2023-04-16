@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemObjectController
-  extends PhabricatorController {
+final class PhorgeSystemObjectController
+  extends PhorgeController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorSystemObjectController
     $viewer = $this->getViewer();
     $name = $request->getURIData('name');
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($name))
       ->executeOne();

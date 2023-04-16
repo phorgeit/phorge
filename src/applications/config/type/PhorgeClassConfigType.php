@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorClassConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeClassConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'class';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_string($value)) {
@@ -51,7 +51,7 @@ final class PhabricatorClassConfigType
     }
   }
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     $map = array(
       '' => pht('(Use Default)'),
     ) + $this->getClassOptions($option);
@@ -60,7 +60,7 @@ final class PhabricatorClassConfigType
       ->setOptions($map);
   }
 
-  private function getClassOptions(PhabricatorConfigOption $option) {
+  private function getClassOptions(PhorgeConfigOption $option) {
     $symbols = id(new PhutilSymbolLoader())
       ->setType('class')
       ->setAncestorClass($option->getBaseClass())

@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacPropertyQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $objectPHIDs;
@@ -43,7 +43,7 @@ final class AlmanacPropertyQuery
     }
 
     if ($object_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($object_phids)
@@ -87,7 +87,7 @@ final class AlmanacPropertyQuery
     if ($this->names !== null) {
       $hashes = array();
       foreach ($this->names as $name) {
-        $hashes[] = PhabricatorHash::digestForIndex($name);
+        $hashes[] = PhorgeHash::digestForIndex($name);
       }
       $where[] = qsprintf(
         $conn,
@@ -99,7 +99,7 @@ final class AlmanacPropertyQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

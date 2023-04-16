@@ -1,4 +1,4 @@
 <?php
 
 abstract class PonderQuestionTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestAssigneeDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Assignees');
@@ -13,8 +13,8 @@ final class ManiphestAssigneeDatasource
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorPeopleNoOwnerDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgePeopleNoOwnerDatasource(),
     );
   }
 

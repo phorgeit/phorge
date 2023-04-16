@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorCountdown();
+$table = new PhorgeCountdown();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $countdown) {

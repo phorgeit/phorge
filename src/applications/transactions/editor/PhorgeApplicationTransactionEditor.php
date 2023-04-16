@@ -37,8 +37,8 @@
  * @task files Integration with Files
  * @task workers Managing Workers
  */
-abstract class PhabricatorApplicationTransactionEditor
-  extends PhabricatorEditor {
+abstract class PhorgeApplicationTransactionEditor
+  extends PhorgeEditor {
 
   private $contentSource;
   private $object;
@@ -273,13 +273,13 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function shouldEnableMentions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function setApplicationEmail(
-    PhabricatorMetaMTAApplicationEmail $email) {
+    PhorgeMetaMTAApplicationEmail $email) {
     $this->applicationEmail = $email;
     return $this;
   }
@@ -329,40 +329,40 @@ abstract class PhabricatorApplicationTransactionEditor
   public function getTransactionTypes() {
     $types = array();
 
-    $types[] = PhabricatorTransactions::TYPE_CREATE;
-    $types[] = PhabricatorTransactions::TYPE_HISTORY;
+    $types[] = PhorgeTransactions::TYPE_CREATE;
+    $types[] = PhorgeTransactions::TYPE_HISTORY;
 
-    $types[] = PhabricatorTransactions::TYPE_FILE;
+    $types[] = PhorgeTransactions::TYPE_FILE;
 
-    if ($this->object instanceof PhabricatorEditEngineSubtypeInterface) {
-      $types[] = PhabricatorTransactions::TYPE_SUBTYPE;
+    if ($this->object instanceof PhorgeEditEngineSubtypeInterface) {
+      $types[] = PhorgeTransactions::TYPE_SUBTYPE;
     }
 
-    if ($this->object instanceof PhabricatorSubscribableInterface) {
-      $types[] = PhabricatorTransactions::TYPE_SUBSCRIBERS;
+    if ($this->object instanceof PhorgeSubscribableInterface) {
+      $types[] = PhorgeTransactions::TYPE_SUBSCRIBERS;
     }
 
-    if ($this->object instanceof PhabricatorCustomFieldInterface) {
-      $types[] = PhabricatorTransactions::TYPE_CUSTOMFIELD;
+    if ($this->object instanceof PhorgeCustomFieldInterface) {
+      $types[] = PhorgeTransactions::TYPE_CUSTOMFIELD;
     }
 
-    if ($this->object instanceof PhabricatorTokenReceiverInterface) {
-      $types[] = PhabricatorTransactions::TYPE_TOKEN;
+    if ($this->object instanceof PhorgeTokenReceiverInterface) {
+      $types[] = PhorgeTransactions::TYPE_TOKEN;
     }
 
-    if ($this->object instanceof PhabricatorProjectInterface ||
-        $this->object instanceof PhabricatorMentionableInterface) {
-      $types[] = PhabricatorTransactions::TYPE_EDGE;
+    if ($this->object instanceof PhorgeProjectInterface ||
+        $this->object instanceof PhorgeMentionableInterface) {
+      $types[] = PhorgeTransactions::TYPE_EDGE;
     }
 
-    if ($this->object instanceof PhabricatorSpacesInterface) {
-      $types[] = PhabricatorTransactions::TYPE_SPACE;
+    if ($this->object instanceof PhorgeSpacesInterface) {
+      $types[] = PhorgeTransactions::TYPE_SPACE;
     }
 
-    $types[] = PhabricatorTransactions::TYPE_MFA;
+    $types[] = PhorgeTransactions::TYPE_MFA;
 
     $template = $this->object->getApplicationTransactionTemplate();
-    if ($template instanceof PhabricatorModularTransaction) {
+    if ($template instanceof PhorgeModularTransaction) {
       $xtypes = $template->newModularTransactionTypes();
       foreach ($xtypes as $xtype) {
         $types[] = $xtype->getTransactionTypeConstant();
@@ -372,7 +372,7 @@ abstract class PhabricatorApplicationTransactionEditor
     if ($template) {
       $comment = $template->getApplicationTransactionCommentObject();
       if ($comment) {
-        $types[] = PhabricatorTransactions::TYPE_COMMENT;
+        $types[] = PhorgeTransactions::TYPE_COMMENT;
       }
     }
 
@@ -380,8 +380,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function adjustTransactionValues(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     if ($xaction->shouldGenerateOldValue()) {
       $old = $this->getTransactionOldValue($object, $xaction);
@@ -411,7 +411,7 @@ abstract class PhabricatorApplicationTransactionEditor
       return;
     } else {
       switch ($type) {
-        case PhabricatorTransactions::TYPE_FILE:
+        case PhorgeTransactions::TYPE_FILE:
           list($old, $new) = $this->newFileTransactionInternalValues(
             $object,
             $xaction,
@@ -426,8 +426,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newFileTransactionInternalValues(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction,
     $old,
     $new) {
 
@@ -436,7 +436,7 @@ abstract class PhabricatorApplicationTransactionEditor
     if (!$this->getIsNewObject()) {
       $phid = $object->getPHID();
 
-      $attachment_table = new PhabricatorFileAttachment();
+      $attachment_table = new PhorgeFileAttachment();
       $attachment_conn = $attachment_table->establishConnection('w');
 
       $rows = queryfx_all(
@@ -447,8 +447,8 @@ abstract class PhabricatorApplicationTransactionEditor
       $old_map = ipull($rows, 'attachmentMode', 'filePHID');
     }
 
-    $mode_ref = PhabricatorFileAttachment::MODE_REFERENCE;
-    $mode_detach = PhabricatorFileAttachment::MODE_DETACH;
+    $mode_ref = PhorgeFileAttachment::MODE_REFERENCE;
+    $mode_detach = PhorgeFileAttachment::MODE_DETACH;
 
     $new_map = $old_map;
 
@@ -488,8 +488,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $type = $xaction->getTransactionType();
 
@@ -501,50 +501,50 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_HISTORY:
         return null;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
         return $object->getEditEngineSubtype();
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return null;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return array_values($this->subscribers);
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         if ($this->getIsNewObject()) {
           return null;
         }
         return $object->getViewPolicy();
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         if ($this->getIsNewObject()) {
           return null;
         }
         return $object->getEditPolicy();
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
         if ($this->getIsNewObject()) {
           return null;
         }
         return $object->getJoinPolicy();
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         if ($this->getIsNewObject()) {
           return null;
         }
         return $object->getInteractPolicy();
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         if ($this->getIsNewObject()) {
           return null;
         }
 
         $space_phid = $object->getSpacePHID();
         if ($space_phid === null) {
-          $default_space = PhabricatorSpacesNamespaceQuery::getDefaultSpace();
+          $default_space = PhorgeSpacesNamespaceQuery::getDefaultSpace();
           if ($default_space) {
             $space_phid = $default_space->getPHID();
           }
         }
 
         return $space_phid;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $edge_type = $xaction->getMetadataValue('edge:type');
         if (!$edge_type) {
           throw new Exception(
@@ -563,7 +563,7 @@ abstract class PhabricatorApplicationTransactionEditor
         if ($object->getPHID()) {
           $edge_src = $object->getPHID();
 
-          $old_edges = id(new PhabricatorEdgeQuery())
+          $old_edges = id(new PhorgeEdgeQuery())
             ->withSourcePHIDs(array($edge_src))
             ->withEdgeTypes(array($edge_type))
             ->needEdgeData(true)
@@ -572,13 +572,13 @@ abstract class PhabricatorApplicationTransactionEditor
           $old_edges = $old_edges[$edge_src][$edge_type];
         }
         return $old_edges;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         // NOTE: Custom fields have their old value pre-populated when they are
-        // built by PhabricatorCustomFieldList.
+        // built by PhorgeCustomFieldList.
         return $xaction->getOldValue();
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return null;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         return null;
       default:
         return $this->getCustomTransactionOldValue($object, $xaction);
@@ -586,8 +586,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $type = $xaction->getTransactionType();
 
@@ -599,23 +599,23 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return null;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return $this->getPHIDTransactionNewValue($xaction);
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-      case PhabricatorTransactions::TYPE_TOKEN:
-      case PhabricatorTransactions::TYPE_INLINESTATE:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
-      case PhabricatorTransactions::TYPE_HISTORY:
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_FILE:
         return $xaction->getNewValue();
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return true;
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         $space_phid = $xaction->getNewValue();
         if (!strlen($space_phid)) {
           // If an install has no Spaces or the Spaces controls are not visible
@@ -628,7 +628,7 @@ abstract class PhabricatorApplicationTransactionEditor
         } else {
           return $space_phid;
         }
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         // See T13082. If this is an inverse edit, the parent editor has
         // already populated appropriate transaction values.
         if ($this->getIsInverseEdgeEditor()) {
@@ -638,16 +638,16 @@ abstract class PhabricatorApplicationTransactionEditor
         $new_value = $this->getEdgeTransactionNewValue($xaction);
 
         $edge_type = $xaction->getMetadataValue('edge:type');
-        $type_project = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+        $type_project = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
         if ($edge_type == $type_project) {
           $new_value = $this->applyProjectConflictRules($new_value);
         }
 
         return $new_value;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->getNewValueFromApplicationTransactions($xaction);
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return null;
       default:
         return $this->getCustomTransactionNewValue($object, $xaction);
@@ -655,29 +655,29 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     throw new Exception(pht('Capability not supported!'));
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     throw new Exception(pht('Capability not supported!'));
   }
 
   protected function transactionHasEffect(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_HISTORY:
         return true;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->getApplicationTransactionHasEffect($xaction);
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         // A straight value comparison here doesn't always get the right
         // result, because newly added edges aren't fully populated. Instead,
         // compare the changes in a more granular way.
@@ -728,20 +728,20 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function shouldApplyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
 
   protected function applyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     throw new PhutilMethodNotImplementedException();
   }
 
   private function applyInternalEffects(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $type = $xaction->getTransactionType();
 
@@ -753,24 +753,24 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionInternalEffects($xaction);
-      case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
-      case PhabricatorTransactions::TYPE_MFA:
-      case PhabricatorTransactions::TYPE_TOKEN:
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
-      case PhabricatorTransactions::TYPE_INLINESTATE:
-      case PhabricatorTransactions::TYPE_EDGE:
-      case PhabricatorTransactions::TYPE_SPACE:
-      case PhabricatorTransactions::TYPE_COMMENT:
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_FILE:
         return $this->applyBuiltinInternalTransaction($object, $xaction);
     }
 
@@ -778,8 +778,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function applyExternalEffects(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $type = $xaction->getTransactionType();
 
@@ -791,8 +791,8 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
-        $subeditor = id(new PhabricatorSubscriptionsEditor())
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
+        $subeditor = id(new PhorgeSubscriptionsEditor())
           ->setObject($object)
           ->setActor($this->requireActor());
 
@@ -818,23 +818,23 @@ abstract class PhabricatorApplicationTransactionEditor
         $this->subscribers = $subscribers;
         return $this->applyBuiltinExternalTransaction($object, $xaction);
 
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->applyApplicationTransactionExternalEffects($xaction);
-      case PhabricatorTransactions::TYPE_CREATE:
-      case PhabricatorTransactions::TYPE_HISTORY:
-      case PhabricatorTransactions::TYPE_SUBTYPE:
-      case PhabricatorTransactions::TYPE_MFA:
-      case PhabricatorTransactions::TYPE_EDGE:
-      case PhabricatorTransactions::TYPE_TOKEN:
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-      case PhabricatorTransactions::TYPE_INLINESTATE:
-      case PhabricatorTransactions::TYPE_SPACE:
-      case PhabricatorTransactions::TYPE_COMMENT:
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_FILE:
         return $this->applyBuiltinExternalTransaction($object, $xaction);
     }
 
@@ -842,8 +842,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     $type = $xaction->getTransactionType();
     throw new Exception(
       pht(
@@ -852,8 +852,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     $type = $xaction->getTransactionType();
     throw new Exception(
       pht(
@@ -862,7 +862,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   /**
-   * @{class:PhabricatorTransactions} provides many built-in transactions
+   * @{class:PhorgeTransactions} provides many built-in transactions
    * which should not require much - if any - code in specific applications.
    *
    * This method is a hook for the exceedingly-rare cases where you may need
@@ -873,26 +873,26 @@ abstract class PhabricatorApplicationTransactionEditor
    * See also @{method:applyBuiltinExternalTransaction}.
    */
   protected function applyBuiltinInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         $object->setViewPolicy($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         $object->setEditPolicy($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
         $object->setJoinPolicy($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         $object->setInteractPolicy($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         $object->setSpacePHID($xaction->getNewValue());
         break;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
         $object->setEditEngineSubtype($xaction->getNewValue());
         break;
     }
@@ -902,11 +902,11 @@ abstract class PhabricatorApplicationTransactionEditor
    * See @{method::applyBuiltinInternalTransaction}.
    */
   protected function applyBuiltinExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         if ($this->getIsInverseEdgeEditor()) {
           // If we're writing an inverse edge transaction, don't actually
           // do anything. The initiating editor on the other side of the
@@ -923,7 +923,7 @@ abstract class PhabricatorApplicationTransactionEditor
           $new[$dst_phid]['src'] = $src;
         }
 
-        $editor = new PhabricatorEdgeEditor();
+        $editor = new PhorgeEdgeEditor();
 
         foreach ($old as $dst_phid => $edge) {
           if (!empty($new[$dst_phid])) {
@@ -952,22 +952,22 @@ abstract class PhabricatorApplicationTransactionEditor
 
         $this->updateWorkboardColumns($object, $const, $old, $new);
         break;
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_SPACE:
         $this->scrambleFileSecrets($object);
         break;
-      case PhabricatorTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_HISTORY:
         $this->sendHistory = true;
         break;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         $this->applyFileTransaction($object, $xaction);
         break;
     }
   }
 
   private function applyFileTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $old_map = $xaction->getOldValue();
     $new_map = $xaction->getNewValue();
@@ -985,11 +985,11 @@ abstract class PhabricatorApplicationTransactionEditor
       }
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $object_phid = $object->getPHID();
     $attacher_phid = $this->getActingAsPHID();
 
-    $attachment_table = new PhabricatorFileAttachment();
+    $attachment_table = new PhorgeFileAttachment();
     $attachment_conn = $attachment_table->establishConnection('w');
 
     $add_sql = array();
@@ -1013,7 +1013,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $rem_phid);
     }
 
-    foreach (PhabricatorLiskDAO::chunkSQL($add_sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($add_sql) as $chunk) {
       queryfx(
         $attachment_conn,
         'INSERT INTO %R (objectPHID, filePHID, attachmentMode,
@@ -1027,7 +1027,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $chunk);
     }
 
-    foreach (PhabricatorLiskDAO::chunkSQL($rem_sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($rem_sql) as $chunk) {
       queryfx(
         $attachment_conn,
         'DELETE FROM %R WHERE objectPHID = %s AND filePHID in (%LQ)',
@@ -1041,16 +1041,16 @@ abstract class PhabricatorApplicationTransactionEditor
    * Fill in a transaction's common values, like author and content source.
    */
   protected function populateTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $actor = $this->getActor();
 
     // TODO: This needs to be more sophisticated once we have meta-policies.
-    $xaction->setViewPolicy(PhabricatorPolicies::POLICY_PUBLIC);
+    $xaction->setViewPolicy(PhorgePolicies::POLICY_PUBLIC);
 
     if ($actor->isOmnipotent()) {
-      $xaction->setEditPolicy(PhabricatorPolicies::POLICY_NOONE);
+      $xaction->setEditPolicy(PhorgePolicies::POLICY_NOONE);
     } else {
       $xaction->setEditPolicy($this->getActingAsPHID());
     }
@@ -1078,19 +1078,19 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function didApplyInternalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return $xactions;
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return $xactions;
   }
 
   final protected function didCommitTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     foreach ($xactions as $xaction) {
@@ -1103,14 +1103,14 @@ abstract class PhabricatorApplicationTransactionEditor
       // build a mail before we actually commit this object, and render "alice
       // added an edge: Unknown Object".
 
-      if ($type === PhabricatorTransactions::TYPE_EDGE) {
+      if ($type === PhorgeTransactions::TYPE_EDGE) {
         // Don't do anything if we're already an inverse edge editor.
         if ($this->getIsInverseEdgeEditor()) {
           continue;
         }
 
         $edge_const = $xaction->getMetadataValue('edge:type');
-        $edge_type = PhabricatorEdgeType::getByConstant($edge_const);
+        $edge_type = PhorgeEdgeType::getByConstant($edge_const);
         if ($edge_type->shouldWriteInverseTransactions()) {
           $this->applyInverseEdgeTransactions(
             $object,
@@ -1131,7 +1131,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -1139,7 +1139,7 @@ abstract class PhabricatorApplicationTransactionEditor
   public function setContentSourceFromRequest(AphrontRequest $request) {
     $this->setRequest($request);
     return $this->setContentSource(
-      PhabricatorContentSource::newFromRequest($request));
+      PhorgeContentSource::newFromRequest($request));
   }
 
   public function getContentSource() {
@@ -1173,7 +1173,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   final public function applyTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $is_new = ($object->getID() === null);
@@ -1251,7 +1251,7 @@ abstract class PhabricatorApplicationTransactionEditor
         }
 
         if ($errors) {
-          throw new PhabricatorApplicationTransactionValidationException(
+          throw new PhorgeApplicationTransactionValidationException(
             $errors);
         }
 
@@ -1263,7 +1263,7 @@ abstract class PhabricatorApplicationTransactionEditor
             }
           }
           if ($warnings) {
-            throw new PhabricatorApplicationTransactionWarningException(
+            throw new PhorgeApplicationTransactionWarningException(
               $warnings);
           }
         }
@@ -1303,7 +1303,7 @@ abstract class PhabricatorApplicationTransactionEditor
       // TODO: Once everything is on EditEngine, just use getIsNewObject() to
       // figure this out instead.
       $mark_as_create = false;
-      $create_type = PhabricatorTransactions::TYPE_CREATE;
+      $create_type = PhorgeTransactions::TYPE_CREATE;
       foreach ($xactions as $xaction) {
         if ($xaction->getTransactionType() == $create_type) {
           $mark_as_create = true;
@@ -1323,7 +1323,7 @@ abstract class PhabricatorApplicationTransactionEditor
         return $xactions;
       }
 
-      $comment_editor = id(new PhabricatorApplicationTransactionCommentEditor())
+      $comment_editor = id(new PhorgeApplicationTransactionCommentEditor())
         ->setActor($actor)
         ->setActingAsPHID($this->getActingAsPHID())
         ->setContentSource($this->getContentSource())
@@ -1340,8 +1340,8 @@ abstract class PhabricatorApplicationTransactionEditor
       // lockable object.
 
       $was_locked = false;
-      if ($object instanceof PhabricatorEditEngineLockableInterface) {
-        $was_locked = !PhabricatorPolicyFilter::canInteract($actor, $object);
+      if ($object instanceof PhorgeEditEngineLockableInterface) {
+        $was_locked = !PhorgePolicyFilter::canInteract($actor, $object);
       }
 
       foreach ($xactions as $xaction) {
@@ -1384,12 +1384,12 @@ abstract class PhabricatorApplicationTransactionEditor
           // bulky format on the objects so we don't have to upgrade all the
           // edit logic to the new format yet. See T13051.
 
-          $edge_type = PhabricatorTransactions::TYPE_EDGE;
+          $edge_type = PhorgeTransactions::TYPE_EDGE;
           if ($xaction->getTransactionType() == $edge_type) {
             $bulky_old = $xaction->getOldValue();
             $bulky_new = $xaction->getNewValue();
 
-            $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+            $record = PhorgeEdgeChangeRecord::newFromTransaction($xaction);
             $slim_old = $record->getModernOldEdgeTransactionData();
             $slim_new = $record->getModernNewEdgeTransactionData();
 
@@ -1438,7 +1438,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     // If we need to perform cache engine updates, execute them now.
-    id(new PhabricatorCacheEngine())
+    id(new PhorgeCacheEngine())
       ->updateObject($object);
 
     // Now that we've completely applied the core transaction set, try to apply
@@ -1484,15 +1484,15 @@ abstract class PhabricatorApplicationTransactionEditor
         // their own policy issues. We use a synthetic author PHID (the
         // Herald application) as the author of record, so that transactions
         // will render in a reasonable way ("Herald assigned this task ...").
-        $herald_actor = PhabricatorUser::getOmnipotentUser();
-        $herald_phid = id(new PhabricatorHeraldApplication())->getPHID();
+        $herald_actor = PhorgeUser::getOmnipotentUser();
+        $herald_phid = id(new PhorgeHeraldApplication())->getPHID();
 
         // TODO: It would be nice to give transactions a more specific source
         // which points at the rule which generated them. You can figure this
         // out from transcripts, but it would be cleaner if you didn't have to.
 
-        $herald_source = PhabricatorContentSource::newForSource(
-          PhabricatorHeraldContentSource::SOURCECONST);
+        $herald_source = PhorgeContentSource::newForSource(
+          PhorgeHeraldContentSource::SOURCECONST);
 
         $herald_editor = $this->newEditorCopy()
           ->setContinueOnNoEffect(true)
@@ -1521,7 +1521,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $xactions = $this->didApplyTransactions($object, $xactions);
 
-    if ($object instanceof PhabricatorCustomFieldInterface) {
+    if ($object instanceof PhorgeCustomFieldInterface) {
       // Maybe this makes more sense to move into the search index itself? For
       // now I'm putting it here since I think we might end up with things that
       // need it to be up to date once the next page loads, but if we don't go
@@ -1532,9 +1532,9 @@ abstract class PhabricatorApplicationTransactionEditor
       // possibly get rid of this. The major motivation for putting it in the
       // indexer was to enable reindexing to work.
 
-      $fields = PhabricatorCustomField::getObjectFields(
+      $fields = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_APPLICATIONSEARCH);
+        PhorgeCustomField::ROLE_APPLICATIONSEARCH);
       $fields->readFieldsFromStorage($object);
       $fields->rebuildIndexes($object);
     }
@@ -1606,10 +1606,10 @@ abstract class PhabricatorApplicationTransactionEditor
         // but were removed by this change.
         $this->applyOldRecipientLists();
 
-        if ($object instanceof PhabricatorSubscribableInterface) {
-          $this->mailMutedPHIDs = PhabricatorEdgeQuery::loadDestinationPHIDs(
+        if ($object instanceof PhorgeSubscribableInterface) {
+          $this->mailMutedPHIDs = PhorgeEdgeQuery::loadDestinationPHIDs(
             $object->getPHID(),
-            PhabricatorMutedByEdgeType::EDGECONST);
+            PhorgeMutedByEdgeType::EDGECONST);
         } else {
           $this->mailMutedPHIDs = array();
         }
@@ -1632,8 +1632,8 @@ abstract class PhabricatorApplicationTransactionEditor
       }
     }
 
-    PhabricatorWorker::scheduleTask(
-      'PhabricatorApplicationTransactionPublishWorker',
+    PhorgeWorker::scheduleTask(
+      'PhorgeApplicationTransactionPublishWorker',
       array(
         'objectPHID' => $object->getPHID(),
         'actorPHID' => $this->getActingAsPHID(),
@@ -1642,7 +1642,7 @@ abstract class PhabricatorApplicationTransactionEditor
       ),
       array(
         'objectPHID' => $object->getPHID(),
-        'priority' => PhabricatorWorker::PRIORITY_ALERTS,
+        'priority' => PhorgeWorker::PRIORITY_ALERTS,
       ));
 
     foreach ($this->subEditors as $sub_editor) {
@@ -1653,14 +1653,14 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
     return;
   }
 
   public function publishTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $this->object = $object;
@@ -1678,7 +1678,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     if ($this->supportsSearch()) {
-      PhabricatorSearchWorker::queueDocumentForIndexing(
+      PhorgeSearchWorker::queueDocumentForIndexing(
         $object->getPHID(),
         array(
           'transactionPHIDs' => mpull($xactions, 'getPHID'),
@@ -1732,7 +1732,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $handles = array();
     $merged = array_mergev($phids);
     if ($merged) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($this->requireActor())
         ->withPHIDs($merged)
         ->execute();
@@ -1742,10 +1742,10 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
-  private function loadSubscribers(PhabricatorLiskDAO $object) {
+  private function loadSubscribers(PhorgeLiskDAO $object) {
     if ($object->getPHID() &&
-        ($object instanceof PhabricatorSubscribableInterface)) {
-      $subs = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+        ($object instanceof PhorgeSubscribableInterface)) {
+      $subs = PhorgeSubscribersQuery::loadSubscribersForPHID(
         $object->getPHID());
       $this->subscribers = array_fuse($subs);
     } else {
@@ -1754,7 +1754,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function validateEditParameters(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if (!$this->getContentSource()) {
@@ -1767,16 +1767,16 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $types = array_fill_keys($this->getTransactionTypes(), true);
 
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, 'PhorgeApplicationTransaction');
     foreach ($xactions as $xaction) {
       if ($xaction->getPHID() || $xaction->getID()) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht('You can not apply transactions which already have IDs/PHIDs!'));
       }
 
       if ($xaction->getObjectPHID()) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'You can not apply transactions which already have %s!',
@@ -1784,7 +1784,7 @@ abstract class PhabricatorApplicationTransactionEditor
       }
 
       if ($xaction->getCommentPHID()) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'You can not apply transactions which already have %s!',
@@ -1792,7 +1792,7 @@ abstract class PhabricatorApplicationTransactionEditor
       }
 
       if ($xaction->getCommentVersion() !== 0) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'You can not apply transactions which already have '.
@@ -1809,7 +1809,7 @@ abstract class PhabricatorApplicationTransactionEditor
       }
 
       if ($expect_value && !$has_value) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'This transaction is supposed to have an %s set, but it does not!',
@@ -1817,7 +1817,7 @@ abstract class PhabricatorApplicationTransactionEditor
       }
 
       if ($has_value && !$expect_value) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'This transaction should generate its %s automatically, '.
@@ -1827,7 +1827,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
       $type = $xaction->getTransactionType();
       if (empty($types[$type])) {
-        throw new PhabricatorApplicationTransactionStructureException(
+        throw new PhorgeApplicationTransactionStructureException(
           $xaction,
           pht(
             'Transaction has type "%s", but that transaction type is not '.
@@ -1839,11 +1839,11 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function applyCapabilityChecks(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, 'PhorgeApplicationTransaction');
 
-    $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
+    $can_edit = PhorgePolicyCapability::CAN_EDIT;
 
     if ($this->getIsNewObject()) {
       // If we're creating a new object, we don't need any special capabilities
@@ -1888,7 +1888,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $actor = $this->getActor();
 
     if ($required_capabilities) {
-      id(new PhabricatorPolicyFilter())
+      id(new PhorgePolicyFilter())
         ->setViewer($actor)
         ->requireCapabilities($required_capabilities)
         ->raisePolicyExceptions(true)
@@ -1897,16 +1897,16 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getLegacyRequiredCapabilities(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $type = $xaction->getTransactionType();
     switch ($type) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         // TODO: Comments technically require CAN_INTERACT, but this is
         // currently somewhat special and handled through EditEngine. For now,
         // don't enforce it here.
         return null;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         // Anyone can subscribe to or unsubscribe from anything they can view,
         // with no other permissions.
 
@@ -1918,7 +1918,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $rem = array_diff_key($old, $new);
         foreach ($rem as $phid) {
           if ($phid !== $this->getActingAsPHID()) {
-            return PhabricatorPolicyCapability::CAN_EDIT;
+            return PhorgePolicyCapability::CAN_EDIT;
           }
         }
 
@@ -1933,49 +1933,49 @@ abstract class PhabricatorApplicationTransactionEditor
         // "this requires either interact or edit", but there's currently no
         // way to specify this kind of requirement.
 
-        $can_edit = PhabricatorPolicyFilter::hasCapability(
+        $can_edit = PhorgePolicyFilter::hasCapability(
           $this->getActor(),
           $this->object,
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
 
         $add = array_diff_key($new, $old);
         foreach ($add as $phid) {
           if ($phid !== $this->getActingAsPHID()) {
             if ($can_edit) {
-              return PhabricatorPolicyCapability::CAN_EDIT;
+              return PhorgePolicyCapability::CAN_EDIT;
             } else {
-              return PhabricatorPolicyCapability::CAN_INTERACT;
+              return PhorgePolicyCapability::CAN_INTERACT;
             }
           }
         }
 
         return null;
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         // TODO: This technically requires CAN_INTERACT, like comments.
         return null;
-      case PhabricatorTransactions::TYPE_HISTORY:
+      case PhorgeTransactions::TYPE_HISTORY:
         // This is a special magic transaction which sends you history via
         // email and is only partially supported in the upstream. You don't
         // need any capabilities to apply it.
         return null;
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         // Signing a transaction group with MFA does not require permissions
         // on its own.
         return null;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         return null;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         return $this->getLegacyRequiredEdgeCapabilities($xaction);
       default:
         // For other older (non-modular) transactions, always require exactly
         // CAN_EDIT. Transactions which do not need CAN_EDIT or need additional
         // capabilities must move to ModularTransactions.
-        return PhabricatorPolicyCapability::CAN_EDIT;
+        return PhorgePolicyCapability::CAN_EDIT;
     }
   }
 
   private function getLegacyRequiredEdgeCapabilities(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // You don't need to have edit permission on an object to mention it or
     // otherwise add a relationship pointing toward it.
@@ -1985,19 +1985,19 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $edge_type = $xaction->getMetadataValue('edge:type');
     switch ($edge_type) {
-      case PhabricatorMutedByEdgeType::EDGECONST:
+      case PhorgeMutedByEdgeType::EDGECONST:
         // At time of writing, you can only write this edge for yourself, so
         // you don't need permissions. If you can eventually mute an object
         // for other users, this would need to be revisited.
         return null;
-      case PhabricatorProjectSilencedEdgeType::EDGECONST:
+      case PhorgeProjectSilencedEdgeType::EDGECONST:
         // At time of writing, you can only write this edge for yourself, so
         // you don't need permissions. If you can eventually silence project
         // for other users, this would need to be revisited.
         return null;
-      case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
+      case PhorgeObjectMentionsObjectEdgeType::EDGECONST:
         return null;
-      case PhabricatorProjectProjectHasMemberEdgeType::EDGECONST:
+      case PhorgeProjectProjectHasMemberEdgeType::EDGECONST:
         $old = $xaction->getOldValue();
         $new = $xaction->getNewValue();
 
@@ -2011,7 +2011,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
         if ($is_join) {
           // You need CAN_JOIN to join a project.
-          return PhabricatorPolicyCapability::CAN_JOIN;
+          return PhorgePolicyCapability::CAN_JOIN;
         }
 
         if ($is_leave) {
@@ -2019,29 +2019,29 @@ abstract class PhabricatorApplicationTransactionEditor
           // You usually don't need any capabilities to leave a project...
           if ($object->getIsMembershipLocked()) {
             // ...you must be able to edit to leave locked projects, though.
-            return PhabricatorPolicyCapability::CAN_EDIT;
+            return PhorgePolicyCapability::CAN_EDIT;
           } else {
             return null;
           }
         }
 
         // You need CAN_EDIT to change members other than yourself.
-        return PhabricatorPolicyCapability::CAN_EDIT;
-      case PhabricatorObjectHasWatcherEdgeType::EDGECONST:
+        return PhorgePolicyCapability::CAN_EDIT;
+      case PhorgeObjectHasWatcherEdgeType::EDGECONST:
         // See PHI1024. Watching a project does not require CAN_EDIT.
         return null;
       default:
-        return PhabricatorPolicyCapability::CAN_EDIT;
+        return PhorgePolicyCapability::CAN_EDIT;
     }
   }
 
 
   private function buildSubscribeTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $changes) {
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       return null;
     }
 
@@ -2052,11 +2052,11 @@ abstract class PhabricatorApplicationTransactionEditor
       $old_texts = mpull($changes, 'getOldValue');
       $new_texts = mpull($changes, 'getNewValue');
 
-      $old_phids = PhabricatorMarkupEngine::extractPHIDsFromMentions(
+      $old_phids = PhorgeMarkupEngine::extractPHIDsFromMentions(
         $this->getActor(),
         $old_texts);
 
-      $new_phids = PhabricatorMarkupEngine::extractPHIDsFromMentions(
+      $new_phids = PhorgeMarkupEngine::extractPHIDsFromMentions(
         $this->getActor(),
         $new_texts);
 
@@ -2075,7 +2075,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     if ($phids) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getActor())
         ->withPHIDs($phids)
         ->execute();
@@ -2100,11 +2100,11 @@ abstract class PhabricatorApplicationTransactionEditor
 
         // Do not subscribe mentioned users who do not have permission to see
         // the object.
-        if ($object instanceof PhabricatorPolicyInterface) {
-          $can_view = PhabricatorPolicyFilter::hasCapability(
+        if ($object instanceof PhorgePolicyInterface) {
+          $can_view = PhorgePolicyFilter::hasCapability(
             $user,
             $object,
-            PhabricatorPolicyCapability::CAN_VIEW);
+            PhorgePolicyCapability::CAN_VIEW);
           if (!$can_view) {
             unset($phids[$key]);
             continue;
@@ -2126,15 +2126,15 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $xaction = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+      ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
       ->setNewValue(array('+' => $phids));
 
     return $xaction;
   }
 
   protected function mergeTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $object = $this->object;
     $type = $u->getTransactionType();
@@ -2145,9 +2145,9 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return $this->mergePHIDOrEdgeTransactions($u, $v);
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $u_type = $u->getMetadataValue('edge:type');
         $v_type = $v->getMetadataValue('edge:type');
         if ($u_type == $v_type) {
@@ -2166,7 +2166,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * a reviewer.
    */
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $results = array();
@@ -2180,15 +2180,15 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function expandTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     return array($xaction);
   }
 
 
   public function getExpandedSupportTransactions(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $xactions = array($xaction);
     $xactions = $this->expandSupportTransactions(
@@ -2210,7 +2210,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function expandSupportTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     $this->loadSubscribers($object);
 
@@ -2227,7 +2227,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     // TODO: For now, this is just a placeholder.
-    $engine = PhabricatorMarkupEngine::getEngine('extract');
+    $engine = PhorgeMarkupEngine::getEngine('extract');
     $engine->setConfig('viewer', $this->requireActor());
 
     $block_xactions = $this->expandRemarkupBlockTransactions(
@@ -2253,13 +2253,13 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   private function newFileTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $remarkup_changes) {
 
     assert_instances_of(
       $remarkup_changes,
-      'PhabricatorTransactionRemarkupChange');
+      'PhorgeTransactionRemarkupChange');
 
     $new_map = array();
 
@@ -2275,19 +2275,19 @@ abstract class PhabricatorApplicationTransactionEditor
       $new_blocks[$key] = phutil_string_cast($new_block);
     }
 
-    $old_refs = PhabricatorMarkupEngine::extractFilePHIDsFromEmbeddedFiles(
+    $old_refs = PhorgeMarkupEngine::extractFilePHIDsFromEmbeddedFiles(
       $viewer,
       $old_blocks);
     $old_refs = array_fuse($old_refs);
 
-    $new_refs = PhabricatorMarkupEngine::extractFilePHIDsFromEmbeddedFiles(
+    $new_refs = PhorgeMarkupEngine::extractFilePHIDsFromEmbeddedFiles(
       $viewer,
       $new_blocks);
     $new_refs = array_fuse($new_refs);
 
     $add_refs = array_diff_key($new_refs, $old_refs);
     foreach ($add_refs as $file_phid) {
-      $new_map[$file_phid] = PhabricatorFileAttachment::MODE_REFERENCE;
+      $new_map[$file_phid] = PhorgeFileAttachment::MODE_REFERENCE;
     }
 
     foreach ($remarkup_changes as $remarkup_change) {
@@ -2306,13 +2306,13 @@ abstract class PhabricatorApplicationTransactionEditor
           continue;
         }
 
-        $new_map[$file_phid] = PhabricatorFileAttachment::MODE_ATTACH;
+        $new_map[$file_phid] = PhorgeFileAttachment::MODE_ATTACH;
       }
     }
 
     $file_phids = $this->extractFilePHIDs($object, $xactions);
     foreach ($file_phids as $file_phid) {
-      $new_map[$file_phid] = PhabricatorFileAttachment::MODE_ATTACH;
+      $new_map[$file_phid] = PhorgeFileAttachment::MODE_ATTACH;
     }
 
     if (!$new_map) {
@@ -2320,7 +2320,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $xaction = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_FILE)
+      ->setTransactionType(PhorgeTransactions::TYPE_FILE)
       ->setMetadataValue('attach.implicit', true)
       ->setNewValue($new_map);
 
@@ -2341,12 +2341,12 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getRemarkupChangesFromTransaction(
-    PhabricatorApplicationTransaction $transaction) {
+    PhorgeApplicationTransaction $transaction) {
     return $transaction->getRemarkupChanges();
   }
 
   private function expandRemarkupBlockTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $changes,
     PhutilMarkupEngine $engine) {
@@ -2366,7 +2366,7 @@ abstract class PhabricatorApplicationTransactionEditor
         $engine->markupText($change->getNewValue());
 
         $mentioned_phids += $engine->getTextMetadata(
-          PhabricatorObjectRemarkupRule::KEY_MENTIONED_OBJECTS,
+          PhorgeObjectRemarkupRule::KEY_MENTIONED_OBJECTS,
           array());
       }
     }
@@ -2375,7 +2375,7 @@ abstract class PhabricatorApplicationTransactionEditor
       return $block_xactions;
     }
 
-    $mentioned_objects = id(new PhabricatorObjectQuery())
+    $mentioned_objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getActor())
       ->withPHIDs($mentioned_phids)
       ->execute();
@@ -2385,7 +2385,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $mentionable_phids = array();
     if ($this->shouldEnableMentions($object, $xactions)) {
       foreach ($mentioned_objects as $mentioned_object) {
-        if ($mentioned_object instanceof PhabricatorMentionableInterface) {
+        if ($mentioned_object instanceof PhorgeMentionableInterface) {
           $mentioned_phid = $mentioned_object->getPHID();
           if (isset($unmentionable_map[$mentioned_phid])) {
             continue;
@@ -2400,10 +2400,10 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     if ($mentionable_phids) {
-      $edge_type = PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
+      $edge_type = PhorgeObjectMentionsObjectEdgeType::EDGECONST;
       $block_xactions[] = newv(get_class(head($xactions)), array())
         ->setIgnoreOnNoEffect(true)
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $edge_type)
         ->setNewValue(array('+' => $mentionable_phids));
     }
@@ -2412,7 +2412,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function expandCustomRemarkupBlockTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $changes,
     PhutilMarkupEngine $engine) {
@@ -2468,7 +2468,7 @@ abstract class PhabricatorApplicationTransactionEditor
     // If we merged any comments away, restore them.
     foreach ($stray_comments as $comment) {
       $xaction = newv(get_class(head($result)), array());
-      $xaction->setTransactionType(PhabricatorTransactions::TYPE_COMMENT);
+      $xaction->setTransactionType(PhorgeTransactions::TYPE_COMMENT);
       $xaction->setComment($comment);
       $result[] = $xaction;
     }
@@ -2477,12 +2477,12 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   public function mergePHIDOrEdgeTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $result = $u->getNewValue();
     foreach ($v->getNewValue() as $key => $value) {
-      if ($u->getTransactionType() == PhabricatorTransactions::TYPE_EDGE) {
+      if ($u->getTransactionType() == PhorgeTransactions::TYPE_EDGE) {
         if (empty($result[$key])) {
           $result[$key] = $value;
         } else {
@@ -2543,7 +2543,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function getPHIDTransactionNewValue(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $old = null) {
 
     if ($old !== null) {
@@ -2604,7 +2604,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function getEdgeTransactionNewValue(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $new = $xaction->getNewValue();
     $new_add = idx($new, '+', array());
@@ -2671,7 +2671,7 @@ abstract class PhabricatorApplicationTransactionEditor
       return;
     }
     foreach ($list as $key => $item) {
-      if (phid_get_type($key) === PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+      if (phid_get_type($key) === PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
         throw new Exception(
           pht(
             'Edge transactions must have destination PHIDs as in edge '.
@@ -2691,7 +2691,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function normalizeEdgeTransactionValue(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $edge,
     $dst_phid) {
 
@@ -2756,7 +2756,7 @@ abstract class PhabricatorApplicationTransactionEditor
     // Move bare comments to the end, so the actions precede them.
     foreach ($xactions as $xaction) {
       $type = $xaction->getTransactionType();
-      if ($type == PhabricatorTransactions::TYPE_COMMENT) {
+      if ($type == PhorgeTransactions::TYPE_COMMENT) {
         $tail[] = $xaction;
       } else {
         $head[] = $xaction;
@@ -2768,11 +2768,11 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   protected function filterTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    $type_comment = PhabricatorTransactions::TYPE_COMMENT;
-    $type_mfa = PhabricatorTransactions::TYPE_MFA;
+    $type_comment = PhorgeTransactions::TYPE_COMMENT;
+    $type_mfa = PhorgeTransactions::TYPE_MFA;
 
     $no_effect = array();
     $has_comment = false;
@@ -2819,7 +2819,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     if (!$this->getContinueOnNoEffect() && !$this->getIsPreview()) {
-      throw new PhabricatorApplicationTransactionNoEffectException(
+      throw new PhorgeApplicationTransactionNoEffectException(
         $no_effect,
         $any_effect,
         $has_comment);
@@ -2851,16 +2851,16 @@ abstract class PhabricatorApplicationTransactionEditor
    * missing, by detecting that the object has no field value and there is no
    * transaction which sets one.
    *
-   * @param PhabricatorLiskDAO Object being edited.
+   * @param PhorgeLiskDAO Object being edited.
    * @param string Transaction type to validate.
-   * @param list<PhabricatorApplicationTransaction> Transactions of given type,
+   * @param list<PhorgeApplicationTransaction> Transactions of given type,
    *   which may be empty if the edit does not apply any transactions of the
    *   given type.
-   * @return list<PhabricatorApplicationTransactionValidationError> List of
+   * @return list<PhorgeApplicationTransactionValidationError> List of
    *   validation errors.
    */
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -2872,50 +2872,50 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         $errors[] = $this->validatePolicyTransaction(
           $object,
           $xactions,
           $type,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
         break;
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         $errors[] = $this->validatePolicyTransaction(
           $object,
           $xactions,
           $type,
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
         break;
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         $errors[] = $this->validateSpaceTransactions(
           $object,
           $xactions,
           $type);
         break;
-      case PhabricatorTransactions::TYPE_SUBTYPE:
+      case PhorgeTransactions::TYPE_SUBTYPE:
         $errors[] = $this->validateSubtypeTransactions(
           $object,
           $xactions,
           $type);
         break;
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         $errors[] = $this->validateMFATransactions(
           $object,
           $xactions,
           $type);
         break;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $groups = array();
         foreach ($xactions as $xaction) {
           $groups[$xaction->getMetadataValue('customfield:key')][] = $xaction;
         }
 
-        $field_list = PhabricatorCustomField::getObjectFields(
+        $field_list = PhorgeCustomField::getObjectFields(
           $object,
-          PhabricatorCustomField::ROLE_EDIT);
+          PhorgeCustomField::ROLE_EDIT);
         $field_list->setViewer($this->getActor());
 
-        $role_xactions = PhabricatorCustomField::ROLE_APPLICATIONTRANSACTIONS;
+        $role_xactions = PhorgeCustomField::ROLE_APPLICATIONTRANSACTIONS;
         foreach ($field_list->getFields() as $field) {
           if (!$field->shouldEnableForRole($role_xactions)) {
             continue;
@@ -2926,7 +2926,7 @@ abstract class PhabricatorApplicationTransactionEditor
             idx($groups, $field->getFieldKey(), array()));
         }
         break;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         $errors[] = $this->validateFileTransactions(
           $object,
           $xactions,
@@ -2938,13 +2938,13 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function validateFileTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     $transaction_type) {
 
     $errors = array();
 
-    $mode_map = PhabricatorFileAttachment::getModeList();
+    $mode_map = PhorgeFileAttachment::getModeList();
     $mode_map = array_fuse($mode_map);
 
     $file_phids = array();
@@ -2952,7 +2952,7 @@ abstract class PhabricatorApplicationTransactionEditor
       $new = $xaction->getNewValue();
 
       if (!is_array($new)) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht(
@@ -2971,7 +2971,7 @@ abstract class PhabricatorApplicationTransactionEditor
         }
 
         if (!is_string($attachment_mode)) {
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $transaction_type,
             pht('Invalid'),
             pht(
@@ -2981,7 +2981,7 @@ abstract class PhabricatorApplicationTransactionEditor
               phutil_describe_type($attachment_mode)),
             $xaction);
         } else {
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $transaction_type,
             pht('Invalid'),
             pht(
@@ -2996,7 +2996,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     if ($file_phids) {
-      $file_map = id(new PhabricatorFileQuery())
+      $file_map = id(new PhorgeFileQuery())
         ->setViewer($this->getActor())
         ->withPHIDs($file_phids)
         ->execute();
@@ -3017,7 +3017,7 @@ abstract class PhabricatorApplicationTransactionEditor
           continue;
         }
 
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht(
@@ -3034,7 +3034,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   public function validatePolicyTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     $transaction_type,
     $capability) {
@@ -3051,13 +3051,13 @@ abstract class PhabricatorApplicationTransactionEditor
     // object.
     foreach ($xactions as $xaction) {
       try {
-        PhabricatorPolicyFilter::requireCapabilityWithForcedPolicy(
+        PhorgePolicyFilter::requireCapabilityWithForcedPolicy(
           $actor,
           $policy_object,
           $capability,
           $xaction->getNewValue());
-      } catch (PhabricatorPolicyException $ex) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+      } catch (PhorgePolicyException $ex) {
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht(
@@ -3071,12 +3071,12 @@ abstract class PhabricatorApplicationTransactionEditor
 
     if ($this->getIsNewObject()) {
       if (!$xactions) {
-        $has_capability = PhabricatorPolicyFilter::hasCapability(
+        $has_capability = PhorgePolicyFilter::hasCapability(
           $actor,
           $policy_object,
           $capability);
         if (!$has_capability) {
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $transaction_type,
             pht('Invalid'),
             pht(
@@ -3094,16 +3094,16 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   private function validateSpaceTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     $transaction_type) {
     $errors = array();
 
     $actor = $this->getActor();
 
-    $has_spaces = PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($actor);
-    $actor_spaces = PhabricatorSpacesNamespaceQuery::getViewerSpaces($actor);
-    $active_spaces = PhabricatorSpacesNamespaceQuery::getViewerActiveSpaces(
+    $has_spaces = PhorgeSpacesNamespaceQuery::getViewerSpacesExist($actor);
+    $actor_spaces = PhorgeSpacesNamespaceQuery::getViewerSpaces($actor);
+    $active_spaces = PhorgeSpacesNamespaceQuery::getViewerActiveSpaces(
       $actor);
     foreach ($xactions as $xaction) {
       $space_phid = $xaction->getNewValue();
@@ -3116,7 +3116,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
         // The install has some spaces, so every object needs to be put
         // in a valid space.
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht('You must choose a space for this object.'),
@@ -3127,7 +3127,7 @@ abstract class PhabricatorApplicationTransactionEditor
       // If the PHID isn't `null`, it needs to be a valid space that the
       // viewer can see.
       if (empty($actor_spaces[$space_phid])) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht(
@@ -3143,7 +3143,7 @@ abstract class PhabricatorApplicationTransactionEditor
           continue;
         }
 
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Archived'),
           pht(
@@ -3158,7 +3158,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function validateSubtypeTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     $transaction_type) {
     $errors = array();
@@ -3173,7 +3173,7 @@ abstract class PhabricatorApplicationTransactionEditor
       }
 
       if (!$map->isValidSubtype($new)) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('Invalid'),
           pht(
@@ -3188,24 +3188,24 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function validateMFATransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     $transaction_type) {
     $errors = array();
 
-    $factors = id(new PhabricatorAuthFactorConfigQuery())
+    $factors = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($this->getActor())
       ->withUserPHIDs(array($this->getActingAsPHID()))
       ->withFactorProviderStatuses(
         array(
-          PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
-          PhabricatorAuthFactorProviderStatus::STATUS_DEPRECATED,
+          PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
+          PhorgeAuthFactorProviderStatus::STATUS_DEPRECATED,
         ))
       ->execute();
 
     foreach ($xactions as $xaction) {
       if (!$factors) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $transaction_type,
           pht('No MFA'),
           pht(
@@ -3224,27 +3224,27 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function adjustObjectForPolicyChecks(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $copy = clone $object;
 
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+        case PhorgeTransactions::TYPE_SUBSCRIBERS:
           $clone_xaction = clone $xaction;
           $clone_xaction->setOldValue(array_values($this->subscribers));
           $clone_xaction->setNewValue(
             $this->getPHIDTransactionNewValue(
               $clone_xaction));
 
-          PhabricatorPolicyRule::passTransactionHintToRule(
+          PhorgePolicyRule::passTransactionHintToRule(
             $copy,
-            new PhabricatorSubscriptionsSubscribersPolicyRule(),
+            new PhorgeSubscriptionsSubscribersPolicyRule(),
             array_fuse($clone_xaction->getNewValue()));
 
           break;
-        case PhabricatorTransactions::TYPE_SPACE:
+        case PhorgeTransactions::TYPE_SPACE:
           $space_phid = $this->getTransactionNewValue($object, $xaction);
           $copy->setSpacePHID($space_phid);
           break;
@@ -3255,7 +3255,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return array();
   }
@@ -3276,7 +3276,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * is an empty field.
    *
    * @param wild Current field value.
-   * @param list<PhabricatorApplicationTransaction> Transactions editing the
+   * @param list<PhorgeApplicationTransaction> Transactions editing the
    *          field.
    * @return bool True if the field will be an empty text field after edits.
    */
@@ -3300,17 +3300,17 @@ abstract class PhabricatorApplicationTransactionEditor
    * When a user interacts with an object, we might want to add them to CC.
    */
   final public function applyImplicitCC(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       // If the object isn't subscribable, we can't CC them.
       return $xactions;
     }
 
     $actor_phid = $this->getActingAsPHID();
 
-    $type_user = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $type_user = PhorgePeopleUserPHIDType::TYPECONST;
     if (phid_get_type($actor_phid) != $type_user) {
       // Transactions by application actors like Herald, Harbormaster and
       // Diffusion should not CC the applications.
@@ -3341,9 +3341,9 @@ abstract class PhabricatorApplicationTransactionEditor
         return $xactions;
       }
 
-      $unsub = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $unsub = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object->getPHID(),
-        PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST);
+        PhorgeObjectHasUnsubscriberEdgeType::EDGECONST);
       $unsub = array_fuse($unsub);
       if (isset($unsub[$actor_phid])) {
         // If the user has previously unsubscribed from this object explicitly,
@@ -3354,7 +3354,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $actor = $this->getActor();
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($actor)
       ->withPHIDs(array($actor_phid))
       ->executeOne();
@@ -3371,7 +3371,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $xaction = newv(get_class(head($xactions)), array());
-    $xaction->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS);
+    $xaction->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS);
     $xaction->setNewValue(array('+' => array($actor_phid)));
 
     array_unshift($xactions, $xaction);
@@ -3380,8 +3380,8 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function shouldImplyCC(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     return $xaction->isCommentTransaction();
   }
@@ -3394,7 +3394,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
@@ -3404,7 +3404,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   private function buildMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $email_to = $this->mailToPHIDs;
@@ -3429,7 +3429,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function buildMailWithRecipients(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $email_to,
     array $email_cc,
@@ -3450,14 +3450,14 @@ abstract class PhabricatorApplicationTransactionEditor
 
       $viewer = $target->getViewer();
       $this->setActor($viewer);
-      $locale = PhabricatorEnv::beginScopedLocale($viewer->getTranslation());
+      $locale = PhorgeEnv::beginScopedLocale($viewer->getTranslation());
 
       $caught = null;
       $mail = null;
       try {
         // Reload the transactions for the current viewer.
         if ($xaction_phids) {
-          $query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+          $query = PhorgeApplicationTransactionQuery::newQueryForObject(
             $object);
 
           $mail_xactions = $query
@@ -3507,15 +3507,15 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function getTransactionsForMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return $xactions;
   }
 
   private function buildMailForTarget(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
-    PhabricatorMailTarget $target) {
+    PhorgeMailTarget $target) {
 
     // Check if any of the transactions are visible for this viewer. If we
     // don't have any visible transactions, don't send the mail.
@@ -3541,7 +3541,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $action = $this->getMailAction($object, $mail_xactions);
     $stamps = $this->generateMailStamps($object, $this->mailStamps);
 
-    if (PhabricatorEnv::getEnvConfig('metamta.email-preferences')) {
+    if (PhorgeEnv::getEnvConfig('metamta.email-preferences')) {
       $this->addEmailPreferenceSectionToMailBody(
         $body,
         $object,
@@ -3576,7 +3576,7 @@ abstract class PhabricatorApplicationTransactionEditor
       $mail->addHeader('X-Herald-Rules', $this->heraldHeader);
     }
 
-    if ($object instanceof PhabricatorProjectInterface) {
+    if ($object instanceof PhorgeProjectInterface) {
       $this->addMailProjectMetadata($object, $mail);
     }
 
@@ -3600,12 +3600,12 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function addMailProjectMetadata(
-    PhabricatorLiskDAO $object,
-    PhabricatorMetaMTAMail $template) {
+    PhorgeLiskDAO $object,
+    PhorgeMetaMTAMail $template) {
 
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
     if (!$project_phids) {
       return;
@@ -3615,7 +3615,7 @@ abstract class PhabricatorApplicationTransactionEditor
     // the mail recipient, but that's not very easy given the way rendering
     // works today.
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($this->requireActor())
       ->withPHIDs($project_phids)
       ->execute();
@@ -3637,7 +3637,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
 
-  protected function getMailThreadID(PhabricatorLiskDAO $object) {
+  protected function getMailThreadID(PhorgeLiskDAO $object) {
     return $object->getPHID();
   }
 
@@ -3646,7 +3646,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function getStrongestAction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return head(msortv($xactions, 'newActionStrengthSortVector'));
   }
@@ -3655,7 +3655,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * @task mail
    */
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     throw new Exception(pht('Capability not supported.'));
   }
 
@@ -3671,7 +3671,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function getMailTags(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     $tags = array();
 
@@ -3695,7 +3695,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function getMailAction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return $this->getStrongestAction($object, $xactions)->getActionName();
   }
@@ -3704,7 +3704,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * @task mail
    */
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     throw new Exception(pht('Capability not supported.'));
   }
 
@@ -3712,12 +3712,12 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * @task mail
    */
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     throw new Exception(pht('Capability not supported.'));
   }
 
 
-  protected function newMailUnexpandablePHIDs(PhabricatorLiskDAO $object) {
+  protected function newMailUnexpandablePHIDs(PhorgeLiskDAO $object) {
     return array();
   }
 
@@ -3725,24 +3725,24 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * @task mail
    */
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     $phids = array();
     $has_support = false;
 
-    if ($object instanceof PhabricatorSubscribableInterface) {
+    if ($object instanceof PhorgeSubscribableInterface) {
       $phid = $object->getPHID();
-      $phids[] = PhabricatorSubscribersQuery::loadSubscribersForPHID($phid);
+      $phids[] = PhorgeSubscribersQuery::loadSubscribersForPHID($phid);
       $has_support = true;
     }
 
-    if ($object instanceof PhabricatorProjectInterface) {
-      $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    if ($object instanceof PhorgeProjectInterface) {
+      $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object->getPHID(),
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
       if ($project_phids) {
-        $projects = id(new PhabricatorProjectQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $projects = id(new PhorgeProjectQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withPHIDs($project_phids)
           ->needWatchers(true)
           ->execute();
@@ -3758,17 +3758,17 @@ abstract class PhabricatorApplicationTransactionEditor
           // We need to do a visibility check for all the watchers, as
           // watching a project is not a guarantee that you can see objects
           // associated with it.
-          $users = id(new PhabricatorPeopleQuery())
+          $users = id(new PhorgePeopleQuery())
             ->setViewer($this->requireActor())
             ->withPHIDs($watcher_phids)
             ->execute();
 
           $watchers = array();
           foreach ($users as $user) {
-            $can_see = PhabricatorPolicyFilter::hasCapability(
+            $can_see = PhorgePolicyFilter::hasCapability(
               $user,
               $object,
-              PhabricatorPolicyCapability::CAN_VIEW);
+              PhorgePolicyCapability::CAN_VIEW);
             if ($can_see) {
               $watchers[] = $user->getPHID();
             }
@@ -3783,7 +3783,7 @@ abstract class PhabricatorApplicationTransactionEditor
     if (!$has_support) {
       throw new Exception(
         pht('The object being edited does not implement any standard '.
-          'interfaces (like PhabricatorSubscribableInterface) which allow '.
+          'interfaces (like PhorgeSubscribableInterface) which allow '.
           'CCs to be generated automatically. Override the "getMailCC()" '.
           'method and generate CCs explicitly.'));
     }
@@ -3796,10 +3796,10 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    $body = id(new PhabricatorMetaMTAMailBody())
+    $body = id(new PhorgeMetaMTAMailBody())
       ->setViewer($this->requireActor())
       ->setContextObject($object);
 
@@ -3818,12 +3818,12 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function getObjectLinkButtonLabelForMail(
-    PhabricatorLiskDAO $object) {
+    PhorgeLiskDAO $object) {
     return null;
   }
 
   protected function getObjectLinkButtonURIForMail(
-    PhabricatorLiskDAO $object) {
+    PhorgeLiskDAO $object) {
 
     // Most objects define a "getURI()" method which does what we want, but
     // this isn't formally part of an interface at time of writing. Try to
@@ -3831,7 +3831,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     try {
       $uri = $object->getURI();
-      return PhabricatorEnv::getProductionURI($uri);
+      return PhorgeEnv::getProductionURI($uri);
     } catch (Exception $ex) {
       return null;
     }
@@ -3841,11 +3841,11 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function addEmailPreferenceSectionToMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorLiskDAO $object,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    $href = PhabricatorEnv::getProductionURI(
+    $href = PhorgeEnv::getProductionURI(
       '/settings/panel/emailpreferences/');
     $body->addLinkSection(pht('EMAIL PREFERENCES'), $href);
   }
@@ -3855,7 +3855,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function addHeadersAndCommentsToMailBody(
-    PhabricatorMetaMTAMailBody $body,
+    PhorgeMetaMTAMailBody $body,
     array $xactions,
     $object_label = null,
     $object_uri = null) {
@@ -4023,14 +4023,14 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task mail
    */
   protected function addCustomFieldsToMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorLiskDAO $object,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    if ($object instanceof PhabricatorCustomFieldInterface) {
-      $field_list = PhabricatorCustomField::getObjectFields(
+    if ($object instanceof PhorgeCustomFieldInterface) {
+      $field_list = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_TRANSACTIONMAIL);
+        PhorgeCustomField::ROLE_TRANSACTIONMAIL);
       $field_list->setViewer($this->getActor());
       $field_list->readFieldsFromStorage($object);
 
@@ -4050,7 +4050,7 @@ abstract class PhabricatorApplicationTransactionEditor
   private function runHeraldMailRules(array $messages) {
     foreach ($messages as $message) {
       $engine = new HeraldEngine();
-      $adapter = id(new PhabricatorMailOutboundMailHeraldAdapter())
+      $adapter = id(new PhorgeMailOutboundMailHeraldAdapter())
         ->setObject($message);
 
       $rules = $engine->loadRulesForAdapter($adapter);
@@ -4067,7 +4067,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
@@ -4077,7 +4077,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function getFeedStoryType() {
-    return 'PhabricatorApplicationTransactionFeedStory';
+    return 'PhorgeApplicationTransactionFeedStory';
   }
 
 
@@ -4085,7 +4085,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function getFeedRelatedPHIDs(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $phids = array(
@@ -4093,10 +4093,10 @@ abstract class PhabricatorApplicationTransactionEditor
       $this->getActingAsPHID(),
     );
 
-    if ($object instanceof PhabricatorProjectInterface) {
-      $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    if ($object instanceof PhorgeProjectInterface) {
+      $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object->getPHID(),
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
       foreach ($project_phids as $project_phid) {
         $phids[] = $project_phid;
       }
@@ -4110,7 +4110,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function getFeedNotifyPHIDs(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // If some transactions are forcing notification delivery, add the forced
@@ -4142,7 +4142,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function getFeedStoryData(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $xactions = msortv($xactions, 'newActionStrengthSortVector');
@@ -4158,7 +4158,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task feed
    */
   protected function publishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $mailed_phids) {
 
@@ -4203,7 +4203,7 @@ abstract class PhabricatorApplicationTransactionEditor
       $unexpandable_phids = array();
     }
 
-    id(new PhabricatorFeedStoryPublisher())
+    id(new PhorgeFeedStoryPublisher())
       ->setStoryType($story_type)
       ->setStoryData($story_data)
       ->setStoryTime(time())
@@ -4233,13 +4233,13 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     throw new Exception(pht('No herald adapter specified.'));
   }
@@ -4263,7 +4263,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function applyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $adapter = $this->buildHeraldAdapter($object, $xactions)
@@ -4303,7 +4303,7 @@ abstract class PhabricatorApplicationTransactionEditor
       // object is now done preparing builds and can transition into a
       // completed status.
       $buildables = id(new HarbormasterBuildableQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withManualBuildables(false)
         ->withBuildablePHIDs(array($buildable_phid))
         ->execute();
@@ -4328,7 +4328,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $apply_xactions = $this->didApplyHeraldRules($object, $adapter, $xscript);
-    assert_instances_of($apply_xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($apply_xactions, 'PhorgeApplicationTransaction');
 
     $queue_xactions = $adapter->getQueuedTransactions();
 
@@ -4338,7 +4338,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function didApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     HeraldAdapter $adapter,
     HeraldTranscript $transcript) {
     return array();
@@ -4352,8 +4352,8 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task customfield
    */
   private function getCustomFieldForTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $field_key = $xaction->getMetadataValue('customfield:key');
     if (!$field_key) {
@@ -4363,9 +4363,9 @@ abstract class PhabricatorApplicationTransactionEditor
         'customfield:key'));
     }
 
-    $field = PhabricatorCustomField::getObjectField(
+    $field = PhorgeCustomField::getObjectField(
       $object,
-      PhabricatorCustomField::ROLE_APPLICATIONTRANSACTIONS,
+      PhorgeCustomField::ROLE_APPLICATIONTRANSACTIONS,
       $field_key);
 
     if (!$field) {
@@ -4401,7 +4401,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task files
    */
   private function extractFilePHIDs(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $phids = array();
@@ -4428,15 +4428,15 @@ abstract class PhabricatorApplicationTransactionEditor
    * @task files
    */
   protected function extractFilePHIDsFromCustomTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     return array();
   }
 
 
   private function applyInverseEdgeTransactions(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction,
     $inverse_type) {
 
     $old = $xaction->getOldValue();
@@ -4449,7 +4449,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $rem = array_fuse($rem);
     $all = $add + $rem;
 
-    $nodes = id(new PhabricatorObjectQuery())
+    $nodes = id(new PhorgeObjectQuery())
       ->setViewer($this->requireActor())
       ->withPHIDs($all)
       ->execute();
@@ -4457,11 +4457,11 @@ abstract class PhabricatorApplicationTransactionEditor
     $object_phid = $object->getPHID();
 
     foreach ($nodes as $node) {
-      if (!($node instanceof PhabricatorApplicationTransactionInterface)) {
+      if (!($node instanceof PhorgeApplicationTransactionInterface)) {
         continue;
       }
 
-      if ($node instanceof PhabricatorUser) {
+      if ($node instanceof PhorgeUser) {
         // TODO: At least for now, don't record inverse edge transactions
         // for users (for example, "alincoln joined project X"): Feed fills
         // this role instead.
@@ -4477,7 +4477,7 @@ abstract class PhabricatorApplicationTransactionEditor
       // table. If we try to apply this transaction naturally, it will no-op
       // itself because it doesn't have any effect.
 
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(array($node_phid))
         ->withEdgeTypes(array($inverse_type));
 
@@ -4524,7 +4524,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * @return object Publishable object.
    * @task workers
    */
-  protected function willPublish(PhabricatorLiskDAO $object, array $xactions) {
+  protected function willPublish(PhorgeLiskDAO $object, array $xactions) {
     return $object;
   }
 
@@ -4774,9 +4774,9 @@ abstract class PhabricatorApplicationTransactionEditor
     // tagged with multiple projects which share a common ancestor, so long as
     // they are not mutual ancestors.
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array_keys($phids))
       ->execute();
@@ -4873,16 +4873,16 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     // If the object is a file itself, scramble it.
-    if ($object instanceof PhabricatorFile) {
+    if ($object instanceof PhorgeFile) {
       if ($this->shouldScramblePolicy($object->getViewPolicy())) {
         $object->scrambleSecret();
         $object->save();
       }
     }
 
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
+    $omnipotent_viewer = PhorgeUser::getOmnipotentUser();
 
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setViewer($omnipotent_viewer)
       ->withAttachedObjectPHIDs(array($object->getPHID()))
       ->execute();
@@ -4904,8 +4904,8 @@ abstract class PhabricatorApplicationTransactionEditor
    */
   private function shouldScramblePolicy($policy) {
     switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
-      case PhabricatorPolicies::POLICY_USER:
+      case PhorgePolicies::POLICY_PUBLIC:
+      case PhorgePolicies::POLICY_USER:
         return false;
     }
 
@@ -4918,7 +4918,7 @@ abstract class PhabricatorApplicationTransactionEditor
     // milestone to the parent to move back into the "Backlog" column on the
     // parent workboard.
 
-    if ($const != PhabricatorProjectObjectHasProjectEdgeType::EDGECONST) {
+    if ($const != PhorgeProjectObjectHasProjectEdgeType::EDGECONST) {
       return;
     }
 
@@ -4934,8 +4934,8 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     // Find any proxy columns for the removed projects.
-    $proxy_columns = id(new PhabricatorProjectColumnQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $proxy_columns = id(new PhorgeProjectColumnQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withProxyPHIDs($removed_phids)
       ->execute();
     if (!$proxy_columns) {
@@ -4944,7 +4944,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $proxy_phids = mpull($proxy_columns, 'getPHID');
 
-    $position_table = new PhabricatorProjectColumnPosition();
+    $position_table = new PhorgeProjectColumnPosition();
     $conn_w = $position_table->establishConnection('w');
 
     queryfx(
@@ -4956,11 +4956,11 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getModularTransactionTypes(
-    PhabricatorLiskDAO $object) {
+    PhorgeLiskDAO $object) {
 
     if ($this->modularTypes === null) {
       $template = $object->getApplicationTransactionTemplate();
-      if ($template instanceof PhabricatorModularTransaction) {
+      if ($template instanceof PhorgeModularTransaction) {
         $xtypes = $template->newModularTransactionTypes();
         foreach ($xtypes as $key => $xtype) {
           $xtype = clone $xtype;
@@ -4993,7 +4993,7 @@ abstract class PhabricatorApplicationTransactionEditor
 /* -(  Queue  )-------------------------------------------------------------- */
 
   protected function queueTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->transactionQueue[] = $xaction;
     return $this;
   }
@@ -5012,7 +5012,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   final protected function newSubEditor(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    PhorgeApplicationTransactionEditor $template = null) {
     $editor = $this->newEditorCopy($template);
 
     $editor->parentEditor = $this;
@@ -5022,7 +5022,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newEditorCopy(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    PhorgeApplicationTransactionEditor $template = null) {
     if ($template === null) {
       $template = newv(get_class($this), array());
     }
@@ -5111,7 +5111,7 @@ abstract class PhabricatorApplicationTransactionEditor
   private function newMailExtensions($object) {
     $actor = $this->getActor();
 
-    $all_extensions = PhabricatorMailEngineExtension::getAllExtensions();
+    $all_extensions = PhorgeMailEngineExtension::getAllExtensions();
 
     $extensions = array();
     foreach ($all_extensions as $key => $template) {
@@ -5238,7 +5238,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function queueWebhooks($object, array $xactions) {
-    $hook_viewer = PhabricatorUser::getOmnipotentUser();
+    $hook_viewer = PhorgeUser::getOmnipotentUser();
 
     $webhook_map = $this->webhookMap;
     if (!is_array($webhook_map)) {
@@ -5310,7 +5310,7 @@ abstract class PhabricatorApplicationTransactionEditor
       return false;
     }
 
-    if ($type != PhabricatorTransactions::TYPE_SUBSCRIBERS) {
+    if ($type != PhorgeTransactions::TYPE_SUBSCRIBERS) {
       return false;
     }
 
@@ -5333,13 +5333,13 @@ abstract class PhabricatorApplicationTransactionEditor
     return true;
   }
 
-  private function buildHistoryMail(PhabricatorLiskDAO $object) {
+  private function buildHistoryMail(PhorgeLiskDAO $object) {
     $viewer = $this->requireActor();
     $recipient_phid = $this->getActingAsPHID();
 
     // Load every transaction so we can build a mail message with a complete
     // history for the object.
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($object);
     $xactions = $query
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
@@ -5362,9 +5362,9 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   public function newAutomaticInlineTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $transaction_type,
-    PhabricatorCursorPagedPolicyAwareQuery $query_template) {
+    PhorgeCursorPagedPolicyAwareQuery $query_template) {
 
     $actor = $this->getActor();
 
@@ -5397,14 +5397,14 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   protected function newInlineStateTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorCursorPagedPolicyAwareQuery $query_template) {
+    PhorgeLiskDAO $object,
+    PhorgeCursorPagedPolicyAwareQuery $query_template) {
 
     $actor_phid = $this->getActingAsPHID();
     $author_phid = $object->getAuthorPHID();
     $actor_is_author = ($actor_phid == $author_phid);
 
-    $state_map = PhabricatorTransactions::getInlineStateMap();
+    $state_map = PhorgeTransactions::getInlineStateMap();
 
     $inline_query = id(clone $query_template)
       ->setViewer($this->getActor())
@@ -5440,14 +5440,14 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     return $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_INLINESTATE)
+      ->setTransactionType(PhorgeTransactions::TYPE_INLINESTATE)
       ->setIgnoreOnNoEffect(true)
       ->setMetadataValue('inline.details', $inline_details)
       ->setOldValue($old_value)
       ->setNewValue($new_value);
   }
 
-  private function requireMFA(PhabricatorLiskDAO $object, array $xactions) {
+  private function requireMFA(PhorgeLiskDAO $object, array $xactions) {
     $actor = $this->getActor();
 
     // Let omnipotent editors skip MFA. This is mostly aimed at scripts.
@@ -5472,7 +5472,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $request = $this->getRequest();
     if ($request === null) {
       $source_type = $this->getContentSource()->getSourceTypeConstant();
-      $conduit_type = PhabricatorConduitContentSource::SOURCECONST;
+      $conduit_type = PhorgeConduitContentSource::SOURCECONST;
       $is_conduit = ($source_type === $conduit_type);
       if ($is_conduit) {
         throw new Exception(
@@ -5498,7 +5498,7 @@ abstract class PhabricatorApplicationTransactionEditor
           'an MFA check.'));
     }
 
-    $token = id(new PhabricatorAuthSessionEngine())
+    $token = id(new PhorgeAuthSessionEngine())
       ->setWorkflowKey($workflow_key)
       ->requireHighSecurityToken($actor, $request, $cancel_uri);
 
@@ -5510,12 +5510,12 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newMFATransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    $has_engine = ($object instanceof PhabricatorEditEngineMFAInterface);
+    $has_engine = ($object instanceof PhorgeEditEngineMFAInterface);
     if ($has_engine) {
-      $engine = PhabricatorEditEngineMFAEngine::newEngineForObject($object)
+      $engine = PhorgeEditEngineMFAEngine::newEngineForObject($object)
         ->setViewer($this->getActor());
       $require_mfa = $engine->shouldRequireMFA();
       $try_mfa = $engine->shouldTryMFA();
@@ -5557,7 +5557,7 @@ abstract class PhabricatorApplicationTransactionEditor
       return $xactions;
     }
 
-    $type_mfa = PhabricatorTransactions::TYPE_MFA;
+    $type_mfa = PhorgeTransactions::TYPE_MFA;
 
     $has_mfa = false;
     foreach ($xactions as $xaction) {
@@ -5583,7 +5583,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getTitleForTextMail(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $type = $xaction->getTransactionType();
     $object = $this->object;
 
@@ -5601,7 +5601,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function getTitleForHTMLMail(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $type = $xaction->getTransactionType();
     $object = $this->object;
 
@@ -5620,7 +5620,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   private function getBodyForTextMail(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $type = $xaction->getTransactionType();
     $object = $this->object;
 
@@ -5638,7 +5638,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function isLockOverrideTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // See PHI1209. When an object is locked, certain types of transactions
     // can still be applied without requiring a policy check, like subscribing
@@ -5662,7 +5662,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     // For now, all edits other than subscribes always override locks.
     $type = $xaction->getTransactionType();
-    if ($type !== PhabricatorTransactions::TYPE_SUBSCRIBERS) {
+    if ($type !== PhorgeTransactions::TYPE_SUBSCRIBERS) {
       return true;
     }
 
@@ -5691,7 +5691,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   private function validateTransactionsWithExtensions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     $errors = array();
 
@@ -5703,7 +5703,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
       assert_instances_of(
         $extension_errors,
-        'PhabricatorApplicationTransactionValidationError');
+        'PhorgeApplicationTransactionValidationError');
 
       $errors[] = $extension_errors;
     }
@@ -5719,7 +5719,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newEditorExtensions() {
-    $extensions = PhabricatorEditorExtension::getAllExtensions();
+    $extensions = PhorgeEditorExtension::getAllExtensions();
 
     $actor = $this->getActor();
     $object = $this->object;

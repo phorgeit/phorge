@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherQuery
-  extends PhabricatorPackagesQuery {
+final class PhorgePackagesPublisherQuery
+  extends PhorgePackagesQuery {
 
   private $ids;
   private $phids;
@@ -24,12 +24,12 @@ final class PhabricatorPackagesPublisherQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      new PhabricatorPackagesPublisherNameNgrams(),
+      new PhorgePackagesPublisherNameNgrams(),
       $ngrams);
   }
 
   public function newResultObject() {
-    return new PhabricatorPackagesPublisher();
+    return new PhorgePackagesPublisher();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {

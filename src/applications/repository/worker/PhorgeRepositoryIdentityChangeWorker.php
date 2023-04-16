@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryIdentityChangeWorker
-  extends PhabricatorWorker {
+final class PhorgeRepositoryIdentityChangeWorker
+  extends PhorgeWorker {
 
   protected function doWork() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $related_phids = $this->getTaskDataValue('relatedPHIDs');
     $email_addresses = $this->getTaskDataValue('emailAddresses');
@@ -30,7 +30,7 @@ final class PhabricatorRepositoryIdentityChangeWorker
     $identity_map = array();
 
     if ($related_phids) {
-      $identities = id(new PhabricatorRepositoryIdentityQuery())
+      $identities = id(new PhorgeRepositoryIdentityQuery())
         ->setViewer($viewer)
         ->withRelatedPHIDs($related_phids)
         ->execute();
@@ -38,7 +38,7 @@ final class PhabricatorRepositoryIdentityChangeWorker
     }
 
     if ($email_addresses) {
-      $identities = id(new PhabricatorRepositoryIdentityQuery())
+      $identities = id(new PhorgeRepositoryIdentityQuery())
         ->setViewer($viewer)
         ->withEmailAddresses($email_addresses)
         ->execute();

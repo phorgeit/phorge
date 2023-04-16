@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterArtifactSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'harbormaster.artifact.search';

@@ -4,7 +4,7 @@ final class PhrictionNewController extends PhrictionController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
-    $slug = PhabricatorSlug::normalize($request->getStr('slug'));
+    $slug = PhorgeSlug::normalize($request->getStr('slug'));
 
     if ($request->isFormPost()) {
       $document = id(new PhrictionDocumentQuery())

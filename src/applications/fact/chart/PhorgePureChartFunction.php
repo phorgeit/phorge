@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPureChartFunction
-  extends PhabricatorChartFunction {
+abstract class PhorgePureChartFunction
+  extends PhorgeChartFunction {
 
   public function getDataRefs(array $xv) {
     return array();

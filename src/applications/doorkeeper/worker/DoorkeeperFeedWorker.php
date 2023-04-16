@@ -47,9 +47,9 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
 
 
   /**
-   * Get the @{class:PhabricatorFeedStory} that should be published.
+   * Get the @{class:PhorgeFeedStory} that should be published.
    *
-   * @return PhabricatorFeedStory The story to publish.
+   * @return PhorgeFeedStory The story to publish.
    * @task context
    */
   protected function getFeedStory() {
@@ -68,11 +68,11 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
    * on loading external accounts. Possibly we should tailor this. See T3732.
    * Using the actor for most operations might make more sense.
    *
-   * @return PhabricatorUser Viewer.
+   * @return PhorgeUser Viewer.
    * @task context
    */
   protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
 
@@ -100,7 +100,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
       try {
         $object = $story->getPrimaryObject();
       } catch (Exception $ex) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           $ex->getMessage());
       }
       $this->storyObject = $object;
@@ -157,7 +157,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
    * @{method:publishFeedStory}.
    */
   final protected function doWork() {
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->log("%s\n", pht('This software is running in silent mode.'));
       return;
     }
@@ -195,7 +195,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
    * See @{method:getMaximumRetryCount} for a description of Doorkeeper
    * retry defaults.
    */
-  public function getWaitBeforeRetry(PhabricatorWorkerTask $task) {
+  public function getWaitBeforeRetry(PhorgeWorkerTask $task) {
     $count = $task->getFailureCount();
     return (5 * 60) * pow(8, $count);
   }

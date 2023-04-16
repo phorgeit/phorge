@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentRemoveController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionCommentRemoveController
+  extends PhorgeApplicationTransactionController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $phid = $request->getURIData('phid');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();
@@ -25,7 +25,7 @@ final class PhabricatorApplicationTransactionCommentRemoveController
     }
 
     $obj_phid = $xaction->getObjectPHID();
-    $obj_handle = id(new PhabricatorHandleQuery())
+    $obj_handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($obj_phid))
       ->executeOne();
@@ -38,7 +38,7 @@ final class PhabricatorApplicationTransactionCommentRemoveController
     // from locked threads.
 
     $object = $xaction->getObject();
-    $can_interact = PhabricatorPolicyFilter::canInteract(
+    $can_interact = PhorgePolicyFilter::canInteract(
       $viewer,
       $object);
     if (!$can_interact && !$viewer->getIsAdmin()) {
@@ -56,11 +56,11 @@ final class PhabricatorApplicationTransactionCommentRemoveController
         ->setContent('')
         ->setIsRemoved(true);
 
-      $editor = id(new PhabricatorApplicationTransactionCommentEditor())
+      $editor = id(new PhorgeApplicationTransactionCommentEditor())
         ->setActor($viewer)
         ->setRequest($request)
         ->setCancelURI($done_uri)
-        ->setContentSource(PhabricatorContentSource::newFromRequest($request))
+        ->setContentSource(PhorgeContentSource::newFromRequest($request))
         ->applyEdit($xaction, $comment);
 
       if ($request->isAjax()) {

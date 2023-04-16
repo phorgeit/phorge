@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorRepositoryCommitChangeParserWorker
-  extends PhabricatorRepositoryCommitParserWorker {
+abstract class PhorgeRepositoryCommitChangeParserWorker
+  extends PhorgeRepositoryCommitParserWorker {
 
   protected function getImportStepFlag() {
-    return PhabricatorRepositoryCommit::IMPORTED_CHANGE;
+    return PhorgeRepositoryCommit::IMPORTED_CHANGE;
   }
 
   public function getRequiredLeaseTime() {
@@ -14,12 +14,12 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
   }
 
   abstract protected function parseCommitChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit);
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit);
 
   protected function parseCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     $this->log("%s\n", pht('Parsing "%s"...', $commit->getMonogram()));
 
@@ -40,20 +40,20 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
 
       $commit->writeImportStatusFlag($this->getImportStepFlag());
 
-      PhabricatorSearchWorker::queueDocumentForIndexing($commit->getPHID());
+      PhorgeSearchWorker::queueDocumentForIndexing($commit->getPHID());
     }
 
     $this->finishParse();
   }
 
   public function parseChangesForUnitTest(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
     return $this->parseCommitChanges($repository, $commit);
   }
 
   public static function lookupOrCreatePaths(array $paths) {
-    $repository = new PhabricatorRepository();
+    $repository = new PhorgeRepository();
     $conn_w = $repository->establishConnection('w');
 
     $result_map = self::lookupPaths($paths);
@@ -71,7 +71,7 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
         queryfx(
           $conn_w,
           'INSERT IGNORE INTO %T (path, pathHash) VALUES %LQ',
-          PhabricatorRepository::TABLE_PATH,
+          PhorgeRepository::TABLE_PATH,
           $sql);
       }
       $result_map += self::lookupPaths($missing_paths);
@@ -81,7 +81,7 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
   }
 
   private static function lookupPaths(array $paths) {
-    $repository = new PhabricatorRepository();
+    $repository = new PhorgeRepository();
     $conn_w = $repository->establishConnection('w');
 
     $result_map = array();
@@ -89,7 +89,7 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
       $chunk_map = queryfx_all(
         $conn_w,
         'SELECT path, id FROM %T WHERE pathHash IN (%Ls)',
-        PhabricatorRepository::TABLE_PATH,
+        PhorgeRepository::TABLE_PATH,
         array_map('md5', $path_chunk));
       foreach ($chunk_map as $row) {
         $result_map[$row['path']] = $row['id'];
@@ -99,12 +99,12 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
   }
 
   protected function finishParse() {
-    $this->queueCommitTask('PhabricatorRepositoryCommitPublishWorker');
+    $this->queueCommitTask('PhorgeRepositoryCommitPublishWorker');
   }
 
   private function writeCommitChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit,
     array $changes) {
 
     $conn = $repository->establishConnection('w');
@@ -131,17 +131,17 @@ abstract class PhabricatorRepositoryCommitChangeParserWorker
     queryfx(
       $conn,
       'DELETE FROM %T WHERE commitID = %d',
-      PhabricatorRepository::TABLE_PATHCHANGE,
+      PhorgeRepository::TABLE_PATHCHANGE,
       $commit_id);
 
-    foreach (PhabricatorLiskDAO::chunkSQL($changes_sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($changes_sql) as $chunk) {
       queryfx(
         $conn,
         'INSERT INTO %T
           (repositoryID, pathID, commitID, targetPathID, targetCommitID,
             changeType, fileType, isDirect, commitSequence)
           VALUES %LQ',
-        PhabricatorRepository::TABLE_PATHCHANGE,
+        PhorgeRepository::TABLE_PATHCHANGE,
         $chunk);
     }
   }

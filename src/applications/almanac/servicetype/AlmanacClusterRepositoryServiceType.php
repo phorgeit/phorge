@@ -20,7 +20,7 @@ final class AlmanacClusterRepositoryServiceType
 
   public function getFieldSpecifications() {
     return array(
-      'closed' => id(new PhabricatorBoolEditField())
+      'closed' => id(new PhorgeBoolEditField())
         ->setOptions(
           pht('Allow New Repositories'),
           pht('Prevent New Repositories'))
@@ -54,10 +54,10 @@ final class AlmanacClusterRepositoryServiceType
     }
 
     return array(
-      'protocol' => id(new PhabricatorSelectEditField())
+      'protocol' => id(new PhorgeSelectEditField())
         ->setOptions(ipull($protocols, 'value', 'value'))
         ->setValue($default_value),
-      'writable' => id(new PhabricatorBoolEditField())
+      'writable' => id(new PhorgeBoolEditField())
         ->setOptions(
           pht('Prevent Writes'),
           pht('Allow Writes'))

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorCacheSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class PhorgeCacheSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildRawSchema(
       'cache',
-      id(new PhabricatorKeyValueDatabaseCache())->getTableName(),
+      id(new PhorgeKeyValueDatabaseCache())->getTableName(),
       array(
         'id' => 'auto64',
         'cacheKeyHash' => 'bytes12',
@@ -32,7 +32,7 @@ final class PhabricatorCacheSchemaSpec extends PhabricatorConfigSchemaSpec {
         ),
       ),
       array(
-        'persistence' => PhabricatorConfigTableSchema::PERSISTENCE_CACHE,
+        'persistence' => PhorgeConfigTableSchema::PERSISTENCE_CACHE,
       ));
 
   }

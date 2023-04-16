@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorBadgesEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeBadgesEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -25,38 +25,38 @@ final class PhabricatorBadgesEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorBadgesTransaction::MAILTAG_DETAILS =>
+      PhorgeBadgesTransaction::MAILTAG_DETAILS =>
         pht('Someone changes the badge\'s details.'),
-      PhabricatorBadgesTransaction::MAILTAG_COMMENT =>
+      PhorgeBadgesTransaction::MAILTAG_COMMENT =>
         pht('Someone comments on a badge.'),
-      PhabricatorBadgesTransaction::MAILTAG_OTHER =>
+      PhorgeBadgesTransaction::MAILTAG_OTHER =>
         pht('Other badge activity not listed above occurs.'),
     );
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $actor = $this->getActor();
@@ -67,8 +67,8 @@ final class PhabricatorBadgesEditor
     // Automatically subscribe the author when they create a badge.
     if ($this->getIsNewObject()) {
       if ($actor_phid) {
-        $results[] = id(new PhabricatorBadgesTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+        $results[] = id(new PhorgeBadgesTransaction())
+          ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
           ->setNewValue(
             array(
               '+' => array($actor_phid => $actor_phid),
@@ -79,21 +79,21 @@ final class PhabricatorBadgesEditor
     return $results;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorBadgesReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeBadgesReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $name = $object->getName();
     $id = $object->getID();
     $subject = pht('Badge %d: %s', $id, $name);
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($subject);
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getCreatorPHID(),
       $this->requireActor()->getPHID(),
@@ -101,14 +101,14 @@ final class PhabricatorBadgesEditor
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addLinkSection(
       pht('BADGE DETAIL'),
-      PhabricatorEnv::getProductionURI('/badges/view/'.$object->getID().'/'));
+      PhorgeEnv::getProductionURI('/badges/view/'.$object->getID().'/'));
     return $body;
   }
 
@@ -117,7 +117,7 @@ final class PhabricatorBadgesEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $badge_phid = $object->getPHID();
@@ -126,8 +126,8 @@ final class PhabricatorBadgesEditor
 
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE:
-        case PhabricatorBadgesBadgeRevokeTransaction::TRANSACTIONTYPE:
+        case PhorgeBadgesBadgeAwardTransaction::TRANSACTIONTYPE:
+        case PhorgeBadgesBadgeRevokeTransaction::TRANSACTIONTYPE:
           foreach ($xaction->getNewValue() as $user_phid) {
             $user_phids[] = $user_phid;
           }
@@ -139,7 +139,7 @@ final class PhabricatorBadgesEditor
     }
 
     if ($clear_everything) {
-      $awards = id(new PhabricatorBadgesAwardQuery())
+      $awards = id(new PhorgeBadgesAwardQuery())
         ->setViewer($this->getActor())
         ->withBadgePHIDs(array($badge_phid))
         ->execute();
@@ -149,8 +149,8 @@ final class PhabricatorBadgesEditor
     }
 
     if ($user_phids) {
-      PhabricatorUserCache::clearCaches(
-        PhabricatorUserBadgesCacheType::KEY_BADGES,
+      PhorgeUserCache::clearCaches(
+        PhorgeUserBadgesCacheType::KEY_BADGES,
         $user_phids);
     }
 

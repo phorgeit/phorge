@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseCredentialTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'passphrase';

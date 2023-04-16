@@ -25,7 +25,7 @@ final class AphrontRoutingMap extends Phobject {
     return $this->site;
   }
 
-  public function setApplication(PhabricatorApplication $application) {
+  public function setApplication(PhorgeApplication $application) {
     $this->application = $application;
     return $this;
   }

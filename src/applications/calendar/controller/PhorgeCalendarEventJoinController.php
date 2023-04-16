@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarEventJoinController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventJoinController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -39,17 +39,17 @@ final class PhabricatorCalendarEventJoinController
     if ($request->isFormPost()) {
       if ($is_join) {
         $xaction_type =
-          PhabricatorCalendarEventAcceptTransaction::TRANSACTIONTYPE;
+          PhorgeCalendarEventAcceptTransaction::TRANSACTIONTYPE;
       } else {
         $xaction_type =
-          PhabricatorCalendarEventDeclineTransaction::TRANSACTIONTYPE;
+          PhorgeCalendarEventDeclineTransaction::TRANSACTIONTYPE;
       }
 
-      $xaction = id(new PhabricatorCalendarEventTransaction())
+      $xaction = id(new PhorgeCalendarEventTransaction())
         ->setTransactionType($xaction_type)
         ->setNewValue(true);
 
-      $editor = id(new PhabricatorCalendarEventEditor())
+      $editor = id(new PhorgeCalendarEventEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -58,7 +58,7 @@ final class PhabricatorCalendarEventJoinController
       try {
         $editor->applyTransactions($event, array($xaction));
         return id(new AphrontRedirectResponse())->setURI($cancel_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
     }

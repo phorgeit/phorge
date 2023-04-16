@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDestructionEngineExtension extends Phobject {
+abstract class PhorgeDestructionEngineExtension extends Phobject {
 
   final public function getExtensionKey() {
     return $this->getPhobjectClassConstant('EXTENSIONKEY');
@@ -9,19 +9,19 @@ abstract class PhabricatorDestructionEngineExtension extends Phobject {
   abstract public function getExtensionName();
 
   public function canDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
     return true;
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
     return null;
   }
 
   public function didDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
     return null;
   }

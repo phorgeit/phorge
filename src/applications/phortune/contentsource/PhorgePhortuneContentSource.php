@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhortuneContentSource
-  extends PhabricatorContentSource {
+final class PhorgePhortuneContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'phortune';
 

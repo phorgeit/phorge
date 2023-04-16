@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDuoFuture
+final class PhorgeDuoFuture
   extends FutureProxy {
 
   private $future;

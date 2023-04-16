@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementThawWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementThawWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -139,7 +139,7 @@ final class PhabricatorRepositoryManagementThawWorkflow
         ->withDevicePHIDs(mpull($devices, 'getPHID'))
         ->execute();
       if ($services) {
-        $repositories = id(new PhabricatorRepositoryQuery())
+        $repositories = id(new PhorgeRepositoryQuery())
           ->setViewer($viewer)
           ->withAlmanacServicePHIDs(mpull($services, 'getPHID'))
           ->execute();
@@ -193,7 +193,7 @@ final class PhabricatorRepositoryManagementThawWorkflow
       foreach ($repositories as $repository) {
         $repository_phid = $repository->getPHID();
 
-        $write_lock = PhabricatorRepositoryWorkingCopyVersion::getWriteLock(
+        $write_lock = PhorgeRepositoryWorkingCopyVersion::getWriteLock(
           $repository_phid);
 
         echo tsprintf(
@@ -228,7 +228,7 @@ final class PhabricatorRepositoryManagementThawWorkflow
                   $device->getName()));
             }
 
-            $versions = PhabricatorRepositoryWorkingCopyVersion::loadVersions(
+            $versions = PhorgeRepositoryWorkingCopyVersion::loadVersions(
               $repository->getPHID());
             $versions = mpull($versions, null, 'getDevicePHID');
 
@@ -279,7 +279,7 @@ final class PhabricatorRepositoryManagementThawWorkflow
                   $handle_list));
             }
 
-            PhabricatorRepositoryWorkingCopyVersion::updateVersion(
+            PhorgeRepositoryWorkingCopyVersion::updateVersion(
               $repository->getPHID(),
               $device->getPHID(),
               0);
@@ -293,7 +293,7 @@ final class PhabricatorRepositoryManagementThawWorkflow
           }
 
           if ($demote) {
-            PhabricatorRepositoryWorkingCopyVersion::demoteDevice(
+            PhorgeRepositoryWorkingCopyVersion::demoteDevice(
               $repository->getPHID(),
               $device->getPHID());
 

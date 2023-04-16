@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorDataNotAttachedException extends Exception {
+final class PhorgeDataNotAttachedException extends Exception {
 
   public function __construct($object) {
     $stack = debug_backtrace();
 
-    // Shift off `PhabricatorDataNotAttachedException::__construct()`.
+    // Shift off `PhorgeDataNotAttachedException::__construct()`.
     array_shift($stack);
-    // Shift off `PhabricatorLiskDAO::assertAttached()`.
+    // Shift off `PhorgeLiskDAO::assertAttached()`.
     array_shift($stack);
 
     $frame = head($stack);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementMarkImportedWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementMarkImportedWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this

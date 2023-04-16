@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileUploadException extends Exception {
+final class PhorgeFileUploadException extends Exception {
 
   public function __construct($code) {
     $map = array(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchIndexVersionDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeSearchIndexVersionDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'search.index.version';
 
@@ -10,10 +10,10 @@ final class PhabricatorSearchIndexVersionDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
-    $table = new PhabricatorSearchIndexVersion();
+    $table = new PhorgeSearchIndexVersion();
 
     queryfx(
       $table->establishConnection('w'),

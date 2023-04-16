@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorSearchApplicationStorageEnginePanel
-  extends PhabricatorApplicationConfigurationPanel {
+final class PhorgeSearchApplicationStorageEnginePanel
+  extends PhorgeApplicationConfigurationPanel {
 
   public function getPanelKey() {
     return 'search';
   }
 
   public function shouldShowForApplication(
-    PhabricatorApplication $application) {
-    return $application instanceof PhabricatorSearchApplication;
+    PhorgeApplication $application) {
+    return $application instanceof PhorgeSearchApplication;
   }
 
   public function buildConfigurationPagePanel() {
     $viewer = $this->getViewer();
     $application = $this->getApplication();
 
-    $services = PhabricatorSearchService::getAllServices();
+    $services = PhorgeSearchService::getAllServices();
 
     $rows = array();
     $rowc = array();
@@ -52,7 +52,7 @@ final class PhabricatorSearchApplicationStorageEnginePanel
       'See **[[ %s | %s ]]** for documentation.',
       '/config/edit/cluster.search/',
       'cluster.search',
-      PhabricatorEnv::getDoclink('Cluster: Search'),
+      PhorgeEnv::getDoclink('Cluster: Search'),
       pht('Cluster: Search'));
 
 
@@ -82,7 +82,7 @@ final class PhabricatorSearchApplicationStorageEnginePanel
 
   public function handlePanelRequest(
     AphrontRequest $request,
-    PhabricatorController $controller) {
+    PhorgeController $controller) {
     return new Aphront404Response();
   }
 

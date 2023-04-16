@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildLogTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testBuildLogLineMaps() {
     $snowman = "\xE2\x98\x83";

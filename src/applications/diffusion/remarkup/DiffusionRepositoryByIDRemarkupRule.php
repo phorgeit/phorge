@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryByIDRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'R';
@@ -18,7 +18,7 @@ final class DiffusionRepositoryByIDRemarkupRule
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    $repos = id(new PhabricatorRepositoryQuery())
+    $repos = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIdentifiers($ids);
 

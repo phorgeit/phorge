@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarExportSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCalendarExportSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Calendar Exports');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function canUseInPanelContext() {
@@ -18,7 +18,7 @@ final class PhabricatorCalendarExportSearchEngine
   public function newQuery() {
     $viewer = $this->requireViewer();
 
-    return id(new PhabricatorCalendarExportQuery())
+    return id(new PhorgeCalendarExportQuery())
       ->withAuthorPHIDs(array($viewer->getPHID()));
   }
 
@@ -58,10 +58,10 @@ final class PhabricatorCalendarExportSearchEngine
 
   protected function renderResultList(
     array $exports,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($exports, 'PhabricatorCalendarExport');
+    assert_instances_of($exports, 'PhorgeCalendarExport');
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
@@ -77,9 +77,9 @@ final class PhabricatorCalendarExportSearchEngine
       }
 
       $mode = $export->getPolicyMode();
-      $policy_icon = PhabricatorCalendarExport::getPolicyModeIcon($mode);
-      $policy_name = PhabricatorCalendarExport::getPolicyModeName($mode);
-      $policy_color = PhabricatorCalendarExport::getPolicyModeColor($mode);
+      $policy_icon = PhorgeCalendarExport::getPolicyModeIcon($mode);
+      $policy_name = PhorgeCalendarExport::getPolicyModeName($mode);
+      $policy_color = PhorgeCalendarExport::getPolicyModeColor($mode);
 
       $item->addIcon(
         "{$policy_icon} {$policy_color}",
@@ -88,7 +88,7 @@ final class PhabricatorCalendarExportSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No exports found.'));
 
@@ -97,7 +97,7 @@ final class PhabricatorCalendarExportSearchEngine
 
   protected function getNewUserBody() {
     $doc_name = 'Calendar User Guide: Exporting Events';
-    $doc_href = PhabricatorEnv::getDoclink($doc_name);
+    $doc_href = PhorgeEnv::getDoclink($doc_name);
 
     $create_button = id(new PHUIButtonView())
       ->setTag('a')

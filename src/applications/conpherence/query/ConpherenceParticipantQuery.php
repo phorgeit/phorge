@@ -1,6 +1,6 @@
 <?php
 
-final class ConpherenceParticipantQuery extends PhabricatorOffsetPagedQuery {
+final class ConpherenceParticipantQuery extends PhorgeOffsetPagedQuery {
 
   private $participantPHIDs;
 

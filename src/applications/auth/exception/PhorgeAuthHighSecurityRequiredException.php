@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthHighSecurityRequiredException extends Exception {
+final class PhorgeAuthHighSecurityRequiredException extends Exception {
 
   private $cancelURI;
   private $factors;
@@ -8,7 +8,7 @@ final class PhabricatorAuthHighSecurityRequiredException extends Exception {
   private $isSessionUpgrade;
 
   public function setFactorValidationResults(array $results) {
-    assert_instances_of($results, 'PhabricatorAuthFactorResult');
+    assert_instances_of($results, 'PhorgeAuthFactorResult');
     $this->factorValidationResults = $results;
     return $this;
   }
@@ -18,7 +18,7 @@ final class PhabricatorAuthHighSecurityRequiredException extends Exception {
   }
 
   public function setFactors(array $factors) {
-    assert_instances_of($factors, 'PhabricatorAuthFactorConfig');
+    assert_instances_of($factors, 'PhorgeAuthFactorConfig');
     $this->factors = $factors;
     return $this;
   }

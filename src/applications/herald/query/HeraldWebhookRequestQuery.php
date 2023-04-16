@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldWebhookRequestQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -116,7 +116,7 @@ final class HeraldWebhookRequestQuery
 
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
 }

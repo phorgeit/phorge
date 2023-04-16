@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnBulkEditController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnBulkEditController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -35,9 +35,9 @@ final class PhabricatorProjectColumnBulkEditController
 
     $bulk_tasks = array_select_keys($tasks, $bulk_task_phids);
 
-    $bulk_tasks = id(new PhabricatorPolicyFilter())
+    $bulk_tasks = id(new PhorgePolicyFilter())
       ->setViewer($viewer)
-      ->requireCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT))
+      ->requireCapabilities(array(PhorgePolicyCapability::CAN_EDIT))
       ->apply($bulk_tasks);
 
     if (!$bulk_tasks) {

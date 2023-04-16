@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFavoritesProfileMenuEngine
-  extends PhabricatorProfileMenuEngine {
+final class PhorgeFavoritesProfileMenuEngine
+  extends PhorgeProfileMenuEngine {
 
   protected function isMenuEngineConfigurable() {
     return true;
@@ -15,12 +15,12 @@ final class PhabricatorFavoritesProfileMenuEngine
     $items = array();
     $viewer = $this->getViewer();
 
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = PhorgeEditEngine::getAllEditEngines();
     $engines = msortv($engines, 'getQuickCreateOrderVector');
 
     foreach ($engines as $engine) {
       foreach ($engine->getDefaultQuickCreateFormKeys() as $form_key) {
-        $form_hash = PhabricatorHash::digestForIndex($form_key);
+        $form_hash = PhorgeHash::digestForIndex($form_key);
         $builtin_key = "editengine.form({$form_hash})";
 
         $properties = array(
@@ -30,7 +30,7 @@ final class PhabricatorFavoritesProfileMenuEngine
 
         $items[] = $this->newItem()
           ->setBuiltinKey($builtin_key)
-          ->setMenuItemKey(PhabricatorEditEngineProfileMenuItem::MENUITEMKEY)
+          ->setMenuItemKey(PhorgeEditEngineProfileMenuItem::MENUITEMKEY)
           ->setMenuItemProperties($properties);
       }
     }

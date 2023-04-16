@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlShortURLDefaultController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlShortURLDefaultController
+  extends PhorgePhurlController {
 
   public function shouldRequireLogin() {
     return false;

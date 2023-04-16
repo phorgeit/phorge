@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorCountdownTransactionType
-  extends PhabricatorModularTransactionType {}
+abstract class PhorgeCountdownTransactionType
+  extends PhorgeModularTransactionType {}

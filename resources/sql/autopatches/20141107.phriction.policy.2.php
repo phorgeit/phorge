@@ -5,8 +5,8 @@ $conn_w = $table->establishConnection('w');
 
 echo pht('Populating Phriction policies.')."\n";
 
-$default_view_policy = PhabricatorPolicies::POLICY_USER;
-$default_edit_policy = PhabricatorPolicies::POLICY_USER;
+$default_view_policy = PhorgePolicies::POLICY_USER;
+$default_edit_policy = PhorgePolicies::POLICY_USER;
 
 foreach (new LiskMigrationIterator($table) as $doc) {
   $id = $doc->getID();
@@ -23,17 +23,17 @@ foreach (new LiskMigrationIterator($table) as $doc) {
   // not projects/ itself) we need to apply the project policies. Otherwise,
   // apply the default policies.
   $slug = $doc->getSlug();
-  $slug = PhabricatorSlug::normalize($slug);
+  $slug = PhorgeSlug::normalize($slug);
   $prefix = 'projects/';
   if (($slug != $prefix) && (strncmp($slug, $prefix, strlen($prefix)) === 0)) {
     $parts = explode('/', $slug);
 
     $project_slug = $parts[1];
-    $project_slug = PhabricatorSlug::normalizeProjectSlug($project_slug);
+    $project_slug = PhorgeSlug::normalizeProjectSlug($project_slug);
 
     $project_slugs = array($project_slug);
-    $project = id(new PhabricatorProjectQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $project = id(new PhorgeProjectQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withSlugs($project_slugs)
       ->executeOne();
 

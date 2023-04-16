@@ -29,7 +29,7 @@ final class DifferentialCreateRawDiffConduitAPIMethod
 
     $repository_phid = $request->getValue('repositoryPHID');
     if ($repository_phid) {
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($repository_phid))
         ->executeOne();
@@ -76,7 +76,7 @@ final class DifferentialCreateRawDiffConduitAPIMethod
 
     if ($request->getValue('viewPolicy')) {
       $xactions[] = id(new DifferentialDiffTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($request->getValue('viewPolicy'));
     }
 

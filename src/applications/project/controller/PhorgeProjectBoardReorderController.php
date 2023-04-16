@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorProjectBoardReorderController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardReorderController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $projectid = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($projectid))
       ->executeOne();
@@ -32,7 +32,7 @@ final class PhabricatorProjectBoardReorderController
       return id(new AphrontRedirectResponse())->setURI($view_uri);
     }
 
-    $columns = id(new PhabricatorProjectColumnQuery())
+    $columns = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withProjectPHIDs(array($project->getPHID()))
       ->execute();

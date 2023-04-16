@@ -5,4 +5,4 @@
  * abort the storage attempt, as opposed to a transient storage error which
  * should be retried on other engines.
  */
-final class PhabricatorFileStorageConfigurationException extends Exception {}
+final class PhorgeFileStorageConfigurationException extends Exception {}

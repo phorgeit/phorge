@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthContactNumberController
-  extends PhabricatorAuthController {
+abstract class PhorgeAuthContactNumberController
+  extends PhorgeAuthController {
 
   // Users may need to access these controllers to enroll in SMS MFA during
   // account setup.

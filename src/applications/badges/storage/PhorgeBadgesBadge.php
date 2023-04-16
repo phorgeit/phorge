@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
+final class PhorgeBadgesBadge extends PhorgeBadgesDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorNgramsInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface,
+    PhorgeNgramsInterface {
 
   protected $name;
   protected $flavor;
@@ -32,20 +32,20 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
     );
   }
 
-  public static function initializeNewBadge(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewBadge(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorBadgesApplication'))
+      ->withClasses(array('PhorgeBadgesApplication'))
       ->executeOne();
 
-    $view_policy = PhabricatorPolicies::getMostOpenPolicy();
+    $view_policy = PhorgePolicies::getMostOpenPolicy();
 
     $edit_policy =
-      $app->getPolicy(PhabricatorBadgesDefaultEditCapability::CAPABILITY);
+      $app->getPolicy(PhorgeBadgesDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorBadgesBadge())
+    return id(new PhorgeBadgesBadge())
       ->setIcon(self::DEFAULT_ICON)
-      ->setQuality(PhabricatorBadgesQuality::DEFAULT_QUALITY)
+      ->setQuality(PhorgeBadgesQuality::DEFAULT_QUALITY)
       ->setCreatorPHID($actor->getPHID())
       ->setEditPolicy($edit_policy)
       ->setFlavor('')
@@ -75,7 +75,7 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
 
   public function generatePHID() {
     return
-      PhabricatorPHID::generateNewPHID(PhabricatorBadgesPHIDType::TYPECONST);
+      PhorgePHID::generateNewPHID(PhorgeBadgesPHIDType::TYPECONST);
   }
 
   public function isArchived() {
@@ -94,43 +94,43 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorBadgesEditor();
+    return new PhorgeBadgesEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorBadgesTransaction();
+    return new PhorgeBadgesTransaction();
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -139,13 +139,13 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
 
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
-    $awards = id(new PhabricatorBadgesAwardQuery())
+    $awards = id(new PhorgeBadgesAwardQuery())
       ->setViewer($engine->getViewer())
       ->withBadgePHIDs(array($this->getPHID()))
       ->execute();
@@ -159,20 +159,20 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the badge.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('creatorPHID')
         ->setType('phid')
         ->setDescription(pht('User PHID of the creator.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Active or archived status of the badge.')),
@@ -191,12 +191,12 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
     return array();
   }
 
-/* -(  PhabricatorNgramInterface  )------------------------------------------ */
+/* -(  PhorgeNgramInterface  )------------------------------------------ */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorBadgesBadgeNameNgrams())
+      id(new PhorgeBadgesBadgeNameNgrams())
         ->setValue($this->getName()),
     );
   }

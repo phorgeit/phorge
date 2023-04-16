@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorFileIntegrityException
+final class PhorgeFileIntegrityException
   extends Exception {}

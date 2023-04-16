@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportQueueLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportQueueLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'queue';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('Queued');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
 
     $size = $log->getParameter('data.size');
     $limit = $log->getParameter('data.limit');
@@ -26,14 +26,14 @@ final class PhabricatorCalendarImportQueueLogType
   }
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-sort-amount-desc';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'blue';
   }
 

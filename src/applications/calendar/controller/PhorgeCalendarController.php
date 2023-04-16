@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorCalendarController extends PhabricatorController {
+abstract class PhorgeCalendarController extends PhorgeController {
 
   protected function newICSResponse(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $file_name,
     array $events) {
 
-    $ics_data = id(new PhabricatorCalendarICSWriter())
+    $ics_data = id(new PhorgeCalendarICSWriter())
       ->setViewer($viewer)
       ->setEvents($events)
       ->writeICSDocument();
@@ -18,7 +18,7 @@ abstract class PhabricatorCalendarController extends PhabricatorController {
       ->setContent($ics_data);
   }
 
-  protected function newImportedEventResponse(PhabricatorCalendarEvent $event) {
+  protected function newImportedEventResponse(PhorgeCalendarEvent $event) {
     if (!$event->isImportedEvent()) {
       return null;
     }

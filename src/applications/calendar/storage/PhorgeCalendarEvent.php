@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
+final class PhorgeCalendarEvent extends PhorgeCalendarDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorPolicyCodexInterface,
-    PhabricatorProjectInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgePolicyCodexInterface,
+    PhorgeProjectInterface,
+    PhorgeMarkupInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeSubscribableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeDestructibleInterface,
+    PhorgeMentionableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeSpacesInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $hostPHID;
@@ -57,18 +57,18 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   private $isGhostEvent = false;
   private $stubInvitees;
 
-  public static function initializeNewCalendarEvent(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewCalendarEvent(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorCalendarApplication'))
+      ->withClasses(array('PhorgeCalendarApplication'))
       ->executeOne();
 
-    $view_default = PhabricatorCalendarEventDefaultViewCapability::CAPABILITY;
-    $edit_default = PhabricatorCalendarEventDefaultEditCapability::CAPABILITY;
+    $view_default = PhorgeCalendarEventDefaultViewCapability::CAPABILITY;
+    $edit_default = PhorgeCalendarEventDefaultEditCapability::CAPABILITY;
     $view_policy = $app->getPolicy($view_default);
     $edit_policy = $app->getPolicy($edit_default);
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $default_icon = 'fa-calendar';
 
@@ -84,7 +84,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       $host_phid = $app->getPHID();
     }
 
-    return id(new PhabricatorCalendarEvent())
+    return id(new PhorgeCalendarEvent())
       ->setDescription('')
       ->setHostPHID($host_phid)
       ->setIsCancelled(0)
@@ -103,7 +103,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public static function newDefaultEventDateTimes(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $now) {
 
     $datetime_start = PhutilCalendarAbsoluteDateTime::newFromEpoch(
@@ -128,7 +128,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   private function newChild(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     $sequence,
     PhutilCalendarDateTime $start = null) {
     if (!$this->isParentEvent()) {
@@ -187,7 +187,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
 
 
   public function copyFromParent(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhutilCalendarDateTime $start = null) {
 
     if (!$this->isChildEvent()) {
@@ -246,7 +246,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $this;
   }
 
-  public function isValidSequenceIndex(PhabricatorUser $viewer, $sequence) {
+  public function isValidSequenceIndex(PhorgeUser $viewer, $sequence) {
     return (bool)$this->newSequenceIndexDateTime($sequence);
   }
 
@@ -270,7 +270,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return idx($instances, $sequence, null);
   }
 
-  public function newStub(PhabricatorUser $actor, $sequence) {
+  public function newStub(PhorgeUser $actor, $sequence) {
     $stub = $this->newChild($actor, $sequence);
 
     $stub->setIsStub(1);
@@ -285,7 +285,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function newGhost(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     $sequence,
     PhutilCalendarDateTime $start = null) {
 
@@ -300,7 +300,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $ghost;
   }
 
-  public function applyViewerTimezone(PhabricatorUser $viewer) {
+  public function applyViewerTimezone(PhorgeUser $viewer) {
     $this->viewerTimezone = $viewer->getTimezoneIdentifier();
     return $this;
   }
@@ -361,7 +361,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   public function save() {
     $import_uid = $this->getImportUID();
     if ($import_uid !== null) {
-      $index = PhabricatorHash::digestForIndex($import_uid);
+      $index = PhorgeHash::digestForIndex($import_uid);
     } else {
       $index = null;
     }
@@ -437,7 +437,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function getPHIDType() {
-    return PhabricatorCalendarEventPHIDType::TYPECONST;
+    return PhorgeCalendarEventPHIDType::TYPECONST;
   }
 
   public function getMonogram() {
@@ -485,10 +485,10 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     $stub_invitees = array();
 
     foreach ($parent_invitees as $invitee) {
-      $stub_invitee = id(new PhabricatorCalendarEventInvitee())
+      $stub_invitee = id(new PhorgeCalendarEventInvitee())
         ->setInviteePHID($invitee->getInviteePHID())
         ->setInviterPHID($invitee->getInviterPHID())
-        ->setStatus(PhabricatorCalendarEventInvitee::STATUS_INVITED);
+        ->setStatus(PhorgeCalendarEventInvitee::STATUS_INVITED);
 
       $stub_invitees[] = $stub_invitee;
     }
@@ -520,7 +520,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
 
     $invited = idx($invitees, $phid);
     if (!$invited) {
-      return PhabricatorCalendarEventInvitee::STATUS_UNINVITED;
+      return PhorgeCalendarEventInvitee::STATUS_UNINVITED;
     }
 
     $invited = $invited->getStatus();
@@ -528,7 +528,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function getIsUserAttending($phid) {
-    $attending_status = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
+    $attending_status = PhorgeCalendarEventInvitee::STATUS_ATTENDING;
 
     $old_status = $this->getUserInviteStatus($phid);
     $is_attending = ($old_status == $attending_status);
@@ -559,7 +559,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $this->assertAttached($this->parentEvent);
   }
 
-  public function attachParentEvent(PhabricatorCalendarEvent $event = null) {
+  public function attachParentEvent(PhorgeCalendarEvent $event = null) {
     $this->parentEvent = $event;
     return $this;
   }
@@ -573,7 +573,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function renderEventDate(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $show_end) {
 
     $start = $this->newStartDateTime();
@@ -628,7 +628,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
 
-  public function getDisplayIcon(PhabricatorUser $viewer) {
+  public function getDisplayIcon(PhorgeUser $viewer) {
     if ($this->getIsCancelled()) {
       return 'fa-times';
     }
@@ -640,11 +640,11 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       } else {
         $status = $this->getUserInviteStatus($viewer_phid);
         switch ($status) {
-          case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
+          case PhorgeCalendarEventInvitee::STATUS_ATTENDING:
             return 'fa-check-circle';
-          case PhabricatorCalendarEventInvitee::STATUS_INVITED:
+          case PhorgeCalendarEventInvitee::STATUS_INVITED:
             return 'fa-user-plus';
-          case PhabricatorCalendarEventInvitee::STATUS_DECLINED:
+          case PhorgeCalendarEventInvitee::STATUS_DECLINED:
             return 'fa-times-circle';
         }
       }
@@ -657,7 +657,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $this->getIcon();
   }
 
-  public function getDisplayIconColor(PhabricatorUser $viewer) {
+  public function getDisplayIconColor(PhorgeUser $viewer) {
     if ($this->getIsCancelled()) {
       return 'red';
     }
@@ -674,11 +674,11 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
 
       $status = $this->getUserInviteStatus($viewer_phid);
       switch ($status) {
-        case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
+        case PhorgeCalendarEventInvitee::STATUS_ATTENDING:
           return 'green';
-        case PhabricatorCalendarEventInvitee::STATUS_INVITED:
+        case PhorgeCalendarEventInvitee::STATUS_INVITED:
           return 'green';
-        case PhabricatorCalendarEventInvitee::STATUS_DECLINED:
+        case PhorgeCalendarEventInvitee::STATUS_DECLINED:
           return 'grey';
       }
     }
@@ -686,7 +686,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return 'bluegrey';
   }
 
-  public function getDisplayIconLabel(PhabricatorUser $viewer) {
+  public function getDisplayIconLabel(PhorgeUser $viewer) {
     if ($this->getIsCancelled()) {
       return pht('Cancelled');
     }
@@ -694,11 +694,11 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     if ($viewer->isLoggedIn()) {
       $status = $this->getUserInviteStatus($viewer->getPHID());
       switch ($status) {
-        case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
+        case PhorgeCalendarEventInvitee::STATUS_ATTENDING:
           return pht('Attending');
-        case PhabricatorCalendarEventInvitee::STATUS_INVITED:
+        case PhorgeCalendarEventInvitee::STATUS_INVITED:
           return pht('Invited');
-        case PhabricatorCalendarEventInvitee::STATUS_DECLINED:
+        case PhorgeCalendarEventInvitee::STATUS_DECLINED:
           return pht('Declined');
       }
     }
@@ -711,10 +711,10 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function newIntermediateEventNode(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $children) {
 
-    $base_uri = new PhutilURI(PhabricatorEnv::getProductionURI('/'));
+    $base_uri = new PhutilURI(PhorgeEnv::getProductionURI('/'));
     $domain = $base_uri->getDomain();
 
     // NOTE: For recurring events, all of the events in the series have the
@@ -770,7 +770,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     // NOTE: Gmail shows "Who: Unknown Organizer*" if the organizer URI does
     // not look like an email address. Use a synthetic address so it shows
     // the host name instead.
-    $install_uri = PhabricatorEnv::getProductionURI('/');
+    $install_uri = PhorgeEnv::getProductionURI('/');
     $install_uri = new PhutilURI($install_uri);
 
     // This should possibly use "metamta.reply-handler-domain" instead, but
@@ -789,16 +789,16 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       $invitee_handle = $handles[$invitee_phid];
       $invitee_name = $invitee_handle->getFullName();
       $invitee_uri = $invitee_handle->getURI();
-      $invitee_uri = PhabricatorEnv::getURI($invitee_uri);
+      $invitee_uri = PhorgeEnv::getURI($invitee_uri);
 
       switch ($invitee->getStatus()) {
-        case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
+        case PhorgeCalendarEventInvitee::STATUS_ATTENDING:
           $status = PhutilCalendarUserNode::STATUS_ACCEPTED;
           break;
-        case PhabricatorCalendarEventInvitee::STATUS_DECLINED:
+        case PhorgeCalendarEventInvitee::STATUS_DECLINED:
           $status = PhutilCalendarUserNode::STATUS_DECLINED;
           break;
-        case PhabricatorCalendarEventInvitee::STATUS_INVITED:
+        case PhorgeCalendarEventInvitee::STATUS_INVITED:
         default:
           $status = PhutilCalendarUserNode::STATUS_INVITED;
           break;
@@ -1045,12 +1045,12 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function attachImportSource(
-    PhabricatorCalendarImport $import = null) {
+    PhorgeCalendarImport $import = null) {
     $this->importSource = $import;
     return $this;
   }
 
-  public function loadForkTarget(PhabricatorUser $viewer) {
+  public function loadForkTarget(PhorgeUser $viewer) {
     if (!$this->getIsRecurring()) {
       // Can't fork an event which isn't recurring.
       return null;
@@ -1070,7 +1070,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     }
 
 
-    $next_event = id(new PhabricatorCalendarEventQuery())
+    $next_event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withInstanceSequencePairs(
         array(
@@ -1078,8 +1078,8 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
         ))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 
@@ -1090,7 +1090,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $next_event;
   }
 
-  public function loadFutureEvents(PhabricatorUser $viewer) {
+  public function loadFutureEvents(PhorgeUser $viewer) {
     // NOTE: If you can't edit some of the future events, we just
     // don't try to update them. This seems like it's probably what
     // users are likely to expect.
@@ -1101,14 +1101,14 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     // events if this turns out to be counterintuitive. Other
     // applications differ in their behavior.
 
-    return id(new PhabricatorCalendarEventQuery())
+    return id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withParentEventPHIDs(array($this->getPHID()))
       ->withUTCInitialEpochBetween($this->getUTCInitialEpoch(), null)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
   }
@@ -1136,7 +1136,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
   public function isRSVPInvited($phid) {
-    $status_invited = PhabricatorCalendarEventInvitee::STATUS_INVITED;
+    $status_invited = PhorgeCalendarEventInvitee::STATUS_INVITED;
     return ($this->getRSVPStatus($phid) == $status_invited);
   }
 
@@ -1161,14 +1161,14 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
 
     // If we don't have one, try to find an invited status for the user's
     // projects.
-    $status_invited = PhabricatorCalendarEventInvitee::STATUS_INVITED;
+    $status_invited = PhorgeCalendarEventInvitee::STATUS_INVITED;
     foreach ($this->getRSVPs($phid) as $rsvp) {
       if ($rsvp->getStatus() == $status_invited) {
         return $status_invited;
       }
     }
 
-    return PhabricatorCalendarEventInvitee::STATUS_UNINVITED;
+    return PhorgeCalendarEventInvitee::STATUS_UNINVITED;
   }
 
 
@@ -1181,7 +1181,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
    */
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
 
@@ -1197,7 +1197,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
    * @task markup
    */
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newCalendarMarkupEngine();
+    return PhorgeMarkupEngine::newCalendarMarkupEngine();
   }
 
 
@@ -1219,30 +1219,30 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return (bool)$this->getID();
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->isImportedEvent()) {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         } else {
           return $this->getEditPolicy();
         }
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->isImportedEvent()) {
       return false;
     }
@@ -1256,11 +1256,11 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       }
     }
 
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
       $status = $this->getUserInviteStatus($viewer->getPHID());
-      if ($status == PhabricatorCalendarEventInvitee::STATUS_INVITED ||
-        $status == PhabricatorCalendarEventInvitee::STATUS_ATTENDING ||
-        $status == PhabricatorCalendarEventInvitee::STATUS_DECLINED) {
+      if ($status == PhorgeCalendarEventInvitee::STATUS_INVITED ||
+        $status == PhorgeCalendarEventInvitee::STATUS_ATTENDING ||
+        $status == PhorgeCalendarEventInvitee::STATUS_DECLINED) {
         return true;
       }
     }
@@ -1269,19 +1269,19 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $import_source = $this->getImportSource();
         if ($import_source) {
           $extended[] = array(
             $import_source,
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_VIEW,
           );
         }
         break;
@@ -1290,54 +1290,54 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $extended;
   }
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
   public function newPolicyCodex() {
-    return new PhabricatorCalendarEventPolicyCodex();
+    return new PhorgeCalendarEventPolicyCodex();
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorCalendarEventEditor();
+    return new PhorgeCalendarEventEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorCalendarEventTransaction();
+    return new PhorgeCalendarEventTransaction();
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
     return ($phid == $this->getHostPHID());
   }
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
     return array($this->getHostPHID());
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
-      $invitees = id(new PhabricatorCalendarEventInvitee())->loadAllWhere(
+      $invitees = id(new PhorgeCalendarEventInvitee())->loadAllWhere(
         'eventPHID = %s',
         $this->getPHID());
       foreach ($invitees as $invitee) {
         $invitee->delete();
       }
 
-      $notifications = id(new PhabricatorCalendarNotification())->loadAllWhere(
+      $notifications = id(new PhorgeCalendarNotification())->loadAllWhere(
         'eventPHID = %s',
         $this->getPHID());
       foreach ($notifications as $notification) {
@@ -1348,7 +1348,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -1356,44 +1356,44 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
-    return new PhabricatorCalendarEventFulltextEngine();
+    return new PhorgeCalendarEventFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorCalendarEventFerretEngine();
+    return new PhorgeCalendarEventFerretEngine();
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the event.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('string')
         ->setDescription(pht('The event description.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isAllDay')
         ->setType('bool')
         ->setDescription(pht('True if the event is an all day event.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('startDateTime')
         ->setType('datetime')
         ->setDescription(pht('Start date and time of the event.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('endDateTime')
         ->setType('datetime')
         ->setDescription(pht('End date and time of the event.')),
@@ -1426,7 +1426,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
 
     // TODO: Possibly pass the actual viewer in from the Conduit stuff, or
     // retain it when setting the viewer timezone?
-    $viewer = id(new PhabricatorUser())
+    $viewer = id(new PhorgeUser())
       ->overrideTimezoneIdentifier($this->viewerTimezone);
 
     return array(

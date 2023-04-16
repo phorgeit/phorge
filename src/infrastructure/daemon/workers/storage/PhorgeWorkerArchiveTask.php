@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWorkerArchiveTask extends PhabricatorWorkerTask {
+final class PhorgeWorkerArchiveTask extends PhorgeWorkerTask {
 
   const RESULT_SUCCESS    = 0;
   const RESULT_FAILURE    = 1;
@@ -43,7 +43,7 @@ final class PhabricatorWorkerArchiveTask extends PhabricatorWorkerTask {
       throw new Exception(pht('Trying to archive a task with no ID.'));
     }
 
-    $other = new PhabricatorWorkerActiveTask();
+    $other = new PhorgeWorkerActiveTask();
     $conn_w = $this->establishConnection('w');
 
     $this->openTransaction();
@@ -62,7 +62,7 @@ final class PhabricatorWorkerArchiveTask extends PhabricatorWorkerTask {
     $this->openTransaction();
       if ($this->getDataID()) {
         $conn_w = $this->establishConnection('w');
-        $data_table = new PhabricatorWorkerTaskData();
+        $data_table = new PhorgeWorkerTaskData();
 
         queryfx(
           $conn_w,
@@ -78,7 +78,7 @@ final class PhabricatorWorkerArchiveTask extends PhabricatorWorkerTask {
 
   public function unarchiveTask() {
     $this->openTransaction();
-      $active = id(new PhabricatorWorkerActiveTask())
+      $active = id(new PhorgeWorkerActiveTask())
         ->setID($this->getID())
         ->setTaskClass($this->getTaskClass())
         ->setLeaseOwner(null)

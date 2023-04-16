@@ -1,13 +1,13 @@
 <?php
 
 final class ManiphestTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   private $oldProjectPHIDs;
   private $moreValidationErrors = array();
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -17,11 +17,11 @@ final class ManiphestTransactionEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_COLUMNS;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_COLUMNS;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
@@ -35,34 +35,34 @@ final class ManiphestTransactionEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return null;
     }
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return $xaction->getNewValue();
     }
   }
 
   protected function transactionHasEffect(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return (bool)$new;
     }
 
@@ -70,21 +70,21 @@ final class ManiphestTransactionEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return;
     }
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         foreach ($xaction->getNewValue() as $move) {
           $this->applyBoardMove($object, $move);
         }
@@ -93,7 +93,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // When we change the status of a task, update tasks this tasks blocks
@@ -108,7 +108,7 @@ final class ManiphestTransactionEditor
     }
 
     if ($unblock_xaction !== null) {
-      $blocked_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $blocked_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object->getPHID(),
         ManiphestTaskDependedOnByTaskEdgeType::EDGECONST);
       if ($blocked_phids) {
@@ -147,7 +147,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -156,11 +156,11 @@ final class ManiphestTransactionEditor
     return pht('[Maniphest]');
   }
 
-  protected function getMailThreadID(PhabricatorLiskDAO $object) {
+  protected function getMailThreadID(PhorgeLiskDAO $object) {
     return 'maniphest-task-'.$object->getPHID();
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
 
     if ($object->getOwnerPHID()) {
@@ -194,26 +194,26 @@ final class ManiphestTransactionEditor
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new ManiphestReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $title = $object->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("T{$id}: {$title}");
   }
 
   protected function getObjectLinkButtonLabelForMail(
-    PhabricatorLiskDAO $object) {
+    PhorgeLiskDAO $object) {
     return pht('View Task');
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -230,7 +230,7 @@ final class ManiphestTransactionEditor
 
 
     $board_phids = array();
-    $type_columns = PhabricatorTransactions::TYPE_COLUMNS;
+    $type_columns = PhorgeTransactions::TYPE_COLUMNS;
     foreach ($xactions as $xaction) {
       if ($xaction->getTransactionType() == $type_columns) {
         $moves = $xaction->getNewValue();
@@ -241,7 +241,7 @@ final class ManiphestTransactionEditor
     }
 
     if ($board_phids) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($this->requireActor())
         ->withPHIDs($board_phids)
         ->execute();
@@ -249,7 +249,7 @@ final class ManiphestTransactionEditor
       foreach ($projects as $project) {
         $body->addLinkSection(
           pht('WORKBOARD'),
-          PhabricatorEnv::getProductionURI($project->getWorkboardURI()));
+          PhorgeEnv::getProductionURI($project->getWorkboardURI()));
       }
     }
 
@@ -258,7 +258,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -268,13 +268,13 @@ final class ManiphestTransactionEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return id(new HeraldManiphestTaskAdapter())
@@ -282,7 +282,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function adjustObjectForPolicyChecks(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $copy = parent::adjustObjectForPolicyChecks($object, $xactions);
@@ -300,7 +300,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $errors = parent::validateAllTransactions($object, $xactions);
@@ -317,7 +317,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $actor = $this->getActor();
@@ -371,7 +371,7 @@ final class ManiphestTransactionEditor
     if ($this->getIsNewObject()) {
       if ($actor_phid) {
         $results[] = id(new ManiphestTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+          ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
           ->setNewValue(
             array(
               '+' => array($actor_phid => $actor_phid),
@@ -379,7 +379,7 @@ final class ManiphestTransactionEditor
       }
     }
 
-    $send_notifications = PhabricatorNotificationClient::isEnabled();
+    $send_notifications = PhorgeNotificationClient::isEnabled();
     if ($send_notifications) {
       $this->oldProjectPHIDs = $this->loadProjectPHIDs($object);
     }
@@ -388,21 +388,21 @@ final class ManiphestTransactionEditor
   }
 
   protected function expandTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $results = parent::expandTransaction($object, $xaction);
 
     $type = $xaction->getTransactionType();
     switch ($type) {
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         try {
           $more_xactions = $this->buildMoveTransaction($object, $xaction);
           foreach ($more_xactions as $more_xaction) {
             $results[] = $more_xaction;
           }
         } catch (Exception $ex) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Invalid'),
             $ex->getMessage(),
@@ -422,7 +422,7 @@ final class ManiphestTransactionEditor
         // list so they're still in the loop.
         if ($old_value) {
           $results[] = id(new ManiphestTransaction())
-            ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+            ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
             ->setIgnoreOnNoEffect(true)
             ->setNewValue(
               array(
@@ -436,8 +436,8 @@ final class ManiphestTransactionEditor
   }
 
   private function buildMoveTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     $actor = $this->getActor();
 
     $new = $xaction->getNewValue();
@@ -512,7 +512,7 @@ final class ManiphestTransactionEditor
     // If you provide other objects, we remove them from the specification.
 
     if ($relative_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($actor)
         ->withPHIDs($relative_phids)
         ->execute();
@@ -534,7 +534,7 @@ final class ManiphestTransactionEditor
 
     $column_phids = ipull($new, 'columnPHID');
     if ($column_phids) {
-      $columns = id(new PhabricatorProjectColumnQuery())
+      $columns = id(new PhorgeProjectColumnQuery())
         ->setViewer($actor)
         ->withPHIDs($column_phids)
         ->execute();
@@ -554,7 +554,7 @@ final class ManiphestTransactionEditor
     }
 
     if ($object_phids) {
-      $layout_engine = id(new PhabricatorBoardLayoutEngine())
+      $layout_engine = id(new PhorgeBoardLayoutEngine())
         ->setViewer($this->getActor())
         ->setBoardPHIDs($board_phids)
         ->setObjectPHIDs($object_phids)
@@ -618,9 +618,9 @@ final class ManiphestTransactionEditor
     // column.
 
     if ($object_phid) {
-      $current_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $current_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object_phid,
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
       $current_phids = array_fuse($current_phids);
     } else {
       $current_phids = array();
@@ -650,8 +650,8 @@ final class ManiphestTransactionEditor
 
       // If this a proxy column and the object is already associated with some
       // descendant of the proxy board, we also don't need to do anything.
-      $descendants = id(new PhabricatorProjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $descendants = id(new PhorgeProjectQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withAncestorProjectPHIDs(array($proxy_phid))
         ->execute();
 
@@ -675,10 +675,10 @@ final class ManiphestTransactionEditor
 
     if ($add_boards) {
       $more[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
         ->setIgnoreOnNoEffect(true)
         ->setNewValue(
           array(
@@ -701,11 +701,11 @@ final class ManiphestTransactionEditor
     // We're doing layout with the omnipotent viewer to make sure we don't
     // remove positions in columns that exist, but which the actual actor
     // can't see.
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
+    $omnipotent_viewer = PhorgeUser::getOmnipotentUser();
 
     $select_phids = array($board_phid);
 
-    $descendants = id(new PhabricatorProjectQuery())
+    $descendants = id(new PhorgeProjectQuery())
       ->setViewer($omnipotent_viewer)
       ->withAncestorProjectPHIDs($select_phids)
       ->execute();
@@ -716,8 +716,8 @@ final class ManiphestTransactionEditor
     $board_tasks = id(new ManiphestTaskQuery())
       ->setViewer($omnipotent_viewer)
       ->withEdgeLogicPHIDs(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_ANCESTOR,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeQueryConstraint::OPERATOR_ANCESTOR,
         array($select_phids))
       ->execute();
 
@@ -730,7 +730,7 @@ final class ManiphestTransactionEditor
 
     $object_phids = array_keys($board_tasks);
 
-    $engine = id(new PhabricatorBoardLayoutEngine())
+    $engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($omnipotent_viewer)
       ->setBoardPHIDs(array($board_phid))
       ->setObjectPHIDs($object_phids)
@@ -758,7 +758,7 @@ final class ManiphestTransactionEditor
 
 
   private function validateColumnPHID($value) {
-    if (phid_get_type($value) == PhabricatorProjectColumnPHIDType::TYPECONST) {
+    if (phid_get_type($value) == PhorgeProjectColumnPHIDType::TYPECONST) {
       return;
     }
 
@@ -842,7 +842,7 @@ final class ManiphestTransactionEditor
       }
 
       if ($message) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           $problem_xaction->getTransactionType(),
           pht('Lock Error'),
           $message,
@@ -866,7 +866,7 @@ final class ManiphestTransactionEditor
   }
 
   protected function didApplyTransactions($object, array $xactions) {
-    $send_notifications = PhabricatorNotificationClient::isEnabled();
+    $send_notifications = PhorgeNotificationClient::isEnabled();
     if ($send_notifications) {
       $old_phids = $this->oldProjectPHIDs;
       $new_phids = $this->loadProjectPHIDs($object);
@@ -880,8 +880,8 @@ final class ManiphestTransactionEditor
       $project_phids = array_keys($project_phids);
 
       if ($project_phids) {
-        $projects = id(new PhabricatorProjectQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $projects = id(new PhorgeProjectQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withPHIDs($project_phids)
           ->execute();
 
@@ -907,7 +907,7 @@ final class ManiphestTransactionEditor
             'subscribers' => $notify_phids,
           );
 
-          PhabricatorNotificationClient::tryToPostMessage($data);
+          PhorgeNotificationClient::tryToPostMessage($data);
         }
       }
     }
@@ -920,11 +920,11 @@ final class ManiphestTransactionEditor
       return array();
     }
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($task->getPHID()))
       ->withEdgeTypes(
         array(
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         ));
 
     $edge_query->execute();

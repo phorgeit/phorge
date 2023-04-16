@@ -27,7 +27,7 @@ final class DifferentialRawDiffRenderer extends Phobject {
     return $this->changesets;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -56,7 +56,7 @@ final class DifferentialRawDiffRenderer extends Phobject {
     }
 
     $viewer = $this->getViewer();
-    $loader = id(new PhabricatorFileBundleLoader())
+    $loader = id(new PhorgeFileBundleLoader())
       ->setViewer($viewer);
 
     $bundle = ArcanistBundle::newFromChanges($changes);

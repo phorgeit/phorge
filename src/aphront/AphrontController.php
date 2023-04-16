@@ -72,7 +72,7 @@ abstract class AphrontController extends Phobject {
   }
 
   final public function setCurrentApplication(
-    PhabricatorApplication $current_application) {
+    PhorgeApplication $current_application) {
 
     $this->currentApplication = $current_application;
     return $this;

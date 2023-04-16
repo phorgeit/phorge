@@ -84,7 +84,7 @@ final class HarbormasterBuildMessageAbortTransaction
   }
 
   protected function newCanApplyMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isAutobuild()) {
@@ -103,7 +103,7 @@ final class HarbormasterBuildMessageAbortTransaction
   }
 
   protected function newCanSendMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isAborting()) {

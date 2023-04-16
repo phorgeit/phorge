@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIndexEngineExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeIndexEngineExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'indexengine';
@@ -14,7 +14,7 @@ final class PhabricatorIndexEngineExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorIndexEngineExtension::getAllExtensions();
+    $extensions = PhorgeIndexEngineExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

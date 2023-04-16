@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorManiphestConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeManiphestConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Maniphest');
@@ -257,7 +257,7 @@ EOTEXT
       );
     }
 
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
 
     $fields_example = array(
       'mycompany.estimated-hours' => array(
@@ -303,7 +303,7 @@ EOTEXT
 ));
 
     $subtype_type = 'maniphest.subtypes';
-    $subtype_default_key = PhabricatorEditEngineSubtype::SUBTYPE_DEFAULT;
+    $subtype_default_key = PhorgeEditEngineSubtype::SUBTYPE_DEFAULT;
     $subtype_example = array(
       array(
         'key' => $subtype_default_key,
@@ -485,7 +485,7 @@ For details on adding custom fields to Maniphest, see [[ %s | %s ]] in the
 documentation.
 EOTEXT
       ,
-      PhabricatorEnv::getDoclink('Configuring Custom Fields'),
+      PhorgeEnv::getDoclink('Configuring Custom Fields'),
       pht('Configuring Custom Fields')));
 
     return array(

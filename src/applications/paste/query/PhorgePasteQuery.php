@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePasteQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -81,7 +81,7 @@ final class PhabricatorPasteQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorPaste();
+    return new PhorgePaste();
   }
 
   protected function didFilterPage(array $pastes) {
@@ -166,18 +166,18 @@ final class PhabricatorPasteQuery
     return 'paste';
   }
 
-  private function getContentCacheKey(PhabricatorPaste $paste) {
+  private function getContentCacheKey(PhorgePaste $paste) {
     return implode(
       ':',
       array(
         'P'.$paste->getID(),
         $paste->getFilePHID(),
         $paste->getLanguage(),
-        PhabricatorHash::digestForIndex($paste->getTitle()),
+        PhorgeHash::digestForIndex($paste->getTitle()),
       ));
   }
 
-  private function getSnippetCacheKey(PhabricatorPaste $paste) {
+  private function getSnippetCacheKey(PhorgePaste $paste) {
     return implode(
       ':',
       array(
@@ -186,13 +186,13 @@ final class PhabricatorPasteQuery
         $paste->getLanguage(),
         'snippet',
         'v2.1',
-        PhabricatorHash::digestForIndex($paste->getTitle()),
+        PhorgeHash::digestForIndex($paste->getTitle()),
       ));
   }
 
   private function loadRawContent(array $pastes) {
     $file_phids = mpull($pastes, 'getFilePHID');
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setParentQuery($this)
       ->setViewer($this->getViewer())
       ->withPHIDs($file_phids)
@@ -219,7 +219,7 @@ final class PhabricatorPasteQuery
   }
 
   private function loadContent(array $pastes) {
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
 
     $cache = new PhutilKeyValueCacheProfiler($cache);
     $cache->setProfiler(PhutilServiceProfiler::getInstance());
@@ -275,7 +275,7 @@ final class PhabricatorPasteQuery
   }
 
   private function loadSnippets(array $pastes) {
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
 
     $cache = new PhutilKeyValueCacheProfiler($cache);
     $cache->setProfiler(PhutilServiceProfiler::getInstance());
@@ -293,7 +293,7 @@ final class PhabricatorPasteQuery
       $key = $this->getSnippetCacheKey($paste);
       if (isset($caches[$key])) {
         $snippet_data = phutil_json_decode($caches[$key]);
-        $snippet = new PhabricatorPasteSnippet(
+        $snippet = new PhorgePasteSnippet(
           phutil_safe_html($snippet_data['content']),
           $snippet_data['type'],
           $snippet_data['contentLineCount']);
@@ -341,22 +341,22 @@ final class PhabricatorPasteQuery
     return $pastes;
   }
 
-  private function buildContent(PhabricatorPaste $paste) {
+  private function buildContent(PhorgePaste $paste) {
     return $this->highlightSource(
       $paste->getRawContent(),
       $paste->getTitle(),
       $paste->getLanguage());
   }
 
-  private function buildSnippet(PhabricatorPaste $paste) {
-    $snippet_type = PhabricatorPasteSnippet::FULL;
+  private function buildSnippet(PhorgePaste $paste) {
+    $snippet_type = PhorgePasteSnippet::FULL;
     $snippet = $paste->getRawContent();
 
     $lines = phutil_split_lines($snippet);
     $line_count = count($lines);
 
     if (strlen($snippet) > 1024) {
-      $snippet_type = PhabricatorPasteSnippet::FIRST_BYTES;
+      $snippet_type = PhorgePasteSnippet::FIRST_BYTES;
       $snippet = id(new PhutilUTF8StringTruncator())
         ->setMaximumBytes(1024)
         ->setTerminator('')
@@ -364,11 +364,11 @@ final class PhabricatorPasteQuery
     }
 
     if ($line_count > 5) {
-      $snippet_type = PhabricatorPasteSnippet::FIRST_LINES;
+      $snippet_type = PhorgePasteSnippet::FIRST_LINES;
       $snippet = implode('', array_slice($lines, 0, 5));
     }
 
-    return new PhabricatorPasteSnippet(
+    return new PhorgePasteSnippet(
       $this->highlightSource(
         $snippet,
         $paste->getTitle(),
@@ -379,18 +379,18 @@ final class PhabricatorPasteQuery
 
   private function highlightSource($source, $title, $language) {
     if (empty($language)) {
-      return PhabricatorSyntaxHighlighter::highlightWithFilename(
+      return PhorgeSyntaxHighlighter::highlightWithFilename(
         $title,
         $source);
     } else {
-      return PhabricatorSyntaxHighlighter::highlightWithLanguage(
+      return PhorgeSyntaxHighlighter::highlightWithLanguage(
         $language,
         $source);
     }
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
 }

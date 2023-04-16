@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHeraldApplication extends PhabricatorApplication {
+final class PhorgeHeraldApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/herald/';
@@ -22,15 +22,15 @@ final class PhabricatorHeraldApplication extends PhabricatorApplication {
     return "\xE2\x98\xBF";
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Herald User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Herald User Guide'),
+        'href' => PhorgeEnv::getDoclink('Herald User Guide'),
       ),
       array(
         'name' => pht('User Guide: Webhooks'),
-        'href' => PhabricatorEnv::getDoclink('User Guide: Webhooks'),
+        'href' => PhorgeEnv::getDoclink('User Guide: Webhooks'),
       ),
     );
   }
@@ -83,10 +83,10 @@ final class PhabricatorHeraldApplication extends PhabricatorApplication {
     return array(
       HeraldManageGlobalRulesCapability::CAPABILITY => array(
         'caption' => pht('Global rules can bypass access controls.'),
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       HeraldCreateWebhooksCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

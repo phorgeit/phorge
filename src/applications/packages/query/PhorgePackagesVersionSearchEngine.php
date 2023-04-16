@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorPackagesVersionSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePackagesVersionSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Package Versions');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorPackagesVersionQuery());
+    return id(new PhorgePackagesVersionQuery());
   }
 
   public function canUseInPanelContext() {
@@ -35,15 +35,15 @@ final class PhabricatorPackagesVersionSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for versions by name substring.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Packages'))
         ->setKey('packagePHIDs')
         ->setAliases(array('packagePHID', 'package', 'packages'))
-        ->setDatasource(new PhabricatorPackagesPackageDatasource())
+        ->setDatasource(new PhorgePackagesPackageDatasource())
         ->setDescription(pht('Search for versions by package.')),
     );
   }
@@ -73,18 +73,18 @@ final class PhabricatorPackagesVersionSearchEngine
 
   protected function renderResultList(
     array $versions,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($versions, 'PhabricatorPackagesVersion');
+    assert_instances_of($versions, 'PhorgePackagesVersion');
     $viewer = $this->requireViewer();
 
-    $list = id(new PhabricatorPackagesVersionListView())
+    $list = id(new PhorgePackagesVersionListView())
       ->setViewer($viewer)
       ->setVersions($versions)
       ->newListView();
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No versions found.'));
   }

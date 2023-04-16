@@ -43,15 +43,15 @@ final class DiffusionRepositorySymbolsManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $symbols_uri = $this->getEditPageURI();
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Symbols'))
         ->setHref($symbols_uri)

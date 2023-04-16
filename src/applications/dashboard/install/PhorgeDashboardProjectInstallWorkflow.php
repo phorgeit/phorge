@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardProjectInstallWorkflow
-  extends PhabricatorDashboardObjectInstallWorkflow {
+final class PhorgeDashboardProjectInstallWorkflow
+  extends PhorgeDashboardObjectInstallWorkflow {
 
   const WORKFLOWKEY = 'project';
 
@@ -18,11 +18,11 @@ final class PhabricatorDashboardProjectInstallWorkflow
   }
 
   protected function newProfileEngine() {
-    return new PhabricatorProjectProfileMenuEngine();
+    return new PhorgeProjectProfileMenuEngine();
   }
 
   protected function newQuery() {
-    return new PhabricatorProjectQuery();
+    return new PhorgeProjectQuery();
   }
 
   protected function newConfirmDialog($object) {
@@ -57,7 +57,7 @@ final class PhabricatorDashboardProjectInstallWorkflow
           ->setLimit(1)
           ->setLabel(pht('Add to Project'))
           ->setValue($tokenizer_value)
-          ->setDatasource(new PhabricatorProjectDatasource()));
+          ->setDatasource(new PhorgeProjectDatasource()));
   }
 
 }

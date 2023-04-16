@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
+final class DiffusionSetPasswordSettingsPanel extends PhorgeSettingsPanel {
 
   public function isManagementPanel() {
     if ($this->getUser()->getIsMailingList()) {
@@ -23,25 +23,25 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function isEnabled() {
-    return PhabricatorEnv::getEnvConfig('diffusion.allow-http-auth');
+    return PhorgeEnv::getEnvConfig('diffusion.allow-http-auth');
   }
 
   public function processRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
     $user = $this->getUser();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       '/settings/');
 
-    $vcs_type = PhabricatorAuthPassword::PASSWORD_TYPE_VCS;
+    $vcs_type = PhorgeAuthPassword::PASSWORD_TYPE_VCS;
 
-    $vcspasswords = id(new PhabricatorAuthPasswordQuery())
+    $vcspasswords = id(new PhorgeAuthPasswordQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withPasswordTypes(array($vcs_type))
@@ -50,7 +50,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
     if ($vcspasswords) {
       $vcspassword = head($vcspasswords);
     } else {
-      $vcspassword = PhabricatorAuthPassword::initializeNewPassword(
+      $vcspassword = PhorgeAuthPassword::initializeNewPassword(
         $user,
         $vcs_type);
     }
@@ -62,14 +62,14 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
     $e_password = true;
     $e_confirm = true;
 
-    $content_source = PhabricatorContentSource::newFromRequest($request);
+    $content_source = PhorgeContentSource::newFromRequest($request);
 
     // NOTE: This test is against $viewer (not $user), so that the error
     // message below makes sense in the case that the two are different,
     // and because an admin reusing their own password is bad, while
     // system agents generally do not have passwords anyway.
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($viewer)
       ->setContentSource($content_source)
       ->setObject($viewer)
@@ -93,7 +93,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
         $engine->checkNewPassword($envelope, $confirm_envelope);
         $e_password = null;
         $e_confirm = null;
-      } catch (PhabricatorAuthPasswordException $ex) {
+      } catch (PhorgeAuthPasswordException $ex) {
         $errors[] = $ex->getMessage();
         $e_password = $ex->getPasswordError();
         $e_confirm = $ex->getConfirmError();
@@ -155,7 +155,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
 
 
     if (!$vcspassword->getID()) {
-      $is_serious = PhabricatorEnv::getEnvConfig(
+      $is_serious = PhorgeEnv::getEnvConfig(
         'phorge.serious-business');
 
       $suggest = Filesystem::readRandomBytes(128);
@@ -188,18 +188,18 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
       id(new AphrontFormStaticControl())
         ->setLabel(pht('Current Algorithm'))
         ->setValue(
-          PhabricatorPasswordHasher::getCurrentAlgorithmName($hash_envelope)));
+          PhorgePasswordHasher::getCurrentAlgorithmName($hash_envelope)));
 
     $form->appendChild(
       id(new AphrontFormStaticControl())
         ->setLabel(pht('Best Available Algorithm'))
-        ->setValue(PhabricatorPasswordHasher::getBestAlgorithmName()));
+        ->setValue(PhorgePasswordHasher::getBestAlgorithmName()));
 
     if (strlen($hash_envelope->openEnvelope())) {
       try {
-        $can_upgrade = PhabricatorPasswordHasher::canUpgradeHash(
+        $can_upgrade = PhorgePasswordHasher::canUpgradeHash(
           $hash_envelope);
-      } catch (PhabricatorPasswordHasherUnavailableException $ex) {
+      } catch (PhorgePasswordHasherUnavailableException $ex) {
         $can_upgrade = false;
         $errors[] = pht(
           'Your VCS password is currently hashed using an algorithm which is '.

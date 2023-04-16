@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportOriginalLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportOriginalLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'original';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('Original Event');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
 
     $phid = $log->getParameter('phid');
 

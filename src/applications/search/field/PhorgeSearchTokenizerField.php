@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorSearchTokenizerField
-  extends PhabricatorSearchField {
+abstract class PhorgeSearchTokenizerField
+  extends PhorgeSearchField {
 
   protected function getDefaultValue() {
     return array();
@@ -35,7 +35,7 @@ abstract class PhabricatorSearchTokenizerField
     $phids = array();
     $names = array();
     $allow_types = array_fuse($allow_types);
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     foreach ($list as $item) {
       $type = phid_get_type($item);
       if ($type == $user_type) {
@@ -43,7 +43,7 @@ abstract class PhabricatorSearchTokenizerField
       } else if (isset($allow_types[$type])) {
         $phids[] = $item;
       } else {
-        if (PhabricatorTypeaheadDatasource::isFunctionToken($item)) {
+        if (PhorgeTypeaheadDatasource::isFunctionToken($item)) {
           // If this is a function, pass it through unchanged; we'll evaluate
           // it later.
           $phids[] = $item;
@@ -54,7 +54,7 @@ abstract class PhabricatorSearchTokenizerField
     }
 
     if ($names) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($names)
         ->execute();

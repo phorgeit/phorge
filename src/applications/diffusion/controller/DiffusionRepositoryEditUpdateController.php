@@ -32,7 +32,7 @@ final class DiffusionRepositoryEditUpdateController
     }
 
     $doc_name = 'Diffusion User Guide: Repository Updates';
-    $doc_href = PhabricatorEnv::getDoclink($doc_name);
+    $doc_href = PhorgeEnv::getDoclink($doc_name);
     $doc_link = phutil_tag(
       'a',
       array(

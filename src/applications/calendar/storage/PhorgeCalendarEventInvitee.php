@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeCalendarEventInvitee extends PhorgeCalendarDAO
+  implements PhorgePolicyInterface {
 
   protected $eventPHID;
   protected $inviteePHID;
@@ -20,8 +20,8 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
   const AVAILABILITY_AWAY = 'away';
 
   public static function initializeNewCalendarEventInvitee(
-    PhabricatorUser $actor, $event) {
-    return id(new PhabricatorCalendarEventInvitee())
+    PhorgeUser $actor, $event) {
+    return id(new PhorgeCalendarEventInvitee())
       ->setInviterPHID($actor->getPHID())
       ->setStatus(self::STATUS_INVITED)
       ->setEventPHID($event->getPHID());
@@ -57,7 +57,7 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
     }
   }
 
-  public function getDisplayAvailability(PhabricatorCalendarEvent $event) {
+  public function getDisplayAvailability(PhorgeCalendarEvent $event) {
     switch ($this->getAvailability()) {
       case self::AVAILABILITY_DEFAULT:
       case self::AVAILABILITY_BUSY:
@@ -101,23 +101,23 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

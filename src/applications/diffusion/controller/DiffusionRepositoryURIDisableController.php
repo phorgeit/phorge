@@ -14,14 +14,14 @@ final class DiffusionRepositoryURIDisableController
     $repository = $drequest->getRepository();
 
     $id = $request->getURIData('id');
-    $uri = id(new PhabricatorRepositoryURIQuery())
+    $uri = id(new PhorgeRepositoryURIQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withRepositories(array($repository))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$uri) {
@@ -44,8 +44,8 @@ final class DiffusionRepositoryURIDisableController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorRepositoryURITransaction())
-        ->setTransactionType(PhabricatorRepositoryURITransaction::TYPE_DISABLE)
+      $xactions[] = id(new PhorgeRepositoryURITransaction())
+        ->setTransactionType(PhorgeRepositoryURITransaction::TYPE_DISABLE)
         ->setNewValue(!$is_disabled);
 
       $editor = id(new DiffusionURIEditor())

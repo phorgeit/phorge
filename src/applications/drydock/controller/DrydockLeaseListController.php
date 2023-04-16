@@ -25,7 +25,7 @@ final class DrydockLeaseListController extends DrydockLeaseController {
       $engine->setResource($resource);
     }
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNavView());

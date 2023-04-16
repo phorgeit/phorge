@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhoneNumberTestCase
-  extends PhabricatorTestCase {
+final class PhorgePhoneNumberTestCase
+  extends PhorgeTestCase {
 
   public function testNumberNormalization() {
     $map = array(
@@ -16,7 +16,7 @@ final class PhabricatorPhoneNumberTestCase
     foreach ($map as $input => $expect) {
       $caught = null;
       try {
-        $actual = id(new PhabricatorPhoneNumber($input))
+        $actual = id(new PhorgePhoneNumber($input))
           ->toE164();
       } catch (Exception $ex) {
         $caught = $ex;

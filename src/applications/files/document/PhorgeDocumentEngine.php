@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDocumentEngine
+abstract class PhorgeDocumentEngine
   extends Phobject {
 
   private $viewer;
@@ -9,7 +9,7 @@ abstract class PhabricatorDocumentEngine
   private $highlightingConfiguration;
   private $blameConfiguration = true;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -27,26 +27,26 @@ abstract class PhabricatorDocumentEngine
     return $this->highlightedLines;
   }
 
-  final public function canRenderDocument(PhabricatorDocumentRef $ref) {
+  final public function canRenderDocument(PhorgeDocumentRef $ref) {
     return $this->canRenderDocumentType($ref);
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    PhorgeDocumentRef $uref = null,
+    PhorgeDocumentRef $vref = null) {
     return false;
   }
 
   public function newBlockDiffViews(
-    PhabricatorDocumentRef $uref,
-    PhabricatorDocumentEngineBlock $ublock,
-    PhabricatorDocumentRef $vref,
-    PhabricatorDocumentEngineBlock $vblock) {
+    PhorgeDocumentRef $uref,
+    PhorgeDocumentEngineBlock $ublock,
+    PhorgeDocumentRef $vref,
+    PhorgeDocumentEngineBlock $vblock) {
 
     $u_content = $this->newBlockContentView($uref, $ublock);
     $v_content = $this->newBlockContentView($vref, $vblock);
 
-    return id(new PhabricatorDocumentEngineBlockDiff())
+    return id(new PhorgeDocumentEngineBlockDiff())
       ->setOldContent($u_content)
       ->addOldClass('old')
       ->addOldClass('old-full')
@@ -56,26 +56,26 @@ abstract class PhabricatorDocumentEngine
   }
 
   public function newBlockContentView(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngineBlock $block) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngineBlock $block) {
     return $block->getContent();
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref,
-    PhabricatorDocumentRef $vref) {
+    PhorgeDocumentRef $uref,
+    PhorgeDocumentRef $vref) {
     throw new PhutilMethodNotImplementedException();
   }
 
-  public function canConfigureEncoding(PhabricatorDocumentRef $ref) {
+  public function canConfigureEncoding(PhorgeDocumentRef $ref) {
     return false;
   }
 
-  public function canConfigureHighlighting(PhabricatorDocumentRef $ref) {
+  public function canConfigureHighlighting(PhorgeDocumentRef $ref) {
     return false;
   }
 
-  public function canBlame(PhabricatorDocumentRef $ref) {
+  public function canBlame(PhorgeDocumentRef $ref) {
     return false;
   }
 
@@ -110,14 +110,14 @@ abstract class PhabricatorDocumentEngine
     return $this->blameConfiguration;
   }
 
-  public function shouldRenderAsync(PhabricatorDocumentRef $ref) {
+  public function shouldRenderAsync(PhorgeDocumentRef $ref) {
     return false;
   }
 
   abstract protected function canRenderDocumentType(
-    PhabricatorDocumentRef $ref);
+    PhorgeDocumentRef $ref);
 
-  final public function newDocument(PhabricatorDocumentRef $ref) {
+  final public function newDocument(PhorgeDocumentRef $ref) {
     $can_complete = $this->canRenderCompleteDocument($ref);
     $can_partial = $this->canRenderPartialDocument($ref);
 
@@ -133,19 +133,19 @@ abstract class PhabricatorDocumentEngine
     return $this->newDocumentContent($ref);
   }
 
-  final public function newDocumentIcon(PhabricatorDocumentRef $ref) {
+  final public function newDocumentIcon(PhorgeDocumentRef $ref) {
     return id(new PHUIIconView())
       ->setIcon($this->getDocumentIconIcon($ref));
   }
 
   abstract protected function newDocumentContent(
-    PhabricatorDocumentRef $ref);
+    PhorgeDocumentRef $ref);
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file-o';
   }
 
-  protected function getDocumentRenderingText(PhabricatorDocumentRef $ref) {
+  protected function getDocumentRenderingText(PhorgeDocumentRef $ref) {
     return pht('Loading...');
   }
 
@@ -160,7 +160,7 @@ abstract class PhabricatorDocumentEngine
       ->execute();
   }
 
-  final public function newSortVector(PhabricatorDocumentRef $ref) {
+  final public function newSortVector(PhorgeDocumentRef $ref) {
     $content_score = $this->getContentScore($ref);
 
     // Prefer engines which can render the entire file over engines which
@@ -179,13 +179,13 @@ abstract class PhabricatorDocumentEngine
       ->addInt(-$content_score);
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     return 2000;
   }
 
-  abstract public function getViewAsLabel(PhabricatorDocumentRef $ref);
+  abstract public function getViewAsLabel(PhorgeDocumentRef $ref);
 
-  public function getViewAsIconIcon(PhabricatorDocumentRef $ref) {
+  public function getViewAsIconIcon(PhorgeDocumentRef $ref) {
     $can_complete = $this->canRenderCompleteDocument($ref);
     $can_partial = $this->canRenderPartialDocument($ref);
 
@@ -196,7 +196,7 @@ abstract class PhabricatorDocumentEngine
     return $this->getDocumentIconIcon($ref);
   }
 
-  public function getViewAsIconColor(PhabricatorDocumentRef $ref) {
+  public function getViewAsIconColor(PhorgeDocumentRef $ref) {
     $can_complete = $this->canRenderCompleteDocument($ref);
 
     if (!$can_complete) {
@@ -207,8 +207,8 @@ abstract class PhabricatorDocumentEngine
   }
 
   final public static function getEnginesForRef(
-    PhabricatorUser $viewer,
-    PhabricatorDocumentRef $ref) {
+    PhorgeUser $viewer,
+    PhorgeDocumentRef $ref) {
     $engines = self::getAllEngines();
 
     foreach ($engines as $key => $engine) {
@@ -240,7 +240,7 @@ abstract class PhabricatorDocumentEngine
     return (1024 * 1024 * 8);
   }
 
-  protected function canRenderCompleteDocument(PhabricatorDocumentRef $ref) {
+  protected function canRenderCompleteDocument(PhorgeDocumentRef $ref) {
     $limit = $this->getByteLengthLimit();
     if ($limit) {
       $length = $ref->getByteLength();
@@ -252,7 +252,7 @@ abstract class PhabricatorDocumentEngine
     return true;
   }
 
-  protected function canRenderPartialDocument(PhabricatorDocumentRef $ref) {
+  protected function canRenderPartialDocument(PhorgeDocumentRef $ref) {
     return false;
   }
 
@@ -265,7 +265,7 @@ abstract class PhabricatorDocumentEngine
       $message);
   }
 
-  final public function newLoadingContent(PhabricatorDocumentRef $ref) {
+  final public function newLoadingContent(PhorgeDocumentRef $ref) {
     $spinner = id(new PHUIIconView())
       ->setIcon('fa-gear')
       ->addClass('ph-spin');
@@ -281,7 +281,7 @@ abstract class PhabricatorDocumentEngine
       ));
   }
 
-  public function shouldSuggestEngine(PhabricatorDocumentRef $ref) {
+  public function shouldSuggestEngine(PhorgeDocumentRef $ref) {
     return false;
   }
 

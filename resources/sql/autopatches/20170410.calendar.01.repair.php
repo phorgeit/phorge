@@ -5,12 +5,12 @@
 // to be the result of some bug which has been fixed in the meantime, so just
 // redo this part of the migration.
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn = $table->establishConnection('w');
 $table_name = $table->getTableName();
 
-$viewer = PhabricatorUser::getOmnipotentUser();
-$all_events = id(new PhabricatorCalendarEventQuery())
+$viewer = PhorgeUser::getOmnipotentUser();
+$all_events = id(new PhorgeCalendarEventQuery())
   ->setViewer($viewer)
   ->execute();
 foreach ($all_events as $event) {

@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorSpacesSearchField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeSpacesSearchField
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();
   }
 
   protected function newDatasource() {
-    return new PhabricatorSpacesNamespaceDatasource();
+    return new PhorgeSpacesNamespaceDatasource();
   }
 
   protected function getValueFromRequest(AphrontRequest $request, $key) {
     $viewer = $this->getViewer();
     $list = $this->getListFromRequest($request, $key);
 
-    $type = new PhabricatorSpacesNamespacePHIDType();
+    $type = new PhorgeSpacesNamespacePHIDType();
     $phids = array();
     $names = array();
     foreach ($list as $item) {
@@ -27,7 +27,7 @@ final class PhabricatorSpacesSearchField
     }
 
     if ($names) {
-      $spaces = id(new PhabricatorObjectQuery())
+      $spaces = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames($names)
         ->execute();

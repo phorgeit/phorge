@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitHasPackageEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 65;
 

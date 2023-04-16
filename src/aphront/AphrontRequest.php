@@ -372,7 +372,7 @@ final class AphrontRequest extends Phobject {
 
       // Give a more detailed explanation of how to avoid the exception
       // in developer mode.
-      if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+      if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
         // TODO: Clean this up, see T1921.
         $info[] = pht(
           "To avoid this error, use %s to construct forms. If you are already ".
@@ -390,7 +390,7 @@ final class AphrontRequest extends Phobject {
           'phorge_form()',
           '/',
           'AphrontWriteGuard::beginScopedUnguardedWrites()',
-          'PhabricatorActionListView',
+          'PhorgeActionListView',
           'setRenderAsForm(true)');
       }
 
@@ -488,7 +488,7 @@ final class AphrontRequest extends Phobject {
    * @task cookie
    */
   private function getCookieDomainURI() {
-    if (PhabricatorEnv::getEnvConfig('security.require-https') &&
+    if (PhorgeEnv::getEnvConfig('security.require-https') &&
         !$this->isHTTPS()) {
       return null;
     }
@@ -498,12 +498,12 @@ final class AphrontRequest extends Phobject {
     // If there's no base domain configured, just use whatever the request
     // domain is. This makes setup easier, and we'll tell administrators to
     // configure a base domain during the setup process.
-    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+    $base_uri = PhorgeEnv::getEnvConfig('phorge.base-uri');
     if (!phutil_nonempty_string($base_uri)) {
       return new PhutilURI('http://'.$host.'/');
     }
 
-    $alternates = PhabricatorEnv::getEnvConfig('phorge.allowed-uris');
+    $alternates = PhorgeEnv::getEnvConfig('phorge.allowed-uris');
     $allowed_uris = array_merge(
       array($base_uri),
       $alternates);
@@ -581,7 +581,7 @@ final class AphrontRequest extends Phobject {
 
     $base_domain_uri = $this->getCookieDomainURI();
     if (!$base_domain_uri) {
-      $configured_as = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+      $configured_as = PhorgeEnv::getEnvConfig('phorge.base-uri');
       $accessed_as = $this->getHost();
 
       throw new AphrontMalformedRequestException(
@@ -681,7 +681,7 @@ final class AphrontRequest extends Phobject {
   }
 
   public function getRemoteAddress() {
-    $address = PhabricatorEnv::getRemoteAddress();
+    $address = PhorgeEnv::getRemoteAddress();
 
     if (!$address) {
       return null;
@@ -847,7 +847,7 @@ final class AphrontRequest extends Phobject {
    * @param string URI identifying the host we are proxying the request to.
    * @return HTTPSFuture New proxy future.
    *
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function newClusterProxyFuture($uri) {
     $uri = new PhutilURI($uri);
@@ -861,7 +861,7 @@ final class AphrontRequest extends Phobject {
           $domain));
     }
 
-    if (!PhabricatorEnv::isClusterAddress($ip)) {
+    if (!PhorgeEnv::isClusterAddress($ip)) {
       throw new Exception(
         pht(
           'Refusing to proxy a request to IP address ("%s") which is not '.
@@ -877,7 +877,7 @@ final class AphrontRequest extends Phobject {
       $uri->appendQueryParam($query_key, $query_value);
     }
 
-    $input = PhabricatorStartup::getRawInput();
+    $input = PhorgeStartup::getRawInput();
 
     $future = id(new HTTPSFuture($uri))
       ->addHeader('Host', self::getHost())
@@ -953,7 +953,7 @@ final class AphrontRequest extends Phobject {
   }
 
   public function updateEphemeralCookies() {
-    $submit_cookie = PhabricatorCookies::COOKIE_SUBMIT;
+    $submit_cookie = PhorgeCookies::COOKIE_SUBMIT;
 
     $submit_key = $this->getCookie($submit_cookie);
     if (phutil_nonempty_string($submit_key)) {

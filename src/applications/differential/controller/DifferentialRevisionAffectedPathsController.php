@@ -38,7 +38,7 @@ final class DifferentialRevisionAffectedPathsController
     $repository_ids = array_fuse($repository_ids);
 
     if ($repository_ids) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withIDs($repository_ids)
         ->execute();

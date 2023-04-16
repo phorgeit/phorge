@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionCommitRemarkupRuleTestCase extends PhabricatorTestCase {
+final class DiffusionCommitRemarkupRuleTestCase extends PhorgeTestCase {
 
   public function testProjectObjectRemarkup() {
     $cases = array(

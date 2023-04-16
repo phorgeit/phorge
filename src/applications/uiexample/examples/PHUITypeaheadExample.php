@@ -1,6 +1,6 @@
 <?php
 
-final class PHUITypeaheadExample extends PhabricatorUIExample {
+final class PHUITypeaheadExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Typeaheads');
@@ -14,28 +14,28 @@ final class PHUITypeaheadExample extends PhabricatorUIExample {
 
     $token_list = array();
 
-    $token_list[] = id(new PhabricatorTypeaheadTokenView())
+    $token_list[] = id(new PhorgeTypeaheadTokenView())
       ->setValue(pht('Normal Object'))
       ->setIcon('fa-user');
 
-    $token_list[] = id(new PhabricatorTypeaheadTokenView())
+    $token_list[] = id(new PhorgeTypeaheadTokenView())
       ->setValue(pht('Disabled Object'))
-      ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_DISABLED)
+      ->setTokenType(PhorgeTypeaheadTokenView::TYPE_DISABLED)
       ->setIcon('fa-user');
 
-    $token_list[] = id(new PhabricatorTypeaheadTokenView())
+    $token_list[] = id(new PhorgeTypeaheadTokenView())
       ->setValue(pht('Object with Color'))
       ->setIcon('fa-tag')
       ->setColor('green');
 
-    $token_list[] = id(new PhabricatorTypeaheadTokenView())
+    $token_list[] = id(new PhorgeTypeaheadTokenView())
       ->setValue(pht('Function Token'))
-      ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+      ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
       ->setIcon('fa-users');
 
-    $token_list[] = id(new PhabricatorTypeaheadTokenView())
+    $token_list[] = id(new PhorgeTypeaheadTokenView())
       ->setValue(pht('Invalid Token'))
-      ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_INVALID)
+      ->setTokenType(PhorgeTypeaheadTokenView::TYPE_INVALID)
       ->setIcon('fa-exclamation-circle');
 
 

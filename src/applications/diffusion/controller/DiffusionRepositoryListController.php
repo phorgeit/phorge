@@ -25,7 +25,7 @@ final class DiffusionRepositoryListController extends DiffusionController {
       ->setName(pht('Browse Identities'))
       ->setHref($this->getApplicationURI('identity/'));
 
-    return id(new PhabricatorRepositorySearchEngine())
+    return id(new PhorgeRepositorySearchEngine())
       ->setController($this)
       ->setNavigationItems($items)
       ->buildResponse();

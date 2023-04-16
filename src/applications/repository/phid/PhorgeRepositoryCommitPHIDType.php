@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
+final class PhorgeRepositoryCommitPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CMIT';
 
@@ -9,15 +9,15 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorRepositoryCommit();
+    return new PhorgeRepositoryCommit();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DiffusionCommitQuery())
@@ -25,7 +25,7 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -57,7 +57,7 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
       $name = $repository->formatCommitName($commit_identifier);
 
       if ($commit->isUnreachable()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
 
         // If we have a hint about this commit being rewritten, add the
         // rewrite target to the handle name. This reduces the chance users
@@ -85,8 +85,8 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
   }
 
   public static function getCommitObjectNamePattern() {
-    $min_unqualified = PhabricatorRepository::MINIMUM_UNQUALIFIED_HASH;
-    $min_qualified   = PhabricatorRepository::MINIMUM_QUALIFIED_HASH;
+    $min_unqualified = PhorgeRepository::MINIMUM_UNQUALIFIED_HASH;
+    $min_qualified   = PhorgeRepository::MINIMUM_QUALIFIED_HASH;
 
     return
       '(?:r[A-Z]+:?|R[0-9]+:)[1-9]\d*'.
@@ -102,7 +102,7 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $query = id(new DiffusionCommitQuery())

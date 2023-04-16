@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorUser();
+$table = new PhorgeUser();
 $conn = $table->establishConnection('w');
 $table_name = 'user_oauthinfo';
 

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleDeleteController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleDeleteController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -17,7 +17,7 @@ final class PhabricatorPeopleDeleteController
 
     $manage_uri = $this->getApplicationURI("manage/{$id}/");
 
-    $doc_uri = PhabricatorEnv::getDoclink(
+    $doc_uri = PhorgeEnv::getDoclink(
       'Permanently Destroying Data');
 
     return $this->newDialog()

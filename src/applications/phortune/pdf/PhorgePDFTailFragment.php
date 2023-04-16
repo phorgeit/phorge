@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPDFTailFragment
-  extends PhabricatorPDFFragment {
+final class PhorgePDFTailFragment
+  extends PhorgePDFFragment {
 
   private $iterator;
 
-  public function setIterator(PhabricatorPDFIterator $iterator) {
+  public function setIterator(PhorgePDFIterator $iterator) {
     $this->iterator = $iterator;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthProvidersGuidanceContext
-  extends PhabricatorGuidanceContext {
+final class PhorgeAuthProvidersGuidanceContext
+  extends PhorgeGuidanceContext {
 
   private $canManage = false;
 

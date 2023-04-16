@@ -114,7 +114,7 @@ abstract class DiffusionBlameQuery extends DiffusionQuery {
         continue;
       }
 
-      $path_hash = PhabricatorHash::digestForIndex($path);
+      $path_hash = PhorgeHash::digestForIndex($path);
 
       $map[$path] = "blame({$repository_id}, {$identifier}, {$path_hash}, raw)";
     }
@@ -123,7 +123,7 @@ abstract class DiffusionBlameQuery extends DiffusionQuery {
   }
 
   private function readCacheData(array $keys) {
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
     $data = $cache->getKeys($keys);
 
     $results = array();
@@ -175,7 +175,7 @@ abstract class DiffusionBlameQuery extends DiffusionQuery {
       return;
     }
 
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
     $data = $cache->setKeys($writes, phutil_units('14 days in seconds'));
   }
 

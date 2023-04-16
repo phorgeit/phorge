@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorSearchNgrams
-  extends PhabricatorSearchDAO {
+abstract class PhorgeSearchNgrams
+  extends PhorgeSearchDAO {
 
   protected $objectID;
   protected $ngram;
@@ -79,7 +79,7 @@ abstract class PhabricatorSearchNgrams
 
   private function getNgramEngine() {
     if (!$this->ngramEngine) {
-      $this->ngramEngine = new PhabricatorSearchNgramEngine();
+      $this->ngramEngine = new PhorgeSearchNgramEngine();
     }
 
     return $this->ngramEngine;

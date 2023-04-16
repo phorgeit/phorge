@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSecuritySetupCheck extends PhabricatorSetupCheck {
+final class PhorgeSecuritySetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -50,9 +50,9 @@ final class PhabricatorSecuritySetupCheck extends PhabricatorSetupCheck {
     }
 
     $file_key = 'security.alternate-file-domain';
-    $file_domain = PhabricatorEnv::getEnvConfig($file_key);
+    $file_domain = PhorgeEnv::getEnvConfig($file_key);
     if (!$file_domain) {
-      $doc_href = PhabricatorEnv::getDoclink('Configuring a File Domain');
+      $doc_href = PhorgeEnv::getDoclink('Configuring a File Domain');
 
       $this->newIssue('security.'.$file_key)
         ->setName(pht('Alternate File Domain Not Configured'))
@@ -68,7 +68,7 @@ final class PhabricatorSecuritySetupCheck extends PhabricatorSetupCheck {
             'Configure a CDN (or alternate file domain) to eliminate this '.
             'risk. Using a CDN will also improve performance. See the '.
             'guide below for instructions.'))
-        ->addPhabricatorConfig($file_key)
+        ->addPhorgeConfig($file_key)
         ->addLink(
           $doc_href,
           pht('Configuration Guide: Configuring a File Domain'));

@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorProjectArchiveController
-  extends PhabricatorProjectController {
+final class PhorgeProjectArchiveController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$project) {
@@ -24,19 +24,19 @@ final class PhabricatorProjectArchiveController
 
     if ($request->isFormPost()) {
       if ($project->isArchived()) {
-        $new_status = PhabricatorProjectStatus::STATUS_ACTIVE;
+        $new_status = PhorgeProjectStatus::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorProjectStatus::STATUS_ARCHIVED;
+        $new_status = PhorgeProjectStatus::STATUS_ARCHIVED;
       }
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectStatusTransaction::TRANSACTIONTYPE)
+            PhorgeProjectStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelType
-  extends PhabricatorDashboardPanelType {
+final class PhorgeDashboardQueryPanelType
+  extends PhorgeDashboardPanelType {
 
   public function getPanelTypeKey() {
     return 'query';
@@ -21,31 +21,31 @@ final class PhabricatorDashboardQueryPanelType
       'revisions you need to review.');
   }
 
-  protected function newEditEngineFields(PhabricatorDashboardPanel $panel) {
+  protected function newEditEngineFields(PhorgeDashboardPanel $panel) {
     $application_field =
-      id(new PhabricatorDashboardQueryPanelApplicationEditField())
+      id(new PhorgeDashboardQueryPanelApplicationEditField())
         ->setKey('class')
         ->setLabel(pht('Search For'))
         ->setTransactionType(
-          PhabricatorDashboardQueryPanelApplicationTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardQueryPanelApplicationTransaction::TRANSACTIONTYPE)
         ->setValue($panel->getProperty('class', ''));
 
     $application_id = $application_field->getControlID();
 
     $query_field =
-      id(new PhabricatorDashboardQueryPanelQueryEditField())
+      id(new PhorgeDashboardQueryPanelQueryEditField())
         ->setKey('key')
         ->setLabel(pht('Query'))
         ->setApplicationControlID($application_id)
         ->setTransactionType(
-          PhabricatorDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE)
         ->setValue($panel->getProperty('key', ''));
 
-    $limit_field = id(new PhabricatorIntEditField())
+    $limit_field = id(new PhorgeIntEditField())
       ->setKey('limit')
       ->setLabel(pht('Limit'))
       ->setTransactionType(
-        PhabricatorDashboardQueryPanelLimitTransaction::TRANSACTIONTYPE)
+        PhorgeDashboardQueryPanelLimitTransaction::TRANSACTIONTYPE)
       ->setValue($panel->getProperty('limit'));
 
     return array(
@@ -56,20 +56,20 @@ final class PhabricatorDashboardQueryPanelType
   }
 
   public function renderPanelContent(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine) {
 
     $engine = $this->getSearchEngine($panel);
 
     $engine->setViewer($viewer);
-    $engine->setContext(PhabricatorApplicationSearchEngine::CONTEXT_PANEL);
+    $engine->setContext(PhorgeApplicationSearchEngine::CONTEXT_PANEL);
 
     $key = $panel->getProperty('key');
     if ($engine->isBuiltinQuery($key)) {
       $saved = $engine->buildSavedQueryFromBuiltin($key);
     } else {
-      $saved = id(new PhabricatorSavedQueryQuery())
+      $saved = id(new PhorgeSavedQueryQuery())
         ->setViewer($viewer)
         ->withEngineClassNames(array(get_class($engine)))
         ->withQueryKeys(array($key))
@@ -105,7 +105,7 @@ final class PhabricatorDashboardQueryPanelType
       $content = $results_view->getContent();
 
       $overheated_message =
-        PhabricatorApplicationSearchController::newOverheatedError(
+        PhorgeApplicationSearchController::newOverheatedError(
           (bool)$results);
 
       $overheated_warning = id(new PHUIInfoView())
@@ -164,9 +164,9 @@ final class PhabricatorDashboardQueryPanelType
   }
 
   public function adjustPanelHeader(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine,
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine,
     PHUIHeaderView $header) {
 
     $search_engine = $this->getSearchEngine($panel);
@@ -188,9 +188,9 @@ final class PhabricatorDashboardQueryPanelType
     return $header;
   }
 
-  private function getSearchEngine(PhabricatorDashboardPanel $panel) {
+  private function getSearchEngine(PhorgeDashboardPanel $panel) {
     $class = $panel->getProperty('class');
-    $engine = PhabricatorApplicationSearchEngine::getEngineByClassName($class);
+    $engine = PhorgeApplicationSearchEngine::getEngineByClassName($class);
     if (!$engine) {
       throw new Exception(
         pht(
@@ -210,8 +210,8 @@ final class PhabricatorDashboardQueryPanelType
   }
 
   public function newHeaderEditActions(
-    PhabricatorDashboardPanel $panel,
-    PhabricatorUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeUser $viewer,
     $context_phid) {
     $actions = array();
 
@@ -222,7 +222,7 @@ final class PhabricatorDashboardQueryPanelType
       $panel->getPHID(),
       $context_phid);
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setIcon('fa-pencil-square-o')
       ->setName(pht('Customize Query'))
       ->setWorkflow(true)

@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorObjectRelationshipSource extends Phobject {
+abstract class PhorgeObjectRelationshipSource extends Phobject {
 
   private $viewer;
   private $selectedFilter;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelViewController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelViewController
+  extends PhorgeDashboardController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorDashboardPanelViewController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $panel = id(new PhabricatorDashboardPanelQuery())
+    $panel = id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -19,10 +19,10 @@ final class PhabricatorDashboardPanelViewController
       return new Aphront404Response();
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $panel,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $title = $panel->getMonogram().' '.$panel->getName();
     $crumbs = $this->buildApplicationCrumbs();
@@ -39,10 +39,10 @@ final class PhabricatorDashboardPanelViewController
 
     $timeline = $this->buildTransactionTimeline(
       $panel,
-      new PhabricatorDashboardPanelTransactionQuery());
+      new PhorgeDashboardPanelTransactionQuery());
     $timeline->setShouldTerminate(true);
 
-    $rendered_panel = id(new PhabricatorDashboardPanelRenderingEngine())
+    $rendered_panel = id(new PhorgeDashboardPanelRenderingEngine())
       ->setViewer($viewer)
       ->setPanel($panel)
       ->setContextObject($panel)
@@ -70,7 +70,7 @@ final class PhabricatorDashboardPanelViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorDashboardPanel $panel) {
+  private function buildHeaderView(PhorgeDashboardPanel $panel) {
     $viewer = $this->getViewer();
     $id = $panel->getID();
 
@@ -88,19 +88,19 @@ final class PhabricatorDashboardPanelViewController
     return $header;
   }
 
-  private function buildCurtainView(PhabricatorDashboardPanel $panel) {
+  private function buildCurtainView(PhorgeDashboardPanel $panel) {
     $viewer = $this->getViewer();
     $id = $panel->getID();
 
     $curtain = $this->newCurtainView($panel);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $panel,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Panel'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("panel/edit/{$id}/"))
@@ -116,7 +116,7 @@ final class PhabricatorDashboardPanelViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($archive_text)
         ->setIcon($archive_icon)
         ->setHref($this->getApplicationURI("panel/archive/{$id}/"))
@@ -126,12 +126,12 @@ final class PhabricatorDashboardPanelViewController
     return $curtain;
   }
 
-  private function newUsageView(PhabricatorDashboardPanel $panel) {
+  private function newUsageView(PhorgeDashboardPanel $panel) {
     $viewer = $this->getViewer();
 
-    $object_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $object_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $panel->getPHID(),
-      PhabricatorDashboardPanelUsedByObjectEdgeType::EDGECONST);
+      PhorgeDashboardPanelUsedByObjectEdgeType::EDGECONST);
 
     if ($object_phids) {
       $handles = $viewer->loadHandles($object_phids);

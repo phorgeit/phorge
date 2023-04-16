@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCreateRepositoriesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diffusion.create';
 

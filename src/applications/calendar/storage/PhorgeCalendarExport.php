@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
+final class PhorgeCalendarExport extends PhorgeCalendarDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface {
 
   protected $name;
   protected $authorPHID;
@@ -16,7 +16,7 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
   const MODE_PUBLIC = 'public';
   const MODE_PRIVILEGED = 'privileged';
 
-  public static function initializeNewCalendarExport(PhabricatorUser $actor) {
+  public static function initializeNewCalendarExport(PhorgeUser $actor) {
     return id(new self())
       ->setAuthorPHID($actor->getPHID())
       ->setPolicyMode(self::MODE_PRIVILEGED)
@@ -46,7 +46,7 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
   }
 
   public function getPHIDType() {
-    return PhabricatorCalendarExportPHIDType::TYPECONST;
+    return PhorgeCalendarExportPHIDType::TYPECONST;
   }
 
   public function save() {
@@ -122,7 +122,7 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
   public static function getAvailablePolicyModes() {
     $modes = array();
 
-    if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {
+    if (PhorgeEnv::getEnvConfig('policy.allow-public')) {
       $modes[] = self::MODE_PUBLIC;
     }
 
@@ -132,7 +132,7 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
   }
 
   public function getICSFilename() {
-    return PhabricatorSlug::normalizeProjectSlug($this->getName()).'.ics';
+    return PhorgeSlug::normalizeProjectSlug($this->getName()).'.ics';
   }
 
   public function getICSURI() {
@@ -141,13 +141,13 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
     return "/calendar/export/ics/{$secret_key}/{$ics_name}";
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -155,27 +155,27 @@ final class PhabricatorCalendarExport extends PhabricatorCalendarDAO
     return $this->getAuthorPHID();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorCalendarExportEditor();
+    return new PhorgeCalendarExportEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorCalendarExportTransaction();
+    return new PhorgeCalendarExportTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 

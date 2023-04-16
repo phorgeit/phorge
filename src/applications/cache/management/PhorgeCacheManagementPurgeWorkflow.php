@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCacheManagementPurgeWorkflow
-  extends PhabricatorCacheManagementWorkflow {
+final class PhorgeCacheManagementPurgeWorkflow
+  extends PhorgeCacheManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -22,7 +22,7 @@ final class PhabricatorCacheManagementPurgeWorkflow
   }
 
   public function execute(PhutilArgumentParser $args) {
-    $all_purgers = PhabricatorCachePurger::getAllPurgers();
+    $all_purgers = PhorgeCachePurger::getAllPurgers();
 
     $is_all = $args->getArg('all');
     $key_list = $args->getArg('caches');

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserPreferencesTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeUserPreferencesTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_SETTING = 'setting';
 
@@ -12,7 +12,7 @@ final class PhabricatorUserPreferencesTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorUserPreferencesPHIDType::TYPECONST;
+    return PhorgeUserPreferencesPHIDType::TYPECONST;
   }
 
 }

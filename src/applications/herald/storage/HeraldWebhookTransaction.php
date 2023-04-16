@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldWebhookTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'herald';

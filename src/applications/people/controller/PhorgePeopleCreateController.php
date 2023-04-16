@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPeopleCreateController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleCreateController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
     $admin = $request->getUser();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $admin,
       $request,
       $this->getApplicationURI());
@@ -81,7 +81,7 @@ final class PhabricatorPeopleCreateController
           'Choose the type of user account to create. For a detailed '.
           'explanation of user account types, see [[ %s | User Guide: '.
           'Account Roles ]].',
-          PhabricatorEnv::getDoclink('User Guide: Account Roles')))
+          PhorgeEnv::getDoclink('User Guide: Account Roles')))
       ->appendChild($buttons)
       ->appendChild(
         id(new AphrontFormSubmitControl())
@@ -97,9 +97,9 @@ final class PhabricatorPeopleCreateController
       ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
       ->setForm($form);
 
-    $guidance_context = new PhabricatorPeopleCreateGuidanceContext();
+    $guidance_context = new PhorgePeopleCreateGuidanceContext();
 
-    $guidance = id(new PhabricatorGuidanceEngine())
+    $guidance = id(new PhorgeGuidanceEngine())
       ->setViewer($admin)
       ->setGuidanceContext($guidance_context)
       ->newInfoView();

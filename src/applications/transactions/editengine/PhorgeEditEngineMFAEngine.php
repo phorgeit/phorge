@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorEditEngineMFAEngine
+abstract class PhorgeEditEngineMFAEngine
   extends Phobject {
 
   private $object;
   private $viewer;
 
-  public function setObject(PhabricatorEditEngineMFAInterface $object) {
+  public function setObject(PhorgeEditEngineMFAInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -15,7 +15,7 @@ abstract class PhabricatorEditEngineMFAEngine
     return $this->object;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -29,7 +29,7 @@ abstract class PhabricatorEditEngineMFAEngine
   }
 
   final public static function newEngineForObject(
-    PhabricatorEditEngineMFAInterface $object) {
+    PhorgeEditEngineMFAInterface $object) {
     return $object->newEditEngineMFAEngine()
       ->setObject($object);
   }

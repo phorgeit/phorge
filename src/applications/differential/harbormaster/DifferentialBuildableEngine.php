@@ -77,7 +77,7 @@ final class DifferentialBuildableEngine
       ->setDisplayName($name)
       ->setAddress($address);
 
-    return id(new PhabricatorRepositoryIdentity())
+    return id(new PhorgeRepositoryIdentity())
       ->setIdentityName((string)$full)
       ->makeEphemeral();
   }

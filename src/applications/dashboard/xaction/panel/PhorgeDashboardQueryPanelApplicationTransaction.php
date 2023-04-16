@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelApplicationTransaction
-  extends PhabricatorDashboardPanelPropertyTransaction {
+final class PhorgeDashboardQueryPanelApplicationTransaction
+  extends PhorgeDashboardPanelPropertyTransaction {
 
   const TRANSACTIONTYPE = 'query.application';
 
@@ -12,7 +12,7 @@ final class PhabricatorDashboardQueryPanelApplicationTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $engines = PhabricatorApplicationSearchEngine::getAllEngines();
+    $engines = PhorgeApplicationSearchEngine::getAllEngines();
 
     $old_value = $object->getProperty($this->getPropertyKey());
     foreach ($xactions as $xaction) {

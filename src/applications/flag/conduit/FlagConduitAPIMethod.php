@@ -3,11 +3,11 @@
 abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorFlagsApplication');
+    return PhorgeApplication::getByClass('PhorgeFlagsApplication');
   }
 
-  protected function attachHandleToFlag($flag, PhabricatorUser $user) {
-    $handle = id(new PhabricatorHandleQuery())
+  protected function attachHandleToFlag($flag, PhorgeUser $user) {
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs(array($flag->getObjectPHID()))
       ->executeOne();
@@ -16,7 +16,7 @@ abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
 
   protected function buildFlagInfoDictionary($flag) {
     $color = $flag->getColor();
-    $uri = PhabricatorEnv::getProductionURI($flag->getHandle()->getURI());
+    $uri = PhorgeEnv::getProductionURI($flag->getHandle()->getURI());
 
     return array(
       'id'            => $flag->getID(),
@@ -25,7 +25,7 @@ abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
       'objectPHID'    => $flag->getObjectPHID(),
       'reasonPHID'    => $flag->getReasonPHID(),
       'color'         => $color,
-      'colorName'     => PhabricatorFlagColor::getColorName($color),
+      'colorName'     => PhorgeFlagColor::getColorName($color),
       'note'          => $flag->getNote(),
       'handle'        => array(
         'uri'      => $uri,

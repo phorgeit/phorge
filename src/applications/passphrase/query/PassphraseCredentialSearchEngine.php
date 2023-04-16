@@ -1,14 +1,14 @@
 <?php
 
 final class PassphraseCredentialSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Passphrase Credentials');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPassphraseApplication';
+    return 'PhorgePassphraseApplication';
   }
 
   public function newQuery() {
@@ -17,14 +17,14 @@ final class PassphraseCredentialSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Status'))
         ->setKey('isDestroyed')
         ->setOptions(
           pht('Show All'),
           pht('Show Only Destroyed Credentials'),
           pht('Show Only Active Credentials')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name'),
     );
@@ -71,7 +71,7 @@ final class PassphraseCredentialSearchEngine
 
   protected function renderResultList(
     array $credentials,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($credentials, 'PassphraseCredential');
 
@@ -104,7 +104,7 @@ final class PassphraseCredentialSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No credentials found.'));
 

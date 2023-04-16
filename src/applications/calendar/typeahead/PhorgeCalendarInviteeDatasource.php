@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarInviteeDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeCalendarInviteeDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Invitees');
@@ -12,25 +12,25 @@ final class PhabricatorCalendarInviteeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorCalendarInviteeUserDatasource(),
-      new PhabricatorCalendarInviteeViewerFunctionDatasource(),
+      new PhorgeCalendarInviteeUserDatasource(),
+      new PhorgeCalendarInviteeViewerFunctionDatasource(),
       new DifferentialExactUserFunctionDatasource(),
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
   public static function expandInvitees(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values) {
 
     $phids = array();
     foreach ($values as $value) {
-      if (phid_get_type($value) == PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($value) == PhorgePeopleUserPHIDType::TYPECONST) {
         $phids[] = $value;
       }
     }
@@ -39,7 +39,7 @@ final class PhabricatorCalendarInviteeDatasource
       return $values;
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
        ->setViewer($viewer)
        ->withMemberPHIDs($phids)
        ->execute();

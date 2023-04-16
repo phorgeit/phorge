@@ -18,7 +18,7 @@ final class DiffusionPreCommitContentCommitterProjectsHeraldField
       return array();
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withMemberPHIDs(array($committer_phid))
       ->execute();
@@ -31,7 +31,7 @@ final class DiffusionPreCommitContentCommitterProjectsHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

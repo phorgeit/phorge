@@ -2,7 +2,7 @@
 
 final class LegalpadDocumentBody extends LegalpadDAO
   implements
-    PhabricatorMarkupInterface {
+    PhorgeMarkupInterface {
 
   const MARKUP_FIELD_TEXT = 'markup:text ';
 
@@ -31,20 +31,20 @@ final class LegalpadDocumentBody extends LegalpadDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPHIDConstants::PHID_TYPE_LEGB);
+    return PhorgePHID::generateNewPHID(
+      PhorgePHIDConstants::PHID_TYPE_LEGB);
   }
 
-/* -(  PhabricatorMarkupInterface  )----------------------------------------- */
+/* -(  PhorgeMarkupInterface  )----------------------------------------- */
 
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newMarkupEngine(array());
+    return PhorgeMarkupEngine::newMarkupEngine(array());
   }
 
   public function getMarkupText($field) {

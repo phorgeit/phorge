@@ -1,4 +1,4 @@
 <?php
 
 abstract class LegalpadDocumentTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

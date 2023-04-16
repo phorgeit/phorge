@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownTitleTransaction
-  extends PhabricatorCountdownTransactionType {
+final class PhorgeCountdownTitleTransaction
+  extends PhorgeCountdownTransactionType {
 
   const TRANSACTIONTYPE = 'countdown:title';
 

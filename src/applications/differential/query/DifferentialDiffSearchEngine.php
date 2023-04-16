@@ -1,14 +1,14 @@
 <?php
 
 final class DifferentialDiffSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Differential Diffs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function newQuery() {
@@ -27,7 +27,7 @@ final class DifferentialDiffSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Revisions'))
         ->setKey('revisionPHIDs')
         ->setAliases(array('revision', 'revisions', 'revisionPHID'))
@@ -64,7 +64,7 @@ final class DifferentialDiffSearchEngine
 
   protected function renderResultList(
     array $revisions,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($revisions, 'DifferentialDiff');
 
@@ -73,7 +73,7 @@ final class DifferentialDiffSearchEngine
     // NOTE: This is only exposed to Conduit, so we don't currently render
     // results.
 
-    return id(new PhabricatorApplicationSearchResultView());
+    return id(new PhorgeApplicationSearchResultView());
   }
 
 }

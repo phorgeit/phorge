@@ -87,7 +87,7 @@ final class HeraldTestConsoleController extends HeraldController {
       }
 
       if (!$errors) {
-        $object = id(new PhabricatorObjectQuery())
+        $object = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withNames(array($v_name))
           ->executeOne();
@@ -231,7 +231,7 @@ final class HeraldTestConsoleController extends HeraldController {
     // Try using the content source associated with the most recent transaction
     // on the object.
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($object);
 
     $xaction = $query
       ->setViewer($viewer)
@@ -247,24 +247,24 @@ final class HeraldTestConsoleController extends HeraldController {
     // building a new content source from the test console request itself.
 
     $request = $this->getRequest();
-    return PhabricatorContentSource::newFromRequest($request);
+    return PhorgeContentSource::newFromRequest($request);
   }
 
   private function loadAppliedTransactions($object) {
     $viewer = $this->getViewer();
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       return null;
     }
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject(
       $object);
 
     $query
       ->withObjectPHIDs(array($object->getPHID()))
       ->setViewer($viewer);
 
-    $xactions = new PhabricatorQueryIterator($query);
+    $xactions = new PhorgeQueryIterator($query);
 
     $applied = array();
 

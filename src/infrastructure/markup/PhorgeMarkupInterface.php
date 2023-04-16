@@ -4,7 +4,7 @@
  * An object which has one or more fields containing markup that can be
  * rendered into a display format. Commonly, the fields contain Remarkup and
  * are rendered into HTML. Implementing this interface allows you to render
- * objects through @{class:PhabricatorMarkupEngine} and benefit from caching
+ * objects through @{class:PhorgeMarkupEngine} and benefit from caching
  * and pipelining infrastructure.
  *
  * An object may have several "fields" of markup. For example, Differential
@@ -15,7 +15,7 @@
  *
  * @task markup Markup Interface
  */
-interface PhabricatorMarkupInterface {
+interface PhorgeMarkupInterface {
 
 
 /* -(  Markup Interface  )--------------------------------------------------- */

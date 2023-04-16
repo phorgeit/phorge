@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorUserTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeUserTransactionEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -12,16 +12,16 @@ final class PhabricatorUserTransactionEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array();
   }
 
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     return array();
   }
 

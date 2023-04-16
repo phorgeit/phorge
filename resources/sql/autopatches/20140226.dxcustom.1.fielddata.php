@@ -15,7 +15,7 @@ foreach ($rows as $row) {
       VALUES (%s, %s, %s)',
     $table_name,
     $row['revisionPHID'],
-    PhabricatorHash::digestForIndex($row['name']),
+    PhorgeHash::digestForIndex($row['name']),
     $row['value']);
 }
 

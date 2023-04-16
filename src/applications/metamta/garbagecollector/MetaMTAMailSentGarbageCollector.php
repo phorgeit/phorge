@@ -1,7 +1,7 @@
 <?php
 
 final class MetaMTAMailSentGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'metamta.sent';
 
@@ -14,11 +14,11 @@ final class MetaMTAMailSentGarbageCollector
   }
 
   protected function collectGarbage() {
-    $mails = id(new PhabricatorMetaMTAMail())->loadAllWhere(
+    $mails = id(new PhorgeMetaMTAMail())->loadAllWhere(
       'dateCreated < %d LIMIT 100',
       $this->getGarbageEpoch());
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     foreach ($mails as $mail) {
       $engine->destroyObject($mail);
     }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorObjectQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeObjectQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $phids = array();
   private $names = array();
@@ -47,7 +47,7 @@ final class PhabricatorObjectQuery
     }
 
     if ($names) {
-      $types = PhabricatorPHIDType::getAllTypes();
+      $types = PhorgePHIDType::getAllTypes();
       if ($this->types) {
         $types = array_select_keys($types, $this->types);
       }
@@ -65,7 +65,7 @@ final class PhabricatorObjectQuery
         $phid_types[$phid_type] = $phid_type;
       }
 
-      $types = PhabricatorPHIDType::getTypes($phid_types);
+      $types = PhorgePHIDType::getTypes($phid_types);
       if ($this->types) {
         $types = array_select_keys($types, $this->types);
       }
@@ -177,7 +177,7 @@ final class PhabricatorObjectQuery
    * to re-filter results. For any other set of required capabilities, we do.
    */
   protected function shouldDisablePolicyFiltering() {
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
     if ($this->getRequiredCapabilities() === array($view_capability)) {
       return true;
     }
@@ -196,19 +196,19 @@ final class PhabricatorObjectQuery
    * viewer. This method is generally used to validate that PHIDs affected by
    * a transaction are valid.
    *
-   * @param PhabricatorUser Viewer.
+   * @param PhorgeUser Viewer.
    * @param list<phid> List of ostensibly valid PHIDs.
    * @return list<phid> List of invalid or restricted PHIDs.
    */
   public static function loadInvalidPHIDsForViewer(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $phids) {
 
     if (!$phids) {
       return array();
     }
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();

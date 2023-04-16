@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeProjectConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Projects');
@@ -20,7 +20,7 @@ final class PhabricatorProjectConfigOptions
   }
 
   public function getOptions() {
-    $default_icons = PhabricatorProjectIconSet::getDefaultConfiguration();
+    $default_icons = PhorgeProjectIconSet::getDefaultConfiguration();
     $icons_type = 'project.icons';
 
     $icons_description = $this->deformat(pht(<<<EOTEXT
@@ -49,7 +49,7 @@ configuration.
 EOTEXT
       ));
 
-    $default_colors = PhabricatorProjectIconSet::getDefaultColorMap();
+    $default_colors = PhorgeProjectIconSet::getDefaultColorMap();
     $colors_type = 'project.colors';
 
     $colors_description = $this->deformat(pht(<<<EOTEXT
@@ -81,11 +81,11 @@ EOTEXT
       );
     }
 
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
 
 
     $subtype_type = 'projects.subtypes';
-    $subtype_default_key = PhabricatorEditEngineSubtype::SUBTYPE_DEFAULT;
+    $subtype_default_key = PhorgeEditEngineSubtype::SUBTYPE_DEFAULT;
     $subtype_example = array(
       array(
         'key' => $subtype_default_key,
@@ -122,7 +122,7 @@ EOTEXT
           '"type": "text"}}',
           pht('Valid Setting')),
       $this->newOption('projects.fields', $custom_field_type, $default_fields)
-        ->setCustomData(id(new PhabricatorProject())->getCustomFieldBaseClass())
+        ->setCustomData(id(new PhorgeProject())->getCustomFieldBaseClass())
         ->setDescription(pht('Select and reorder project fields.')),
       $this->newOption('projects.icons', $icons_type, $default_icons)
         ->setSummary(pht('Adjust project icons.'))

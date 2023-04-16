@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUnifiedDiffsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeUnifiedDiffsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'diff-unified';
 
@@ -17,7 +17,7 @@ final class PhabricatorUnifiedDiffsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDiffPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDiffPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getControlInstructions() {

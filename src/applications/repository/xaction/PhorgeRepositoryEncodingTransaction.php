@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryEncodingTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryEncodingTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:encoding';
 

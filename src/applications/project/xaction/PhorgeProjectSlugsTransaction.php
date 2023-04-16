@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSlugsTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectSlugsTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:slugs';
 
@@ -119,7 +119,7 @@ final class PhabricatorProjectSlugsTransaction
 
     $invalid = array();
     foreach ($new as $slug) {
-      if (!PhabricatorSlug::isValidProjectSlug($slug)) {
+      if (!PhorgeSlug::isValidProjectSlug($slug)) {
         $invalid[] = $slug;
       }
     }
@@ -138,7 +138,7 @@ final class PhabricatorProjectSlugsTransaction
     $new = $this->getEditor()->normalizeSlugs($new);
 
     if ($new) {
-      $slugs_used_already = id(new PhabricatorProjectSlug())
+      $slugs_used_already = id(new PhorgeProjectSlug())
         ->loadAllWhere('slug IN (%Ls)', $new);
     } else {
       // The project doesn't have any extra slugs.

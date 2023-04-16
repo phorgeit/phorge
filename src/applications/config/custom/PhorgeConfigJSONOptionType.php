@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorConfigJSONOptionType
-  extends PhabricatorConfigOptionType {
+abstract class PhorgeConfigJSONOptionType
+  extends PhorgeConfigOptionType {
 
   public function readRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $e_value = null;
@@ -28,7 +28,7 @@ abstract class PhabricatorConfigJSONOptionType
   }
 
   public function renderControl(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 

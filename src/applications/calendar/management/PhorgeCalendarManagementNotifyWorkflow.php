@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarManagementNotifyWorkflow
-  extends PhabricatorCalendarManagementWorkflow {
+final class PhorgeCalendarManagementNotifyWorkflow
+  extends PhorgeCalendarManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -25,7 +25,7 @@ final class PhabricatorCalendarManagementNotifyWorkflow
   public function execute(PhutilArgumentParser $args) {
     $viewer = $this->getViewer();
 
-    $engine = new PhabricatorCalendarNotificationEngine();
+    $engine = new PhorgeCalendarNotificationEngine();
 
     $minutes = $args->getArg('minutes');
     if ($minutes) {

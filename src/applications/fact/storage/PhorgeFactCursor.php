@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFactCursor extends PhabricatorFactDAO {
+final class PhorgeFactCursor extends PhorgeFactDAO {
 
   protected $name;
   protected $position;

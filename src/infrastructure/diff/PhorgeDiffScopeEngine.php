@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDiffScopeEngine
+final class PhorgeDiffScopeEngine
   extends Phobject {
 
   private $lineTextMap;

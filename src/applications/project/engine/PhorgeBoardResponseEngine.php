@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBoardResponseEngine extends Phobject {
+final class PhorgeBoardResponseEngine extends Phobject {
 
   private $viewer;
   private $objects;
@@ -10,7 +10,7 @@ final class PhabricatorBoardResponseEngine extends Phobject {
   private $ordering;
   private $sounds;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -55,7 +55,7 @@ final class PhabricatorBoardResponseEngine extends Phobject {
     return $this->updatePHIDs;
   }
 
-  public function setOrdering(PhabricatorProjectColumnOrder $ordering) {
+  public function setOrdering(PhorgeProjectColumnOrder $ordering) {
     $this->ordering = $ordering;
     return $this;
   }
@@ -107,7 +107,7 @@ final class PhabricatorBoardResponseEngine extends Phobject {
     $all_objects = msort($all_objects, 'getID');
     $ordered_phids = mpull($all_objects, 'getPHID');
 
-    $layout_engine = id(new PhabricatorBoardLayoutEngine())
+    $layout_engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board_phid))
       ->setObjectPHIDs($ordered_phids)
@@ -218,7 +218,7 @@ final class PhabricatorBoardResponseEngine extends Phobject {
 
     $exclude_phids = array($board_phid);
 
-    $descendants = id(new PhabricatorProjectQuery())
+    $descendants = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withAncestorProjectPHIDs($exclude_phids)
       ->execute();
@@ -257,7 +257,7 @@ final class PhabricatorBoardResponseEngine extends Phobject {
 
     $excluded_phids = $this->loadExcludedProjectPHIDs();
 
-    $rendering_engine = id(new PhabricatorBoardRenderingEngine())
+    $rendering_engine = id(new PhorgeBoardRenderingEngine())
       ->setViewer($viewer)
       ->setObjects($objects)
       ->setExcludedProjectPHIDs($excluded_phids);

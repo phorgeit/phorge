@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportDuplicateLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportDuplicateLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'duplicate';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('Duplicate Event');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     $duplicate_uid = $log->getParameter('uid.full');
     return pht(
       'Ignored duplicate event "%s" present in source.',

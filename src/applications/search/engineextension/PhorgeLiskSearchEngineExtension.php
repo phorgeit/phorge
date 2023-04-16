@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLiskSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeLiskSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'lisk';
 
@@ -31,12 +31,12 @@ final class PhabricatorLiskSearchEngineExtension
 
   public function getFieldSpecificationsForConduit($object) {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dateCreated')
         ->setType('int')
         ->setDescription(
           pht('Epoch timestamp when the object was created.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dateModified')
         ->setType('int')
         ->setDescription(

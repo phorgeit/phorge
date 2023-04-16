@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesComposeAvatarBuiltinFile
-  extends PhabricatorFilesBuiltinFile {
+final class PhorgeFilesComposeAvatarBuiltinFile
+  extends PhorgeFilesBuiltinFile {
 
   private $icon;
   private $color;
@@ -11,7 +11,7 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
 
   const VERSION = 'v1';
 
-  public function updateUser(PhabricatorUser $user) {
+  public function updateUser(PhorgeUser $user) {
     $username = $user->getUsername();
 
     $image_map = $this->getMap('image');
@@ -30,7 +30,7 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-      $file = PhabricatorFile::newFromFileData(
+      $file = PhorgeFile::newFromFileData(
         $data,
         array(
           'name' => $name,
@@ -75,7 +75,7 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
   private function pickMap($map_key, $username) {
     $map = $this->getMap($map_key);
     $seed = $username.'_'.$map_key;
-    $key = PhabricatorHash::digestToRange($seed, 0, count($map) - 1);
+    $key = PhorgeHash::digestToRange($seed, 0, count($map) - 1);
     return $map[$key];
   }
 
@@ -112,7 +112,7 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
     $color = $this->getColor();
     $border = implode(',', $this->getBorder());
     $desc = "compose(icon={$icon}, color={$color}, border={$border}";
-    $hash = PhabricatorHash::digestToLength($desc, 40);
+    $hash = PhorgeHash::digestToLength($desc, 40);
     return "builtin:{$hash}";
   }
 
@@ -178,7 +178,7 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
         pht('Failed to save builtin avatar image data (imagecopy).'));
     }
 
-    return PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    return PhorgeImageTransformer::saveImageDataInAnyFormat(
       $canvas,
       'image/png');
   }

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Load object edges created by @{class:PhabricatorEdgeEditor}.
+ * Load object edges created by @{class:PhorgeEdgeEditor}.
  *
  *   name=Querying Edges
  *   $src  = $earth_phid;
- *   $type = PhabricatorEdgeConfig::TYPE_BODY_HAS_SATELLITE;
+ *   $type = PhorgeEdgeConfig::TYPE_BODY_HAS_SATELLITE;
  *
  *   // Load the earth's satellites.
- *   $satellite_edges = id(new PhabricatorEdgeQuery())
+ *   $satellite_edges = id(new PhorgeEdgeQuery())
  *     ->withSourcePHIDs(array($src))
  *     ->withEdgeTypes(array($type))
  *     ->execute();
@@ -19,7 +19,7 @@
  * @task exec     Executing the Query
  * @task internal Internal
  */
-final class PhabricatorEdgeQuery extends PhabricatorQuery {
+final class PhorgeEdgeQuery extends PhorgeQuery {
 
   private $sourcePHIDs;
   private $destPHIDs;
@@ -74,7 +74,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
   /**
    * Find edges of specific types.
    *
-   * @param list List of PhabricatorEdgeConfig type constants.
+   * @param list List of PhorgeEdgeConfig type constants.
    * @return this
    *
    * @task config
@@ -126,7 +126,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * @return list<phid> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(array($edge_type))
       ->execute();
@@ -145,7 +145,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * @return wild Edge annotation (or null).
    */
   public static function loadSingleEdgeData($src_phid, $edge_type, $dest_phid) {
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(array($edge_type))
       ->withDestinationPHIDs(array($dest_phid))
@@ -186,7 +186,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
     }
 
     foreach ($sources as $type => $phids) {
-      $conn_r = PhabricatorEdgeConfig::establishConnection($type, 'r');
+      $conn_r = PhorgeEdgeConfig::establishConnection($type, 'r');
 
       $where = $this->buildWhereClause($conn_r);
       $order = $this->buildOrderClause($conn_r);
@@ -194,7 +194,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
       $edges = queryfx_all(
         $conn_r,
         'SELECT edge.* FROM %T edge %Q %Q',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         $where,
         $order);
 
@@ -205,7 +205,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
           $data_rows = queryfx_all(
             $conn_r,
             'SELECT edgedata.* FROM %T edgedata WHERE id IN (%Ld)',
-            PhabricatorEdgeConfig::TABLE_NAME_EDGEDATA,
+            PhorgeEdgeConfig::TABLE_NAME_EDGEDATA,
             $data_ids);
           foreach ($data_rows as $row) {
             $data_map[$row['id']] = idx(
@@ -237,7 +237,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * For example, if you're doing a batch query from several sources, you might
    * write code like this:
    *
-   *   $query = new PhabricatorEdgeQuery();
+   *   $query = new PhorgeEdgeQuery();
    *   $query->setViewer($viewer);
    *   $query->withSourcePHIDs(mpull($objects, 'getPHID'));
    *   $query->withEdgeTypes(array($some_type));
@@ -245,7 +245,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    *
    *   // Gets all of the destinations.
    *   $all_phids = $query->getDestinationPHIDs();
-   *   $handles = id(new PhabricatorHandleQuery())
+   *   $handles = id(new PhorgeHandleQuery())
    *     ->setViewer($viewer)
    *     ->withPHIDs($all_phids)
    *     ->execute();

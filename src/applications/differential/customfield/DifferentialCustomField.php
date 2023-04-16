@@ -5,7 +5,7 @@
  * @task diff             Integration with Diff Properties
  */
 abstract class DifferentialCustomField
-  extends PhabricatorCustomField {
+  extends PhorgeCustomField {
 
   /**
    * TODO: It would be nice to remove this, but a lot of different code is
@@ -27,7 +27,7 @@ abstract class DifferentialCustomField
     array $types,
     $allow_partial = false,
     array $suffixes = array()) {
-    return id(new PhabricatorObjectListQuery())
+    return id(new PhorgeObjectListQuery())
       ->setViewer($this->getViewer())
       ->setAllowedTypes($types)
       ->setObjectList($value)
@@ -134,7 +134,7 @@ abstract class DifferentialCustomField
     if ($this->getProxy()) {
       return $this->getProxy()->renderDiffPropertyViewValue($diff);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 }

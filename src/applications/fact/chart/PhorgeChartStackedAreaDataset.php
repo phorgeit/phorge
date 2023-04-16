@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChartStackedAreaDataset
-  extends PhabricatorChartDataset {
+final class PhorgeChartStackedAreaDataset
+  extends PhorgeChartDataset {
 
   const DATASETKEY = 'stacked-area';
 
@@ -17,7 +17,7 @@ final class PhabricatorChartStackedAreaDataset
   }
 
   protected function newChartDisplayData(
-    PhabricatorChartDataQuery $data_query) {
+    PhorgeChartDataQuery $data_query) {
 
     $functions = $this->getFunctions();
     $functions = mpull($functions, null, 'getKey');
@@ -178,13 +178,13 @@ final class PhabricatorChartStackedAreaDataset
       'labels' => $wire_labels,
     );
 
-    return id(new PhabricatorChartDisplayData())
+    return id(new PhorgeChartDisplayData())
       ->setWireData($result)
-      ->setRange(new PhabricatorChartInterval($range_min, $range_max));
+      ->setRange(new PhorgeChartInterval($range_min, $range_max));
   }
 
   private function getAllXValuesAsMap(
-    PhabricatorChartDataQuery $data_query,
+    PhorgeChartDataQuery $data_query,
     array $point_lists) {
 
     // We need to define every function we're drawing at every point where
@@ -212,10 +212,10 @@ final class PhabricatorChartStackedAreaDataset
   }
 
   private function getFunctionDatapoints(
-    PhabricatorChartDataQuery $data_query,
+    PhorgeChartDataQuery $data_query,
     array $functions) {
 
-    assert_instances_of($functions, 'PhabricatorChartFunction');
+    assert_instances_of($functions, 'PhorgeChartFunction');
 
     $points = array();
     foreach ($functions as $idx => $function) {
@@ -232,7 +232,7 @@ final class PhabricatorChartStackedAreaDataset
   }
 
   private function getGeometry(
-    PhabricatorChartDataQuery $data_query,
+    PhorgeChartDataQuery $data_query,
     array $point_lists) {
 
     $must_define = $this->getAllXValuesAsMap($data_query, $point_lists);

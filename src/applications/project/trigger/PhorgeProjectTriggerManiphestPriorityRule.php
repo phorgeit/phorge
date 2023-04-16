@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerManiphestPriorityRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerManiphestPriorityRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'task.priority';
 

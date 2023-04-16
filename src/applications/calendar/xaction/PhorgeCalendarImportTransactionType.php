@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorCalendarImportTransactionType
-  extends PhabricatorModularTransactionType {}
+abstract class PhorgeCalendarImportTransactionType
+  extends PhorgeModularTransactionType {}

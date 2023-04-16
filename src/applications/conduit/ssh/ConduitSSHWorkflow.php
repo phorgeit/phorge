@@ -1,6 +1,6 @@
 <?php
 
-final class ConduitSSHWorkflow extends PhabricatorSSHWorkflow {
+final class ConduitSSHWorkflow extends PhorgeSSHWorkflow {
 
   protected function didConstruct() {
     $this->setName('conduit');
@@ -74,7 +74,7 @@ final class ConduitSSHWorkflow extends PhabricatorSSHWorkflow {
     $this->getIOChannel()->flush();
 
     $connection_id = idx($metadata, 'connectionID');
-    $log = id(new PhabricatorConduitMethodCallLog())
+    $log = id(new PhorgeConduitMethodCallLog())
       ->setCallerPHID($this->getSSHUser()->getPHID())
       ->setConnectionID($connection_id)
       ->setMethod($method)

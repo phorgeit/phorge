@@ -14,8 +14,8 @@ final class HarbormasterDrydockBuildStepGroup
   }
 
   public function isEnabled() {
-    $drydock_class = 'PhabricatorDrydockApplication';
-    return PhabricatorApplication::isClassInstalled($drydock_class);
+    $drydock_class = 'PhorgeDrydockApplication';
+    return PhorgeApplication::isClassInstalled($drydock_class);
   }
 
   public function shouldShowIfEmpty() {

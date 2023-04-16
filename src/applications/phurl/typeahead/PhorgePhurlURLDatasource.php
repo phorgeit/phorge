@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgePhurlURLDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Phurl URLs');
@@ -12,15 +12,15 @@ final class PhabricatorPhurlURLDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorPhurlURLQuery());
+    $query = id(new PhorgePhurlURLQuery());
     $urls = $this->executeQuery($query);
     $results = array();
     foreach ($urls as $url) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setDisplayName($url->getName())
         ->setName($url->getName()." ".$url->getAlias())
         ->setPHID($url->getPHID())

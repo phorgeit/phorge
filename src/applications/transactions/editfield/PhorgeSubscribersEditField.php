@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSubscribersEditField
-  extends PhabricatorTokenizerEditField {
+final class PhorgeSubscribersEditField
+  extends PhorgeTokenizerEditField {
 
   protected function newDatasource() {
-    return new PhabricatorMetaMTAMailableDatasource();
+    return new PhorgeMetaMTAMailableDatasource();
   }
 
   protected function newHTTPParameterType() {

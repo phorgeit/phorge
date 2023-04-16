@@ -40,7 +40,7 @@ final class DiffusionRepositoryPath extends Phobject {
   }
 
   public function setLastModifiedCommit(
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepositoryCommit $commit) {
     $this->lastModifiedCommit = $commit;
     return $this;
   }
@@ -50,7 +50,7 @@ final class DiffusionRepositoryPath extends Phobject {
   }
 
   public function setLastCommitData(
-    PhabricatorRepositoryCommitData $last_commit_data) {
+    PhorgeRepositoryCommitData $last_commit_data) {
     $this->lastCommitData = $last_commit_data;
     return $this;
   }
@@ -116,12 +116,12 @@ final class DiffusionRepositoryPath extends Phobject {
       ->setFileSize($dict['fileSize'])
       ->setExternalURI($dict['externalURI']);
     if ($dict['lastModifiedCommit']) {
-      $last_modified_commit = PhabricatorRepositoryCommit::newFromDictionary(
+      $last_modified_commit = PhorgeRepositoryCommit::newFromDictionary(
         $dict['lastModifiedCommit']);
       $path->setLastModifiedCommit($last_modified_commit);
     }
     if ($dict['lastCommitData']) {
-      $last_commit_data = PhabricatorRepositoryCommitData::newFromDictionary(
+      $last_commit_data = PhorgeRepositoryCommitData::newFromDictionary(
         $dict['lastCommitData']);
       $path->setLastCommitData($last_commit_data);
     }

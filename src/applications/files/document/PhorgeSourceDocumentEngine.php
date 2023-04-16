@@ -1,38 +1,38 @@
 <?php
 
-final class PhabricatorSourceDocumentEngine
-  extends PhabricatorTextDocumentEngine {
+final class PhorgeSourceDocumentEngine
+  extends PhorgeTextDocumentEngine {
 
   const ENGINEKEY = 'source';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Source');
   }
 
-  public function canConfigureHighlighting(PhabricatorDocumentRef $ref) {
+  public function canConfigureHighlighting(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  public function canBlame(PhabricatorDocumentRef $ref) {
+  public function canBlame(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-code';
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     return 1500;
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $content = $this->loadTextData($ref);
 
     $messages = array();
 
     $highlighting = $this->getHighlightingConfiguration();
     if ($highlighting !== null) {
-      $content = PhabricatorSyntaxHighlighter::highlightWithLanguage(
+      $content = PhorgeSyntaxHighlighter::highlightWithLanguage(
         $highlighting,
         $content);
     } else {
@@ -43,7 +43,7 @@ final class PhabricatorSourceDocumentEngine
             'This file is larger than %s, so syntax highlighting was skipped.',
             phutil_format_bytes($highlight_limit)));
       } else {
-        $content = PhabricatorSyntaxHighlighter::highlightWithFilename(
+        $content = PhorgeSyntaxHighlighter::highlightWithFilename(
           $ref->getName(),
           $content);
       }

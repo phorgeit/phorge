@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionCommentQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+abstract class PhorgeApplicationTransactionCommentQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $authorPHIDs;

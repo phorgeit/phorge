@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'diffusion.commit.edit';

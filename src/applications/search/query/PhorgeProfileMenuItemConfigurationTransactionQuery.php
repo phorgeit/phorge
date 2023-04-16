@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProfileMenuItemConfigurationTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeProfileMenuItemConfigurationTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorProfileMenuItemConfigurationTransaction();
+    return new PhorgeProfileMenuItemConfigurationTransaction();
   }
 
 }

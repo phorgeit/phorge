@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRegistrationProfile extends Phobject {
+final class PhorgeRegistrationProfile extends Phobject {
 
   private $defaultUsername;
   private $defaultEmail;

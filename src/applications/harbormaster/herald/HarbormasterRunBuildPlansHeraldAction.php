@@ -97,7 +97,7 @@ final class HarbormasterRunBuildPlansHeraldAction
   }
 
   public function isActionAvailable() {
-    return id(new PhabricatorHarbormasterApplication())->isInstalled();
+    return id(new PhorgeHarbormasterApplication())->isInstalled();
   }
 
 }

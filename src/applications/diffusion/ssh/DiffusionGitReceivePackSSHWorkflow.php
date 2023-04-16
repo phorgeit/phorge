@@ -75,8 +75,8 @@ final class DiffusionGitReceivePackSSHWorkflow extends DiffusionGitSSHWorkflow {
       // the proxy and the actual final endpoint node. Don't do more cleanup
       // or logging than we need to.
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
-        PhabricatorRepositoryStatusMessage::CODE_OKAY);
+        PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+        PhorgeRepositoryStatusMessage::CODE_OKAY);
 
       $host_wait_end = microtime(true);
 
@@ -91,7 +91,7 @@ final class DiffusionGitReceivePackSSHWorkflow extends DiffusionGitSSHWorkflow {
 
   private function executeRepositoryCommand($command) {
     $repository = $this->getRepository();
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
     $future = id(new ExecFuture('%C', $command))
       ->setEnv($this->getEnvironment());
@@ -121,7 +121,7 @@ final class DiffusionGitReceivePackSSHWorkflow extends DiffusionGitSSHWorkflow {
 
     $identifier = $this->getRequestIdentifier();
 
-    $event = new PhabricatorRepositoryPushEvent();
+    $event = new PhorgeRepositoryPushEvent();
     $conn = $event->establishConnection('w');
 
     queryfx(

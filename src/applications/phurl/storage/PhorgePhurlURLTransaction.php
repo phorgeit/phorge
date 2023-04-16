@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgePhurlURLTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS = 'phurl-details';
 
@@ -10,25 +10,25 @@ final class PhabricatorPhurlURLTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorPhurlURLPHIDType::TYPECONST;
+    return PhorgePhurlURLPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorPhurlURLTransactionComment();
+    return new PhorgePhurlURLTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorPhurlURLTransactionType';
+    return 'PhorgePhurlURLTransactionType';
   }
 
   public function getRequiredHandlePHIDs() {
     $phids = parent::getRequiredHandlePHIDs();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorPhurlURLNameTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLLongURLTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLAliasTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLNameTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLLongURLTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLAliasTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLDescriptionTransaction::TRANSACTIONTYPE:
         $phids[] = $this->getObjectPHID();
         break;
     }
@@ -39,10 +39,10 @@ final class PhabricatorPhurlURLTransaction
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
-      case PhabricatorPhurlURLNameTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLLongURLTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLAliasTransaction::TRANSACTIONTYPE:
-      case PhabricatorPhurlURLDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLNameTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLLongURLTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLAliasTransaction::TRANSACTIONTYPE:
+      case PhorgePhurlURLDescriptionTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_DETAILS;
         break;
     }

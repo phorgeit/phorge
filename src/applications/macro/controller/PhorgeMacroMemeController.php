@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroMemeController
-  extends PhabricatorMacroController {
+final class PhorgeMacroMemeController
+  extends PhorgeMacroController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,7 +13,7 @@ final class PhabricatorMacroMemeController
     $lower_text = $request->getStr('lowertext');
     $viewer = $request->getViewer();
 
-    $file = id(new PhabricatorMemeEngine())
+    $file = id(new PhorgeMemeEngine())
       ->setViewer($viewer)
       ->setTemplate($macro_name)
       ->setAboveText($request->getStr('above'))

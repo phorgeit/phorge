@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   private $blog;
 
@@ -25,7 +25,7 @@ final class PhamePostEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   protected function newEditableObject() {
@@ -76,7 +76,7 @@ final class PhamePostEditEngine
     $blog_phid = $object->getBlog()->getPHID();
 
     return array(
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('blog')
         ->setLabel(pht('Blog'))
         ->setDescription(pht('Blog to publish this post to.'))
@@ -91,7 +91,7 @@ final class PhamePostEditEngine
         ->setIsDefaultable(false)
         ->setIsLockable(false)
         ->setIsLocked(true),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('title')
         ->setLabel(pht('Title'))
         ->setDescription(pht('Post title.'))
@@ -100,7 +100,7 @@ final class PhamePostEditEngine
         ->setTransactionType(PhamePostTitleTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getTitle()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('subtitle')
         ->setLabel(pht('Subtitle'))
         ->setDescription(pht('Post subtitle.'))
@@ -108,7 +108,7 @@ final class PhamePostEditEngine
         ->setConduitTypeDescription(pht('New post subtitle.'))
         ->setTransactionType(PhamePostSubtitleTransaction::TRANSACTIONTYPE)
         ->setValue($object->getSubtitle()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('visibility')
         ->setLabel(pht('Visibility'))
         ->setDescription(pht('Post visibility.'))
@@ -117,7 +117,7 @@ final class PhamePostEditEngine
         ->setTransactionType(PhamePostVisibilityTransaction::TRANSACTIONTYPE)
         ->setValue($object->getVisibility())
         ->setOptions(PhameConstants::getPhamePostStatusMap()),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('body')
         ->setLabel(pht('Body'))
         ->setDescription(pht('Post body.'))

@@ -12,9 +12,9 @@
  * @task http Responding to HTTP Parameter Requests
  * @task conduit Responding to Conduit Requests
  */
-abstract class PhabricatorEditEngine
+abstract class PhorgeEditEngine
   extends Phobject
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   const EDITENGINECONFIG_DEFAULT = 'default';
 
@@ -30,7 +30,7 @@ abstract class PhabricatorEditEngine
   private $pages;
   private $navigation;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -39,7 +39,7 @@ abstract class PhabricatorEditEngine
     return $this->viewer;
   }
 
-  final public function setController(PhabricatorController $controller) {
+  final public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     $this->setViewer($controller->getViewer());
     return $this;
@@ -62,7 +62,7 @@ abstract class PhabricatorEditEngine
 
   final public function getApplication() {
     $app_class = $this->getEngineApplicationClass();
-    return PhabricatorApplication::getByClass($app_class);
+    return PhorgeApplication::getByClass($app_class);
   }
 
   final public function addContextParameter($key) {
@@ -134,7 +134,7 @@ abstract class PhabricatorEditEngine
   abstract protected function buildCustomEditFields($object);
 
   public function getFieldsForConfig(
-    PhabricatorEditEngineConfiguration $config) {
+    PhorgeEditEngineConfiguration $config) {
 
     $object = $this->newEditableObject();
 
@@ -160,7 +160,7 @@ abstract class PhabricatorEditEngine
     $fields = mpull($fields, null, 'getKey');
 
     if ($this->isEngineExtensible()) {
-      $extensions = PhabricatorEditEngineExtension::getAllEnabledExtensions();
+      $extensions = PhorgeEditEngineExtension::getAllEnabledExtensions();
     } else {
       $extensions = array();
     }
@@ -190,7 +190,7 @@ abstract class PhabricatorEditEngine
         $template_object);
 
       // TODO: Validate this in more detail with a more tailored error.
-      assert_instances_of($extension_fields, 'PhabricatorEditField');
+      assert_instances_of($extension_fields, 'PhorgeEditField');
 
       foreach ($extension_fields as $field) {
         $field
@@ -230,7 +230,7 @@ abstract class PhabricatorEditEngine
       return false;
     }
 
-    return ($object instanceof PhabricatorEditEngineSubtypeInterface);
+    return ($object instanceof PhorgeEditEngineSubtypeInterface);
   }
 
   final public function newSubtypeMap() {
@@ -374,13 +374,13 @@ abstract class PhabricatorEditEngine
   }
 
   public function newConfigurationQuery() {
-    return id(new PhabricatorEditEngineConfigurationQuery())
+    return id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($this->getViewer())
       ->withEngineKeys(array($this->getEngineKey()));
   }
 
   private function loadEditEngineConfigurationWithQuery(
-    PhabricatorEditEngineConfigurationQuery $query,
+    PhorgeEditEngineConfigurationQuery $query,
     $sort_method) {
 
     if ($sort_method) {
@@ -434,7 +434,7 @@ abstract class PhabricatorEditEngine
 
     // If this object supports subtyping, we edit it with a form of the same
     // subtype: so "bug" tasks get edited with "bug" forms.
-    if ($object instanceof PhabricatorEditEngineSubtypeInterface) {
+    if ($object instanceof PhorgeEditEngineSubtypeInterface) {
       $query->withSubtypes(
         array(
           $object->getEditEngineSubtype(),
@@ -457,7 +457,7 @@ abstract class PhabricatorEditEngine
           get_class($this)));
     }
 
-    assert_instances_of($configurations, 'PhabricatorEditEngineConfiguration');
+    assert_instances_of($configurations, 'PhorgeEditEngineConfiguration');
 
     $has_default = false;
     foreach ($configurations as $config) {
@@ -530,7 +530,7 @@ abstract class PhabricatorEditEngine
   }
 
   final protected function newConfiguration() {
-    return PhabricatorEditEngineConfiguration::initializeNewConfiguration(
+    return PhorgeEditEngineConfiguration::initializeNewConfiguration(
       $this->getViewer(),
       $this);
   }
@@ -648,7 +648,7 @@ abstract class PhabricatorEditEngine
   /**
    * Build an empty query for objects.
    *
-   * @return PhabricatorPolicyAwareQuery Query.
+   * @return PhorgePolicyAwareQuery Query.
    * @task load
    */
   abstract protected function newObjectQuery();
@@ -724,7 +724,7 @@ abstract class PhabricatorEditEngine
       return $object;
     }
 
-    $type_unknown = PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+    $type_unknown = PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
     if (phid_get_type($identifier) != $type_unknown) {
       $object = $this->newObjectFromPHID($identifier, $capabilities);
 
@@ -738,7 +738,7 @@ abstract class PhabricatorEditEngine
       return $object;
     }
 
-    $target = id(new PhabricatorObjectQuery())
+    $target = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withNames(array($identifier))
       ->executeOne();
@@ -816,22 +816,22 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object given a configured query.
    *
-   * @param PhabricatorPolicyAwareQuery Configured query.
+   * @param PhorgePolicyAwareQuery Configured query.
    * @param list<const> List of required capability constants, or omit for
    *  defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
   private function newObjectFromQuery(
-    PhabricatorPolicyAwareQuery $query,
+    PhorgePolicyAwareQuery $query,
     array $capabilities = array()) {
 
     $viewer = $this->getViewer();
 
     if (!$capabilities) {
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       );
     }
 
@@ -864,14 +864,14 @@ abstract class PhabricatorEditEngine
           gettype($object)));
     }
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       throw new Exception(
         pht(
           'EditEngine "%s" created or loaded an invalid object: object (of '.
           'class "%s") must implement "%s", but does not.',
           get_class($this),
           get_class($object),
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
     }
   }
 
@@ -892,7 +892,7 @@ abstract class PhabricatorEditEngine
     switch ($action) {
       case 'comment':
         $capabilities = array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         );
         $use_default = true;
         break;
@@ -1038,7 +1038,7 @@ abstract class PhabricatorEditEngine
     $fields = $this->buildEditFields($object);
     $template = $object->getApplicationTransactionTemplate();
 
-    $page_state = new PhabricatorEditEnginePageState();
+    $page_state = new PhorgeEditEnginePageState();
 
     if ($this->getIsCreate()) {
       $cancel_uri = $this->getObjectCreateCancelURI($object);
@@ -1056,13 +1056,13 @@ abstract class PhabricatorEditEngine
     // NOTE: Don't prompt users to override locks when creating objects,
     // even if the default settings would create a locked object.
 
-    $can_interact = PhabricatorPolicyFilter::canInteract($viewer, $object);
+    $can_interact = PhorgePolicyFilter::canInteract($viewer, $object);
     if (!$can_interact &&
         !$this->getIsCreate() &&
         !$request->getBool('editEngine') &&
         !$request->getBool('overrideLock')) {
 
-      $lock = PhabricatorEditEngineLock::newForObject($viewer, $object);
+      $lock = PhorgeEditEngineLock::newForObject($viewer, $object);
 
       $dialog = $this->getController()
         ->newDialog()
@@ -1108,11 +1108,11 @@ abstract class PhabricatorEditEngine
 
       if ($this->getIsCreate()) {
         $xactions[] = id(clone $template)
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
 
         if ($this->supportsSubtypes()) {
           $xactions[] = id(clone $template)
-            ->setTransactionType(PhabricatorTransactions::TYPE_SUBTYPE)
+            ->setTransactionType(PhorgeTransactions::TYPE_SUBTYPE)
             ->setNewValue($config->getSubtype());
         }
       }
@@ -1151,7 +1151,7 @@ abstract class PhabricatorEditEngine
         $this->didApplyTransactions($object, $xactions);
 
         return $this->newEditResponse($request, $object, $xactions);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
 
         foreach ($fields as $field) {
@@ -1173,7 +1173,7 @@ abstract class PhabricatorEditEngine
           $template_object = $this->newObjectFromIdentifier(
             $template,
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_VIEW,
             ));
           if (!$template_object) {
             return new Aphront404Response();
@@ -1310,12 +1310,12 @@ abstract class PhabricatorEditEngine
   }
 
   protected function newEditFormHeadContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
     return null;
   }
 
   protected function newEditFormTailContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
     return null;
   }
 
@@ -1324,7 +1324,7 @@ abstract class PhabricatorEditEngine
     $object,
     array $xactions) {
 
-    $submit_cookie = PhabricatorCookies::COOKIE_SUBMIT;
+    $submit_cookie = PhorgeCookies::COOKIE_SUBMIT;
     $submit_key = $this->getEditEngineSubmitKey();
 
     $request->setTemporaryCookie($submit_cookie, $submit_key);
@@ -1356,8 +1356,8 @@ abstract class PhabricatorEditEngine
     }
 
     $requires_mfa = false;
-    if ($object instanceof PhabricatorEditEngineMFAInterface) {
-      $mfa_engine = PhabricatorEditEngineMFAEngine::newEngineForObject($object)
+    if ($object instanceof PhorgeEditEngineMFAInterface) {
+      $mfa_engine = PhorgeEditEngineMFAEngine::newEngineForObject($object)
         ->setViewer($viewer);
       $requires_mfa = $mfa_engine->shouldRequireMFA();
     }
@@ -1419,7 +1419,7 @@ abstract class PhabricatorEditEngine
 
     $viewer = $this->getViewer();
 
-    $action_view = id(new PhabricatorActionListView())
+    $action_view = id(new PhorgeActionListView())
       ->setUser($viewer);
 
     foreach ($this->buildEditFormActions($object) as $action) {
@@ -1443,10 +1443,10 @@ abstract class PhabricatorEditEngine
       $engine_key = $this->getEngineKey();
       $config = $this->getEditEngineConfiguration();
 
-      $can_manage = PhabricatorPolicyFilter::hasCapability(
+      $can_manage = PhorgePolicyFilter::hasCapability(
         $this->getViewer(),
         $config,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       if ($can_manage) {
         $manage_uri = $config->getURI();
@@ -1456,16 +1456,16 @@ abstract class PhabricatorEditEngine
 
       $view_uri = "/transactions/editengine/{$engine_key}/";
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setLabel(true)
         ->setName(pht('Configuration'));
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setName(pht('View Form Configurations'))
         ->setIcon('fa-list-ul')
         ->setHref($view_uri);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setName(pht('Edit Form Configuration'))
         ->setIcon('fa-pencil')
         ->setHref($manage_uri)
@@ -1473,17 +1473,17 @@ abstract class PhabricatorEditEngine
         ->setWorkflow(!$can_manage);
     }
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setLabel(true)
       ->setName(pht('Documentation'));
 
-    $actions[] = id(new PhabricatorActionView())
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('Using HTTP Parameters'))
       ->setIcon('fa-book')
       ->setHref($this->getEditURI($object, 'parameters/'));
 
-    $doc_href = PhabricatorEnv::getDoclink('User Guide: Customizing Forms');
-    $actions[] = id(new PhabricatorActionView())
+    $doc_href = PhorgeEnv::getDoclink('User Guide: Customizing Forms');
+    $actions[] = id(new PhorgeActionView())
       ->setName(pht('User Guide: Customizing Forms'))
       ->setIcon('fa-book')
       ->setHref($doc_href);
@@ -1523,12 +1523,12 @@ abstract class PhabricatorEditEngine
       $workflow = false;
       $disabled = false;
 
-      $dropdown = id(new PhabricatorActionListView())
+      $dropdown = id(new PhorgeActionListView())
         ->setUser($viewer);
 
       foreach ($specs as $spec) {
         $dropdown->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName($spec['name'])
             ->setIcon($spec['icon'])
             ->setHref($spec['uri'])
@@ -1628,22 +1628,22 @@ abstract class PhabricatorEditEngine
     if (!$config) {
       // TODO: This just nukes the entire comment form if you don't have access
       // to any edit forms. We might want to tailor this UX a bit.
-      return id(new PhabricatorApplicationTransactionCommentView())
+      return id(new PhorgeApplicationTransactionCommentView())
         ->setNoPermission(true);
     }
 
     $viewer = $this->getViewer();
 
-    $can_interact = PhabricatorPolicyFilter::canInteract($viewer, $object);
+    $can_interact = PhorgePolicyFilter::canInteract($viewer, $object);
     if (!$can_interact) {
-      $lock = PhabricatorEditEngineLock::newForObject($viewer, $object);
+      $lock = PhorgeEditEngineLock::newForObject($viewer, $object);
 
-      return id(new PhabricatorApplicationTransactionCommentView())
+      return id(new PhorgeApplicationTransactionCommentView())
         ->setEditEngineLock($lock);
     }
 
     $object_phid = $object->getPHID();
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
 
     if ($is_serious) {
       $header_text = $this->getCommentViewSeriousHeaderText($object);
@@ -1656,13 +1656,13 @@ abstract class PhabricatorEditEngine
     $comment_uri = $this->getEditURI($object, 'comment/');
 
     $requires_mfa = false;
-    if ($object instanceof PhabricatorEditEngineMFAInterface) {
-      $mfa_engine = PhabricatorEditEngineMFAEngine::newEngineForObject($object)
+    if ($object instanceof PhorgeEditEngineMFAInterface) {
+      $mfa_engine = PhorgeEditEngineMFAEngine::newEngineForObject($object)
         ->setViewer($viewer);
       $requires_mfa = $mfa_engine->shouldRequireMFA();
     }
 
-    $view = id(new PhabricatorApplicationTransactionCommentView())
+    $view = id(new PhorgeApplicationTransactionCommentView())
       ->setUser($viewer)
       ->setObjectPHID($object_phid)
       ->setHeaderText($header_text)
@@ -1670,7 +1670,7 @@ abstract class PhabricatorEditEngine
       ->setRequiresMFA($requires_mfa)
       ->setSubmitButtonName($button_text);
 
-    $draft = PhabricatorVersionedDraft::loadDraft(
+    $draft = PhorgeVersionedDraft::loadDraft(
       $object_phid,
       $viewer->getPHID());
     if ($draft) {
@@ -1681,10 +1681,10 @@ abstract class PhabricatorEditEngine
 
     $fields = $this->buildEditFields($object);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $comment_actions = array();
     foreach ($fields as $field) {
@@ -1776,7 +1776,7 @@ abstract class PhabricatorEditEngine
     $header = id(new PHUIHeaderView())
       ->setHeader($header_text);
 
-    $help_view = id(new PhabricatorApplicationEditHTTPParameterHelpView())
+    $help_view = id(new PhorgeApplicationEditHTTPParameterHelpView())
       ->setUser($viewer)
       ->setFields($fields);
 
@@ -1868,7 +1868,7 @@ abstract class PhabricatorEditEngine
     $dialog = $this->buildError($object, null, null);
     $viewer = $this->getViewer();
 
-    $lock = PhabricatorEditEngineLock::newForObject($viewer, $object);
+    $lock = PhorgeEditEngineLock::newForObject($viewer, $object);
     return $lock->willBlockUserInteractionWithDialog($dialog);
   }
 
@@ -1888,7 +1888,7 @@ abstract class PhabricatorEditEngine
       return new Aphront400Response();
     }
 
-    $can_interact = PhabricatorPolicyFilter::canInteract($viewer, $object);
+    $can_interact = PhorgePolicyFilter::canInteract($viewer, $object);
     if (!$can_interact) {
       return $this->buildLockedObjectResponse($object);
     }
@@ -1919,11 +1919,11 @@ abstract class PhabricatorEditEngine
     }
 
     if ($is_preview) {
-      $version_key = PhabricatorVersionedDraft::KEY_VERSION;
+      $version_key = PhorgeVersionedDraft::KEY_VERSION;
       $request_version = $request->getInt($version_key);
       $current_version = $this->loadDraftVersion($object);
       if ($request_version >= $current_version) {
-        $draft = PhabricatorVersionedDraft::loadOrCreateDraft(
+        $draft = PhorgeVersionedDraft::loadOrCreateDraft(
           $object->getPHID(),
           $viewer->getPHID(),
           $current_version);
@@ -1945,10 +1945,10 @@ abstract class PhabricatorEditEngine
 
     $xactions = array();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($actions) {
       $action_map = array();
@@ -1980,10 +1980,10 @@ abstract class PhabricatorEditEngine
           if (!$field->getCanApplyWithoutEditCapability()) {
             // We know the user doesn't have the capability, so this will
             // raise a policy exception.
-            PhabricatorPolicyFilter::requireCapability(
+            PhorgePolicyFilter::requireCapability(
               $viewer,
               $object,
-              PhabricatorPolicyCapability::CAN_EDIT);
+              PhorgePolicyCapability::CAN_EDIT);
           }
         }
 
@@ -2011,7 +2011,7 @@ abstract class PhabricatorEditEngine
 
     if (strlen($comment_text) || !$xactions) {
       $xactions[] = id(clone $template)
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->setMetadataValue('remarkup.control', $comment_metadata)
         ->attachComment(
           id(clone $comment_template)
@@ -2029,23 +2029,23 @@ abstract class PhabricatorEditEngine
 
     try {
       $xactions = $editor->applyTransactions($object, $xactions);
-    } catch (PhabricatorApplicationTransactionValidationException $ex) {
-      return id(new PhabricatorApplicationTransactionValidationResponse())
+    } catch (PhorgeApplicationTransactionValidationException $ex) {
+      return id(new PhorgeApplicationTransactionValidationResponse())
         ->setCancelURI($view_uri)
         ->setException($ex);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-      return id(new PhabricatorApplicationTransactionNoEffectResponse())
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+      return id(new PhorgeApplicationTransactionNoEffectResponse())
         ->setCancelURI($view_uri)
         ->setException($ex);
-    } catch (PhabricatorApplicationTransactionWarningException $ex) {
-      return id(new PhabricatorApplicationTransactionWarningResponse())
+    } catch (PhorgeApplicationTransactionWarningException $ex) {
+      return id(new PhorgeApplicationTransactionWarningResponse())
         ->setObject($object)
         ->setCancelURI($view_uri)
         ->setException($ex);
     }
 
     if (!$is_preview) {
-      PhabricatorVersionedDraft::purgeDrafts(
+      PhorgeVersionedDraft::purgeDrafts(
         $object->getPHID(),
         $viewer->getPHID());
 
@@ -2067,7 +2067,7 @@ abstract class PhabricatorEditEngine
         $view_data = array();
       }
 
-      return id(new PhabricatorApplicationTransactionResponse())
+      return id(new PhorgeApplicationTransactionResponse())
         ->setObject($object)
         ->setViewer($viewer)
         ->setTransactions($xactions)
@@ -2083,10 +2083,10 @@ abstract class PhabricatorEditEngine
   protected function newDraftEngine($object) {
     $viewer = $this->getViewer();
 
-    if ($object instanceof PhabricatorDraftInterface) {
+    if ($object instanceof PhorgeDraftInterface) {
       $engine = $object->newDraftEngine();
     } else {
-      $engine = new PhabricatorBuiltinDraftEngine();
+      $engine = new PhorgeBuiltinDraftEngine();
     }
 
     return $engine
@@ -2129,7 +2129,7 @@ abstract class PhabricatorEditEngine
       // transactions require CAN_EDIT so we won't get very far if we don't
       // have it.
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       );
 
       $object = $this->newObjectFromIdentifier(
@@ -2234,16 +2234,16 @@ abstract class PhabricatorEditEngine
    *
    * @param ConduitAPIRequest The request.
    * @param list<wild> Raw conduit transactions.
-   * @param list<PhabricatorEditType> Supported edit types.
-   * @param PhabricatorApplicationTransaction Template transaction.
-   * @return list<PhabricatorApplicationTransaction> Generated transactions.
+   * @param list<PhorgeEditType> Supported edit types.
+   * @param PhorgeApplicationTransaction Template transaction.
+   * @return list<PhorgeApplicationTransaction> Generated transactions.
    * @task conduit
    */
   private function getConduitTransactions(
     ConduitAPIRequest $request,
     array $xactions,
     array $types,
-    PhabricatorApplicationTransaction $template) {
+    PhorgeApplicationTransaction $template) {
 
     $viewer = $request->getUser();
     $results = array();
@@ -2263,7 +2263,7 @@ abstract class PhabricatorEditEngine
 
     if ($this->getIsCreate()) {
       $results[] = id(clone $template)
-        ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+        ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
     }
 
     $is_strict = $request->getIsStrictlyTyped();
@@ -2305,7 +2305,7 @@ abstract class PhabricatorEditEngine
 
 
   /**
-   * @return map<string, PhabricatorEditType>
+   * @return map<string, PhorgeEditType>
    * @task conduit
    */
   private function getConduitEditTypesFromFields(array $fields) {
@@ -2342,8 +2342,8 @@ abstract class PhabricatorEditEngine
       ->execute();
   }
 
-  final public static function getByKey(PhabricatorUser $viewer, $key) {
-    return id(new PhabricatorEditEngineQuery())
+  final public static function getByKey(PhorgeUser $viewer, $key) {
+    return id(new PhorgeEditEngineQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($key))
       ->executeOne();
@@ -2357,7 +2357,7 @@ abstract class PhabricatorEditEngine
   private function loadUsableConfigurationsForCreate() {
     $viewer = $this->getViewer();
 
-    $configs = id(new PhabricatorEditEngineConfigurationQuery())
+    $configs = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($this->getEngineKey()))
       ->withIsDefault(true)
@@ -2377,8 +2377,8 @@ abstract class PhabricatorEditEngine
   }
 
   protected function getValidationExceptionShortMessage(
-    PhabricatorApplicationTransactionValidationException $ex,
-    PhabricatorEditField $field) {
+    PhorgeApplicationTransactionValidationException $ex,
+    PhorgeEditField $field) {
 
     $xaction_type = $field->getTransactionType();
     if ($xaction_type === null) {
@@ -2389,21 +2389,21 @@ abstract class PhabricatorEditEngine
   }
 
   protected function getCreateNewObjectPolicy() {
-    return PhabricatorPolicies::POLICY_USER;
+    return PhorgePolicies::POLICY_USER;
   }
 
   private function requireCreateCapability() {
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $this->getViewer(),
       $this,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   private function hasCreateCapability() {
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $this->getViewer(),
       $this,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   public function isCommentAction() {
@@ -2458,7 +2458,7 @@ abstract class PhabricatorEditEngine
     if ($this->pages === null) {
       $pages = $this->newPages($object);
 
-      assert_instances_of($pages, 'PhabricatorEditPage');
+      assert_instances_of($pages, 'PhorgeEditPage');
       $pages = mpull($pages, null, 'getKey');
 
       $this->pages = $pages;
@@ -2540,7 +2540,7 @@ abstract class PhabricatorEditEngine
     }
 
     if ($this->isEngineExtensible()) {
-      $extensions = PhabricatorEditEngineExtension::getAllEnabledExtensions();
+      $extensions = PhorgeEditEngineExtension::getAllEnabledExtensions();
     } else {
       $extensions = array();
     }
@@ -2569,10 +2569,10 @@ abstract class PhabricatorEditEngine
 
   protected function newBulkEditGroups() {
     return array(
-      id(new PhabricatorBulkEditGroup())
+      id(new PhorgeBulkEditGroup())
         ->setKey('default')
         ->setLabel(pht('Primary Fields')),
-      id(new PhabricatorBulkEditGroup())
+      id(new PhorgeBulkEditGroup())
         ->setKey('extension')
         ->setLabel(pht('Support Applications')),
     );
@@ -2723,7 +2723,7 @@ abstract class PhabricatorEditEngine
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getPHID() {
@@ -2732,21 +2732,21 @@ abstract class PhabricatorEditEngine
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getCreateNewObjectPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

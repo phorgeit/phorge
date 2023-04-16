@@ -23,9 +23,9 @@ final class HarbormasterStepViewController
     $plan_id = $plan->getID();
     $plan_uri = $this->getApplicationURI("plan/{$plan_id}/");
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $step,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($step);
@@ -64,7 +64,7 @@ final class HarbormasterStepViewController
 
   private function buildPropertyList(
     HarbormasterBuildStep $step,
-    PhabricatorCustomFieldList $field_list) {
+    PhorgeCustomFieldList $field_list) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -120,13 +120,13 @@ final class HarbormasterStepViewController
 
     $curtain = $this->newCurtainView($step);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $step,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Step'))
         ->setHref($this->getApplicationURI("step/edit/{$id}/"))
         ->setWorkflow(!$can_edit)
@@ -134,7 +134,7 @@ final class HarbormasterStepViewController
         ->setIcon('fa-pencil'));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Delete Step'))
         ->setHref($this->getApplicationURI("step/delete/{$id}/"))
         ->setWorkflow(true)

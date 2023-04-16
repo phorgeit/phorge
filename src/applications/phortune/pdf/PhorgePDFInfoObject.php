@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPDFInfoObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFInfoObject
+  extends PhorgePDFObject {
 
   final protected function writeObject() {
     $this->writeLine('/Producer (Phorge 20190801)');

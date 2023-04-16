@@ -40,7 +40,7 @@ foreach ($chunk_iterator as $chunk) {
       continue;
     }
 
-    $phid = PhabricatorPHID::generateNewPHID($phid_type);
+    $phid = PhorgePHID::generateNewPHID($phid_type);
     $id = $changeset_row['id'];
 
     $map[(int)$id] = $phid;

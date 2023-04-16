@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPackagesVersionSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgePackagesVersionSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'packages.version.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorPackagesVersionSearchEngine();
+    return new PhorgePackagesVersionSearchEngine();
   }
 
   public function getMethodSummary() {

@@ -1,19 +1,19 @@
 <?php
 
 final class DiffusionCommitRelationshipSource
-  extends PhabricatorObjectRelationshipSource {
+  extends PhorgeObjectRelationshipSource {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDiffusionApplication',
       $viewer);
   }
 
   public function getResultPHIDTypes() {
     return array(
-      PhabricatorRepositoryCommitPHIDType::TYPECONST,
+      PhorgeRepositoryCommitPHIDType::TYPECONST,
     );
   }
 

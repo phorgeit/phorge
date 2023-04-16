@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeDashboardPortalMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'portal';
 
@@ -18,17 +18,17 @@ final class PhabricatorDashboardPortalMenuItem
   }
 
   public function canHideMenuItem(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return false;
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return false;
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -39,9 +39,9 @@ final class PhabricatorDashboardPortalMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -50,7 +50,7 @@ final class PhabricatorDashboardPortalMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
 
     if (!$viewer->isLoggedIn()) {
@@ -72,7 +72,7 @@ final class PhabricatorDashboardPortalMenuItem
   }
 
   public function newPageContent(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
     $engine = $this->getEngine();
     $portal = $engine->getProfileObject();
@@ -85,14 +85,14 @@ final class PhabricatorDashboardPortalMenuItem
       '/portal/edit/%d/',
       $portal->getID());
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $portal,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $controller->newCurtainView($portal)
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Edit Portal'))
           ->setIcon('fa-pencil')
           ->setDisabled(!$can_edit)

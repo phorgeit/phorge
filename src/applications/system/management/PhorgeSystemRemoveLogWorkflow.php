@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemRemoveLogWorkflow
-  extends PhabricatorSystemRemoveWorkflow {
+final class PhorgeSystemRemoveLogWorkflow
+  extends PhorgeSystemRemoveWorkflow {
 
   protected function didConstruct() {
     $this
@@ -14,7 +14,7 @@ final class PhabricatorSystemRemoveLogWorkflow
   public function execute(PhutilArgumentParser $args) {
     $console = PhutilConsole::getConsole();
 
-    $table = new PhabricatorSystemDestructionLog();
+    $table = new PhorgeSystemDestructionLog();
     foreach (new LiskMigrationIterator($table) as $row) {
       $console->writeOut(
         "[%s]\t%s %s\t%s\t%s\n",

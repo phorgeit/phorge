@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeProjectsSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Projects');
@@ -14,11 +14,11 @@ final class PhabricatorProjectsSearchEngineAttachment
   public function loadAttachmentData(array $objects, $spec) {
     $object_phids = mpull($objects, 'getPHID');
 
-    $projects_query = id(new PhabricatorEdgeQuery())
+    $projects_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($object_phids)
       ->withEdgeTypes(
         array(
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         ));
     $projects_query->execute();
 
@@ -33,7 +33,7 @@ final class PhabricatorProjectsSearchEngineAttachment
 
     $project_phids = $projects_query->getDestinationPHIDs(
       array($object_phid),
-      array(PhabricatorProjectObjectHasProjectEdgeType::EDGECONST));
+      array(PhorgeProjectObjectHasProjectEdgeType::EDGECONST));
 
     return array(
       'projectPHIDs' => array_values($project_phids),

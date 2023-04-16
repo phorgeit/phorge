@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryRefCursor();
+$table = new PhorgeRepositoryRefCursor();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $cursor) {

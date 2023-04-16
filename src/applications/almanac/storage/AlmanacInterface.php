@@ -3,11 +3,11 @@
 final class AlmanacInterface
   extends AlmanacDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeConduitResultInterface {
 
   protected $devicePHID;
   protected $networkPHID;
@@ -44,7 +44,7 @@ final class AlmanacInterface
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       AlmanacInterfacePHIDType::TYPECONST);
   }
 
@@ -83,7 +83,7 @@ final class AlmanacInterface
 
   public function loadIsInUse() {
     $binding = id(new AlmanacBindingQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withInterfacePHIDs(array($this->getPHID()))
       ->setLimit(1)
       ->executeOne();
@@ -92,13 +92,13 @@ final class AlmanacInterface
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -106,7 +106,7 @@ final class AlmanacInterface
     return $this->getDevice()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getDevice()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -122,16 +122,16 @@ final class AlmanacInterface
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->getDevice()->isClusterDevice()) {
           return array(
             array(
-              new PhabricatorAlmanacApplication(),
+              new PhorgeAlmanacApplication(),
               AlmanacManageClusterServicesCapability::CAPABILITY,
             ),
           );
@@ -143,11 +143,11 @@ final class AlmanacInterface
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $bindings = id(new AlmanacBindingQuery())
       ->setViewer($engine->getViewer())
@@ -161,7 +161,7 @@ final class AlmanacInterface
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -173,24 +173,24 @@ final class AlmanacInterface
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('devicePHID')
         ->setType('phid')
         ->setDescription(pht('The device the interface is on.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('networkPHID')
         ->setType('phid')
         ->setDescription(pht('The network the interface is part of.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('address')
         ->setType('string')
         ->setDescription(pht('The address of the interface.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('port')
         ->setType('int')
         ->setDescription(pht('The port number of the interface.')),

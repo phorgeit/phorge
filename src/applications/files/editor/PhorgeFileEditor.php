@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorFileEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeFileEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,14 +14,14 @@ final class PhabricatorFileEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -30,41 +30,41 @@ final class PhabricatorFileEditor
     return pht('[File]');
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->requireActor()->getPHID(),
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new FileReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("F{$id}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addTextSection(
       pht('FILE DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getInfoURI()));
+      PhorgeEnv::getProductionURI($object->getInfoURI()));
 
     return $body;
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

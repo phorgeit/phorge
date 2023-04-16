@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSlowvoteSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeSlowvoteSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorSlowvotePoll());
+    $this->buildEdgeSchemata(new PhorgeSlowvotePoll());
   }
 
 }

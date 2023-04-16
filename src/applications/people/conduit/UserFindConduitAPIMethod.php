@@ -29,7 +29,7 @@ final class UserFindConduitAPIMethod extends UserConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($request->getUser())
       ->withUsernames($request->getValue('aliases', array()))
       ->execute();

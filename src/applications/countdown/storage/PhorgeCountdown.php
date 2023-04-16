@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorCountdown extends PhabricatorCountdownDAO
+final class PhorgeCountdown extends PhorgeCountdownDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeSubscribableInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeSpacesInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $title;
   protected $authorPHID;
@@ -21,19 +21,19 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   protected $mailKey;
   protected $spacePHID;
 
-  public static function initializeNewCountdown(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewCountdown(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorCountdownApplication'))
+      ->withClasses(array('PhorgeCountdownApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
-      PhabricatorCountdownDefaultViewCapability::CAPABILITY);
+      PhorgeCountdownDefaultViewCapability::CAPABILITY);
 
     $edit_policy = $app->getPolicy(
-      PhabricatorCountdownDefaultEditCapability::CAPABILITY);
+      PhorgeCountdownDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorCountdown())
+    return id(new PhorgeCountdown())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
@@ -60,8 +60,8 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorCountdownCountdownPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeCountdownCountdownPHIDType::TYPECONST);
   }
 
   public function getMonogram() {
@@ -80,7 +80,7 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -88,19 +88,19 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorCountdownEditor();
+    return new PhorgeCountdownEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorCountdownTransaction();
+    return new PhorgeCountdownTransaction();
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -108,61 +108,61 @@ final class PhabricatorCountdown extends PhabricatorCountdownDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
-/* -( PhabricatorSpacesInterface )------------------------------------------- */
+/* -( PhorgeSpacesInterface )------------------------------------------- */
 
 
   public function getSpacePHID() {
     return $this->spacePHID;
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-      PhabricatorDestructionEngine $engine) {
+      PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('The title of the countdown.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('remarkup')
         ->setDescription(pht('The description of the countdown.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('epoch')
         ->setType('epoch')
         ->setDescription(pht('The end date of the countdown.')),

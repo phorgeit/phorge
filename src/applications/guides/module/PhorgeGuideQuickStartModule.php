@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
+final class PhorgeGuideQuickStartModule extends PhorgeGuideModule {
 
   public function getModuleKey() {
     return 'quickstart';
@@ -20,15 +20,15 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
 
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
 
-    $guide_items = new PhabricatorGuideListView();
+    $guide_items = new PhorgeGuideListView();
 
     $title = pht('Create a Repository');
-    $repository_check = id(new PhabricatorRepositoryQuery())
+    $repository_check = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->execute();
-    $href = PhabricatorEnv::getURI('/diffusion/');
+    $href = PhorgeEnv::getURI('/diffusion/');
     if ($repository_check) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -42,7 +42,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
         'repository.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -52,10 +52,10 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
 
 
     $title = pht('Create a Project');
-    $project_check = id(new PhabricatorProjectQuery())
+    $project_check = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->execute();
-    $href = PhabricatorEnv::getURI('/project/');
+    $href = PhorgeEnv::getURI('/project/');
     if ($project_check) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -69,7 +69,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
           'or actual projects.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -82,7 +82,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
     $task_check = id(new ManiphestTaskQuery())
       ->setViewer($viewer)
       ->execute();
-    $href = PhabricatorEnv::getURI('/maniphest/');
+    $href = PhorgeEnv::getURI('/maniphest/');
     if ($task_check) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -95,7 +95,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
         pht('Create some work for the interns in Maniphest.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -104,8 +104,8 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
     $guide_items->addItem($item);
 
     $title = pht('Personalize your Install');
-    $wordmark = PhabricatorEnv::getEnvConfig('ui.logo');
-    $href = PhabricatorEnv::getURI('/config/edit/ui.logo/');
+    $wordmark = PhorgeEnv::getEnvConfig('ui.logo');
+    $href = PhorgeEnv::getURI('/config/edit/ui.logo/');
     if ($wordmark) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -119,7 +119,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
           'little extra polish.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -128,13 +128,13 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
     $guide_items->addItem($item);
 
     $title = pht('Explore Applications');
-    $href = PhabricatorEnv::getURI('/applications/');
+    $href = PhorgeEnv::getURI('/applications/');
     $icon = 'fa-globe';
     $icon_bg = 'bg-sky';
     $description =
       pht('See all available applications.');
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -144,11 +144,11 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
 
     if (!$instance) {
       $title = pht('Invite Collaborators');
-      $people_check = id(new PhabricatorPeopleQuery())
+      $people_check = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->execute();
       $people = count($people_check);
-      $href = PhabricatorEnv::getURI('/people/invite/send/');
+      $href = PhorgeEnv::getURI('/people/invite/send/');
       if ($people > 1) {
         $icon = 'fa-check';
         $icon_bg = 'bg-green';
@@ -162,7 +162,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
           pht('Invite the rest of your team to get started.');
       }
 
-      $item = id(new PhabricatorGuideItemView())
+      $item = id(new PhorgeGuideItemView())
         ->setTitle($title)
         ->setHref($href)
         ->setIcon($icon)

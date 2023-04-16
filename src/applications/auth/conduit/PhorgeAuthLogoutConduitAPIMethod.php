@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthLogoutConduitAPIMethod
-  extends PhabricatorAuthConduitAPIMethod {
+final class PhorgeAuthLogoutConduitAPIMethod
+  extends PhorgeAuthConduitAPIMethod {
 
   public function getAPIMethodName() {
     return 'auth.logout';
@@ -36,7 +36,7 @@ final class PhabricatorAuthLogoutConduitAPIMethod
     $viewer = $request->getUser();
 
     // Destroy all web sessions.
-    $engine = id(new PhabricatorAuthSessionEngine());
+    $engine = id(new PhorgeAuthSessionEngine());
     $engine->terminateLoginSessions($viewer);
 
     // If we were called via OAuth, destroy the OAuth token.

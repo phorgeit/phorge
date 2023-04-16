@@ -63,7 +63,7 @@ final class FileUploadChunkConduitAPIMethod
 
     $params = array(
       'name' => $file->getMonogram().'.chunk-'.$chunk->getID(),
-      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       'chunk' => true,
     );
 
@@ -73,7 +73,7 @@ final class FileUploadChunkConduitAPIMethod
 
     // NOTE: These files have a view policy which prevents normal access. They
     // are only accessed through the storage engine.
-    $chunk_data = PhabricatorFile::newFromFileData(
+    $chunk_data = PhorgeFile::newFromFileData(
       $data,
       $params);
 

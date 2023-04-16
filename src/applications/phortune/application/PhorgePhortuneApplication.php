@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhortuneApplication extends PhabricatorApplication {
+final class PhorgePhortuneApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phortune');
@@ -160,7 +160,7 @@ final class PhabricatorPhortuneApplication extends PhabricatorApplication {
     return array(
       PhortuneMerchantCapability::CAPABILITY => array(
         'caption' => pht('Merchant accounts can receive payments.'),
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

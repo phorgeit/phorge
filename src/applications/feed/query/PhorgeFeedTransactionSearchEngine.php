@@ -1,35 +1,35 @@
 <?php
 
-final class PhabricatorFeedTransactionSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeFeedTransactionSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Transactions');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFeedApplication';
+    return 'PhorgeFeedApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorFeedTransactionQuery();
+    return new PhorgeFeedTransactionQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Object Types'))
         ->setKey('objectTypes')
         ->setAliases(array('objectType'))
-        ->setDatasource(new PhabricatorTransactionsObjectTypeDatasource()),
-      id(new PhabricatorSearchDateField())
+        ->setDatasource(new PhorgeTransactionsObjectTypeDatasource()),
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -51,7 +51,7 @@ final class PhabricatorFeedTransactionSearchEngine
 
     if ($created_min && $created_max) {
       if ($created_min > $created_max) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'The specified "Created Before" date is earlier in time than the '.
             'specified "Created After" date, so this query can never match '.
@@ -92,9 +92,9 @@ final class PhabricatorFeedTransactionSearchEngine
 
   protected function renderResultList(
     array $objects,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($objects, 'PhabricatorApplicationTransaction');
+    assert_instances_of($objects, 'PhorgeApplicationTransaction');
 
     $viewer = $this->requireViewer();
 
@@ -147,28 +147,28 @@ final class PhabricatorFeedTransactionSearchEngine
           'right',
         ));
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table);
   }
 
   protected function newExportFields() {
     $fields = array(
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('authorPHID')
         ->setLabel(pht('Author PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('author')
         ->setLabel(pht('Author')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('objectType')
         ->setLabel(pht('Object Type')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('objectPHID')
         ->setLabel(pht('Object PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('objectName')
         ->setLabel(pht('Object Name')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('description')
         ->setLabel(pht('Description')),
     );
@@ -207,7 +207,7 @@ final class PhabricatorFeedTransactionSearchEngine
       $old_target = $xaction->getRenderingTarget();
       try {
         $description = $xaction
-          ->setRenderingTarget(PhabricatorApplicationTransaction::TARGET_TEXT)
+          ->setRenderingTarget(PhorgeApplicationTransaction::TARGET_TEXT)
           ->getTitle();
       } catch (Exception $ex) {
         $description = null;

@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS       = 'phame-blog-details';
   const MAILTAG_SUBSCRIBERS   = 'phame-blog-subscribers';
@@ -12,7 +12,7 @@ final class PhameBlogTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorPhameBlogPHIDType::TYPECONST;
+    return PhorgePhameBlogPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
@@ -23,7 +23,7 @@ final class PhameBlogTransaction
     $tags = parent::getMailTags();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $tags[] = self::MAILTAG_SUBSCRIBERS;
         break;
       case PhameBlogNameTransaction::TRANSACTIONTYPE:

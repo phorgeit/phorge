@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTwilioFuture extends FutureProxy {
+final class PhorgeTwilioFuture extends FutureProxy {
 
   private $future;
   private $accountSID;

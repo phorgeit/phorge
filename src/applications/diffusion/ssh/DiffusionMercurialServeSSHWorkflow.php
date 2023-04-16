@@ -29,7 +29,7 @@ final class DiffusionMercurialServeSSHWorkflow
     $path = $args->getArg('repository');
     return $this->loadRepositoryWithPath(
       $path,
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL);
+      PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL);
   }
 
   protected function executeRepositoryOperations() {
@@ -54,7 +54,7 @@ final class DiffusionMercurialServeSSHWorkflow
         'hg -R %s serve --stdio',
         $repository->getLocalPath());
     }
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
     $future = id(new ExecFuture('%C', $command))
       ->setEnv($this->getEnvironment());
@@ -71,15 +71,15 @@ final class DiffusionMercurialServeSSHWorkflow
 
     if (!$err && $this->didSeeWrite) {
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
-        PhabricatorRepositoryStatusMessage::CODE_OKAY);
+        PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+        PhorgeRepositoryStatusMessage::CODE_OKAY);
     }
 
     return $err;
   }
 
   public function willWriteMessageCallback(
-    PhabricatorSSHPassthruCommand $command,
+    PhorgeSSHPassthruCommand $command,
     $message) {
 
     $command = $message['command'];
@@ -105,7 +105,7 @@ final class DiffusionMercurialServeSSHWorkflow
   }
 
   protected function raiseWrongVCSException(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     throw new Exception(
       pht(
         'This repository ("%s") is not a Mercurial repository. Use "%s" to '.

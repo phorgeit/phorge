@@ -1,14 +1,14 @@
 <?php
 
 final class LegalpadDocumentSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Legalpad Documents');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   public function newQuery() {
@@ -18,28 +18,28 @@ final class LegalpadDocumentSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Signed By'))
         ->setKey('signerPHIDs')
         ->setAliases(array('signer', 'signers', 'signerPHID'))
         ->setDescription(
           pht('Search for documents signed by given users.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Creators'))
         ->setKey('creatorPHIDs')
         ->setAliases(array('creator', 'creators', 'creatorPHID'))
         ->setDescription(
           pht('Search for documents with given creators.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Contributors'))
         ->setKey('contributorPHIDs')
         ->setAliases(array('contributor', 'contributors', 'contributorPHID'))
         ->setDescription(
           pht('Search for documents with given contributors.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -105,7 +105,7 @@ final class LegalpadDocumentSearchEngine
 
   protected function renderResultList(
     array $documents,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($documents, 'LegalpadDocument');
 
@@ -165,7 +165,7 @@ final class LegalpadDocumentSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No documents found.'));
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLDescriptionTransaction
-  extends PhabricatorPhurlURLTransactionType {
+final class PhorgePhurlURLDescriptionTransaction
+  extends PhorgePhurlURLTransactionType {
 
   const TRANSACTIONTYPE = 'phurl.description';
 
@@ -37,7 +37,7 @@ final class PhabricatorPhurlURLDescriptionTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

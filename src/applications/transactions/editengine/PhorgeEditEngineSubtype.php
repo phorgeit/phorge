@@ -1,7 +1,7 @@
 <?php
 
 
-final class PhabricatorEditEngineSubtype
+final class PhorgeEditEngineSubtype
   extends Phobject {
 
   const SUBTYPE_DEFAULT = 'default';
@@ -306,7 +306,7 @@ final class PhabricatorEditEngineSubtype
       $map[$key] = $subtype;
     }
 
-    return new PhabricatorEditEngineSubtypeMap($map);
+    return new PhorgeEditEngineSubtypeMap($map);
   }
 
   public function newIconView() {

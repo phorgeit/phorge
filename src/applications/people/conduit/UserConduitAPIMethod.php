@@ -3,11 +3,11 @@
 abstract class UserConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorPeopleApplication');
+    return PhorgeApplication::getByClass('PhorgePeopleApplication');
   }
 
   protected function buildUserInformationDictionary(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $with_email = false,
     $with_availability = false) {
 
@@ -47,7 +47,7 @@ abstract class UserConduitAPIMethod extends ConduitAPIMethod {
       'userName'     => $user->getUserName(),
       'realName'     => $user->getRealName(),
       'image'        => $user->getProfileImageURI(),
-      'uri'          => PhabricatorEnv::getURI('/p/'.$user->getUsername().'/'),
+      'uri'          => PhorgeEnv::getURI('/p/'.$user->getUsername().'/'),
       'roles'        => $roles,
     );
 

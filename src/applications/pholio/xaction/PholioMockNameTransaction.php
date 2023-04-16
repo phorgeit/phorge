@@ -58,7 +58,7 @@ final class PholioMockNameTransaction
     $old = $this->getOldValue();
 
     if ($old === null) {
-      return PhabricatorTransactions::COLOR_GREEN;
+      return PhorgeTransactions::COLOR_GREEN;
     }
 
     return parent::getColor();

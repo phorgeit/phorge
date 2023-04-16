@@ -3,13 +3,13 @@
 /**
  * @task implementation Job Implementation
  */
-final class PhabricatorWorkerBulkJob
-  extends PhabricatorWorkerDAO
+final class PhorgeWorkerBulkJob
+  extends PhorgeWorkerDAO
   implements
-     PhabricatorPolicyInterface,
-     PhabricatorSubscribableInterface,
-     PhabricatorApplicationTransactionInterface,
-     PhabricatorDestructibleInterface {
+     PhorgePolicyInterface,
+     PhorgeSubscribableInterface,
+     PhorgeApplicationTransactionInterface,
+     PhorgeDestructibleInterface {
 
   const STATUS_CONFIRM = 'confirm';
   const STATUS_WAITING = 'waiting';
@@ -52,11 +52,11 @@ final class PhabricatorWorkerBulkJob
   }
 
   public static function initializeNewJob(
-    PhabricatorUser $actor,
-    PhabricatorWorkerBulkJobType $type,
+    PhorgeUser $actor,
+    PhorgeWorkerBulkJobType $type,
     array $parameters) {
 
-    $job = id(new PhabricatorWorkerBulkJob())
+    $job = id(new PhorgeWorkerBulkJob())
       ->setAuthorPHID($actor->getPHID())
       ->setJobTypeKey($type->getBulkJobTypeKey())
       ->setParameters($parameters)
@@ -69,8 +69,8 @@ final class PhabricatorWorkerBulkJob
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorWorkerBulkJobPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeWorkerBulkJobPHIDType::TYPECONST);
   }
 
   public function getMonitorURI() {
@@ -91,7 +91,7 @@ final class PhabricatorWorkerBulkJob
   }
 
   public function loadTaskStatusCounts() {
-    $table = new PhabricatorWorkerBulkTask();
+    $table = new PhorgeWorkerBulkTask();
     $conn_r = $table->establishConnection('r');
     $rows = queryfx_all(
       $conn_r,
@@ -104,8 +104,8 @@ final class PhabricatorWorkerBulkJob
   }
 
   public function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorBulkContentSource::SOURCECONST,
+    return PhorgeContentSource::newForSource(
+      PhorgeBulkContentSource::SOURCECONST,
       array(
         'jobID' => $this->getID(),
       ));
@@ -145,7 +145,7 @@ final class PhabricatorWorkerBulkJob
     return $this->assertAttached($this->jobImplementation);
   }
 
-  public function attachJobImplementation(PhabricatorWorkerBulkJobType $type) {
+  public function attachJobImplementation(PhorgeWorkerBulkJobType $type) {
     $this->jobImplementation = $type;
     return $this;
   }
@@ -171,8 +171,8 @@ final class PhabricatorWorkerBulkJob
   }
 
   public function runTask(
-    PhabricatorUser $actor,
-    PhabricatorWorkerBulkTask $task) {
+    PhorgeUser $actor,
+    PhorgeWorkerBulkTask $task) {
     return $this->getJobImplementation()->runTask($actor, $this, $task);
   }
 
@@ -180,37 +180,37 @@ final class PhabricatorWorkerBulkJob
     return $this->getJobImplementation()->getJobName($this);
   }
 
-  public function getCurtainActions(PhabricatorUser $viewer) {
+  public function getCurtainActions(PhorgeUser $viewer) {
     return $this->getJobImplementation()->getCurtainActions($viewer, $this);
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getAuthorPHID();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht('Only the owner of a bulk job can edit it.');
       default:
         return null;
@@ -218,7 +218,7 @@ final class PhabricatorWorkerBulkJob
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -226,23 +226,23 @@ final class PhabricatorWorkerBulkJob
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorWorkerBulkJobEditor();
+    return new PhorgeWorkerBulkJobEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorWorkerBulkJobTransaction();
+    return new PhorgeWorkerBulkJobTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
 
@@ -250,7 +250,7 @@ final class PhabricatorWorkerBulkJob
       // workers in the queue itself, but they'll just flush out automatically
       // when they can't load bulk job data.
 
-      $task_table = new PhabricatorWorkerBulkTask();
+      $task_table = new PhorgeWorkerBulkTask();
       $conn_w = $task_table->establishConnection('w');
       queryfx(
         $conn_w,

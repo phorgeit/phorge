@@ -3,7 +3,7 @@
 /**
  * @task format Formatting Query Clauses
  */
-abstract class PhabricatorQuery extends Phobject {
+abstract class PhorgeQuery extends Phobject {
 
 
   abstract public function execute();

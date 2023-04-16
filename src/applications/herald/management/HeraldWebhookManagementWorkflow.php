@@ -1,4 +1,4 @@
 <?php
 
 abstract class HeraldWebhookManagementWorkflow
-  extends PhabricatorManagementWorkflow {}
+  extends PhorgeManagementWorkflow {}

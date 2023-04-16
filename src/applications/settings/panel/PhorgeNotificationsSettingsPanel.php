@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorNotificationsSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeNotificationsSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function isEnabled() {
-    $servers = PhabricatorNotificationServerRef::getEnabledAdminServers();
+    $servers = PhorgeNotificationServerRef::getEnabledAdminServers();
     if (!$servers) {
       return false;
     }
 
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorNotificationsApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeNotificationsApplication');
   }
 
   public function getPanelKey() {
@@ -26,14 +26,14 @@ final class PhabricatorNotificationsSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsApplicationsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsApplicationsPanelGroup::PANELGROUPKEY;
   }
 
   public function processRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $preferences = $this->getPreferences();
 
-    $notifications_key = PhabricatorNotificationsSetting::SETTINGKEY;
+    $notifications_key = PhorgeNotificationsSetting::SETTINGKEY;
     $notifications_value = $preferences->getSettingValue($notifications_key);
 
     if ($request->isFormPost()) {
@@ -144,7 +144,7 @@ final class PhabricatorNotificationsSettingsPanel
         ->setControlID($control_id)
         ->setName($notifications_key)
         ->setValue($notifications_value)
-        ->setOptions(PhabricatorNotificationsSetting::getOptionsMap())
+        ->setOptions(PhorgeNotificationsSetting::getOptionsMap())
         ->setCaption(
           pht(
             'This server can send real-time notifications to your web browser '.

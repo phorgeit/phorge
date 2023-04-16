@@ -21,7 +21,7 @@ final class DiffusionCommitRevisionSubscribersHeraldField
     }
 
     $phid = $revision->getPHID();
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID($phid);
+    return PhorgeSubscribersQuery::loadSubscribersForPHID($phid);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -29,7 +29,7 @@ final class DiffusionCommitRevisionSubscribersHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectOrUserDatasource();
+    return new PhorgeProjectOrUserDatasource();
   }
 
 }

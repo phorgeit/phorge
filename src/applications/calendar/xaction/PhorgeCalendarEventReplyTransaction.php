@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorCalendarEventReplyTransaction
-  extends PhabricatorCalendarEventTransactionType {
+abstract class PhorgeCalendarEventReplyTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   public function generateOldValue($object) {
     $actor_phid = $this->getActingAsPHID();
@@ -20,7 +20,7 @@ abstract class PhabricatorCalendarEventReplyTransaction
 
     $invitee = idx($invitees, $acting_phid);
     if (!$invitee) {
-      $invitee = id(new PhabricatorCalendarEventInvitee())
+      $invitee = id(new PhorgeCalendarEventInvitee())
         ->setEventPHID($object->getPHID())
         ->setInviteePHID($acting_phid)
         ->setInviterPHID($acting_phid);

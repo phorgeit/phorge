@@ -6,7 +6,7 @@
  * The primary purpose of this overseer module is to poll for configuration
  * changes and reload daemons when the configuration changes.
  */
-final class PhabricatorDaemonOverseerModule
+final class PhorgeDaemonOverseerModule
   extends PhutilDaemonOverseerModule {
 
   private $configVersion;
@@ -30,11 +30,11 @@ final class PhabricatorDaemonOverseerModule
    * @return int
    */
   private function loadConfigVersion() {
-    $conn_r = id(new PhabricatorConfigEntry())->establishConnection('r');
+    $conn_r = id(new PhorgeConfigEntry())->establishConnection('r');
     return head(queryfx_one(
       $conn_r,
       'SELECT MAX(id) FROM %T',
-      id(new PhabricatorConfigTransaction())->getTableName()));
+      id(new PhorgeConfigTransaction())->getTableName()));
   }
 
   /**

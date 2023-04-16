@@ -4,8 +4,8 @@
  * Mail adapter that doesn't actually send any email, for writing unit tests
  * against.
  */
-final class PhabricatorMailTestAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailTestAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'test';
 
@@ -32,8 +32,8 @@ final class PhabricatorMailTestAdapter
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
-      PhabricatorMailSMSMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
+      PhorgeMailSMSMessage::MESSAGETYPE,
     );
   }
 
@@ -53,9 +53,9 @@ final class PhabricatorMailTestAdapter
     return $this->guts;
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     if ($this->failPermanently) {
-      throw new PhabricatorMetaMTAPermanentFailureException(
+      throw new PhorgeMetaMTAPermanentFailureException(
         pht('Unit Test (Permanent)'));
     }
 
@@ -65,10 +65,10 @@ final class PhabricatorMailTestAdapter
     }
 
     switch ($message->getMessageType()) {
-      case PhabricatorMailEmailMessage::MESSAGETYPE:
+      case PhorgeMailEmailMessage::MESSAGETYPE:
         $guts = $this->newEmailGuts($message);
         break;
-      case PhabricatorMailSMSMessage::MESSAGETYPE:
+      case PhorgeMailSMSMessage::MESSAGETYPE:
         $guts = $this->newSMSGuts($message);
         break;
     }
@@ -85,7 +85,7 @@ final class PhabricatorMailTestAdapter
     return idx($this->guts, 'html-body');
   }
 
-  private function newEmailGuts(PhabricatorMailExternalMessage $message) {
+  private function newEmailGuts(PhorgeMailExternalMessage $message) {
     $guts = array();
 
     $from = $message->getFromAddress();
@@ -149,7 +149,7 @@ final class PhabricatorMailTestAdapter
     return $guts;
   }
 
-  private function newSMSGuts(PhabricatorMailExternalMessage $message) {
+  private function newSMSGuts(PhorgeMailExternalMessage $message) {
     $guts = array();
 
     $guts['to'] = $message->getToNumber();

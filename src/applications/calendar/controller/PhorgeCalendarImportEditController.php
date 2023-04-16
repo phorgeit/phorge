@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarImportEditController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarImportEditController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
-    $engine = id(new PhabricatorCalendarImportEditEngine())
+    $engine = id(new PhorgeCalendarImportEditEngine())
       ->setController($this);
 
     $id = $request->getURIData('id');
@@ -27,7 +27,7 @@ final class PhabricatorCalendarImportEditController
       $list_uri = $this->getApplicationURI('import/');
 
       $import_type = $request->getStr('importType');
-      $import_engines = PhabricatorCalendarImportEngine::getAllImportEngines();
+      $import_engines = PhorgeCalendarImportEngine::getAllImportEngines();
       if (empty($import_engines[$import_type])) {
         return $this->buildEngineTypeResponse($list_uri);
       }
@@ -43,19 +43,19 @@ final class PhabricatorCalendarImportEditController
   }
 
   private static function queryImportByID(AphrontRequest $request, int $id) {
-      return id(new PhabricatorCalendarImportQuery())
+      return id(new PhorgeCalendarImportQuery())
         ->setViewer($request->getViewer())
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
   }
 
   private function buildEngineTypeResponse($cancel_uri) {
-    $import_engines = PhabricatorCalendarImportEngine::getAllImportEngines();
+    $import_engines = PhorgeCalendarImportEngine::getAllImportEngines();
 
     $request = $this->getRequest();
     $viewer = $this->getViewer();

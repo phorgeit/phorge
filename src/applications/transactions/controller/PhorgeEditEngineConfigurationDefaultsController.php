@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationDefaultsController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationDefaultsController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $engine_key = $request->getURIData('engineKey');
@@ -10,14 +10,14 @@ final class PhabricatorEditEngineConfigurationDefaultsController
     $key = $request->getURIData('key');
     $viewer = $this->getViewer();
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$config) {
@@ -52,18 +52,18 @@ final class PhabricatorEditEngineConfigurationDefaultsController
         $field->readValueFromSubmit($request);
       }
 
-      $type = PhabricatorEditEngineDefaultTransaction::TRANSACTIONTYPE;
+      $type = PhorgeEditEngineDefaultTransaction::TRANSACTIONTYPE;
 
       $xactions = array();
       foreach ($fields as $field) {
         $new_value = $field->getValueForDefaults();
-        $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+        $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
           ->setTransactionType($type)
           ->setMetadataValue('field.key', $field->getKey())
           ->setNewValue($new_value);
       }
 
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)

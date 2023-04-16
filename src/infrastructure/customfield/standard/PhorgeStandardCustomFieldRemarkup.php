@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorStandardCustomFieldRemarkup
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldRemarkup
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'remarkup';
   }
 
   public function renderEditControl(array $handles) {
-    return id(new PhabricatorRemarkupControl())
+    return id(new PhorgeRemarkupControl())
       ->setUser($this->getViewer())
       ->setLabel($this->getFieldName())
       ->setName($this->getFieldKey())
@@ -21,7 +21,7 @@ final class PhabricatorStandardCustomFieldRemarkup
   }
 
   public function getApplicationTransactionRemarkupBlocks(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return array(
       $xaction->getNewValue(),
     );
@@ -43,7 +43,7 @@ final class PhabricatorStandardCustomFieldRemarkup
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     return pht(
       '%s edited %s.',
@@ -52,7 +52,7 @@ final class PhabricatorStandardCustomFieldRemarkup
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $object_phid = $xaction->getObjectPHID();
     return pht(
@@ -63,13 +63,13 @@ final class PhabricatorStandardCustomFieldRemarkup
   }
 
   public function getApplicationTransactionHasChangeDetails(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return true;
   }
 
   public function getApplicationTransactionChangeDetails(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorUser $viewer) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeUser $viewer) {
     return $xaction->renderTextCorpusChangeDetails(
       $viewer,
       $xaction->getOldValue(),
@@ -108,7 +108,7 @@ final class PhabricatorStandardCustomFieldRemarkup
   }
 
   protected function newExportFieldType() {
-    return new PhabricatorStringExportField();
+    return new PhorgeStringExportField();
   }
 
 }

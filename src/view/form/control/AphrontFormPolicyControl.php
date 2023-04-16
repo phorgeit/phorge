@@ -9,13 +9,13 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
   private $templatePHIDType;
   private $templateObject;
 
-  public function setPolicyObject(PhabricatorPolicyInterface $object) {
+  public function setPolicyObject(PhorgePolicyInterface $object) {
     $this->object = $object;
     return $this;
   }
 
   public function setPolicies(array $policies) {
-    assert_instances_of($policies, 'PhabricatorPolicy');
+    assert_instances_of($policies, 'PhorgePolicy');
     $this->policies = $policies;
     return $this;
   }
@@ -75,15 +75,15 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     $this->capability = $capability;
 
     $labels = array(
-      PhabricatorPolicyCapability::CAN_VIEW => pht('Visible To'),
-      PhabricatorPolicyCapability::CAN_EDIT => pht('Editable By'),
-      PhabricatorPolicyCapability::CAN_JOIN => pht('Joinable By'),
+      PhorgePolicyCapability::CAN_VIEW => pht('Visible To'),
+      PhorgePolicyCapability::CAN_EDIT => pht('Editable By'),
+      PhorgePolicyCapability::CAN_JOIN => pht('Joinable By'),
     );
 
     if (isset($labels[$capability])) {
       $label = $labels[$capability];
     } else {
-      $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+      $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
       if ($capobj) {
         $label = $capobj->getCapabilityName();
       } else {
@@ -111,12 +111,12 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     $policy_map = mpull($policies, null, 'getPHID');
     $value = $this->getValue();
     if ($value && empty($policy_map[$value])) {
-      $handle = id(new PhabricatorHandleQuery())
+      $handle = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($value))
         ->executeOne();
       if ($handle->isComplete()) {
-        $policies[] = PhabricatorPolicy::newFromPolicyAndHandle(
+        $policies[] = PhorgePolicy::newFromPolicyAndHandle(
           $value,
           $handle);
       }
@@ -127,11 +127,11 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     // "Default Task View Policy" being set to "Task Author") so they aren't
     // made available on non-template capabilities (like "Can Bulk Edit").
     foreach ($policies as $key => $policy) {
-      if ($policy->getType() != PhabricatorPolicyType::TYPE_OBJECT) {
+      if ($policy->getType() != PhorgePolicyType::TYPE_OBJECT) {
         continue;
       }
 
-      $rule = PhabricatorPolicyQuery::getObjectPolicyRule($policy->getPHID());
+      $rule = PhorgePolicyQuery::getObjectPolicyRule($policy->getPHID());
       if (!$rule) {
         continue;
       }
@@ -145,9 +145,9 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
 
     $options = array();
     foreach ($policies as $policy) {
-      if ($policy->getPHID() == PhabricatorPolicies::POLICY_PUBLIC) {
+      if ($policy->getPHID() == PhorgePolicies::POLICY_PUBLIC) {
         // Never expose "Public" for capabilities which don't support it.
-        $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+        $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
         if (!$capobj || !$capobj->shouldAllowPublicPolicySetting()) {
           continue;
         }
@@ -161,7 +161,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       );
     }
 
-    $type_project = PhabricatorPolicyType::TYPE_PROJECT;
+    $type_project = PhorgePolicyType::TYPE_PROJECT;
 
     // Make sure we have a "Projects" group before we adjust it.
     if (empty($options[$type_project])) {
@@ -170,7 +170,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
 
     $options[$type_project] = isort($options[$type_project], 'sort');
 
-    $placeholder = id(new PhabricatorPolicy())
+    $placeholder = id(new PhorgePolicy())
       ->setName(pht('Other Project...'))
       ->setIcon('fa-search');
 
@@ -193,7 +193,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     // ...where one is the "view" custom policy, and one is the "edit" custom
     // policy.
 
-    $type_custom = PhabricatorPolicyType::TYPE_CUSTOM;
+    $type_custom = PhorgePolicyType::TYPE_CUSTOM;
     if (!empty($options[$type_custom])) {
       $options[$type_custom] = array_select_keys(
         $options[$type_custom],
@@ -204,7 +204,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     // render a menu item. This allows the user to switch to a custom policy.
 
     if (empty($options[$type_custom])) {
-      $placeholder = new PhabricatorPolicy();
+      $placeholder = new PhorgePolicy();
       $placeholder->setName(pht('Custom Policy...'));
       $options[$type_custom][$this->getSelectCustomKey()] = array(
         'name' => $placeholder->getName(),
@@ -216,11 +216,11 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     $options = array_select_keys(
       $options,
       array(
-        PhabricatorPolicyType::TYPE_GLOBAL,
-        PhabricatorPolicyType::TYPE_OBJECT,
-        PhabricatorPolicyType::TYPE_USER,
-        PhabricatorPolicyType::TYPE_CUSTOM,
-        PhabricatorPolicyType::TYPE_PROJECT,
+        PhorgePolicyType::TYPE_GLOBAL,
+        PhorgePolicyType::TYPE_OBJECT,
+        PhorgePolicyType::TYPE_USER,
+        PhorgePolicyType::TYPE_CUSTOM,
+        PhorgePolicyType::TYPE_PROJECT,
       ));
 
     return $options;
@@ -237,7 +237,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     $policy = $this->object->getPolicy($this->capability);
     if (!$policy) {
       // TODO: Make this configurable.
-      $policy = PhabricatorPolicies::POLICY_USER;
+      $policy = PhorgePolicies::POLICY_USER;
     }
 
     if (!$this->getValue()) {
@@ -268,7 +268,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     $labels = array();
     foreach ($options as $key => $values) {
       $order[$key] = array_keys($values);
-      $labels[$key] = PhabricatorPolicyType::getPolicyTypeName($key);
+      $labels[$key] = PhorgePolicyType::getPolicyTypeName($key);
     }
 
     $flat_options = array_mergev($options);
@@ -356,16 +356,16 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
   }
 
   private function buildSpacesControl() {
-    if ($this->capability != PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($this->capability != PhorgePolicyCapability::CAN_VIEW) {
       return null;
     }
 
-    if (!($this->object instanceof PhabricatorSpacesInterface)) {
+    if (!($this->object instanceof PhorgeSpacesInterface)) {
       return null;
     }
 
     $viewer = $this->getUser();
-    if (!PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
+    if (!PhorgeSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       return null;
     }
 
@@ -376,7 +376,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
 
     $select = AphrontFormSelectControl::renderSelectTag(
       $space_phid,
-      PhabricatorSpacesNamespaceQuery::getSpaceOptionsForViewer(
+      PhorgeSpacesNamespaceQuery::getSpaceOptionsForViewer(
         $viewer,
         $space_phid),
       array(

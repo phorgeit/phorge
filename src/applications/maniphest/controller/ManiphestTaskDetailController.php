@@ -19,9 +19,9 @@ final class ManiphestTaskDetailController extends ManiphestController {
       return new Aphront404Response();
     }
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $task,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($task);
@@ -34,14 +34,14 @@ final class ManiphestTaskDetailController extends ManiphestController {
       ManiphestTaskHasCommitEdgeType::EDGECONST,
       ManiphestTaskHasRevisionEdgeType::EDGECONST,
       ManiphestTaskHasMockEdgeType::EDGECONST,
-      PhabricatorObjectMentionedByObjectEdgeType::EDGECONST,
-      PhabricatorObjectMentionsObjectEdgeType::EDGECONST,
+      PhorgeObjectMentionedByObjectEdgeType::EDGECONST,
+      PhorgeObjectMentionsObjectEdgeType::EDGECONST,
       ManiphestTaskHasDuplicateTaskEdgeType::EDGECONST,
     );
 
     $phid = $task->getPHID();
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($phid))
       ->withEdgeTypes($edge_types);
     $edges = idx($query->execute(), $phid);
@@ -252,18 +252,18 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
   private function buildCurtain(
     ManiphestTask $task,
-    PhabricatorEditEngine $edit_engine) {
+    PhorgeEditEngine $edit_engine) {
     $viewer = $this->getViewer();
 
     $id = $task->getID();
     $phid = $task->getPHID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $task,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $can_interact = PhabricatorPolicyFilter::canInteract($viewer, $task);
+    $can_interact = PhorgePolicyFilter::canInteract($viewer, $task);
 
     // We expect a policy dialog if you can't edit the task, and expect a
     // lock override dialog if you can't interact with it.
@@ -272,7 +272,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $curtain = $this->newCurtainView($task);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Task'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("/task/edit/{$id}/"))
@@ -306,14 +306,14 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
     $subtask_uri = $this->getApplicationURI($subtask_uri);
 
-    $subtask_item = id(new PhabricatorActionView())
+    $subtask_item = id(new PhorgeActionView())
       ->setName(pht('Create Subtask'))
       ->setHref($subtask_uri)
       ->setIcon('fa-level-down')
       ->setDisabled(!$subtask_options)
       ->setWorkflow($subtask_workflow);
 
-    $relationship_list = PhabricatorObjectRelationshipList::newForObject(
+    $relationship_list = PhorgeObjectRelationshipList::newForObject(
       $viewer,
       $task);
 
@@ -372,7 +372,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
   private function buildPropertyView(
     ManiphestTask $task,
-    PhabricatorCustomFieldList $field_list,
+    PhorgeCustomFieldList $field_list,
     array $edges,
     $handles) {
 
@@ -428,7 +428,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
   private function newMocksTab(
     ManiphestTask $task,
-    PhabricatorEdgeQuery $edge_query) {
+    PhorgeEdgeQuery $edge_query) {
 
     $mock_type = ManiphestTaskHasMockEdgeType::EDGECONST;
     $mock_phids = $edge_query->getDestinationPHIDs(array(), array($mock_type));
@@ -453,10 +453,10 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
   private function newMentionsTab(
     ManiphestTask $task,
-    PhabricatorEdgeQuery $edge_query) {
+    PhorgeEdgeQuery $edge_query) {
 
-    $in_type = PhabricatorObjectMentionedByObjectEdgeType::EDGECONST;
-    $out_type = PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
+    $in_type = PhorgeObjectMentionedByObjectEdgeType::EDGECONST;
+    $out_type = PhorgeObjectMentionsObjectEdgeType::EDGECONST;
 
     $in_phids = $edge_query->getDestinationPHIDs(array(), array($in_type));
     $out_phids = $edge_query->getDestinationPHIDs(array(), array($out_type));
@@ -465,7 +465,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     // very interesting to show in a relationship summary since they usually
     // end up as subscribers anyway.
 
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     foreach ($out_phids as $key => $out_phid) {
       if (phid_get_type($out_phid) == $user_type) {
         unset($out_phids[$key]);
@@ -505,7 +505,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
   private function newDuplicatesTab(
     ManiphestTask $task,
-    PhabricatorEdgeQuery $edge_query) {
+    PhorgeEdgeQuery $edge_query) {
 
     $in_type = ManiphestTaskHasDuplicateTaskEdgeType::EDGECONST;
     $in_phids = $edge_query->getDestinationPHIDs(array(), array($in_type));
@@ -529,7 +529,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
       ->appendChild($view);
   }
 
-  private function getCompleteHandles(PhabricatorHandleList $handles) {
+  private function getCompleteHandles(PhorgeHandleList $handles) {
     $phids = array();
 
     foreach ($handles as $phid => $handle) {
@@ -562,7 +562,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
     if ($commit_phids) {
       $link_type = DiffusionCommitHasRevisionEdgeType::EDGECONST;
-      $link_query = id(new PhabricatorEdgeQuery())
+      $link_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs($commit_phids)
         ->withEdgeTypes(array($link_type));
       $link_query->execute();

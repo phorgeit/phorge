@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSSHKeyGenerator extends Phobject {
+final class PhorgeSSHKeyGenerator extends Phobject {
 
   public static function assertCanGenerateKeypair() {
     $binary = 'ssh-keygen';

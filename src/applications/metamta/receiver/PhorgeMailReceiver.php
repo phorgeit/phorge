@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorMailReceiver extends Phobject {
+abstract class PhorgeMailReceiver extends Phobject {
 
   private $viewer;
   private $sender;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -14,7 +14,7 @@ abstract class PhabricatorMailReceiver extends Phobject {
     return $this->viewer;
   }
 
-  final public function setSender(PhabricatorUser $sender) {
+  final public function setSender(PhorgeUser $sender) {
     $this->sender = $sender;
     return $this;
   }
@@ -25,15 +25,15 @@ abstract class PhabricatorMailReceiver extends Phobject {
 
   abstract public function isEnabled();
   abstract public function canAcceptMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target);
 
   abstract protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target);
 
   final public function receiveMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
     $this->processReceivedMail($mail, $target);
   }

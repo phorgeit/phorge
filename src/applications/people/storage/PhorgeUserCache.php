@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserCache extends PhabricatorUserDAO {
+final class PhorgeUserCache extends PhorgeUserDAO {
 
   protected $userPHID;
   protected $cacheIndex;
@@ -38,7 +38,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
   }
 
   public static function writeCache(
-    PhabricatorUserCacheType $type,
+    PhorgeUserCacheType $type,
     $key,
     $user_phid,
     $raw_value) {
@@ -54,7 +54,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
   }
 
   public static function writeCaches(array $values) {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
@@ -73,7 +73,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
         $conn_w,
         '(%s, %s, %s, %s, %s)',
         $value['userPHID'],
-        PhabricatorHash::digestForIndex($key),
+        PhorgeHash::digestForIndex($key),
         $key,
         $value['value'],
         $value['type']->getUserCacheType());
@@ -81,7 +81,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-    foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
       queryfx(
         $conn_w,
         'INSERT INTO %T (userPHID, cacheIndex, cacheKey, cacheData, cacheType)
@@ -97,7 +97,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
   }
 
   public static function readCaches(
-    PhabricatorUserCacheType $type,
+    PhorgeUserCacheType $type,
     $key,
     array $user_phids) {
 
@@ -111,7 +111,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
       $table->getTableName(),
       $user_phids,
       $type->getUserCacheType(),
-      PhabricatorHash::digestForIndex($key));
+      PhorgeHash::digestForIndex($key));
 
     return ipull($rows, 'cacheData', 'userPHID');
   }
@@ -121,7 +121,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
   }
 
   public static function clearCaches($key, array $user_phids) {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
@@ -138,14 +138,14 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
       $conn_w,
       'DELETE FROM %T WHERE cacheIndex = %s AND userPHID IN (%Ls)',
       $table->getTableName(),
-      PhabricatorHash::digestForIndex($key),
+      PhorgeHash::digestForIndex($key),
       $user_phids);
 
     unset($unguarded);
   }
 
   public static function clearCacheForAllUsers($key) {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
@@ -158,7 +158,7 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
       $conn_w,
       'DELETE FROM %T WHERE cacheIndex = %s',
       $table->getTableName(),
-      PhabricatorHash::digestForIndex($key));
+      PhorgeHash::digestForIndex($key));
 
     unset($unguarded);
   }

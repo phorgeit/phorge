@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSystemAction extends Phobject {
+abstract class PhorgeSystemAction extends Phobject {
 
   final public function getActionConstant() {
     return $this->getPhobjectClassConstant('TYPECONST', 32);

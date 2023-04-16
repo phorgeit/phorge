@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionGitLFSTemporaryTokenType
-  extends PhabricatorAuthTemporaryTokenType {
+  extends PhorgeAuthTemporaryTokenType {
 
   const TOKENTYPE = 'diffusion.git.lfs';
   const HTTP_USERNAME = '@git-lfs';
@@ -11,22 +11,22 @@ final class DiffusionGitLFSTemporaryTokenType
   }
 
   public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token) {
+    PhorgeAuthTemporaryToken $token) {
     return pht('Git LFS Token');
   }
 
   public static function newHTTPAuthorization(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer,
+    PhorgeRepository $repository,
+    PhorgeUser $viewer,
     $operation) {
 
     $lfs_user = self::HTTP_USERNAME;
     $lfs_pass = Filesystem::readRandomCharacters(32);
-    $lfs_hash = PhabricatorHash::weakDigest($lfs_pass);
+    $lfs_hash = PhorgeHash::weakDigest($lfs_pass);
 
-    $ttl = PhabricatorTime::getNow() + phutil_units('1 day in seconds');
+    $ttl = PhorgeTime::getNow() + phutil_units('1 day in seconds');
 
-    $token = id(new PhabricatorAuthTemporaryToken())
+    $token = id(new PhorgeAuthTemporaryToken())
       ->setTokenResource($repository->getPHID())
       ->setTokenType(self::TOKENTYPE)
       ->setTokenCode($lfs_hash)

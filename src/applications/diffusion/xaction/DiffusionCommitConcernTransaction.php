@@ -37,12 +37,12 @@ final class DiffusionCommitConcernTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $status = PhabricatorAuditRequestStatus::CONCERNED;
+    $status = PhorgeAuditRequestStatus::CONCERNED;
     $actor = $this->getActor();
     $this->applyAuditorEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($this->isViewerCommitAuthor($object, $viewer)) {
       throw new Exception(
         pht(

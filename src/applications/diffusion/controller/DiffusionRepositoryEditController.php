@@ -13,7 +13,7 @@ final class DiffusionRepositoryEditController
         DiffusionCreateRepositoriesCapability::CAPABILITY);
 
       $vcs = $request->getStr('vcs');
-      $vcs_types = PhabricatorRepositoryType::getRepositoryTypeMap();
+      $vcs_types = PhorgeRepositoryType::getRepositoryTypeMap();
       if (empty($vcs_types[$vcs])) {
         return $this->buildVCSTypeResponse();
       }
@@ -27,7 +27,7 @@ final class DiffusionRepositoryEditController
   }
 
   private function buildVCSTypeResponse() {
-    $vcs_types = PhabricatorRepositoryType::getRepositoryTypeMap();
+    $vcs_types = PhorgeRepositoryType::getRepositoryTypeMap();
 
     $request = $this->getRequest();
     $viewer = $this->getViewer();
@@ -45,7 +45,7 @@ final class DiffusionRepositoryEditController
 
     foreach ($vcs_types as $vcs_key => $vcs_type) {
       $image = idx($vcs_type, 'image');
-      $image = PhabricatorFile::loadBuiltin($viewer, $image);
+      $image = PhorgeFile::loadBuiltin($viewer, $image);
       $action = id(new PHUIActionPanelView())
         ->setImage($image->getBestURI())
         ->setHeader(idx($vcs_type, 'create.header'))
@@ -58,12 +58,12 @@ final class DiffusionRepositoryEditController
     $hints = id(new AphrontMultiColumnView())
       ->setFluidLayout(true);
 
-    $observe_href = PhabricatorEnv::getDoclink(
+    $observe_href = PhorgeEnv::getDoclink(
       'Diffusion User Guide: Existing Repositories');
 
     require_celerity_resource('diffusion-css');
 
-    $image = PhabricatorFile::loadBuiltin($viewer, 'repo/repo.png');
+    $image = PhorgeFile::loadBuiltin($viewer, 'repo/repo.png');
     $hints->addColumn(
       id(new PHUIActionPanelView())
         ->setImage($image->getBestURI())

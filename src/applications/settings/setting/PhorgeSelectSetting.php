@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorSelectSetting
-  extends PhabricatorSetting {
+abstract class PhorgeSelectSetting
+  extends PhorgeSetting {
 
   abstract protected function getSelectOptions();
 
@@ -23,7 +23,7 @@ abstract class PhabricatorSelectSetting
       ) + $options;
     }
 
-    return $this->newEditField($object, new PhabricatorSelectEditField())
+    return $this->newEditField($object, new PhorgeSelectEditField())
       ->setOptions($options);
   }
 

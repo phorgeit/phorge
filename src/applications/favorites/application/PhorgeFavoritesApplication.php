@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFavoritesApplication extends PhabricatorApplication {
+final class PhorgeFavoritesApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/favorites/';
@@ -21,9 +21,9 @@ final class PhabricatorFavoritesApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/favorites/' => array(
-        '' => 'PhabricatorFavoritesMenuItemController',
+        '' => 'PhorgeFavoritesMenuItemController',
         'menu/' => $this->getProfileMenuRouting(
-          'PhabricatorFavoritesMenuItemController'),
+          'PhorgeFavoritesMenuItemController'),
       ),
     );
   }

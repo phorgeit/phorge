@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCustomFieldHeraldAction extends HeraldAction {
+final class PhorgeCustomFieldHeraldAction extends HeraldAction {
 
   const ACTIONCONST = 'herald.action.custom';
 
@@ -8,7 +8,7 @@ final class PhabricatorCustomFieldHeraldAction extends HeraldAction {
 
   private $customField;
 
-  public function setCustomField(PhabricatorCustomField $custom_field) {
+  public function setCustomField(PhorgeCustomField $custom_field) {
     $this->customField = $custom_field;
     return $this;
   }
@@ -18,11 +18,11 @@ final class PhabricatorCustomFieldHeraldAction extends HeraldAction {
   }
 
   public function getActionGroupKey() {
-    return PhabricatorCustomFieldHeraldActionGroup::ACTIONGROUPKEY;
+    return PhorgeCustomFieldHeraldActionGroup::ACTIONGROUPKEY;
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
   public function supportsRuleType($rule_type) {
@@ -30,10 +30,10 @@ final class PhabricatorCustomFieldHeraldAction extends HeraldAction {
   }
 
   public function getActionsForObject($object) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
-    $role = PhabricatorCustomField::ROLE_HERALDACTION;
+    $viewer = PhorgeUser::getOmnipotentUser();
+    $role = PhorgeCustomField::ROLE_HERALDACTION;
 
-    $field_list = PhabricatorCustomField::getObjectFields($object, $role)
+    $field_list = PhorgeCustomField::getObjectFields($object, $role)
       ->setViewer($viewer)
       ->readFieldsFromStorage($object);
 
@@ -58,7 +58,7 @@ final class PhabricatorCustomFieldHeraldAction extends HeraldAction {
       ->getValueForStorage();
 
     $xaction = $adapter->newTransaction()
-      ->setTransactionType(PhabricatorTransactions::TYPE_CUSTOMFIELD)
+      ->setTransactionType(PhorgeTransactions::TYPE_CUSTOMFIELD)
       ->setMetadataValue('customfield:key', $field->getFieldKey())
       ->setOldValue($old_value)
       ->setNewValue($new_value);

@@ -8,7 +8,7 @@ final class DifferentialInlineCommentMailView
   private $changesets;
   private $authors;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -43,7 +43,7 @@ final class DifferentialInlineCommentMailView
     $spacer_text = null;
     $spacer_html = phutil_tag('br');
 
-    $section = new PhabricatorMetaMTAMailSection();
+    $section = new PhorgeMetaMTAMailSection();
 
     $last_group_key = last_key($groups);
     foreach ($groups as $changeset_id => $group) {
@@ -246,7 +246,7 @@ final class DifferentialInlineCommentMailView
 
   private function renderRemarkupContent($content, $is_html) {
     $viewer = $this->getViewer();
-    $production_uri = PhabricatorEnv::getProductionURI('/');
+    $production_uri = PhorgeEnv::getProductionURI('/');
 
     if ($is_html) {
       $mode = PhutilRemarkupEngine::MODE_HTML_MAIL;
@@ -258,7 +258,7 @@ final class DifferentialInlineCommentMailView
       'style' => 'padding: 0; margin: 8px;',
     );
 
-    $engine = PhabricatorMarkupEngine::newMarkupEngine(array())
+    $engine = PhorgeMarkupEngine::newMarkupEngine(array())
       ->setConfig('viewer', $viewer)
       ->setConfig('uri.base', $production_uri)
       ->setConfig('default.p.attributes', $attributes)
@@ -351,7 +351,7 @@ final class DifferentialInlineCommentMailView
     }
 
     $viewer = $this->getViewer();
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
 
     if ($is_new) {
       $offset_mode = 'new';
@@ -364,7 +364,7 @@ final class DifferentialInlineCommentMailView
     // comments on diffs with long recipient lists.
     $cache_key = $changeset->getID();
 
-    $viewstate = new PhabricatorChangesetViewState();
+    $viewstate = new PhorgeChangesetViewState();
 
     $parser = id(new DifferentialChangesetParser())
       ->setRenderCacheKey($cache_key)
@@ -510,7 +510,7 @@ final class DifferentialInlineCommentMailView
     }
 
     $link_href = '/'.$revision->getMonogram().'#inline-'.$comment->getID();
-    $link_href = PhabricatorEnv::getProductionURI($link_href);
+    $link_href = PhorgeEnv::getProductionURI($link_href);
 
     return $link_href;
   }

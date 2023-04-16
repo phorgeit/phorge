@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorCalendarExternalInvitee
-  extends PhabricatorCalendarDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeCalendarExternalInvitee
+  extends PhorgeCalendarDAO
+  implements PhorgePolicyInterface {
 
   protected $name;
   protected $nameIndex;
@@ -11,10 +11,10 @@ final class PhabricatorCalendarExternalInvitee
   protected $sourcePHID;
 
   public static function initializeNewCalendarEventInvitee(
-    PhabricatorUser $actor, $event) {
-    return id(new PhabricatorCalendarEventInvitee())
+    PhorgeUser $actor, $event) {
+    return id(new PhorgeCalendarEventInvitee())
       ->setInviterPHID($actor->getPHID())
-      ->setStatus(PhabricatorCalendarEventInvitee::STATUS_INVITED)
+      ->setStatus(PhorgeCalendarEventInvitee::STATUS_INVITED)
       ->setEventPHID($event->getPHID());
   }
 
@@ -39,32 +39,32 @@ final class PhabricatorCalendarExternalInvitee
   }
 
   public function getPHIDType() {
-    return PhabricatorCalendarExternalInviteePHIDType::TYPECONST;
+    return PhorgeCalendarExternalInviteePHIDType::TYPECONST;
   }
 
   public function save() {
-    $this->nameIndex = PhabricatorHash::digestForIndex($this->getName());
+    $this->nameIndex = PhorgeHash::digestForIndex($this->getName());
     return parent::save();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

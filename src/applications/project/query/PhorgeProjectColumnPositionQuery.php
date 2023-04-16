@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnPositionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeProjectColumnPositionQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $boardPHIDs;
@@ -29,7 +29,7 @@ final class PhabricatorProjectColumnPositionQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorProjectColumnPosition();
+    return new PhorgeProjectColumnPosition();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -67,7 +67,7 @@ final class PhabricatorProjectColumnPositionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
 }

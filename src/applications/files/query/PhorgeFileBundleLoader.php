@@ -4,17 +4,17 @@
  * Callback provider for loading @{class@arcanist:ArcanistBundle} file data
  * stored in the Files application.
  */
-final class PhabricatorFileBundleLoader extends Phobject {
+final class PhorgeFileBundleLoader extends Phobject {
 
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
 
   public function loadFileData($phid) {
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($this->viewer)
       ->withPHIDs(array($phid))
       ->executeOne();

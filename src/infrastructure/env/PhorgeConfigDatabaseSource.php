@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorConfigDatabaseSource
-  extends PhabricatorConfigProxySource {
+final class PhorgeConfigDatabaseSource
+  extends PhorgeConfigProxySource {
 
   public function __construct($namespace) {
     $config = $this->loadConfig($namespace);
-    $this->setSource(new PhabricatorConfigDictionarySource($config));
+    $this->setSource(new PhorgeConfigDictionarySource($config));
   }
 
   public function isWritable() {
@@ -14,7 +14,7 @@ final class PhabricatorConfigDatabaseSource
   }
 
   private function loadConfig($namespace) {
-    $objects = id(new PhabricatorConfigEntry())->loadAllWhere(
+    $objects = id(new PhorgeConfigEntry())->loadAllWhere(
       'namespace = %s AND isDeleted = 0',
       $namespace);
     return mpull($objects, 'getValue', 'getConfigKey');

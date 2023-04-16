@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserBlurbField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserBlurbField
+  extends PhorgeUserCustomField {
 
   private $value;
 
@@ -37,7 +37,7 @@ final class PhabricatorUserBlurbField
     return true;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $this->value = $object->loadUserProfile()->getBlurb();
   }
 
@@ -50,7 +50,7 @@ final class PhabricatorUserBlurbField
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->getObject()->loadUserProfile()->setBlurb($xaction->getNewValue());
   }
 
@@ -64,7 +64,7 @@ final class PhabricatorUserBlurbField
   }
 
   public function renderEditControl(array $handles) {
-    return id(new PhabricatorRemarkupControl())
+    return id(new PhorgeRemarkupControl())
       ->setUser($this->getViewer())
       ->setName($this->getFieldKey())
       ->setValue($this->value)
@@ -72,7 +72,7 @@ final class PhabricatorUserBlurbField
   }
 
   public function getApplicationTransactionRemarkupBlocks(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return array(
       $xaction->getNewValue(),
     );

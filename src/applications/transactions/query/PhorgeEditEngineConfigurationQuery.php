@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeEditEngineConfigurationQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -65,7 +65,7 @@ final class PhabricatorEditEngineConfigurationQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorEditEngineConfiguration();
+    return new PhorgeEditEngineConfiguration();
   }
 
   protected function loadPage() {
@@ -84,7 +84,7 @@ final class PhabricatorEditEngineConfigurationQuery
     // Now that we've loaded the real results from the database, we're going
     // to load builtins from the edit engines and add them to the list.
 
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = PhorgeEditEngine::getAllEditEngines();
 
     if ($this->engineKeys) {
       $engines = array_select_keys($engines, $this->engineKeys);
@@ -206,7 +206,7 @@ final class PhabricatorEditEngineConfigurationQuery
   protected function willFilterPage(array $configs) {
     $engine_keys = mpull($configs, 'getEngineKey');
 
-    $engines = id(new PhabricatorEditEngineQuery())
+    $engines = id(new PhorgeEditEngineQuery())
       ->setParentQuery($this)
       ->setViewer($this->getViewer())
       ->withEngineKeys($engine_keys)
@@ -278,7 +278,7 @@ final class PhabricatorEditEngineConfigurationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
 }

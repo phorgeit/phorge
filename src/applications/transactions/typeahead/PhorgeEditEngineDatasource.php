@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeEditEngineDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Forms');
@@ -12,7 +12,7 @@ final class PhabricatorEditEngineDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   protected function renderSpecialTokens(array $values) {
@@ -25,7 +25,7 @@ final class PhabricatorEditEngineDatasource
   }
 
   private function buildResults() {
-    $query = id(new PhabricatorEditEngineConfigurationQuery());
+    $query = id(new PhorgeEditEngineConfigurationQuery());
 
     $forms = $this->executeQuery($query);
     $results = array();
@@ -41,7 +41,7 @@ final class PhabricatorEditEngineDatasource
         $key = $form->getEngineKey().'/'.$form->getBuiltinKey();
       }
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($form->getName())
         ->setPHID($key)
         ->setIcon($form->getIcon());

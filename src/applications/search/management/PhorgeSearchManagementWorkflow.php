@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorSearchManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeSearchManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function validateClusterSearchConfig() {
     // Configuration is normally validated by setup self-checks on the web
@@ -10,10 +10,10 @@ abstract class PhabricatorSearchManagementWorkflow
     // continuing.
 
     $config_key = 'cluster.search';
-    $config_value = PhabricatorEnv::getEnvConfig($config_key);
+    $config_value = PhorgeEnv::getEnvConfig($config_key);
 
     try {
-      PhabricatorClusterSearchConfigType::validateValue($config_value);
+      PhorgeClusterSearchConfigType::validateValue($config_value);
     } catch (Exception $ex) {
       throw new PhutilArgumentUsageException(
         pht(

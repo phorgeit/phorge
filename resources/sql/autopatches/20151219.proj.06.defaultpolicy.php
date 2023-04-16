@@ -1,12 +1,12 @@
 <?php
 
-$app = PhabricatorApplication::getByClass('PhabricatorProjectApplication');
+$app = PhorgeApplication::getByClass('PhorgeProjectApplication');
 
 $view_policy = $app->getPolicy(ProjectDefaultViewCapability::CAPABILITY);
 $edit_policy = $app->getPolicy(ProjectDefaultEditCapability::CAPABILITY);
 $join_policy = $app->getPolicy(ProjectDefaultJoinCapability::CAPABILITY);
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn_w = $table->establishConnection('w');
 
 queryfx(

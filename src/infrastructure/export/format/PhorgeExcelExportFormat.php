@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExcelExportFormat
-  extends PhabricatorExportFormat {
+final class PhorgeExcelExportFormat
+  extends PhorgeExportFormat {
 
   const EXPORTKEY = 'excel';
 

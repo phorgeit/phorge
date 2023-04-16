@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackageDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePackagesPackageDefaultViewCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'packages.package.default.view';
 

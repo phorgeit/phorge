@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTime extends Phobject {
+final class PhorgeTime extends Phobject {
 
   private static $stack = array();
   private static $originalZone;
@@ -20,7 +20,7 @@ final class PhabricatorTime extends Phobject {
       'timezone'    => $timezone,
     );
 
-    return new PhabricatorTimeGuard(last_key(self::$stack));
+    return new PhorgeTimeGuard(last_key(self::$stack));
   }
 
   public static function popTime($key) {
@@ -48,7 +48,7 @@ final class PhabricatorTime extends Phobject {
     return time();
   }
 
-  public static function parseLocalTime($time, PhabricatorUser $user) {
+  public static function parseLocalTime($time, PhorgeUser $user) {
     $old_zone = date_default_timezone_get();
 
     date_default_timezone_set($user->getTimezoneIdentifier());
@@ -72,7 +72,7 @@ final class PhabricatorTime extends Phobject {
     return $today;
   }
 
-  public static function getDateTimeFromEpoch($epoch, PhabricatorUser $viewer) {
+  public static function getDateTimeFromEpoch($epoch, PhorgeUser $viewer) {
     $datetime = new DateTime('@'.$epoch);
     $datetime->setTimezone($viewer->getTimeZone());
     return $datetime;

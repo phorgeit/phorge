@@ -3,8 +3,8 @@
 /**
  * At-rest encryption format using AES256 CBC.
  */
-final class PhabricatorFileAES256StorageFormat
-  extends PhabricatorFileStorageFormat {
+final class PhorgeFileAES256StorageFormat
+  extends PhorgeFileStorageFormat {
 
   const FORMATKEY = 'aes-256-cbc';
 
@@ -67,9 +67,9 @@ final class PhabricatorFileAES256StorageFormat
 
     $input = self::FORMATKEY.'/iv:'.$iv_envelope->openEnvelope();
 
-    return PhabricatorHash::digestWithNamedKey(
+    return PhorgeHash::digestWithNamedKey(
       $input,
-      PhabricatorFileStorageEngine::HMAC_INTEGRITY);
+      PhorgeFileStorageEngine::HMAC_INTEGRITY);
   }
 
   public function newStorageProperties() {
@@ -106,7 +106,7 @@ final class PhabricatorFileAES256StorageFormat
     );
   }
 
-  private function extractKeyAndIV(PhabricatorFile $file) {
+  private function extractKeyAndIV(PhorgeFile $file) {
     $outer_iv = $file->getStorageProperty('iv.base64');
     $outer_iv = base64_decode($outer_iv);
     $outer_iv = new PhutilOpaqueEnvelope($outer_iv);
@@ -197,7 +197,7 @@ final class PhabricatorFileAES256StorageFormat
       return $this->keyName;
     }
 
-    $default = PhabricatorKeyring::getDefaultKeyName(self::FORMATKEY);
+    $default = PhorgeKeyring::getDefaultKeyName(self::FORMATKEY);
     if ($default !== null) {
       return $default;
     }
@@ -209,7 +209,7 @@ final class PhabricatorFileAES256StorageFormat
   }
 
   private function getMasterKeyMaterial($key_name) {
-    return PhabricatorKeyring::getKey($key_name, self::FORMATKEY);
+    return PhorgeKeyring::getKey($key_name, self::FORMATKEY);
   }
 
 }

@@ -1,14 +1,14 @@
 <?php
 
 final class AlmanacServiceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Almanac Services');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function newQuery() {
@@ -40,20 +40,20 @@ final class AlmanacServiceSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for services by name substring.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Exact Names'))
         ->setKey('names')
         ->setDescription(pht('Search for services with specific names.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Service Types'))
         ->setKey('serviceTypes')
         ->setDescription(pht('Find services by type.'))
         ->setDatasource(id(new AlmanacServiceTypeDatasource())),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Devices'))
         ->setKey('devicePHIDs')
         ->setDescription(
@@ -88,7 +88,7 @@ final class AlmanacServiceSearchEngine
 
   protected function renderResultList(
     array $services,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($services, 'AlmanacService');
 
@@ -109,7 +109,7 @@ final class AlmanacServiceSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No Almanac Services found.'));
 

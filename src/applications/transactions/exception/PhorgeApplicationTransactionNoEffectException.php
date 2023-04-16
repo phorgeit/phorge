@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionNoEffectException
+final class PhorgeApplicationTransactionNoEffectException
   extends Exception {
 
   private $transactions;
@@ -8,7 +8,7 @@ final class PhabricatorApplicationTransactionNoEffectException
   private $hasComment;
 
   public function __construct(array $transactions, $any_effect, $has_comment) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($transactions, 'PhorgeApplicationTransaction');
 
     $this->transactions = $transactions;
     $this->anyEffect = $any_effect;

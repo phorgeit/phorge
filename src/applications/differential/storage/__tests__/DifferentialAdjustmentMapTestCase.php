@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialAdjustmentMapTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testBasicMaps() {
     $change_map = array(
@@ -315,7 +315,7 @@ final class DifferentialAdjustmentMapTestCase
     $parser = new ArcanistDiffParser();
     $changes = $parser->parseDiff($data);
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $diff = DifferentialDiff::newFromRawChanges($viewer, $changes);
 
     $changesets = $diff->getChangesets();

@@ -1,7 +1,7 @@
 <?php
 
 final class FundCreateInitiativesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'fund.create';
 

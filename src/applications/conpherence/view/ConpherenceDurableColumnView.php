@@ -22,7 +22,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     return $this->conpherences;
   }
 
-  public function setDraft(PhabricatorDraft $draft) {
+  public function setDraft(PhorgeDraft $draft) {
     $this->draft = $draft;
     return $this;
   }
@@ -79,7 +79,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
   }
 
   public function setPolicyObjects(array $objects) {
-    assert_instances_of($objects, 'PhabricatorPolicy');
+    assert_instances_of($objects, 'PhorgePolicy');
 
     $this->policyObjects = $objects;
     return $this;
@@ -118,8 +118,8 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
   }
 
   protected function getTagContent() {
-    $column_key = PhabricatorConpherenceColumnVisibleSetting::SETTINGKEY;
-    $minimize_key = PhabricatorConpherenceColumnMinimizeSetting::SETTINGKEY;
+    $column_key = PhorgeConpherenceColumnVisibleSetting::SETTINGKEY;
+    $minimize_key = PhorgeConpherenceColumnMinimizeSetting::SETTINGKEY;
 
     Javelin::initBehavior(
       'durable-column',
@@ -323,7 +323,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
         pht('Conpherence'));
     }
 
-    $status = new PhabricatorNotificationStatusView();
+    $status = new PhorgeNotificationStatusView();
 
     return
       phutil_tag(
@@ -349,10 +349,10 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
 
     $actions = array();
     if ($conpherence) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $this->getUser(),
         $conpherence,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       $actions[] = array(
         'name' => pht('Add Participants'),
         'disabled' => !$can_edit,

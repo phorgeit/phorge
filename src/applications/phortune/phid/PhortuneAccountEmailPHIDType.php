@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneAccountEmailPHIDType extends PhabricatorPHIDType {
+final class PhortuneAccountEmailPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'AEML';
 
@@ -13,11 +13,11 @@ final class PhortuneAccountEmailPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhortuneAccountEmailQuery())
@@ -25,7 +25,7 @@ final class PhortuneAccountEmailPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

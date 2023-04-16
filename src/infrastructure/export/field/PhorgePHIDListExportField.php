@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPHIDListExportField
-  extends PhabricatorListExportField {
+final class PhorgePHIDListExportField
+  extends PhorgeListExportField {
 
   public function getCharacterWidth() {
     return 32;

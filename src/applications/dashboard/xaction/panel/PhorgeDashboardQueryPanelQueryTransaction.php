@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelQueryTransaction
-  extends PhabricatorDashboardPanelPropertyTransaction {
+final class PhorgeDashboardQueryPanelQueryTransaction
+  extends PhorgeDashboardPanelPropertyTransaction {
 
   const TRANSACTIONTYPE = 'search.query';
 

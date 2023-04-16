@@ -7,8 +7,8 @@
  * @task hg         Discovering Mercurial Repositories
  * @task internal   Internals
  */
-final class PhabricatorRepositoryDiscoveryEngine
-  extends PhabricatorRepositoryEngine {
+final class PhorgeRepositoryDiscoveryEngine
+  extends PhorgeRepositoryEngine {
 
   private $repairMode;
   private $commitCache = array();
@@ -67,13 +67,13 @@ final class PhabricatorRepositoryDiscoveryEngine
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $refs = $this->discoverSubversionCommits();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $refs = $this->discoverMercurialCommits();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $refs = $this->discoverGitCommits();
         break;
       default:
@@ -85,7 +85,7 @@ final class PhabricatorRepositoryDiscoveryEngine
         pht(
           'Discovered more than %s commit(s) in an empty repository, '.
           'marking repository as importing.',
-          new PhutilNumber(PhabricatorRepository::IMPORT_THRESHOLD)));
+          new PhutilNumber(PhorgeRepository::IMPORT_THRESHOLD)));
 
       $repository->markImporting();
     }
@@ -190,7 +190,7 @@ final class PhabricatorRepositoryDiscoveryEngine
         $this->log(pht('Looking for new commits.'));
 
         $head_refs = $this->discoverStreamAncestry(
-          new PhabricatorGitGraphStream($repository, $commit),
+          new PhorgeGitGraphStream($repository, $commit),
           $commit,
           $publisher->isPermanentRef($ref));
 
@@ -272,7 +272,7 @@ final class PhabricatorRepositoryDiscoveryEngine
       foreach ($log->logentry as $entry) {
         $identifier = (int)$entry['revision'];
         $epoch = (int)strtotime((string)$entry->date[0]);
-        $refs[$identifier] = id(new PhabricatorRepositoryCommitRef())
+        $refs[$identifier] = id(new PhorgeRepositoryCommitRef())
           ->setIdentifier($identifier)
           ->setEpoch($epoch)
           ->setIsPermanent(true);
@@ -304,7 +304,7 @@ final class PhabricatorRepositoryDiscoveryEngine
   }
 
 
-  private function verifySubversionRoot(PhabricatorRepository $repository) {
+  private function verifySubversionRoot(PhorgeRepository $repository) {
     list($xml) = $repository->execxRemoteCommand(
       'info --xml %s',
       $repository->getSubversionPathURI());
@@ -377,7 +377,7 @@ final class PhabricatorRepositoryDiscoveryEngine
       $this->log(pht('Looking for new commits.'));
 
       $branch_refs = $this->discoverStreamAncestry(
-        new PhabricatorMercurialGraphStream($repository, $commit),
+        new PhorgeMercurialGraphStream($repository, $commit),
         $commit,
         $is_permanent = true);
 
@@ -394,7 +394,7 @@ final class PhabricatorRepositoryDiscoveryEngine
 
 
   private function discoverStreamAncestry(
-    PhabricatorRepositoryGraphStream $stream,
+    PhorgeRepositoryGraphStream $stream,
     $commit,
     $is_permanent) {
 
@@ -436,7 +436,7 @@ final class PhabricatorRepositoryDiscoveryEngine
       // If the epoch doesn't fit into a uint32, treat it as though it stores
       // the current time. For discussion, see T11537.
       if ($epoch > 0xFFFFFFFF) {
-        $epoch = PhabricatorTime::getNow();
+        $epoch = PhorgeTime::getNow();
       }
 
       // If the epoch is not present at all, treat it as though it stores the
@@ -446,7 +446,7 @@ final class PhabricatorRepositoryDiscoveryEngine
         $epoch = 0;
       }
 
-      $refs[] = id(new PhabricatorRepositoryCommitRef())
+      $refs[] = id(new PhorgeRepositoryCommitRef())
         ->setIdentifier($commit)
         ->setEpoch($epoch)
         ->setIsPermanent($is_permanent)
@@ -514,13 +514,13 @@ final class PhabricatorRepositoryDiscoveryEngine
     // unreachable, treating them as though they do not exist. When recording
     // commits later we'll revive commits that exist but are unreachable.
 
-    $commits = id(new PhabricatorRepositoryCommit())->loadAllWhere(
+    $commits = id(new PhorgeRepositoryCommit())->loadAllWhere(
       'repositoryID = %d AND commitIdentifier IN (%Ls)
         AND (importStatus & %d) != %d',
       $this->getRepository()->getID(),
       $identifiers,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
 
     foreach ($commits as $commit) {
       $this->commitCache[$commit->getCommitIdentifier()] = true;
@@ -560,14 +560,14 @@ final class PhabricatorRepositoryDiscoveryEngine
 
 
   private function recordCommit(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $commit_identifier,
     $epoch,
     $is_permanent,
     array $parents,
     $task_priority) {
 
-    $commit = new PhabricatorRepositoryCommit();
+    $commit = new PhorgeRepositoryCommit();
     $conn_w = $repository->establishConnection('w');
 
     // First, try to revive an existing unreachable commit (if one exists) by
@@ -578,7 +578,7 @@ final class PhabricatorRepositoryDiscoveryEngine
       'UPDATE %T SET importStatus = (importStatus & ~%d)
         WHERE repositoryID = %d AND commitIdentifier = %s',
       $commit->getTableName(),
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
       $repository->getID(),
       $commit_identifier);
     if ($conn_w->getAffectedRows()) {
@@ -596,10 +596,10 @@ final class PhabricatorRepositoryDiscoveryEngine
     $commit->setCommitIdentifier($commit_identifier);
     $commit->setEpoch($epoch);
     if ($is_permanent) {
-      $commit->setImportStatus(PhabricatorRepositoryCommit::IMPORTED_PERMANENT);
+      $commit->setImportStatus(PhorgeRepositoryCommit::IMPORTED_PERMANENT);
     }
 
-    $data = new PhabricatorRepositoryCommitData();
+    $data = new PhorgeRepositoryCommitData();
 
     try {
       // If this commit has parents, look up their IDs. The parent commits
@@ -643,7 +643,7 @@ final class PhabricatorRepositoryDiscoveryEngine
             $conn_w,
             'INSERT IGNORE INTO %T (childCommitID, parentCommitID)
               VALUES (%d, %d)',
-            PhabricatorRepository::TABLE_PARENTS,
+            PhorgeRepository::TABLE_PARENTS,
             $commit->getID(),
             $parent_id);
         }
@@ -658,8 +658,8 @@ final class PhabricatorRepositoryDiscoveryEngine
       }
 
       PhutilEventEngine::dispatchEvent(
-        new PhabricatorEvent(
-          PhabricatorEventType::TYPE_DIFFUSION_DIDDISCOVERCOMMIT,
+        new PhorgeEvent(
+          PhorgeEventType::TYPE_DIFFUSION_DIDDISCOVERCOMMIT,
           array(
             'repository'  => $repository,
             'commit'      => $commit,
@@ -675,8 +675,8 @@ final class PhabricatorRepositoryDiscoveryEngine
   }
 
   private function didDiscoverCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit,
     $epoch,
     $task_priority) {
 
@@ -696,7 +696,7 @@ final class PhabricatorRepositoryDiscoveryEngine
           lastCommitID =
             IF(VALUES(epoch) > epoch, VALUES(lastCommitID), lastCommitID),
           epoch = IF(VALUES(epoch) > epoch, VALUES(epoch), epoch)',
-      PhabricatorRepository::TABLE_SUMMARY,
+      PhorgeRepository::TABLE_SUMMARY,
       $repository->getID(),
       $commit->getID(),
       $epoch);
@@ -711,7 +711,7 @@ final class PhabricatorRepositoryDiscoveryEngine
   private function isInitialImport(array $refs) {
     $commit_count = count($refs);
 
-    if ($commit_count <= PhabricatorRepository::IMPORT_THRESHOLD) {
+    if ($commit_count <= PhorgeRepository::IMPORT_THRESHOLD) {
       // If we fetched a small number of commits, assume it's an initial
       // commit or a stack of a few initial commits.
       return false;
@@ -735,7 +735,7 @@ final class PhabricatorRepositoryDiscoveryEngine
   }
 
 
-  private function getObservedVersion(PhabricatorRepository $repository) {
+  private function getObservedVersion(PhorgeRepository $repository) {
     if ($repository->isHosted()) {
       return null;
     }
@@ -747,7 +747,7 @@ final class PhabricatorRepositoryDiscoveryEngine
     return null;
   }
 
-  private function getGitObservedVersion(PhabricatorRepository $repository) {
+  private function getGitObservedVersion(PhorgeRepository $repository) {
     $refs = id(new DiffusionLowLevelGitRefQuery())
      ->setRepository($repository)
      ->execute();
@@ -768,7 +768,7 @@ final class PhabricatorRepositoryDiscoveryEngine
       $repository->establishConnection('w'),
       'SELECT MAX(id) version FROM %T WHERE repositoryID = %d
         AND commitIdentifier IN (%Ls)',
-      id(new PhabricatorRepositoryCommit())->getTableName(),
+      id(new PhorgeRepositoryCommit())->getTableName(),
       $repository->getID(),
       $ref_identifiers);
 
@@ -779,14 +779,14 @@ final class PhabricatorRepositoryDiscoveryEngine
     return (int)$version['version'];
   }
 
-  private function markUnreachableCommits(PhabricatorRepository $repository) {
+  private function markUnreachableCommits(PhorgeRepository $repository) {
     if (!$repository->isGit() && !$repository->isHg()) {
       return;
     }
 
     // Find older versions of refs which we haven't processed yet. We're going
     // to make sure their commits are still reachable.
-    $old_refs = id(new PhabricatorRepositoryOldRef())->loadAllWhere(
+    $old_refs = id(new PhorgeRepositoryOldRef())->loadAllWhere(
       'repositoryPHID = %s',
       $repository->getPHID());
 
@@ -799,9 +799,9 @@ final class PhabricatorRepositoryDiscoveryEngine
 
     // We can share a single graph stream across all the checks we need to do.
     if ($repository->isGit()) {
-      $stream = new PhabricatorGitGraphStream($repository);
+      $stream = new PhorgeGitGraphStream($repository);
     } else if ($repository->isHg()) {
-      $stream = new PhabricatorMercurialGraphStream($repository);
+      $stream = new PhorgeMercurialGraphStream($repository);
     }
 
     foreach ($old_refs as $old_ref) {
@@ -814,13 +814,13 @@ final class PhabricatorRepositoryDiscoveryEngine
   }
 
   private function markUnreachableFrom(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryGraphStream $stream,
+    PhorgeRepository $repository,
+    PhorgeRepositoryGraphStream $stream,
     $identifier) {
 
     $unreachable = array();
 
-    $commit = id(new PhabricatorRepositoryCommit())->loadOneWhere(
+    $commit = id(new PhorgeRepositoryCommit())->loadOneWhere(
       'repositoryID = %s AND commitIdentifier = %s',
       $repository->getID(),
       $identifier);
@@ -873,13 +873,13 @@ final class PhabricatorRepositoryDiscoveryEngine
           JOIN %T parents ON commit.id = parents.parentCommitID
           WHERE parents.childCommitID = %d',
         $commit->getTableName(),
-        PhabricatorRepository::TABLE_PARENTS,
+        PhorgeRepository::TABLE_PARENTS,
         $target->getID());
       if (!$rows) {
         continue;
       }
 
-      $parents = id(new PhabricatorRepositoryCommit())
+      $parents = id(new PhorgeRepositoryCommit())
         ->loadAllFromArray($rows);
       foreach ($parents as $parent) {
         $look[] = $parent;
@@ -888,7 +888,7 @@ final class PhabricatorRepositoryDiscoveryEngine
 
     $unreachable = array_reverse($unreachable);
 
-    $flag = PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE;
+    $flag = PhorgeRepositoryCommit::IMPORTED_UNREACHABLE;
     foreach ($unreachable as $unreachable_commit) {
       $unreachable_commit->writeImportStatusFlag($flag);
     }
@@ -901,17 +901,17 @@ final class PhabricatorRepositoryDiscoveryEngine
     }
   }
 
-  private function rebuildSummaryTable(PhabricatorRepository $repository) {
+  private function rebuildSummaryTable(PhorgeRepository $repository) {
     $conn_w = $repository->establishConnection('w');
 
     $data = queryfx_one(
       $conn_w,
       'SELECT COUNT(*) N, MAX(id) id, MAX(epoch) epoch
         FROM %T WHERE repositoryID = %d AND (importStatus & %d) != %d',
-      id(new PhabricatorRepositoryCommit())->getTableName(),
+      id(new PhorgeRepositoryCommit())->getTableName(),
       $repository->getID(),
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
 
     queryfx(
       $conn_w,
@@ -921,7 +921,7 @@ final class PhabricatorRepositoryDiscoveryEngine
           size = VALUES(size),
           lastCommitID = VALUES(lastCommitID),
           epoch = VALUES(epoch)',
-      PhabricatorRepository::TABLE_SUMMARY,
+      PhorgeRepository::TABLE_SUMMARY,
       $repository->getID(),
       $data['N'],
       $data['id'],

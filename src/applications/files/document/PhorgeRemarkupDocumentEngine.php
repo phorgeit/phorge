@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorRemarkupDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeRemarkupDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'remarkup';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Remarkup');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file-text-o';
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     $name = $ref->getName();
 
     if ($name !== null) {
@@ -25,11 +25,11 @@ final class PhabricatorRemarkupDocumentEngine
     return 500;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     return $ref->isProbablyText();
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $viewer = $this->getViewer();
 
     $content = $ref->loadData();

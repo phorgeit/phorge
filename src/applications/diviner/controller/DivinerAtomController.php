@@ -96,7 +96,7 @@ final class DivinerAtomController extends DivinerController {
     $methods = $this->composeMethods($symbol);
 
     $field = 'default';
-    $engine = id(new PhabricatorMarkupEngine())
+    $engine = id(new PhorgeMarkupEngine())
       ->setViewer($viewer)
       ->addObject($symbol, $field);
     foreach ($methods as $method) {
@@ -617,7 +617,7 @@ final class DivinerAtomController extends DivinerController {
 
   private function renderDocumentationText(
     DivinerLiveSymbol $symbol,
-    PhabricatorMarkupEngine $engine) {
+    PhorgeMarkupEngine $engine) {
 
     $field = 'default';
     $content = $engine->getOutput($symbol, $field);
@@ -645,7 +645,7 @@ final class DivinerAtomController extends DivinerController {
   private function renderMethodDocumentationText(
     DivinerLiveSymbol $parent,
     array $spec,
-    PhabricatorMarkupEngine $engine) {
+    PhorgeMarkupEngine $engine) {
 
     $symbols = array_values($spec['atoms']);
     $implementations = array_values($spec['implementations']);

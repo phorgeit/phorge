@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeEditEngineConfigurationTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorEditEngineConfigurationTransaction();
+    return new PhorgeEditEngineConfigurationTransaction();
   }
 
 }

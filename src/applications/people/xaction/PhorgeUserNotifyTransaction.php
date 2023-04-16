@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserNotifyTransaction
-  extends PhabricatorUserTransactionType {
+final class PhorgeUserNotifyTransaction
+  extends PhorgeUserTransactionType {
 
   const TRANSACTIONTYPE = 'notify';
 

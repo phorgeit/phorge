@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhrequentApplication extends PhabricatorApplication {
+final class PhorgePhrequentApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phrequent');

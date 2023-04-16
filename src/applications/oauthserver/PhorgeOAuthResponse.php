@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOAuthResponse extends AphrontResponse {
+final class PhorgeOAuthResponse extends AphrontResponse {
 
   private $state;
   private $content;

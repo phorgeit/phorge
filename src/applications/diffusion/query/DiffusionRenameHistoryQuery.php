@@ -7,7 +7,7 @@ final class DiffusionRenameHistoryQuery extends Phobject {
   private $request;
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -33,7 +33,7 @@ final class DiffusionRenameHistoryQuery extends Phobject {
   public function loadOldFilename() {
     $drequest = $this->request;
     $repository_id = $drequest->getRepository()->getID();
-    $conn_r = id(new PhabricatorRepository())->establishConnection('r');
+    $conn_r = id(new PhorgeRepository())->establishConnection('r');
 
     $commit_id = $this->loadCommitId($this->oldCommit);
     $old_commit_sequence = $this->loadCommitSequence($commit_id);
@@ -55,9 +55,9 @@ final class DiffusionRenameHistoryQuery extends Phobject {
          AND pc.commitSequence BETWEEN %d AND %d
          ORDER BY pc.commitSequence DESC
          LIMIT 1',
-        PhabricatorRepository::TABLE_PATH,
-        PhabricatorRepository::TABLE_PATHCHANGE,
-        PhabricatorRepository::TABLE_PATH,
+        PhorgeRepository::TABLE_PATH,
+        PhorgeRepository::TABLE_PATHCHANGE,
+        PhorgeRepository::TABLE_PATH,
         md5($path),
         $repository_id,
         ArcanistDiffChangeType::TYPE_MOVE_HERE,
@@ -87,14 +87,14 @@ final class DiffusionRenameHistoryQuery extends Phobject {
   }
 
   private function loadCommitSequence($commit_id) {
-    $conn_r = id(new PhabricatorRepository())->establishConnection('r');
+    $conn_r = id(new PhorgeRepository())->establishConnection('r');
     $path_change = queryfx_one(
       $conn_r,
       'SELECT commitSequence
        FROM %T
        WHERE repositoryID = %d AND commitID = %d
        LIMIT 1',
-      PhabricatorRepository::TABLE_PATHCHANGE,
+      PhorgeRepository::TABLE_PATHCHANGE,
       $this->request->getRepository()->getID(),
       $commit_id);
     return reset($path_change);

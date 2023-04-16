@@ -36,7 +36,7 @@ final class HeraldAnotherRuleField extends HeraldField {
   }
 
   public function renderConditionValue(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $condition,
     $value) {
 

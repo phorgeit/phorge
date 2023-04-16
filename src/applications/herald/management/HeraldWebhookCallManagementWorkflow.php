@@ -78,7 +78,7 @@ final class HeraldWebhookCallManagementWorkflow
     if ($object_name === null) {
       $object = $hook;
     } else {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames(array($object_name))
         ->execute();
@@ -94,7 +94,7 @@ final class HeraldWebhookCallManagementWorkflow
     $is_background = $args->getArg('background');
 
     $xaction_query =
-      PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+      PhorgeApplicationTransactionQuery::newQueryForObject($object);
 
     $xactions = $xaction_query
       ->withObjectPHIDs(array($object->getPHID()))
@@ -102,7 +102,7 @@ final class HeraldWebhookCallManagementWorkflow
       ->setLimit(10)
       ->execute();
 
-    $application_phid = id(new PhabricatorHeraldApplication())->getPHID();
+    $application_phid = id(new PhorgeHeraldApplication())->getPHID();
 
     if ($is_background) {
       echo tsprintf(
@@ -116,7 +116,7 @@ final class HeraldWebhookCallManagementWorkflow
         "%s\n",
         pht(
           'Calling webhook...'));
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
     }
 
     for ($ii = 0; $ii < $count; $ii++) {

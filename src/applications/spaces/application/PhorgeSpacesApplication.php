@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSpacesApplication extends PhabricatorApplication {
+final class PhorgeSpacesApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/spaces/';
@@ -34,49 +34,49 @@ final class PhabricatorSpacesApplication extends PhabricatorApplication {
     return false;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Spaces User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Spaces User Guide'),
+        'href' => PhorgeEnv::getDoclink('Spaces User Guide'),
       ),
     );
   }
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorSpacesRemarkupRule(),
+      new PhorgeSpacesRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
-      '/S(?P<id>[1-9]\d*)' => 'PhabricatorSpacesViewController',
+      '/S(?P<id>[1-9]\d*)' => 'PhorgeSpacesViewController',
       '/spaces/' => array(
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorSpacesListController',
-        'create/' => 'PhabricatorSpacesEditController',
-        'edit/(?:(?P<id>\d+)/)?' => 'PhabricatorSpacesEditController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeSpacesListController',
+        'create/' => 'PhorgeSpacesEditController',
+        'edit/(?:(?P<id>\d+)/)?' => 'PhorgeSpacesEditController',
         '(?P<action>activate|archive)/(?P<id>\d+)/'
-          => 'PhabricatorSpacesArchiveController',
+          => 'PhorgeSpacesArchiveController',
       ),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorSpacesCapabilityCreateSpaces::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      PhorgeSpacesCapabilityCreateSpaces::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
-      PhabricatorSpacesCapabilityDefaultView::CAPABILITY => array(
+      PhorgeSpacesCapabilityDefaultView::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created spaces.'),
-        'template' => PhabricatorSpacesNamespacePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeSpacesNamespacePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
-      PhabricatorSpacesCapabilityDefaultEdit::CAPABILITY => array(
+      PhorgeSpacesCapabilityDefaultEdit::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created spaces.'),
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
-        'template' => PhabricatorSpacesNamespacePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'default' => PhorgePolicies::POLICY_ADMIN,
+        'template' => PhorgeSpacesNamespacePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorEditEngineSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeEditEngineSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Edit Engines');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorEditEngineQuery());
+    return id(new PhorgeEditEngineQuery());
   }
 
   public function canUseInPanelContext() {
@@ -58,9 +58,9 @@ final class PhabricatorEditEngineSearchEngine
 
   protected function renderResultList(
     array $engines,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($engines, 'PhabricatorEditEngine');
+    assert_instances_of($engines, 'PhorgeEditEngine');
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
@@ -85,7 +85,7 @@ final class PhabricatorEditEngineSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list);
   }
 }

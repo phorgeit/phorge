@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseCredentialFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'passphrase';

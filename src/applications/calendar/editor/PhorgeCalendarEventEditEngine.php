@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeCalendarEventEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'calendar.event';
 
@@ -33,16 +33,16 @@ final class PhabricatorCalendarEventEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorCalendarEvent::initializeNewCalendarEvent(
+    return PhorgeCalendarEvent::initializeNewCalendarEvent(
       $this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorCalendarEventQuery();
+    return new PhorgeCalendarEventQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -82,7 +82,7 @@ final class PhabricatorCalendarEventEditEngine
       $invitee_phids = $object->getInviteePHIDsForEdit();
     }
 
-    $frequency_map = PhabricatorCalendarEvent::getFrequencyMap();
+    $frequency_map = PhorgeCalendarEvent::getFrequencyMap();
     $frequency_options = ipull($frequency_map, 'label');
 
     $rrule = $object->newRecurrenceRule();
@@ -97,62 +97,62 @@ final class PhabricatorCalendarEventEditEngine
     $is_future = ($this->getSeriesEditMode() == self::MODE_FUTURE);
 
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the event.'))
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorCalendarEventNameTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventNameTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Rename the event.'))
         ->setConduitTypeDescription(pht('New event name.'))
         ->setValue($object->getName()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setKey('isAllDay')
         ->setOptions(pht('Normal Event'), pht('All Day Event'))
         ->setAsCheckbox(true)
         ->setTransactionType(
-          PhabricatorCalendarEventAllDayTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventAllDayTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Marks this as an all day event.'))
         ->setConduitDescription(pht('Make the event an all day event.'))
         ->setConduitTypeDescription(pht('Mark the event as an all day event.'))
         ->setValue($object->getIsAllDay()),
-      id(new PhabricatorEpochEditField())
+      id(new PhorgeEpochEditField())
         ->setKey('start')
         ->setLabel(pht('Start'))
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setTransactionType(
-          PhabricatorCalendarEventStartDateTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventStartDateTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Start time of the event.'))
         ->setConduitDescription(pht('Change the start time of the event.'))
         ->setConduitTypeDescription(pht('New event start time.'))
         ->setValue($object->getStartDateTimeEpoch()),
-      id(new PhabricatorEpochEditField())
+      id(new PhorgeEpochEditField())
         ->setKey('end')
         ->setLabel(pht('End'))
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setTransactionType(
-          PhabricatorCalendarEventEndDateTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventEndDateTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('End time of the event.'))
         ->setConduitDescription(pht('Change the end time of the event.'))
         ->setConduitTypeDescription(pht('New event end time.'))
         ->setValue($object->newEndDateTimeForEdit()->getEpoch()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('cancelled')
         ->setOptions(pht('Active'), pht('Cancelled'))
         ->setLabel(pht('Cancelled'))
         ->setDescription(pht('Cancel the event.'))
         ->setTransactionType(
-          PhabricatorCalendarEventCancelTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventCancelTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Cancel or restore the event.'))
         ->setConduitTypeDescription(pht('True to cancel the event.'))
         ->setValue($object->getIsCancelled()),
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setKey('hostPHID')
@@ -160,41 +160,41 @@ final class PhabricatorCalendarEventEditEngine
         ->setLabel(pht('Host'))
         ->setDescription(pht('Host of the event.'))
         ->setTransactionType(
-          PhabricatorCalendarEventHostTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventHostTransaction::TRANSACTIONTYPE)
         ->setIsFormField(!$this->getIsCreate())
         ->setConduitDescription(pht('Change the host of the event.'))
         ->setConduitTypeDescription(pht('New event host.'))
         ->setSingleValue($object->getHostPHID()),
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setIsHidden($is_future)
         ->setKey('inviteePHIDs')
         ->setAliases(array('invite', 'invitee', 'invitees', 'inviteePHID'))
         ->setLabel(pht('Invitees'))
-        ->setDatasource(new PhabricatorMetaMTAMailableDatasource())
+        ->setDatasource(new PhorgeMetaMTAMailableDatasource())
         ->setTransactionType(
-          PhabricatorCalendarEventInviteTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventInviteTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Users invited to the event.'))
         ->setConduitDescription(pht('Change invited users.'))
         ->setConduitTypeDescription(pht('New event invitees.'))
         ->setValue($invitee_phids)
         ->setCommentActionLabel(pht('Change Invitees')),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('Description of the event.'))
         ->setTransactionType(
-          PhabricatorCalendarEventDescriptionTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventDescriptionTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Update the event description.'))
         ->setConduitTypeDescription(pht('New event description.'))
         ->setValue($object->getDescription()),
-      id(new PhabricatorIconSetEditField())
+      id(new PhorgeIconSetEditField())
         ->setKey('icon')
         ->setLabel(pht('Icon'))
-        ->setIconSet(new PhabricatorCalendarIconSet())
+        ->setIconSet(new PhorgeCalendarIconSet())
         ->setTransactionType(
-          PhabricatorCalendarEventIconTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventIconTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Event icon.'))
         ->setConduitDescription(pht('Change the event icon.'))
         ->setConduitTypeDescription(pht('New event icon.'))
@@ -207,7 +207,7 @@ final class PhabricatorCalendarEventEditEngine
       // workflow. This is still normal, explicit field from the perspective
       // of the API.
 
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setIsHidden(true)
         ->setIsLockable(false)
         ->setIsDefaultable(false)
@@ -215,24 +215,24 @@ final class PhabricatorCalendarEventEditEngine
         ->setLabel(pht('Recurring'))
         ->setOptions(pht('One-Time Event'), pht('Recurring Event'))
         ->setTransactionType(
-          PhabricatorCalendarEventRecurringTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventRecurringTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('One time or recurring event.'))
         ->setConduitDescription(pht('Make the event recurring.'))
         ->setConduitTypeDescription(pht('Mark the event as a recurring event.'))
         ->setValue(true),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setKey('frequency')
         ->setLabel(pht('Frequency'))
         ->setOptions($frequency_options)
         ->setTransactionType(
-          PhabricatorCalendarEventFrequencyTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventFrequencyTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Recurring event frequency.'))
         ->setConduitDescription(pht('Change the event frequency.'))
         ->setConduitTypeDescription(pht('New event frequency.'))
         ->setValue($frequency),
-      id(new PhabricatorEpochEditField())
+      id(new PhorgeEpochEditField())
         ->setIsLockable(false)
         ->setIsDefaultable(false)
         ->setAllowNull(true)
@@ -240,7 +240,7 @@ final class PhabricatorCalendarEventEditEngine
         ->setKey('until')
         ->setLabel(pht('Repeat Until'))
         ->setTransactionType(
-          PhabricatorCalendarEventUntilDateTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarEventUntilDateTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Last instance of the event.'))
         ->setConduitDescription(pht('Change when the event repeats until.'))
         ->setConduitTypeDescription(pht('New final event time.'))
@@ -295,11 +295,11 @@ final class PhabricatorCalendarEventEditEngine
     // put in a dialog. This simplifies event creation in the common case.
 
     return array(
-      id(new PhabricatorEditPage())
+      id(new PhorgeEditPage())
         ->setKey('core')
         ->setLabel(pht('Core'))
         ->setIsDefault(true),
-      id(new PhabricatorEditPage())
+      id(new PhorgeEditPage())
         ->setKey('recurring')
         ->setLabel(pht('Recurrence'))
         ->setFieldKeys(
@@ -323,7 +323,7 @@ final class PhabricatorCalendarEventEditEngine
     $inherited_xactions = array();
     foreach ($xactions as $xaction) {
       $modular_type = $xaction->getModularType();
-      if (!($modular_type instanceof PhabricatorCalendarEventTransactionType)) {
+      if (!($modular_type instanceof PhorgeCalendarEventTransactionType)) {
         continue;
       }
 
@@ -349,9 +349,9 @@ final class PhabricatorCalendarEventEditEngine
     if ($must_fork) {
       $fork_target = $object->loadForkTarget($viewer);
       if ($fork_target) {
-        $fork_xaction = id(new PhabricatorCalendarEventTransaction())
+        $fork_xaction = id(new PhorgeCalendarEventTransaction())
           ->setTransactionType(
-            PhabricatorCalendarEventForkTransaction::TRANSACTIONTYPE)
+            PhorgeCalendarEventForkTransaction::TRANSACTIONTYPE)
           ->setNewValue(true);
 
         if ($fork_target->getPHID() == $object->getPHID()) {
@@ -392,10 +392,10 @@ final class PhabricatorCalendarEventEditEngine
 
     // TODO: This isn't the most accurate source we could use, but this mode
     // is web-only for now.
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorWebContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeWebContentSource::SOURCECONST);
 
-    $editor = id(new PhabricatorCalendarEventEditor())
+    $editor = id(new PhorgeCalendarEventEditor())
       ->setActor($viewer)
       ->setContentSource($content_source)
       ->setContinueOnNoEffect(true)
@@ -403,7 +403,7 @@ final class PhabricatorCalendarEventEditEngine
 
     try {
       $editor->applyTransactions($target, $xactions);
-    } catch (PhabricatorApplicationTransactionValidationException $ex) {
+    } catch (PhorgeApplicationTransactionValidationException $ex) {
       // Just ignore any issues we run into.
     }
   }

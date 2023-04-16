@@ -13,7 +13,7 @@ abstract class PassphraseAbstractKey extends Phobject {
 
   private function loadCredential(
     $phid,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $credential = id(new PassphraseCredentialQuery())
       ->setViewer($viewer)
@@ -54,7 +54,7 @@ abstract class PassphraseAbstractKey extends Phobject {
 
   protected function loadAndValidateFromPHID(
     $phid,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $type) {
 
     $credential = $this->loadCredential($phid, $viewer);

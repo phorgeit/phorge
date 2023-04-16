@@ -1,6 +1,6 @@
 <?php
 
-final class PhortunePaymentProviderPHIDType extends PhabricatorPHIDType {
+final class PhortunePaymentProviderPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PHPR';
 
@@ -13,11 +13,11 @@ final class PhortunePaymentProviderPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhortunePaymentProviderConfigQuery())
@@ -25,7 +25,7 @@ final class PhortunePaymentProviderPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

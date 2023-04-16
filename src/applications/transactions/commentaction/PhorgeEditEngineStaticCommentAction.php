@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineStaticCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEngineStaticCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   private $description;
 

@@ -2,8 +2,8 @@
 
 final class DrydockLease extends DrydockDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeConduitResultInterface {
 
   protected $resourcePHID;
   protected $resourceType;
@@ -54,8 +54,8 @@ final class DrydockLease extends DrydockDAO
       return;
     }
 
-    $actor = PhabricatorUser::getOmnipotentUser();
-    $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+    $actor = PhorgeUser::getOmnipotentUser();
+    $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
 
     $command = DrydockCommand::initializeNewCommand($actor)
       ->setTargetPHID($this->getPHID())
@@ -69,13 +69,13 @@ final class DrydockLease extends DrydockDAO
   public function setStatus($status) {
     if ($status == DrydockLeaseStatus::STATUS_ACQUIRED) {
       if (!$this->getAcquiredEpoch()) {
-        $this->setAcquiredEpoch(PhabricatorTime::getNow());
+        $this->setAcquiredEpoch(PhorgeTime::getNow());
       }
     }
 
     if ($status == DrydockLeaseStatus::STATUS_ACTIVE) {
       if (!$this->getActivatedEpoch()) {
-        $this->setActivatedEpoch(PhabricatorTime::getNow());
+        $this->setActivatedEpoch(PhorgeTime::getNow());
       }
     }
 
@@ -128,7 +128,7 @@ final class DrydockLease extends DrydockDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(DrydockLeasePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(DrydockLeasePHIDType::TYPECONST);
   }
 
   public function getInterface($type) {
@@ -247,9 +247,9 @@ final class DrydockLease extends DrydockDAO
     // the resource that stops it from being released, so we're nearly safe.)
 
     $resource_phid = $resource->getPHID();
-    $hash = PhabricatorHash::digestForIndex($resource_phid);
+    $hash = PhorgeHash::digestForIndex($resource_phid);
     $lock_key = 'drydock.resource:'.$hash;
-    $lock = PhabricatorGlobalLock::newLock($lock_key);
+    $lock = PhorgeGlobalLock::newLock($lock_key);
 
     try {
       $lock->lock(15);
@@ -380,7 +380,7 @@ final class DrydockLease extends DrydockDAO
   }
 
   public function scheduleUpdate($epoch = null) {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'DrydockLeaseUpdateWorker',
       array(
         'leasePHID' => $this->getPHID(),
@@ -463,7 +463,7 @@ final class DrydockLease extends DrydockDAO
   }
 
   private function didActivate() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $need_update = false;
 
     $this->logEvent(DrydockLeaseActivatedLogType::LOGCONST);
@@ -491,7 +491,7 @@ final class DrydockLease extends DrydockDAO
 
   public function logEvent($type, array $data = array()) {
     $log = id(new DrydockLog())
-      ->setEpoch(PhabricatorTime::getNow())
+      ->setEpoch(PhorgeTime::getNow())
       ->setType($type)
       ->setData($data);
 
@@ -516,7 +516,7 @@ final class DrydockLease extends DrydockDAO
   public function awakenTasks() {
     $awaken_ids = $this->getAttribute('internal.awakenTaskIDs');
     if (is_array($awaken_ids) && $awaken_ids) {
-      PhabricatorWorker::awakenTaskIDs($awaken_ids);
+      PhorgeWorker::awakenTaskIDs($awaken_ids);
     }
 
     return $this;
@@ -572,13 +572,13 @@ final class DrydockLease extends DrydockDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -589,10 +589,10 @@ final class DrydockLease extends DrydockDAO
 
     // TODO: Implement reasonable policies.
 
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->getResource()) {
       return $this->getResource()->hasAutomaticCapability($capability, $viewer);
     }
@@ -604,33 +604,33 @@ final class DrydockLease extends DrydockDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('resourcePHID')
         ->setType('phid?')
         ->setDescription(pht('PHID of the leased resource, if any.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('resourceType')
         ->setType('string')
         ->setDescription(pht('Type of resource being leased.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('until')
         ->setType('int?')
         ->setDescription(pht('Epoch at which this lease expires, if any.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('ownerPHID')
         ->setType('phid?')
         ->setDescription(pht('The PHID of the object that owns this lease.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorizingPHID')
         ->setType('phid')
         ->setDescription(pht(
           'The PHID of the object that authorized this lease.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht(

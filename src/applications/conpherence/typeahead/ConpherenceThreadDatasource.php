@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Room');
@@ -12,7 +12,7 @@ final class ConpherenceThreadDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   public function loadResults() {
@@ -33,7 +33,7 @@ final class ConpherenceThreadDatasource
         $topic = phutil_tag('em', array(), pht('No topic set'));
       }
 
-      $token = id(new PhabricatorTypeaheadResult())
+      $token = id(new PhorgeTypeaheadResult())
         ->setName($room->getTitle())
         ->setPHID($room->getPHID())
         ->addAttribute($topic);

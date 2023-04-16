@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthFactorResult
+final class PhorgeAuthFactorResult
   extends Phobject {
 
   private $answeredChallenge;
@@ -13,7 +13,7 @@ final class PhabricatorAuthFactorResult
   private $icon;
   private $statusChallenge;
 
-  public function setAnsweredChallenge(PhabricatorAuthChallenge $challenge) {
+  public function setAnsweredChallenge(PhorgeAuthChallenge $challenge) {
     if (!$challenge->getIsAnsweredChallenge()) {
       throw new PhutilInvalidStateException('markChallengeAsAnswered');
     }
@@ -35,7 +35,7 @@ final class PhabricatorAuthFactorResult
     return $this->answeredChallenge;
   }
 
-  public function setStatusChallenge(PhabricatorAuthChallenge $challenge) {
+  public function setStatusChallenge(PhorgeAuthChallenge $challenge) {
     $this->statusChallenge = $challenge;
     return $this;
   }

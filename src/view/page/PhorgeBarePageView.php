@@ -7,7 +7,7 @@
  *
  * @concrete-extensible
  */
-class PhabricatorBarePageView extends AphrontPageView {
+class PhorgeBarePageView extends AphrontPageView {
 
   private $request;
   private $controller;
@@ -96,7 +96,7 @@ class PhabricatorBarePageView extends AphrontPageView {
       $viewer = $this->getRequest()->getViewer();
       if ($viewer) {
         $postprocessor_key = $viewer->getUserSetting(
-          PhabricatorAccessibilitySetting::SETTINGKEY);
+          PhorgeAccessibilitySetting::SETTINGKEY);
         if (strlen($postprocessor_key)) {
           $response->setPostProcessorKey($postprocessor_key);
         }
@@ -151,7 +151,7 @@ class PhabricatorBarePageView extends AphrontPageView {
 
     $fetch_refs = array();
     foreach ($favicon_refs as $key => $spec) {
-      $ref = id(new PhabricatorFaviconRef())
+      $ref = id(new PhorgeFaviconRef())
         ->setWidth($spec['width'])
         ->setHeight($spec['height']);
 
@@ -159,7 +159,7 @@ class PhabricatorBarePageView extends AphrontPageView {
       $fetch_refs[] = $ref;
     }
 
-    id(new PhabricatorFaviconRefQuery())
+    id(new PhorgeFaviconRefQuery())
       ->withRefs($fetch_refs)
       ->execute();
 

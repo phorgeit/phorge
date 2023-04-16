@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDashboardLayoutMode
+abstract class PhorgeDashboardLayoutMode
   extends Phobject {
 
   final public function getLayoutModeKey() {
@@ -15,7 +15,7 @@ abstract class PhabricatorDashboardLayoutMode
   abstract public function getLayoutModeColumns();
 
   final protected function newColumn() {
-    return new PhabricatorDashboardColumn();
+    return new PhorgeDashboardColumn();
   }
 
   final public static function getAllLayoutModes() {

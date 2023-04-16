@@ -64,7 +64,7 @@ final class ConpherenceViewController extends
       if (!$participant->isUpToDate($conpherence)) {
         $write_guard = AphrontWriteGuard::beginScopedUnguardedWrites();
         $participant->markUpToDate($conpherence);
-        $user->clearCacheData(PhabricatorUserMessageCountCacheType::KEY_COUNT);
+        $user->clearCacheData(PhorgeUserMessageCountCacheType::KEY_COUNT);
         unset($write_guard);
       }
     }
@@ -103,10 +103,10 @@ final class ConpherenceViewController extends
       $content['threadID'] = $conpherence->getID();
       $content['threadPHID'] = $conpherence->getPHID();
       $content['latestTransactionID'] = $data['latest_transaction_id'];
-      $content['canEdit'] = PhabricatorPolicyFilter::hasCapability(
+      $content['canEdit'] = PhorgePolicyFilter::hasCapability(
         $user,
         $conpherence,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       $content['aphlictDropdownData'] = array(
         $dropdown_query->getNotificationData(),
         $dropdown_query->getConpherenceData(),
@@ -144,7 +144,7 @@ final class ConpherenceViewController extends
     $user = $this->getRequest()->getUser();
 
     $participating = $conpherence->getParticipantIfExists($user->getPHID());
-    $draft = PhabricatorDraft::newFromUserAndKey(
+    $draft = PhorgeDraft::newFromUserAndKey(
       $user,
       $conpherence->getPHID());
     $update_uri = $this->getApplicationURI('update/'.$conpherence->getID().'/');
@@ -153,7 +153,7 @@ final class ConpherenceViewController extends
       $this->initBehavior('conpherence-pontificate');
       if ($participating) {
         $action = ConpherenceUpdateActions::MESSAGE;
-        $status = new PhabricatorNotificationStatusView();
+        $status = new PhorgeNotificationStatusView();
       } else {
         $action = ConpherenceUpdateActions::JOIN_ROOM;
         $status = pht('Sending a message will also join the room.');
@@ -166,7 +166,7 @@ final class ConpherenceViewController extends
         ->setWorkflow(true)
         ->addHiddenInput('action', $action)
         ->appendChild(
-          id(new PhabricatorRemarkupControl())
+          id(new PhorgeRemarkupControl())
           ->setUser($user)
           ->setName('text')
           ->setSendOnEnter(true)

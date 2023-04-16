@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class DivinerBookQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -71,7 +71,7 @@ final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     assert_instances_of($books, 'DivinerLiveBook');
 
     if ($this->needRepositories) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(mpull($books, 'getRepositoryPHID'))
         ->execute();
@@ -96,11 +96,11 @@ final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($this->needProjectPHIDs) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($books, 'getPHID'))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
       $edge_query->execute();
 
@@ -167,7 +167,7 @@ final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
   public function getOrderableColumns() {

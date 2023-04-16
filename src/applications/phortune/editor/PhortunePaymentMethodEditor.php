@@ -1,10 +1,10 @@
 <?php
 
 final class PhortunePaymentMethodEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {

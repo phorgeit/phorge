@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentHistoryController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionCommentHistoryController
+  extends PhorgeApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorApplicationTransactionCommentHistoryController
     $viewer = $this->getViewer();
     $phid = $request->getURIData('phid');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();
@@ -30,7 +30,7 @@ final class PhabricatorApplicationTransactionCommentHistoryController
       return new Aphront400Response();
     }
 
-    $comments = id(new PhabricatorApplicationTransactionTemplatedCommentQuery())
+    $comments = id(new PhorgeApplicationTransactionTemplatedCommentQuery())
       ->setViewer($viewer)
       ->setTemplate($xaction->getApplicationTransactionCommentObject())
       ->withTransactionPHIDs(array($xaction->getPHID()))
@@ -53,12 +53,12 @@ final class PhabricatorApplicationTransactionCommentHistoryController
     }
 
     $obj_phid = $xaction->getObjectPHID();
-    $obj_handle = id(new PhabricatorHandleQuery())
+    $obj_handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($obj_phid))
       ->executeOne();
 
-    $view = id(new PhabricatorApplicationTransactionView())
+    $view = id(new PhorgeApplicationTransactionView())
       ->setUser($viewer)
       ->setObjectPHID($obj_phid)
       ->setTransactions($xactions)

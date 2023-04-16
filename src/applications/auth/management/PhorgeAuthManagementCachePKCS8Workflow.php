@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementCachePKCS8Workflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementCachePKCS8Workflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -85,7 +85,7 @@ final class PhabricatorAuthManagementCachePKCS8Workflow
         pht('Aborted workflow.'));
     }
 
-    $key = PhabricatorAuthSSHPublicKey::newFromRawKey($public_key);
+    $key = PhorgeAuthSSHPublicKey::newFromRawKey($public_key);
     $key->forcePopulatePKCS8Cache($pkcs8_key);
 
     $console->writeOut(

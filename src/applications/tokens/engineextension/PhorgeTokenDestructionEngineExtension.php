@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeTokenDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'tokens';
 
@@ -10,16 +10,16 @@ final class PhabricatorTokenDestructionEngineExtension
   }
 
   public function canDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
-    return ($object instanceof PhabricatorTokenReceiverInterface);
+    return ($object instanceof PhorgeTokenReceiverInterface);
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
-    $tokens = id(new PhabricatorTokenGiven())->loadAllWhere(
+    $tokens = id(new PhorgeTokenGiven())->loadAllWhere(
       'objectPHID = %s',
       $object->getPHID());
 

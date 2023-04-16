@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   private $isCommandeerSideEffect;
 
@@ -29,7 +29,7 @@ final class DifferentialTransaction
     // migrated to modular transactions when the rest of this migrates.
 
     $xaction_type = $this->getTransactionType();
-    if ($xaction_type == PhabricatorTransactions::TYPE_CUSTOMFIELD) {
+    if ($xaction_type == PhorgeTransactions::TYPE_CUSTOMFIELD) {
       switch ($this->getMetadataValue('customfield:key')) {
         case 'differential:title':
           return new DifferentialRevisionTitleTransaction();
@@ -168,7 +168,7 @@ final class DifferentialTransaction
     $tags = array();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS;
+      case PhorgeTransactions::TYPE_SUBSCRIBERS;
         $tags[] = self::MAILTAG_CC;
         break;
       case self::TYPE_ACTION:
@@ -186,7 +186,7 @@ final class DifferentialTransaction
           $tags[] = self::MAILTAG_UPDATED;
         }
         break;
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
       case self::TYPE_INLINE:
         $tags[] = self::MAILTAG_COMMENT;
         break;
@@ -426,7 +426,7 @@ final class DifferentialTransaction
           case DifferentialAction::ACTION_CLAIM:
             return 'fa-flag';
         }
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
           case DifferentialRevisionHasReviewerEdgeType::EDGECONST:
             return 'fa-user';
@@ -469,25 +469,25 @@ final class DifferentialTransaction
       case self::TYPE_ACTION:
         switch ($this->getNewValue()) {
           case DifferentialAction::ACTION_CLOSE:
-            return PhabricatorTransactions::COLOR_INDIGO;
+            return PhorgeTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_ACCEPT:
-            return PhabricatorTransactions::COLOR_GREEN;
+            return PhorgeTransactions::COLOR_GREEN;
           case DifferentialAction::ACTION_REJECT:
-            return PhabricatorTransactions::COLOR_RED;
+            return PhorgeTransactions::COLOR_RED;
           case DifferentialAction::ACTION_ABANDON:
-            return PhabricatorTransactions::COLOR_INDIGO;
+            return PhorgeTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_RETHINK:
-            return PhabricatorTransactions::COLOR_RED;
+            return PhorgeTransactions::COLOR_RED;
           case DifferentialAction::ACTION_REQUEST:
-            return PhabricatorTransactions::COLOR_SKY;
+            return PhorgeTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RECLAIM:
-            return PhabricatorTransactions::COLOR_SKY;
+            return PhorgeTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_REOPEN:
-            return PhabricatorTransactions::COLOR_SKY;
+            return PhorgeTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RESIGN:
-            return PhabricatorTransactions::COLOR_ORANGE;
+            return PhorgeTransactions::COLOR_ORANGE;
           case DifferentialAction::ACTION_CLAIM:
-            return PhabricatorTransactions::COLOR_YELLOW;
+            return PhorgeTransactions::COLOR_YELLOW;
         }
     }
 
@@ -526,7 +526,7 @@ final class DifferentialTransaction
 
   public function renderAsTextForDoorkeeper(
     DoorkeeperFeedStoryPublisher $publisher,
-    PhabricatorFeedStory $story,
+    PhorgeFeedStory $story,
     array $xactions) {
 
     $body = parent::renderAsTextForDoorkeeper($publisher, $story, $xactions);
@@ -542,8 +542,8 @@ final class DifferentialTransaction
     // could be further cleaned up at some point.
 
     if ($inlines) {
-      $engine = PhabricatorMarkupEngine::newMarkupEngine(array())
-        ->setConfig('viewer', new PhabricatorUser())
+      $engine = PhorgeMarkupEngine::newMarkupEngine(array())
+        ->setConfig('viewer', new PhorgeUser())
         ->setMode(PhutilRemarkupEngine::MODE_TEXT);
 
       $body .= "\n\n";
@@ -579,7 +579,7 @@ final class DifferentialTransaction
   }
 
   public function newWarningForTransactions($object, array $xactions) {
-    $warning = new PhabricatorTransactionWarning();
+    $warning = new PhorgeTransactionWarning();
 
     switch ($this->getTransactionType()) {
       case self::TYPE_INLINE:
@@ -599,7 +599,7 @@ final class DifferentialTransaction
 
         $warning->setWarningParagraphs($body);
         break;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $warning->setTitleText(pht('Warning: Draft Revision'));
         $warning->setContinueActionText(pht('Tell No One'));
 

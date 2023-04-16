@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorIndexEngineExtension extends Phobject {
+abstract class PhorgeIndexEngineExtension extends Phobject {
 
   private $parameters;
   private $forceFullReindex;
@@ -19,7 +19,7 @@ abstract class PhabricatorIndexEngineExtension extends Phobject {
   }
 
   final protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   abstract public function getExtensionName();
@@ -27,7 +27,7 @@ abstract class PhabricatorIndexEngineExtension extends Phobject {
   abstract public function shouldIndexObject($object);
 
   abstract public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object);
 
   public function getIndexVersion($object) {

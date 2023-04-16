@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherViewController
-  extends PhabricatorPackagesPublisherController {
+final class PhorgePackagesPublisherViewController
+  extends PhorgePackagesPublisherController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorPackagesPublisherViewController
     $viewer = $request->getViewer();
     $publisher_key = $request->getURIData('publisherKey');
 
-    $publisher = id(new PhabricatorPackagesPublisherQuery())
+    $publisher = id(new PhorgePackagesPublisherQuery())
       ->setViewer($viewer)
       ->withPublisherKeys(array($publisher_key))
       ->executeOne();
@@ -33,7 +33,7 @@ final class PhabricatorPackagesPublisherViewController
 
     $timeline = $this->buildTransactionTimeline(
       $publisher,
-      new PhabricatorPackagesPublisherTransactionQuery());
+      new PhorgePackagesPublisherTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $publisher_view = id(new PHUITwoColumnView())
@@ -55,7 +55,7 @@ final class PhabricatorPackagesPublisherViewController
   }
 
 
-  private function buildHeaderView(PhabricatorPackagesPublisher $publisher) {
+  private function buildHeaderView(PhorgePackagesPublisher $publisher) {
     $viewer = $this->getViewer();
     $name = $publisher->getName();
 
@@ -66,20 +66,20 @@ final class PhabricatorPackagesPublisherViewController
       ->setHeaderIcon('fa-paw');
   }
 
-  private function buildCurtain(PhabricatorPackagesPublisher $publisher) {
+  private function buildCurtain(PhorgePackagesPublisher $publisher) {
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($publisher);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $publisher,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $publisher->getID();
     $edit_uri = $this->getApplicationURI("publisher/edit/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Publisher'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -88,16 +88,16 @@ final class PhabricatorPackagesPublisherViewController
     return $curtain;
   }
 
-  private function buildPackagesView(PhabricatorPackagesPublisher $publisher) {
+  private function buildPackagesView(PhorgePackagesPublisher $publisher) {
     $viewer = $this->getViewer();
 
-    $packages = id(new PhabricatorPackagesPackageQuery())
+    $packages = id(new PhorgePackagesPackageQuery())
       ->setViewer($viewer)
       ->withPublisherPHIDs(array($publisher->getPHID()))
       ->setLimit(25)
       ->execute();
 
-    $packages_list = id(new PhabricatorPackagesPackageListView())
+    $packages_list = id(new PhorgePackagesPackageListView())
       ->setViewer($viewer)
       ->setPackages($packages);
 

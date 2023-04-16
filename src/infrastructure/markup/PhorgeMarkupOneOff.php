@@ -3,9 +3,9 @@
 /**
  * DEPRECATED. Use @{class:PHUIRemarkupView}.
  */
-final class PhabricatorMarkupOneOff
+final class PhorgeMarkupOneOff
   extends Phobject
-  implements PhabricatorMarkupInterface {
+  implements PhorgeMarkupInterface {
 
   private $content;
   private $preserveLinebreaks;
@@ -86,7 +86,7 @@ final class PhabricatorMarkupOneOff
       return $fragment;
     }
 
-    return PhabricatorHash::digestForIndex($this->getContent()).':oneoff';
+    return PhorgeHash::digestForIndex($this->getContent()).':oneoff';
   }
 
   public function newMarkupEngine($field) {
@@ -95,11 +95,11 @@ final class PhabricatorMarkupOneOff
     }
 
     if ($this->engineRuleset) {
-      return PhabricatorMarkupEngine::getEngine($this->engineRuleset);
+      return PhorgeMarkupEngine::getEngine($this->engineRuleset);
     } else if ($this->preserveLinebreaks) {
-      return PhabricatorMarkupEngine::getEngine();
+      return PhorgeMarkupEngine::getEngine();
     } else {
-      return PhabricatorMarkupEngine::getEngine('nolinebreaks');
+      return PhorgeMarkupEngine::getEngine('nolinebreaks');
     }
   }
 

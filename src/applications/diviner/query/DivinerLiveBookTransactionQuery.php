@@ -1,7 +1,7 @@
 <?php
 
 final class DivinerLiveBookTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new DivinerLiveBookTransaction();

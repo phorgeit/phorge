@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStaticEditField
-  extends PhabricatorEditField {
+final class PhorgeStaticEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
     return new AphrontFormMarkupControl();

@@ -1,13 +1,13 @@
 <?php
 
 final class PholioMockRelationshipSource
-  extends PhabricatorObjectRelationshipSource {
+  extends PhorgeObjectRelationshipSource {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorPholioApplication',
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgePholioApplication',
       $viewer);
   }
 

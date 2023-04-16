@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMenuItemController
-  extends PhabricatorProjectController {
+final class PhorgeProjectMenuItemController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $response = $this->loadProject();
@@ -12,7 +12,7 @@ final class PhabricatorProjectMenuItemController
     $viewer = $this->getViewer();
     $project = $this->getProject();
 
-    $engine = id(new PhabricatorProjectProfileMenuEngine())
+    $engine = id(new PhorgeProjectProfileMenuEngine())
       ->setProfileObject($project)
       ->setController($this);
 

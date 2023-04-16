@@ -40,11 +40,11 @@ final class AphrontFileHTTPParameterType
     }
 
     $viewer = $this->getViewer();
-    $file = PhabricatorFile::newFromPHPUpload(
+    $file = PhorgeFile::newFromPHPUpload(
       idx($_FILES, $file_key),
       array(
         'authorPHID' => $viewer->getPHID(),
-        'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+        'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       ));
     return $file->getPHID();
   }

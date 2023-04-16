@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectTriggerRuleRecord
+final class PhorgeProjectTriggerRuleRecord
   extends Phobject {
 
   private $type;

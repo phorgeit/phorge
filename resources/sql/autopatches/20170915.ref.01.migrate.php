@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryRefCursor();
+$table = new PhorgeRepositoryRefCursor();
 $conn = $table->establishConnection('w');
 
 $map = array();
@@ -39,7 +39,7 @@ foreach (new LiskMigrationIterator($table) as $ref) {
 }
 
 // Now, write all the position rows.
-$position_table = new PhabricatorRepositoryRefPosition();
+$position_table = new PhorgeRepositoryRefPosition();
 foreach ($map as $ref_key => $spec) {
   $id = $spec['id'];
   foreach ($spec['positions'] as $position) {

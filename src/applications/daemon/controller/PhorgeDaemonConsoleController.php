@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonConsoleController
-  extends PhabricatorDaemonController {
+final class PhorgeDaemonConsoleController
+  extends PhorgeDaemonController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -13,11 +13,11 @@ final class PhabricatorDaemonConsoleController
     // but we'd rather show that utilization is too high than too low.
     $lease_overhead = 0.250;
 
-    $completed = id(new PhabricatorWorkerArchiveTaskQuery())
+    $completed = id(new PhorgeWorkerArchiveTaskQuery())
       ->withDateModifiedSince($window_start)
       ->execute();
 
-    $failed = id(new PhabricatorWorkerActiveTask())->loadAllWhere(
+    $failed = id(new PhorgeWorkerActiveTask())->loadAllWhere(
       'failureTime > %d',
       $window_start);
 
@@ -89,15 +89,15 @@ final class PhabricatorDaemonConsoleController
       );
     }
 
-    $logs = id(new PhabricatorDaemonLogQuery())
+    $logs = id(new PhorgeDaemonLogQuery())
       ->setViewer($viewer)
-      ->withStatus(PhabricatorDaemonLogQuery::STATUS_ALIVE)
+      ->withStatus(PhorgeDaemonLogQuery::STATUS_ALIVE)
       ->setAllowStatusWrites(true)
       ->execute();
 
     $taskmasters = 0;
     foreach ($logs as $log) {
-      if ($log->getDaemon() == 'PhabricatorTaskmasterDaemon') {
+      if ($log->getDaemon() == 'PhorgeTaskmasterDaemon') {
         $taskmasters++;
       }
     }
@@ -143,7 +143,7 @@ final class PhabricatorDaemonConsoleController
       ->setHeaderText(pht('Recently Completed Tasks (Last 15m)'))
       ->setTable($completed_table);
 
-    $daemon_table = id(new PhabricatorDaemonLogListView())
+    $daemon_table = id(new PhorgeDaemonLogListView())
       ->setUser($viewer)
       ->setDaemonLogs($logs);
 
@@ -151,13 +151,13 @@ final class PhabricatorDaemonConsoleController
       ->setHeaderText(pht('Active Daemons'))
       ->setTable($daemon_table);
 
-    $tasks = id(new PhabricatorWorkerLeaseQuery())
+    $tasks = id(new PhorgeWorkerLeaseQuery())
       ->setSkipLease(true)
       ->withLeasedTasks(true)
       ->setLimit(100)
       ->execute();
 
-    $tasks_table = id(new PhabricatorDaemonTasksTableView())
+    $tasks_table = id(new PhorgeDaemonTasksTableView())
       ->setTasks($tasks)
       ->setNoDataString(pht('No tasks are leased by workers.'));
 
@@ -165,7 +165,7 @@ final class PhabricatorDaemonConsoleController
       ->setHeaderText(pht('Leased Tasks'))
       ->setTable($tasks_table);
 
-    $task_table = new PhabricatorWorkerActiveTask();
+    $task_table = new PhorgeWorkerActiveTask();
     $queued = queryfx_all(
       $task_table->establishConnection('r'),
       'SELECT taskClass, count(*) N FROM %T GROUP BY taskClass
@@ -197,7 +197,7 @@ final class PhabricatorDaemonConsoleController
     $queued_panel->setHeaderText(pht('Queued Tasks'));
     $queued_panel->setTable($queued_table);
 
-    $upcoming = id(new PhabricatorWorkerLeaseQuery())
+    $upcoming = id(new PhorgeWorkerLeaseQuery())
       ->setLimit(10)
       ->setSkipLease(true)
       ->execute();
@@ -205,13 +205,13 @@ final class PhabricatorDaemonConsoleController
     $upcoming_panel = id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Next In Queue'))
       ->setTable(
-        id(new PhabricatorDaemonTasksTableView())
+        id(new PhorgeDaemonTasksTableView())
           ->setTasks($upcoming)
           ->setNoDataString(pht('Task queue is empty.')));
 
-    $triggers = id(new PhabricatorWorkerTriggerQuery())
+    $triggers = id(new PhorgeWorkerTriggerQuery())
       ->setViewer($viewer)
-      ->setOrder(PhabricatorWorkerTriggerQuery::ORDER_EXECUTION)
+      ->setOrder(PhorgeWorkerTriggerQuery::ORDER_EXECUTION)
       ->withNextEventBetween(0, null)
       ->needEvents(true)
       ->setLimit(10)

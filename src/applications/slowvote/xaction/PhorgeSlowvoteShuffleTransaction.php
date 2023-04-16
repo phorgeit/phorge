@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteShuffleTransaction
-  extends PhabricatorSlowvoteTransactionType {
+final class PhorgeSlowvoteShuffleTransaction
+  extends PhorgeSlowvoteTransactionType {
 
   const TRANSACTIONTYPE = 'vote:shuffle';
 

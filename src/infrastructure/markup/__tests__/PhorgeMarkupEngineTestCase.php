@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMarkupEngineTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMarkupEngineTestCase
+  extends PhorgeTestCase {
 
   public function testRemarkupSentenceSummmaries() {
     $this->assertSentenceSummary(
@@ -36,7 +36,7 @@ final class PhabricatorMarkupEngineTestCase
   private function assertSentenceSummary($corpus, $summary) {
     $this->assertEqual(
       $summary,
-      PhabricatorMarkupEngine::summarizeSentence($corpus),
+      PhorgeMarkupEngine::summarizeSentence($corpus),
       pht('Summary of: %s', $corpus));
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-class PhabricatorClusterServiceHealthRecord
+class PhorgeClusterServiceHealthRecord
   extends Phobject {
 
   private $cacheKey;
@@ -157,7 +157,7 @@ class PhabricatorClusterServiceHealthRecord
   }
 
   private function readHealthRecord() {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache_key = $this->getCacheKey();
     $health_record = $cache->getKey($cache_key);
 
@@ -173,7 +173,7 @@ class PhabricatorClusterServiceHealthRecord
   }
 
   private function writeHealthRecord(array $record) {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache_key = $this->getCacheKey();
     $cache->setKey($cache_key, $record);
   }

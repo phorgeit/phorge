@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorPDFDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgePDFDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'pdf';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as PDF');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file-pdf-o';
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     // Since we just render a link to the document anyway, we don't need to
     // check anything fancy in config to see if the MIME type is actually
     // viewable.
@@ -24,7 +24,7 @@ final class PhabricatorPDFDocumentEngine
       ));
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $viewer = $this->getViewer();
 
     $file = $ref->getFile();
@@ -37,7 +37,7 @@ final class PhabricatorPDFDocumentEngine
     $name = $ref->getName();
     $length = $ref->getByteLength();
 
-    $link = id(new PhabricatorFileLinkView())
+    $link = id(new PhorgeFileLinkView())
       ->setViewer($viewer)
       ->setFileName($name)
       ->setFileViewURI($source_uri)

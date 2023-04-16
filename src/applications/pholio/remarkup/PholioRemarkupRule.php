@@ -1,6 +1,6 @@
 <?php
 
-final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class PholioRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'M';
@@ -14,7 +14,7 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
 
   protected function getObjectHref(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $id) {
 
     $href = $handle->getURI();
@@ -26,7 +26,7 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
     }
 
     if ($this->getEngine()->getConfig('uri.full')) {
-      $href = PhabricatorEnv::getURI($href);
+      $href = PhorgeEnv::getURI($href);
     }
 
     return $href;
@@ -61,7 +61,7 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $viewer = $this->getEngine()->getConfig('viewer');

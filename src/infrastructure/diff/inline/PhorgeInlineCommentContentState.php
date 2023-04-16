@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorInlineCommentContentState
+abstract class PhorgeInlineCommentContentState
   extends Phobject {
 
   private $contentText = '';

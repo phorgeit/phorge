@@ -2,24 +2,24 @@
 
 /**
  * Convenience class which simplifies the implementation of
- * @{interface:PhabricatorCustomFieldInterface} by obscuring the details of how
+ * @{interface:PhorgeCustomFieldInterface} by obscuring the details of how
  * custom fields are stored.
  *
  * Generally, you should not use this class directly. It is used by
- * @{class:PhabricatorCustomField} to manage field storage on objects.
+ * @{class:PhorgeCustomField} to manage field storage on objects.
  */
-final class PhabricatorCustomFieldAttachment extends Phobject {
+final class PhorgeCustomFieldAttachment extends Phobject {
 
   private $lists = array();
 
-  public function addCustomFieldList($role, PhabricatorCustomFieldList $list) {
+  public function addCustomFieldList($role, PhorgeCustomFieldList $list) {
     $this->lists[$role] = $list;
     return $this;
   }
 
   public function getCustomFieldList($role) {
     if (empty($this->lists[$role])) {
-      throw new PhabricatorCustomFieldNotAttachedException(
+      throw new PhorgeCustomFieldNotAttachedException(
         pht(
           "Role list '%s' is not available!",
           $role));

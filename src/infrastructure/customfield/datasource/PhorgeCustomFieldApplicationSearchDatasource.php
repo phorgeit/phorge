@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorCustomFieldApplicationSearchDatasource
-  extends PhabricatorTypeaheadProxyDatasource {
+final class PhorgeCustomFieldApplicationSearchDatasource
+  extends PhorgeTypeaheadProxyDatasource {
 
   public function getComponentDatasources() {
     $datasources = parent::getComponentDatasources();
 
     $datasources[] =
-      new PhabricatorCustomFieldApplicationSearchAnyFunctionDatasource();
+      new PhorgeCustomFieldApplicationSearchAnyFunctionDatasource();
     $datasources[] =
-      new PhabricatorCustomFieldApplicationSearchNoneFunctionDatasource();
+      new PhorgeCustomFieldApplicationSearchNoneFunctionDatasource();
 
     return $datasources;
   }

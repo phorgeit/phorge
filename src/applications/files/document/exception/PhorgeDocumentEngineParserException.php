@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorDocumentEngineParserException
+final class PhorgeDocumentEngineParserException
   extends Exception {}

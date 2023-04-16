@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorStorageManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeStorageManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   private $apis = array();
   private $dryRun;
@@ -78,7 +78,7 @@ abstract class PhabricatorStorageManagementWorkflow
   }
 
   public function setPatches(array $patches) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, 'PhorgeStoragePatch');
     $this->patches = $patches;
     return $this;
   }
@@ -92,9 +92,9 @@ abstract class PhabricatorStorageManagementWorkflow
     $this->setForce($args->getArg('force'));
 
     if (!$this->isReadOnlyWorkflow()) {
-      if (PhabricatorEnv::isReadOnly()) {
+      if (PhorgeEnv::isReadOnly()) {
         if ($this->isForce()) {
-          PhabricatorEnv::setReadOnly(false, null);
+          PhorgeEnv::setReadOnly(false, null);
         } else {
           throw new PhutilArgumentUsageException(
             pht(
@@ -109,8 +109,8 @@ abstract class PhabricatorStorageManagementWorkflow
 
   public function didExecute(PhutilArgumentParser $args) {}
 
-  private function loadSchemata(PhabricatorStorageManagementAPI $api) {
-    $query = id(new PhabricatorConfigSchemaQuery());
+  private function loadSchemata(PhorgeStorageManagementAPI $api) {
+    $query = id(new PhorgeConfigSchemaQuery());
 
     $ref = $api->getRef();
     $ref_key = $ref->getRefKey();
@@ -130,7 +130,7 @@ abstract class PhabricatorStorageManagementWorkflow
   }
 
   final protected function adjustSchemata(
-    PhabricatorStorageManagementAPI $api,
+    PhorgeStorageManagementAPI $api,
     $unsafe) {
 
     $lock = $this->lock($api);
@@ -157,7 +157,7 @@ abstract class PhabricatorStorageManagementWorkflow
   }
 
   private function doAdjustSchemata(
-    PhabricatorStorageManagementAPI $api,
+    PhorgeStorageManagementAPI $api,
     $unsafe) {
 
     $console = PhutilConsole::getConsole();
@@ -219,7 +219,7 @@ abstract class PhabricatorStorageManagementWorkflow
     foreach ($adjustments as $adjust) {
       $info = array();
       foreach ($adjust['issues'] as $issue) {
-        $info[] = PhabricatorConfigStorageSchema::getIssueName($issue);
+        $info[] = PhorgeConfigStorageSchema::getIssueName($issue);
       }
 
       $table->addRow(array(
@@ -532,19 +532,19 @@ abstract class PhabricatorStorageManagementWorkflow
   }
 
   private function findAdjustments(
-    PhabricatorStorageManagementAPI $api) {
+    PhorgeStorageManagementAPI $api) {
     list($comp, $expect, $actual) = $this->loadSchemata($api);
 
-    $issue_charset = PhabricatorConfigStorageSchema::ISSUE_CHARSET;
-    $issue_collation = PhabricatorConfigStorageSchema::ISSUE_COLLATION;
-    $issue_columntype = PhabricatorConfigStorageSchema::ISSUE_COLUMNTYPE;
-    $issue_surpluskey = PhabricatorConfigStorageSchema::ISSUE_SURPLUSKEY;
-    $issue_missingkey = PhabricatorConfigStorageSchema::ISSUE_MISSINGKEY;
-    $issue_columns = PhabricatorConfigStorageSchema::ISSUE_KEYCOLUMNS;
-    $issue_unique = PhabricatorConfigStorageSchema::ISSUE_UNIQUE;
-    $issue_longkey = PhabricatorConfigStorageSchema::ISSUE_LONGKEY;
-    $issue_auto = PhabricatorConfigStorageSchema::ISSUE_AUTOINCREMENT;
-    $issue_engine = PhabricatorConfigStorageSchema::ISSUE_ENGINE;
+    $issue_charset = PhorgeConfigStorageSchema::ISSUE_CHARSET;
+    $issue_collation = PhorgeConfigStorageSchema::ISSUE_COLLATION;
+    $issue_columntype = PhorgeConfigStorageSchema::ISSUE_COLUMNTYPE;
+    $issue_surpluskey = PhorgeConfigStorageSchema::ISSUE_SURPLUSKEY;
+    $issue_missingkey = PhorgeConfigStorageSchema::ISSUE_MISSINGKEY;
+    $issue_columns = PhorgeConfigStorageSchema::ISSUE_KEYCOLUMNS;
+    $issue_unique = PhorgeConfigStorageSchema::ISSUE_UNIQUE;
+    $issue_longkey = PhorgeConfigStorageSchema::ISSUE_LONGKEY;
+    $issue_auto = PhorgeConfigStorageSchema::ISSUE_AUTOINCREMENT;
+    $issue_engine = PhorgeConfigStorageSchema::ISSUE_ENGINE;
 
     $adjustments = array();
     $errors = array();
@@ -762,11 +762,11 @@ abstract class PhabricatorStorageManagementWorkflow
     return array($adjustments, $errors);
   }
 
-  private function findErrors(PhabricatorConfigStorageSchema $schema) {
+  private function findErrors(PhorgeConfigStorageSchema $schema) {
     $result = array();
     foreach ($schema->getLocalIssues() as $issue) {
-      $status = PhabricatorConfigStorageSchema::getIssueStatus($issue);
-      if ($status == PhabricatorConfigStorageSchema::STATUS_FAIL) {
+      $status = PhorgeConfigStorageSchema::getIssueStatus($issue);
+      if ($status == PhorgeConfigStorageSchema::STATUS_FAIL) {
         $result[] = $issue;
       }
     }
@@ -795,17 +795,17 @@ abstract class PhabricatorStorageManagementWorkflow
       $pieces = array_filter($pieces);
       $target = implode('.', $pieces);
 
-      $name = PhabricatorConfigStorageSchema::getIssueName($error['issue']);
+      $name = PhorgeConfigStorageSchema::getIssueName($error['issue']);
 
       $issue = $error['issue'];
 
-      if ($issue === PhabricatorConfigStorageSchema::ISSUE_SURPLUS) {
+      if ($issue === PhorgeConfigStorageSchema::ISSUE_SURPLUS) {
         $any_surplus = true;
       } else {
         $all_surplus = false;
       }
 
-      if ($issue === PhabricatorConfigStorageSchema::ISSUE_ACCESSDENIED) {
+      if ($issue === PhorgeConfigStorageSchema::ISSUE_ACCESSDENIED) {
         $any_access = true;
       } else {
         $all_access = false;
@@ -1215,11 +1215,11 @@ abstract class PhabricatorStorageManagementWorkflow
   }
 
   /**
-   * Acquires a @{class:PhabricatorGlobalLock}.
+   * Acquires a @{class:PhorgeGlobalLock}.
    *
-   * @return PhabricatorGlobalLock
+   * @return PhorgeGlobalLock
    */
-  final protected function lock(PhabricatorStorageManagementAPI $api) {
+  final protected function lock(PhorgeStorageManagementAPI $api) {
     // Although we're holding this lock on different databases so it could
     // have the same name on each as far as the database is concerned, the
     // locks would be the same within this process.
@@ -1230,14 +1230,14 @@ abstract class PhabricatorStorageManagementWorkflow
     // We disable logging for this lock because we may not have created the
     // log table yet, or may need to adjust it.
 
-    return PhabricatorGlobalLock::newLock('adjust', $parameters)
+    return PhorgeGlobalLock::newLock('adjust', $parameters)
       ->setExternalConnection($api->getConn(null))
       ->setDisableLogging(true)
       ->lock();
   }
 
   final protected function analyzeTables(
-    PhabricatorStorageManagementAPI $api) {
+    PhorgeStorageManagementAPI $api) {
 
     // Analyzing tables can sometimes have a significant effect on query
     // performance, particularly for the fulltext ngrams tables. See T12819

@@ -18,7 +18,7 @@ final class HeraldActingUserField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
   public function supportsObject($object) {

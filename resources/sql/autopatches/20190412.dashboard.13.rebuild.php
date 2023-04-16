@@ -2,8 +2,8 @@
 
 // @phase worker
 
-PhabricatorRebuildIndexesWorker::rebuildObjectsWithQuery(
-  'PhabricatorDashboardQuery');
+PhorgeRebuildIndexesWorker::rebuildObjectsWithQuery(
+  'PhorgeDashboardQuery');
 
-PhabricatorRebuildIndexesWorker::rebuildObjectsWithQuery(
-  'PhabricatorDashboardPanelQuery');
+PhorgeRebuildIndexesWorker::rebuildObjectsWithQuery(
+  'PhorgeDashboardPanelQuery');

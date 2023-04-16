@@ -3,8 +3,8 @@
 abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass(
-      'PhabricatorManiphestApplication');
+    return PhorgeApplication::getByClass(
+      'PhorgeManiphestApplication');
   }
 
   protected function defineErrorTypes() {
@@ -62,13 +62,13 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
       $task->setDescription((string)$request->getValue('description'));
       $changes[ManiphestTaskStatusTransaction::TRANSACTIONTYPE] =
         ManiphestTaskStatus::getDefaultStatus();
-      $changes[PhabricatorTransactions::TYPE_SUBSCRIBERS] =
+      $changes[PhorgeTransactions::TYPE_SUBSCRIBERS] =
         array('+' => array($request->getUser()->getPHID()));
     } else {
 
       $comments = $request->getValue('comments');
       if (!$is_new && $comments !== null) {
-        $changes[PhabricatorTransactions::TYPE_COMMENT] = null;
+        $changes[PhorgeTransactions::TYPE_COMMENT] = null;
       }
 
       $title = $request->getValue('title');
@@ -108,14 +108,14 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     if ($owner_phid !== null) {
       $this->validatePHIDList(
         array($owner_phid),
-        PhabricatorPeopleUserPHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
         'ownerPHID');
       $changes[ManiphestTaskOwnerTransaction::TRANSACTIONTYPE] = $owner_phid;
     }
 
     $ccs = $request->getValue('ccPHIDs');
     if ($ccs !== null) {
-      $changes[PhabricatorTransactions::TYPE_SUBSCRIBERS] =
+      $changes[PhorgeTransactions::TYPE_SUBSCRIBERS] =
         array('=' => array_fuse($ccs));
     }
 
@@ -124,14 +124,14 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     $view_policy = $request->getValue('viewPolicy');
     if ($view_policy !== null) {
       $transactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($view_policy);
     }
 
     $edit_policy = $request->getValue('editPolicy');
     if ($edit_policy !== null) {
       $transactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
         ->setNewValue($edit_policy);
     }
 
@@ -139,12 +139,12 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     if ($project_phids !== null) {
       $this->validatePHIDList(
         $project_phids,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
         'projectPHIDS');
 
-      $project_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+      $project_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
       $transactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $project_type)
         ->setNewValue(
           array(
@@ -157,7 +157,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     foreach ($changes as $type => $value) {
       $transaction = clone $template;
       $transaction->setTransactionType($type);
-      if ($type == PhabricatorTransactions::TYPE_COMMENT) {
+      if ($type == PhorgeTransactions::TYPE_COMMENT) {
         $transaction->attachComment(
           id(new ManiphestTransactionComment())
             ->setContent($comments));
@@ -168,9 +168,9 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
       $transactions[] = $transaction;
     }
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $task,
-      PhabricatorCustomField::ROLE_EDIT);
+      PhorgeCustomField::ROLE_EDIT);
     $field_list->readFieldsFromStorage($task);
 
     $auxiliary = $request->getValue('auxiliary');
@@ -181,7 +181,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
         }
         $transaction = clone $template;
         $transaction->setTransactionType(
-          PhabricatorTransactions::TYPE_CUSTOMFIELD);
+          PhorgeTransactions::TYPE_CUSTOMFIELD);
         $transaction->setMetadataValue('customfield:key', $key);
         $transaction->setOldValue(
           $field->getOldValueForApplicationTransactions());
@@ -224,7 +224,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
 
     $task_phids = mpull($tasks, 'getPHID');
 
-    $all_deps = id(new PhabricatorEdgeQuery())
+    $all_deps = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($task_phids)
       ->withEdgeTypes(array(ManiphestTaskDependsOnTaskEdgeType::EDGECONST));
     $all_deps->execute();
@@ -232,9 +232,9 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     $result = array();
     foreach ($tasks as $task) {
       // TODO: Batch this get as CustomField gets cleaned up.
-      $field_list = PhabricatorCustomField::getObjectFields(
+      $field_list = PhorgeCustomField::getObjectFields(
         $task,
-        PhabricatorCustomField::ROLE_EDIT);
+        PhorgeCustomField::ROLE_EDIT);
       $field_list->readFieldsFromStorage($task);
 
       $auxiliary = mpull(
@@ -263,7 +263,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
         'title'        => $task->getTitle(),
         'description'  => $task->getDescription(),
         'projectPHIDs' => $task->getProjectPHIDs(),
-        'uri'          => PhabricatorEnv::getProductionURI('/T'.$task->getID()),
+        'uri'          => PhorgeEnv::getProductionURI('/T'.$task->getID()),
         'auxiliary'    => $auxiliary,
 
         'objectName'   => 'T'.$task->getID(),

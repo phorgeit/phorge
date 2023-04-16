@@ -1,3 +1,3 @@
 <?php
 
-abstract class PhabricatorAuthInviteException extends Exception {}
+abstract class PhorgeAuthInviteException extends Exception {}

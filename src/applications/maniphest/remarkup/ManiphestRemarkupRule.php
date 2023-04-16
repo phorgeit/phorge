@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class ManiphestRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'T';

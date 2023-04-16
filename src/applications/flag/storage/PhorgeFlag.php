@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorFlag extends PhabricatorFlagDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeFlag extends PhorgeFlagDAO
+  implements PhorgePolicyInterface {
 
   protected $ownerPHID;
   protected $type;
   protected $objectPHID;
   protected $reasonPHID;
-  protected $color = PhabricatorFlagColor::COLOR_BLUE;
+  protected $color = PhorgeFlagColor::COLOR_BLUE;
   protected $note;
 
   private $handle = self::ATTACHABLE;
@@ -45,27 +45,27 @@ final class PhabricatorFlag extends PhabricatorFlagDAO
     return $this->assertAttached($this->handle);
   }
 
-  public function attachHandle(PhabricatorObjectHandle $handle) {
+  public function attachHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getOwnerPHID());
   }
 

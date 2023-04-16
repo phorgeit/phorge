@@ -1,10 +1,10 @@
 <?php
 
 final class HeraldRuleEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -12,31 +12,31 @@ final class HeraldRuleEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return id(new HeraldRuleAdapter())
       ->setRule($object);
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
     return $types;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
 
     $phids[] = $this->getActingAsPHID();
@@ -48,18 +48,18 @@ final class HeraldRuleEditor
     return $phids;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new HeraldRuleReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $monogram = $object->getMonogram();
     $name = $object->getName();
 
     $subject = pht('%s: %s', $monogram, $name);
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($subject);
   }
 
@@ -68,14 +68,14 @@ final class HeraldRuleEditor
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addLinkSection(
       pht('RULE DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getURI()));
+      PhorgeEnv::getProductionURI($object->getURI()));
 
     return $body;
   }

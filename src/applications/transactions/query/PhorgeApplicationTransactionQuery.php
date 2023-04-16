@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+abstract class PhorgeApplicationTransactionQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -17,7 +17,7 @@ abstract class PhabricatorApplicationTransactionQuery
   private $needHandles  = true;
 
   final public static function newQueryForObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
 
     $xaction = $object->getApplicationTransactionTemplate();
     $target_class = get_class($xaction);
@@ -85,7 +85,7 @@ abstract class PhabricatorApplicationTransactionQuery
     return $this;
   }
 
-  public function setAggregatePagingCursor(PhabricatorQueryCursor $cursor) {
+  public function setAggregatePagingCursor(PhorgeQueryCursor $cursor) {
     $this->aggregatePagingCursor = $cursor;
     return $this;
   }
@@ -116,7 +116,7 @@ abstract class PhabricatorApplicationTransactionQuery
       $comments = array();
       if ($comment_phids) {
         $comments =
-          id(new PhabricatorApplicationTransactionTemplatedCommentQuery())
+          id(new PhorgeApplicationTransactionTemplatedCommentQuery())
             ->setTemplate($table->getApplicationTransactionCommentObject())
             ->setViewer($this->getViewer())
             ->withPHIDs($comment_phids)
@@ -144,7 +144,7 @@ abstract class PhabricatorApplicationTransactionQuery
   protected function willFilterPage(array $xactions) {
     $object_phids = array_keys(mpull($xactions, null, 'getObjectPHID'));
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($object_phids)
@@ -260,7 +260,7 @@ abstract class PhabricatorApplicationTransactionQuery
 
       if (!$comment) {
         if ($this->withComments) {
-          throw new PhabricatorEmptyQueryException();
+          throw new PhorgeEmptyQueryException();
         } else {
           // If we're querying for transactions with no comments and the
           // transaction type does not support comments, we don't need to

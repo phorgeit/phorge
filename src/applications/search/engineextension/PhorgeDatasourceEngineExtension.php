@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorDatasourceEngineExtension extends Phobject {
+abstract class PhorgeDatasourceEngineExtension extends Phobject {
 
   private $viewer;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -22,7 +22,7 @@ abstract class PhabricatorDatasourceEngineExtension extends Phobject {
   }
 
   public function newDatasourcesForCompositeDatasource(
-    PhabricatorTypeaheadCompositeDatasource $datasource) {
+    PhorgeTypeaheadCompositeDatasource $datasource) {
     return array();
   }
 

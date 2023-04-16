@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSpacesDAO extends PhabricatorLiskDAO {
+abstract class PhorgeSpacesDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'spaces';

@@ -16,10 +16,10 @@ abstract class AphrontView extends Phobject
   /**
    * Set the user viewing this element.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @return this
    */
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -30,7 +30,7 @@ abstract class AphrontView extends Phobject
    *
    * Throws an exception if no viewer has been set.
    *
-   * @return PhabricatorUser Viewing user.
+   * @return PhorgeUser Viewing user.
    */
   public function getViewer() {
     if (!$this->viewer) {
@@ -57,7 +57,7 @@ abstract class AphrontView extends Phobject
    * @task config
    * @deprecated
    */
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     return $this->setViewer($user);
   }
 

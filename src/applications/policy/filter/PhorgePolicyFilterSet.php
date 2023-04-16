@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyFilterSet
+final class PhorgePolicyFilterSet
   extends Phobject {
 
   private $users = array();
@@ -11,8 +11,8 @@ final class PhabricatorPolicyFilterSet
   private $results = array();
 
   public function addCapability(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $user,
+    PhorgePolicyInterface $object,
     $capability) {
 
     $user_key = $this->getUserKey($user);
@@ -30,8 +30,8 @@ final class PhabricatorPolicyFilterSet
   }
 
   public function hasCapability(
-    PhabricatorUser $user,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $user,
+    PhorgePolicyInterface $object,
     $capability) {
 
     $user_key = $this->getUserKey($user);
@@ -57,11 +57,11 @@ final class PhabricatorPolicyFilterSet
     return $this->results[$capability][$user_key][$object_key];
   }
 
-  private function getUserKey(PhabricatorUser $user) {
+  private function getUserKey(PhorgeUser $user) {
     return $user->getCacheFragment();
   }
 
-  private function getObjectKey(PhabricatorPolicyInterface $object) {
+  private function getObjectKey(PhorgePolicyInterface $object) {
     $object_phid = $object->getPHID();
 
     if (!$object_phid) {
@@ -87,7 +87,7 @@ final class PhabricatorPolicyFilterSet
         $user = $this->users[$user_key];
         $objects = array_select_keys($this->objects, array_keys($object_map));
 
-        $filter = id(new PhabricatorPolicyFilter())
+        $filter = id(new PhorgePolicyFilter())
           ->setViewer($user)
           ->requireCapabilities(array($capability));
         $results = $filter->apply($objects);
@@ -108,10 +108,10 @@ final class PhabricatorPolicyFilterSet
     array $objects) {
 
     $capabilities = array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
 
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, 'PhorgePolicyInterface');
 
     if (!$objects) {
       return;
@@ -129,7 +129,7 @@ final class PhabricatorPolicyFilterSet
       return;
     }
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array_keys($viewer_map))
       ->execute();

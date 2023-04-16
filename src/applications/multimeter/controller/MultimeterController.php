@@ -1,6 +1,6 @@
 <?php
 
-abstract class MultimeterController extends PhabricatorController {
+abstract class MultimeterController extends PhorgeController {
 
   private $dimensions = array();
 

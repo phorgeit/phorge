@@ -16,7 +16,7 @@ final class DiffusionBlockHeraldAction
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorRepositoryPushLog);
+    return ($object instanceof PhorgeRepositoryPushLog);
   }
 
   public function supportsRuleType($rule_type) {

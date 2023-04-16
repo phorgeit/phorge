@@ -22,7 +22,7 @@ final class RepositoryQueryConduitAPIMethod
   }
 
   public function newQueryObject() {
-    return new PhabricatorRepositoryQuery();
+    return new PhorgeRepositoryQuery();
   }
 
   protected function defineParamTypes() {

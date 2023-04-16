@@ -35,7 +35,7 @@ final class MacroCreateMemeConduitAPIMethod extends MacroConduitAPIMethod {
   protected function execute(ConduitAPIRequest $request) {
     $user = $request->getUser();
 
-    $file = id(new PhabricatorMemeEngine())
+    $file = id(new PhorgeMemeEngine())
       ->setViewer($user)
       ->setTemplate($request->getValue('macroName'))
       ->setAboveText($request->getValue('upperText'))

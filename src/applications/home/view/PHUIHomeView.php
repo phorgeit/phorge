@@ -15,16 +15,16 @@ final class PHUIHomeView
     require_celerity_resource('phorge-dashboard-css');
     $viewer = $this->getViewer();
 
-    $has_maniphest = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+    $has_maniphest = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeManiphestApplication',
       $viewer);
 
-    $has_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+    $has_diffusion = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDiffusionApplication',
       $viewer);
 
-    $has_differential = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+    $has_differential = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDifferentialApplication',
       $viewer);
 
     $revision_panel = null;
@@ -114,7 +114,7 @@ final class PHUIHomeView
   public function buildFeedPanel() {
     $panel = $this->newQueryPanel()
       ->setName(pht('Recent Activity'))
-      ->setProperty('class', 'PhabricatorFeedSearchEngine')
+      ->setProperty('class', 'PhorgeFeedSearchEngine')
       ->setProperty('key', 'all')
       ->setProperty('limit', 40);
 
@@ -124,7 +124,7 @@ final class PHUIHomeView
   public function buildRepositoryPanel() {
     $panel = $this->newQueryPanel()
       ->setName(pht('Active Repositories'))
-      ->setProperty('class', 'PhabricatorRepositorySearchEngine')
+      ->setProperty('class', 'PhorgeRepositorySearchEngine')
       ->setProperty('key', 'active')
       ->setProperty('limit', 5);
 
@@ -132,17 +132,17 @@ final class PHUIHomeView
   }
 
   private function newQueryPanel() {
-    $panel_type = id(new PhabricatorDashboardQueryPanelType())
+    $panel_type = id(new PhorgeDashboardQueryPanelType())
       ->getPanelTypeKey();
 
-    return id(new PhabricatorDashboardPanel())
+    return id(new PhorgeDashboardPanel())
       ->setPanelType($panel_type);
   }
 
-  private function renderPanel(PhabricatorDashboardPanel $panel) {
+  private function renderPanel(PhorgeDashboardPanel $panel) {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorDashboardPanelRenderingEngine())
+    return id(new PhorgeDashboardPanelRenderingEngine())
       ->setViewer($viewer)
       ->setPanel($panel)
       ->setParentPanelPHIDs(array())

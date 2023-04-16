@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorAuditTransactionComment
-  extends PhabricatorApplicationTransactionComment
+final class PhorgeAuditTransactionComment
+  extends PhorgeApplicationTransactionComment
   implements
-    PhabricatorInlineCommentInterface {
+    PhorgeInlineCommentInterface {
 
   protected $commitPHID;
   protected $pathID;
@@ -20,7 +20,7 @@ final class PhabricatorAuditTransactionComment
   private $inlineContext = self::ATTACHABLE;
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorAuditTransaction();
+    return new PhorgeAuditTransaction();
   }
 
   public function shouldUseMarkupCache($field) {
@@ -66,7 +66,7 @@ final class PhabricatorAuditTransactionComment
   }
 
   public function attachReplyToComment(
-    PhabricatorAuditTransactionComment $comment = null) {
+    PhorgeAuditTransactionComment $comment = null) {
     $this->replyToComment = $comment;
     return $this;
   }
@@ -85,7 +85,7 @@ final class PhabricatorAuditTransactionComment
   }
 
   public function newInlineCommentObject() {
-    return PhabricatorAuditInlineComment::newFromModernComment($this);
+    return PhorgeAuditInlineComment::newFromModernComment($this);
   }
 
   public function getInlineContext() {
@@ -93,7 +93,7 @@ final class PhabricatorAuditTransactionComment
   }
 
   public function attachInlineContext(
-    PhabricatorInlineCommentContext $context = null) {
+    PhorgeInlineCommentContext $context = null) {
     $this->inlineContext = $context;
     return $this;
   }

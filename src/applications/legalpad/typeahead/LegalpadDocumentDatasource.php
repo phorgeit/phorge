@@ -1,6 +1,6 @@
 <?php
 
-final class LegalpadDocumentDatasource extends PhabricatorTypeaheadDatasource {
+final class LegalpadDocumentDatasource extends PhorgeTypeaheadDatasource {
 
   public function isBrowsable() {
     // TODO: This should be made browsable.
@@ -16,7 +16,7 @@ final class LegalpadDocumentDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   public function loadResults() {
@@ -29,7 +29,7 @@ final class LegalpadDocumentDatasource extends PhabricatorTypeaheadDatasource {
       ->setViewer($viewer)
       ->execute();
     foreach ($documents as $document) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setPHID($document->getPHID())
         ->setName($document->getMonogram().' '.$document->getTitle());
     }

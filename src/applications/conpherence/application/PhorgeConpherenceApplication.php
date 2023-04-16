@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConpherenceApplication extends PhabricatorApplication {
+final class PhorgeConpherenceApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/conpherence/';

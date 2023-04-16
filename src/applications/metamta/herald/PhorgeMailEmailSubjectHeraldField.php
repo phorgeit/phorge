@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailEmailSubjectHeraldField
-  extends PhabricatorMailEmailHeraldField {
+final class PhorgeMailEmailSubjectHeraldField
+  extends PhorgeMailEmailHeraldField {
 
   const FIELDCONST = 'mail.message.subject';
 

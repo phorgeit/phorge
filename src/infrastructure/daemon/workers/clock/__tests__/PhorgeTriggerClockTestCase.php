@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
+final class PhorgeTriggerClockTestCase extends PhorgeTestCase {
 
   public function testOneTimeTriggerClock() {
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
-    $clock = new PhabricatorOneTimeTriggerClock(
+    $clock = new PhorgeOneTimeTriggerClock(
       array(
         'epoch' => $now,
       ));
@@ -22,7 +22,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
   }
 
   public function testNeverTriggerClock() {
-    $clock = new PhabricatorNeverTriggerClock(array());
+    $clock = new PhorgeNeverTriggerClock(array());
 
     $this->assertEqual(
       null,
@@ -35,7 +35,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
     // be unaffected.
     $start = strtotime('2015-03-05 16:17:18 UTC');
 
-    $clock = new PhabricatorDailyRoutineTriggerClock(
+    $clock = new PhorgeDailyRoutineTriggerClock(
       array(
         'start' => $start,
       ));
@@ -56,7 +56,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
     // been a negative leap second, so we can't test that yet.
     $start = strtotime('2012-06-28 23:59:59 UTC');
 
-    $clock = new PhabricatorDailyRoutineTriggerClock(
+    $clock = new PhorgeDailyRoutineTriggerClock(
       array(
         'start' => $start,
       ));
@@ -77,7 +77,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
     // make sure it keeps track of the date but adjusts the time.
     $start = strtotime('2015-01-15 6:07:08 UTC');
 
-    $clock = new PhabricatorDailyRoutineTriggerClock(
+    $clock = new PhorgeDailyRoutineTriggerClock(
       array(
         'start' => $start,
       ));
@@ -96,7 +96,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
     // Now, change the time of day.
     $new_start = strtotime('2015-01-08 1:23:45 UTC');
 
-    $clock = new PhabricatorDailyRoutineTriggerClock(
+    $clock = new PhorgeDailyRoutineTriggerClock(
       array(
         'start' => $new_start,
       ));
@@ -117,7 +117,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
   public function testSubscriptionTriggerClock() {
     $start = strtotime('2014-01-31 2:34:56 UTC');
 
-    $clock = new PhabricatorSubscriptionTriggerClock(
+    $clock = new PhorgeSubscriptionTriggerClock(
       array(
         'start' => $start,
       ));
@@ -164,7 +164,7 @@ final class PhabricatorTriggerClockTestCase extends PhabricatorTestCase {
   }
 
   private function expectClock(
-    PhabricatorTriggerClock $clock,
+    PhorgeTriggerClock $clock,
     array $expect_list,
     $clock_name,
     $last_epoch = null) {

@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacModularTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'almanac';

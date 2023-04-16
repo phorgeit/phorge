@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorWorkerTask extends PhabricatorWorkerDAO {
+abstract class PhorgeWorkerTask extends PhorgeWorkerDAO {
 
   // NOTE: If you provide additional fields here, make sure they are handled
   // correctly in the archiving process.
@@ -58,7 +58,7 @@ abstract class PhabricatorWorkerTask extends PhabricatorWorkerDAO {
   }
 
   final public function isArchived() {
-    return ($this instanceof PhabricatorWorkerArchiveTask);
+    return ($this instanceof PhorgeWorkerArchiveTask);
   }
 
   final public function getWorkerInstance() {
@@ -70,18 +70,18 @@ abstract class PhabricatorWorkerTask extends PhabricatorWorkerDAO {
       // exception.
       class_exists($class);
     } catch (PhutilMissingSymbolException $ex) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           "Task class '%s' does not exist!",
           $class));
     }
 
-    if (!is_subclass_of($class, 'PhabricatorWorker')) {
-      throw new PhabricatorWorkerPermanentFailureException(
+    if (!is_subclass_of($class, 'PhorgeWorker')) {
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           "Task class '%s' does not extend %s.",
           $class,
-          'PhabricatorWorker'));
+          'PhorgeWorker'));
     }
 
     return newv($class, array($this->getData()));

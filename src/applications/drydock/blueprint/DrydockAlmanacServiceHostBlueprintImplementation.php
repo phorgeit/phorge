@@ -7,8 +7,8 @@ final class DrydockAlmanacServiceHostBlueprintImplementation
   private $freeBindings;
 
   public function isEnabled() {
-    $almanac_app = 'PhabricatorAlmanacApplication';
-    return PhabricatorApplication::isClassInstalled($almanac_app);
+    $almanac_app = 'PhorgeAlmanacApplication';
+    return PhorgeApplication::isClassInstalled($almanac_app);
   }
 
   public function getBlueprintName() {

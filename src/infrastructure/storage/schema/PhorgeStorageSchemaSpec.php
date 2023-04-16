@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeStorageSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildRawSchema(
@@ -21,7 +21,7 @@ final class PhabricatorStorageSchemaSpec
 
     $this->buildRawSchema(
       'meta_data',
-      PhabricatorStorageManagementAPI::TABLE_HOSTSTATE,
+      PhorgeStorageManagementAPI::TABLE_HOSTSTATE,
       array(
         'stateKey' => 'text128',
         'stateValue' => 'text',

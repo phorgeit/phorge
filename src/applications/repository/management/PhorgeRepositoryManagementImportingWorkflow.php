@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementImportingWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementImportingWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -34,7 +34,7 @@ final class PhabricatorRepositoryManagementImportingWorkflow
 
     $repos = mpull($repos, null, 'getID');
 
-    $table = new PhabricatorRepositoryCommit();
+    $table = new PhorgeRepositoryCommit();
     $conn_r = $table->establishConnection('r');
 
     $rows = queryfx_all(
@@ -45,10 +45,10 @@ final class PhabricatorRepositoryManagementImportingWorkflow
           AND (importStatus & %d) != %d',
       $table->getTableName(),
       array_keys($repos),
-      PhabricatorRepositoryCommit::IMPORTED_ALL,
-      PhabricatorRepositoryCommit::IMPORTED_ALL,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+      PhorgeRepositoryCommit::IMPORTED_ALL,
+      PhorgeRepositoryCommit::IMPORTED_ALL,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
 
     $console = PhutilConsole::getConsole();
     if ($rows) {
@@ -61,13 +61,13 @@ final class PhabricatorRepositoryManagementImportingWorkflow
         if (!$args->getArg('simple')) {
           $status = $row['importStatus'];
           $need = array();
-          if (!($status & PhabricatorRepositoryCommit::IMPORTED_MESSAGE)) {
+          if (!($status & PhorgeRepositoryCommit::IMPORTED_MESSAGE)) {
             $need[] = pht('Message');
           }
-          if (!($status & PhabricatorRepositoryCommit::IMPORTED_CHANGE)) {
+          if (!($status & PhorgeRepositoryCommit::IMPORTED_CHANGE)) {
             $need[] = pht('Change');
           }
-          if (!($status & PhabricatorRepositoryCommit::IMPORTED_PUBLISH)) {
+          if (!($status & PhorgeRepositoryCommit::IMPORTED_PUBLISH)) {
             $need[] = pht('Publish');
           }
 

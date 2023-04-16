@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadTitleNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'threadtitle';

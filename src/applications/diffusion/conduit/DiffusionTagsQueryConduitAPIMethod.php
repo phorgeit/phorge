@@ -74,7 +74,7 @@ final class DiffusionTagsQueryConduitAPIMethod
       ->setRepository($repository)
       ->withRefTypes(
         array(
-          PhabricatorRepositoryRefCursor::TYPE_TAG,
+          PhorgeRepositoryRefCursor::TYPE_TAG,
         ))
       ->execute();
 

@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneCartSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $merchant;
   private $account;
@@ -44,16 +44,16 @@ final class PhortuneCartSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new PhortuneCartQuery())
       ->needPurchases(true);
 
@@ -99,7 +99,7 @@ final class PhortuneCartSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {}
+    PhorgeSavedQuery $saved_query) {}
 
   protected function getURI($path) {
     $merchant = $this->getMerchant();
@@ -139,7 +139,7 @@ final class PhortuneCartSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $carts,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     $phids = array();
     foreach ($carts as $cart) {
       $phids[] = $cart->getPHID();
@@ -151,7 +151,7 @@ final class PhortuneCartSearchEngine
 
   protected function renderResultList(
     array $carts,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($carts, 'PhortuneCart');
 
@@ -210,7 +210,7 @@ final class PhortuneCartSearchEngine
     }
     $table->setNotice($notice);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
 
     return $result;

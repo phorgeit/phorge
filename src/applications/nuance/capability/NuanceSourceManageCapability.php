@@ -1,6 +1,6 @@
 <?php
 
-final class NuanceSourceManageCapability extends PhabricatorPolicyCapability {
+final class NuanceSourceManageCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'nuance.source.manage';
 

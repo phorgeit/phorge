@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorSSHWorkflow
+abstract class PhorgeSSHWorkflow
   extends PhutilArgumentWorkflow {
 
   // NOTE: We are explicitly extending "PhutilArgumentWorkflow", not
-  // "PhabricatorManagementWorkflow". We want to avoid inheriting "getViewer()"
+  // "PhorgeManagementWorkflow". We want to avoid inheriting "getViewer()"
   // and other methods which assume workflows are administrative commands
   // like `bin/storage`.
 
@@ -28,7 +28,7 @@ abstract class PhabricatorSSHWorkflow
     return $this->errorChannel;
   }
 
-  public function setSSHUser(PhabricatorUser $ssh_user) {
+  public function setSSHUser(PhorgeUser $ssh_user) {
     $this->sshUser = $ssh_user;
     return $this;
   }
@@ -68,7 +68,7 @@ abstract class PhabricatorSSHWorkflow
   }
 
   protected function newPassthruCommand() {
-    return id(new PhabricatorSSHPassthruCommand())
+    return id(new PhorgeSSHPassthruCommand())
       ->setErrorChannel($this->getErrorChannel());
   }
 

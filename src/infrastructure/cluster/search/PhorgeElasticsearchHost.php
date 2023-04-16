@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorElasticsearchHost
-  extends PhabricatorSearchHost {
+final class PhorgeElasticsearchHost
+  extends PhorgeSearchHost {
 
   private $version = 5;
   private $path = 'phorge/';

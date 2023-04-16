@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeProjectEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'projects.project';
 
   private $parentProject;
   private $milestoneProject;
 
-  public function setParentProject(PhabricatorProject $parent_project) {
+  public function setParentProject(PhorgeProject $parent_project) {
     $this->parentProject = $parent_project;
     return $this;
   }
@@ -17,7 +17,7 @@ final class PhabricatorProjectEditEngine
     return $this->parentProject;
   }
 
-  public function setMilestoneProject(PhabricatorProject $milestone_project) {
+  public function setMilestoneProject(PhorgeProject $milestone_project) {
     $this->milestoneProject = $milestone_project;
     return $this;
   }
@@ -47,19 +47,19 @@ final class PhabricatorProjectEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function newEditableObject() {
     $parent = nonempty($this->parentProject, $this->milestoneProject);
 
-    return PhabricatorProject::initializeNewProject(
+    return PhorgeProject::initializeNewProject(
       $this->getViewer(),
       $parent);
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorProjectQuery())
+    return id(new PhorgeProjectQuery())
       ->needSlugs(true);
   }
 
@@ -113,12 +113,12 @@ final class PhabricatorProjectEditEngine
     $is_milestone = ($this->getMilestoneProject() || $object->isMilestone());
 
     $unavailable = array(
-      PhabricatorTransactions::TYPE_VIEW_POLICY,
-      PhabricatorTransactions::TYPE_EDIT_POLICY,
-      PhabricatorTransactions::TYPE_JOIN_POLICY,
-      PhabricatorTransactions::TYPE_SPACE,
-      PhabricatorProjectIconTransaction::TRANSACTIONTYPE,
-      PhabricatorProjectColorTransaction::TRANSACTIONTYPE,
+      PhorgeTransactions::TYPE_VIEW_POLICY,
+      PhorgeTransactions::TYPE_EDIT_POLICY,
+      PhorgeTransactions::TYPE_JOIN_POLICY,
+      PhorgeTransactions::TYPE_SPACE,
+      PhorgeProjectIconTransaction::TRANSACTIONTYPE,
+      PhorgeProjectColorTransaction::TRANSACTIONTYPE,
     );
     $unavailable = array_fuse($unavailable);
 
@@ -184,7 +184,7 @@ final class PhabricatorProjectEditEngine
 
       $number = ($milestone->loadNextMilestoneNumber() - 1);
       if ($number > 0) {
-        $previous_milestone = id(new PhabricatorProjectQuery())
+        $previous_milestone = id(new PhorgeProjectQuery())
           ->setViewer($this->getViewer())
           ->withParentProjectPHIDs(array($milestone->getPHID()))
           ->withIsMilestone(true)
@@ -199,7 +199,7 @@ final class PhabricatorProjectEditEngine
     }
 
     $fields = array(
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('parent')
         ->setLabel(pht('Parent'))
         ->setDescription(pht('Create a subproject of an existing project.'))
@@ -208,14 +208,14 @@ final class PhabricatorProjectEditEngine
         ->setConduitTypeDescription(pht('PHID of the parent project.'))
         ->setAliases(array('parentPHID'))
         ->setTransactionType(
-            PhabricatorProjectParentTransaction::TRANSACTIONTYPE)
+            PhorgeProjectParentTransaction::TRANSACTIONTYPE)
         ->setHandleParameterType(new AphrontPHIDHTTPParameterType())
         ->setSingleValue($parent_phid)
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false)
         ->setIsLocked(true),
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('milestone')
         ->setLabel(pht('Milestone Of'))
         ->setDescription(pht('Parent project to create a milestone for.'))
@@ -224,14 +224,14 @@ final class PhabricatorProjectEditEngine
         ->setConduitTypeDescription(pht('PHID of the parent project.'))
         ->setAliases(array('milestonePHID'))
         ->setTransactionType(
-            PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE)
+            PhorgeProjectMilestoneTransaction::TRANSACTIONTYPE)
         ->setHandleParameterType(new AphrontPHIDHTTPParameterType())
         ->setSingleValue($milestone_phid)
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false)
         ->setIsLocked(true),
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('milestone.previous')
         ->setLabel(pht('Previous Milestone'))
         ->setSingleValue($previous_milestone_phid)
@@ -239,40 +239,40 @@ final class PhabricatorProjectEditEngine
         ->setIsDefaultable(false)
         ->setIsLockable(false)
         ->setIsLocked(true),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
-        ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setDescription(pht('Project name.'))
         ->setConduitDescription(pht('Rename the project'))
         ->setConduitTypeDescription(pht('New project name.'))
         ->setValue($object->getName()),
-      id(new PhabricatorIconSetEditField())
+      id(new PhorgeIconSetEditField())
         ->setKey('icon')
         ->setLabel(pht('Icon'))
         ->setTransactionType(
-            PhabricatorProjectIconTransaction::TRANSACTIONTYPE)
-        ->setIconSet(new PhabricatorProjectIconSet())
+            PhorgeProjectIconTransaction::TRANSACTIONTYPE)
+        ->setIconSet(new PhorgeProjectIconSet())
         ->setDescription(pht('Project icon.'))
         ->setConduitDescription(pht('Change the project icon.'))
         ->setConduitTypeDescription(pht('New project icon.'))
         ->setValue($object->getIcon()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('color')
         ->setLabel(pht('Color'))
         ->setTransactionType(
-            PhabricatorProjectColorTransaction::TRANSACTIONTYPE)
-        ->setOptions(PhabricatorProjectIconSet::getColorMap())
+            PhorgeProjectColorTransaction::TRANSACTIONTYPE)
+        ->setOptions(PhorgeProjectIconSet::getColorMap())
         ->setDescription(pht('Project tag color.'))
         ->setConduitDescription(pht('Change the project tag color.'))
         ->setConduitTypeDescription(pht('New project tag color.'))
         ->setValue($object->getColor()),
-      id(new PhabricatorStringListEditField())
+      id(new PhorgeStringListEditField())
         ->setKey('slugs')
         ->setLabel(pht('Additional Hashtags'))
         ->setTransactionType(
-            PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+            PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Additional project slugs.'))
         ->setConduitDescription(pht('Change project slugs.'))
         ->setConduitTypeDescription(pht('New list of slugs.'))
@@ -289,16 +289,16 @@ final class PhabricatorProjectEditEngine
       // one. It is always available via Conduit.
       $show_field = (bool)$this->getIsCreate();
 
-      $members_field = id(new PhabricatorUsersEditField())
+      $members_field = id(new PhorgeUsersEditField())
         ->setKey('members')
         ->setAliases(array('memberPHIDs'))
         ->setLabel(pht('Initial Members'))
         ->setIsFormField($show_field)
         ->setUseEdgeTransactions(true)
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
-          PhabricatorProjectProjectHasMemberEdgeType::EDGECONST)
+          PhorgeProjectProjectHasMemberEdgeType::EDGECONST)
         ->setDescription(pht('Initial project members.'))
         ->setConduitDescription(pht('Set project members.'))
         ->setConduitTypeDescription(pht('New list of members.'))

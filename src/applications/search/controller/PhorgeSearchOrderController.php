@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchOrderController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchOrderController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorSearchOrderController
 
     $request->validateCSRF();
 
-    $base_class = 'PhabricatorApplicationSearchEngine';
+    $base_class = 'PhorgeApplicationSearchEngine';
     if (!is_subclass_of($engine_class, $base_class)) {
       return new Aphront400Response();
     }

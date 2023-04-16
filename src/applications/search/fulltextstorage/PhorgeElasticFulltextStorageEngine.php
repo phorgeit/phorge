@@ -1,13 +1,13 @@
 <?php
 
-class PhabricatorElasticFulltextStorageEngine
-  extends PhabricatorFulltextStorageEngine {
+class PhorgeElasticFulltextStorageEngine
+  extends PhorgeFulltextStorageEngine {
 
   private $index;
   private $timeout;
   private $version;
 
-  public function setService(PhabricatorSearchService $service) {
+  public function setService(PhorgeSearchService $service) {
     $this->service = $service;
     $config = $service->getConfig();
     $index = idx($config, 'path', '/phorge');
@@ -32,7 +32,7 @@ class PhabricatorElasticFulltextStorageEngine
   }
 
   public function getHostType() {
-    return new PhabricatorElasticsearchHost($this);
+    return new PhorgeElasticsearchHost($this);
   }
 
   public function getHostForRead() {
@@ -59,14 +59,14 @@ class PhabricatorElasticFulltextStorageEngine
   }
 
   public function reindexAbstractDocument(
-    PhabricatorSearchAbstractDocument $doc) {
+    PhorgeSearchAbstractDocument $doc) {
 
     $host = $this->getHostForWrite();
 
     $type = $doc->getDocumentType();
     $phid = $doc->getPHID();
-    $handle = id(new PhabricatorHandleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $handle = id(new PhorgeHandleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($phid))
       ->executeOne();
 
@@ -105,11 +105,11 @@ class PhabricatorElasticFulltextStorageEngine
     $this->executeRequest($host, "/{$type}/{$phid}/", $spec, 'PUT');
   }
 
-  private function buildSpec(PhabricatorSavedQuery $query) {
-    $q = new PhabricatorElasticsearchQueryBuilder('bool');
+  private function buildSpec(PhorgeSavedQuery $query) {
+    $q = new PhorgeElasticsearchQueryBuilder('bool');
     $query_string = $query->getParameter('query');
     if (strlen($query_string)) {
-      $fields = $this->getTypeConstants('PhabricatorSearchDocumentFieldType');
+      $fields = $this->getTypeConstants('PhorgeSearchDocumentFieldType');
 
       // Build a simple_query_string query over all fields that must match all
       // of the words in the search string.
@@ -117,9 +117,9 @@ class PhabricatorElasticFulltextStorageEngine
         'simple_query_string' => array(
           'query'  => $query_string,
           'fields' => array(
-            PhabricatorSearchDocumentFieldType::FIELD_TITLE.'.*',
-            PhabricatorSearchDocumentFieldType::FIELD_BODY.'.*',
-            PhabricatorSearchDocumentFieldType::FIELD_COMMENT.'.*',
+            PhorgeSearchDocumentFieldType::FIELD_TITLE.'.*',
+            PhorgeSearchDocumentFieldType::FIELD_BODY.'.*',
+            PhorgeSearchDocumentFieldType::FIELD_COMMENT.'.*',
           ),
           'default_operator' => 'AND',
         ),
@@ -134,9 +134,9 @@ class PhabricatorElasticFulltextStorageEngine
           'query'  => $query_string,
           'fields' => array(
             '*.raw',
-            PhabricatorSearchDocumentFieldType::FIELD_TITLE.'^4',
-            PhabricatorSearchDocumentFieldType::FIELD_BODY.'^3',
-            PhabricatorSearchDocumentFieldType::FIELD_COMMENT.'^1.2',
+            PhorgeSearchDocumentFieldType::FIELD_TITLE.'^4',
+            PhorgeSearchDocumentFieldType::FIELD_BODY.'^3',
+            PhorgeSearchDocumentFieldType::FIELD_COMMENT.'^1.2',
           ),
           'analyzer' => 'english_exact',
           'default_operator' => 'and',
@@ -157,22 +157,22 @@ class PhabricatorElasticFulltextStorageEngine
     }
 
     $relationship_map = array(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR =>
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR =>
         $query->getParameter('authorPHIDs', array()),
-      PhabricatorSearchRelationship::RELATIONSHIP_SUBSCRIBER =>
+      PhorgeSearchRelationship::RELATIONSHIP_SUBSCRIBER =>
         $query->getParameter('subscriberPHIDs', array()),
-      PhabricatorSearchRelationship::RELATIONSHIP_PROJECT =>
+      PhorgeSearchRelationship::RELATIONSHIP_PROJECT =>
         $query->getParameter('projectPHIDs', array()),
-      PhabricatorSearchRelationship::RELATIONSHIP_REPOSITORY =>
+      PhorgeSearchRelationship::RELATIONSHIP_REPOSITORY =>
         $query->getParameter('repositoryPHIDs', array()),
     );
 
     $statuses = $query->getParameter('statuses', array());
     $statuses = array_fuse($statuses);
 
-    $rel_open = PhabricatorSearchRelationship::RELATIONSHIP_OPEN;
-    $rel_closed = PhabricatorSearchRelationship::RELATIONSHIP_CLOSED;
-    $rel_unowned = PhabricatorSearchRelationship::RELATIONSHIP_UNOWNED;
+    $rel_open = PhorgeSearchRelationship::RELATIONSHIP_OPEN;
+    $rel_closed = PhorgeSearchRelationship::RELATIONSHIP_CLOSED;
+    $rel_unowned = PhorgeSearchRelationship::RELATIONSHIP_UNOWNED;
 
     $include_open = !empty($statuses[$rel_open]);
     $include_closed = !empty($statuses[$rel_closed]);
@@ -187,7 +187,7 @@ class PhabricatorElasticFulltextStorageEngine
       $q->addExistsClause($rel_unowned);
     }
 
-    $rel_owner = PhabricatorSearchRelationship::RELATIONSHIP_OWNER;
+    $rel_owner = PhorgeSearchRelationship::RELATIONSHIP_OWNER;
     if ($query->getParameter('withAnyOwner')) {
       $q->addExistsClause($rel_owner);
     } else {
@@ -235,11 +235,11 @@ class PhabricatorElasticFulltextStorageEngine
     return $spec;
   }
 
-  public function executeSearch(PhabricatorSavedQuery $query) {
+  public function executeSearch(PhorgeSavedQuery $query) {
     $types = $query->getParameter('types');
     if (!$types) {
       $types = array_keys(
-        PhabricatorSearchApplicationSearchEngine::getIndexableDocumentTypes());
+        PhorgeSearchApplicationSearchEngine::getIndexableDocumentTypes());
     }
 
     // Don't use '/_search' for the case that there is something
@@ -263,7 +263,7 @@ class PhabricatorElasticFulltextStorageEngine
       $exceptions);
   }
 
-  public function indexExists(PhabricatorElasticsearchHost $host = null) {
+  public function indexExists(PhorgeElasticsearchHost $host = null) {
     if (!$host) {
       $host = $this->getHostForRead();
     }
@@ -329,11 +329,11 @@ class PhabricatorElasticFulltextStorageEngine
       ),
     );
 
-    $fields = $this->getTypeConstants('PhabricatorSearchDocumentFieldType');
-    $relationships = $this->getTypeConstants('PhabricatorSearchRelationship');
+    $fields = $this->getTypeConstants('PhorgeSearchDocumentFieldType');
+    $relationships = $this->getTypeConstants('PhorgeSearchRelationship');
 
     $doc_types = array_keys(
-      PhabricatorSearchApplicationSearchEngine::getIndexableDocumentTypes());
+      PhorgeSearchApplicationSearchEngine::getIndexableDocumentTypes());
 
     $text_type = $this->getTextFieldType();
 
@@ -397,7 +397,7 @@ class PhabricatorElasticFulltextStorageEngine
     return $data;
   }
 
-  public function indexIsSane(PhabricatorElasticsearchHost $host = null) {
+  public function indexIsSane(PhorgeElasticsearchHost $host = null) {
     if (!$host) {
       $host = $this->getHostForRead();
     }
@@ -476,7 +476,7 @@ class PhabricatorElasticFulltextStorageEngine
     $this->executeRequest($host, '/', $data, 'PUT');
   }
 
-  public function getIndexStats(PhabricatorElasticsearchHost $host = null) {
+  public function getIndexStats(PhorgeElasticsearchHost $host = null) {
     if ($this->version < 2) {
       return false;
     }
@@ -500,7 +500,7 @@ class PhabricatorElasticFulltextStorageEngine
     );
   }
 
-  private function executeRequest(PhabricatorElasticsearchHost $host, $path,
+  private function executeRequest(PhorgeElasticsearchHost $host, $path,
     array $data, $method = 'GET') {
 
     $uri = $host->getURI($path);

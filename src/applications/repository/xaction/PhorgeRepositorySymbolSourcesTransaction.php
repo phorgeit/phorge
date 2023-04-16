@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositorySymbolSourcesTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositorySymbolSourcesTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:symbol-source';
 
@@ -50,7 +50,7 @@ final class PhabricatorRepositorySymbolSourcesTransaction
         continue;
       }
 
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getActor())
         ->withPHIDs($add)
         ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAccessibilitySetting
-  extends PhabricatorSelectSetting {
+final class PhorgeAccessibilitySetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'resource-postprocessor';
 
@@ -10,7 +10,7 @@ final class PhabricatorAccessibilitySetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDisplayPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDisplayPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

@@ -85,7 +85,7 @@ final class DifferentialChangesetParser extends Phobject {
     return $this->showEditAndReplyLinks;
   }
 
-  public function setViewState(PhabricatorChangesetViewState $view_state) {
+  public function setViewState(PhorgeChangesetViewState $view_state) {
     $this->viewState = $view_state;
     return $this;
   }
@@ -139,7 +139,7 @@ final class DifferentialChangesetParser extends Phobject {
     return $this->offsetMode;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -156,8 +156,8 @@ final class DifferentialChangesetParser extends Phobject {
 
     if ($renderer_key === null) {
       $is_unified = $viewer->compareUserSetting(
-        PhabricatorUnifiedDiffsSetting::SETTINGKEY,
-        PhabricatorUnifiedDiffsSetting::VALUE_ALWAYS_UNIFIED);
+        PhorgeUnifiedDiffsSetting::SETTINGKEY,
+        PhorgeUnifiedDiffsSetting::VALUE_ALWAYS_UNIFIED);
 
       if ($is_unified) {
         $renderer_key = '1up';
@@ -274,7 +274,7 @@ final class DifferentialChangesetParser extends Phobject {
   }
 
   public function diffOriginals() {
-    $engine = new PhabricatorDifferenceEngine();
+    $engine = new PhorgeDifferenceEngine();
     $changeset = $engine->generateChangesetFromFileContent(
       implode('', mpull($this->originalLeft->getHunks(), 'getChanges')),
       implode('', mpull($this->originalRight->getHunks(), 'getChanges')));
@@ -334,12 +334,12 @@ final class DifferentialChangesetParser extends Phobject {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
 
-  public function setMarkupEngine(PhabricatorMarkupEngine $engine) {
+  public function setMarkupEngine(PhorgeMarkupEngine $engine) {
     $this->markupEngine = $engine;
     return $this;
   }
@@ -353,7 +353,7 @@ final class DifferentialChangesetParser extends Phobject {
   }
 
   public function parseInlineComment(
-    PhabricatorInlineComment $comment) {
+    PhorgeInlineComment $comment) {
 
     // Parse only comments which are actually visible.
     if ($this->isCommentVisibleOnRenderedDiff($comment)) {
@@ -376,7 +376,7 @@ final class DifferentialChangesetParser extends Phobject {
       $conn_r,
       'SELECT * FROM %T WHERE cacheIndex = %s',
       DifferentialChangeset::TABLE_CACHE,
-      PhabricatorHash::digestForIndex($render_cache_key));
+      PhorgeHash::digestForIndex($render_cache_key));
 
     if (!$data) {
       return false;
@@ -437,7 +437,7 @@ final class DifferentialChangesetParser extends Phobject {
   }
 
   public function saveCache() {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return false;
     }
 
@@ -481,9 +481,9 @@ final class DifferentialChangesetParser extends Phobject {
           'INSERT INTO %T (cacheIndex, cache, dateCreated) VALUES (%s, %B, %d)
             ON DUPLICATE KEY UPDATE cache = VALUES(cache)',
           DifferentialChangeset::TABLE_CACHE,
-          PhabricatorHash::digestForIndex($render_cache_key),
+          PhorgeHash::digestForIndex($render_cache_key),
           $cache,
-          PhabricatorTime::getNow());
+          PhorgeTime::getNow());
       } catch (AphrontQueryException $ex) {
         // Ignore these exceptions. A common cause is that the cache is
         // larger than 'max_allowed_packet', in which case we're better off
@@ -498,7 +498,7 @@ final class DifferentialChangesetParser extends Phobject {
     $generated_guess = (strpos($new_corpus_block, '@'.'generated') !== false);
 
     if (!$generated_guess) {
-      $generated_path_regexps = PhabricatorEnv::getEnvConfig(
+      $generated_path_regexps = PhorgeEnv::getEnvConfig(
         'differential.generated-paths');
       foreach ($generated_path_regexps as $regexp) {
         if (preg_match($regexp, $this->changeset->getFilename())) {
@@ -508,8 +508,8 @@ final class DifferentialChangesetParser extends Phobject {
       }
     }
 
-    $event = new PhabricatorEvent(
-      PhabricatorEventType::TYPE_DIFFERENTIAL_WILLMARKGENERATED,
+    $event = new PhorgeEvent(
+      PhorgeEventType::TYPE_DIFFERENTIAL_WILLMARKGENERATED,
       array(
         'corpus' => $new_corpus_block,
         'is_generated' => $generated_guess,
@@ -549,7 +549,7 @@ final class DifferentialChangesetParser extends Phobject {
       $result = $text;
 
       if (isset($intra[$key])) {
-        $result = PhabricatorDifferenceEngine::applyIntralineDiff(
+        $result = PhorgeDifferenceEngine::applyIntralineDiff(
           $result,
           $intra[$key]);
       }
@@ -764,7 +764,7 @@ final class DifferentialChangesetParser extends Phobject {
     // generate property changes and "shield" UI elements only for toplevel
     // requests.
     $this->isTopLevel = (($range_start === null) && ($range_len === null));
-    $this->highlightEngine = PhabricatorSyntaxHighlighter::newEngine();
+    $this->highlightEngine = PhorgeSyntaxHighlighter::newEngine();
 
     $viewstate = $this->getViewState();
 
@@ -858,7 +858,7 @@ final class DifferentialChangesetParser extends Phobject {
     $has_document_engine = ($engine_blocks !== null);
 
     // Remove empty comments that don't have any unsaved draft data.
-    PhabricatorInlineComment::loadAndAttachVersionedDrafts(
+    PhorgeInlineComment::loadAndAttachVersionedDrafts(
       $viewer,
       $this->comments);
     foreach ($this->comments as $key => $comment) {
@@ -1238,11 +1238,11 @@ final class DifferentialChangesetParser extends Phobject {
    * taking into consideration which halves of which changesets will actually
    * be shown.
    *
-   * @param PhabricatorInlineComment Comment to test for visibility.
+   * @param PhorgeInlineComment Comment to test for visibility.
    * @return bool True if the comment is visible on the rendered diff.
    */
   private function isCommentVisibleOnRenderedDiff(
-    PhabricatorInlineComment $comment) {
+    PhorgeInlineComment $comment) {
 
     $changeset_id = $comment->getChangesetID();
     $is_new = $comment->getIsNewFile();
@@ -1266,12 +1266,12 @@ final class DifferentialChangesetParser extends Phobject {
    * Note that the comment must appear somewhere on the rendered changeset, as
    * per isCommentVisibleOnRenderedDiff().
    *
-   * @param PhabricatorInlineComment Comment to test for display
+   * @param PhorgeInlineComment Comment to test for display
    *              location.
    * @return bool True for right, false for left.
    */
   private function isCommentOnRightSideWhenDisplayed(
-    PhabricatorInlineComment $comment) {
+    PhorgeInlineComment $comment) {
 
     if (!$this->isCommentVisibleOnRenderedDiff($comment)) {
       throw new Exception(pht('Comment is not visible on changeset!'));
@@ -1474,7 +1474,7 @@ final class DifferentialChangesetParser extends Phobject {
     }
 
 
-    $engine = id(new PhabricatorDifferenceEngine())
+    $engine = id(new PhorgeDifferenceEngine())
       ->setNormalize(true);
 
     $normalized_changeset = $engine->generateChangesetFromFileContent(
@@ -1755,7 +1755,7 @@ final class DifferentialChangesetParser extends Phobject {
     if ($no_old) {
       $old_ref = null;
     } else {
-      $old_ref = id(new PhabricatorDocumentRef())
+      $old_ref = id(new PhorgeDocumentRef())
         ->setName($changeset->getOldFile());
       if ($old_file) {
         $old_ref->setFile($old_file);
@@ -1768,7 +1768,7 @@ final class DifferentialChangesetParser extends Phobject {
     if ($no_new) {
       $new_ref = null;
     } else {
-      $new_ref = id(new PhabricatorDocumentRef())
+      $new_ref = id(new PhorgeDocumentRef())
         ->setName($changeset->getFilename());
       if ($new_file) {
         $new_ref->setFile($new_file);
@@ -1780,14 +1780,14 @@ final class DifferentialChangesetParser extends Phobject {
 
     $old_engines = null;
     if ($old_ref) {
-      $old_engines = PhabricatorDocumentEngine::getEnginesForRef(
+      $old_engines = PhorgeDocumentEngine::getEnginesForRef(
         $viewer,
         $old_ref);
     }
 
     $new_engines = null;
     if ($new_ref) {
-      $new_engines = PhabricatorDocumentEngine::getEnginesForRef(
+      $new_engines = PhorgeDocumentEngine::getEnginesForRef(
         $viewer,
         $new_ref);
     }
@@ -1865,7 +1865,7 @@ final class DifferentialChangesetParser extends Phobject {
         $file_phids[] = $new_phid;
       }
 
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($file_phids)
         ->execute();
@@ -1932,7 +1932,7 @@ final class DifferentialChangesetParser extends Phobject {
     // selecting it causes us to fall through and render with builtin
     // behavior. For now, overall behavir is reasonable.
 
-    $available_keys[] = PhabricatorSourceDocumentEngine::ENGINEKEY;
+    $available_keys[] = PhorgeSourceDocumentEngine::ENGINEKEY;
     $available_keys = array_fuse($available_keys);
     $available_keys = array_values($available_keys);
 
@@ -1947,7 +1947,7 @@ final class DifferentialChangesetParser extends Phobject {
       'isHidden' => $viewstate->getHidden(),
     );
 
-    return id(new PhabricatorChangesetResponse())
+    return id(new PhorgeChangesetResponse())
       ->setRenderedChangeset($rendered_changeset)
       ->setChangesetState($state);
   }

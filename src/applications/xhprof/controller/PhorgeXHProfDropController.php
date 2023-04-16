@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHProfDropController
-  extends PhabricatorXHProfController {
+final class PhorgeXHProfDropController
+  extends PhorgeXHProfController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -14,7 +14,7 @@ final class PhabricatorXHProfDropController
 
     $ids = $request->getStrList('h');
     if ($ids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withIDs($ids)
         ->setRaisePolicyExceptions(true)
@@ -33,7 +33,7 @@ final class PhabricatorXHProfDropController
 
     $samples = array();
     foreach ($files as $file) {
-      $sample = PhabricatorXHProfSample::initializeNewSample()
+      $sample = PhorgeXHProfSample::initializeNewSample()
         ->setFilePHID($file->getPHID())
         ->setUserPHID($viewer->getPHID())
         ->save();

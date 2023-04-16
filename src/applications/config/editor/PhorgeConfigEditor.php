@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorConfigEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeConfigEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorConfigApplication';
+    return 'PhorgeConfigApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,17 +14,17 @@ final class PhabricatorConfigEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorConfigTransaction::TYPE_EDIT;
+    $types[] = PhorgeConfigTransaction::TYPE_EDIT;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorConfigTransaction::TYPE_EDIT:
+      case PhorgeConfigTransaction::TYPE_EDIT:
         return array(
           'deleted' => (int)$object->getIsDeleted(),
           'value'   => $object->getValue(),
@@ -33,28 +33,28 @@ final class PhabricatorConfigEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorConfigTransaction::TYPE_EDIT:
+      case PhorgeConfigTransaction::TYPE_EDIT:
         return $xaction->getNewValue();
     }
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorConfigTransaction::TYPE_EDIT:
+      case PhorgeConfigTransaction::TYPE_EDIT:
         $v = $xaction->getNewValue();
 
         // If this is a defined configuration option (vs a straggler from an
         // old version of Phorge or a configuration file misspelling)
         // submit it to the validation gauntlet.
         $key = $object->getConfigKey();
-        $all_options = PhabricatorApplicationConfigOptions::loadAllOptions();
+        $all_options = PhorgeApplicationConfigOptions::loadAllOptions();
         $option = idx($all_options, $key);
         if ($option) {
           $option->getGroup()->validateOption(
@@ -69,18 +69,18 @@ final class PhabricatorConfigEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     return;
   }
 
   protected function mergeTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $type = $u->getTransactionType();
     switch ($type) {
-      case PhabricatorConfigTransaction::TYPE_EDIT:
+      case PhorgeConfigTransaction::TYPE_EDIT:
         return $v;
     }
 
@@ -88,15 +88,15 @@ final class PhabricatorConfigEditor
   }
 
   protected function transactionHasEffect(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
 
     $type = $xaction->getTransactionType();
     switch ($type) {
-      case PhabricatorConfigTransaction::TYPE_EDIT:
+      case PhorgeConfigTransaction::TYPE_EDIT:
         // If an edit deletes an already-deleted entry, no-op it.
         if (idx($old, 'deleted') && idx($new, 'deleted')) {
           return false;
@@ -109,27 +109,27 @@ final class PhabricatorConfigEditor
 
   protected function didApplyTransactions($object, array $xactions) {
     // Force all the setup checks to run on the next page load.
-    PhabricatorSetupCheck::deleteSetupCheckCache();
+    PhorgeSetupCheck::deleteSetupCheckCache();
 
     return $xactions;
   }
 
   public static function storeNewValue(
-    PhabricatorUser $user,
-    PhabricatorConfigEntry $config_entry,
+    PhorgeUser $user,
+    PhorgeConfigEntry $config_entry,
     $value,
-    PhabricatorContentSource $source,
+    PhorgeContentSource $source,
     $acting_as_phid = null) {
 
-    $xaction = id(new PhabricatorConfigTransaction())
-      ->setTransactionType(PhabricatorConfigTransaction::TYPE_EDIT)
+    $xaction = id(new PhorgeConfigTransaction())
+      ->setTransactionType(PhorgeConfigTransaction::TYPE_EDIT)
       ->setNewValue(
         array(
            'deleted' => false,
            'value' => $value,
         ));
 
-    $editor = id(new PhabricatorConfigEditor())
+    $editor = id(new PhorgeConfigEditor())
       ->setActor($user)
       ->setContinueOnNoEffect(true)
       ->setContentSource($source);
@@ -142,19 +142,19 @@ final class PhabricatorConfigEditor
   }
 
   public static function deleteConfig(
-    PhabricatorUser $user,
-    PhabricatorConfigEntry $config_entry,
-    PhabricatorContentSource $source) {
+    PhorgeUser $user,
+    PhorgeConfigEntry $config_entry,
+    PhorgeContentSource $source) {
 
-    $xaction = id(new PhabricatorConfigTransaction())
-      ->setTransactionType(PhabricatorConfigTransaction::TYPE_EDIT)
+    $xaction = id(new PhorgeConfigTransaction())
+      ->setTransactionType(PhorgeConfigTransaction::TYPE_EDIT)
       ->setNewValue(
         array(
           'deleted' => true,
           'value' => null,
         ));
 
-    $editor = id(new PhabricatorConfigEditor())
+    $editor = id(new PhorgeConfigEditor())
       ->setActor($user)
       ->setContinueOnNoEffect(true)
       ->setContentSource($source);

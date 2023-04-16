@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardAdjustController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardAdjustController
+  extends PhorgeDashboardController {
 
   private $contextPHID;
   private $panelKey;
@@ -12,13 +12,13 @@ final class PhabricatorDashboardAdjustController
 
     $context_phid = $request->getStr('contextPHID');
 
-    $dashboard = id(new PhabricatorDashboardQuery())
+    $dashboard = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($context_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$dashboard) {
@@ -73,7 +73,7 @@ final class PhabricatorDashboardAdjustController
   }
 
   private function handleAddRequest(
-    PhabricatorDashboard $dashboard,
+    PhorgeDashboard $dashboard,
     $done_uri) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
@@ -89,7 +89,7 @@ final class PhabricatorDashboardAdjustController
         $errors[] = pht('You must choose a panel to add to the dashboard.');
         $e_panel = pht('Required');
       } else {
-        $panel = id(new PhabricatorDashboardPanelQuery())
+        $panel = id(new PhorgeDashboardPanelQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($panel_phid))
           ->executeOne();
@@ -108,7 +108,7 @@ final class PhabricatorDashboardAdjustController
 
         $xactions[] = $dashboard->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorDashboardPanelsTransaction::TRANSACTIONTYPE)
+            PhorgeDashboardPanelsTransaction::TRANSACTIONTYPE)
           ->setNewValue($new_panels);
 
         $editor = $dashboard->getApplicationTransactionEditor()
@@ -135,7 +135,7 @@ final class PhabricatorDashboardAdjustController
         pht('Choose a panel to add to this dashboard:'))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorDashboardPanelDatasource())
+          ->setDatasource(new PhorgeDashboardPanelDatasource())
           ->setLimit(1)
           ->setName('panelPHIDs')
           ->setLabel(pht('Panel'))
@@ -152,8 +152,8 @@ final class PhabricatorDashboardAdjustController
   }
 
   private function handleRemoveRequest(
-    PhabricatorDashboard $dashboard,
-    PhabricatorDashboardPanelRef $panel_ref,
+    PhorgeDashboard $dashboard,
+    PhorgeDashboardPanelRef $panel_ref,
     $done_uri) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
@@ -171,7 +171,7 @@ final class PhabricatorDashboardAdjustController
 
       $xactions[] = $dashboard->getApplicationTransactionTemplate()
         ->setTransactionType(
-          PhabricatorDashboardPanelsTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardPanelsTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_panels);
 
       $editor = $dashboard->getApplicationTransactionEditor()
@@ -202,9 +202,9 @@ final class PhabricatorDashboardAdjustController
   }
 
   private function handleMoveRequest(
-    PhabricatorDashboard $dashboard,
-    PhabricatorDashboardPanelRef $panel_ref,
-    PhabricatorDashboardPanelRef $after_ref = null) {
+    PhorgeDashboard $dashboard,
+    PhorgeDashboardPanelRef $panel_ref,
+    PhorgeDashboardPanelRef $after_ref = null) {
 
     $request = $this->getRequest();
     $request->validateCSRF();
@@ -218,7 +218,7 @@ final class PhabricatorDashboardAdjustController
 
     $xactions[] = $dashboard->getApplicationTransactionTemplate()
       ->setTransactionType(
-        PhabricatorDashboardPanelsTransaction::TRANSACTIONTYPE)
+        PhorgeDashboardPanelsTransaction::TRANSACTIONTYPE)
       ->setNewValue($new_panels);
 
     $editor = $dashboard->getApplicationTransactionEditor()

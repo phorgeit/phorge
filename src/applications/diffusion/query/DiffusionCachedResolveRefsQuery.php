@@ -34,11 +34,11 @@ final class DiffusionCachedResolveRefsQuery
     }
 
     switch ($this->getRepository()->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->resolveGitAndMercurialRefs();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $result = $this->resolveSubversionRefs();
         break;
       default:
@@ -82,7 +82,7 @@ final class DiffusionCachedResolveRefsQuery
         $conn_r,
         'SELECT commitIdentifier FROM %T
           WHERE repositoryID = %s AND %LO',
-        id(new PhabricatorRepositoryCommit())->getTableName(),
+        id(new PhorgeRepositoryCommit())->getTableName(),
         $repository->getID(),
         $prefixes);
 
@@ -101,7 +101,7 @@ final class DiffusionCachedResolveRefsQuery
 
     $name_hashes = array();
     foreach ($this->refs as $ref) {
-      $name_hashes[PhabricatorHash::digestForIndex($ref)] = $ref;
+      $name_hashes[PhorgeHash::digestForIndex($ref)] = $ref;
     }
 
     $cursors = queryfx_all(
@@ -109,8 +109,8 @@ final class DiffusionCachedResolveRefsQuery
       'SELECT c.refNameHash, c.refType, p.commitIdentifier, p.isClosed
         FROM %T c JOIN %T p ON p.cursorID = c.id
         WHERE c.repositoryPHID = %s AND c.refNameHash IN (%Ls)',
-      id(new PhabricatorRepositoryRefCursor())->getTableName(),
-      id(new PhabricatorRepositoryRefPosition())->getTableName(),
+      id(new PhorgeRepositoryRefCursor())->getTableName(),
+      id(new PhorgeRepositoryRefPosition())->getTableName(),
       $repository->getPHID(),
       array_keys($name_hashes));
 
@@ -139,7 +139,7 @@ final class DiffusionCachedResolveRefsQuery
   private function resolveSubversionRefs() {
     $repository = $this->getRepository();
 
-    $max_commit = id(new PhabricatorRepositoryCommit())
+    $max_commit = id(new PhorgeRepositoryCommit())
       ->loadOneWhere(
         'repositoryID = %d ORDER BY epoch DESC, id DESC LIMIT 1',
         $repository->getID());

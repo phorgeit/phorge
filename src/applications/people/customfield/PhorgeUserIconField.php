@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserIconField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserIconField
+  extends PhorgeUserCustomField {
 
   private $value;
 
@@ -37,7 +37,7 @@ final class PhabricatorUserIconField
     return true;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $this->value = $object->loadUserProfile()->getIcon();
   }
 
@@ -50,7 +50,7 @@ final class PhabricatorUserIconField
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->getObject()->loadUserProfile()->setIcon($xaction->getNewValue());
   }
 
@@ -68,7 +68,7 @@ final class PhabricatorUserIconField
       ->setName($this->getFieldKey())
       ->setValue($this->value)
       ->setLabel($this->getFieldName())
-      ->setIconSet(new PhabricatorPeopleIconSet());
+      ->setIconSet(new PhorgePeopleIconSet());
   }
 
   public function shouldAppearInConduitTransactions() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldDatasource
-  extends PhabricatorStandardCustomFieldTokenizer {
+final class PhorgeStandardCustomFieldDatasource
+  extends PhorgeStandardCustomFieldTokenizer {
 
   public function getFieldType() {
     return 'datasource';
@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldDatasource
     $parameters = $this->getFieldConfigValue('datasource.parameters', array());
 
     $class = $this->getFieldConfigValue('datasource.class');
-    $parent = 'PhabricatorTypeaheadDatasource';
+    $parent = 'PhorgeTypeaheadDatasource';
     if (!is_subclass_of($class, $parent)) {
       throw new Exception(
         pht(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPHIDMailStamp
-  extends PhabricatorMailStamp {
+final class PhorgePHIDMailStamp
+  extends PhorgeMailStamp {
 
   const STAMPTYPE = 'phid';
 

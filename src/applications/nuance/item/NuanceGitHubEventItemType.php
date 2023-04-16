@@ -261,7 +261,7 @@ final class NuanceGitHubEventItemType
         $raw_output = id(new PhutilJSON())->encodeFormatted($raw);
 
         $raw_box = id(new AphrontFormTextAreaControl())
-          ->setCustomClass('PhabricatorMonospaced')
+          ->setCustomClass('PhorgeMonospaced')
           ->setLabel(pht('Raw Event'))
           ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
           ->setValue($raw_output);
@@ -304,7 +304,7 @@ final class NuanceGitHubEventItemType
       $event->getID());
 
     $event_uri = $event->getURI();
-    if ($event_uri && PhabricatorEnv::isValidRemoteURIForLink($event_uri)) {
+    if ($event_uri && PhorgeEnv::isValidRemoteURIForLink($event_uri)) {
       $event_uri = phutil_tag(
         'a',
         array(
@@ -415,7 +415,7 @@ final class NuanceGitHubEventItemType
     $comment = $event->getComment();
     if (strlen($comment)) {
       $xactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment(
           id(new ManiphestTransactionComment())
             ->setContent($comment));

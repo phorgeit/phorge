@@ -169,7 +169,7 @@ final class AlmanacInterfaceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function getBuiltinOrders() {
@@ -193,7 +193,7 @@ final class AlmanacInterfaceQuery
   }
 
   protected function newPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $interface = $cursor->getObject();

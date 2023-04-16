@@ -88,7 +88,7 @@ final class DifferentialCreateCommentConduitAPIMethod
     $content = $request->getValue('message');
     if (strlen($content)) {
       $xactions[] = id(new DifferentialTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment(
           id(new DifferentialTransactionComment())
             ->setContent($content));
@@ -110,7 +110,7 @@ final class DifferentialCreateCommentConduitAPIMethod
 
     return array(
       'revisionid'  => $revision->getID(),
-      'uri'         => PhabricatorEnv::getURI('/D'.$revision->getID()),
+      'uri'         => PhorgeEnv::getURI('/D'.$revision->getID()),
     );
   }
 

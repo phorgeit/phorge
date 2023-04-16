@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesCapabilityCreateSpaces
-  extends PhabricatorPolicyCapability {
+final class PhorgeSpacesCapabilityCreateSpaces
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'spaces.create';
 

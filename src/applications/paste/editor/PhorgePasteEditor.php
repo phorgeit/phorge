@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgePasteEditor
+  extends PhorgeApplicationTransactionEditor {
 
   private $newPasteTitle;
 
@@ -10,7 +10,7 @@ final class PhabricatorPasteEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -28,21 +28,21 @@ final class PhabricatorPasteEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
 
     return $types;
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $new_title = $object->getTitle();
     foreach ($xactions as $xaction) {
       $type = $xaction->getTransactionType();
-      if ($type === PhabricatorPasteTitleTransaction::TRANSACTIONTYPE) {
+      if ($type === PhorgePasteTitleTransaction::TRANSACTIONTYPE) {
         $new_title = $xaction->getNewValue();
       }
     }
@@ -52,7 +52,7 @@ final class PhabricatorPasteEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if ($this->getIsNewObject()) {
@@ -66,7 +66,7 @@ final class PhabricatorPasteEditor
     return pht('[Paste]');
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->getActingAsPHID(),
@@ -75,43 +75,43 @@ final class PhabricatorPasteEditor
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorPasteTransaction::MAILTAG_CONTENT =>
+      PhorgePasteTransaction::MAILTAG_CONTENT =>
         pht('Paste title, language or text changes.'),
-      PhabricatorPasteTransaction::MAILTAG_COMMENT =>
+      PhorgePasteTransaction::MAILTAG_COMMENT =>
         pht('Someone comments on a paste.'),
-      PhabricatorPasteTransaction::MAILTAG_OTHER =>
+      PhorgePasteTransaction::MAILTAG_OTHER =>
         pht('Other paste activity not listed above occurs.'),
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PasteReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $name = $object->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("P{$id}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addLinkSection(
       pht('PASTE DETAIL'),
-      PhabricatorEnv::getProductionURI('/P'.$object->getID()));
+      PhorgeEnv::getProductionURI('/P'.$object->getID()));
 
     return $body;
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorBadgesListController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesListController
+  extends PhorgeBadgesController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorBadgesSearchEngine())
+    return id(new PhorgeBadgesSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorBadgesListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorBadgesEditEngine())
+    id(new PhorgeBadgesEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

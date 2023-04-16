@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeAuthContactNumberPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'CTNM';
 
@@ -10,23 +10,23 @@ final class PhabricatorAuthContactNumberPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorAuthContactNumber();
+    return new PhorgeAuthContactNumber();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorAuthContactNumberQuery())
+    return id(new PhorgeAuthContactNumberQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

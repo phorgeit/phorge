@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorMustVerifyEmailController
-  extends PhabricatorAuthController {
+final class PhorgeMustVerifyEmailController
+  extends PhorgeAuthController {
 
   public function shouldRequireEmailVerification() {
-    // NOTE: We don't technically need this since PhabricatorController forces
+    // NOTE: We don't technically need this since PhorgeController forces
     // us here in either case, but it's more consistent with intent.
     return false;
   }

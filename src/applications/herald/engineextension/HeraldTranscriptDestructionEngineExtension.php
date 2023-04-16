@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldTranscriptDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'herald.transcripts';
 
@@ -10,7 +10,7 @@ final class HeraldTranscriptDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $object_phid = $object->getPHID();

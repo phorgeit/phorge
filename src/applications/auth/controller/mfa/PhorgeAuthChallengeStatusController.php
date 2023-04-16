@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthChallengeStatusController
-  extends PhabricatorAuthController {
+final class PhorgeAuthChallengeStatusController
+  extends PhorgeAuthController {
 
   public function shouldAllowPartialSessions() {
     // We expect that users may request the status of an MFA challenge when
@@ -12,18 +12,18 @@ final class PhabricatorAuthChallengeStatusController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
-    $result = new PhabricatorAuthChallengeUpdate();
+    $result = new PhorgeAuthChallengeUpdate();
 
-    $challenge = id(new PhabricatorAuthChallengeQuery())
+    $challenge = id(new PhorgeAuthChallengeQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withChallengeTTLBetween($now, null)
       ->executeOne();
     if ($challenge) {
-      $config = id(new PhabricatorAuthFactorConfigQuery())
+      $config = id(new PhorgeAuthFactorConfigQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($challenge->getFactorPHID()))
         ->executeOne();

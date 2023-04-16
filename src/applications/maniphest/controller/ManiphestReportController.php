@@ -36,8 +36,8 @@ final class ManiphestReportController extends ManiphestController {
     $nav->addFilter('user', pht('By User'));
     $nav->addFilter('project', pht('By Project'));
 
-    $class = 'PhabricatorFactApplication';
-    if (PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeFactApplication';
+    if (PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       $nav->addLabel(pht('Burnup'));
       $nav->addFilter('burn', pht('Burnup Rate'));
     }
@@ -93,14 +93,14 @@ final class ManiphestReportController extends ManiphestController {
         'JOIN %T t ON x.objectPHID = t.phid
           JOIN %T p ON p.src = t.phid AND p.type = %d AND p.dst = %s',
         id(new ManiphestTask())->getTableName(),
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         $project_phid);
       $create_joins = qsprintf(
         $conn,
         'JOIN %T p ON p.src = t.phid AND p.type = %d AND p.dst = %s',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         $project_phid);
     } else {
       $joins = qsprintf($conn, '');
@@ -385,7 +385,7 @@ final class ManiphestReportController extends ManiphestController {
     list($burn_x, $burn_y) = $this->buildSeries($data);
 
     if ($project_phid) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($project_phid))
         ->execute();
@@ -393,14 +393,14 @@ final class ManiphestReportController extends ManiphestController {
       $projects = array();
     }
 
-    $panel = id(new PhabricatorProjectBurndownChartEngine())
+    $panel = id(new PhorgeProjectBurndownChartEngine())
       ->setViewer($viewer)
       ->setProjects($projects)
       ->buildChartPanel();
 
     $panel->setName(pht('Burnup Rate'));
 
-    $chart_view = id(new PhabricatorDashboardPanelRenderingEngine())
+    $chart_view = id(new PhorgeDashboardPanelRenderingEngine())
       ->setViewer($viewer)
       ->setPanel($panel)
       ->setParentPanelPHIDs(array())
@@ -417,7 +417,7 @@ final class ManiphestReportController extends ManiphestController {
       ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorProjectDatasource())
+          ->setDatasource(new PhorgeProjectDatasource())
           ->setLabel(pht('Project'))
           ->setLimit(1)
           ->setName('set_project')
@@ -507,8 +507,8 @@ final class ManiphestReportController extends ManiphestController {
       $project_handle = $handles[$project_phid];
 
       $query->withEdgeLogicPHIDs(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_OR,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeQueryConstraint::OPERATOR_OR,
         $phids);
     }
 
@@ -832,7 +832,7 @@ final class ManiphestReportController extends ManiphestController {
     // Do locale-aware parsing so that the user's timezone is assumed for
     // time windows like "3 PM", rather than assuming the server timezone.
 
-    $window_epoch = PhabricatorTime::parseLocalTime($window_str, $viewer);
+    $window_epoch = PhorgeTime::parseLocalTime($window_str, $viewer);
     if (!$window_epoch) {
       $error = 'Invalid';
       $window_epoch = time() - (60 * 60 * 24 * 7);

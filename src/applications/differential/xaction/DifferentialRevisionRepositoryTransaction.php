@@ -76,7 +76,7 @@ final class DifferentialRevisionRepositoryTransaction
         continue;
       }
 
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($actor)
         ->withPHIDs(array($new_value))
         ->executeOne();

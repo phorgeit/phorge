@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteFerretEngine
-  extends PhabricatorFerretEngine {
+final class PhorgePasteFerretEngine
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'paste';
@@ -12,7 +12,7 @@ final class PhabricatorPasteFerretEngine
   }
 
   public function newSearchEngine() {
-    return new PhabricatorPasteSearchEngine();
+    return new PhorgePasteSearchEngine();
   }
 
 }

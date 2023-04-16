@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionReplyHandler
-  extends PhabricatorMailReplyHandler {
+abstract class PhorgeApplicationTransactionReplyHandler
+  extends PhorgeMailReplyHandler {
 
   abstract public function getObjectPrefix();
 
   public function getPrivateReplyHandlerEmailAddress(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
     return $this->getDefaultPrivateReplyHandlerEmailAddress(
       $user,
       $this->getObjectPrefix());
@@ -17,7 +17,7 @@ abstract class PhabricatorApplicationTransactionReplyHandler
       $this->getObjectPrefix());
   }
 
-  private function newEditor(PhabricatorMetaMTAReceivedMail $mail) {
+  private function newEditor(PhorgeMetaMTAReceivedMail $mail) {
     $content_source = $mail->newContentSource();
 
     $editor = $this->getMailReceiver()
@@ -40,7 +40,7 @@ abstract class PhabricatorApplicationTransactionReplyHandler
   }
 
   protected function didReceiveMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     $body) {
     return array();
   }
@@ -49,7 +49,7 @@ abstract class PhabricatorApplicationTransactionReplyHandler
     return (bool)$this->getMailReceiver()->getID();
   }
 
-  final protected function receiveEmail(PhabricatorMetaMTAReceivedMail $mail) {
+  final protected function receiveEmail(PhorgeMetaMTAReceivedMail $mail) {
     $viewer = $this->getActor();
     $object = $this->getMailReceiver();
     $app_email = $this->getApplicationEmail();
@@ -60,9 +60,9 @@ abstract class PhabricatorApplicationTransactionReplyHandler
     // created by sending mail to an ApplicationEmail address, put the object
     // in the same Space the address is in.
     if ($is_new) {
-      if ($object instanceof PhabricatorSpacesInterface) {
+      if ($object instanceof PhorgeSpacesInterface) {
         if ($app_email) {
-          $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+          $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
             $app_email);
           $object->setSpacePHID($space_phid);
         }
@@ -77,11 +77,11 @@ abstract class PhabricatorApplicationTransactionReplyHandler
 
     // If this object is subscribable, subscribe all the users who were
     // recipients on the message.
-    if ($object instanceof PhabricatorSubscribableInterface) {
+    if ($object instanceof PhorgeSubscribableInterface) {
       $subscriber_phids = $mail->loadAllRecipientPHIDs();
       if ($subscriber_phids) {
         $xactions[] = $this->newTransaction()
-          ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+          ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
           ->setNewValue(
             array(
               '+' => $subscriber_phids,
@@ -103,7 +103,7 @@ abstract class PhabricatorApplicationTransactionReplyHandler
         ->setContent($body);
 
       $xactions[] = $this->newTransaction()
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment($comment);
     }
 
@@ -113,7 +113,7 @@ abstract class PhabricatorApplicationTransactionReplyHandler
   }
 
   private function processMailCommands(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     array $command_list) {
 
     $viewer = $this->getActor();

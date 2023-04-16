@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialAttachCommitWorkflow
-  extends PhabricatorDifferentialManagementWorkflow {
+final class PhorgeDifferentialAttachCommitWorkflow
+  extends PhorgeDifferentialManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -39,7 +39,7 @@ final class PhabricatorDifferentialAttachCommitWorkflow
         pht('Commit "%s" does not exist.', $commit_name));
     }
 
-    $revision = id(new PhabricatorObjectQuery())
+    $revision = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($revision_name))
       ->executeOne();
@@ -61,7 +61,7 @@ final class PhabricatorDifferentialAttachCommitWorkflow
       ->needActiveDiffs(true)
       ->executeOne();
 
-    $differential_phid = id(new PhabricatorDifferentialApplication())
+    $differential_phid = id(new PhorgeDifferentialApplication())
       ->getPHID();
 
     $extraction_engine = id(new DifferentialDiffExtractionEngine())

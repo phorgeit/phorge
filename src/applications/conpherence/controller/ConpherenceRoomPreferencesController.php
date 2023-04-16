@@ -54,10 +54,10 @@ final class ConpherenceRoomPreferencesController
         ->setURI($view_uri);
     }
 
-    $notification_key = PhabricatorConpherenceNotificationsSetting::SETTINGKEY;
+    $notification_key = PhorgeConpherenceNotificationsSetting::SETTINGKEY;
     $notification_default = $viewer->getUserSetting($notification_key);
 
-    $sound_key = PhabricatorConpherenceSoundSetting::SETTINGKEY;
+    $sound_key = PhorgeConpherenceSoundSetting::SETTINGKEY;
     $sound_default = $viewer->getUserSetting($sound_key);
 
     $settings = $participant->getSettings();
@@ -65,7 +65,7 @@ final class ConpherenceRoomPreferencesController
     $theme = idx($settings, 'theme', ConpherenceRoomSettings::COLOR_LIGHT);
 
     $sounds = idx($settings, 'sounds', array());
-    $map = PhabricatorConpherenceSoundSetting::getDefaultSound($sound_default);
+    $map = PhorgeConpherenceSoundSetting::getDefaultSound($sound_default);
     $receive = idx($sounds,
       ConpherenceRoomSettings::SOUND_RECEIVE,
       $map[ConpherenceRoomSettings::SOUND_RECEIVE]);
@@ -79,14 +79,14 @@ final class ConpherenceRoomPreferencesController
         id(new AphrontFormRadioButtonControl())
           ->setLabel(pht('Notify'))
           ->addButton(
-          PhabricatorConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL,
-          PhabricatorConpherenceNotificationsSetting::getSettingLabel(
-          PhabricatorConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL),
+          PhorgeConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL,
+          PhorgeConpherenceNotificationsSetting::getSettingLabel(
+          PhorgeConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL),
             '')
           ->addButton(
-          PhabricatorConpherenceNotificationsSetting::VALUE_CONPHERENCE_NOTIFY,
-          PhabricatorConpherenceNotificationsSetting::getSettingLabel(
-          PhabricatorConpherenceNotificationsSetting::VALUE_CONPHERENCE_NOTIFY),
+          PhorgeConpherenceNotificationsSetting::VALUE_CONPHERENCE_NOTIFY,
+          PhorgeConpherenceNotificationsSetting::getSettingLabel(
+          PhorgeConpherenceNotificationsSetting::VALUE_CONPHERENCE_NOTIFY),
             '')
           ->setName('notifications')
           ->setValue($notifications))

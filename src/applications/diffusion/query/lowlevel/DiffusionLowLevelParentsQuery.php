@@ -17,13 +17,13 @@ final class DiffusionLowLevelParentsQuery
 
     $type = $this->getRepository()->getVersionControlSystem();
     switch ($type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->loadGitParents();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->loadMercurialParents();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $result = $this->loadSubversionParents();
         break;
       default:

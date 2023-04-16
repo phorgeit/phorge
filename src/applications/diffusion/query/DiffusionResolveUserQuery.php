@@ -65,7 +65,7 @@ final class DiffusionResolveUserQuery extends Phobject {
 
 
   private function findUserByUserName($user_name) {
-    $by_username = id(new PhabricatorUser())->loadOneWhere(
+    $by_username = id(new PhorgeUser())->loadOneWhere(
       'userName = %s',
       $user_name);
 
@@ -80,7 +80,7 @@ final class DiffusionResolveUserQuery extends Phobject {
   private function findUserByRealName($real_name) {
     // Note, real names are not guaranteed unique, which is why we do it this
     // way.
-    $by_realname = id(new PhabricatorUser())->loadAllWhere(
+    $by_realname = id(new PhorgeUser())->loadAllWhere(
       'realName = %s',
       $real_name);
 
@@ -93,7 +93,7 @@ final class DiffusionResolveUserQuery extends Phobject {
 
 
   private function findUserByEmailAddress($email_address) {
-    $by_email = PhabricatorUser::loadOneWithEmailAddress($email_address);
+    $by_email = PhorgeUser::loadOneWithEmailAddress($email_address);
 
     if ($by_email) {
       return $by_email->getPHID();

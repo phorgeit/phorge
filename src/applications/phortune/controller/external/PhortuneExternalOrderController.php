@@ -86,7 +86,7 @@ final class PhortuneExternalOrderController
     $print_uri = $email->getExternalOrderPrintURI($order);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Printable Version'))
         ->setHref($print_uri)
         ->setOpenInNewWindow(true)

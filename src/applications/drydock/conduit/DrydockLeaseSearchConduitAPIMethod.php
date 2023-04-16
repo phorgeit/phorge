@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockLeaseSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'drydock.lease.search';

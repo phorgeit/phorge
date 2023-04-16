@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'differential';
 
@@ -11,22 +11,22 @@ final class DifferentialMailEngineExtension
 
   public function newMailStampTemplates($object) {
     return array(
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('author')
         ->setLabel(pht('Author')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('reviewer')
         ->setLabel(pht('Reviewer')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('blocking-reviewer')
         ->setLabel(pht('Reviewer')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('resigned-reviewer')
         ->setLabel(pht('Reviewer')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('revision-repository')
         ->setLabel(pht('Revision Repository')),
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('revision-status')
         ->setLabel(pht('Revision Status')),
     );

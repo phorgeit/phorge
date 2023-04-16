@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSlug extends Phobject {
+final class PhorgeSlug extends Phobject {
 
   public static function normalizeProjectSlug($slug) {
     $slug = str_replace('/', ' ', $slug);

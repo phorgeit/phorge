@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockLogSearchEngine extends PhabricatorApplicationSearchEngine {
+final class DrydockLogSearchEngine extends PhorgeApplicationSearchEngine {
 
   private $blueprint;
   private $resource;
@@ -54,7 +54,7 @@ final class DrydockLogSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function newQuery() {
@@ -143,14 +143,14 @@ final class DrydockLogSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $list = id(new DrydockLogListView())
       ->setUser($this->requireViewer())
       ->setLogs($logs);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($list);
 
     return $result;

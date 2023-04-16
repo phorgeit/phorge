@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMFASyncTemporaryTokenType
-  extends PhabricatorAuthTemporaryTokenType {
+final class PhorgeAuthMFASyncTemporaryTokenType
+  extends PhorgeAuthTemporaryTokenType {
 
   const TOKENTYPE = 'mfa.sync';
   const DIGEST_KEY = 'mfa.sync';
@@ -11,7 +11,7 @@ final class PhabricatorAuthMFASyncTemporaryTokenType
   }
 
   public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token) {
+    PhorgeAuthTemporaryToken $token) {
     return pht('MFA Sync Token');
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConduitApplication extends PhabricatorApplication {
+final class PhorgeConduitApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/conduit/';
@@ -14,11 +14,11 @@ final class PhabricatorConduitApplication extends PhabricatorApplication {
     return false;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Conduit API Overview'),
-        'href' => PhabricatorEnv::getDoclink('Conduit API Overview'),
+        'href' => PhorgeEnv::getDoclink('Conduit API Overview'),
       ),
     );
   }
@@ -46,23 +46,23 @@ final class PhabricatorConduitApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/conduit/' => array(
-        $this->getQueryRoutePattern() => 'PhabricatorConduitListController',
-        'method/(?P<method>[^/]+)/' => 'PhabricatorConduitConsoleController',
+        $this->getQueryRoutePattern() => 'PhorgeConduitListController',
+        'method/(?P<method>[^/]+)/' => 'PhorgeConduitConsoleController',
         'log/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorConduitLogController',
-          'view/(?P<view>[^/]+)/' => 'PhabricatorConduitLogController',
+            'PhorgeConduitLogController',
+          'view/(?P<view>[^/]+)/' => 'PhorgeConduitLogController',
         ),
         'token/' => array(
-          '' => 'PhabricatorConduitTokenController',
+          '' => 'PhorgeConduitTokenController',
           'edit/(?:(?P<id>\d+)/)?' =>
-            'PhabricatorConduitTokenEditController',
+            'PhorgeConduitTokenEditController',
           'terminate/(?:(?P<id>\d+)/)?' =>
-            'PhabricatorConduitTokenTerminateController',
+            'PhorgeConduitTokenTerminateController',
         ),
-        'login/' => 'PhabricatorConduitTokenHandshakeController',
+        'login/' => 'PhorgeConduitTokenHandshakeController',
       ),
-      '/api/(?P<method>[^/]+)' => 'PhabricatorConduitAPIController',
+      '/api/(?P<method>[^/]+)' => 'PhorgeConduitAPIController',
     );
   }
 

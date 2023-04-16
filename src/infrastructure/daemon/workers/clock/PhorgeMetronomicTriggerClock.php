@@ -6,7 +6,7 @@
  *
  * For example, this clock can trigger an event every 30 seconds.
  */
-final class PhabricatorMetronomicTriggerClock extends PhabricatorTriggerClock {
+final class PhorgeMetronomicTriggerClock extends PhorgeTriggerClock {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(
@@ -23,7 +23,7 @@ final class PhabricatorMetronomicTriggerClock extends PhabricatorTriggerClock {
       $next = $last_epoch + $period;
       $next = max($next, $last_epoch + 1);
     } else {
-      $next = PhabricatorTime::getNow() + $period;
+      $next = PhorgeTime::getNow() + $period;
     }
 
     return $next;

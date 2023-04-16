@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPolicyQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePolicyQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $object;
   private $phids;
 
   const OBJECT_POLICY_PREFIX = 'obj.';
 
-  public function setObject(PhabricatorPolicyInterface $object) {
+  public function setObject(PhorgePolicyInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -19,8 +19,8 @@ final class PhabricatorPolicyQuery
   }
 
   public static function loadPolicies(
-    PhabricatorUser $viewer,
-    PhabricatorPolicyInterface $object) {
+    PhorgeUser $viewer,
+    PhorgePolicyInterface $object) {
 
     $results = array();
 
@@ -29,7 +29,7 @@ final class PhabricatorPolicyQuery
       $map[$capability] = $object->getPolicy($capability);
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->withPHIDs($map)
       ->execute();
@@ -42,8 +42,8 @@ final class PhabricatorPolicyQuery
   }
 
   public static function renderPolicyDescriptions(
-    PhabricatorUser $viewer,
-    PhabricatorPolicyInterface $object) {
+    PhorgeUser $viewer,
+    PhorgePolicyInterface $object) {
 
     $policies = self::loadPolicies($viewer, $object);
 
@@ -96,7 +96,7 @@ final class PhabricatorPolicyQuery
       $handle_policies = array();
       foreach ($phids as $phid) {
         $phid_type = phid_get_type($phid);
-        if ($phid_type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
+        if ($phid_type == PhorgePolicyPHIDTypePolicy::TYPECONST) {
           $rule_policies[$phid] = $phid;
         } else {
           $handle_policies[$phid] = $phid;
@@ -104,19 +104,19 @@ final class PhabricatorPolicyQuery
       }
 
       if ($handle_policies) {
-        $handles = id(new PhabricatorHandleQuery())
+        $handles = id(new PhorgeHandleQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs($handle_policies)
           ->execute();
         foreach ($handle_policies as $phid) {
-          $results[$phid] = PhabricatorPolicy::newFromPolicyAndHandle(
+          $results[$phid] = PhorgePolicy::newFromPolicyAndHandle(
             $phid,
             $handles[$phid]);
         }
       }
 
       if ($rule_policies) {
-        $rules = id(new PhabricatorPolicy())->loadAllWhere(
+        $rules = id(new PhorgePolicy())->loadAllWhere(
           'phid IN (%Ls)',
           $rule_policies);
         $results += mpull($rules, null, 'getPHID');
@@ -147,16 +147,16 @@ final class PhabricatorPolicyQuery
 
   private static function getGlobalPolicies() {
     static $constants = array(
-      PhabricatorPolicies::POLICY_PUBLIC,
-      PhabricatorPolicies::POLICY_USER,
-      PhabricatorPolicies::POLICY_ADMIN,
-      PhabricatorPolicies::POLICY_NOONE,
+      PhorgePolicies::POLICY_PUBLIC,
+      PhorgePolicies::POLICY_USER,
+      PhorgePolicies::POLICY_ADMIN,
+      PhorgePolicies::POLICY_NOONE,
     );
 
     $results = array();
     foreach ($constants as $constant) {
-      $results[$constant] = id(new PhabricatorPolicy())
-        ->setType(PhabricatorPolicyType::TYPE_GLOBAL)
+      $results[$constant] = id(new PhorgePolicy())
+        ->setType(PhorgePolicyType::TYPE_GLOBAL)
         ->setPHID($constant)
         ->setName(self::getGlobalPolicyName($constant))
         ->setShortName(self::getGlobalPolicyShortName($constant))
@@ -168,13 +168,13 @@ final class PhabricatorPolicyQuery
 
   private static function getGlobalPolicyName($policy) {
     switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
+      case PhorgePolicies::POLICY_PUBLIC:
         return pht('Public (No Login Required)');
-      case PhabricatorPolicies::POLICY_USER:
+      case PhorgePolicies::POLICY_USER:
         return pht('All Users');
-      case PhabricatorPolicies::POLICY_ADMIN:
+      case PhorgePolicies::POLICY_ADMIN:
         return pht('Administrators');
-      case PhabricatorPolicies::POLICY_NOONE:
+      case PhorgePolicies::POLICY_NOONE:
         return pht('No One');
       default:
         return pht('Unknown Policy');
@@ -183,7 +183,7 @@ final class PhabricatorPolicyQuery
 
   private static function getGlobalPolicyShortName($policy) {
     switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
+      case PhorgePolicies::POLICY_PUBLIC:
         return pht('Public');
       default:
         return null;
@@ -195,7 +195,7 @@ final class PhabricatorPolicyQuery
     $viewer = $this->getViewer();
 
     if ($viewer->getPHID()) {
-      $pref_key = PhabricatorPolicyFavoritesSetting::SETTINGKEY;
+      $pref_key = PhorgePolicyFavoritesSetting::SETTINGKEY;
 
       $favorite_limit = 10;
       $default_limit = 5;
@@ -209,7 +209,7 @@ final class PhabricatorPolicyQuery
       $favorite_phids = array_slice($favorite_phids, -$favorite_limit);
 
       if ($favorite_phids) {
-        $projects = id(new PhabricatorProjectQuery())
+        $projects = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withPHIDs($favorite_phids)
           ->withIsMilestone(false)
@@ -225,13 +225,13 @@ final class PhabricatorPolicyQuery
       // be useful on smaller installs and for new users until they can use
       // the control enough time to establish useful favorites.
       if (count($projects) < $default_limit) {
-        $default_projects = id(new PhabricatorProjectQuery())
+        $default_projects = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withMemberPHIDs(array($viewer->getPHID()))
           ->withIsMilestone(false)
           ->withStatuses(
             array(
-              PhabricatorProjectStatus::STATUS_ACTIVE,
+              PhorgeProjectStatus::STATUS_ACTIVE,
             ))
           ->setLimit($default_limit)
           ->execute();
@@ -262,9 +262,9 @@ final class PhabricatorPolicyQuery
     // If this install doesn't have "Public" enabled, don't include it as an
     // option unless the object already has a "Public" policy. In this case we
     // retain the policy but enforce it as though it was "All Users".
-    $show_public = PhabricatorEnv::getEnvConfig('policy.allow-public');
+    $show_public = PhorgeEnv::getEnvConfig('policy.allow-public');
     foreach (self::getGlobalPolicies() as $phid => $policy) {
-      if ($phid == PhabricatorPolicies::POLICY_PUBLIC) {
+      if ($phid == PhorgePolicies::POLICY_PUBLIC) {
         if (!$show_public) {
           continue;
         }
@@ -286,7 +286,7 @@ final class PhabricatorPolicyQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPolicyApplication';
+    return 'PhorgePolicyApplication';
   }
 
   public static function isSpecialPolicy($identifier) {
@@ -337,8 +337,8 @@ final class PhabricatorPolicyQuery
 
     $results = array();
     foreach ($rule_map as $key => $rule) {
-      $results[$key] = id(new PhabricatorPolicy())
-        ->setType(PhabricatorPolicyType::TYPE_OBJECT)
+      $results[$key] = id(new PhorgePolicy())
+        ->setType(PhorgePolicyType::TYPE_OBJECT)
         ->setPHID($key)
         ->setIcon($rule->getObjectPolicyIcon())
         ->setName($rule->getObjectPolicyName())
@@ -351,7 +351,7 @@ final class PhabricatorPolicyQuery
 
   public static function getObjectPolicyRules($object) {
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyRule')
+      ->setAncestorClass('PhorgePolicyRule')
       ->execute();
 
     $results = array();
@@ -388,8 +388,8 @@ final class PhabricatorPolicyQuery
   }
 
   public static function getDefaultPolicyForObject(
-    PhabricatorUser $viewer,
-    PhabricatorPolicyInterface $object,
+    PhorgeUser $viewer,
+    PhorgePolicyInterface $object,
     $capability) {
 
     $phid = $object->getPHID();
@@ -407,7 +407,7 @@ final class PhabricatorPolicyQuery
 
     $policy_phid = $map[$type][$capability];
 
-    return id(new PhabricatorPolicyQuery())
+    return id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($policy_phid))
       ->executeOne();
@@ -419,7 +419,7 @@ final class PhabricatorPolicyQuery
     if ($map === null) {
       $map = array();
 
-      $apps = PhabricatorApplication::getAllApplications();
+      $apps = PhorgeApplication::getAllApplications();
       foreach ($apps as $app) {
         $map += $app->getDefaultObjectTypePolicyMap();
       }

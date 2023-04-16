@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHash extends Phobject {
+final class PhorgeHash extends Phobject {
 
   const INDEX_DIGEST_LENGTH = 12;
   const ANCHOR_DIGEST_LENGTH = 12;
@@ -16,7 +16,7 @@ final class PhabricatorHash extends Phobject {
    */
   public static function weakDigest($string, $key = null) {
     if ($key === null) {
-      $key = PhabricatorEnv::getEnvConfig('security.hmac-key');
+      $key = PhorgeEnv::getEnvConfig('security.hmac-key');
     }
 
     if (!$key) {
@@ -219,7 +219,7 @@ final class PhabricatorHash extends Phobject {
 
 
   private static function getNamedHMACKey($hmac_name) {
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
 
     $cache_key = "hmac.key({$hmac_name})";
 
@@ -253,7 +253,7 @@ final class PhabricatorHash extends Phobject {
   private static function writeHMACKey($hmac_name, $hmac_key) {
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-      id(new PhabricatorAuthHMACKey())
+      id(new PhorgeAuthHMACKey())
         ->setKeyName($hmac_name)
         ->setKeyValue($hmac_key)
         ->save();
@@ -262,7 +262,7 @@ final class PhabricatorHash extends Phobject {
   }
 
   private static function readHMACKey($hmac_name) {
-    $table = new PhabricatorAuthHMACKey();
+    $table = new PhorgeAuthHMACKey();
     $conn = $table->establishConnection('r');
 
     $row = queryfx_one(

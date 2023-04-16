@@ -7,7 +7,7 @@ abstract class DifferentialRevisionActionTransaction
     return $this->getPhobjectClassConstant('ACTIONKEY', 32);
   }
 
-  public function isActionAvailable($object, PhabricatorUser $viewer) {
+  public function isActionAvailable($object, PhorgeUser $viewer) {
     try {
       $this->validateAction($object, $viewer);
       return true;
@@ -16,10 +16,10 @@ abstract class DifferentialRevisionActionTransaction
     }
   }
 
-  abstract protected function validateAction($object, PhabricatorUser $viewer);
+  abstract protected function validateAction($object, PhorgeUser $viewer);
   abstract protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer);
+    PhorgeUser $viewer);
 
   protected function validateOptionValue($object, $actor, array $value) {
     return null;
@@ -56,19 +56,19 @@ abstract class DifferentialRevisionActionTransaction
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return null;
   }
 
   protected function getRevisionActionSubmitButtonText(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return null;
   }
 
   protected function getRevisionActionMetadata(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return array();
   }
 
@@ -81,7 +81,7 @@ abstract class DifferentialRevisionActionTransaction
 
   protected function isViewerRevisionAuthor(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     if (!$viewer->getPHID()) {
       return false;
@@ -91,7 +91,7 @@ abstract class DifferentialRevisionActionTransaction
   }
 
   protected function getActionOptions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialRevision $revision) {
     return array(
       array(),
@@ -101,14 +101,14 @@ abstract class DifferentialRevisionActionTransaction
 
   public function newEditField(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     // Actions in the "review" group, like "Accept Revision", do not require
     // that the actor be able to edit the revision.
     $group_review = DifferentialRevisionEditEngine::ACTIONGROUP_REVIEW;
     $is_review = ($this->getRevisionActionGroupKey() == $group_review);
 
-    $field = id(new PhabricatorApplyEditField())
+    $field = id(new PhorgeApplyEditField())
       ->setKey($this->getRevisionActionKey())
       ->setTransactionType($this->getTransactionTypeConstant())
       ->setCanApplyWithoutEditCapability($is_review)

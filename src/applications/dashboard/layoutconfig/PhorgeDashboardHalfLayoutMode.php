@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardHalfLayoutMode
-  extends PhabricatorDashboardLayoutMode {
+final class PhorgeDashboardHalfLayoutMode
+  extends PhorgeDashboardLayoutMode {
 
   const LAYOUTMODE = 'layout-mode-half-and-half';
 

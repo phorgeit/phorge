@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIColorPalletteExample extends PhabricatorUIExample {
+final class PHUIColorPalletteExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Colors');

@@ -1,7 +1,7 @@
 <?php
 
 final class PhutilProseDiffTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testTrimApart() {
     $map = array(

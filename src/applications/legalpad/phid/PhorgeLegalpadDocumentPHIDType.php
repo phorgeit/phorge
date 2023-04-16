@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorLegalpadDocumentPHIDType extends PhabricatorPHIDType {
+final class PhorgeLegalpadDocumentPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'LEGD';
 
@@ -17,11 +17,11 @@ final class PhabricatorLegalpadDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new LegalpadDocumentQuery())
@@ -30,7 +30,7 @@ final class PhabricatorLegalpadDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -47,7 +47,7 @@ final class PhabricatorLegalpadDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

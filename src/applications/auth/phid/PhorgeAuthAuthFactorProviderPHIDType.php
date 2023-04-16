@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthAuthFactorProviderPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeAuthAuthFactorProviderPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'FPRV';
 
@@ -10,23 +10,23 @@ final class PhabricatorAuthAuthFactorProviderPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorAuthFactorProvider();
+    return new PhorgeAuthFactorProvider();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorAuthFactorProviderQuery())
+    return id(new PhorgeAuthFactorProviderQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

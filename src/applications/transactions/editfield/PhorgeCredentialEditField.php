@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCredentialEditField
-  extends PhabricatorEditField {
+final class PhorgeCredentialEditField
+  extends PhorgeEditField {
 
   private $credentialType;
   private $credentials;

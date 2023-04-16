@@ -243,7 +243,7 @@ JX.behavior('comment-actions', function(config) {
   });
 
   if (config.showPreview) {
-    var request = new JX.PhabricatorShapedRequest(
+    var request = new JX.PhorgeShapedRequest(
       config.actionURI,
       onresponse,
       get_data);

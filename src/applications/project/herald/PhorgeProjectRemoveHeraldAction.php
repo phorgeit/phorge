@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectRemoveHeraldAction
-  extends PhabricatorProjectHeraldAction {
+final class PhorgeProjectRemoveHeraldAction
+  extends PhorgeProjectHeraldAction {
 
   const ACTIONCONST = 'projects.remove';
 
@@ -18,7 +18,7 @@ final class PhabricatorProjectRemoveHeraldAction
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
   public function renderActionDescription($value) {

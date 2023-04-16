@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryCallsignTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryCallsignTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:callsign';
 
@@ -60,7 +60,7 @@ final class PhabricatorRepositoryCallsignTransaction
       }
 
       try {
-        PhabricatorRepository::assertValidCallsign($new);
+        PhorgeRepository::assertValidCallsign($new);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError(
           $ex->getMessage(),
@@ -68,8 +68,8 @@ final class PhabricatorRepositoryCallsignTransaction
         continue;
       }
 
-      $other = id(new PhabricatorRepositoryQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $other = id(new PhorgeRepositoryQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withCallsigns(array($new))
         ->executeOne();
       if ($other && ($other->getID() !== $object->getID())) {

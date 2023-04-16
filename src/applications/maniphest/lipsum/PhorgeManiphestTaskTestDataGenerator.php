@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorManiphestTaskTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeManiphestTaskTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'tasks';
 
@@ -10,8 +10,8 @@ final class PhabricatorManiphestTaskTestDataGenerator
   }
 
   public function generateObject() {
-    $author_phid = $this->loadPhabricatorUserPHID();
-    $author = id(new PhabricatorUser())
+    $author_phid = $this->loadPhorgeUserPHID();
+    $author = id(new PhorgeUser())
       ->loadOneWhere('phid = %s', $author_phid);
     $task = ManiphestTask::initializeNewTask($author)
       ->setTitle($this->generateTitle());
@@ -31,7 +31,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
       $this->generateTaskStatus();
     $changes[ManiphestTaskPriorityTransaction::TRANSACTIONTYPE] =
       $this->generateTaskPriority();
-    $changes[PhabricatorTransactions::TYPE_SUBSCRIBERS] =
+    $changes[PhorgeTransactions::TYPE_SUBSCRIBERS] =
       array('=' => $this->getCCPHIDs());
     $transactions = array();
     foreach ($changes as $type => $value) {
@@ -42,10 +42,10 @@ final class PhabricatorManiphestTaskTestDataGenerator
     }
 
     $transactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
         ->setNewValue(
           array(
             '=' => array_fuse($this->getProjectPHIDs()),
@@ -64,7 +64,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
   public function getCCPHIDs() {
     $ccs = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $ccs[] = $this->loadPhabricatorUserPHID();
+      $ccs[] = $this->loadPhorgeUserPHID();
     }
     return $ccs;
   }
@@ -72,7 +72,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
   public function getProjectPHIDs() {
     $projects = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $project = $this->loadOneRandom('PhabricatorProject');
+      $project = $this->loadOneRandom('PhorgeProject');
       if ($project) {
         $projects[] = $project->getPHID();
       }
@@ -84,7 +84,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
     if (rand(0, 3) == 0) {
       return null;
     } else {
-      return $this->loadPhabricatorUserPHID();
+      return $this->loadPhorgeUserPHID();
     }
   }
 

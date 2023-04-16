@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthWaitForApprovalMessageType
-  extends PhabricatorAuthMessageType {
+final class PhorgeAuthWaitForApprovalMessageType
+  extends PhorgeAuthMessageType {
 
   const MESSAGEKEY = 'auth.wait-for-approval';
 

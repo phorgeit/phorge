@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
+final class PhorgeTOTPAuthFactor extends PhorgeAuthFactor {
 
   public function getFactorKey() {
     return 'totp';
@@ -28,8 +28,8 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   public function getEnrollDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     return pht(
       'To add a TOTP factor to your account, you will first need to install '.
@@ -43,19 +43,19 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   public function getConfigurationListDetails(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $viewer) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $viewer) {
 
     $bits = strlen($config->getFactorSecret()) * 8;
     return pht('%d-Bit Secret', $bits);
   }
 
   public function processAddFactorForm(
-    PhabricatorAuthFactorProvider $provider,
+    PhorgeAuthFactorProvider $provider,
     AphrontFormView $form,
     AphrontRequest $request,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $sync_token = $this->loadMFASyncToken(
       $provider,
@@ -94,7 +94,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
         'Scan the QR code or manually enter the key shown below into the '.
         'application.'));
 
-    $prod_uri = new PhutilURI(PhabricatorEnv::getProductionURI('/'));
+    $prod_uri = new PhutilURI(PhorgeEnv::getProductionURI('/'));
     $issuer = $prod_uri->getDomain();
 
     $uri = urisprintf(
@@ -134,8 +134,8 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   protected function newIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     $current_step = $this->getCurrentTimestep();
@@ -175,15 +175,15 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
     return array(
       $this->newChallenge($config, $viewer)
         ->setChallengeKey($current_step)
-        ->setChallengeTTL(PhabricatorTime::getNow() + $ttl_seconds),
+        ->setChallengeTTL(PhorgeTime::getNow() + $ttl_seconds),
     );
   }
 
   public function renderValidateFactorForm(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontFormView $form,
-    PhabricatorUser $viewer,
-    PhabricatorAuthFactorResult $result) {
+    PhorgeUser $viewer,
+    PhorgeAuthFactorResult $result) {
 
     $control = $this->newAutomaticControl($result);
     if (!$control) {
@@ -207,7 +207,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   public function getRequestHasChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontRequest $request) {
 
     $value = $this->getChallengeResponseFromRequest($config, $request);
@@ -216,8 +216,8 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
 
 
   protected function newResultFromIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     // If we've already issued a challenge at the current timestep or any
@@ -225,7 +225,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
     // This is defusing attacks where you (broadly) look at someone's phone
     // and type the code in more quickly than they do.
     $session_phid = $viewer->getSession()->getPHID();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $engine = $config->getSessionEngine();
     $workflow_key = $engine->getWorkflowKey();
@@ -290,8 +290,8 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   protected function newResultFromChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
 
@@ -334,7 +334,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
       $code);
 
     if ($valid_timestep) {
-      $ttl = PhabricatorTime::getNow() + 60;
+      $ttl = PhorgeTime::getNow() + 60;
 
       $challenge
         ->setProperty('totp.timestep', $valid_timestep)
@@ -412,7 +412,7 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
 
   private function getCurrentTimestep() {
     $duration = $this->getTimestepDuration();
-    return (int)(PhabricatorTime::getNow() / $duration);
+    return (int)(PhorgeTime::getNow() / $duration);
   }
 
   private function getAllowedTimesteps($at_timestep) {
@@ -444,8 +444,8 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
   }
 
   protected function newMFASyncTokenProperties(
-    PhabricatorAuthFactorProvider $providerr,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $providerr,
+    PhorgeUser $user) {
     return array(
       'secret' => self::generateNewTOTPKey(),
     );

@@ -1,10 +1,10 @@
 <?php
 
 abstract class PonderEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
    protected function getMailSubjectPrefix() {

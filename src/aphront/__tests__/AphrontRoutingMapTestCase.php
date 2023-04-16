@@ -1,7 +1,7 @@
 <?php
 
 final class AphrontRoutingMapTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testRoutingMaps() {
     $count = 0;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementLockWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementLockWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -56,7 +56,7 @@ final class PhabricatorRepositoryManagementLockWorkflow
       }
     }
 
-    $diffusion_phid = id(new PhabricatorDiffusionApplication())
+    $diffusion_phid = id(new PhorgeDiffusionApplication())
       ->getPHID();
 
     $locks = array();

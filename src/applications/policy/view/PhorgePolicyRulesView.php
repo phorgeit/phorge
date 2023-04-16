@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPolicyRulesView
+final class PhorgePolicyRulesView
   extends AphrontView {
 
   private $policy;
 
-  public function setPolicy(PhabricatorPolicy $policy) {
+  public function setPolicy(PhorgePolicy $policy) {
     $this->policy = $policy;
     return $this;
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectWorkboardBackgroundColor extends Phobject {
+final class PhorgeProjectWorkboardBackgroundColor extends Phobject {
 
   public static function getOptions() {
     $options = array(

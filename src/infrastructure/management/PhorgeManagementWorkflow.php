@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
+abstract class PhorgeManagementWorkflow extends PhutilArgumentWorkflow {
 
   public function isExecutable() {
     return true;
@@ -10,7 +10,7 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
     // Some day, we might provide a more general viewer mechanism to scripts.
     // For now, workflows can call this method for convenience and future
     // flexibility.
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   protected function parseTimeArgument($time) {
@@ -27,8 +27,8 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
   }
 
   protected function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorConsoleContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgeConsoleContentSource::SOURCECONST);
   }
 
   protected function logInfo($label, $message) {
@@ -76,7 +76,7 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
     $phids = array();
     $usernames = array();
 
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
 
     foreach ($identifiers as $identifier) {
       // If the value is a user PHID, treat as a PHID.
@@ -107,7 +107,7 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
     $results = array();
 
     if ($phids) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs($phids)
         ->execute();
@@ -118,7 +118,7 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
     }
 
     if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames($usernames)
         ->execute();
@@ -150,7 +150,7 @@ abstract class PhabricatorManagementWorkflow extends PhutilArgumentWorkflow {
     }
 
     if ($ids) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withIDs($ids)
         ->execute();

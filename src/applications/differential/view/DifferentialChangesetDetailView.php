@@ -34,7 +34,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
     return $this->renderingRef;
   }
 
-  public function setChangesetResponse(PhabricatorChangesetResponse $response) {
+  public function setChangesetResponse(PhorgeChangesetResponse $response) {
     $this->changesetResponse = $response;
     return $this;
   }
@@ -266,7 +266,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
         'id'    => $id,
       ),
       array(
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName($changeset->getAnchorName())
           ->setNavigationMarker(true)
           ->render(),
@@ -300,7 +300,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
       ));
   }
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -330,7 +330,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
 
     $viewer = $this->getViewer();
 
-    $link_engine = PhabricatorEditorURIEngine::newForViewer($viewer);
+    $link_engine = PhorgeEditorURIEngine::newForViewer($viewer);
     if (!$link_engine) {
       return null;
     }

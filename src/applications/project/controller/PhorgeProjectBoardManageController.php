@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProjectBoardManageController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardManageController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $board_id = $request->getURIData('projectID');
 
-    $board = id(new PhabricatorProjectQuery())
+    $board = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($board_id))
       ->needImages(true)
@@ -19,7 +19,7 @@ final class PhabricatorProjectBoardManageController
 
     // Perform layout of no tasks to load and populate the columns in the
     // correct order.
-    $layout_engine = id(new PhabricatorBoardLayoutEngine())
+    $layout_engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board->getPHID()))
       ->setObjectPHIDs(array())
@@ -40,7 +40,7 @@ final class PhabricatorProjectBoardManageController
 
     $nav = $this->newNavigation(
       $board,
-      PhabricatorProject::ITEM_WORKBOARD);
+      PhorgeProject::ITEM_WORKBOARD);
     $columns_list = $this->buildColumnsList($board, $columns);
 
     require_celerity_resource('project-view-css');
@@ -64,7 +64,7 @@ final class PhabricatorProjectBoardManageController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorProject $board) {
+  private function buildHeaderView(PhorgeProject $board) {
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
@@ -74,21 +74,21 @@ final class PhabricatorProjectBoardManageController
     return $header;
   }
 
-  private function buildCurtainView(PhabricatorProject $board) {
+  private function buildCurtainView(PhorgeProject $board) {
     $viewer = $this->getViewer();
     $id = $board->getID();
 
     $curtain = $this->newCurtainView();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $board,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $disable_uri = $this->getApplicationURI("board/{$id}/disable/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-ban')
         ->setName(pht('Disable Workboard'))
         ->setHref($disable_uri)
@@ -99,9 +99,9 @@ final class PhabricatorProjectBoardManageController
   }
 
   private function buildColumnsList(
-    PhabricatorProject $board,
+    PhorgeProject $board,
     array $columns) {
-    assert_instances_of($columns, 'PhabricatorProjectColumn');
+    assert_instances_of($columns, 'PhorgeProjectColumn');
 
     $board_id = $board->getID();
 

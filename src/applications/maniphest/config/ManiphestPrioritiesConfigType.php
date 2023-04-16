@@ -1,12 +1,12 @@
 <?php
 
 final class ManiphestPrioritiesConfigType
-  extends PhabricatorJSONConfigType {
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'maniphest.priorities';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     ManiphestTaskPriority::validateConfiguration($value);
   }

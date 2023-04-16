@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIInfoExample extends PhabricatorUIExample {
+final class PHUIInfoExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Info View');

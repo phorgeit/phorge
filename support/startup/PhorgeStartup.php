@@ -37,7 +37,7 @@
  * @task phases       Startup Phase Timers
  * @task request-path Request Path
  */
-final class PhabricatorStartup {
+final class PhorgeStartup {
 
   private static $startTime;
   private static $debugTimeLimit;
@@ -653,10 +653,10 @@ final class PhabricatorStartup {
   /**
    * Add a new client limits.
    *
-   * @param PhabricatorClientLimit New limit.
-   * @return PhabricatorClientLimit The limit.
+   * @param PhorgeClientLimit New limit.
+   * @return PhorgeClientLimit The limit.
    */
-  public static function addRateLimit(PhabricatorClientLimit $limit) {
+  public static function addRateLimit(PhorgeClientLimit $limit) {
     self::$limits[] = $limit;
     return $limit;
   }
@@ -741,7 +741,7 @@ final class PhabricatorStartup {
   /**
    * Record the beginning of a new startup phase.
    *
-   * For phases which occur before @{class:PhabricatorStartup} loads, save the
+   * For phases which occur before @{class:PhorgeStartup} loads, save the
    * time and record it with @{method:recordStartupPhase} after the class is
    * available.
    *
@@ -756,7 +756,7 @@ final class PhabricatorStartup {
   /**
    * Record the start time of a previously executed startup phase.
    *
-   * For startup phases which occur after @{class:PhabricatorStartup} loads,
+   * For startup phases which occur after @{class:PhorgeStartup} loads,
    * use @{method:beginStartupPhase} instead. This method can be used to
    * record a time before the class loads, then hand it over once the class
    * becomes available.

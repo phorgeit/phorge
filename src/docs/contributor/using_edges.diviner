@@ -19,12 +19,12 @@ is that they work when databases are partitioned or sharded.
 
 = Reading Edges =
 
-You can load edges with @{class:PhabricatorEdgeQuery}.
+You can load edges with @{class:PhorgeEdgeQuery}.
 
 = Writing Edges =
 
-You can edit edges with @{class:PhabricatorEdgeEditor}.
+You can edit edges with @{class:PhorgeEdgeEditor}.
 
 = Edges and Lisk =
 
-@{class:PhabricatorLiskDAO} includes some builtin support for edges.
+@{class:PhorgeLiskDAO} includes some builtin support for edges.

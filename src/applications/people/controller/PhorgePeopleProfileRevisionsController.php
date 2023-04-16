@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleProfileRevisionsController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileRevisionsController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfile(true)
@@ -18,8 +18,8 @@ final class PhabricatorPeopleProfileRevisionsController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorDifferentialApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeDifferentialApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
 
@@ -34,7 +34,7 @@ final class PhabricatorPeopleProfileRevisionsController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_REVISIONS);
+      PhorgePeopleProfileMenuEngine::ITEM_REVISIONS);
 
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)
@@ -51,7 +51,7 @@ final class PhabricatorPeopleProfileRevisionsController
       ->appendChild($view);
   }
 
-  private function buildRevisionsView(PhabricatorUser $user) {
+  private function buildRevisionsView(PhorgeUser $user) {
     $viewer = $this->getViewer();
 
     $revisions = id(new DifferentialRevisionQuery())

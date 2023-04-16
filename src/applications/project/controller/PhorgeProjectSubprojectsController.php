@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSubprojectsController
-  extends PhabricatorProjectController {
+final class PhorgeProjectSubprojectsController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
@@ -18,10 +18,10 @@ final class PhabricatorProjectSubprojectsController
     $project = $this->getProject();
     $id = $project->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $allows_subprojects = $project->supportsSubprojects();
     $allows_milestones = $project->supportsMilestones();
@@ -30,7 +30,7 @@ final class PhabricatorProjectSubprojectsController
     $milestone_list = null;
 
     if ($allows_subprojects) {
-      $subprojects = id(new PhabricatorProjectQuery())
+      $subprojects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withParentProjectPHIDs(array($project->getPHID()))
         ->needImages(true)
@@ -41,7 +41,7 @@ final class PhabricatorProjectSubprojectsController
         ->setHeaderText(pht('%s Subprojects', $project->getName()))
         ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
         ->setObjectList(
-          id(new PhabricatorProjectListView())
+          id(new PhorgeProjectListView())
             ->setUser($viewer)
             ->setProjects($subprojects)
             ->setNoDataString(pht('This project has no subprojects.'))
@@ -51,7 +51,7 @@ final class PhabricatorProjectSubprojectsController
     }
 
     if ($allows_milestones) {
-      $milestones = id(new PhabricatorProjectQuery())
+      $milestones = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withParentProjectPHIDs(array($project->getPHID()))
         ->needImages(true)
@@ -63,7 +63,7 @@ final class PhabricatorProjectSubprojectsController
         ->setHeaderText(pht('%s Milestones', $project->getName()))
         ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
         ->setObjectList(
-          id(new PhabricatorProjectListView())
+          id(new PhorgeProjectListView())
             ->setUser($viewer)
             ->setProjects($milestones)
             ->setNoDataString(pht('This project has no milestones.'))
@@ -79,7 +79,7 @@ final class PhabricatorProjectSubprojectsController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_SUBPROJECTS);
+      PhorgeProject::ITEM_SUBPROJECTS);
 
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->addTextCrumb(pht('Subprojects'));
@@ -119,7 +119,7 @@ final class PhabricatorProjectSubprojectsController
   }
 
   private function buildCurtainView(
-    PhabricatorProject $project,
+    PhorgeProject $project,
     array $milestones,
     array $subprojects) {
     $viewer = $this->getViewer();
@@ -128,10 +128,10 @@ final class PhabricatorProjectSubprojectsController
     $can_create = $this->hasApplicationCapability(
       ProjectCreateProjectsCapability::CAPABILITY);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $allows_subprojects = $project->supportsSubprojects();
     $allows_milestones = $project->supportsMilestones();
@@ -153,7 +153,7 @@ final class PhabricatorProjectSubprojectsController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Create Subproject'))
         ->setIcon('fa-plus')
         ->setHref($subproject_href)
@@ -170,7 +170,7 @@ final class PhabricatorProjectSubprojectsController
     $milestone_href = "/project/edit/?milestone={$id}";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($milestone_text)
         ->setIcon('fa-plus')
         ->setHref($milestone_href)

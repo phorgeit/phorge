@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorResetPasswordUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeResetPasswordUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'reset-pass';
 

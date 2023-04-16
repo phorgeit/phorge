@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $project) {

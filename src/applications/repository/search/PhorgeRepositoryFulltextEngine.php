@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorRepositoryFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeRepositoryFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
     $repo = $object;
     $document->setDocumentTitle($repo->getName());
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $repo->getRepositorySlug()."\n".$repo->getDetail('description'));
 
     $document->setDocumentCreated($repo->getDateCreated());
@@ -17,11 +17,11 @@ final class PhabricatorRepositoryFulltextEngine
 
     $document->addRelationship(
       $repo->isTracked()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_OPEN
-        : PhabricatorSearchRelationship::RELATIONSHIP_CLOSED,
+        ? PhorgeSearchRelationship::RELATIONSHIP_OPEN
+        : PhorgeSearchRelationship::RELATIONSHIP_CLOSED,
       $repo->getPHID(),
-      PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeRepositoryRepositoryPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 
 }

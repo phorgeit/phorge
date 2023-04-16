@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesViewController
-  extends PhabricatorSpacesController {
+final class PhorgeSpacesViewController
+  extends PhorgeSpacesController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorSpacesViewController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $space = id(new PhabricatorSpacesNamespaceQuery())
+    $space = id(new PhorgeSpacesNamespaceQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -22,14 +22,14 @@ final class PhabricatorSpacesViewController
     $property_list = $this->buildPropertyListView($space);
     $title = array($space->getMonogram(), $space->getNamespaceName());
 
-    $xactions = id(new PhabricatorSpacesNamespaceTransactionQuery())
+    $xactions = id(new PhorgeSpacesNamespaceTransactionQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($space->getPHID()))
       ->execute();
 
     $timeline = $this->buildTransactionTimeline(
       $space,
-      new PhabricatorSpacesNamespaceTransactionQuery());
+      new PhorgeSpacesNamespaceTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $header = id(new PHUIHeaderView())
@@ -68,7 +68,7 @@ final class PhabricatorSpacesViewController
 
   }
 
-  private function buildPropertyListView(PhabricatorSpacesNamespace $space) {
+  private function buildPropertyListView(PhorgeSpacesNamespace $space) {
     $viewer = $this->getRequest()->getUser();
 
     $list = id(new PHUIPropertyListView())
@@ -92,18 +92,18 @@ final class PhabricatorSpacesViewController
     return $list;
   }
 
-  private function buildCurtain(PhabricatorSpacesNamespace $space) {
+  private function buildCurtain(PhorgeSpacesNamespace $space) {
     $viewer = $this->getRequest()->getUser();
 
     $curtain = $this->newCurtainView($space);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $space,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Space'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI('edit/'.$space->getID().'/'))
@@ -114,7 +114,7 @@ final class PhabricatorSpacesViewController
 
     if ($space->getIsArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Space'))
           ->setIcon('fa-check')
           ->setHref($this->getApplicationURI("activate/{$id}/"))
@@ -122,7 +122,7 @@ final class PhabricatorSpacesViewController
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Space'))
           ->setIcon('fa-ban')
           ->setHref($this->getApplicationURI("archive/{$id}/"))

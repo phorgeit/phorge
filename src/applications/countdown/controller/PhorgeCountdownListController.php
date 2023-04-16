@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCountdownListController
-  extends PhabricatorCountdownController {
+final class PhorgeCountdownListController
+  extends PhorgeCountdownController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorCountdownSearchEngine())
+    return id(new PhorgeCountdownSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorCountdownListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorCountdownEditEngine())
+    id(new PhorgeCountdownEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

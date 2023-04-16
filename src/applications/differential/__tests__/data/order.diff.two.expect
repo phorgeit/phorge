@@ -3,8 +3,8 @@ src/applications/conpherence/controller/ConpherenceUpdateController
 src/applications/conpherence/controller/ConpherenceUpdateController
 -
 X <MISSING-CONTEXT>
-O 209 .         ->setDatasource(new PhabricatorPeopleDatasource()));\n~
-N 209 .         ->setDatasource(new PhabricatorPeopleDatasource()));\n~
+O 209 .         ->setDatasource(new PhorgePeopleDatasource()));\n~
+N 209 .         ->setDatasource(new PhorgePeopleDatasource()));\n~
 O 210 . \n~
 N 210 . \n~
 O 211 .     require_celerity_resource('conpherence-update-css');\n~

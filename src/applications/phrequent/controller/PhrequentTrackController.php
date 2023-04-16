@@ -16,7 +16,7 @@ final class PhrequentTrackController
     $viewer = $request->getUser();
 
     $phid = $this->phid;
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -75,7 +75,7 @@ final class PhrequentTrackController
         $errors[] = pht('Please choose a valid date.');
         $e_date = pht('Invalid');
       } else {
-        $max_time = PhabricatorTime::getNow();
+        $max_time = PhorgeTime::getNow();
         if ($timestamp->getEpoch() > $max_time) {
           if ($this->isStoppingTracking()) {
             $errors[] = pht(
@@ -131,7 +131,7 @@ final class PhrequentTrackController
       $start_string = pht(
         '%s (%s ago)',
         phorge_datetime($start_time, $viewer),
-        phutil_format_relative_time(PhabricatorTime::getNow() - $start_time));
+        phutil_format_relative_time(PhorgeTime::getNow() - $start_time));
 
       $form->appendChild(
         id(new AphrontFormStaticControl())

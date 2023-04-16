@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTransformedFile extends PhabricatorFileDAO {
+final class PhorgeTransformedFile extends PhorgeFileDAO {
 
   protected $originalPHID;
   protected $transform;

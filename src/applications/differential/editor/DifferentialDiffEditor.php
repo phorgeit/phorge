@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialDiffEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   private $diffDataDict;
   private $lookupRepository = true;
@@ -12,7 +12,7 @@ final class DifferentialDiffEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -22,15 +22,15 @@ final class DifferentialDiffEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
     $types[] = DifferentialDiffTransaction::TYPE_DIFF_CREATE;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialDiffTransaction::TYPE_DIFF_CREATE:
@@ -41,8 +41,8 @@ final class DifferentialDiffEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialDiffTransaction::TYPE_DIFF_CREATE:
@@ -54,8 +54,8 @@ final class DifferentialDiffEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialDiffTransaction::TYPE_DIFF_CREATE:
@@ -68,8 +68,8 @@ final class DifferentialDiffEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialDiffTransaction::TYPE_DIFF_CREATE:
@@ -80,7 +80,7 @@ final class DifferentialDiffEditor
     }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // If we didn't get an explicit `repositoryPHID` (which means the client
@@ -109,7 +109,7 @@ final class DifferentialDiffEditor
    * information the Herald rules are intended to block.
    */
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -149,7 +149,7 @@ final class DifferentialDiffEditor
               $message = pht('(None.)');
             }
 
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Rejected by Herald'),
               pht(
@@ -169,13 +169,13 @@ final class DifferentialDiffEditor
 
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }
@@ -192,14 +192,14 @@ final class DifferentialDiffEditor
    * data and do this validation very early.
    */
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return false;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $adapter = id(new HeraldDifferentialDiffAdapter())

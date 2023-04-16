@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorEditEngineConfiguration
-  extends PhabricatorSearchDAO
+final class PhorgeEditEngineConfiguration
+  extends PhorgeSearchDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface {
 
   protected $engineKey;
   protected $builtinKey;
@@ -29,19 +29,19 @@ final class PhabricatorEditEngineConfiguration
   }
 
   public static function initializeNewConfiguration(
-    PhabricatorUser $actor,
-    PhabricatorEditEngine $engine) {
+    PhorgeUser $actor,
+    PhorgeEditEngine $engine) {
 
-    return id(new PhabricatorEditEngineConfiguration())
-      ->setSubtype(PhabricatorEditEngine::SUBTYPE_DEFAULT)
+    return id(new PhorgeEditEngineConfiguration())
+      ->setSubtype(PhorgeEditEngine::SUBTYPE_DEFAULT)
       ->setEngineKey($engine->getEngineKey())
       ->attachEngine($engine)
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy());
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy());
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorEditEngineConfigurationPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeEditEngineConfigurationPHIDType::TYPECONST);
   }
 
   public function getCreateSortKey() {
@@ -120,7 +120,7 @@ final class PhabricatorEditEngineConfiguration
     return parent::setBuiltinKey($key);
   }
 
-  public function attachEngine(PhabricatorEditEngine $engine) {
+  public function attachEngine(PhorgeEditEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
@@ -130,7 +130,7 @@ final class PhabricatorEditEngineConfiguration
   }
 
   public function applyConfigurationToFields(
-    PhabricatorEditEngine $engine,
+    PhorgeEditEngine $engine,
     $object,
     array $fields) {
     $fields = mpull($fields, null, 'getKey');
@@ -187,7 +187,7 @@ final class PhabricatorEditEngineConfiguration
     $preamble = $this->getPreamble();
     if ($preamble !== null && strlen($preamble)) {
       $fields = array(
-        'config.preamble' => id(new PhabricatorInstructionsEditField())
+        'config.preamble' => id(new PhorgeInstructionsEditField())
           ->setKey('config.preamble')
           ->setIsReorderable(false)
           ->setIsDefaultable(false)
@@ -292,48 +292,48 @@ final class PhabricatorEditEngineConfiguration
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEngine()
           ->getApplication()
           ->getPolicy($capability);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicyFilter::hasCapability(
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicyFilter::hasCapability(
           $viewer,
           $this->getEngine()->getApplication(),
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
     }
 
     return false;
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorEditEngineConfigurationEditor();
+    return new PhorgeEditEngineConfigurationEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorEditEngineConfigurationTransaction();
+    return new PhorgeEditEngineConfigurationTransaction();
   }
 
 }

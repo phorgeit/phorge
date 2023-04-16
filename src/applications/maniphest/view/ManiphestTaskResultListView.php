@@ -7,7 +7,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
   private $canBatchEdit;
   private $showBatchControls;
 
-  public function setSavedQuery(PhabricatorSavedQuery $query) {
+  public function setSavedQuery(PhorgeSavedQuery $query) {
     $this->savedQuery = $query;
     return $this;
   }
@@ -78,7 +78,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
 
   private function groupTasks(array $tasks, $group, array $handles) {
     assert_instances_of($tasks, 'ManiphestTask');
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
 
     $groups = $this->getTaskGrouping($tasks, $group);
 
@@ -137,7 +137,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
     }
   }
 
-  private function renderBatchEditor(PhabricatorSavedQuery $saved_query) {
+  private function renderBatchEditor(PhorgeSavedQuery $saved_query) {
     $user = $this->getUser();
 
     if (!$this->canBatchEdit) {

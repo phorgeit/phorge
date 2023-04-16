@@ -1,10 +1,10 @@
 <?php
 
 final class DivinerLiveSymbolFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $atom = $object;
@@ -16,28 +16,28 @@ final class DivinerLiveSymbolFulltextEngine
       ->setDocumentModified($book->getDateModified());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $atom->getSummary());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_BOOK,
+      PhorgeSearchRelationship::RELATIONSHIP_BOOK,
       $atom->getBookPHID(),
       DivinerBookPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_REPOSITORY,
+      PhorgeSearchRelationship::RELATIONSHIP_REPOSITORY,
       $atom->getRepositoryPHID(),
-      PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeRepositoryRepositoryPHIDType::TYPECONST,
+      PhorgeTime::getNow());
 
     $document->addRelationship(
       $atom->getGraphHash()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_OPEN
-        : PhabricatorSearchRelationship::RELATIONSHIP_CLOSED,
+        ? PhorgeSearchRelationship::RELATIONSHIP_OPEN
+        : PhorgeSearchRelationship::RELATIONSHIP_CLOSED,
       $atom->getBookPHID(),
       DivinerBookPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
   }
 
 }

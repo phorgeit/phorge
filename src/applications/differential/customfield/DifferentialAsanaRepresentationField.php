@@ -20,7 +20,7 @@ final class DifferentialAsanaRepresentationField
   }
 
   public function shouldAppearInPropertyView() {
-    return (bool)PhabricatorEnv::getEnvConfig('asana.workspace-id');
+    return (bool)PhorgeEnv::getEnvConfig('asana.workspace-id');
   }
 
   public function renderPropertyViewLabel() {
@@ -30,9 +30,9 @@ final class DifferentialAsanaRepresentationField
   public function renderPropertyViewValue(array $handles) {
     $viewer = $this->getViewer();
     $src_phid = $this->getObject()->getPHID();
-    $edge_type = PhabricatorObjectHasAsanaTaskEdgeType::EDGECONST;
+    $edge_type = PhorgeObjectHasAsanaTaskEdgeType::EDGECONST;
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(array($edge_type))
       ->needEdgeData(true);

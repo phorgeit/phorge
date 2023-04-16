@@ -11,10 +11,10 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
     return $this->auditRequests;
   }
 
-  public function canPublishStory(PhabricatorFeedStory $story, $object) {
+  public function canPublishStory(PhorgeFeedStory $story, $object) {
     return
-      ($story instanceof PhabricatorApplicationTransactionFeedStory) &&
-      ($object instanceof PhabricatorRepositoryCommit);
+      ($story instanceof PhorgeApplicationTransactionFeedStory) &&
+      ($object instanceof PhorgeRepositoryCommit);
   }
 
   public function isStoryAboutObjectCreation($object) {
@@ -34,11 +34,11 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
     $story = $this->getFeedStory();
     $xaction = $story->getPrimaryTransaction();
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($xaction->getNewValue()) {
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return true;
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             if ($object->isAuditStatusAudited()) {
               return true;
             }
@@ -63,7 +63,7 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
     // audit) and "passive" (no action necessary) users are.
 
     $auditor_phids = mpull($requests, 'getAuditorPHID');
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($auditor_phids)
       ->execute();
@@ -80,13 +80,13 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
       }
 
       $request_phids = array();
-      if ($object instanceof PhabricatorUser) {
+      if ($object instanceof PhorgeUser) {
         $request_phids = array($object->getPHID());
-      } else if ($object instanceof PhabricatorOwnersPackage) {
-        $request_phids = PhabricatorOwnersOwner::loadAffiliatedUserPHIDs(
+      } else if ($object instanceof PhorgeOwnersPackage) {
+        $request_phids = PhorgeOwnersOwner::loadAffiliatedUserPHIDs(
           array($object->getID()));
-      } else if ($object instanceof PhabricatorProject) {
-        $project = id(new PhabricatorProjectQuery())
+      } else if ($object instanceof PhorgeProject) {
+        $project = id(new PhorgeProjectQuery())
           ->setViewer($this->getViewer())
           ->withIDs(array($object->getID()))
           ->needMembers(true)
@@ -98,9 +98,9 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
       }
 
       switch ($status) {
-        case PhabricatorAuditRequestStatus::AUDIT_REQUIRED:
-        case PhabricatorAuditRequestStatus::AUDIT_REQUESTED:
-        case PhabricatorAuditRequestStatus::CONCERNED:
+        case PhorgeAuditRequestStatus::AUDIT_REQUIRED:
+        case PhorgeAuditRequestStatus::AUDIT_REQUESTED:
+        case PhorgeAuditRequestStatus::CONCERNED:
           $active += array_fuse($request_phids);
           break;
         default:
@@ -133,7 +133,7 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
   }
 
   public function getCCUserPHIDs($object) {
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    return PhorgeSubscribersQuery::loadSubscribersForPHID(
       $object->getPHID());
   }
 
@@ -151,7 +151,7 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
   public function getObjectURI($object) {
     $repository = $object->getRepository();
     $name = $repository->formatCommitName($object->getCommitIdentifier());
-    return PhabricatorEnv::getProductionURI('/'.$name);
+    return PhorgeEnv::getProductionURI('/'.$name);
   }
 
   public function getObjectDescription($object) {
@@ -171,7 +171,7 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
     return pht('%s Audit', $prefix);
   }
 
-  private function getTitlePrefix(PhabricatorRepositoryCommit $commit) {
+  private function getTitlePrefix(PhorgeRepositoryCommit $commit) {
     return pht('[Diffusion]');
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSettingsApplication extends PhabricatorApplication {
+final class PhorgeSettingsApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/settings/';
@@ -27,17 +27,17 @@ final class PhabricatorSettingsApplication extends PhabricatorApplication {
 
     return array(
       '/settings/' => array(
-        $this->getQueryRoutePattern() => 'PhabricatorSettingsListController',
+        $this->getQueryRoutePattern() => 'PhorgeSettingsListController',
         'user/(?P<username>[^/]+)/'.$panel_pattern
-          => 'PhabricatorSettingsMainController',
+          => 'PhorgeSettingsMainController',
         'builtin/(?P<builtin>global)/'.$panel_pattern
-          => 'PhabricatorSettingsMainController',
+          => 'PhorgeSettingsMainController',
         'panel/(?P<panel>[^/]+)/'
-          => 'PhabricatorSettingsMainController',
-        'adjust/' => 'PhabricatorSettingsAdjustController',
+          => 'PhorgeSettingsMainController',
+        'adjust/' => 'PhorgeSettingsAdjustController',
         'timezone/(?P<offset>[^/]+)/'
-          => 'PhabricatorSettingsTimezoneController',
-        'issue/' => 'PhabricatorSettingsIssueController',
+          => 'PhorgeSettingsTimezoneController',
+        'issue/' => 'PhorgeSettingsIssueController',
       ),
     );
   }

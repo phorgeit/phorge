@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeOwnersPackageEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'owners.package';
 
@@ -18,15 +18,15 @@ final class PhabricatorOwnersPackageEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorOwnersPackage::initializeNewPackage($this->getViewer());
+    return PhorgeOwnersPackage::initializeNewPackage($this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorOwnersPackageQuery())
+    return id(new PhorgeOwnersPackageQuery())
       ->needPaths(true);
   }
 
@@ -84,54 +84,54 @@ applying a transaction of this type.
 EOTEXT
       );
 
-    $autoreview_map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $autoreview_map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     $autoreview_map = ipull($autoreview_map, 'name');
 
-    $dominion_map = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $dominion_map = PhorgeOwnersPackage::getDominionOptionsMap();
     $dominion_map = ipull($dominion_map, 'name');
 
-    $authority_map = PhabricatorOwnersPackage::getAuthorityOptionsMap();
+    $authority_map = PhorgeOwnersPackage::getAuthorityOptionsMap();
     $authority_map = ipull($authority_map, 'name');
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageNameTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey('owners')
         ->setLabel(pht('Owners'))
         ->setDescription(pht('Users and projects which own the package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageOwnersTransaction::TRANSACTIONTYPE)
-        ->setDatasource(new PhabricatorProjectOrUserDatasource())
+          PhorgeOwnersPackageOwnersTransaction::TRANSACTIONTYPE)
+        ->setDatasource(new PhorgeProjectOrUserDatasource())
         ->setIsCopyable(true)
         ->setValue($object->getOwnerPHIDs()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('dominion')
         ->setLabel(pht('Dominion'))
         ->setDescription(
           pht('Change package dominion rules.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageDominionTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageDominionTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setValue($object->getDominion())
         ->setOptions($dominion_map),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('authority')
         ->setLabel(pht('Authority'))
         ->setDescription(
           pht('Change package authority rules.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageAuthorityTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageAuthorityTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setValue($object->getAuthorityMode())
         ->setOptions($authority_map),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('autoReview')
         ->setLabel(pht('Auto Review'))
         ->setDescription(
@@ -139,11 +139,11 @@ EOTEXT
             'Automatically trigger reviews for commits affecting files in '.
             'this package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageAutoreviewTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageAutoreviewTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setValue($object->getAutoReview())
         ->setOptions($autoreview_map),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('auditing')
         ->setLabel(pht('Auditing'))
         ->setDescription(
@@ -151,43 +151,43 @@ EOTEXT
             'Automatically trigger audits for commits affecting files in '.
             'this package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageAuditingTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageAuditingTransaction::TRANSACTIONTYPE)
         ->setIsCopyable(true)
         ->setValue($object->getAuditingState())
-        ->setOptions(PhabricatorOwnersAuditRule::newSelectControlMap()),
-      id(new PhabricatorRemarkupEditField())
+        ->setOptions(PhorgeOwnersAuditRule::newSelectControlMap()),
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('Human-readable description of the package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageDescriptionTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setDescription(pht('Archive or enable the package.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageStatusTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageStatusTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setValue($object->getStatus())
         ->setOptions($object->getStatusNameMap()),
-      id(new PhabricatorCheckboxesEditField())
+      id(new PhorgeCheckboxesEditField())
         ->setKey('ignored')
         ->setLabel(pht('Ignored Attributes'))
         ->setDescription(pht('Ignore paths with any of these attributes.'))
         ->setTransactionType(
-          PhabricatorOwnersPackageIgnoredTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackageIgnoredTransaction::TRANSACTIONTYPE)
         ->setValue(array_keys($object->getIgnoredPathAttributes()))
         ->setOptions(
           array(
             'generated' => pht('Ignore generated files (review only).'),
           )),
-      id(new PhabricatorConduitEditField())
+      id(new PhorgeConduitEditField())
         ->setKey('paths.set')
         ->setLabel(pht('Paths'))
         ->setIsFormField(false)
         ->setTransactionType(
-          PhabricatorOwnersPackagePathsTransaction::TRANSACTIONTYPE)
+          PhorgeOwnersPackagePathsTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(
           pht('Overwrite existing package paths with new paths.'))
         ->setConduitTypeDescription(

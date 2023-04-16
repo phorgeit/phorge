@@ -1,6 +1,6 @@
 <?php
 
-final class DoorkeeperBridgeJIRATestCase extends PhabricatorTestCase {
+final class DoorkeeperBridgeJIRATestCase extends PhorgeTestCase {
 
   public function testJIRABridgeRestAPIURIConversion() {
     $map = array(

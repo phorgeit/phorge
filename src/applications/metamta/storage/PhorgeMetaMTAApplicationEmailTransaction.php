@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeMetaMTAApplicationEmailTransaction
+  extends PhorgeApplicationTransaction {
 
   const KEY_CONFIG = 'appemail.config.key';
 
@@ -13,7 +13,7 @@ final class PhabricatorMetaMTAApplicationEmailTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorMetaMTAApplicationEmailPHIDType::TYPECONST;
+    return PhorgeMetaMTAApplicationEmailPHIDType::TYPECONST;
   }
 
 }

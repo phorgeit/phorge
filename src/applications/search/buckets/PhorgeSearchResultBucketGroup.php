@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchResultBucketGroup
+final class PhorgeSearchResultBucketGroup
   extends Phobject {
 
   private $name;

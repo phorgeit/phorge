@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorImageRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeImageRemarkupRule extends PhutilRemarkupRule {
 
   const KEY_RULE_EXTERNAL_IMAGE = 'rule.external-image';
 
@@ -104,13 +104,13 @@ final class PhabricatorImageRemarkupRule extends PhutilRemarkupRule {
     $digests = array();
     foreach ($images as $image) {
       $uri = $image['args']['uri'];
-      $digests[] = PhabricatorHash::digestForIndex($uri);
+      $digests[] = PhorgeHash::digestForIndex($uri);
     }
 
-    $caches = id(new PhabricatorFileExternalRequest())->loadAllWhere(
+    $caches = id(new PhorgeFileExternalRequest())->loadAllWhere(
       'uriIndex IN (%Ls) AND isSuccessful = 1 AND ttl > %d',
       $digests,
-      PhabricatorTime::getNow() + phutil_units('1 hour in seconds'));
+      PhorgeTime::getNow() + phutil_units('1 hour in seconds'));
 
     $file_phids = array();
     foreach ($caches as $cache) {
@@ -119,8 +119,8 @@ final class PhabricatorImageRemarkupRule extends PhutilRemarkupRule {
 
     $file_map = array();
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $files = id(new PhorgeFileQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs(array_keys($file_phids))
         ->execute();
       foreach ($files as $file) {

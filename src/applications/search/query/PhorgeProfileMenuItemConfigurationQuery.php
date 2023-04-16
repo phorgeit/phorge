@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemConfigurationQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeProfileMenuItemConfigurationQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -37,7 +37,7 @@ final class PhabricatorProfileMenuItemConfigurationQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorProfileMenuItemConfiguration();
+    return new PhorgeProfileMenuItemConfiguration();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -100,15 +100,15 @@ final class PhabricatorProfileMenuItemConfigurationQuery
         $conn,
         'JOIN %T affected ON affected.src = config.phid
           AND affected.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorProfileMenuItemAffectsObjectEdgeType::EDGECONST);
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeProfileMenuItemAffectsObjectEdgeType::EDGECONST);
     }
 
     return $joins;
   }
 
   protected function willFilterPage(array $page) {
-    $items = PhabricatorProfileMenuItem::getAllMenuItems();
+    $items = PhorgeProfileMenuItem::getAllMenuItems();
     foreach ($page as $key => $item) {
       $item_type = idx($items, $item->getMenuItemKey());
       if (!$item_type) {
@@ -127,7 +127,7 @@ final class PhabricatorProfileMenuItemConfigurationQuery
 
     $profile_phids = mpull($page, 'getProfilePHID');
 
-    $profiles = id(new PhabricatorObjectQuery())
+    $profiles = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($profile_phids)
@@ -149,7 +149,7 @@ final class PhabricatorProfileMenuItemConfigurationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   protected function getPrimaryTableAlias() {

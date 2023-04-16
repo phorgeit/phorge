@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProjectTagsField
+abstract class PhorgeProjectTagsField
   extends HeraldField {
 
   public function getFieldGroupKey() {
@@ -8,7 +8,7 @@ abstract class PhabricatorProjectTagsField
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -16,12 +16,12 @@ abstract class PhabricatorProjectTagsField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
   final protected function getProjectTagsTransaction() {
     return $this->getAppliedEdgeTransactionOfType(
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
   }
 
 }

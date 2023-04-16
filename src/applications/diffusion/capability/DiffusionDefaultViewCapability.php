@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionDefaultViewCapability extends PhabricatorPolicyCapability {
+final class DiffusionDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diffusion.default.view';
 

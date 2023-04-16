@@ -5,19 +5,19 @@
  * @task publishing Publishing
  * @task sync       Cluster Synchronization
  */
-final class PhabricatorRepository extends PhabricatorRepositoryDAO
+final class PhorgeRepository extends PhorgeRepositoryDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorDestructibleCodexInterface,
-    PhabricatorProjectInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeMarkupInterface,
+    PhorgeDestructibleInterface,
+    PhorgeDestructibleCodexInterface,
+    PhorgeProjectInterface,
+    PhorgeSpacesInterface,
+    PhorgeConduitResultInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   /**
    * Shortest hash we'll recognize in raw "a829f32" form.
@@ -70,17 +70,17 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   private $profileImageFile = self::ATTACHABLE;
 
 
-  public static function initializeNewRepository(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewRepository(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDiffusionApplication'))
+      ->withClasses(array('PhorgeDiffusionApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(DiffusionDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(DiffusionDefaultEditCapability::CAPABILITY);
     $push_policy = $app->getPolicy(DiffusionDefaultPushCapability::CAPABILITY);
 
-    $repository = id(new PhabricatorRepository())
+    $repository = id(new PhorgeRepository())
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
       ->setPushPolicy($push_policy)
@@ -135,8 +135,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryRepositoryPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryRepositoryPHIDType::TYPECONST);
   }
 
   public static function getStatusMap() {
@@ -172,7 +172,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       'callsign'    => $this->getCallsign(),
       'monogram'    => $this->getMonogram(),
       'vcs'         => $this->getVersionControlSystem(),
-      'uri'         => PhabricatorEnv::getProductionURI($this->getURI()),
+      'uri'         => PhorgeEnv::getProductionURI($this->getURI()),
       'remoteURI'   => (string)$this->getRemoteURI(),
       'description' => $this->getDetail('description'),
       'isActive'    => $this->isTracked(),
@@ -250,7 +250,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function attachMostRecentCommit(
-    PhabricatorRepositoryCommit $commit = null) {
+    PhorgeRepositoryCommit $commit = null) {
     $this->mostRecentCommit = $commit;
     return $this;
   }
@@ -260,7 +260,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function getDiffusionBrowseURIForPath(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $path,
     $line = null,
     $branch = null) {
@@ -292,7 +292,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
   public function getSubversionPathURI($path = null, $commit = null) {
     $vcs = $this->getVersionControlSystem();
-    if ($vcs != PhabricatorRepositoryType::REPOSITORY_TYPE_SVN) {
+    if ($vcs != PhorgeRepositoryType::REPOSITORY_TYPE_SVN) {
       throw new Exception(pht('Not a subversion repository!'));
     }
 
@@ -471,7 +471,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return $this->getProfileImageFile()->getBestURI();
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
@@ -605,7 +605,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public static function parseRepositoryServicePath($request_path, $vcs) {
-    $is_git = ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
+    $is_git = ($vcs == PhorgeRepositoryType::REPOSITORY_TYPE_GIT);
 
     $patterns = array(
       '(^'.
@@ -840,7 +840,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       $indexes[] = $uri->getNormalizedURI();
     }
 
-    PhabricatorRepositoryURIIndex::updateRepositoryURIs(
+    PhorgeRepositoryURIIndex::updateRepositoryURIs(
       $this->getPHID(),
       $indexes);
 
@@ -871,8 +871,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     }
 
     $default_branches = array(
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT        => 'master',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL  => 'default',
+      PhorgeRepositoryType::REPOSITORY_TYPE_GIT        => 'master',
+      PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL  => 'default',
     );
 
     return idx($default_branches, $this->getVersionControlSystem());
@@ -885,7 +885,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   private function isBranchInFilter($branch, $filter_key) {
     $vcs = $this->getVersionControlSystem();
 
-    $is_git = ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
+    $is_git = ($vcs == PhorgeRepositoryType::REPOSITORY_TYPE_GIT);
 
     $use_filter = ($is_git);
     if (!$use_filter) {
@@ -957,8 +957,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   public function formatCommitName($commit_identifier, $local = false) {
     $vcs = $this->getVersionControlSystem();
 
-    $type_git = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
-    $type_hg = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
+    $type_git = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
+    $type_hg = PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL;
 
     $is_git = ($vcs == $type_git);
     $is_hg = ($vcs == $type_hg);
@@ -1001,7 +1001,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       $this->establishConnection('r'),
       'SELECT importStatus, count(*) N FROM %T WHERE repositoryID = %d
         GROUP BY importStatus',
-      id(new PhabricatorRepositoryCommit())->getTableName(),
+      id(new PhorgeRepositoryCommit())->getTableName(),
       $this->getID());
 
     $done = 0;
@@ -1009,13 +1009,13 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     foreach ($progress as $row) {
       $total += $row['N'] * 3;
       $status = $row['importStatus'];
-      if ($status & PhabricatorRepositoryCommit::IMPORTED_MESSAGE) {
+      if ($status & PhorgeRepositoryCommit::IMPORTED_MESSAGE) {
         $done += $row['N'];
       }
-      if ($status & PhabricatorRepositoryCommit::IMPORTED_CHANGE) {
+      if ($status & PhorgeRepositoryCommit::IMPORTED_CHANGE) {
         $done += $row['N'];
       }
-      if ($status & PhabricatorRepositoryCommit::IMPORTED_PUBLISH) {
+      if ($status & PhorgeRepositoryCommit::IMPORTED_PUBLISH) {
         $done += $row['N'];
       }
     }
@@ -1038,7 +1038,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 /* -(  Publishing  )--------------------------------------------------------- */
 
   public function newPublisher() {
-    return id(new PhabricatorRepositoryPublisher())
+    return id(new PhorgeRepositoryPublisher())
       ->setRepository($this);
   }
 
@@ -1116,7 +1116,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
         if ($credential_phid) {
           $key = PassphrasePasswordKey::loadFromPHID(
             $credential_phid,
-            PhabricatorUser::getOmnipotentUser());
+            PhorgeUser::getOmnipotentUser());
 
           $uri->setUser($key->getUsernameEnvelope()->openEnvelope());
           $uri->setPass($key->getPasswordEnvelope()->openEnvelope());
@@ -1202,8 +1202,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     }
 
     // TODO: This should be cleaned up to deal with all the new URI handling.
-    $another_copy = id(new PhabricatorRepositoryQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $another_copy = id(new PhorgeRepositoryQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($this->getPHID()))
       ->needURIs(true)
       ->executeOne();
@@ -1217,7 +1217,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   private function getRawHTTPCloneURIObject() {
-    $uri = PhabricatorEnv::getProductionURI($this->getURI());
+    $uri = PhorgeEnv::getProductionURI($this->getURI());
     $uri = new PhutilURI($uri);
 
     if ($this->isGit()) {
@@ -1299,7 +1299,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   public function delete() {
     $this->openTransaction();
 
-      $paths = id(new PhabricatorOwnersPath())
+      $paths = id(new PhorgeOwnersPath())
         ->loadAllWhere('repositoryPHID = %s', $this->getPHID());
       foreach ($paths as $path) {
         $path->delete();
@@ -1308,24 +1308,24 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       queryfx(
         $this->establishConnection('w'),
         'DELETE FROM %T WHERE repositoryPHID = %s',
-        id(new PhabricatorRepositorySymbol())->getTableName(),
+        id(new PhorgeRepositorySymbol())->getTableName(),
         $this->getPHID());
 
-      $commits = id(new PhabricatorRepositoryCommit())
+      $commits = id(new PhorgeRepositoryCommit())
         ->loadAllWhere('repositoryID = %d', $this->getID());
       foreach ($commits as $commit) {
-        // note PhabricatorRepositoryAuditRequests and
-        // PhabricatorRepositoryCommitData are deleted here too.
+        // note PhorgeRepositoryAuditRequests and
+        // PhorgeRepositoryCommitData are deleted here too.
         $commit->delete();
       }
 
-      $uris = id(new PhabricatorRepositoryURI())
+      $uris = id(new PhorgeRepositoryURI())
         ->loadAllWhere('repositoryPHID = %s', $this->getPHID());
       foreach ($uris as $uri) {
         $uri->delete();
       }
 
-      $ref_cursors = id(new PhabricatorRepositoryRefCursor())
+      $ref_cursors = id(new PhorgeRepositoryRefCursor())
         ->loadAllWhere('repositoryPHID = %s', $this->getPHID());
       foreach ($ref_cursors as $cursor) {
         $cursor->delete();
@@ -1359,17 +1359,17 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
   public function isGit() {
     $vcs = $this->getVersionControlSystem();
-    return ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
+    return ($vcs == PhorgeRepositoryType::REPOSITORY_TYPE_GIT);
   }
 
   public function isSVN() {
     $vcs = $this->getVersionControlSystem();
-    return ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_SVN);
+    return ($vcs == PhorgeRepositoryType::REPOSITORY_TYPE_SVN);
   }
 
   public function isHg() {
     $vcs = $this->getVersionControlSystem();
-    return ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL);
+    return ($vcs == PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL);
   }
 
   public function isHosted() {
@@ -1401,12 +1401,12 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       }
 
       $io_type = $uri->getEffectiveIoType();
-      if ($io_type == PhabricatorRepositoryURI::IO_READWRITE) {
+      if ($io_type == PhorgeRepositoryURI::IO_READWRITE) {
         return true;
       }
 
       if (!$write) {
-        if ($io_type == PhabricatorRepositoryURI::IO_READ) {
+        if ($io_type == PhorgeRepositoryURI::IO_READ) {
           return true;
         }
       }
@@ -1450,10 +1450,10 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    */
   public function isWorkingCopyBare() {
     switch ($this->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         return false;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $local = $this->getLocalPath();
         if (Filesystem::pathExists($local.'/.git')) {
           return false;
@@ -1465,10 +1465,10 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
   public function usesLocalWorkingCopy() {
     switch ($this->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         return $this->isHosted();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         return true;
     }
   }
@@ -1482,17 +1482,17 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $root = $this->getLocalPath();
 
     switch ($this->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         if ($this->isWorkingCopyBare()) {
           $directories[] = $root.'/hooks/pre-receive-phorge.d/';
         } else {
           $directories[] = $root.'/.git/hooks/pre-receive-phorge.d/';
         }
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $directories[] = $root.'/hooks/pre-commit-phorge.d/';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         // NOTE: We don't support custom Mercurial hooks for now because they're
         // messy and we can't easily just drop a `hooks.d/` directory next to
         // the hooks.
@@ -1508,7 +1508,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return false;
     }
 
-    $default_path = PhabricatorEnv::getEnvConfig(
+    $default_path = PhorgeEnv::getEnvConfig(
       'repository.default-local-path');
     return Filesystem::isDescendant($this->getLocalPath(), $default_path);
   }
@@ -1526,7 +1526,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return false;
     }
 
-    if (!PhabricatorEnv::getEnvConfig('diffusion.allow-git-lfs')) {
+    if (!PhorgeEnv::getEnvConfig('diffusion.allow-git-lfs')) {
       return false;
     }
 
@@ -1588,7 +1588,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $status_code,
     array $parameters = array()) {
 
-    $table = new PhabricatorRepositoryStatusMessage();
+    $table = new PhorgeRepositoryStatusMessage();
     $conn_w = $table->establishConnection('w');
     $table_name = $table->getTableName();
 
@@ -1709,7 +1709,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     // for each consecutive error. Normally, this corresponds to a backoff of
     // 15s, 30s, 45s, etc.
 
-    $message_table = new PhabricatorRepositoryStatusMessage();
+    $message_table = new PhorgeRepositoryStatusMessage();
     $conn = $message_table->establishConnection('r');
     $error_count = queryfx_one(
       $conn,
@@ -1720,11 +1720,11 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       $message_table->getTableName(),
       $this->getID(),
       array(
-        PhabricatorRepositoryStatusMessage::TYPE_INIT,
-        PhabricatorRepositoryStatusMessage::TYPE_FETCH,
+        PhorgeRepositoryStatusMessage::TYPE_INIT,
+        PhorgeRepositoryStatusMessage::TYPE_FETCH,
       ),
       array(
-        PhabricatorRepositoryStatusMessage::CODE_ERROR,
+        PhorgeRepositoryStatusMessage::CODE_ERROR,
       ));
 
     $error_count = (int)$error_count['error_count'];
@@ -1739,9 +1739,9 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return $minimum;
     }
 
-    $window_start = (PhabricatorTime::getNow() + $minimum);
+    $window_start = (PhorgeTime::getNow() + $minimum);
 
-    $table = id(new PhabricatorRepositoryCommit());
+    $table = id(new PhorgeRepositoryCommit());
     $last_commit = queryfx_one(
       $table->establishConnection('r'),
       'SELECT epoch FROM %T
@@ -1836,12 +1836,12 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * with repository services. This method provides lower-level resolution of
    * services, returning raw URIs.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @param map<string, wild> Constraints on selectable services.
    * @return string|null URI, or `null` for local repositories.
    */
   public function getAlmanacServiceURI(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $options) {
 
     $refs = $this->getAlmanacServiceRefs($viewer, $options);
@@ -1855,7 +1855,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function getAlmanacServiceRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $options) {
 
     PhutilTypeSpec::checkMap(
@@ -1875,7 +1875,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return array();
     }
 
-    $cache = PhabricatorCaches::getMutableStructureCache();
+    $cache = PhorgeCaches::getMutableStructureCache();
     $uris = $cache->getKey($cache_key, false);
 
     // If we haven't built the cache yet, build it now.
@@ -2026,7 +2026,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     // to that device. We're trying to queue writes on a single device so they
     // do not need to wait for read synchronization after earlier writes
     // complete.
-    $writer = PhabricatorRepositoryWorkingCopyVersion::loadWriter(
+    $writer = PhorgeRepositoryWorkingCopyVersion::loadWriter(
       $this->getPHID());
     if ($writer) {
       $device_phid = $writer->getWriteProperty('devicePHID');
@@ -2040,7 +2040,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     // If no device is currently holding the write lock, try to send requests
     // to a device which is already up to date and will not need to synchronize
     // before it can accept the write.
-    $versions = PhabricatorRepositoryWorkingCopyVersion::loadVersions(
+    $versions = PhorgeRepositoryWorkingCopyVersion::loadVersions(
       $this->getPHID());
     if ($versions) {
       $max_version = (int)max(mpull($versions, 'getRepositoryVersion'));
@@ -2168,12 +2168,12 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    *
    * For lower-level service resolution, see @{method:getAlmanacServiceURI}.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @param bool `true` to throw if a client would be returned.
    * @return ConduitClient|null Client, or `null` for local repositories.
    */
   public function newConduitClient(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $never_proxy = false) {
 
     $uri = $this->getAlmanacServiceURI(
@@ -2193,7 +2193,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       return null;
     }
 
-    $domain = id(new PhutilURI(PhabricatorEnv::getURI('/')))->getDomain();
+    $domain = id(new PhutilURI(PhorgeEnv::getURI('/')))->getDomain();
 
     $client = id(new ConduitClient($uri))
       ->setHost($domain);
@@ -2236,7 +2236,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       // If the caller is a normal user, we generate or retrieve a cluster
       // API token.
 
-      $token = PhabricatorConduitToken::loadClusterTokenForUser($viewer);
+      $token = PhorgeConduitToken::loadClusterTokenForUser($viewer);
       if ($token) {
         $client->setConduitToken($token->getToken());
       }
@@ -2263,7 +2263,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function newConduitFuture(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $method,
     array $params,
     $never_proxy = false) {
@@ -2431,8 +2431,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
       $io_type = $uri->getEffectiveIoType();
       $is_clone =
-        ($io_type == PhabricatorRepositoryURI::IO_READ) ||
-        ($io_type == PhabricatorRepositoryURI::IO_READWRITE);
+        ($io_type == PhorgeRepositoryURI::IO_READ) ||
+        ($io_type == PhorgeRepositoryURI::IO_READWRITE);
 
       if (!$is_clone) {
         continue;
@@ -2453,25 +2453,25 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $has_shortname = ($this->getRepositorySlug() !== null);
 
     $identifier_map = array(
-      PhabricatorRepositoryURI::BUILTIN_IDENTIFIER_CALLSIGN => $has_callsign,
-      PhabricatorRepositoryURI::BUILTIN_IDENTIFIER_SHORTNAME => $has_shortname,
-      PhabricatorRepositoryURI::BUILTIN_IDENTIFIER_ID => true,
+      PhorgeRepositoryURI::BUILTIN_IDENTIFIER_CALLSIGN => $has_callsign,
+      PhorgeRepositoryURI::BUILTIN_IDENTIFIER_SHORTNAME => $has_shortname,
+      PhorgeRepositoryURI::BUILTIN_IDENTIFIER_ID => true,
     );
 
     // If the view policy of the repository is public, support anonymous HTTP
     // even if authenticated HTTP is not supported.
-    if ($this->getViewPolicy() === PhabricatorPolicies::POLICY_PUBLIC) {
+    if ($this->getViewPolicy() === PhorgePolicies::POLICY_PUBLIC) {
       $allow_http = true;
     } else {
-      $allow_http = PhabricatorEnv::getEnvConfig('diffusion.allow-http-auth');
+      $allow_http = PhorgeEnv::getEnvConfig('diffusion.allow-http-auth');
     }
 
-    $base_uri = PhabricatorEnv::getURI('/');
+    $base_uri = PhorgeEnv::getURI('/');
     $base_uri = new PhutilURI($base_uri);
     $has_https = ($base_uri->getProtocol() == 'https');
     $has_https = ($has_https && $allow_http);
 
-    $has_http = !PhabricatorEnv::getEnvConfig('security.require-https');
+    $has_http = !PhorgeEnv::getEnvConfig('security.require-https');
     $has_http = ($has_http && $allow_http);
 
     // HTTP is not supported for Subversion.
@@ -2480,13 +2480,13 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       $has_https = false;
     }
 
-    $phd_user = PhabricatorEnv::getEnvConfig('phd.user');
+    $phd_user = PhorgeEnv::getEnvConfig('phd.user');
     $has_ssh = phutil_nonempty_string($phd_user);
 
     $protocol_map = array(
-      PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH => $has_ssh,
-      PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTPS => $has_https,
-      PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTP => $has_http,
+      PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH => $has_ssh,
+      PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTPS => $has_https,
+      PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTP => $has_http,
     );
 
     $uris = array();
@@ -2495,7 +2495,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
         // This is just a dummy value because it can't be empty; we'll force
         // it to a proper value when using it in the UI.
         $builtin_uri = "{$protocol}://{$identifier}";
-        $uris[] = PhabricatorRepositoryURI::initializeNewURI()
+        $uris[] = PhorgeRepositoryURI::initializeNewURI()
           ->setRepositoryPHID($this->getPHID())
           ->attachRepository($this)
           ->setBuiltinProtocol($protocol)
@@ -2533,7 +2533,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     }
 
     $service = id(new AlmanacServiceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($service_phid))
       ->needActiveBindings(true)
       ->needProperties(true)
@@ -2623,55 +2623,55 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorRepositoryEditor();
+    return new PhorgeRepositoryEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorRepositoryTransaction();
+    return new PhorgeRepositoryTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
       DiffusionPushCapability::CAPABILITY,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
       case DiffusionPushCapability::CAPABILITY:
         return $this->getPushPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return false;
   }
 
 
-/* -(  PhabricatorMarkupInterface  )----------------------------------------- */
+/* -(  PhorgeMarkupInterface  )----------------------------------------- */
 
 
   public function getMarkupFieldKey($field) {
-    $hash = PhabricatorHash::digestForIndex($this->getMarkupText($field));
+    $hash = PhorgeHash::digestForIndex($this->getMarkupText($field));
     return "repo:{$hash}";
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newMarkupEngine(array());
+    return PhorgeMarkupEngine::newMarkupEngine(array());
   }
 
   public function getMarkupText($field) {
@@ -2696,11 +2696,11 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $phid = $this->getPHID();
 
@@ -2708,7 +2708,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
       $this->delete();
 
-      PhabricatorRepositoryURIIndex::updateRepositoryURIs($phid, array());
+      PhorgeRepositoryURIIndex::updateRepositoryURIs($phid, array());
 
       $books = id(new DivinerBookQuery())
         ->setViewer($engine->getViewer())
@@ -2726,7 +2726,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
         $engine->destroyObject($atom);
       }
 
-      $lfs_refs = id(new PhabricatorRepositoryGitLFSRefQuery())
+      $lfs_refs = id(new PhorgeRepositoryGitLFSRefQuery())
         ->setViewer($engine->getViewer())
         ->withRepositoryPHIDs(array($phid))
         ->execute();
@@ -2738,71 +2738,71 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
 
-/* -(  PhabricatorDestructibleCodexInterface  )------------------------------ */
+/* -(  PhorgeDestructibleCodexInterface  )------------------------------ */
 
 
   public function newDestructibleCodex() {
-    return new PhabricatorRepositoryDestructibleCodex();
+    return new PhorgeRepositoryDestructibleCodex();
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
     return $this->spacePHID;
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The repository name.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('vcs')
         ->setType('string')
         ->setDescription(
           pht('The VCS this repository uses ("git", "hg" or "svn").')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('callsign')
         ->setType('string')
         ->setDescription(pht('The repository callsign, if it has one.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('shortName')
         ->setType('string')
         ->setDescription(pht('Unique short name, if the repository has one.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Active or inactive status.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isImporting')
         ->setType('bool')
         ->setDescription(
           pht(
             'True if the repository is importing initial commits.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('almanacServicePHID')
         ->setType('phid?')
         ->setDescription(
           pht(
             'The Almanac Service that hosts this repository, if the '.
             'repository is clustered.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('refRules')
         ->setType('map<string, list<string>>')
         ->setDescription(
           pht(
             'The "Fetch" and "Permanent Ref" rules for this repository.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('defaultBranch')
         ->setType('string?')
         ->setDescription(pht('Default branch name.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('remarkup')
         ->setDescription(pht('Repository description.')),
@@ -2867,19 +2867,19 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     );
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
-    return new PhabricatorRepositoryFulltextEngine();
+    return new PhorgeRepositoryFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorRepositoryFerretEngine();
+    return new PhorgeRepositoryFerretEngine();
   }
 
 }

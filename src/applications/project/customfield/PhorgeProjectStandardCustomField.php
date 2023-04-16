@@ -1,23 +1,23 @@
 <?php
 
-abstract class PhabricatorProjectStandardCustomField
-  extends PhabricatorProjectCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+abstract class PhorgeProjectStandardCustomField
+  extends PhorgeProjectCustomField
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'project:internal';
   }
 
   public function newStorageObject() {
-    return new PhabricatorProjectCustomFieldStorage();
+    return new PhorgeProjectCustomFieldStorage();
   }
 
   protected function newStringIndexStorage() {
-    return new PhabricatorProjectCustomFieldStringIndex();
+    return new PhorgeProjectCustomFieldStringIndex();
   }
 
   protected function newNumericIndexStorage() {
-    return new PhabricatorProjectCustomFieldNumericIndex();
+    return new PhorgeProjectCustomFieldNumericIndex();
   }
 
 }

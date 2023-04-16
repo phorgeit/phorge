@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacNamespaceNameNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'namespacename';

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorDashboardPortal
-  extends PhabricatorDashboardDAO
+final class PhorgeDashboardPortal
+  extends PhorgeDashboardDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorProjectInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeProjectInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   protected $name;
   protected $viewPolicy;
@@ -19,9 +19,9 @@ final class PhabricatorDashboardPortal
   public static function initializeNewPortal() {
     return id(new self())
       ->setName('')
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
-      ->setEditPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setStatus(PhabricatorDashboardPortalStatus::STATUS_ACTIVE);
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
+      ->setEditPolicy(PhorgePolicies::POLICY_USER)
+      ->setStatus(PhorgeDashboardPortalStatus::STATUS_ACTIVE);
   }
 
   protected function getConfiguration() {
@@ -38,7 +38,7 @@ final class PhabricatorDashboardPortal
   }
 
   public function getPHIDType() {
-    return PhabricatorDashboardPortalPHIDType::TYPECONST;
+    return PhorgeDashboardPortalPHIDType::TYPECONST;
   }
 
   public function getPortalProperty($key, $default = null) {
@@ -59,65 +59,65 @@ final class PhabricatorDashboardPortal
   }
 
   public function isArchived() {
-    $status_archived = PhabricatorDashboardPortalStatus::STATUS_ARCHIVED;
+    $status_archived = PhorgeDashboardPortalStatus::STATUS_ARCHIVED;
     return ($this->getStatus() === $status_archived);
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorDashboardPortalEditor();
+    return new PhorgeDashboardPortalEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorDashboardPortalTransaction();
+    return new PhorgeDashboardPortalTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
-    return new PhabricatorDashboardPortalFulltextEngine();
+    return new PhorgeDashboardPortalFulltextEngine();
   }
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
   public function newFerretEngine() {
-    return new PhabricatorDashboardPortalFerretEngine();
+    return new PhorgeDashboardPortalFerretEngine();
   }
 
 }

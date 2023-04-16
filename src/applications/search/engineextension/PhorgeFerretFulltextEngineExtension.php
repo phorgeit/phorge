@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFerretFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeFerretFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'ferret';
 
@@ -12,13 +12,13 @@ final class PhabricatorFerretFulltextEngineExtension
 
 
   public function shouldIndexFulltextObject($object) {
-    return ($object instanceof PhabricatorFerretInterface);
+    return ($object instanceof PhorgeFerretInterface);
   }
 
 
   public function indexFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     $phid = $document->getPHID();
     $engine = $object->newFerretEngine();
@@ -29,19 +29,19 @@ final class PhabricatorFerretFulltextEngineExtension
     foreach ($document->getRelationshipData() as $relationship) {
       list($related_type, $related_phid) = $relationship;
       switch ($related_type) {
-        case PhabricatorSearchRelationship::RELATIONSHIP_OPEN:
+        case PhorgeSearchRelationship::RELATIONSHIP_OPEN:
           $is_closed = 0;
           break;
-        case PhabricatorSearchRelationship::RELATIONSHIP_CLOSED:
+        case PhorgeSearchRelationship::RELATIONSHIP_CLOSED:
           $is_closed = 1;
           break;
-        case PhabricatorSearchRelationship::RELATIONSHIP_OWNER:
+        case PhorgeSearchRelationship::RELATIONSHIP_OWNER:
           $owner_phid = $related_phid;
           break;
-        case PhabricatorSearchRelationship::RELATIONSHIP_UNOWNED:
+        case PhorgeSearchRelationship::RELATIONSHIP_UNOWNED:
           $owner_phid = null;
           break;
-        case PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR:
+        case PhorgeSearchRelationship::RELATIONSHIP_AUTHOR:
           $author_phid = $related_phid;
           break;
       }
@@ -58,17 +58,17 @@ final class PhabricatorFerretFulltextEngineExtension
 
       list($key, $raw_corpus) = $field;
       switch ($key) {
-        case PhabricatorSearchDocumentFieldType::FIELD_TITLE:
-        case PhabricatorSearchDocumentFieldType::FIELD_BODY:
+        case PhorgeSearchDocumentFieldType::FIELD_TITLE:
+        case PhorgeSearchDocumentFieldType::FIELD_BODY:
           $virtual_fields[] = array(
-            PhabricatorSearchDocumentFieldType::FIELD_CORE,
+            PhorgeSearchDocumentFieldType::FIELD_CORE,
             $raw_corpus,
           );
           break;
       }
 
       $virtual_fields[] = array(
-        PhabricatorSearchDocumentFieldType::FIELD_ALL,
+        PhorgeSearchDocumentFieldType::FIELD_ALL,
         $raw_corpus,
       );
     }
@@ -131,7 +131,7 @@ final class PhabricatorFerretFulltextEngineExtension
     }
     $ngrams_source = implode("\n", $ngrams_source);
 
-    $ngram_engine = new PhabricatorSearchNgramEngine();
+    $ngram_engine = new PhorgeSearchNgramEngine();
     $ngrams = $ngram_engine->getTermNgramsFromString($ngrams_source);
 
     $conn = $object->establishConnection('w');
@@ -244,7 +244,7 @@ final class PhabricatorFerretFulltextEngineExtension
     AphrontDatabaseConnection $conn,
     $is_new,
     $document_id,
-    PhabricatorFerretEngine $engine,
+    PhorgeFerretEngine $engine,
     $new_fields) {
 
     if (!$is_new) {
@@ -342,7 +342,7 @@ final class PhabricatorFerretFulltextEngineExtension
     AphrontDatabaseConnection $conn,
     $is_new,
     $document_id,
-    PhabricatorFerretEngine $engine,
+    PhorgeFerretEngine $engine,
     $new_ngrams) {
 
     if ($is_new) {
@@ -398,7 +398,7 @@ final class PhabricatorFerretFulltextEngineExtension
           $id);
       }
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'DELETE FROM %T WHERE id IN (%LQ)',
@@ -417,7 +417,7 @@ final class PhabricatorFerretFulltextEngineExtension
           $ngram);
       }
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'INSERT INTO %T (documentID, ngram) VALUES %LQ',
@@ -431,19 +431,19 @@ final class PhabricatorFerretFulltextEngineExtension
     return array(
       id(new FerretConfigurableSearchFunction())
         ->setFerretFunctionName('all')
-        ->setFerretFieldKey(PhabricatorSearchDocumentFieldType::FIELD_ALL),
+        ->setFerretFieldKey(PhorgeSearchDocumentFieldType::FIELD_ALL),
       id(new FerretConfigurableSearchFunction())
         ->setFerretFunctionName('title')
-        ->setFerretFieldKey(PhabricatorSearchDocumentFieldType::FIELD_TITLE),
+        ->setFerretFieldKey(PhorgeSearchDocumentFieldType::FIELD_TITLE),
       id(new FerretConfigurableSearchFunction())
         ->setFerretFunctionName('body')
-        ->setFerretFieldKey(PhabricatorSearchDocumentFieldType::FIELD_BODY),
+        ->setFerretFieldKey(PhorgeSearchDocumentFieldType::FIELD_BODY),
       id(new FerretConfigurableSearchFunction())
         ->setFerretFunctionName('core')
-        ->setFerretFieldKey(PhabricatorSearchDocumentFieldType::FIELD_CORE),
+        ->setFerretFieldKey(PhorgeSearchDocumentFieldType::FIELD_CORE),
       id(new FerretConfigurableSearchFunction())
         ->setFerretFunctionName('comment')
-        ->setFerretFieldKey(PhabricatorSearchDocumentFieldType::FIELD_COMMENT),
+        ->setFerretFieldKey(PhorgeSearchDocumentFieldType::FIELD_COMMENT),
     );
   }
 

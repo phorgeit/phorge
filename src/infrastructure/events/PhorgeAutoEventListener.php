@@ -12,4 +12,4 @@
  * startup. This allows it to be used with custom one-offs that can be dropped
  * into `phorge/src/extensions/`.
  */
-abstract class PhabricatorAutoEventListener extends PhabricatorEventListener {}
+abstract class PhorgeAutoEventListener extends PhorgeEventListener {}

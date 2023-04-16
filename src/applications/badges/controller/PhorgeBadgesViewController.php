@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesViewController
-  extends PhabricatorBadgesProfileController {
+final class PhorgeBadgesViewController
+  extends PhorgeBadgesProfileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorBadgesViewController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -30,9 +30,9 @@ final class PhabricatorBadgesViewController
 
     $timeline = $this->buildTransactionTimeline(
       $badge,
-      new PhabricatorBadgesTransactionQuery());
+      new PhorgeBadgesTransactionQuery());
 
-    $comment_view = id(new PhabricatorBadgesEditEngine())
+    $comment_view = id(new PhorgeBadgesEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($badge);
 
@@ -56,7 +56,7 @@ final class PhabricatorBadgesViewController
   }
 
   private function buildDetailsView(
-    PhabricatorBadgesBadge $badge) {
+    PhorgeBadgesBadge $badge) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -79,13 +79,13 @@ final class PhabricatorBadgesViewController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorBadgesBadge $badge) {
+  private function buildCurtain(PhorgeBadgesBadge $badge) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $badge->getID();
     $edit_uri = $this->getApplicationURI("/edit/{$id}/");
@@ -94,7 +94,7 @@ final class PhabricatorBadgesViewController
     $curtain = $this->newCurtainView($badge);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Badge'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -102,7 +102,7 @@ final class PhabricatorBadgesViewController
 
     if ($badge->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Badge'))
           ->setIcon('fa-check')
           ->setDisabled(!$can_edit)
@@ -110,7 +110,7 @@ final class PhabricatorBadgesViewController
           ->setHref($archive_uri));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Badge'))
           ->setIcon('fa-ban')
           ->setDisabled(!$can_edit)

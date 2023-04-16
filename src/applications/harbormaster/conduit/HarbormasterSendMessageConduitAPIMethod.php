@@ -19,7 +19,7 @@ EOREMARKUP
       );
   }
 
-  protected function newDocumentationPages(PhabricatorUser $viewer) {
+  protected function newDocumentationPages(PhorgeUser $viewer) {
     $pages = array();
 
     $pages[] = $this->newSendingDocumentationBoxPage($viewer);
@@ -32,7 +32,7 @@ EOREMARKUP
     return $pages;
   }
 
-  private function newSendingDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newSendingDocumentationBoxPage(PhorgeUser $viewer) {
     $title = pht('Sending Messages');
     $content = pht(<<<EOREMARKUP
 Harbormaster build objects work somewhat differently from objects in many other
@@ -104,7 +104,7 @@ EOREMARKUP
       ->setIconIcon('fa-envelope-o');
   }
 
-  private function newBuildsDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newBuildsDocumentationBoxPage(PhorgeUser $viewer) {
     $title = pht('Updating Builds');
 
     $content = pht(<<<EOREMARKUP
@@ -137,7 +137,7 @@ EOREMARKUP
       ->setIconIcon('fa-cubes');
   }
 
-  private function newCommandsDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newCommandsDocumentationBoxPage(PhorgeUser $viewer) {
     $messages = HarbormasterBuildMessageTransaction::getAllMessages();
 
     $rows = array();
@@ -220,7 +220,7 @@ EOREMARKUP
       ->setIconIcon('fa-exclamation-triangle');
   }
 
-  private function newTargetsDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newTargetsDocumentationBoxPage(PhorgeUser $viewer) {
     $messages = HarbormasterMessageType::getAllMessages();
 
     $head_type = pht('Type');
@@ -307,7 +307,7 @@ EOREMARKUP
       ->setIconIcon('fa-bullseye');
   }
 
-  private function newUnitDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newUnitDocumentationBoxPage(PhorgeUser $viewer) {
     $head_key = pht('Key');
     $head_desc = pht('Description');
     $head_name = pht('Name');
@@ -388,7 +388,7 @@ EOREMARKUP
       ->setAnchor('unit');
   }
 
-  private function newLintDocumentationBoxPage(PhabricatorUser $viewer) {
+  private function newLintDocumentationBoxPage(PhorgeUser $viewer) {
 
     $head_key = pht('Key');
     $head_desc = pht('Description');
@@ -530,7 +530,7 @@ EOREMARKUP
           'message you want to send.'));
     }
 
-    $receiver_object = id(new PhabricatorObjectQuery())
+    $receiver_object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($receiver_name))
       ->executeOne();
@@ -612,7 +612,7 @@ EOREMARKUP
     // waiting targets, this will resume it.
     $build = $build_target->getBuild();
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'HarbormasterBuildWorker',
       array(
         'buildID' => $build->getID(),

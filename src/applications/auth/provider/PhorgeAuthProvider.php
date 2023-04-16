@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorAuthProvider extends Phobject {
+abstract class PhorgeAuthProvider extends Phobject {
 
   private $providerConfig;
 
-  public function attachProviderConfig(PhabricatorAuthProviderConfig $config) {
+  public function attachProviderConfig(PhorgeAuthProviderConfig $config) {
     $this->providerConfig = $config;
     return $this;
   }
@@ -29,7 +29,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getDefaultProviderConfig() {
-    return id(new PhabricatorAuthProviderConfig())
+    return id(new PhorgeAuthProviderConfig())
       ->setProviderClass(get_class($this))
       ->setIsEnabled(1)
       ->setShouldAllowLogin(1)
@@ -70,8 +70,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
     if ($providers === null) {
       $objects = self::getAllBaseProviders();
 
-      $configs = id(new PhabricatorAuthProviderConfigQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $configs = id(new PhorgeAuthProviderConfigQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->execute();
 
       $providers = array();
@@ -148,22 +148,22 @@ abstract class PhabricatorAuthProvider extends Phobject {
   /**
    * Should we allow the adapter to be marked as "trusted". This is true for
    * all adapters except those that allow the user to type in emails (see
-   * @{class:PhabricatorPasswordAuthProvider}).
+   * @{class:PhorgePasswordAuthProvider}).
    */
   public function shouldAllowEmailTrustConfiguration() {
     return true;
   }
 
-  public function buildLoginForm(PhabricatorAuthStartController $controller) {
+  public function buildLoginForm(PhorgeAuthStartController $controller) {
     return $this->renderLoginForm($controller->getRequest(), $mode = 'start');
   }
 
-  public function buildInviteForm(PhabricatorAuthStartController $controller) {
+  public function buildInviteForm(PhorgeAuthStartController $controller) {
     return $this->renderLoginForm($controller->getRequest(), $mode = 'invite');
   }
 
   abstract public function processLoginRequest(
-    PhabricatorAuthLoginController $controller);
+    PhorgeAuthLoginController $controller);
 
   public function buildLinkForm($controller) {
     return $this->renderLoginForm($controller->getRequest(), $mode = 'link');
@@ -174,7 +174,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function buildRefreshForm(
-    PhabricatorAuthLinkController $controller) {
+    PhorgeAuthLinkController $controller) {
     return $this->renderLoginForm($controller->getRequest(), $mode = 'refresh');
   }
 
@@ -186,14 +186,14 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return array($this);
   }
 
-  protected function willSaveAccount(PhabricatorExternalAccount $account) {
+  protected function willSaveAccount(PhorgeExternalAccount $account) {
     return;
   }
 
   final protected function newExternalAccountForIdentifiers(
     array $identifiers) {
 
-    assert_instances_of($identifiers, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of($identifiers, 'PhorgeExternalAccountIdentifier');
 
     if (!$identifiers) {
       throw new Exception(
@@ -205,11 +205,11 @@ abstract class PhabricatorAuthProvider extends Phobject {
     }
 
     $config = $this->getProviderConfig();
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $raw_identifiers = mpull($identifiers, 'getIdentifierRaw');
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withProviderConfigPHIDs(array($config->getPHID()))
       ->withRawAccountIdentifiers($raw_identifiers)
@@ -243,7 +243,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $this->didUpdateAccount($account);
   }
 
-  final protected function newExternalAccountForUser(PhabricatorUser $user) {
+  final protected function newExternalAccountForUser(PhorgeUser $user) {
     $config = $this->getProviderConfig();
 
     // When a user logs in with a provider like username/password, they
@@ -254,7 +254,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
     // dummy "external account" which just links directly back to their
     // internal account.
 
-    $account = id(new PhabricatorExternalAccountQuery())
+    $account = id(new PhorgeExternalAccountQuery())
       ->setViewer($user)
       ->withProviderConfigPHIDs(array($config->getPHID()))
       ->withUserPHIDs(array($user->getPHID()))
@@ -267,7 +267,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $this->didUpdateAccount($account);
   }
 
-  private function didUpdateAccount(PhabricatorExternalAccount $account) {
+  private function didUpdateAccount(PhorgeExternalAccount $account) {
     $adapter = $this->getAdapter();
 
     $account->setUsername($adapter->getAccountName());
@@ -279,24 +279,24 @@ abstract class PhabricatorAuthProvider extends Phobject {
     $image_uri = $adapter->getAccountImageURI();
     if ($image_uri) {
       try {
-        $name = PhabricatorSlug::normalize($this->getProviderName());
+        $name = PhorgeSlug::normalize($this->getProviderName());
         $name = $name.'-profile.jpg';
 
         // TODO: If the image has not changed, we do not need to make a new
         // file entry for it, but there's no convenient way to do this with
-        // PhabricatorFile right now. The storage will get shared, so the impact
+        // PhorgeFile right now. The storage will get shared, so the impact
         // here is negligible.
 
         $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-          $image_file = PhabricatorFile::newFromFileDownload(
+          $image_file = PhorgeFile::newFromFileDownload(
             $image_uri,
             array(
               'name' => $name,
-              'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+              'viewPolicy' => PhorgePolicies::POLICY_NOONE,
             ));
           if ($image_file->isViewableImage()) {
             $image_file
-              ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+              ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
               ->setCanCDN(true)
               ->save();
             $account->setProfileImagePHID($image_file->getPHID());
@@ -322,7 +322,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getLoginURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhorgeApplication::getByClass('PhorgeAuthApplication');
     return $app->getApplicationURI('/login/'.$this->getProviderKey().'/');
   }
 
@@ -331,7 +331,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getStartURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhorgeApplication::getByClass('PhorgeAuthApplication');
     $uri = $app->getApplicationURI('/start/');
     return $uri;
   }
@@ -352,7 +352,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
     $config = $this->getProviderConfig();
     $adapter = $this->getAdapter();
 
-    $account = id(new PhabricatorExternalAccount())
+    $account = id(new PhorgeExternalAccount())
       ->setProviderConfigPHID($config->getPHID())
       ->attachAccountIdentifiers(array());
 
@@ -390,7 +390,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function renderConfigPropertyTransactionTitle(
-    PhabricatorAuthProviderConfigTransaction $xaction) {
+    PhorgeAuthProviderConfigTransaction $xaction) {
 
     return null;
   }
@@ -423,11 +423,11 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function willRenderLinkedAccount(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PHUIObjectItemView $item,
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
 
-    $account_view = id(new PhabricatorAuthAccountView())
+    $account_view = id(new PhorgeAuthAccountView())
       ->setExternalAccount($account)
       ->setAuthProvider($this);
 
@@ -544,7 +544,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getAuthCSRFCode(AphrontRequest $request) {
-    $phcid = $request->getCookie(PhabricatorCookies::COOKIE_CLIENTID);
+    $phcid = $request->getCookie(PhorgeCookies::COOKIE_CLIENTID);
     if (!strlen($phcid)) {
       throw new AphrontMalformedRequestException(
         pht('Missing Client ID Cookie'),
@@ -552,11 +552,11 @@ abstract class PhabricatorAuthProvider extends Phobject {
           'Your browser did not submit a "%s" cookie with client state '.
           'information in the request. Check that cookies are enabled. '.
           'If this problem persists, you may need to clear your cookies.',
-          PhabricatorCookies::COOKIE_CLIENTID),
+          PhorgeCookies::COOKIE_CLIENTID),
         true);
     }
 
-    return PhabricatorHash::weakDigest($phcid);
+    return PhorgeHash::weakDigest($phcid);
   }
 
   protected function verifyAuthCSRFCode(AphrontRequest $request, $actual) {

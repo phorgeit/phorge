@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskIsDuplicateOfTaskEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 63;
 

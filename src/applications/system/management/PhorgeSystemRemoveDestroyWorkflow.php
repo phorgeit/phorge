@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemRemoveDestroyWorkflow
-  extends PhabricatorSystemRemoveWorkflow {
+final class PhorgeSystemRemoveDestroyWorkflow
+  extends PhorgeSystemRemoveWorkflow {
 
   protected function didConstruct() {
     $this
@@ -30,7 +30,7 @@ final class PhabricatorSystemRemoveDestroyWorkflow
         pht('Specify one or more objects to destroy.'));
     }
 
-    $object_query = id(new PhabricatorObjectQuery())
+    $object_query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withNames($object_names);
 
@@ -45,12 +45,12 @@ final class PhabricatorSystemRemoveDestroyWorkflow
     }
 
     foreach ($named_objects as $object_name => $object) {
-      if (!($object instanceof PhabricatorDestructibleInterface)) {
+      if (!($object instanceof PhorgeDestructibleInterface)) {
         throw new PhutilArgumentUsageException(
           pht(
             'Object "%s" can not be destroyed (it does not implement %s).',
             $object_name,
-            'PhabricatorDestructibleInterface'));
+            'PhorgeDestructibleInterface'));
       }
     }
 
@@ -113,7 +113,7 @@ EOBANNER;
           'strongly recommend disabling or archiving objects instead.')));
 
     $phids = mpull($named_objects, 'getPHID');
-    $handles = PhabricatorUser::getOmnipotentUser()->loadHandles($phids);
+    $handles = PhorgeUser::getOmnipotentUser()->loadHandles($phids);
 
     $console->writeOut(
       pht(
@@ -152,7 +152,7 @@ EOBANNER;
           get_class($object),
           $object_name));
 
-      $engine = id(new PhabricatorDestructionEngine())
+      $engine = id(new PhorgeDestructionEngine())
         ->setCollectNotes(true);
 
       $engine->destroyObject($object);

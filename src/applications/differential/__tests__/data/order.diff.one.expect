@@ -3,7 +3,7 @@ src/applications/conpherence/controller/ConpherenceUpdateController
 src/applications/conpherence/controller/ConpherenceUpdateController
 -
 X <MISSING-CONTEXT>
-N 209 .         ->setDatasource(new PhabricatorPeopleDatasource()));\n~
+N 209 .         ->setDatasource(new PhorgePeopleDatasource()));\n~
 N 210 . \n~
 N 211 .     require_celerity_resource('conpherence-update-css');\n~
 O 212 -     {(return)} id(new AphrontDialogView())\n~

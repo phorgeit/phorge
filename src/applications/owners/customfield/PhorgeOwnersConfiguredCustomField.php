@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorOwnersConfiguredCustomField
-  extends PhabricatorOwnersCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+final class PhorgeOwnersConfiguredCustomField
+  extends PhorgeOwnersCustomField
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'owners';
   }
 
   public function createFields($object) {
-    $config = PhabricatorEnv::getEnvConfig('owners.custom-field-definitions');
+    $config = PhorgeEnv::getEnvConfig('owners.custom-field-definitions');
 
-    $fields = PhabricatorStandardCustomField::buildStandardFields(
+    $fields = PhorgeStandardCustomField::buildStandardFields(
       $this,
       $config);
 

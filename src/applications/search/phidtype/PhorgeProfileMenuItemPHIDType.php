@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeProfileMenuItemPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'PANL';
 
@@ -10,22 +10,22 @@ final class PhabricatorProfileMenuItemPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorProfileMenuItemConfiguration();
+    return new PhorgeProfileMenuItemConfiguration();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $object_query,
+    PhorgeObjectQuery $object_query,
     array $phids) {
-    return id(new PhabricatorProfileMenuItemConfigurationQuery())
+    return id(new PhorgeProfileMenuItemConfigurationQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

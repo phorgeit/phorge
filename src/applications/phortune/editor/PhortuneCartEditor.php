@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneCartEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   private $invoiceIssues;
 
@@ -19,7 +19,7 @@ final class PhortuneCartEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -41,8 +41,8 @@ final class PhortuneCartEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortuneCartTransaction::TYPE_CREATED:
@@ -59,8 +59,8 @@ final class PhortuneCartEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortuneCartTransaction::TYPE_CREATED:
@@ -77,8 +77,8 @@ final class PhortuneCartEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortuneCartTransaction::TYPE_CREATED:
@@ -95,8 +95,8 @@ final class PhortuneCartEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortuneCartTransaction::TYPE_CREATED:
@@ -113,21 +113,21 @@ final class PhortuneCartEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $name = $object->getName();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject(pht('Order %d: %s', $id, $name));
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -148,7 +148,7 @@ final class PhortuneCartEditor
 
       $body->addLinkSection(
         pht('PAY NOW'),
-        PhabricatorEnv::getProductionURI($object->getCheckoutURI()));
+        PhorgeEnv::getProductionURI($object->getCheckoutURI()));
     }
 
     $items = array();
@@ -169,23 +169,23 @@ final class PhortuneCartEditor
       if ($subscription) {
         $body->addLinkSection(
           pht('SUBSCRIPTION'),
-          PhabricatorEnv::getProductionURI($subscription->getURI()));
+          PhorgeEnv::getProductionURI($subscription->getURI()));
       }
     } else {
       $body->addLinkSection(
         pht('ORDER DETAIL'),
-        PhabricatorEnv::getProductionURI($object->getDetailURI()));
+        PhorgeEnv::getProductionURI($object->getDetailURI()));
     }
 
     $account_uri = '/phortune/'.$object->getAccount()->getID().'/';
     $body->addLinkSection(
       pht('ACCOUNT OVERVIEW'),
-      PhabricatorEnv::getProductionURI($account_uri));
+      PhorgeEnv::getProductionURI($account_uri));
 
     return $body;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
 
     // Reload the cart to pull account information, in case we just created the
@@ -202,7 +202,7 @@ final class PhortuneCartEditor
     return $phids;
   }
 
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     return array();
   }
 
@@ -210,12 +210,12 @@ final class PhortuneCartEditor
     return '[Phortune]';
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PhortuneCartReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function willPublish(PhabricatorLiskDAO $object, array $xactions) {
+  protected function willPublish(PhorgeLiskDAO $object, array $xactions) {
     // We need the purchases in order to build mail.
     return id(new PhortuneCartQuery())
       ->setViewer($this->getActor())
@@ -236,7 +236,7 @@ final class PhortuneCartEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $account = $object->getAccount();
@@ -247,7 +247,7 @@ final class PhortuneCartEditor
   }
 
   protected function newAuxiliaryMail($object, array $xactions) {
-    $xviewer = PhabricatorUser::getOmnipotentUser();
+    $xviewer = PhorgeUser::getOmnipotentUser();
     $account = $object->getAccount();
 
     $addresses = id(new PhortuneAccountEmailQuery())
@@ -274,13 +274,13 @@ final class PhortuneCartEditor
     PhortuneAccountEmail $email,
     PhortuneCart $cart,
     array $xactions) {
-    $xviewer = PhabricatorUser::getOmnipotentUser();
+    $xviewer = PhorgeUser::getOmnipotentUser();
     $account = $cart->getAccount();
 
     $id = $cart->getID();
     $name = $cart->getName();
 
-    $origin_user = id(new PhabricatorPeopleQuery())
+    $origin_user = id(new PhorgePeopleQuery())
       ->setViewer($xviewer)
       ->withPHIDs(array($email->getAuthorPHID()))
       ->executeOne();
@@ -296,7 +296,7 @@ final class PhortuneCartEditor
       $order_header = pht('ORDER DETAIL');
     }
 
-    $body = id(new PhabricatorMetaMTAMailBody())
+    $body = id(new PhorgeMetaMTAMailBody())
       ->setViewer($xviewer)
       ->setContextObject($cart);
 
@@ -318,17 +318,17 @@ final class PhortuneCartEditor
 
     $body->addLinkSection(
       $order_header,
-      PhabricatorEnv::getProductionURI($email->getExternalOrderURI($cart)));
+      PhorgeEnv::getProductionURI($email->getExternalOrderURI($cart)));
 
     $body->addLinkSection(
       pht('FULL ORDER HISTORY'),
-      PhabricatorEnv::getProductionURI($email->getExternalURI()));
+      PhorgeEnv::getProductionURI($email->getExternalURI()));
 
     $body->addLinkSection(
       pht('UNSUBSCRIBE'),
-      PhabricatorEnv::getProductionURI($email->getUnsubscribeURI()));
+      PhorgeEnv::getProductionURI($email->getUnsubscribeURI()));
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setFrom($this->getActingAsPHID())
       ->setSubject($subject)
       ->addRawTos(

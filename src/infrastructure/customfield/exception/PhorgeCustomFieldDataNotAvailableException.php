@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorCustomFieldDataNotAvailableException extends Exception {
+final class PhorgeCustomFieldDataNotAvailableException extends Exception {
 
-  public function __construct(PhabricatorCustomField $field) {
+  public function __construct(PhorgeCustomField $field) {
     parent::__construct(
       pht(
         "Custom field '%s' (with key '%s', of class '%s') is attempting ".

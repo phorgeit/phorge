@@ -3,8 +3,8 @@
 final class LegalpadDocumentSignature
   extends LegalpadDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeConduitResultInterface {
 
   const VERIFIED = 0;
   const UNVERIFIED = 1;
@@ -55,11 +55,11 @@ final class LegalpadDocumentSignature
   }
 
   public function getPHIDType() {
-    return PhabricatorLegalpadDocumentSignaturePHIDType::TYPECONST;
+    return PhorgeLegalpadDocumentSignaturePHIDType::TYPECONST;
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID($this->getPHIDType());
+    return PhorgePHID::generateNewPHID($this->getPHIDType());
   }
 
   public function save() {
@@ -106,31 +106,31 @@ final class LegalpadDocumentSignature
     return (int)$this->documentVersion;
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('documentPHID')
         ->setType('phid')
         ->setDescription(pht('The PHID of the document')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('signerPHID')
         ->setType('phid?')
         ->setDescription(pht('The PHID of the signer')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('exemptionPHID')
         ->setType('phid?')
         ->setDescription(pht('The PHID of the user who granted the exemption')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('signerName')
         ->setType('string')
         ->setDescription(pht('The name used by the signer.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('signerEmail')
         ->setType('string')
         ->setDescription(pht('The email used by the signer.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isExemption')
         ->setType('bool')
         ->setDescription(pht('Whether or not this signature is an exemption')),
@@ -153,24 +153,24 @@ final class LegalpadDocumentSignature
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getDocument()->getPolicy(
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getSignerPHID());
   }
 

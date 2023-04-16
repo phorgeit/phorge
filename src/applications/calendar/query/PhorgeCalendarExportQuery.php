@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarExportQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorCalendarExportQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorCalendarExport();
+    return new PhorgeCalendarExport();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -84,7 +84,7 @@ final class PhabricatorCalendarExportQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
 }

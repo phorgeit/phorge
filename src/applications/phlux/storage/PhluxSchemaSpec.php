@@ -1,7 +1,7 @@
 <?php
 
 final class PhluxSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new PhluxVariable());

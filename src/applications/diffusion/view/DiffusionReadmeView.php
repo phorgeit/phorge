@@ -61,12 +61,12 @@ final class DiffusionReadmeView extends DiffusionView {
     switch ($interpreter) {
       case 'remarkup':
         // TODO: This is sketchy, but make sure we hit the markup cache.
-        $markup_object = id(new PhabricatorMarkupOneOff())
+        $markup_object = id(new PhorgeMarkupOneOff())
           ->setEngineRuleset('diffusion-readme')
           ->setContent($content);
         $markup_field = 'default';
 
-        $content = id(new PhabricatorMarkupEngine())
+        $content = id(new PhorgeMarkupEngine())
           ->setViewer($this->getUser())
           ->addObject($markup_object, $markup_field)
           ->process()

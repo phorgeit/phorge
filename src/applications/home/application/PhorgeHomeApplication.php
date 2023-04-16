@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHomeApplication extends PhabricatorApplication {
+final class PhorgeHomeApplication extends PhorgeApplication {
 
   const DASHBOARD_DEFAULT = 'dashboard:default';
 
@@ -22,16 +22,16 @@ final class PhabricatorHomeApplication extends PhabricatorApplication {
 
   public function getRoutes() {
     return array(
-      '/' => 'PhabricatorHomeMenuItemController',
+      '/' => 'PhorgeHomeMenuItemController',
 
       // NOTE: If you visit "/" on mobile, you get just the menu. If you visit
       // "/home/" on mobile, you get the content. From the normal desktop
       // UI, there's no difference between these pages.
 
       '/(?P<content>home)/' => array(
-        '' => 'PhabricatorHomeMenuItemController',
+        '' => 'PhorgeHomeMenuItemController',
         'menu/' => $this->getProfileMenuRouting(
-          'PhabricatorHomeMenuItemController'),
+          'PhorgeHomeMenuItemController'),
       ),
     );
   }

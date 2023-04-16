@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineLocksTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineLocksTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.locks';
 
@@ -26,7 +26,7 @@ final class PhabricatorEditEngineLocksTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionJSONDiffDetailView())
+    return id(new PhorgeApplicationTransactionJSONDiffDetailView())
       ->setViewer($viewer)
       ->setOld($this->getOldValue())
       ->setNew($this->getNewValue());

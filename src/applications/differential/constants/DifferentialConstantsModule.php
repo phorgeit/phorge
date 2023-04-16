@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialConstantsModule
-  extends PhabricatorConfigModule {
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'constants.differential';
@@ -21,7 +21,7 @@ final class DifferentialConstantsModule
     );
   }
 
-  private function renderRevisionStatuses(PhabricatorUser $viewer) {
+  private function renderRevisionStatuses(PhorgeUser $viewer) {
     $statuses = DifferentialRevisionStatus::getAll();
 
     $rows = array();
@@ -108,7 +108,7 @@ final class DifferentialConstantsModule
     return $view;
   }
 
-  private function renderUnitStatuses(PhabricatorUser $viewer) {
+  private function renderUnitStatuses(PhorgeUser $viewer) {
     $statuses = DifferentialUnitStatus::getStatusMap();
 
     $rows = array();
@@ -142,7 +142,7 @@ final class DifferentialConstantsModule
     return $view;
   }
 
-  private function renderLintStatuses(PhabricatorUser $viewer) {
+  private function renderLintStatuses(PhorgeUser $viewer) {
     $statuses = DifferentialLintStatus::getStatusMap();
 
     $rows = array();

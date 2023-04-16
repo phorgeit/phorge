@@ -11,7 +11,7 @@ final class ProjectBoardTaskCard extends Phobject {
   private $coverImageFile;
   private $hideArchivedProjects;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -28,7 +28,7 @@ final class ProjectBoardTaskCard extends Phobject {
     return $this->projectHandles;
   }
 
-  public function setCoverImageFile(PhabricatorFile $cover_image_file) {
+  public function setCoverImageFile(PhorgeFile $cover_image_file) {
     $this->coverImageFile = $cover_image_file;
     return $this;
   }
@@ -54,7 +54,7 @@ final class ProjectBoardTaskCard extends Phobject {
     return $this->task;
   }
 
-  public function setOwner(PhabricatorObjectHandle $owner = null) {
+  public function setOwner(PhorgeObjectHandle $owner = null) {
     $this->owner = $owner;
     return $this;
   }
@@ -163,7 +163,7 @@ final class ProjectBoardTaskCard extends Phobject {
     if ($this->hideArchivedProjects) {
       if ($project_handles) {
         foreach ($project_handles as $key => $handle) {
-          if ($handle->getStatus() == PhabricatorObjectHandle::STATUS_CLOSED) {
+          if ($handle->getStatus() == PhorgeObjectHandle::STATUS_CLOSED) {
             unset($project_handles[$key]);
           }
         }

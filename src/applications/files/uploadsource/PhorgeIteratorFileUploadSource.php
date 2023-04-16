@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIteratorFileUploadSource
-  extends PhabricatorFileUploadSource {
+final class PhorgeIteratorFileUploadSource
+  extends PhorgeFileUploadSource {
 
   private $iterator;
 

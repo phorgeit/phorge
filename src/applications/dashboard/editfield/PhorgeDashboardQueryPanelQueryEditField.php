@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelQueryEditField
-  extends PhabricatorEditField {
+final class PhorgeDashboardQueryPanelQueryEditField
+  extends PhorgeEditField {
 
   private $applicationControlID;
 
@@ -16,7 +16,7 @@ final class PhabricatorDashboardQueryPanelQueryEditField
 
   protected function newControl() {
     $engines = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass('PhorgeApplicationSearchEngine')
       ->setFilterMethod('canUseInPanelContext')
       ->execute();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationTestController
-  extends PhabricatorNotificationController {
+final class PhorgeNotificationTestController
+  extends PhorgeNotificationController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -14,18 +14,18 @@ final class PhabricatorNotificationTestController
       // NOTE: Currently, the FeedStoryPublisher explicitly filters out
       // notifications about your own actions. Send this notification from
       // a different actor to get around this.
-      $application_phid = id(new PhabricatorNotificationsApplication())
+      $application_phid = id(new PhorgeNotificationsApplication())
         ->getPHID();
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorUserTransaction())
+      $xactions[] = id(new PhorgeUserTransaction())
         ->setTransactionType(
-          PhabricatorUserNotifyTransaction::TRANSACTIONTYPE)
+          PhorgeUserNotifyTransaction::TRANSACTIONTYPE)
         ->setNewValue($message_text)
         ->setForceNotifyPHIDs(array($viewer->getPHID()));
 
-      $editor = id(new PhabricatorUserTransactionEditor())
+      $editor = id(new PhorgeUserTransactionEditor())
         ->setActor($viewer)
         ->setActingAsPHID($application_phid)
         ->setContentSourceFromRequest($request);

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeRepositoriesSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -9,7 +9,7 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
   protected function executeChecks() {
 
     $cluster_services = id(new AlmanacServiceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withServiceTypes(
         array(
           AlmanacClusterRepositoryServiceType::SERVICETYPE,
@@ -26,7 +26,7 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
       return;
     }
 
-    $repo_path = PhabricatorEnv::getEnvConfig('repository.default-local-path');
+    $repo_path = PhorgeEnv::getEnvConfig('repository.default-local-path');
 
     if (!$repo_path) {
       $summary = pht(
@@ -35,7 +35,7 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
       $this->newIssue('repository.default-local-path.empty')
         ->setName(pht('Missing Repository Local Path'))
         ->setSummary($summary)
-        ->addPhabricatorConfig('repository.default-local-path');
+        ->addPhorgeConfig('repository.default-local-path');
       return;
     }
 
@@ -58,7 +58,7 @@ final class PhabricatorRepositoriesSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('Missing Repository Local Path'))
         ->setSummary($summary)
         ->setMessage($message)
-        ->addPhabricatorConfig('repository.default-local-path');
+        ->addPhorgeConfig('repository.default-local-path');
     }
 
   }

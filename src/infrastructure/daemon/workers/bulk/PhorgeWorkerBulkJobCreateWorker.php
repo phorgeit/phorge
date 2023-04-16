@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerBulkJobCreateWorker
-  extends PhabricatorWorkerBulkJobWorker {
+final class PhorgeWorkerBulkJobCreateWorker
+  extends PhorgeWorkerBulkJobWorker {
 
   protected function doWork() {
     $lock = $this->acquireJobLock();
@@ -11,12 +11,12 @@ final class PhabricatorWorkerBulkJobCreateWorker
 
     $status = $job->getStatus();
     switch ($status) {
-      case PhabricatorWorkerBulkJob::STATUS_WAITING:
+      case PhorgeWorkerBulkJob::STATUS_WAITING:
         // This is what we expect. Other statuses indicate some kind of race
         // is afoot.
         break;
       default:
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Found unexpected job status ("%s").',
             $status));
@@ -29,19 +29,19 @@ final class PhabricatorWorkerBulkJobCreateWorker
 
     $this->updateJobStatus(
       $job,
-      PhabricatorWorkerBulkJob::STATUS_RUNNING);
+      PhorgeWorkerBulkJob::STATUS_RUNNING);
 
     $lock->unlock();
 
     foreach ($tasks as $task) {
-      PhabricatorWorker::scheduleTask(
-        'PhabricatorWorkerBulkJobTaskWorker',
+      PhorgeWorker::scheduleTask(
+        'PhorgeWorkerBulkJobTaskWorker',
         array(
           'jobID' => $job->getID(),
           'taskID' => $task->getID(),
         ),
         array(
-          'priority' => PhabricatorWorker::PRIORITY_BULK,
+          'priority' => PhorgeWorker::PRIORITY_BULK,
         ));
     }
 

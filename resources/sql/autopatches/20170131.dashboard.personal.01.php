@@ -1,21 +1,21 @@
 <?php
 
-$table = new PhabricatorDashboard();
+$table = new PhorgeDashboard();
 $conn = $table->establishConnection('r');
 $table_name = 'dashboard_install';
 
-$search_table = new PhabricatorProfileMenuItemConfiguration();
+$search_table = new PhorgeProfileMenuItemConfiguration();
 $search_conn = $search_table->establishConnection('w');
 $search_table_name = 'search_profilepanelconfiguration';
 
-$viewer = PhabricatorUser::getOmnipotentUser();
-$profile_phid = id(new PhabricatorHomeApplication())->getPHID();
-$menu_item_key = PhabricatorDashboardProfileMenuItem::MENUITEMKEY;
+$viewer = PhorgeUser::getOmnipotentUser();
+$profile_phid = id(new PhorgeHomeApplication())->getPHID();
+$menu_item_key = PhorgeDashboardProfileMenuItem::MENUITEMKEY;
 
 foreach (new LiskRawMigrationIterator($conn, $table_name) as $install) {
 
   $dashboard_phid = $install['dashboardPHID'];
-  $new_phid = id(new PhabricatorProfileMenuItemConfiguration())->generatePHID();
+  $new_phid = id(new PhorgeProfileMenuItemConfiguration())->generatePHID();
   $menu_item_properties = json_encode(
     array('dashboardPHID' => $dashboard_phid, 'name' => ''));
 
@@ -37,8 +37,8 @@ foreach (new LiskRawMigrationIterator($conn, $table_name) as $install) {
     $menu_item_key,
     $menu_item_properties,
     'visible',
-    PhabricatorTime::getNow(),
-    PhabricatorTime::getNow(),
+    PhorgeTime::getNow(),
+    PhorgeTime::getNow(),
     $menu_item_order,
     $custom_phid);
 

@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorEditEngineLockableInterface {
+interface PhorgeEditEngineLockableInterface {
 
   public function newEditEngineLock();
 

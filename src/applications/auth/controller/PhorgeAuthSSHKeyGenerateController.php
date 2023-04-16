@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyGenerateController
-  extends PhabricatorAuthSSHKeyController {
+final class PhorgeAuthSSHKeyGenerateController
+  extends PhorgeAuthSSHKeyController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -13,7 +13,7 @@ final class PhabricatorAuthSSHKeyGenerateController
 
     $cancel_uri = $key->getObject()->getSSHPublicKeyManagementURI($viewer);
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $cancel_uri);
@@ -21,12 +21,12 @@ final class PhabricatorAuthSSHKeyGenerateController
     if ($request->isFormPost()) {
       $default_name = $key->getObject()->getSSHKeyDefaultName();
 
-      $keys = PhabricatorSSHKeyGenerator::generateKeypair();
+      $keys = PhorgeSSHKeyGenerator::generateKeypair();
       list($public_key, $private_key) = $keys;
 
       $key_name = $default_name.'.key';
 
-      $file = PhabricatorFile::newFromFileData(
+      $file = PhorgeFile::newFromFileData(
         $private_key,
         array(
           'name' => $key_name,
@@ -34,7 +34,7 @@ final class PhabricatorAuthSSHKeyGenerateController
           'viewPolicy' => $viewer->getPHID(),
         ));
 
-      $public_key = PhabricatorAuthSSHPublicKey::newFromRawKey($public_key);
+      $public_key = PhorgeAuthSSHPublicKey::newFromRawKey($public_key);
 
       $type = $public_key->getType();
       $body = $public_key->getBody();
@@ -42,24 +42,24 @@ final class PhabricatorAuthSSHKeyGenerateController
 
       $entire_key = "{$type} {$body} {$comment}";
 
-      $type_create = PhabricatorTransactions::TYPE_CREATE;
-      $type_name = PhabricatorAuthSSHKeyTransaction::TYPE_NAME;
-      $type_key = PhabricatorAuthSSHKeyTransaction::TYPE_KEY;
+      $type_create = PhorgeTransactions::TYPE_CREATE;
+      $type_name = PhorgeAuthSSHKeyTransaction::TYPE_NAME;
+      $type_key = PhorgeAuthSSHKeyTransaction::TYPE_KEY;
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
         ->setTransactionType($type_name)
         ->setNewValue($default_name);
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
         ->setTransactionType($type_key)
         ->setNewValue($entire_key);
 
-      $editor = id(new PhabricatorAuthSSHKeyEditor())
+      $editor = id(new PhorgeAuthSSHKeyEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->applyTransactions($key, $xactions);
@@ -95,7 +95,7 @@ final class PhabricatorAuthSSHKeyGenerateController
     }
 
     try {
-      PhabricatorSSHKeyGenerator::assertCanGenerateKeypair();
+      PhorgeSSHKeyGenerator::assertCanGenerateKeypair();
 
       return $this->newDialog()
         ->setTitle(pht('Generate New Keypair'))

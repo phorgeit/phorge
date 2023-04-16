@@ -1,7 +1,7 @@
 <?php
 
 final class FundInitiativeTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const MAILTAG_BACKER = 'fund.backer';
   const MAILTAG_STATUS = 'fund.status';
@@ -27,7 +27,7 @@ final class FundInitiativeTransaction
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

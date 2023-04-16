@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorConfigGroupConstants
-  extends PhabricatorConfigConstants {
+abstract class PhorgeConfigGroupConstants
+  extends PhorgeConfigConstants {
 
   const GROUP_CORE = 'core';
   const GROUP_APPLICATION = 'apps';

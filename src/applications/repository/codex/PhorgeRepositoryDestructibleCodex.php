@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryDestructibleCodex
-  extends PhabricatorDestructibleCodex {
+final class PhorgeRepositoryDestructibleCodex
+  extends PhorgeDestructibleCodex {
 
   public function getDestructionNotes() {
     $repository = $this->getObject();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorKeyring extends Phobject {
+final class PhorgeKeyring extends Phobject {
 
   private static $hasReadConfiguration;
   private static $keyRing = array();
@@ -44,7 +44,7 @@ final class PhabricatorKeyring extends Phobject {
 
     self::$hasReadConfiguration = true;
 
-    foreach (PhabricatorEnv::getEnvConfig('keyring') as $spec) {
+    foreach (PhorgeEnv::getEnvConfig('keyring') as $spec) {
       self::addKey($spec);
     }
   }

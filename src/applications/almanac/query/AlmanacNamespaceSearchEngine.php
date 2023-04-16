@@ -1,14 +1,14 @@
 <?php
 
 final class AlmanacNamespaceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Almanac Namespaces');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function newQuery() {
@@ -17,7 +17,7 @@ final class AlmanacNamespaceSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for namespaces by name substring.')),
@@ -61,7 +61,7 @@ final class AlmanacNamespaceSearchEngine
 
   protected function renderResultList(
     array $namespaces,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($namespaces, 'AlmanacNamespace');
 
@@ -81,7 +81,7 @@ final class AlmanacNamespaceSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No Almanac namespaces found.'));
 

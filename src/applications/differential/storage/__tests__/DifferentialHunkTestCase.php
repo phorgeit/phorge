@@ -325,7 +325,7 @@ final class DifferentialHunkTestCase extends PhutilTestCase {
     $parser = new ArcanistDiffParser();
     $changes = $parser->parseDiff($data);
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $diff = DifferentialDiff::newFromRawChanges($viewer, $changes);
 
     $changesets = $diff->getChangesets();

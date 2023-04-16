@@ -1,15 +1,15 @@
 <?php
 
-abstract class PhabricatorDashboardApplicationInstallWorkflow
-  extends PhabricatorDashboardInstallWorkflow {
+abstract class PhorgeDashboardApplicationInstallWorkflow
+  extends PhorgeDashboardInstallWorkflow {
 
   abstract protected function newApplication();
 
   protected function canInstallToGlobalMenu() {
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $this->getViewer(),
       $this->newApplication(),
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   public function handleRequest(AphrontRequest $request) {

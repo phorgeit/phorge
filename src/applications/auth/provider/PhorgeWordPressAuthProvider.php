@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorWordPressAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeWordPressAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('WordPress.com');
   }
 
   protected function getProviderConfigurationHelp() {
-    $uri = PhabricatorEnv::getProductionURI('/');
-    $callback_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $uri = PhorgeEnv::getProductionURI('/');
+    $callback_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure WordPress.com OAuth, create a new WordPress.com ".

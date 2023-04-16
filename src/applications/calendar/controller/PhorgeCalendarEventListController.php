@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventListController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventListController
+  extends PhorgeCalendarController {
 
   private $viewYear;
   private $viewMonth;
@@ -24,7 +24,7 @@ final class PhabricatorCalendarEventListController
     $this->viewMonth = $month;
     $this->viewDay = $day;
 
-    $engine = new PhabricatorCalendarEventSearchEngine();
+    $engine = new PhorgeCalendarEventSearchEngine();
 
     if ($month && $year) {
       $engine->setCalendarYearAndMonthAndDay($year, $month, $day);
@@ -52,9 +52,9 @@ final class PhabricatorCalendarEventListController
     // If the viewer clicks "Create Event" while on a particular day view,
     // default the times to that day.
     if ($year && $month && $day) {
-      $datetimes = PhabricatorCalendarEvent::newDefaultEventDateTimes(
+      $datetimes = PhorgeCalendarEvent::newDefaultEventDateTimes(
         $viewer,
-        PhabricatorTime::getNow());
+        PhorgeTime::getNow());
 
       foreach ($datetimes as $datetime) {
         $datetime
@@ -68,7 +68,7 @@ final class PhabricatorCalendarEventListController
       $parameters['end'] = $end->getEpoch();
     }
 
-    id(new PhabricatorCalendarEventEditEngine())
+    id(new PhorgeCalendarEventEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs, $parameters);
 

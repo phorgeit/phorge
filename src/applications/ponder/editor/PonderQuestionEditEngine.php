@@ -1,7 +1,7 @@
 <?php
 
 final class PonderQuestionEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'ponder.question';
 
@@ -10,7 +10,7 @@ final class PonderQuestionEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
   public function getSummaryHeader() {
@@ -68,7 +68,7 @@ final class PonderQuestionEditEngine
   protected function buildCustomEditFields($object) {
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('title')
         ->setLabel(pht('Question'))
         ->setDescription(pht('Question title.'))
@@ -77,7 +77,7 @@ final class PonderQuestionEditEngine
           PonderQuestionTitleTransaction::TRANSACTIONTYPE)
         ->setValue($object->getTitle())
         ->setIsRequired(true),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('content')
         ->setLabel(pht('Details'))
         ->setDescription(pht('Long details of the question.'))
@@ -85,7 +85,7 @@ final class PonderQuestionEditEngine
         ->setValue($object->getContent())
         ->setTransactionType(
           PonderQuestionContentTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('answerWiki')
         ->setLabel(pht('Answer Summary'))
         ->setDescription(pht('Answer summary of the question.'))
@@ -93,7 +93,7 @@ final class PonderQuestionEditEngine
         ->setValue($object->getAnswerWiki())
         ->setTransactionType(
           PonderQuestionAnswerWikiTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setDescription(pht('Status of the question.'))

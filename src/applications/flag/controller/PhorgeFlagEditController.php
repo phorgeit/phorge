@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorFlagEditController extends PhabricatorFlagController {
+final class PhorgeFlagEditController extends PhorgeFlagController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $phid = $request->getURIData('phid');
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -15,10 +15,10 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
       return new Aphront404Response();
     }
 
-    $flag = PhabricatorFlagQuery::loadUserFlag($viewer, $phid);
+    $flag = PhorgeFlagQuery::loadUserFlag($viewer, $phid);
 
     if (!$flag) {
-      $flag = new PhabricatorFlag();
+      $flag = new PhorgeFlag();
       $flag->setOwnerPHID($viewer->getPHID());
       $flag->setType($handle->getType());
       $flag->setObjectPHID($handle->getPHID());
@@ -56,7 +56,7 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
     }
 
     $radio = new AphrontFormRadioButtonControl();
-    foreach (PhabricatorFlagColor::getColorNameMap() as $color => $text) {
+    foreach (PhorgeFlagColor::getColorNameMap() as $color => $text) {
       $class = 'phorge-flag-radio phorge-flag-color-'.$color;
       $radio->addButton($color, $text, '', $class);
     }

@@ -18,7 +18,7 @@ final class ManiphestTaskAuthorHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
 }

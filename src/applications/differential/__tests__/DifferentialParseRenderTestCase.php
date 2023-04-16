@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialParseRenderTestCase extends PhabricatorTestCase {
+final class DifferentialParseRenderTestCase extends PhorgeTestCase {
 
   private function getTestDataDirectory() {
     return dirname(__FILE__).'/data/';
@@ -81,20 +81,20 @@ final class DifferentialParseRenderTestCase extends PhabricatorTestCase {
     $changes = $parser->parseDiff($data);
 
     $diff = DifferentialDiff::newFromRawChanges(
-      PhabricatorUser::getOmnipotentUser(),
+      PhorgeUser::getOmnipotentUser(),
       $changes);
 
     $changesets = $diff->getChangesets();
 
-    $engine = new PhabricatorMarkupEngine();
-    $engine->setViewer(new PhabricatorUser());
+    $engine = new PhorgeMarkupEngine();
+    $engine->setViewer(new PhorgeUser());
 
-    $viewstate = new PhabricatorChangesetViewState();
+    $viewstate = new PhorgeChangesetViewState();
 
     $parsers = array();
     foreach ($changesets as $changeset) {
       $cparser = id(new DifferentialChangesetParser())
-        ->setViewer(new PhabricatorUser())
+        ->setViewer(new PhorgeUser())
         ->setDisableCache(true)
         ->setChangeset($changeset)
         ->setMarkupEngine($engine)

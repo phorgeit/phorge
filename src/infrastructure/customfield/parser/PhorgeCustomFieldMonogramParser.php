@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCustomFieldMonogramParser
+abstract class PhorgeCustomFieldMonogramParser
   extends Phobject {
 
   abstract protected function getPrefixes();

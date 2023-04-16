@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerAuthorizationCode
-  extends PhabricatorOAuthServerDAO {
+final class PhorgeOAuthServerAuthorizationCode
+  extends PhorgeOAuthServerDAO {
 
   protected $id;
   protected $code;

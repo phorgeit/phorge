@@ -20,13 +20,13 @@ final class ManiphestTaskStatus extends ManiphestConstants {
   const LOCKED_EDITS = 'edits';
 
   private static function getStatusConfig() {
-    return PhabricatorEnv::getEnvConfig('maniphest.statuses');
+    return PhorgeEnv::getEnvConfig('maniphest.statuses');
   }
 
   private static function getEnabledStatusMap() {
     $spec = self::getStatusConfig();
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     foreach ($spec as $const => $status) {
       if ($is_serious && !empty($status['silly'])) {
         unset($spec[$const]);

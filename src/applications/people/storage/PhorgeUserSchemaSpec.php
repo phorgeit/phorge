@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorUserSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class PhorgeUserSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorUser());
+    $this->buildEdgeSchemata(new PhorgeUser());
 
     $this->buildRawSchema(
-      id(new PhabricatorUser())->getApplicationName(),
-      PhabricatorUser::NAMETOKEN_TABLE,
+      id(new PhorgeUser())->getApplicationName(),
+      PhorgeUser::NAMETOKEN_TABLE,
       array(
         'token' => 'sort255',
         'userID' => 'id',

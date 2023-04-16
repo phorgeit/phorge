@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleEmpowerController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleEmpowerController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -20,12 +20,12 @@ final class PhabricatorPeopleEmpowerController
     $validation_exception = null;
     if ($request->isFormOrHisecPost()) {
       $xactions = array();
-      $xactions[] = id(new PhabricatorUserTransaction())
+      $xactions[] = id(new PhorgeUserTransaction())
         ->setTransactionType(
-          PhabricatorUserEmpowerTransaction::TRANSACTIONTYPE)
+          PhorgeUserEmpowerTransaction::TRANSACTIONTYPE)
         ->setNewValue(!$user->getIsAdmin());
 
-      $editor = id(new PhabricatorUserTransactionEditor())
+      $editor = id(new PhorgeUserTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)
@@ -34,7 +34,7 @@ final class PhabricatorPeopleEmpowerController
       try {
         $editor->applyTransactions($user, $xactions);
         return id(new AphrontRedirectResponse())->setURI($done_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
     }

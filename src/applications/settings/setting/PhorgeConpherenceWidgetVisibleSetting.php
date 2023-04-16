@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceWidgetVisibleSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeConpherenceWidgetVisibleSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'conpherence-widget';
 

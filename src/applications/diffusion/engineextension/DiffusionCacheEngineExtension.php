@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCacheEngineExtension
-  extends PhabricatorCacheEngineExtension {
+  extends PhorgeCacheEngineExtension {
 
   const EXTENSIONKEY = 'diffusion';
 
@@ -10,7 +10,7 @@ final class DiffusionCacheEngineExtension
   }
 
   public function discoverLinkedObjects(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
     $viewer = $engine->getViewer();
     $results = array();
@@ -19,7 +19,7 @@ final class DiffusionCacheEngineExtension
 
     $services = $this->selectObjects($objects, 'AlmanacService');
     if ($services) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withAlmanacServicePHIDs(mpull($services, 'getPHID'))
         ->execute();
@@ -32,11 +32,11 @@ final class DiffusionCacheEngineExtension
   }
 
   public function deleteCaches(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
 
     $keys = array();
-    $repositories = $this->selectObjects($objects, 'PhabricatorRepository');
+    $repositories = $this->selectObjects($objects, 'PhorgeRepository');
     foreach ($repositories as $repository) {
       $keys[] = $repository->getAlmanacServiceCacheKey();
     }
@@ -44,7 +44,7 @@ final class DiffusionCacheEngineExtension
     $keys = array_filter($keys);
 
     if ($keys) {
-      $cache = PhabricatorCaches::getMutableStructureCache();
+      $cache = PhorgeCaches::getMutableStructureCache();
       $cache->deleteKeys($keys);
     }
   }

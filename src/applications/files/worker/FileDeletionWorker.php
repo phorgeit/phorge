@@ -1,21 +1,21 @@
 <?php
 
-final class FileDeletionWorker extends PhabricatorWorker {
+final class FileDeletionWorker extends PhorgeWorker {
 
   private function loadFile() {
     $phid = idx($this->getTaskData(), 'objectPHID');
     if (!$phid) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No "%s" in task data.', 'objectPHID'));
     }
 
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $file = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($phid))
       ->executeOne();
 
     if (!$file) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('File "%s" does not exist.', $phid));
     }
 
@@ -24,7 +24,7 @@ final class FileDeletionWorker extends PhabricatorWorker {
 
   protected function doWork() {
     $file = $this->loadFile();
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     $engine->destroyObject($file);
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSystemActionEngine extends Phobject {
+final class PhorgeSystemActionEngine extends Phobject {
 
   /**
    * Prepare to take an action, throwing an exception if the user has exceeded
@@ -31,16 +31,16 @@ final class PhabricatorSystemActionEngine extends Phobject {
    *     legitimate uses.
    *
    * If any actor is exceeding their rate limit, this method throws a
-   * @{class:PhabricatorSystemActionRateLimitException}.
+   * @{class:PhorgeSystemActionRateLimitException}.
    *
    * @param list<string> List of actors.
-   * @param PhabricatorSystemAction Action being taken.
+   * @param PhorgeSystemAction Action being taken.
    * @param float Score or credit, see above.
    * @return void
    */
   public static function willTakeAction(
     array $actors,
-    PhabricatorSystemAction $action,
+    PhorgeSystemAction $action,
     $score) {
 
     // If the score for this action is negative, we're giving the user a credit,
@@ -49,7 +49,7 @@ final class PhabricatorSystemActionEngine extends Phobject {
       $blocked = self::loadBlockedActors($actors, $action, $score);
       if ($blocked) {
         foreach ($blocked as $actor => $actor_score) {
-          throw new PhabricatorSystemActionRateLimitException(
+          throw new PhorgeSystemActionRateLimitException(
             $action,
             $actor_score);
         }
@@ -65,7 +65,7 @@ final class PhabricatorSystemActionEngine extends Phobject {
 
   public static function loadBlockedActors(
     array $actors,
-    PhabricatorSystemAction $action,
+    PhorgeSystemAction $action,
     $score) {
 
     $scores = self::loadScores($actors, $action);
@@ -92,7 +92,7 @@ final class PhabricatorSystemActionEngine extends Phobject {
 
   public static function loadScores(
     array $actors,
-    PhabricatorSystemAction $action) {
+    PhorgeSystemAction $action) {
 
     if (!$actors) {
       return array();
@@ -100,11 +100,11 @@ final class PhabricatorSystemActionEngine extends Phobject {
 
     $actor_hashes = array();
     foreach ($actors as $actor) {
-      $digest = PhabricatorHash::digestForIndex($actor);
+      $digest = PhorgeHash::digestForIndex($actor);
       $actor_hashes[$digest] = $actor;
     }
 
-    $log = new PhabricatorSystemActionLog();
+    $log = new PhorgeSystemActionLog();
 
     $window = self::getWindow();
 
@@ -118,7 +118,7 @@ final class PhabricatorSystemActionEngine extends Phobject {
       $log->getTableName(),
       $action->getActionConstant(),
       array_keys($actor_hashes),
-      (PhabricatorTime::getNow() - $window));
+      (PhorgeTime::getNow() - $window));
 
     $rows = ipull($rows, 'totalScore', 'actorHash');
 
@@ -133,10 +133,10 @@ final class PhabricatorSystemActionEngine extends Phobject {
 
   private static function recordAction(
     array $actors,
-    PhabricatorSystemAction $action,
+    PhorgeSystemAction $action,
     $score) {
 
-    $log = new PhabricatorSystemActionLog();
+    $log = new PhorgeSystemActionLog();
     $conn_w = $log->establishConnection('w');
 
     $sql = array();
@@ -144,14 +144,14 @@ final class PhabricatorSystemActionEngine extends Phobject {
       $sql[] = qsprintf(
         $conn_w,
         '(%s, %s, %s, %f, %d)',
-        PhabricatorHash::digestForIndex($actor),
+        PhorgeHash::digestForIndex($actor),
         $actor,
         $action->getActionConstant(),
         $score,
         time());
     }
 
-    foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
       queryfx(
         $conn_w,
         'INSERT INTO %T (actorHash, actorIdentity, action, score, epoch)
@@ -178,14 +178,14 @@ final class PhabricatorSystemActionEngine extends Phobject {
    * @return int Number of actions cleared.
    */
   public static function resetActions(array $actors) {
-    $log = new PhabricatorSystemActionLog();
+    $log = new PhorgeSystemActionLog();
     $conn_w = $log->establishConnection('w');
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $hashes = array();
     foreach ($actors as $actor) {
-      $hashes[] = PhabricatorHash::digestForIndex($actor);
+      $hashes[] = PhorgeHash::digestForIndex($actor);
     }
 
     queryfx(

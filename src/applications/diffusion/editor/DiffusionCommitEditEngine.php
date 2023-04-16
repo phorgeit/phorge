@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'diffusion.commit';
 
@@ -25,7 +25,7 @@ final class DiffusionCommitEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function newEditableObject() {
@@ -33,10 +33,10 @@ final class DiffusionCommitEditEngine
     // documentation generation work. You can't actually create commits via
     // EditEngine. This is enforced with a "No One" creation policy.
 
-    $repository = new PhabricatorRepository();
-    $data = new PhabricatorRepositoryCommitData();
+    $repository = new PhorgeRepository();
+    $data = new PhorgeRepositoryCommitData();
 
-    return id(new PhabricatorRepositoryCommit())
+    return id(new PhorgeRepositoryCommit())
       ->attachRepository($repository)
       ->attachCommitData($data)
       ->attachAudits(array());
@@ -58,10 +58,10 @@ final class DiffusionCommitEditEngine
 
   protected function newCommentActionGroups() {
     return array(
-      id(new PhabricatorEditEngineCommentActionGroup())
+      id(new PhorgeEditEngineCommentActionGroup())
         ->setKey(self::ACTIONGROUP_AUDIT)
         ->setLabel(pht('Audit Actions')),
-      id(new PhabricatorEditEngineCommentActionGroup())
+      id(new PhorgeEditEngineCommentActionGroup())
         ->setKey(self::ACTIONGROUP_COMMIT)
         ->setLabel(pht('Commit Actions')),
     );
@@ -92,7 +92,7 @@ final class DiffusionCommitEditEngine
   }
 
   protected function getCreateNewObjectPolicy() {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
   protected function buildCustomEditFields($object) {
@@ -101,7 +101,7 @@ final class DiffusionCommitEditEngine
 
     $fields = array();
 
-    $fields[] = id(new PhabricatorDatasourceEditField())
+    $fields[] = id(new PhorgeDatasourceEditField())
       ->setKey('auditors')
       ->setLabel(pht('Auditors'))
       ->setDatasource(new DiffusionAuditorDatasource())
@@ -132,7 +132,7 @@ final class DiffusionCommitEditEngine
 
     $xactions = $editor->newAutomaticInlineTransactions(
       $object,
-      PhabricatorAuditActionConstants::INLINE,
+      PhorgeAuditActionConstants::INLINE,
       new DiffusionDiffInlineCommentQuery());
 
     return $xactions;
@@ -140,7 +140,7 @@ final class DiffusionCommitEditEngine
 
   protected function newCommentPreviewContent($object, array $xactions) {
     $viewer = $this->getViewer();
-    $type_inline = PhabricatorAuditActionConstants::INLINE;
+    $type_inline = PhorgeAuditActionConstants::INLINE;
 
     $inlines = array();
     foreach ($xactions as $xaction) {

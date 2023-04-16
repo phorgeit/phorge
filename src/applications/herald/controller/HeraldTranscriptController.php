@@ -191,7 +191,7 @@ final class HeraldTranscriptController extends HeraldController {
       $object_xscript = $xscript->getObjectTranscript();
       $handle = $handles[$object_xscript->getPHID()];
       if ($handle->getType() ==
-          PhabricatorRepositoryCommitPHIDType::TYPECONST) {
+          PhorgeRepositoryCommitPHIDType::TYPECONST) {
         $commit = id(new DiffusionCommitQuery())
           ->setViewer($request->getUser())
           ->withPHIDs(array($handle->getPHID()))
@@ -520,7 +520,7 @@ final class HeraldTranscriptController extends HeraldController {
 
     if ($xaction_phids) {
       $object = $xscript->getObject();
-      $query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+      $query = PhorgeApplicationTransactionQuery::newQueryForObject(
         $object);
       $xactions = $query
         ->setViewer($viewer)
@@ -776,7 +776,7 @@ final class HeraldTranscriptController extends HeraldController {
 
     // If this object doesn't implement the right interface, we won't be
     // able to load the transactions.
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       return array();
     }
 

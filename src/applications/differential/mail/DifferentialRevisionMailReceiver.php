@@ -1,18 +1,18 @@
 <?php
 
 final class DifferentialRevisionMailReceiver
-  extends PhabricatorObjectMailReceiver {
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDifferentialApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeDifferentialApplication');
   }
 
   protected function getObjectPattern() {
     return 'D[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new DifferentialRevisionQuery())

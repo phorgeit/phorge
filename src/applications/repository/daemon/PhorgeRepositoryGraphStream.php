@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorRepositoryGraphStream extends Phobject {
+abstract class PhorgeRepositoryGraphStream extends Phobject {
 
   abstract public function getParents($commit);
   abstract public function getCommitDate($commit);

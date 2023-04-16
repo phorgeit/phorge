@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemActionGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeSystemActionGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'system.actions';
 
@@ -14,7 +14,7 @@ final class PhabricatorSystemActionGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorSystemActionLog();
+    $table = new PhorgeSystemActionLog();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

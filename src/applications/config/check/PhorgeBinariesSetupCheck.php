@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeBinariesSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -66,7 +66,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
       }
     }
 
-    $table = new PhabricatorRepository();
+    $table = new PhorgeRepository();
     $vcses = queryfx_all(
       $table->establishConnection('r'),
       'SELECT DISTINCT versionControlSystem FROM %T',
@@ -74,13 +74,13 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
 
     foreach ($vcses as $vcs) {
       switch ($vcs['versionControlSystem']) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
           $binary = 'git';
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
           $binary = 'svn';
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
           $binary = 'hg';
           break;
         default:
@@ -103,7 +103,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
         ->getBinaryVersion();
 
       switch ($vcs['versionControlSystem']) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
           $bad_versions = array(
             // We need 2.5.0 to use "git cat-file -t -- <hash>:<file>"
             // https://we.phorge.it/T15179
@@ -116,7 +116,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
               '2015'),
           );
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
           $bad_versions = array(
             // We need 1.5 for "--depth", see T7228.
             '< 1.5' => pht(
@@ -128,7 +128,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
               'svn diff -c N'),
           );
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
           $bad_versions = array(
             // We need 2.4 for utilizing `{p1node}` keyword in templates, see
             // D21679 and D21681.
@@ -193,7 +193,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
       ->setSummary(
         pht("The '%s' binary could not be located or executed.", $bin))
       ->setMessage($preamble.' '.$message)
-      ->addPhabricatorConfig('environment.append-paths');
+      ->addPhorgeConfig('environment.append-paths');
   }
 
   private function raiseUnknownVersionWarning($binary) {
@@ -229,7 +229,7 @@ final class PhabricatorBinariesSetupCheck extends PhabricatorSetupCheck {
       ->setSummary($summary)
       ->setMessage($message)
       ->addLink(
-        PhabricatorEnv::getDoclink('Contributing Bug Reports'),
+        PhorgeEnv::getDoclink('Contributing Bug Reports'),
         pht('Report this Issue to the Upstream'));
   }
 

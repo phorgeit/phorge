@@ -2,7 +2,7 @@
 
 final class ConpherenceRoomTestCase extends ConpherenceTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -100,7 +100,7 @@ final class ConpherenceRoomTestCase extends ConpherenceTestCase {
   }
 
   private function createRoom(
-    PhabricatorUser $creator,
+    PhorgeUser $creator,
     array $participant_phids) {
 
     $conpherence = ConpherenceThread::initializeNewRoom($creator);
@@ -125,13 +125,13 @@ final class ConpherenceRoomTestCase extends ConpherenceTestCase {
   }
 
   private function changeEditPolicy(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     ConpherenceThread $room,
     $policy) {
 
     $xactions = array();
     $xactions[] = id(new ConpherenceTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
       ->setNewValue($policy);
 
     id(new ConpherenceEditor())

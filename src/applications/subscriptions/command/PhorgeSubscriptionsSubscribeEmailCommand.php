@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSubscriptionsSubscribeEmailCommand
+final class PhorgeSubscriptionsSubscribeEmailCommand
   extends MetaMTAEmailTransactionCommand {
 
   public function getCommand() {
@@ -37,23 +37,23 @@ final class PhabricatorSubscriptionsSubscribeEmailCommand
   }
 
   public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function buildTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeUser $viewer,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeMetaMTAReceivedMail $mail,
     $command,
     array $argv) {
 
-    $subscriber_phids = id(new PhabricatorObjectListQuery())
+    $subscriber_phids = id(new PhorgeObjectListQuery())
       ->setViewer($viewer)
       ->setAllowedTypes(
         array(
-          PhabricatorPeopleUserPHIDType::TYPECONST,
-          PhabricatorProjectProjectPHIDType::TYPECONST,
+          PhorgePeopleUserPHIDType::TYPECONST,
+          PhorgeProjectProjectPHIDType::TYPECONST,
         ))
       ->setObjectList(implode(' ', $argv))
       ->setAllowPartialResults(true)
@@ -62,7 +62,7 @@ final class PhabricatorSubscriptionsSubscribeEmailCommand
     $xactions = array();
 
     $xactions[] = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+      ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
       ->setNewValue(
         array(
           '+' => array_fuse($subscriber_phids),

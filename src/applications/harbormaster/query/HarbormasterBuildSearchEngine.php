@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterBuildSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Builds');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -17,27 +17,27 @@ final class HarbormasterBuildSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Build Plans'))
         ->setKey('plans')
         ->setAliases(array('plan'))
         ->setDescription(
           pht('Search for builds running a given build plan.'))
         ->setDatasource(new HarbormasterBuildPlanDatasource()),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Buildables'))
         ->setKey('buildables')
         ->setAliases(array('buildable'))
         ->setDescription(
           pht('Search for builds running against particular buildables.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setAliases(array('status'))
         ->setDescription(
           pht('Search for builds with given statuses.'))
         ->setDatasource(new HarbormasterBuildStatusDatasource()),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Initiators'))
         ->setKey('initiators')
         ->setAliases(array('initiator'))
@@ -122,7 +122,7 @@ final class HarbormasterBuildSearchEngine
 
   protected function renderResultList(
     array $builds,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($builds, 'HarbormasterBuild');
 
@@ -133,7 +133,7 @@ final class HarbormasterBuildSearchEngine
       ->setBuilds($builds)
       ->newObjectList();
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No builds found.'));
   }

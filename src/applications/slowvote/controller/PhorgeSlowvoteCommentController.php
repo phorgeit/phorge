@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteCommentController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvoteCommentController
+  extends PhorgeSlowvoteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -11,7 +11,7 @@ final class PhabricatorSlowvoteCommentController
       return new Aphront400Response();
     }
 
-    $poll = id(new PhabricatorSlowvoteQuery())
+    $poll = id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -20,18 +20,18 @@ final class PhabricatorSlowvoteCommentController
     }
 
     $is_preview = $request->isPreviewRequest();
-    $draft = PhabricatorDraft::buildFromRequest($request);
+    $draft = PhorgeDraft::buildFromRequest($request);
 
     $view_uri = '/V'.$poll->getID();
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorSlowvoteTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+    $xactions[] = id(new PhorgeSlowvoteTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->attachComment(
-        id(new PhabricatorSlowvoteTransactionComment())
+        id(new PhorgeSlowvoteTransactionComment())
           ->setContent($request->getStr('comment')));
 
-    $editor = id(new PhabricatorSlowvoteEditor())
+    $editor = id(new PhorgeSlowvoteEditor())
       ->setActor($viewer)
       ->setContinueOnNoEffect($request->isContinueRequest())
       ->setContentSourceFromRequest($request)
@@ -39,8 +39,8 @@ final class PhabricatorSlowvoteCommentController
 
     try {
       $xactions = $editor->applyTransactions($poll, $xactions);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-      return id(new PhabricatorApplicationTransactionNoEffectResponse())
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+      return id(new PhorgeApplicationTransactionNoEffectResponse())
         ->setCancelURI($view_uri)
         ->setException($ex);
     }
@@ -50,7 +50,7 @@ final class PhabricatorSlowvoteCommentController
     }
 
     if ($request->isAjax() && $is_preview) {
-      return id(new PhabricatorApplicationTransactionResponse())
+      return id(new PhorgeApplicationTransactionResponse())
         ->setObject($poll)
         ->setViewer($viewer)
         ->setTransactions($xactions)

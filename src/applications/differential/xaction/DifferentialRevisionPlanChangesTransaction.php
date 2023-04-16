@@ -8,13 +8,13 @@ final class DifferentialRevisionPlanChangesTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Plan Changes');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht(
       'This revision will be removed from review queues until it is revised.');
   }
@@ -58,7 +58,7 @@ final class DifferentialRevisionPlanChangesTransaction
     $object->setModernRevisionStatus($status_planned);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isDraft()) {
 
       // See PHI346. Until the "Draft" state fully unprototypes, allow drafts
@@ -68,7 +68,7 @@ final class DifferentialRevisionPlanChangesTransaction
       // TODO: Remove this once drafts leave prototype.
 
       $editor = $this->getEditor();
-      $type_web = PhabricatorWebContentSource::SOURCECONST;
+      $type_web = PhorgeWebContentSource::SOURCECONST;
       if ($editor->getContentSource()->getSource() == $type_web) {
         throw new Exception(
           pht('You can not plan changes to a draft revision.'));

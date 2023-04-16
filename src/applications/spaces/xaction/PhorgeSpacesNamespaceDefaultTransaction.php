@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNamespaceDefaultTransaction
-  extends PhabricatorSpacesNamespaceTransactionType {
+final class PhorgeSpacesNamespaceDefaultTransaction
+  extends PhorgeSpacesNamespaceTransactionType {
 
   const TRANSACTIONTYPE = 'spaces:default';
 

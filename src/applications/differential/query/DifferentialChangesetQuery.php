@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialChangesetQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -159,7 +159,7 @@ final class DifferentialChangesetQuery
       $diff_ids = ipull($diff_ids, 'id', null);
 
       if (!$diff_ids) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $where[] = qsprintf(
@@ -172,7 +172,7 @@ final class DifferentialChangesetQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
 }

@@ -3,9 +3,9 @@
 final class HarbormasterBuildLog
   extends HarbormasterDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $buildTargetPHID;
   protected $logSource;
@@ -52,7 +52,7 @@ final class HarbormasterBuildLog
   }
 
   public function scheduleRebuild($force) {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'HarbormasterLogWorker',
       array(
         'logPHID' => $this->getPHID(),
@@ -91,7 +91,7 @@ final class HarbormasterBuildLog
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildLogPHIDType::TYPECONST);
   }
 
@@ -403,9 +403,9 @@ final class HarbormasterBuildLog
   public function getLock() {
     if (!$this->lock) {
       $phid = $this->getPHID();
-      $phid_key = PhabricatorHash::digestToLength($phid, 14);
+      $phid_key = PhorgeHash::digestToLength($phid, 14);
       $lock_key = "build.log({$phid_key})";
-      $lock = PhabricatorGlobalLock::newLock($lock_key);
+      $lock = PhorgeGlobalLock::newLock($lock_key);
       $this->lock = $lock;
     }
 
@@ -446,7 +446,7 @@ final class HarbormasterBuildLog
 
     if ($forever) {
       $start = $this->getDateCreated();
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
 
       $this
         ->setDuration($now - $start)
@@ -680,12 +680,12 @@ final class HarbormasterBuildLog
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -693,7 +693,7 @@ final class HarbormasterBuildLog
     return $this->getBuildTarget()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuildTarget()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -705,25 +705,25 @@ final class HarbormasterBuildLog
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->destroyFile($engine);
     $this->destroyChunks();
     $this->delete();
   }
 
-  public function destroyFile(PhabricatorDestructionEngine $engine = null) {
+  public function destroyFile(PhorgeDestructionEngine $engine = null) {
     if (!$engine) {
-      $engine = new PhabricatorDestructionEngine();
+      $engine = new PhorgeDestructionEngine();
     }
 
     $file_phid = $this->getFilePHID();
     if ($file_phid) {
       $viewer = $engine->getViewer();
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($file_phid))
         ->executeOne();
@@ -753,20 +753,20 @@ final class HarbormasterBuildLog
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildTargetPHID')
         ->setType('phid')
         ->setDescription(pht('Build target this log is attached to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('byteLength')
         ->setType('int')
         ->setDescription(pht('Length of the log in bytes.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('filePHID')
         ->setType('phid?')
         ->setDescription(pht('A file containing the log data.')),

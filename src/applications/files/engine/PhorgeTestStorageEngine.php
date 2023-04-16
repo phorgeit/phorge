@@ -3,8 +3,8 @@
 /**
  * Test storage engine. Does not actually store files. Used for unit tests.
  */
-final class PhabricatorTestStorageEngine
-  extends PhabricatorFileStorageEngine {
+final class PhorgeTestStorageEngine
+  extends PhorgeFileStorageEngine {
 
   private static $storage = array();
   private static $nextHandle = 1;

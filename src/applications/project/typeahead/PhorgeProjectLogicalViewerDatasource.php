@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalViewerDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeProjectLogicalViewerDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Viewer Projects');
@@ -12,7 +12,7 @@ final class PhabricatorProjectLogicalViewerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -56,7 +56,7 @@ final class PhabricatorProjectLogicalViewerDatasource
   protected function evaluateFunction($function, array $argv_list) {
     $viewer = $this->getViewer();
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withMemberPHIDs(array($viewer->getPHID()))
       ->execute();
@@ -65,13 +65,13 @@ final class PhabricatorProjectLogicalViewerDatasource
     $results = array();
     if ($phids) {
       foreach ($phids as $phid) {
-        $results[] = new PhabricatorQueryConstraint(
-          PhabricatorQueryConstraint::OPERATOR_OR,
+        $results[] = new PhorgeQueryConstraint(
+          PhorgeQueryConstraint::OPERATOR_OR,
           $phid);
       }
     } else {
-      $results[] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_EMPTY,
+      $results[] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_EMPTY,
         null);
     }
 
@@ -84,7 +84,7 @@ final class PhabricatorProjectLogicalViewerDatasource
 
     $tokens = array();
     foreach ($argv_list as $argv) {
-      $tokens[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $tokens[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->renderViewerProjectsFunctionToken());
     }
 

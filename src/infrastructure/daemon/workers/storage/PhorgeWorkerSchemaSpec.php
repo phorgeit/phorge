@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorWorkerSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeWorkerSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorWorkerBulkJob());
+    $this->buildEdgeSchemata(new PhorgeWorkerBulkJob());
   }
 
 }

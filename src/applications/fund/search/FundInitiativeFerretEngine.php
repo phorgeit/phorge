@@ -1,7 +1,7 @@
 <?php
 
 final class FundInitiativeFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'fund';

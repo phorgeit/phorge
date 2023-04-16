@@ -3,5 +3,5 @@
 /**
  * Exception raised when an invite code is invalid.
  */
-final class PhabricatorAuthInviteInvalidException
-  extends PhabricatorAuthInviteDialogException {}
+final class PhorgeAuthInviteInvalidException
+  extends PhorgeAuthInviteDialogException {}

@@ -35,7 +35,7 @@
  * issued over SSH and determine if it is a read command or a write command.
  * Writes can then be checked for appropriate permissions.
  */
-final class PhabricatorSSHPassthruCommand extends Phobject {
+final class PhorgeSSHPassthruCommand extends Phobject {
 
   private $commandChannel;
   private $ioChannel;

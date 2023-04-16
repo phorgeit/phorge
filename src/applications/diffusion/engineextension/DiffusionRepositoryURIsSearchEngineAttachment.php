@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryURIsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Repository URIs');

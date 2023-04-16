@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPholioApplication extends PhabricatorApplication {
+final class PhorgePholioApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Pholio');
@@ -57,11 +57,11 @@ final class PhabricatorPholioApplication extends PhabricatorApplication {
     return array(
       PholioDefaultViewCapability::CAPABILITY => array(
         'template' => PholioMockPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       PholioDefaultEditCapability::CAPABILITY => array(
         'template' => PholioMockPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

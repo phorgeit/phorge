@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryGitLFSRef
-  extends PhabricatorRepositoryDAO
+final class PhorgeRepositoryGitLFSRef
+  extends PhorgeRepositoryDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $repositoryPHID;
   protected $objectHash;
@@ -28,33 +28,33 @@ final class PhabricatorRepositoryGitLFSRef
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $file_phid = $this->getFilePHID();
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($engine->getViewer())
       ->withPHIDs(array($file_phid))
       ->executeOne();

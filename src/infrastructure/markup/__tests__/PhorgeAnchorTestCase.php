@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAnchorTestCase
-  extends PhabricatorTestCase {
+final class PhorgeAnchorTestCase
+  extends PhorgeTestCase {
 
   public function testAnchors() {
 

@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorFileExternalRequest extends PhabricatorFileDAO
+final class PhorgeFileExternalRequest extends PhorgeFileDAO
   implements
-    PhabricatorDestructibleInterface {
+    PhorgeDestructibleInterface {
 
   protected $uri;
   protected $uriIndex;
@@ -37,19 +37,19 @@ final class PhabricatorFileExternalRequest extends PhabricatorFileDAO
   }
 
   public function save() {
-    $hash = PhabricatorHash::digestForIndex($this->getURI());
+    $hash = PhorgeHash::digestForIndex($this->getURI());
     $this->setURIIndex($hash);
     return parent::save();
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $file_phid = $this->getFilePHID();
     if ($file_phid) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($engine->getViewer())
         ->withPHIDs(array($file_phid))
         ->executeOne();

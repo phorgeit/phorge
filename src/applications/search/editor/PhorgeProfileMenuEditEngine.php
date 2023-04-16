@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeProfileMenuEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'search.profilemenu';
 
@@ -15,7 +15,7 @@ final class PhabricatorProfileMenuEditEngine
     return false;
   }
 
-  public function setMenuEngine(PhabricatorProfileMenuEngine $engine) {
+  public function setMenuEngine(PhorgeProfileMenuEngine $engine) {
     $this->menuEngine = $engine;
     return $this;
   }
@@ -43,7 +43,7 @@ final class PhabricatorProfileMenuEditEngine
   }
 
   public function setNewMenuItemConfiguration(
-    PhabricatorProfileMenuItemConfiguration $configuration) {
+    PhorgeProfileMenuItemConfiguration $configuration) {
     $this->newMenuItemConfiguration = $configuration;
     return $this;
   }
@@ -74,7 +74,7 @@ final class PhabricatorProfileMenuEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   protected function newEditableObject() {
@@ -89,7 +89,7 @@ final class PhabricatorProfileMenuEditEngine
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorProfileMenuItemConfigurationQuery());
+    return id(new PhorgeProfileMenuItemConfigurationQuery());
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -138,7 +138,7 @@ final class PhabricatorProfileMenuEditEngine
     $fields = $item->buildEditEngineFields($object);
 
     $type_property =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
 
     foreach ($fields as $field) {
       $field
@@ -150,8 +150,8 @@ final class PhabricatorProfileMenuEditEngine
   }
 
   protected function getValidationExceptionShortMessage(
-    PhabricatorApplicationTransactionValidationException $ex,
-    PhabricatorEditField $field) {
+    PhorgeApplicationTransactionValidationException $ex,
+    PhorgeEditField $field) {
 
     // Menu item properties all have the same transaction type, so we need
     // to make sure errors about a specific property (like the URI for a
@@ -160,7 +160,7 @@ final class PhabricatorProfileMenuEditEngine
     // next to every field.
 
     $property_type =
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY;
 
     $xaction_type = $field->getTransactionType();
     if ($xaction_type == $property_type) {

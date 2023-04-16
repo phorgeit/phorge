@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHandleQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeHandleQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $objectCapabilities;
   private $phids = array();
@@ -24,14 +24,14 @@ final class PhabricatorHandleQuery
   }
 
   protected function loadPage() {
-    $types = PhabricatorPHIDType::getAllTypes();
+    $types = PhorgePHIDType::getAllTypes();
 
     $phids = array_unique($this->phids);
     if (!$phids) {
       return array();
     }
 
-    $object_query = id(new PhabricatorObjectQuery())
+    $object_query = id(new PhorgeObjectQuery())
       ->withPHIDs($phids)
       ->setParentQuery($this)
       ->requireCapabilities($this->getRequiredObjectCapabilities())
@@ -61,7 +61,7 @@ final class PhabricatorHandleQuery
           // The input had a duplicate PHID; just skip it.
           continue;
         }
-        $handles[$phid] = id(new PhabricatorObjectHandle())
+        $handles[$phid] = id(new PhorgeObjectHandle())
           ->setType($type)
           ->setPHID($phid);
         if (isset($objects[$phid])) {

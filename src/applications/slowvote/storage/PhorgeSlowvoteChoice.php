@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSlowvoteChoice extends PhabricatorSlowvoteDAO {
+final class PhorgeSlowvoteChoice extends PhorgeSlowvoteDAO {
 
   protected $pollID;
   protected $optionID;

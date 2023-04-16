@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPDFGenerator
+final class PhorgePDFGenerator
   extends Phobject {
 
   private $objects = array();
@@ -9,7 +9,7 @@ final class PhabricatorPDFGenerator
   private $infoObject;
   private $catalogObject;
 
-  public function addObject(PhabricatorPDFObject $object) {
+  public function addObject(PhorgePDFObject $object) {
     if ($this->hasIterator) {
       throw new Exception(
         pht(
@@ -31,11 +31,11 @@ final class PhabricatorPDFGenerator
 
   public function newIterator() {
     $this->hasIterator = true;
-    return id(new PhabricatorPDFIterator())
+    return id(new PhorgePDFIterator())
       ->setGenerator($this);
   }
 
-  public function setInfoObject(PhabricatorPDFInfoObject $info_object) {
+  public function setInfoObject(PhorgePDFInfoObject $info_object) {
     $this->addObject($info_object);
     $this->infoObject = $info_object;
     return $this;
@@ -46,7 +46,7 @@ final class PhabricatorPDFGenerator
   }
 
   public function setCatalogObject(
-    PhabricatorPDFCatalogObject $catalog_object) {
+    PhorgePDFCatalogObject $catalog_object) {
     $this->addObject($catalog_object);
     $this->catalogObject = $catalog_object;
     return $this;

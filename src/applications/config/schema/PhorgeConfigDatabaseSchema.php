@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorConfigDatabaseSchema
-  extends PhabricatorConfigStorageSchema {
+final class PhorgeConfigDatabaseSchema
+  extends PhorgeConfigStorageSchema {
 
   private $characterSet;
   private $collation;
   private $tables = array();
   private $accessDenied;
 
-  public function addTable(PhabricatorConfigTableSchema $table) {
+  public function addTable(PhorgeConfigTableSchema $table) {
     $key = $table->getName();
     if (isset($this->tables[$key])) {
 
@@ -38,7 +38,7 @@ final class PhabricatorConfigDatabaseSchema
   }
 
   protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect) {
+    PhorgeConfigStorageSchema $expect) {
 
     $issues = array();
     if ($this->getAccessDenied()) {

@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorConduitTokenHandshakeController
-  extends PhabricatorConduitController {
+final class PhorgeConduitTokenHandshakeController
+  extends PhorgeConduitController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       '/');
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-      $token = PhabricatorConduitToken::initializeNewToken(
+      $token = PhorgeConduitToken::initializeNewToken(
         $viewer->getPHID(),
-        PhabricatorConduitToken::TYPE_COMMANDLINE);
+        PhorgeConduitToken::TYPE_COMMANDLINE);
       $token->save();
     unset($unguarded);
 

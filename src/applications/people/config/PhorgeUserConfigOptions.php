@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeUserConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('User Profiles');
@@ -22,13 +22,13 @@ final class PhabricatorUserConfigOptions
   public function getOptions() {
 
     $default = array(
-      id(new PhabricatorUserRealNameField())->getFieldKey() => true,
-      id(new PhabricatorUserTitleField())->getFieldKey() => true,
-      id(new PhabricatorUserIconField())->getFieldKey() => true,
-      id(new PhabricatorUserSinceField())->getFieldKey() => true,
-      id(new PhabricatorUserRolesField())->getFieldKey() => true,
-      id(new PhabricatorUserStatusField())->getFieldKey() => true,
-      id(new PhabricatorUserBlurbField())->getFieldKey() => true,
+      id(new PhorgeUserRealNameField())->getFieldKey() => true,
+      id(new PhorgeUserTitleField())->getFieldKey() => true,
+      id(new PhorgeUserIconField())->getFieldKey() => true,
+      id(new PhorgeUserSinceField())->getFieldKey() => true,
+      id(new PhorgeUserRolesField())->getFieldKey() => true,
+      id(new PhorgeUserStatusField())->getFieldKey() => true,
+      id(new PhorgeUserBlurbField())->getFieldKey() => true,
     );
 
     foreach ($default as $key => $enabled) {
@@ -37,11 +37,11 @@ final class PhabricatorUserConfigOptions
       );
     }
 
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
 
     return array(
       $this->newOption('user.fields', $custom_field_type, $default)
-        ->setCustomData(id(new PhabricatorUser())->getCustomFieldBaseClass())
+        ->setCustomData(id(new PhorgeUser())->getCustomFieldBaseClass())
         ->setDescription(pht('Select and reorder user profile fields.')),
       $this->newOption('user.custom-field-definitions', 'wild', array())
         ->setDescription(pht('Add new simple fields to user profiles.')),

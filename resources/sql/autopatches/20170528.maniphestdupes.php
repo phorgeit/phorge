@@ -18,7 +18,7 @@ foreach (new LiskMigrationIterator($table) as $txn) {
     $src_phid = $txn->getObjectPHID();
 
     // get all the comment transactions associated with this task
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $comment_txns = id(new ManiphestTransactionQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($src_phid))
@@ -58,10 +58,10 @@ if ($add_edges) {
 
     $type = ManiphestTaskIsDuplicateOfTaskEdgeType::EDGECONST;
     try {
-      $editor = id(new PhabricatorEdgeEditor())
+      $editor = id(new PhorgeEdgeEditor())
         ->addEdge($src_phid, $type, $dst_phid)
         ->save();
-    } catch (PhabricatorEdgeCycleException $ex) {
+    } catch (PhorgeEdgeCycleException $ex) {
       // Some earlier or later merge made this invalid, just skip it.
     }
   }

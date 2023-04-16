@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenLeaderController
-  extends PhabricatorTokenController {
+final class PhorgeTokenLeaderController
+  extends PhorgeTokenController {
 
   public function shouldAllowPublic() {
     return true;
@@ -14,7 +14,7 @@ final class PhabricatorTokenLeaderController
     $pager->setURI($request->getRequestURI(), 'page');
     $pager->setOffset($request->getInt('page'));
 
-    $query = id(new PhabricatorTokenReceiverQuery());
+    $query = id(new PhorgeTokenReceiverQuery());
     $objects = $query->setViewer($viewer)->executeWithOffsetPager($pager);
     $counts = $query->getTokenCounts();
 
@@ -22,7 +22,7 @@ final class PhabricatorTokenLeaderController
     $phids = array();
     if ($counts) {
       $phids = mpull($objects, 'getPHID');
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs($phids)
         ->execute();

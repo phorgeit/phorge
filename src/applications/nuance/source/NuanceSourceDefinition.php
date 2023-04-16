@@ -8,7 +8,7 @@ abstract class NuanceSourceDefinition extends Phobject {
   private $viewer;
   private $source;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -53,7 +53,7 @@ abstract class NuanceSourceDefinition extends Phobject {
         pht('This source has no input cursors.'));
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $source = $this->getSource();
     $cursors = $this->newImportCursors();
 
@@ -152,11 +152,11 @@ abstract class NuanceSourceDefinition extends Phobject {
     $item_type,
     $author_phid,
     array $properties,
-    PhabricatorContentSource $content_source) {
+    PhorgeContentSource $content_source) {
 
     // TODO: Should we have a tighter actor/viewer model? Requestors will
     // often have no real user associated with them...
-    $actor = PhabricatorUser::getOmnipotentUser();
+    $actor = PhorgeUser::getOmnipotentUser();
     $source = $this->getSource();
 
     $item = NuanceItem::initializeNewItem($item_type);
@@ -192,7 +192,7 @@ abstract class NuanceSourceDefinition extends Phobject {
   }
 
   public function renderItemEditProperties(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     NuanceItem $item,
     PHUIPropertyListView $view) {
     return;

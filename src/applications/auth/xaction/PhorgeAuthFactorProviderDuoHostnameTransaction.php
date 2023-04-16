@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuthFactorProviderDuoHostnameTransaction
-  extends PhabricatorAuthFactorProviderTransactionType {
+final class PhorgeAuthFactorProviderDuoHostnameTransaction
+  extends PhorgeAuthFactorProviderTransactionType {
 
   const TRANSACTIONTYPE = 'duo.hostname';
 
   public function generateOldValue($object) {
-    $key = PhabricatorDuoAuthFactor::PROP_HOSTNAME;
+    $key = PhorgeDuoAuthFactor::PROP_HOSTNAME;
     return $object->getAuthFactorProviderProperty($key);
   }
 
   public function applyInternalEffects($object, $value) {
-    $key = PhabricatorDuoAuthFactor::PROP_HOSTNAME;
+    $key = PhorgeDuoAuthFactor::PROP_HOSTNAME;
     $object->setAuthFactorProviderProperty($key, $value);
   }
 
@@ -48,7 +48,7 @@ final class PhabricatorAuthFactorProviderDuoHostnameTransaction
       }
 
       try {
-        PhabricatorDuoAuthFactor::requireDuoAPIHostname($new_value);
+        PhorgeDuoAuthFactor::requireDuoAPIHostname($new_value);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError(
           $ex->getMessage(),

@@ -6,7 +6,7 @@ require_once $root.'/scripts/init/init-script.php';
 
 $error_log = id(new PhutilErrorLog())
   ->setLogName(pht('SSH Error Log'))
-  ->setLogPath(PhabricatorEnv::getEnvConfig('log.ssh-error.path'))
+  ->setLogPath(PhorgeEnv::getEnvConfig('log.ssh-error.path'))
   ->activateLog();
 
 // TODO: For now, this is using "parseParital()", not "parse()". This allows
@@ -30,8 +30,8 @@ $sshd_key = $args->getArg('sshd-key');
 // NOTE: We are caching a datastructure rather than the flat key file because
 // the path on disk to "ssh-exec" is arbitrarily mutable at runtime. See T12397.
 
-$cache = PhabricatorCaches::getMutableCache();
-$authstruct_key = PhabricatorAuthSSHKeyQuery::AUTHSTRUCT_CACHEKEY;
+$cache = PhorgeCaches::getMutableCache();
+$authstruct_key = PhorgeAuthSSHKeyQuery::AUTHSTRUCT_CACHEKEY;
 $authstruct_raw = $cache->getKey($authstruct_key);
 
 $authstruct = null;
@@ -46,8 +46,8 @@ if (phutil_nonempty_string($authstruct_raw)) {
 }
 
 if ($authstruct === null) {
-  $keys = id(new PhabricatorAuthSSHKeyQuery())
-    ->setViewer(PhabricatorUser::getOmnipotentUser())
+  $keys = id(new PhorgeAuthSSHKeyQuery())
+    ->setViewer(PhorgeUser::getOmnipotentUser())
     ->withIsActive(true)
     ->execute();
 
@@ -60,7 +60,7 @@ if ($authstruct === null) {
   foreach ($keys as $ssh_key) {
     $key_argv = array();
     $object = $ssh_key->getObject();
-    if ($object instanceof PhabricatorUser) {
+    if ($object instanceof PhorgeUser) {
       $key_argv[] = '--phorge-ssh-user';
       $key_argv[] = $object->getUsername();
     } else if ($object instanceof AlmanacDevice) {
@@ -125,7 +125,7 @@ if ($sshd_key !== null) {
 }
 
 $bin = $root.'/bin/ssh-exec';
-$instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+$instance = PhorgeEnv::getEnvConfig('cluster.instance');
 
 $lines = array();
 foreach ($authstruct['keys'] as $key_struct) {

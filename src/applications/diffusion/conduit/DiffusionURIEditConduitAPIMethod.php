@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionURIEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'diffusion.uri.edit';

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryTestCase
-  extends PhabricatorTestCase {
+final class PhorgeRepositoryTestCase
+  extends PhorgeTestCase {
 
   public function testRepositoryURIProtocols() {
     $tests = array(
@@ -17,7 +17,7 @@ final class PhabricatorRepositoryTestCase
     );
 
     foreach ($tests as $uri => $expect) {
-      $repository = new PhabricatorRepository();
+      $repository = new PhorgeRepository();
       $repository->setDetail('remote-uri', $uri);
 
       $this->assertEqual(
@@ -28,9 +28,9 @@ final class PhabricatorRepositoryTestCase
   }
 
   public function testBranchFilter() {
-    $git = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+    $git = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
 
-    $repo = new PhabricatorRepository();
+    $repo = new PhorgeRepository();
     $repo->setVersionControlSystem($git);
 
     $this->assertTrue(
@@ -49,9 +49,9 @@ final class PhabricatorRepositoryTestCase
   }
 
   public function testSubversionPathInfo() {
-    $svn = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
+    $svn = PhorgeRepositoryType::REPOSITORY_TYPE_SVN;
 
-    $repo = new PhabricatorRepository();
+    $repo = new PhorgeRepository();
     $repo->setVersionControlSystem($svn);
 
     $repo->setDetail('remote-uri', 'http://svn.example.com/repo');
@@ -146,7 +146,7 @@ final class PhabricatorRepositoryTestCase
     );
 
     foreach ($good as $nice_name) {
-      $actual = PhabricatorRepository::isValidRepositorySlug($nice_name);
+      $actual = PhorgeRepository::isValidRepositorySlug($nice_name);
       $this->assertEqual(
         true,
         $actual,
@@ -156,7 +156,7 @@ final class PhabricatorRepositoryTestCase
     }
 
     foreach ($poor as $poor_name) {
-      $actual = PhabricatorRepository::isValidRepositorySlug($poor_name);
+      $actual = PhorgeRepository::isValidRepositorySlug($poor_name);
       $this->assertEqual(
         false,
         $actual,

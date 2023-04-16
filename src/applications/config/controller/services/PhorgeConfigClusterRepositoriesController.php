@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConfigClusterRepositoriesController
-  extends PhabricatorConfigServicesController {
+final class PhorgeConfigClusterRepositoriesController
+  extends PhorgeConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
     $title = pht('Repository Services');
 
-    $doc_href = PhabricatorEnv::getDoclink('Cluster: Repositories');
+    $doc_href = PhorgeEnv::getDoclink('Cluster: Repositories');
     $button = id(new PHUIButtonView())
       ->setIcon('fa-book')
       ->setHref($doc_href)
@@ -59,16 +59,16 @@ final class PhabricatorConfigClusterRepositoriesController
       ->execute();
     $all_services = mpull($all_services, null, 'getPHID');
 
-    $all_repositories = id(new PhabricatorRepositoryQuery())
+    $all_repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withTypes(
         array(
-          PhabricatorRepositoryType::REPOSITORY_TYPE_GIT,
+          PhorgeRepositoryType::REPOSITORY_TYPE_GIT,
         ))
       ->execute();
     $all_repositories = mpull($all_repositories, null, 'getPHID');
 
-    $all_versions = id(new PhabricatorRepositoryWorkingCopyVersion())
+    $all_versions = id(new PhorgeRepositoryWorkingCopyVersion())
       ->loadAll();
 
     $all_devices = $this->getDevices($all_services, false);
@@ -171,7 +171,7 @@ final class PhabricatorConfigClusterRepositoriesController
         } else {
           $push_epoch = idx($push_times, $repository_phid);
           if ($push_epoch) {
-            $duration = (PhabricatorTime::getNow() - $push_epoch);
+            $duration = (PhorgeTime::getNow() - $push_epoch);
             $lag[] = $duration;
           } else {
             $duration = null;
@@ -329,7 +329,7 @@ final class PhabricatorConfigClusterRepositoriesController
       return array();
     }
 
-    $events = id(new PhabricatorRepositoryPushEventQuery())
+    $events = id(new PhorgeRepositoryPushEventQuery())
       ->setViewer($viewer)
       ->withIDs($leader_versions)
       ->execute();
@@ -352,10 +352,10 @@ final class PhabricatorConfigClusterRepositoriesController
   private function buildClusterRepositoryErrors() {
     $viewer = $this->getViewer();
 
-    $messages = id(new PhabricatorRepositoryStatusMessage())->loadAllWhere(
+    $messages = id(new PhorgeRepositoryStatusMessage())->loadAllWhere(
       'statusCode IN (%Ls)',
       array(
-        PhabricatorRepositoryStatusMessage::CODE_ERROR,
+        PhorgeRepositoryStatusMessage::CODE_ERROR,
       ));
 
     $repository_ids = mpull($messages, 'getRepositoryID');
@@ -365,8 +365,8 @@ final class PhabricatorConfigClusterRepositoriesController
       // We use handles to describe the repository below, so the viewer won't
       // actually be able to see any particulars if they can't see the
       // repository.
-      $repositories = id(new PhabricatorRepositoryQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $repositories = id(new PhorgeRepositoryQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withIDs($repository_ids)
         ->execute();
       $repositories = mpull($repositories, null, 'getID');

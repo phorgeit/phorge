@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentQuoteController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionCommentQuoteController
+  extends PhorgeApplicationTransactionController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $phid = $request->getURIData('phid');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();
@@ -39,7 +39,7 @@ final class PhabricatorApplicationTransactionCommentQuoteController
     }
     $content = implode('', $content);
 
-    $author = id(new PhabricatorHandleQuery())
+    $author = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($xaction->getComment()->getAuthorPHID()))
       ->executeOne();

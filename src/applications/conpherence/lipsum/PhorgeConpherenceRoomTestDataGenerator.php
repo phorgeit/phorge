@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceRoomTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeConpherenceRoomTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'conpherence';
 
@@ -66,7 +66,7 @@ final class PhabricatorConpherenceRoomTestDataGenerator
   }
 
   protected function newRoomName() {
-    $generator = new PhabricatorConpherenceRoomContextFreeGrammar();
+    $generator = new PhorgeConpherenceRoomContextFreeGrammar();
     $name = $generator->generate();
     return $name;
   }

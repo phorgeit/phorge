@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthChangeUsernameMessageType
-  extends PhabricatorAuthMessageType {
+final class PhorgeAuthChangeUsernameMessageType
+  extends PhorgeAuthMessageType {
 
   const MESSAGEKEY = 'user.edit.username';
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLiskExportEngineExtension
-  extends PhabricatorExportEngineExtension {
+final class PhorgeLiskExportEngineExtension
+  extends PhorgeExportEngineExtension {
 
   const EXTENSIONKEY = 'lisk';
 
@@ -19,10 +19,10 @@ final class PhabricatorLiskExportEngineExtension
 
   public function newExportFields() {
     return array(
-      id(new PhabricatorEpochExportField())
+      id(new PhorgeEpochExportField())
         ->setKey('dateCreated')
         ->setLabel(pht('Created')),
-      id(new PhabricatorEpochExportField())
+      id(new PhorgeEpochExportField())
         ->setKey('dateModified')
         ->setLabel(pht('Modified')),
     );

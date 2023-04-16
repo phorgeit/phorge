@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorCustomUIFooterConfigType
-  extends PhabricatorConfigJSONOptionType {
+final class PhorgeCustomUIFooterConfigType
+  extends PhorgeConfigJSONOptionType {
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     if (!is_array($value)) {
       throw new Exception(
         pht(

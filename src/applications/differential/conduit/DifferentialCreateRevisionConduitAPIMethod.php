@@ -66,7 +66,7 @@ final class DifferentialCreateRevisionConduitAPIMethod
 
     return array(
       'revisionid'  => $revision_id,
-      'uri'         => PhabricatorEnv::getURI('/D'.$revision_id),
+      'uri'         => PhorgeEnv::getURI('/D'.$revision_id),
     );
   }
 

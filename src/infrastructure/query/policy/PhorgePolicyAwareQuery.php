@@ -1,7 +1,7 @@
 <?php
 
 /**
- * A @{class:PhabricatorQuery} which filters results according to visibility
+ * A @{class:PhorgeQuery} which filters results according to visibility
  * policies for the querying user. Broadly, this class allows you to implement
  * a query that returns only objects the user is allowed to see.
  *
@@ -10,23 +10,23 @@
  *     ->withConstraint($example)
  *     ->execute();
  *
- * Normally, you should extend @{class:PhabricatorCursorPagedPolicyAwareQuery},
- * not this class. @{class:PhabricatorCursorPagedPolicyAwareQuery} provides a
+ * Normally, you should extend @{class:PhorgeCursorPagedPolicyAwareQuery},
+ * not this class. @{class:PhorgeCursorPagedPolicyAwareQuery} provides a
  * more practical interface for building usable queries against most object
  * types.
  *
- * NOTE: Although this class extends @{class:PhabricatorOffsetPagedQuery},
+ * NOTE: Although this class extends @{class:PhorgeOffsetPagedQuery},
  * offset paging with policy filtering is not efficient. All results must be
  * loaded into the application and filtered here: skipping `N` rows via offset
  * is an `O(N)` operation with a large constant. Prefer cursor-based paging
- * with @{class:PhabricatorCursorPagedPolicyAwareQuery}, which can filter far
+ * with @{class:PhorgeCursorPagedPolicyAwareQuery}, which can filter far
  * more efficiently in MySQL.
  *
  * @task config     Query Configuration
  * @task exec       Executing Queries
  * @task policyimpl Policy Query Implementation
  */
-abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
+abstract class PhorgePolicyAwareQuery extends PhorgeOffsetPagedQuery {
 
   private $viewer;
   private $parentQuery;
@@ -57,11 +57,11 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * according to the viewer's capabilities. You must set a viewer to execute
    * a policy query.
    *
-   * @param PhabricatorUser The viewing user.
+   * @param PhorgeUser The viewing user.
    * @return this
    * @task config
    */
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -70,7 +70,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   /**
    * Get the query's viewer.
    *
-   * @return PhabricatorUser The viewing user.
+   * @return PhorgeUser The viewing user.
    * @task config
    */
   final public function getViewer() {
@@ -86,7 +86,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * @return this
    * @task config
    */
-  final public function setParentQuery(PhabricatorPolicyAwareQuery $query) {
+  final public function setParentQuery(PhorgePolicyAwareQuery $query) {
     $this->parentQuery = $query;
     return $this;
   }
@@ -95,7 +95,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   /**
    * Get the parent query. See @{method:setParentQuery} for discussion.
    *
-   * @return PhabricatorPolicyAwareQuery The parent query.
+   * @return PhorgePolicyAwareQuery The parent query.
    * @task config
    */
   final public function getParentQuery() {
@@ -198,7 +198,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   /**
    * Execute the query, loading all visible results.
    *
-   * @return list<PhabricatorPolicyInterface> Result objects.
+   * @return list<PhorgePolicyInterface> Result objects.
    * @task exec
    */
   final public function execute() {
@@ -249,7 +249,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
       if ($this->canViewerUseQueryApplication()) {
         try {
           $page = $this->loadPage();
-        } catch (PhabricatorEmptyQueryException $ex) {
+        } catch (PhorgeEmptyQueryException $ex) {
           $page = array();
         }
       } else {
@@ -359,7 +359,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   }
 
   private function getPolicyFilter() {
-    $filter = new PhabricatorPolicyFilter();
+    $filter = new PhorgePolicyFilter();
     $filter->setViewer($this->viewer);
     $capabilities = $this->getRequiredCapabilities();
     $filter->requireCapabilities($capabilities);
@@ -374,7 +374,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
     }
 
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -387,14 +387,14 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
     return $filter->apply($objects);
   }
 
-  protected function didRejectResult(PhabricatorPolicyInterface $object) {
+  protected function didRejectResult(PhorgePolicyInterface $object) {
     // Some objects (like commits) may be rejected because related objects
     // (like repositories) can not be loaded. In some cases, we may need these
     // related objects to determine the object policy, so it's expected that
     // we may occasionally be unable to determine the policy.
 
     try {
-      $policy = $object->getPolicy(PhabricatorPolicyCapability::CAN_VIEW);
+      $policy = $object->getPolicy(PhorgePolicyCapability::CAN_VIEW);
     } catch (Exception $ex) {
       $policy = null;
     }
@@ -407,7 +407,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
     $this->getPolicyFilter()->rejectObject(
       $object,
       $policy,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
   }
 
   public function addPolicyFilteredPHIDs(array $phids) {
@@ -473,7 +473,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * automatically populated as a side effect of objects surviving policy
    * filtering.
    *
-   * @param map<phid, PhabricatorPolicyInterface> Objects to add to the query
+   * @param map<phid, PhorgePolicyInterface> Objects to add to the query
    *   workspace.
    * @return this
    * @task workspace
@@ -485,7 +485,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
       return $this;
     }
 
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, 'PhorgePolicyInterface');
 
     $viewer_fragment = $this->getViewer()->getCacheFragment();
 
@@ -595,7 +595,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * from the database. They should attempt to return the number of results
    * hinted by @{method:getRawResultLimit}.
    *
-   * @return list<PhabricatorPolicyInterface> List of filterable policy objects.
+   * @return list<PhorgePolicyInterface> List of filterable policy objects.
    * @task policyimpl
    */
   abstract protected function loadPage();
@@ -606,7 +606,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * return new results. Generally, you should adjust a cursor position based
    * on the provided result page.
    *
-   * @param list<PhabricatorPolicyInterface> The current page of results.
+   * @param list<PhorgePolicyInterface> The current page of results.
    * @return void
    * @task policyimpl
    */
@@ -628,7 +628,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * do not need to handle the case of no results specially.
    *
    * @param   list<wild>  Results from `loadPage()`.
-   * @return  list<PhabricatorPolicyInterface> Objects for policy filtering.
+   * @return  list<PhorgePolicyInterface> Objects for policy filtering.
    * @task policyimpl
    */
   protected function willFilterPage(array $page) {
@@ -651,7 +651,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * not need to handle the case of no results specially.
    *
    * @param list<wild> Results from @{method:willFilterPage()}.
-   * @return list<PhabricatorPolicyInterface> Objects after additional
+   * @return list<PhorgePolicyInterface> Objects after additional
    *   non-policy processing.
    */
   protected function didFilterPage(array $page) {
@@ -677,11 +677,11 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
 
   /**
    * Hook for applying final adjustments before results are returned. This is
-   * used by @{class:PhabricatorCursorPagedPolicyAwareQuery} to reverse results
+   * used by @{class:PhorgeCursorPagedPolicyAwareQuery} to reverse results
    * that are queried during reverse paging.
    *
-   * @param   list<PhabricatorPolicyInterface> Query results.
-   * @return  list<PhabricatorPolicyInterface> Final results.
+   * @param   list<PhorgePolicyInterface> Query results.
+   * @return  list<PhorgePolicyInterface> Final results.
    * @task policyimpl
    */
   protected function didLoadResults(array $results) {
@@ -730,7 +730,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
     }
 
     $viewer = $this->getViewer();
-    return PhabricatorApplication::isClassInstalledForViewer($class, $viewer);
+    return PhorgeApplication::isClassInstalledForViewer($class, $viewer);
   }
 
   private function applyWillFilterPageExtensions(array $page) {

@@ -1,10 +1,10 @@
 <?php
 
 final class ManiphestTaskFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $task = $object;
@@ -12,35 +12,35 @@ final class ManiphestTaskFulltextEngine
     $document->setDocumentTitle($task->getTitle());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $task->getDescription());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $task->getAuthorPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $task->getDateCreated());
 
     $document->addRelationship(
       $task->isClosed()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $task->getPHID(),
       ManiphestTaskPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
     $owner = $task->getOwnerPHID();
     if ($owner) {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_OWNER,
+        PhorgeSearchRelationship::RELATIONSHIP_OWNER,
         $owner,
-        PhabricatorPeopleUserPHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
         time());
     } else {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_UNOWNED,
+        PhorgeSearchRelationship::RELATIONSHIP_UNOWNED,
         $task->getPHID(),
-        PhabricatorPHIDConstants::PHID_TYPE_VOID,
+        PhorgePHIDConstants::PHID_TYPE_VOID,
         $task->getDateCreated());
     }
   }

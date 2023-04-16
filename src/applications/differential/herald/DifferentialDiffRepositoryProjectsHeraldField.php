@@ -15,9 +15,9 @@ final class DifferentialDiffRepositoryProjectsHeraldField
       return array();
     }
 
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $repository->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -25,7 +25,7 @@ final class DifferentialDiffRepositoryProjectsHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

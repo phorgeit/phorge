@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldTranscriptGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'herald.transcripts';
 

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorFileEditController
-  extends PhabricatorFileController {
+final class PhorgeFileEditController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorFileEditEngine())
+    return id(new PhorgeFileEditEngine())
       ->setController($this)
       ->buildResponse();
   }

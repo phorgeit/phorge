@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineCheckboxesCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEngineCheckboxesCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   private $options = array();
 

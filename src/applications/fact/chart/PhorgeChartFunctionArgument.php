@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartFunctionArgument
+final class PhorgeChartFunctionArgument
   extends Phobject {
 
   private $name;
@@ -64,7 +64,7 @@ final class PhabricatorChartFunctionArgument
               phutil_describe_type($value)));
         }
 
-        $facts = PhabricatorFact::getAllFacts();
+        $facts = PhorgeFact::getAllFacts();
         $fact = idx($facts, $value);
         if (!$fact) {
           throw new Exception(
@@ -76,7 +76,7 @@ final class PhabricatorChartFunctionArgument
         return $fact;
       case 'function':
         // If this is already a function object, just return it.
-        if ($value instanceof PhabricatorChartFunction) {
+        if ($value instanceof PhorgeChartFunction) {
           return $value;
         }
 
@@ -115,7 +115,7 @@ final class PhabricatorChartFunctionArgument
               phutil_describe_type($function_name)));
         }
 
-        $functions = PhabricatorChartFunction::getAllFunctions();
+        $functions = PhorgeChartFunction::getAllFunctions();
         if (!isset($functions[$function_name])) {
           throw new Exception(
             pht(

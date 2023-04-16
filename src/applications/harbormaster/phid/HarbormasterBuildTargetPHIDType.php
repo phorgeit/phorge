@@ -1,6 +1,6 @@
 <?php
 
-final class HarbormasterBuildTargetPHIDType extends PhabricatorPHIDType {
+final class HarbormasterBuildTargetPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'HMBT';
 
@@ -13,11 +13,11 @@ final class HarbormasterBuildTargetPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new HarbormasterBuildTargetQuery())
@@ -25,7 +25,7 @@ final class HarbormasterBuildTargetPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

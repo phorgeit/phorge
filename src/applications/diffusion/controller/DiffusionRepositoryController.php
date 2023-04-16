@@ -40,10 +40,10 @@ final class DiffusionRepositoryController extends DiffusionController {
     // exists.
     if ($drequest->supportsBranches()) {
       // NOTE: Mercurial may have multiple branch heads with the same name.
-      $ref_cursors = id(new PhabricatorRepositoryRefCursorQuery())
+      $ref_cursors = id(new PhorgeRepositoryRefCursorQuery())
         ->setViewer($viewer)
         ->withRepositoryPHIDs(array($repository->getPHID()))
-        ->withRefTypes(array(PhabricatorRepositoryRefCursor::TYPE_BRANCH))
+        ->withRefTypes(array(PhorgeRepositoryRefCursor::TYPE_BRANCH))
         ->withRefNames(array($drequest->getBranch()))
         ->needPositions(true)
         ->execute();
@@ -267,7 +267,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     return $content;
   }
 
-  private function buildHeaderView(PhabricatorRepository $repository) {
+  private function buildHeaderView(PhorgeRepository $repository) {
     $viewer = $this->getViewer();
     $drequest = $this->getDiffusionRequest();
     $search = $this->renderSearchForm();
@@ -310,16 +310,16 @@ final class DiffusionRepositoryController extends DiffusionController {
     return $header;
   }
 
-  private function buildActionList(PhabricatorRepository $repository) {
+  private function buildActionList(PhorgeRepository $repository) {
     $viewer = $this->getViewer();
 
     $edit_uri = $repository->getPathURI('manage/');
-    $action_view = id(new PhabricatorActionListView())
+    $action_view = id(new PhorgeActionListView())
       ->setUser($viewer)
       ->setObject($repository);
 
     $action_view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Manage Repository'))
         ->setIcon('fa-cogs')
         ->setHref($edit_uri));
@@ -329,7 +329,7 @@ final class DiffusionRepositoryController extends DiffusionController {
         'pushlog/?repositories='.$repository->getPHID());
 
       $action_view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('View Push Logs'))
           ->setIcon('fa-upload')
           ->setHref($push_uri));
@@ -338,7 +338,7 @@ final class DiffusionRepositoryController extends DiffusionController {
         'synclog/?repositories='.$repository->getPHID());
 
       $action_view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('View Sync Logs'))
           ->setIcon('fa-exchange')
           ->setHref($pull_uri));
@@ -348,7 +348,7 @@ final class DiffusionRepositoryController extends DiffusionController {
       'pulllog/?repositories='.$repository->getPHID());
 
     $action_view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Pull Logs'))
         ->setIcon('fa-download')
         ->setHref($pull_uri));
@@ -356,7 +356,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     return $action_view;
   }
 
-  private function buildDescriptionView(PhabricatorRepository $repository) {
+  private function buildDescriptionView(PhorgeRepository $repository) {
     $viewer = $this->getViewer();
     $view = id(new PHUIPropertyListView())
       ->setUser($viewer);
@@ -390,7 +390,7 @@ final class DiffusionRepositoryController extends DiffusionController {
 
     $branches = DiffusionRepositoryRef::loadAllFromDictionaries($branches);
 
-    $actions = id(new PhabricatorActionListView())
+    $actions = id(new PhorgeActionListView())
       ->setViewer($viewer);
 
     foreach ($branches as $branch) {
@@ -400,7 +400,7 @@ final class DiffusionRepositoryController extends DiffusionController {
           'branch' => $branch->getShortname(),
         ));
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($branch->getShortname())
           ->setIcon('fa-code-fork')
           ->setHref($branch_uri));
@@ -412,10 +412,10 @@ final class DiffusionRepositoryController extends DiffusionController {
           'action' => 'branches',
         ));
       $actions->addAction(
-        id(new PhabricatorActionView())
-          ->setType(PhabricatorActionView::TYPE_DIVIDER));
+        id(new PhorgeActionView())
+          ->setType(PhorgeActionView::TYPE_DIVIDER));
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('See More Branches'))
           ->setIcon('fa-external-link')
           ->setHref($more_uri));

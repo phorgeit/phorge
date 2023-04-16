@@ -11,12 +11,12 @@
   margin: 0 0 12px;
 }
 
-.PhabricatorMonospaced,
+.PhorgeMonospaced,
 .phorge-remarkup .remarkup-code-block .remarkup-code {
   font: 11px/15px "Menlo", "Consolas", "Monaco", monospace;
 }
 
-.platform-windows .PhabricatorMonospaced,
+.platform-windows .PhorgeMonospaced,
 .platform-windows .phorge-remarkup .remarkup-code-block .remarkup-code {
   font: 12px/15px "Menlo", "Consolas", "Monaco", monospace;
 }

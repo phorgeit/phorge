@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthPasswordUpgradeTransaction
-  extends PhabricatorAuthPasswordTransactionType {
+final class PhorgeAuthPasswordUpgradeTransaction
+  extends PhorgeAuthPasswordTransactionType {
 
   const TRANSACTIONTYPE = 'password.upgrade';
 

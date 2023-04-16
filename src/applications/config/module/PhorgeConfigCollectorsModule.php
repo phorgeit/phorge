@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigCollectorsModule extends PhabricatorConfigModule {
+final class PhorgeConfigCollectorsModule extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'collectors';
@@ -13,7 +13,7 @@ final class PhabricatorConfigCollectorsModule extends PhabricatorConfigModule {
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $collectors = PhabricatorGarbageCollector::getAllCollectors();
+    $collectors = PhorgeGarbageCollector::getAllCollectors();
     $collectors = msort($collectors, 'getCollectorConstant');
 
     $rows = array();

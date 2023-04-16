@@ -1,7 +1,7 @@
 <?php
 
 abstract class DrydockBlueprintCustomField
-  extends PhabricatorCustomField {
+  extends PhorgeCustomField {
 
   abstract public function getBlueprintFieldValue();
 

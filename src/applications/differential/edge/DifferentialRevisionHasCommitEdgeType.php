@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialRevisionHasCommitEdgeType extends PhabricatorEdgeType {
+final class DifferentialRevisionHasCommitEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 31;
 

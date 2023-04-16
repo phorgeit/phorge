@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportICSFileTransaction
-  extends PhabricatorCalendarImportTransactionType {
+final class PhorgeCalendarImportICSFileTransaction
+  extends PhorgeCalendarImportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.import.ics.file';
   const PARAMKEY_FILE = 'ics.filePHID';
@@ -15,7 +15,7 @@ final class PhabricatorCalendarImportICSFileTransaction
     $object->setParameter(self::PARAMKEY_FILE, $value);
 
     $viewer = $this->getActor();
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($value))
       ->executeOne();
@@ -34,7 +34,7 @@ final class PhabricatorCalendarImportICSFileTransaction
     $viewer = $this->getActor();
     $errors = array();
 
-    $ics_type = PhabricatorCalendarICSFileImportEngine::ENGINETYPE;
+    $ics_type = PhorgeCalendarICSFileImportEngine::ENGINETYPE;
     $import_type = $object->getEngine()->getImportEngineType();
     if ($import_type != $ics_type) {
       if (!$xactions) {
@@ -57,7 +57,7 @@ final class PhabricatorCalendarImportICSFileTransaction
         continue;
       }
 
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($new_value))
         ->executeOne();

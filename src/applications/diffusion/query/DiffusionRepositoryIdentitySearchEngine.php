@@ -1,23 +1,23 @@
 <?php
 
 final class DiffusionRepositoryIdentitySearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Repository Identities');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorRepositoryIdentityQuery();
+    return new PhorgeRepositoryIdentityQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Matching Users'))
         ->setKey('effectivePHIDs')
         ->setAliases(
@@ -35,11 +35,11 @@ final class DiffusionRepositoryIdentitySearchEngine
             'assignedPHID',
           ))
         ->setDescription(pht('Search for identities by explicit assignee.')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Identity Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for identities by substring.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Has Matching User'))
         ->setKey('hasEffectivePHID')
         ->setOptions(
@@ -98,9 +98,9 @@ final class DiffusionRepositoryIdentitySearchEngine
 
   protected function renderResultList(
     array $identities,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($identities, 'PhabricatorRepositoryIdentity');
+    assert_instances_of($identities, 'PhorgeRepositoryIdentity');
 
     $viewer = $this->requireViewer();
 
@@ -155,7 +155,7 @@ final class DiffusionRepositoryIdentitySearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No Identities found.'));
 

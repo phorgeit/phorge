@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTimezoneSetting
-  extends PhabricatorOptionGroupSetting {
+final class PhorgeTimezoneSetting
+  extends PhorgeOptionGroupSetting {
 
   const SETTINGKEY = 'timezone';
 
@@ -10,7 +10,7 @@ final class PhabricatorTimezoneSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDateTimeSettingsPanel::PANELKEY;
+    return PhorgeDateTimeSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {
@@ -52,7 +52,7 @@ final class PhabricatorTimezoneSetting
 
   protected function getSelectOptionGroups() {
     $timezones = DateTimeZone::listIdentifiers();
-    $now = new DateTime('@'.PhabricatorTime::getNow());
+    $now = new DateTime('@'.PhorgeTime::getNow());
 
     $groups = array();
     foreach ($timezones as $timezone) {
@@ -84,7 +84,7 @@ final class PhabricatorTimezoneSetting
 
       $group_map = array();
       foreach ($group as $identifier) {
-        $name = PhabricatorTime::getTimezoneDisplayName($identifier);
+        $name = PhorgeTime::getTimezoneDisplayName($identifier);
         $group_map[$identifier] = $name;
       }
 
@@ -104,7 +104,7 @@ final class PhabricatorTimezoneSetting
       $xaction,
       $this->newSettingTransaction(
         $object,
-        PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY,
+        PhorgeTimezoneIgnoreOffsetSetting::SETTINGKEY,
         null),
     );
   }

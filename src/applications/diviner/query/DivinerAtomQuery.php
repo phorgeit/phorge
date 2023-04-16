@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class DivinerAtomQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -272,7 +272,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($this->needRepositories) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(mpull($atoms, 'getRepositoryPHID'))
         ->execute();
@@ -342,7 +342,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
       foreach ($this->titles as $title) {
         $slug = DivinerAtomRef::normalizeTitleString($title);
-        $hash = PhabricatorHash::digestForIndex($slug);
+        $hash = PhorgeHash::digestForIndex($slug);
         $hashes[] = $hash;
       }
 
@@ -505,7 +505,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
 }

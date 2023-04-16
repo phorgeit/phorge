@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'passphrase.default.view';
 

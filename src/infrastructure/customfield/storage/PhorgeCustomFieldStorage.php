@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorCustomFieldStorage
-  extends PhabricatorLiskDAO {
+abstract class PhorgeCustomFieldStorage
+  extends PhorgeLiskDAO {
 
   protected $objectPHID;
   protected $fieldIndex;
@@ -44,8 +44,8 @@ abstract class PhabricatorCustomFieldStorage
    * The keys in the result should correspond to the keys in the input. The
    * fields in the list may belong to different objects.
    *
-   * @param map<string, PhabricatorCustomField> Map of fields.
-   * @return map<String, PhabricatorCustomField> Map of available field data.
+   * @param map<string, PhorgeCustomField> Map of fields.
+   * @return map<String, PhorgeCustomField> Map of available field data.
    */
   final public function loadStorageSourceData(array $fields) {
     $map = array();

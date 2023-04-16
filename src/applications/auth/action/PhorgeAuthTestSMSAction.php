@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthTestSMSAction extends PhabricatorSystemAction {
+final class PhorgeAuthTestSMSAction extends PhorgeSystemAction {
 
   const TYPECONST = 'auth.sms.test';
 

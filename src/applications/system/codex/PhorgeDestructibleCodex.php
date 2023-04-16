@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDestructibleCodex
+abstract class PhorgeDestructibleCodex
   extends Phobject {
 
   private $viewer;
@@ -10,7 +10,7 @@ abstract class PhabricatorDestructibleCodex
     return array();
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -20,7 +20,7 @@ abstract class PhabricatorDestructibleCodex
   }
 
   final public function setObject(
-    PhabricatorDestructibleCodexInterface $object) {
+    PhorgeDestructibleCodexInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -30,28 +30,28 @@ abstract class PhabricatorDestructibleCodex
   }
 
   final public static function newFromObject(
-    PhabricatorDestructibleCodexInterface $object,
-    PhabricatorUser $viewer) {
+    PhorgeDestructibleCodexInterface $object,
+    PhorgeUser $viewer) {
 
-    if (!($object instanceof PhabricatorDestructibleInterface)) {
+    if (!($object instanceof PhorgeDestructibleInterface)) {
       throw new Exception(
         pht(
           'Object (of class "%s") implements interface "%s", but must also '.
           'implement interface "%s".',
           get_class($object),
-          'PhabricatorDestructibleCodexInterface',
-          'PhabricatorDestructibleInterface'));
+          'PhorgeDestructibleCodexInterface',
+          'PhorgeDestructibleInterface'));
     }
 
     $codex = $object->newDestructibleCodex();
-    if (!($codex instanceof PhabricatorDestructibleCodex)) {
+    if (!($codex instanceof PhorgeDestructibleCodex)) {
       throw new Exception(
         pht(
           'Object (of class "%s") implements interface "%s", but defines '.
           'method "%s" incorrectly: this method must return an object of '.
           'class "%s".',
           get_class($object),
-          'PhabricatorDestructibleCodexInterface',
+          'PhorgeDestructibleCodexInterface',
           'newDestructibleCodex()',
           __CLASS__));
     }

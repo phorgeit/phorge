@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorTestCase extends PhutilTestCase {
+abstract class PhorgeTestCase extends PhutilTestCase {
 
   const NAMESPACE_PREFIX = 'phorge_unittest_';
 
@@ -39,12 +39,12 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
   private static $storageFixtureObjectSeed = 0;
   private static $testsAreRunning = 0;
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array();
   }
 
   private function getComputedConfiguration() {
-    $config = $this->getPhabricatorTestCaseConfiguration() + array(
+    $config = $this->getPhorgeTestCaseConfiguration() + array(
       self::PHORGE_TESTCONFIG_ISOLATE_LISK             => true,
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES   => false,
     );
@@ -91,7 +91,7 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
       LiskDAO::beginIsolateAllLiskEffectsToCurrentProcess();
     }
 
-    $this->env = PhabricatorEnv::beginScopedEnv();
+    $this->env = PhorgeEnv::beginScopedEnv();
 
     // NOTE: While running unit tests, we act as though all applications are
     // installed, regardless of the install's configuration. Tests which need
@@ -151,7 +151,7 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
         pht(
           'Some test called %s, but is still holding '.
           'a reference to the scoped environment!',
-          'PhabricatorEnv::beginScopedEnv()'));
+          'PhorgeEnv::beginScopedEnv()'));
     }
   }
 
@@ -175,7 +175,7 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     $bytes = Filesystem::readRandomCharacters(24);
     $name = self::NAMESPACE_PREFIX.$bytes;
 
-    return new PhabricatorStorageFixtureScopeGuard($name);
+    return new PhorgeStorageFixtureScopeGuard($name);
   }
 
   /**
@@ -193,16 +193,16 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
   protected function generateNewTestUser() {
     $seed = $this->getNextObjectSeed();
 
-    $user = id(new PhabricatorUser())
+    $user = id(new PhorgeUser())
       ->setRealName(pht('Test User %s', $seed))
       ->setUserName("test{$seed}")
       ->setIsApproved(1);
 
-    $email = id(new PhabricatorUserEmail())
+    $email = id(new PhorgeUserEmail())
       ->setAddress("testuser{$seed}@example.com")
       ->setIsVerified(1);
 
-    $editor = new PhabricatorUserEditor();
+    $editor = new PhorgeUserEditor();
     $editor->setActor($user);
     $editor->createNewUser($user, $email);
 
@@ -211,7 +211,7 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     // settings.
     $user->attachRawCacheData(
       array(
-        PhabricatorUserPreferencesCacheType::KEY_PREFERENCES => '[]',
+        PhorgeUserPreferencesCacheType::KEY_PREFERENCES => '[]',
       ));
 
     return $user;
@@ -244,8 +244,8 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
   }
 
   protected function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorUnitTestContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgeUnitTestContentSource::SOURCECONST);
   }
 
 }

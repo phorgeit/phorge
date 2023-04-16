@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasswordDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgePasswordDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'passwords';
 
@@ -10,13 +10,13 @@ final class PhabricatorPasswordDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $viewer = $engine->getViewer();
     $object_phid = $object->getPHID();
 
-    $passwords = id(new PhabricatorAuthPasswordQuery())
+    $passwords = id(new PhorgeAuthPasswordQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object_phid))
       ->execute();

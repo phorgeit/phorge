@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorEnumConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeEnumConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'enum';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_string($value)) {
@@ -31,7 +31,7 @@ final class PhabricatorEnumConfigType
     }
   }
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     $map = array(
       '' => pht('(Use Default)'),
     ) + $option->getEnumOptions();

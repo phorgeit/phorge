@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationsApplication extends PhabricatorApplication {
+final class PhorgeApplicationsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Applications');
@@ -36,17 +36,17 @@ final class PhabricatorApplicationsApplication extends PhabricatorApplication {
     return array(
       '/applications/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorApplicationsListController',
+          => 'PhorgeApplicationsListController',
         'view/(?P<application>\w+)/'
-          => 'PhabricatorApplicationDetailViewController',
+          => 'PhorgeApplicationDetailViewController',
         'edit/(?P<application>\w+)/'
-          => 'PhabricatorApplicationEditController',
+          => 'PhorgeApplicationEditController',
         'mailcommands/(?P<application>\w+)/(?P<type>\w+)/'
-          => 'PhabricatorApplicationEmailCommandsController',
+          => 'PhorgeApplicationEmailCommandsController',
         '(?P<application>\w+)/(?P<action>install|uninstall)/'
-          => 'PhabricatorApplicationUninstallController',
+          => 'PhorgeApplicationUninstallController',
         'panel/(?P<application>\w+)/(?P<panel>\w+)/(?P<path>.*)'
-          => 'PhabricatorApplicationPanelController',
+          => 'PhorgeApplicationPanelController',
       ),
     );
   }

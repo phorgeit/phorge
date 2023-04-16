@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorPhurlURLMailReceiver
-  extends PhabricatorObjectMailReceiver {
+final class PhorgePhurlURLMailReceiver
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhurlApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgePhurlApplication');
   }
 
   protected function getObjectPattern() {
     return 'U[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
-    return id(new PhabricatorPhurlURLQuery())
+    return id(new PhorgePhurlURLQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorPhurlURLReplyHandler();
+    return new PhorgePhurlURLReplyHandler();
   }
 
 }

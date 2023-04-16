@@ -13,7 +13,7 @@ final class HarbormasterLogWorker extends HarbormasterWorker {
       ->withPHIDs(array($log_phid))
       ->executeOne();
     if (!$log) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Invalid build log PHID "%s".',
           $log_phid));
@@ -24,7 +24,7 @@ final class HarbormasterLogWorker extends HarbormasterWorker {
     try {
       $lock->lock();
     } catch (PhutilLockException $ex) {
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
 
     $caught = null;
@@ -32,7 +32,7 @@ final class HarbormasterLogWorker extends HarbormasterWorker {
       $log->reload();
 
       if ($log->getLive()) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Log "%s" is still live. Logs can not be finalized until '.
             'they have closed.',
@@ -85,9 +85,9 @@ final class HarbormasterLogWorker extends HarbormasterWorker {
     if (!$log->getFilePHID()) {
       $iterator = $log->newDataIterator();
 
-      $source = id(new PhabricatorIteratorFileUploadSource())
+      $source = id(new PhorgeIteratorFileUploadSource())
         ->setName('harbormaster-log-'.$log->getID().'.log')
-        ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+        ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
         ->setMIMEType('application/octet-stream')
         ->setIterator($iterator);
 

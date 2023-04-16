@@ -2,7 +2,7 @@
 
 final class NuanceImportCursorData
   extends NuanceDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $sourcePHID;
   protected $cursorKey;
@@ -29,7 +29,7 @@ final class NuanceImportCursorData
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       NuanceImportCursorPHIDType::TYPECONST);
   }
 
@@ -43,23 +43,23 @@ final class NuanceImportCursorData
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_USER;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

@@ -1,4 +1,4 @@
 <?php
 
 abstract class PholioTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

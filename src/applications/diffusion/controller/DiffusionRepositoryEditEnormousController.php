@@ -29,12 +29,12 @@ final class DiffusionRepositoryEditEnormousController
     }
 
     if ($request->isFormPost()) {
-      $xaction = id(new PhabricatorRepositoryTransaction())
+      $xaction = id(new PhorgeRepositoryTransaction())
         ->setTransactionType(
-          PhabricatorRepositoryEnormousTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryEnormousTransaction::TRANSACTIONTYPE)
         ->setNewValue(!$repository->shouldAllowEnormousChanges());
 
-      $editor = id(new PhabricatorRepositoryEditor())
+      $editor = id(new PhorgeRepositoryEditor())
         ->setContinueOnNoEffect(true)
         ->setContentSourceFromRequest($request)
         ->setActor($viewer)

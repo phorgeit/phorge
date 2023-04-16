@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventPolicyCodex
-  extends PhabricatorPolicyCodex {
+final class PhorgeCalendarEventPolicyCodex
+  extends PhorgePolicyCodex {
 
   public function getPolicyShortName() {
     $object = $this->getObject();
@@ -46,7 +46,7 @@ final class PhabricatorCalendarEventPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->setDescription(
         pht('Users who are invited to an event can always view it.'));
@@ -55,7 +55,7 @@ final class PhabricatorCalendarEventPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->setIsActive($object->isImportedEvent())
       ->setDescription(
@@ -66,7 +66,7 @@ final class PhabricatorCalendarEventPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setIsActive($object->isImportedEvent())
       ->setDescription(

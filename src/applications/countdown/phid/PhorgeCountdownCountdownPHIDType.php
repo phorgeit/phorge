@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCountdownCountdownPHIDType extends PhabricatorPHIDType {
+final class PhorgeCountdownCountdownPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CDWN';
 
@@ -9,23 +9,23 @@ final class PhabricatorCountdownCountdownPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorCountdown();
+    return new PhorgeCountdown();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return 'PhorgeCountdownApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorCountdownQuery())
+    return id(new PhorgeCountdownQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -46,7 +46,7 @@ final class PhabricatorCountdownCountdownPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -55,7 +55,7 @@ final class PhabricatorCountdownCountdownPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorCountdownQuery())
+    $objects = id(new PhorgeCountdownQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

@@ -54,7 +54,7 @@ final class AlmanacPropertyDeleteController
       try {
         $editor->applyTransactions($object, array($xaction));
         return id(new AphrontRedirectResponse())->setURI($cancel_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
     }

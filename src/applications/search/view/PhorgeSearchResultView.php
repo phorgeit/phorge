@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorSearchResultView extends AphrontView {
+final class PhorgeSearchResultView extends AphrontView {
 
   private $handle;
   private $object;
   private $tokens;
 
-  public function setHandle(PhabricatorObjectHandle $handle) {
+  public function setHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }
 
   public function setTokens(array $tokens) {
-    assert_instances_of($tokens, 'PhabricatorFulltextToken');
+    assert_instances_of($tokens, 'PhorgeFulltextToken');
     $this->tokens = $tokens;
     return $this;
   }
@@ -42,7 +42,7 @@ final class PhabricatorSearchResultView extends AphrontView {
       ->setImageURI($handle->getImageURI())
       ->addAttribute($type_name);
 
-    if ($handle->getStatus() == PhabricatorObjectHandle::STATUS_CLOSED) {
+    if ($handle->getStatus() == PhorgeObjectHandle::STATUS_CLOSED) {
       $item->setDisabled(true);
       $item->addAttribute(pht('Closed'));
     }

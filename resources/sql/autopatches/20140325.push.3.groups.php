@@ -1,6 +1,6 @@
 <?php
 
-$conn_w = id(new PhabricatorRepository())->establishConnection('w');
+$conn_w = id(new PhorgeRepository())->establishConnection('w');
 
 echo pht('Adding transaction log event groups...')."\n";
 
@@ -15,7 +15,7 @@ foreach ($logs as $log) {
     continue;
   }
 
-  $event_phid = id(new PhabricatorRepositoryPushEvent())->generatePHID();
+  $event_phid = id(new PhorgeRepositoryPushEvent())->generatePHID();
 
   queryfx(
     $conn_w,

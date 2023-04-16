@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffusionConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeDiffusionConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Diffusion');
@@ -20,13 +20,13 @@ final class PhabricatorDiffusionConfigOptions
   }
 
   public function getOptions() {
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
 
     $fields = array(
-      new PhabricatorCommitRepositoryField(),
-      new PhabricatorCommitBranchesField(),
-      new PhabricatorCommitTagsField(),
-      new PhabricatorCommitMergedCommitsField(),
+      new PhorgeCommitRepositoryField(),
+      new PhorgeCommitBranchesField(),
+      new PhorgeCommitTagsField(),
+      new PhorgeCommitMergedCommitsField(),
     );
 
     $default_fields = array();
@@ -155,7 +155,7 @@ final class PhabricatorDiffusionConfigOptions
             'you can set the SSH hostname here. This is an advanced option.')),
       $this->newOption('diffusion.fields', $custom_field_type, $default_fields)
         ->setCustomData(
-          id(new PhabricatorRepositoryCommit())
+          id(new PhorgeRepositoryCommit())
             ->getCustomFieldBaseClass())
         ->setDescription(
           pht('Select and reorder Diffusion fields.')),

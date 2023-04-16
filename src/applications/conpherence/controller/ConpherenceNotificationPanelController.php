@@ -109,7 +109,7 @@ final class ConpherenceNotificationPanelController
 
   private function renderPersistentOption() {
     $viewer = $this->getViewer();
-    $column_key = PhabricatorConpherenceColumnVisibleSetting::SETTINGKEY;
+    $column_key = PhorgeConpherenceColumnVisibleSetting::SETTINGKEY;
     $show = (bool)$viewer->getUserSetting($column_key, false);
 
     $view = phutil_tag(

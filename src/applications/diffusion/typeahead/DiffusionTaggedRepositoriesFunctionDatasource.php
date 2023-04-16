@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionTaggedRepositoriesFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Repositories');
@@ -12,12 +12,12 @@ final class DiffusionTaggedRepositoriesFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -39,7 +39,7 @@ final class DiffusionTaggedRepositoriesFunctionDatasource
   protected function didLoadResults(array $results) {
     foreach ($results as $result) {
       $result
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setColor(null)
         ->setPHID('tagged('.$result->getPHID().')')
         ->setDisplayName(pht('Tagged: %s', $result->getDisplayName()))
@@ -58,11 +58,11 @@ final class DiffusionTaggedRepositoriesFunctionDatasource
       $phids[] = head($argv);
     }
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->withEdgeLogicPHIDs(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_OR,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeQueryConstraint::OPERATOR_OR,
         $phids)
       ->execute();
 
@@ -77,7 +77,7 @@ final class DiffusionTaggedRepositoriesFunctionDatasource
       // just return `array()`, that gets evaluated as "no constraint" and
       // we match everything. This works correctly for now, but should be
       // replaced with some more elegant/general approach eventually.
-      $results[] = PhabricatorPHIDConstants::PHID_VOID;
+      $results[] = PhorgePHIDConstants::PHID_VOID;
     }
 
     return $results;
@@ -99,7 +99,7 @@ final class DiffusionTaggedRepositoriesFunctionDatasource
           ->setValue(pht('Repositories: Invalid Project'));
       } else {
         $token
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setKey('tagged('.$token->getKey().')')
           ->setValue(pht('Tagged: %s', $token->getValue()));
       }

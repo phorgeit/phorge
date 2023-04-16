@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDoubleExportField
-  extends PhabricatorExportField {
+final class PhorgeDoubleExportField
+  extends PhorgeExportField {
 
   public function getNaturalValue($value) {
     if ($value === null) {

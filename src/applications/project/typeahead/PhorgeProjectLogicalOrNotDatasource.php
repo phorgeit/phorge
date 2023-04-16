@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalOrNotDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectLogicalOrNotDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Projects');
@@ -12,12 +12,12 @@ final class PhabricatorProjectLogicalOrNotDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -84,7 +84,7 @@ final class PhabricatorProjectLogicalOrNotDatasource
     $return = array();
     foreach ($results as $result) {
       $result
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-asterisk')
         ->setColor(null)
         ->resetAttributes()
@@ -117,13 +117,13 @@ final class PhabricatorProjectLogicalOrNotDatasource
     }
 
     $operator = array(
-      'any' => PhabricatorQueryConstraint::OPERATOR_OR,
-      'not' => PhabricatorQueryConstraint::OPERATOR_NOT,
+      'any' => PhorgeQueryConstraint::OPERATOR_OR,
+      'not' => PhorgeQueryConstraint::OPERATOR_NOT,
     );
 
     $results = array();
     foreach ($phids as $phid) {
-      $results[] = new PhabricatorQueryConstraint(
+      $results[] = new PhorgeQueryConstraint(
         $operator[$function],
         $phid);
     }
@@ -149,7 +149,7 @@ final class PhabricatorProjectLogicalOrNotDatasource
       } else {
         $token
           ->setIcon('fa-asterisk')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION);
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION);
 
         if ($function == 'any') {
           $token

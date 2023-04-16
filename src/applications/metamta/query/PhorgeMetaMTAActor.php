@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAActor extends Phobject {
+final class PhorgeMetaMTAActor extends Phobject {
 
   const STATUS_DELIVERABLE = 'deliverable';
   const STATUS_UNDELIVERABLE = 'undeliverable';

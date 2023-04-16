@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTagsAddedField
-  extends PhabricatorProjectTagsField {
+final class PhorgeProjectTagsAddedField
+  extends PhorgeProjectTagsField {
 
   const FIELDCONST = 'projects.added';
 
@@ -15,7 +15,7 @@ final class PhabricatorProjectTagsAddedField
       return array();
     }
 
-    $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+    $record = PhorgeEdgeChangeRecord::newFromTransaction($xaction);
 
     return $record->getAddedPHIDs();
   }

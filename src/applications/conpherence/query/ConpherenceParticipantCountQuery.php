@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceParticipantCountQuery
-  extends PhabricatorOffsetPagedQuery {
+  extends PhorgeOffsetPagedQuery {
 
   private $participantPHIDs;
   private $unread;

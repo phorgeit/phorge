@@ -1,7 +1,7 @@
 <?php
 
-$conn_w = id(new PhabricatorProject())->establishConnection('w');
-$table_name = id(new PhabricatorProjectCustomFieldStorage())->getTableName();
+$conn_w = id(new PhorgeProject())->establishConnection('w');
+$table_name = id(new PhorgeProjectCustomFieldStorage())->getTableName();
 
 $rows = new LiskRawMigrationIterator($conn_w, 'project_profile');
 
@@ -17,7 +17,7 @@ foreach ($rows as $row) {
         VALUES (%s, %s, %s)',
       $table_name,
       $phid,
-      PhabricatorHash::digestForIndex('std:project:internal:description'),
+      PhorgeHash::digestForIndex('std:project:internal:description'),
       $desc);
   }
 }

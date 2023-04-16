@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionMercurialWireProtocolTests extends PhabricatorTestCase {
+final class DiffusionMercurialWireProtocolTests extends PhorgeTestCase {
 
   public function testFilteringBundle2Capability() {
     // this was the result of running 'capabilities' over

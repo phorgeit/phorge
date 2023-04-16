@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEmojiRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeEmojiRemarkupRule extends PhutilRemarkupRule {
 
   public function getPriority() {
     return 200.0;

@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorApplicationTransactionTextDiffDetailView
-  extends  PhabricatorApplicationTransactionDetailView {}
+final class PhorgeApplicationTransactionTextDiffDetailView
+  extends  PhorgeApplicationTransactionDetailView {}

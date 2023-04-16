@@ -55,10 +55,10 @@ final class AlmanacInterfaceDeviceTransaction
       }
 
       $device = head($devices);
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $this->getActor(),
         $device,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       if (!$can_edit) {
         $errors[] = $this->newInvalidError(
           pht(

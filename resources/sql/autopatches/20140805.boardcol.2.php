@@ -1,15 +1,15 @@
 <?php
 
-// Was PhabricatorEdgeConfig::TYPE_COLUMN_HAS_OBJECT
+// Was PhorgeEdgeConfig::TYPE_COLUMN_HAS_OBJECT
 $type_has_object = 44;
 
-$column = new PhabricatorProjectColumn();
+$column = new PhorgeProjectColumn();
 $conn_w = $column->establishConnection('w');
 
 $rows = queryfx_all(
   $conn_w,
   'SELECT src, dst FROM %T WHERE type = %d',
-  PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+  PhorgeEdgeConfig::TABLE_NAME_EDGE,
   $type_has_object);
 
 $cols = array();
@@ -20,7 +20,7 @@ foreach ($rows as $row) {
 $sql = array();
 foreach ($cols as $col_phid => $obj_phids) {
   echo pht("Migrating column '%s'...", $col_phid)."\n";
-  $column = id(new PhabricatorProjectColumn())->loadOneWhere(
+  $column = id(new PhorgeProjectColumn())->loadOneWhere(
     'phid = %s',
     $col_phid);
   if (!$column) {
@@ -41,12 +41,12 @@ foreach ($cols as $col_phid => $obj_phids) {
 }
 
 echo pht('Inserting rows...')."\n";
-foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
   queryfx(
     $conn_w,
     'INSERT INTO %T (boardPHID, columnPHID, objectPHID, sequence)
       VALUES %LQ',
-    id(new PhabricatorProjectColumnPosition())->getTableName(),
+    id(new PhorgeProjectColumnPosition())->getTableName(),
     $chunk);
 }
 

@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceContentSource
-  extends PhabricatorContentSource {
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'nuance';
 

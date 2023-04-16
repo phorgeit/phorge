@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'phame.post.search';

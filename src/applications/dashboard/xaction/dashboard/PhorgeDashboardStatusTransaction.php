@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardStatusTransaction
-  extends PhabricatorDashboardTransactionType {
+final class PhorgeDashboardStatusTransaction
+  extends PhorgeDashboardTransactionType {
 
   const TRANSACTIONTYPE = 'dashboard:status';
 
@@ -17,11 +17,11 @@ final class PhabricatorDashboardStatusTransaction
     $new = $this->getNewValue();
 
     switch ($new) {
-      case PhabricatorDashboard::STATUS_ACTIVE:
+      case PhorgeDashboard::STATUS_ACTIVE:
         return pht(
           '%s activated this dashboard.',
           $this->renderAuthor());
-      case PhabricatorDashboard::STATUS_ARCHIVED:
+      case PhorgeDashboard::STATUS_ARCHIVED:
         return pht(
           '%s archived this dashboard.',
           $this->renderAuthor());
@@ -31,7 +31,7 @@ final class PhabricatorDashboardStatusTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $valid_statuses = PhabricatorDashboard::getStatusNameMap();
+    $valid_statuses = PhorgeDashboard::getStatusNameMap();
 
     $old_value = $object->getStatus();
     foreach ($xactions as $xaction) {

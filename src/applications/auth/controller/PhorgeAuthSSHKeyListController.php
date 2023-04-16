@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyListController
-  extends PhabricatorAuthSSHKeyController {
+final class PhorgeAuthSSHKeyListController
+  extends PhorgeAuthSSHKeyController {
 
   public function shouldAllowPublic() {
     return true;
@@ -14,7 +14,7 @@ final class PhabricatorAuthSSHKeyListController
       return new Aphront404Response();
     }
 
-    $engine = id(new PhabricatorAuthSSHKeySearchEngine())
+    $engine = id(new PhorgeAuthSSHKeySearchEngine())
       ->setSSHKeyObject($object);
 
     return id($engine)

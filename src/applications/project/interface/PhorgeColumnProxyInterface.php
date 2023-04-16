@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorColumnProxyInterface {
+interface PhorgeColumnProxyInterface {
 
   public function getProxyColumnName();
 

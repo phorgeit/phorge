@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationEditController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationEditController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
     $target_engine_key = $request->getURIData('engineKey');
 
-    $target_engine = PhabricatorEditEngine::getByKey(
+    $target_engine = PhorgeEditEngine::getByKey(
       $viewer,
       $target_engine_key);
     if (!$target_engine) {
@@ -17,7 +17,7 @@ final class PhabricatorEditEngineConfigurationEditController
 
     $this->setEngineKey($target_engine->getEngineKey());
 
-    return id(new PhabricatorEditEngineConfigurationEditEngine())
+    return id(new PhorgeEditEngineConfigurationEditEngine())
       ->setTargetEngine($target_engine)
       ->setController($this)
       ->buildResponse();

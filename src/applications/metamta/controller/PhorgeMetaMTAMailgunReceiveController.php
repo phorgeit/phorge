@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAMailgunReceiveController
-  extends PhabricatorMetaMTAController {
+final class PhorgeMetaMTAMailgunReceiveController
+  extends PhorgeMetaMTAController {
 
   public function shouldRequireLogin() {
     return false;
@@ -17,11 +17,11 @@ final class PhabricatorMetaMTAMailgunReceiveController
     // inbound mail from any of them. Test the signature to see if it matches
     // any configured Mailgun mailer.
 
-    $mailers = PhabricatorMetaMTAMail::newMailers(
+    $mailers = PhorgeMetaMTAMail::newMailers(
       array(
         'inbound' => true,
         'types' => array(
-          PhabricatorMailMailgunAdapter::ADAPTERTYPE,
+          PhorgeMailMailgunAdapter::ADAPTERTYPE,
         ),
       ));
     foreach ($mailers as $mailer) {
@@ -61,7 +61,7 @@ final class PhabricatorMetaMTAMailgunReceiveController
       'subject' => $request->getStr('subject'),
     ) + $raw_dict;
 
-    $received = new PhabricatorMetaMTAReceivedMail();
+    $received = new PhorgeMetaMTAReceivedMail();
     $received->setHeaders($headers);
     $received->setBodies(array(
       'text' => $request->getStr('stripped-text'),
@@ -71,10 +71,10 @@ final class PhabricatorMetaMTAMailgunReceiveController
     $file_phids = array();
     foreach ($_FILES as $file_raw) {
       try {
-        $file = PhabricatorFile::newFromPHPUpload(
+        $file = PhorgeFile::newFromPHPUpload(
           $file_raw,
           array(
-            'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+            'viewPolicy' => PhorgePolicies::POLICY_NOONE,
           ));
         $file_phids[] = $file->getPHID();
       } catch (Exception $ex) {

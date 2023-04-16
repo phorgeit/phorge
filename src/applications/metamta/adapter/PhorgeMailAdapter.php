@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailAdapter
+abstract class PhorgeMailAdapter
   extends Phobject {
 
   private $key;
@@ -24,7 +24,7 @@ abstract class PhabricatorMailAdapter
   }
 
   abstract public function getSupportedMessageTypes();
-  abstract public function sendMessage(PhabricatorMailExternalMessage $message);
+  abstract public function sendMessage(PhorgeMailExternalMessage $message);
 
   /**
    * Return true if this adapter supports setting a "Message-ID" when sending

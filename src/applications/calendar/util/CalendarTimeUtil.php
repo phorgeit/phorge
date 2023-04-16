@@ -14,7 +14,7 @@
 final class CalendarTimeUtil extends Phobject {
 
   public static function getCalendarEventEpochs(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $start_day_str = 'Sunday',
     $days = 9) {
 
@@ -30,12 +30,12 @@ final class CalendarTimeUtil extends Phobject {
   }
 
   public static function getCalendarWeekTimestamps(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
     return self::getTimestamps($user, 'Today', 7);
   }
 
   public static function getCalendarWidgetTimestamps(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
     return self::getTimestamps($user, 'Sunday', 9);
   }
 
@@ -44,7 +44,7 @@ final class CalendarTimeUtil extends Phobject {
    * functions above.
    */
   public static function getTimestamps(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $start_day_str,
     $days) {
 
@@ -63,11 +63,11 @@ final class CalendarTimeUtil extends Phobject {
   }
 
   private static function getStartDateTimeObjects(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $start_day_str) {
     $timezone = new DateTimeZone($user->getTimezoneIdentifier());
 
-    $today_epoch = PhabricatorTime::parseLocalTime('today', $user);
+    $today_epoch = PhorgeTime::parseLocalTime('today', $user);
     $today = new DateTime('@'.$today_epoch);
     $today->setTimezone($timezone);
 
@@ -75,7 +75,7 @@ final class CalendarTimeUtil extends Phobject {
         $today->format('l') == $start_day_str) {
       $start_day = clone $today;
     } else {
-      $start_epoch = PhabricatorTime::parseLocalTime(
+      $start_epoch = PhorgeTime::parseLocalTime(
         'last '.$start_day_str,
         $user);
       $start_day = new DateTime('@'.$start_epoch);

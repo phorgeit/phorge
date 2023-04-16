@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterBuildableSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Buildables');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -17,25 +17,25 @@ final class HarbormasterBuildableSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('objectPHIDs')
         ->setAliases(array('objects'))
         ->setLabel(pht('Objects'))
         ->setPlaceholder(pht('rXabcdef, PHID-DIFF-1234, ...'))
         ->setDescription(pht('Search for builds of particular objects.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('containerPHIDs')
         ->setAliases(array('containers'))
         ->setLabel(pht('Containers'))
         ->setPlaceholder(pht('rXYZ, R123, D456, ...'))
         ->setDescription(
           pht('Search for builds by containing revision or repository.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Statuses'))
         ->setOptions(HarbormasterBuildableStatus::getOptionMap())
         ->setDescription(pht('Search for builds by buildable status.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Manual'))
         ->setKey('manual')
         ->setDescription(
@@ -50,7 +50,7 @@ final class HarbormasterBuildableSearchEngine
   private function resolvePHIDs(array $names) {
     $viewer = $this->requireViewer();
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($names)
       ->execute();
@@ -118,7 +118,7 @@ final class HarbormasterBuildableSearchEngine
 
   protected function renderResultList(
     array $buildables,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($buildables, 'HarbormasterBuildable');
 
@@ -178,7 +178,7 @@ final class HarbormasterBuildableSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No buildables found.'));
 

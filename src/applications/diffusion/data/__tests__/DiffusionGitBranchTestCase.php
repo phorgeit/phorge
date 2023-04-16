@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionGitBranchTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testRemoteBranchParser() {
 

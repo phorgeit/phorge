@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeMetaMTAApplicationEmailDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function isBrowsable() {
     // TODO: Make this browsable.
@@ -17,21 +17,21 @@ final class PhabricatorMetaMTAApplicationEmailDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
     $raw_query = $this->getRawQuery();
 
-    $emails = id(new PhabricatorMetaMTAApplicationEmailQuery())
+    $emails = id(new PhorgeMetaMTAApplicationEmailQuery())
       ->setViewer($viewer)
       ->withAddressPrefix($raw_query)
       ->setLimit($this->getLimit())
       ->execute();
 
     if ($emails) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($emails, 'getPHID'))
         ->execute();
@@ -41,7 +41,7 @@ final class PhabricatorMetaMTAApplicationEmailDatasource
 
     $results = array();
     foreach ($handles as $handle) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($handle->getName())
         ->setPHID($handle->getPHID());
     }

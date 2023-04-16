@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   private $diff;
 
@@ -24,7 +24,7 @@ final class DifferentialRevisionEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function isEngineConfigurable() {
@@ -102,10 +102,10 @@ final class DifferentialRevisionEditEngine
 
   protected function newCommentActionGroups() {
     return array(
-      id(new PhabricatorEditEngineCommentActionGroup())
+      id(new PhorgeEditEngineCommentActionGroup())
         ->setKey(self::ACTIONGROUP_REVIEW)
         ->setLabel(pht('Review Actions')),
-      id(new PhabricatorEditEngineCommentActionGroup())
+      id(new PhorgeEditEngineCommentActionGroup())
         ->setKey(self::ACTIONGROUP_REVISION)
         ->setLabel(pht('Revision Actions')),
     );
@@ -114,7 +114,7 @@ final class DifferentialRevisionEditEngine
   protected function buildCustomEditFields($object) {
     $viewer = $this->getViewer();
 
-    $plan_required = PhabricatorEnv::getEnvConfig(
+    $plan_required = PhorgeEnv::getEnvConfig(
       'differential.require-test-plan-field');
     $plan_enabled = $this->isCustomFieldEnabled(
       $object,
@@ -132,7 +132,7 @@ final class DifferentialRevisionEditEngine
 
     $fields = array();
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey(DifferentialRevisionUpdateTransaction::EDITKEY)
       ->setLabel(pht('Update Diff'))
       ->setDescription(pht('New diff to create or update the revision with.'))
@@ -149,23 +149,23 @@ final class DifferentialRevisionEditEngine
       ->setIsLockable(false);
 
     if ($is_update) {
-      $fields[] = id(new PhabricatorInstructionsEditField())
+      $fields[] = id(new PhorgeInstructionsEditField())
         ->setKey('update.help')
         ->setValue(pht('Describe the updates you have made to the diff.'));
-      $fields[] = id(new PhabricatorCommentEditField())
+      $fields[] = id(new PhorgeCommentEditField())
         ->setKey('update.comment')
         ->setLabel(pht('Comment'))
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->setIsWebOnly(true)
         ->setDescription(pht('Comments providing context for the update.'));
-      $fields[] = id(new PhabricatorSubmitEditField())
+      $fields[] = id(new PhorgeSubmitEditField())
         ->setKey('update.submit')
         ->setValue($this->getObjectEditButtonText($object));
-      $fields[] = id(new PhabricatorDividerEditField())
+      $fields[] = id(new PhorgeDividerEditField())
         ->setKey('update.note');
     }
 
-    $fields[] = id(new PhabricatorTextEditField())
+    $fields[] = id(new PhorgeTextEditField())
       ->setKey(DifferentialRevisionTitleTransaction::EDITKEY)
       ->setLabel(pht('Title'))
       ->setIsRequired(true)
@@ -176,10 +176,10 @@ final class DifferentialRevisionEditEngine
       ->setConduitTypeDescription(pht('New revision title.'))
       ->setValue($object->getTitle());
 
-    $author_field = id(new PhabricatorDatasourceEditField())
+    $author_field = id(new PhorgeDatasourceEditField())
       ->setKey(DifferentialRevisionAuthorTransaction::EDITKEY)
       ->setLabel(pht('Author'))
-      ->setDatasource(new PhabricatorPeopleDatasource())
+      ->setDatasource(new PhorgePeopleDatasource())
       ->setTransactionType(
         DifferentialRevisionAuthorTransaction::TRANSACTIONTYPE)
       ->setDescription(pht('Foist this revision upon someone else.'))
@@ -202,7 +202,7 @@ final class DifferentialRevisionEditEngine
 
     $fields[] = $author_field;
 
-    $fields[] = id(new PhabricatorRemarkupEditField())
+    $fields[] = id(new PhorgeRemarkupEditField())
       ->setKey(DifferentialRevisionSummaryTransaction::EDITKEY)
       ->setLabel(pht('Summary'))
       ->setTransactionType(
@@ -213,7 +213,7 @@ final class DifferentialRevisionEditEngine
       ->setValue($object->getSummary());
 
     if ($plan_enabled) {
-      $fields[] = id(new PhabricatorRemarkupEditField())
+      $fields[] = id(new PhorgeRemarkupEditField())
         ->setKey(DifferentialRevisionTestPlanTransaction::EDITKEY)
         ->setLabel(pht('Test Plan'))
         ->setIsRequired($plan_required)
@@ -226,7 +226,7 @@ final class DifferentialRevisionEditEngine
         ->setValue($object->getTestPlan());
     }
 
-    $fields[] = id(new PhabricatorDatasourceEditField())
+    $fields[] = id(new PhorgeDatasourceEditField())
       ->setKey(DifferentialRevisionReviewersTransaction::EDITKEY)
       ->setLabel(pht('Reviewers'))
       ->setDatasource(new DifferentialReviewerDatasource())
@@ -239,7 +239,7 @@ final class DifferentialRevisionEditEngine
       ->setConduitTypeDescription(pht('New reviewers.'))
       ->setValue($object->getReviewerPHIDsForEdit());
 
-    $fields[] = id(new PhabricatorDatasourceEditField())
+    $fields[] = id(new PhorgeDatasourceEditField())
       ->setKey('repositoryPHID')
       ->setLabel(pht('Repository'))
       ->setDatasource(new DiffusionRepositoryDatasource())
@@ -252,11 +252,11 @@ final class DifferentialRevisionEditEngine
 
     // This is a little flimsy, but allows "Maniphest Tasks: ..." to continue
     // working properly in commit messages until we fully sort out T5873.
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('tasks')
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
         DifferentialRevisionHasTaskEdgeType::EDGECONST)
@@ -265,11 +265,11 @@ final class DifferentialRevisionEditEngine
       ->setConduitTypeDescription(pht('List of tasks.'))
       ->setValue(array());
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('parents')
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
         DifferentialRevisionDependsOnRevisionEdgeType::EDGECONST)
@@ -278,11 +278,11 @@ final class DifferentialRevisionEditEngine
       ->setConduitTypeDescription(pht('List of revisions.'))
       ->setValue(array());
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('children')
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
         DifferentialRevisionDependedOnByRevisionEdgeType::EDGECONST)
@@ -298,7 +298,7 @@ final class DifferentialRevisionEditEngine
       $fields[] = $action->newEditField($object, $viewer);
     }
 
-    $fields[] = id(new PhabricatorBoolEditField())
+    $fields[] = id(new PhorgeBoolEditField())
       ->setKey('draft')
       ->setLabel(pht('Hold as Draft'))
       ->setIsFormField(false)
@@ -318,9 +318,9 @@ final class DifferentialRevisionEditEngine
   }
 
   private function isCustomFieldEnabled(DifferentialRevision $revision, $key) {
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $revision,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
 
     $fields = $field_list->getFields();
     return isset($fields[$key]);

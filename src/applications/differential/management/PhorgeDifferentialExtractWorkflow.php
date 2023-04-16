@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialExtractWorkflow
-  extends PhabricatorDifferentialManagementWorkflow {
+final class PhorgeDifferentialExtractWorkflow
+  extends PhorgeDifferentialManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -51,7 +51,7 @@ final class PhabricatorDifferentialExtractWorkflow
       ->setViewer($viewer)
       ->newDiffFromCommit($commit);
 
-    $uri = PhabricatorEnv::getProductionURI($diff->getURI());
+    $uri = PhorgeEnv::getProductionURI($diff->getURI());
 
     echo tsprintf(
       "%s\n\n    %s\n",

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileDataController extends PhabricatorFileController {
+final class PhorgeFileDataController extends PhorgeFileController {
 
   private $phid;
   private $key;
@@ -19,8 +19,8 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
     $this->phid = $request->getURIData('phid');
     $this->key = $request->getURIData('key');
 
-    $alt = PhabricatorEnv::getEnvConfig('security.alternate-file-domain');
-    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+    $alt = PhorgeEnv::getEnvConfig('security.alternate-file-domain');
+    $base_uri = PhorgeEnv::getEnvConfig('phorge.base-uri');
     $alt_uri = new PhutilURI($alt);
     $alt_domain = $alt_uri->getDomain();
     $req_domain = $request->getHost();
@@ -162,9 +162,9 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
     // sure we're consistent about returning HTTP 404 on bad requests instead
     // of serving HTTP 200 with a login page, which can mislead some clients.
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($this->phid))
       ->withIsDeleted(false)
@@ -176,7 +176,7 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
 
     // We may be on the CDN domain, so we need to use a fully-qualified URI
     // here to make sure we end up back on the main domain.
-    $info_uri = PhabricatorEnv::getURI($file->getInfoURI());
+    $info_uri = PhorgeEnv::getURI($file->getInfoURI());
 
 
     if (!$file->validateSecretKey($this->key)) {
@@ -228,7 +228,7 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
     return $this->file;
   }
 
-  private function shouldCompressFileDataResponse(PhabricatorFile $file) {
+  private function shouldCompressFileDataResponse(PhorgeFile $file) {
     // If the client sends "Accept-Encoding: gzip", we have the option of
     // compressing the response.
 

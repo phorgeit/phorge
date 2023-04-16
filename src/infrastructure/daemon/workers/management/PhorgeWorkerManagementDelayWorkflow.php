@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementDelayWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementDelayWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this

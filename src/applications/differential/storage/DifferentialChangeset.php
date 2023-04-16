@@ -3,9 +3,9 @@
 final class DifferentialChangeset
   extends DifferentialDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $diffID;
   protected $oldFile;
@@ -286,11 +286,11 @@ final class DifferentialChangeset
   }
 
   public function getAnchorName() {
-    return 'change-'.PhabricatorHash::digestForAnchor($this->getFilename());
+    return 'change-'.PhorgeHash::digestForAnchor($this->getFilename());
   }
 
   public function getAbsoluteRepositoryPath(
-    PhabricatorRepository $repository = null,
+    PhorgeRepository $repository = null,
     DifferentialDiff $diff = null) {
 
     $base = '/';
@@ -301,7 +301,7 @@ final class DifferentialChangeset
     $path = $this->getFilename();
     $path = rtrim($base, '/').'/'.ltrim($path, '/');
 
-    $svn = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
+    $svn = PhorgeRepositoryType::REPOSITORY_TYPE_SVN;
     if ($repository && $repository->getVersionControlSystem() == $svn) {
       $prefix = $repository->getDetail('remote-uri');
       $prefix = id(new PhutilURI($prefix))->getPath();
@@ -529,7 +529,7 @@ final class DifferentialChangeset
     return idx($metadata, 'old:binary-phid');
   }
 
-  public function attachNewFileObject(PhabricatorFile $file) {
+  public function attachNewFileObject(PhorgeFile $file) {
     $this->newFileObject = $file;
     return $this;
   }
@@ -538,7 +538,7 @@ final class DifferentialChangeset
     return $this->assertAttached($this->newFileObject);
   }
 
-  public function attachOldFileObject(PhabricatorFile $file) {
+  public function attachOldFileObject(PhorgeFile $file) {
     $this->oldFileObject = $file;
     return $this;
   }
@@ -578,7 +578,7 @@ final class DifferentialChangeset
       $file_name = $left->getFilename();
     }
 
-    $engine = new PhabricatorDifferenceEngine();
+    $engine = new PhorgeDifferenceEngine();
 
     $synthetic = $engine->generateChangesetFromFileContent(
       $left_data,
@@ -699,12 +699,12 @@ final class DifferentialChangeset
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -712,16 +712,16 @@ final class DifferentialChangeset
     return $this->getDiff()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getDiff()->hasAutomaticCapability($capability, $viewer);
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->openTransaction();
 
       $hunks = id(new DifferentialHunk())->loadAllWhere(
@@ -736,11 +736,11 @@ final class DifferentialChangeset
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('diffPHID')
         ->setType('phid')
         ->setDescription(pht('The diff the changeset is attached to.')),

@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldWebhookRequestGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'herald.webhooks';
 

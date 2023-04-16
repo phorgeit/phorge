@@ -1,3 +1,3 @@
 <?php
 
-interface PhabricatorWorkboardInterface {}
+interface PhorgeWorkboardInterface {}

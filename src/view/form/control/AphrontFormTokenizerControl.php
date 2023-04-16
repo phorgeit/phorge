@@ -9,7 +9,7 @@ final class AphrontFormTokenizerControl extends AphrontFormControl {
   private $handles;
   private $initialValue;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }
@@ -140,7 +140,7 @@ final class AphrontFormTokenizerControl extends AphrontFormControl {
 
       $phids = array();
       foreach ($values as $value) {
-        if (!PhabricatorTypeaheadDatasource::isFunctionToken($value)) {
+        if (!PhorgeTypeaheadDatasource::isFunctionToken($value)) {
           $phids[] = $value;
         }
       }

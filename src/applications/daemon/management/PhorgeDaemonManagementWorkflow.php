@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDaemonManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeDaemonManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   private $runDaemonsAsUser = null;
 
@@ -13,7 +13,7 @@ abstract class PhabricatorDaemonManagementWorkflow
   }
 
   final protected function getLogDirectory() {
-    $path = PhabricatorEnv::getEnvConfig('phd.log-directory');
+    $path = PhorgeEnv::getEnvConfig('phd.log-directory');
     return $this->getControlDirectory($path);
   }
 
@@ -84,7 +84,7 @@ abstract class PhabricatorDaemonManagementWorkflow
 
     if (!$run_as_current_user) {
       // Check if the script is started as the correct user
-      $phd_user = PhabricatorEnv::getEnvConfig('phd.user');
+      $phd_user = PhorgeEnv::getEnvConfig('phd.user');
       $current_user = posix_getpwuid(posix_geteuid());
       $current_user = $current_user['name'];
       if ($phd_user && $phd_user != $current_user) {
@@ -311,21 +311,21 @@ abstract class PhabricatorDaemonManagementWorkflow
 
     $daemons = array(
       array(
-        'class' => 'PhabricatorRepositoryPullLocalDaemon',
+        'class' => 'PhorgeRepositoryPullLocalDaemon',
         'label' => 'pull',
       ),
       array(
-        'class' => 'PhabricatorTriggerDaemon',
+        'class' => 'PhorgeTriggerDaemon',
         'label' => 'trigger',
       ),
       array(
-        'class' => 'PhabricatorFactDaemon',
+        'class' => 'PhorgeFactDaemon',
         'label' => 'fact',
       ),
       array(
-        'class' => 'PhabricatorTaskmasterDaemon',
+        'class' => 'PhorgeTaskmasterDaemon',
         'label' => 'task',
-        'pool' => PhabricatorEnv::getEnvConfig('phd.taskmasters'),
+        'pool' => PhorgeEnv::getEnvConfig('phd.taskmasters'),
         'reserve' => idx($options, 'reserve', 0),
       ),
     );
@@ -494,10 +494,10 @@ abstract class PhabricatorDaemonManagementWorkflow
     }
 
     if ($wait) {
-      $start = PhabricatorTime::getNow();
+      $start = PhorgeTime::getNow();
       do {
         foreach ($pids as $key => $pid) {
-          if (!PhabricatorDaemonReference::isProcessRunning($pid)) {
+          if (!PhorgeDaemonReference::isProcessRunning($pid)) {
             $console->writeOut(pht('Process %d exited.', $pid)."\n");
             unset($pids[$key]);
           }
@@ -506,14 +506,14 @@ abstract class PhabricatorDaemonManagementWorkflow
           break;
         }
         usleep(100000);
-      } while (PhabricatorTime::getNow() < $start + $wait);
+      } while (PhorgeTime::getNow() < $start + $wait);
     }
 
     return $pids;
   }
 
   private function freeActiveLeases() {
-    $task_table = id(new PhabricatorWorkerActiveTask());
+    $task_table = id(new PhorgeWorkerActiveTask());
     $conn_w = $task_table->establishConnection('w');
     queryfx(
       $conn_w,
@@ -595,7 +595,7 @@ abstract class PhabricatorDaemonManagementWorkflow
     $query = id(new PhutilProcessQuery())
       ->withIsOverseer(true);
 
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if ($instance !== null) {
       $query->withInstances(array($instance));
     }
@@ -604,7 +604,7 @@ abstract class PhabricatorDaemonManagementWorkflow
   }
 
   protected function getInstance() {
-    return PhabricatorEnv::getEnvConfig('cluster.instance');
+    return PhorgeEnv::getEnvConfig('cluster.instance');
   }
 
 

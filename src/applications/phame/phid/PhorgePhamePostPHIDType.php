@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhamePostPHIDType extends PhabricatorPHIDType {
+final class PhorgePhamePostPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'POST';
 
@@ -13,11 +13,11 @@ final class PhabricatorPhamePostPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhamePostQuery())
@@ -25,7 +25,7 @@ final class PhabricatorPhamePostPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -36,7 +36,7 @@ final class PhabricatorPhamePostPHIDType extends PhabricatorPHIDType {
       $handle->setURI('/J'.$post->getID());
 
       if ($post->isArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
 
     }

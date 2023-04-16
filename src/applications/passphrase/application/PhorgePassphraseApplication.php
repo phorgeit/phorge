@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPassphraseApplication extends PhabricatorApplication {
+final class PhorgePassphraseApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Passphrase');
@@ -71,13 +71,13 @@ final class PhabricatorPassphraseApplication extends PhabricatorApplication {
       PassphraseDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created credentials.'),
         'template' => PassphraseCredentialPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
         'default' => $policy_key,
       ),
       PassphraseDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created credentials.'),
         'template' => PassphraseCredentialPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
         'default' => $policy_key,
       ),
     );

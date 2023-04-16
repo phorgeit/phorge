@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchThreeStateField
-  extends PhabricatorSearchField {
+final class PhorgeSearchThreeStateField
+  extends PhorgeSearchField {
 
   private $options;
 

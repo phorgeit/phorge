@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportICSController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarExportICSController
+  extends PhorgeCalendarController {
 
   public function shouldRequireLogin() {
     // Export URIs are available if you know the secret key. We can't do any
@@ -11,12 +11,12 @@ final class PhabricatorCalendarExportICSController
   }
 
   public function handleRequest(AphrontRequest $request) {
-    $omnipotent = PhabricatorUser::getOmnipotentUser();
+    $omnipotent = PhorgeUser::getOmnipotentUser();
 
     // NOTE: We're using the omnipotent viewer to fetch the export, but the
     // URI must contain the secret key. Once we load the export we'll figure
     // out who the effective viewer is.
-    $export = id(new PhabricatorCalendarExportQuery())
+    $export = id(new PhorgeCalendarExportQuery())
       ->setViewer($omnipotent)
       ->withSecretKeys(array($request->getURIData('secretKey')))
       ->executeOne();
@@ -28,7 +28,7 @@ final class PhabricatorCalendarExportICSController
       return new Aphront404Response();
     }
 
-    $author = id(new PhabricatorPeopleQuery())
+    $author = id(new PhorgePeopleQuery())
       ->setViewer($omnipotent)
       ->withPHIDs(array($export->getAuthorPHID()))
       ->needUserSettings(true)
@@ -39,10 +39,10 @@ final class PhabricatorCalendarExportICSController
 
     $mode = $export->getPolicyMode();
     switch ($mode) {
-      case PhabricatorCalendarExport::MODE_PUBLIC:
-        $viewer = new PhabricatorUser();
+      case PhorgeCalendarExport::MODE_PUBLIC:
+        $viewer = new PhorgeUser();
         break;
-      case PhabricatorCalendarExport::MODE_PRIVILEGED:
+      case PhorgeCalendarExport::MODE_PRIVILEGED:
         $viewer = $author;
         break;
       default:
@@ -52,11 +52,11 @@ final class PhabricatorCalendarExportICSController
             $mode));
     }
 
-    $engine = id(new PhabricatorCalendarEventSearchEngine())
+    $engine = id(new PhorgeCalendarEventSearchEngine())
       ->setViewer($viewer);
 
     $query_key = $export->getQueryKey();
-    $saved = id(new PhabricatorSavedQueryQuery())
+    $saved = id(new PhorgeSavedQueryQuery())
       ->setViewer($omnipotent)
       ->withEngineClassNames(array(get_class($engine)))
       ->withQueryKeys(array($query_key))

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProfileMenuItemIndexEngineExtension
-  extends PhabricatorEdgeIndexEngineExtension {
+final class PhorgeProfileMenuItemIndexEngineExtension
+  extends PhorgeEdgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'profile.menu.item';
 
@@ -10,7 +10,7 @@ final class PhabricatorProfileMenuItemIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    if (!($object instanceof PhabricatorProfileMenuItemConfiguration)) {
+    if (!($object instanceof PhorgeProfileMenuItemConfiguration)) {
       return false;
     }
 
@@ -18,7 +18,7 @@ final class PhabricatorProfileMenuItemIndexEngineExtension
   }
 
   protected function getIndexEdgeType() {
-    return PhabricatorProfileMenuItemAffectsObjectEdgeType::EDGECONST;
+    return PhorgeProfileMenuItemAffectsObjectEdgeType::EDGECONST;
   }
 
   protected function getIndexDestinationPHIDs($object) {

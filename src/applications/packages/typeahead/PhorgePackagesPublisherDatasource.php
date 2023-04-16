@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgePackagesPublisherDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Package Publishers');
@@ -12,19 +12,19 @@ final class PhabricatorPackagesPublisherDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
     $raw_query = $this->getRawQuery();
 
-    $publisher_query = id(new PhabricatorPackagesPublisherQuery());
+    $publisher_query = id(new PhorgePackagesPublisherQuery());
     $publishers = $this->executeQuery($publisher_query);
 
     $results = array();
     foreach ($publishers as $publisher) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($publisher->getName())
         ->setPHID($publisher->getPHID());
     }

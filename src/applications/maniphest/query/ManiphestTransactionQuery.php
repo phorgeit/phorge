@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new ManiphestTransaction();

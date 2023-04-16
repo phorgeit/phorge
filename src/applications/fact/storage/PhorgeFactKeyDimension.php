@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactKeyDimension
-  extends PhabricatorFactDimension {
+final class PhorgeFactKeyDimension
+  extends PhorgeFactDimension {
 
   protected $factKey;
 

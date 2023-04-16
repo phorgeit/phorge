@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class HeraldSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildRawSchema(

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorOAuthServerClient
-  extends PhabricatorOAuthServerDAO
+final class PhorgeOAuthServerClient
+  extends PhorgeOAuthServerDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface {
 
   protected $secret;
   protected $name;
@@ -26,11 +26,11 @@ final class PhabricatorOAuthServerClient
     return "/oauthserver/client/view/{$id}/";
   }
 
-  public static function initializeNewClient(PhabricatorUser $actor) {
-    return id(new PhabricatorOAuthServerClient())
+  public static function initializeNewClient(PhorgeUser $actor) {
+    return id(new PhorgeOAuthServerClient())
       ->setCreatorPHID($actor->getPHID())
       ->setSecret(Filesystem::readRandomCharacters(32))
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
       ->setEditPolicy($actor->getPHID())
       ->setIsDisabled(0)
       ->setIsTrusted(0);
@@ -55,8 +55,8 @@ final class PhabricatorOAuthServerClient
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorOAuthServerClientPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeOAuthServerClientPHIDType::TYPECONST);
   }
 
   public function getURI() {
@@ -66,64 +66,64 @@ final class PhabricatorOAuthServerClient
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorOAuthServerEditor();
+    return new PhorgeOAuthServerEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorOAuthServerTransaction();
+    return new PhorgeOAuthServerTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
 
-      $authorizations = id(new PhabricatorOAuthClientAuthorization())
+      $authorizations = id(new PhorgeOAuthClientAuthorization())
         ->loadAllWhere('clientPHID = %s', $this->getPHID());
       foreach ($authorizations as $authorization) {
         $authorization->delete();
       }
 
-      $tokens = id(new PhabricatorOAuthServerAccessToken())
+      $tokens = id(new PhorgeOAuthServerAccessToken())
         ->loadAllWhere('clientPHID = %s', $this->getPHID());
       foreach ($tokens as $token) {
         $token->delete();
       }
 
-      $codes = id(new PhabricatorOAuthServerAuthorizationCode())
+      $codes = id(new PhorgeOAuthServerAuthorizationCode())
         ->loadAllWhere('clientPHID = %s', $this->getPHID());
       foreach ($codes as $code) {
         $code->delete();

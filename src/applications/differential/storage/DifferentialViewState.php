@@ -2,7 +2,7 @@
 
 final class DifferentialViewState
   extends DifferentialDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $viewerPHID;
   protected $objectPHID;
@@ -41,7 +41,7 @@ final class DifferentialViewState
 
     $properties = array(
       'value' => $value,
-      'epoch' => PhabricatorTime::getNow(),
+      'epoch' => PhorgeTime::getNow(),
     );
 
     $diff_id = $changeset->getDiffID();
@@ -101,7 +101,7 @@ final class DifferentialViewState
 
   private function getChangesetPathHash(DifferentialChangeset $changeset) {
     $path = $changeset->getFilename();
-    return PhabricatorHash::digestForIndex($path);
+    return PhorgeHash::digestForIndex($path);
   }
 
   private function getChangesetKey(DifferentialChangeset $changeset) {
@@ -130,20 +130,20 @@ final class DifferentialViewState
       $src_phid);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() === $this->getViewerPHID());
   }
 

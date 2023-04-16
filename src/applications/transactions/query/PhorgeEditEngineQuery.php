@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeEditEngineQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $engineKeys;
 
@@ -11,7 +11,7 @@ final class PhabricatorEditEngineQuery
   }
 
   protected function loadPage() {
-    $engines = PhabricatorEditEngine::getAllEditEngines();
+    $engines = PhorgeEditEngine::getAllEditEngines();
 
     if ($this->engineKeys !== null) {
       $engines = array_select_keys($engines, $this->engineKeys);
@@ -29,7 +29,7 @@ final class PhabricatorEditEngineQuery
         continue;
       }
 
-      $can_see = PhabricatorApplication::isClassInstalledForViewer(
+      $can_see = PhorgeApplication::isClassInstalledForViewer(
         $app_class,
         $viewer);
       if (!$can_see) {
@@ -43,7 +43,7 @@ final class PhabricatorEditEngineQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
 }

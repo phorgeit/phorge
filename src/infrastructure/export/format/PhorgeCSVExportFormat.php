@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCSVExportFormat
-  extends PhabricatorExportFormat {
+final class PhorgeCSVExportFormat
+  extends PhorgeExportFormat {
 
   const EXPORTKEY = 'csv';
 

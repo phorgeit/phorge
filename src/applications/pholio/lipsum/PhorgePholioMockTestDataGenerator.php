@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPholioMockTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgePholioMockTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'mocks';
 
@@ -10,8 +10,8 @@ final class PhabricatorPholioMockTestDataGenerator
   }
 
   public function generateObject() {
-    $author_phid = $this->loadPhabricatorUserPHID();
-    $author = id(new PhabricatorUser())
+    $author_phid = $this->loadPhorgeUserPHID();
+    $author = id(new PhorgeUser())
           ->loadOneWhere('phid = %s', $author_phid);
     $mock = PholioMock::initializeNewMock($author);
 
@@ -26,14 +26,14 @@ final class PhabricatorPholioMockTestDataGenerator
       $this->generateTitle();
     $changes[PholioMockDescriptionTransaction::TRANSACTIONTYPE] =
       $this->generateDescription();
-    $changes[PhabricatorTransactions::TYPE_VIEW_POLICY] =
-      PhabricatorPolicies::POLICY_PUBLIC;
-    $changes[PhabricatorTransactions::TYPE_SUBSCRIBERS] =
+    $changes[PhorgeTransactions::TYPE_VIEW_POLICY] =
+      PhorgePolicies::POLICY_PUBLIC;
+    $changes[PhorgeTransactions::TYPE_SUBSCRIBERS] =
       array('=' => $this->getCCPHIDs());
 
     // Get Files and make Images
     $file_phids = $this->generateImages();
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setViewer($author)
       ->withPHIDs($file_phids)
       ->execute();
@@ -86,13 +86,13 @@ final class PhabricatorPholioMockTestDataGenerator
   public function getCCPHIDs() {
     $ccs = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $ccs[] = $this->loadPhabricatorUserPHID();
+      $ccs[] = $this->loadPhorgeUserPHID();
     }
     return $ccs;
   }
 
   public function generateImages() {
-    $images = newv('PhabricatorFile', array())
+    $images = newv('PhorgeFile', array())
       ->loadAllWhere('mimeType = %s', 'image/jpeg');
     $rand_images = array();
     $quantity = rand(2, 10);
@@ -110,8 +110,8 @@ final class PhabricatorPholioMockTestDataGenerator
 
     // This means you don't have any JPEGs yet. We'll just use a built-in image.
     if (empty($rand_images)) {
-      $default = PhabricatorFile::loadBuiltin(
-        PhabricatorUser::getOmnipotentUser(),
+      $default = PhorgeFile::loadBuiltin(
+        PhorgeUser::getOmnipotentUser(),
         'profile.png');
       $rand_images[] = $default->getPHID();
     }

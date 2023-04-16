@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHelpDocumentationController
-  extends PhabricatorHelpController {
+final class PhorgeHelpDocumentationController
+  extends PhorgeHelpController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorHelpDocumentationController
     $viewer = $this->getViewer();
 
     $application_class = $request->getURIData('application');
-    $application = id(new PhabricatorApplicationQuery())
+    $application = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application_class))
       ->executeOne();

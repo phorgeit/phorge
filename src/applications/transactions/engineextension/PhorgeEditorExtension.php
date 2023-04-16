@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditorExtension
+abstract class PhorgeEditorExtension
   extends Phobject {
 
   private $viewer;
@@ -12,7 +12,7 @@ abstract class PhabricatorEditorExtension
   }
 
   final public function setEditor(
-    PhabricatorApplicationTransactionEditor $editor) {
+    PhorgeApplicationTransactionEditor $editor) {
     $this->editor = $editor;
     return $this;
   }
@@ -21,7 +21,7 @@ abstract class PhabricatorEditorExtension
     return $this->editor;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -31,7 +31,7 @@ abstract class PhabricatorEditorExtension
   }
 
   final public function setObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -46,8 +46,8 @@ abstract class PhabricatorEditorExtension
   abstract public function getExtensionName();
 
   public function supportsObject(
-    PhabricatorApplicationTransactionEditor $editor,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionInterface $object) {
     return true;
   }
 
@@ -56,10 +56,10 @@ abstract class PhabricatorEditorExtension
   }
 
   final protected function newTransactionError(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $title,
     $message) {
-    return new PhabricatorApplicationTransactionValidationError(
+    return new PhorgeApplicationTransactionValidationError(
       $xaction->getTransactionType(),
       $title,
       $message,
@@ -67,14 +67,14 @@ abstract class PhabricatorEditorExtension
   }
 
   final protected function newRequiredTransasctionError(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $message) {
     return $this->newError($xaction, pht('Required'), $message)
       ->setIsMissingFieldError(true);
   }
 
   final protected function newInvalidTransactionError(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $message) {
     return $this->newTransactionError($xaction, pht('Invalid'), $message);
   }

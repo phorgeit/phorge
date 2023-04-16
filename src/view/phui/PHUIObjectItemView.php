@@ -250,7 +250,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   public function addHandleIcon(
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $label = null) {
     $this->handleIcons[] = array(
       'icon' => $handle,
@@ -882,7 +882,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
 
-  private function renderHandleIcon(PhabricatorObjectHandle $handle, $label) {
+  private function renderHandleIcon(PhorgeObjectHandle $handle, $label) {
     Javelin::initBehavior('phorge-tooltips');
 
     $options = array(

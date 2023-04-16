@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAsanaAuthProvider
-  extends PhabricatorOAuth2AuthProvider
+final class PhorgeAsanaAuthProvider
+  extends PhorgeOAuth2AuthProvider
   implements DoorkeeperRemarkupURIInterface {
 
   public function getProviderName() {
@@ -9,8 +9,8 @@ final class PhabricatorAsanaAuthProvider
   }
 
   protected function getProviderConfigurationHelp() {
-    $app_uri = PhabricatorEnv::getProductionURI('/');
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $app_uri = PhorgeEnv::getProductionURI('/');
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure Asana OAuth, create a new application here:".
@@ -40,7 +40,7 @@ final class PhabricatorAsanaAuthProvider
     $providers = self::getAllEnabledProviders();
 
     foreach ($providers as $provider) {
-      if ($provider instanceof PhabricatorAsanaAuthProvider) {
+      if ($provider instanceof PhorgeAsanaAuthProvider) {
         return $provider;
       }
     }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
-  extends PhabricatorGarbageCollectorManagementWorkflow {
+final class PhorgeGarbageCollectorManagementCompactEdgesWorkflow
+  extends PhorgeGarbageCollectorManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -16,7 +16,7 @@ final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $tables = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransaction')
+      ->setAncestorClass('PhorgeApplicationTransaction')
       ->execute();
 
     foreach ($tables as $table) {
@@ -26,7 +26,7 @@ final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
     return 0;
   }
 
-  private function compactEdges(PhabricatorApplicationTransaction $table) {
+  private function compactEdges(PhorgeApplicationTransaction $table) {
     $conn = $table->establishConnection('w');
     $class = get_class($table);
 
@@ -44,7 +44,7 @@ final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
           AND id > %d
           AND (oldValue LIKE %> OR newValue LIKE %>)
           ORDER BY id ASC LIMIT 100',
-        PhabricatorTransactions::TYPE_EDGE,
+        PhorgeTransactions::TYPE_EDGE,
         $cursor,
         // We're looking for transactions with JSON objects in their value
         // fields: the new style transactions have JSON lists instead and
@@ -71,7 +71,7 @@ final class PhabricatorGarbageCollectorManagementCompactEdgesWorkflow
               $class));
         }
 
-        $record = PhabricatorEdgeChangeRecord::newFromTransaction($row);
+        $record = PhorgeEdgeChangeRecord::newFromTransaction($row);
 
         $old_data = $record->getModernOldEdgeTransactionData();
         $old_json = phutil_json_encode($old_data);

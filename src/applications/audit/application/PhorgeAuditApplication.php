@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuditApplication extends PhabricatorApplication {
+final class PhorgeAuditApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/diffusion/commit/';
@@ -24,9 +24,9 @@ final class PhabricatorAuditApplication extends PhabricatorApplication {
     return false;
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return parent::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      'PhorgeDiffusionApplication',
       $viewer);
   }
 

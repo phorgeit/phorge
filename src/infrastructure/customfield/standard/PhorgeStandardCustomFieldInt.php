@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldInt
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldInt
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'int';
@@ -41,15 +41,15 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
 
     return $request->getStr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
 
     if (strlen($value)) {
@@ -60,7 +60,7 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -72,7 +72,7 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -85,7 +85,7 @@ final class PhabricatorStandardCustomFieldInt
       $value = $xaction->getNewValue();
       if (strlen($value)) {
         if (!preg_match('/^-?\d+/', $value)) {
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Invalid'),
             pht('%s must be an integer.', $this->getFieldName()),
@@ -99,7 +99,7 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   public function getApplicationTransactionHasEffect(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -125,7 +125,7 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   protected function newExportFieldType() {
-    return new PhabricatorIntExportField();
+    return new PhorgeIntExportField();
   }
 
 }

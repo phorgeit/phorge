@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceQueueDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Queues');
@@ -12,7 +12,7 @@ final class NuanceQueueDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   public function loadResults() {
@@ -26,7 +26,7 @@ final class NuanceQueueDatasource
     $queues = $this->executeQuery($query);
 
     foreach ($queues as $queue) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($queue->getName())
         ->setURI('/nuance/queue/'.$queue->getID().'/')
         ->setPHID($queue->getPHID());

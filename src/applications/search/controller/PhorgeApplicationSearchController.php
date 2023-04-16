@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationSearchController
-  extends PhabricatorSearchBaseController {
+final class PhorgeApplicationSearchController
+  extends PhorgeSearchBaseController {
 
   private $searchEngine;
   private $navigation;
@@ -37,7 +37,7 @@ final class PhabricatorApplicationSearchController
   }
 
   public function setSearchEngine(
-    PhabricatorApplicationSearchEngine $search_engine) {
+    PhorgeApplicationSearchEngine $search_engine) {
     $this->searchEngine = $search_engine;
     return $this;
   }
@@ -153,7 +153,7 @@ final class PhabricatorApplicationSearchController
       $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
       $named_query = idx($engine->loadEnabledNamedQueries(), $query_key);
     } else if ($query_key) {
-      $saved_query = id(new PhabricatorSavedQueryQuery())
+      $saved_query = id(new PhorgeSavedQueryQuery())
         ->setViewer($user)
         ->withQueryKeys(array($query_key))
         ->executeOne();
@@ -240,7 +240,7 @@ final class PhabricatorApplicationSearchController
       $exec_errors = array();
 
       $box->setAnchor(
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName('R'));
 
       try {
@@ -274,12 +274,12 @@ final class PhabricatorApplicationSearchController
         } else {
           $list = $engine->renderResults($objects, $saved_query);
 
-          if (!($list instanceof PhabricatorApplicationSearchResultView)) {
+          if (!($list instanceof PhorgeApplicationSearchResultView)) {
             throw new Exception(
               pht(
                 'SearchEngines must render a "%s" object, but this engine '.
                 '(of class "%s") rendered something else ("%s").',
-                'PhabricatorApplicationSearchResultView',
+                'PhorgeApplicationSearchResultView',
                 get_class($engine),
                 phutil_describe_type($list)));
           }
@@ -346,15 +346,15 @@ final class PhabricatorApplicationSearchController
             $body[] = $pager_box;
           }
         }
-      } catch (PhabricatorTypeaheadInvalidTokenException $ex) {
+      } catch (PhorgeTypeaheadInvalidTokenException $ex) {
         $exec_errors[] = pht(
           'This query specifies an invalid parameter. Review the '.
           'query parameters and correct errors.');
       } catch (PhutilSearchQueryCompilerSyntaxException $ex) {
         $exec_errors[] = $ex->getMessage();
-      } catch (PhabricatorSearchConstraintException $ex) {
+      } catch (PhorgeSearchConstraintException $ex) {
         $exec_errors[] = $ex->getMessage();
-      } catch (PhabricatorInvalidQueryCursorException $ex) {
+      } catch (PhorgeInvalidQueryCursorException $ex) {
         $exec_errors[] = $ex->getMessage();
       }
 
@@ -409,7 +409,7 @@ final class PhabricatorApplicationSearchController
     if ($engine->isBuiltinQuery($query_key)) {
       $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
     } else if ($query_key) {
-      $saved_query = id(new PhabricatorSavedQueryQuery())
+      $saved_query = id(new PhorgeSavedQueryQuery())
         ->setViewer($viewer)
         ->withQueryKeys(array($query_key))
         ->executeOne();
@@ -433,9 +433,9 @@ final class PhabricatorApplicationSearchController
       $sheet_title = $engine->getResultTypeDescription();
     }
     $filename = phutil_utf8_strtolower($filename);
-    $filename = PhabricatorFile::normalizeFileName($filename);
+    $filename = PhorgeFile::normalizeFileName($filename);
 
-    $all_formats = PhabricatorExportFormat::getAllExportFormats();
+    $all_formats = PhorgeExportFormat::getAllExportFormats();
 
     $available_options = array();
     $unavailable_options = array();
@@ -503,7 +503,7 @@ final class PhabricatorApplicationSearchController
       if (!$errors) {
         $this->writeExportFormatPreference($format_key);
 
-        $export_engine = id(new PhabricatorExportEngine())
+        $export_engine = id(new PhorgeExportEngine())
           ->setViewer($viewer)
           ->setSearchEngine($engine)
           ->setSavedQuery($saved_query)
@@ -771,7 +771,7 @@ final class PhabricatorApplicationSearchController
   }
 
   private function renderNewUserView(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     $force_nux) {
 
     // Don't render NUX if the user has clicked away from the default page.
@@ -801,7 +801,7 @@ final class PhabricatorApplicationSearchController
     // use so we just render the normal view.
     if (!$force_nux) {
       $object = $query
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->setLimit(1)
         ->setReturnPartialResultsOnOverheat(true)
         ->execute();
@@ -814,12 +814,12 @@ final class PhabricatorApplicationSearchController
   }
 
   private function newUseResultsDropdown(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $dropdown_items) {
 
     $viewer = $this->getViewer();
 
-    $action_list = id(new PhabricatorActionListView())
+    $action_list = id(new PhorgeActionListView())
       ->setViewer($viewer);
     foreach ($dropdown_items as $dropdown_item) {
       $action_list->addAction($dropdown_item);
@@ -890,7 +890,7 @@ final class PhabricatorApplicationSearchController
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
-    $is_dev = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+    $is_dev = PhorgeEnv::getEnvConfig('phorge.developer-mode');
 
     $engine = $this->getSearchEngine();
     $engine_class = get_class($engine);
@@ -898,12 +898,12 @@ final class PhabricatorApplicationSearchController
     $query_key = $this->getActiveQuery()->getQueryKey();
 
     $can_use = $engine->canUseInPanelContext();
-    $is_installed = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDashboardApplication',
+    $is_installed = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDashboardApplication',
       $viewer);
 
     if ($can_use && $is_installed) {
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-dashboard')
         ->setName(pht('Add to Dashboard'))
         ->setWorkflow(true)
@@ -912,7 +912,7 @@ final class PhabricatorApplicationSearchController
 
     if ($this->canExport()) {
       $export_uri = $engine->getExportURI($query_key);
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-download')
         ->setName(pht('Export Data'))
         ->setWorkflow(true)
@@ -925,7 +925,7 @@ final class PhabricatorApplicationSearchController
       $nux_uri = id(new PhutilURI($nux_uri))
         ->replaceQueryParam('nux', true);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-user-plus')
         ->setName(pht('DEV: New User State'))
         ->setHref($nux_uri);
@@ -935,7 +935,7 @@ final class PhabricatorApplicationSearchController
       $overheated_uri = $this->getRequest()->getRequestURI()
         ->replaceQueryParam('overheated', true);
 
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setIcon('fa-fire')
         ->setName(pht('DEV: Overheated State'))
         ->setHref($overheated_uri);
@@ -964,7 +964,7 @@ final class PhabricatorApplicationSearchController
 
   private function readExportFormatPreference() {
     $viewer = $this->getViewer();
-    $export_key = PhabricatorExportFormatSetting::SETTINGKEY;
+    $export_key = PhorgeExportFormatSetting::SETTINGKEY;
     $value = $viewer->getUserSetting($export_key);
 
     if (is_string($value)) {
@@ -982,10 +982,10 @@ final class PhabricatorApplicationSearchController
       return;
     }
 
-    $export_key = PhabricatorExportFormatSetting::SETTINGKEY;
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+    $export_key = PhorgeExportFormatSetting::SETTINGKEY;
+    $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnNoEffect(true)
@@ -1006,13 +1006,13 @@ final class PhabricatorApplicationSearchController
 
     // For now, the object can only be a dashboard panel, so just use a panel
     // query explicitly.
-    $object = id(new PhabricatorDashboardPanelQuery())
+    $object = id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$object) {
@@ -1023,7 +1023,7 @@ final class PhabricatorApplicationSearchController
 
     // Likewise, the context object can only be a dashboard.
     if (strlen($context_phid)) {
-      $context = id(new PhabricatorDashboardQuery())
+      $context = id(new PhorgeDashboardQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($context_phid))
         ->executeOne();
@@ -1045,7 +1045,7 @@ final class PhabricatorApplicationSearchController
       if ($engine->isBuiltinQuery($query_key)) {
         $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
       } else if ($query_key) {
-        $saved_query = id(new PhabricatorSavedQueryQuery())
+        $saved_query = id(new PhorgeSavedQueryQuery())
           ->setViewer($viewer)
           ->withQueryKeys(array($query_key))
           ->executeOne();
@@ -1075,7 +1075,7 @@ final class PhabricatorApplicationSearchController
         // we can hard-code how the edit works.
         $xactions[] = $object->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE)
+            PhorgeDashboardQueryPanelQueryTransaction::TRANSACTIONTYPE)
           ->setNewValue($query_key);
 
         $editor = $object->getApplicationTransactionEditor()

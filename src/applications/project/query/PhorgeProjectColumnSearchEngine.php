@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectColumnSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeProjectColumnSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Workboard Columns');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,12 +16,12 @@ final class PhabricatorProjectColumnSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorProjectColumnQuery();
+    return new PhorgeProjectColumnQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Projects'))
         ->setKey('projectPHIDs')
         ->setConduitKey('projects')
@@ -67,9 +67,9 @@ final class PhabricatorProjectColumnSearchEngine
 
   protected function renderResultList(
     array $projects,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($projects, 'PhabricatorProjectColumn');
+    assert_instances_of($projects, 'PhorgeProjectColumn');
     $viewer = $this->requireViewer();
 
     return null;

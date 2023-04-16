@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorInlineCommentAdjustmentEngine
+final class PhorgeInlineCommentAdjustmentEngine
   extends Phobject {
 
   private $viewer;
@@ -9,7 +9,7 @@ final class PhabricatorInlineCommentAdjustmentEngine
   private $oldChangesets;
   private $newChangesets;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -65,8 +65,8 @@ final class PhabricatorInlineCommentAdjustmentEngine
     $new = $this->getNewChangesets();
 
     $no_ghosts = $viewer->compareUserSetting(
-      PhabricatorOlderInlinesSetting::SETTINGKEY,
-      PhabricatorOlderInlinesSetting::VALUE_GHOST_INLINES_DISABLED);
+      PhorgeOlderInlinesSetting::SETTINGKEY,
+      PhorgeOlderInlinesSetting::VALUE_GHOST_INLINES_DISABLED);
     if ($no_ghosts) {
       return $inlines;
     }

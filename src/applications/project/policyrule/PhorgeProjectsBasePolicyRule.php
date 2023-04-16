@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorProjectsBasePolicyRule
-  extends PhabricatorPolicyRule {
+abstract class PhorgeProjectsBasePolicyRule
+  extends PhorgePolicyRule {
 
   private $memberships = array();
 
@@ -10,7 +10,7 @@ abstract class PhabricatorProjectsBasePolicyRule
   }
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
 
@@ -19,8 +19,8 @@ abstract class PhabricatorProjectsBasePolicyRule
       return;
     }
 
-    $projects = id(new PhabricatorProjectQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $projects = id(new PhorgeProjectQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withMemberPHIDs(array($viewer->getPHID()))
       ->withPHIDs($values)
       ->execute();
@@ -34,7 +34,7 @@ abstract class PhabricatorProjectsBasePolicyRule
   }
 
   public function getValueControlTemplate() {
-    $datasource = id(new PhabricatorProjectDatasource())
+    $datasource = id(new PhorgeProjectDatasource())
       ->setParameters(
         array(
           'policy' => 1,
@@ -48,8 +48,8 @@ abstract class PhabricatorProjectsBasePolicyRule
     return array_values($value);
   }
 
-  public function getValueForDisplay(PhabricatorUser $viewer, $value) {
-    $handles = id(new PhabricatorHandleQuery())
+  public function getValueForDisplay(PhorgeUser $viewer, $value) {
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($value)
       ->execute();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectListView extends AphrontView {
+final class PhorgeProjectListView extends AphrontView {
 
   private $projects;
   private $showMember;
@@ -68,7 +68,7 @@ final class PhabricatorProjectListView extends AphrontView {
             $icon_name,
           ));
 
-      if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ARCHIVED) {
+      if ($project->getStatus() == PhorgeProjectStatus::STATUS_ARCHIVED) {
         $item->addIcon('fa-ban', pht('Archived'));
         $item->setDisabled(true);
       }

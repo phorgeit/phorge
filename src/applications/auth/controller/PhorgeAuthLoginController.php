@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthLoginController
-  extends PhabricatorAuthController {
+final class PhorgeAuthLoginController
+  extends PhorgeAuthController {
 
   private $providerKey;
   private $extraURIData;
@@ -127,7 +127,7 @@ final class PhabricatorAuthLoginController
         // accounts from a single provider; disallowing this is currently a
         // product deciison. See T2549.
 
-        $existing_accounts = id(new PhabricatorExternalAccountQuery())
+        $existing_accounts = id(new PhorgeExternalAccountQuery())
           ->setViewer($viewer)
           ->withUserPHIDs(array($viewer->getPHID()))
           ->withProviderConfigPHIDs(
@@ -164,8 +164,8 @@ final class PhabricatorAuthLoginController
     return new Aphront400Response();
   }
 
-  private function processLoginUser(PhabricatorExternalAccount $account) {
-    $user = id(new PhabricatorUser())->loadOneWhere(
+  private function processLoginUser(PhorgeExternalAccount $account) {
+    $user = id(new PhorgeUser())->loadOneWhere(
       'phid = %s',
       $account->getUserPHID());
 
@@ -180,20 +180,20 @@ final class PhabricatorAuthLoginController
     return $this->loginUser($user);
   }
 
-  private function processRegisterUser(PhabricatorExternalAccount $account) {
+  private function processRegisterUser(PhorgeExternalAccount $account) {
     $account_secret = $account->getAccountSecret();
     $register_uri = $this->getApplicationURI('register/'.$account_secret.'/');
     return $this->setAccountKeyAndContinue($account, $register_uri);
   }
 
-  private function processLinkUser(PhabricatorExternalAccount $account) {
+  private function processLinkUser(PhorgeExternalAccount $account) {
     $account_secret = $account->getAccountSecret();
     $confirm_uri = $this->getApplicationURI('confirmlink/'.$account_secret.'/');
     return $this->setAccountKeyAndContinue($account, $confirm_uri);
   }
 
   private function setAccountKeyAndContinue(
-    PhabricatorExternalAccount $account,
+    PhorgeExternalAccount $account,
     $next_uri) {
 
     if ($account->getUserPHID()) {
@@ -202,27 +202,27 @@ final class PhabricatorAuthLoginController
 
     // Regenerate the registration secret key, set it on the external account,
     // set a cookie on the user's machine, and redirect them to registration.
-    // See PhabricatorAuthRegisterController for discussion of the registration
+    // See PhorgeAuthRegisterController for discussion of the registration
     // key.
 
     $registration_key = Filesystem::readRandomCharacters(32);
     $account->setProperty(
       'registrationKey',
-      PhabricatorHash::weakDigest($registration_key));
+      PhorgeHash::weakDigest($registration_key));
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
       $account->save();
     unset($unguarded);
 
     $this->getRequest()->setTemporaryCookie(
-      PhabricatorCookies::COOKIE_REGISTRATION,
+      PhorgeCookies::COOKIE_REGISTRATION,
       $registration_key);
 
     return id(new AphrontRedirectResponse())->setURI($next_uri);
   }
 
   private function loadProvider() {
-    $provider = PhabricatorAuthProvider::getEnabledProviderByKey(
+    $provider = PhorgeAuthProvider::getEnabledProviderByKey(
       $this->providerKey);
 
     if (!$provider) {
@@ -246,7 +246,7 @@ final class PhabricatorAuthLoginController
   }
 
   public function buildProviderPageResponse(
-    PhabricatorAuthProvider $provider,
+    PhorgeAuthProvider $provider,
     $content) {
 
     $crumbs = $this->buildApplicationCrumbs();
@@ -273,7 +273,7 @@ final class PhabricatorAuthLoginController
   }
 
   public function buildProviderErrorResponse(
-    PhabricatorAuthProvider $provider,
+    PhorgeAuthProvider $provider,
     $message) {
 
     $message = pht(

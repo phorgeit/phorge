@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryIdentityPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeRepositoryIdentityPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'RIDT';
 
@@ -10,23 +10,23 @@ final class PhabricatorRepositoryIdentityPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorRepositoryIdentity();
+    return new PhorgeRepositoryIdentity();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositoryIdentityQuery())
+    return id(new PhorgeRepositoryIdentityQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

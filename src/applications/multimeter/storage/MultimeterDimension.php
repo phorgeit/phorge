@@ -6,7 +6,7 @@ abstract class MultimeterDimension extends MultimeterDAO {
   protected $nameHash;
 
   public function setName($name) {
-    $this->nameHash = PhabricatorHash::digestForIndex($name);
+    $this->nameHash = PhorgeHash::digestForIndex($name);
     return parent::setName($name);
   }
 

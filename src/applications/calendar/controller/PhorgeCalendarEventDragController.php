@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorCalendarEventDragController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventDragController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$event) {
@@ -41,17 +41,17 @@ final class PhabricatorCalendarEventDragController
       $viewer,
       $end));
 
-    $xactions[] = id(new PhabricatorCalendarEventTransaction())
+    $xactions[] = id(new PhorgeCalendarEventTransaction())
       ->setTransactionType(
-        PhabricatorCalendarEventStartDateTransaction::TRANSACTIONTYPE)
+        PhorgeCalendarEventStartDateTransaction::TRANSACTIONTYPE)
       ->setNewValue($start_value);
 
-    $xactions[] = id(new PhabricatorCalendarEventTransaction())
+    $xactions[] = id(new PhorgeCalendarEventTransaction())
       ->setTransactionType(
-        PhabricatorCalendarEventEndDateTransaction::TRANSACTIONTYPE)
+        PhorgeCalendarEventEndDateTransaction::TRANSACTIONTYPE)
       ->setNewValue($end_value);
 
-    $editor = id(new PhabricatorCalendarEventEditor())
+    $editor = id(new PhorgeCalendarEventEditor())
       ->setActor($viewer)
       ->setContinueOnMissingFields(true)
       ->setContentSourceFromRequest($request)

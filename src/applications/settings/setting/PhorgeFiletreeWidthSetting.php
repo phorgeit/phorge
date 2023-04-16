@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFiletreeWidthSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeFiletreeWidthSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'filetree.width';
 

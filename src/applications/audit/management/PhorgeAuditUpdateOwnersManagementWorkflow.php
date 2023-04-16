@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuditUpdateOwnersManagementWorkflow
-  extends PhabricatorAuditManagementWorkflow {
+final class PhorgeAuditUpdateOwnersManagementWorkflow
+  extends PhorgeAuditManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -24,12 +24,12 @@ final class PhabricatorAuditUpdateOwnersManagementWorkflow
       foreach ($commits as $commit) {
         $repository = $commit->getRepository();
 
-        $affected_paths = PhabricatorOwnerPathQuery::loadAffectedPaths(
+        $affected_paths = PhorgeOwnerPathQuery::loadAffectedPaths(
           $repository,
           $commit,
           $viewer);
 
-        $affected_packages = PhabricatorOwnersPackage::loadAffectedPackages(
+        $affected_packages = PhorgeOwnersPackage::loadAffectedPackages(
           $repository,
           $affected_paths);
 

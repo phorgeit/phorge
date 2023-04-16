@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthSessionInfo extends Phobject {
+final class PhorgeAuthSessionInfo extends Phobject {
 
   private $sessionType;
   private $identityPHID;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhoneNumber
+final class PhorgePhoneNumber
   extends Phobject {
 
   private $number;

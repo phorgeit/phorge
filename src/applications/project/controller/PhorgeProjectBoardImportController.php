@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorProjectBoardImportController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardImportController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $project_id = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($project_id))
       ->executeOne();
@@ -27,7 +27,7 @@ final class PhabricatorProjectBoardImportController
     // See PHI1025. We only want to prevent the import if the board already has
     // real columns. If it has proxy columns (for example, for milestones) you
     // can still import columns from another board.
-    $columns = id(new PhabricatorProjectColumnQuery())
+    $columns = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withProjectPHIDs(array($project->getPHID()))
       ->withIsProxyColumn(false)
@@ -47,7 +47,7 @@ final class PhabricatorProjectBoardImportController
       $import_phid = $request->getArr('importProjectPHID');
       $import_phid = reset($import_phid);
 
-      $import_columns = id(new PhabricatorProjectColumnQuery())
+      $import_columns = id(new PhorgeProjectColumnQuery())
         ->setViewer($viewer)
         ->withProjectPHIDs(array($import_phid))
         ->withIsProxyColumn(false)
@@ -62,14 +62,14 @@ final class PhabricatorProjectBoardImportController
           ->addCancelButton($board_uri);
       }
 
-      $table = id(new PhabricatorProjectColumn())
+      $table = id(new PhorgeProjectColumn())
         ->openTransaction();
       foreach ($import_columns as $import_column) {
         if ($import_column->isHidden()) {
           continue;
         }
 
-        $new_column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+        $new_column = PhorgeProjectColumn::initializeNewColumn($viewer)
           ->setSequence($import_column->getSequence())
           ->setProjectPHID($project->getPHID())
           ->setName($import_column->getName())
@@ -77,12 +77,12 @@ final class PhabricatorProjectBoardImportController
           ->save();
       }
       $xactions = array();
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+            PhorgeProjectWorkboardTransaction::TRANSACTIONTYPE)
         ->setNewValue(1);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -97,7 +97,7 @@ final class PhabricatorProjectBoardImportController
     $proj_selector = id(new AphrontFormTokenizerControl())
       ->setName('importProjectPHID')
       ->setUser($viewer)
-      ->setDatasource(id(new PhabricatorProjectDatasource())
+      ->setDatasource(id(new PhorgeProjectDatasource())
         ->setParameters(array('mustHaveColumns' => true))
       ->setLimit(1));
 

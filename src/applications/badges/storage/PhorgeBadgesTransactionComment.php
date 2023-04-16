@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorBadgesTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+final class PhorgeBadgesTransactionComment
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorBadgesTransaction();
+    return new PhorgeBadgesTransaction();
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFerretFulltextStorageEngine
-  extends PhabricatorFulltextStorageEngine {
+final class PhorgeFerretFulltextStorageEngine
+  extends PhorgeFulltextStorageEngine {
 
   private $fulltextTokens = array();
   private $engineLimits;
@@ -11,11 +11,11 @@ final class PhabricatorFerretFulltextStorageEngine
   }
 
   public function getHostType() {
-    return new PhabricatorMySQLSearchHost($this);
+    return new PhorgeMySQLSearchHost($this);
   }
 
   public function reindexAbstractDocument(
-    PhabricatorSearchAbstractDocument $doc) {
+    PhorgeSearchAbstractDocument $doc) {
 
     // NOTE: The Ferret engine indexes are rebuilt by an extension rather than
     // by the main fulltext engine, and are always built regardless of
@@ -24,9 +24,9 @@ final class PhabricatorFerretFulltextStorageEngine
     return;
   }
 
-  public function executeSearch(PhabricatorSavedQuery $query) {
+  public function executeSearch(PhorgeSavedQuery $query) {
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass('PhorgeFerretInterface')
       ->execute();
 
     $type_map = array();
@@ -49,7 +49,7 @@ final class PhabricatorFerretFulltextStorageEngine
 
     // NOTE: For now, it's okay to query with the omnipotent viewer here
     // because we're just returning PHIDs which we'll filter later.
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $type_results = array();
     $metadata = array();
@@ -57,7 +57,7 @@ final class PhabricatorFerretFulltextStorageEngine
       $engine = $spec['engine'];
       $object = $spec['object'];
 
-      $local_query = new PhabricatorSavedQuery();
+      $local_query = new PhorgeSavedQuery();
       $local_query->setParameter('query', $query->getParameter('query'));
 
       $project_phids = $query->getParameter('projectPHIDs');

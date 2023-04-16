@@ -18,25 +18,25 @@ final class AlmanacServiceEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $errors = parent::validateAllTransactions($object, $xactions);
 
     if ($object->isClusterService()) {
-      $can_manage = PhabricatorPolicyFilter::hasCapability(
+      $can_manage = PhorgePolicyFilter::hasCapability(
         $this->getActor(),
-        new PhabricatorAlmanacApplication(),
+        new PhorgeAlmanacApplication(),
         AlmanacManageClusterServicesCapability::CAPABILITY);
       if (!$can_manage) {
-        $errors[] = new PhabricatorApplicationTransactionValidationError(
+        $errors[] = new PhorgeApplicationTransactionValidationError(
           null,
           pht('Restricted'),
           pht('You do not have permission to manage cluster services.'),

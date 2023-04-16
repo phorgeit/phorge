@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAjaxRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeAjaxRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 110000;

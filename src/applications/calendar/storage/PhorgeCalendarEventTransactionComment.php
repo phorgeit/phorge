@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarEventTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+final class PhorgeCalendarEventTransactionComment
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorCalendarEventTransaction();
+    return new PhorgeCalendarEventTransaction();
   }
 
 }

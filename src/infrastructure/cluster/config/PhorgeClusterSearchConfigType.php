@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorClusterSearchConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeClusterSearchConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'cluster.search';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     self::validateValue($value);
   }
 
   public static function validateValue($value) {
-    $engines = PhabricatorSearchService::loadAllFulltextStorageEngines();
+    $engines = PhorgeSearchService::loadAllFulltextStorageEngines();
 
     foreach ($value as $index => $spec) {
       if (!is_array($spec)) {

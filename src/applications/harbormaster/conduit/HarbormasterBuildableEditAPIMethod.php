@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildableEditAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'harbormaster.buildable.edit';

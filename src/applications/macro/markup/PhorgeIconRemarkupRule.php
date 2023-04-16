@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorIconRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeIconRemarkupRule extends PhutilRemarkupRule {
 
   public function getPriority() {
     return 200.0;

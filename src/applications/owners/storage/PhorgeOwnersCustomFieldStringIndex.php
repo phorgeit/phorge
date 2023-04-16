@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersCustomFieldStringIndex
-  extends PhabricatorCustomFieldStringIndexStorage {
+final class PhorgeOwnersCustomFieldStringIndex
+  extends PhorgeCustomFieldStringIndexStorage {
 
   public function getApplicationName() {
     return 'owners';

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarImportQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -29,7 +29,7 @@ final class PhabricatorCalendarImportQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorCalendarImport();
+    return new PhorgeCalendarImport();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -67,7 +67,7 @@ final class PhabricatorCalendarImportQuery
   }
 
   protected function willFilterPage(array $page) {
-    $engines = PhabricatorCalendarImportEngine::getAllImportEngines();
+    $engines = PhorgeCalendarImportEngine::getAllImportEngines();
     foreach ($page as $key => $import) {
       $engine_type = $import->getEngineType();
       $engine = idx($engines, $engine_type);
@@ -89,7 +89,7 @@ final class PhabricatorCalendarImportQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
 }

@@ -1,14 +1,14 @@
 <?php
 
 final class DrydockRepositoryOperationSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Drydock Repository Operations');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function newQuery() {
@@ -35,7 +35,7 @@ final class DrydockRepositoryOperationSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Repositories'))
         ->setKey('repositoryPHIDs')
         ->setAliases(array('repository', 'repositories', 'repositoryPHID'))
@@ -44,11 +44,11 @@ final class DrydockRepositoryOperationSearchEngine
       // NOTE: Repository operations aren't necessarily created by a real
       // user, but for now they normally are. Just use a user typeahead until
       // more use cases arise.
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors', 'authorPHID')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('States'))
         ->setKey('states')
         ->setAliases(array('state'))
@@ -80,7 +80,7 @@ final class DrydockRepositoryOperationSearchEngine
 
   protected function renderResultList(
     array $operations,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($operations, 'DrydockRepositoryOperation');
 
@@ -125,7 +125,7 @@ final class DrydockRepositoryOperationSearchEngine
       $view->addItem($item);
     }
 
-    $result = id(new PhabricatorApplicationSearchResultView())
+    $result = id(new PhorgeApplicationSearchResultView())
       ->setObjectList($view)
       ->setNoDataString(pht('No matching operations.'));
 

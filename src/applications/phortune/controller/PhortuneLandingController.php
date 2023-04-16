@@ -7,7 +7,7 @@ final class PhortuneLandingController extends PhortuneController {
 
     $accounts = PhortuneAccountQuery::loadAccountsForUser(
       $viewer,
-      PhabricatorContentSource::newFromRequest($request));
+      PhorgeContentSource::newFromRequest($request));
 
     if (count($accounts) == 1) {
       $account = head($accounts);

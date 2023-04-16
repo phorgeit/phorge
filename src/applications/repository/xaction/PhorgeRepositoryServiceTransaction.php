@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryServiceTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryServiceTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:service';
 

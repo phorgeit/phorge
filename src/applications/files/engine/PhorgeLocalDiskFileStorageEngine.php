@@ -6,8 +6,8 @@
  *
  * @task internal Internals
  */
-final class PhabricatorLocalDiskFileStorageEngine
-  extends PhabricatorFileStorageEngine {
+final class PhorgeLocalDiskFileStorageEngine
+  extends PhorgeFileStorageEngine {
 
 
 /* -(  Engine Metadata  )---------------------------------------------------- */
@@ -25,7 +25,7 @@ final class PhabricatorLocalDiskFileStorageEngine
   }
 
   public function canWriteFiles() {
-    $path = PhabricatorEnv::getEnvConfig('storage.local-disk.path');
+    $path = PhorgeEnv::getEnvConfig('storage.local-disk.path');
     $path = phutil_string_cast($path);
     return (bool)strlen($path);
   }
@@ -99,10 +99,10 @@ final class PhabricatorLocalDiskFileStorageEngine
    * @task internal
    */
   private function getLocalDiskFileStorageRoot() {
-    $root = PhabricatorEnv::getEnvConfig('storage.local-disk.path');
+    $root = PhorgeEnv::getEnvConfig('storage.local-disk.path');
 
     if (!$root || $root == '/' || $root[0] != '/') {
-      throw new PhabricatorFileStorageConfigurationException(
+      throw new PhorgeFileStorageConfigurationException(
         pht(
           "Malformed local disk storage root. You must provide an absolute ".
           "path, and can not use '%s' as the root.",

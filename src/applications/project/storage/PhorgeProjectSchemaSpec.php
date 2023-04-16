@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProjectSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class PhorgeProjectSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorProject());
+    $this->buildEdgeSchemata(new PhorgeProject());
 
     $this->buildRawSchema(
-      id(new PhabricatorProject())->getApplicationName(),
-      PhabricatorProject::TABLE_DATASOURCE_TOKEN,
+      id(new PhorgeProject())->getApplicationName(),
+      PhorgeProject::TABLE_DATASOURCE_TOKEN,
       array(
         'id' => 'auto',
         'projectID' => 'id',

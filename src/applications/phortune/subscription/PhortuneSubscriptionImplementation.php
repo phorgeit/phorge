@@ -3,7 +3,7 @@
 abstract class PhortuneSubscriptionImplementation extends Phobject {
 
   abstract public function loadImplementationsForRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $refs);
 
   abstract public function getRef();

@@ -3,21 +3,21 @@
 /**
  * An bulk job which can not be parallelized and executes only one task.
  */
-abstract class PhabricatorWorkerSingleBulkJobType
-  extends PhabricatorWorkerBulkJobType {
+abstract class PhorgeWorkerSingleBulkJobType
+  extends PhorgeWorkerBulkJobType {
 
-  public function getDescriptionForConfirm(PhabricatorWorkerBulkJob $job) {
+  public function getDescriptionForConfirm(PhorgeWorkerBulkJob $job) {
     return null;
   }
 
-  public function getJobSize(PhabricatorWorkerBulkJob $job) {
+  public function getJobSize(PhorgeWorkerBulkJob $job) {
     return 1;
   }
 
-  public function createTasks(PhabricatorWorkerBulkJob $job) {
+  public function createTasks(PhorgeWorkerBulkJob $job) {
     $tasks = array();
 
-    $tasks[] = PhabricatorWorkerBulkTask::initializeNewTask(
+    $tasks[] = PhorgeWorkerBulkTask::initializeNewTask(
       $job,
       $job->getPHID());
 

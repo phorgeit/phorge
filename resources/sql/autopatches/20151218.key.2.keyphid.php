@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorAuthSSHKey();
+$table = new PhorgeAuthSSHKey();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $cursor) {

@@ -22,7 +22,7 @@ final class PholioMockCommentController extends PholioController {
 
     $is_preview = $request->isPreviewRequest();
 
-    $draft = PhabricatorDraft::buildFromRequest($request);
+    $draft = PhorgeDraft::buildFromRequest($request);
 
     $mock_uri = $mock->getURI();
 
@@ -37,7 +37,7 @@ final class PholioMockCommentController extends PholioController {
 
     if (!$inline_comments || strlen($comment)) {
       $xactions[] = id(new PholioTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment(
           id(new PholioTransactionComment())
             ->setContent($comment));
@@ -57,8 +57,8 @@ final class PholioMockCommentController extends PholioController {
 
     try {
       $xactions = $editor->applyTransactions($mock, $xactions);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-      return id(new PhabricatorApplicationTransactionNoEffectResponse())
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+      return id(new PhorgeApplicationTransactionNoEffectResponse())
         ->setCancelURI($mock_uri)
         ->setException($ex);
     }
@@ -68,7 +68,7 @@ final class PholioMockCommentController extends PholioController {
     }
 
     if ($request->isAjax() && $is_preview) {
-      return id(new PhabricatorApplicationTransactionResponse())
+      return id(new PhorgeApplicationTransactionResponse())
         ->setObject($mock)
         ->setViewer($viewer)
         ->setTransactions($xactions)

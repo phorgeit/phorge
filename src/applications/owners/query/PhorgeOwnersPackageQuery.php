@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeOwnersPackageQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -85,7 +85,7 @@ final class PhabricatorOwnersPackageQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      new PhabricatorOwnersPackageNameNgrams(),
+      new PhorgeOwnersPackageNameNgrams(),
       $ngrams);
   }
 
@@ -95,7 +95,7 @@ final class PhabricatorOwnersPackageQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorOwnersPackage();
+    return new PhorgeOwnersPackage();
   }
 
   protected function willExecute() {
@@ -105,7 +105,7 @@ final class PhabricatorOwnersPackageQuery
   protected function willFilterPage(array $packages) {
     $package_ids = mpull($packages, 'getID');
 
-    $owners = id(new PhabricatorOwnersOwner())->loadAllWhere(
+    $owners = id(new PhorgeOwnersOwner())->loadAllWhere(
       'packageID IN (%Ld)',
       $package_ids);
     $owners = mgroup($owners, 'getPackageID');
@@ -120,7 +120,7 @@ final class PhabricatorOwnersPackageQuery
     $package_ids = mpull($packages, 'getID');
 
     if ($this->needPaths) {
-      $paths = id(new PhabricatorOwnersPath())->loadAllWhere(
+      $paths = id(new PhorgeOwnersPath())->loadAllWhere(
         'packageID IN (%Ld)',
         $package_ids);
       $paths = mgroup($paths, 'getPackageID');
@@ -153,14 +153,14 @@ final class PhabricatorOwnersPackageQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T o ON o.packageID = p.id',
-        id(new PhabricatorOwnersOwner())->getTableName());
+        id(new PhorgeOwnersOwner())->getTableName());
     }
 
     if ($this->shouldJoinPathTable()) {
       $joins[] = qsprintf(
         $conn,
         'JOIN %T rpath ON rpath.packageID = p.id',
-        id(new PhabricatorOwnersPath())->getTableName());
+        id(new PhorgeOwnersPath())->getTableName());
     }
 
     return $joins;
@@ -284,7 +284,7 @@ final class PhabricatorOwnersPackageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   protected function getPrimaryTableAlias() {
@@ -320,7 +320,7 @@ final class PhabricatorOwnersPackageQuery
   }
 
   private function expandAuthority(array $phids) {
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($this->getViewer())
       ->withMemberPHIDs($phids)
       ->execute();
@@ -333,7 +333,7 @@ final class PhabricatorOwnersPackageQuery
     $fragments = array();
 
     foreach ($paths as $path) {
-      foreach (PhabricatorOwnersPackage::splitPath($path) as $fragment) {
+      foreach (PhorgeOwnersPackage::splitPath($path) as $fragment) {
         $fragments[$fragment] = $fragment;
       }
     }
@@ -345,7 +345,7 @@ final class PhabricatorOwnersPackageQuery
     $indexes = array();
 
     foreach ($this->getFragmentsForPaths($paths) as $fragment) {
-      $indexes[] = PhabricatorHash::digestForIndex($fragment);
+      $indexes[] = PhorgeHash::digestForIndex($fragment);
     }
 
     return $indexes;
@@ -364,7 +364,7 @@ final class PhabricatorOwnersPackageQuery
    * equal strength, so this ordering is primarily one of usability and
    * convenience.
    *
-   * @return list<PhabricatorOwnersPackage> List of controlling packages.
+   * @return list<PhorgeOwnersPackage> List of controlling packages.
    */
   public function getControllingPackagesForPath(
     $repository_phid,
@@ -381,9 +381,9 @@ final class PhabricatorOwnersPackageQuery
     }
 
     $packages = $this->controlResults;
-    $weak_dominion = PhabricatorOwnersPackage::DOMINION_WEAK;
+    $weak_dominion = PhorgeOwnersPackage::DOMINION_WEAK;
 
-    $path_fragments = PhabricatorOwnersPackage::splitPath($path);
+    $path_fragments = PhorgeOwnersPackage::splitPath($path);
     $fragment_count = count($path_fragments);
 
     $matches = array();

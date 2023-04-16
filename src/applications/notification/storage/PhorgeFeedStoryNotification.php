@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFeedStoryNotification extends PhabricatorFeedDAO {
+final class PhorgeFeedStoryNotification extends PhorgeFeedDAO {
 
   protected $userPHID;
   protected $primaryObjectPHID;
@@ -36,16 +36,16 @@ final class PhabricatorFeedStoryNotification extends PhabricatorFeedDAO {
   }
 
   public static function updateObjectNotificationViews(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $object_phid) {
 
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-    $notification_table = new PhabricatorFeedStoryNotification();
+    $notification_table = new PhorgeFeedStoryNotification();
     $conn = $notification_table->establishConnection('w');
 
     queryfx(
@@ -61,8 +61,8 @@ final class PhabricatorFeedStoryNotification extends PhabricatorFeedDAO {
 
     unset($unguarded);
 
-    $count_key = PhabricatorUserNotificationCountCacheType::KEY_COUNT;
-    PhabricatorUserCache::clearCache($count_key, $user->getPHID());
+    $count_key = PhorgeUserNotificationCountCacheType::KEY_COUNT;
+    PhorgeUserCache::clearCache($count_key, $user->getPHID());
     $user->clearCacheData($count_key);
   }
 

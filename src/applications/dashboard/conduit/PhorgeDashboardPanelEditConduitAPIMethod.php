@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorDashboardPanelEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+final class PhorgeDashboardPanelEditConduitAPIMethod
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'dashboard.panel.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorDashboardPanelEditEngine();
+    return new PhorgeDashboardPanelEditEngine();
   }
 
   public function getMethodSummary() {

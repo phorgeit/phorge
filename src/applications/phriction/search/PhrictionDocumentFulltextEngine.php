@@ -1,10 +1,10 @@
 <?php
 
 final class PhrictionDocumentFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $wiki = id(new PhrictionDocumentQuery())
@@ -24,21 +24,21 @@ final class PhrictionDocumentFulltextEngine
       ->setDocumentModified($content->getDateModified());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $content->getContent());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $content->getAuthorPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $content->getDateCreated());
 
     $document->addRelationship(
       ($wiki->getStatus() == PhrictionDocumentStatus::STATUS_EXISTS)
-        ? PhabricatorSearchRelationship::RELATIONSHIP_OPEN
-        : PhabricatorSearchRelationship::RELATIONSHIP_CLOSED,
+        ? PhorgeSearchRelationship::RELATIONSHIP_OPEN
+        : PhorgeSearchRelationship::RELATIONSHIP_CLOSED,
       $wiki->getPHID(),
       PhrictionDocumentPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
   }
 }

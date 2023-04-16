@@ -10,7 +10,7 @@ final class PholioImageUploadController extends PholioController {
     $title = $request->getStr('title');
     $description = $request->getStr('description');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();

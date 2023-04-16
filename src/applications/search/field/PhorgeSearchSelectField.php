@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchSelectField
-  extends PhabricatorSearchField {
+final class PhorgeSearchSelectField
+  extends PhorgeSearchField {
 
   private $options;
   private $default;

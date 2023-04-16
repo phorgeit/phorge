@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorAuthSSHKeyRevokeController
-  extends PhabricatorAuthSSHKeyController {
+final class PhorgeAuthSSHKeyRevokeController
+  extends PhorgeAuthSSHKeyController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $key = id(new PhabricatorAuthSSHKeyQuery())
+    $key = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$key) {
@@ -21,7 +21,7 @@ final class PhabricatorAuthSSHKeyRevokeController
 
     $cancel_uri = $key->getURI();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $cancel_uri);
@@ -29,11 +29,11 @@ final class PhabricatorAuthSSHKeyRevokeController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorAuthSSHKeyTransaction())
-        ->setTransactionType(PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE)
+      $xactions[] = id(new PhorgeAuthSSHKeyTransaction())
+        ->setTransactionType(PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE)
         ->setNewValue(true);
 
-      id(new PhabricatorAuthSSHKeyEditor())
+      id(new PhorgeAuthSSHKeyEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

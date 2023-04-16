@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthQueryPublicKeysConduitAPIMethod
-  extends PhabricatorAuthConduitAPIMethod {
+final class PhorgeAuthQueryPublicKeysConduitAPIMethod
+  extends PhorgeAuthConduitAPIMethod {
 
   public function getAPIMethodName() {
     return 'auth.querypublickeys';
@@ -27,7 +27,7 @@ final class PhabricatorAuthQueryPublicKeysConduitAPIMethod
   protected function execute(ConduitAPIRequest $request) {
     $viewer = $request->getUser();
 
-    $query = id(new PhabricatorAuthSSHKeyQuery())
+    $query = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withIsActive(true);
 
@@ -50,7 +50,7 @@ final class PhabricatorAuthQueryPublicKeysConduitAPIMethod
     if ($keys !== null) {
       $key_objects = array();
       foreach ($keys as $key) {
-        $key_objects[] = PhabricatorAuthSSHPublicKey::newFromRawKey($key);
+        $key_objects[] = PhorgeAuthSSHPublicKey::newFromRawKey($key);
       }
 
       $query->withKeys($key_objects);

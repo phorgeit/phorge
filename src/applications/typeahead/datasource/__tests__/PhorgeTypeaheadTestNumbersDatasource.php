@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadTestNumbersDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeTypeaheadTestNumbersDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Numbers');
@@ -12,7 +12,7 @@ final class PhabricatorTypeaheadTestNumbersDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -37,7 +37,7 @@ final class PhabricatorTypeaheadTestNumbersDatasource
     foreach ($argv_list as $argv) {
       foreach ($argv as $k => $arg) {
         if (!is_scalar($arg) || !preg_match('/^\d+\z/', $arg)) {
-          throw new PhabricatorTypeaheadInvalidTokenException(
+          throw new PhorgeTypeaheadInvalidTokenException(
             pht(
               'All arguments to "%s(...)" must be integers, found '.
               '"%s" in position %d.',

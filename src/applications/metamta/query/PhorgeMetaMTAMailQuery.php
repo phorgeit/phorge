@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAMailQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeMetaMTAMailQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -87,8 +87,8 @@ final class PhabricatorMetaMTAMailQuery
           ON mail.phid = recipient.src
             AND recipient.type = %d
             AND recipient.dst IN (%Ls)',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorMetaMTAMailHasRecipientEdgeType::EDGECONST,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeMetaMTAMailHasRecipientEdgeType::EDGECONST,
         $this->recipientPHIDs);
     }
 
@@ -108,11 +108,11 @@ final class PhabricatorMetaMTAMailQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorMetaMTAMail();
+    return new PhorgeMetaMTAMail();
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   protected function shouldGroupQueryResultRows() {

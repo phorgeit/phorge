@@ -8,10 +8,10 @@ final class HarbormasterBuildkiteHookHandler
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function handleRequest(AphrontRequest $request) {
-    $raw_body = PhabricatorStartup::getRawInput();
+    $raw_body = PhorgeStartup::getRawInput();
     $body = phutil_json_decode($raw_body);
 
     $event = idx($body, 'event');
@@ -40,7 +40,7 @@ final class HarbormasterBuildkiteHookHandler
       return $this->newHookResponse(pht('OK: No Harbormaster target PHID.'));
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $target = id(new HarbormasterBuildTargetQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($target_phid))

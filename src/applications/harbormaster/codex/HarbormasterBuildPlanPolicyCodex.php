@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanPolicyCodex
-  extends PhabricatorPolicyCodex {
+  extends PhorgePolicyCodex {
 
   public function getPolicySpecialRuleDescriptions() {
     $object = $this->getObject();
@@ -12,7 +12,7 @@ final class HarbormasterBuildPlanPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setIsActive(!$run_with_view)
       ->setDescription(
@@ -23,7 +23,7 @@ final class HarbormasterBuildPlanPolicyCodex
     $rules[] = $this->newRule()
       ->setCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->setIsActive(!$run_with_view)
       ->setDescription(

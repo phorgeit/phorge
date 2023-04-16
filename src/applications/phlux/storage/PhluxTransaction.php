@@ -1,6 +1,6 @@
 <?php
 
-final class PhluxTransaction extends PhabricatorApplicationTransaction {
+final class PhluxTransaction extends PhorgeApplicationTransaction {
 
   const TYPE_EDIT_KEY     = 'phlux:key';
   const TYPE_EDIT_VALUE   = 'phlux:value';
@@ -38,7 +38,7 @@ final class PhluxTransaction extends PhabricatorApplicationTransaction {
     return parent::hasChangeDetails();
   }
 
-  public function renderChangeDetails(PhabricatorUser $viewer) {
+  public function renderChangeDetails(PhorgeUser $viewer) {
     return $this->renderTextCorpusChangeDetails(
       $viewer,
       json_encode($this->getOldValue()),

@@ -9,7 +9,7 @@
  * @javelin
  */
 
-JX.install('PhabricatorDragAndDropFileUpload', {
+JX.install('PhorgeDragAndDropFileUpload', {
 
   construct : function(target) {
     if (JX.DOM.isNode(target)) {
@@ -176,7 +176,7 @@ JX.install('PhabricatorDragAndDropFileUpload', {
         JX.Stratcom.listen('drop', this._sigil, on_drop);
       }
 
-      if (JX.PhabricatorDragAndDropFileUpload.isPasteSupported() &&
+      if (JX.PhorgeDragAndDropFileUpload.isPasteSupported() &&
           this._node) {
         JX.DOM.listen(
           this._node,
@@ -225,7 +225,7 @@ JX.install('PhabricatorDragAndDropFileUpload', {
     },
 
     sendRequest : function(spec) {
-      var file = new JX.PhabricatorFileUpload()
+      var file = new JX.PhorgeFileUpload()
         .setRawFileObject(spec)
         .setName(spec.name)
         .setTotalBytes(spec.size);

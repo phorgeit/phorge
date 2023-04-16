@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthSSHKeyTableView extends AphrontView {
+final class PhorgeAuthSSHKeyTableView extends AphrontView {
 
   private $keys;
   private $canEdit;
@@ -9,16 +9,16 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
   private $showID;
 
   public static function newKeyActionsMenu(
-    PhabricatorUser $viewer,
-    PhabricatorSSHPublicKeyInterface $object) {
+    PhorgeUser $viewer,
+    PhorgeSSHPublicKeyInterface $object) {
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     try {
-      PhabricatorSSHKeyGenerator::assertCanGenerateKeypair();
+      PhorgeSSHKeyGenerator::assertCanGenerateKeypair();
       $can_generate = true;
     } catch (Exception $ex) {
       $can_generate = false;
@@ -30,24 +30,24 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
     $upload_uri = "/auth/sshkey/upload/?objectPHID={$object_phid}";
     $view_uri = "/auth/sshkey/for/{$object_phid}/";
 
-    $action_view = id(new PhabricatorActionListView())
+    $action_view = id(new PhorgeActionListView())
       ->setUser($viewer)
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($upload_uri)
           ->setWorkflow(true)
           ->setDisabled(!$can_edit)
           ->setName(pht('Upload Public Key'))
           ->setIcon('fa-upload'))
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($generate_uri)
           ->setWorkflow(true)
           ->setDisabled(!$can_edit || !$can_generate)
           ->setName(pht('Generate Keypair'))
           ->setIcon('fa-lock'))
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($view_uri)
           ->setName(pht('View History'))
           ->setIcon('fa-list-ul'));
@@ -81,7 +81,7 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
   }
 
   public function setKeys(array $keys) {
-    assert_instances_of($keys, 'PhabricatorAuthSSHKey');
+    assert_instances_of($keys, 'PhorgeAuthSSHKey');
     $this->keys = $keys;
     return $this;
   }

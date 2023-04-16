@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthFactorProviderStatus
+final class PhorgeAuthFactorProviderStatus
   extends Phobject {
 
   private $key;

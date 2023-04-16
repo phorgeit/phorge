@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConfigIssuePanelController
-  extends PhabricatorConfigController {
+final class PhorgeConfigIssuePanelController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $engine = new PhabricatorSetupEngine();
+    $engine = new PhorgeSetupEngine();
     $response = $engine->execute();
     if ($response) {
       return $response;

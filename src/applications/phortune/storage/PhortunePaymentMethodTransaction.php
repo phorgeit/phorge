@@ -1,7 +1,7 @@
 <?php
 
 final class PhortunePaymentMethodTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'phortune';

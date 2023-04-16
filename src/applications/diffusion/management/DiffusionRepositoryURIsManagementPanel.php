@@ -22,23 +22,23 @@ final class DiffusionRepositoryURIsManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $doc_href = PhabricatorEnv::getDoclink('Diffusion User Guide: URIs');
+    $doc_href = PhorgeEnv::getDoclink('Diffusion User Guide: URIs');
     $add_href = $repository->getPathURI('uri/edit/');
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-plus')
         ->setHref($add_href)
         ->setDisabled(!$can_edit)
         ->setName(pht('Add New URI')));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-book')
         ->setHref($doc_href)
         ->setName(pht('URI Documentation')));
@@ -73,7 +73,7 @@ final class DiffusionRepositoryURIsManagementPanel
       $uri_status = id(new PHUIIconView())->setIcon($status_icon);
 
       $io_type = $uri->getEffectiveIOType();
-      $io_map = PhabricatorRepositoryURI::getIOTypeMap();
+      $io_map = PhorgeRepositoryURI::getIOTypeMap();
       $io_spec = idx($io_map, $io_type, array());
 
       $io_icon = idx($io_spec, 'icon');
@@ -87,7 +87,7 @@ final class DiffusionRepositoryURIsManagementPanel
       );
 
       $display_type = $uri->getEffectiveDisplayType();
-      $display_map = PhabricatorRepositoryURI::getDisplayTypeMap();
+      $display_map = PhorgeRepositoryURI::getDisplayTypeMap();
       $display_spec = idx($display_map, $display_type, array());
 
       $display_icon = idx($display_spec, 'icon');

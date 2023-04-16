@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const TRANSACTION_LIMIT = 100;
 
@@ -106,7 +106,7 @@ final class ConpherenceThreadQuery
         $file_phids = mpull($conpherences, 'getProfileImagePHID');
         $file_phids = array_filter($file_phids);
         if ($file_phids) {
-          $files = id(new PhabricatorFileQuery())
+          $files = id(new PhorgeFileQuery())
             ->setParentQuery($this)
             ->setViewer($this->getViewer())
             ->withPHIDs($file_phids)
@@ -120,7 +120,7 @@ final class ConpherenceThreadQuery
           $file = idx($files, $conpherence->getProfileImagePHID());
           if (!$file) {
             if (!$default) {
-              $default = PhabricatorFile::loadBuiltin(
+              $default = PhorgeFile::loadBuiltin(
                 $this->getViewer(),
                 'conpherence.png');
             }
@@ -194,9 +194,9 @@ final class ConpherenceThreadQuery
         ->getObjectPolicyFullKey();
       $policies = array(
         $members_policy,
-        PhabricatorPolicies::POLICY_USER,
-        PhabricatorPolicies::POLICY_ADMIN,
-        PhabricatorPolicies::POLICY_NOONE,
+        PhorgePolicies::POLICY_USER,
+        PhorgePolicies::POLICY_ADMIN,
+        PhorgePolicies::POLICY_NOONE,
       );
 
       if ($viewer->isLoggedIn()) {
@@ -334,7 +334,7 @@ final class ConpherenceThreadQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   protected function getPrimaryTableAlias() {

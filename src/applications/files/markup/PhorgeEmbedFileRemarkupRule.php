@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmbedFileRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgeEmbedFileRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   private $viewer;
 
@@ -15,12 +15,12 @@ final class PhabricatorEmbedFileRemarkupRule
     $engine = $this->getEngine();
 
     $this->viewer = $engine->getConfig('viewer');
-    $objects = id(new PhabricatorFileQuery())
+    $objects = id(new PhorgeFileQuery())
       ->setViewer($this->viewer)
       ->withIDs($ids)
       ->needTransforms(
         array(
-          PhabricatorFileThumbnailTransform::TRANSFORM_PREVIEW,
+          PhorgeFileThumbnailTransform::TRANSFORM_PREVIEW,
         ))
       ->execute();
     $objects = mpull($objects, null, 'getID');
@@ -67,7 +67,7 @@ final class PhabricatorEmbedFileRemarkupRule
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $options = $this->getFileOptions($options) + array(
@@ -127,8 +127,8 @@ final class PhabricatorEmbedFileRemarkupRule
   }
 
   private function renderImageFile(
-    PhabricatorFile $file,
-    PhabricatorObjectHandle $handle,
+    PhorgeFile $file,
+    PhorgeObjectHandle $handle,
     array $options) {
 
     require_celerity_resource('phui-lightbox-css');
@@ -170,8 +170,8 @@ final class PhabricatorEmbedFileRemarkupRule
           break;
         case 'thumb':
         default:
-          $preview_key = PhabricatorFileThumbnailTransform::TRANSFORM_PREVIEW;
-          $xform = PhabricatorFileTransform::getTransformByKey($preview_key);
+          $preview_key = PhorgeFileThumbnailTransform::TRANSFORM_PREVIEW;
+          $xform = PhorgeFileTransform::getTransformByKey($preview_key);
 
           $existing_xform = $file->getTransform($preview_key);
           if ($existing_xform) {
@@ -258,23 +258,23 @@ final class PhabricatorEmbedFileRemarkupRule
   }
 
   private function renderAudioFile(
-    PhabricatorFile $file,
-    PhabricatorObjectHandle $handle,
+    PhorgeFile $file,
+    PhorgeObjectHandle $handle,
     array $options) {
     return $this->renderMediaFile('audio', $file, $handle, $options);
   }
 
   private function renderVideoFile(
-    PhabricatorFile $file,
-    PhabricatorObjectHandle $handle,
+    PhorgeFile $file,
+    PhorgeObjectHandle $handle,
     array $options) {
     return $this->renderMediaFile('video', $file, $handle, $options);
   }
 
   private function renderMediaFile(
     $tag,
-    PhabricatorFile $file,
-    PhabricatorObjectHandle $handle,
+    PhorgeFile $file,
+    PhorgeObjectHandle $handle,
     array $options) {
 
     $is_video = ($tag == 'video');
@@ -330,11 +330,11 @@ final class PhabricatorEmbedFileRemarkupRule
   }
 
   private function renderFileLink(
-    PhabricatorFile $file,
-    PhabricatorObjectHandle $handle,
+    PhorgeFile $file,
+    PhorgeObjectHandle $handle,
     array $options) {
 
-    return id(new PhabricatorFileLinkView())
+    return id(new PhorgeFileLinkView())
       ->setViewer($this->viewer)
       ->setFilePHID($file->getPHID())
       ->setFileName($this->assertFlatText($options['name']))

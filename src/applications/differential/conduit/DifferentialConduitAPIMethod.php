@@ -3,13 +3,13 @@
 abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass(
-      'PhabricatorDifferentialApplication');
+    return PhorgeApplication::getByClass(
+      'PhorgeDifferentialApplication');
   }
 
   protected function buildDiffInfoDictionary(DifferentialDiff $diff) {
     $uri = '/differential/diff/'.$diff->getID().'/';
-    $uri = PhabricatorEnv::getProductionURI($uri);
+    $uri = PhorgeEnv::getProductionURI($uri);
 
     return array(
       'id'   => $diff->getID(),
@@ -99,7 +99,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
       $diff->save();
 
       $xactions[] = array(
-        'type' => PhabricatorCommentEditEngineExtension::EDITKEY,
+        'type' => PhorgeCommentEditEngineExtension::EDITKEY,
         'value' => $message,
       );
     }
@@ -119,7 +119,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
   }
 
   protected function loadCustomFieldsForRevisions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $revisions) {
     assert_instances_of($revisions, 'DifferentialRevision');
 
@@ -131,9 +131,9 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
     foreach ($revisions as $revision) {
       $revision_phid = $revision->getPHID();
 
-      $field_list = PhabricatorCustomField::getObjectFields(
+      $field_list = PhorgeCustomField::getObjectFields(
         $revision,
-        PhabricatorCustomField::ROLE_CONDUIT);
+        PhorgeCustomField::ROLE_CONDUIT);
 
       $field_list
         ->setViewer($viewer)
@@ -149,7 +149,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
       }
     }
 
-    id(new PhabricatorCustomFieldStorageQuery())
+    id(new PhorgeCustomFieldStorageQuery())
       ->addFields($all_fields)
       ->execute();
 
@@ -168,12 +168,12 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
 
     $legacy_edge_map = array(
       'phorge:projects' =>
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
       'phorge:depends-on' =>
         DifferentialRevisionDependsOnRevisionEdgeType::EDGECONST,
     );
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array_keys($results))
       ->withEdgeTypes($legacy_edge_map);
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsEditController
-  extends PhabricatorController {
+final class PhorgeSubscriptionsEditController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -23,17 +23,17 @@ final class PhabricatorSubscriptionsEditController
         return new Aphront400Response();
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       return $this->buildErrorResponse(
         pht('Bad Object'),
         pht('This object is not subscribable.'),
@@ -47,7 +47,7 @@ final class PhabricatorSubscriptionsEditController
         $handle->getURI());
     }
 
-    if ($object instanceof PhabricatorApplicationTransactionInterface) {
+    if ($object instanceof PhorgeApplicationTransactionInterface) {
       if ($is_add) {
         $xaction_value = array(
           '+' => array($viewer->getPHID()),
@@ -59,7 +59,7 @@ final class PhabricatorSubscriptionsEditController
       }
 
       $xaction = id($object->getApplicationTransactionTemplate())
-        ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+        ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
         ->setNewValue($xaction_value);
 
       $editor = id($object->getApplicationTransactionEditor())
@@ -73,9 +73,9 @@ final class PhabricatorSubscriptionsEditController
     } else {
 
       // TODO: Eventually, get rid of this once everything implements
-      // PhabricatorApplicationTransactionInterface.
+      // PhorgeApplicationTransactionInterface.
 
-      $editor = id(new PhabricatorSubscriptionsEditor())
+      $editor = id(new PhorgeSubscriptionsEditor())
         ->setActor($viewer)
         ->setObject($object);
 

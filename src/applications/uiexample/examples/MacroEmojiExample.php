@@ -1,6 +1,6 @@
 <?php
 
-final class MacroEmojiExample extends PhabricatorUIExample {
+final class MacroEmojiExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Emoji');
@@ -16,7 +16,7 @@ final class MacroEmojiExample extends PhabricatorUIExample {
 
   public function renderExample() {
 
-    $raw = id(new PhabricatorEmojiRemarkupRule())
+    $raw = id(new PhorgeEmojiRemarkupRule())
       ->markupEmojiJSON();
 
     $json = phutil_json_decode($raw);

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConduitTokenController
-  extends PhabricatorConduitController {
+final class PhorgeConduitTokenController
+  extends PhorgeConduitController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $this->getRequest(),
       '/');
@@ -16,7 +16,7 @@ final class PhabricatorConduitTokenController
     // click a button or similar.
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
-    $old_token = id(new PhabricatorConduitCertificateToken())
+    $old_token = id(new PhorgeConduitCertificateToken())
       ->loadOneWhere(
         'userPHID = %s',
         $viewer->getPHID());
@@ -24,7 +24,7 @@ final class PhabricatorConduitTokenController
       $old_token->delete();
     }
 
-    $token = id(new PhabricatorConduitCertificateToken())
+    $token = id(new PhorgeConduitCertificateToken())
       ->setUserPHID($viewer->getPHID())
       ->setToken(Filesystem::readRandomCharacters(40))
       ->save();

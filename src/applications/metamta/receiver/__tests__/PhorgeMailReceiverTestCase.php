@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorMailReceiverTestCase extends PhabricatorTestCase {
+final class PhorgeMailReceiverTestCase extends PhorgeTestCase {
 
   public function testAddressSimilarity() {
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('metamta.single-reply-handler-prefix', 'prefix');
 
     $base = 'alincoln@example.com';
@@ -17,7 +17,7 @@ final class PhabricatorMailReceiverTestCase extends PhabricatorTestCase {
 
     foreach ($same as $address) {
       $this->assertTrue(
-        PhabricatorMailUtil::matchAddresses(
+        PhorgeMailUtil::matchAddresses(
           new PhutilEmailAddress($base),
           new PhutilEmailAddress($address)),
         pht('Address %s', $address));
@@ -34,7 +34,7 @@ final class PhabricatorMailReceiverTestCase extends PhabricatorTestCase {
 
     foreach ($diff as $address) {
       $this->assertFalse(
-        PhabricatorMailUtil::matchAddresses(
+        PhorgeMailUtil::matchAddresses(
           new PhutilEmailAddress($base),
           new PhutilEmailAddress($address)),
         pht('Address: %s', $address));
@@ -42,10 +42,10 @@ final class PhabricatorMailReceiverTestCase extends PhabricatorTestCase {
   }
 
   public function testReservedAddresses() {
-    $default_address = id(new PhabricatorMailEmailEngine())
+    $default_address = id(new PhorgeMailEmailEngine())
       ->newDefaultEmailAddress();
 
-    $void_address = id(new PhabricatorMailEmailEngine())
+    $void_address = id(new PhorgeMailEmailEngine())
       ->newVoidEmailAddress();
 
     $map = array(
@@ -62,7 +62,7 @@ final class PhabricatorMailReceiverTestCase extends PhabricatorTestCase {
 
       $this->assertEqual(
         $expect,
-        PhabricatorMailUtil::isReservedAddress($address),
+        PhorgeMailUtil::isReservedAddress($address),
         pht('Reserved: %s', $raw_address));
     }
   }

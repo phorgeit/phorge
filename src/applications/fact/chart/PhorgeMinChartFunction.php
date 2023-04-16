@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMinChartFunction
-  extends PhabricatorPureChartFunction {
+final class PhorgeMinChartFunction
+  extends PhorgePureChartFunction {
 
   const FUNCTIONKEY = 'min';
 

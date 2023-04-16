@@ -23,7 +23,7 @@ final class TokenGivenConduitAPIMethod extends TokenConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $query = id(new PhabricatorTokenGivenQuery())
+    $query = id(new PhorgeTokenGivenQuery())
       ->setViewer($request->getUser());
 
     $author_phids = $request->getValue('authorPHIDs');

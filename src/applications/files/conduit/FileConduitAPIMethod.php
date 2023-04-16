@@ -3,11 +3,11 @@
 abstract class FileConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorFilesApplication');
+    return PhorgeApplication::getByClass('PhorgeFilesApplication');
   }
 
-  protected function loadFileByPHID(PhabricatorUser $viewer, $file_phid) {
-    $file = id(new PhabricatorFileQuery())
+  protected function loadFileByPHID(PhorgeUser $viewer, $file_phid) {
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -19,15 +19,15 @@ abstract class FileConduitAPIMethod extends ConduitAPIMethod {
   }
 
   protected function loadFileChunks(
-    PhabricatorUser $viewer,
-    PhabricatorFile $file) {
+    PhorgeUser $viewer,
+    PhorgeFile $file) {
     return $this->newChunkQuery($viewer, $file)
       ->execute();
   }
 
   protected function loadFileChunkForUpload(
-    PhabricatorUser $viewer,
-    PhabricatorFile $file,
+    PhorgeUser $viewer,
+    PhorgeFile $file,
     $start,
     $end) {
 
@@ -89,8 +89,8 @@ abstract class FileConduitAPIMethod extends ConduitAPIMethod {
   }
 
   protected function loadAnyMissingChunk(
-    PhabricatorUser $viewer,
-    PhabricatorFile $file) {
+    PhorgeUser $viewer,
+    PhorgeFile $file) {
 
     return $this->newChunkQuery($viewer, $file)
       ->withIsComplete(false)
@@ -99,8 +99,8 @@ abstract class FileConduitAPIMethod extends ConduitAPIMethod {
   }
 
   private function newChunkQuery(
-    PhabricatorUser $viewer,
-    PhabricatorFile $file) {
+    PhorgeUser $viewer,
+    PhorgeFile $file) {
 
     $engine = $file->instantiateStorageEngine();
     if (!$engine->isChunkEngine()) {
@@ -110,7 +110,7 @@ abstract class FileConduitAPIMethod extends ConduitAPIMethod {
           $file->getPHID()));
     }
 
-    return id(new PhabricatorFileChunkQuery())
+    return id(new PhorgeFileChunkQuery())
       ->setViewer($viewer)
       ->withChunkHandles(array($file->getStorageHandle()));
   }

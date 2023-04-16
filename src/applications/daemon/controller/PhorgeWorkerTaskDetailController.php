@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorWorkerTaskDetailController
-  extends PhabricatorDaemonController {
+final class PhorgeWorkerTaskDetailController
+  extends PhorgeDaemonController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $task = id(new PhabricatorWorkerActiveTask())->load($id);
+    $task = id(new PhorgeWorkerActiveTask())->load($id);
     if (!$task) {
-      $tasks = id(new PhabricatorWorkerArchiveTaskQuery())
+      $tasks = id(new PhorgeWorkerArchiveTaskQuery())
         ->withIDs(array($id))
         ->execute();
       $task = reset($tasks);
@@ -79,7 +79,7 @@ final class PhabricatorWorkerTaskDetailController
       ->appendChild($view);
   }
 
-  private function buildPropertyListView(PhabricatorWorkerTask $task) {
+  private function buildPropertyListView(PhorgeWorkerTask $task) {
     $viewer = $this->getViewer();
 
     $view = new PHUIPropertyListView();
@@ -95,13 +95,13 @@ final class PhabricatorWorkerTaskDetailController
 
     if ($task->isArchived()) {
       switch ($task->getResult()) {
-        case PhabricatorWorkerArchiveTask::RESULT_SUCCESS:
+        case PhorgeWorkerArchiveTask::RESULT_SUCCESS:
           $status = pht('Complete');
           break;
-        case PhabricatorWorkerArchiveTask::RESULT_FAILURE:
+        case PhorgeWorkerArchiveTask::RESULT_FAILURE:
           $status = pht('Failed');
           break;
-        case PhabricatorWorkerArchiveTask::RESULT_CANCELLED:
+        case PhorgeWorkerArchiveTask::RESULT_CANCELLED:
           $status = pht('Cancelled');
           break;
         default:
@@ -160,7 +160,7 @@ final class PhabricatorWorkerTaskDetailController
       pht('Duration'),
       $duration);
 
-    $data = id(new PhabricatorWorkerTaskData())->load($task->getDataID());
+    $data = id(new PhorgeWorkerTaskData())->load($task->getDataID());
     $task->setData($data->getData());
     $worker = $task->getWorkerInstance();
     $data = $worker->renderForDisplay($viewer);
@@ -172,10 +172,10 @@ final class PhabricatorWorkerTaskDetailController
     return $view;
   }
 
-  private function buildRetryListView(PhabricatorWorkerTask $task) {
+  private function buildRetryListView(PhorgeWorkerTask $task) {
     $view = new PHUIPropertyListView();
 
-    $data = id(new PhabricatorWorkerTaskData())->load($task->getDataID());
+    $data = id(new PhorgeWorkerTaskData())->load($task->getDataID());
     $task->setData($data->getData());
     $worker = $task->getWorkerInstance();
 

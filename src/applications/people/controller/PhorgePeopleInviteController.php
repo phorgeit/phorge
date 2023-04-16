@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPeopleInviteController
-  extends PhabricatorPeopleController {
+abstract class PhorgePeopleInviteController
+  extends PhorgePeopleController {
 
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();

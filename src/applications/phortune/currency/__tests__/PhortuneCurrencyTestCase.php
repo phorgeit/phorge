@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneCurrencyTestCase extends PhabricatorTestCase {
+final class PhortuneCurrencyTestCase extends PhorgeTestCase {
 
   public function testCurrencyFormatForDisplay() {
     $map = array(

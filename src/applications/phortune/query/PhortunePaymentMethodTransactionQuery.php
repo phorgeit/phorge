@@ -1,7 +1,7 @@
 <?php
 
 final class PhortunePaymentMethodTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new PhortunePaymentMethodTransaction();

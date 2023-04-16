@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialNoReviewersDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   const FUNCTION_TOKEN = 'none()';
 
@@ -14,7 +14,7 @@ final class DifferentialNoReviewersDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -57,7 +57,7 @@ final class DifferentialNoReviewersDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildNoReviewersResult());
     }
     return $results;

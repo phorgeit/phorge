@@ -43,7 +43,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<') ) exit("Sorry, this version of PH
 class PHPMailerLite {
 
   public static function newFromMessage(
-    PhabricatorMailExternalMessage $message) {
+    PhorgeMailExternalMessage $message) {
 
     $mailer = new self($use_exceptions = true);
 

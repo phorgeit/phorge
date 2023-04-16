@@ -40,7 +40,7 @@ final class HeraldRuleResult
     return $this->getSpecificationProperty('description');
   }
 
-  public function newDetailsView(PhabricatorUser $viewer) {
+  public function newDetailsView(PhorgeUser $viewer) {
     switch ($this->getResultCode()) {
       case self::RESULT_EXCEPTION:
         $error_class = $this->getDataProperty('exception.class');

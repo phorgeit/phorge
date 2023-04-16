@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorEditorURIParserException
+final class PhorgeEditorURIParserException
   extends Exception {}

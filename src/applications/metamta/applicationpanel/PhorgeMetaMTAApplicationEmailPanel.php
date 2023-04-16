@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailPanel
-  extends PhabricatorApplicationConfigurationPanel {
+final class PhorgeMetaMTAApplicationEmailPanel
+  extends PhorgeApplicationConfigurationPanel {
 
   public function getPanelKey() {
     return 'email';
   }
 
   public function shouldShowForApplication(
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
     return $application->supportsEmailIntegration();
   }
 
@@ -18,10 +18,10 @@ final class PhabricatorMetaMTAApplicationEmailPanel
 
     $table = $this->buildEmailTable($is_edit = false, null);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $application,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Application Emails'))
@@ -45,7 +45,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
 
   public function handlePanelRequest(
     AphrontRequest $request,
-    PhabricatorController $controller) {
+    PhorgeController $controller) {
     $viewer = $request->getViewer();
     $application = $this->getApplication();
 
@@ -118,11 +118,11 @@ final class PhabricatorMetaMTAApplicationEmailPanel
   private function returnNewAddressResponse(
     AphrontRequest $request,
     PhutilURI $uri,
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
 
     $viewer = $request->getUser();
     $email_object =
-      PhabricatorMetaMTAApplicationEmail::initializeNewAppEmail($viewer)
+      PhorgeMetaMTAApplicationEmail::initializeNewAppEmail($viewer)
       ->setApplicationPHID($application->getPHID());
 
     return $this->returnSaveAddressResponse(
@@ -138,13 +138,13 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     $email_object_id) {
 
     $viewer = $request->getUser();
-    $email_object = id(new PhabricatorMetaMTAApplicationEmailQuery())
+    $email_object = id(new PhorgeMetaMTAApplicationEmailQuery())
       ->setViewer($viewer)
       ->withIDs(array($email_object_id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$email_object) {
@@ -161,13 +161,13 @@ final class PhabricatorMetaMTAApplicationEmailPanel
   private function returnSaveAddressResponse(
     AphrontRequest $request,
     PhutilURI $uri,
-    PhabricatorMetaMTAApplicationEmail $email_object,
+    PhorgeMetaMTAApplicationEmail $email_object,
     $is_new) {
 
     $viewer = $request->getUser();
 
     $config_default =
-      PhabricatorMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR;
+      PhorgeMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR;
 
     $e_email = true;
     $v_email = $email_object->getAddress();
@@ -185,29 +185,29 @@ final class PhabricatorMetaMTAApplicationEmailPanel
       $v_default = nonempty(head($v_default), null);
 
       $type_address =
-        PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS;
-      $type_space = PhabricatorTransactions::TYPE_SPACE;
+        PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS;
+      $type_space = PhorgeTransactions::TYPE_SPACE;
       $type_config =
-        PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG;
+        PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG;
 
-      $key_config = PhabricatorMetaMTAApplicationEmailTransaction::KEY_CONFIG;
+      $key_config = PhorgeMetaMTAApplicationEmailTransaction::KEY_CONFIG;
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorMetaMTAApplicationEmailTransaction())
+      $xactions[] = id(new PhorgeMetaMTAApplicationEmailTransaction())
         ->setTransactionType($type_address)
         ->setNewValue($v_email);
 
-      $xactions[] = id(new PhabricatorMetaMTAApplicationEmailTransaction())
+      $xactions[] = id(new PhorgeMetaMTAApplicationEmailTransaction())
         ->setTransactionType($type_space)
         ->setNewValue($v_space);
 
-      $xactions[] = id(new PhabricatorMetaMTAApplicationEmailTransaction())
+      $xactions[] = id(new PhorgeMetaMTAApplicationEmailTransaction())
         ->setTransactionType($type_config)
         ->setMetadataValue($key_config, $config_default)
         ->setNewValue($v_default);
 
-      $editor = id(new PhabricatorMetaMTAApplicationEmailEditor())
+      $editor = id(new PhorgeMetaMTAApplicationEmailEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true);
@@ -217,7 +217,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
 
         return id(new AphrontRedirectResponse())->setURI(
           $uri->alter('highlight', $email_object->getID()));
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_email = $ex->getShortMessage($type_address);
         $e_space = $ex->getShortMessage($type_space);
@@ -239,7 +239,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
           ->setValue($v_email)
           ->setError($e_email));
 
-    if (PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
+    if (PhorgeSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       $form->appendControl(
         id(new AphrontFormSelectControl())
           ->setLabel(pht('Space'))
@@ -247,7 +247,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
           ->setValue($v_space)
           ->setError($e_space)
           ->setOptions(
-            PhabricatorSpacesNamespaceQuery::getSpaceOptionsForViewer(
+            PhorgeSpacesNamespaceQuery::getSpaceOptionsForViewer(
               $viewer,
               $v_space)));
     }
@@ -255,7 +255,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     $form
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setLabel(pht('Default Author'))
           ->setName($config_default)
           ->setLimit(1)
@@ -296,13 +296,13 @@ final class PhabricatorMetaMTAApplicationEmailPanel
 
     $viewer = $this->getViewer();
 
-    $email_object = id(new PhabricatorMetaMTAApplicationEmailQuery())
+    $email_object = id(new PhorgeMetaMTAApplicationEmailQuery())
       ->setViewer($viewer)
       ->withIDs(array($email_object_id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$email_object) {
@@ -310,7 +310,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     }
 
     if ($request->isDialogFormPost()) {
-      $engine = new PhabricatorDestructionEngine();
+      $engine = new PhorgeDestructionEngine();
       $engine->destroyObject($email_object);
       return id(new AphrontRedirectResponse())->setURI($uri);
     }
@@ -332,7 +332,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     $application = $this->getApplication();
     $uri = new PhutilURI($this->getPanelURI());
 
-    $emails = id(new PhabricatorMetaMTAApplicationEmailQuery())
+    $emails = id(new PhorgeMetaMTAApplicationEmailQuery())
       ->setViewer($viewer)
       ->withApplicationPHIDs(array($application->getPHID()))
       ->execute();
@@ -365,7 +365,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
         $rowc[] = null;
       }
 
-      $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID($email);
+      $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID($email);
       if ($space_phid) {
         $email_space = $viewer->renderHandle($space_phid);
       } else {
@@ -409,7 +409,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     $table->setRowClasses($rowc);
     $table->setColumnVisibility(
       array(
-        PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer),
+        PhorgeSpacesNamespaceQuery::getViewerSpacesExist($viewer),
         true,
         true,
         $is_edit,

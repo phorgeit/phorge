@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterBuildStepSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Build Steps');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -49,7 +49,7 @@ final class HarbormasterBuildStepSearchEngine
 
   protected function renderResultList(
     array $plans,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($plans, 'HarbormasterBuildStep');
     return null;

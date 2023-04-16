@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeTokenQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $phids;
 
@@ -53,13 +53,13 @@ final class PhabricatorTokenQuery
       array('emoji-8', pht('Pirate Logo')),
     );
 
-    $type = PhabricatorTokenTokenPHIDType::TYPECONST;
+    $type = PhorgeTokenTokenPHIDType::TYPECONST;
 
     $tokens = array();
     foreach ($specs as $id => $spec) {
       list($image, $name) = $spec;
 
-      $token = id(new PhabricatorToken())
+      $token = id(new PhorgeToken())
         ->setID($id)
         ->setName($name)
         ->setPHID('PHID-'.$type.'-'.$image);
@@ -71,7 +71,7 @@ final class PhabricatorTokenQuery
 
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return 'PhorgeTokensApplication';
   }
 
 }

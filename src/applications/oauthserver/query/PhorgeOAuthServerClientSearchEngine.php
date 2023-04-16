@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorOAuthServerClientSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeOAuthServerClientSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('OAuth Clients');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,7 +16,7 @@ final class PhabricatorOAuthServerClientSearchEngine
   }
 
   public function newQuery() {
-    return id(new PhabricatorOAuthServerClientQuery());
+    return id(new PhorgeOAuthServerClientQuery());
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -31,7 +31,7 @@ final class PhabricatorOAuthServerClientSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setAliases(array('creators'))
         ->setKey('creatorPHIDs')
         ->setConduitKey('creators')
@@ -75,9 +75,9 @@ final class PhabricatorOAuthServerClientSearchEngine
 
   protected function renderResultList(
     array $clients,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($clients, 'PhabricatorOAuthServerClient');
+    assert_instances_of($clients, 'PhorgeOAuthServerClient');
 
     $viewer = $this->requireViewer();
 
@@ -97,7 +97,7 @@ final class PhabricatorOAuthServerClientSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No clients found.'));
 

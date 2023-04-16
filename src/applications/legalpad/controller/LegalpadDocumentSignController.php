@@ -60,7 +60,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
           // anonymous/grey signatures.
 
           $signature = id(new LegalpadDocumentSignatureQuery())
-            ->setViewer(PhabricatorUser::getOmnipotentUser())
+            ->setViewer(PhorgeUser::getOmnipotentUser())
             ->withDocumentPHIDs(array($document->getPHID()))
             ->withSignerPHIDs(array($signer_phid))
             ->executeOne();
@@ -194,7 +194,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
             'legalpad.sign(%s)',
             $document->getPHID());
 
-          $hisec_token = id(new PhabricatorAuthSessionEngine())
+          $hisec_token = id(new PhorgeAuthSessionEngine())
             ->setWorkflowKey($workflow_key)
             ->requireHighSecurityToken(
               $viewer,
@@ -230,7 +230,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
     }
 
     $document_body = $document->getDocumentBody();
-    $engine = id(new PhabricatorMarkupEngine())
+    $engine = id(new PhorgeMarkupEngine())
       ->setViewer($viewer);
     $engine->addObject(
       $document_body,
@@ -245,10 +245,10 @@ final class LegalpadDocumentSignController extends LegalpadController {
 
     $manage_uri = $this->getApplicationURI('view/'.$document->getID().'/');
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $document,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     // Use the last content update as the modified date. We don't want to
     // show that a document like a TOS was "updated" by an incidental change
@@ -377,7 +377,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
         } else if ($request->isFormPost()) {
           $email = new PhutilEmailAddress($request->getStr('email'));
           if (strlen($email->getDomainName())) {
-            $email_obj = id(new PhabricatorUserEmail())
+            $email_obj = id(new PhorgeUserEmail())
               ->loadOneWhere('address = %s', $email->getAddress());
             if ($email_obj) {
               return $this->signInResponse();
@@ -670,11 +670,11 @@ final class LegalpadDocumentSignController extends LegalpadController {
     $signature_data = $signature->getSignatureData();
     $email = new PhutilEmailAddress($signature_data['email']);
     $doc_name = $doc->getTitle();
-    $doc_link = PhabricatorEnv::getProductionURI('/'.$doc->getMonogram());
+    $doc_link = PhorgeEnv::getProductionURI('/'.$doc->getMonogram());
     $path = $this->getApplicationURI(sprintf(
       '/verify/%s/',
       $signature->getSecretKey()));
-    $link = PhabricatorEnv::getProductionURI($path);
+    $link = PhorgeEnv::getProductionURI($path);
 
     $name = idx($signature_data, 'name');
 
@@ -695,7 +695,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
       $link,
       $doc_link);
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addRawTos(array($email->getAddress()))
       ->setSubject(pht('[Legalpad] Signature Verification'))
       ->setForceDelivery(true)

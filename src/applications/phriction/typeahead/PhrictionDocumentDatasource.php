@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Documents');
@@ -12,7 +12,7 @@ final class PhrictionDocumentDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   public function loadResults() {
@@ -59,7 +59,7 @@ final class PhrictionDocumentDatasource
       $sprite = 'phorge-search-icon phui-font-fa phui-icon-view fa-book';
       $autocomplete = '[[ '.$slug.' ]]';
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($title)
         ->setDisplayName($title)
         ->setURI($document->getURI())

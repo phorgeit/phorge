@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthDowngradeSessionController
-  extends PhabricatorAuthController {
+final class PhorgeAuthDowngradeSessionController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -19,7 +19,7 @@ final class PhabricatorAuthDowngradeSessionController
 
     if ($request->isFormPost()) {
 
-      id(new PhabricatorAuthSessionEngine())
+      id(new PhorgeAuthSessionEngine())
         ->exitHighSecurity($viewer, $session);
 
       return id(new AphrontRedirectResponse())

@@ -1,10 +1,10 @@
 <?php
 
 final class FundInitiativeFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $initiative = $object;
@@ -12,23 +12,23 @@ final class FundInitiativeFulltextEngine
     $document->setDocumentTitle($initiative->getName());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $initiative->getOwnerPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $initiative->getDateCreated());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_OWNER,
+      PhorgeSearchRelationship::RELATIONSHIP_OWNER,
       $initiative->getOwnerPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $initiative->getDateCreated());
 
     $document->addRelationship(
       $initiative->isClosed()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $initiative->getPHID(),
       FundInitiativePHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
   }
 }

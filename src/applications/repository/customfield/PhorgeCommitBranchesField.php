@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommitBranchesField
-  extends PhabricatorCommitCustomField {
+final class PhorgeCommitBranchesField
+  extends PhorgeCommitCustomField {
 
   public function getFieldKey() {
     return 'diffusion:branches';
@@ -20,8 +20,8 @@ final class PhabricatorCommitBranchesField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     $params = array(

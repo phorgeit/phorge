@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasteRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class PhorgePasteRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'P';
@@ -9,7 +9,7 @@ final class PhabricatorPasteRemarkupRule extends PhabricatorObjectRemarkupRule {
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorPasteQuery())
+    return id(new PhorgePasteQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->needContent(true)
@@ -19,7 +19,7 @@ final class PhabricatorPasteRemarkupRule extends PhabricatorObjectRemarkupRule {
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $embed_paste = id(new PasteEmbedView())

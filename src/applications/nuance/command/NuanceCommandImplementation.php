@@ -7,7 +7,7 @@ abstract class NuanceCommandImplementation
 
   private $transactionQueue = array();
 
-  final public function setActor(PhabricatorUser $actor) {
+  final public function setActor(PhorgeUser $actor) {
     $this->actor = $actor;
     return $this;
   }
@@ -71,8 +71,8 @@ abstract class NuanceCommandImplementation
       ));
 
     // TODO: Maybe preserve the actor's original content source?
-    $source = PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    $source = PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
 
     $actor = $this->getActor();
 

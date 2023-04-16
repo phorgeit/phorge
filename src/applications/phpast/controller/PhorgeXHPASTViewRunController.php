@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHPASTViewRunController
-  extends PhabricatorXHPASTViewController {
+final class PhorgeXHPASTViewRunController
+  extends PhorgeXHPASTViewController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -21,7 +21,7 @@ final class PhabricatorXHPASTViewRunController
 
       list($err, $stdout, $stderr) = $resolved;
 
-      $storage_tree = id(new PhabricatorXHPASTParseTree())
+      $storage_tree = id(new PhorgeXHPASTParseTree())
         ->setInput($source)
         ->setReturnCode($err)
         ->setStdout($stdout)

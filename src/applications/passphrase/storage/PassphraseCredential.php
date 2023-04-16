@@ -2,15 +2,15 @@
 
 final class PassphraseCredential extends PassphraseDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeMentionableInterface,
+    PhorgeSubscribableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSpacesInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   protected $name;
   protected $credentialType;
@@ -29,10 +29,10 @@ final class PassphraseCredential extends PassphraseDAO
   private $secret = self::ATTACHABLE;
   private $implementation = self::ATTACHABLE;
 
-  public static function initializeNewCredential(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewCredential(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPassphraseApplication'))
+      ->withClasses(array('PhorgePassphraseApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PassphraseDefaultViewCapability::CAPABILITY);
@@ -87,7 +87,7 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PassphraseCredentialPHIDType::TYPECONST);
   }
 
@@ -115,7 +115,7 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -127,31 +127,31 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -159,10 +159,10 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $secrets = id(new PassphraseSecret())->loadAllWhere(
@@ -176,7 +176,7 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -184,7 +184,7 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -192,7 +192,7 @@ final class PassphraseCredential extends PassphraseDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {

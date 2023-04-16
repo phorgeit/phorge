@@ -39,8 +39,8 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
     static $sample_request = null;
 
     if ($sample_request === null) {
-      if (PhabricatorEnv::getEnvConfig('debug.profile-rate')) {
-        $rate = PhabricatorEnv::getEnvConfig('debug.profile-rate');
+      if (PhorgeEnv::getEnvConfig('debug.profile-rate')) {
+        $rate = PhorgeEnv::getEnvConfig('debug.profile-rate');
         if (mt_rand(1, $rate) == 1) {
           $sample_request = true;
         } else {
@@ -82,10 +82,10 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
     if (self::isProfilerRequested()) {
       $sample_rate = 0;
     } else {
-      $sample_rate = PhabricatorEnv::getEnvConfig('debug.profile-rate');
+      $sample_rate = PhorgeEnv::getEnvConfig('debug.profile-rate');
     }
 
-    $profile_sample = id(new PhabricatorXHProfSample())
+    $profile_sample = id(new PhorgeXHProfSample())
       ->setFilePHID($file_phid)
       ->setSampleRate($sample_rate)
       ->setUsTotal($access_log->getData('T'))
@@ -126,10 +126,10 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
 
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   private static function startProfiler() {
-    PhabricatorStartup::beginStartupPhase('profiler.init');
+    PhorgeStartup::beginStartupPhase('profiler.init');
 
     self::includeXHProfLib();
     xhprof_enable();
@@ -140,16 +140,16 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
 
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public static function getProfileFilePHID() {
     if (!self::isProfilerRunning()) {
       return;
     }
 
-    PhabricatorStartup::beginStartupPhase('profiler.stop');
+    PhorgeStartup::beginStartupPhase('profiler.stop');
     self::stopProfiler();
-    PhabricatorStartup::beginStartupPhase('profiler.done');
+    PhorgeStartup::beginStartupPhase('profiler.done');
 
     return self::$profileFilePHID;
   }
@@ -174,7 +174,7 @@ final class DarkConsoleXHProfPluginAPI extends Phobject {
     $caught = null;
     try {
       $file = call_user_func(
-        array('PhabricatorFile', 'newFromFileData'),
+        array('PhorgeFile', 'newFromFileData'),
         $data,
         array(
           'mime-type' => 'application/xhprof',

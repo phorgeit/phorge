@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionIdentityUnassignedDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   const FUNCTION_TOKEN = 'unassigned()';
 
@@ -14,7 +14,7 @@ final class DiffusionIdentityUnassignedDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -57,7 +57,7 @@ final class DiffusionIdentityUnassignedDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildUnassignedResult());
     }
     return $results;

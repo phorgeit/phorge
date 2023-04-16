@@ -54,7 +54,7 @@ final class HarbormasterManagementWriteLogWorkflow
     echo tsprintf(
       "%s\n\n        __%s__\n\n",
       pht('Opened a new build log:'),
-      PhabricatorEnv::getURI($log->getURI()));
+      PhorgeEnv::getURI($log->getURI()));
 
     echo tsprintf(
       "%s\n",
@@ -97,7 +97,7 @@ final class HarbormasterManagementWriteLogWorkflow
       "%s\n",
       pht('Write completed. Closing log...'));
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     $log->closeBuildLog();
 

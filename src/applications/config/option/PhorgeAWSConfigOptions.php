@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAWSConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeAWSConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Amazon Web Services');

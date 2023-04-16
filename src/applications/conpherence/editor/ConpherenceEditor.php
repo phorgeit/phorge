@@ -1,12 +1,12 @@
 <?php
 
-final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
+final class ConpherenceEditor extends PhorgeApplicationTransactionEditor {
 
   const ERROR_EMPTY_PARTICIPANTS = 'error-empty-participants';
   const ERROR_EMPTY_MESSAGE = 'error-empty-message';
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,11 +14,11 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   public static function createThread(
-    PhabricatorUser $creator,
+    PhorgeUser $creator,
     array $participant_phids,
     $title,
     $message,
-    PhabricatorContentSource $source,
+    PhorgeContentSource $source,
     $topic) {
 
     $conpherence = ConpherenceThread::initializeNewRoom($creator);
@@ -54,7 +54,7 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
       }
 
       $xactions[] = id(new ConpherenceTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment(
           id(new ConpherenceTransactionComment())
           ->setContent($message)
@@ -71,13 +71,13 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
   }
 
   public function generateTransactionsFromText(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     ConpherenceThread $conpherence,
     $text) {
 
     $xactions = array();
     $xactions[] = id(new ConpherenceTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->attachComment(
         id(new ConpherenceTransactionComment())
         ->setContent($text)
@@ -88,9 +88,9 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
@@ -101,11 +101,11 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
 
 
   protected function applyBuiltinInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $object->setMessageCount((int)$object->getMessageCount() + 1);
         break;
     }
@@ -115,7 +115,7 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
 
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $acting_phid = $this->getActingAsPHID();
@@ -127,8 +127,8 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
     }
 
     if ($participants) {
-      PhabricatorUserCache::clearCaches(
-        PhabricatorUserMessageCountCacheType::KEY_COUNT,
+      PhorgeUserCache::clearCaches(
+        PhorgeUserMessageCountCacheType::KEY_COUNT,
         array_keys($participants));
     }
 
@@ -140,25 +140,25 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
         'subscribers' => array($object->getPHID()),
       );
 
-      PhabricatorNotificationClient::tryToPostMessage($data);
+      PhorgeNotificationClient::tryToPostMessage($data);
     }
 
     return $xactions;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new ConpherenceReplyHandler())
       ->setActor($this->getActor())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $title = $object->getTitle();
     if (!$title) {
@@ -167,11 +167,11 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
         $this->getActor()->getUserName());
     }
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("Z{$id}: {$title}");
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $to_phids = array();
 
     $participants = $object->getParticipants();
@@ -181,16 +181,16 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
 
     $participant_phids = mpull($participants, 'getParticipantPHID');
 
-    $users = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $users = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs($participant_phids)
       ->needUserSettings(true)
       ->execute();
     $users = mpull($users, null, 'getPHID');
 
-    $notification_key = PhabricatorConpherenceNotificationsSetting::SETTINGKEY;
+    $notification_key = PhorgeConpherenceNotificationsSetting::SETTINGKEY;
     $notification_email =
-      PhabricatorConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL;
+      PhorgeConpherenceNotificationsSetting::VALUE_CONPHERENCE_EMAIL;
 
     foreach ($participants as $phid => $participant) {
       $user = idx($users, $phid);
@@ -211,28 +211,28 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
     return $to_phids;
   }
 
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     return array();
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
     $body->addLinkSection(
       pht('CONPHERENCE DETAIL'),
-      PhabricatorEnv::getProductionURI('/'.$object->getMonogram()));
+      PhorgeEnv::getProductionURI('/'.$object->getMonogram()));
 
     return $body;
   }
 
   protected function addEmailPreferenceSectionToMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorLiskDAO $object,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    $href = PhabricatorEnv::getProductionURI(
+    $href = PhorgeEnv::getProductionURI(
       '/'.$object->getMonogram().'?settings');
     $label = pht('EMAIL PREFERENCES FOR THIS ROOM');
     $body->addLinkSection($label, $href);

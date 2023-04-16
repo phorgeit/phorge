@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacDeviceEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'almanac.device.edit';

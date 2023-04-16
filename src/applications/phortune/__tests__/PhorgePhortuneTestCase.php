@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorPhortuneTestCase
-  extends PhabricatorTestCase {
+final class PhorgePhortuneTestCase
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -31,8 +31,8 @@ final class PhabricatorPhortuneTestCase
       ->withPHIDs(array($account->getPHID()))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 

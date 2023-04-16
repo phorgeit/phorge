@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardListController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardListController
+  extends PhorgeDashboardController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,9 +11,9 @@ final class PhabricatorDashboardListController
     $viewer = $request->getViewer();
     $query_key = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
-      ->setSearchEngine(new PhabricatorDashboardSearchEngine())
+      ->setSearchEngine(new PhorgeDashboardSearchEngine())
       ->setNavigation($this->buildSideNavView());
     return $this->delegateToController($controller);
   }
@@ -24,7 +24,7 @@ final class PhabricatorDashboardListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorDashboardSearchEngine())
+    id(new PhorgeDashboardSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 
@@ -36,7 +36,7 @@ final class PhabricatorDashboardListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorDashboardEditEngine())
+    id(new PhorgeDashboardEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

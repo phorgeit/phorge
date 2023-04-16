@@ -1,13 +1,13 @@
 <?php
 
 final class DiffusionURIEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'diffusion.uri';
 
   private $repository;
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -33,11 +33,11 @@ final class DiffusionURIEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function newEditableObject() {
-    $uri = PhabricatorRepositoryURI::initializeNewURI();
+    $uri = PhorgeRepositoryURI::initializeNewURI();
 
     $repository = $this->getRepository();
     if ($repository) {
@@ -49,7 +49,7 @@ final class DiffusionURIEditEngine
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorRepositoryURIQuery();
+    return new PhorgeRepositoryURIQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -89,7 +89,7 @@ final class DiffusionURIEditEngine
       $uri_value = (string)$object->getDisplayURI();
 
       switch ($object->getBuiltinProtocol()) {
-        case PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH:
+        case PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH:
           $uri_instructions = pht(
             "  - Configure [[ %s | %s ]] to change the SSH username.\n".
             "  - Configure [[ %s | %s ]] to change the SSH host.\n".
@@ -145,14 +145,14 @@ final class DiffusionURIEditEngine
     }
 
     return array(
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('repository')
         ->setAliases(array('repositoryPHID'))
         ->setLabel(pht('Repository'))
         ->setIsRequired(true)
         ->setIsFormField(false)
         ->setTransactionType(
-          PhabricatorRepositoryURITransaction::TYPE_REPOSITORY)
+          PhorgeRepositoryURITransaction::TYPE_REPOSITORY)
         ->setDescription(pht('The repository this URI is associated with.'))
         ->setConduitDescription(
           pht(
@@ -162,10 +162,10 @@ final class DiffusionURIEditEngine
         ->setConduitTypeDescription(
           pht('Repository PHID to create a new URI for.'))
         ->setSingleValue($object->getRepositoryPHID()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('uri')
         ->setLabel(pht('URI'))
-        ->setTransactionType(PhabricatorRepositoryURITransaction::TYPE_URI)
+        ->setTransactionType(PhorgeRepositoryURITransaction::TYPE_URI)
         ->setDescription(pht('The repository URI.'))
         ->setConduitDescription(pht('Change the repository URI.'))
         ->setConduitTypeDescription(pht('New repository URI.'))
@@ -173,41 +173,41 @@ final class DiffusionURIEditEngine
         ->setIsLocked($is_builtin)
         ->setValue($uri_value)
         ->setControlInstructions($uri_instructions),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('io')
         ->setLabel(pht('I/O Type'))
-        ->setTransactionType(PhabricatorRepositoryURITransaction::TYPE_IO)
+        ->setTransactionType(PhorgeRepositoryURITransaction::TYPE_IO)
         ->setDescription(pht('URI I/O behavior.'))
         ->setConduitDescription(pht('Adjust I/O behavior.'))
         ->setConduitTypeDescription(pht('New I/O behavior.'))
         ->setValue($object->getIOType())
         ->setOptions($object->getAvailableIOTypeOptions()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('display')
         ->setLabel(pht('Display Type'))
-        ->setTransactionType(PhabricatorRepositoryURITransaction::TYPE_DISPLAY)
+        ->setTransactionType(PhorgeRepositoryURITransaction::TYPE_DISPLAY)
         ->setDescription(pht('URI display behavior.'))
         ->setConduitDescription(pht('Change display behavior.'))
         ->setConduitTypeDescription(pht('New display behavior.'))
         ->setValue($object->getDisplayType())
         ->setOptions($object->getAvailableDisplayTypeOptions()),
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('credential')
         ->setAliases(array('credentialPHID'))
         ->setLabel(pht('Credential'))
         ->setIsFormField(false)
         ->setTransactionType(
-          PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL)
+          PhorgeRepositoryURITransaction::TYPE_CREDENTIAL)
         ->setDescription(
           pht('The credential to use when interacting with this URI.'))
         ->setConduitDescription(pht('Change the credential for this URI.'))
         ->setConduitTypeDescription(pht('New credential PHID, or null.'))
         ->setSingleValue($object->getCredentialPHID()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('disable')
         ->setLabel(pht('Disabled'))
         ->setIsFormField(false)
-        ->setTransactionType(PhabricatorRepositoryURITransaction::TYPE_DISABLE)
+        ->setTransactionType(PhorgeRepositoryURITransaction::TYPE_DISABLE)
         ->setDescription(pht('Active status of the URI.'))
         ->setConduitDescription(pht('Disable or activate the URI.'))
         ->setConduitTypeDescription(pht('True to disable the URI.'))

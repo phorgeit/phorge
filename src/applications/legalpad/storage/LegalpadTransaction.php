@@ -1,13 +1,13 @@
 <?php
 
-final class LegalpadTransaction extends PhabricatorModularTransaction {
+final class LegalpadTransaction extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'legalpad';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorLegalpadDocumentPHIDType::TYPECONST;
+    return PhorgeLegalpadDocumentPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {

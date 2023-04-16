@@ -1,7 +1,7 @@
 <?php
 
 final class FeedStoryNotificationGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'feed.notifications';
 
@@ -14,7 +14,7 @@ final class FeedStoryNotificationGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorFeedStoryNotification();
+    $table = new PhorgeFeedStoryNotification();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

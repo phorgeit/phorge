@@ -12,17 +12,17 @@ abstract class DrydockRepositoryOperationType extends Phobject {
 
   abstract public function getOperationDescription(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer);
+    PhorgeUser $viewer);
 
   abstract public function getOperationCurrentStatus(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer);
+    PhorgeUser $viewer);
 
   public function getWorkingCopyMerges(DrydockRepositoryOperation $operation) {
     return array();
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

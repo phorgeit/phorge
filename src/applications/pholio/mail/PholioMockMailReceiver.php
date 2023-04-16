@@ -1,17 +1,17 @@
 <?php
 
-final class PholioMockMailReceiver extends PhabricatorObjectMailReceiver {
+final class PholioMockMailReceiver extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorPholioApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    $app_class = 'PhorgePholioApplication';
+    return PhorgeApplication::isClassInstalled($app_class);
   }
 
   protected function getObjectPattern() {
     return 'M[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new PholioMockQuery())

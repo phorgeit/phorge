@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorStringListExportField
-  extends PhabricatorListExportField {}
+final class PhorgeStringListExportField
+  extends PhorgeListExportField {}

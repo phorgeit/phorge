@@ -1,7 +1,7 @@
 <?php
 
 final class DoorkeeperHyperlinkEngineExtension
-  extends PhabricatorRemarkupHyperlinkEngineExtension {
+  extends PhorgeRemarkupHyperlinkEngineExtension {
 
   const LINKENGINEKEY = 'doorkeeper';
 
@@ -13,7 +13,7 @@ final class DoorkeeperHyperlinkEngineExtension
       return;
     }
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->withIsEnabled(true)
       ->execute();

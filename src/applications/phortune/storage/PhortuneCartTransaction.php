@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneCartTransaction
-  extends PhabricatorApplicationTransaction {
+  extends PhorgeApplicationTransaction {
 
   const TYPE_CREATED = 'cart:created';
   const TYPE_HOLD = 'cart:hold';

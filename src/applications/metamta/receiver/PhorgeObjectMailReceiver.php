@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
+abstract class PhorgeObjectMailReceiver extends PhorgeMailReceiver {
 
   /**
    * Return a regular expression fragment which matches the name of an
@@ -21,14 +21,14 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
    *
    * @param   string          A string matched by @{method:getObjectPattern}
    *                          fragment.
-   * @param   PhabricatorUser The viewing user.
+   * @param   PhorgeUser The viewing user.
    * @return  void
    */
-  abstract protected function loadObject($pattern, PhabricatorUser $viewer);
+  abstract protected function loadObject($pattern, PhorgeUser $viewer);
 
 
   final protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
 
     $parts = $this->matchObjectAddress($target);
@@ -46,8 +46,8 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
 
     try {
       $object = $this->loadObject($pattern, $sender);
-    } catch (PhabricatorPolicyException $policy_exception) {
-      throw new PhabricatorMetaMTAReceivedMailProcessingException(
+    } catch (PhorgePolicyException $policy_exception) {
+      throw new PhorgeMetaMTAReceivedMailProcessingException(
         MetaMTAReceivedMailStatus::STATUS_POLICY_PROBLEM,
         pht(
           'This mail is addressed to an object ("%s") you do not have '.
@@ -57,7 +57,7 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
     }
 
     if (!$object) {
-      throw new PhabricatorMetaMTAReceivedMailProcessingException(
+      throw new PhorgeMetaMTAReceivedMailProcessingException(
         MetaMTAReceivedMailStatus::STATUS_NO_SUCH_OBJECT,
         pht(
           'This mail is addressed to an object ("%s"), but that object '.
@@ -67,8 +67,8 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
 
     $sender_identifier = $parts['sender'];
     if ($sender_identifier === 'public') {
-      if (!PhabricatorEnv::getEnvConfig('metamta.public-replies')) {
-        throw new PhabricatorMetaMTAReceivedMailProcessingException(
+      if (!PhorgeEnv::getEnvConfig('metamta.public-replies')) {
+        throw new PhorgeMetaMTAReceivedMailProcessingException(
           MetaMTAReceivedMailStatus::STATUS_NO_PUBLIC_MAIL,
           pht(
             'This mail is addressed to the public email address of an object '.
@@ -81,7 +81,7 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
       $check_phid = $object->getPHID();
     } else {
       if ($sender_identifier != $sender->getID()) {
-        throw new PhabricatorMetaMTAReceivedMailProcessingException(
+        throw new PhorgeMetaMTAReceivedMailProcessingException(
           MetaMTAReceivedMailStatus::STATUS_USER_MISMATCH,
           pht(
             'This mail is addressed to the private email address of an object '.
@@ -94,11 +94,11 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
       $check_phid = $sender->getPHID();
     }
 
-    $mail_key = PhabricatorMetaMTAMailProperties::loadMailKey($object);
+    $mail_key = PhorgeMetaMTAMailProperties::loadMailKey($object);
     $expect_hash = self::computeMailHash($mail_key, $check_phid);
 
     if (!phutil_hashes_are_identical($expect_hash, $parts['hash'])) {
-      throw new PhabricatorMetaMTAReceivedMailProcessingException(
+      throw new PhorgeMetaMTAReceivedMailProcessingException(
         MetaMTAReceivedMailStatus::STATUS_HASH_MISMATCH,
         pht(
           'This mail is addressed to an object ("%s"), but the address is '.
@@ -114,9 +114,9 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
   }
 
   protected function processReceivedObjectMail(
-    PhabricatorMetaMTAReceivedMail $mail,
-    PhabricatorLiskDAO $object,
-    PhabricatorUser $sender) {
+    PhorgeMetaMTAReceivedMail $mail,
+    PhorgeLiskDAO $object,
+    PhorgeUser $sender) {
 
     $handler = $this->getTransactionReplyHandler();
     if ($handler) {
@@ -134,12 +134,12 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
     return null;
   }
 
-  public function loadMailReceiverObject($pattern, PhabricatorUser $viewer) {
+  public function loadMailReceiverObject($pattern, PhorgeUser $viewer) {
     return $this->loadObject($pattern, $viewer);
   }
 
   final public function canAcceptMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
 
     // If we don't have a valid sender user account, we can never accept
@@ -153,7 +153,7 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
   }
 
   private function matchObjectAddress(PhutilEmailAddress $address) {
-    $address = PhabricatorMailUtil::normalizeAddress($address);
+    $address = PhorgeMailUtil::normalizeAddress($address);
     $local = $address->getLocalPart();
 
     $regexp = $this->getAddressRegexp();
@@ -181,7 +181,7 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
   }
 
   public static function computeMailHash($mail_key, $phid) {
-    $hash = PhabricatorHash::digestWithNamedKey(
+    $hash = PhorgeHash::digestWithNamedKey(
       $mail_key.$phid,
       'mail.object-address-key');
     return substr($hash, 0, 16);

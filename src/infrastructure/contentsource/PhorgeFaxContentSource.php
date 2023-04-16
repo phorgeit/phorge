@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFaxContentSource
-  extends PhabricatorContentSource {
+final class PhorgeFaxContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'fax';
 

@@ -18,7 +18,7 @@ final class DiffusionRepositoryStagingManagementPanel
   }
 
   public function shouldEnableForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isGit();
   }
 
@@ -45,15 +45,15 @@ final class DiffusionRepositoryStagingManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $staging_uri = $this->getEditPageURI();
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Staging'))
         ->setHref($staging_uri)

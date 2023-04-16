@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorFileTransformTestCase extends PhabricatorTestCase {
+final class PhorgeFileTransformTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testGetAllTransforms() {
-    PhabricatorFileTransform::getAllTransforms();
+    PhorgeFileTransform::getAllTransforms();
     $this->assertTrue(true);
   }
 
   public function testThumbTransformDefaults() {
-    $xforms = PhabricatorFileTransform::getAllTransforms();
-    $file = new PhabricatorFile();
+    $xforms = PhorgeFileTransform::getAllTransforms();
+    $file = new PhorgeFile();
 
     foreach ($xforms as $xform) {
-      if (!($xform instanceof PhabricatorFileThumbnailTransform)) {
+      if (!($xform instanceof PhorgeFileThumbnailTransform)) {
         continue;
       }
 

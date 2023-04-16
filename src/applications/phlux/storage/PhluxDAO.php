@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhluxDAO extends PhabricatorLiskDAO {
+abstract class PhluxDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'phlux';

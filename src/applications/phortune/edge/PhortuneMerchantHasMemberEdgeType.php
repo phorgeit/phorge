@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneMerchantHasMemberEdgeType extends PhabricatorEdgeType {
+final class PhortuneMerchantHasMemberEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 53;
 

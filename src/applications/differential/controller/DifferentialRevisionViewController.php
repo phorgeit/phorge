@@ -97,7 +97,7 @@ final class DifferentialRevisionViewController
       if ($repository_phid == $revision->getRepositoryPHID()) {
         $repository = $revision->getRepository();
       } else {
-        $repository = id(new PhabricatorRepositoryQuery())
+        $repository = id(new PhorgeRepositoryQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($repository_phid))
           ->executeOne();
@@ -141,7 +141,7 @@ final class DifferentialRevisionViewController
     $this->loadDiffProperties($diffs);
     $props = $target_manual->getDiffProperties();
 
-    $subscriber_phids = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $subscriber_phids = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $revision->getPHID());
 
     $object_phids = array_merge(
@@ -159,9 +159,9 @@ final class DifferentialRevisionViewController
       }
     }
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $revision,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
 
     $field_list->setViewer($viewer);
     $field_list->readFieldsFromStorage($revision);
@@ -236,7 +236,7 @@ final class DifferentialRevisionViewController
 
       $inlines = mpull($inlines, 'newInlineCommentObject');
 
-      $inlines = id(new PhabricatorInlineCommentAdjustmentEngine())
+      $inlines = id(new PhorgeInlineCommentAdjustmentEngine())
         ->setViewer($viewer)
         ->setRevision($revision)
         ->setOldChangesets($old)
@@ -584,7 +584,7 @@ final class DifferentialRevisionViewController
             'The content of this revision is hidden until the author has '.
             'signed all of the required legal agreements.'));
     } else {
-      $anchor = id(new PhabricatorAnchorView())
+      $anchor = id(new PhorgeAnchorView())
         ->setAnchorName('toc')
         ->setNavigationMarker(true);
 
@@ -748,13 +748,13 @@ final class DifferentialRevisionViewController
     $revision_phid = $revision->getPHID();
     $curtain = $this->newCurtainView($revision);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $revision,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setHref("/differential/revision/edit/{$revision_id}/")
         ->setName(pht('Edit Revision'))
@@ -762,7 +762,7 @@ final class DifferentialRevisionViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-upload')
         ->setHref("/differential/revision/update/{$revision_id}/")
         ->setName(pht('Update Diff'))
@@ -771,12 +771,12 @@ final class DifferentialRevisionViewController
 
     $request_uri = $this->getRequest()->getRequestURI();
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-download')
         ->setName(pht('Download Raw Diff'))
         ->setHref($request_uri->alter('download', 'true')));
 
-    $relationship_list = PhabricatorObjectRelationshipList::newForObject(
+    $relationship_list = PhorgeObjectRelationshipList::newForObject(
       $viewer,
       $revision);
 
@@ -809,7 +809,7 @@ final class DifferentialRevisionViewController
         $can_land = true;
       }
 
-      $action = id(new PhabricatorActionView())
+      $action = id(new PhorgeActionView())
         ->setName(pht('Land Revision'))
         ->setIcon('fa-fighter-jet')
         ->setHref("/differential/revision/operation/{$revision_id}/")
@@ -864,7 +864,7 @@ final class DifferentialRevisionViewController
   private function loadChangesetsAndVsMap(
     DifferentialDiff $target,
     DifferentialDiff $diff_vs = null,
-    PhabricatorRepository $repository = null) {
+    PhorgeRepository $repository = null) {
     $viewer = $this->getViewer();
 
     $load_diffs = array($target);
@@ -940,11 +940,11 @@ final class DifferentialRevisionViewController
   }
 
   private function buildSymbolIndexes(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $unfolded_changesets) {
     assert_instances_of($unfolded_changesets, 'DifferentialChangeset');
 
-    $engine = PhabricatorSyntaxHighlighter::newEngine();
+    $engine = PhorgeSyntaxHighlighter::newEngine();
 
     $langs = $repository->getSymbolLanguages();
     $langs = nonempty($langs, array());
@@ -983,7 +983,7 @@ final class DifferentialRevisionViewController
   private function loadOtherRevisions(
     array $changesets,
     DifferentialDiff $target,
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     assert_instances_of($changesets, 'DifferentialChangeset');
 
     $viewer = $this->getViewer();
@@ -999,7 +999,7 @@ final class DifferentialRevisionViewController
       return array();
     }
 
-    $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
+    $recent = (PhorgeTime::getNow() - phutil_units('30 days in seconds'));
 
     $query = id(new DifferentialRevisionQuery())
       ->setViewer($viewer)
@@ -1049,7 +1049,7 @@ final class DifferentialRevisionViewController
     array $changesets,
     array $vs_changesets,
     array $vs_map,
-    PhabricatorRepository $repository = null) {
+    PhorgeRepository $repository = null) {
 
     assert_instances_of($changesets,    'DifferentialChangeset');
     assert_instances_of($vs_changesets, 'DifferentialChangeset');
@@ -1070,7 +1070,7 @@ final class DifferentialRevisionViewController
       $changes[] = ArcanistDiffChange::newFromDictionary($changedict);
     }
 
-    $loader = id(new PhabricatorFileBundleLoader())
+    $loader = id(new PhorgeFileBundleLoader())
       ->setViewer($viewer);
 
     $bundle = ArcanistBundle::newFromChanges($changes);
@@ -1078,11 +1078,11 @@ final class DifferentialRevisionViewController
 
     $vcs = $repository ? $repository->getVersionControlSystem() : null;
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $raw_diff = $bundle->toGitPatch();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
       default:
         $raw_diff = $bundle->toUnifiedDiff();
         break;
@@ -1107,11 +1107,11 @@ final class DifferentialRevisionViewController
 
     $iterator = new ArrayIterator(array($raw_diff));
 
-    $source = id(new PhabricatorIteratorFileUploadSource())
+    $source = id(new PhorgeIteratorFileUploadSource())
       ->setName($file_name)
       ->setMIMEType('text/plain')
       ->setRelativeTTL(phutil_units('24 hours in seconds'))
-      ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+      ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
       ->setIterator($iterator);
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
@@ -1145,7 +1145,7 @@ final class DifferentialRevisionViewController
 
   private function buildRevisionWarnings(
     DifferentialRevision $revision,
-    PhabricatorCustomFieldList $field_list,
+    PhorgeCustomFieldList $field_list,
     array $warning_handle_map,
     array $handles) {
 
@@ -1165,7 +1165,7 @@ final class DifferentialRevisionViewController
   private function buildDiffDetailView(
     array $diffs,
     DifferentialRevision $revision,
-    PhabricatorCustomFieldList $field_list) {
+    PhorgeCustomFieldList $field_list) {
     $viewer = $this->getViewer();
 
     $fields = array();

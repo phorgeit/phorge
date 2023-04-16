@@ -96,13 +96,13 @@ abstract class DiffusionFileFutureQuery
     $relative_ttl = phutil_units('48 hours in seconds');
 
     try {
-      $threshold = PhabricatorFileStorageEngine::getChunkThreshold();
+      $threshold = PhorgeFileStorageEngine::getChunkThreshold();
       $future->setReadBufferSize($threshold);
 
-      $source = id(new PhabricatorExecFutureFileUploadSource())
+      $source = id(new PhorgeExecFutureFileUploadSource())
         ->setName($name)
         ->setRelativeTTL($relative_ttl)
-        ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+        ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
         ->setExecFuture($future);
 
       $byte_limit = $this->getByteLimit();
@@ -121,7 +121,7 @@ abstract class DiffusionFileFutureQuery
 
       $this->didHitTimeLimit = true;
       $file = null;
-    } catch (PhabricatorFileUploadSourceByteLimitException $ex) {
+    } catch (PhorgeFileUploadSourceByteLimitException $ex) {
       $this->didHitByteLimit = true;
       $file = null;
     }

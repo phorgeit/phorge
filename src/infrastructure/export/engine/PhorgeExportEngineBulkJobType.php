@@ -1,41 +1,41 @@
 <?php
 
-final class PhabricatorExportEngineBulkJobType
-   extends PhabricatorWorkerSingleBulkJobType {
+final class PhorgeExportEngineBulkJobType
+   extends PhorgeWorkerSingleBulkJobType {
 
   public function getBulkJobTypeKey() {
     return 'export';
   }
 
-  public function getJobName(PhabricatorWorkerBulkJob $job) {
+  public function getJobName(PhorgeWorkerBulkJob $job) {
     return pht('Data Export');
   }
 
   public function getCurtainActions(
-    PhabricatorUser $viewer,
-    PhabricatorWorkerBulkJob $job) {
+    PhorgeUser $viewer,
+    PhorgeWorkerBulkJob $job) {
     $actions = array();
 
     $file_phid = $job->getParameter('filePHID');
     if (!$file_phid) {
-      $actions[] = id(new PhabricatorActionView())
+      $actions[] = id(new PhorgeActionView())
         ->setHref('#')
         ->setIcon('fa-download')
         ->setDisabled(true)
         ->setName(pht('Exporting Data...'));
     } else {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($file_phid))
         ->executeOne();
       if (!$file) {
-        $actions[] = id(new PhabricatorActionView())
+        $actions[] = id(new PhorgeActionView())
           ->setHref('#')
           ->setIcon('fa-download')
           ->setDisabled(true)
           ->setName(pht('Temporary File Expired'));
       } else {
-        $actions[] = id(new PhabricatorActionView())
+        $actions[] = id(new PhorgeActionView())
           ->setHref($file->getDownloadURI())
           ->setIcon('fa-download')
           ->setName(pht('Download Data Export'));
@@ -47,12 +47,12 @@ final class PhabricatorExportEngineBulkJobType
 
 
   public function runTask(
-    PhabricatorUser $actor,
-    PhabricatorWorkerBulkJob $job,
-    PhabricatorWorkerBulkTask $task) {
+    PhorgeUser $actor,
+    PhorgeWorkerBulkJob $job,
+    PhorgeWorkerBulkTask $task) {
 
     $engine_class = $job->getParameter('engineClass');
-    if (!is_subclass_of($engine_class, 'PhabricatorApplicationSearchEngine')) {
+    if (!is_subclass_of($engine_class, 'PhorgeApplicationSearchEngine')) {
       throw new Exception(
         pht(
           'Unknown search engine class "%s".',
@@ -66,7 +66,7 @@ final class PhabricatorExportEngineBulkJobType
     if ($engine->isBuiltinQuery($query_key)) {
       $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
     } else if ($query_key) {
-      $saved_query = id(new PhabricatorSavedQueryQuery())
+      $saved_query = id(new PhorgeSavedQueryQuery())
         ->setViewer($actor)
         ->withQueryKeys(array($query_key))
         ->executeOne();
@@ -83,7 +83,7 @@ final class PhabricatorExportEngineBulkJobType
 
     $format_key = $job->getParameter('formatKey');
 
-    $all_formats = PhabricatorExportFormat::getAllExportFormats();
+    $all_formats = PhorgeExportFormat::getAllExportFormats();
     $format = idx($all_formats, $format_key);
     if (!$format) {
       throw new Exception(
@@ -99,7 +99,7 @@ final class PhabricatorExportEngineBulkJobType
           $format_key));
     }
 
-    $export_engine = id(new PhabricatorExportEngine())
+    $export_engine = id(new PhorgeExportEngine())
       ->setViewer($actor)
       ->setTitle($job->getParameter('title'))
       ->setFilename($job->getParameter('filename'))

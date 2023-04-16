@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
+final class PhorgeProjectCoreTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -20,10 +20,10 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $proj = $this->refreshProject($proj, $user, true);
 
     $this->joinProject($proj, $user);
-    $proj->setViewPolicy(PhabricatorPolicies::POLICY_USER);
+    $proj->setViewPolicy(PhorgePolicies::POLICY_USER);
     $proj->save();
 
-    $can_view = PhabricatorPolicyCapability::CAN_VIEW;
+    $can_view = PhorgePolicyCapability::CAN_VIEW;
 
     // When the view policy is set to "users", any user can see the project.
     $this->assertTrue((bool)$this->refreshProject($proj, $user));
@@ -32,7 +32,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     // When the view policy is set to "no one", members can still see the
     // project.
-    $proj->setViewPolicy(PhabricatorPolicies::POLICY_NOONE);
+    $proj->setViewPolicy(PhorgePolicies::POLICY_NOONE);
     $proj->save();
 
     $this->assertTrue((bool)$this->refreshProject($proj, $user));
@@ -46,13 +46,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $proj = $this->createProject($user);
 
     $this->assertTrue(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $user,
         $proj,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
     // This object is visible so its handle should load normally.
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs(array($proj->getPHID()))
       ->executeOne();
@@ -61,13 +61,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     // Change the "Can Use Application" policy for Projecs to "No One". This
     // should cause filtering checks to fail even when they are executed
     // directly rather than via a Query.
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig(
       'phorge.application-settings',
       array(
-        'PHID-APPS-PhabricatorProjectApplication' => array(
+        'PHID-APPS-PhorgeProjectApplication' => array(
           'policy' => array(
-            'view' => PhabricatorPolicies::POLICY_NOONE,
+            'view' => PhorgePolicies::POLICY_NOONE,
           ),
         ),
       ));
@@ -75,17 +75,17 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     // Application visibility is cached because it does not normally change
     // over the course of a single request. Drop the cache so the next filter
     // test uses the new visibility.
-    PhabricatorCaches::destroyRequestCache();
+    PhorgeCaches::destroyRequestCache();
 
     $this->assertFalse(
-      PhabricatorPolicyFilter::hasCapability(
+      PhorgePolicyFilter::hasCapability(
         $user,
         $proj,
-        PhabricatorPolicyCapability::CAN_VIEW));
+        PhorgePolicyCapability::CAN_VIEW));
 
     // We should still be able to load a handle for the project, even if we
     // can not see the application.
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs(array($proj->getPHID()))
       ->executeOne();
@@ -152,15 +152,15 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
     // When edit and view policies are set to "user", anyone can edit.
-    $proj->setViewPolicy(PhabricatorPolicies::POLICY_USER);
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_USER);
+    $proj->setViewPolicy(PhorgePolicies::POLICY_USER);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_USER);
     $proj->save();
 
     $this->assertTrue($this->attemptProjectEdit($proj, $user));
 
 
     // When edit policy is set to "no one", no one can edit.
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_NOONE);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_NOONE);
     $proj->save();
 
     $caught = null;
@@ -185,7 +185,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $this->joinProject($child, $user1);
     $this->joinProject($child, $user2);
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($user1)
       ->withPHIDs(array($child->getPHID()))
       ->needAncestorMembers(true)
@@ -212,13 +212,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $parent = $this->createProject($user, $ancestor);
     $child = $this->createProject($user, $parent);
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withAncestorProjectPHIDs(array($ancestor->getPHID()))
       ->execute();
     $this->assertEqual(2, count($projects));
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withParentProjectPHIDs(array($ancestor->getPHID()))
       ->execute();
@@ -227,7 +227,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
       $parent->getPHID(),
       head($projects)->getPHID());
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withAncestorProjectPHIDs(array($ancestor->getPHID()))
       ->withDepthBetween(2, null)
@@ -241,33 +241,33 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $child2 = $this->createProject($user, $parent2);
     $grandchild2 = $this->createProject($user, $child2);
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withAncestorProjectPHIDs(array($ancestor->getPHID()))
       ->execute();
     $this->assertEqual(5, count($projects));
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withParentProjectPHIDs(array($ancestor->getPHID()))
       ->execute();
     $this->assertEqual(2, count($projects));
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withAncestorProjectPHIDs(array($ancestor->getPHID()))
       ->withDepthBetween(2, null)
       ->execute();
     $this->assertEqual(3, count($projects));
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withAncestorProjectPHIDs(array($ancestor->getPHID()))
       ->withDepthBetween(3, null)
       ->execute();
     $this->assertEqual(1, count($projects));
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(
         array(
@@ -279,7 +279,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   public function testMemberMaterialization() {
-    $material_type = PhabricatorProjectMaterializedMemberEdgeType::EDGECONST;
+    $material_type = PhorgeProjectMaterializedMemberEdgeType::EDGECONST;
 
     $user = $this->createUser();
     $user->save();
@@ -289,7 +289,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     $this->joinProject($child, $user);
 
-    $parent_material = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $parent_material = PhorgeEdgeQuery::loadDestinationPHIDs(
       $parent->getPHID(),
       $material_type);
 
@@ -322,14 +322,14 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     $this->joinProject($parent, $user);
 
-    $milestone = id(new PhabricatorProjectQuery())
+    $milestone = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($milestone->getPHID()))
       ->executeOne();
 
     $this->assertTrue($milestone->isUserMember($user->getPHID()));
 
-    $milestone = id(new PhabricatorProjectQuery())
+    $milestone = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($milestone->getPHID()))
       ->needMembers(true)
@@ -354,18 +354,18 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $name = 'slugproject';
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name);
     $this->applyTransactions($project, $user, $xactions);
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($name));
     $this->applyTransactions($project, $user, $xactions);
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($project->getPHID()))
       ->needSlugs(true)
@@ -380,17 +380,17 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $name2 = 'slugproject2';
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name2);
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($name2));
 
     $this->applyTransactions($project, $user, $xactions);
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($project->getPHID()))
       ->needSlugs(true)
@@ -414,13 +414,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($input, $input));
 
     $this->applyTransactions($project, $user, $xactions);
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($project->getPHID()))
       ->needSlugs(true)
@@ -446,13 +446,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($input));
 
     $this->applyTransactions($project, $user, $xactions);
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withPHIDs(array($project->getPHID()))
       ->needSlugs(true)
@@ -472,14 +472,14 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($input));
 
     $caught = null;
     try {
       $this->applyTransactions($project2, $user, $xactions);
-    } catch (PhabricatorApplicationTransactionValidationException $ex) {
+    } catch (PhorgeApplicationTransactionValidationException $ex) {
       $caught = $ex;
     }
 
@@ -496,25 +496,25 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $user2 = $this->createUser();
     $user2->save();
 
-    $project = PhabricatorProject::initializeNewProject($user1);
+    $project = PhorgeProject::initializeNewProject($user1);
     $name = pht('Test Project %d', mt_rand());
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name);
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
       ->setNewValue(
-        id(new PhabricatorProjectMembersPolicyRule())
+        id(new PhorgeProjectMembersPolicyRule())
           ->getObjectPolicyFullKey());
 
-    $edge_type = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+    $edge_type = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $edge_type)
       ->setNewValue(
         array(
@@ -595,21 +595,21 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $slug = 'queryslugextra';
     $slug2 = 'QuErYSlUgExTrA';
 
-    $project = PhabricatorProject::initializeNewProject($user);
+    $project = PhorgeProject::initializeNewProject($user);
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name);
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
       ->setNewValue(array($slug));
 
     $this->applyTransactions($project, $user, $xactions);
 
-    $project_query = id(new PhabricatorProjectQuery())
+    $project_query = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withSlugs(array($name));
     $project_query->execute();
@@ -621,7 +621,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
       ),
       ipull($map, 'projectPHID'));
 
-    $project_query = id(new PhabricatorProjectQuery())
+    $project_query = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withSlugs(array($slug));
     $project_query->execute();
@@ -633,7 +633,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
       ),
       ipull($map, 'projectPHID'));
 
-    $project_query = id(new PhabricatorProjectQuery())
+    $project_query = id(new PhorgeProjectQuery())
       ->setViewer($user)
       ->withSlugs(array($name, $slug, $name2, $slug2));
     $project_query->execute();
@@ -730,8 +730,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
     // If a user can't edit or join a project, joining fails.
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_NOONE);
-    $proj->setJoinPolicy(PhabricatorPolicies::POLICY_NOONE);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_NOONE);
+    $proj->setJoinPolicy(PhorgePolicies::POLICY_NOONE);
     $proj->save();
 
     $proj = $this->refreshProject($proj, $user, true);
@@ -745,8 +745,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
     // If a user can edit a project, they can join.
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_USER);
-    $proj->setJoinPolicy(PhabricatorPolicies::POLICY_NOONE);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_USER);
+    $proj->setJoinPolicy(PhorgePolicies::POLICY_NOONE);
     $proj->save();
 
     $proj = $this->refreshProject($proj, $user, true);
@@ -759,8 +759,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
     // If a user can join a project, they can join, even if they can't edit.
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_NOONE);
-    $proj->setJoinPolicy(PhabricatorPolicies::POLICY_USER);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_NOONE);
+    $proj->setJoinPolicy(PhorgePolicies::POLICY_USER);
     $proj->save();
 
     $proj = $this->refreshProject($proj, $user, true);
@@ -772,8 +772,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
     // A user can leave a project even if they can't edit it or join.
-    $proj->setEditPolicy(PhabricatorPolicies::POLICY_NOONE);
-    $proj->setJoinPolicy(PhabricatorPolicies::POLICY_NOONE);
+    $proj->setEditPolicy(PhorgePolicies::POLICY_NOONE);
+    $proj->setJoinPolicy(PhorgePolicies::POLICY_NOONE);
     $proj->save();
 
     $proj = $this->refreshProject($proj, $user, true);
@@ -1059,7 +1059,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     // milestone column.
     $this->loadColumns($user, $board, $task);
 
-    $column = id(new PhabricatorProjectColumnQuery())
+    $column = id(new PhorgeProjectColumnQuery())
       ->setViewer($user)
       ->withProjectPHIDs(array($board->getPHID()))
       ->withProxyPHIDs(array($milestone->getPHID()))
@@ -1134,25 +1134,25 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $column = $this->refreshColumn($user, $column);
     $this->assertTrue((bool)$column);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $user,
       $column,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     $this->assertTrue($can_edit);
 
     // Now, set the project edit policy to "Members of Project". This should
     // disable editing.
-    $members_policy = id(new PhabricatorProjectMembersPolicyRule())
+    $members_policy = id(new PhorgeProjectMembersPolicyRule())
       ->getObjectPolicyFullKey();
     $board->setEditPolicy($members_policy)->save();
 
     $column = $this->refreshColumn($user, $column);
     $this->assertTrue((bool)$column);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $user,
       $column,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     $this->assertFalse($can_edit);
 
     // Now, join the project. This should make the column editable again.
@@ -1167,26 +1167,26 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $this->assertTrue((bool)$board);
     $this->assertTrue($board->isUserMember($user->getPHID()));
 
-    $can_view = PhabricatorPolicyFilter::hasCapability(
+    $can_view = PhorgePolicyFilter::hasCapability(
       $user,
       $column,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
     $this->assertTrue($can_view);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $user,
       $column,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     $this->assertTrue($can_edit);
   }
 
   public function testProjectPolicyRules() {
     $author = $this->generateNewTestUser();
 
-    $proj_a = PhabricatorProject::initializeNewProject($author)
+    $proj_a = PhorgeProject::initializeNewProject($author)
       ->setName('Policy A')
       ->save();
-    $proj_b = PhabricatorProject::initializeNewProject($author)
+    $proj_b = PhorgeProject::initializeNewProject($author)
       ->setName('Policy B')
       ->save();
 
@@ -1198,12 +1198,12 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $this->joinProject($proj_a, $user_all);
     $this->joinProject($proj_b, $user_all);
 
-    $any_policy = id(new PhabricatorPolicy())
+    $any_policy = id(new PhorgePolicy())
       ->setRules(
         array(
           array(
-            'action' => PhabricatorPolicy::ACTION_ALLOW,
-            'rule' => 'PhabricatorProjectsPolicyRule',
+            'action' => PhorgePolicy::ACTION_ALLOW,
+            'rule' => 'PhorgeProjectsPolicyRule',
             'value' => array(
               $proj_a->getPHID(),
               $proj_b->getPHID(),
@@ -1212,12 +1212,12 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
         ))
       ->save();
 
-    $all_policy = id(new PhabricatorPolicy())
+    $all_policy = id(new PhorgePolicy())
       ->setRules(
         array(
           array(
-            'action' => PhabricatorPolicy::ACTION_ALLOW,
-            'rule' => 'PhabricatorProjectsAllPolicyRule',
+            'action' => PhorgePolicy::ACTION_ALLOW,
+            'rule' => 'PhorgeProjectsAllPolicyRule',
             'value' => array(
               $proj_a->getPHID(),
               $proj_b->getPHID(),
@@ -1258,15 +1258,15 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     foreach ($map as $test_case) {
       list($label, $user, $expect_any, $expect_all) = $test_case;
 
-      $can_any = PhabricatorPolicyFilter::hasCapability(
+      $can_any = PhorgePolicyFilter::hasCapability(
         $user,
         $any_task,
-        PhabricatorPolicyCapability::CAN_VIEW);
+        PhorgePolicyCapability::CAN_VIEW);
 
-      $can_all = PhabricatorPolicyFilter::hasCapability(
+      $can_all = PhorgePolicyFilter::hasCapability(
         $user,
         $all_task,
-        PhabricatorPolicyCapability::CAN_VIEW);
+        PhorgePolicyCapability::CAN_VIEW);
 
       $this->assertEqual($expect_any, $can_any, pht('%s / Any', $label));
       $this->assertEqual($expect_all, $can_all, pht('%s / All', $label));
@@ -1275,11 +1275,11 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
   private function moveToColumn(
-    PhabricatorUser $viewer,
-    PhabricatorProject $board,
+    PhorgeUser $viewer,
+    PhorgeProject $board,
     ManiphestTask $task,
-    PhabricatorProjectColumn $src,
-    PhabricatorProjectColumn $dst,
+    PhorgeProjectColumn $src,
+    PhorgeProjectColumn $dst,
     $options = null) {
 
     $xactions = array();
@@ -1293,7 +1293,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     ) + $options;
 
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+      ->setTransactionType(PhorgeTransactions::TYPE_COLUMNS)
       ->setNewValue(array($value));
 
     $editor = id(new ManiphestTransactionEditor())
@@ -1305,18 +1305,18 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
   private function assertColumns(
     array $expect,
-    PhabricatorUser $viewer,
-    PhabricatorProject $board,
+    PhorgeUser $viewer,
+    PhorgeProject $board,
     ManiphestTask $task) {
     $column_phids = $this->loadColumns($viewer, $board, $task);
     $this->assertEqual($expect, $column_phids);
   }
 
   private function loadColumns(
-    PhabricatorUser $viewer,
-    PhabricatorProject $board,
+    PhorgeUser $viewer,
+    PhorgeProject $board,
     ManiphestTask $task) {
-    $engine = id(new PhabricatorBoardLayoutEngine())
+    $engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board->getPHID()))
       ->setObjectPHIDs(
@@ -1334,12 +1334,12 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
   private function assertTasksInColumn(
     array $expect,
-    PhabricatorUser $viewer,
-    PhabricatorProject $board,
-    PhabricatorProjectColumn $column,
+    PhorgeUser $viewer,
+    PhorgeProject $board,
+    PhorgeProjectColumn $column,
     $label = null) {
 
-    $engine = id(new PhabricatorBoardLayoutEngine())
+    $engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs(array($board->getPHID()))
       ->setObjectPHIDs($expect)
@@ -1354,13 +1354,13 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function addColumn(
-    PhabricatorUser $viewer,
-    PhabricatorProject $project,
+    PhorgeUser $viewer,
+    PhorgeProject $project,
     $sequence) {
 
     $project->setHasWorkboard(1)->save();
 
-    return PhabricatorProjectColumn::initializeNewColumn($viewer)
+    return PhorgeProjectColumn::initializeNewColumn($viewer)
       ->setSequence(0)
       ->setProperty('isDefault', ($sequence == 0))
       ->setProjectPHID($project->getPHID())
@@ -1368,9 +1368,9 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function getTaskProjects(ManiphestTask $task) {
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $task->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
     sort($project_phids);
 
@@ -1378,8 +1378,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function attemptProjectEdit(
-    PhabricatorProject $proj,
-    PhabricatorUser $user,
+    PhorgeProject $proj,
+    PhorgeUser $user,
     $skip_refresh = false) {
 
     $proj = $this->refreshProject($proj, $user, true);
@@ -1405,17 +1405,17 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
 
   private function addProjectTags(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     ManiphestTask $task,
     array $phids) {
 
     $xactions = array();
 
     $xactions[] = id(new ManiphestTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
       ->setNewValue(
         array(
           '+' => array_fuse($phids),
@@ -1429,7 +1429,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function newTask(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $projects,
     $name = null) {
 
@@ -1447,10 +1447,10 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
     if ($projects) {
       $xactions[] = id(new ManiphestTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
-          PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+          PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
         ->setNewValue(
           array(
             '=' => array_fuse(mpull($projects, 'getPHID')),
@@ -1467,12 +1467,12 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function assertQueryByProjects(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $expect,
     array $projects,
     $label = null) {
 
-    $datasource = id(new PhabricatorProjectLogicalDatasource())
+    $datasource = id(new PhorgeProjectLogicalDatasource())
       ->setViewer($viewer);
 
     $project_phids = mpull($projects, 'getPHID');
@@ -1482,7 +1482,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
       ->setViewer($viewer);
 
     $query->withEdgeLogicConstraints(
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
       $constraints);
 
     $tasks = $query->execute();
@@ -1497,12 +1497,12 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function refreshProject(
-    PhabricatorProject $project,
-    PhabricatorUser $viewer,
+    PhorgeProject $project,
+    PhorgeUser $viewer,
     $need_members = false,
     $need_watchers = false) {
 
-    $results = id(new PhabricatorProjectQuery())
+    $results = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->needMembers($need_members)
       ->needWatchers($need_watchers)
@@ -1517,10 +1517,10 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function refreshColumn(
-    PhabricatorUser $viewer,
-    PhabricatorProjectColumn $column) {
+    PhorgeUser $viewer,
+    PhorgeProjectColumn $column) {
 
-    $results = id(new PhabricatorProjectColumnQuery())
+    $results = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withIDs(array($column->getID()))
       ->execute();
@@ -1533,30 +1533,30 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function createProject(
-    PhabricatorUser $user,
-    PhabricatorProject $parent = null,
+    PhorgeUser $user,
+    PhorgeProject $parent = null,
     $is_milestone = false) {
 
-    $project = PhabricatorProject::initializeNewProject($user, $parent);
+    $project = PhorgeProject::initializeNewProject($user, $parent);
 
     $name = pht('Test Project %d', mt_rand());
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorProjectNameTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeProjectNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name);
 
     if ($parent) {
       if ($is_milestone) {
-        $xactions[] = id(new PhabricatorProjectTransaction())
+        $xactions[] = id(new PhorgeProjectTransaction())
           ->setTransactionType(
-              PhabricatorProjectMilestoneTransaction::TRANSACTIONTYPE)
+              PhorgeProjectMilestoneTransaction::TRANSACTIONTYPE)
           ->setNewValue($parent->getPHID());
       } else {
-        $xactions[] = id(new PhabricatorProjectTransaction())
+        $xactions[] = id(new PhorgeProjectTransaction())
           ->setTransactionType(
-              PhabricatorProjectParentTransaction::TRANSACTIONTYPE)
+              PhorgeProjectParentTransaction::TRANSACTIONTYPE)
           ->setNewValue($parent->getPHID());
       }
     }
@@ -1577,14 +1577,14 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function setViewPolicy(
-    PhabricatorProject $project,
-    PhabricatorUser $user,
+    PhorgeProject $project,
+    PhorgeUser $user,
     $policy) {
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
       ->setNewValue($policy);
 
     $this->applyTransactions($project, $user, $xactions);
@@ -1604,7 +1604,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   private function createUser() {
     $rand = mt_rand();
 
-    $user = new PhabricatorUser();
+    $user = new PhorgeUser();
     $user->setUsername('unittestuser'.$rand);
     $user->setRealName(pht('Unit Test User %d', $rand));
 
@@ -1612,54 +1612,54 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function joinProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user) {
+    PhorgeProject $project,
+    PhorgeUser $user) {
     return $this->joinOrLeaveProject($project, $user, '+');
   }
 
   private function leaveProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user) {
+    PhorgeProject $project,
+    PhorgeUser $user) {
     return $this->joinOrLeaveProject($project, $user, '-');
   }
 
   private function watchProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user) {
+    PhorgeProject $project,
+    PhorgeUser $user) {
     return $this->watchOrUnwatchProject($project, $user, '+');
   }
 
   private function unwatchProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user) {
+    PhorgeProject $project,
+    PhorgeUser $user) {
     return $this->watchOrUnwatchProject($project, $user, '-');
   }
 
   private function joinOrLeaveProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user,
+    PhorgeProject $project,
+    PhorgeUser $user,
     $operation) {
     return $this->applyProjectEdgeTransaction(
       $project,
       $user,
       $operation,
-      PhabricatorProjectProjectHasMemberEdgeType::EDGECONST);
+      PhorgeProjectProjectHasMemberEdgeType::EDGECONST);
   }
 
   private function watchOrUnwatchProject(
-    PhabricatorProject $project,
-    PhabricatorUser $user,
+    PhorgeProject $project,
+    PhorgeUser $user,
     $operation) {
     return $this->applyProjectEdgeTransaction(
       $project,
       $user,
       $operation,
-      PhabricatorObjectHasWatcherEdgeType::EDGECONST);
+      PhorgeObjectHasWatcherEdgeType::EDGECONST);
   }
 
   private function applyProjectEdgeTransaction(
-    PhabricatorProject $project,
-    PhabricatorUser $user,
+    PhorgeProject $project,
+    PhorgeUser $user,
     $operation,
     $edge_type) {
 
@@ -1668,8 +1668,8 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     );
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $edge_type)
       ->setNewValue($spec);
 
@@ -1679,11 +1679,11 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
   }
 
   private function applyTransactions(
-    PhabricatorProject $project,
-    PhabricatorUser $user,
+    PhorgeProject $project,
+    PhorgeUser $user,
     array $xactions) {
 
-    $editor = id(new PhabricatorProjectTransactionEditor())
+    $editor = id(new PhorgeProjectTransactionEditor())
       ->setActor($user)
       ->setContentSource($this->newContentSource())
       ->setContinueOnNoEffect(true)

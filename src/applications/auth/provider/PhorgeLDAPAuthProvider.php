@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
+final class PhorgeLDAPAuthProvider extends PhorgeAuthProvider {
 
   private $adapter;
 
@@ -133,7 +133,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function processLoginRequest(
-    PhabricatorAuthLoginController $controller) {
+    PhorgeAuthLoginController $controller) {
 
     $request = $controller->getRequest();
     $viewer = $request->getUser();
@@ -436,13 +436,13 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function renderConfigPropertyTransactionTitle(
-    PhabricatorAuthProviderConfigTransaction $xaction) {
+    PhorgeAuthProviderConfigTransaction $xaction) {
 
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
     $key = $xaction->getMetadataValue(
-      PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+      PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
 
     $labels = $this->getPropertyLabels();
     if (isset($labels[$key])) {
@@ -485,7 +485,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
     $providers = self::getAllEnabledProviders();
 
     foreach ($providers as $provider) {
-      if ($provider instanceof PhabricatorLDAPAuthProvider) {
+      if ($provider instanceof PhorgeLDAPAuthProvider) {
         return $provider;
       }
     }

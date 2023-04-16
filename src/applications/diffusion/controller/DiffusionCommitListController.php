@@ -8,7 +8,7 @@ final class DiffusionCommitListController
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorCommitSearchEngine())
+    return id(new PhorgeCommitSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

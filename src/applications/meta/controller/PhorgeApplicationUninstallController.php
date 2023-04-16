@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationUninstallController
-  extends PhabricatorApplicationsController {
+final class PhorgeApplicationUninstallController
+  extends PhorgeApplicationsController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,13 +9,13 @@ final class PhabricatorApplicationUninstallController
     $action = $request->getURIData('action');
     $application_name = $request->getURIData('application');
 
-    $application = id(new PhabricatorApplicationQuery())
+    $application = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application_name))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 
@@ -25,7 +25,7 @@ final class PhabricatorApplicationUninstallController
 
     $view_uri = $this->getApplicationURI('view/'.$application_name);
 
-    $prototypes_enabled = PhabricatorEnv::getEnvConfig(
+    $prototypes_enabled = PhorgeEnv::getEnvConfig(
       'phorge.show-prototypes');
 
     $dialog = id(new AphrontDialogView())
@@ -48,10 +48,10 @@ final class PhabricatorApplicationUninstallController
       $template = $application->getApplicationTransactionTemplate();
       $xactions[] = id(clone $template)
         ->setTransactionType(
-            PhabricatorApplicationUninstallTransaction::TRANSACTIONTYPE)
+            PhorgeApplicationUninstallTransaction::TRANSACTIONTYPE)
         ->setNewValue($action);
 
-      $editor = id(new PhabricatorApplicationEditor())
+      $editor = id(new PhorgeApplicationEditor())
         ->setActor($user)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -60,7 +60,7 @@ final class PhabricatorApplicationUninstallController
       try {
         $editor->applyTransactions($application, $xactions);
         return id(new AphrontRedirectResponse())->setURI($view_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
 
@@ -89,7 +89,7 @@ final class PhabricatorApplicationUninstallController
       if ($application->canUninstall()) {
         $dialog->setTitle(pht('Really Uninstall Application?'));
 
-        if ($application instanceof PhabricatorHomeApplication) {
+        if ($application instanceof PhorgeHomeApplication) {
           $dialog
             ->appendParagraph(
               pht(

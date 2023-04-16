@@ -1,6 +1,6 @@
 <?php
 
-$phid_type = PhabricatorLegalpadDocumentSignaturePHIDType::TYPECONST;
+$phid_type = PhorgeLegalpadDocumentSignaturePHIDType::TYPECONST;
 
 $docsig_table = new LegalpadDocumentSignature();
 
@@ -40,7 +40,7 @@ foreach ($chunk_iterator as $chunk) {
       continue;
     }
 
-    $phid = PhabricatorPHID::generateNewPHID($phid_type);
+    $phid = PhorgePHID::generateNewPHID($phid_type);
     $id = $docsig_row['id'];
 
     $map[(int)$id] = $phid;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileEditField
-  extends PhabricatorEditField {
+final class PhorgeFileEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
     return new PHUIFormFileControl();

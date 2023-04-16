@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockAuthorizationSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $blueprint;
 
@@ -19,7 +19,7 @@ final class DrydockAuthorizationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function canUseInPanelContext() {
@@ -53,14 +53,14 @@ final class DrydockAuthorizationSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Blueprints'))
         ->setKey('blueprintPHIDs')
         ->setConduitParameterType(new ConduitPHIDListParameterType())
         ->setDescription(pht('Search authorizations for specific blueprints.'))
         ->setAliases(array('blueprint', 'blueprints'))
         ->setDatasource(new DrydockBlueprintDatasource()),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Objects'))
         ->setKey('objectPHIDs')
         ->setDescription(pht('Search authorizations from specific objects.'))
@@ -104,14 +104,14 @@ final class DrydockAuthorizationSearchEngine
 
   protected function renderResultList(
     array $authorizations,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $list = id(new DrydockAuthorizationListView())
       ->setUser($this->requireViewer())
       ->setAuthorizations($authorizations);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($list);
 
     return $result;

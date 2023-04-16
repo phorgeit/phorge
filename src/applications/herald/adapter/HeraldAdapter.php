@@ -68,7 +68,7 @@ abstract class HeraldAdapter extends Phobject {
     return $this;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -83,10 +83,10 @@ abstract class HeraldAdapter extends Phobject {
       return $this->viewer;
     }
 
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -115,7 +115,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   public function setApplicationEmail(
-    PhabricatorMetaMTAApplicationEmail $email) {
+    PhorgeMetaMTAApplicationEmail $email) {
     $this->applicationEmail = $email;
     return $this;
   }
@@ -154,8 +154,8 @@ abstract class HeraldAdapter extends Phobject {
     return $result;
   }
 
-  public function isAvailableToUser(PhabricatorUser $viewer) {
-    $applications = id(new PhabricatorApplicationQuery())
+  public function isAvailableToUser(PhorgeUser $viewer) {
+    $applications = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withInstalled(true)
       ->withClasses(array($this->getAdapterApplicationClass()))
@@ -168,14 +168,14 @@ abstract class HeraldAdapter extends Phobject {
   /**
    * Set the list of transactions which just took effect.
    *
-   * These transactions are set by @{class:PhabricatorApplicationEditor}
+   * These transactions are set by @{class:PhorgeApplicationEditor}
    * automatically, before it invokes Herald.
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhorgeApplicationTransaction> List of transactions.
    * @return this
    */
   final public function setAppliedTransactions(array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, 'PhorgeApplicationTransaction');
     $this->appliedTransactions = $xactions;
     return $this;
   }
@@ -188,14 +188,14 @@ abstract class HeraldAdapter extends Phobject {
    * Herald executes. You can call this method to examine the transactions
    * if you want to react to them.
    *
-   * @return list<PhabricatorApplicationTransaction> List of transactions.
+   * @return list<PhorgeApplicationTransaction> List of transactions.
    */
   final public function getAppliedTransactions() {
     return $this->appliedTransactions;
   }
 
   final public function queueTransaction(
-    PhabricatorApplicationTransaction $transaction) {
+    PhorgeApplicationTransaction $transaction) {
     $this->queuedTransactions[] = $transaction;
   }
 
@@ -206,23 +206,23 @@ abstract class HeraldAdapter extends Phobject {
   final public function newTransaction() {
     $object = $this->newObject();
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       throw new Exception(
         pht(
           'Unable to build a new transaction for adapter object; it does '.
           'not implement "%s".',
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
     }
 
     $xaction = $object->getApplicationTransactionTemplate();
 
-    if (!($xaction instanceof PhabricatorApplicationTransaction)) {
+    if (!($xaction instanceof PhorgeApplicationTransaction)) {
       throw new Exception(
         pht(
           'Expected object (of class "%s") to return a transaction template '.
           '(of class "%s"), but it returned something else ("%s").',
           get_class($object),
-          'PhabricatorApplicationTransaction',
+          'PhorgeApplicationTransaction',
           phutil_describe_type($xaction)));
     }
 
@@ -284,7 +284,7 @@ abstract class HeraldAdapter extends Phobject {
     return $this->isTestAdapterForObject($object);
   }
 
-  public function newTestAdapter(PhabricatorUser $viewer, $object) {
+  public function newTestAdapter(PhorgeUser $viewer, $object) {
     return id(clone $this)
       ->setObject($object);
   }
@@ -844,7 +844,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   private function buildTokenizerFieldValue(
-    PhabricatorTypeaheadDatasource $datasource) {
+    PhorgeTypeaheadDatasource $datasource) {
 
     $key = 'action.'.get_class($datasource);
 
@@ -915,7 +915,7 @@ abstract class HeraldAdapter extends Phobject {
         $content_type));
   }
 
-  public static function getEnabledAdapterMap(PhabricatorUser $viewer) {
+  public static function getEnabledAdapterMap(PhorgeUser $viewer) {
     $map = array();
 
     $adapters = self::getAllAdapters();
@@ -932,7 +932,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   public function getEditorValueForCondition(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HeraldCondition $condition) {
 
     $field = $this->requireFieldImplementation($condition->getFieldName());
@@ -944,7 +944,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   public function getEditorValueForAction(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HeraldActionRecord $action_record) {
 
     $action = $this->requireActionImplementation($action_record->getAction());
@@ -956,7 +956,7 @@ abstract class HeraldAdapter extends Phobject {
 
   public function renderRuleAsText(
     HeraldRule $rule,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     require_celerity_resource('herald-css');
 
@@ -1031,7 +1031,7 @@ abstract class HeraldAdapter extends Phobject {
 
   private function renderConditionAsText(
     HeraldCondition $condition,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $field_type = $condition->getFieldName();
     $field = $this->getFieldImplementation($field_type);
@@ -1057,7 +1057,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   private function renderActionAsText(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HeraldActionRecord $action_record) {
 
     $action_type = $action_record->getAction();
@@ -1075,7 +1075,7 @@ abstract class HeraldAdapter extends Phobject {
 
   private function renderConditionValueAsText(
     HeraldCondition $condition,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $field = $this->requireFieldImplementation($condition->getFieldName());
 
@@ -1086,7 +1086,7 @@ abstract class HeraldAdapter extends Phobject {
   }
 
   public function renderFieldTranscriptValue(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $field_type,
     $field_value) {
 
@@ -1147,7 +1147,7 @@ abstract class HeraldAdapter extends Phobject {
 
   public function loadEdgePHIDs($type) {
     if (!isset($this->edgeCache[$type])) {
-      $phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $this->getObject()->getPHID(),
         $type);
 

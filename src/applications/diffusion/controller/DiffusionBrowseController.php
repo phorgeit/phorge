@@ -118,7 +118,7 @@ final class DiffusionBrowseController extends DiffusionController {
 
     $byte_limit = null;
     if ($view !== 'raw') {
-      $byte_limit = PhabricatorFileStorageEngine::getChunkThreshold();
+      $byte_limit = PhorgeFileStorageEngine::getChunkThreshold();
       $time_limit = 10;
 
       $params += array(
@@ -149,7 +149,7 @@ final class DiffusionBrowseController extends DiffusionController {
           '%s second(s)).',
           new PhutilNumber($time_limit)));
     } else {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($file_phid))
         ->executeOne();
@@ -183,7 +183,7 @@ final class DiffusionBrowseController extends DiffusionController {
       } else {
         $show_editor = true;
 
-        $ref = id(new PhabricatorDocumentRef())
+        $ref = id(new PhorgeDocumentRef())
           ->setFile($file);
 
         $engine = id(new DiffusionDocumentRenderingEngine())
@@ -373,7 +373,7 @@ final class DiffusionBrowseController extends DiffusionController {
 
     $search_mode = null;
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $results = array();
         break;
       default:
@@ -458,7 +458,7 @@ final class DiffusionBrowseController extends DiffusionController {
     $editor_uri = null;
     $editor_template = null;
 
-    $link_engine = PhabricatorEditorURIEngine::newForViewer($viewer);
+    $link_engine = PhorgeEditorURIEngine::newForViewer($viewer);
     if ($link_engine) {
       $link_engine->setRepository($repository);
 
@@ -500,8 +500,8 @@ final class DiffusionBrowseController extends DiffusionController {
   private function buildOwnersList(DiffusionRequest $drequest) {
     $viewer = $this->getViewer();
 
-    $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+    $have_owners = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeOwnersApplication',
       $viewer);
     if (!$have_owners) {
       return null;
@@ -509,9 +509,9 @@ final class DiffusionBrowseController extends DiffusionController {
 
     $repository = $drequest->getRepository();
 
-    $package_query = id(new PhabricatorOwnersPackageQuery())
+    $package_query = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
-      ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+      ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
       ->withControl(
         $repository->getPHID(),
         array(
@@ -546,7 +546,7 @@ final class DiffusionBrowseController extends DiffusionController {
         $item->addAttribute(pht('Owners: %s', $owner_list));
 
         $auto = $package->getAutoReview();
-        $autoreview_map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+        $autoreview_map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
         $spec = idx($autoreview_map, $auto, array());
         $name = idx($spec, 'name', $auto);
         $item->addIcon('fa-code', $name);
@@ -727,7 +727,7 @@ final class DiffusionBrowseController extends DiffusionController {
       ));
 
     $file_phid = $diff_info['filePHID'];
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -783,7 +783,7 @@ final class DiffusionBrowseController extends DiffusionController {
   }
 
   protected function markupText($text) {
-    $engine = PhabricatorMarkupEngine::newDiffusionMarkupEngine();
+    $engine = PhorgeMarkupEngine::newDiffusionMarkupEngine();
     $engine->setConfig('viewer', $this->getRequest()->getUser());
     $text = $engine->markupText($text);
 
@@ -924,7 +924,7 @@ final class DiffusionBrowseController extends DiffusionController {
     $repository = $drequest->getRepository();
     $path = $drequest->getPath();
 
-    $recent = (PhabricatorTime::getNow() - phutil_units('30 days in seconds'));
+    $recent = (PhorgeTime::getNow() - phutil_units('30 days in seconds'));
 
     $revisions = id(new DifferentialRevisionQuery())
       ->setViewer($viewer)
@@ -960,7 +960,7 @@ final class DiffusionBrowseController extends DiffusionController {
     return $view;
   }
 
-  private function getGitLFSRef(PhabricatorRepository $repository, $data) {
+  private function getGitLFSRef(PhorgeRepository $repository, $data) {
     if (!$repository->canUseGitLFS()) {
       return null;
     }
@@ -978,14 +978,14 @@ final class DiffusionBrowseController extends DiffusionController {
     $hash = $matches[1];
     $hash = trim($hash);
 
-    return id(new PhabricatorRepositoryGitLFSRefQuery())
+    return id(new PhorgeRepositoryGitLFSRefQuery())
       ->setViewer($this->getViewer())
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->withObjectHashes(array($hash))
       ->executeOne();
   }
 
-  private function buildGitLFSCorpus(PhabricatorRepositoryGitLFSRef $ref) {
+  private function buildGitLFSCorpus(PhorgeRepositoryGitLFSRef $ref) {
     // TODO: We should probably test if we can load the file PHID here and
     // show the user an error if we can't, rather than making them click
     // through to hit an error.
@@ -1030,10 +1030,10 @@ final class DiffusionBrowseController extends DiffusionController {
     return $corpus;
   }
 
-  private function loadGitLFSFile(PhabricatorRepositoryGitLFSRef $ref) {
+  private function loadGitLFSFile(PhorgeRepositoryGitLFSRef $ref) {
     $viewer = $this->getViewer();
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($ref->getFilePHID()))
       ->executeOne();

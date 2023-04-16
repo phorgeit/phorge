@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileRawStorageFormat
-  extends PhabricatorFileStorageFormat {
+final class PhorgeFileRawStorageFormat
+  extends PhorgeFileStorageFormat {
 
   const FORMATKEY = 'raw';
 

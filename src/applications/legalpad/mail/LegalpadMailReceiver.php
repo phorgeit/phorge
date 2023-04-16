@@ -1,17 +1,17 @@
 <?php
 
-final class LegalpadMailReceiver extends PhabricatorObjectMailReceiver {
+final class LegalpadMailReceiver extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorLegalpadApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeLegalpadApplication');
   }
 
   protected function getObjectPattern() {
     return 'L[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new LegalpadDocumentQuery())

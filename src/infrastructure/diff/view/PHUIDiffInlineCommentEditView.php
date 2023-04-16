@@ -90,7 +90,7 @@ final class PHUIDiffInlineCommentEditView
 
     $state = $inline->getContentStateForEdit($viewer);
 
-    return id(new PhabricatorRemarkupControl())
+    return id(new PhorgeRemarkupControl())
       ->setViewer($viewer)
       ->setSigil('inline-content-text')
       ->setValue($state->getContentText())
@@ -121,7 +121,7 @@ final class PHUIDiffInlineCommentEditView
     $textarea = javelin_tag(
       'textarea',
       array(
-        'class' => 'inline-suggestion-input PhabricatorMonospaced',
+        'class' => 'inline-suggestion-input PhorgeMonospaced',
         'rows' => max(3, $main_count + 1),
         'sigil' => 'inline-content-suggestion',
       ),
@@ -186,14 +186,14 @@ final class PHUIDiffInlineCommentEditView
       $line_cell = phutil_tag(
         'td',
         array(
-          'class' => 'inline-suggestion-line-cell PhabricatorMonospaced',
+          'class' => 'inline-suggestion-line-cell PhorgeMonospaced',
         ),
         $index + 1);
 
       $text_cell = phutil_tag(
         'td',
         array(
-          'class' => 'inline-suggestion-text-cell PhabricatorMonospaced',
+          'class' => 'inline-suggestion-text-cell PhorgeMonospaced',
         ),
         $line);
 

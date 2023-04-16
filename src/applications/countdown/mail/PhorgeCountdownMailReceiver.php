@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorCountdownMailReceiver
-  extends PhabricatorObjectMailReceiver {
+final class PhorgeCountdownMailReceiver
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorCountdownApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeCountdownApplication');
   }
 
   protected function getObjectPattern() {
     return 'C[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
-    return id(new PhabricatorCountdownQuery())
+    return id(new PhorgeCountdownQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorCountdownReplyHandler();
+    return new PhorgeCountdownReplyHandler();
   }
 
 }

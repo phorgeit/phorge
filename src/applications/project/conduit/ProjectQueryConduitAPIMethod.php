@@ -23,11 +23,11 @@ final class ProjectQueryConduitAPIMethod extends ProjectConduitAPIMethod {
   protected function defineParamTypes() {
 
     $statuses = array(
-      PhabricatorProjectQuery::STATUS_ANY,
-      PhabricatorProjectQuery::STATUS_OPEN,
-      PhabricatorProjectQuery::STATUS_CLOSED,
-      PhabricatorProjectQuery::STATUS_ACTIVE,
-      PhabricatorProjectQuery::STATUS_ARCHIVED,
+      PhorgeProjectQuery::STATUS_ANY,
+      PhorgeProjectQuery::STATUS_OPEN,
+      PhorgeProjectQuery::STATUS_CLOSED,
+      PhorgeProjectQuery::STATUS_ACTIVE,
+      PhorgeProjectQuery::STATUS_ARCHIVED,
     );
 
     $status_const = $this->formatStringConstants($statuses);
@@ -53,7 +53,7 @@ final class ProjectQueryConduitAPIMethod extends ProjectConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $query = new PhabricatorProjectQuery();
+    $query = new PhorgeProjectQuery();
     $query->setViewer($request->getUser());
     $query->needMembers(true);
     $query->needSlugs(true);
@@ -117,7 +117,7 @@ final class ProjectQueryConduitAPIMethod extends ProjectConduitAPIMethod {
     $slug_map = array();
     if ($slugs) {
       foreach ($slugs as $slug) {
-        $normal = PhabricatorSlug::normalizeProjectSlug($slug);
+        $normal = PhorgeSlug::normalizeProjectSlug($slug);
         foreach ($projects as $project) {
           if (in_array($normal, $project['slugs'])) {
             $slug_map[$slug] = $project['phid'];

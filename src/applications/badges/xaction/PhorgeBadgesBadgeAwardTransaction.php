@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeAwardTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeAwardTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.award';
 
@@ -11,7 +11,7 @@ final class PhabricatorBadgesBadgeAwardTransaction
 
   public function applyExternalEffects($object, $value) {
     foreach ($value as $phid) {
-      $award = PhabricatorBadgesAward::initializeNewBadgesAward(
+      $award = PhorgeBadgesAward::initializeNewBadgesAward(
         $this->getActor(),
         $object,
         $phid);
@@ -64,7 +64,7 @@ final class PhabricatorBadgesBadgeAwardTransaction
 
       foreach ($user_phids as $user_phid) {
         // Check if a valid user
-        $user = id(new PhabricatorPeopleQuery())
+        $user = id(new PhorgePeopleQuery())
           ->setViewer($this->getActor())
           ->withPHIDs(array($user_phid))
           ->executeOne();
@@ -77,7 +77,7 @@ final class PhabricatorBadgesBadgeAwardTransaction
         }
 
         // Check if already awarded
-        $award = id(new PhabricatorBadgesAwardQuery())
+        $award = id(new PhorgeBadgesAwardQuery())
           ->setViewer($this->getActor())
           ->withRecipientPHIDs(array($user_phid))
           ->withBadgePHIDs(array($object->getPHID()))

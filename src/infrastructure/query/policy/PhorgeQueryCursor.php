@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorQueryCursor
+final class PhorgeQueryCursor
   extends Phobject {
 
   private $object;

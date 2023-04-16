@@ -18,7 +18,7 @@ final class PholioMockAuthorHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
 }

@@ -22,7 +22,7 @@ abstract class NuanceGitHubImportCursor
   }
 
   final protected function shouldPullDataFromSource() {
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // Respect GitHub's poll interval header. If we made a request recently,
     // don't make another one until we've waited long enough.
@@ -55,7 +55,7 @@ abstract class NuanceGitHubImportCursor
 
   final protected function pullDataFromSource() {
     $viewer = $this->getViewer();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $source = $this->getSource();
 
@@ -201,7 +201,7 @@ abstract class NuanceGitHubImportCursor
   private function updateRateLimits(PhutilGitHubResponse $response) {
     $remaining = $response->getHeaderValue('X-RateLimit-Remaining');
     $limit_reset = $response->getHeaderValue('X-RateLimit-Reset');
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $limit_ttl = null;
     if (strlen($remaining)) {
@@ -246,7 +246,7 @@ abstract class NuanceGitHubImportCursor
     $poll_ttl = $start + $poll_interval;
     $this->setCursorProperty('github.poll.ttl', $poll_ttl);
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $this->logInfo(
       pht(

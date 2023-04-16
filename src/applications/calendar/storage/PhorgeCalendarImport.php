@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorCalendarImport
-  extends PhabricatorCalendarDAO
+final class PhorgeCalendarImport
+  extends PhorgeCalendarDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface {
 
   protected $name;
   protected $authorPHID;
@@ -24,8 +24,8 @@ final class PhabricatorCalendarImport
   private $engine = self::ATTACHABLE;
 
   public static function initializeNewCalendarImport(
-    PhabricatorUser $actor,
-    PhabricatorCalendarImportEngine $engine) {
+    PhorgeUser $actor,
+    PhorgeCalendarImportEngine $engine) {
     return id(new self())
       ->setName('')
       ->setAuthorPHID($actor->getPHID())
@@ -59,7 +59,7 @@ final class PhabricatorCalendarImport
   }
 
   public function getPHIDType() {
-    return PhabricatorCalendarImportPHIDType::TYPECONST;
+    return PhorgeCalendarImportPHIDType::TYPECONST;
   }
 
   public function getURI() {
@@ -67,7 +67,7 @@ final class PhabricatorCalendarImport
     return "/calendar/import/{$id}/";
   }
 
-  public function attachEngine(PhabricatorCalendarImportEngine $engine) {
+  public function attachEngine(PhorgeCalendarImportEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
@@ -109,39 +109,39 @@ final class PhabricatorCalendarImport
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorCalendarImportEditor();
+    return new PhorgeCalendarImportEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorCalendarImportTransaction();
+    return new PhorgeCalendarImportTransaction();
   }
 
   public function newLogMessage($type, array $parameters) {
@@ -149,25 +149,25 @@ final class PhabricatorCalendarImport
       'type' => $type,
     ) + $parameters;
 
-    return id(new PhabricatorCalendarImportLog())
+    return id(new PhorgeCalendarImportLog())
       ->setImportPHID($this->getPHID())
       ->setParameters($parameters)
       ->save();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
 
     $this->openTransaction();
 
       $trigger_phid = $this->getTriggerPHID();
       if ($trigger_phid) {
-        $trigger = id(new PhabricatorWorkerTriggerQuery())
+        $trigger = id(new PhorgeWorkerTriggerQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($trigger_phid))
           ->executeOne();
@@ -176,7 +176,7 @@ final class PhabricatorCalendarImport
         }
       }
 
-      $events = id(new PhabricatorCalendarEventQuery())
+      $events = id(new PhorgeCalendarEventQuery())
         ->setViewer($viewer)
         ->withImportSourcePHIDs(array($this->getPHID()))
         ->execute();
@@ -184,7 +184,7 @@ final class PhabricatorCalendarImport
         $engine->destroyObject($event);
       }
 
-      $logs = id(new PhabricatorCalendarImportLogQuery())
+      $logs = id(new PhorgeCalendarImportLogQuery())
         ->setViewer($viewer)
         ->withImportPHIDs(array($this->getPHID()))
         ->execute();

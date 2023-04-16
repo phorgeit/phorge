@@ -14,7 +14,7 @@ final class ManiphestTaskListView extends ManiphestView {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -139,7 +139,7 @@ final class ManiphestTaskListView extends ManiphestView {
   }
 
   public static function loadTaskHandles(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $tasks) {
     assert_instances_of($tasks, 'ManiphestTask');
 
@@ -158,7 +158,7 @@ final class ManiphestTaskListView extends ManiphestView {
       return array();
     }
 
-    return id(new PhabricatorHandleQuery())
+    return id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();

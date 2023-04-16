@@ -9,7 +9,7 @@ final class DiffusionServeController extends DiffusionController {
   private $gitLFSToken;
   private $gitLFSInput;
 
-  public function setServiceViewer(PhabricatorUser $viewer) {
+  public function setServiceViewer(PhorgeUser $viewer) {
     $this->getRequest()->setUser($viewer);
 
     $this->serviceViewer = $viewer;
@@ -20,7 +20,7 @@ final class DiffusionServeController extends DiffusionController {
     return $this->serviceViewer;
   }
 
-  public function setServiceRepository(PhabricatorRepository $repository) {
+  public function setServiceRepository(PhorgeRepository $repository) {
     $this->serviceRepository = $repository;
     return $this;
   }
@@ -55,28 +55,28 @@ final class DiffusionServeController extends DiffusionController {
       $service = $request->getStr('service');
       // We get this initially for `info/refs`.
       // Git also gives us a User-Agent like "git/1.8.2.3".
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
     } else if (strncmp($user_agent, 'git/', 4) === 0) {
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
     } else if ($content_type == 'application/x-git-upload-pack-request') {
       // We get this for `git-upload-pack`.
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
     } else if ($content_type == 'application/x-git-receive-pack-request') {
       // We get this for `git-receive-pack`.
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
     } else if (preg_match($lfs_pattern, $content_type)) {
       // This is a Git LFS HTTP API request.
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
       $this->isGitLFSRequest = true;
     } else if ($request_type == 'git-lfs') {
       // This is a Git LFS object content request.
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_GIT;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_GIT;
       $this->isGitLFSRequest = true;
     } else if ($request->getExists('cmd')) {
       // Mercurial also sends an Accept header like
       // "application/mercurial-0.1", and a User-Agent like
       // "mercurial/proto-1.0".
-      $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
+      $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL;
     } else {
       // Subversion also sends an initial OPTIONS request (vs GET/POST), and
       // has a User-Agent like "SVN/1.8.3 (x86_64-apple-darwin11.4.2)
@@ -84,7 +84,7 @@ final class DiffusionServeController extends DiffusionController {
       $dav = $request->getHTTPHeader('DAV');
       $dav = new PhutilURI($dav);
       if ($dav->getDomain() === 'subversion.tigris.org') {
-        $vcs = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
+        $vcs = PhorgeRepositoryType::REPOSITORY_TYPE_SVN;
       }
     }
 
@@ -105,13 +105,13 @@ final class DiffusionServeController extends DiffusionController {
       $remote_addr = $request->getRemoteAddress();
 
       if ($request->isHTTPS()) {
-        $remote_protocol = PhabricatorRepositoryPullEvent::PROTOCOL_HTTPS;
+        $remote_protocol = PhorgeRepositoryPullEvent::PROTOCOL_HTTPS;
       } else {
-        $remote_protocol = PhabricatorRepositoryPullEvent::PROTOCOL_HTTP;
+        $remote_protocol = PhorgeRepositoryPullEvent::PROTOCOL_HTTP;
       }
 
-      $pull_event = id(new PhabricatorRepositoryPullEvent())
-        ->setEpoch(PhabricatorTime::getNow())
+      $pull_event = id(new PhorgeRepositoryPullEvent())
+        ->setEpoch(PhorgeTime::getNow())
         ->setRemoteAddress($remote_addr)
         ->setRemoteProtocol($remote_protocol);
 
@@ -120,15 +120,15 @@ final class DiffusionServeController extends DiffusionController {
 
         if ($response_code == 200) {
           $pull_event
-            ->setResultType(PhabricatorRepositoryPullEvent::RESULT_PULL)
+            ->setResultType(PhorgeRepositoryPullEvent::RESULT_PULL)
             ->setResultCode($response_code);
         } else {
           $pull_event
-            ->setResultType(PhabricatorRepositoryPullEvent::RESULT_ERROR)
+            ->setResultType(PhorgeRepositoryPullEvent::RESULT_ERROR)
             ->setResultCode($response_code);
         }
 
-        if ($response instanceof PhabricatorVCSResponse) {
+        if ($response instanceof PhorgeVCSResponse) {
           $pull_event->setProperties(
             array(
               'response.message' => $response->getMessage(),
@@ -136,7 +136,7 @@ final class DiffusionServeController extends DiffusionController {
         }
       } else {
         $pull_event
-          ->setResultType(PhabricatorRepositoryPullEvent::RESULT_EXCEPTION)
+          ->setResultType(PhorgeRepositoryPullEvent::RESULT_EXCEPTION)
           ->setResultCode(500)
           ->setProperties(
             array(
@@ -204,14 +204,14 @@ final class DiffusionServeController extends DiffusionController {
       }
 
       if (!$viewer) {
-        return new PhabricatorVCSResponse(
+        return new PhorgeVCSResponse(
           403,
           pht('Invalid credentials.'));
       }
     } else {
       // User hasn't provided credentials, which means we count them as
       // being "not logged in".
-      $viewer = new PhabricatorUser();
+      $viewer = new PhorgeUser();
     }
 
     // See T13590. Some pathways, like error handling, may require unusual
@@ -221,16 +221,16 @@ final class DiffusionServeController extends DiffusionController {
 
     $this->setServiceViewer($viewer);
 
-    $allow_public = PhabricatorEnv::getEnvConfig('policy.allow-public');
-    $allow_auth = PhabricatorEnv::getEnvConfig('diffusion.allow-http-auth');
+    $allow_public = PhorgeEnv::getEnvConfig('policy.allow-public');
+    $allow_auth = PhorgeEnv::getEnvConfig('diffusion.allow-http-auth');
     if (!$allow_public) {
       if (!$viewer->isLoggedIn()) {
         if ($allow_auth) {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             401,
             pht('You must log in to access repositories.'));
         } else {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             403,
             pht('Public and authenticated HTTP access are both forbidden.'));
         }
@@ -238,28 +238,28 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     try {
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withIdentifiers(array($identifier))
         ->needURIs(true)
         ->executeOne();
       if (!$repository) {
-        return new PhabricatorVCSResponse(
+        return new PhorgeVCSResponse(
           404,
           pht('No such repository exists.'));
       }
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       if ($viewer->isLoggedIn()) {
-        return new PhabricatorVCSResponse(
+        return new PhorgeVCSResponse(
           403,
           pht('You do not have permission to access this repository.'));
       } else {
         if ($allow_auth) {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             401,
             pht('You must log in to access this repository.'));
         } else {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             403,
             pht(
               'This repository requires authentication, which is forbidden '.
@@ -276,7 +276,7 @@ final class DiffusionServeController extends DiffusionController {
     $this->setServiceRepository($repository);
 
     if (!$repository->isTracked()) {
-      return new PhabricatorVCSResponse(
+      return new PhorgeVCSResponse(
         403,
         pht('This repository is inactive.'));
     }
@@ -294,21 +294,21 @@ final class DiffusionServeController extends DiffusionController {
       // with HTTPS but we may be on HTTP by the time we reach this part of
       // the code. Allow things to move forward as long as either protocol
       // can be served.
-      $proto_https = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTPS;
-      $proto_http = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTP;
+      $proto_https = PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTPS;
+      $proto_http = PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTP;
 
       $can_read =
         $repository->canServeProtocol($proto_https, false) ||
         $repository->canServeProtocol($proto_http, false);
       if (!$can_read) {
-        return new PhabricatorVCSResponse(
+        return new PhorgeVCSResponse(
           403,
           pht('This repository is not available over HTTP.'));
       }
 
       if ($is_push) {
         if ($repository->isReadOnly()) {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             503,
             $repository->getReadOnlyMessageForDisplay());
         }
@@ -317,7 +317,7 @@ final class DiffusionServeController extends DiffusionController {
           $repository->canServeProtocol($proto_https, true) ||
           $repository->canServeProtocol($proto_http, true);
         if (!$can_write) {
-          return new PhabricatorVCSResponse(
+          return new PhorgeVCSResponse(
             403,
             pht('This repository is read-only over HTTP.'));
         }
@@ -325,7 +325,7 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     if ($is_push) {
-      $can_push = PhabricatorPolicyFilter::hasCapability(
+      $can_push = PhorgePolicyFilter::hasCapability(
         $viewer,
         $repository,
         DiffusionPushCapability::CAPABILITY);
@@ -341,17 +341,17 @@ final class DiffusionServeController extends DiffusionController {
               $error_code,
               $error_message);
           } else {
-            return new PhabricatorVCSResponse(
+            return new PhorgeVCSResponse(
               $error_code,
               $error_message);
           }
         } else {
           if ($allow_auth) {
-            return new PhabricatorVCSResponse(
+            return new PhorgeVCSResponse(
               401,
               pht('You must log in to push to this repository.'));
           } else {
-            return new PhabricatorVCSResponse(
+            return new PhorgeVCSResponse(
               403,
               pht(
                 'Pushing to this repository requires authentication, '.
@@ -366,37 +366,37 @@ final class DiffusionServeController extends DiffusionController {
 
     if ($vcs_type != $req_type) {
       switch ($req_type) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-          $result = new PhabricatorVCSResponse(
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+          $result = new PhorgeVCSResponse(
             500,
             pht(
               'This repository ("%s") is not a Git repository.',
               $repository->getDisplayName()));
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-          $result = new PhabricatorVCSResponse(
+        case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+          $result = new PhorgeVCSResponse(
             500,
             pht(
               'This repository ("%s") is not a Mercurial repository.',
               $repository->getDisplayName()));
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-          $result = new PhabricatorVCSResponse(
+        case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+          $result = new PhorgeVCSResponse(
             500,
             pht(
               'This repository ("%s") is not a Subversion repository.',
               $repository->getDisplayName()));
           break;
         default:
-          $result = new PhabricatorVCSResponse(
+          $result = new PhorgeVCSResponse(
             500,
             pht('Unknown request type.'));
           break;
       }
     } else {
       switch ($vcs_type) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
           $caught = null;
           try {
             $result = $this->serveVCSRequest($repository, $viewer);
@@ -412,20 +412,20 @@ final class DiffusionServeController extends DiffusionController {
             // objects by a lower layer.
             phlog($caught);
 
-            $result = new PhabricatorVCSResponse(
+            $result = new PhorgeVCSResponse(
               500,
               phutil_string_cast($caught->getMessage()));
           }
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-          $result = new PhabricatorVCSResponse(
+        case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+          $result = new PhorgeVCSResponse(
             500,
             pht(
               'This server does not support HTTP access to Subversion '.
               'repositories.'));
           break;
         default:
-          $result = new PhabricatorVCSResponse(
+          $result = new PhorgeVCSResponse(
             500,
             pht('Unknown version control system.'));
           break;
@@ -437,8 +437,8 @@ final class DiffusionServeController extends DiffusionController {
     if ($is_push && ($code == 200)) {
       $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
         $repository->writeStatusMessage(
-          PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
-          PhabricatorRepositoryStatusMessage::CODE_OKAY);
+          PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+          PhorgeRepositoryStatusMessage::CODE_OKAY);
       unset($unguarded);
     }
 
@@ -446,8 +446,8 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function serveVCSRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
 
     // We can serve Git LFS requests first, since we don't need to proxy them.
     // It's also important that LFS requests never fall through to standard
@@ -481,10 +481,10 @@ final class DiffusionServeController extends DiffusionController {
 
     $vcs_type = $repository->getVersionControlSystem();
     switch ($vcs_type) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->serveGitRequest($repository, $viewer);
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->serveMercurialRequest($repository, $viewer);
         break;
     }
@@ -493,7 +493,7 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function isReadOnlyRequest(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     $request = $this->getRequest();
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -504,7 +504,7 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $service = $request->getStr('service');
         $path = $this->getRequestDirectoryPath($repository);
         // NOTE: Service names are the reverse of what you might expect, as they
@@ -522,14 +522,14 @@ final class DiffusionServeController extends DiffusionController {
         }
 
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $cmd = $request->getStr('cmd');
         if ($cmd == 'batch') {
           $cmds = idx($this->getMercurialArguments(), 'cmds');
           return DiffusionMercurialWireProtocol::isReadOnlyBatchCommand($cmds);
         }
         return DiffusionMercurialWireProtocol::isReadOnlyCommand($cmd);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         break;
     }
 
@@ -537,11 +537,11 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   private function serveGitRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
     $request = $this->getRequest();
 
     $request_path = $this->getRequestDirectoryPath($repository);
@@ -593,10 +593,10 @@ final class DiffusionServeController extends DiffusionController {
       // GIT_COMMITTER_EMAIL
     ) + $this->getCommonEnvironment($viewer);
 
-    $input = PhabricatorStartup::getRawInput();
+    $input = PhorgeStartup::getRawInput();
 
     $command = csprintf('%s', $bin);
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
 
@@ -641,7 +641,7 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     if ($err) {
-      return new PhabricatorVCSResponse(
+      return new PhorgeVCSResponse(
         500,
         pht(
           'Error %d: %s',
@@ -652,11 +652,11 @@ final class DiffusionServeController extends DiffusionController {
     return id(new DiffusionGitResponse())->setGitData($stdout);
   }
 
-  private function getRequestDirectoryPath(PhabricatorRepository $repository) {
+  private function getRequestDirectoryPath(PhorgeRepository $repository) {
     $request = $this->getRequest();
     $request_path = $request->getRequestURI()->getPath();
 
-    $info = PhabricatorRepository::parseRepositoryServicePath(
+    $info = PhorgeRepository::parseRepositoryServicePath(
       $request_path,
       $repository->getVersionControlSystem());
     $base_path = $info['path'];
@@ -710,9 +710,9 @@ final class DiffusionServeController extends DiffusionController {
     // repository as the omnipotent viewer, then use the repository PHID to
     // look for a token.
 
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
+    $omnipotent_viewer = PhorgeUser::getOmnipotentUser();
 
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($omnipotent_viewer)
       ->withIdentifiers(array($identifier))
       ->executeOne();
@@ -721,9 +721,9 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     $lfs_pass = $password->openEnvelope();
-    $lfs_hash = PhabricatorHash::weakDigest($lfs_pass);
+    $lfs_hash = PhorgeHash::weakDigest($lfs_pass);
 
-    $token = id(new PhabricatorAuthTemporaryTokenQuery())
+    $token = id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($omnipotent_viewer)
       ->withTokenResources(array($repository->getPHID()))
       ->withTokenTypes(array(DiffusionGitLFSTemporaryTokenType::TOKENTYPE))
@@ -734,7 +734,7 @@ final class DiffusionServeController extends DiffusionController {
       return null;
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($omnipotent_viewer)
       ->withPHIDs(array($token->getUserPHID()))
       ->executeOne();
@@ -756,7 +756,7 @@ final class DiffusionServeController extends DiffusionController {
     $username,
     PhutilOpaqueEnvelope $password) {
 
-    if (!PhabricatorEnv::getEnvConfig('diffusion.allow-http-auth')) {
+    if (!PhorgeEnv::getEnvConfig('diffusion.allow-http-auth')) {
       // No HTTP auth permitted.
       return null;
     }
@@ -771,8 +771,8 @@ final class DiffusionServeController extends DiffusionController {
       return null;
     }
 
-    $user = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $user = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUsernames(array($username))
       ->executeOne();
     if (!$user) {
@@ -786,12 +786,12 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     $request = $this->getRequest();
-    $content_source = PhabricatorContentSource::newFromRequest($request);
+    $content_source = PhorgeContentSource::newFromRequest($request);
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($user)
       ->setContentSource($content_source)
-      ->setPasswordType(PhabricatorAuthPassword::PASSWORD_TYPE_VCS)
+      ->setPasswordType(PhorgeAuthPassword::PASSWORD_TYPE_VCS)
       ->setObject($user);
 
     if (!$engine->isValidPassword($password)) {
@@ -802,8 +802,8 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function serveMercurialRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
     $request = $this->getRequest();
 
     $bin = Filesystem::resolveBinary('hg');
@@ -816,7 +816,7 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     $env = $this->getCommonEnvironment($viewer);
-    $input = PhabricatorStartup::getRawInput();
+    $input = PhorgeStartup::getRawInput();
 
     $cmd = $request->getStr('cmd');
 
@@ -831,7 +831,7 @@ final class DiffusionServeController extends DiffusionController {
       '%s -R %s serve --stdio',
       $bin,
       $repository->getLocalPath());
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
 
     list($err, $stdout, $stderr) = id(new ExecFuture('%C', $command))
       ->setEnv($env, true)
@@ -840,7 +840,7 @@ final class DiffusionServeController extends DiffusionController {
       ->resolve();
 
     if ($err) {
-      return new PhabricatorVCSResponse(
+      return new PhorgeVCSResponse(
         500,
         pht('Error %d: %s', $err, $stderr));
     }
@@ -967,7 +967,7 @@ final class DiffusionServeController extends DiffusionController {
     return ($has_pack && $has_flush_packet);
   }
 
-  private function getCommonEnvironment(PhabricatorUser $viewer) {
+  private function getCommonEnvironment(PhorgeUser $viewer) {
     $remote_address = $this->getRequest()->getRemoteAddress();
 
     return array(
@@ -978,14 +978,14 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function validateGitLFSRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
     if (!$this->getIsGitLFSRequest()) {
       return null;
     }
 
     if (!$repository->canUseGitLFS()) {
-      return new PhabricatorVCSResponse(
+      return new PhorgeVCSResponse(
         403,
         pht(
           'The requested repository ("%s") does not support Git LFS.',
@@ -1001,7 +1001,7 @@ final class DiffusionServeController extends DiffusionController {
     if ($token) {
       $resource = $token->getTokenResource();
       if ($resource !== $repository->getPHID()) {
-        return new PhabricatorVCSResponse(
+        return new PhorgeVCSResponse(
           403,
           pht(
             'The authentication token provided in the request is bound to '.
@@ -1014,8 +1014,8 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function serveGitLFSRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
 
     if (!$this->getIsGitLFSRequest()) {
       throw new Exception(pht('This is not a Git LFS request!'));
@@ -1039,8 +1039,8 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function serveGitLFSBatchRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer) {
+    PhorgeRepository $repository,
+    PhorgeUser $viewer) {
 
     $input = $this->getGitLFSInput();
 
@@ -1068,7 +1068,7 @@ final class DiffusionServeController extends DiffusionController {
     }
 
     if ($hashes) {
-      $refs = id(new PhabricatorRepositoryGitLFSRefQuery())
+      $refs = id(new PhorgeRepositoryGitLFSRefQuery())
         ->setViewer($viewer)
         ->withRepositoryPHIDs(array($repository->getPHID()))
         ->withObjectHashes($hashes)
@@ -1080,7 +1080,7 @@ final class DiffusionServeController extends DiffusionController {
 
     $file_phids = mpull($refs, 'getFilePHID');
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($file_phids)
         ->execute();
@@ -1174,11 +1174,11 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function serveGitLFSUploadRequest(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer,
+    PhorgeRepository $repository,
+    PhorgeUser $viewer,
     $oid) {
 
-    $ref = id(new PhabricatorRepositoryGitLFSRefQuery())
+    $ref = id(new PhorgeRepositoryGitLFSRefQuery())
       ->setViewer($viewer)
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->withObjectHashes(array($oid))
@@ -1201,9 +1201,9 @@ final class DiffusionServeController extends DiffusionController {
     $hashing_iterator = id(new PhutilHashingIterator($request_iterator))
       ->setAlgorithm('sha256');
 
-    $source = id(new PhabricatorIteratorFileUploadSource())
+    $source = id(new PhorgeIteratorFileUploadSource())
       ->setName('lfs-'.$oid)
-      ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+      ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
       ->setIterator($hashing_iterator);
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
@@ -1221,7 +1221,7 @@ final class DiffusionServeController extends DiffusionController {
           $hash));
     }
 
-    $ref = id(new PhabricatorRepositoryGitLFSRef())
+    $ref = id(new PhorgeRepositoryGitLFSRef())
       ->setRepositoryPHID($repository->getPHID())
       ->setObjectHash($hash)
       ->setByteSize($file->getByteSize())
@@ -1241,8 +1241,8 @@ final class DiffusionServeController extends DiffusionController {
   }
 
   private function newGitLFSHTTPAuthorization(
-    PhabricatorRepository $repository,
-    PhabricatorUser $viewer,
+    PhorgeRepository $repository,
+    PhorgeUser $viewer,
     $operation) {
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
@@ -1257,7 +1257,7 @@ final class DiffusionServeController extends DiffusionController {
     return $authorization;
   }
 
-  private function getGitLFSRequestPath(PhabricatorRepository $repository) {
+  private function getGitLFSRequestPath(PhorgeRepository $repository) {
     $request_path = $this->getRequestDirectoryPath($repository);
 
     $matches = null;
@@ -1270,7 +1270,7 @@ final class DiffusionServeController extends DiffusionController {
 
   private function getGitLFSInput() {
     if (!$this->gitLFSInput) {
-      $input = PhabricatorStartup::getRawInput();
+      $input = PhorgeStartup::getRawInput();
       $input = phutil_json_decode($input);
       $this->gitLFSInput = $input;
     }
@@ -1278,7 +1278,7 @@ final class DiffusionServeController extends DiffusionController {
     return $this->gitLFSInput;
   }
 
-  private function isGitLFSReadOnlyRequest(PhabricatorRepository $repository) {
+  private function isGitLFSReadOnlyRequest(PhorgeRepository $repository) {
     if (!$this->getIsGitLFSRequest()) {
       return false;
     }

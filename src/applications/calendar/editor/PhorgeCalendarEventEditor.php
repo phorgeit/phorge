@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarEventEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeCalendarEventEditor
+  extends PhorgeApplicationTransactionEditor {
 
   private $oldIsAllDay;
   private $newIsAllDay;
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -23,7 +23,7 @@ final class PhabricatorCalendarEventEditor
   }
 
   protected function shouldApplyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -37,7 +37,7 @@ final class PhabricatorCalendarEventEditor
   }
 
   protected function applyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $actor = $this->requireActor();
@@ -50,7 +50,7 @@ final class PhabricatorCalendarEventEditor
     // whether we render times or not.
     $old_allday = $object->getIsAllDay();
     $new_allday = $old_allday;
-    $type_allday = PhabricatorCalendarEventAllDayTransaction::TRANSACTIONTYPE;
+    $type_allday = PhorgeCalendarEventAllDayTransaction::TRANSACTIONTYPE;
     foreach ($xactions as $xaction) {
       if ($xaction->getTransactionType() != $type_allday) {
         continue;
@@ -62,7 +62,7 @@ final class PhabricatorCalendarEventEditor
     $this->newIsAllDay = $new_allday;
   }
 
-  private function materializeStub(PhabricatorCalendarEvent $event) {
+  private function materializeStub(PhorgeCalendarEvent $event) {
     if (!$event->getIsStub()) {
       throw new Exception(
         pht('Can not materialize an event stub: this event is not a stub.'));
@@ -90,27 +90,27 @@ final class PhabricatorCalendarEventEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function adjustObjectForPolicyChecks(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $copy = parent::adjustObjectForPolicyChecks($object, $xactions);
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorCalendarEventHostTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventHostTransaction::TRANSACTIONTYPE:
           $copy->setHostPHID($xaction->getNewValue());
           break;
-        case PhabricatorCalendarEventInviteTransaction::TRANSACTIONTYPE:
-          PhabricatorPolicyRule::passTransactionHintToRule(
+        case PhorgeCalendarEventInviteTransaction::TRANSACTIONTYPE:
+          PhorgePolicyRule::passTransactionHintToRule(
             $copy,
-            new PhabricatorCalendarEventInviteesPolicyRule(),
+            new PhorgeCalendarEventInviteesPolicyRule(),
             array_fuse($xaction->getNewValue()));
           break;
       }
@@ -121,7 +121,7 @@ final class PhabricatorCalendarEventEditor
 
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // Clear the availability caches for users whose availability is affected
@@ -134,21 +134,21 @@ final class PhabricatorCalendarEventEditor
     $invalidate_phids = array();
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorCalendarEventUntilDateTransaction::TRANSACTIONTYPE:
-        case PhabricatorCalendarEventStartDateTransaction::TRANSACTIONTYPE:
-        case PhabricatorCalendarEventEndDateTransaction::TRANSACTIONTYPE:
-        case PhabricatorCalendarEventCancelTransaction::TRANSACTIONTYPE:
-        case PhabricatorCalendarEventAllDayTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventUntilDateTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventStartDateTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventEndDateTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventCancelTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventAllDayTransaction::TRANSACTIONTYPE:
           // For these kinds of changes, we need to invalidate the availabilty
           // caches for all attendees.
           $invalidate_all = true;
           break;
-        case PhabricatorCalendarEventAcceptTransaction::TRANSACTIONTYPE:
-        case PhabricatorCalendarEventDeclineTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventAcceptTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventDeclineTransaction::TRANSACTIONTYPE:
           $acting_phid = $this->getActingAsPHID();
           $invalidate_phids[$acting_phid] = $acting_phid;
           break;
-        case PhabricatorCalendarEventInviteTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarEventInviteTransaction::TRANSACTIONTYPE:
           foreach ($xaction->getOldValue() as $phid) {
             // Add the possibly un-invited user to the list of potentially
             // affected users if they are't already present.
@@ -171,7 +171,7 @@ final class PhabricatorCalendarEventEditor
     if ($phids) {
       $object->applyViewerTimezone($this->getActor());
 
-      $user = new PhabricatorUser();
+      $user = new PhorgeUser();
       $conn_w = $user->establishConnection('w');
       queryfx(
         $conn_w,
@@ -186,17 +186,17 @@ final class PhabricatorCalendarEventEditor
 
 
   protected function validateAllTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $start_date_xaction =
-      PhabricatorCalendarEventStartDateTransaction::TRANSACTIONTYPE;
+      PhorgeCalendarEventStartDateTransaction::TRANSACTIONTYPE;
     $end_date_xaction =
-      PhabricatorCalendarEventEndDateTransaction::TRANSACTIONTYPE;
+      PhorgeCalendarEventEndDateTransaction::TRANSACTIONTYPE;
     $is_recurrence_xaction =
-      PhabricatorCalendarEventRecurringTransaction::TRANSACTIONTYPE;
+      PhorgeCalendarEventRecurringTransaction::TRANSACTIONTYPE;
     $recurrence_end_xaction =
-      PhabricatorCalendarEventUntilDateTransaction::TRANSACTIONTYPE;
+      PhorgeCalendarEventUntilDateTransaction::TRANSACTIONTYPE;
 
     $start_date = $object->getStartDateTimeEpoch();
     $end_date = $object->getEndDateTimeEpoch();
@@ -218,7 +218,7 @@ final class PhabricatorCalendarEventEditor
     }
 
     if ($start_date > $end_date) {
-      $errors[] = new PhabricatorApplicationTransactionValidationError(
+      $errors[] = new PhorgeApplicationTransactionValidationError(
         $end_date_xaction,
         pht('Invalid'),
         pht('End date must be after start date.'),
@@ -226,7 +226,7 @@ final class PhabricatorCalendarEventEditor
     }
 
     if ($recurrence_end && !$is_recurring) {
-      $errors[] = new PhabricatorApplicationTransactionValidationError(
+      $errors[] = new PhorgeApplicationTransactionValidationError(
         $recurrence_end_xaction,
         pht('Invalid'),
         pht('Event must be recurring to have a recurrence end date.').
@@ -237,7 +237,7 @@ final class PhabricatorCalendarEventEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if ($object->isImportedEvent()) {
@@ -252,7 +252,7 @@ final class PhabricatorCalendarEventEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if ($object->isImportedEvent()) {
@@ -266,7 +266,7 @@ final class PhabricatorCalendarEventEditor
     return pht('[Calendar]');
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
 
     if ($object->getHostPHID()) {
@@ -277,8 +277,8 @@ final class PhabricatorCalendarEventEditor
     $invitees = $object->getInvitees();
     foreach ($invitees as $invitee) {
       $status = $invitee->getStatus();
-      if ($status === PhabricatorCalendarEventInvitee::STATUS_ATTENDING
-        || $status === PhabricatorCalendarEventInvitee::STATUS_INVITED) {
+      if ($status === PhorgeCalendarEventInvitee::STATUS_ATTENDING
+        || $status === PhorgeCalendarEventInvitee::STATUS_INVITED) {
         $phids[] = $invitee->getInviteePHID();
       }
     }
@@ -290,34 +290,34 @@ final class PhabricatorCalendarEventEditor
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorCalendarEventTransaction::MAILTAG_CONTENT =>
+      PhorgeCalendarEventTransaction::MAILTAG_CONTENT =>
         pht(
           "An event's name, status, invite list, ".
           "icon, and description changes."),
-      PhabricatorCalendarEventTransaction::MAILTAG_RESCHEDULE =>
+      PhorgeCalendarEventTransaction::MAILTAG_RESCHEDULE =>
         pht(
           "An event's start and end date ".
           "and cancellation status changes."),
-      PhabricatorCalendarEventTransaction::MAILTAG_OTHER =>
+      PhorgeCalendarEventTransaction::MAILTAG_OTHER =>
         pht('Other event activity not listed above occurs.'),
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorCalendarReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeCalendarReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $name = $object->getName();
     $monogram = $object->getMonogram();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("{$monogram}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -333,7 +333,7 @@ final class PhabricatorCalendarEventEditor
 
     $body->addLinkSection(
       pht('EVENT DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getURI()));
+      PhorgeEnv::getProductionURI($object->getURI()));
 
     $ics_attachment = $this->newICSAttachment($object);
     $body->addAttachment($ics_attachment);
@@ -342,29 +342,29 @@ final class PhabricatorCalendarEventEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
-    return id(new PhabricatorCalendarEventHeraldAdapter())
+    return id(new PhorgeCalendarEventHeraldAdapter())
       ->setObject($object);
   }
 
   private function newICSAttachment(
-    PhabricatorCalendarEvent $event) {
+    PhorgeCalendarEvent $event) {
     $actor = $this->getActor();
 
-    $ics_data = id(new PhabricatorCalendarICSWriter())
+    $ics_data = id(new PhorgeCalendarICSWriter())
       ->setViewer($actor)
       ->setEvents(array($event))
       ->writeICSDocument();
 
-    $ics_attachment = new PhabricatorMailAttachment(
+    $ics_attachment = new PhorgeMailAttachment(
       $ics_data,
       $event->getICSFilename(),
       'text/calendar');

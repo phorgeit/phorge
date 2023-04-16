@@ -399,7 +399,7 @@ EOFILE;
     // hashes in the map to depend on database state: when two different
     // developers regenerate the map, they should end up with the same output.
 
-    $hash = PhabricatorHash::digestHMACSHA256($data, 'celerity-resource-data');
+    $hash = PhorgeHash::digestHMACSHA256($data, 'celerity-resource-data');
 
     return substr($hash, 0, 8);
   }

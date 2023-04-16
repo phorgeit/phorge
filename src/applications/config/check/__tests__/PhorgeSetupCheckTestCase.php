@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorSetupCheckTestCase extends PhabricatorTestCase {
+final class PhorgeSetupCheckTestCase extends PhorgeTestCase {
 
   public function testLoadAllChecks() {
-    PhabricatorSetupCheck::loadAllChecks();
+    PhorgeSetupCheck::loadAllChecks();
     $this->assertTrue(true);
   }
 

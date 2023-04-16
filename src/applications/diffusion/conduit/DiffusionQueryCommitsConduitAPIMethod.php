@@ -46,7 +46,7 @@ final class DiffusionQueryCommitsConduitAPIMethod
 
     $repository_phid = $request->getValue('repositoryPHID');
     if ($repository_phid) {
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($repository_phid))
         ->executeOne();
@@ -81,7 +81,7 @@ final class DiffusionQueryCommitsConduitAPIMethod
       $commit_data = $commit->getCommitData();
 
       $uri = $commit->getURI();
-      $uri = PhabricatorEnv::getProductionURI($uri);
+      $uri = PhorgeEnv::getProductionURI($uri);
 
       $dict = array(
         'id' => $commit->getID(),

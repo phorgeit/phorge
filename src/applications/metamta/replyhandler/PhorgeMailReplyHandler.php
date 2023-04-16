@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailReplyHandler extends Phobject {
+abstract class PhorgeMailReplyHandler extends Phobject {
 
   private $mailReceiver;
   private $applicationEmail;
@@ -19,7 +19,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   }
 
   public function setApplicationEmail(
-    PhabricatorMetaMTAApplicationEmail $email) {
+    PhorgeMetaMTAApplicationEmail $email) {
     $this->applicationEmail = $email;
     return $this;
   }
@@ -28,7 +28,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     return $this->applicationEmail;
   }
 
-  final public function setActor(PhabricatorUser $actor) {
+  final public function setActor(PhorgeUser $actor) {
     $this->actor = $actor;
     return $this;
   }
@@ -57,16 +57,16 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
 
   abstract public function validateMailReceiver($mail_receiver);
   abstract public function getPrivateReplyHandlerEmailAddress(
-    PhabricatorUser $user);
+    PhorgeUser $user);
 
   public function getReplyHandlerDomain() {
-    return PhabricatorEnv::getEnvConfig('metamta.reply-handler-domain');
+    return PhorgeEnv::getEnvConfig('metamta.reply-handler-domain');
   }
 
   abstract protected function receiveEmail(
-    PhabricatorMetaMTAReceivedMail $mail);
+    PhorgeMetaMTAReceivedMail $mail);
 
-  public function processEmail(PhabricatorMetaMTAReceivedMail $mail) {
+  public function processEmail(PhorgeMetaMTAReceivedMail $mail) {
     return $this->receiveEmail($mail);
   }
 
@@ -76,7 +76,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   }
 
   public function supportsPublicReplies() {
-    if (!PhabricatorEnv::getEnvConfig('metamta.public-replies')) {
+    if (!PhorgeEnv::getEnvConfig('metamta.public-replies')) {
       return false;
     }
 
@@ -106,9 +106,9 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     // from blindly interacting with objects that they haven't ever received
     // mail about by just sending to D1@, D2@, etc...
 
-    $mail_key = PhabricatorMetaMTAMailProperties::loadMailKey($receiver);
+    $mail_key = PhorgeMetaMTAMailProperties::loadMailKey($receiver);
 
-    $hash = PhabricatorObjectMailReceiver::computeMailHash(
+    $hash = PhorgeObjectMailReceiver::computeMailHash(
       $mail_key,
       $receiver->getPHID());
 
@@ -117,7 +117,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   }
 
   protected function getSingleReplyHandlerPrefix($address) {
-    $single_handle_prefix = PhabricatorEnv::getEnvConfig(
+    $single_handle_prefix = PhorgeEnv::getEnvConfig(
       'metamta.single-reply-handler-prefix');
     return ($single_handle_prefix)
       ? $single_handle_prefix.'+'.$address
@@ -125,16 +125,16 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   }
 
   protected function getDefaultPrivateReplyHandlerEmailAddress(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $prefix) {
 
     $receiver = $this->getMailReceiver();
     $receiver_id = $receiver->getID();
     $user_id = $user->getID();
 
-    $mail_key = PhabricatorMetaMTAMailProperties::loadMailKey($receiver);
+    $mail_key = PhorgeMetaMTAMailProperties::loadMailKey($receiver);
 
-    $hash = PhabricatorObjectMailReceiver::computeMailHash(
+    $hash = PhorgeObjectMailReceiver::computeMailHash(
       $mail_key,
       $user->getPHID());
     $domain = $this->getReplyHandlerDomain();
@@ -151,7 +151,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
       return $body;
     }
 
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setViewer($this->getActor())
       ->withPHIDs($attachments)
       ->execute();
@@ -201,7 +201,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * @param list<phid> List of "To" PHIDs.
    * @param list<phid> List of "CC" PHIDs.
-   * @return list<PhabricatorMailTarget> List of targets.
+   * @return list<PhorgeMailTarget> List of targets.
    */
   final public function getMailTargets(array $raw_to, array $raw_cc) {
     list($to, $cc) = $this->expandRecipientPHIDs($raw_to, $raw_cc);
@@ -212,7 +212,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
       return array();
     }
 
-    $template = id(new PhabricatorMailTarget())
+    $template = id(new PhorgeMailTarget())
       ->setRawToPHIDs($raw_to)
       ->setRawCCPHIDs($raw_cc);
 
@@ -226,11 +226,11 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     }
 
     $supports_private_replies = $this->supportsPrivateReplies();
-    $mail_all = !PhabricatorEnv::getEnvConfig('metamta.one-mail-per-recipient');
+    $mail_all = !PhorgeEnv::getEnvConfig('metamta.one-mail-per-recipient');
     $targets = array();
     if ($mail_all) {
       $target = id(clone $template)
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->setToMap($to)
         ->setCCMap($cc);
 
@@ -294,8 +294,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
 
     $all_phids = array_merge($to, $cc);
     if ($all_phids) {
-      $map = id(new PhabricatorMetaMTAMemberQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $map = id(new PhorgeMetaMTAMemberQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($all_phids)
         ->execute();
       foreach ($to as $phid) {
@@ -328,7 +328,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
 
 
   /**
-   * Load @{class:PhabricatorUser} objects for each recipient.
+   * Load @{class:PhorgeUser} objects for each recipient.
    *
    * Invalid recipients are dropped from the results.
    *
@@ -344,8 +344,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
     if ($all_phids) {
       // We need user settings here because we'll check translations later
       // when generating mail.
-      $users = id(new PhabricatorPeopleQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $users = id(new PhorgePeopleQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($all_phids)
         ->needUserSettings(true)
         ->execute();
@@ -370,8 +370,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
   /**
    * Remove recipients who do not have permission to view the mail receiver.
    *
-   * @param map<string, PhabricatorUser> Map of "To" users.
-   * @param map<string, PhabricatorUser> Map of "CC" users.
+   * @param map<string, PhorgeUser> Map of "To" users.
+   * @param map<string, PhorgeUser> Map of "CC" users.
    * @return pair<wild, wild> Filtered user maps.
    */
   private function filterRecipientUsers(array $to, array $cc) {
@@ -383,10 +383,10 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
       $can_see = array();
       $object = $this->getMailReceiver();
       foreach ($all_users as $phid => $user) {
-        $visible = PhabricatorPolicyFilter::hasCapability(
+        $visible = PhorgePolicyFilter::hasCapability(
           $user,
           $object,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
         if ($visible) {
           $can_see[$phid] = true;
         }

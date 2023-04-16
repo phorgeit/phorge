@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorObjectStatus
+abstract class PhorgeObjectStatus
   extends Phobject {
 
   private $key;

@@ -18,8 +18,8 @@
  * of day of the next event, so you can change the time of day when the event
  * occurs by adjusting the `start` time of day.
  */
-final class PhabricatorDailyRoutineTriggerClock
-  extends PhabricatorTriggerClock {
+final class PhorgeDailyRoutineTriggerClock
+  extends PhorgeTriggerClock {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(

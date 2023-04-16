@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigKeySchema
-  extends PhabricatorConfigStorageSchema {
+final class PhorgeConfigKeySchema
+  extends PhorgeConfigStorageSchema {
 
   const MAX_INNODB_KEY_LENGTH = 767;
 
@@ -38,7 +38,7 @@ final class PhabricatorConfigKeySchema
     return $this->unique;
   }
 
-  public function setTable(PhabricatorConfigTableSchema $table) {
+  public function setTable(PhorgeConfigTableSchema $table) {
     $this->table = $table;
     return $this;
   }
@@ -85,7 +85,7 @@ final class PhabricatorConfigKeySchema
   }
 
   protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect) {
+    PhorgeConfigStorageSchema $expect) {
 
     $issues = array();
     if ($this->getColumnNames() !== $expect->getColumnNames()) {

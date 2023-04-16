@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileTransformController
-  extends PhabricatorFileController {
+final class PhorgeFileTransformController
+  extends PhorgeFileController {
 
   public function shouldRequireLogin() {
     return false;
@@ -16,8 +16,8 @@ final class PhabricatorFileTransformController
     $is_regenerate = $request->getBool('regenerate');
 
     $source_phid = $request->getURIData('phid');
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $file = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($source_phid))
       ->executeOne();
     if (!$file) {
@@ -40,7 +40,7 @@ final class PhabricatorFileTransformController
       }
     }
 
-    $xforms = PhabricatorFileTransform::getAllTransforms();
+    $xforms = PhorgeFileTransform::getAllTransforms();
     if (!isset($xforms[$transform])) {
       return new Aphront404Response();
     }
@@ -73,7 +73,7 @@ final class PhabricatorFileTransformController
       return new Aphront400Response();
     }
 
-    $xform = id(new PhabricatorTransformedFile())
+    $xform = id(new PhorgeTransformedFile())
       ->setOriginalPHID($source_phid)
       ->setTransform($transform)
       ->setTransformedPHID($xformed_file->getPHID());
@@ -95,10 +95,10 @@ final class PhabricatorFileTransformController
   }
 
   private function buildTransformedFileResponse(
-    PhabricatorTransformedFile $xform) {
+    PhorgeTransformedFile $xform) {
 
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $file = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($xform->getTransformedPHID()))
       ->executeOne();
     if (!$file) {
@@ -111,9 +111,9 @@ final class PhabricatorFileTransformController
     return $file->getRedirectResponse();
   }
 
-  private function destroyTransform(PhabricatorTransformedFile $xform) {
-    $engine = new PhabricatorDestructionEngine();
-    $file = id(new PhabricatorFileQuery())
+  private function destroyTransform(PhorgeTransformedFile $xform) {
+    $engine = new PhorgeDestructionEngine();
+    $file = id(new PhorgeFileQuery())
       ->setViewer($engine->getViewer())
       ->withPHIDs(array($xform->getTransformedPHID()))
       ->executeOne();
@@ -132,7 +132,7 @@ final class PhabricatorFileTransformController
   }
 
   private function loadTransform($source_phid, $transform) {
-    return id(new PhabricatorTransformedFile())->loadOneWhere(
+    return id(new PhorgeTransformedFile())->loadOneWhere(
       'originalPHID = %s AND transform = %s',
       $source_phid,
       $transform);

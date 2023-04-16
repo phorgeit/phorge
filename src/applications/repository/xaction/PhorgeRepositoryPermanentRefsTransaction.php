@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryPermanentRefsTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryPermanentRefsTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:autoclose-only';
 

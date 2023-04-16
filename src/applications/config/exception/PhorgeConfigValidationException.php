@@ -1,3 +1,3 @@
 <?php
 
-final class PhabricatorConfigValidationException extends Exception {}
+final class PhorgeConfigValidationException extends Exception {}

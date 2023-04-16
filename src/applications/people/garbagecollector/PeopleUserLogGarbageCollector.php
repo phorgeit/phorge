@@ -1,7 +1,7 @@
 <?php
 
 final class PeopleUserLogGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'user.logs';
 
@@ -14,7 +14,7 @@ final class PeopleUserLogGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorUserLog();
+    $table = new PhorgeUserLog();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

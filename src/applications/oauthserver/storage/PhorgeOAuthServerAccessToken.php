@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerAccessToken
-  extends PhabricatorOAuthServerDAO {
+final class PhorgeOAuthServerAccessToken
+  extends PhorgeOAuthServerDAO {
 
   protected $id;
   protected $token;

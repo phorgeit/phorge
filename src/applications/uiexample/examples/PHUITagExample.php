@@ -1,6 +1,6 @@
 <?php
 
-final class PHUITagExample extends PhabricatorUIExample {
+final class PHUITagExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Tags');

@@ -1,7 +1,7 @@
 <?php
 
 final class FundBackerQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -52,7 +52,7 @@ final class FundBackerQuery
 
   protected function willFilterPage(array $backers) {
     $initiative_phids = mpull($backers, 'getInitiativePHID');
-    $initiatives = id(new PhabricatorObjectQuery())
+    $initiatives = id(new PhorgeObjectQuery())
       ->setParentQuery($this)
       ->setViewer($this->getViewer())
       ->withPHIDs($initiative_phids)
@@ -112,7 +112,7 @@ final class FundBackerQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
 }

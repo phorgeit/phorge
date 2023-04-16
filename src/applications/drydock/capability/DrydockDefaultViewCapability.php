@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockDefaultViewCapability extends PhabricatorPolicyCapability {
+final class DrydockDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'drydock.default.view';
 

@@ -20,7 +20,7 @@ final class DiffusionPreCommitContentPusherProjectsHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

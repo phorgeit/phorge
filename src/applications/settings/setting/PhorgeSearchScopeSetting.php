@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchScopeSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeSearchScopeSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'search-scope';
 
@@ -10,7 +10,7 @@ final class PhabricatorSearchScopeSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorSearchSettingsPanel::PANELKEY;
+    return PhorgeSearchSettingsPanel::PANELKEY;
   }
 
   public function getSettingDefaultValue() {
@@ -23,9 +23,9 @@ final class PhabricatorSearchScopeSetting
   }
 
   protected function getSelectOptions() {
-    $scopes = PhabricatorMainMenuSearchView::getGlobalSearchScopeItems(
+    $scopes = PhorgeMainMenuSearchView::getGlobalSearchScopeItems(
       $this->getViewer(),
-      new PhabricatorSettingsApplication(),
+      new PhorgeSettingsApplication(),
       $only_global = true);
 
     $scope_map = array();

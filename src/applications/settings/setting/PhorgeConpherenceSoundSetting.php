@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceSoundSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeConpherenceSoundSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'conpherence-sound';
 
@@ -14,7 +14,7 @@ final class PhabricatorConpherenceSoundSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorConpherencePreferencesSettingsPanel::PANELKEY;
+    return PhorgeConpherencePreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getControlInstructions() {
@@ -22,9 +22,9 @@ final class PhabricatorConpherenceSoundSetting
       'Choose the default sound behavior for new Conpherence rooms.');
   }
 
-  protected function isEnabledForViewer(PhabricatorUser $viewer) {
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorConpherenceApplication',
+  protected function isEnabledForViewer(PhorgeUser $viewer) {
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeConpherenceApplication',
       $viewer);
   }
 

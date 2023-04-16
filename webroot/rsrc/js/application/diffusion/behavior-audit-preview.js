@@ -22,7 +22,7 @@ JX.behavior('audit-preview', function(config) {
     };
   };
 
-  var request = new JX.PhabricatorShapedRequest(config.uri, callback, getdata);
+  var request = new JX.PhorgeShapedRequest(config.uri, callback, getdata);
   var trigger = JX.bind(request, request.trigger);
 
   JX.DOM.listen(content, 'keydown', null, trigger);

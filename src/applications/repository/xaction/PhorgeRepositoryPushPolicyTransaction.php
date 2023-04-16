@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryPushPolicyTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryPushPolicyTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:push-policy';
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFulltextResultSet extends Phobject {
+final class PhorgeFulltextResultSet extends Phobject {
 
   private $phids;
   private $fulltextTokens;

@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorAuthListController
-  extends PhabricatorAuthProviderConfigController {
+final class PhorgeAuthListController
+  extends PhorgeAuthProviderConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->execute();
 
     $list = new PHUIObjectItemListView();
     $can_manage = $this->hasApplicationCapability(
         AuthManageProvidersCapability::CAPABILITY);
-    $is_locked = PhabricatorEnv::getEnvConfig('auth.lock-config');
+    $is_locked = PhorgeEnv::getEnvConfig('auth.lock-config');
 
     foreach ($configs as $config) {
       $item = new PHUIObjectItemView();
@@ -69,10 +69,10 @@ final class PhabricatorAuthListController
     $crumbs->addTextCrumb(pht('Login and Registration'));
     $crumbs->setBorder(true);
 
-    $guidance_context = id(new PhabricatorAuthProvidersGuidanceContext())
+    $guidance_context = id(new PhorgeAuthProvidersGuidanceContext())
       ->setCanManage($can_manage);
 
-    $guidance = id(new PhabricatorGuidanceEngine())
+    $guidance = id(new PhorgeGuidanceEngine())
       ->setViewer($viewer)
       ->setGuidanceContext($guidance_context)
       ->newInfoView();

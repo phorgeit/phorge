@@ -1,14 +1,14 @@
 <?php
 
 final class ManiphestSubtypesConfigType
-  extends PhabricatorJSONConfigType {
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'maniphest.subtypes';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
-    PhabricatorEditEngineSubtype::validateConfiguration($value);
+    PhorgeEditEngineSubtype::validateConfiguration($value);
   }
 
 }

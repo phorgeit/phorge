@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorObjectListQuery extends Phobject {
+final class PhorgeObjectListQuery extends Phobject {
 
   private $viewer;
   private $objectList;
@@ -35,7 +35,7 @@ final class PhabricatorObjectListQuery extends Phobject {
     return $this->allowedTypes;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -211,7 +211,7 @@ final class PhabricatorObjectListQuery extends Phobject {
   private function loadObjects($names) {
     // First, try to load visible objects using monograms. This covers most
     // object types, but does not cover users or user email addresses.
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withNames($names);
 
@@ -229,7 +229,7 @@ final class PhabricatorObjectListQuery extends Phobject {
     if ($names) {
       // We still have some symbols we haven't been able to resolve, so try to
       // load users. Try by username first...
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($names)
         ->execute();

@@ -3,10 +3,10 @@
 abstract class PasteConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorPasteApplication');
+    return PhorgeApplication::getByClass('PhorgePasteApplication');
   }
 
-  protected function buildPasteInfoDictionary(PhabricatorPaste $paste) {
+  protected function buildPasteInfoDictionary(PhorgePaste $paste) {
     return array(
       'id'          => $paste->getID(),
       'objectName'  => 'P'.$paste->getID(),
@@ -16,7 +16,7 @@ abstract class PasteConduitAPIMethod extends ConduitAPIMethod {
       'title'       => $paste->getTitle(),
       'dateCreated' => $paste->getDateCreated(),
       'language'    => $paste->getLanguage(),
-      'uri'         => PhabricatorEnv::getProductionURI('/P'.$paste->getID()),
+      'uri'         => PhorgeEnv::getProductionURI('/P'.$paste->getID()),
       'parentPHID'  => $paste->getParentPHID(),
       'content'     => $paste->getRawContent(),
     );

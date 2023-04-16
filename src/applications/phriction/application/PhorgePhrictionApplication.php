@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhrictionApplication extends PhabricatorApplication {
+final class PhorgePhrictionApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phriction');
@@ -18,15 +18,15 @@ final class PhabricatorPhrictionApplication extends PhabricatorApplication {
     return 'fa-book';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Phriction User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Phriction User Guide'),
+        'href' => PhorgeEnv::getDoclink('Phriction User Guide'),
       ),
     );
   }

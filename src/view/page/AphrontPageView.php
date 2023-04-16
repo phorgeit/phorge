@@ -59,7 +59,7 @@ abstract class AphrontPageView extends AphrontView {
       ),
       array($body, $tail));
 
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       $data_fragment = phutil_safe_html(' data-developer-mode="1"');
     } else {
       $data_fragment = null;

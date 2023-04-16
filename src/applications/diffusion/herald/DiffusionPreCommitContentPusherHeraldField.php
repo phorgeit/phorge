@@ -18,7 +18,7 @@ final class DiffusionPreCommitContentPusherHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
 }

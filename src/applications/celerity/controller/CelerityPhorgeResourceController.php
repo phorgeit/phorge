@@ -5,7 +5,7 @@
  * `/res/` requests, and manages caching, package construction, and resource
  * preprocessing.
  */
-final class CelerityPhabricatorResourceController
+final class CelerityPhorgeResourceController
   extends CelerityResourceController {
 
   private $path;
@@ -39,7 +39,7 @@ final class CelerityPhabricatorResourceController
   }
 
   protected function buildResourceTransformer() {
-    $developer_on = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+    $developer_on = PhorgeEnv::getEnvConfig('phorge.developer-mode');
     $should_minify = !$developer_on;
 
     return id(new CelerityResourceTransformer())

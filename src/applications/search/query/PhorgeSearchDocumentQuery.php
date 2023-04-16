@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSearchDocumentQuery
-  extends PhabricatorPolicyAwareQuery {
+final class PhorgeSearchDocumentQuery
+  extends PhorgePolicyAwareQuery {
 
   private $savedQuery;
   private $objectCapabilities;
   private $unfilteredOffset;
   private $fulltextResultSet;
 
-  public function withSavedQuery(PhabricatorSavedQuery $query) {
+  public function withSavedQuery(PhorgeSavedQuery $query) {
     $this->savedQuery = $query;
     return $this;
   }
@@ -49,13 +49,13 @@ final class PhabricatorSearchDocumentQuery
       ->setParameter('offset', $this->unfilteredOffset)
       ->setParameter('limit', $this->getRawResultLimit());
 
-    $result_set = PhabricatorSearchService::newResultSet($query, $this);
+    $result_set = PhorgeSearchService::newResultSet($query, $this);
     $phids = $result_set->getPHIDs();
 
     $this->fulltextResultSet = $result_set;
     $this->unfilteredOffset += count($phids);
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($this->getViewer())
       ->requireObjectCapabilities($this->getRequiredObjectCapabilities())
       ->withPHIDs($phids)
@@ -99,7 +99,7 @@ final class PhabricatorSearchDocumentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   protected function nextPage(array $page) {

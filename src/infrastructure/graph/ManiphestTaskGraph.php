@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskGraph
-  extends PhabricatorObjectGraph {
+  extends PhorgeObjectGraph {
 
   private $seedMaps = array();
   private $isStandalone;

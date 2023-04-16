@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleExternalIdentifierPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgePeopleExternalIdentifierPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'XIDT';
 
@@ -10,23 +10,23 @@ final class PhabricatorPeopleExternalIdentifierPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorExternalAccountIdentifier();
+    return new PhorgeExternalAccountIdentifier();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorExternalAccountIdentifierQuery())
+    return id(new PhorgeExternalAccountIdentifierQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

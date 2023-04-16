@@ -32,7 +32,7 @@ containing the file `DerpController.php` with the class
 
  - `DerpController`: minimally implements a `processRequest()` method
    which returns some @{class:AphrontResponse} object. The class would probably
-   extend @{class:PhabricatorController}.
+   extend @{class:PhorgeController}.
 
 If `Derp` were (relatively) complex, one could reasonably expect to see
 the following directory layout:
@@ -68,12 +68,12 @@ something like:
    complicated edits and should be used pragmatically versus Storage objects.
  - **DerpException**: exceptions used in the `Derp` application.
  - **DerpQuery**: query one or more storage objects for pertinent `Derp`
-   application data. @{class:PhabricatorOffsetPagedQuery} is particularly
+   application data. @{class:PhorgeOffsetPagedQuery} is particularly
    handy for pagination and works well with @{class:AphrontPagerView}.
  - **DerpReplyHandler**: business logic from any configured email interactions
    users can have with the `Derp` application.
  - **DerpStorage**: storage objects for the `Derp` application. Typically
-   there is a base class which extends @{class:PhabricatorLiskDAO} to configure
+   there is a base class which extends @{class:PhorgeLiskDAO} to configure
    application-wide storage settings like the application (thus database) name.
    Reading more about the @{class:LiskDAO} is highly recommended.
  - **DerpView**: view objects for the `Derp` application. Typically these
@@ -85,7 +85,7 @@ However, it is likely that `Derp` is even more complex, and rather than
 containing one class, each directory has several classes. A typical example
 happens around the CRUD of an object:
 
- - **DerpBaseController**: typically extends @{class:PhabricatorController}
+ - **DerpBaseController**: typically extends @{class:PhorgeController}
    and contains any controller-specific functionality used throughout the
    `Derp` application.
  - **DerpDeleteController**: typically extends `DerpBaseController` and

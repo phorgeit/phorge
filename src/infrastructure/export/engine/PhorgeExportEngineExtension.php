@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorExportEngineExtension extends Phobject {
+abstract class PhorgeExportEngineExtension extends Phobject {
 
   private $viewer;
 

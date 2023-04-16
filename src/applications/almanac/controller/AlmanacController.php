@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacController
-  extends PhabricatorController {
+  extends PhorgeController {
 
   protected function buildAlmanacPropertiesTable(
     AlmanacPropertyInterface $object) {
@@ -12,10 +12,10 @@ abstract class AlmanacController
     $this->requireResource('almanac-css');
     Javelin::initBehavior('phorge-tooltips', array());
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $properties = $object->getAlmanacProperties();
 
@@ -89,7 +89,7 @@ abstract class AlmanacController
       $default = idx($defaults, $key);
       $is_default = ($default !== null && $default === $value);
 
-      $display_value = PhabricatorConfigJSON::prettyPrintJSON($value);
+      $display_value = PhorgeConfigJSON::prettyPrintJSON($value);
       if ($is_default) {
         $display_value = phutil_tag(
           'span',
@@ -139,10 +139,10 @@ abstract class AlmanacController
     $add_uri = id(new PhutilURI($edit_base))
       ->replaceQueryParam('objectPHID', $object->getPHID());
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $add_button = id(new PHUIButtonView())
       ->setTag('a')
@@ -172,7 +172,7 @@ abstract class AlmanacController
     $doc_link = phutil_tag(
       'a',
       array(
-        'href' => PhabricatorEnv::getDoclink(
+        'href' => PhorgeEnv::getDoclink(
           'Clustering Introduction'),
         'target' => '_blank',
       ),

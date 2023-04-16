@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitTokenQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeConduitTokenQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $objectPHIDs;
@@ -35,7 +35,7 @@ final class PhabricatorConduitTokenQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorConduitToken();
+    return new PhorgeConduitToken();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -74,12 +74,12 @@ final class PhabricatorConduitTokenQuery
         $where[] = qsprintf(
           $conn,
           'expires <= %d',
-          PhabricatorTime::getNow());
+          PhorgeTime::getNow());
       } else {
         $where[] = qsprintf(
           $conn,
           'expires IS NULL OR expires > %d',
-          PhabricatorTime::getNow());
+          PhorgeTime::getNow());
       }
     }
 
@@ -88,7 +88,7 @@ final class PhabricatorConduitTokenQuery
 
   protected function willFilterPage(array $tokens) {
     $object_phids = mpull($tokens, 'getObjectPHID');
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($object_phids)
@@ -109,7 +109,7 @@ final class PhabricatorConduitTokenQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConduitApplication';
+    return 'PhorgeConduitApplication';
   }
 
 }

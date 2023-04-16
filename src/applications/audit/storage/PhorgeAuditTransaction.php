@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuditTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeAuditTransaction
+  extends PhorgeModularTransaction {
 
   const TYPE_COMMIT = 'audit:commit';
 
@@ -25,11 +25,11 @@ final class PhabricatorAuditTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorRepositoryCommitPHIDType::TYPECONST;
+    return PhorgeRepositoryCommitPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorAuditTransactionComment();
+    return new PhorgeAuditTransactionComment();
   }
 
   public function getRemarkupBlocks() {
@@ -72,8 +72,8 @@ final class PhabricatorAuditTransaction
           $phids[] = $data['committerPHID'];
         }
         break;
-      case PhabricatorAuditActionConstants::ADD_CCS:
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_CCS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         $old = $this->getOldValue();
         $new = $this->getNewValue();
 
@@ -96,19 +96,19 @@ final class PhabricatorAuditTransaction
   public function getActionName() {
 
     switch ($this->getTransactionType()) {
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($this->getNewValue()) {
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             return pht('Raised Concern');
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             return pht('Accepted');
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             return pht('Resigned');
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return pht('Closed');
         }
         break;
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         return pht('Added Auditors');
       case self::TYPE_COMMIT:
         return pht('Committed');
@@ -122,15 +122,15 @@ final class PhabricatorAuditTransaction
     $type = $this->getTransactionType();
 
     switch ($type) {
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($this->getNewValue()) {
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             return 'red';
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             return 'green';
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             return 'black';
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return 'indigo';
         }
     }
@@ -143,15 +143,15 @@ final class PhabricatorAuditTransaction
     $type = $this->getTransactionType();
 
     switch ($type) {
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($this->getNewValue()) {
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             return 'fa-exclamation-circle';
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             return 'fa-check';
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             return 'fa-plane';
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return 'fa-check';
         }
     }
@@ -168,8 +168,8 @@ final class PhabricatorAuditTransaction
     $type = $this->getTransactionType();
 
     switch ($type) {
-      case PhabricatorAuditActionConstants::ADD_CCS:
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_CCS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         if (!is_array($old)) {
           $old = array();
         }
@@ -218,12 +218,12 @@ final class PhabricatorAuditTransaction
         }
         return $title;
 
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditActionConstants::INLINE:
         return pht(
           '%s added inline comments.',
           $author_handle);
 
-      case PhabricatorAuditActionConstants::ADD_CCS:
+      case PhorgeAuditActionConstants::ADD_CCS:
         if ($add && $rem) {
           return pht(
             '%s edited subscribers; added: %s, removed: %s.',
@@ -246,7 +246,7 @@ final class PhabricatorAuditTransaction
             $author_handle);
         }
 
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         if ($add && $rem) {
           return pht(
             '%s edited auditors; added: %s, removed: %s.',
@@ -269,21 +269,21 @@ final class PhabricatorAuditTransaction
             $author_handle);
         }
 
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($new) {
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             return pht(
               '%s accepted this commit.',
               $author_handle);
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             return pht(
               '%s raised a concern with this commit.',
               $author_handle);
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             return pht(
               '%s resigned from this audit.',
               $author_handle);
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return pht(
               '%s closed this audit.',
               $author_handle);
@@ -304,8 +304,8 @@ final class PhabricatorAuditTransaction
     $type = $this->getTransactionType();
 
     switch ($type) {
-      case PhabricatorAuditActionConstants::ADD_CCS:
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_CCS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         if (!is_array($old)) {
           $old = array();
         }
@@ -352,13 +352,13 @@ final class PhabricatorAuditTransaction
         }
         return $title;
 
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditActionConstants::INLINE:
         return pht(
           '%s added inline comments to %s.',
           $author_handle,
           $object_handle);
 
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         if ($add && $rem) {
           return pht(
             '%s edited auditors for %s; added: %s, removed: %s.',
@@ -385,24 +385,24 @@ final class PhabricatorAuditTransaction
             $object_handle);
         }
 
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($new) {
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             return pht(
               '%s accepted %s.',
               $author_handle,
               $object_handle);
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             return pht(
               '%s raised a concern with %s.',
               $author_handle,
               $object_handle);
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             return pht(
               '%s resigned from auditing %s.',
               $author_handle,
               $object_handle);
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             return pht(
               '%s closed the audit of %s.',
               $author_handle,
@@ -414,7 +414,7 @@ final class PhabricatorAuditTransaction
     return parent::getTitleForFeed();
   }
 
-  public function getBodyForFeed(PhabricatorFeedStory $story) {
+  public function getBodyForFeed(PhorgeFeedStory $story) {
     switch ($this->getTransactionType()) {
       case self::TYPE_COMMIT:
         $data = $this->getNewValue();
@@ -425,7 +425,7 @@ final class PhabricatorAuditTransaction
 
   public function isInlineCommentTransaction() {
     switch ($this->getTransactionType()) {
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditActionConstants::INLINE:
         return true;
     }
 
@@ -457,41 +457,41 @@ final class PhabricatorAuditTransaction
       case DiffusionCommitAuditorsTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_ADD_AUDITORS;
         break;
-      case PhabricatorAuditActionConstants::ACTION:
+      case PhorgeAuditActionConstants::ACTION:
         switch ($this->getNewValue()) {
-          case PhabricatorAuditActionConstants::CONCERN:
+          case PhorgeAuditActionConstants::CONCERN:
             $tags[] = self::MAILTAG_ACTION_CONCERN;
             break;
-          case PhabricatorAuditActionConstants::ACCEPT:
+          case PhorgeAuditActionConstants::ACCEPT:
             $tags[] = self::MAILTAG_ACTION_ACCEPT;
             break;
-          case PhabricatorAuditActionConstants::RESIGN:
+          case PhorgeAuditActionConstants::RESIGN:
             $tags[] = self::MAILTAG_ACTION_RESIGN;
             break;
-          case PhabricatorAuditActionConstants::CLOSE:
+          case PhorgeAuditActionConstants::CLOSE:
             $tags[] = self::MAILTAG_ACTION_CLOSE;
             break;
         }
         break;
-      case PhabricatorAuditActionConstants::ADD_AUDITORS:
+      case PhorgeAuditActionConstants::ADD_AUDITORS:
         $tags[] = self::MAILTAG_ADD_AUDITORS;
         break;
-      case PhabricatorAuditActionConstants::ADD_CCS:
+      case PhorgeAuditActionConstants::ADD_CCS:
         $tags[] = self::MAILTAG_ADD_CCS;
         break;
-      case PhabricatorAuditActionConstants::INLINE:
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeAuditActionConstants::INLINE:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       case self::TYPE_COMMIT:
         $tags[] = self::MAILTAG_COMMIT;
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
-          case PhabricatorProjectObjectHasProjectEdgeType::EDGECONST:
+          case PhorgeProjectObjectHasProjectEdgeType::EDGECONST:
             $tags[] = self::MAILTAG_PROJECTS;
             break;
-          case PhabricatorObjectHasSubscriberEdgeType::EDGECONST:
+          case PhorgeObjectHasSubscriberEdgeType::EDGECONST:
             $tags[] = self::MAILTAG_ADD_CCS;
             break;
           default:

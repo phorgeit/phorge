@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDeveloperPreferencesSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeDeveloperPreferencesSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'developer';
 
@@ -14,7 +14,7 @@ final class PhabricatorDeveloperPreferencesSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsDeveloperPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsDeveloperPanelGroup::PANELGROUPKEY;
   }
 
   public function isTemplatePanel() {

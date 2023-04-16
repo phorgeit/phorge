@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeCustomFieldFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'customfield.fields';
 
@@ -10,21 +10,21 @@ final class PhabricatorCustomFieldFulltextEngineExtension
   }
 
   public function shouldEnrichFulltextObject($object) {
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     // Rebuild the ApplicationSearch indexes. These are internal and not part
     // of the fulltext search, but putting them in this workflow allows users
     // to use the same tools to rebuild the indexes, which is easy to
     // understand.
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_DEFAULT);
+      PhorgeCustomField::ROLE_DEFAULT);
 
     $field_list->setViewer($this->getViewer());
     $field_list->readFieldsFromStorage($object);

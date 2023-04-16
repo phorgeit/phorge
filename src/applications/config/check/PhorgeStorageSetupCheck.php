@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeStorageSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   protected function executeChecks() {
-    $engines = PhabricatorFileStorageEngine::loadWritableChunkEngines();
+    $engines = PhorgeFileStorageEngine::loadWritableChunkEngines();
     $chunk_engine_active = (bool)$engines;
 
     $this->checkS3();
 
     if (!$chunk_engine_active) {
-      $doc_href = PhabricatorEnv::getDoclink('Configuring File Storage');
+      $doc_href = PhorgeEnv::getDoclink('Configuring File Storage');
 
       $message = pht(
         'Large file storage has not been configured, which will limit '.
@@ -68,7 +68,7 @@ final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
     // held in memory in the raw and as a query string.
     $need_bytes = (64 * 1024 * 1024);
 
-    $memory_limit = PhabricatorStartup::getOldMemoryLimit();
+    $memory_limit = PhorgeStartup::getOldMemoryLimit();
     if ($memory_limit && ((int)$memory_limit > 0)) {
       $memory_limit_bytes = phutil_parse_bytes($memory_limit);
       $memory_usage_bytes = memory_get_usage();
@@ -119,7 +119,7 @@ final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
     }
 
 
-    $local_path = PhabricatorEnv::getEnvConfig('storage.local-disk.path');
+    $local_path = PhorgeEnv::getEnvConfig('storage.local-disk.path');
     if (!$local_path) {
       return;
     }
@@ -139,15 +139,15 @@ final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
         ->setShortName(pht('Local Disk Storage'))
         ->setName(pht('Local Disk Storage Not Readable/Writable'))
         ->setMessage($message)
-        ->addPhabricatorConfig('storage.local-disk.path');
+        ->addPhorgeConfig('storage.local-disk.path');
     }
   }
 
   private function checkS3() {
-    $access_key = PhabricatorEnv::getEnvConfig('amazon-s3.access-key');
-    $secret_key = PhabricatorEnv::getEnvConfig('amazon-s3.secret-key');
-    $region = PhabricatorEnv::getEnvConfig('amazon-s3.region');
-    $endpoint = PhabricatorEnv::getEnvConfig('amazon-s3.endpoint');
+    $access_key = PhorgeEnv::getEnvConfig('amazon-s3.access-key');
+    $secret_key = PhorgeEnv::getEnvConfig('amazon-s3.secret-key');
+    $region = PhorgeEnv::getEnvConfig('amazon-s3.region');
+    $endpoint = PhorgeEnv::getEnvConfig('amazon-s3.endpoint');
 
     $how_many = 0;
 
@@ -187,10 +187,10 @@ final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
       ->setShortName(pht('S3 Partially Configured'))
       ->setName(pht('Amazon S3 is Only Partially Configured'))
       ->setMessage($message)
-      ->addPhabricatorConfig('amazon-s3.access-key')
-      ->addPhabricatorConfig('amazon-s3.secret-key')
-      ->addPhabricatorConfig('amazon-s3.region')
-      ->addPhabricatorConfig('amazon-s3.endpoint');
+      ->addPhorgeConfig('amazon-s3.access-key')
+      ->addPhorgeConfig('amazon-s3.secret-key')
+      ->addPhorgeConfig('amazon-s3.region')
+      ->addPhorgeConfig('amazon-s3.endpoint');
   }
 
 }

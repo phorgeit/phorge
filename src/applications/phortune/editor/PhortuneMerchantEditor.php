@@ -1,10 +1,10 @@
 <?php
 
 final class PhortuneMerchantEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -18,20 +18,20 @@ final class PhortuneMerchantEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
 
     return $types;
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
     $errors = parent::validateTransaction($object, $type, $xactions);
 
     switch ($type) {
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         foreach ($xactions as $xaction) {
           switch ($xaction->getMetadataValue('edge:type')) {
             case PhortuneMerchantHasMemberEdgeType::EDGECONST:
@@ -40,7 +40,7 @@ final class PhortuneMerchantEditor
               $actor_phid = $this->requireActor()->getPHID();
               foreach ($set as $phid) {
                 if ($actor_phid == $phid) {
-                  $error = new PhabricatorApplicationTransactionValidationError(
+                  $error = new PhorgeApplicationTransactionValidationError(
                     $type,
                     pht('Invalid'),
                     pht('You can not remove yourself as an merchant manager.'),

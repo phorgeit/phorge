@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorConduitLogController
-  extends PhabricatorConduitController {
+final class PhorgeConduitLogController
+  extends PhorgeConduitController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorConduitLogSearchEngine())
+    return id(new PhorgeConduitLogSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

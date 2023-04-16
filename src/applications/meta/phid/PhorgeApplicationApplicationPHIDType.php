@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationApplicationPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeApplicationApplicationPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'APPS';
 
@@ -18,19 +18,19 @@ final class PhabricatorApplicationApplicationPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return 'PhorgeApplicationsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorApplicationQuery())
+    return id(new PhorgeApplicationQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPDFContentsObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFContentsObject
+  extends PhorgePDFObject {
 
   private $rawContent;
 

@@ -1,13 +1,13 @@
 <?php
 
 $config_map = array(
-  'PhabricatorLDAPAuthProvider'           => array(
+  'PhorgeLDAPAuthProvider'           => array(
     'enabled' => 'ldap.auth-enabled',
     'registration' => true,
     'type' => 'ldap',
     'domain' => 'self',
   ),
-  'PhabricatorAuthProviderOAuthDisqus'    => array(
+  'PhorgeAuthProviderOAuthDisqus'    => array(
     'enabled' => 'disqus.auth-enabled',
     'registration' => 'disqus.registration-enabled',
     'permanent' => 'disqus.auth-permanent',
@@ -16,7 +16,7 @@ $config_map = array(
     'type' => 'disqus',
     'domain' => 'disqus.com',
   ),
-  'PhabricatorFacebookAuthProvider'  => array(
+  'PhorgeFacebookAuthProvider'  => array(
     'enabled' => 'facebook.auth-enabled',
     'registration' => 'facebook.registration-enabled',
     'permanent' => 'facebook.auth-permanent',
@@ -25,7 +25,7 @@ $config_map = array(
     'type' => 'facebook',
     'domain' => 'facebook.com',
   ),
-  'PhabricatorAuthProviderOAuthGitHub'    => array(
+  'PhorgeAuthProviderOAuthGitHub'    => array(
     'enabled' => 'github.auth-enabled',
     'registration' => 'github.registration-enabled',
     'permanent' => 'github.auth-permanent',
@@ -34,7 +34,7 @@ $config_map = array(
     'type' => 'github',
     'domain' => 'github.com',
   ),
-  'PhabricatorAuthProviderOAuthGoogle'    => array(
+  'PhorgeAuthProviderOAuthGoogle'    => array(
     'enabled' => 'google.auth-enabled',
     'registration' => 'google.registration-enabled',
     'permanent' => 'google.auth-permanent',
@@ -43,7 +43,7 @@ $config_map = array(
     'type' => 'google',
     'domain' => 'google.com',
   ),
-  'PhabricatorPasswordAuthProvider'       => array(
+  'PhorgePasswordAuthProvider'       => array(
     'enabled' => 'auth.password-auth-enabled',
     'enabled-default' => false,
     'registration' => false,
@@ -55,7 +55,7 @@ $config_map = array(
 foreach ($config_map as $provider_class => $spec) {
   $enabled_key = idx($spec, 'enabled');
   $enabled_default = idx($spec, 'enabled-default', false);
-  $enabled = PhabricatorEnv::getEnvConfigIfExists(
+  $enabled = PhorgeEnv::getEnvConfigIfExists(
     $enabled_key,
     $enabled_default);
 
@@ -73,7 +73,7 @@ foreach ($config_map as $provider_class => $spec) {
   } else if ($registration_key === false) {
     $registration = 0;
   } else {
-    $registration = (int)PhabricatorEnv::getEnvConfigIfExists(
+    $registration = (int)PhorgeEnv::getEnvConfigIfExists(
       $registration_key,
       true);
   }
@@ -82,10 +82,10 @@ foreach ($config_map as $provider_class => $spec) {
   if (!$unlink_key) {
     $unlink = 1;
   } else {
-    $unlink = (int)(!PhabricatorEnv::getEnvConfigIfExists($unlink_key));
+    $unlink = (int)(!PhorgeEnv::getEnvConfigIfExists($unlink_key));
   }
 
-  $config = id(new PhabricatorAuthProviderConfig())
+  $config = id(new PhorgeAuthProviderConfig())
     ->setIsEnabled(1)
     ->setShouldAllowLogin(1)
     ->setShouldAllowRegistration($registration)
@@ -97,50 +97,50 @@ foreach ($config_map as $provider_class => $spec) {
 
   if (isset($spec['oauth.id'])) {
     $config->setProperty(
-      PhabricatorAuthProviderOAuth::PROPERTY_APP_ID,
-      PhabricatorEnv::getEnvConfigIfExists(idx($spec, 'oauth.id')));
+      PhorgeAuthProviderOAuth::PROPERTY_APP_ID,
+      PhorgeEnv::getEnvConfigIfExists(idx($spec, 'oauth.id')));
     $config->setProperty(
-      PhabricatorAuthProviderOAuth::PROPERTY_APP_SECRET,
-      PhabricatorEnv::getEnvConfigIfExists(idx($spec, 'oauth.secret')));
+      PhorgeAuthProviderOAuth::PROPERTY_APP_SECRET,
+      PhorgeEnv::getEnvConfigIfExists(idx($spec, 'oauth.secret')));
   }
 
   switch ($provider_class) {
-    case 'PhabricatorFacebookAuthProvider':
+    case 'PhorgeFacebookAuthProvider':
       $config->setProperty(
-        PhabricatorFacebookAuthProvider::KEY_REQUIRE_SECURE,
-        (int)PhabricatorEnv::getEnvConfigIfExists(
+        PhorgeFacebookAuthProvider::KEY_REQUIRE_SECURE,
+        (int)PhorgeEnv::getEnvConfigIfExists(
           'facebook.require-https-auth'));
       break;
-    case 'PhabricatorLDAPAuthProvider':
+    case 'PhorgeLDAPAuthProvider':
 
       $ldap_map = array(
-        PhabricatorLDAPAuthProvider::KEY_HOSTNAME
+        PhorgeLDAPAuthProvider::KEY_HOSTNAME
           => 'ldap.hostname',
-        PhabricatorLDAPAuthProvider::KEY_PORT
+        PhorgeLDAPAuthProvider::KEY_PORT
           => 'ldap.port',
-        PhabricatorLDAPAuthProvider::KEY_DISTINGUISHED_NAME
+        PhorgeLDAPAuthProvider::KEY_DISTINGUISHED_NAME
           => 'ldap.base_dn',
-        PhabricatorLDAPAuthProvider::KEY_SEARCH_ATTRIBUTES
+        PhorgeLDAPAuthProvider::KEY_SEARCH_ATTRIBUTES
           => 'ldap.search_attribute',
-        PhabricatorLDAPAuthProvider::KEY_USERNAME_ATTRIBUTE
+        PhorgeLDAPAuthProvider::KEY_USERNAME_ATTRIBUTE
           => 'ldap.username-attribute',
-        PhabricatorLDAPAuthProvider::KEY_REALNAME_ATTRIBUTES
+        PhorgeLDAPAuthProvider::KEY_REALNAME_ATTRIBUTES
           => 'ldap.real_name_attributes',
-        PhabricatorLDAPAuthProvider::KEY_VERSION
+        PhorgeLDAPAuthProvider::KEY_VERSION
           => 'ldap.version',
-        PhabricatorLDAPAuthProvider::KEY_REFERRALS
+        PhorgeLDAPAuthProvider::KEY_REFERRALS
           => 'ldap.referrals',
-        PhabricatorLDAPAuthProvider::KEY_START_TLS
+        PhorgeLDAPAuthProvider::KEY_START_TLS
           => 'ldap.start-tls',
-        PhabricatorLDAPAuthProvider::KEY_ANONYMOUS_USERNAME
+        PhorgeLDAPAuthProvider::KEY_ANONYMOUS_USERNAME
           => 'ldap.anonymous-user-name',
-        PhabricatorLDAPAuthProvider::KEY_ANONYMOUS_PASSWORD
+        PhorgeLDAPAuthProvider::KEY_ANONYMOUS_PASSWORD
           => 'ldap.anonymous-user-password',
         // Update the old "search first" setting to the newer but similar
         // "always search" setting.
-        PhabricatorLDAPAuthProvider::KEY_ALWAYS_SEARCH
+        PhorgeLDAPAuthProvider::KEY_ALWAYS_SEARCH
           => 'ldap.search-first',
-        PhabricatorLDAPAuthProvider::KEY_ACTIVEDIRECTORY_DOMAIN
+        PhorgeLDAPAuthProvider::KEY_ACTIVEDIRECTORY_DOMAIN
           => 'ldap.activedirectory_domain',
       );
 
@@ -153,7 +153,7 @@ foreach ($config_map as $provider_class => $spec) {
         $default = idx($defaults, $ckey);
         $config->setProperty(
           $pkey,
-          PhabricatorEnv::getEnvConfigIfExists($ckey, $default));
+          PhorgeEnv::getEnvConfigIfExists($ckey, $default));
       }
       break;
   }

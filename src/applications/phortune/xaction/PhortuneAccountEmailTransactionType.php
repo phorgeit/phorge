@@ -1,4 +1,4 @@
 <?php
 
 abstract class PhortuneAccountEmailTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

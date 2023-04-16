@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositorySVNSubpathTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositorySVNSubpathTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:svn-subpath';
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAmazonSNSFuture extends PhutilAWSFuture {
+final class PhorgeAmazonSNSFuture extends PhutilAWSFuture {
   private $parameters = array();
   private $timeout;
 

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorDashboardPanelEditController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelEditController
+  extends PhorgeDashboardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorDashboardPanelEditEngine())
+    $engine = id(new PhorgeDashboardPanelEditEngine())
       ->setController($this);
 
     // We can create or edit a panel in the context of a dashboard or
@@ -16,20 +16,20 @@ final class PhabricatorDashboardPanelEditController
 
     $context_phid = $request->getStr('contextPHID');
     if (strlen($context_phid)) {
-      $context = id(new PhabricatorObjectQuery())
+      $context = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($context_phid))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$context) {
         return new Aphront404Response();
       }
 
-      if (!($context instanceof PhabricatorDashboardPanelContainerInterface)) {
+      if (!($context instanceof PhorgeDashboardPanelContainerInterface)) {
         return new Aphront404Response();
       }
 
@@ -51,7 +51,7 @@ final class PhabricatorDashboardPanelEditController
       }
 
       $panel_type = $request->getStr('panelType');
-      $panel_types = PhabricatorDashboardPanelType::getAllPanelTypes();
+      $panel_types = PhorgeDashboardPanelType::getAllPanelTypes();
       if (empty($panel_types[$panel_type])) {
         return $this->buildPanelTypeResponse($cancel_uri);
       }
@@ -78,7 +78,7 @@ final class PhabricatorDashboardPanelEditController
       ->setFlush(true)
       ->setBig(true);
 
-    $panel_types = PhabricatorDashboardPanelType::getAllPanelTypes();
+    $panel_types = PhorgeDashboardPanelType::getAllPanelTypes();
     foreach ($panel_types as $panel_type) {
       $item = id(new PHUIObjectItemView())
         ->setClickable(true)

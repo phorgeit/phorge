@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   protected $documentID;
   protected $lineNumber = 0;

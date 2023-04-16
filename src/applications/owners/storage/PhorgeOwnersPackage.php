@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorOwnersPackage
-  extends PhabricatorOwnersDAO
+final class PhorgeOwnersPackage
+  extends PhorgeOwnersDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorNgramsInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeNgramsInterface {
 
   protected $name;
   protected $autoReview;
@@ -47,19 +47,19 @@ final class PhabricatorOwnersPackage
 
   const PROPERTY_IGNORED = 'ignored';
 
-  public static function initializeNewPackage(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewPackage(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorOwnersApplication'))
+      ->withClasses(array('PhorgeOwnersApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
-      PhabricatorOwnersDefaultViewCapability::CAPABILITY);
+      PhorgeOwnersDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(
-      PhabricatorOwnersDefaultEditCapability::CAPABILITY);
+      PhorgeOwnersDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorOwnersPackage())
-      ->setAuditingState(PhabricatorOwnersAuditRule::AUDITING_NONE)
+    return id(new PhorgeOwnersPackage())
+      ->setAuditingState(PhorgeOwnersAuditRule::AUDITING_NONE)
       ->setAutoReview(self::AUTOREVIEW_NONE)
       ->setDominion(self::DOMINION_STRONG)
       ->setAuthorityMode(self::AUTHORITY_STRONG)
@@ -154,7 +154,7 @@ final class PhabricatorOwnersPackage
   }
 
   public function getPHIDType() {
-    return PhabricatorOwnersPackagePHIDType::TYPECONST;
+    return PhorgeOwnersPackagePHIDType::TYPECONST;
   }
 
   public function isArchived() {
@@ -187,7 +187,7 @@ final class PhabricatorOwnersPackage
     if (!$this->getID()) {
       return array();
     }
-    return id(new PhabricatorOwnersOwner())->loadAllWhere(
+    return id(new PhorgeOwnersOwner())->loadAllWhere(
       'packageID = %d',
       $this->getID());
   }
@@ -196,13 +196,13 @@ final class PhabricatorOwnersPackage
     if (!$this->getID()) {
       return array();
     }
-    return id(new PhabricatorOwnersPath())->loadAllWhere(
+    return id(new PhorgeOwnersPath())->loadAllWhere(
       'packageID = %d',
       $this->getID());
   }
 
   public static function loadAffectedPackages(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $paths) {
 
     if (!$paths) {
@@ -213,7 +213,7 @@ final class PhabricatorOwnersPackage
   }
 
   public static function loadAffectedPackagesForChangesets(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     DifferentialDiff $diff,
     array $changesets) {
     assert_instances_of($changesets, 'DifferentialChangeset');
@@ -297,7 +297,7 @@ final class PhabricatorOwnersPackage
   }
 
   private static function loadPackagesForPaths(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $paths,
     $limit = 0) {
 
@@ -308,8 +308,8 @@ final class PhabricatorOwnersPackage
       }
     }
 
-    $package = new PhabricatorOwnersPackage();
-    $path = new PhabricatorOwnersPath();
+    $package = new PhorgeOwnersPackage();
+    $path = new PhorgeOwnersPath();
     $conn = $package->establishConnection('r');
 
     $repository_clause = qsprintf(
@@ -326,7 +326,7 @@ final class PhabricatorOwnersPackage
     foreach (array_chunk(array_keys($fragments), 1024) as $chunk) {
       $indexes = array();
       foreach ($chunk as $fragment) {
-        $indexes[] = PhabricatorHash::digestForIndex($fragment);
+        $indexes[] = PhorgeHash::digestForIndex($fragment);
       }
 
       $rows[] = queryfx_all(
@@ -363,12 +363,12 @@ final class PhabricatorOwnersPackage
   }
 
   public static function loadPackagesForRepository($repository) {
-    $package = new PhabricatorOwnersPackage();
+    $package = new PhorgeOwnersPackage();
     $ids = ipull(
       queryfx_all(
         $package->establishConnection('r'),
         'SELECT DISTINCT packageID FROM %T WHERE repositoryPHID = %s',
-        id(new PhabricatorOwnersPath())->getTableName(),
+        id(new PhorgeOwnersPath())->getTableName(),
         $repository->getPHID()),
       'packageID');
 
@@ -519,7 +519,7 @@ final class PhabricatorOwnersPackage
   }
 
   public function attachPaths(array $paths) {
-    assert_instances_of($paths, 'PhabricatorOwnersPath');
+    assert_instances_of($paths, 'PhorgeOwnersPath');
     $this->paths = $paths;
 
     // Drop this cache if we're attaching new paths.
@@ -550,7 +550,7 @@ final class PhabricatorOwnersPackage
   }
 
   public function attachOwners(array $owners) {
-    assert_instances_of($owners, 'PhabricatorOwnersOwner');
+    assert_instances_of($owners, 'PhorgeOwnersOwner');
     $this->owners = $owners;
     return $this;
   }
@@ -584,35 +584,35 @@ final class PhabricatorOwnersPackage
   }
 
   public function newAuditingRule() {
-    return PhabricatorOwnersAuditRule::newFromState($this->getAuditingState());
+    return PhorgeOwnersAuditRule::newFromState($this->getAuditingState());
   }
 
   public function getHasStrongAuthority() {
     return ($this->getAuthorityMode() === self::AUTHORITY_STRONG);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->isOwnerPHID($viewer->getPHID())) {
           return true;
         }
@@ -627,44 +627,44 @@ final class PhabricatorOwnersPackage
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorOwnersPackageTransactionEditor();
+    return new PhorgeOwnersPackageTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorOwnersPackageTransaction();
+    return new PhorgeOwnersPackageTransaction();
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('owners.fields');
+    return PhorgeEnv::getEnvConfig('owners.fields');
   }
 
   public function getCustomFieldBaseClass() {
-    return 'PhabricatorOwnersCustomField';
+    return 'PhorgeOwnersCustomField';
   }
 
   public function getCustomFields() {
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $conn_w = $this->establishConnection('w');
@@ -672,13 +672,13 @@ final class PhabricatorOwnersPackage
       queryfx(
         $conn_w,
         'DELETE FROM %T WHERE packageID = %d',
-        id(new PhabricatorOwnersPath())->getTableName(),
+        id(new PhorgeOwnersPath())->getTableName(),
         $this->getID());
 
       queryfx(
         $conn_w,
         'DELETE FROM %T WHERE packageID = %d',
-        id(new PhabricatorOwnersOwner())->getTableName(),
+        id(new PhorgeOwnersOwner())->getTableName(),
         $this->getID());
 
       $this->delete();
@@ -686,44 +686,44 @@ final class PhabricatorOwnersPackage
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the package.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('string')
         ->setDescription(pht('The package description.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Active or archived status of the package.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('owners')
         ->setType('list<map<string, wild>>')
         ->setDescription(pht('List of package owners.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('review')
         ->setType('map<string, wild>')
         ->setDescription(pht('Auto review information.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('audit')
         ->setType('map<string, wild>')
         ->setDescription(pht('Auto audit information.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dominion')
         ->setType('map<string, wild>')
         ->setDescription(pht('Dominion setting information.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authority')
         ->setType('map<string, wild>')
         ->setDescription(pht('Authority setting information.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('ignored')
         ->setType('map<string, wild>')
         ->setDescription(pht('Ignored attribute information.')),
@@ -813,34 +813,34 @@ final class PhabricatorOwnersPackage
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorOwnersPathsSearchEngineAttachment())
+      id(new PhorgeOwnersPathsSearchEngineAttachment())
         ->setAttachmentKey('paths'),
     );
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
-    return new PhabricatorOwnersPackageFulltextEngine();
+    return new PhorgeOwnersPackageFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorOwnersPackageFerretEngine();
+    return new PhorgeOwnersPackageFerretEngine();
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorOwnersPackageNameNgrams())
+      id(new PhorgeOwnersPackageNameNgrams())
         ->setValue($this->getName()),
     );
   }

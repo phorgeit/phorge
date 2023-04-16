@@ -1,29 +1,29 @@
 <?php
 
-final class PhabricatorUserConfiguredCustomField
-  extends PhabricatorUserCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+final class PhorgeUserConfiguredCustomField
+  extends PhorgeUserCustomField
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'user';
   }
 
   public function createFields($object) {
-    return PhabricatorStandardCustomField::buildStandardFields(
+    return PhorgeStandardCustomField::buildStandardFields(
       $this,
-      PhabricatorEnv::getEnvConfig('user.custom-field-definitions'));
+      PhorgeEnv::getEnvConfig('user.custom-field-definitions'));
   }
 
   public function newStorageObject() {
-    return new PhabricatorUserConfiguredCustomFieldStorage();
+    return new PhorgeUserConfiguredCustomFieldStorage();
   }
 
   protected function newStringIndexStorage() {
-    return new PhabricatorUserCustomFieldStringIndex();
+    return new PhorgeUserCustomFieldStringIndex();
   }
 
   protected function newNumericIndexStorage() {
-    return new PhabricatorUserCustomFieldNumericIndex();
+    return new PhorgeUserCustomFieldNumericIndex();
   }
 
 }

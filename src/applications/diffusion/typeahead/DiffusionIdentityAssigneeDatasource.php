@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionIdentityAssigneeDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Assignee');
@@ -13,7 +13,7 @@ final class DiffusionIdentityAssigneeDatasource
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
+      new PhorgePeopleDatasource(),
       new DiffusionIdentityUnassignedDatasource(),
     );
   }

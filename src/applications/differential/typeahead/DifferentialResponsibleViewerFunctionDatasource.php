@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialResponsibleViewerFunctionDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Viewer');
@@ -12,7 +12,7 @@ final class DifferentialResponsibleViewerFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -60,7 +60,7 @@ final class DifferentialResponsibleViewerFunctionDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $tokens = array();
     foreach ($argv_list as $argv) {
-      $tokens[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $tokens[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->renderViewerFunctionToken());
     }
     return $tokens;

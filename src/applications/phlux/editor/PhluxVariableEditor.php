@@ -1,10 +1,10 @@
 <?php
 
 final class PhluxVariableEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhluxApplication';
+    return 'PhorgePhluxApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -15,14 +15,14 @@ final class PhluxVariableEditor
     $types = parent::getTransactionTypes();
     $types[] = PhluxTransaction::TYPE_EDIT_KEY;
     $types[] = PhluxTransaction::TYPE_EDIT_VALUE;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     switch ($xaction->getTransactionType()) {
       case PhluxTransaction::TYPE_EDIT_KEY:
         return $object->getVariableKey();
@@ -34,8 +34,8 @@ final class PhluxVariableEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     switch ($xaction->getTransactionType()) {
       case PhluxTransaction::TYPE_EDIT_KEY:
       case PhluxTransaction::TYPE_EDIT_VALUE:
@@ -45,8 +45,8 @@ final class PhluxVariableEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     switch ($xaction->getTransactionType()) {
       case PhluxTransaction::TYPE_EDIT_KEY:
         $object->setVariableKey($xaction->getNewValue());
@@ -59,8 +59,8 @@ final class PhluxVariableEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     switch ($xaction->getTransactionType()) {
       case PhluxTransaction::TYPE_EDIT_KEY:
       case PhluxTransaction::TYPE_EDIT_VALUE:

@@ -4,7 +4,7 @@ final class DifferentialChangesetEngine extends Phobject {
 
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -38,7 +38,7 @@ final class DifferentialChangesetEngine extends Phobject {
     }
 
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($file_phids)
         ->execute();
@@ -89,7 +89,7 @@ final class DifferentialChangesetEngine extends Phobject {
 
     $filename = $changeset->getFilename();
 
-    $paths = PhabricatorEnv::getEnvConfig('differential.generated-paths');
+    $paths = PhorgeEnv::getEnvConfig('differential.generated-paths');
     foreach ($paths as $regexp) {
       if (preg_match($regexp, $filename)) {
         return true;
@@ -135,7 +135,7 @@ final class DifferentialChangesetEngine extends Phobject {
 
     if ($changeset->getHunks()) {
       $new_data = $changeset->makeNewFile();
-      return PhabricatorHash::digestForIndex($new_data);
+      return PhorgeHash::digestForIndex($new_data);
     }
 
     if ($changeset->getNewFileObjectPHID()) {
@@ -148,7 +148,7 @@ final class DifferentialChangesetEngine extends Phobject {
       $hash = $file->getContentHash();
       if ($hash !== null) {
         $hash = sprintf('file-hash:%s', $hash);
-        return PhabricatorHash::digestForIndex($hash);
+        return PhorgeHash::digestForIndex($hash);
       }
     }
 

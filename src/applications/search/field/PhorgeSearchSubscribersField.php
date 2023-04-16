@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchSubscribersField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeSearchSubscribersField
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();
@@ -9,14 +9,14 @@ final class PhabricatorSearchSubscribersField
 
   protected function getValueFromRequest(AphrontRequest $request, $key) {
     $allow_types = array(
-      PhabricatorProjectProjectPHIDType::TYPECONST,
-      PhabricatorOwnersPackagePHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
+      PhorgeOwnersPackagePHIDType::TYPECONST,
     );
     return $this->getUsersFromRequest($request, $key, $allow_types);
   }
 
   protected function newDatasource() {
-    return new PhabricatorMetaMTAMailableFunctionDatasource();
+    return new PhorgeMetaMTAMailableFunctionDatasource();
   }
 
   protected function newConduitParameterType() {

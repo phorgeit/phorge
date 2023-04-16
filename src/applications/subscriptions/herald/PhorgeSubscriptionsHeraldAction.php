@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSubscriptionsHeraldAction
+abstract class PhorgeSubscriptionsHeraldAction
   extends HeraldAction {
 
   const DO_PREVIOUSLY_UNSUBSCRIBED = 'do.previously-unsubscribed';
@@ -13,15 +13,15 @@ abstract class PhabricatorSubscriptionsHeraldAction
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   protected function applySubscribe(array $phids, $is_add) {
     $adapter = $this->getAdapter();
 
     $allowed_types = array(
-      PhabricatorPeopleUserPHIDType::TYPECONST,
-      PhabricatorProjectProjectPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
+      PhorgeProjectProjectPHIDType::TYPECONST,
     );
 
     // Evaluating "No Effect" is a bit tricky for this rule type, so just
@@ -40,7 +40,7 @@ abstract class PhabricatorSubscriptionsHeraldAction
     // before continuing.
     if ($is_add) {
       $unsubscribed = $adapter->loadEdgePHIDs(
-        PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST);
+        PhorgeObjectHasUnsubscriberEdgeType::EDGECONST);
 
       foreach ($unsubscribed as $phid) {
         if (isset($phids[$phid])) {
@@ -78,7 +78,7 @@ abstract class PhabricatorSubscriptionsHeraldAction
     }
 
     $current = $adapter->loadEdgePHIDs(
-      PhabricatorObjectHasSubscriberEdgeType::EDGECONST);
+      PhorgeObjectHasSubscriberEdgeType::EDGECONST);
 
     if ($is_add) {
       $already = array();
@@ -117,7 +117,7 @@ abstract class PhabricatorSubscriptionsHeraldAction
     }
 
     $xaction = $adapter->newTransaction()
-      ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+      ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
       ->setNewValue(
         array(
           $kind => $phids,

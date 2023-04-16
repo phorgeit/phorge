@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorRobotsController extends PhabricatorController {
+abstract class PhorgeRobotsController extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;

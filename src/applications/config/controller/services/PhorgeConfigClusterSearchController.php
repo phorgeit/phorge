@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorConfigClusterSearchController
-  extends PhabricatorConfigServicesController {
+final class PhorgeConfigClusterSearchController
+  extends PhorgeConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
     $title = pht('Search Servers');
-    $doc_href = PhabricatorEnv::getDoclink('Cluster: Search');
+    $doc_href = PhorgeEnv::getDoclink('Cluster: Search');
 
     $button = id(new PHUIButtonView())
       ->setIcon('fa-book')
@@ -36,7 +36,7 @@ final class PhabricatorConfigClusterSearchController
   private function buildClusterSearchStatus() {
     $viewer = $this->getViewer();
 
-    $services = PhabricatorSearchService::getAllServices();
+    $services = PhorgeSearchService::getAllServices();
     Javelin::initBehavior('phorge-tooltips');
 
     $view = array();
@@ -54,7 +54,7 @@ final class PhabricatorConfigClusterSearchController
 
     $rows = array();
 
-    $status_map = PhabricatorSearchService::getConnectionStatusMap();
+    $status_map = PhorgeSearchService::getConnectionStatusMap();
     $stats = false;
     $stats_view = false;
 

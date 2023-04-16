@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommitTagsField
-  extends PhabricatorCommitCustomField {
+final class PhorgeCommitTagsField
+  extends PhorgeCommitCustomField {
 
   public function getFieldKey() {
     return 'diffusion:tags';
@@ -20,8 +20,8 @@ final class PhabricatorCommitTagsField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     $params = array(

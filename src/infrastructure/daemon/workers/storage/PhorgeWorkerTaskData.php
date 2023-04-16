@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWorkerTaskData extends PhabricatorWorkerDAO {
+final class PhorgeWorkerTaskData extends PhorgeWorkerDAO {
 
   protected $data;
 

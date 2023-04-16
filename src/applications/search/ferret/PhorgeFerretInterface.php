@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorFerretInterface {
+interface PhorgeFerretInterface {
 
   public function newFerretEngine();
 

@@ -1,7 +1,7 @@
 <?php
 
 final class AuthManageProvidersCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'auth.manage.providers';
 

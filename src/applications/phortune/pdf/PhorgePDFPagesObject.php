@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPDFPagesObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFPagesObject
+  extends PhorgePDFObject {
 
   private $pageObjects = array();
 
-  public function addPageObject(PhabricatorPDFPageObject $page) {
+  public function addPageObject(PhorgePDFPageObject $page) {
     $page->setPagesObject($this);
     $this->pageObjects[] = $this->newChildObject($page);
     return $this;

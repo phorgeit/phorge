@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChatLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeChatLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $channelIDs;
   private $maximumEpoch;
@@ -17,7 +17,7 @@ final class PhabricatorChatLogQuery
   }
 
   protected function loadPage() {
-    $table  = new PhabricatorChatLogEvent();
+    $table  = new PhorgeChatLogEvent();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -36,7 +36,7 @@ final class PhabricatorChatLogQuery
   protected function willFilterPage(array $events) {
     $channel_ids = mpull($events, 'getChannelID', 'getChannelID');
 
-    $channels = id(new PhabricatorChatLogChannelQuery())
+    $channels = id(new PhorgeChatLogChannelQuery())
       ->setViewer($this->getViewer())
       ->withIDs($channel_ids)
       ->execute();
@@ -78,7 +78,7 @@ final class PhabricatorChatLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorChatLogApplication';
+    return 'PhorgeChatLogApplication';
   }
 
 }

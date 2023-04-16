@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEdgesDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeEdgesDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'edges';
 
@@ -10,13 +10,13 @@ final class PhabricatorEdgesDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $src_phid = $object->getPHID();
 
     try {
-      $edges = id(new PhabricatorEdgeQuery())
+      $edges = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(array($src_phid))
         ->execute();
     } catch (Exception $ex) {
@@ -24,7 +24,7 @@ final class PhabricatorEdgesDestructionEngineExtension
       return;
     }
 
-    $editor = new PhabricatorEdgeEditor();
+    $editor = new PhorgeEdgeEditor();
     foreach ($edges as $type => $type_edges) {
       foreach ($type_edges as $src => $src_edges) {
         foreach ($src_edges as $dst => $edge) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleUsernameMailEngine
-  extends PhabricatorPeopleMailEngine {
+final class PhorgePeopleUsernameMailEngine
+  extends PhorgePeopleMailEngine {
 
   private $oldUsername;
   private $newUsername;
@@ -51,7 +51,7 @@ final class PhabricatorPeopleUsernameMailEngine
         'New Username: %s',
         $new_username));
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject(
         pht(
           '[%s] Username Changed',

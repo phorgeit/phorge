@@ -108,7 +108,7 @@ final class NuanceSourceQuery
 
       if ($this->hasCursors) {
         if (!$cursor_types) {
-          throw new PhabricatorEmptyQueryException();
+          throw new PhorgeEmptyQueryException();
         } else {
           $where[] = qsprintf(
             $conn,

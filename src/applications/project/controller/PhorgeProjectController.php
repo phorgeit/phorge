@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorProjectController extends PhabricatorController {
+abstract class PhorgeProjectController extends PhorgeController {
 
   private $project;
   private $profileMenu;
   private $profileMenuEngine;
 
-  protected function setProject(PhabricatorProject $project) {
+  protected function setProject(PhorgeProject $project) {
     $this->project = $project;
     return $this;
   }
@@ -18,15 +18,15 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   protected function loadProject() {
     return $this->loadProjectWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       ));
   }
 
   protected function loadProjectForEdit() {
     return $this->loadProjectWithCapabilities(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ));
   }
 
@@ -41,14 +41,14 @@ abstract class PhabricatorProjectController extends PhabricatorController {
     $slug = $request->getURIData('slug');
 
     if ($slug) {
-      $normal_slug = PhabricatorSlug::normalizeProjectSlug($slug);
+      $normal_slug = PhorgeSlug::normalizeProjectSlug($slug);
       $is_abnormal = ($slug !== $normal_slug);
       $normal_uri = "/tag/{$normal_slug}/";
     } else {
       $is_abnormal = false;
     }
 
-    $query = id(new PhabricatorProjectQuery())
+    $query = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities($capabilities)
       ->needMembers(true)
@@ -65,7 +65,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
     $policy_exception = null;
     try {
       $project = $query->executeOne();
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       $policy_exception = $ex;
       $project = null;
     }
@@ -150,7 +150,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
       $viewer = $this->getViewer();
       $project = $this->getProject();
       if ($project) {
-        $engine = id(new PhabricatorProjectProfileMenuEngine())
+        $engine = id(new PhorgeProjectProfileMenuEngine())
           ->setViewer($viewer)
           ->setController($this)
           ->setProfileObject($project);
@@ -162,7 +162,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   }
 
   protected function setProfileMenuEngine(
-    PhabricatorProjectProfileMenuEngine $engine) {
+    PhorgeProjectProfileMenuEngine $engine) {
     $this->profileMenuEngine = $engine;
     return $this;
   }
@@ -170,7 +170,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   protected function newCardResponse(
     $board_phid,
     $object_phid,
-    PhabricatorProjectColumnOrder $ordering = null,
+    PhorgeProjectColumnOrder $ordering = null,
     $sounds = array()) {
 
     $viewer = $this->getViewer();
@@ -181,7 +181,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
       $visible_phids = array();
     }
 
-    $engine = id(new PhabricatorBoardResponseEngine())
+    $engine = id(new PhorgeBoardResponseEngine())
       ->setViewer($viewer)
       ->setBoardPHID($board_phid)
       ->setUpdatePHIDs(array($object_phid))
@@ -204,7 +204,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   }
 
   final protected function newNavigation(
-    PhabricatorProject $project,
+    PhorgeProject $project,
     $item_identifier) {
 
     $engine = $this->getProfileMenuEngine();
@@ -221,7 +221,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
 
     $navigation = $view_list->newNavigationView();
 
-    if ($item_identifier === PhabricatorProject::ITEM_WORKBOARD) {
+    if ($item_identifier === PhorgeProject::ITEM_WORKBOARD) {
       $navigation->addClass('project-board-nav');
     }
 

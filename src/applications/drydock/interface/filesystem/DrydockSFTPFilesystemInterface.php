@@ -10,7 +10,7 @@ final class DrydockSFTPFilesystemInterface extends DrydockFilesystemInterface {
     }
 
     $credential = id(new PassphraseCredentialQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIDs(array($this->getConfig('credential')))
       ->needSecrets(true)
       ->executeOne();
@@ -22,7 +22,7 @@ final class DrydockSFTPFilesystemInterface extends DrydockFilesystemInterface {
 
     $this->passphraseSSHKey = PassphraseSSHKey::loadFromPHID(
       $credential->getPHID(),
-      PhabricatorUser::getOmnipotentUser());
+      PhorgeUser::getOmnipotentUser());
   }
 
   private function getExecFuture($path) {
@@ -46,7 +46,7 @@ final class DrydockSFTPFilesystemInterface extends DrydockFilesystemInterface {
 
   public function saveFile($path, $name) {
     $data = $this->readFile($path);
-    $file = PhabricatorFile::newFromFileData(
+    $file = PhorgeFile::newFromFileData(
       $data,
       array('name' => $name));
     $file->setName($name);

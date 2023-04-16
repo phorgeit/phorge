@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackagePublisherTransaction
-  extends PhabricatorPackagesPackageTransactionType {
+final class PhorgePackagesPackagePublisherTransaction
+  extends PhorgePackagesPackageTransactionType {
 
   const TRANSACTIONTYPE = 'packages.package.publisher';
 
@@ -36,14 +36,14 @@ final class PhabricatorPackagesPackagePublisherTransaction
     foreach ($xactions as $xaction) {
       $publisher_phid = $xaction->getNewValue();
 
-      $publisher = id(new PhabricatorPackagesPublisherQuery())
+      $publisher = id(new PhorgePackagesPublisherQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($publisher_phid))
         ->setRaisePolicyExceptions(false)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
 

@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorAuthFactorProviderEditController
-  extends PhabricatorAuthFactorProviderController {
+final class PhorgeAuthFactorProviderEditController
+  extends PhorgeAuthFactorProviderController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
       AuthManageProvidersCapability::CAPABILITY);
 
-    $engine = id(new PhabricatorAuthFactorProviderEditEngine())
+    $engine = id(new PhorgeAuthFactorProviderEditEngine())
       ->setController($this);
 
     $id = $request->getURIData('id');
     if (!$id) {
       $factor_key = $request->getStr('providerFactorKey');
 
-      $map = PhabricatorAuthFactor::getAllFactors();
+      $map = PhorgeAuthFactor::getAllFactors();
       $factor = idx($map, $factor_key);
       if (!$factor) {
         return $this->buildFactorSelectionResponse();
@@ -34,7 +34,7 @@ final class PhabricatorAuthFactorProviderEditController
 
     $cancel_uri = $this->getApplicationURI('mfa/');
 
-    $factors = PhabricatorAuthFactor::getAllFactors();
+    $factors = PhorgeAuthFactor::getAllFactors();
 
     $menu = id(new PHUIObjectItemListView())
       ->setUser($viewer)

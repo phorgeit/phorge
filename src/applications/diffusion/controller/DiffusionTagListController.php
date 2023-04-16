@@ -33,7 +33,7 @@ final class DiffusionTagListController extends DiffusionController {
     }
 
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $tags = array();
         break;
       default:

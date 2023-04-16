@@ -24,7 +24,7 @@
 // of difficulty acting on a particular copy because copies were identified
 // only by PHID and all copies of the same panel have the same panel PHID.
 
-$dashboard_table = new PhabricatorDashboard();
+$dashboard_table = new PhorgeDashboard();
 $conn = $dashboard_table->establishConnection('r');
 $table_name = $dashboard_table->getTableName();
 

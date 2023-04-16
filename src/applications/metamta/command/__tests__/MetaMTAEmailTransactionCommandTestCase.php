@@ -1,6 +1,6 @@
 <?php
 
-final class MetaMTAEmailTransactionCommandTestCase extends PhabricatorTestCase {
+final class MetaMTAEmailTransactionCommandTestCase extends PhorgeTestCase {
 
   public function testGetAllTypes() {
     MetaMTAEmailTransactionCommand::getAllCommands();

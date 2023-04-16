@@ -1,6 +1,6 @@
 <?php
 
-final class PholioDefaultEditCapability extends PhabricatorPolicyCapability {
+final class PholioDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'pholio.default.edit';
 

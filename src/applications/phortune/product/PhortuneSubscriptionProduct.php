@@ -25,7 +25,7 @@ final class PhortuneSubscriptionProduct
     return $this->subscription;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -80,7 +80,7 @@ final class PhortuneSubscriptionProduct
   }
 
   public function loadImplementationsForRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $refs) {
 
     $subscriptions = id(new PhortuneSubscriptionQuery())

@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'repository';
@@ -12,7 +12,7 @@ final class DiffusionCommitFerretEngine
   }
 
   public function newSearchEngine() {
-    return new PhabricatorCommitSearchEngine();
+    return new PhorgeCommitSearchEngine();
   }
 
 }

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorSpacesSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeSpacesSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'spaces';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSpacesApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeSpacesApplication');
   }
 
   public function getExtensionName() {
@@ -19,14 +19,14 @@ final class PhabricatorSpacesSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSpacesInterface);
+    return ($object instanceof PhorgeSpacesInterface);
   }
 
   public function getSearchFields($object) {
     $fields = array();
 
-    if (PhabricatorSpacesNamespaceQuery::getSpacesExist()) {
-      $fields[] = id(new PhabricatorSpacesSearchField())
+    if (PhorgeSpacesNamespaceQuery::getSpacesExist()) {
+      $fields[] = id(new PhorgeSpacesSearchField())
         ->setKey('spacePHIDs')
         ->setConduitKey('spaces')
         ->setAliases(array('space', 'spaces'))
@@ -41,7 +41,7 @@ final class PhabricatorSpacesSearchEngineExtension
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     if (!empty($map['spacePHIDs'])) {
@@ -55,7 +55,7 @@ final class PhabricatorSpacesSearchEngineExtension
 
   public function getFieldSpecificationsForConduit($object) {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('spacePHID')
         ->setType('phid?')
         ->setDescription(

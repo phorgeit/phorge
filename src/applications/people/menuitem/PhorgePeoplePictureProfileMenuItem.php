@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeoplePictureProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgePeoplePictureProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'people.picture';
 
@@ -14,22 +14,22 @@ final class PhabricatorPeoplePictureProfileMenuItem
   }
 
   public function canHideMenuItem(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return false;
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $this->getDefaultName();
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array();
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $user = $config->getProfileObject();
 

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialResponsibleUserDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Users');
@@ -12,12 +12,12 @@ final class DifferentialResponsibleUserDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
+      new PhorgePeopleDatasource(),
     );
   }
 

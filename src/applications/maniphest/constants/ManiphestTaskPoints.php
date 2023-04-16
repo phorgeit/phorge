@@ -18,7 +18,7 @@ final class ManiphestTaskPoints extends Phobject {
   }
 
   private static function getPointsConfig() {
-    return PhabricatorEnv::getEnvConfig('maniphest.points');
+    return PhorgeEnv::getEnvConfig('maniphest.points');
   }
 
   public static function validateConfiguration($config) {

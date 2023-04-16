@@ -47,7 +47,7 @@ final class FileUploadConduitAPIMethod extends FileConduitAPIMethod {
       $params['viewPolicy'] = $view_policy;
     }
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
 
     return $file->getPHID();
   }

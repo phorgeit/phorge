@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorAuthContactNumberViewController
-  extends PhabricatorAuthContactNumberController {
+final class PhorgeAuthContactNumberViewController
+  extends PhorgeAuthContactNumberController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $number = id(new PhabricatorAuthContactNumberQuery())
+    $number = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -24,7 +24,7 @@ final class PhabricatorAuthContactNumberViewController
 
     $timeline = $this->buildTransactionTimeline(
       $number,
-      new PhabricatorAuthContactNumberTransactionQuery());
+      new PhorgeAuthContactNumberTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -46,7 +46,7 @@ final class PhabricatorAuthContactNumberViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorAuthContactNumber $number) {
+  private function buildHeaderView(PhorgeAuthContactNumber $number) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIHeaderView())
@@ -64,7 +64,7 @@ final class PhabricatorAuthContactNumberViewController
   }
 
   private function buildPropertiesView(
-    PhabricatorAuthContactNumber $number) {
+    PhorgeAuthContactNumber $number) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -79,19 +79,19 @@ final class PhabricatorAuthContactNumberViewController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorAuthContactNumber $number) {
+  private function buildCurtain(PhorgeAuthContactNumber $number) {
     $viewer = $this->getViewer();
     $id = $number->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $number,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($number);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Contact Number'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("contact/edit/{$id}/"))
@@ -99,7 +99,7 @@ final class PhabricatorAuthContactNumberViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Send Test Message'))
         ->setIcon('fa-envelope-o')
         ->setHref($this->getApplicationURI("contact/test/{$id}/"))
@@ -119,7 +119,7 @@ final class PhabricatorAuthContactNumberViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Make Primary Number'))
         ->setIcon('fa-certificate')
         ->setHref($this->getApplicationURI("contact/primary/{$id}/"))
@@ -127,7 +127,7 @@ final class PhabricatorAuthContactNumberViewController
         ->setWorkflow(true));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setHref($disable_uri)

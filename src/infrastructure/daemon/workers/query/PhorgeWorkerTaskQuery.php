@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorWorkerTaskQuery
-  extends PhabricatorQuery {
+abstract class PhorgeWorkerTaskQuery
+  extends PhorgeQuery {
 
   private $ids;
   private $dateModifiedSince;

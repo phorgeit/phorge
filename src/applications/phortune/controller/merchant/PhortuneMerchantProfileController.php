@@ -33,10 +33,10 @@ abstract class PhortuneMerchantProfileController
     $merchant = $this->getMerchant();
     $id = $merchant->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $merchant,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $nav = id(new AphrontSideNavFilterView())
       ->setBaseURI(new PhutilURI($this->getApplicationURI()));

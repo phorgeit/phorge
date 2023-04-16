@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyFavoritesSetting
-  extends PhabricatorInternalSetting {
+final class PhorgePolicyFavoritesSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'policy.favorites';
 

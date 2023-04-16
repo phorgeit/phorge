@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new PhamePostTransaction();

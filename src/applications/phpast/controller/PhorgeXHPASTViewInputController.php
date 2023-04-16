@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHPASTViewInputController
-  extends PhabricatorXHPASTViewPanelController {
+final class PhorgeXHPASTViewInputController
+  extends PhorgeXHPASTViewPanelController {
 
   public function handleRequest(AphrontRequest $request) {
     $input = $this->getStorageTree()->getInput();

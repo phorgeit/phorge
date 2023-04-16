@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorRepositorySchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeRepositorySchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorRepository());
+    $this->buildEdgeSchemata(new PhorgeRepository());
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_COVERAGE,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_COVERAGE,
       array(
         'id' => 'auto',
         'branchID' => 'id',
@@ -28,8 +28,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_FILESYSTEM,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_FILESYSTEM,
       array(
         'repositoryID' => 'id',
         'parentID' => 'id',
@@ -49,8 +49,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_LINTMESSAGE,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_LINTMESSAGE,
       array(
         'id' => 'auto',
         'branchID' => 'id',
@@ -79,8 +79,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_PARENTS,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_PARENTS,
       array(
         'id' => 'auto',
         'childCommitID' => 'id',
@@ -101,8 +101,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_PATH,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_PATH,
       array(
         'id' => 'auto',
         'path' => 'text',
@@ -120,8 +120,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_PATHCHANGE,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_PATHCHANGE,
       array(
         'repositoryID' => 'id',
         'pathID' => 'id',
@@ -144,8 +144,8 @@ final class PhabricatorRepositorySchemaSpec
       ));
 
     $this->buildRawSchema(
-      id(new PhabricatorRepository())->getApplicationName(),
-      PhabricatorRepository::TABLE_SUMMARY,
+      id(new PhorgeRepository())->getApplicationName(),
+      PhorgeRepository::TABLE_SUMMARY,
       array(
         'repositoryID' => 'id',
         'size' => 'uint32',

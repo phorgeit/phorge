@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneAccountEmailQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -103,7 +103,7 @@ final class PhortuneAccountEmailQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function getPrimaryTableAlias() {

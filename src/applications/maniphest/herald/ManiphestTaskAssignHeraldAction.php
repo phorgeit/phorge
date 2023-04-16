@@ -20,10 +20,10 @@ abstract class ManiphestTaskAssignHeraldAction
     $current = array($object->getOwnerPHID());
 
     $allowed_types = array(
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
     );
 
-    if (head($phids) == PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN) {
+    if (head($phids) == PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN) {
       $phid = null;
 
       if ($object->getOwnerPHID() == null) {

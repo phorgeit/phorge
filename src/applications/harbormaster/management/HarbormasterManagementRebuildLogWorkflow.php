@@ -72,7 +72,7 @@ final class HarbormasterManagementRebuildLogWorkflow
       $logs = new LiskMigrationIterator(new HarbormasterBuildLog());
     }
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     foreach ($logs as $log) {
       echo tsprintf(

@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorPackagesPackageSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePackagesPackageSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Packages');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorPackagesPackageQuery());
+    return id(new PhorgePackagesPackageQuery());
   }
 
   public function canUseInPanelContext() {
@@ -35,15 +35,15 @@ final class PhabricatorPackagesPackageSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for packages by name substring.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Publishers'))
         ->setKey('publisherPHIDs')
         ->setAliases(array('publisherPHID', 'publisher', 'publishers'))
-        ->setDatasource(new PhabricatorPackagesPublisherDatasource())
+        ->setDatasource(new PhorgePackagesPublisherDatasource())
         ->setDescription(pht('Search for packages by publisher.')),
     );
   }
@@ -74,18 +74,18 @@ final class PhabricatorPackagesPackageSearchEngine
 
   protected function renderResultList(
     array $packages,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($packages, 'PhabricatorPackagesPackage');
+    assert_instances_of($packages, 'PhorgePackagesPackage');
     $viewer = $this->requireViewer();
 
-    $list = id(new PhabricatorPackagesPackageListView())
+    $list = id(new PhorgePackagesPackageListView())
       ->setViewer($viewer)
       ->setPackages($packages)
       ->newListView();
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No packages found.'));
   }

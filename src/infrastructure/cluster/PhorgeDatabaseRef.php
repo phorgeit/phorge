@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDatabaseRef
+final class PhorgeDatabaseRef
   extends Phobject {
 
   const STATUS_OKAY = 'okay';
@@ -193,7 +193,7 @@ final class PhabricatorDatabaseRef
   }
 
   public function getPartitionStateForCommit() {
-    $state = PhabricatorEnv::getEnvConfig('cluster.databases');
+    $state = PhorgeEnv::getEnvConfig('cluster.databases');
     foreach ($state as $key => $value) {
       // Don't store passwords, since we don't care if they differ and
       // users may find it surprising.
@@ -203,7 +203,7 @@ final class PhabricatorDatabaseRef
     return phutil_json_encode($state);
   }
 
-  public function setMasterRef(PhabricatorDatabaseRef $master_ref) {
+  public function setMasterRef(PhorgeDatabaseRef $master_ref) {
     $this->masterRef = $master_ref;
     return $this;
   }
@@ -212,7 +212,7 @@ final class PhabricatorDatabaseRef
     return $this->masterRef;
   }
 
-  public function addReplicaRef(PhabricatorDatabaseRef $replica_ref) {
+  public function addReplicaRef(PhorgeDatabaseRef $replica_ref) {
     $this->replicaRefs[] = $replica_ref;
     return $this;
   }
@@ -292,7 +292,7 @@ final class PhabricatorDatabaseRef
   }
 
   public static function getClusterRefs() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
 
     $refs = $cache->getKey(self::KEY_REFS);
     if (!$refs) {
@@ -304,7 +304,7 @@ final class PhabricatorDatabaseRef
   }
 
   public static function getLiveIndividualRef() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
 
     $ref = $cache->getKey(self::KEY_INDIVIDUAL);
     if (!$ref) {
@@ -316,18 +316,18 @@ final class PhabricatorDatabaseRef
   }
 
   public static function newRefs() {
-    $default_port = PhabricatorEnv::getEnvConfig('mysql.port');
+    $default_port = PhorgeEnv::getEnvConfig('mysql.port');
     $default_port = nonempty($default_port, 3306);
 
-    $default_user = PhabricatorEnv::getEnvConfig('mysql.user');
+    $default_user = PhorgeEnv::getEnvConfig('mysql.user');
 
-    $default_pass = PhabricatorEnv::getEnvConfig('mysql.pass');
+    $default_pass = PhorgeEnv::getEnvConfig('mysql.pass');
     $default_pass = phutil_string_cast($default_pass);
     $default_pass = new PhutilOpaqueEnvelope($default_pass);
 
-    $config = PhabricatorEnv::getEnvConfig('cluster.databases');
+    $config = PhorgeEnv::getEnvConfig('cluster.databases');
 
-    return id(new PhabricatorDatabaseRefParser())
+    return id(new PhorgeDatabaseRefParser())
       ->setDefaultPort($default_port)
       ->setDefaultUser($default_user)
       ->setDefaultPass($default_pass)
@@ -507,7 +507,7 @@ final class PhabricatorDatabaseRef
 
   public function getHealthRecord() {
     if (!$this->healthRecord) {
-      $this->healthRecord = new PhabricatorClusterServiceHealthRecord(
+      $this->healthRecord = new PhorgeClusterServiceHealthRecord(
         $this->getHealthRecordCacheKey());
     }
     return $this->healthRecord;
@@ -606,11 +606,11 @@ final class PhabricatorDatabaseRef
   }
 
   public static function newIndividualRef() {
-    $default_user = PhabricatorEnv::getEnvConfig('mysql.user');
+    $default_user = PhorgeEnv::getEnvConfig('mysql.user');
     $default_pass = new PhutilOpaqueEnvelope(
-      PhabricatorEnv::getEnvConfig('mysql.pass'));
-    $default_host = PhabricatorEnv::getEnvConfig('mysql.host');
-    $default_port = PhabricatorEnv::getEnvConfig('mysql.port');
+      PhorgeEnv::getEnvConfig('mysql.pass'));
+    $default_host = PhorgeEnv::getEnvConfig('mysql.host');
+    $default_port = PhorgeEnv::getEnvConfig('mysql.port');
 
     return id(new self())
       ->setUser($default_user)

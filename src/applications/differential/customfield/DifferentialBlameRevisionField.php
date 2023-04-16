@@ -67,7 +67,7 @@ final class DifferentialBlameRevisionField
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -78,7 +78,7 @@ final class DifferentialBlameRevisionField
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $object_phid = $xaction->getObjectPHID();
     $author_phid = $xaction->getAuthorPHID();

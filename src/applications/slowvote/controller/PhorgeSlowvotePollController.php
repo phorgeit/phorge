@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvotePollController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvotePollController
+  extends PhorgeSlowvoteController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorSlowvotePollController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $poll = id(new PhabricatorSlowvoteQuery())
+    $poll = id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needOptions(true)
@@ -57,7 +57,7 @@ final class PhabricatorSlowvotePollController
 
     $timeline = $this->buildTransactionTimeline(
       $poll,
-      new PhabricatorSlowvoteTransactionQuery());
+      new PhorgeSlowvoteTransactionQuery());
     $add_comment = $this->buildCommentForm($poll);
 
     $poll_content = array(
@@ -83,13 +83,13 @@ final class PhabricatorSlowvotePollController
       ->appendChild($view);
   }
 
-  private function buildCurtain(PhabricatorSlowvotePoll $poll) {
+  private function buildCurtain(PhorgeSlowvotePoll $poll) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $poll,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($poll);
 
@@ -98,7 +98,7 @@ final class PhabricatorSlowvotePollController
     $close_poll_icon = $is_closed ? 'fa-check' : 'fa-ban';
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Poll'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI('edit/'.$poll->getID().'/'))
@@ -106,7 +106,7 @@ final class PhabricatorSlowvotePollController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($close_poll_text)
         ->setIcon($close_poll_icon)
         ->setHref($this->getApplicationURI('close/'.$poll->getID().'/'))
@@ -117,14 +117,14 @@ final class PhabricatorSlowvotePollController
   }
 
   private function buildSubheaderView(
-    PhabricatorSlowvotePoll $poll) {
+    PhorgeSlowvotePoll $poll) {
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($poll->getAuthorPHID())->render();
     $date = phorge_datetime($poll->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
-    $person = id(new PhabricatorPeopleQuery())
+    $person = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($poll->getAuthorPHID()))
       ->needProfileImage(true)
@@ -141,18 +141,18 @@ final class PhabricatorSlowvotePollController
       ->setContent($content);
   }
 
-  private function buildCommentForm(PhabricatorSlowvotePoll $poll) {
+  private function buildCommentForm(PhorgeSlowvotePoll $poll) {
     $viewer = $this->getRequest()->getUser();
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
 
     $add_comment_header = $is_serious
       ? pht('Add Comment')
       : pht('Enter Deliberations');
 
-    $draft = PhabricatorDraft::newFromUserAndKey($viewer, $poll->getPHID());
+    $draft = PhorgeDraft::newFromUserAndKey($viewer, $poll->getPHID());
 
-    return id(new PhabricatorApplicationTransactionCommentView())
+    return id(new PhorgeApplicationTransactionCommentView())
       ->setUser($viewer)
       ->setObjectPHID($poll->getPHID())
       ->setDraft($draft)

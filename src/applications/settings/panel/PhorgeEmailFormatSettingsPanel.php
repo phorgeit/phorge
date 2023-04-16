@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailFormatSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeEmailFormatSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'emailformat';
 
@@ -14,11 +14,11 @@ final class PhabricatorEmailFormatSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsEmailPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsEmailPanelGroup::PANELGROUPKEY;
   }
 
   public function isUserPanel() {
-    return PhabricatorMetaMTAMail::shouldMailEachRecipient();
+    return PhorgeMetaMTAMail::shouldMailEachRecipient();
   }
 
   public function isManagementPanel() {

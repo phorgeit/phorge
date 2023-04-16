@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorInternalSetting
-  extends PhabricatorSetting {}
+abstract class PhorgeInternalSetting
+  extends PhorgeSetting {}

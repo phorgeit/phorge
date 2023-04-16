@@ -83,7 +83,7 @@ final class DiffusionRepositoryManagePanelsController
   }
 
   private function renderSideNav(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $panels,
     $selected) {
 
@@ -157,7 +157,7 @@ final class DiffusionRepositoryManagePanelsController
       $header->setStatus('fa-ban', 'dark', pht('Inactive'));
     }
 
-    $doc_href = PhabricatorEnv::getDoclink(
+    $doc_href = PhorgeEnv::getDoclink(
       'Diffusion User Guide: Managing Repositories');
 
     $header->addActionLink(
@@ -179,10 +179,10 @@ final class DiffusionRepositoryManagePanelsController
     return $header;
   }
 
-  public function newTimeline(PhabricatorRepository $repository) {
+  public function newTimeline(PhorgeRepository $repository) {
     $timeline = $this->buildTransactionTimeline(
       $repository,
-      new PhabricatorRepositoryTransactionQuery());
+      new PhorgeRepositoryTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     return $timeline;

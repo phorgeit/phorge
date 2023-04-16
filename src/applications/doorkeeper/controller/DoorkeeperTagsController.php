@@ -1,6 +1,6 @@
 <?php
 
-final class DoorkeeperTagsController extends PhabricatorController {
+final class DoorkeeperTagsController extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();

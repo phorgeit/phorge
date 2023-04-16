@@ -1,10 +1,10 @@
 <?php
 
 final class HarbormasterBuildTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function getEditorObjectsDescription() {

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorApplicationMailReceiver
-  extends PhabricatorMailReceiver {
+abstract class PhorgeApplicationMailReceiver
+  extends PhorgeMailReceiver {
 
   private $applicationEmail;
   private $emailList;
@@ -10,7 +10,7 @@ abstract class PhabricatorApplicationMailReceiver
   abstract protected function newApplication();
 
   final protected function setApplicationEmail(
-    PhabricatorMetaMTAApplicationEmail $email) {
+    PhorgeMetaMTAApplicationEmail $email) {
     $this->applicationEmail = $email;
     return $this;
   }
@@ -19,7 +19,7 @@ abstract class PhabricatorApplicationMailReceiver
     return $this->applicationEmail;
   }
 
-  final protected function setAuthor(PhabricatorUser $author) {
+  final protected function setAuthor(PhorgeUser $author) {
     $this->author = $author;
     return $this;
   }
@@ -33,7 +33,7 @@ abstract class PhabricatorApplicationMailReceiver
   }
 
   final public function canAcceptMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
 
     $viewer = $this->getViewer();
@@ -42,7 +42,7 @@ abstract class PhabricatorApplicationMailReceiver
     foreach ($this->loadApplicationEmailList() as $application_email) {
       $create_address = $application_email->newAddress();
 
-      if (!PhabricatorMailUtil::matchAddresses($create_address, $target)) {
+      if (!PhorgeMailUtil::matchAddresses($create_address, $target)) {
         continue;
       }
 
@@ -59,7 +59,7 @@ abstract class PhabricatorApplicationMailReceiver
         // an address which accepts mail from the public internet.
 
         if (!$author_phid) {
-          throw new PhabricatorMetaMTAReceivedMailProcessingException(
+          throw new PhorgeMetaMTAReceivedMailProcessingException(
             MetaMTAReceivedMailStatus::STATUS_UNKNOWN_SENDER,
             pht(
               'You are sending from an unrecognized email address to '.
@@ -67,7 +67,7 @@ abstract class PhabricatorApplicationMailReceiver
               (string)$target));
         }
 
-        $author = id(new PhabricatorPeopleQuery())
+        $author = id(new PhorgePeopleQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($author_phid))
           ->executeOne();
@@ -95,7 +95,7 @@ abstract class PhabricatorApplicationMailReceiver
       $viewer = $this->getViewer();
       $application = $this->newApplication();
 
-      $this->emailList = id(new PhabricatorMetaMTAApplicationEmailQuery())
+      $this->emailList = id(new PhorgeMetaMTAApplicationEmailQuery())
         ->setViewer($viewer)
         ->withApplicationPHIDs(array($application->getPHID()))
         ->execute();

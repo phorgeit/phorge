@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   private $changedPriorToCommitURI;
   private $isCloseByCommit;
@@ -15,7 +15,7 @@ final class DifferentialTransactionEditor
   private $ownersChangesets;
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -72,10 +72,10 @@ final class DifferentialTransactionEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_INLINESTATE;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_INLINESTATE;
 
     $types[] = DifferentialTransaction::TYPE_INLINE;
 
@@ -83,8 +83,8 @@ final class DifferentialTransactionEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialTransaction::TYPE_INLINE:
@@ -95,8 +95,8 @@ final class DifferentialTransactionEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialTransaction::TYPE_INLINE:
@@ -107,8 +107,8 @@ final class DifferentialTransactionEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialTransaction::TYPE_INLINE:
@@ -116,7 +116,7 @@ final class DifferentialTransactionEditor
 
         $comment->setAttribute('editing', false);
 
-        PhabricatorVersionedDraft::purgeDrafts(
+        PhorgeVersionedDraft::purgeDrafts(
           $comment->getPHID(),
           $this->getActingAsPHID());
         return;
@@ -126,12 +126,12 @@ final class DifferentialTransactionEditor
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_INLINESTATE:
+        case PhorgeTransactions::TYPE_INLINESTATE:
           // If we have an "Inline State" transaction already, the caller
           // built it for us so we don't need to expand it again.
           $this->didExpandInlineState = true;
@@ -150,14 +150,14 @@ final class DifferentialTransactionEditor
   }
 
   protected function expandTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $results = parent::expandTransaction($object, $xaction);
 
     $actor = $this->getActor();
     $actor_phid = $this->getActingAsPHID();
-    $type_edge = PhabricatorTransactions::TYPE_EDGE;
+    $type_edge = PhorgeTransactions::TYPE_EDGE;
 
     $edge_ref_task = DifferentialRevisionHasTaskEdgeType::EDGECONST;
 
@@ -211,8 +211,8 @@ final class DifferentialTransactionEditor
         // "T123" or similar, automatically associate the commit with the
         // task that the branch names.
 
-        $maniphest = 'PhabricatorManiphestApplication';
-        if (PhabricatorApplication::isClassInstalled($maniphest)) {
+        $maniphest = 'PhorgeManiphestApplication';
+        if (PhorgeApplication::isClassInstalled($maniphest)) {
           $diff = $this->requireDiff($xaction->getNewValue());
           $branch = $diff->getBranch();
 
@@ -259,7 +259,7 @@ final class DifferentialTransactionEditor
 
     if (!$this->didExpandInlineState) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_COMMENT:
+        case PhorgeTransactions::TYPE_COMMENT:
         case DifferentialRevisionUpdateTransaction::TRANSACTIONTYPE:
         case DifferentialTransaction::TYPE_INLINE:
           $this->didExpandInlineState = true;
@@ -282,8 +282,8 @@ final class DifferentialTransactionEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case DifferentialTransaction::TYPE_INLINE:
@@ -298,11 +298,11 @@ final class DifferentialTransactionEditor
   }
 
   protected function applyBuiltinExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_INLINESTATE:
         $table = new DifferentialTransactionComment();
         $conn_w = $table->establishConnection('w');
         foreach ($xaction->getNewValue() as $phid => $state) {
@@ -320,7 +320,7 @@ final class DifferentialTransactionEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // Load the most up-to-date version of the revision and its reviewers,
@@ -523,7 +523,7 @@ final class DifferentialTransactionEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if (!$object->getShouldBroadcast()) {
@@ -534,12 +534,12 @@ final class DifferentialTransactionEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     if ($object->getShouldBroadcast()) {
       $this->requireReviewers($object);
 
@@ -566,7 +566,7 @@ final class DifferentialTransactionEditor
     return array();
   }
 
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     if (!$object->getShouldBroadcast()) {
       return array();
     }
@@ -574,7 +574,7 @@ final class DifferentialTransactionEditor
     return parent::getMailCC($object);
   }
 
-  protected function newMailUnexpandablePHIDs(PhabricatorLiskDAO $object) {
+  protected function newMailUnexpandablePHIDs(PhorgeLiskDAO $object) {
     $this->requireReviewers($object);
 
     $phids = array();
@@ -589,7 +589,7 @@ final class DifferentialTransactionEditor
   }
 
   protected function getMailAction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $show_lines = false;
@@ -619,29 +619,29 @@ final class DifferentialTransactionEditor
     return pht('[Differential]');
   }
 
-  protected function getMailThreadID(PhabricatorLiskDAO $object) {
+  protected function getMailThreadID(PhorgeLiskDAO $object) {
     // This is nonstandard, but retains threading with older messages.
     $phid = $object->getPHID();
     return "differential-rev-{$phid}-req";
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new DifferentialReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $monogram = $object->getMonogram();
     $title = $object->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject(pht('%s: %s', $monogram, $title))
       ->setMustEncryptSubject(pht('%s: Revision Updated', $monogram))
       ->setMustEncryptURI($object->getURI());
   }
 
   protected function getTransactionsForMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     // If this is the first time we're sending mail about this revision, we
     // generate mail for all prior transactions, not just whatever is being
@@ -655,17 +655,17 @@ final class DifferentialTransactionEditor
   }
 
   protected function getObjectLinkButtonLabelForMail(
-    PhabricatorLiskDAO $object) {
+    PhorgeLiskDAO $object) {
     return pht('View Revision');
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $viewer = $this->requireActor();
 
-    $body = id(new PhabricatorMetaMTAMailBody())
+    $body = id(new PhorgeMetaMTAMailBody())
       ->setViewer($viewer);
 
     $revision_uri = $this->getObjectLinkButtonURIForMail($object);
@@ -728,13 +728,13 @@ final class DifferentialTransactionEditor
         $this->renderAffectedFilesForMail($diff));
 
       $config_key_inline = 'metamta.differential.inline-patches';
-      $config_inline = PhabricatorEnv::getEnvConfig($config_key_inline);
+      $config_inline = PhorgeEnv::getEnvConfig($config_key_inline);
 
       $config_key_attach = 'metamta.differential.attach-patches';
-      $config_attach = PhabricatorEnv::getEnvConfig($config_key_attach);
+      $config_attach = PhorgeEnv::getEnvConfig($config_key_attach);
 
       if ($config_inline || $config_attach) {
-        $body_limit = PhabricatorEnv::getEnvConfig('metamta.email-body-limit');
+        $body_limit = PhorgeEnv::getEnvConfig('metamta.email-body-limit');
 
         try {
           $patch = $this->buildPatchForMail($diff, $body_limit);
@@ -772,7 +772,7 @@ final class DifferentialTransactionEditor
             $name = pht('D%s.%s.patch', $object->getID(), $diff->getID());
             $mime_type = 'text/x-patch; charset=utf-8';
             $body->addAttachment(
-              new PhabricatorMailAttachment($patch, $name, $mime_type));
+              new PhorgeMailAttachment($patch, $name, $mime_type));
           }
         }
       }
@@ -805,7 +805,7 @@ final class DifferentialTransactionEditor
   }
 
   protected function expandCustomRemarkupBlockTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     array $changes,
     PhutilMarkupEngine $engine) {
@@ -910,7 +910,7 @@ final class DifferentialTransactionEditor
     $result = array();
     foreach ($edges as $type => $specs) {
       $result[] = id(new DifferentialTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $type)
         ->setNewValue(array('+' => $specs));
     }
@@ -919,9 +919,9 @@ final class DifferentialTransactionEditor
   }
 
   private function appendInlineCommentsForMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $inlines,
-    PhabricatorMetaMTAMailBody $body) {
+    PhorgeMetaMTAMailBody $body) {
 
     $limit = 100;
     $limit_note = null;
@@ -972,10 +972,10 @@ final class DifferentialTransactionEditor
   }
 
   private function appendChangeDetailsForMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     DifferentialDiff $diff,
     $patch,
-    PhabricatorMetaMTAMailBody $body) {
+    PhorgeMetaMTAMailBody $body) {
 
     $section = id(new DifferentialChangeDetailMailView())
       ->setViewer($this->getActor())
@@ -1026,13 +1026,13 @@ final class DifferentialTransactionEditor
 /* -(  Herald Integration  )------------------------------------------------- */
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function didApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     HeraldAdapter $adapter,
     HeraldTranscript $transcript) {
 
@@ -1051,7 +1051,7 @@ final class DifferentialTransactionEditor
       return array();
     }
 
-    $packages = PhabricatorOwnersPackage::loadAffectedPackagesForChangesets(
+    $packages = PhorgeOwnersPackage::loadAffectedPackagesForChangesets(
       $repository,
       $diff,
       $changesets);
@@ -1062,7 +1062,7 @@ final class DifferentialTransactionEditor
     // Identify the packages with "Non-Owner Author" review rules and remove
     // them if the author has authority over the package.
 
-    $autoreview_map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $autoreview_map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     $need_authority = array();
     foreach ($packages as $package) {
       $autoreview_setting = $package->getAutoReview();
@@ -1078,8 +1078,8 @@ final class DifferentialTransactionEditor
     }
 
     if ($need_authority) {
-      $authority = id(new PhabricatorOwnersPackageQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $authority = id(new PhorgeOwnersPackageQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($need_authority)
         ->withAuthorityPHIDs(array($object->getAuthorPHID()))
         ->execute();
@@ -1104,32 +1104,32 @@ final class DifferentialTransactionEditor
 
     foreach ($packages as $package) {
       switch ($package->getAutoReview()) {
-        case PhabricatorOwnersPackage::AUTOREVIEW_REVIEW:
-        case PhabricatorOwnersPackage::AUTOREVIEW_REVIEW_ALWAYS:
+        case PhorgeOwnersPackage::AUTOREVIEW_REVIEW:
+        case PhorgeOwnersPackage::AUTOREVIEW_REVIEW_ALWAYS:
           $auto_review[] = $package;
           break;
-        case PhabricatorOwnersPackage::AUTOREVIEW_BLOCK:
-        case PhabricatorOwnersPackage::AUTOREVIEW_BLOCK_ALWAYS:
+        case PhorgeOwnersPackage::AUTOREVIEW_BLOCK:
+        case PhorgeOwnersPackage::AUTOREVIEW_BLOCK_ALWAYS:
           $auto_block[] = $package;
           break;
-        case PhabricatorOwnersPackage::AUTOREVIEW_SUBSCRIBE:
-        case PhabricatorOwnersPackage::AUTOREVIEW_SUBSCRIBE_ALWAYS:
+        case PhorgeOwnersPackage::AUTOREVIEW_SUBSCRIBE:
+        case PhorgeOwnersPackage::AUTOREVIEW_SUBSCRIBE_ALWAYS:
           $auto_subscribe[] = $package;
           break;
-        case PhabricatorOwnersPackage::AUTOREVIEW_NONE:
+        case PhorgeOwnersPackage::AUTOREVIEW_NONE:
         default:
           break;
       }
     }
 
-    $owners_phid = id(new PhabricatorOwnersApplication())
+    $owners_phid = id(new PhorgeOwnersApplication())
       ->getPHID();
 
     $xactions = array();
     if ($auto_subscribe) {
       $xactions[] = $object->getApplicationTransactionTemplate()
         ->setAuthorPHID($owners_phid)
-        ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+        ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
         ->setNewValue(
           array(
             '+' => mpull($auto_subscribe, 'getPHID'),
@@ -1158,7 +1158,7 @@ final class DifferentialTransactionEditor
   }
 
   private function newAutoReviewTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $phids,
     $is_blocking) {
 
@@ -1212,7 +1212,7 @@ final class DifferentialTransactionEditor
       }
     }
 
-    $owners_phid = id(new PhabricatorOwnersApplication())
+    $owners_phid = id(new PhorgeOwnersApplication())
       ->getPHID();
 
     $reviewers_type = DifferentialRevisionReviewersTransaction::TRANSACTIONTYPE;
@@ -1227,7 +1227,7 @@ final class DifferentialTransactionEditor
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $revision = id(new DifferentialRevisionQuery())
@@ -1390,7 +1390,7 @@ final class DifferentialTransactionEditor
   }
 
   private function buildPatchForMail(DifferentialDiff $diff, $byte_limit) {
-    $format = PhabricatorEnv::getEnvConfig('metamta.differential.patch-format');
+    $format = PhorgeEnv::getEnvConfig('metamta.differential.patch-format');
 
     return id(new DifferentialRawDiffRenderer())
       ->setViewer($this->getActor())
@@ -1400,7 +1400,7 @@ final class DifferentialTransactionEditor
       ->buildPatch();
   }
 
-  protected function willPublish(PhabricatorLiskDAO $object, array $xactions) {
+  protected function willPublish(PhorgeLiskDAO $object, array $xactions) {
     // Reload to pick up the active diff and reviewer status.
     return id(new DifferentialRevisionQuery())
       ->setViewer($this->getActor())
@@ -1594,7 +1594,7 @@ final class DifferentialTransactionEditor
         // to the author if it isn't already a user so that mail comes from
         // the natural author.
         $acting_phid = $this->getActingAsPHID();
-        $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+        $user_type = PhorgePeopleUserPHIDType::TYPECONST;
         if (phid_get_type($acting_phid) != $user_type) {
           $this->setActingAsPHID($author_phid);
         }
@@ -1620,7 +1620,7 @@ final class DifferentialTransactionEditor
       } else if ($is_failed && $can_demote) {
         // When demoting a revision, we act as "Harbormaster" instead of
         // the author since this feels a little more natural.
-        $harbormaster_phid = id(new PhabricatorHarbormasterApplication())
+        $harbormaster_phid = id(new PhorgeHarbormasterApplication())
           ->getPHID();
 
         $xaction = $object->getApplicationTransactionTemplate()

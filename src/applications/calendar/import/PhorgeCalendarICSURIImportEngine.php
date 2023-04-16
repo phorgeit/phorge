@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarICSURIImportEngine
-  extends PhabricatorCalendarICSImportEngine {
+final class PhorgeCalendarICSURIImportEngine
+  extends PhorgeCalendarICSImportEngine {
 
   const ENGINETYPE = 'icsuri';
 
@@ -17,27 +17,27 @@ final class PhabricatorCalendarICSURIImportEngine
     return pht('Import or subscribe to a calendar in .ics format by URI.');
   }
 
-  public function supportsTriggers(PhabricatorCalendarImport $import) {
+  public function supportsTriggers(PhorgeCalendarImport $import) {
     return true;
   }
 
   public function appendImportProperties(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     PHUIPropertyListView $properties) {
 
-    $uri_key = PhabricatorCalendarImportICSURITransaction::PARAMKEY_URI;
+    $uri_key = PhorgeCalendarImportICSURITransaction::PARAMKEY_URI;
     $uri = $import->getParameter($uri_key);
 
     // Since the URI may contain a secret hash, don't show it to users who
     // can not edit the import.
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $import,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     if (!$can_edit) {
       $uri_display = phutil_tag('em', array(), pht('Restricted'));
-    } else if (!PhabricatorEnv::isValidRemoteURIForLink($uri)) {
+    } else if (!PhorgeEnv::isValidRemoteURIForLink($uri)) {
       $uri_display = $uri;
     } else {
       $uri_display = phutil_tag(
@@ -54,17 +54,17 @@ final class PhabricatorCalendarICSURIImportEngine
   }
 
   public function newEditEngineFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorCalendarImport $import) {
+    PhorgeEditEngine $engine,
+    PhorgeCalendarImport $import) {
     $fields = array();
 
     if ($engine->getIsCreate()) {
-      $fields[] = id(new PhabricatorTextEditField())
+      $fields[] = id(new PhorgeTextEditField())
         ->setKey('uri')
         ->setLabel(pht('URI'))
         ->setDescription(pht('URI to import.'))
         ->setTransactionType(
-          PhabricatorCalendarImportICSURITransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportICSURITransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('URI to import.'))
         ->setConduitTypeDescription(pht('New URI.'));
     }
@@ -72,33 +72,33 @@ final class PhabricatorCalendarICSURIImportEngine
     return $fields;
   }
 
-  public function getDisplayName(PhabricatorCalendarImport $import) {
+  public function getDisplayName(PhorgeCalendarImport $import) {
     return pht('ICS URI');
   }
 
   public function importEventsFromSource(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     $should_queue) {
 
-    $uri_key = PhabricatorCalendarImportICSURITransaction::PARAMKEY_URI;
+    $uri_key = PhorgeCalendarImportICSURITransaction::PARAMKEY_URI;
     $uri = $import->getParameter($uri_key);
 
-    PhabricatorSystemActionEngine::willTakeAction(
+    PhorgeSystemActionEngine::willTakeAction(
       array($viewer->getPHID()),
-      new PhabricatorFilesOutboundRequestAction(),
+      new PhorgeFilesOutboundRequestAction(),
       1);
 
-    $file = PhabricatorFile::newFromFileDownload(
+    $file = PhorgeFile::newFromFileDownload(
       $uri,
       array(
-        'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+        'viewPolicy' => PhorgePolicies::POLICY_NOONE,
         'authorPHID' => $import->getAuthorPHID(),
         'canCDN' => true,
       ));
 
     $import->newLogMessage(
-      PhabricatorCalendarImportFetchLogType::LOGTYPE,
+      PhorgeCalendarImportFetchLogType::LOGTYPE,
       array(
         'file.phid' => $file->getPHID(),
       ));
@@ -113,8 +113,8 @@ final class PhabricatorCalendarICSURIImportEngine
   }
 
   public function canDisable(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import) {
     return true;
   }
 

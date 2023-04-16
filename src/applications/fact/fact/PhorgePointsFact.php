@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorPointsFact extends PhabricatorFact {
+final class PhorgePointsFact extends PhorgeFact {
 
   protected function newTemplateDatapoint() {
-    return new PhabricatorFactIntDatapoint();
+    return new PhorgeFactIntDatapoint();
   }
 
 }

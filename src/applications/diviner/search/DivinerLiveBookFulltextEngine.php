@@ -1,10 +1,10 @@
 <?php
 
 final class DivinerLiveBookFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $book = $object;
@@ -12,13 +12,13 @@ final class DivinerLiveBookFulltextEngine
     $document->setDocumentTitle($book->getTitle());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $book->getPreface());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_REPOSITORY,
+      PhorgeSearchRelationship::RELATIONSHIP_REPOSITORY,
       $book->getRepositoryPHID(),
-      PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
+      PhorgeRepositoryRepositoryPHIDType::TYPECONST,
       $book->getDateCreated());
   }
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonManagementStatusWorkflow
-  extends PhabricatorDaemonManagementWorkflow {
+final class PhorgeDaemonManagementStatusWorkflow
+  extends PhorgeDaemonManagementWorkflow {
 
   protected function didConstruct() {
     $this

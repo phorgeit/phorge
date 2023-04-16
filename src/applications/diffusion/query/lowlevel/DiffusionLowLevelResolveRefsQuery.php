@@ -37,13 +37,13 @@ final class DiffusionLowLevelResolveRefsQuery
     }
 
     switch ($this->getRepository()->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->resolveGitRefs();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->resolveMercurialRefs();
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $result = $this->resolveSubversionRefs();
         break;
       default:
@@ -85,8 +85,8 @@ final class DiffusionLowLevelResolveRefsQuery
         ->setRepository($repository)
         ->withRefTypes(
           array(
-            PhabricatorRepositoryRefCursor::TYPE_BRANCH,
-            PhabricatorRepositoryRefCursor::TYPE_TAG,
+            PhorgeRepositoryRefCursor::TYPE_BRANCH,
+            PhorgeRepositoryRefCursor::TYPE_TAG,
           ))
         ->execute();
       $ref_map = mgroup($ref_map, 'getShortName');
@@ -198,7 +198,7 @@ final class DiffusionLowLevelResolveRefsQuery
         ->setRepository($repository)
         ->withRefTypes(
           array(
-            PhabricatorRepositoryRefCursor::TYPE_TAG,
+            PhorgeRepositoryRefCursor::TYPE_TAG,
           ))
         ->executeQuery();
       foreach ($tag_refs as $tag_ref) {

@@ -26,7 +26,7 @@ final class AlmanacManagementTrustKeyWorkflow
         pht('Specify a public key to trust with --id.'));
     }
 
-    $key = id(new PhabricatorAuthSSHKeyQuery())
+    $key = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($this->getViewer())
       ->withIDs(array($id))
       ->executeOne();
@@ -50,7 +50,7 @@ final class AlmanacManagementTrustKeyWorkflow
         pht('You can only trust keys associated with Almanac devices.'));
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs(array($key->getObject()->getPHID()))
       ->executeOne();
@@ -81,7 +81,7 @@ final class AlmanacManagementTrustKeyWorkflow
     $key->setIsTrusted(1);
     $key->save();
 
-    PhabricatorAuthSSHKeyQuery::deleteSSHKeyCache();
+    PhorgeAuthSSHKeyQuery::deleteSSHKeyCache();
 
     $console->writeOut(
       "**<bg:green> %s </bg>** %s\n",

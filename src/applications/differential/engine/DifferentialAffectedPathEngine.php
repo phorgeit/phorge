@@ -38,7 +38,7 @@ final class DifferentialAffectedPathEngine
     $paths = $this->getAffectedPaths();
 
     $path_ids =
-      PhabricatorRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
+      PhorgeRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
         $paths);
 
     $table = new DifferentialAffectedPath();
@@ -60,7 +60,7 @@ final class DifferentialAffectedPathEngine
       $table,
       $revision->getID());
     if ($sql) {
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'INSERT INTO %R (repositoryID, pathID, revisionID) VALUES %LQ',

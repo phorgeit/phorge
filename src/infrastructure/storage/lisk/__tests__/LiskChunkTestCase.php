@@ -1,6 +1,6 @@
 <?php
 
-final class LiskChunkTestCase extends PhabricatorTestCase {
+final class LiskChunkTestCase extends PhorgeTestCase {
 
   public function testSQLChunking() {
     $fragments = array(
@@ -23,7 +23,7 @@ final class LiskChunkTestCase extends PhabricatorTestCase {
         array('dd'),
         array('e'),
       ),
-      PhabricatorLiskDAO::chunkSQL($fragments, 2));
+      PhorgeLiskDAO::chunkSQL($fragments, 2));
 
 
     $fragments = array(
@@ -43,7 +43,7 @@ final class LiskChunkTestCase extends PhabricatorTestCase {
         array('XX', 'a', 'a'),
         array('a', 'a'),
       ),
-      PhabricatorLiskDAO::chunkSQL($fragments, 8));
+      PhorgeLiskDAO::chunkSQL($fragments, 8));
 
 
     $fragments = array(
@@ -62,7 +62,7 @@ final class LiskChunkTestCase extends PhabricatorTestCase {
         array('a', 'b', 'c'),
         array('zzzzzzzzzz'),
       ),
-      PhabricatorLiskDAO::chunkSQL($fragments, 8));
+      PhorgeLiskDAO::chunkSQL($fragments, 8));
   }
 
 }

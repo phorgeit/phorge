@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeCountdownDefaultEditCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'countdown.default.edit';
 

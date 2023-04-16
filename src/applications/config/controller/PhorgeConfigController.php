@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConfigController extends PhabricatorController {
+abstract class PhorgeConfigController extends PhorgeController {
 
   public function shouldRequireAdmin() {
     return true;
@@ -9,7 +9,7 @@ abstract class PhabricatorConfigController extends PhabricatorController {
   public function buildHeaderView($text, $action = null) {
     $viewer = $this->getViewer();
 
-    $file = PhabricatorFile::loadBuiltin($viewer, 'projects/v3/manage.png');
+    $file = PhorgeFile::loadBuiltin($viewer, 'projects/v3/manage.png');
     $image = $file->getBestURI($file);
     $header = id(new PHUIHeaderView())
       ->setHeader($text)

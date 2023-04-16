@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyCodexRuleDescription
+final class PhorgePolicyCodexRuleDescription
   extends Phobject {
 
   private $description;

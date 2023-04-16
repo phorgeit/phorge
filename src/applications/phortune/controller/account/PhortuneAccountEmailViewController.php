@@ -56,10 +56,10 @@ final class PhortuneAccountEmailViewController
     $viewer = $this->getViewer();
     $account = $address->getAccount();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $address,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getApplicationURI(
       urisprintf(
@@ -76,7 +76,7 @@ final class PhortuneAccountEmailViewController
     $curtain = $this->newCurtainView($account);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Address'))
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)
@@ -112,7 +112,7 @@ final class PhortuneAccountEmailViewController
         $disable_action));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setHref($disable_uri)
@@ -126,7 +126,7 @@ final class PhortuneAccountEmailViewController
         $address->getID()));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Rotate Access Key'))
         ->setIcon('fa-refresh')
         ->setHref($rotate_uri)
@@ -134,7 +134,7 @@ final class PhortuneAccountEmailViewController
         ->setWorkflow(true));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Show External View'))
         ->setIcon('fa-eye')
         ->setHref($external_uri)

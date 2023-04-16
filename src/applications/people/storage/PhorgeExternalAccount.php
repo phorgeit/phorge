@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorExternalAccount
-  extends PhabricatorUserDAO
+final class PhorgeExternalAccount
+  extends PhorgeUserDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $userPHID;
   protected $accountSecret;
@@ -32,14 +32,14 @@ final class PhabricatorExternalAccount
     return $this->assertAttached($this->profileImageFile);
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPeopleExternalPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePeopleExternalPHIDType::TYPECONST);
   }
 
   protected function getConfiguration() {
@@ -144,7 +144,7 @@ final class PhabricatorExternalAccount
     return true;
   }
 
-  public function attachProviderConfig(PhabricatorAuthProviderConfig $config) {
+  public function attachProviderConfig(PhorgeAuthProviderConfig $config) {
     $this->providerConfig = $config;
     return $this;
   }
@@ -159,13 +159,13 @@ final class PhabricatorExternalAccount
   }
 
   public function attachAccountIdentifiers(array $identifiers) {
-    assert_instances_of($identifiers, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of($identifiers, 'PhorgeExternalAccountIdentifier');
     $this->accountIdentifiers = mpull($identifiers, null, 'getIdentifierRaw');
     return $this;
   }
 
   public function appendIdentifier(
-    PhabricatorExternalAccountIdentifier $identifier) {
+    PhorgeExternalAccountIdentifier $identifier) {
 
     $this->assertAttached($this->accountIdentifiers);
 
@@ -192,49 +192,49 @@ final class PhabricatorExternalAccount
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getUserPHID());
   }
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return null;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht(
           'External accounts can only be edited by the account owner.');
     }
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $engine->getViewer();
 
-    $identifiers = id(new PhabricatorExternalAccountIdentifierQuery())
+    $identifiers = id(new PhorgeExternalAccountIdentifierQuery())
       ->setViewer($viewer)
       ->withExternalAccountPHIDs(array($this->getPHID()))
       ->newIterator();

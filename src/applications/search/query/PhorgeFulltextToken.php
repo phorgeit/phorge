@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFulltextToken extends Phobject {
+final class PhorgeFulltextToken extends Phobject {
 
   private $token;
   private $isShort;

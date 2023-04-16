@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldRuleActionAffectsObjectEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 69;
 

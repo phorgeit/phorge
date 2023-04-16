@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFeedStoryReference extends PhabricatorFeedDAO {
+final class PhorgeFeedStoryReference extends PhorgeFeedDAO {
 
   protected $objectPHID;
   protected $chronologicalKey;

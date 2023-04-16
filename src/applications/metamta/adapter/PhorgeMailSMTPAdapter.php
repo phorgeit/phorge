@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailSMTPAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailSMTPAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'smtp';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
     );
   }
 
@@ -44,7 +44,7 @@ final class PhabricatorMailSMTPAdapter
   /**
    * @phutil-external-symbol class PHPMailer
    */
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $root = phutil_get_library_root('phorge');
     $root = dirname($root);
     require_once $root.'/externals/phpmailer/class.phpmailer.php';

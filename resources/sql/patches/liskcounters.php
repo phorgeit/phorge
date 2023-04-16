@@ -1,10 +1,10 @@
 <?php
 
-// Switch PhabricatorWorkerActiveTask from auto-increment IDs to counter IDs.
+// Switch PhorgeWorkerActiveTask from auto-increment IDs to counter IDs.
 // Set the initial counter ID to be larger than any known task ID.
 
-$active_table = new PhabricatorWorkerActiveTask();
-$archive_table = new PhabricatorWorkerArchiveTask();
+$active_table = new PhorgeWorkerActiveTask();
+$archive_table = new PhorgeWorkerArchiveTask();
 
 $old_table = 'worker_task';
 

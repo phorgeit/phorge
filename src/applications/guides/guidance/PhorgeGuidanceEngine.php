@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorGuidanceEngine
+final class PhorgeGuidanceEngine
   extends Phobject {
 
   private $viewer;
   private $guidanceContext;
 
   public function setGuidanceContext(
-    PhabricatorGuidanceContext $guidance_context) {
+    PhorgeGuidanceContext $guidance_context) {
     $this->guidanceContext = $guidance_context;
     return $this;
   }
@@ -16,7 +16,7 @@ final class PhabricatorGuidanceEngine
     return $this->guidanceContext;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -26,7 +26,7 @@ final class PhabricatorGuidanceEngine
   }
 
   public function newInfoView() {
-    $extensions = PhabricatorGuidanceEngineExtension::getAllExtensions();
+    $extensions = PhorgeGuidanceEngineExtension::getAllExtensions();
     $context = $this->getGuidanceContext();
 
     $keep = array();
@@ -65,7 +65,7 @@ final class PhabricatorGuidanceEngine
 
     $guidance_map = msortv($guidance_map, 'getSortVector');
 
-    $severity = PhabricatorGuidanceMessage::SEVERITY_NOTICE;
+    $severity = PhorgeGuidanceMessage::SEVERITY_NOTICE;
     $strength = null;
     foreach ($guidance_map as $guidance) {
       if ($strength !== null) {
@@ -79,9 +79,9 @@ final class PhabricatorGuidanceEngine
     }
 
     $severity_map = array(
-      PhabricatorGuidanceMessage::SEVERITY_NOTICE
+      PhorgeGuidanceMessage::SEVERITY_NOTICE
         => PHUIInfoView::SEVERITY_NOTICE,
-      PhabricatorGuidanceMessage::SEVERITY_WARNING
+      PhorgeGuidanceMessage::SEVERITY_WARNING
         => PHUIInfoView::SEVERITY_WARNING,
     );
 

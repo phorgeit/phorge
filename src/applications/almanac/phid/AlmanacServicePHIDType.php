@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacServicePHIDType extends PhabricatorPHIDType {
+final class AlmanacServicePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ASRV';
 
@@ -13,11 +13,11 @@ final class AlmanacServicePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacServiceQuery())
@@ -25,7 +25,7 @@ final class AlmanacServicePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroAudioBehaviorTransaction
-  extends PhabricatorMacroTransactionType {
+final class PhorgeMacroAudioBehaviorTransaction
+  extends PhorgeMacroTransactionType {
 
   const TRANSACTIONTYPE = 'macro:audiobehavior';
 
@@ -17,11 +17,11 @@ final class PhabricatorMacroAudioBehaviorTransaction
     $new = $this->getNewValue();
     $old = $this->getOldValue();
     switch ($new) {
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_ONCE:
         return pht(
           '%s set the audio to play once.',
           $this->renderAuthor());
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP:
         return pht(
           '%s set the audio to loop.',
           $this->renderAuthor());
@@ -36,12 +36,12 @@ final class PhabricatorMacroAudioBehaviorTransaction
     $new = $this->getNewValue();
     $old = $this->getOldValue();
     switch ($new) {
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_ONCE:
         return pht(
           '%s set the audio for %s to play once.',
           $this->renderAuthor(),
           $this->renderObject());
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP:
         return pht(
           '%s set the audio for %s to loop.',
           $this->renderAuthor(),
@@ -57,9 +57,9 @@ final class PhabricatorMacroAudioBehaviorTransaction
   public function getIcon() {
     $new = $this->getNewValue();
     switch ($new) {
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_ONCE:
         return 'fa-play-circle';
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP:
         return 'fa-repeat';
       default:
         return 'fa-pause-circle';

@@ -4,7 +4,7 @@
 $root = dirname(dirname(dirname(__FILE__)));
 require_once $root.'/scripts/__init_script__.php';
 
-PhabricatorDaemonManagementWorkflow::requireExtensions();
+PhorgeDaemonManagementWorkflow::requireExtensions();
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage daemons'));
@@ -17,7 +17,7 @@ EOSYNOPSIS
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorDaemonManagementWorkflow')
+  ->setAncestorClass('PhorgeDaemonManagementWorkflow')
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

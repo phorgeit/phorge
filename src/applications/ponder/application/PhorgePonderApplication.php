@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPonderApplication extends PhabricatorApplication {
+final class PhorgePonderApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/ponder/';
@@ -75,7 +75,7 @@ final class PhabricatorPonderApplication extends PhabricatorApplication {
             => 'PonderQuestionHistoryController',
         ),
         'preview/'
-          => 'PhabricatorMarkupPreviewController',
+          => 'PhorgeMarkupPreviewController',
         'question/status/(?P<id>[1-9]\d*)/'
           => 'PonderQuestionStatusController',
       ),
@@ -99,12 +99,12 @@ final class PhabricatorPonderApplication extends PhabricatorApplication {
     return array(
       PonderDefaultViewCapability::CAPABILITY => array(
         'template' => PonderQuestionPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       PonderModerateCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
         'template' => PonderQuestionPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

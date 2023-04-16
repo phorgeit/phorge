@@ -3,7 +3,7 @@
 /**
  * @task objectpolicy Implementing Object Policies
  */
-abstract class PhabricatorPolicyRule extends Phobject {
+abstract class PhorgePolicyRule extends Phobject {
 
   const CONTROL_TYPE_TEXT       = 'text';
   const CONTROL_TYPE_SELECT     = 'select';
@@ -13,16 +13,16 @@ abstract class PhabricatorPolicyRule extends Phobject {
   abstract public function getRuleDescription();
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
     return;
   }
 
   abstract public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object);
+    PhorgePolicyInterface $object);
 
   public function getValueControlType() {
     return self::CONTROL_TYPE_TEXT;
@@ -38,12 +38,12 @@ abstract class PhabricatorPolicyRule extends Phobject {
    * Some policy rules may only operation on certain kinds of objects. For
    * example, a "task author" rule can only operate on tasks.
    */
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
+  public function canApplyToObject(PhorgePolicyInterface $object) {
     return true;
   }
 
   protected function getDatasourceTemplate(
-    PhabricatorTypeaheadDatasource $datasource) {
+    PhorgeTypeaheadDatasource $datasource) {
 
     return array(
       'markup' => new AphrontTokenizerTemplateView(),
@@ -61,7 +61,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
     return $value;
   }
 
-  public function getValueForDisplay(PhabricatorUser $viewer, $value) {
+  public function getValueForDisplay(PhorgeUser $viewer, $value) {
     return $value;
   }
 
@@ -77,7 +77,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
       case self::CONTROL_TYPE_NONE:
       default:
         if (phid_get_type($value) !=
-            PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+            PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
           $phids = array($value);
         } else {
           $phids = array();
@@ -120,30 +120,30 @@ abstract class PhabricatorPolicyRule extends Phobject {
    * rendering a verdict about whether the user will be able to see the object
    * or not after applying the policy change.
    *
-   * @param PhabricatorPolicyInterface Object to pass a hint about.
-   * @param PhabricatorPolicyRule Rule to pass hint to.
+   * @param PhorgePolicyInterface Object to pass a hint about.
+   * @param PhorgePolicyRule Rule to pass hint to.
    * @param wild Hint.
    * @return void
    */
   public static function passTransactionHintToRule(
-    PhabricatorPolicyInterface $object,
-    PhabricatorPolicyRule $rule,
+    PhorgePolicyInterface $object,
+    PhorgePolicyRule $rule,
     $hint) {
 
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache->setKey(self::getObjectPolicyCacheKey($object, $rule), $hint);
   }
 
   final protected function getTransactionHint(
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     return $cache->getKey(self::getObjectPolicyCacheKey($object, $this));
   }
 
   private static function getObjectPolicyCacheKey(
-    PhabricatorPolicyInterface $object,
-    PhabricatorPolicyRule $rule) {
+    PhorgePolicyInterface $object,
+    PhorgePolicyRule $rule) {
 
     // NOTE: This is quite a bit of a hack, but we don't currently have a
     // better way to carry hints from the TransactionEditor into PolicyRules
@@ -155,7 +155,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
     // those edits to go through.
 
     // Some better approaches might be:
-    //   - Use traits to give `PhabricatorPolicyInterface` objects real
+    //   - Use traits to give `PhorgePolicyInterface` objects real
     //     storage (requires PHP 5.4.0).
     //   - Wrap policy objects in a container with extra storage which the
     //     policy filter knows how to unbox (lots of work).
@@ -199,7 +199,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
           get_class($this)));
     }
 
-    return PhabricatorPolicyQuery::OBJECT_POLICY_PREFIX.$key;
+    return PhorgePolicyQuery::OBJECT_POLICY_PREFIX.$key;
   }
 
   public function getObjectPolicyName() {

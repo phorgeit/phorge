@@ -1,4 +1,4 @@
 <?php
 
 abstract class HeraldRuleTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

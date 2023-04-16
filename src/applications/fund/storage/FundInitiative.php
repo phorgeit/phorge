@@ -2,16 +2,16 @@
 
 final class FundInitiative extends FundDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorProjectInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgePolicyInterface,
+    PhorgeProjectInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeSubscribableInterface,
+    PhorgeMentionableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeDestructibleInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   protected $name;
   protected $ownerPHID;
@@ -35,10 +35,10 @@ final class FundInitiative extends FundDAO
     );
   }
 
-  public static function initializeNewInitiative(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewInitiative(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorFundApplication'))
+      ->withClasses(array('PhorgeFundApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(FundDefaultViewCapability::CAPABILITY);
@@ -102,31 +102,31 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($viewer->getPHID() == $this->getOwnerPHID()) {
       return true;
     }
 
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
       $can_merchant = PhortuneMerchantQuery::canViewersEditMerchants(
         array($viewer->getPHID()),
         array($this->getMerchantPHID()));
@@ -144,7 +144,7 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -156,7 +156,7 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -164,7 +164,7 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorTokenRecevierInterface  )---------------------------------- */
+/* -(  PhorgeTokenRecevierInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -174,11 +174,11 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
@@ -186,7 +186,7 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -194,7 +194,7 @@ final class FundInitiative extends FundDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {

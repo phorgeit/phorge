@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorChartRenderingEngine
+final class PhorgeChartRenderingEngine
   extends Phobject {
 
   private $viewer;
   private $chart;
   private $storedChart;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -16,7 +16,7 @@ final class PhabricatorChartRenderingEngine
     return $this->viewer;
   }
 
-  public function setChart(PhabricatorFactChart $chart) {
+  public function setChart(PhorgeFactChart $chart) {
     $this->chart = $chart;
     return $this;
   }
@@ -26,7 +26,7 @@ final class PhabricatorChartRenderingEngine
   }
 
   public function loadChart($chart_key) {
-    $chart = id(new PhabricatorFactChart())->loadOneWhere(
+    $chart = id(new PhorgeFactChart())->loadOneWhere(
       'chartKey = %s',
       $chart_key);
 
@@ -38,7 +38,7 @@ final class PhabricatorChartRenderingEngine
   }
 
   public static function getChartURI($chart_key) {
-    return id(new PhabricatorFactChart())
+    return id(new PhorgeFactChart())
       ->setChartKey($chart_key)
       ->getURI();
   }
@@ -50,7 +50,7 @@ final class PhabricatorChartRenderingEngine
       if (!$chart_key) {
         $chart_key = $chart->newChartKey();
 
-        $stored_chart = id(new PhabricatorFactChart())->loadOneWhere(
+        $stored_chart = id(new PhorgeFactChart())->loadOneWhere(
           'chartKey = %s',
           $chart_key);
         if ($stored_chart) {
@@ -61,7 +61,7 @@ final class PhabricatorChartRenderingEngine
           try {
             $chart->save();
           } catch (AphrontDuplicateKeyQueryException $ex) {
-            $chart = id(new PhabricatorFactChart())->loadOneWhere(
+            $chart = id(new PhorgeFactChart())->loadOneWhere(
               'chartKey = %s',
               $chart_key);
             if (!$chart) {
@@ -252,7 +252,7 @@ final class PhabricatorChartRenderingEngine
     $chart = $this->getStoredChart();
     $chart_key = $chart->getChartKey();
 
-    $chart_engine = PhabricatorChartEngine::newFromChart($chart)
+    $chart_engine = PhorgeChartEngine::newFromChart($chart)
       ->setViewer($this->getViewer());
     $chart_engine->buildChart($chart);
 
@@ -278,11 +278,11 @@ final class PhabricatorChartRenderingEngine
 
     $domain = $this->getDomain($functions);
 
-    $axis = id(new PhabricatorChartAxis())
+    $axis = id(new PhorgeChartAxis())
       ->setMinimumValue($domain->getMin())
       ->setMaximumValue($domain->getMax());
 
-    $data_query = id(new PhabricatorChartDataQuery())
+    $data_query = id(new PhorgeChartDataQuery())
       ->setMinimumValue($domain->getMin())
       ->setMaximumValue($domain->getMax())
       ->setLimit(2000);
@@ -319,13 +319,13 @@ final class PhabricatorChartRenderingEngine
       $domains[] = $function->getDomain();
     }
 
-    $domain = PhabricatorChartInterval::newFromIntervalList($domains);
+    $domain = PhorgeChartInterval::newFromIntervalList($domains);
 
     // If we don't have any domain data from the actual functions, pick a
     // plausible domain automatically.
 
     if ($domain->getMax() === null) {
-      $domain->setMax(PhabricatorTime::getNow());
+      $domain->setMax(PhorgeTime::getNow());
     }
 
     if ($domain->getMin() === null) {
@@ -336,7 +336,7 @@ final class PhabricatorChartRenderingEngine
   }
 
   private function getRange(array $ranges) {
-    $range = PhabricatorChartInterval::newFromIntervalList($ranges);
+    $range = PhorgeChartInterval::newFromIntervalList($ranges);
 
     // Start the Y axis at 0 unless the chart has negative values.
     $min = $range->getMin();

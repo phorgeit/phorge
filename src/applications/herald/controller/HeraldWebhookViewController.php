@@ -51,7 +51,7 @@ final class HeraldWebhookViewController
       ->execute();
 
     $warnings = array();
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $message = pht(
         'This server is running in silent mode, so it will not '.
         'publish webhooks. To adjust this setting, see '.
@@ -129,10 +129,10 @@ final class HeraldWebhookViewController
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($hook);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $hook,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $hook->getID();
     $edit_uri = $this->getApplicationURI("webhook/edit/{$id}/");
@@ -142,7 +142,7 @@ final class HeraldWebhookViewController
     $key_cycle_uri = $this->getApplicationURI("webhook/key/cycle/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Webhook'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -150,7 +150,7 @@ final class HeraldWebhookViewController
         ->setHref($edit_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('New Test Request'))
         ->setIcon('fa-cloud-upload')
         ->setDisabled(!$can_edit)
@@ -158,7 +158,7 @@ final class HeraldWebhookViewController
         ->setHref($test_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View HMAC Key'))
         ->setIcon('fa-key')
         ->setDisabled(!$can_edit)
@@ -166,7 +166,7 @@ final class HeraldWebhookViewController
         ->setHref($key_view_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Regenerate HMAC Key'))
         ->setIcon('fa-refresh')
         ->setDisabled(!$can_edit)

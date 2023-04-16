@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEditEngineSubtypeHeraldField
+final class PhorgeEditEngineSubtypeHeraldField
   extends HeraldField {
 
   const FIELDCONST = 'subtype';
@@ -14,7 +14,7 @@ final class PhabricatorEditEngineSubtypeHeraldField
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorEditEngineSubtypeInterface);
+    return ($object instanceof PhorgeEditEngineSubtypeInterface);
   }
 
   public function getHeraldFieldValue($object) {

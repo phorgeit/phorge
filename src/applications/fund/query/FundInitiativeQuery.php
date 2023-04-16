@@ -1,7 +1,7 @@
 <?php
 
 final class FundInitiativeQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -67,7 +67,7 @@ final class FundInitiativeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   protected function getPrimaryTableAlias() {

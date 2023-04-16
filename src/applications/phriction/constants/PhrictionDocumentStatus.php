@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentStatus
-  extends PhabricatorObjectStatus {
+  extends PhorgeObjectStatus {
 
   const STATUS_EXISTS = 'active';
   const STATUS_DELETED = 'deleted';

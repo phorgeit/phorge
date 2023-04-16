@@ -4,12 +4,12 @@
  * Example event listener. For details about installing Phorge event hooks,
  * refer to @{article:Events User Guide: Installing Event Listeners}.
  */
-final class PhabricatorExampleEventListener extends PhabricatorEventListener {
+final class PhorgeExampleEventListener extends PhorgeEventListener {
 
   public function register() {
     // When your listener is installed, its register() method will be called.
     // You should listen() to any events you are interested in here.
-    $this->listen(PhabricatorEventType::TYPE_TEST_DIDRUNTEST);
+    $this->listen(PhorgeEventType::TYPE_TEST_DIDRUNTEST);
   }
 
   public function handleEvent(PhutilEvent $event) {

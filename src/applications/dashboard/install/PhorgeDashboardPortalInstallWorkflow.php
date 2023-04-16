@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalInstallWorkflow
-  extends PhabricatorDashboardObjectInstallWorkflow {
+final class PhorgeDashboardPortalInstallWorkflow
+  extends PhorgeDashboardObjectInstallWorkflow {
 
   const WORKFLOWKEY = 'portal';
 
@@ -18,11 +18,11 @@ final class PhabricatorDashboardPortalInstallWorkflow
   }
 
   protected function newProfileEngine() {
-    return new PhabricatorDashboardPortalProfileMenuEngine();
+    return new PhorgeDashboardPortalProfileMenuEngine();
   }
 
   protected function newQuery() {
-    return new PhabricatorDashboardPortalQuery();
+    return new PhorgeDashboardPortalQuery();
   }
 
   protected function newConfirmDialog($object) {
@@ -56,7 +56,7 @@ final class PhabricatorDashboardPortalInstallWorkflow
           ->setLimit(1)
           ->setLabel(pht('Add to Portal'))
           ->setValue($tokenizer_value)
-          ->setDatasource(new PhabricatorDashboardPortalDatasource()));
+          ->setDatasource(new PhorgeDashboardPortalDatasource()));
   }
 
 }

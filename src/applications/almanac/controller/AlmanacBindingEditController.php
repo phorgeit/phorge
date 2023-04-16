@@ -13,8 +13,8 @@ final class AlmanacBindingEditController
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$binding) {
@@ -34,8 +34,8 @@ final class AlmanacBindingEditController
         ->withIDs(array($request->getStr('serviceID')))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
 
@@ -76,7 +76,7 @@ final class AlmanacBindingEditController
 
         $binding_uri = $binding->getURI();
         return id(new AphrontRedirectResponse())->setURI($binding_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_interface = $ex->getShortMessage($type_interface);
       }

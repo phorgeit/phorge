@@ -4,7 +4,7 @@
  * This is a standard Phorge page with menus, Javelin, DarkConsole, and
  * basic styles.
  */
-final class PhabricatorStandardPageView extends PhabricatorBarePageView
+final class PhorgeStandardPageView extends PhorgeBarePageView
   implements AphrontResponseProducerInterface {
 
   private $baseURI;
@@ -91,8 +91,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       return false;
     }
 
-    $conpherence_installed = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorConpherenceApplication',
+    $conpherence_installed = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeConpherenceApplication',
       $viewer);
     if (!$conpherence_installed) {
       return false;
@@ -122,12 +122,12 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   }
 
   public function getDurableColumnVisible() {
-    $column_key = PhabricatorConpherenceColumnVisibleSetting::SETTINGKEY;
+    $column_key = PhorgeConpherenceColumnVisibleSetting::SETTINGKEY;
     return (bool)$this->getUserPreference($column_key, false);
   }
 
   public function getDurableColumnMinimize() {
-    $column_key = PhabricatorConpherenceColumnMinimizeSetting::SETTINGKEY;
+    $column_key = PhorgeConpherenceColumnMinimizeSetting::SETTINGKEY;
     return (bool)$this->getUserPreference($column_key, false);
   }
 
@@ -170,8 +170,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   }
 
   public function getTitle() {
-    $glyph_key = PhabricatorTitleGlyphsSetting::SETTINGKEY;
-    $glyph_on = PhabricatorTitleGlyphsSetting::VALUE_TITLE_GLYPHS;
+    $glyph_key = PhorgeTitleGlyphsSetting::SETTINGKEY;
+    $glyph_on = PhorgeTitleGlyphsSetting::VALUE_TITLE_GLYPHS;
     $glyph_setting = $this->getUserPreference($glyph_key, $glyph_on);
 
     $use_glyph = ($glyph_setting == $glyph_on);
@@ -246,7 +246,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       if ($user->isUserActivated()) {
         $offset = $user->getTimeZoneOffset();
 
-        $ignore_key = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
+        $ignore_key = PhorgeTimezoneIgnoreOffsetSetting::SETTINGKEY;
         $ignore = $user->getUserSetting($ignore_key);
 
         Javelin::initBehavior(
@@ -267,7 +267,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
           $client_protocol = $server_https ? 'HTTP' : 'HTTPS';
 
           $doc_name = 'Configuring a Preamble Script';
-          $doc_href = PhabricatorEnv::getDoclink($doc_name);
+          $doc_href = PhorgeEnv::getDoclink($doc_name);
 
           Javelin::initBehavior(
             'setup-check-https',
@@ -312,12 +312,12 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       'high-security-warning',
       $this->getHighSecurityWarningConfig());
 
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       Javelin::initBehavior(
         'read-only-warning',
         array(
-          'message' => PhabricatorEnv::getReadOnlyMessage(),
-          'uri' => PhabricatorEnv::getReadOnlyURI(),
+          'message' => PhorgeEnv::getReadOnlyMessage(),
+          'uri' => PhorgeEnv::getReadOnlyURI(),
         ));
     }
 
@@ -346,10 +346,10 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     if ($user) {
       $viewer = $user;
     } else {
-      $viewer = new PhabricatorUser();
+      $viewer = new PhorgeUser();
     }
 
-    $menu = id(new PhabricatorMainMenuView())
+    $menu = id(new PhorgeMainMenuView())
       ->setUser($viewer);
 
     if ($this->getController()) {
@@ -383,7 +383,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $user = $request->getUser();
       if ($user) {
         $monospaced = $user->getUserSetting(
-          PhabricatorMonospacedFontSetting::SETTINGKEY);
+          PhorgeMonospacedFontSetting::SETTINGKEY);
       }
     }
 
@@ -394,12 +394,12 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       // We can't print this normally because escaping quotation marks will
       // break the CSS. Instead, filter it strictly and then mark it as safe.
       $monospaced = new PhutilSafeHTML(
-        PhabricatorMonospacedFontSetting::filterMonospacedCSSRule(
+        PhorgeMonospacedFontSetting::filterMonospacedCSSRule(
           $monospaced));
 
       $font_css = hsprintf(
         '<style type="text/css">'.
-        '.PhabricatorMonospaced, '.
+        '.PhorgeMonospaced, '.
         '.phorge-remarkup .remarkup-code-block '.
           '.remarkup-code { font: %s !important; } '.
         '</style>',
@@ -454,7 +454,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     $classes = array();
     $classes[] = 'main-page-frame';
     $developer_warning = null;
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode') &&
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode') &&
         DarkConsoleErrorLogPluginAPI::getErrors()) {
       $developer_warning = phutil_tag_div(
         'aphront-developer-error-callout',
@@ -572,7 +572,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $with_protocol = 'http';
     }
 
-    $servers = PhabricatorNotificationServerRef::getEnabledClientServers(
+    $servers = PhorgeNotificationServerRef::getEnabledClientServers(
       $with_protocol);
 
     if ($servers) {
@@ -636,7 +636,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $classes[] = 'audible';
     }
 
-    $classes[] = 'phui-theme-'.PhabricatorEnv::getEnvConfig('ui.header-color');
+    $classes[] = 'phui-theme-'.PhorgeEnv::getEnvConfig('ui.header-color');
     foreach ($this->classes as $class) {
       $classes[] = $class;
     }
@@ -663,8 +663,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     }
 
     if ($user) {
-      $setting_tab = PhabricatorDarkConsoleTabSetting::SETTINGKEY;
-      $setting_visible = PhabricatorDarkConsoleVisibleSetting::SETTINGKEY;
+      $setting_tab = PhorgeDarkConsoleTabSetting::SETTINGKEY;
+      $setting_visible = PhorgeDarkConsoleVisibleSetting::SETTINGKEY;
       $tab = $user->getUserSetting($setting_tab);
       $visible = $user->getUserSetting($setting_visible);
     } else {
@@ -712,7 +712,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       return null;
     }
 
-    $items = PhabricatorEnv::getEnvConfig('ui.footer-items');
+    $items = PhorgeEnv::getEnvConfig('ui.footer-items');
     if (!$items) {
       return null;
     }
@@ -722,7 +722,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $name = idx($item, 'name', pht('Unnamed Footer Item'));
 
       $href = idx($item, 'href');
-      if (!PhabricatorEnv::isValidURIForLink($href)) {
+      if (!PhorgeEnv::isValidURIForLink($href)) {
         $href = null;
       }
 
@@ -797,7 +797,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
 
         $help_items = $application->getHelpMenuItems($viewer);
         if ($help_items) {
-          $help_list = id(new PhabricatorActionListView())
+          $help_list = id(new PhorgeActionListView())
             ->setViewer($viewer);
           foreach ($help_items as $help_item) {
             $help_list->addAction($help_item);
@@ -835,7 +835,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   }
 
   private function getQuicksandURIPatternBlacklist() {
-    $applications = PhabricatorApplication::getAllApplications();
+    $applications = PhorgeApplication::getAllApplications();
 
     $blacklist = array();
     foreach ($applications as $application) {
@@ -879,7 +879,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     if ($viewer && $viewer->getPHID()) {
       $object_phids = $this->pageObjects;
       foreach ($object_phids as $object_phid) {
-        PhabricatorFeedStoryNotification::updateObjectNotificationViews(
+        PhorgeFeedStoryNotification::updateObjectNotificationViews(
           $viewer,
           $object_phid);
       }

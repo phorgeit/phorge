@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectLogicalDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Projects');
@@ -12,17 +12,17 @@ final class PhabricatorProjectLogicalDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectNoProjectsDatasource(),
-      new PhabricatorProjectLogicalAncestorDatasource(),
-      new PhabricatorProjectLogicalOrNotDatasource(),
-      new PhabricatorProjectLogicalViewerDatasource(),
-      new PhabricatorProjectLogicalOnlyDatasource(),
-      new PhabricatorProjectLogicalUserDatasource(),
+      new PhorgeProjectNoProjectsDatasource(),
+      new PhorgeProjectLogicalAncestorDatasource(),
+      new PhorgeProjectLogicalOrNotDatasource(),
+      new PhorgeProjectLogicalViewerDatasource(),
+      new PhorgeProjectLogicalOnlyDatasource(),
+      new PhorgeProjectLogicalUserDatasource(),
     );
   }
 

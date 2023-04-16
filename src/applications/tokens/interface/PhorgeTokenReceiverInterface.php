@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorTokenReceiverInterface {
+interface PhorgeTokenReceiverInterface {
 
   public function getUsersToNotifyOfTokenGiven();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonManagementLaunchWorkflow
-  extends PhabricatorDaemonManagementWorkflow {
+final class PhorgeDaemonManagementLaunchWorkflow
+  extends PhorgeDaemonManagementWorkflow {
 
   public function shouldParsePartial() {
     return true;

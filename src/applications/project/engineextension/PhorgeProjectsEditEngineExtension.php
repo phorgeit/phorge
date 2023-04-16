@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectsEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeProjectsEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'projects.projects';
 
@@ -14,8 +14,8 @@ final class PhabricatorProjectsEditEngineExtension
   }
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorProjectApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeProjectApplication');
   }
 
   public function getExtensionName() {
@@ -23,22 +23,22 @@ final class PhabricatorProjectsEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    $edge_type = PhabricatorTransactions::TYPE_EDGE;
-    $project_edge_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    $edge_type = PhorgeTransactions::TYPE_EDGE;
+    $project_edge_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
 
     $object_phid = $object->getPHID();
     if ($object_phid) {
-      $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object_phid,
         $project_edge_type);
       $project_phids = array_reverse($project_phids);
@@ -48,7 +48,7 @@ final class PhabricatorProjectsEditEngineExtension
 
     $viewer = $engine->getViewer();
 
-    $projects_field = id(new PhabricatorProjectsEditField())
+    $projects_field = id(new PhorgeProjectsEditField())
       ->setKey('projectPHIDs')
       ->setLabel(pht('Tags'))
       ->setEditTypeKey('projects')
@@ -63,7 +63,7 @@ final class PhabricatorProjectsEditEngineExtension
       ->setValue($project_phids)
       ->setViewer($viewer);
 
-    $projects_datasource = id(new PhabricatorProjectDatasource())
+    $projects_datasource = id(new PhorgeProjectDatasource())
       ->setViewer($viewer);
 
     $edit_add = $projects_field->getConduitEditType(self::EDITKEY_ADD)

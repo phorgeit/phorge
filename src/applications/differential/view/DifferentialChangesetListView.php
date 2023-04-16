@@ -75,7 +75,7 @@ final class DifferentialChangesetListView extends AphrontView {
     return $this->inlineListURI;
   }
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }

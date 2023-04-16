@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventCancelTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventCancelTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.cancel';
 

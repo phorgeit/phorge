@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonManagementLogWorkflow
-  extends PhabricatorDaemonManagementWorkflow {
+final class PhorgeDaemonManagementLogWorkflow
+  extends PhorgeDaemonManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -32,7 +32,7 @@ final class PhabricatorDaemonManagementLogWorkflow
 
   public function execute(PhutilArgumentParser $args) {
 
-    $query = id(new PhabricatorDaemonLogQuery())
+    $query = id(new PhorgeDaemonLogQuery())
       ->setViewer($this->getViewer())
       ->setAllowStatusWrites(true);
     $ids = $args->getArg('id');
@@ -60,7 +60,7 @@ final class PhabricatorDaemonManagementLogWorkflow
 
     $limit = $args->getArg('limit');
 
-    $logs = id(new PhabricatorDaemonLogEvent())->loadAllWhere(
+    $logs = id(new PhorgeDaemonLogEvent())->loadAllWhere(
       'logID IN (%Ld) ORDER BY id DESC LIMIT %d',
       mpull($daemons, 'getID'),
       $limit);

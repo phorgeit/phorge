@@ -8,16 +8,16 @@
  * @task load     Loading Stories
  * @task policy   Policy Implementation
  */
-abstract class PhabricatorFeedStory
+abstract class PhorgeFeedStory
   extends Phobject
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorMarkupInterface {
+    PhorgePolicyInterface,
+    PhorgeMarkupInterface {
 
   private $data;
   private $hasViewed;
   private $hovercard = false;
-  private $renderingTarget = PhabricatorApplicationTransaction::TARGET_HTML;
+  private $renderingTarget = PhorgeApplicationTransaction::TARGET_HTML;
 
   private $handles = array();
   private $objects = array();
@@ -28,20 +28,20 @@ abstract class PhabricatorFeedStory
 
 
   /**
-   * Given @{class:PhabricatorFeedStoryData} rows, load them into objects and
-   * construct appropriate @{class:PhabricatorFeedStory} wrappers for each
+   * Given @{class:PhorgeFeedStoryData} rows, load them into objects and
+   * construct appropriate @{class:PhorgeFeedStory} wrappers for each
    * data row.
    *
-   * @param list<dict>  List of @{class:PhabricatorFeedStoryData} rows from the
+   * @param list<dict>  List of @{class:PhorgeFeedStoryData} rows from the
    *                    database.
-   * @return list<PhabricatorFeedStory>   List of @{class:PhabricatorFeedStory}
+   * @return list<PhorgeFeedStory>   List of @{class:PhorgeFeedStory}
    *                                      objects.
    * @task load
    */
-  public static function loadAllFromRows(array $rows, PhabricatorUser $viewer) {
+  public static function loadAllFromRows(array $rows, PhorgeUser $viewer) {
     $stories = array();
 
-    $data = id(new PhabricatorFeedStoryData())->loadAllFromArray($rows);
+    $data = id(new PhorgeFeedStoryData())->loadAllFromArray($rows);
     foreach ($data as $story_data) {
       $class = $story_data->getStoryType();
 
@@ -54,7 +54,7 @@ abstract class PhabricatorFeedStory
       }
 
       // If the story type isn't a valid class or isn't a subclass of
-      // PhabricatorFeedStory, decline to load it.
+      // PhorgeFeedStory, decline to load it.
       if (!$ok) {
         continue;
       }
@@ -77,7 +77,7 @@ abstract class PhabricatorFeedStory
       $object_phids += $phids;
     }
 
-    $object_query = id(new PhabricatorObjectQuery())
+    $object_query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array_keys($object_phids));
 
@@ -99,23 +99,23 @@ abstract class PhabricatorFeedStory
       $stories[$key]->setObjects($story_objects);
     }
 
-    // If stories are about PhabricatorProjectInterface objects, load the
+    // If stories are about PhorgeProjectInterface objects, load the
     // projects the objects are a part of so we can render project tags
     // on the stories.
 
     $project_phids = array();
     foreach ($objects as $object) {
-      if ($object instanceof PhabricatorProjectInterface) {
+      if ($object instanceof PhorgeProjectInterface) {
         $project_phids[$object->getPHID()] = array();
       }
     }
 
     if ($project_phids) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(array_keys($project_phids))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
       $edge_query->execute();
       foreach ($project_phids as $phid => $ignored) {
@@ -146,7 +146,7 @@ abstract class PhabricatorFeedStory
     // method should be inside FeedQuery and it should be the parent query of
     // both subqueries. We're just trying to share the workspace cache.
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->setParentQuery($object_query)
       ->withPHIDs(array_keys($handle_phids))
@@ -162,7 +162,7 @@ abstract class PhabricatorFeedStory
 
     // Load and process story markup blocks.
 
-    $engine = new PhabricatorMarkupEngine();
+    $engine = new PhorgeMarkupEngine();
     $engine->setViewer($viewer);
     foreach ($stories as $story) {
       foreach ($story->getFieldStoryMarkupFields() as $field) {
@@ -217,8 +217,8 @@ abstract class PhabricatorFeedStory
 
   private function validateRenderingTarget($target) {
     switch ($target) {
-      case PhabricatorApplicationTransaction::TARGET_HTML:
-      case PhabricatorApplicationTransaction::TARGET_TEXT:
+      case PhorgeApplicationTransaction::TARGET_HTML:
+      case PhorgeApplicationTransaction::TARGET_TEXT:
         break;
       default:
         throw new Exception(pht('Unknown rendering target: %s', $target));
@@ -254,7 +254,7 @@ abstract class PhabricatorFeedStory
     return null;
   }
 
-  final public function __construct(PhabricatorFeedStoryData $data) {
+  final public function __construct(PhorgeFeedStoryData $data) {
     $this->data = $data;
   }
 
@@ -289,7 +289,7 @@ abstract class PhabricatorFeedStory
   }
 
   final public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -304,12 +304,12 @@ abstract class PhabricatorFeedStory
 
   final protected function getHandle($phid) {
     if (isset($this->handles[$phid])) {
-      if ($this->handles[$phid] instanceof PhabricatorObjectHandle) {
+      if ($this->handles[$phid] instanceof PhorgeObjectHandle) {
         return $this->handles[$phid];
       }
     }
 
-    $handle = new PhabricatorObjectHandle();
+    $handle = new PhorgeObjectHandle();
     $handle->setPHID($phid);
     $handle->setName(pht("Unloaded Object '%s'", $phid));
 
@@ -343,10 +343,10 @@ abstract class PhabricatorFeedStory
     }
     $list = null;
     switch ($this->getRenderingTarget()) {
-      case PhabricatorApplicationTransaction::TARGET_TEXT:
+      case PhorgeApplicationTransaction::TARGET_TEXT:
         $list = implode(', ', $items);
         break;
-      case PhabricatorApplicationTransaction::TARGET_HTML:
+      case PhorgeApplicationTransaction::TARGET_HTML:
         $list = phutil_implode_html(', ', $items);
         break;
     }
@@ -357,7 +357,7 @@ abstract class PhabricatorFeedStory
     $handle = $this->getHandle($phid);
 
     switch ($this->getRenderingTarget()) {
-      case PhabricatorApplicationTransaction::TARGET_TEXT:
+      case PhorgeApplicationTransaction::TARGET_TEXT:
         return $handle->getLinkName();
     }
 
@@ -366,9 +366,9 @@ abstract class PhabricatorFeedStory
 
   final protected function renderString($str) {
     switch ($this->getRenderingTarget()) {
-      case PhabricatorApplicationTransaction::TARGET_TEXT:
+      case PhorgeApplicationTransaction::TARGET_TEXT:
         return $str;
-      case PhabricatorApplicationTransaction::TARGET_HTML:
+      case PhorgeApplicationTransaction::TARGET_HTML:
         return phutil_tag('strong', array(), $str);
     }
   }
@@ -380,7 +380,7 @@ abstract class PhabricatorFeedStory
         ->truncateString($text);
     }
     switch ($this->getRenderingTarget()) {
-      case PhabricatorApplicationTransaction::TARGET_HTML:
+      case PhorgeApplicationTransaction::TARGET_HTML:
         $text = phutil_escape_html_newlines($text);
         break;
     }
@@ -427,7 +427,7 @@ abstract class PhabricatorFeedStory
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
   public function getPHID() {
     return null;
@@ -438,7 +438,7 @@ abstract class PhabricatorFeedStory
    */
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -450,19 +450,19 @@ abstract class PhabricatorFeedStory
     // NOTE: We enforce that a user can see all the objects a story is about
     // when loading it, so we don't need to perform a equivalent secondary
     // policy check later.
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
 
   /**
    * @task policy
    */
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorMarkupInterface Implementation )--------------------------- */
+/* -(  PhorgeMarkupInterface Implementation )--------------------------- */
 
 
   public function getMarkupFieldKey($field) {
@@ -470,7 +470,7 @@ abstract class PhabricatorFeedStory
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::getEngine('feed');
+    return PhorgeMarkupEngine::getEngine('feed');
   }
 
   public function getMarkupText($field) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgePhurlConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Phurl');

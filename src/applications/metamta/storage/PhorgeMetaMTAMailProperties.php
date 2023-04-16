@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorMetaMTAMailProperties
-  extends PhabricatorMetaMTADAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeMetaMTAMailProperties
+  extends PhorgeMetaMTADAO
+  implements PhorgePolicyInterface {
 
   protected $objectPHID;
   protected $mailProperties = array();
@@ -40,10 +40,10 @@ final class PhabricatorMetaMTAMailProperties
       return $object->getMailKey();
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $object_phid = $object->getPHID();
 
-    $properties = id(new PhabricatorMetaMTAMailPropertiesQuery())
+    $properties = id(new PhorgeMetaMTAMailPropertiesQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object_phid))
       ->executeOne();
@@ -68,23 +68,23 @@ final class PhabricatorMetaMTAMailProperties
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

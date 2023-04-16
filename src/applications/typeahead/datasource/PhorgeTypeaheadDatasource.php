@@ -3,7 +3,7 @@
 /**
  * @task functions Token Functions
  */
-abstract class PhabricatorTypeaheadDatasource extends Phobject {
+abstract class PhorgeTypeaheadDatasource extends Phobject {
 
   private $viewer;
   private $query;
@@ -36,7 +36,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $this->offset;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -174,7 +174,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   }
 
   protected function executeQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $query) {
+    PhorgeCursorPagedPolicyAwareQuery $query) {
 
     return $query
       ->setViewer($this->getViewer())
@@ -212,8 +212,8 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
    * For datasources backed by database objects, this is often much less
    * efficient than filtering at the query level.
    *
-   * @param list<PhabricatorTypeaheadResult> List of typeahead results.
-   * @return list<PhabricatorTypeaheadResult> Filtered results.
+   * @param list<PhorgeTypeaheadResult> List of typeahead results.
+   * @return list<PhorgeTypeaheadResult> Filtered results.
    */
   protected function filterResultsAgainstTokens(array $results) {
     $tokens = $this->getTokens();
@@ -255,17 +255,17 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   }
 
   protected function newFunctionResult() {
-    return id(new PhabricatorTypeaheadResult())
-      ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+    return id(new PhorgeTypeaheadResult())
+      ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
       ->setIcon('fa-asterisk')
       ->addAttribute(pht('Function'));
   }
 
   public function newInvalidToken($name) {
-    return id(new PhabricatorTypeaheadTokenView())
+    return id(new PhorgeTypeaheadTokenView())
       ->setValue($name)
       ->setIcon('fa-exclamation-circle')
-      ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_INVALID);
+      ->setTokenType(PhorgeTypeaheadTokenView::TYPE_INVALID);
   }
 
   public function renderTokens(array $values) {
@@ -290,7 +290,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
     // Give special non-function tokens which are also not PHIDs (like statuses
     // and priorities) an opportunity to render.
-    $type_unknown = PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+    $type_unknown = PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
     $special = array();
     foreach ($values as $key => $value) {
       if (phid_get_type($value) == $type_unknown) {
@@ -310,7 +310,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
       $handles = $this->getViewer()->loadHandles($phids);
       foreach ($phids as $key => $phid) {
         $handle = $handles[$phid];
-        $tokens[$key] = PhabricatorTypeaheadTokenView::newFromHandle($handle);
+        $tokens[$key] = PhorgeTypeaheadTokenView::newFromHandle($handle);
       }
     }
 
@@ -330,7 +330,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
         // original input value before it was parsed.
         foreach ($function_tokens as $key => $token) {
           $type = $token->getTokenType();
-          if ($type == PhabricatorTypeaheadTokenView::TYPE_INVALID) {
+          if ($type == PhorgeTypeaheadTokenView::TYPE_INVALID) {
             $token->setKey($values[$key]);
           }
         }
@@ -420,7 +420,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     foreach ($evaluate as $result_key => $function) {
       $function = $this->parseFunction($function);
       if (!$function) {
-        throw new PhabricatorTypeaheadInvalidTokenException();
+        throw new PhorgeTypeaheadInvalidTokenException();
       }
 
       $name = $function['name'];
@@ -482,7 +482,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
     if (!$ok) {
       if (!$allow_partial) {
-        throw new PhabricatorTypeaheadInvalidTokenException(
+        throw new PhorgeTypeaheadInvalidTokenException(
           pht(
             'Unable to parse function and arguments for token "%s".',
             $token));
@@ -494,7 +494,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
     if (!$this->canEvaluateFunction($function)) {
       if (!$allow_partial) {
-        throw new PhabricatorTypeaheadInvalidTokenException(
+        throw new PhorgeTypeaheadInvalidTokenException(
           pht(
             'This datasource ("%s") can not evaluate the function "%s(...)".',
             get_class($this),
@@ -576,7 +576,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
       if (empty($results[$value])) {
         continue;
       }
-      $tokens[$key] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $tokens[$key] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $results[$value]);
     }
 
@@ -593,7 +593,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
     $tokens = array();
     foreach ($rendered as $key => $render) {
-      $tokens[$key] = id(new PhabricatorTypeaheadResult())
+      $tokens[$key] = id(new PhorgeTypeaheadResult())
         ->setPHID($render->getKey())
         ->setIcon($render->getIcon())
         ->setColor($render->getColor())
@@ -605,8 +605,8 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   }
 
   final protected function applyFerretConstraints(
-    PhabricatorCursorPagedPolicyAwareQuery $query,
-    PhabricatorFerretEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
+    PhorgeFerretEngine $engine,
     $ferret_function,
     $raw_query) {
 
@@ -629,7 +629,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
           'function' => $ferret_function,
         ));
 
-      $fulltext_token = id(new PhabricatorFulltextToken())
+      $fulltext_token = id(new PhorgeFulltextToken())
         ->setToken($alternate_token);
       $fulltext_tokens[] = $fulltext_token;
     }

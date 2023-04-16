@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPhurlURLTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+final class PhorgePhurlURLTransactionComment
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
-    return new PhabricatorPhurlURLTransaction();
+    return new PhorgePhurlURLTransaction();
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSubscribersQuery extends PhabricatorQuery {
+final class PhorgeSubscribersQuery extends PhorgeQuery {
 
   private $objectPHIDs;
   private $subscriberPHIDs;
@@ -10,7 +10,7 @@ final class PhabricatorSubscribersQuery extends PhabricatorQuery {
       return array();
     }
 
-    $subscribers = id(new PhabricatorSubscribersQuery())
+    $subscribers = id(new PhorgeSubscribersQuery())
       ->withObjectPHIDs(array($phid))
       ->execute();
     return $subscribers[$phid];
@@ -27,9 +27,9 @@ final class PhabricatorSubscribersQuery extends PhabricatorQuery {
   }
 
   public function execute() {
-    $query = new PhabricatorEdgeQuery();
+    $query = new PhorgeEdgeQuery();
 
-    $edge_type = PhabricatorObjectHasSubscriberEdgeType::EDGECONST;
+    $edge_type = PhorgeObjectHasSubscriberEdgeType::EDGECONST;
 
     $query->withSourcePHIDs($this->objectPHIDs);
     $query->withEdgeTypes(array($edge_type));

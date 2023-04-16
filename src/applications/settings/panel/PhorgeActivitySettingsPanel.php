@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorActivitySettingsPanel extends PhabricatorSettingsPanel {
+final class PhorgeActivitySettingsPanel extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'activity';
@@ -15,7 +15,7 @@ final class PhabricatorActivitySettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsLogsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsLogsPanelGroup::PANELGROUPKEY;
   }
 
   public function processRequest(AphrontRequest $request) {
@@ -25,12 +25,12 @@ final class PhabricatorActivitySettingsPanel extends PhabricatorSettingsPanel {
     $pager = id(new AphrontCursorPagerView())
       ->readFromRequest($request);
 
-    $logs = id(new PhabricatorPeopleLogQuery())
+    $logs = id(new PhorgePeopleLogQuery())
       ->setViewer($viewer)
       ->withRelatedPHIDs(array($user->getPHID()))
       ->executeWithCursorPager($pager);
 
-    $table = id(new PhabricatorUserLogView())
+    $table = id(new PhorgeUserLogView())
       ->setUser($viewer)
       ->setLogs($logs);
 

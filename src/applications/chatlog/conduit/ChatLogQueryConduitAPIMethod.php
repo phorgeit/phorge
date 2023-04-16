@@ -26,7 +26,7 @@ final class ChatLogQueryConduitAPIMethod extends ChatLogConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $query = new PhabricatorChatLogQuery();
+    $query = new PhorgeChatLogQuery();
 
     $channel_ids = $request->getValue('channelIDs');
     if ($channel_ids) {

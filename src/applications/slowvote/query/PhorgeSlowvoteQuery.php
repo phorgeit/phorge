@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeSlowvoteQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -54,17 +54,17 @@ final class PhabricatorSlowvoteQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorSlowvotePoll();
+    return new PhorgeSlowvotePoll();
   }
 
   protected function willFilterPage(array $polls) {
-    assert_instances_of($polls, 'PhabricatorSlowvotePoll');
+    assert_instances_of($polls, 'PhorgeSlowvotePoll');
 
     $ids = mpull($polls, 'getID');
     $viewer = $this->getViewer();
 
     if ($this->needOptions) {
-      $options = id(new PhabricatorSlowvoteOption())->loadAllWhere(
+      $options = id(new PhorgeSlowvoteOption())->loadAllWhere(
         'pollID IN (%Ld)',
         $ids);
 
@@ -75,7 +75,7 @@ final class PhabricatorSlowvoteQuery
     }
 
     if ($this->needChoices) {
-      $choices = id(new PhabricatorSlowvoteChoice())->loadAllWhere(
+      $choices = id(new PhorgeSlowvoteChoice())->loadAllWhere(
         'pollID IN (%Ld)',
         $ids);
 
@@ -97,7 +97,7 @@ final class PhabricatorSlowvoteQuery
         }
       }
     } else if ($this->needViewerChoices) {
-      $choices = id(new PhabricatorSlowvoteChoice())->loadAllWhere(
+      $choices = id(new PhorgeSlowvoteChoice())->loadAllWhere(
         'pollID IN (%Ld) AND authorPHID = %s',
         $ids,
         $viewer->getPHID());
@@ -154,7 +154,7 @@ final class PhabricatorSlowvoteQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T vv ON vv.pollID = p.id AND vv.authorPHID = %s',
-        id(new PhabricatorSlowvoteChoice())->getTableName(),
+        id(new PhorgeSlowvoteChoice())->getTableName(),
         $this->getViewer()->getPHID());
     }
     return $joins;
@@ -165,7 +165,7 @@ final class PhabricatorSlowvoteQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return 'PhorgeSlowvoteApplication';
   }
 
 }

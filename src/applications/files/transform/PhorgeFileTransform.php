@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorFileTransform extends Phobject {
+abstract class PhorgeFileTransform extends Phobject {
 
   abstract public function getTransformName();
   abstract public function getTransformKey();
-  abstract public function canApplyTransform(PhabricatorFile $file);
-  abstract public function applyTransform(PhabricatorFile $file);
+  abstract public function canApplyTransform(PhorgeFile $file);
+  abstract public function applyTransform(PhorgeFile $file);
 
-  public function getDefaultTransform(PhabricatorFile $file) {
+  public function getDefaultTransform(PhorgeFile $file) {
     return null;
   }
 
@@ -15,7 +15,7 @@ abstract class PhabricatorFileTransform extends Phobject {
     return array($this);
   }
 
-  public function executeTransform(PhabricatorFile $file) {
+  public function executeTransform(PhorgeFile $file) {
     if ($this->canApplyTransform($file)) {
       try {
         return $this->applyTransform($file);

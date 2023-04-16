@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePackagesPublisherDefaultEditCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'packages.publisher.default.edit';
 

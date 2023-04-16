@@ -6,7 +6,7 @@ abstract class NuanceItemType
   private $viewer;
   private $controller;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -15,7 +15,7 @@ abstract class NuanceItemType
     return $this->viewer;
   }
 
-  public function setController(PhabricatorController $controller) {
+  public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -86,7 +86,7 @@ abstract class NuanceItemType
     $id = $item->getID();
     $action_uri = "/nuance/item/action/{$id}/{$key}/";
 
-    return id(new PhabricatorActionView())
+    return id(new PhorgeActionView())
       ->setHref($action_uri);
   }
 
@@ -109,7 +109,7 @@ abstract class NuanceItemType
   final protected function newContentSource(
     NuanceItem $item,
     $agent_phid) {
-    return PhabricatorContentSource::newForSource(
+    return PhorgeContentSource::newForSource(
       NuanceContentSource::SOURCECONST,
       array(
         'itemPHID' => $item->getPHID(),
@@ -118,7 +118,7 @@ abstract class NuanceItemType
   }
 
   protected function getActingAsPHID(NuanceItem $item) {
-    return id(new PhabricatorNuanceApplication())->getPHID();
+    return id(new PhorgeNuanceApplication())->getPHID();
   }
 
   protected function newCommand($command_key) {

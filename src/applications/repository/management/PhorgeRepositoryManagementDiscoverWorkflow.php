@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementDiscoverWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementDiscoverWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -43,7 +43,7 @@ final class PhabricatorRepositoryManagementDiscoverWorkflow
           'Discovering "%s"...',
           $repo->getDisplayName()));
 
-      id(new PhabricatorRepositoryDiscoveryEngine())
+      id(new PhorgeRepositoryDiscoveryEngine())
         ->setRepository($repo)
         ->setVerbose($args->getArg('verbose'))
         ->setRepairMode($args->getArg('repair'))

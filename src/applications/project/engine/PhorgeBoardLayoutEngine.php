@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBoardLayoutEngine extends Phobject {
+final class PhorgeBoardLayoutEngine extends Phobject {
 
   private $viewer;
   private $boardPHIDs;
@@ -14,7 +14,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
   private $remQueue = array();
   private $addQueue = array();
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -150,7 +150,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     unset($positions[$object_phid]);
 
     if (!$object_position) {
-      $object_position = id(new PhabricatorProjectColumnPosition())
+      $object_position = id(new PhorgeProjectColumnPosition())
         ->setBoardPHID($board_phid)
         ->setColumnPHID($column_phid)
         ->setObjectPHID($object_phid);
@@ -257,7 +257,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     }
     $this->addQueue = array();
 
-    $table = new PhabricatorProjectColumnPosition();
+    $table = new PhorgeProjectColumnPosition();
     $conn_w = $table->establishConnection('w');
 
     $pairs = array();
@@ -295,14 +295,14 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     $viewer = $this->getViewer();
     $board_phids = $this->getBoardPHIDs();
 
-    $boards = id(new PhabricatorObjectQuery())
+    $boards = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($board_phids)
       ->execute();
     $boards = mpull($boards, null, 'getPHID');
 
     foreach ($boards as $key => $board) {
-      if (!($board instanceof PhabricatorWorkboardInterface)) {
+      if (!($board instanceof PhorgeWorkboardInterface)) {
         unset($boards[$key]);
       }
     }
@@ -321,7 +321,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
   private function loadColumns(array $boards) {
     $viewer = $this->getViewer();
 
-    $columns = id(new PhabricatorProjectColumnQuery())
+    $columns = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withProjectPHIDs(array_keys($boards))
       ->needTriggers(true)
@@ -337,7 +337,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     }
 
     if ($need_children) {
-      $children = id(new PhabricatorProjectQuery())
+      $children = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withParentProjectPHIDs($need_children)
         ->execute();
@@ -367,7 +367,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
             continue;
           }
 
-          $new_column = PhabricatorProjectColumn::initializeNewColumn($viewer)
+          $new_column = PhorgeProjectColumn::initializeNewColumn($viewer)
             ->attachProject($board)
             ->attachProxy($child)
             ->setSequence($next_sequence++)
@@ -405,7 +405,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
       return array();
     }
 
-    $positions = id(new PhabricatorProjectColumnPositionQuery())
+    $positions = id(new PhorgeProjectColumnPositionQuery())
       ->setViewer($viewer)
       ->withBoardPHIDs(array_keys($boards))
       ->withObjectPHIDs($object_phids)
@@ -451,11 +451,11 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     // If we have proxies, we need to force cards into the correct proxy
     // columns.
     if ($proxy_map && $object_phids) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs($object_phids)
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
       $edge_query->execute();
 
@@ -466,7 +466,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
     }
 
     if ($project_phids) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withPHIDs($project_phids)
         ->execute();
@@ -540,7 +540,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
 
         // Create new positions for anything we haven't found.
         foreach ($proxy_hits as $proxy_hit) {
-          $new_position = id(new PhabricatorProjectColumnPosition())
+          $new_position = id(new PhorgeProjectColumnPosition())
             ->setBoardPHID($board_phid)
             ->setColumnPHID($proxy_hit)
             ->setObjectPHID($object_phid)
@@ -565,7 +565,7 @@ final class PhabricatorBoardLayoutEngine extends Phobject {
         // If the object has no position, put it on the default column if
         // one exists.
         if (!$positions && $default_phid) {
-          $new_position = id(new PhabricatorProjectColumnPosition())
+          $new_position = id(new PhorgeProjectColumnPosition())
             ->setBoardPHID($board_phid)
             ->setColumnPHID($default_phid)
             ->setObjectPHID($object_phid)

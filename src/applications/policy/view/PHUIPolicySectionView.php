@@ -93,7 +93,7 @@ final class PHUIPolicySectionView
     return $this->appendChild(phutil_tag('p', array(), $content));
   }
 
-  public function appendRulesView(PhabricatorPolicyRulesView $rules_view) {
+  public function appendRulesView(PhorgePolicyRulesView $rules_view) {
     return $this->appendChild(
       phutil_tag(
         'div',

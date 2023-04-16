@@ -2,5 +2,5 @@
 
 // @phase worker
 
-PhabricatorRebuildIndexesWorker::rebuildObjectsWithQuery(
-  'PhabricatorRepositoryQuery');
+PhorgeRebuildIndexesWorker::rebuildObjectsWithQuery(
+  'PhorgeRepositoryQuery');

@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterArtifactSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Artifacts');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -17,7 +17,7 @@ final class HarbormasterArtifactSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Targets'))
         ->setKey('buildTargetPHIDs')
         ->setAliases(
@@ -69,7 +69,7 @@ final class HarbormasterArtifactSearchEngine
 
   protected function renderResultList(
     array $artifacts,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($artifacts, 'HarbormasterBuildArtifact');
 
@@ -85,7 +85,7 @@ final class HarbormasterArtifactSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No artifacts found.'));
   }

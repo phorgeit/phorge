@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionPullEventGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'diffusion.pull';
 
@@ -14,7 +14,7 @@ final class DiffusionPullEventGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorRepositoryPullEvent();
+    $table = new PhorgeRepositoryPullEvent();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

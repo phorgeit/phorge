@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExportFormatSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeExportFormatSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'export.format';
 

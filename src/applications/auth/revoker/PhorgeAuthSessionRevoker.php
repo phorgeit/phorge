@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSessionRevoker
-  extends PhabricatorAuthRevoker {
+final class PhorgeAuthSessionRevoker
+  extends PhorgeAuthRevoker {
 
   const REVOKERKEY = 'session';
 
@@ -16,7 +16,7 @@ final class PhabricatorAuthSessionRevoker
   }
 
   public function revokeAllCredentials() {
-    $table = new PhabricatorAuthSession();
+    $table = new PhorgeAuthSession();
     $conn = $table->establishConnection('w');
 
     queryfx(
@@ -28,7 +28,7 @@ final class PhabricatorAuthSessionRevoker
   }
 
   public function revokeCredentialsFrom($object) {
-    $table = new PhabricatorAuthSession();
+    $table = new PhorgeAuthSession();
     $conn = $table->establishConnection('w');
 
     queryfx(

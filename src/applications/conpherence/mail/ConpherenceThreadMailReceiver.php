@@ -1,18 +1,18 @@
 <?php
 
 final class ConpherenceThreadMailReceiver
-  extends PhabricatorObjectMailReceiver {
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorConpherenceApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    $app_class = 'PhorgeConpherenceApplication';
+    return PhorgeApplication::isClassInstalled($app_class);
   }
 
   protected function getObjectPattern() {
     return 'Z[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
     return id(new ConpherenceThreadQuery())

@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskHasMockEdgeType extends PhabricatorEdgeType {
+final class ManiphestTaskHasMockEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 38;
 

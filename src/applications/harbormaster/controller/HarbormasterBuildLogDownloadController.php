@@ -34,7 +34,7 @@ final class HarbormasterBuildLogDownloadController
         ->addCancelButton($cancel_uri, pht('Wait Patiently'));
     }
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();

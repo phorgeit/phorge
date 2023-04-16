@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailSMSMessage
-  extends PhabricatorMailExternalMessage {
+final class PhorgeMailSMSMessage
+  extends PhorgeMailExternalMessage {
 
   const MESSAGETYPE = 'sms';
 
@@ -9,10 +9,10 @@ final class PhabricatorMailSMSMessage
   private $textBody;
 
   public function newMailMessageEngine() {
-    return new PhabricatorMailSMSEngine();
+    return new PhorgeMailSMSEngine();
   }
 
-  public function setToNumber(PhabricatorPhoneNumber $to_number) {
+  public function setToNumber(PhorgePhoneNumber $to_number) {
     $this->toNumber = $to_number;
     return $this;
   }

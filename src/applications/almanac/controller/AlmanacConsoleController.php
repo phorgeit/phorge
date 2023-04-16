@@ -54,7 +54,7 @@ final class AlmanacConsoleController extends AlmanacController {
         ->addAttribute(
           pht('Control who can create new named services and devices.')));
 
-    $docs_uri = PhabricatorEnv::getDoclink(
+    $docs_uri = PhorgeEnv::getDoclink(
       'Almanac User Guide');
 
     $menu->addItem(

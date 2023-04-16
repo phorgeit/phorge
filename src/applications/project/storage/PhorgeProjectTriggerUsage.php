@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerUsage
-  extends PhabricatorProjectDAO {
+final class PhorgeProjectTriggerUsage
+  extends PhorgeProjectDAO {
 
   protected $triggerPHID;
   protected $examplePHID;

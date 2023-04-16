@@ -1,12 +1,12 @@
 <?php
 
 final class PasteReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
-    if (!($mail_receiver instanceof PhabricatorPaste)) {
+    if (!($mail_receiver instanceof PhorgePaste)) {
       throw new Exception(
-        pht('Mail receiver is not a %s.', 'PhabricatorPaste'));
+        pht('Mail receiver is not a %s.', 'PhorgePaste'));
     }
   }
 

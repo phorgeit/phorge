@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSessionEngineExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeAuthSessionEngineExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'sessionengine';
@@ -14,7 +14,7 @@ final class PhabricatorAuthSessionEngineExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorAuthSessionEngineExtension::getAllExtensions();
+    $extensions = PhorgeAuthSessionEngineExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

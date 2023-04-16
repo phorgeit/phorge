@@ -1,8 +1,8 @@
 <?php
 
-final class PhrequentTrackingEditor extends PhabricatorEditor {
+final class PhrequentTrackingEditor extends PhorgeEditor {
 
-  public function startTracking(PhabricatorUser $user, $phid, $timestamp) {
+  public function startTracking(PhorgeUser $user, $phid, $timestamp) {
     $usertime = new PhrequentUserTime();
     $usertime->setDateStarted($timestamp);
     $usertime->setUserPHID($user->getPHID());
@@ -13,7 +13,7 @@ final class PhrequentTrackingEditor extends PhabricatorEditor {
   }
 
   public function stopTracking(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $phid,
     $timestamp,
     $note) {
@@ -45,7 +45,7 @@ final class PhrequentTrackingEditor extends PhabricatorEditor {
     return $phid;
   }
 
-  public function stopTrackingTop(PhabricatorUser $user, $timestamp, $note) {
+  public function stopTrackingTop(PhorgeUser $user, $timestamp, $note) {
     $times = id(new PhrequentUserTimeQuery())
       ->setViewer($user)
       ->withUserPHIDs(array($user->getPHID()))

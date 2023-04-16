@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorDefaultUnlockEngine
-  extends PhabricatorUnlockEngine {}
+final class PhorgeDefaultUnlockEngine
+  extends PhorgeUnlockEngine {}

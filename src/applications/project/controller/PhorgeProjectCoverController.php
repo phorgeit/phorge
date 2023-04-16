@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectCoverController
-  extends PhabricatorProjectController {
+final class PhorgeProjectCoverController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -17,15 +17,15 @@ final class PhabricatorProjectCoverController
       ->withPHIDs(array($object_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$object) {
       return new Aphront404Response();
     }
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();

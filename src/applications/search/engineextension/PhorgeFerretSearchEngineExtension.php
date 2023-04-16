@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFerretSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeFerretSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'ferret';
 
@@ -18,13 +18,13 @@ final class PhabricatorFerretSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorFerretInterface);
+    return ($object instanceof PhorgeFerretInterface);
   }
 
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     if (!strlen($map['query'])) {
@@ -42,7 +42,7 @@ final class PhabricatorFerretSearchEngineExtension
 
     $fulltext_tokens = array();
     foreach ($raw_tokens as $raw_token) {
-      $fulltext_token = id(new PhabricatorFulltextToken())
+      $fulltext_token = id(new PhorgeFulltextToken())
         ->setToken($raw_token);
 
       $fulltext_tokens[] = $fulltext_token;
@@ -54,7 +54,7 @@ final class PhabricatorFerretSearchEngineExtension
   public function getSearchFields($object) {
     $fields = array();
 
-    $fields[] = id(new PhabricatorSearchTextField())
+    $fields[] = id(new PhorgeSearchTextField())
       ->setKey('query')
       ->setLabel(pht('Query'))
       ->setDescription(

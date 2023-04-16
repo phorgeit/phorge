@@ -1,6 +1,6 @@
 <?php
 
-final class PhortunePaymentProviderTestCase extends PhabricatorTestCase {
+final class PhortunePaymentProviderTestCase extends PhorgeTestCase {
 
   public function testGetAllProviders() {
     PhortunePaymentProvider::getAllProviders();

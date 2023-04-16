@@ -74,7 +74,7 @@ final class PhamePostViewController
                 'been deleted). Use "Move Post" to move it to a new blog.')));
     }
 
-    $engine = id(new PhabricatorMarkupEngine())
+    $engine = id(new PhorgeMarkupEngine())
       ->setViewer($viewer)
       ->addObject($post, PhamePost::MARKUP_FIELD_BODY)
       ->process();
@@ -87,7 +87,7 @@ final class PhamePostViewController
         ),
         $engine->getOutput($post, PhamePost::MARKUP_FIELD_BODY)));
 
-    $blogger = id(new PhabricatorPeopleQuery())
+    $blogger = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($post->getBloggerPHID()))
       ->needProfileImage(true)
@@ -96,7 +96,7 @@ final class PhamePostViewController
 
 
     $author_uri = '/p/'.$blogger->getUsername().'/';
-    $author_uri = PhabricatorEnv::getURI($author_uri);
+    $author_uri = PhorgeEnv::getURI($author_uri);
 
     $author = phutil_tag(
       'a',
@@ -115,7 +115,7 @@ final class PhamePostViewController
     }
 
     $user_icon = $blogger_profile->getIcon();
-    $user_icon = PhabricatorPeopleIconSet::getIconIcon($user_icon);
+    $user_icon = PhorgePeopleIconSet::getIconIcon($user_icon);
     $user_icon = id(new PHUIIconView())->setIcon($user_icon);
 
     $about = id(new PhameDescriptionView())
@@ -133,7 +133,7 @@ final class PhamePostViewController
     $timeline = $this->buildTransactionTimeline(
       $post,
       id(new PhamePostTransactionQuery())
-      ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT)));
+      ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT)));
     $timeline->setQuoteRef($monogram);
 
     if ($is_external || !$viewer->isLoggedIn()) {
@@ -193,33 +193,33 @@ final class PhamePostViewController
   private function renderActions(PhamePost $post) {
     $viewer = $this->getViewer();
 
-    $actions = id(new PhabricatorActionListView())
+    $actions = id(new PhorgeActionListView())
       ->setObject($post)
       ->setUser($viewer);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $post,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $post->getID();
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI('post/edit/'.$id.'/'))
         ->setName(pht('Edit Post'))
         ->setDisabled(!$can_edit));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-camera-retro')
         ->setHref($this->getApplicationURI('post/header/'.$id.'/'))
         ->setName(pht('Edit Header Image'))
         ->setDisabled(!$can_edit));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-arrows')
         ->setHref($this->getApplicationURI('post/move/'.$id.'/'))
         ->setName(pht('Move Post'))
@@ -227,21 +227,21 @@ final class PhamePostViewController
         ->setWorkflow(true));
 
     $actions->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-history')
         ->setHref($this->getApplicationURI('post/history/'.$id.'/'))
         ->setName(pht('View History')));
 
     if ($post->isDraft()) {
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon('fa-eye')
           ->setHref($this->getApplicationURI('post/publish/'.$id.'/'))
           ->setName(pht('Publish'))
           ->setDisabled(!$can_edit)
           ->setWorkflow(true));
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon('fa-ban')
           ->setHref($this->getApplicationURI('post/archive/'.$id.'/'))
           ->setName(pht('Archive'))
@@ -249,7 +249,7 @@ final class PhamePostViewController
           ->setWorkflow(true));
     } else if ($post->isArchived()) {
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon('fa-eye')
           ->setHref($this->getApplicationURI('post/publish/'.$id.'/'))
           ->setName(pht('Publish'))
@@ -257,14 +257,14 @@ final class PhamePostViewController
           ->setWorkflow(true));
     } else {
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon('fa-eye-slash')
           ->setHref($this->getApplicationURI('post/unpublish/'.$id.'/'))
           ->setName(pht('Unpublish'))
           ->setDisabled(!$can_edit)
           ->setWorkflow(true));
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setIcon('fa-ban')
           ->setHref($this->getApplicationURI('post/archive/'.$id.'/'))
           ->setName(pht('Archive'))
@@ -280,7 +280,7 @@ final class PhamePostViewController
 
     if (!$post->isArchived()) {
       $actions->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setUser($viewer)
           ->setIcon('fa-globe')
           ->setHref($post->getLiveURI())

@@ -92,11 +92,11 @@ final class PholioImageFileTransaction
     $add = array_diff($new, $old);
     $rem = array_diff($old, $new);
     if ($add && $rem) {
-      return PhabricatorTransactions::COLOR_YELLOW;
+      return PhorgeTransactions::COLOR_YELLOW;
     } else if ($add) {
-      return PhabricatorTransactions::COLOR_GREEN;
+      return PhorgeTransactions::COLOR_GREEN;
     } else {
-      return PhabricatorTransactions::COLOR_RED;
+      return PhorgeTransactions::COLOR_RED;
     }
   }
 
@@ -122,8 +122,8 @@ final class PholioImageFileTransaction
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
     return $this->getEditor()->mergePHIDOrEdgeTransactions($u, $v);
   }
 

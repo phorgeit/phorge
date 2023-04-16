@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementEnginesWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementEnginesWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -13,7 +13,7 @@ final class PhabricatorFilesManagementEnginesWorkflow
   public function execute(PhutilArgumentParser $args) {
     $console = PhutilConsole::getConsole();
 
-    $engines = PhabricatorFile::buildAllEngines();
+    $engines = PhorgeFile::buildAllEngines();
     if (!$engines) {
       throw new Exception(pht('No storage engines are available.'));
     }

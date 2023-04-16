@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementRecoverWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementRecoverWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -37,7 +37,7 @@ final class PhabricatorAuthManagementRecoverWorkflow
 
     $username = head($usernames);
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withUsernames(array($username))
       ->executeOne();
@@ -61,11 +61,11 @@ final class PhabricatorAuthManagementRecoverWorkflow
 
     $force_full_session = $args->getArg('force-full-session');
 
-    $engine = new PhabricatorAuthSessionEngine();
+    $engine = new PhorgeAuthSessionEngine();
     $onetime_uri = $engine->getOneTimeLoginURI(
       $user,
       null,
-      PhabricatorAuthSessionEngine::ONETIME_RECOVER,
+      PhorgeAuthSessionEngine::ONETIME_RECOVER,
       $force_full_session);
 
     $console = PhutilConsole::getConsole();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHarbormasterApplication extends PhabricatorApplication {
+final class PhorgeHarbormasterApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/harbormaster/';
@@ -42,11 +42,11 @@ final class PhabricatorHarbormasterApplication extends PhabricatorApplication {
     );
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Harbormaster User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Harbormaster User Guide'),
+        'href' => PhorgeEnv::getDoclink('Harbormaster User Guide'),
       ),
     );
   }
@@ -109,16 +109,16 @@ final class PhabricatorHarbormasterApplication extends PhabricatorApplication {
   protected function getCustomCapabilities() {
     return array(
       HarbormasterCreatePlansCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       HarbormasterBuildPlanDefaultViewCapability::CAPABILITY => array(
         'template' => HarbormasterBuildPlanPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       HarbormasterBuildPlanDefaultEditCapability::CAPABILITY => array(
         'template' => HarbormasterBuildPlanPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

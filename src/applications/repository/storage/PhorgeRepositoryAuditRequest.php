@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorRepositoryAuditRequest
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryAuditRequest
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   protected $auditorPHID;
   protected $commitPHID;
@@ -36,11 +36,11 @@ final class PhabricatorRepositoryAuditRequest
   }
 
   public function isUser() {
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     return (phid_get_type($this->getAuditorPHID()) == $user_type);
   }
 
-  public function attachCommit(PhabricatorRepositoryCommit $commit) {
+  public function attachCommit(PhorgeRepositoryCommit $commit) {
     $this->commit = $commit;
     return $this;
   }
@@ -55,15 +55,15 @@ final class PhabricatorRepositoryAuditRequest
 
   public function getAuditRequestStatusObject() {
     $status = $this->getAuditStatus();
-    return PhabricatorAuditRequestStatus::newForStatus($status);
+    return PhorgeAuditRequestStatus::newForStatus($status);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -71,7 +71,7 @@ final class PhabricatorRepositoryAuditRequest
     return $this->getCommit()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getCommit()->hasAutomaticCapability($capability, $viewer);
   }
 

@@ -40,7 +40,7 @@ final class PhrictionHistoryConduitAPIMethod extends PhrictionConduitAPIMethod {
     $slug = $request->getValue('slug');
     $doc = id(new PhrictionDocumentQuery())
       ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+      ->withSlugs(array(PhorgeSlug::normalize($slug)))
       ->executeOne();
     if (!$doc) {
       throw new ConduitException('ERR-BAD-DOCUMENT');

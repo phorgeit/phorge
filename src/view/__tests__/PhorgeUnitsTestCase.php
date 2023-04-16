@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUnitsTestCase extends PhabricatorTestCase {
+final class PhorgeUnitsTestCase extends PhorgeTestCase {
 
   // NOTE: Keep tests below PHP_INT_MAX on 32-bit systems, since if you write
   // larger numeric literals they'll evaluate to nonsense.

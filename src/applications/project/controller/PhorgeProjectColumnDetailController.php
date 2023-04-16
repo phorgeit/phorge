@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorProjectColumnDetailController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnDetailController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $project_id = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->withIDs(array($project_id))
       ->needImages(true)
@@ -24,12 +24,12 @@ final class PhabricatorProjectColumnDetailController
 
     $project_id = $project->getID();
 
-    $column = id(new PhabricatorProjectColumnQuery())
+    $column = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
         ->executeOne();
     if (!$column) {
@@ -38,7 +38,7 @@ final class PhabricatorProjectColumnDetailController
 
     $timeline = $this->buildTransactionTimeline(
       $column,
-      new PhabricatorProjectColumnTransactionQuery());
+      new PhorgeProjectColumnTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $title = $column->getDisplayName();
@@ -53,7 +53,7 @@ final class PhabricatorProjectColumnDetailController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_WORKBOARD);
+      PhorgeProject::ITEM_WORKBOARD);
     require_celerity_resource('project-view-css');
 
     $view = id(new PHUITwoColumnView())
@@ -72,7 +72,7 @@ final class PhabricatorProjectColumnDetailController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorProjectColumn $column) {
+  private function buildHeaderView(PhorgeProjectColumn $column) {
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
@@ -87,7 +87,7 @@ final class PhabricatorProjectColumnDetailController
   }
 
   private function buildPropertyView(
-    PhabricatorProjectColumn $column) {
+    PhorgeProjectColumn $column) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())

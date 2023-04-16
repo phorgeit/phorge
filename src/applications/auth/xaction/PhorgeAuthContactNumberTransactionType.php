@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthContactNumberTransactionType
-  extends PhabricatorModularTransactionType {
+abstract class PhorgeAuthContactNumberTransactionType
+  extends PhorgeModularTransactionType {
 
   protected function newContactNumberMFAError($object, $xaction) {
     // If a contact number is attached to a user and that user has SMS MFA
@@ -9,7 +9,7 @@ abstract class PhabricatorAuthContactNumberTransactionType
     // make another contact number into their primary number.
 
     $primary_type =
-      PhabricatorAuthContactNumberPrimaryTransaction::TRANSACTIONTYPE;
+      PhorgeAuthContactNumberPrimaryTransaction::TRANSACTIONTYPE;
 
     if ($xaction->getTransactionType() === $primary_type) {
       // We're trying to make a non-primary number into the primary number,
@@ -25,9 +25,9 @@ abstract class PhabricatorAuthContactNumberTransactionType
     }
 
     $target_phid = $object->getObjectPHID();
-    $omnipotent = PhabricatorUser::getOmnipotentUser();
+    $omnipotent = PhorgeUser::getOmnipotentUser();
 
-    $user_configs = id(new PhabricatorAuthFactorConfigQuery())
+    $user_configs = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($omnipotent)
       ->withUserPHIDs(array($target_phid))
       ->execute();

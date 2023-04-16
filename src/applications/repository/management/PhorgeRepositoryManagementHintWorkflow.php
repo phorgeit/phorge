@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementHintWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementHintWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -64,7 +64,7 @@ final class PhabricatorRepositoryManagementHintWorkflow
       $repository_identifier = $hint['repository'];
       $repository = idx($repositories, $repository_identifier);
       if (!$repository) {
-        $repository = id(new PhabricatorRepositoryQuery())
+        $repository = id(new PhorgeRepositoryQuery())
           ->setViewer($viewer)
           ->withIdentifiers(array($repository_identifier))
           ->executeOne();
@@ -80,7 +80,7 @@ final class PhabricatorRepositoryManagementHintWorkflow
         $repositories[$repository_identifier] = $repository;
       }
 
-      PhabricatorRepositoryCommitHint::updateHint(
+      PhorgeRepositoryCommitHint::updateHint(
         $repository->getPHID(),
         $hint['old'],
         idx($hint, 'new'),

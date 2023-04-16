@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTimezoneIgnoreOffsetSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeTimezoneIgnoreOffsetSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'time.offset.ignore';
 

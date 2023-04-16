@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorDashboardPortalTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeDashboardPortalTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'dashboard';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorDashboardPortalPHIDType::TYPECONST;
+    return PhorgeDashboardPortalPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorDashboardPortalTransactionType';
+    return 'PhorgeDashboardPortalTransactionType';
   }
 
 }

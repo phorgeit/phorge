@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorAuthContactNumberTestController
-  extends PhabricatorAuthContactNumberController {
+final class PhorgeAuthContactNumberTestController
+  extends PhorgeAuthContactNumberController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $number = id(new PhabricatorAuthContactNumberQuery())
+    $number = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$number) {
@@ -24,17 +24,17 @@ final class PhabricatorAuthContactNumberTestController
     $cancel_uri = $number->getURI();
 
     // NOTE: This is a global limit shared by all users.
-    PhabricatorSystemActionEngine::willTakeAction(
-      array(id(new PhabricatorAuthApplication())->getPHID()),
-      new PhabricatorAuthTestSMSAction(),
+    PhorgeSystemActionEngine::willTakeAction(
+      array(id(new PhorgeAuthApplication())->getPHID()),
+      new PhorgeAuthTestSMSAction(),
       1);
 
     if ($request->isFormPost()) {
-      $uri = PhabricatorEnv::getURI('/');
+      $uri = PhorgeEnv::getURI('/');
       $uri = new PhutilURI($uri);
 
-      $mail = id(new PhabricatorMetaMTAMail())
-        ->setMessageType(PhabricatorMailSMSMessage::MESSAGETYPE)
+      $mail = id(new PhorgeMetaMTAMail())
+        ->setMessageType(PhorgeMailSMSMessage::MESSAGETYPE)
         ->addTos(array($viewer->getPHID()))
         ->setSensitiveContent(false)
         ->setBody(

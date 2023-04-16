@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorOAuth2AuthProvider
-  extends PhabricatorOAuthAuthProvider {
+abstract class PhorgeOAuth2AuthProvider
+  extends PhorgeOAuthAuthProvider {
 
   const PROPERTY_APP_ID = 'oauth:app:id';
   const PROPERTY_APP_SECRET = 'oauth:app:secret';
@@ -21,7 +21,7 @@ abstract class PhabricatorOAuth2AuthProvider
     $adapter->setClientSecret(
       new PhutilOpaqueEnvelope(
         $config->getProperty(self::PROPERTY_APP_SECRET)));
-    $adapter->setRedirectURI(PhabricatorEnv::getURI($this->getLoginURI()));
+    $adapter->setRedirectURI(PhorgeEnv::getURI($this->getLoginURI()));
     return $adapter;
   }
 
@@ -43,7 +43,7 @@ abstract class PhabricatorOAuth2AuthProvider
   }
 
   public function processLoginRequest(
-    PhabricatorAuthLoginController $controller) {
+    PhorgeAuthLoginController $controller) {
 
     $request = $controller->getRequest();
     $adapter = $this->getAdapter();
@@ -127,13 +127,13 @@ abstract class PhabricatorOAuth2AuthProvider
   }
 
   public function renderConfigPropertyTransactionTitle(
-    PhabricatorAuthProviderConfigTransaction $xaction) {
+    PhorgeAuthProviderConfigTransaction $xaction) {
 
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
     $key = $xaction->getMetadataValue(
-      PhabricatorAuthProviderConfigTransaction::PROPERTY_KEY);
+      PhorgeAuthProviderConfigTransaction::PROPERTY_KEY);
 
     switch ($key) {
       case self::PROPERTY_APP_ID:
@@ -178,7 +178,7 @@ abstract class PhabricatorOAuth2AuthProvider
   }
 
   protected function synchronizeOAuthAccount(
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
     $adapter = $this->getAdapter();
 
     $oauth_token = $adapter->getAccessToken();
@@ -196,7 +196,7 @@ abstract class PhabricatorOAuth2AuthProvider
   }
 
   public function getOAuthAccessToken(
-    PhabricatorExternalAccount $account,
+    PhorgeExternalAccount $account,
     $force_refresh = false) {
 
     if ($account->getProviderConfigPHID() !== $this->getProviderConfigPHID()) {
@@ -237,9 +237,9 @@ abstract class PhabricatorOAuth2AuthProvider
   }
 
   public function willRenderLinkedAccount(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PHUIObjectItemView $item,
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
 
     // Get a valid token, possibly refreshing it. If we're unable to refresh
     // it, render a message to that effect. The user may be able to repair the

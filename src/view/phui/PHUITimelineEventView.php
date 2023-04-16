@@ -142,7 +142,7 @@ final class PHUITimelineEventView extends AphrontView {
     return $this->dateCreated;
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -151,7 +151,7 @@ final class PHUITimelineEventView extends AphrontView {
     return $this->contentSource;
   }
 
-  public function setUserHandle(PhabricatorObjectHandle $handle) {
+  public function setUserHandle(PhorgeObjectHandle $handle) {
     $this->userHandle = $handle;
     return $this;
   }
@@ -355,7 +355,7 @@ final class PHUITimelineEventView extends AphrontView {
         $sigil = null;
       }
 
-      $action_list = id(new PhabricatorActionListView())
+      $action_list = id(new PhorgeActionListView())
         ->setUser($this->getUser());
       foreach ($items as $item) {
         $action_list->addAction($item);
@@ -397,7 +397,7 @@ final class PHUITimelineEventView extends AphrontView {
         // refuses to jump to it. See T11997 for discussion.
 
         if ($extra && $this->anchor) {
-          $group_titles[] = id(new PhabricatorAnchorView())
+          $group_titles[] = id(new PhorgeAnchorView())
             ->setAnchorName($this->anchor)
             ->render();
         }
@@ -573,7 +573,7 @@ final class PHUITimelineEventView extends AphrontView {
       $source = $this->getContentSource();
       $content_source = null;
       if ($source) {
-        $content_source = id(new PhabricatorContentSourceView())
+        $content_source = id(new PhorgeContentSourceView())
           ->setContentSource($source)
           ->setUser($this->getUser());
         $content_source = pht('Via %s', $content_source->getSourceName());
@@ -668,7 +668,7 @@ final class PHUITimelineEventView extends AphrontView {
     $items = array();
 
     if ($this->getIsEditable()) {
-      $items[] = id(new PhabricatorActionView())
+      $items[] = id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setHref('/transactions/edit/'.$xaction_phid.'/')
         ->setName(pht('Edit Comment'))
@@ -689,7 +689,7 @@ final class PHUITimelineEventView extends AphrontView {
         }
       }
 
-      $items[] = id(new PhabricatorActionView())
+      $items[] = id(new PhorgeActionView())
         ->setIcon('fa-quote-left')
         ->setName(pht('Quote Comment'))
         ->setHref('#')
@@ -703,7 +703,7 @@ final class PHUITimelineEventView extends AphrontView {
     }
 
     if ($this->getIsNormalComment()) {
-      $items[] = id(new PhabricatorActionView())
+      $items[] = id(new PhorgeActionView())
         ->setIcon('fa-code')
         ->setHref('/transactions/raw/'.$xaction_phid.'/')
         ->setName(pht('View Raw Remarkup'))
@@ -714,11 +714,11 @@ final class PHUITimelineEventView extends AphrontView {
           ));
 
       $content_source = $this->getContentSource();
-      $source_email = PhabricatorEmailContentSource::SOURCECONST;
+      $source_email = PhorgeEmailContentSource::SOURCECONST;
       if ($content_source->getSource() == $source_email) {
         $source_id = $content_source->getContentSourceParameter('id');
         if ($source_id) {
-          $items[] = id(new PhabricatorActionView())
+          $items[] = id(new PhorgeActionView())
             ->setIcon('fa-envelope-o')
             ->setHref('/transactions/raw/'.$xaction_phid.'/?email')
             ->setName(pht('View Email Body'))
@@ -732,7 +732,7 @@ final class PHUITimelineEventView extends AphrontView {
     }
 
     if ($this->getIsEdited()) {
-      $items[] = id(new PhabricatorActionView())
+      $items[] = id(new PhorgeActionView())
         ->setIcon('fa-list')
         ->setHref('/transactions/history/'.$xaction_phid.'/')
         ->setName(pht('View Edit History'))
@@ -740,10 +740,10 @@ final class PHUITimelineEventView extends AphrontView {
     }
 
     if ($this->getIsRemovable()) {
-      $items[] = id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER);
+      $items[] = id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER);
 
-      $remove_item = id(new PhabricatorActionView())
+      $remove_item = id(new PhorgeActionView())
         ->setIcon('fa-trash-o')
         ->setHref('/transactions/remove/'.$xaction_phid.'/')
         ->setName(pht('Remove Comment'))
@@ -756,7 +756,7 @@ final class PHUITimelineEventView extends AphrontView {
       if (!$is_admin && !$can_interact) {
         $remove_item->setDisabled(!$is_admin && !$can_interact);
       } else {
-        $remove_item->setColor(PhabricatorActionView::RED);
+        $remove_item->setColor(PhorgeActionView::RED);
       }
 
       $items[] = $remove_item;

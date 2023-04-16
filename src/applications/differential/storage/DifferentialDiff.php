@@ -3,14 +3,14 @@
 final class DifferentialDiff
   extends DifferentialDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
     HarbormasterBuildableInterface,
     HarbormasterCircleCIBuildableInterface,
     HarbormasterBuildkiteBuildableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $revisionID;
   protected $authorPHID;
@@ -85,7 +85,7 @@ final class DifferentialDiff
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DifferentialDiffPHIDType::TYPECONST);
   }
 
@@ -134,10 +134,10 @@ final class DifferentialDiff
     return $ret;
   }
 
-  public static function initializeNewDiff(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewDiff(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDifferentialApplication'))
+      ->withClasses(array('PhorgeDifferentialApplication'))
       ->executeOne();
     $view_policy = $app->getPolicy(
       DifferentialDefaultViewCapability::CAPABILITY);
@@ -149,7 +149,7 @@ final class DifferentialDiff
   }
 
   public static function newFromRawChanges(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     array $changes) {
 
     assert_instances_of($changes, 'ArcanistDiffChange');
@@ -234,7 +234,7 @@ final class DifferentialDiff
 
     // TODO: This is "safe", but it would be better to propagate a real user
     // down the stack.
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     id(new DifferentialChangesetEngine())
       ->setViewer($viewer)
@@ -389,7 +389,7 @@ final class DifferentialDiff
     return $target_phids;
   }
 
-  public function loadCoverageMap(PhabricatorUser $viewer) {
+  public function loadCoverageMap(PhorgeUser $viewer) {
     $target_phids = $this->getBuildTargetPHIDs();
     if (!$target_phids) {
       return array();
@@ -432,24 +432,24 @@ final class DifferentialDiff
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     if ($this->hasRevision()) {
-      return PhabricatorPolicies::getMostOpenPolicy();
+      return PhorgePolicies::getMostOpenPolicy();
     }
 
     return $this->viewPolicy;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->hasRevision()) {
       return $this->getRevision()->hasAutomaticCapability($capability, $viewer);
     }
@@ -467,23 +467,23 @@ final class DifferentialDiff
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->hasRevision()) {
           $extended[] = array(
             $this->getRevision(),
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_VIEW,
           );
         } else if ($this->getRepositoryPHID()) {
           $extended[] = array(
             $this->getRepositoryPHID(),
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_VIEW,
           );
         }
         break;
@@ -583,8 +583,8 @@ final class DifferentialDiff
           $diff_phid));
     }
 
-    $repository = id(new PhabricatorRepositoryQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $repository = id(new PhorgeRepositoryQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($repository_phid))
       ->executeOne();
     if (!$repository) {
@@ -706,7 +706,7 @@ final class DifferentialDiff
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -718,11 +718,11 @@ final class DifferentialDiff
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $engine->getViewer();
 
@@ -743,7 +743,7 @@ final class DifferentialDiff
       $viewstate_query = id(new DifferentialViewStateQuery())
         ->setViewer($viewer)
         ->withObjectPHIDs(array($this->getPHID()));
-      $viewstates = new PhabricatorQueryIterator($viewstate_query);
+      $viewstates = new PhorgeQueryIterator($viewstate_query);
       foreach ($viewstates as $viewstate) {
         $viewstate->delete();
       }
@@ -752,24 +752,24 @@ final class DifferentialDiff
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('revisionPHID')
         ->setType('phid')
         ->setDescription(pht('Associated revision PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('phid')
         ->setDescription(pht('Revision author PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('repositoryPHID')
         ->setType('phid')
         ->setDescription(pht('Associated repository PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('refs')
         ->setType('map<string, wild>')
         ->setDescription(pht('List of related VCS references.')),

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDashboardPortalController
-  extends PhabricatorDashboardController {
+abstract class PhorgeDashboardPortalController
+  extends PhorgeDashboardController {
 
   protected function buildApplicationCrumbs() {
     $crumbs = new PHUICrumbsView();

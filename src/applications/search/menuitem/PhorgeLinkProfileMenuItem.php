@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLinkProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeLinkProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'link';
 
@@ -22,64 +22,64 @@ final class PhabricatorLinkProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $this->getLinkName($config);
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey(self::FIELD_NAME)
         ->setLabel(pht('Name'))
         ->setIsRequired(true)
         ->setValue($this->getLinkName($config)),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey(self::FIELD_URI)
         ->setLabel(pht('URI'))
         ->setIsRequired(true)
         ->setValue($this->getLinkURI($config)),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey(self::FIELD_TOOLTIP)
         ->setLabel(pht('Tooltip'))
         ->setValue($this->getLinkTooltip($config)),
-      id(new PhabricatorIconSetEditField())
+      id(new PhorgeIconSetEditField())
         ->setKey('icon')
         ->setLabel(pht('Icon'))
-        ->setIconSet(new PhabricatorProfileMenuItemIconSet())
+        ->setIconSet(new PhorgeProfileMenuItemIconSet())
         ->setValue($this->getLinkIcon($config)),
     );
   }
 
   private function getLinkName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   private function getLinkIcon(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('icon', 'link');
   }
 
   private function getLinkURI(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('uri');
   }
 
   private function getLinkTooltip(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('tooltip');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $icon = $this->getLinkIcon($config);
     $name = $this->getLinkName($config);
     $uri = $this->getLinkURI($config);
     $tooltip = $this->getLinkTooltip($config);
 
-    $icon_object = id(new PhabricatorProfileMenuItemIconSet())
+    $icon_object = id(new PhorgeProfileMenuItemIconSet())
       ->getIcon($icon);
     if ($icon_object) {
       $icon_class = $icon_object->getIcon();
@@ -100,7 +100,7 @@ final class PhabricatorLinkProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -134,7 +134,7 @@ final class PhabricatorLinkProfileMenuItem
           continue;
         }
 
-        if (!PhabricatorEnv::isValidURIForLink($new)) {
+        if (!PhorgeEnv::isValidURIForLink($new)) {
           $errors[] = $this->newInvalidError(
             pht(
               'URI "%s" is not a valid link URI. It should be a full, valid '.

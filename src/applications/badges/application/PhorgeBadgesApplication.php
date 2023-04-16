@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBadgesApplication extends PhabricatorApplication {
+final class PhorgeBadgesApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Badges');
@@ -30,26 +30,26 @@ final class PhabricatorBadgesApplication extends PhabricatorApplication {
     return array(
       '/badges/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorBadgesListController',
+          => 'PhorgeBadgesListController',
         'award/(?:(?P<id>\d+)/)?'
-          => 'PhabricatorBadgesAwardController',
+          => 'PhorgeBadgesAwardController',
         'create/'
-          => 'PhabricatorBadgesEditController',
+          => 'PhorgeBadgesEditController',
         'comment/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorBadgesCommentController',
+          => 'PhorgeBadgesCommentController',
         $this->getEditRoutePattern('edit/')
-            => 'PhabricatorBadgesEditController',
+            => 'PhorgeBadgesEditController',
         'archive/(?:(?P<id>\d+)/)?'
-          => 'PhabricatorBadgesArchiveController',
+          => 'PhorgeBadgesArchiveController',
         'view/(?:(?P<id>\d+)/)?'
-          => 'PhabricatorBadgesViewController',
+          => 'PhorgeBadgesViewController',
         'recipients/' => array(
           '(?P<id>[1-9]\d*)/'
-            => 'PhabricatorBadgesRecipientsController',
+            => 'PhorgeBadgesRecipientsController',
           '(?P<id>[1-9]\d*)/add/'
-            => 'PhabricatorBadgesEditRecipientsController',
+            => 'PhorgeBadgesEditRecipientsController',
           '(?P<id>[1-9]\d*)/remove/'
-            => 'PhabricatorBadgesRemoveRecipientsController',
+            => 'PhorgeBadgesRemoveRecipientsController',
         ),
       ),
     );
@@ -57,14 +57,14 @@ final class PhabricatorBadgesApplication extends PhabricatorApplication {
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorBadgesCreateCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      PhorgeBadgesCreateCapability::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_ADMIN,
         'caption' => pht('Default create policy for badges.'),
       ),
-      PhabricatorBadgesDefaultEditCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      PhorgeBadgesDefaultEditCapability::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_ADMIN,
         'caption' => pht('Default edit policy for badges.'),
-        'template' => PhabricatorBadgesPHIDType::TYPECONST,
+        'template' => PhorgeBadgesPHIDType::TYPECONST,
       ),
     );
   }

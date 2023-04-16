@@ -1,10 +1,10 @@
 <?php
 
-$conn_w = id(new PhabricatorAuditTransaction())->establishConnection('w');
+$conn_w = id(new PhorgeAuditTransaction())->establishConnection('w');
 $rows = new LiskRawMigrationIterator($conn_w, 'audit_comment');
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 echo pht('Migrating Audit comments to modern storage...')."\n";
 foreach ($rows as $row) {
@@ -37,7 +37,7 @@ foreach ($rows as $row) {
 
   // Build the main action transaction.
   switch ($row['action']) {
-    case PhabricatorAuditActionConstants::ADD_AUDITORS:
+    case PhorgeAuditActionConstants::ADD_AUDITORS:
       $phids = idx($metadata, 'added-auditors', array());
       $xactions[] = array(
         'type' => $row['action'],
@@ -45,7 +45,7 @@ foreach ($rows as $row) {
         'new' => array_fuse($phids),
       );
       break;
-    case PhabricatorAuditActionConstants::ADD_CCS:
+    case PhorgeAuditActionConstants::ADD_CCS:
       $phids = idx($metadata, 'added-ccs', array());
       $xactions[] = array(
         'type' => $row['action'],
@@ -53,14 +53,14 @@ foreach ($rows as $row) {
         'new' => array_fuse($phids),
       );
       break;
-    case PhabricatorAuditActionConstants::COMMENT:
-    case PhabricatorAuditActionConstants::INLINE:
+    case PhorgeAuditActionConstants::COMMENT:
+    case PhorgeAuditActionConstants::INLINE:
       // These actions will have their transactions created by other rules.
       break;
     default:
       // Otherwise, this is an accept/concern/etc action.
       $xactions[] = array(
-        'type' => PhabricatorAuditActionConstants::ACTION,
+        'type' => PhorgeAuditActionConstants::ACTION,
         'old' => null,
         'new' => $row['action'],
       );
@@ -71,7 +71,7 @@ foreach ($rows as $row) {
   // Build the main comment transaction.
   foreach ($main_comments as $main) {
     $xactions[] = array(
-      'type' => PhabricatorTransactions::TYPE_COMMENT,
+      'type' => PhorgeTransactions::TYPE_COMMENT,
       'old' => null,
       'new' => null,
       'phid' => $main['transactionPHID'],
@@ -82,7 +82,7 @@ foreach ($rows as $row) {
   // Build inline comment transactions.
   foreach ($inline_comments as $inline) {
     $xactions[] = array(
-      'type' => PhabricatorAuditActionConstants::INLINE,
+      'type' => PhorgeAuditActionConstants::INLINE,
       'old' => null,
       'new' => null,
       'phid' => $inline['transactionPHID'],
@@ -96,9 +96,9 @@ foreach ($rows as $row) {
     // easier, so we only need to write to one table.
     $xaction_phid = idx($xaction, 'phid');
     if (!$xaction_phid) {
-      $xaction_phid = PhabricatorPHID::generateNewPHID(
-        PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
-        PhabricatorRepositoryCommitPHIDType::TYPECONST);
+      $xaction_phid = PhorgePHID::generateNewPHID(
+        PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
+        PhorgeRepositoryCommitPHIDType::TYPECONST);
     }
     unset($xaction['phid']);
 

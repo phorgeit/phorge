@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonLogListController
-  extends PhabricatorDaemonController {
+final class PhorgeDaemonLogListController
+  extends PhorgeDaemonController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,12 +9,12 @@ final class PhabricatorDaemonLogListController
     $pager = new AphrontCursorPagerView();
     $pager->readFromRequest($request);
 
-    $logs = id(new PhabricatorDaemonLogQuery())
+    $logs = id(new PhorgeDaemonLogQuery())
       ->setViewer($viewer)
       ->setAllowStatusWrites(true)
       ->executeWithCursorPager($pager);
 
-    $daemon_table = id(new PhabricatorDaemonLogListView())
+    $daemon_table = id(new PhorgeDaemonLogListView())
       ->setViewer($viewer)
       ->setDaemonLogs($logs);
 

@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Ensuring project names are unique enough...')."\n";
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $table->openTransaction();
 $table->beginReadLocking();
 
@@ -10,7 +10,7 @@ $projects = $table->loadAll();
 $slug_map = array();
 
 foreach ($projects as $project) {
-  $slug = PhabricatorSlug::normalizeProjectSlug($project->getName());
+  $slug = PhorgeSlug::normalizeProjectSlug($project->getName());
 
   if (!strlen($slug)) {
     $project_id = $project->getID();
@@ -49,7 +49,7 @@ while ($update) {
     $id = $project->getID();
     $name = $project->getName();
 
-    $slug = PhabricatorSlug::normalizeProjectSlug($name).'/';
+    $slug = PhorgeSlug::normalizeProjectSlug($name).'/';
 
     echo pht("Updating project #%d '%s' (%s)... ", $id, $name, $slug);
     try {
@@ -89,7 +89,7 @@ function rename_project($project, $projects) {
   while (true) {
     $new_name = $project->getName().' ('.$suffix.')';
 
-    $new_slug = PhabricatorSlug::normalizeProjectSlug($new_name).'/';
+    $new_slug = PhorgeSlug::normalizeProjectSlug($new_name).'/';
 
     $okay = true;
     foreach ($projects as $other) {
@@ -97,7 +97,7 @@ function rename_project($project, $projects) {
         continue;
       }
 
-      $other_slug = PhabricatorSlug::normalizeProjectSlug($other->getName());
+      $other_slug = PhorgeSlug::normalizeProjectSlug($other->getName());
       if ($other_slug == $new_slug) {
         $okay = false;
         break;

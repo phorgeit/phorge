@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthPasswordRevoker
-  extends PhabricatorAuthRevoker {
+final class PhorgeAuthPasswordRevoker
+  extends PhorgeAuthRevoker {
 
   const REVOKERKEY = 'password';
 
@@ -35,17 +35,17 @@ final class PhabricatorAuthPasswordRevoker
   }
 
   public function revokeAllCredentials() {
-    $query = new PhabricatorAuthPasswordQuery();
+    $query = new PhorgeAuthPasswordQuery();
     return $this->revokeWithQuery($query);
   }
 
   public function revokeCredentialsFrom($object) {
-    $query = id(new PhabricatorAuthPasswordQuery())
+    $query = id(new PhorgeAuthPasswordQuery())
       ->withObjectPHIDs(array($object->getPHID()));
     return $this->revokeWithQuery($query);
   }
 
-  private function revokeWithQuery(PhabricatorAuthPasswordQuery $query) {
+  private function revokeWithQuery(PhorgeAuthPasswordQuery $query) {
     $viewer = $this->getViewer();
 
     $passwords = $query
@@ -53,12 +53,12 @@ final class PhabricatorAuthPasswordRevoker
       ->withIsRevoked(false)
       ->execute();
 
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
 
-    $revoke_type = PhabricatorAuthPasswordRevokeTransaction::TRANSACTIONTYPE;
+    $revoke_type = PhorgeAuthPasswordRevokeTransaction::TRANSACTIONTYPE;
 
-    $auth_phid = id(new PhabricatorAuthApplication())->getPHID();
+    $auth_phid = id(new PhorgeAuthApplication())->getPHID();
     foreach ($passwords as $password) {
       $xactions = array();
 

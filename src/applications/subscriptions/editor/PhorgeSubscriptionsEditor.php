@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
+final class PhorgeSubscriptionsEditor extends PhorgeEditor {
 
   private $object;
 
@@ -8,7 +8,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
   private $implicitSubscribePHIDs = array();
   private $unsubscribePHIDs       = array();
 
-  public function setObject(PhabricatorSubscribableInterface $object) {
+  public function setObject(PhorgeSubscribableInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -63,9 +63,9 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
     $src = $this->object->getPHID();
 
     if ($this->implicitSubscribePHIDs) {
-      $unsub = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $unsub = PhorgeEdgeQuery::loadDestinationPHIDs(
         $src,
-        PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST);
+        PhorgeObjectHasUnsubscriberEdgeType::EDGECONST);
       $unsub = array_fill_keys($unsub, true);
       $this->implicitSubscribePHIDs = array_diff_key(
         $this->implicitSubscribePHIDs,
@@ -80,10 +80,10 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
     $add = array_diff_key($add, $del);
 
     if ($add || $del) {
-      $u_type = PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST;
-      $s_type = PhabricatorObjectHasSubscriberEdgeType::EDGECONST;
+      $u_type = PhorgeObjectHasUnsubscriberEdgeType::EDGECONST;
+      $s_type = PhorgeObjectHasSubscriberEdgeType::EDGECONST;
 
-      $editor = new PhabricatorEdgeEditor();
+      $editor = new PhorgeEdgeEditor();
 
       foreach ($add as $phid => $ignored) {
         $editor->removeEdge($src, $u_type, $phid);

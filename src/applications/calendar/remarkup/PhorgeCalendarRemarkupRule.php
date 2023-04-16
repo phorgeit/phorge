@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgeCalendarRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'E';
@@ -10,7 +10,7 @@ final class PhabricatorCalendarRemarkupRule
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorCalendarEventQuery())
+    return id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();

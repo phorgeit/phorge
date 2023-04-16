@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionSourceHyperlinkEngineExtension
-  extends PhabricatorRemarkupHyperlinkEngineExtension {
+  extends PhorgeRemarkupHyperlinkEngineExtension {
 
   const LINKENGINEKEY = 'diffusion-src';
 
@@ -47,7 +47,7 @@ final class DiffusionSourceHyperlinkEngineExtension
 
     $identifiers = ipull($links, 'identifier');
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIdentifiers($identifiers);
 

@@ -1,7 +1,7 @@
 <?php
 
 abstract class ManiphestTaskTransactionType
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   protected function updateStatus($object, $new_value) {
     $old_value = $object->getStatus();
@@ -17,7 +17,7 @@ abstract class ManiphestTaskTransactionType
 
     if ($is_close) {
       $object
-        ->setClosedEpoch(PhabricatorTime::getNow())
+        ->setClosedEpoch(PhorgeTime::getNow())
         ->setCloserPHID($this->getActingAsPHID());
     } else if ($is_open) {
       $object

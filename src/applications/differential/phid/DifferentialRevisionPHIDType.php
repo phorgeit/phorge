@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialRevisionPHIDType extends PhabricatorPHIDType {
+final class DifferentialRevisionPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DREV';
 
@@ -13,11 +13,11 @@ final class DifferentialRevisionPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DifferentialRevisionQuery())
@@ -25,7 +25,7 @@ final class DifferentialRevisionPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -42,7 +42,7 @@ final class DifferentialRevisionPHIDType extends PhabricatorPHIDType {
         ->setFullName("{$monogram}: {$title}");
 
       if ($revision->isClosed()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -52,7 +52,7 @@ final class DifferentialRevisionPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

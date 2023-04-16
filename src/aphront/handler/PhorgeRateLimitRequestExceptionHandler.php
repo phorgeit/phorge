@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRateLimitRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeRateLimitRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 300000;
@@ -17,11 +17,11 @@ final class PhabricatorRateLimitRequestExceptionHandler
     AphrontRequest $request,
     $throwable) {
 
-    if (!$this->isPhabricatorSite($request)) {
+    if (!$this->isPhorgeSite($request)) {
       return false;
     }
 
-    return ($throwable instanceof PhabricatorSystemActionRateLimitException);
+    return ($throwable instanceof PhorgeSystemActionRateLimitException);
   }
 
   public function handleRequestThrowable(

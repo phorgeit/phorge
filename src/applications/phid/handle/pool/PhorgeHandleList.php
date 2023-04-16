@@ -15,7 +15,7 @@
  * However, it benefits from the viewer's internal handle cache and performs
  * just-in-time bulk loading.
  */
-final class PhabricatorHandleList
+final class PhorgeHandleList
   extends Phobject
   implements
     Iterator,
@@ -29,7 +29,7 @@ final class PhabricatorHandleList
   private $cursor;
   private $map;
 
-  public function setHandlePool(PhabricatorHandlePool $pool) {
+  public function setHandlePool(PhorgeHandlePool $pool) {
     $this->handlePool = $pool;
     return $this;
   }

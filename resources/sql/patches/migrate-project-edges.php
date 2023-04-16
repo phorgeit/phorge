@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Migrating project members to edges...')."\n";
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $proj) {
@@ -21,11 +21,11 @@ foreach (new LiskMigrationIterator($table) as $proj) {
 
   $members = ipull($members, 'userPHID');
 
-  $editor = new PhabricatorEdgeEditor();
+  $editor = new PhorgeEdgeEditor();
   foreach ($members as $user_phid) {
     $editor->addEdge(
       $proj->getPHID(),
-      PhabricatorProjectProjectHasMemberEdgeType::EDGECONST,
+      PhorgeProjectProjectHasMemberEdgeType::EDGECONST,
       $user_phid);
   }
   $editor->save();

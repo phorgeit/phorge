@@ -1,7 +1,7 @@
 <?php
 
 final class PhluxVariableQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $keys;
@@ -89,7 +89,7 @@ final class PhluxVariableQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhluxApplication';
+    return 'PhorgePhluxApplication';
   }
 
 }

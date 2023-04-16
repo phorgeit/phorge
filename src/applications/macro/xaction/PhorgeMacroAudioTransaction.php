@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroAudioTransaction
-  extends PhabricatorMacroTransactionType {
+final class PhorgeMacroAudioTransaction
+  extends PhorgeMacroTransactionType {
 
   const TRANSACTIONTYPE = 'macro:audio';
 

@@ -1,7 +1,7 @@
 <?php
 
 final class PonderQuestionTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new PonderQuestionTransaction();

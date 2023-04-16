@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPartialLoginUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgePartialLoginUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'login-partial';
 

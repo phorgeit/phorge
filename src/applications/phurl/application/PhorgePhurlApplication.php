@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhurlApplication extends PhabricatorApplication {
+final class PhorgePhurlApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phurl');
@@ -32,22 +32,22 @@ final class PhabricatorPhurlApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorPhurlRemarkupRule(),
-      new PhabricatorPhurlLinkRemarkupRule(),
+      new PhorgePhurlRemarkupRule(),
+      new PhorgePhurlLinkRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
-      '/U(?P<id>[1-9]\d*)/?' => 'PhabricatorPhurlURLViewController',
-      '/u/(?P<id>[1-9]\d*)/?' => 'PhabricatorPhurlURLAccessController',
-      '/u/(?P<alias>[^/]+)/?' => 'PhabricatorPhurlURLAccessController',
+      '/U(?P<id>[1-9]\d*)/?' => 'PhorgePhurlURLViewController',
+      '/u/(?P<id>[1-9]\d*)/?' => 'PhorgePhurlURLAccessController',
+      '/u/(?P<alias>[^/]+)/?' => 'PhorgePhurlURLAccessController',
       '/phurl/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorPhurlURLListController',
+          => 'PhorgePhurlURLListController',
         'url/' => array(
           $this->getEditRoutePattern('edit/')
-            => 'PhabricatorPhurlURLEditController',
+            => 'PhorgePhurlURLEditController',
         ),
       ),
     );
@@ -55,19 +55,19 @@ final class PhabricatorPhurlApplication extends PhabricatorApplication {
 
   public function getShortRoutes() {
     return array(
-      '/status/' => 'PhabricatorStatusController',
-      '/favicon.ico' => 'PhabricatorFaviconController',
-      '/robots.txt' => 'PhabricatorRobotsShortController',
+      '/status/' => 'PhorgeStatusController',
+      '/favicon.ico' => 'PhorgeFaviconController',
+      '/robots.txt' => 'PhorgeRobotsShortController',
 
-      '/u/(?P<append>[^/]+)' => 'PhabricatorPhurlShortURLController',
-      '.*' => 'PhabricatorPhurlShortURLDefaultController',
+      '/u/(?P<append>[^/]+)' => 'PhorgePhurlShortURLController',
+      '.*' => 'PhorgePhurlShortURLDefaultController',
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorPhurlURLCreateCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_USER,
+      PhorgePhurlURLCreateCapability::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_USER,
       ),
     );
   }

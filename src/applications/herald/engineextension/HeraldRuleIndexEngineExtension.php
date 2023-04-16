@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldRuleIndexEngineExtension
-  extends PhabricatorEdgeIndexEngineExtension {
+  extends PhorgeEdgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'herald.actions';
 

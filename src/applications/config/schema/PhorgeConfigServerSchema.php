@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConfigServerSchema
-  extends PhabricatorConfigStorageSchema {
+final class PhorgeConfigServerSchema
+  extends PhorgeConfigStorageSchema {
 
   private $ref;
   private $databases = array();
 
-  public function setRef(PhabricatorDatabaseRef $ref) {
+  public function setRef(PhorgeDatabaseRef $ref) {
     $this->ref = $ref;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorConfigServerSchema
     return $this->ref;
   }
 
-  public function addDatabase(PhabricatorConfigDatabaseSchema $database) {
+  public function addDatabase(PhorgeConfigDatabaseSchema $database) {
     $key = $database->getName();
     if (isset($this->databases[$key])) {
       throw new Exception(
@@ -38,7 +38,7 @@ final class PhabricatorConfigServerSchema
   }
 
   protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect) {
+    PhorgeConfigStorageSchema $expect) {
     return array();
   }
 

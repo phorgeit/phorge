@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorMailOutboundRoutingHeraldAction
+abstract class PhorgeMailOutboundRoutingHeraldAction
   extends HeraldAction {
 
   const DO_ROUTE = 'do.route';
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorMetaMTAMail);
+    return ($object instanceof PhorgeMetaMTAMail);
   }
 
   public function getActionGroupKey() {

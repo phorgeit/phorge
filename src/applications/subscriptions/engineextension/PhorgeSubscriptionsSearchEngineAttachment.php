@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeSubscriptionsSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Subscribers');
@@ -13,10 +13,10 @@ final class PhabricatorSubscriptionsSearchEngineAttachment
 
   public function loadAttachmentData(array $objects, $spec) {
     $object_phids = mpull($objects, 'getPHID');
-    $edge_type = PhabricatorObjectHasSubscriberEdgeType::EDGECONST;
+    $edge_type = PhorgeObjectHasSubscriberEdgeType::EDGECONST;
 
 
-    $subscribers_query = id(new PhabricatorEdgeQuery())
+    $subscribers_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($object_phids)
       ->withEdgeTypes(array($edge_type));
     $subscribers_query->execute();
@@ -24,7 +24,7 @@ final class PhabricatorSubscriptionsSearchEngineAttachment
     $viewer = $this->getViewer();
     $viewer_phid = $viewer->getPHID();
     if ($viewer) {
-      $edges = id(new PhabricatorEdgeQuery())
+      $edges = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs($object_phids)
         ->withEdgeTypes(array($edge_type))
         ->withDestinationPHIDs(array($viewer_phid))
@@ -53,7 +53,7 @@ final class PhabricatorSubscriptionsSearchEngineAttachment
 
     $subscribed_phids = $subscribers_query->getDestinationPHIDs(
       array($object_phid),
-      array(PhabricatorObjectHasSubscriberEdgeType::EDGECONST));
+      array(PhorgeObjectHasSubscriberEdgeType::EDGECONST));
     $subscribed_count = count($subscribed_phids);
     if ($subscribed_count > 10) {
       $subscribed_phids = array_slice($subscribed_phids, 0, 10);

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthPasswordEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeAuthPasswordEditor
+  extends PhorgeApplicationTransactionEditor {
 
   private $oldHasher;
 
-  public function setOldHasher(PhabricatorPasswordHasher $old_hasher) {
+  public function setOldHasher(PhorgePasswordHasher $old_hasher) {
     $this->oldHasher = $old_hasher;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorAuthPasswordEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function getEditorObjectsDescription() {

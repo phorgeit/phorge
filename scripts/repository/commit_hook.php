@@ -14,7 +14,7 @@
 // either a bare repository identifier ("X"), or a repository identifier
 // followed by an instance identifier ("X:instance"). If we have an instance
 // identifier, unpack it into the environment before we start up. This allows
-// subclasses of PhabricatorConfigSiteSource to read it and build an instance
+// subclasses of PhorgeConfigSiteSource to read it and build an instance
 // environment.
 
 $hook_start = microtime(true);
@@ -40,8 +40,8 @@ if ($argc < 2) {
 $engine = id(new DiffusionCommitHookEngine())
   ->setStartTime($hook_start);
 
-$repository = id(new PhabricatorRepositoryQuery())
-  ->setViewer(PhabricatorUser::getOmnipotentUser())
+$repository = id(new PhorgeRepositoryQuery())
+  ->setViewer(PhorgeUser::getOmnipotentUser())
   ->withIdentifiers(array($argv[1]))
   ->needProjectPHIDs(true)
   ->executeOne();
@@ -153,8 +153,8 @@ if ($is_svnrevprop) {
   throw new Exception(pht('Unknown repository type.'));
 }
 
-$user = id(new PhabricatorPeopleQuery())
-  ->setViewer(PhabricatorUser::getOmnipotentUser())
+$user = id(new PhorgePeopleQuery())
+  ->setViewer(PhorgeUser::getOmnipotentUser())
   ->withUsernames(array($username))
   ->executeOne();
 
@@ -208,7 +208,7 @@ try {
 } catch (DiffusionCommitHookRejectException $ex) {
   $console = PhutilConsole::getConsole();
 
-  if (PhabricatorEnv::getEnvConfig('phorge.serious-business')) {
+  if (PhorgeEnv::getEnvConfig('phorge.serious-business')) {
     $preamble = pht('*** PUSH REJECTED BY COMMIT HOOK ***');
   } else {
     $preamble = pht(<<<EOTXT

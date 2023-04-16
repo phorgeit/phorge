@@ -36,15 +36,15 @@ final class HeraldNewController extends HeraldController {
 
           if ($request->isFormPost()) {
             if (strlen($object_name)) {
-              $target_object = id(new PhabricatorObjectQuery())
+              $target_object = id(new PhorgeObjectQuery())
                 ->setViewer($viewer)
                 ->withNames(array($object_name))
                 ->executeOne();
               if ($target_object) {
-                $can_edit = PhabricatorPolicyFilter::hasCapability(
+                $can_edit = PhorgePolicyFilter::hasCapability(
                   $viewer,
                   $target_object,
-                  PhabricatorPolicyCapability::CAN_EDIT);
+                  PhorgePolicyCapability::CAN_EDIT);
                 if (!$can_edit) {
                   $errors[] = pht(
                     'You can not create a rule for that object, because you '.

@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   protected function getAlmanacPropertyList($object) {
     $builtins = $object->getAlmanacPropertyFieldSpecifications();

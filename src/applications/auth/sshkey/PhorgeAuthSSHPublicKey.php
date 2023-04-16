@@ -3,7 +3,7 @@
 /**
  * Data structure representing a raw public key.
  */
-final class PhabricatorAuthSSHPublicKey extends Phobject {
+final class PhorgeAuthSSHPublicKey extends Phobject {
 
   private $type;
   private $body;
@@ -13,8 +13,8 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
     // <internal>
   }
 
-  public static function newFromStoredKey(PhabricatorAuthSSHKey $key) {
-    $public_key = new PhabricatorAuthSSHPublicKey();
+  public static function newFromStoredKey(PhorgeAuthSSHKey $key) {
+    $public_key = new PhorgeAuthSSHPublicKey();
     $public_key->type = $key->getKeyType();
     $public_key->body = $key->getKeyBody();
     $public_key->comment = $key->getKeyComment();
@@ -73,7 +73,7 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
           $type_list));
     }
 
-    $public_key = new PhabricatorAuthSSHPublicKey();
+    $public_key = new PhorgeAuthSSHPublicKey();
     $public_key->type = $type;
     $public_key->body = $body;
     $public_key->comment = $comment;
@@ -97,7 +97,7 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
     $body = $this->getBody();
     $body = trim($body);
     $body = rtrim($body, '=');
-    return PhabricatorHash::digestForIndex($body);
+    return PhorgeHash::digestForIndex($body);
   }
 
   public function getEntireKey() {
@@ -112,7 +112,7 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
     $entire_key = $this->getEntireKey();
     $cache_key = $this->getPKCS8CacheKey($entire_key);
 
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
     $pkcs8_key = $cache->getKey($cache_key);
     if ($pkcs8_key) {
       return $pkcs8_key;
@@ -146,12 +146,12 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
     $entire_key = $this->getEntireKey();
     $cache_key = $this->getPKCS8CacheKey($entire_key);
 
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
     $cache->setKey($cache_key, $pkcs8_key);
   }
 
   private function getPKCS8CacheKey($entire_key) {
-    return 'pkcs8:'.PhabricatorHash::digestForIndex($entire_key);
+    return 'pkcs8:'.PhorgeHash::digestForIndex($entire_key);
   }
 
 }

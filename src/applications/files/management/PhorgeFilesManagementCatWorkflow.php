@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementCatWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementCatWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -65,7 +65,7 @@ final class PhabricatorFilesManagementCatWorkflow
       foreach ($iterator as $data) {
         echo $data;
       }
-    } catch (PhabricatorFileIntegrityException $ex) {
+    } catch (PhorgeFileIntegrityException $ex) {
       throw new PhutilArgumentUsageException(
         pht(
           'File data integrity check failed. Use "--salvage" to bypass '.

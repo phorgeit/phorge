@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorObjectGraph
+abstract class PhorgeObjectGraph
   extends AbstractDirectedGraph {
 
   private $viewer;
@@ -13,7 +13,7 @@ abstract class PhabricatorObjectGraph
   private $adjacent;
   private $height;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -128,7 +128,7 @@ abstract class PhabricatorObjectGraph
 
     $edge_types = $this->getEdgeTypes();
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($nodes)
       ->withEdgeTypes($edge_types);
 

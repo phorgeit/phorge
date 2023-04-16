@@ -48,7 +48,7 @@ final class ConduitCall extends Phobject {
     return $this->request;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -91,7 +91,7 @@ final class ConduitCall extends Phobject {
   private function executeMethod() {
     $user = $this->getUser();
     if (!$user) {
-      $user = new PhabricatorUser();
+      $user = new PhorgeUser();
     }
 
     $this->request->setUser($user);
@@ -101,7 +101,7 @@ final class ConduitCall extends Phobject {
     } else {
 
       $allow_public = $this->handler->shouldAllowPublic() &&
-                      PhabricatorEnv::getEnvConfig('policy.allow-public');
+                      PhorgeEnv::getEnvConfig('policy.allow-public');
       if (!$allow_public) {
         if (!$user->isLoggedIn() && !$user->isOmnipotent()) {
           // TODO: As per below, this should get centralized and cleaned up.
@@ -114,10 +114,10 @@ final class ConduitCall extends Phobject {
       // Just do it this way for the moment.
       $application = $this->handler->getApplication();
       if ($application) {
-        $can_view = PhabricatorPolicyFilter::hasCapability(
+        $can_view = PhorgePolicyFilter::hasCapability(
           $user,
           $application,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
 
         if (!$can_view) {
           throw new ConduitException(

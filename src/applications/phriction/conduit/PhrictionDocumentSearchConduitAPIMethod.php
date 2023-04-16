@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'phriction.document.search';

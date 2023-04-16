@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneChargeSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $account;
 
@@ -24,16 +24,16 @@ final class PhortuneChargeSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new PhortuneChargeQuery());
 
     $viewer = $this->requireViewer();
@@ -57,7 +57,7 @@ final class PhortuneChargeSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {}
+    PhorgeSavedQuery $saved_query) {}
 
   protected function getURI($path) {
     $account = $this->getAccount();
@@ -92,7 +92,7 @@ final class PhortuneChargeSearchEngine
 
   protected function renderResultList(
     array $charges,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($charges, 'PhortuneCharge');
 
@@ -102,7 +102,7 @@ final class PhortuneChargeSearchEngine
       ->setUser($viewer)
       ->setCharges($charges);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
 
     return $result;

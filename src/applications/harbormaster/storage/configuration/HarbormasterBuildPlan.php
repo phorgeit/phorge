@@ -5,13 +5,13 @@
  */
 final class HarbormasterBuildPlan extends HarbormasterDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorNgramsInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorProjectInterface,
-    PhabricatorPolicyCodexInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeSubscribableInterface,
+    PhorgeNgramsInterface,
+    PhorgeConduitResultInterface,
+    PhorgeProjectInterface,
+    PhorgePolicyCodexInterface {
 
   protected $name;
   protected $planStatus;
@@ -25,10 +25,10 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
 
   private $buildSteps = self::ATTACHABLE;
 
-  public static function initializeNewBuildPlan(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewBuildPlan(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorHarbormasterApplication'))
+      ->withClasses(array('PhorgeHarbormasterApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -71,7 +71,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildPlanPHIDType::TYPECONST);
   }
 
@@ -143,11 +143,11 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
     return parent::getName();
   }
 
-  public function hasRunCapability(PhabricatorUser $viewer) {
+  public function hasRunCapability(PhorgeUser $viewer) {
     try {
       $this->assertHasRunCapability($viewer);
       return true;
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       return false;
     }
   }
@@ -162,21 +162,21 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
     return ($option->getKey() === $if_viewable);
   }
 
-  public function assertHasRunCapability(PhabricatorUser $viewer) {
+  public function assertHasRunCapability(PhorgeUser $viewer) {
     if ($this->canRunWithoutEditCapability()) {
-      $capability = PhabricatorPolicyCapability::CAN_VIEW;
+      $capability = PhorgePolicyCapability::CAN_VIEW;
     } else {
-      $capability = PhabricatorPolicyCapability::CAN_EDIT;
+      $capability = PhorgePolicyCapability::CAN_EDIT;
     }
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $this,
       $capability);
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -184,7 +184,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -195,32 +195,32 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
     return new HarbormasterBuildPlanTransaction();
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->isAutoplan()) {
-          return PhabricatorPolicies::getMostOpenPolicy();
+          return PhorgePolicies::getMostOpenPolicy();
         }
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->isAutoplan()) {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         }
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
@@ -228,7 +228,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
     $messages = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->isAutoplan()) {
           $messages[] = pht(
             'This is an autoplan (a builtin plan provided by an application) '.
@@ -241,7 +241,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
@@ -252,20 +252,20 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of this build plan.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('The current status of this build plan.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('behaviors')
         ->setType('map<string, string>')
         ->setDescription(pht('Behavior configuration for the build plan.')),
@@ -298,7 +298,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
 
   public function newPolicyCodex() {

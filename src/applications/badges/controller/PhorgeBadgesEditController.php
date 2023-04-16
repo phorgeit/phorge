@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorBadgesEditController extends
-  PhabricatorBadgesController {
+final class PhorgeBadgesEditController extends
+  PhorgeBadgesController {
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorBadgesEditEngine())
+    return id(new PhorgeBadgesEditEngine())
       ->setController($this)
       ->buildResponse();
   }

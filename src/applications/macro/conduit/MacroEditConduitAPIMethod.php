@@ -1,14 +1,14 @@
 <?php
 
 final class MacroEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'macro.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorMacroEditEngine();
+    return new PhorgeMacroEditEngine();
   }
 
   public function getMethodSummary() {

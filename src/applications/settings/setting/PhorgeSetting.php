@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorSetting extends Phobject {
+abstract class PhorgeSetting extends Phobject {
 
   private $viewer = false;
 
-  public function setViewer(PhabricatorUser $viewer = null) {
+  public function setViewer(PhorgeUser $viewer = null) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -36,7 +36,7 @@ abstract class PhabricatorSetting extends Phobject {
     return null;
   }
 
-  protected function isEnabledForViewer(PhabricatorUser $viewer) {
+  protected function isEnabledForViewer(PhorgeUser $viewer) {
     return true;
   }
 
@@ -55,7 +55,7 @@ abstract class PhabricatorSetting extends Phobject {
       ->execute();
   }
 
-  public static function getAllEnabledSettings(PhabricatorUser $viewer) {
+  public static function getAllEnabledSettings(PhorgeUser $viewer) {
     $settings = self::getAllSettings();
     foreach ($settings as $key => $setting) {
       if (!$setting->isEnabledForViewer($viewer)) {
@@ -80,11 +80,11 @@ abstract class PhabricatorSetting extends Phobject {
     return null;
   }
 
-  protected function newEditField($object, PhabricatorEditField $template) {
-    $setting_property = PhabricatorUserPreferencesTransaction::PROPERTY_SETTING;
+  protected function newEditField($object, PhorgeEditField $template) {
+    $setting_property = PhorgeUserPreferencesTransaction::PROPERTY_SETTING;
     $setting_key = $this->getSettingKey();
     $value = $object->getPreference($setting_key);
-    $xaction_type = PhabricatorUserPreferencesTransaction::TYPE_SETTING;
+    $xaction_type = PhorgeUserPreferencesTransaction::TYPE_SETTING;
     $label = $this->getSettingName();
 
     $template
@@ -119,8 +119,8 @@ abstract class PhabricatorSetting extends Phobject {
   }
 
   protected function newSettingTransaction($object, $key, $value) {
-    $setting_property = PhabricatorUserPreferencesTransaction::PROPERTY_SETTING;
-    $xaction_type = PhabricatorUserPreferencesTransaction::TYPE_SETTING;
+    $setting_property = PhorgeUserPreferencesTransaction::PROPERTY_SETTING;
+    $xaction_type = PhorgeUserPreferencesTransaction::TYPE_SETTING;
 
     return id(clone $object->getApplicationTransactionTemplate())
       ->setTransactionType($xaction_type)

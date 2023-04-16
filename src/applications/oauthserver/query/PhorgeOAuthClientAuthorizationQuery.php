@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthClientAuthorizationQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeOAuthClientAuthorizationQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $phids;
   private $userPHIDs;
@@ -23,13 +23,13 @@ final class PhabricatorOAuthClientAuthorizationQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorOAuthClientAuthorization();
+    return new PhorgeOAuthClientAuthorization();
   }
 
   protected function willFilterPage(array $authorizations) {
     $client_phids = mpull($authorizations, 'getClientPHID');
 
-    $clients = id(new PhabricatorOAuthServerClientQuery())
+    $clients = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($client_phids)
@@ -79,7 +79,7 @@ final class PhabricatorOAuthClientAuthorizationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
 }

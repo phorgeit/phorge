@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleProfileViewController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileViewController
+  extends PhorgePeopleProfileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorPeopleProfileViewController
     $viewer = $this->getViewer();
     $username = $request->getURIData('username');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withUsernames(array($username))
       ->needProfileImage(true)
@@ -66,7 +66,7 @@ final class PhabricatorPeopleProfileViewController
 
     $navigation = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_PROFILE);
+      PhorgePeopleProfileMenuEngine::ITEM_PROFILE);
 
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->setBorder(true);
@@ -86,16 +86,16 @@ final class PhabricatorPeopleProfileViewController
   }
 
   private function buildPropertyView(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
       ->setUser($viewer)
       ->setObject($user);
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $user,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list->appendFieldsToPropertyList($user, $viewer, $view);
 
     if (!$view->hasAnyProperties()) {
@@ -115,16 +115,16 @@ final class PhabricatorPeopleProfileViewController
   }
 
   private function buildProjectsView(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $viewer = $this->getViewer();
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withMemberPHIDs(array($user->getPHID()))
       ->needImages(true)
       ->withStatuses(
         array(
-          PhabricatorProjectStatus::STATUS_ACTIVE,
+          PhorgeProjectStatus::STATUS_ACTIVE,
         ))
       ->execute();
 
@@ -134,7 +134,7 @@ final class PhabricatorPeopleProfileViewController
     if (!empty($projects)) {
       $limit = 5;
       $render_phids = array_slice($projects, 0, $limit);
-      $list = id(new PhabricatorProjectListView())
+      $list = id(new PhorgeProjectListView())
         ->setUser($viewer)
         ->setProjects($render_phids);
 
@@ -168,11 +168,11 @@ final class PhabricatorPeopleProfileViewController
     return $box;
   }
 
-  private function buildCalendarDayView(PhabricatorUser $user) {
+  private function buildCalendarDayView(PhorgeUser $user) {
     $viewer = $this->getViewer();
-    $class = 'PhabricatorCalendarApplication';
+    $class = 'PhorgeCalendarApplication';
 
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return null;
     }
 
@@ -182,14 +182,14 @@ final class PhabricatorPeopleProfileViewController
       return null;
     }
 
-    $midnight = PhabricatorTime::getTodayMidnightDateTime($viewer);
+    $midnight = PhorgeTime::getTodayMidnightDateTime($viewer);
     $week_end = clone $midnight;
     $week_end = $week_end->modify('+3 days');
 
     $range_start = $midnight->format('U');
     $range_end = $week_end->format('U');
 
-    $events = id(new PhabricatorCalendarEventQuery())
+    $events = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withDateRange($range_start, $range_end)
       ->withInvitedPHIDs(array($user->getPHID()))
@@ -201,10 +201,10 @@ final class PhabricatorPeopleProfileViewController
     foreach ($events as $event) {
       $viewer_is_invited = $event->isRSVPInvited($viewer->getPHID());
 
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $event,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       $epoch_min = $event->getStartDateTimeEpoch();
       $epoch_max = $event->getEndDateTimeEpoch();
@@ -249,10 +249,10 @@ final class PhabricatorPeopleProfileViewController
   }
 
   private function buildPeopleFeed(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $viewer) {
 
-    $query = id(new PhabricatorFeedQuery())
+    $query = id(new PhorgeFeedQuery())
       ->setViewer($viewer)
       ->withFilterPHIDs(array($user->getPHID()))
       ->setLimit(100)
@@ -264,7 +264,7 @@ final class PhabricatorPeopleProfileViewController
     $is_overheated = $query->getIsOverheated();
     if ($is_overheated) {
       $overheated_message =
-        PhabricatorApplicationSearchController::newOverheatedError(
+        PhorgeApplicationSearchController::newOverheatedError(
           (bool)$stories);
 
       $overheated_view = id(new PHUIInfoView())
@@ -276,7 +276,7 @@ final class PhabricatorPeopleProfileViewController
           ));
     }
 
-    $builder = new PhabricatorFeedBuilder($stories);
+    $builder = new PhorgeFeedBuilder($stories);
     $builder->setUser($viewer);
     $builder->setShowHovercards(true);
     $builder->setNoDataString(pht('To begin on such a grand journey, '.

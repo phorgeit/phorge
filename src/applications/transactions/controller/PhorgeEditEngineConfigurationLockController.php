@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationLockController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationLockController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $engine_key = $request->getURIData('engineKey');
@@ -10,14 +10,14 @@ final class PhabricatorEditEngineConfigurationLockController
     $key = $request->getURIData('key');
     $viewer = $this->getViewer();
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$config) {
@@ -30,12 +30,12 @@ final class PhabricatorEditEngineConfigurationLockController
       $xactions = array();
 
       $locks = $request->getArr('locks');
-      $type_locks = PhabricatorEditEngineLocksTransaction::TRANSACTIONTYPE;
-      $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+      $type_locks = PhorgeEditEngineLocksTransaction::TRANSACTIONTYPE;
+      $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
         ->setTransactionType($type_locks)
         ->setNewValue($locks);
 
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)
@@ -67,9 +67,9 @@ EOTEXT
 
     $locks = $config->getFieldLocks();
 
-    $lock_visible = PhabricatorEditEngineConfiguration::LOCK_VISIBLE;
-    $lock_locked = PhabricatorEditEngineConfiguration::LOCK_LOCKED;
-    $lock_hidden = PhabricatorEditEngineConfiguration::LOCK_HIDDEN;
+    $lock_visible = PhorgeEditEngineConfiguration::LOCK_VISIBLE;
+    $lock_locked = PhorgeEditEngineConfiguration::LOCK_LOCKED;
+    $lock_hidden = PhorgeEditEngineConfiguration::LOCK_HIDDEN;
 
     $map = array(
       $lock_visible => pht('Visible'),

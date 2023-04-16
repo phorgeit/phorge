@@ -46,8 +46,8 @@ final class PholioImageSequenceTransaction
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
     $raw_new_value_u = $u->getNewValue();
     $raw_new_value_v = $v->getNewValue();
     $phid_u = key($raw_new_value_u);

@@ -64,7 +64,7 @@ final class AlmanacNetworkQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

@@ -1,46 +1,46 @@
 <?php
 
-final class PhabricatorMacroSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeMacroSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Macros');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorMacroQuery())
+    return id(new PhorgeMacroQuery())
       ->needFiles(true);
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Status'))
         ->setKey('status')
-        ->setOptions(PhabricatorMacroQuery::getStatusOptions()),
-      id(new PhabricatorUsersSearchField())
+        ->setOptions(PhorgeMacroQuery::getStatusOptions()),
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('nameLike'),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Exact Names'))
         ->setKey('names'),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Marked with Flag'))
         ->setKey('flagColor')
         ->setDefault('-1')
-        ->setOptions(PhabricatorMacroQuery::getFlagColorsOptions()),
-      id(new PhabricatorSearchDateField())
+        ->setOptions(PhorgeMacroQuery::getFlagColorsOptions()),
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -113,11 +113,11 @@ final class PhabricatorMacroSearchEngine
       case 'active':
         return $query->setParameter(
           'status',
-          PhabricatorMacroQuery::STATUS_ACTIVE);
+          PhorgeMacroQuery::STATUS_ACTIVE);
       case 'all':
         return $query->setParameter(
           'status',
-          PhabricatorMacroQuery::STATUS_ANY);
+          PhorgeMacroQuery::STATUS_ANY);
       case 'authored':
         return $query->setParameter(
           'authorPHIDs',
@@ -129,15 +129,15 @@ final class PhabricatorMacroSearchEngine
 
   protected function renderResultList(
     array $macros,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($macros, 'PhabricatorFileImageMacro');
+    assert_instances_of($macros, 'PhorgeFileImageMacro');
     $viewer = $this->requireViewer();
     $handles = $viewer->loadHandles(mpull($macros, 'getAuthorPHID'));
 
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PINBOARD);
 
     $pinboard = new PHUIPinboardView();
     foreach ($macros as $macro) {
@@ -183,7 +183,7 @@ final class PhabricatorMacroSearchEngine
       $pinboard->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($pinboard);
 
     return $result;

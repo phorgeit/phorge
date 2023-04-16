@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLegalpadSignaturesSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgeLegalpadSignaturesSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Document signers');

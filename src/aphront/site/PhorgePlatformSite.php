@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPlatformSite extends PhabricatorSite {
+final class PhorgePlatformSite extends PhorgeSite {
 
   public function getDescription() {
     return pht('Serves the core platform and applications.');
@@ -13,16 +13,16 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
   public function newSiteForRequest(AphrontRequest $request) {
     // If no base URI has been configured yet, match this site so the user
     // can follow setup instructions.
-    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+    $base_uri = PhorgeEnv::getEnvConfig('phorge.base-uri');
     if (!phutil_nonempty_string($base_uri)) {
-      return new PhabricatorPlatformSite();
+      return new PhorgePlatformSite();
     }
 
     $uris = array();
     $uris[] = $base_uri;
-    $uris[] = PhabricatorEnv::getEnvConfig('phorge.production-uri');
+    $uris[] = PhorgeEnv::getEnvConfig('phorge.production-uri');
 
-    $allowed = PhabricatorEnv::getEnvConfig('phorge.allowed-uris');
+    $allowed = PhorgeEnv::getEnvConfig('phorge.allowed-uris');
     if ($allowed) {
       foreach ($allowed as $uri) {
         $uris[] = $uri;
@@ -31,14 +31,14 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
 
     $host = $request->getHost();
     if ($this->isHostMatch($host, $uris)) {
-      return new PhabricatorPlatformSite();
+      return new PhorgePlatformSite();
     }
 
     return null;
   }
 
   public function getRoutingMaps() {
-    $applications = PhabricatorApplication::getAllInstalledApplications();
+    $applications = PhorgeApplication::getAllInstalledApplications();
 
     $maps = array();
     foreach ($applications as $application) {
@@ -51,7 +51,7 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
   }
 
   public function new404Controller(AphrontRequest $request) {
-    return new PhabricatorPlatform404Controller();
+    return new PhorgePlatform404Controller();
   }
 
 }

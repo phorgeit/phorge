@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownEditController
-  extends PhabricatorCountdownController {
+final class PhorgeCountdownEditController
+  extends PhorgeCountdownController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorCountdownEditEngine())
+    return id(new PhorgeCountdownEditEngine())
       ->setController($this)
       ->buildResponse();
   }

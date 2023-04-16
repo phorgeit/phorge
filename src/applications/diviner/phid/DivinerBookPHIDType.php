@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerBookPHIDType extends PhabricatorPHIDType {
+final class DivinerBookPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'BOOK';
 
@@ -17,11 +17,11 @@ final class DivinerBookPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DivinerBookQuery())
@@ -29,7 +29,7 @@ final class DivinerBookPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

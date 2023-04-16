@@ -9,7 +9,7 @@
  * their metronome ticks. This spreads service calls out evenly more quickly
  * and more predictably than adding random jitter.
  */
-final class PhabricatorMetronome
+final class PhorgeMetronome
   extends Phobject {
 
   private $offset = 0;
@@ -49,7 +49,7 @@ final class PhabricatorMetronome
   }
 
   public function setOffsetFromSeed($seed) {
-    $offset = PhabricatorHash::digestToRange($seed, 0, 0x7FFFFFFF);
+    $offset = PhorgeHash::digestToRange($seed, 0, 0x7FFFFFFF);
     return $this->setOffset($offset);
   }
 

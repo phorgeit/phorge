@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseCredentialAuthorPolicyRule
-  extends PhabricatorPolicyRule {
+  extends PhorgePolicyRule {
 
   public function getObjectPolicyKey() {
     return 'passphrase.author';
@@ -19,14 +19,14 @@ final class PassphraseCredentialAuthorPolicyRule
     return pht('credential author');
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
+  public function canApplyToObject(PhorgePolicyInterface $object) {
     return ($object instanceof PassphraseCredential);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $author_phid = $object->getAuthorPHID();
     if (!$author_phid) {

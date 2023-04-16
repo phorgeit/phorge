@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'conpherence.thread';
 
@@ -10,7 +10,7 @@ final class ConpherenceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   public function getSummaryHeader() {
@@ -80,7 +80,7 @@ final class ConpherenceEditEngine
     $show_participants = (bool)$this->getIsCreate();
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Room name.'))
@@ -90,7 +90,7 @@ final class ConpherenceEditEngine
           ConpherenceThreadTitleTransaction::TRANSACTIONTYPE)
         ->setValue($object->getTitle()),
 
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('topic')
         ->setLabel(pht('Topic'))
         ->setDescription(pht('Room topic.'))
@@ -99,7 +99,7 @@ final class ConpherenceEditEngine
           ConpherenceThreadTopicTransaction::TRANSACTIONTYPE)
         ->setValue($object->getTopic()),
 
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setKey('participants')
         ->setValue($participant_phids)
         ->setInitialValue($initial_phids)

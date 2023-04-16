@@ -3,7 +3,7 @@
 // See PHI1046. The "spacePHID" column for milestones may have fallen out of
 // sync; correct all existing values.
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn = $table->establishConnection('w');
 $table_name = $table->getTableName();
 

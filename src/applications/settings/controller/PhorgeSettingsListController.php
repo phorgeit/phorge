@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSettingsListController
-  extends PhabricatorController {
+final class PhorgeSettingsListController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -15,7 +15,7 @@ final class PhabricatorSettingsListController
         ->setURI($settings_uri);
     }
 
-    return id(new PhabricatorUserPreferencesSearchEngine())
+    return id(new PhorgeUserPreferencesSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -25,8 +25,8 @@ final class PhabricatorSettingsListController
 
     $viewer = $this->getViewer();
     if ($viewer->getIsAdmin()) {
-      $builtin_global = PhabricatorUserPreferences::BUILTIN_GLOBAL_DEFAULT;
-      $global_settings = id(new PhabricatorUserPreferencesQuery())
+      $builtin_global = PhorgeUserPreferences::BUILTIN_GLOBAL_DEFAULT;
+      $global_settings = id(new PhorgeUserPreferencesQuery())
         ->setViewer($viewer)
         ->withBuiltinKeys(
           array(

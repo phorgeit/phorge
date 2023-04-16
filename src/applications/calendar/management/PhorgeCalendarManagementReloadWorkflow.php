@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarManagementReloadWorkflow
-  extends PhabricatorCalendarManagementWorkflow {
+final class PhorgeCalendarManagementReloadWorkflow
+  extends PhorgeCalendarManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -30,7 +30,7 @@ final class PhabricatorCalendarManagementReloadWorkflow
         pht('Specify at least one import ID to reload.'));
     }
 
-    $imports = id(new PhabricatorCalendarImportQuery())
+    $imports = id(new PhorgeCalendarImportQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();

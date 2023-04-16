@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroNameTransaction
-  extends PhabricatorMacroTransactionType {
+final class PhorgeMacroNameTransaction
+  extends PhorgeMacroTransactionType {
 
   const TRANSACTIONTYPE = 'macro:name';
 
@@ -66,7 +66,7 @@ final class PhabricatorMacroNameTransaction
 
       // Check name is unique when updating / creating
       if ($old_value != $new_value) {
-        $macro = id(new PhabricatorMacroQuery())
+        $macro = id(new PhorgeMacroQuery())
           ->setViewer($viewer)
           ->withNames(array($new_value))
           ->executeOne();

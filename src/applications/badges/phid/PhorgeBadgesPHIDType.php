@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBadgesPHIDType extends PhabricatorPHIDType {
+final class PhorgeBadgesPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'BDGE';
 
@@ -9,23 +9,23 @@ final class PhabricatorBadgesPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorBadgesBadge();
+    return new PhorgeBadgesBadge();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorBadgesQuery())
+    return id(new PhorgeBadgesQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -36,7 +36,7 @@ final class PhabricatorBadgesPHIDType extends PhabricatorPHIDType {
       $name = $badge->getName();
 
       if ($badge->isArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
 
       $handle->setName($name);

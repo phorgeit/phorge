@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailVarySubjectsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailVarySubjectsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'vary-subject';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailVarySubjectsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailFormatSettingsPanel::PANELKEY;
+    return PhorgeEmailFormatSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

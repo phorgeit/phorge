@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationViewController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationViewController
+  extends PhorgeEditEngineController {
 
   public function shouldAllowPublic() {
     return true;
@@ -52,7 +52,7 @@ final class PhabricatorEditEngineConfigurationViewController
     if ($is_concrete) {
       $timeline = $this->buildTransactionTimeline(
         $config,
-        new PhabricatorEditEngineConfigurationTransactionQuery());
+        new PhorgeEditEngineConfigurationTransactionQuery());
 
       $timeline->setShouldTerminate(true);
     } else {
@@ -74,15 +74,15 @@ final class PhabricatorEditEngineConfigurationViewController
   }
 
   private function buildCurtainView(
-    PhabricatorEditEngineConfiguration $config) {
+    PhorgeEditEngineConfiguration $config) {
     $viewer = $this->getViewer();
     $engine = $config->getEngine();
     $engine_key = $engine->getEngineKey();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $config,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($config);
     $form_key = $config->getIdentifier();
@@ -94,7 +94,7 @@ final class PhabricatorEditEngineConfigurationViewController
       $save_uri = "{$base_uri}/save/{$form_key}/";
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Make Editable'))
           ->setIcon('fa-pencil')
           ->setDisabled(!$can_edit)
@@ -105,7 +105,7 @@ final class PhabricatorEditEngineConfigurationViewController
     } else {
       $edit_uri = "{$base_uri}/edit/{$form_key}/";
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Edit Form Configuration'))
           ->setIcon('fa-pencil')
           ->setDisabled(!$can_edit)
@@ -116,7 +116,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $use_uri = $engine->getEditURI(null, "form/{$form_key}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Use Form'))
         ->setIcon('fa-th-list')
         ->setHref($use_uri));
@@ -124,7 +124,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $defaults_uri = "{$base_uri}/defaults/{$form_key}/";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Change Default Values'))
         ->setIcon('fa-paint-brush')
         ->setHref($defaults_uri)
@@ -134,7 +134,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $reorder_uri = "{$base_uri}/reorder/{$form_key}/";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Change Field Order'))
         ->setIcon('fa-sort-alpha-asc')
         ->setHref($reorder_uri)
@@ -144,7 +144,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $lock_uri = "{$base_uri}/lock/{$form_key}/";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Lock / Hide Fields'))
         ->setIcon('fa-lock')
         ->setHref($lock_uri)
@@ -155,7 +155,7 @@ final class PhabricatorEditEngineConfigurationViewController
       $subtype_uri = "{$base_uri}/subtype/{$form_key}/";
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Change Form Subtype'))
           ->setIcon('fa-drivers-license-o')
           ->setHref($subtype_uri)
@@ -174,7 +174,7 @@ final class PhabricatorEditEngineConfigurationViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setHref($disable_uri)
@@ -192,7 +192,7 @@ final class PhabricatorEditEngineConfigurationViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($defaultcreate_name)
         ->setIcon($defaultcreate_icon)
         ->setHref($defaultcreate_uri)
@@ -210,7 +210,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $isedit_uri = "{$base_uri}/defaultedit/{$form_key}/";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($isedit_name)
         ->setIcon($isedit_icon)
         ->setHref($isedit_uri)
@@ -221,7 +221,7 @@ final class PhabricatorEditEngineConfigurationViewController
   }
 
   private function buildPropertyView(
-    PhabricatorEditEngineConfiguration $config) {
+    PhorgeEditEngineConfiguration $config) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -230,7 +230,7 @@ final class PhabricatorEditEngineConfigurationViewController
     return $properties;
   }
 
-  private function buildFieldList(PhabricatorEditEngineConfiguration $config) {
+  private function buildFieldList(PhorgeEditEngineConfiguration $config) {
     $viewer = $this->getViewer();
     $engine = $config->getEngine();
 

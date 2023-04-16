@@ -1,9 +1,9 @@
 <?php
 
-abstract class PhabricatorAuthConduitAPIMethod extends ConduitAPIMethod {
+abstract class PhorgeAuthConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    return PhorgeApplication::getByClass('PhorgeAuthApplication');
   }
 
   public function getMethodStatus() {

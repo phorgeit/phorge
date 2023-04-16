@@ -7,7 +7,7 @@
  */
 abstract class ConduitAPIMethod
   extends Phobject
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   private $viewer;
 
@@ -40,22 +40,22 @@ abstract class ConduitAPIMethod
    */
   abstract public function getMethodDescription();
 
-  final public function getDocumentationPages(PhabricatorUser $viewer) {
+  final public function getDocumentationPages(PhorgeUser $viewer) {
     $pages = $this->newDocumentationPages($viewer);
     return $pages;
   }
 
-  protected function newDocumentationPages(PhabricatorUser $viewer) {
+  protected function newDocumentationPages(PhorgeUser $viewer) {
     return array();
   }
 
-  final protected function newDocumentationPage(PhabricatorUser $viewer) {
+  final protected function newDocumentationPage(PhorgeUser $viewer) {
     return id(new ConduitAPIDocumentationPage())
       ->setIconIcon('fa-chevron-right');
   }
 
   final protected function newDocumentationBoxPage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $title,
     $content) {
 
@@ -104,7 +104,7 @@ abstract class ConduitAPIMethod
 
   /**
    * This is mostly for compatibility with
-   * @{class:PhabricatorCursorPagedPolicyAwareQuery}.
+   * @{class:PhorgeCursorPagedPolicyAwareQuery}.
    */
   public function getID() {
     return $this->getAPIMethodName();
@@ -206,7 +206,7 @@ abstract class ConduitAPIMethod
   }
 
   public static function getConduitMethod($method_name) {
-    return id(new PhabricatorCachedClassMapQuery())
+    return id(new PhorgeCachedClassMapQuery())
       ->setClassMapQuery(self::newClassMapQuery())
       ->setMapKeyMethod('getAPIMethodName')
       ->loadClass($method_name);
@@ -226,10 +226,10 @@ abstract class ConduitAPIMethod
 
 
   /**
-   * Optionally, return a @{class:PhabricatorApplication} which this call is
+   * Optionally, return a @{class:PhorgeApplication} which this call is
    * part of. The call will be disabled when the application is uninstalled.
    *
-   * @return PhabricatorApplication|null  Related application.
+   * @return PhorgeApplication|null  Related application.
    */
   public function getApplication() {
     return null;
@@ -273,7 +273,7 @@ abstract class ConduitAPIMethod
     return null;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -358,12 +358,12 @@ abstract class ConduitAPIMethod
           get_class($this)));
     }
 
-    if (!($query instanceof PhabricatorCursorPagedPolicyAwareQuery)) {
+    if (!($query instanceof PhorgeCursorPagedPolicyAwareQuery)) {
       throw new Exception(
         pht(
           'Call to method newQueryObject() did not return an object of class '.
           '"%s".',
-          'PhabricatorCursorPagedPolicyAwareQuery'));
+          'PhorgeCursorPagedPolicyAwareQuery'));
     }
 
     $query->setViewer($request->getUser());
@@ -381,7 +381,7 @@ abstract class ConduitAPIMethod
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getPHID() {
@@ -390,7 +390,7 @@ abstract class ConduitAPIMethod
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -403,10 +403,10 @@ abstract class ConduitAPIMethod
       return $application->getPolicy($capability);
     }
 
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if (!$this->shouldRequireAuthentication()) {
       // Make unauthenticated methods universally visible.
       return true;
@@ -417,7 +417,7 @@ abstract class ConduitAPIMethod
 
   protected function hasApplicationCapability(
     $capability,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $application = $this->getApplication();
 
@@ -425,7 +425,7 @@ abstract class ConduitAPIMethod
       return false;
     }
 
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $application,
       $capability);
@@ -433,14 +433,14 @@ abstract class ConduitAPIMethod
 
   protected function requireApplicationCapability(
     $capability,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $application = $this->getApplication();
     if (!$application) {
       return;
     }
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $this->getApplication(),
       $capability);

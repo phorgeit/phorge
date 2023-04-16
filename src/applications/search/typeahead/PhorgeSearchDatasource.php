@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeSearchDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Results');
@@ -12,11 +12,11 @@ final class PhabricatorSearchDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   public function getComponentDatasources() {
-    $sources = id(new PhabricatorDatasourceEngine())
+    $sources = id(new PhorgeDatasourceEngine())
       ->getAllQuickSearchDatasources();
 
     // These results are always rendered in the full browse display mode, so

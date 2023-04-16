@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherNameTransaction
-  extends PhabricatorPackagesPublisherTransactionType {
+final class PhorgePackagesPublisherNameTransaction
+  extends PhorgePackagesPublisherTransactionType {
 
   const TRANSACTIONTYPE = 'packages.publisher.name';
 
@@ -41,7 +41,7 @@ final class PhabricatorPackagesPublisherNameTransaction
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
       try {
-        PhabricatorPackagesPublisher::assertValidPublisherName($value);
+        PhorgePackagesPublisher::assertValidPublisherName($value);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError($ex->getMessage(), $xaction);
       }

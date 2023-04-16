@@ -1,18 +1,18 @@
 <?php
 
 final class DiffusionPullLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Pull Logs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorRepositoryPullEventQuery();
+    return new PhorgeRepositoryPullEventQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -37,23 +37,23 @@ final class DiffusionPullLogSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setDatasource(new DiffusionRepositoryDatasource())
         ->setKey('repositoryPHIDs')
         ->setAliases(array('repository', 'repositories', 'repositoryPHID'))
         ->setLabel(pht('Repositories'))
         ->setDescription(
           pht('Search for pull logs for specific repositories.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('pullerPHIDs')
         ->setAliases(array('puller', 'pullers', 'pullerPHID'))
         ->setLabel(pht('Pullers'))
         ->setDescription(
           pht('Search for pull logs by specific users.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -63,34 +63,34 @@ final class DiffusionPullLogSearchEngine
     $viewer = $this->requireViewer();
 
     $fields = array(
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('repositoryPHID')
         ->setLabel(pht('Repository PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('repository')
         ->setLabel(pht('Repository')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('pullerPHID')
         ->setLabel(pht('Puller PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('puller')
         ->setLabel(pht('Puller')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('protocol')
         ->setLabel(pht('Protocol')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('result')
         ->setLabel(pht('Result')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('code')
         ->setLabel(pht('Code')),
-      id(new PhabricatorEpochExportField())
+      id(new PhorgeEpochExportField())
         ->setKey('date')
         ->setLabel(pht('Date')),
     );
 
     if ($viewer->getIsAdmin()) {
-      $fields[] = id(new PhabricatorStringExportField())
+      $fields[] = id(new PhorgeStringExportField())
         ->setKey('remoteAddress')
         ->setLabel(pht('Remote Address'));
     }
@@ -172,14 +172,14 @@ final class DiffusionPullLogSearchEngine
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $table = id(new DiffusionPullLogListView())
       ->setViewer($this->requireViewer())
       ->setLogs($logs);
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table);
   }
 

@@ -15,7 +15,7 @@ final class ManiphestTaskOwnerTransaction
 
     $handle = null;
     if ($value) {
-      $handle = id(new PhabricatorHandleQuery())
+      $handle = id(new PhorgeHandleQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($value))
         ->executeOne();
@@ -121,7 +121,7 @@ final class ManiphestTaskOwnerTransaction
         continue;
       }
 
-      $assignee_list = id(new PhabricatorPeopleQuery())
+      $assignee_list = id(new PhorgePeopleQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($new))
         ->execute();

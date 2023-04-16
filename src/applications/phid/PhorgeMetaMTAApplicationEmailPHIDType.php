@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeMetaMTAApplicationEmailPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'APPE';
 
@@ -14,23 +14,23 @@ final class PhabricatorMetaMTAApplicationEmailPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorMetaMTAApplicationEmail();
+    return new PhorgeMetaMTAApplicationEmail();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorMetaMTAApplicationEmailQuery())
+    return id(new PhorgeMetaMTAApplicationEmailQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

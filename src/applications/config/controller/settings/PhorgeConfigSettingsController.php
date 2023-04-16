@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorConfigSettingsController
-  extends PhabricatorConfigController {
+abstract class PhorgeConfigSettingsController
+  extends PhorgeConfigController {
 
   public function newNavigation($select_filter) {
     $settings_uri = $this->getApplicationURI('settings/');

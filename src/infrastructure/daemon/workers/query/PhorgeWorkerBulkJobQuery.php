@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerBulkJobQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeWorkerBulkJobQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,11 +35,11 @@ final class PhabricatorWorkerBulkJobQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorWorkerBulkJob();
+    return new PhorgeWorkerBulkJob();
   }
 
   protected function willFilterPage(array $page) {
-    $map = PhabricatorWorkerBulkJobType::getAllJobTypes();
+    $map = PhorgeWorkerBulkJobType::getAllJobTypes();
 
     foreach ($page as $key => $job) {
       $implementation = idx($map, $job->getJobTypeKey());
@@ -96,7 +96,7 @@ final class PhabricatorWorkerBulkJobQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return 'PhorgeDaemonsApplication';
   }
 
 }

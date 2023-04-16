@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockLog extends DrydockDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $blueprintPHID;
   protected $resourcePHID;
@@ -107,22 +107,22 @@ final class DrydockLog extends DrydockDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     // NOTE: We let you see that logs exist no matter what, but don't actually
     // show you log content unless you can see all of the associated objects.
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

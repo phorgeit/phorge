@@ -6,7 +6,7 @@ final class DifferentialRevisionCloseDetailsController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($request->getURIData('phid')))
       ->setViewer($viewer)
       ->executeOne();
@@ -15,7 +15,7 @@ final class DifferentialRevisionCloseDetailsController
     }
 
     $obj_phid = $xaction->getObjectPHID();
-    $obj_handle = id(new PhabricatorHandleQuery())
+    $obj_handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($obj_phid))
       ->executeOne();
@@ -35,7 +35,7 @@ final class DifferentialRevisionCloseDetailsController
 
   private function getRevisionMatchExplanation(
     $revision_match_data,
-    PhabricatorObjectHandle $obj_handle) {
+    PhorgeObjectHandle $obj_handle) {
 
     if (!$revision_match_data) {
       return pht(

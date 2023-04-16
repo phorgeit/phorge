@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorIntConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeIntConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'int';
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!preg_match('/^-?[0-9]+\z/', $value)) {
@@ -20,7 +20,7 @@ final class PhabricatorIntConfigType
   }
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_int($value)) {

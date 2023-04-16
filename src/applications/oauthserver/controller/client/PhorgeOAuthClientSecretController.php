@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorOAuthClientSecretController
-  extends PhabricatorOAuthClientController {
+final class PhorgeOAuthClientSecretController
+  extends PhorgeOAuthClientController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $client = id(new PhabricatorOAuthServerClientQuery())
+    $client = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$client) {
@@ -20,7 +20,7 @@ final class PhabricatorOAuthClientSecretController
     }
 
     $view_uri = $client->getViewURI();
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $view_uri);
@@ -44,7 +44,7 @@ final class PhabricatorOAuthClientSecretController
     }
 
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
 
     if ($is_serious) {
       $body = pht(

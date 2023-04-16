@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleWelcomeController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleWelcomeController
+  extends PhorgePeopleController {
 
   public function shouldRequireAdmin() {
     // You need to be an administrator to actually send welcome email, but
@@ -13,7 +13,7 @@ final class PhabricatorPeopleWelcomeController
   public function handleRequest(AphrontRequest $request) {
     $admin = $this->getViewer();
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($admin)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -24,13 +24,13 @@ final class PhabricatorPeopleWelcomeController
     $id = $user->getID();
     $profile_uri = "/people/manage/{$id}/";
 
-    $welcome_engine = id(new PhabricatorPeopleWelcomeMailEngine())
+    $welcome_engine = id(new PhorgePeopleWelcomeMailEngine())
       ->setSender($admin)
       ->setRecipient($user);
 
     try {
       $welcome_engine->validateMail();
-    } catch (PhabricatorPeopleMailEngineException $ex) {
+    } catch (PhorgePeopleMailEngineException $ex) {
       return $this->newDialog()
         ->setTitle($ex->getTitle())
         ->appendParagraph($ex->getBody())
@@ -48,9 +48,9 @@ final class PhabricatorPeopleWelcomeController
       return id(new AphrontRedirectResponse())->setURI($profile_uri);
     }
 
-    $default_message = PhabricatorAuthMessage::loadMessage(
+    $default_message = PhorgeAuthMessage::loadMessage(
       $admin,
-      PhabricatorAuthWelcomeMailMessageType::MESSAGEKEY);
+      PhorgeAuthWelcomeMailMessageType::MESSAGEKEY);
     if ($default_message && strlen($default_message->getMessageText())) {
       $message_instructions = pht(
         'The email will identify you as the sender. You may optionally '.
@@ -80,7 +80,7 @@ final class PhabricatorPeopleWelcomeController
           'this email can be useful if the original was lost or never sent.'))
       ->appendRemarkupInstructions($message_instructions)
       ->appendControl(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setName('message')
           ->setLabel(pht('Custom Message'))
           ->setValue($v_message));

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorWorkerBulkJobTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeWorkerBulkJobTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorWorkerBulkJobTransaction();
+    return new PhorgeWorkerBulkJobTransaction();
   }
 
 }

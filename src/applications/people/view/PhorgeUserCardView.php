@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorUserCardView extends AphrontTagView {
+final class PhorgeUserCardView extends AphrontTagView {
 
   private $profile;
   private $viewer;
   private $tag;
   private $isExiled;
 
-  public function setProfile(PhabricatorUser $profile) {
+  public function setProfile(PhorgeUser $profile) {
     $this->profile = $profile;
     return $this;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -84,7 +84,7 @@ final class PhabricatorUserCardView extends AphrontTagView {
       $tag_title = pht('Administrator');
       $tag_shade = PHUITagView::COLOR_INDIGO;
     } else {
-      $tag_icon = PhabricatorPeopleIconSet::getIconIcon($profile->getIcon());
+      $tag_icon = PhorgePeopleIconSet::getIconIcon($profile->getIcon());
       $tag_title = $profile->getDisplayTitle();
       $tag_shade = null;
     }
@@ -105,8 +105,8 @@ final class PhabricatorUserCardView extends AphrontTagView {
       'fa-user-plus',
       phorge_date($user->getDateCreated(), $viewer));
 
-    $has_calendar = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorCalendarApplication',
+    $has_calendar = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeCalendarApplication',
       $viewer);
     if ($has_calendar) {
       if (!$user->getIsDisabled()) {

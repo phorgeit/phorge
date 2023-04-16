@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardPortalStatus
+final class PhorgeDashboardPortalStatus
   extends Phobject {
 
   const STATUS_ACTIVE = 'active';

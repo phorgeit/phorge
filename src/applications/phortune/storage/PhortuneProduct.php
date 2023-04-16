@@ -4,7 +4,7 @@
  * A product is something users can purchase.
  */
 final class PhortuneProduct extends PhortuneDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $productClassKey;
   protected $productClass;
@@ -36,7 +36,7 @@ final class PhortuneProduct extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortuneProductPHIDType::TYPECONST);
   }
 
@@ -53,10 +53,10 @@ final class PhortuneProduct extends PhortuneDAO
   }
 
   public function save() {
-    $this->productClassKey = PhabricatorHash::digestForIndex(
+    $this->productClassKey = PhorgeHash::digestForIndex(
       $this->productClass);
 
-    $this->productRefKey = PhabricatorHash::digestForIndex(
+    $this->productRefKey = PhorgeHash::digestForIndex(
       $this->productRef);
 
     return parent::save();
@@ -93,20 +93,20 @@ final class PhortuneProduct extends PhortuneDAO
       $purchase);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_USER;
+    return PhorgePolicies::POLICY_USER;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

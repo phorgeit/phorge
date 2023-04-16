@@ -20,7 +20,7 @@ final class PhortuneAccountAddManagerController
     if ($request->isFormPost()) {
       $xactions = array();
       $v_managers = $request->getArr('managerPHIDs');
-      $type_edge = PhabricatorTransactions::TYPE_EDGE;
+      $type_edge = PhorgeTransactions::TYPE_EDGE;
 
       $xactions[] = id(new PhortuneAccountTransaction())
         ->setTransactionType($type_edge)
@@ -41,7 +41,7 @@ final class PhortuneAccountAddManagerController
         $editor->applyTransactions($account, $xactions);
 
         return id(new AphrontRedirectResponse())->setURI($account_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_managers = $ex->getShortMessage($type_edge);
       }
@@ -63,7 +63,7 @@ final class PhortuneAccountAddManagerController
           ->setValue($handle->renderLink()))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setLabel(pht('Add Managers'))
           ->setName('managerPHIDs')
           ->setValue($v_managers)

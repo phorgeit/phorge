@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportModeTransaction
-  extends PhabricatorCalendarExportTransactionType {
+final class PhorgeCalendarExportModeTransaction
+  extends PhorgeCalendarExportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.export.mode';
 
@@ -17,8 +17,8 @@ final class PhabricatorCalendarExportModeTransaction
     $old_value = $this->getOldValue();
     $new_value = $this->getNewValue();
 
-    $old_name = PhabricatorCalendarExport::getPolicyModeName($old_value);
-    $new_name = PhabricatorCalendarExport::getPolicyModeName($new_value);
+    $old_name = PhorgeCalendarExport::getPolicyModeName($old_value);
+    $new_name = PhorgeCalendarExport::getPolicyModeName($new_value);
 
     return pht(
       '%s changed the policy mode for this export from %s to %s.',
@@ -30,7 +30,7 @@ final class PhabricatorCalendarExportModeTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $valid = PhabricatorCalendarExport::getPolicyModes();
+    $valid = PhorgeCalendarExport::getPolicyModes();
     $valid = array_fuse($valid);
 
     foreach ($xactions as $xaction) {

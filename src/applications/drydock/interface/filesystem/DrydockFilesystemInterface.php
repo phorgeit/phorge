@@ -12,7 +12,7 @@ abstract class DrydockFilesystemInterface extends DrydockInterface {
   abstract public function readFile($path);
 
   /**
-   * Reads a file on the Drydock resource and saves it as a PhabricatorFile.
+   * Reads a file on the Drydock resource and saves it as a PhorgeFile.
    */
   abstract public function saveFile($path, $name);
 

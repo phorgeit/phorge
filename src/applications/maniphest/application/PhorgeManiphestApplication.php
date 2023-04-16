@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorManiphestApplication extends PhabricatorApplication {
+final class PhorgeManiphestApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Maniphest');
@@ -22,7 +22,7 @@ final class PhabricatorManiphestApplication extends PhabricatorApplication {
     return "\xE2\x9A\x93";
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
@@ -79,12 +79,12 @@ final class PhabricatorManiphestApplication extends PhabricatorApplication {
       ManiphestDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created tasks.'),
         'template' => ManiphestTaskPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       ManiphestDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created tasks.'),
         'template' => ManiphestTaskPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
       ManiphestBulkEditCapability::CAPABILITY => array(),
     );

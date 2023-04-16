@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacDeletePropertyEditField
-  extends PhabricatorEditField {
+  extends PhorgeEditField {
 
   protected function newControl() {
     return null;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNuanceApplication extends PhabricatorApplication {
+final class PhorgeNuanceApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Nuance');
@@ -62,12 +62,12 @@ final class PhabricatorNuanceApplication extends PhabricatorApplication {
       NuanceSourceDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created sources.'),
         'template' => NuanceSourcePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       NuanceSourceDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created sources.'),
         'template' => NuanceSourcePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
       NuanceSourceManageCapability::CAPABILITY => array(),
     );

@@ -6,7 +6,7 @@
  * This allows more complex data to be stored in a cache which can only store
  * strings.
  */
-final class PhabricatorKeyValueSerializingCacheProxy
+final class PhorgeKeyValueSerializingCacheProxy
   extends PhutilKeyValueCacheProxy {
 
   public function getKeys(array $keys) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTemporaryTokenRevoker
-  extends PhabricatorAuthRevoker {
+final class PhorgeAuthTemporaryTokenRevoker
+  extends PhorgeAuthRevoker {
 
   const REVOKERKEY = 'temporary';
 
@@ -19,7 +19,7 @@ final class PhabricatorAuthTemporaryTokenRevoker
   }
 
   public function revokeAllCredentials() {
-    $table = new PhabricatorAuthTemporaryToken();
+    $table = new PhorgeAuthTemporaryToken();
     $conn = $table->establishConnection('w');
 
     queryfx(
@@ -31,7 +31,7 @@ final class PhabricatorAuthTemporaryTokenRevoker
   }
 
   public function revokeCredentialsFrom($object) {
-    $table = new PhabricatorAuthTemporaryToken();
+    $table = new PhorgeAuthTemporaryToken();
     $conn = $table->establishConnection('w');
 
     queryfx(

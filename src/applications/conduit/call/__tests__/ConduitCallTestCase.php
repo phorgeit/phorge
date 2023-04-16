@@ -1,6 +1,6 @@
 <?php
 
-final class ConduitCallTestCase extends PhabricatorTestCase {
+final class ConduitCallTestCase extends PhorgeTestCase {
 
   public function testConduitPing() {
     $call = new ConduitCall('conduit.ping', array());

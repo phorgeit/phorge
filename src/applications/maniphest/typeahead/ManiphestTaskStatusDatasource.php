@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskStatusDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Statuses');
@@ -12,7 +12,7 @@ final class ManiphestTaskStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function loadResults() {
@@ -30,7 +30,7 @@ final class ManiphestTaskStatusDatasource
 
     $status_map = ManiphestTaskStatus::getTaskStatusMap();
     foreach ($status_map as $value => $name) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon(ManiphestTaskStatus::getStatusIcon($value))
         ->setPHID($value)
         ->setName($name);

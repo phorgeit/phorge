@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskDependedOnByTaskEdgeType extends PhabricatorEdgeType {
+final class ManiphestTaskDependedOnByTaskEdgeType extends PhorgeEdgeType {
   const EDGECONST = 4;
 
   public function getInverseEdgeConstant() {

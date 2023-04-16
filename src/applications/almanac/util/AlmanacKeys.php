@@ -12,7 +12,7 @@ final class AlmanacKeys extends Phobject {
   public static function getDeviceID() {
     // While running unit tests, ignore any configured device identity.
     try {
-      PhabricatorTestCase::assertExecutingUnitTests();
+      PhorgeTestCase::assertExecutingUnitTests();
       return null;
     } catch (Exception $ex) {
       // Continue normally.
@@ -33,12 +33,12 @@ final class AlmanacKeys extends Phobject {
       return null;
     }
 
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache_key = 'almanac.device.self';
 
     $device = $cache->getKey($cache_key);
     if (!$device) {
-      $viewer = PhabricatorUser::getOmnipotentUser();
+      $viewer = PhorgeUser::getOmnipotentUser();
       $device = id(new AlmanacDeviceQuery())
         ->setViewer($viewer)
         ->withNames(array($device_id))
@@ -57,7 +57,7 @@ final class AlmanacKeys extends Phobject {
   }
 
   public static function getClusterSSHUser() {
-    $username = PhabricatorEnv::getEnvConfig('diffusion.ssh-user');
+    $username = PhorgeEnv::getEnvConfig('diffusion.ssh-user');
     if (strlen($username)) {
       return $username;
     }

@@ -2,9 +2,9 @@
 
 final class PhortuneCart extends PhortuneDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   const STATUS_BUILDING = 'cart:building';
   const STATUS_READY = 'cart:ready';
@@ -30,7 +30,7 @@ final class PhortuneCart extends PhortuneDAO
   private $merchant = self::ATTACHABLE;
 
   public static function initializeNewCart(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortuneAccount $account,
     PhortuneMerchant $merchant) {
     $cart = id(new PhortuneCart())
@@ -49,7 +49,7 @@ final class PhortuneCart extends PhortuneDAO
   }
 
   public function newPurchase(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortuneProduct $product) {
 
     $purchase = PhortunePurchase::initializeNewPurchase($actor, $product)
@@ -104,7 +104,7 @@ final class PhortuneCart extends PhortuneDAO
   }
 
   public function willApplyCharge(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortunePaymentProvider $provider,
     PhortunePaymentMethod $method = null) {
 
@@ -306,7 +306,7 @@ final class PhortuneCart extends PhortuneDAO
 
 
   public function willRefundCharge(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortunePaymentProvider $provider,
     PhortuneCharge $charge,
     PhortuneCurrency $amount) {
@@ -429,8 +429,8 @@ final class PhortuneCart extends PhortuneDAO
   }
 
   private function recordCartTransaction($type) {
-    $omnipotent_user = PhabricatorUser::getOmnipotentUser();
-    $phortune_phid = id(new PhabricatorPhortuneApplication())->getPHID();
+    $omnipotent_user = PhorgeUser::getOmnipotentUser();
+    $phortune_phid = id(new PhorgePhortuneApplication())->getPHID();
 
     $xactions = array();
 
@@ -438,8 +438,8 @@ final class PhortuneCart extends PhortuneDAO
       ->setTransactionType($type)
       ->setNewValue(true);
 
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorPhortuneContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgePhortuneContentSource::SOURCECONST);
 
     $editor = id(new PhortuneCartEditor())
       ->setActor($omnipotent_user)
@@ -589,7 +589,7 @@ final class PhortuneCart extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortuneCartPHIDType::TYPECONST);
   }
 
@@ -661,7 +661,7 @@ final class PhortuneCart extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -673,22 +673,22 @@ final class PhortuneCart extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
-    if ($capability === PhabricatorPolicyCapability::CAN_VIEW) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
+    if ($capability === PhorgePolicyCapability::CAN_VIEW) {
       $any_edit = PhortuneMerchantQuery::canViewersEditMerchants(
         array($viewer->getPHID()),
         array($this->getMerchantPHID()));
@@ -701,10 +701,10 @@ final class PhortuneCart extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     if ($this->hasAutomaticCapability($capability, $viewer)) {
       return array();
     }
@@ -712,7 +712,7 @@ final class PhortuneCart extends PhortuneDAO
     return array(
       array(
         $this->getAccount(),
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

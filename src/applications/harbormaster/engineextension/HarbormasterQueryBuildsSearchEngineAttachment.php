@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterQueryBuildsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Harbormaster Query Builds');
@@ -19,7 +19,7 @@ final class HarbormasterQueryBuildsSearchEngineAttachment
     $status_name = HarbormasterBuildStatus::getBuildStatusName(
       $object->getBuildStatus());
     return array(
-      'uri' => PhabricatorEnv::getProductionURI($object->getURI()),
+      'uri' => PhorgeEnv::getProductionURI($object->getURI()),
       'name' => $object->getName(),
       'buildStatusName' => $status_name,
     );

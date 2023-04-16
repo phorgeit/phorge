@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorVideoDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeVideoDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'video';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Video');
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     // Some video documents can be rendered as either video or audio, but we
     // want to prefer video.
     return 2500;
@@ -19,20 +19,20 @@ final class PhabricatorVideoDocumentEngine
     return null;
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-film';
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       return $file->isVideo();
     }
 
-    $viewable_types = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
+    $viewable_types = PhorgeEnv::getEnvConfig('files.viewable-mime-types');
     $viewable_types = array_keys($viewable_types);
 
-    $video_types = PhabricatorEnv::getEnvConfig('files.video-mime-types');
+    $video_types = PhorgeEnv::getEnvConfig('files.video-mime-types');
     $video_types = array_keys($video_types);
 
     return
@@ -40,7 +40,7 @@ final class PhabricatorVideoDocumentEngine
       $ref->hasAnyMimeType($video_types);
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       $source_uri = $file->getViewURI();

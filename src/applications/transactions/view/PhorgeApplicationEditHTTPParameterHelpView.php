@@ -4,9 +4,9 @@
  * Renders the "HTTP Parameters" help page for edit engines.
  *
  * This page has a ton of text and specialized rendering on it, this class
- * just pulls it out of the main @{class:PhabricatorEditEngine}.
+ * just pulls it out of the main @{class:PhorgeEditEngine}.
  */
-final class PhabricatorApplicationEditHTTPParameterHelpView
+final class PhorgeApplicationEditHTTPParameterHelpView
   extends AphrontView {
 
   private $object;
@@ -248,7 +248,7 @@ EOTEXT
 
     $rows = array();
     foreach ($fields as $field) {
-      if (!($field instanceof PhabricatorSelectEditField)) {
+      if (!($field instanceof PhorgeSelectEditField)) {
         continue;
       }
 
@@ -294,7 +294,7 @@ shows how to format values for each field type.
 EOTEXT
       );
 
-    $types_table = id(new PhabricatorHTTPParameterTypeTableView())
+    $types_table = id(new PhorgeHTTPParameterTypeTableView())
       ->setHTTPParameterTypes($types);
 
     return array(

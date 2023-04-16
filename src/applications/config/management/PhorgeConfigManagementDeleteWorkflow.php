@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementDeleteWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementDeleteWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -42,10 +42,10 @@ final class PhabricatorConfigManagementDeleteWorkflow
 
     $use_database = $args->getArg('database');
     if ($use_database) {
-      $config = new PhabricatorConfigDatabaseSource('default');
+      $config = new PhorgeConfigDatabaseSource('default');
       $config_type = 'database';
     } else {
-      $config = new PhabricatorConfigLocalSource();
+      $config = new PhorgeConfigLocalSource();
       $config_type = 'local';
     }
     $values = $config->getKeys(array($key));
@@ -58,7 +58,7 @@ final class PhabricatorConfigManagementDeleteWorkflow
     }
 
     if ($use_database) {
-      $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+      $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
       $config_entry->setIsDeleted(1);
       $config_entry->save();
     } else {

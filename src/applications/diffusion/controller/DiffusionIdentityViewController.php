@@ -7,7 +7,7 @@ final class DiffusionIdentityViewController
     $viewer = $request->getViewer();
 
     $id = $request->getURIData('id');
-    $identity = id(new PhabricatorRepositoryIdentityQuery())
+    $identity = id(new PhorgeRepositoryIdentityQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -33,7 +33,7 @@ final class DiffusionIdentityViewController
 
     $timeline = $this->buildTransactionTimeline(
       $identity,
-      new PhabricatorRepositoryIdentityTransactionQuery());
+      new PhorgeRepositoryIdentityTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $properties = $this->buildPropertyList($identity);
@@ -55,13 +55,13 @@ final class DiffusionIdentityViewController
       ));
   }
 
-  private function buildCurtain(PhabricatorRepositoryIdentity $identity) {
+  private function buildCurtain(PhorgeRepositoryIdentity $identity) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $identity,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $identity->getID();
     $edit_uri = $this->getApplicationURI("identity/edit/{$id}/");
@@ -69,7 +69,7 @@ final class DiffusionIdentityViewController
     $curtain = $this->newCurtainView($identity);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Identity'))
         ->setHref($edit_uri)
@@ -80,7 +80,7 @@ final class DiffusionIdentityViewController
   }
 
   private function buildPropertyList(
-    PhabricatorRepositoryIdentity $identity) {
+    PhorgeRepositoryIdentity $identity) {
 
     $viewer = $this->getViewer();
 

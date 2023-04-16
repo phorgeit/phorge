@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildStepTransaction
-  extends PhabricatorApplicationTransaction {
+  extends PhorgeApplicationTransaction {
 
   const TYPE_CREATE = 'harbormaster:step:create';
   const TYPE_NAME = 'harbormaster:step:name';

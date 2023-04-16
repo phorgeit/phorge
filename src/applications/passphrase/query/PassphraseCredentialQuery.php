@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseCredentialQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -155,7 +155,7 @@ final class PassphraseCredentialQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPassphraseApplication';
+    return 'PhorgePassphraseApplication';
   }
 
   protected function getPrimaryTableAlias() {

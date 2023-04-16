@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'maniphest.task';
 
@@ -18,7 +18,7 @@ final class ManiphestEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function isDefaultQuickCreateEngine() {
@@ -146,7 +146,7 @@ EODOCS
     $column_map = $this->getColumnMap($object);
 
     $fields = array(
-      id(new PhabricatorHandlesEditField())
+      id(new PhorgeHandlesEditField())
         ->setKey('parent')
         ->setLabel(pht('Parent Task'))
         ->setDescription(pht('Task to make this a subtask of.'))
@@ -159,7 +159,7 @@ EODOCS
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false),
-      id(new PhabricatorColumnsEditField())
+      id(new PhorgeColumnsEditField())
         ->setKey('column')
         ->setLabel(pht('Column'))
         ->setDescription(pht('Create a task in a workboard column.'))
@@ -169,14 +169,14 @@ EODOCS
           pht('List of columns to move the task to.'))
         ->setConduitDocumentation($column_documentation)
         ->setAliases(array('columnPHID', 'columns', 'columnPHIDs'))
-        ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+        ->setTransactionType(PhorgeTransactions::TYPE_COLUMNS)
         ->setIsReorderable(false)
         ->setIsDefaultable(false)
         ->setIsLockable(false)
         ->setCommentActionLabel(pht('Move on Workboard'))
         ->setCommentActionOrder(2000)
         ->setColumnMap($column_map),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('title')
         ->setLabel(pht('Title'))
         ->setBulkEditLabel(pht('Set title to'))
@@ -186,7 +186,7 @@ EODOCS
         ->setTransactionType(ManiphestTaskTitleTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getTitle()),
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setKey('owner')
         ->setAliases(array('ownerPHID', 'assign', 'assigned'))
         ->setLabel(pht('Assigned To'))
@@ -201,7 +201,7 @@ EODOCS
         ->setSingleValue($object->getOwnerPHID())
         ->setCommentActionLabel(pht('Assign / Claim'))
         ->setCommentActionValue($owner_value),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setBulkEditLabel(pht('Set status to'))
@@ -214,7 +214,7 @@ EODOCS
         ->setOptions($status_map)
         ->setCommentActionLabel(pht('Change Status'))
         ->setCommentActionValue($default_status),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('priority')
         ->setLabel(pht('Priority'))
         ->setBulkEditLabel(pht('Set priority to'))
@@ -233,7 +233,7 @@ EODOCS
       $points_label = ManiphestTaskPoints::getPointsLabel();
       $action_label = ManiphestTaskPoints::getPointsActionLabel();
 
-      $fields[] = id(new PhabricatorPointsEditField())
+      $fields[] = id(new PhorgePointsEditField())
         ->setKey('points')
         ->setLabel($points_label)
         ->setBulkEditLabel($action_label)
@@ -246,7 +246,7 @@ EODOCS
         ->setCommentActionLabel($action_label);
     }
 
-    $fields[] = id(new PhabricatorRemarkupEditField())
+    $fields[] = id(new PhorgeRemarkupEditField())
       ->setKey('description')
       ->setLabel(pht('Description'))
       ->setBulkEditLabel(pht('Set description to'))
@@ -265,7 +265,7 @@ EODOCS
 
     $src_phid = $object->getPHID();
     if ($src_phid) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(array($src_phid))
         ->withEdgeTypes(
           array(
@@ -292,7 +292,7 @@ EODOCS
       $commit_phids = array();
     }
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('parents')
       ->setLabel(pht('Parents'))
       ->setDescription(pht('Parent tasks.'))
@@ -300,11 +300,11 @@ EODOCS
       ->setConduitTypeDescription(pht('List of parent task PHIDs.'))
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $parent_type)
       ->setValue($parent_phids);
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('subtasks')
       ->setLabel(pht('Subtasks'))
       ->setDescription(pht('Subtasks.'))
@@ -312,11 +312,11 @@ EODOCS
       ->setConduitTypeDescription(pht('List of subtask PHIDs.'))
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $subtask_type)
       ->setValue($subtask_phids);
 
-    $fields[] = id(new PhabricatorHandlesEditField())
+    $fields[] = id(new PhorgeHandlesEditField())
       ->setKey('commits')
       ->setLabel(pht('Commits'))
       ->setDescription(pht('Related commits.'))
@@ -324,7 +324,7 @@ EODOCS
       ->setConduitTypeDescription(pht('List of related commit PHIDs.'))
       ->setUseEdgeTransactions(true)
       ->setIsFormField(false)
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $commit_type)
       ->setValue($commit_phids);
 
@@ -430,7 +430,7 @@ EODOCS
       $visible_phids = array();
     }
 
-    $column = id(new PhabricatorProjectColumnQuery())
+    $column = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($column_phid))
       ->executeOne();
@@ -443,14 +443,14 @@ EODOCS
 
     $order = $request->getStr('order');
     if ($order) {
-      $ordering = PhabricatorProjectColumnOrder::getOrderByKey($order);
+      $ordering = PhorgeProjectColumnOrder::getOrderByKey($order);
       $ordering = id(clone $ordering)
         ->setViewer($viewer);
     } else {
       $ordering = null;
     }
 
-    $engine = id(new PhabricatorBoardResponseEngine())
+    $engine = id(new PhorgeBoardResponseEngine())
       ->setViewer($viewer)
       ->setBoardPHID($board_phid)
       ->setUpdatePHIDs(array($object_phid))
@@ -469,16 +469,16 @@ EODOCS
       return array();
     }
 
-    $board_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $board_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $phid,
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
     if (!$board_phids) {
       return array();
     }
 
     $viewer = $this->getViewer();
 
-    $layout_engine = id(new PhabricatorBoardLayoutEngine())
+    $layout_engine = id(new PhorgeBoardLayoutEngine())
       ->setViewer($viewer)
       ->setBoardPHIDs($board_phids)
       ->setObjectPHIDs(array($task->getPHID()))

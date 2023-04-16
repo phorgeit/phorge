@@ -63,7 +63,7 @@ final class DrydockLogListController extends DrydockLogController {
 
     $query_key = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNavView());

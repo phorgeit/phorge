@@ -63,7 +63,7 @@ final class FeedQueryConduitAPIMethod extends FeedConduitAPIMethod {
       $view_type = 'data';
     }
 
-    $query = id(new PhabricatorFeedQuery())
+    $query = id(new PhorgeFeedQuery())
       ->setViewer($user);
 
     $filter_phids = $request->getValue('filterPHIDs');

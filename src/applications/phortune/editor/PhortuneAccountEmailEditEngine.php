@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneAccountEmailEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'phortune.account.email';
 
@@ -21,7 +21,7 @@ final class PhortuneAccountEmailEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getSummaryHeader() {
@@ -91,12 +91,12 @@ final class PhortuneAccountEmailEditEngine
     $viewer = $this->getViewer();
 
     if ($this->getIsCreate()) {
-      $address_field = id(new PhabricatorTextEditField())
+      $address_field = id(new PhorgeTextEditField())
         ->setTransactionType(
           PhortuneAccountEmailAddressTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true);
     } else {
-      $address_field = new PhabricatorStaticEditField();
+      $address_field = new PhorgeStaticEditField();
     }
 
     $address_field

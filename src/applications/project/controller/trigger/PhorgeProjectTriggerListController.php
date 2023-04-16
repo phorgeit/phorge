@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectTriggerListController
-  extends PhabricatorProjectTriggerController {
+final class PhorgeProjectTriggerListController
+  extends PhorgeProjectTriggerController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorProjectTriggerSearchEngine())
+    return id(new PhorgeProjectTriggerSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSetupEngine
+final class PhorgeSetupEngine
   extends Phobject {
 
   private $issues;
@@ -17,13 +17,13 @@ final class PhabricatorSetupEngine
     $issues = $this->getIssues();
     $issues = mpull($issues, null, 'getIssueKey');
 
-    $unresolved_keys = PhabricatorSetupCheck::getUnignoredIssueKeys($issues);
+    $unresolved_keys = PhorgeSetupCheck::getUnignoredIssueKeys($issues);
 
     return array_select_keys($issues, $unresolved_keys);
   }
 
   public function execute() {
-    $issues = PhabricatorSetupCheck::runNormalChecks();
+    $issues = PhorgeSetupCheck::runNormalChecks();
 
     $fatal_issue = null;
     foreach ($issues as $issue) {
@@ -45,14 +45,14 @@ final class PhabricatorSetupEngine
       // However, if databases later become reachable and we learn that they
       // are fatally misconfigured, we want to tear the world down again
       // because data may be at risk.
-      PhabricatorSetupCheck::resetSetupState();
+      PhorgeSetupCheck::resetSetupState();
 
-      return PhabricatorSetupCheck::newIssueResponse($issue);
+      return PhorgeSetupCheck::newIssueResponse($issue);
     }
 
-    $issue_keys = PhabricatorSetupCheck::getUnignoredIssueKeys($issues);
+    $issue_keys = PhorgeSetupCheck::getUnignoredIssueKeys($issues);
 
-    PhabricatorSetupCheck::setOpenSetupIssueKeys(
+    PhorgeSetupCheck::setOpenSetupIssueKeys(
       $issue_keys,
       $update_database = true);
 

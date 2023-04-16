@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorPackagesEditor
-  extends PhabricatorApplicationTransactionEditor {
+abstract class PhorgePackagesEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   protected function supportsSearch() {
@@ -12,7 +12,7 @@ abstract class PhabricatorPackagesEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

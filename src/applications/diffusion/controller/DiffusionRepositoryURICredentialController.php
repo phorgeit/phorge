@@ -14,14 +14,14 @@ final class DiffusionRepositoryURICredentialController
     $repository = $drequest->getRepository();
 
     $id = $request->getURIData('id');
-    $uri = id(new PhabricatorRepositoryURIQuery())
+    $uri = id(new PhorgeRepositoryURIQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withRepositories(array($repository))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$uri) {
@@ -54,9 +54,9 @@ final class DiffusionRepositoryURICredentialController
         $new_phid = $request->getStr('credentialPHID');
       }
 
-      $type_credential = PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL;
+      $type_credential = PhorgeRepositoryURITransaction::TYPE_CREDENTIAL;
 
-      $xactions[] = id(new PhabricatorRepositoryURITransaction())
+      $xactions[] = id(new PhorgeRepositoryURITransaction())
         ->setTransactionType($type_credential)
         ->setNewValue($new_phid);
 

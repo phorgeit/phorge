@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorBadgesController extends PhabricatorController {
+abstract class PhorgeBadgesController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorBadgesSearchEngine());
+      ->setSearchEngine(new PhorgeBadgesSearchEngine());
   }
 
 }

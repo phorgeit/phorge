@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhortuneDAO extends PhabricatorLiskDAO {
+abstract class PhortuneDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'phortune';

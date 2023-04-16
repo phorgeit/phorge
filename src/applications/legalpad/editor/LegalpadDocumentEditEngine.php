@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadDocumentEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'legalpad.document';
 
@@ -10,7 +10,7 @@ final class LegalpadDocumentEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   public function getSummaryHeader() {
@@ -32,7 +32,7 @@ final class LegalpadDocumentEditEngine
     $body = id(new LegalpadDocumentBody())
       ->setCreatorPHID($viewer->getPHID());
     $document->attachDocumentBody($body);
-    $document->setDocumentBodyPHID(PhabricatorPHIDConstants::PHID_VOID);
+    $document->setDocumentBodyPHID(PhorgePHIDConstants::PHID_VOID);
 
     return $document;
   }
@@ -95,7 +95,7 @@ final class LegalpadDocumentEditEngine
 
     $fields = array();
     $fields[] =
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('title')
         ->setLabel(pht('Title'))
         ->setDescription(pht('Document Title.'))
@@ -107,7 +107,7 @@ final class LegalpadDocumentEditEngine
 
     if ($is_create) {
       $fields[] =
-        id(new PhabricatorSelectEditField())
+        id(new PhorgeSelectEditField())
           ->setKey('signatureType')
           ->setLabel(pht('Who Should Sign?'))
           ->setDescription(pht('Type of signature required'))
@@ -118,7 +118,7 @@ final class LegalpadDocumentEditEngine
             LegalpadDocumentSignatureTypeTransaction::TRANSACTIONTYPE);
       $show_require = true;
     } else {
-      $fields[] = id(new PhabricatorStaticEditField())
+      $fields[] = id(new PhorgeStaticEditField())
         ->setLabel(pht('Who Should Sign?'))
         ->setValue($object->getSignatureTypeName());
       $individual = LegalpadDocument::SIGNATURE_TYPE_INDIVIDUAL;
@@ -127,7 +127,7 @@ final class LegalpadDocumentEditEngine
 
     if ($show_require && $is_admin) {
       $fields[] =
-        id(new PhabricatorBoolEditField())
+        id(new PhorgeBoolEditField())
           ->setKey('requireSignature')
           ->setOptions(
             pht('No Signature Required'),
@@ -142,7 +142,7 @@ final class LegalpadDocumentEditEngine
     }
 
     $fields[] =
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('preamble')
         ->setLabel(pht('Preamble'))
         ->setDescription(pht('The preamble of the document.'))
@@ -152,7 +152,7 @@ final class LegalpadDocumentEditEngine
           LegalpadDocumentPreambleTransaction::TRANSACTIONTYPE);
 
     $fields[] =
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('text')
         ->setLabel(pht('Document Body'))
         ->setDescription(pht('The body of text of the document.'))

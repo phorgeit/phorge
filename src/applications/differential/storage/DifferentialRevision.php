@@ -2,23 +2,23 @@
 
 final class DifferentialRevision extends DifferentialDAO
   implements
-    PhabricatorTokenReceiverInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorFlaggableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeFlaggableInterface,
     PhrequentTrackableInterface,
     HarbormasterBuildableInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorTimelineInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorProjectInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorDraftInterface {
+    PhorgeSubscribableInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeTimelineInterface,
+    PhorgeMentionableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeProjectInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeConduitResultInterface,
+    PhorgeDraftInterface {
 
   protected $title = '';
   protected $status;
@@ -37,8 +37,8 @@ final class DifferentialRevision extends DifferentialDAO
   protected $repositoryPHID;
   protected $activeDiffPHID;
 
-  protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
-  protected $editPolicy = PhabricatorPolicies::POLICY_USER;
+  protected $viewPolicy = PhorgePolicies::POLICY_USER;
+  protected $editPolicy = PhorgePolicies::POLICY_USER;
   protected $properties = array();
 
   private $commitPHIDs = self::ATTACHABLE;
@@ -64,10 +64,10 @@ final class DifferentialRevision extends DifferentialDAO
   const PROPERTY_BUILDABLES = 'buildables';
   const PROPERTY_WRONG_BUILDS = 'wrong.builds';
 
-  public static function initializeNewRevision(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewRevision(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDifferentialApplication'))
+      ->withClasses(array('PhorgeDifferentialApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -193,7 +193,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DifferentialRevisionPHIDType::TYPECONST);
   }
 
@@ -220,7 +220,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
   public function canReviewerForceAccept(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialReviewer $reviewer) {
 
     if (!$reviewer->isPackage()) {
@@ -239,7 +239,7 @@ final class DifferentialRevision extends DifferentialDAO
     return false;
   }
 
-  private function getReviewerForceAcceptMap(PhabricatorUser $viewer) {
+  private function getReviewerForceAcceptMap(PhorgeUser $viewer) {
     $fragment = $viewer->getCacheFragment();
 
     if (!array_key_exists($fragment, $this->forceMap)) {
@@ -250,7 +250,7 @@ final class DifferentialRevision extends DifferentialDAO
     return $this->forceMap[$fragment];
   }
 
-  private function newReviewerForceAcceptMap(PhabricatorUser $viewer) {
+  private function newReviewerForceAcceptMap(PhorgeUser $viewer) {
     $diff = $this->getActiveDiff();
     if (!$diff) {
       return null;
@@ -296,9 +296,9 @@ final class DifferentialRevision extends DifferentialDAO
     // Load all the reviewing packages which have control over some of the
     // paths in the change. These are packages which the actor may be able
     // to force-accept on behalf of.
-    $control_query = id(new PhabricatorOwnersPackageQuery())
+    $control_query = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
-      ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+      ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
       ->withPHIDs($reviewer_phids)
       ->withControl($repository_phid, $paths);
     $control_packages = $control_query->execute();
@@ -315,12 +315,12 @@ final class DifferentialRevision extends DifferentialDAO
     // See T13657. We ignore "watcher" packages which don't grant their owners
     // permission to force accept anything.
 
-    $authority_query = id(new PhabricatorOwnersPackageQuery())
+    $authority_query = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
-      ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+      ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
       ->withAuthorityModes(
         array(
-          PhabricatorOwnersPackage::AUTHORITY_STRONG,
+          PhorgeOwnersPackage::AUTHORITY_STRONG,
         ))
       ->withAuthorityPHIDs(array($viewer->getPHID()))
       ->withControl($repository_phid, $paths);
@@ -380,7 +380,7 @@ final class DifferentialRevision extends DifferentialDAO
     // package that owns "/src/".
     $force_map = array();
     foreach ($authority_map as $path => $package_map) {
-      $path_fragments = PhabricatorOwnersPackage::splitPath($path);
+      $path_fragments = PhorgeOwnersPackage::splitPath($path);
       $fragment_count = count($path_fragments);
 
       // Find the package that we have authority over which has the most
@@ -425,7 +425,7 @@ final class DifferentialRevision extends DifferentialDAO
     // force-accept a package, we don't need to keep looking.
     $has_control = array();
     foreach ($force_map as $path => $spec) {
-      $path_fragments = PhabricatorOwnersPackage::splitPath($path);
+      $path_fragments = PhorgeOwnersPackage::splitPath($path);
       $fragment_count = count($path_fragments);
 
       $authority_strength = $spec['strength'];
@@ -465,26 +465,26 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     // A revision's author (which effectively means "owner" after we added
     // commandeering) can always view and edit it.
     $author_phid = $this->getAuthorPHID();
@@ -503,7 +503,7 @@ final class DifferentialRevision extends DifferentialDAO
     );
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $description[] = pht(
           'If a revision belongs to a repository, other users must be able '.
           'to view the repository in order to view the revision.');
@@ -514,14 +514,14 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $repository_phid = $this->getRepositoryPHID();
         $repository = $this->getRepository();
 
@@ -531,7 +531,7 @@ final class DifferentialRevision extends DifferentialDAO
         if ($repository_ref) {
           $extended[] = array(
             $repository_ref,
-            PhabricatorPolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_VIEW,
           );
         }
         break;
@@ -541,7 +541,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -592,7 +592,7 @@ final class DifferentialRevision extends DifferentialDAO
     return $this->assertAttached($this->repository);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(PhorgeRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -662,22 +662,22 @@ final class DifferentialRevision extends DifferentialDAO
     return DifferentialRevisionStatus::newForStatus($status);
   }
 
-  public function getFlag(PhabricatorUser $viewer) {
+  public function getFlag(PhorgeUser $viewer) {
     return $this->assertAttachedKey($this->flags, $viewer->getPHID());
   }
 
   public function attachFlag(
-    PhabricatorUser $viewer,
-    PhabricatorFlag $flag = null) {
+    PhorgeUser $viewer,
+    PhorgeFlag $flag = null) {
     $this->flags[$viewer->getPHID()] = $flag;
     return $this;
   }
 
-  public function getHasDraft(PhabricatorUser $viewer) {
+  public function getHasDraft(PhorgeUser $viewer) {
     return $this->assertAttachedKey($this->drafts, $viewer->getCacheFragment());
   }
 
-  public function attachHasDraft(PhabricatorUser $viewer, $has_draft) {
+  public function attachHasDraft(PhorgeUser $viewer, $has_draft) {
     $this->drafts[$viewer->getCacheFragment()] = $has_draft;
     return $this;
   }
@@ -798,7 +798,7 @@ final class DifferentialRevision extends DifferentialDAO
     return $this->setProperty(self::PROPERTY_BUILDABLES, $buildables);
   }
 
-  public function newBuildableStatus(PhabricatorUser $viewer, $phid) {
+  public function newBuildableStatus(PhorgeUser $viewer, $phid) {
     // For Differential, we're ignoring autobuilds (local lint and unit)
     // when computing build status. Differential only cares about remote
     // builds when making publishing and undrafting decisions.
@@ -827,7 +827,7 @@ final class DifferentialRevision extends DifferentialDAO
     return null;
   }
 
-  public function loadImpactfulBuilds(PhabricatorUser $viewer) {
+  public function loadImpactfulBuilds(PhorgeUser $viewer) {
     $diff = $this->getActiveDiff();
 
     // NOTE: We can't use `withContainerPHIDs()` here because the container
@@ -847,7 +847,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
   private function loadImpactfulBuildsForBuildablePHIDs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $phids) {
 
     $builds = id(new HarbormasterBuildQuery())
@@ -941,7 +941,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -955,7 +955,7 @@ final class DifferentialRevision extends DifferentialDAO
     // where implicit subscription is not an intrinsic property of the object.
     if ($this->reviewerStatus == self::ATTACHABLE) {
       $reviewers = id(new DifferentialRevisionQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs(array($this->getPHID()))
         ->needReviewers(true)
         ->executeOne()
@@ -980,11 +980,11 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('differential.fields');
+    return PhorgeEnv::getEnvConfig('differential.fields');
   }
 
   public function getCustomFieldBaseClass() {
@@ -995,13 +995,13 @@ final class DifferentialRevision extends DifferentialDAO
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -1013,11 +1013,11 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $engine->getViewer();
 
@@ -1037,7 +1037,7 @@ final class DifferentialRevision extends DifferentialDAO
       $viewstate_query = id(new DifferentialViewStateQuery())
         ->setViewer($viewer)
         ->withObjectPHIDs(array($this->getPHID()));
-      $viewstates = new PhabricatorQueryIterator($viewstate_query);
+      $viewstates = new PhorgeQueryIterator($viewstate_query);
       foreach ($viewstates as $viewstate) {
         $viewstate->delete();
       }
@@ -1047,7 +1047,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -1055,7 +1055,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -1063,51 +1063,51 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('The revision title.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('uri')
         ->setType('uri')
         ->setDescription(pht('View URI for the revision.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('phid')
         ->setDescription(pht('Revision author PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about revision status.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('repositoryPHID')
         ->setType('phid?')
         ->setDescription(pht('Revision repository PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('diffPHID')
         ->setType('phid')
         ->setDescription(pht('Active diff PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('summary')
         ->setType('string')
         ->setDescription(pht('Revision summary.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('testPlan')
         ->setType('string')
         ->setDescription(pht('Revision test plan.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isDraft')
         ->setType('bool')
         ->setDescription(
           pht(
             'True if this revision is in any draft state, and thus not '.
             'notifying reviewers and subscribers about changes.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('holdAsDraft')
         ->setType('bool')
         ->setDescription(
@@ -1128,7 +1128,7 @@ final class DifferentialRevision extends DifferentialDAO
 
     return array(
       'title' => $this->getTitle(),
-      'uri' => PhabricatorEnv::getURI($this->getURI()),
+      'uri' => PhorgeEnv::getURI($this->getURI()),
       'authorPHID' => $this->getAuthorPHID(),
       'status' => $status_info,
       'repositoryPHID' => $this->getRepositoryPHID(),
@@ -1148,7 +1148,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorDraftInterface  )------------------------------------------ */
+/* -(  PhorgeDraftInterface  )------------------------------------------ */
 
 
   public function newDraftEngine() {
@@ -1156,7 +1156,7 @@ final class DifferentialRevision extends DifferentialDAO
   }
 
 
-/* -(  PhabricatorTimelineInterface  )--------------------------------------- */
+/* -(  PhorgeTimelineInterface  )--------------------------------------- */
 
 
   public function newTimelineEngine() {

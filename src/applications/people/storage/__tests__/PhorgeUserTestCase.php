@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserTestCase extends PhabricatorTestCase {
+final class PhorgeUserTestCase extends PhorgeTestCase {
 
   public function testUsernameValidation() {
     $map = array(
@@ -48,7 +48,7 @@ final class PhabricatorUserTestCase extends PhabricatorTestCase {
     foreach ($map as $name => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorUser::validateUsername($name),
+        PhorgeUser::validateUsername($name),
         pht("Validity of '%s'.", $name));
     }
   }

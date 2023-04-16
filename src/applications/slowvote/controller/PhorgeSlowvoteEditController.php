@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorSlowvoteEditController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvoteEditController
+  extends PhorgeSlowvoteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
     if ($id) {
-      $poll = id(new PhabricatorSlowvoteQuery())
+      $poll = id(new PhorgeSlowvoteQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$poll) {
@@ -22,16 +22,16 @@ final class PhabricatorSlowvoteEditController
       }
       $is_new = false;
     } else {
-      $poll = PhabricatorSlowvotePoll::initializeNewPoll($viewer);
+      $poll = PhorgeSlowvotePoll::initializeNewPoll($viewer);
       $is_new = true;
     }
 
     if ($is_new) {
       $v_projects = array();
     } else {
-      $v_projects = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $v_projects = PhorgeEdgeQuery::loadDestinationPHIDs(
         $poll->getPHID(),
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
       $v_projects = array_reverse($v_projects);
     }
 
@@ -83,50 +83,50 @@ final class PhabricatorSlowvoteEditController
         }
       }
 
-      $template = id(new PhabricatorSlowvoteTransaction());
+      $template = id(new PhorgeSlowvoteTransaction());
       $xactions = array();
 
       if ($is_new) {
-        $xactions[] = id(new PhabricatorSlowvoteTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+        $xactions[] = id(new PhorgeSlowvoteTransaction())
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
       }
 
       $xactions[] = id(clone $template)
         ->setTransactionType(
-            PhabricatorSlowvoteQuestionTransaction::TRANSACTIONTYPE)
+            PhorgeSlowvoteQuestionTransaction::TRANSACTIONTYPE)
         ->setNewValue($v_question);
 
       $xactions[] = id(clone $template)
         ->setTransactionType(
-            PhabricatorSlowvoteDescriptionTransaction::TRANSACTIONTYPE)
+            PhorgeSlowvoteDescriptionTransaction::TRANSACTIONTYPE)
         ->setNewValue($v_description);
 
       $xactions[] = id(clone $template)
         ->setTransactionType(
-            PhabricatorSlowvoteResponsesTransaction::TRANSACTIONTYPE)
+            PhorgeSlowvoteResponsesTransaction::TRANSACTIONTYPE)
         ->setNewValue($v_responses);
 
       $xactions[] = id(clone $template)
         ->setTransactionType(
-            PhabricatorSlowvoteShuffleTransaction::TRANSACTIONTYPE)
+            PhorgeSlowvoteShuffleTransaction::TRANSACTIONTYPE)
         ->setNewValue($v_shuffle);
 
       $xactions[] = id(clone $template)
-        ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($v_view_policy);
 
       $xactions[] = id(clone $template)
-        ->setTransactionType(PhabricatorTransactions::TYPE_SPACE)
+        ->setTransactionType(PhorgeTransactions::TYPE_SPACE)
         ->setNewValue($v_space);
 
       if (empty($errors)) {
-        $proj_edge_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
-        $xactions[] = id(new PhabricatorSlowvoteTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        $proj_edge_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
+        $xactions[] = id(new PhorgeSlowvoteTransaction())
+          ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
           ->setMetadataValue('edge:type', $proj_edge_type)
           ->setNewValue(array('=' => array_fuse($v_projects)));
 
-        $editor = id(new PhabricatorSlowvoteEditor())
+        $editor = id(new PhorgeSlowvoteEditor())
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
           ->setContentSourceFromRequest($request);
@@ -137,7 +137,7 @@ final class PhabricatorSlowvoteEditController
           $poll->save();
 
           foreach ($responses as $response) {
-            $option = new PhabricatorSlowvoteOption();
+            $option = new PhorgeSlowvoteOption();
             $option->setName($response);
             $option->setPollID($poll->getID());
             $option->save();
@@ -161,7 +161,7 @@ final class PhabricatorSlowvoteEditController
           ->setValue($v_question)
           ->setError($e_question))
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setUser($viewer)
           ->setLabel(pht('Description'))
           ->setName('description')
@@ -171,7 +171,7 @@ final class PhabricatorSlowvoteEditController
           ->setLabel(pht('Tags'))
           ->setName('projects')
           ->setValue($v_projects)
-          ->setDatasource(new PhabricatorProjectDatasource()));
+          ->setDatasource(new PhorgeProjectDatasource()));
 
     if ($is_new) {
       for ($ii = 0; $ii < 10; $ii++) {
@@ -243,7 +243,7 @@ final class PhabricatorSlowvoteEditController
       $header_icon = 'fa-pencil';
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($poll)
       ->execute();
@@ -269,7 +269,7 @@ final class PhabricatorSlowvoteEditController
           ->setName('viewPolicy')
           ->setPolicyObject($poll)
           ->setPolicies($policies)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setSpacePHID($v_space))
       ->appendChild(
         id(new AphrontFormSubmitControl())

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyEditField
-  extends PhabricatorEditField {
+final class PhorgePolicyEditField
+  extends PhorgeEditField {
 
   private $policies;
   private $capability;
@@ -28,7 +28,7 @@ final class PhabricatorPolicyEditField
     return $this->capability;
   }
 
-  public function setSpaceField(PhabricatorSpaceEditField $space_field) {
+  public function setSpaceField(PhorgeSpaceEditField $space_field) {
     $this->spaceField = $space_field;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementShellWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementShellWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this

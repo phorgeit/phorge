@@ -11,7 +11,7 @@ abstract class DiffusionCommandEngine extends Phobject {
   private $sudoAsDaemon;
   private $uri;
 
-  public static function newCommandEngine(PhabricatorRepository $repository) {
+  public static function newCommandEngine(PhorgeRepository $repository) {
     $engines = self::newCommandEngines();
 
     foreach ($engines as $engine) {
@@ -35,12 +35,12 @@ abstract class DiffusionCommandEngine extends Phobject {
   }
 
   abstract protected function canBuildForRepository(
-    PhabricatorRepository $repository);
+    PhorgeRepository $repository);
 
   abstract protected function newFormattedCommand($pattern, array $argv);
   abstract protected function newCustomEnvironment();
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -128,7 +128,7 @@ abstract class DiffusionCommandEngine extends Phobject {
 
     if ($this->getSudoAsDaemon() || $this->shouldAlwaysSudo()) {
       $command = call_user_func_array('csprintf', $argv);
-      $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+      $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
       $argv = array('%C', $command);
     }
 
@@ -181,7 +181,7 @@ abstract class DiffusionCommandEngine extends Phobject {
     $env['LANG'] = 'en_US.UTF-8';
 
       // Propagate PHORGE_ENV explicitly. For discussion, see T4155.
-    $env['PHORGE_ENV'] = PhabricatorEnv::getSelectedEnvironmentName();
+    $env['PHORGE_ENV'] = PhorgeEnv::getSelectedEnvironmentName();
 
     $as_device = $this->getConnectAsDevice();
     $credential_phid = $this->getCredentialPHID();

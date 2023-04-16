@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarImportEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeCalendarImportEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'calendar.import';
 
   private $importEngine;
 
-  public function setImportEngine(PhabricatorCalendarImportEngine $engine) {
+  public function setImportEngine(PhorgeCalendarImportEngine $engine) {
     $this->importEngine = $engine;
     return $this;
   }
@@ -33,20 +33,20 @@ final class PhabricatorCalendarImportEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
     $engine = $this->getImportEngine();
 
-    return PhabricatorCalendarImport::initializeNewCalendarImport(
+    return PhorgeCalendarImport::initializeNewCalendarImport(
       $viewer,
       $engine);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorCalendarImportQuery();
+    return new PhorgeCalendarImportQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -86,56 +86,56 @@ final class PhabricatorCalendarImportEditEngine
     // calendar URI import
     // note that it can contains a secret token
     // if we are here you have enough privileges to edit and see the value
-    $uri_key = PhabricatorCalendarImportICSURITransaction::PARAMKEY_URI;
+    $uri_key = PhorgeCalendarImportICSURITransaction::PARAMKEY_URI;
     $uri = $object->getParameter($uri_key);
 
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the import.'))
         ->setTransactionType(
-          PhabricatorCalendarImportNameTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportNameTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Rename the import.'))
         ->setConduitTypeDescription(pht('New import name.'))
         ->setPlaceholder($object->getDisplayName())
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('uri')
         ->setLabel(pht('URI'))
         ->setDescription(pht('URI to import.'))
         ->setTransactionType(
-          PhabricatorCalendarImportICSURITransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportICSURITransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('URI to import.'))
         ->setConduitTypeDescription(pht('New URI.'))
         ->setValue($uri),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('disabled')
         ->setOptions(pht('Active'), pht('Disabled'))
         ->setLabel(pht('Disabled'))
         ->setDescription(pht('Disable the import.'))
         ->setTransactionType(
-          PhabricatorCalendarImportDisableTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportDisableTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Disable or restore the import.'))
         ->setConduitTypeDescription(pht('True to cancel the import.'))
         ->setValue($object->getIsDisabled()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('delete')
         ->setLabel(pht('Delete Imported Events'))
         ->setDescription(pht('Delete all events from this source.'))
         ->setTransactionType(
-          PhabricatorCalendarImportDisableTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportDisableTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Disable or restore the import.'))
         ->setConduitTypeDescription(pht('True to delete imported events.'))
         ->setValue(false),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('reload')
         ->setLabel(pht('Reload Import'))
         ->setDescription(pht('Reload events imported from this source.'))
         ->setTransactionType(
-          PhabricatorCalendarImportDisableTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportDisableTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Disable or restore the import.'))
         ->setConduitTypeDescription(pht('True to reload the import.'))
@@ -143,15 +143,15 @@ final class PhabricatorCalendarImportEditEngine
     );
 
     if ($can_trigger) {
-      $frequency_map = PhabricatorCalendarImport::getTriggerFrequencyMap();
+      $frequency_map = PhorgeCalendarImport::getTriggerFrequencyMap();
       $frequency_options = ipull($frequency_map, 'name');
 
-      $fields[] = id(new PhabricatorSelectEditField())
+      $fields[] = id(new PhorgeSelectEditField())
         ->setKey('frequency')
         ->setLabel(pht('Update Automatically'))
         ->setDescription(pht('Configure an automatic update frequency.'))
         ->setTransactionType(
-          PhabricatorCalendarImportFrequencyTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportFrequencyTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Set the automatic update frequency.'))
         ->setConduitTypeDescription(pht('Update frequency constant.'))
         ->setValue($object->getTriggerFrequency())

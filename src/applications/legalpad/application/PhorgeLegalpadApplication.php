@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorLegalpadApplication extends PhabricatorApplication {
+final class PhorgeLegalpadApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/legalpad/';
@@ -32,11 +32,11 @@ final class PhabricatorLegalpadApplication extends PhabricatorApplication {
     );
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Legalpad User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Legalpad User Guide'),
+        'href' => PhorgeEnv::getDoclink('Legalpad User Guide'),
       ),
     );
   }
@@ -66,7 +66,7 @@ final class PhabricatorLegalpadApplication extends PhabricatorApplication {
         'addsignature/(?P<id>\d+)/' => 'LegalpadDocumentSignatureAddController',
         'signature/(?P<id>\d+)/' => 'LegalpadDocumentSignatureViewController',
         'document/' => array(
-          'preview/' => 'PhabricatorMarkupPreviewController',
+          'preview/' => 'PhorgeMarkupPreviewController',
         ),
       ),
     );
@@ -76,12 +76,12 @@ final class PhabricatorLegalpadApplication extends PhabricatorApplication {
     return array(
       LegalpadCreateDocumentsCapability::CAPABILITY => array(),
       LegalpadDefaultViewCapability::CAPABILITY => array(
-        'template' => PhabricatorLegalpadDocumentPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeLegalpadDocumentPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       LegalpadDefaultEditCapability::CAPABILITY => array(
-        'template' => PhabricatorLegalpadDocumentPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgeLegalpadDocumentPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

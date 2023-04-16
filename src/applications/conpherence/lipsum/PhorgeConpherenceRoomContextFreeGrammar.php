@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConpherenceRoomContextFreeGrammar
+final class PhorgeConpherenceRoomContextFreeGrammar
   extends PhutilContextFreeGrammar {
   protected function getRules() {
     return array(

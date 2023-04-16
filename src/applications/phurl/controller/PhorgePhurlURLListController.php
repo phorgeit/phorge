@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorPhurlURLListController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlURLListController
+  extends PhorgePhurlController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    $engine = new PhabricatorPhurlURLSearchEngine();
-    $controller = id(new PhabricatorApplicationSearchController())
+    $engine = new PhorgePhurlURLSearchEngine();
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNav());
@@ -22,7 +22,7 @@ final class PhabricatorPhurlURLListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorPhurlURLSearchEngine())
+    id(new PhorgePhurlURLSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

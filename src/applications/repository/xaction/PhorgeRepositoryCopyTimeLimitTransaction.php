@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryCopyTimeLimitTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryCopyTimeLimitTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'limit.copy';
 

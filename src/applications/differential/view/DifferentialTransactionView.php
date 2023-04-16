@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialTransactionView
-  extends PhabricatorApplicationTransactionView {
+  extends PhorgeApplicationTransactionView {
 
   private $changesets = array();
   private $revision;
@@ -50,8 +50,8 @@ final class DifferentialTransactionView
   // it can probably be shared, while other parts are trickier.
 
   protected function shouldGroupTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     if ($u->getAuthorPHID() != $v->getAuthorPHID()) {
       // Don't group transactions by different authors.
@@ -64,7 +64,7 @@ final class DifferentialTransactionView
     }
 
     switch ($u->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
       case DifferentialTransaction::TYPE_INLINE:
         break;
       default:
@@ -80,7 +80,7 @@ final class DifferentialTransactionView
   }
 
   protected function renderTransactionContent(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $out = array();
 
@@ -116,7 +116,7 @@ final class DifferentialTransactionView
     }
 
     if ($inlines) {
-      $inline_view = new PhabricatorInlineSummaryView();
+      $inline_view = new PhorgeInlineSummaryView();
 
       $changesets = $this->getChangesets();
 

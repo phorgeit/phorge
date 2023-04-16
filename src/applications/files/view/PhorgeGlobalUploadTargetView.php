@@ -11,7 +11,7 @@
  * to make sure Quicksand works properly with the javascript in this
  * UI.
  */
-final class PhabricatorGlobalUploadTargetView extends AphrontView {
+final class PhorgeGlobalUploadTargetView extends AphrontView {
 
   private $showIfSupportedID;
   private $hintText;
@@ -78,7 +78,7 @@ final class PhabricatorGlobalUploadTargetView extends AphrontView {
 
     $view_policy = $this->getViewPolicy();
     if ($view_policy === null) {
-      $view_policy = PhabricatorFile::initializeNewFile()->getViewPolicy();
+      $view_policy = PhorgeFile::initializeNewFile()->getViewPolicy();
     }
 
     $submit_uri = $this->getSubmitURI();
@@ -91,7 +91,7 @@ final class PhabricatorGlobalUploadTargetView extends AphrontView {
       'submitURI' => $submit_uri,
       'browseURI' => $done_uri,
       'viewPolicy' => $view_policy,
-      'chunkThreshold' => PhabricatorFileStorageEngine::getChunkThreshold(),
+      'chunkThreshold' => PhorgeFileStorageEngine::getChunkThreshold(),
     ));
 
     return phutil_tag(

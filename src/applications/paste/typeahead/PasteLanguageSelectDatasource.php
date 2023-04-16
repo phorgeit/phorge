@@ -1,7 +1,7 @@
 <?php
 
 final class PasteLanguageSelectDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Languages');
@@ -12,7 +12,7 @@ final class PasteLanguageSelectDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
   public function loadResults() {
@@ -27,10 +27,10 @@ final class PasteLanguageSelectDatasource
 
   private function buildResults() {
     $results = array();
-    $languages = PhabricatorEnv::getEnvConfig('pygments.dropdown-choices');
+    $languages = PhorgeEnv::getEnvConfig('pygments.dropdown-choices');
 
     foreach ($languages as $value => $name) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($value)
         ->setName($name);
 

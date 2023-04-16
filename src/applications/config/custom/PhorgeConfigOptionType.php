@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorConfigOptionType extends Phobject {
+abstract class PhorgeConfigOptionType extends Phobject {
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     return;
   }
 
   public function readRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $e_value = null;
@@ -19,12 +19,12 @@ abstract class PhabricatorConfigOptionType extends Phobject {
   }
 
   public function getDisplayValue(
-    PhabricatorConfigOption $option,
-    PhabricatorConfigEntry $entry,
+    PhorgeConfigOption $option,
+    PhorgeConfigEntry $entry,
     $value) {
 
     if (is_array($value)) {
-      return PhabricatorConfigJSON::prettyPrintJSON($value);
+      return PhorgeConfigJSON::prettyPrintJSON($value);
     } else {
       return $value;
     }
@@ -32,7 +32,7 @@ abstract class PhabricatorConfigOptionType extends Phobject {
   }
 
   public function renderControls(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 
@@ -42,7 +42,7 @@ abstract class PhabricatorConfigOptionType extends Phobject {
   }
 
   public function renderControl(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 

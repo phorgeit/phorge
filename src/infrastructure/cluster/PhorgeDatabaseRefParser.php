@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDatabaseRefParser
+final class PhorgeDatabaseRefParser
   extends Phobject {
 
   private $defaultPort = 3306;
@@ -60,7 +60,7 @@ final class PhabricatorDatabaseRefParser
 
       $use_persistent = (bool)idx($server, 'persistent', false);
 
-      $ref = id(new PhabricatorDatabaseRef())
+      $ref = id(new PhorgeDatabaseRef())
         ->setHost($host)
         ->setPort($port)
         ->setUser($user)

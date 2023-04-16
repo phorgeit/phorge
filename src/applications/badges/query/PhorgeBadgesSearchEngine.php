@@ -1,36 +1,36 @@
 <?php
 
-final class PhabricatorBadgesSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeBadgesSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Badges');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorBadgesQuery();
+    return new PhorgeBadgesQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name')
         ->setDescription(pht('Search for badges by name substring.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('qualities')
         ->setLabel(pht('Quality'))
         ->setEnableForConduit(false)
-        ->setOptions(PhabricatorBadgesQuality::getDropdownQualityMap()),
-      id(new PhabricatorSearchCheckboxesField())
+        ->setOptions(PhorgeBadgesQuality::getDropdownQualityMap()),
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setOptions(
-          id(new PhabricatorBadgesBadge())
+          id(new PhorgeBadgesBadge())
             ->getStatusNameMap()),
     );
   }
@@ -77,7 +77,7 @@ final class PhabricatorBadgesSearchEngine
         return $query->setParameter(
           'statuses',
           array(
-            PhabricatorBadgesBadge::STATUS_ACTIVE,
+            PhorgeBadgesBadge::STATUS_ACTIVE,
           ));
     }
 
@@ -86,7 +86,7 @@ final class PhabricatorBadgesSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $badges,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = array();
 
@@ -95,15 +95,15 @@ final class PhabricatorBadgesSearchEngine
 
   protected function renderResultList(
     array $badges,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($badges, 'PhabricatorBadgesBadge');
+    assert_instances_of($badges, 'PhorgeBadgesBadge');
 
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView());
     foreach ($badges as $badge) {
-      $quality_name = PhabricatorBadgesQuality::getQualityName(
+      $quality_name = PhorgeBadgesQuality::getQualityName(
         $badge->getQuality());
 
       $mini_badge = id(new PHUIBadgeMiniView())
@@ -126,7 +126,7 @@ final class PhabricatorBadgesSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No badges found.'));
 

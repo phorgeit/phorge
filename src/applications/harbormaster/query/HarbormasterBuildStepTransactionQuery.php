@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildStepTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new HarbormasterBuildStepTransaction();

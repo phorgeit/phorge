@@ -23,13 +23,13 @@ final class PHIDLookupConduitAPIMethod extends PHIDConduitAPIMethod {
   protected function execute(ConduitAPIRequest $request) {
     $names = $request->getValue('names');
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($request->getUser())
       ->withNames($names);
     $query->execute();
     $name_map = $query->getNamedResults();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($request->getUser())
       ->withPHIDs(mpull($name_map, 'getPHID'))
       ->execute();

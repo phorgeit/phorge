@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorToken extends PhabricatorTokenDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeToken extends PhorgeTokenDAO
+  implements PhorgePolicyInterface {
 
   protected $phid;
   protected $name;
@@ -16,15 +16,15 @@ final class PhabricatorToken extends PhabricatorTokenDAO
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

@@ -41,7 +41,7 @@ final class DifferentialParseCommitMessageConduitAPIMethod
     $revision_id_value = idx(
       $field_map,
       DifferentialRevisionIDCommitMessageField::FIELDKEY);
-    $revision_id_valid_domain = PhabricatorEnv::getProductionURI('');
+    $revision_id_valid_domain = PhorgeEnv::getProductionURI('');
 
     return array(
       'errors' => $errors,

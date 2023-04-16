@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCalendarDAO extends PhabricatorLiskDAO {
+abstract class PhorgeCalendarDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'calendar';

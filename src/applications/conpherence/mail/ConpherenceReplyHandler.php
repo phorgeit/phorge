@@ -1,6 +1,6 @@
 <?php
 
-final class ConpherenceReplyHandler extends PhabricatorMailReplyHandler {
+final class ConpherenceReplyHandler extends PhorgeMailReplyHandler {
 
   private $mailAddedParticipantPHIDs;
 
@@ -21,7 +21,7 @@ final class ConpherenceReplyHandler extends PhabricatorMailReplyHandler {
     }
   }
 
-  public function getPrivateReplyHandlerEmailAddress(PhabricatorUser $user) {
+  public function getPrivateReplyHandlerEmailAddress(PhorgeUser $user) {
     return $this->getDefaultPrivateReplyHandlerEmailAddress($user, 'Z');
   }
 
@@ -29,7 +29,7 @@ final class ConpherenceReplyHandler extends PhabricatorMailReplyHandler {
     return $this->getDefaultPublicReplyHandlerEmailAddress('Z');
   }
 
-  protected function receiveEmail(PhabricatorMetaMTAReceivedMail $mail) {
+  protected function receiveEmail(PhorgeMetaMTAReceivedMail $mail) {
     $conpherence = $this->getMailReceiver();
     $user = $this->getActor();
     if (!$conpherence->getPHID()) {

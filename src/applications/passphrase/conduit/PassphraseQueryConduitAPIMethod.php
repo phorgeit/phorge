@@ -123,7 +123,7 @@ final class PassphraseQueryConduitAPIMethod
         'name' => $credential->getName(),
         'description' => $credential->getDescription(),
         'uri' =>
-          PhabricatorEnv::getProductionURI('/'.$credential->getMonogram()),
+          PhorgeEnv::getProductionURI('/'.$credential->getMonogram()),
         'monogram' => $credential->getMonogram(),
         'username' => $credential->getUsername(),
         'material' => $material,

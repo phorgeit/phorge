@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuditTransactionView
-  extends PhabricatorApplicationTransactionView {
+final class PhorgeAuditTransactionView
+  extends PhorgeApplicationTransactionView {
 
   private $pathMap = array();
 
@@ -18,8 +18,8 @@ final class PhabricatorAuditTransactionView
   // probably be merged up.
 
   protected function shouldGroupTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     if ($u->getAuthorPHID() != $v->getAuthorPHID()) {
       // Don't group transactions by different authors.
@@ -32,15 +32,15 @@ final class PhabricatorAuditTransactionView
     }
 
     switch ($u->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeTransactions::TYPE_COMMENT:
+      case PhorgeAuditActionConstants::INLINE:
         break;
       default:
         return false;
     }
 
     switch ($v->getTransactionType()) {
-      case PhabricatorAuditActionConstants::INLINE:
+      case PhorgeAuditActionConstants::INLINE:
         return true;
     }
 
@@ -48,11 +48,11 @@ final class PhabricatorAuditTransactionView
   }
 
   protected function renderTransactionContent(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $out = array();
 
-    $type_inline = PhabricatorAuditActionConstants::INLINE;
+    $type_inline = PhorgeAuditActionConstants::INLINE;
 
     $group = $xaction->getTransactionGroup();
 
@@ -73,7 +73,7 @@ final class PhabricatorAuditTransactionView
     $inlines = array();
     foreach ($group as $xaction) {
       switch ($xaction->getTransactionType()) {
-        case PhabricatorAuditActionConstants::INLINE:
+        case PhorgeAuditActionConstants::INLINE:
           $inlines[] = $xaction;
           break;
         default:
@@ -115,7 +115,7 @@ final class PhabricatorAuditTransactionView
     $structs = isort($structs, 'sort');
     $structs = igroup($structs, 'path');
 
-    $inline_view = new PhabricatorInlineSummaryView();
+    $inline_view = new PhorgeInlineSummaryView();
     foreach ($structs as $path => $group) {
       $inlines = ipull($group, 'inline');
       $items = array();

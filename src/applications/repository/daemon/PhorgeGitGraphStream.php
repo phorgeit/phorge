@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorGitGraphStream
-  extends PhabricatorRepositoryGraphStream {
+final class PhorgeGitGraphStream
+  extends PhorgeRepositoryGraphStream {
 
   private $repository;
   private $iterator;
@@ -11,7 +11,7 @@ final class PhabricatorGitGraphStream
   private $dates          = array();
 
   public function __construct(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $start_commit = null) {
 
     $this->repository = $repository;

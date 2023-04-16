@@ -1,9 +1,9 @@
 <?php
 
-abstract class NuanceQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+abstract class NuanceQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventCancelController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventCancelController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorCalendarEventCancelController
 
     // Just check CAN_VIEW first. Then we'll check if this is an import so
     // we can raise a better error.
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -23,10 +23,10 @@ final class PhabricatorCalendarEventCancelController
     }
 
     // Now that we've done the import check, check for CAN_EDIT.
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $event,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $cancel_uri = $event->getURI();
 
@@ -53,12 +53,12 @@ final class PhabricatorCalendarEventCancelController
           if ($fork_target) {
             $xactions = array();
 
-            $xaction = id(new PhabricatorCalendarEventTransaction())
+            $xaction = id(new PhorgeCalendarEventTransaction())
               ->setTransactionType(
-                PhabricatorCalendarEventForkTransaction::TRANSACTIONTYPE)
+                PhorgeCalendarEventForkTransaction::TRANSACTIONTYPE)
               ->setNewValue(true);
 
-            $editor = id(new PhabricatorCalendarEventEditor())
+            $editor = id(new PhorgeCalendarEventEditor())
               ->setActor($viewer)
               ->setContentSourceFromRequest($request)
               ->setContinueOnNoEffect(true)
@@ -79,12 +79,12 @@ final class PhabricatorCalendarEventCancelController
       foreach ($targets as $target) {
         $xactions = array();
 
-        $xaction = id(new PhabricatorCalendarEventTransaction())
+        $xaction = id(new PhorgeCalendarEventTransaction())
           ->setTransactionType(
-            PhabricatorCalendarEventCancelTransaction::TRANSACTIONTYPE)
+            PhorgeCalendarEventCancelTransaction::TRANSACTIONTYPE)
           ->setNewValue(!$is_cancelled);
 
-        $editor = id(new PhabricatorCalendarEventEditor())
+        $editor = id(new PhorgeCalendarEventEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true)
@@ -92,7 +92,7 @@ final class PhabricatorCalendarEventCancelController
 
         try {
           $editor->applyTransactions($target, array($xaction));
-        } catch (PhabricatorApplicationTransactionValidationException $ex) {
+        } catch (PhorgeApplicationTransactionValidationException $ex) {
           $validation_exception = $ex;
           break;
         }
@@ -173,13 +173,13 @@ final class PhabricatorCalendarEventCancelController
         ->appendControl(
           id(new AphrontFormRadioButtonControl())
             ->setName('mode')
-            ->setValue(PhabricatorCalendarEventEditEngine::MODE_THIS)
+            ->setValue(PhorgeCalendarEventEditEngine::MODE_THIS)
             ->addButton(
-              PhabricatorCalendarEventEditEngine::MODE_THIS,
+              PhorgeCalendarEventEditEngine::MODE_THIS,
               $this_name,
               $this_caption)
             ->addButton(
-              PhabricatorCalendarEventEditEngine::MODE_FUTURE,
+              PhorgeCalendarEventEditEngine::MODE_FUTURE,
               $future_name,
               $future_caption));
 

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthFactorProviderEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeAuthFactorProviderEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function getEditorObjectsDescription() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHPASTViewStreamController
-  extends PhabricatorXHPASTViewPanelController {
+final class PhorgeXHPASTViewStreamController
+  extends PhorgeXHPASTViewPanelController {
 
   public function handleRequest(AphrontRequest $request) {
     $storage = $this->getStorageTree();

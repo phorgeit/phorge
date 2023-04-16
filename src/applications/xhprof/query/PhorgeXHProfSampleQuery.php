@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHProfSampleQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeXHProfSampleQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -17,7 +17,7 @@ final class PhabricatorXHProfSampleQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorXHProfSample();
+    return new PhorgeXHProfSample();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -41,7 +41,7 @@ final class PhabricatorXHProfSampleQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorXHProfApplication';
+    return 'PhorgeXHProfApplication';
   }
 
 }

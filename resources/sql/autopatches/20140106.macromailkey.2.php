@@ -2,7 +2,7 @@
 
 echo pht('Adding mailkeys to macros.')."\n";
 
-$table = new PhabricatorFileImageMacro();
+$table = new PhorgeFileImageMacro();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $macro) {

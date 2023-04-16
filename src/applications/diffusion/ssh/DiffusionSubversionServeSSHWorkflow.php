@@ -55,7 +55,7 @@ final class DiffusionSubversionServeSSHWorkflow
     // cache.
 
     $command = csprintf('svnserve -t');
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
     $future = new ExecFuture('%C', $command);
     $exec_channel = new PhutilExecChannel($future);
     $exec_protocol = new DiffusionSubversionWireProtocol();
@@ -119,7 +119,7 @@ final class DiffusionSubversionServeSSHWorkflow
 
           return $this->loadRepositoryWithPath(
             $path,
-            PhabricatorRepositoryType::REPOSITORY_TYPE_SVN);
+            PhorgeRepositoryType::REPOSITORY_TYPE_SVN);
         }
       }
 
@@ -158,10 +158,10 @@ final class DiffusionSubversionServeSSHWorkflow
       $command = csprintf(
         'svnserve -t --tunnel-user=%s',
         $this->getSSHUser()->getUsername());
-      $cwd = PhabricatorEnv::getEmptyCWD();
+      $cwd = PhorgeEnv::getEmptyCWD();
     }
 
-    $command = PhabricatorDaemon::sudoCommandAsDaemonUser($command);
+    $command = PhorgeDaemon::sudoCommandAsDaemonUser($command);
     $future = new ExecFuture('%C', $command);
 
     // If we're receiving a commit, svnserve will fail to execute the commit
@@ -187,15 +187,15 @@ final class DiffusionSubversionServeSSHWorkflow
 
     if (!$err && $this->didSeeWrite) {
       $this->getRepository()->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
-        PhabricatorRepositoryStatusMessage::CODE_OKAY);
+        PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+        PhorgeRepositoryStatusMessage::CODE_OKAY);
     }
 
     return $err;
   }
 
   public function willWriteMessageCallback(
-    PhabricatorSSHPassthruCommand $command,
+    PhorgeSSHPassthruCommand $command,
     $message) {
 
     $proto = $this->inProtocol;
@@ -276,7 +276,7 @@ final class DiffusionSubversionServeSSHWorkflow
   }
 
   public function willReadMessageCallback(
-    PhabricatorSSHPassthruCommand $command,
+    PhorgeSSHPassthruCommand $command,
     $message) {
 
     $proto = $this->outProtocol;
@@ -453,7 +453,7 @@ final class DiffusionSubversionServeSSHWorkflow
   }
 
   protected function raiseWrongVCSException(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     throw new Exception(
       pht(
         'This repository ("%s") is not a Subversion repository. Use "%s" to '.

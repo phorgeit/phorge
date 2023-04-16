@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSecurityConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeSecurityConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Security');
@@ -20,7 +20,7 @@ final class PhabricatorSecurityConfigOptions
   }
 
   public function getOptions() {
-    $doc_href = PhabricatorEnv::getDoclink('Configuring a File Domain');
+    $doc_href = PhorgeEnv::getDoclink('Configuring a File Domain');
     $doc_name = pht('Configuration Guide: Configuring a File Domain');
 
     $default_address_blacklist = array(
@@ -58,13 +58,13 @@ final class PhabricatorSecurityConfigOptions
       'ff00::/8',
     );
 
-    $keyring_type = 'custom:PhabricatorKeyringConfigOptionType';
+    $keyring_type = 'custom:PhorgeKeyringConfigOptionType';
     $keyring_description = $this->deformat(pht(<<<EOTEXT
 The keyring stores master encryption keys. For help with configuring a keyring
 and encryption, see **[[ %s | Configuring Encryption ]]**.
 EOTEXT
       ,
-      PhabricatorEnv::getDoclink('Configuring Encryption')));
+      PhorgeEnv::getDoclink('Configuring Encryption')));
 
     $require_mfa_description = $this->deformat(pht(<<<EOTEXT
 By default, this software allows users to add multi-factor authentication to
@@ -289,7 +289,7 @@ EOTEXT
   }
 
   protected function didValidateOption(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $key = $option->getKey();
@@ -298,7 +298,7 @@ EOTEXT
       $uri = new PhutilURI($value);
       $protocol = $uri->getProtocol();
       if ($protocol !== 'http' && $protocol !== 'https') {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must start with ".
             "'%s' or '%s'.",
@@ -309,7 +309,7 @@ EOTEXT
 
       $domain = $uri->getDomain();
       if (strpos($domain, '.') === false) {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must contain a dot ('.'), ".
             "like '%s', not just a bare name like '%s'. ".
@@ -321,7 +321,7 @@ EOTEXT
 
       $path = $uri->getPath();
       if ($path !== '' && $path !== '/') {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must NOT have a path, ".
             "e.g. '%s' is OK, but '%s' is not. This software must be ".

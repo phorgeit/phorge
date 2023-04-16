@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnStatusTransaction
-  extends PhabricatorProjectColumnTransactionType {
+final class PhorgeProjectColumnStatusTransaction
+  extends PhorgeProjectColumnTransactionType {
 
   const TRANSACTIONTYPE = 'project:col:status';
 
@@ -18,7 +18,7 @@ final class PhabricatorProjectColumnStatusTransaction
     // active or not.
     $trigger_phid = $object->getTriggerPHID();
     if ($trigger_phid) {
-      PhabricatorSearchWorker::queueDocumentForIndexing($trigger_phid);
+      PhorgeSearchWorker::queueDocumentForIndexing($trigger_phid);
     }
   }
 
@@ -26,11 +26,11 @@ final class PhabricatorProjectColumnStatusTransaction
     $new = $this->getNewValue();
 
     switch ($new) {
-      case PhabricatorProjectColumn::STATUS_ACTIVE:
+      case PhorgeProjectColumn::STATUS_ACTIVE:
         return pht(
           '%s unhid this column.',
           $this->renderAuthor());
-      case PhabricatorProjectColumn::STATUS_HIDDEN:
+      case PhorgeProjectColumn::STATUS_HIDDEN:
         return pht(
           '%s hid this column.',
           $this->renderAuthor());
@@ -41,8 +41,8 @@ final class PhabricatorProjectColumnStatusTransaction
     $errors = array();
 
     $map = array(
-      PhabricatorProjectColumn::STATUS_ACTIVE,
-      PhabricatorProjectColumn::STATUS_HIDDEN,
+      PhorgeProjectColumn::STATUS_ACTIVE,
+      PhorgeProjectColumn::STATUS_HIDDEN,
     );
     $map = array_fuse($map);
 

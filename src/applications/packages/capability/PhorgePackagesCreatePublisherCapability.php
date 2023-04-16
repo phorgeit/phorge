@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesCreatePublisherCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePackagesCreatePublisherCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'packages.publisher.create';
 

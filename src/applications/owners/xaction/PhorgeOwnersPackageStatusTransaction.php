@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageStatusTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageStatusTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.status';
 
@@ -15,11 +15,11 @@ final class PhabricatorOwnersPackageStatusTransaction
 
   public function getTitle() {
     $new = $this->getNewValue();
-    if ($new == PhabricatorOwnersPackage::STATUS_ACTIVE) {
+    if ($new == PhorgeOwnersPackage::STATUS_ACTIVE) {
       return pht(
         '%s activated this package.',
         $this->renderAuthor());
-    } else if ($new == PhabricatorOwnersPackage::STATUS_ARCHIVED) {
+    } else if ($new == PhorgeOwnersPackage::STATUS_ARCHIVED) {
       return pht(
         '%s archived this package.',
         $this->renderAuthor());

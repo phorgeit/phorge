@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleProfileManageController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileManageController
+  extends PhorgePeopleProfileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorPeopleProfileManageController
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfile(true)
@@ -31,7 +31,7 @@ final class PhabricatorPeopleProfileManageController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_MANAGE);
+      PhorgePeopleProfileMenuEngine::ITEM_MANAGE);
 
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->addTextCrumb(pht('Manage'));
@@ -39,7 +39,7 @@ final class PhabricatorPeopleProfileManageController
 
     $timeline = $this->buildTransactionTimeline(
       $user,
-      new PhabricatorPeopleTransactionQuery());
+      new PhorgePeopleTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $manage = id(new PHUITwoColumnView())
@@ -61,30 +61,30 @@ final class PhabricatorPeopleProfileManageController
       ->appendChild($manage);
   }
 
-  private function buildPropertyView(PhabricatorUser $user) {
+  private function buildPropertyView(PhorgeUser $user) {
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
       ->setUser($viewer)
       ->setObject($user);
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $user,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list->appendFieldsToPropertyList($user, $viewer, $view);
 
     return $view;
   }
 
-  private function buildCurtain(PhabricatorUser $user) {
+  private function buildCurtain(PhorgeUser $user) {
     $viewer = $this->getViewer();
 
     $is_self = ($user->getPHID() === $viewer->getPHID());
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $user,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $is_admin = $viewer->getIsAdmin();
     $can_admin = ($is_admin && !$is_self);
@@ -95,7 +95,7 @@ final class PhabricatorPeopleProfileManageController
 
     $id = $user->getID();
 
-    $welcome_engine = id(new PhabricatorPeopleWelcomeMailEngine())
+    $welcome_engine = id(new PhorgePeopleWelcomeMailEngine())
       ->setSender($viewer)
       ->setRecipient($user);
 
@@ -103,7 +103,7 @@ final class PhabricatorPeopleProfileManageController
     $curtain = $this->newCurtainView($user);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Profile'))
         ->setHref($this->getApplicationURI('editprofile/'.$id.'/'))
@@ -111,7 +111,7 @@ final class PhabricatorPeopleProfileManageController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-picture-o')
         ->setName(pht('Edit Profile Picture'))
         ->setHref($this->getApplicationURI('picture/'.$id.'/'))
@@ -119,7 +119,7 @@ final class PhabricatorPeopleProfileManageController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-wrench')
         ->setName(pht('Edit Settings'))
         ->setDisabled(!$can_edit)
@@ -135,7 +135,7 @@ final class PhabricatorPeopleProfileManageController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon($empower_icon)
         ->setName($empower_name)
         ->setDisabled(!$can_admin)
@@ -143,7 +143,7 @@ final class PhabricatorPeopleProfileManageController
         ->setHref($this->getApplicationURI('empower/'.$id.'/')));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-tag')
         ->setName(pht('Change Username'))
         ->setDisabled(!$is_admin)
@@ -159,7 +159,7 @@ final class PhabricatorPeopleProfileManageController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-envelope')
         ->setName(pht('Send Welcome Email'))
         ->setWorkflow(true)
@@ -167,11 +167,11 @@ final class PhabricatorPeopleProfileManageController
         ->setHref($this->getApplicationURI('welcome/'.$id.'/')));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     if (!$user->getIsApproved()) {
-      $approve_action = id(new PhabricatorActionView())
+      $approve_action = id(new PhorgeActionView())
         ->setIcon('fa-thumbs-up')
         ->setName(pht('Approve User'))
         ->setWorkflow(true)
@@ -179,14 +179,14 @@ final class PhabricatorPeopleProfileManageController
         ->setHref("/people/approve/{$id}/via/profile/");
 
       if ($is_admin) {
-        $approve_action->setColor(PhabricatorActionView::GREEN);
+        $approve_action->setColor(PhorgeActionView::GREEN);
       }
 
       $curtain->addAction($approve_action);
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon($disable_icon)
         ->setName($disable_name)
         ->setDisabled(!$can_disable)
@@ -194,7 +194,7 @@ final class PhabricatorPeopleProfileManageController
         ->setHref($this->getApplicationURI('disable/'.$id.'/')));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-times')
         ->setName(pht('Delete User'))
         ->setDisabled(!$can_admin)
@@ -202,8 +202,8 @@ final class PhabricatorPeopleProfileManageController
         ->setHref($this->getApplicationURI('delete/'.$id.'/')));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     return $curtain;
   }

@@ -31,8 +31,8 @@ foreach ($args->getArg('listen') as $listener) {
 $console->writeOut("%s\n", pht('Emitting event...'));
 
 PhutilEventEngine::dispatchEvent(
-  new PhabricatorEvent(
-    PhabricatorEventType::TYPE_TEST_DIDRUNTEST,
+  new PhorgeEvent(
+    PhorgeEventType::TYPE_TEST_DIDRUNTEST,
     array(
       'time' => time(),
     )));

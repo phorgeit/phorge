@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserConfiguredCustomFieldStorage
-  extends PhabricatorCustomFieldStorage {
+final class PhorgeUserConfiguredCustomFieldStorage
+  extends PhorgeCustomFieldStorage {
 
   public function getApplicationName() {
     return 'user';

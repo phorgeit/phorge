@@ -1,7 +1,7 @@
 <?php
 
 final class PonderQuestionFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'ponder';

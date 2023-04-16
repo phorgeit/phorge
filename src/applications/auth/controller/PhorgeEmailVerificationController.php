@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailVerificationController
-  extends PhabricatorAuthController {
+final class PhorgeEmailVerificationController
+  extends PhorgeAuthController {
 
   public function shouldRequireEmailVerification() {
     // Since users need to be able to hit this endpoint in order to verify
@@ -25,7 +25,7 @@ final class PhabricatorEmailVerificationController
       return new Aphront400Response();
     }
 
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'userPHID = %s AND verificationCode = %s',
       $viewer->getPHID(),
       $code);
@@ -47,7 +47,7 @@ final class PhabricatorEmailVerificationController
       $continue = pht('Continue');
     } else if ($request->isFormPost()) {
 
-      id(new PhabricatorUserEditor())
+      id(new PhorgeUserEditor())
         ->setActor($viewer)
         ->verifyEmail($viewer, $email);
 

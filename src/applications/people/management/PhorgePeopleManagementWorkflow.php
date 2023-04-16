@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPeopleManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgePeopleManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   final protected function getUserSelectionArguments() {
     return array(
@@ -22,7 +22,7 @@ abstract class PhabricatorPeopleManagementWorkflow
           'Select a user account to act on with "--user <username>".'));
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withUsernames(array($username))
       ->executeOne();
@@ -37,12 +37,12 @@ abstract class PhabricatorPeopleManagementWorkflow
   }
 
   final protected function applyTransactions(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorUserTransaction');
+    assert_instances_of($xactions, 'PhorgeUserTransaction');
 
     $viewer = $this->getViewer();
-    $application = id(new PhabricatorPeopleApplication())->getPHID();
+    $application = id(new PhorgePeopleApplication())->getPHID();
     $content_source = $this->newContentSource();
 
     $editor = $user->getApplicationTransactionEditor()

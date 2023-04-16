@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBulkManagementMakeSilentWorkflow
-  extends PhabricatorBulkManagementWorkflow {
+final class PhorgeBulkManagementMakeSilentWorkflow
+  extends PhorgeBulkManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -30,7 +30,7 @@ final class PhabricatorBulkManagementMakeSilentWorkflow
         pht('Use "--id" to choose a bulk job to make silent.'));
     }
 
-    $job = id(new PhabricatorWorkerBulkJobQuery())
+    $job = id(new PhorgeWorkerBulkJobQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -48,7 +48,7 @@ final class PhabricatorBulkManagementMakeSilentWorkflow
       return 0;
     }
 
-    if ($job->getStatus() !== PhabricatorWorkerBulkJob::STATUS_CONFIRM) {
+    if ($job->getStatus() !== PhorgeWorkerBulkJob::STATUS_CONFIRM) {
       throw new PhutilArgumentUsageException(
         pht(
           'Work has already started on job "%s". Jobs can not be '.

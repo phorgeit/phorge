@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorFileSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeFileSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorFile());
+    $this->buildEdgeSchemata(new PhorgeFile());
   }
 
 }

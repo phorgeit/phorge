@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDaemonsApplication extends PhabricatorApplication {
+final class PhorgeDaemonsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Daemons');
@@ -32,26 +32,26 @@ final class PhabricatorDaemonsApplication extends PhabricatorApplication {
 
   public function getEventListeners() {
     return array(
-      new PhabricatorDaemonEventListener(),
+      new PhorgeDaemonEventListener(),
     );
   }
 
   public function getRoutes() {
     return array(
       '/daemon/' => array(
-        '' => 'PhabricatorDaemonConsoleController',
-        'task/(?P<id>[1-9]\d*)/' => 'PhabricatorWorkerTaskDetailController',
+        '' => 'PhorgeDaemonConsoleController',
+        'task/(?P<id>[1-9]\d*)/' => 'PhorgeWorkerTaskDetailController',
         'log/' => array(
-          '' => 'PhabricatorDaemonLogListController',
-          '(?P<id>[1-9]\d*)/' => 'PhabricatorDaemonLogViewController',
+          '' => 'PhorgeDaemonLogListController',
+          '(?P<id>[1-9]\d*)/' => 'PhorgeDaemonLogViewController',
         ),
         'bulk/' => array(
           '(?:query/(?P<queryKey>[^/]+)/)?' =>
-            'PhabricatorDaemonBulkJobListController',
+            'PhorgeDaemonBulkJobListController',
           'monitor/(?P<id>\d+)/' =>
-            'PhabricatorDaemonBulkJobMonitorController',
+            'PhorgeDaemonBulkJobMonitorController',
           'view/(?P<id>\d+)/' =>
-            'PhabricatorDaemonBulkJobViewController',
+            'PhorgeDaemonBulkJobViewController',
 
         ),
       ),

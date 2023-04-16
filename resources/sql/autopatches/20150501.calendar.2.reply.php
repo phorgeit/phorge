@@ -2,7 +2,7 @@
 
 echo pht('Adding %s to events.', 'mailkeys')."\n";
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $event) {

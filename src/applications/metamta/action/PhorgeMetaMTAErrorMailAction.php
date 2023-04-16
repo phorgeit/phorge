@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAErrorMailAction extends PhabricatorSystemAction {
+final class PhorgeMetaMTAErrorMailAction extends PhorgeSystemAction {
 
   const TYPECONST = 'email.error';
 

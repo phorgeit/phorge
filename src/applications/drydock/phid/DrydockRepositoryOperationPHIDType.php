@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockRepositoryOperationPHIDType extends PhabricatorPHIDType {
+final class DrydockRepositoryOperationPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DRYO';
 
@@ -13,11 +13,11 @@ final class DrydockRepositoryOperationPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DrydockRepositoryOperationQuery())
@@ -25,7 +25,7 @@ final class DrydockRepositoryOperationPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

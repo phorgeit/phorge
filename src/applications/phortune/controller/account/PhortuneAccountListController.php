@@ -10,8 +10,8 @@ final class PhortuneAccountListController extends PhortuneController {
       ->withMemberPHIDs(array($viewer->getPHID()))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 

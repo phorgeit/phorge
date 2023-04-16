@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUIConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeUIConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('User Interface');
@@ -45,8 +45,8 @@ final class PhabricatorUIConfigOptions
 ]
 EOJSON;
 
-    $logo_type = 'custom:PhabricatorCustomLogoConfigType';
-    $footer_type = 'custom:PhabricatorCustomUIFooterConfigType';
+    $logo_type = 'custom:PhorgeCustomLogoConfigType';
+    $footer_type = 'custom:PhorgeCustomUIFooterConfigType';
 
     return array(
       $this->newOption('ui.header-color', 'enum', 'blindigo')

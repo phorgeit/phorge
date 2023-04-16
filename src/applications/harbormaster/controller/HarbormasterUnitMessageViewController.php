@@ -109,7 +109,7 @@ final class HarbormasterUnitMessageViewController
     $curtain = $this->newCurtainView($build);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Build'))
         ->setHref($build->getURI())
         ->setIcon('fa-wrench'));

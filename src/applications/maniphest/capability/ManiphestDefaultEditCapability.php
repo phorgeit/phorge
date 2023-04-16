@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestDefaultEditCapability extends PhabricatorPolicyCapability {
+final class ManiphestDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'maniphest.default.edit';
 

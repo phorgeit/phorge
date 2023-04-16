@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorFileChunk extends PhabricatorFileDAO
+final class PhorgeFileChunk extends PhorgeFileDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $chunkHandle;
   protected $byteStart;
@@ -34,17 +34,17 @@ final class PhabricatorFileChunk extends PhabricatorFileDAO
 
   public static function newChunkHandle() {
     $seed = Filesystem::readRandomBytes(64);
-    return PhabricatorHash::digestForIndex($seed);
+    return PhorgeHash::digestForIndex($seed);
   }
 
   public static function initializeNewChunk($handle, $start, $end) {
-    return id(new PhabricatorFileChunk())
+    return id(new PhorgeFileChunk())
       ->setChunkHandle($handle)
       ->setByteStart($start)
       ->setByteEnd($end);
   }
 
-  public function attachDataFile(PhabricatorFile $file = null) {
+  public function attachDataFile(PhorgeFile $file = null) {
     $this->dataFile = $file;
     return $this;
   }
@@ -54,12 +54,12 @@ final class PhabricatorFileChunk extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -68,24 +68,24 @@ final class PhabricatorFileChunk extends PhabricatorFileDAO
     // These objects are low-level and only accessed through the storage
     // engine, so policies are mostly just in place to let us use the common
     // query infrastructure.
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $data_phid = $this->getDataFilePHID();
     if ($data_phid) {
-      $data_file = id(new PhabricatorFileQuery())
+      $data_file = id(new PhorgeFileQuery())
         ->setViewer($engine->getViewer())
         ->withPHIDs(array($data_phid))
         ->executeOne();

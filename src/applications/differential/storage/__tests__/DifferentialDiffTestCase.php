@@ -30,7 +30,7 @@ final class DifferentialDiffTestCase extends PhutilTestCase {
     $parser = new ArcanistDiffParser();
 
     $diff = DifferentialDiff::newFromRawChanges(
-      PhabricatorUser::getOmnipotentUser(),
+      PhorgeUser::getOmnipotentUser(),
       $parser->parseDiff(Filesystem::readFile($root.$file)));
     return idx(head($diff->getChangesets())->getMetadata(), 'copy:lines');
   }
@@ -67,7 +67,7 @@ index 123457..0000000
 EODIFF;
 
     $diff = DifferentialDiff::newFromRawChanges(
-      PhabricatorUser::getOmnipotentUser(),
+      PhorgeUser::getOmnipotentUser(),
       $parser->parseDiff($raw_diff));
 
     $this->assertTrue(true);

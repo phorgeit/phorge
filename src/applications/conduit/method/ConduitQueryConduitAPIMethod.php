@@ -23,7 +23,7 @@ final class ConduitQueryConduitAPIMethod extends ConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $methods = id(new PhabricatorConduitMethodQuery())
+    $methods = id(new PhorgeConduitMethodQuery())
       ->setViewer($request->getUser())
       ->execute();
 

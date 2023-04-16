@@ -2,7 +2,7 @@
 
 final class HarbormasterBuildUnitMessage
   extends HarbormasterDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $buildTargetPHID;
   protected $engine;
@@ -172,7 +172,7 @@ final class HarbormasterBuildUnitMessage
   }
 
   public function newUnitMessageDetailsView(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $summarize = false) {
 
     $format = $this->getUnitMessageDetailsFormat();
@@ -251,7 +251,7 @@ final class HarbormasterBuildUnitMessage
       $details = new PHUIRemarkupView($viewer, $details);
     } else {
       $classes[] = 'harbormaster-unit-details-text';
-      $classes[] = 'PhabricatorMonospaced';
+      $classes[] = 'PhorgeMonospaced';
     }
 
     $warning = null;
@@ -362,23 +362,23 @@ final class HarbormasterBuildUnitMessage
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

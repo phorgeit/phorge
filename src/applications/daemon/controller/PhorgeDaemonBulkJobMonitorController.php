@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorDaemonBulkJobMonitorController
-  extends PhabricatorDaemonBulkJobController {
+final class PhorgeDaemonBulkJobMonitorController
+  extends PhorgeDaemonBulkJobController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $job = id(new PhabricatorWorkerBulkJobQuery())
+    $job = id(new PhorgeWorkerBulkJobQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -25,22 +25,22 @@ final class PhabricatorDaemonBulkJobMonitorController
 
     $title = pht('Bulk Job %d', $job->getID());
 
-    if ($job->getStatus() == PhabricatorWorkerBulkJob::STATUS_CONFIRM) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+    if ($job->getStatus() == PhorgeWorkerBulkJob::STATUS_CONFIRM) {
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $job,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       if ($can_edit) {
         if ($request->isFormPost()) {
-          $type_status = PhabricatorWorkerBulkJobTransaction::TYPE_STATUS;
+          $type_status = PhorgeWorkerBulkJobTransaction::TYPE_STATUS;
 
           $xactions = array();
-          $xactions[] = id(new PhabricatorWorkerBulkJobTransaction())
+          $xactions[] = id(new PhorgeWorkerBulkJobTransaction())
             ->setTransactionType($type_status)
-            ->setNewValue(PhabricatorWorkerBulkJob::STATUS_WAITING);
+            ->setNewValue(PhorgeWorkerBulkJob::STATUS_WAITING);
 
-          $editor = id(new PhabricatorWorkerBulkJobEditor())
+          $editor = id(new PhorgeWorkerBulkJobEditor())
             ->setActor($viewer)
             ->setContentSourceFromRequest($request)
             ->setContinueOnMissingFields(true)
@@ -82,15 +82,15 @@ final class PhabricatorDaemonBulkJobMonitorController
       ->addCancelButton($job->getManageURI(), pht('Details'));
 
     switch ($job->getStatus()) {
-      case PhabricatorWorkerBulkJob::STATUS_WAITING:
+      case PhorgeWorkerBulkJob::STATUS_WAITING:
         $dialog->appendParagraph(
           pht('This job is waiting for tasks to be queued.'));
         break;
-      case PhabricatorWorkerBulkJob::STATUS_RUNNING:
+      case PhorgeWorkerBulkJob::STATUS_RUNNING:
         $dialog->appendParagraph(
           pht('This job is running.'));
         break;
-      case PhabricatorWorkerBulkJob::STATUS_COMPLETE:
+      case PhorgeWorkerBulkJob::STATUS_COMPLETE:
         $dialog->appendParagraph(
           pht('This job is complete.'));
         break;
@@ -102,7 +102,7 @@ final class PhabricatorDaemonBulkJobMonitorController
     }
 
     switch ($job->getStatus()) {
-      case PhabricatorWorkerBulkJob::STATUS_COMPLETE:
+      case PhorgeWorkerBulkJob::STATUS_COMPLETE:
         $dialog->addHiddenInput('done', true);
         $dialog->addSubmitButton(pht('Continue'));
         break;
@@ -118,16 +118,16 @@ final class PhabricatorDaemonBulkJobMonitorController
     $this->requireResource('bulk-job-css');
 
     $states = array(
-      PhabricatorWorkerBulkTask::STATUS_DONE => array(
+      PhorgeWorkerBulkTask::STATUS_DONE => array(
         'class' => 'bulk-job-progress-slice-green',
       ),
-      PhabricatorWorkerBulkTask::STATUS_RUNNING => array(
+      PhorgeWorkerBulkTask::STATUS_RUNNING => array(
         'class' => 'bulk-job-progress-slice-blue',
       ),
-      PhabricatorWorkerBulkTask::STATUS_WAITING => array(
+      PhorgeWorkerBulkTask::STATUS_WAITING => array(
         'class' => 'bulk-job-progress-slice-empty',
       ),
-      PhabricatorWorkerBulkTask::STATUS_FAIL => array(
+      PhorgeWorkerBulkTask::STATUS_FAIL => array(
         'class' => 'bulk-job-progress-slice-red',
       ),
     );

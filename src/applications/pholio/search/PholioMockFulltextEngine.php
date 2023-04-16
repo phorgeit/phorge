@@ -1,10 +1,10 @@
 <?php
 
 final class PholioMockFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $mock = $object;
@@ -12,22 +12,22 @@ final class PholioMockFulltextEngine
     $document->setDocumentTitle($mock->getName());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $mock->getDescription());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $mock->getAuthorPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $mock->getDateCreated());
 
     $document->addRelationship(
       $mock->isClosed()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $mock->getPHID(),
       PholioMockPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
   }
 
 }

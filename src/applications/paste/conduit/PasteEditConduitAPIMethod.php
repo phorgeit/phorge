@@ -1,14 +1,14 @@
 <?php
 
 final class PasteEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'paste.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorPasteEditEngine();
+    return new PhorgePasteEditEngine();
   }
 
   public function getMethodSummary() {

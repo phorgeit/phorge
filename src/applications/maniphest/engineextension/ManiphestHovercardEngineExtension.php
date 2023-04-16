@@ -1,13 +1,13 @@
 <?php
 
 final class ManiphestHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'maniphest';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorManiphestApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeManiphestApplication');
   }
 
   public function getExtensionName() {
@@ -20,7 +20,7 @@ final class ManiphestHovercardEngineExtension
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $task,
     $data) {
     $viewer = $this->getViewer();

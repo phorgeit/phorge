@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventViewController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventViewController
+  extends PhorgeCalendarController {
 
   public function shouldAllowPublic() {
     return true;
@@ -43,7 +43,7 @@ final class PhabricatorCalendarEventViewController
 
     $timeline = $this->buildTransactionTimeline(
       $event,
-      new PhabricatorCalendarEventTransactionQuery());
+      new PhorgeCalendarEventTransactionQuery());
 
     $header = $this->buildHeaderView($event);
     $subheader = $this->buildSubheaderView($event);
@@ -52,7 +52,7 @@ final class PhabricatorCalendarEventViewController
     $recurring = $this->buildRecurringSection($event);
     $description = $this->buildDescriptionView($event);
 
-    $comment_view = id(new PhabricatorCalendarEventEditEngine())
+    $comment_view = id(new PhorgeCalendarEventEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($event);
 
@@ -97,7 +97,7 @@ final class PhabricatorCalendarEventViewController
   }
 
   private function buildHeaderView(
-    PhabricatorCalendarEvent $event) {
+    PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
     $id = $event->getID();
 
@@ -132,7 +132,7 @@ final class PhabricatorCalendarEventViewController
       $header->addActionLink($action);
     }
 
-    $options = PhabricatorCalendarEventInvitee::getAvailabilityMap();
+    $options = PhorgeCalendarEventInvitee::getAvailabilityMap();
 
     $is_attending = $event->getIsUserAttending($viewer->getPHID());
     if ($is_attending) {
@@ -140,7 +140,7 @@ final class PhabricatorCalendarEventViewController
 
       $selected = $invitee->getDisplayAvailability($event);
       if (!$selected) {
-        $selected = PhabricatorCalendarEventInvitee::AVAILABILITY_AVAILABLE;
+        $selected = PhorgeCalendarEventInvitee::AVAILABILITY_AVAILABLE;
       }
 
       $selected_option = idx($options, $selected);
@@ -150,7 +150,7 @@ final class PhabricatorCalendarEventViewController
         ->setIcon('fa-circle '.$selected_option['color'])
         ->setText(pht('Availability: %s', $selected_option['name']));
 
-      $dropdown = id(new PhabricatorActionListView())
+      $dropdown = id(new PhorgeActionListView())
         ->setUser($viewer);
 
       foreach ($options as $key => $option) {
@@ -158,7 +158,7 @@ final class PhabricatorCalendarEventViewController
         $uri = $this->getApplicationURI($uri);
 
         $dropdown->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName($option['name'])
             ->setIcon('fa-circle '.$option['color'])
             ->setHref($uri)
@@ -172,15 +172,15 @@ final class PhabricatorCalendarEventViewController
     return $header;
   }
 
-  private function buildCurtain(PhabricatorCalendarEvent $event) {
+  private function buildCurtain(PhorgeCalendarEvent $event) {
     $viewer = $this->getRequest()->getUser();
     $id = $event->getID();
     $is_attending = $event->getIsUserAttending($viewer->getPHID());
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $event,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = "event/edit/{$id}/";
     $edit_uri = $this->getApplicationURI($edit_uri);
@@ -191,7 +191,7 @@ final class PhabricatorCalendarEventViewController
 
     if ($edit_label && $edit_uri) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($edit_label)
           ->setIcon('fa-pencil')
           ->setHref($edit_uri)
@@ -209,7 +209,7 @@ final class PhabricatorCalendarEventViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($recurring_label)
         ->setIcon('fa-repeat')
         ->setHref($recurring_uri)
@@ -220,7 +220,7 @@ final class PhabricatorCalendarEventViewController
 
     if ($is_attending) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Decline Event'))
           ->setIcon('fa-user-times')
           ->setHref($this->getApplicationURI("event/join/{$id}/"))
@@ -228,7 +228,7 @@ final class PhabricatorCalendarEventViewController
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Join Event'))
           ->setIcon('fa-user-plus')
           ->setHref($this->getApplicationURI("event/join/{$id}/"))
@@ -244,7 +244,7 @@ final class PhabricatorCalendarEventViewController
 
     if ($event->getIsCancelled()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($reinstate_label)
           ->setIcon('fa-plus')
           ->setHref($cancel_uri)
@@ -252,7 +252,7 @@ final class PhabricatorCalendarEventViewController
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName($cancel_label)
           ->setIcon('fa-times')
           ->setHref($cancel_uri)
@@ -264,7 +264,7 @@ final class PhabricatorCalendarEventViewController
     $export_uri = $this->getApplicationURI("event/export/{$id}/{$ics_name}");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Export as .ics'))
         ->setIcon('fa-download')
         ->setHref($export_uri));
@@ -273,7 +273,7 @@ final class PhabricatorCalendarEventViewController
   }
 
   private function buildPropertySection(
-    PhabricatorCalendarEvent $event) {
+    PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -293,9 +293,9 @@ final class PhabricatorCalendarEventViewController
       $icon_attending = PHUIStatusItemView::ICON_ACCEPT;
       $icon_declined = PHUIStatusItemView::ICON_REJECT;
 
-      $status_invited = PhabricatorCalendarEventInvitee::STATUS_INVITED;
-      $status_attending = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
-      $status_declined = PhabricatorCalendarEventInvitee::STATUS_DECLINED;
+      $status_invited = PhorgeCalendarEventInvitee::STATUS_INVITED;
+      $status_attending = PhorgeCalendarEventInvitee::STATUS_ATTENDING;
+      $status_declined = PhorgeCalendarEventInvitee::STATUS_DECLINED;
 
       $icon_map = array(
         $status_invited => $icon_invited,
@@ -311,7 +311,7 @@ final class PhabricatorCalendarEventViewController
 
       $viewer_phid = $viewer->getPHID();
       $is_rsvp_invited = $event->isRSVPInvited($viewer_phid);
-      $type_user = PhabricatorPeopleUserPHIDType::TYPECONST;
+      $type_user = PhorgePeopleUserPHIDType::TYPECONST;
 
       $head = array();
       $tail = array();
@@ -378,7 +378,7 @@ final class PhabricatorCalendarEventViewController
     return $properties;
   }
 
-  private function buildRecurringHeader(PhabricatorCalendarEvent $event) {
+  private function buildRecurringHeader(PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
 
     if (!$event->getIsRecurring()) {
@@ -436,7 +436,7 @@ final class PhabricatorCalendarEventViewController
     return $header;
   }
 
-  private function buildRecurringSection(PhabricatorCalendarEvent $event) {
+  private function buildRecurringSection(PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
 
     if (!$event->getIsRecurring()) {
@@ -509,7 +509,7 @@ final class PhabricatorCalendarEventViewController
   }
 
   private function buildDescriptionView(
-    PhabricatorCalendarEvent $event) {
+    PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -540,7 +540,7 @@ final class PhabricatorCalendarEventViewController
     // on these identifiers existing.
 
     // Load the event identified by ID first.
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needRSVPs(array($viewer->getPHID()))
@@ -565,7 +565,7 @@ final class PhabricatorCalendarEventViewController
 
     // Try to load the instance. If it already exists, we're all done and
     // can just return it.
-    $instance = id(new PhabricatorCalendarEventQuery())
+    $instance = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withInstanceSequencePairs(
         array(
@@ -590,7 +590,7 @@ final class PhabricatorCalendarEventViewController
     return $event->newStub($viewer, $sequence);
   }
 
-  private function buildSubheaderView(PhabricatorCalendarEvent $event) {
+  private function buildSubheaderView(PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
 
     $host_phid = $event->getHostPHID();
@@ -615,7 +615,7 @@ final class PhabricatorCalendarEventViewController
   }
 
 
-  private function buildRSVPActions(PhabricatorCalendarEvent $event) {
+  private function buildRSVPActions(PhorgeCalendarEvent $event) {
     $viewer = $this->getViewer();
     $id = $event->getID();
 

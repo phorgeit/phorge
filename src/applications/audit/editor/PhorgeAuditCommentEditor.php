@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuditCommentEditor extends PhabricatorEditor {
+final class PhorgeAuditCommentEditor extends PhorgeEditor {
 
   public static function getMailThreading(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     return array(
       'diffusion-audit-'.$commit->getPHID(),

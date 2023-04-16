@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadSignatureNeededByObjectEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 50;
 

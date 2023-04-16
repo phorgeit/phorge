@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorHovercardEngineExtension extends Phobject {
+abstract class PhorgeHovercardEngineExtension extends Phobject {
 
   private $viewer;
 
@@ -33,7 +33,7 @@ abstract class PhabricatorHovercardEngineExtension extends Phobject {
 
   abstract public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $object,
     $data);
 

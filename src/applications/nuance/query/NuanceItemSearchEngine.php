@@ -1,10 +1,10 @@
 <?php
 
 final class NuanceItemSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   public function getResultTypeDescription() {
@@ -52,7 +52,7 @@ final class NuanceItemSearchEngine
 
   protected function renderResultList(
     array $items,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($items, 'NuanceItem');
 
@@ -88,7 +88,7 @@ final class NuanceItemSearchEngine
       $list->addItem($view);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No items found.'));
 

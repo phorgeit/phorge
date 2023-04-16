@@ -1,9 +1,9 @@
 <?php
 
-abstract class PhabricatorUserCacheType extends Phobject {
+abstract class PhorgeUserCacheType extends Phobject {
 
   final public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   public function getAutoloadKeys() {
@@ -22,7 +22,7 @@ abstract class PhabricatorUserCacheType extends Phobject {
     return false;
   }
 
-  public function isRawCacheDataValid(PhabricatorUser $user, $key, $data) {
+  public function isRawCacheDataValid(PhorgeUser $user, $key, $data) {
     throw new PhutilMethodNotImplementedException();
   }
 

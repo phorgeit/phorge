@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorMacroDisableController
-  extends PhabricatorMacroController {
+final class PhorgeMacroDisableController
+  extends PhorgeMacroController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
     $this->requireApplicationCapability(
-      PhabricatorMacroManageCapability::CAPABILITY);
+      PhorgeMacroManageCapability::CAPABILITY);
 
-    $macro = id(new PhabricatorMacroQuery())
+    $macro = id(new PhorgeMacroQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -21,12 +21,12 @@ final class PhabricatorMacroDisableController
     $view_uri = $this->getApplicationURI('/view/'.$id.'/');
 
     if ($request->isDialogFormPost() || $macro->getIsDisabled()) {
-      $xaction = id(new PhabricatorMacroTransaction())
+      $xaction = id(new PhorgeMacroTransaction())
         ->setTransactionType(
-          PhabricatorMacroDisabledTransaction::TRANSACTIONTYPE)
+          PhorgeMacroDisabledTransaction::TRANSACTIONTYPE)
         ->setNewValue($macro->getIsDisabled() ? 0 : 1);
 
-      $editor = id(new PhabricatorMacroEditor())
+      $editor = id(new PhorgeMacroEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request);
 

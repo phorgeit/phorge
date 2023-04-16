@@ -37,7 +37,7 @@ final class PhameBlogSite extends PhameSite {
 
     try {
       $blog = id(new PhameBlogQuery())
-        ->setViewer(new PhabricatorUser())
+        ->setViewer(new PhorgeUser())
         ->withDomain($host)
         ->needProfileImage(true)
         ->needHeaderImage(true)
@@ -46,7 +46,7 @@ final class PhameBlogSite extends PhameSite {
             PhameBlog::STATUS_ACTIVE,
           ))
         ->executeOne();
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       throw new Exception(
         pht(
           'This blog is not visible to logged out users, so it can not be '.
@@ -65,7 +65,7 @@ final class PhameBlogSite extends PhameSite {
   }
 
   public function getRoutingMaps() {
-    $app = PhabricatorApplication::getByClass('PhabricatorPhameApplication');
+    $app = PhorgeApplication::getByClass('PhorgePhameApplication');
 
     $maps = array();
     $maps[] = $this->newRoutingMap()

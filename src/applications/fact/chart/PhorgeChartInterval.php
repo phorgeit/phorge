@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartInterval
+final class PhorgeChartInterval
   extends Phobject {
 
   private $min;

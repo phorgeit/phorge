@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionDatasourceEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array(
@@ -28,7 +28,7 @@ final class DiffusionDatasourceEngineExtension
     if (preg_match('/^r\s+(.+)\z/i', $query, $matches)) {
       $raw_query = $matches[1];
 
-      $engine = id(new PhabricatorRepository())
+      $engine = id(new PhorgeRepository())
         ->newFerretEngine();
 
       $compiler = id(new PhutilSearchQueryCompiler())
@@ -38,12 +38,12 @@ final class DiffusionDatasourceEngineExtension
 
       $fulltext_tokens = array();
       foreach ($raw_tokens as $raw_token) {
-        $fulltext_token = id(new PhabricatorFulltextToken())
+        $fulltext_token = id(new PhorgeFulltextToken())
           ->setToken($raw_token);
         $fulltext_tokens[] = $fulltext_token;
       }
 
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withFerretConstraint($engine, $fulltext_tokens)
         ->execute();

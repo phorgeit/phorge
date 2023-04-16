@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorProjectDescriptionField
-  extends PhabricatorProjectStandardCustomField {
+final class PhorgeProjectDescriptionField
+  extends PhorgeProjectStandardCustomField {
 
   public function createFields($object) {
-    return PhabricatorStandardCustomField::buildStandardFields(
+    return PhorgeStandardCustomField::buildStandardFields(
       $this,
       array(
         'description' => array(
           'name'        => pht('Description'),
           'type'        => 'remarkup',
           'description' => pht('Short project description.'),
-          'fulltext'    => PhabricatorSearchDocumentFieldType::FIELD_BODY,
+          'fulltext'    => PhorgeSearchDocumentFieldType::FIELD_BODY,
         ),
       ),
       $internal = true);

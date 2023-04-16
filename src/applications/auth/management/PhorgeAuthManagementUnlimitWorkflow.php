@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementUnlimitWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementUnlimitWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -33,7 +33,7 @@ final class PhabricatorAuthManagementUnlimitWorkflow
           'Use %s to choose a user to reset actions for.', '--user'));
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withUsernames(array($username))
       ->executeOne();
@@ -54,7 +54,7 @@ final class PhabricatorAuthManagementUnlimitWorkflow
           'Specify %s to reset all action counters.', '--all'));
     }
 
-    $count = PhabricatorSystemActionEngine::resetActions(
+    $count = PhorgeSystemActionEngine::resetActions(
       array(
         $user->getPHID(),
       ));

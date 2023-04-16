@@ -5,7 +5,7 @@ abstract class FerretSearchFunction
 
   abstract public function getFerretFunctionName();
   abstract public function getFerretFieldKey();
-  abstract public function supportsObject(PhabricatorFerretInterface $object);
+  abstract public function supportsObject(PhorgeFerretInterface $object);
 
   final public static function getNormalizedFunctionName($name) {
     return phutil_utf8_strtolower($name);
@@ -34,7 +34,7 @@ abstract class FerretSearchFunction
   }
 
   final public static function newFerretSearchFunctions() {
-    $extensions = PhabricatorFulltextEngineExtension::getAllExtensions();
+    $extensions = PhorgeFulltextEngineExtension::getAllExtensions();
 
     $function_map = array();
     $field_map = array();

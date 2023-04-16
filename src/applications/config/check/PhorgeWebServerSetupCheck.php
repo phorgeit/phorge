@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWebServerSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeWebServerSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -22,7 +22,7 @@ final class PhabricatorWebServerSetupCheck extends PhabricatorSetupCheck {
             'compatible with this software. You should disable the module.'));
     }
 
-    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+    $base_uri = PhorgeEnv::getEnvConfig('phorge.base-uri');
     if (!strlen($base_uri)) {
       // If `phorge.base-uri` is not set then we can't really do
       // anything.

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeStatusTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeStatusTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badges.status';
 
@@ -14,7 +14,7 @@ final class PhabricatorBadgesBadgeStatusTransaction
   }
 
   public function getTitle() {
-    if ($this->getNewValue() == PhabricatorBadgesBadge::STATUS_ARCHIVED) {
+    if ($this->getNewValue() == PhorgeBadgesBadge::STATUS_ARCHIVED) {
       return pht(
         '%s disabled this badge.',
         $this->renderAuthor());
@@ -26,7 +26,7 @@ final class PhabricatorBadgesBadgeStatusTransaction
   }
 
   public function getTitleForFeed() {
-    if ($this->getNewValue() == PhabricatorBadgesBadge::STATUS_ARCHIVED) {
+    if ($this->getNewValue() == PhorgeBadgesBadge::STATUS_ARCHIVED) {
       return pht(
         '%s disabled the badge %s.',
         $this->renderAuthor(),
@@ -40,7 +40,7 @@ final class PhabricatorBadgesBadgeStatusTransaction
   }
 
   public function getIcon() {
-    if ($this->getNewValue() == PhabricatorBadgesBadge::STATUS_ARCHIVED) {
+    if ($this->getNewValue() == PhorgeBadgesBadge::STATUS_ARCHIVED) {
       return 'fa-ban';
     } else {
       return 'fa-check';

@@ -1,9 +1,9 @@
 <?php
 
-abstract class DrydockQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+abstract class DrydockQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
 }

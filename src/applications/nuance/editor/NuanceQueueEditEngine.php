@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceQueueEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'nuance.queue';
 
@@ -22,7 +22,7 @@ final class NuanceQueueEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   protected function newEditableObject() {
@@ -71,7 +71,7 @@ final class NuanceQueueEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the queue.'))

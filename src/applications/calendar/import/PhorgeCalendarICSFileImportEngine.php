@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarICSFileImportEngine
-  extends PhabricatorCalendarICSImportEngine {
+final class PhorgeCalendarICSFileImportEngine
+  extends PhorgeCalendarICSImportEngine {
 
   const ENGINETYPE = 'icsfile';
 
@@ -17,16 +17,16 @@ final class PhabricatorCalendarICSFileImportEngine
     return pht('Import an event in ".ics" (iCalendar) format.');
   }
 
-  public function supportsTriggers(PhabricatorCalendarImport $import) {
+  public function supportsTriggers(PhorgeCalendarImport $import) {
     return false;
   }
 
   public function appendImportProperties(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     PHUIPropertyListView $properties) {
 
-    $phid_key = PhabricatorCalendarImportICSFileTransaction::PARAMKEY_FILE;
+    $phid_key = PhorgeCalendarImportICSFileTransaction::PARAMKEY_FILE;
     $file_phid = $import->getParameter($phid_key);
 
     $properties->addProperty(
@@ -35,17 +35,17 @@ final class PhabricatorCalendarICSFileImportEngine
   }
 
   public function newEditEngineFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorCalendarImport $import) {
+    PhorgeEditEngine $engine,
+    PhorgeCalendarImport $import) {
     $fields = array();
 
     if ($engine->getIsCreate()) {
-      $fields[] = id(new PhabricatorFileEditField())
+      $fields[] = id(new PhorgeFileEditField())
         ->setKey('icsFilePHID')
         ->setLabel(pht('ICS File'))
         ->setDescription(pht('ICS file to import.'))
         ->setTransactionType(
-          PhabricatorCalendarImportICSFileTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportICSFileTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('File PHID to import.'))
         ->setConduitTypeDescription(pht('File PHID.'));
     }
@@ -53,8 +53,8 @@ final class PhabricatorCalendarICSFileImportEngine
     return $fields;
   }
 
-  public function getDisplayName(PhabricatorCalendarImport $import) {
-    $filename_key = PhabricatorCalendarImportICSFileTransaction::PARAMKEY_NAME;
+  public function getDisplayName(PhorgeCalendarImport $import) {
+    $filename_key = PhorgeCalendarImportICSFileTransaction::PARAMKEY_NAME;
     $filename = $import->getParameter($filename_key);
     if (strlen($filename)) {
       return pht('ICS File "%s"', $filename);
@@ -64,14 +64,14 @@ final class PhabricatorCalendarICSFileImportEngine
   }
 
   public function importEventsFromSource(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     $should_queue) {
 
-    $phid_key = PhabricatorCalendarImportICSFileTransaction::PARAMKEY_FILE;
+    $phid_key = PhorgeCalendarImportICSFileTransaction::PARAMKEY_FILE;
     $file_phid = $import->getParameter($phid_key);
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -92,14 +92,14 @@ final class PhabricatorCalendarICSFileImportEngine
   }
 
   public function canDisable(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import) {
     return false;
   }
 
   public function explainCanDisable(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import) {
     return pht(
       'You can not disable import of an ICS file because the entire import '.
       'occurs immediately when you upload the file. There is no further '.

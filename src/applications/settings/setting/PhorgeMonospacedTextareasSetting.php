@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMonospacedTextareasSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeMonospacedTextareasSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'monospaced-textareas';
 
@@ -13,7 +13,7 @@ final class PhabricatorMonospacedTextareasSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDisplayPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDisplayPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

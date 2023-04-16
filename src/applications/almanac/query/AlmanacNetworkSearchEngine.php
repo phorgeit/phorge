@@ -1,14 +1,14 @@
 <?php
 
 final class AlmanacNetworkSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Almanac Networks');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function newQuery() {
@@ -17,7 +17,7 @@ final class AlmanacNetworkSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for networks by name substring.')),
@@ -61,7 +61,7 @@ final class AlmanacNetworkSearchEngine
 
   protected function renderResultList(
     array $networks,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($networks, 'AlmanacNetwork');
 
@@ -81,7 +81,7 @@ final class AlmanacNetworkSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No Almanac Networks found.'));
 

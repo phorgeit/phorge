@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileThumbnailTransform
-  extends PhabricatorFileImageTransform {
+final class PhorgeFileThumbnailTransform
+  extends PhorgeFileImageTransform {
 
   const TRANSFORM_PROFILE = 'profile';
   const TRANSFORM_PINBOARD = 'pinboard';
@@ -57,20 +57,20 @@ final class PhabricatorFileThumbnailTransform
 
   public function generateTransforms() {
     return array(
-      id(new PhabricatorFileThumbnailTransform())
+      id(new PhorgeFileThumbnailTransform())
         ->setName(pht("Profile (400px \xC3\x97 400px)"))
         ->setKey(self::TRANSFORM_PROFILE)
         ->setDimensions(400, 400)
         ->setScaleUp(true),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new PhorgeFileThumbnailTransform())
         ->setName(pht("Pinboard (280px \xC3\x97 210px)"))
         ->setKey(self::TRANSFORM_PINBOARD)
         ->setDimensions(280, 210),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new PhorgeFileThumbnailTransform())
         ->setName(pht('Thumbgrid (100px)'))
         ->setKey(self::TRANSFORM_THUMBGRID)
         ->setDimensions(100, null),
-      id(new PhabricatorFileThumbnailTransform())
+      id(new PhorgeFileThumbnailTransform())
         ->setName(pht('Preview (220px)'))
         ->setKey(self::TRANSFORM_PREVIEW)
         ->setDimensions(220, null),
@@ -82,7 +82,7 @@ final class PhabricatorFileThumbnailTransform
     );
   }
 
-  public function applyTransform(PhabricatorFile $file) {
+  public function applyTransform(PhorgeFile $file) {
     $this->willTransformFile($file);
 
     list($src_x, $src_y) = $this->getImageDimensions();
@@ -115,7 +115,7 @@ final class PhabricatorFileThumbnailTransform
   }
 
 
-  public function getTransformedDimensions(PhabricatorFile $file) {
+  public function getTransformedDimensions(PhorgeFile $file) {
     $dst_x = $this->dstX;
     $dst_y = $this->dstY;
 
@@ -217,7 +217,7 @@ final class PhabricatorFileThumbnailTransform
   }
 
 
-  public function getDefaultTransform(PhabricatorFile $file) {
+  public function getDefaultTransform(PhorgeFile $file) {
     $x = (int)$this->dstX;
     $y = (int)$this->dstY;
     $name = 'image-'.$x.'x'.nonempty($y, $x).'.png';

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCoreVoidTransaction
-  extends PhabricatorModularTransactionType {
+final class PhorgeCoreVoidTransaction
+  extends PhorgeModularTransactionType {
 
   const TRANSACTIONTYPE = 'core.void';
 

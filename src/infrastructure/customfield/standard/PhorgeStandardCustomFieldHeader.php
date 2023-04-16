@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldHeader
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldHeader
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'header';

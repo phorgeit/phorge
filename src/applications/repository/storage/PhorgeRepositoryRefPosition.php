@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryRefPosition
-  extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryRefPosition
+  extends PhorgeRepositoryDAO {
 
   protected $cursorID;
   protected $commitIdentifier;

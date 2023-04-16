@@ -6,8 +6,8 @@
  * This class handles email, notifications, feed stories, search indexes, and
  * other similar backgroundable work.
  */
-final class PhabricatorApplicationTransactionPublishWorker
-  extends PhabricatorWorker {
+final class PhorgeApplicationTransactionPublishWorker
+  extends PhorgeWorker {
 
 
   /**
@@ -26,26 +26,26 @@ final class PhabricatorApplicationTransactionPublishWorker
    * Load the object the transactions affect.
    */
   private function loadObject() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $data = $this->getTaskData();
     if (!is_array($data)) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Task has invalid task data.'));
     }
 
     $phid = idx($data, 'objectPHID');
     if (!$phid) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Task has no object PHID!'));
     }
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
     if (!$object) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load object with PHID "%s"!',
           $phid));
@@ -59,12 +59,12 @@ final class PhabricatorApplicationTransactionPublishWorker
    * Build and configure an Editor to publish these transactions.
    */
   private function buildEditor(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     $data = $this->getTaskData();
 
     $daemon_source = $this->newContentSource();
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $editor = $object->getApplicationTransactionEditor()
       ->setActor($viewer)
       ->setContentSource($daemon_source)
@@ -79,7 +79,7 @@ final class PhabricatorApplicationTransactionPublishWorker
    * Load the transactions to be published.
    */
   private function loadTransactions(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     $data = $this->getTaskData();
 
     $xaction_phids = idx($data, 'xactionPHIDs');
@@ -90,11 +90,11 @@ final class PhabricatorApplicationTransactionPublishWorker
       return array();
     }
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($object);
     if (!$query) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load query for transaction object "%s"!',
           $object->getPHID()));
@@ -109,7 +109,7 @@ final class PhabricatorApplicationTransactionPublishWorker
 
     $missing = array_diff($xaction_phids, array_keys($xactions));
     if ($missing) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load transactions: %s.',
           implode(', ', $missing)));

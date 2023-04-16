@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryWorkingCopyVersion
-  extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryWorkingCopyVersion
+  extends PhorgeRepositoryDAO {
 
   protected $repositoryPHID;
   protected $devicePHID;
@@ -81,7 +81,7 @@ final class PhabricatorRepositoryWorkingCopyVersion
       'devicePHID' => $device_phid,
     );
 
-    return PhabricatorGlobalLock::newLock('repo.read', $parameters);
+    return PhorgeGlobalLock::newLock('repo.read', $parameters);
   }
 
   public static function getWriteLock($repository_phid) {
@@ -89,7 +89,7 @@ final class PhabricatorRepositoryWorkingCopyVersion
       'repositoryPHID' => $repository_phid,
     );
 
-    return PhabricatorGlobalLock::newLock('repo.write', $parameters);
+    return PhorgeGlobalLock::newLock('repo.write', $parameters);
   }
 
 

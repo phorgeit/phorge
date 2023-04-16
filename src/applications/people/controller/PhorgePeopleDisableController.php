@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleDisableController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleDisableController
+  extends PhorgePeopleController {
 
   public function shouldRequireAdmin() {
     return false;
@@ -12,7 +12,7 @@ final class PhabricatorPeopleDisableController
     $id = $request->getURIData('id');
     $via = $request->getURIData('via');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -47,7 +47,7 @@ final class PhabricatorPeopleDisableController
       }
 
       // On the "Disapprove" flow, bypass the "Can Disable Users" permission.
-      $actor = PhabricatorUser::getOmnipotentUser();
+      $actor = PhorgeUser::getOmnipotentUser();
       $should_disable = true;
     } else {
       $this->requireApplicationCapability(
@@ -70,11 +70,11 @@ final class PhabricatorPeopleDisableController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorUserTransaction())
-        ->setTransactionType(PhabricatorUserDisableTransaction::TRANSACTIONTYPE)
+      $xactions[] = id(new PhorgeUserTransaction())
+        ->setTransactionType(PhorgeUserDisableTransaction::TRANSACTIONTYPE)
         ->setNewValue($should_disable);
 
-      id(new PhabricatorUserTransactionEditor())
+      id(new PhorgeUserTransactionEditor())
         ->setActor($actor)
         ->setActingAsPHID($viewer->getPHID())
         ->setContentSourceFromRequest($request)

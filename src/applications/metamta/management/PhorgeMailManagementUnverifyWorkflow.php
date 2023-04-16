@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementUnverifyWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementUnverifyWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -30,7 +30,7 @@ final class PhabricatorMailManagementUnverifyWorkflow
     }
 
     foreach ($addresses as $address) {
-      $email = id(new PhabricatorUserEmail())->loadOneWhere(
+      $email = id(new PhorgeUserEmail())->loadOneWhere(
         'address = %s',
         $address);
       if (!$email) {
@@ -44,7 +44,7 @@ final class PhabricatorMailManagementUnverifyWorkflow
 
       $user_phid = $email->getUserPHID();
 
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($user_phid))
         ->executeOne();

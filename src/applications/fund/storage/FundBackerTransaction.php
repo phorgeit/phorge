@@ -1,7 +1,7 @@
 <?php
 
 final class FundBackerTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'fund';

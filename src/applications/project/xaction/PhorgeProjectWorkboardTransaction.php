@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectWorkboardTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectWorkboardTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:hasworkboard';
 

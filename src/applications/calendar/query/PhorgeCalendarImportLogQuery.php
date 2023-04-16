@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarImportLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -23,7 +23,7 @@ final class PhabricatorCalendarImportLogQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorCalendarImportLog();
+    return new PhorgeCalendarImportLog();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -57,13 +57,13 @@ final class PhabricatorCalendarImportLogQuery
   protected function willFilterPage(array $page) {
     $viewer = $this->getViewer();
 
-    $type_map = PhabricatorCalendarImportLogType::getAllLogTypes();
+    $type_map = PhorgeCalendarImportLogType::getAllLogTypes();
     foreach ($page as $log) {
       $type_constant = $log->getParameter('type');
 
       $type_object = idx($type_map, $type_constant);
       if (!$type_object) {
-        $type_object = new PhabricatorCalendarImportDefaultLogType();
+        $type_object = new PhorgeCalendarImportDefaultLogType();
       }
 
       $type_object = clone $type_object;
@@ -73,7 +73,7 @@ final class PhabricatorCalendarImportLogQuery
     $import_phids = mpull($page, 'getImportPHID');
 
     if ($import_phids) {
-      $imports = id(new PhabricatorCalendarImportQuery())
+      $imports = id(new PhorgeCalendarImportQuery())
         ->setViewer($viewer)
         ->withPHIDs($import_phids)
         ->execute();
@@ -101,7 +101,7 @@ final class PhabricatorCalendarImportLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
 }

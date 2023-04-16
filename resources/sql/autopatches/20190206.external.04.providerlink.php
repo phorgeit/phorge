@@ -1,10 +1,10 @@
 <?php
 
-$account_table = new PhabricatorExternalAccount();
+$account_table = new PhorgeExternalAccount();
 $account_conn = $account_table->establishConnection('w');
 $table_name = $account_table->getTableName();
 
-$config_table = new PhabricatorAuthProviderConfig();
+$config_table = new PhorgeAuthProviderConfig();
 $config_conn = $config_table->establishConnection('w');
 
 foreach (new LiskRawMigrationIterator($account_conn, $table_name) as $row) {

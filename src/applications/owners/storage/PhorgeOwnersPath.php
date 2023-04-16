@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOwnersPath extends PhabricatorOwnersDAO {
+final class PhorgeOwnersPath extends PhorgeOwnersDAO {
 
   protected $packageID;
   protected $repositoryPHID;
@@ -34,12 +34,12 @@ final class PhabricatorOwnersPath extends PhabricatorOwnersDAO {
   }
 
   public static function newFromRef(array $ref) {
-    $path = new PhabricatorOwnersPath();
+    $path = new PhorgeOwnersPath();
     $path->repositoryPHID = $ref['repositoryPHID'];
 
     $raw_path = $ref['path'];
 
-    $path->pathIndex = PhabricatorHash::digestForIndex($raw_path);
+    $path->pathIndex = PhorgeHash::digestForIndex($raw_path);
     $path->path = $raw_path;
     $path->pathDisplay = $raw_path;
 
@@ -124,7 +124,7 @@ final class PhabricatorOwnersPath extends PhabricatorOwnersDAO {
     }
 
     if ($this->fragments === null) {
-      $this->fragments = PhabricatorOwnersPackage::splitPath($this_path);
+      $this->fragments = PhorgeOwnersPackage::splitPath($this_path);
       $this->fragmentCount = count($this->fragments);
     }
 

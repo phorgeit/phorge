@@ -1,10 +1,10 @@
 <?php
 
 final class NuanceSourceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   public function getResultTypeDescription() {
@@ -27,7 +27,7 @@ final class NuanceSourceSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for sources by name substring.')),
@@ -60,7 +60,7 @@ final class NuanceSourceSearchEngine
 
   protected function renderResultList(
     array $sources,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($sources, 'NuanceSource');
 
@@ -79,7 +79,7 @@ final class NuanceSourceSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No sources found.'));
 

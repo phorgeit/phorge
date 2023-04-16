@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeEditEngineConfigurationEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -13,7 +13,7 @@ final class PhabricatorEditEngineConfigurationEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
 
     return $types;
   }

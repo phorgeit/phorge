@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCustomFieldDependsOnParser
-  extends PhabricatorCustomFieldMonogramParser {
+  extends PhorgeCustomFieldMonogramParser {
 
   protected function getPrefixes() {
     return array(

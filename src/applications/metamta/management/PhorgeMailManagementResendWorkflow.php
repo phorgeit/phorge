@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementResendWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementResendWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -31,7 +31,7 @@ final class PhabricatorMailManagementResendWorkflow
           '--id'));
     }
 
-    $messages = id(new PhabricatorMetaMTAMail())->loadAllWhere(
+    $messages = id(new PhorgeMetaMTAMail())->loadAllWhere(
       'id IN (%Ld)',
       $ids);
 
@@ -47,14 +47,14 @@ final class PhabricatorMailManagementResendWorkflow
     }
 
     foreach ($messages as $message) {
-      $message->setStatus(PhabricatorMailOutboundStatus::STATUS_QUEUE);
+      $message->setStatus(PhorgeMailOutboundStatus::STATUS_QUEUE);
       $message->save();
 
-      $mailer_task = PhabricatorWorker::scheduleTask(
-        'PhabricatorMetaMTAWorker',
+      $mailer_task = PhorgeWorker::scheduleTask(
+        'PhorgeMetaMTAWorker',
         $message->getID(),
         array(
-          'priority' => PhabricatorWorker::PRIORITY_ALERTS,
+          'priority' => PhorgeWorker::PRIORITY_ALERTS,
         ));
 
       $console->writeOut(

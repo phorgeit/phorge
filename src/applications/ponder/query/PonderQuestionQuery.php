@@ -1,7 +1,7 @@
 <?php
 
 final class PonderQuestionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -106,11 +106,11 @@ final class PonderQuestionQuery
     }
 
     if ($this->needProjectPHIDs) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs($phids)
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
       $edge_query->execute();
 
@@ -144,7 +144,7 @@ final class PonderQuestionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
 }

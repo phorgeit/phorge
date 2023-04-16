@@ -21,7 +21,7 @@ final class PhortuneCreditCardForm extends Phobject {
     return $this->securityAssurance;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHovercardEngineExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeHovercardEngineExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'hovercardengine';
@@ -14,7 +14,7 @@ final class PhabricatorHovercardEngineExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorHovercardEngineExtension::getAllExtensions();
+    $extensions = PhorgeHovercardEngineExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

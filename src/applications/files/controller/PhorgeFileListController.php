@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileListController extends PhabricatorFileController {
+final class PhorgeFileListController extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorFileListController extends PhabricatorFileController {
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorFileSearchEngine())
+    return id(new PhorgeFileSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

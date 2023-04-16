@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSearchResultBucket
+abstract class PhorgeSearchResultBucket
   extends Phobject {
 
   private $viewer;
@@ -19,7 +19,7 @@ abstract class PhabricatorSearchResultBucket
     return $this->pageSize;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -34,11 +34,11 @@ abstract class PhabricatorSearchResultBucket
 
   abstract public function getResultBucketName();
   abstract protected function buildResultGroups(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $objects);
 
   final public function newResultGroups(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $objects) {
     return $this->buildResultGroups($query, $objects);
   }
@@ -48,7 +48,7 @@ abstract class PhabricatorSearchResultBucket
   }
 
   final protected function newGroup() {
-    return new PhabricatorSearchResultBucketGroup();
+    return new PhorgeSearchResultBucketGroup();
   }
 
 }

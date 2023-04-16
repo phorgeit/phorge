@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorDashboardProfileController
-  extends PhabricatorController {
+abstract class PhorgeDashboardProfileController
+  extends PhorgeController {
 
   private $dashboard;
 
-  public function setDashboard(PhabricatorDashboard $dashboard) {
+  public function setDashboard(PhorgeDashboard $dashboard) {
     $this->dashboard = $dashboard;
     return $this;
   }
@@ -28,7 +28,7 @@ abstract class PhabricatorDashboardProfileController
     }
 
     $status_name = idx(
-      PhabricatorDashboard::getStatusNameMap(),
+      PhorgeDashboard::getStatusNameMap(),
       $dashboard->getStatus());
 
     return id(new PHUIHeaderView())

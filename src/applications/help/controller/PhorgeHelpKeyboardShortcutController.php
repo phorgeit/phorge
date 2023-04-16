@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHelpKeyboardShortcutController
-  extends PhabricatorHelpController {
+final class PhorgeHelpKeyboardShortcutController
+  extends PhorgeHelpController {
 
   public function shouldAllowPublic() {
     return true;

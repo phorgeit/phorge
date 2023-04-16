@@ -20,7 +20,7 @@ final class AphrontApplicationConfiguration
     $data += $_POST;
     $data += $parser->parseQueryString(idx($_SERVER, 'QUERY_STRING', ''));
 
-    $cookie_prefix = PhabricatorEnv::getEnvConfig('phorge.cookie-prefix');
+    $cookie_prefix = PhorgeEnv::getEnvConfig('phorge.cookie-prefix');
 
     $request = new AphrontRequest($this->getHost(), $this->getPath());
     $request->setRequestData($data);
@@ -34,7 +34,7 @@ final class AphrontApplicationConfiguration
 
   public function buildRedirectController($uri, $external) {
     return array(
-      new PhabricatorRedirectController(),
+      new PhorgeRedirectController(),
       array(
         'uri' => $uri,
         'external' => $external,
@@ -80,7 +80,7 @@ final class AphrontApplicationConfiguration
 
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public static function runHTTPRequest(AphrontHTTPSink $sink) {
     if (isset($_SERVER['HTTP_X_SETUP_SELFCHECK'])) {
@@ -88,7 +88,7 @@ final class AphrontApplicationConfiguration
       return self::writeResponse($sink, $response);
     }
 
-    PhabricatorStartup::beginStartupPhase('multimeter');
+    PhorgeStartup::beginStartupPhase('multimeter');
     $multimeter = MultimeterControl::newInstance();
     $multimeter->setEventContext('<http-init>');
     $multimeter->setEventViewer('<none>');
@@ -98,53 +98,53 @@ final class AphrontApplicationConfiguration
     // request object first.
     $write_guard = new AphrontWriteGuard('id');
 
-    PhabricatorStartup::beginStartupPhase('preflight');
+    PhorgeStartup::beginStartupPhase('preflight');
 
-    $response = PhabricatorSetupCheck::willPreflightRequest();
+    $response = PhorgeSetupCheck::willPreflightRequest();
     if ($response) {
       return self::writeResponse($sink, $response);
     }
 
-    PhabricatorStartup::beginStartupPhase('env.init');
+    PhorgeStartup::beginStartupPhase('env.init');
 
     self::readHTTPPOSTData();
 
     try {
-      PhabricatorEnv::initializeWebEnvironment();
+      PhorgeEnv::initializeWebEnvironment();
       $database_exception = null;
-    } catch (PhabricatorClusterStrandedException $ex) {
+    } catch (PhorgeClusterStrandedException $ex) {
       $database_exception = $ex;
     }
 
     // If we're in developer mode, set a flag so that top-level exception
     // handlers can add more information.
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       $sink->setShowStackTraces(true);
     }
 
     if ($database_exception) {
-      $issue = PhabricatorSetupIssue::newDatabaseConnectionIssue(
+      $issue = PhorgeSetupIssue::newDatabaseConnectionIssue(
         $database_exception,
         true);
-      $response = PhabricatorSetupCheck::newIssueResponse($issue);
+      $response = PhorgeSetupCheck::newIssueResponse($issue);
       return self::writeResponse($sink, $response);
     }
 
     $multimeter->setSampleRate(
-      PhabricatorEnv::getEnvConfig('debug.sample-rate'));
+      PhorgeEnv::getEnvConfig('debug.sample-rate'));
 
-    $debug_time_limit = PhabricatorEnv::getEnvConfig('debug.time-limit');
+    $debug_time_limit = PhorgeEnv::getEnvConfig('debug.time-limit');
     if ($debug_time_limit) {
-      PhabricatorStartup::setDebugTimeLimit($debug_time_limit);
+      PhorgeStartup::setDebugTimeLimit($debug_time_limit);
     }
 
     // This is the earliest we can get away with this, we need env config first.
-    PhabricatorStartup::beginStartupPhase('log.access');
-    PhabricatorAccessLog::init();
-    $access_log = PhabricatorAccessLog::getLog();
-    PhabricatorStartup::setAccessLog($access_log);
+    PhorgeStartup::beginStartupPhase('log.access');
+    PhorgeAccessLog::init();
+    $access_log = PhorgeAccessLog::getLog();
+    PhorgeStartup::setAccessLog($access_log);
 
-    $address = PhabricatorEnv::getRemoteAddress();
+    $address = PhorgeEnv::getRemoteAddress();
     if ($address) {
       $address_string = $address->getAddress();
     } else {
@@ -162,17 +162,17 @@ final class AphrontApplicationConfiguration
 
     // We just activated the profiler, so we don't need to keep track of
     // startup phases anymore: it can take over from here.
-    PhabricatorStartup::beginStartupPhase('startup.done');
+    PhorgeStartup::beginStartupPhase('startup.done');
 
     DarkConsoleErrorLogPluginAPI::registerErrorHandler();
 
-    $response = PhabricatorSetupCheck::willProcessRequest();
+    $response = PhorgeSetupCheck::willProcessRequest();
     if ($response) {
       return self::writeResponse($sink, $response);
     }
 
     $host = AphrontRequest::getHTTPHeader('Host');
-    $path = PhabricatorStartup::getRequestPath();
+    $path = PhorgeStartup::getRequestPath();
 
     $application = new self();
 
@@ -191,7 +191,7 @@ final class AphrontApplicationConfiguration
 
     $request_protocol = ($request->isHTTPS() ? 'https' : 'http');
     $request_base_uri = "{$request_protocol}://{$host}/";
-    PhabricatorEnv::setRequestBaseURI($request_base_uri);
+    PhorgeEnv::setRequestBaseURI($request_base_uri);
 
     $access_log->setData(
       array(
@@ -216,13 +216,13 @@ final class AphrontApplicationConfiguration
     $access_log->setData(
       array(
         'c' => $response_code,
-        'T' => PhabricatorStartup::getMicrosecondsSinceStart(),
+        'T' => PhorgeStartup::getMicrosecondsSinceStart(),
       ));
 
     $multimeter->newEvent(
       MultimeterEvent::TYPE_REQUEST_TIME,
       $multimeter->getEventContext(),
-      PhabricatorStartup::getMicrosecondsSinceStart());
+      PhorgeStartup::getMicrosecondsSinceStart());
 
     $access_log->write();
 
@@ -230,7 +230,7 @@ final class AphrontApplicationConfiguration
 
     DarkConsoleXHProfPluginAPI::saveProfilerSample($access_log);
 
-    PhabricatorStartup::disconnectRateLimits(
+    PhorgeStartup::disconnectRateLimits(
       array(
         'viewer' => $request->getUser(),
       ));
@@ -364,7 +364,7 @@ final class AphrontApplicationConfiguration
     AphrontHTTPSink $sink,
     AphrontResponse $response) {
 
-    $unexpected_output = PhabricatorStartup::endOutputCapture();
+    $unexpected_output = PhorgeStartup::endOutputCapture();
     if ($unexpected_output) {
       $unexpected_output = pht(
         "Unexpected output:\n\n%s",
@@ -408,7 +408,7 @@ final class AphrontApplicationConfiguration
     // get wrong. As a broad security measure, reject requests received on any
     // interfaces which aren't on the whitelist.
 
-    $cluster_addresses = PhabricatorEnv::getEnvConfig('cluster.addresses');
+    $cluster_addresses = PhorgeEnv::getEnvConfig('cluster.addresses');
     if ($cluster_addresses) {
       $server_addr = idx($_SERVER, 'SERVER_ADDR');
       if (!$server_addr) {
@@ -427,7 +427,7 @@ final class AphrontApplicationConfiguration
               'SERVER_ADDR'));
         }
       } else {
-        if (!PhabricatorEnv::isClusterAddress($server_addr)) {
+        if (!PhorgeEnv::isClusterAddress($server_addr)) {
           throw new AphrontMalformedRequestException(
             pht('External Interface'),
             pht(
@@ -526,7 +526,7 @@ final class AphrontApplicationConfiguration
   }
 
   private function buildSiteForRequest(AphrontRequest $request) {
-    $sites = PhabricatorSite::getAllSites();
+    $sites = PhorgeSite::getAllSites();
 
     $site = null;
     foreach ($sites as $candidate) {
@@ -758,7 +758,7 @@ final class AphrontApplicationConfiguration
   }
 
   private static function newSelfCheckResponse() {
-    $path = PhabricatorStartup::getRequestPath();
+    $path = PhorgeStartup::getRequestPath();
     $query = idx($_SERVER, 'QUERY_STRING', '');
 
     $pairs = id(new PhutilQueryStringParser())
@@ -820,7 +820,7 @@ final class AphrontApplicationConfiguration
     // $_POST and $_FILES, which is involved. The body itself is also more
     // difficult to parse than other requests.
 
-    $raw_input = PhabricatorStartup::getRawInput();
+    $raw_input = PhorgeStartup::getRawInput();
     $parser = new PhutilQueryStringParser();
 
     if (phutil_nonempty_string($raw_input)) {
@@ -866,12 +866,12 @@ final class AphrontApplicationConfiguration
       }
 
       $_POST = $post;
-      PhabricatorStartup::rebuildRequest();
+      PhorgeStartup::rebuildRequest();
     } else if ($_POST) {
       $post = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
       if (is_array($post)) {
         $_POST = $post;
-        PhabricatorStartup::rebuildRequest();
+        PhorgeStartup::rebuildRequest();
       }
     }
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectDropEffect
+final class PhorgeProjectDropEffect
   extends Phobject {
 
   private $icon;

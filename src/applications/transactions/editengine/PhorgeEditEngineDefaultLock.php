@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorEditEngineDefaultLock
-  extends PhabricatorEditEngineLock {}
+final class PhorgeEditEngineDefaultLock
+  extends PhorgeEditEngineLock {}

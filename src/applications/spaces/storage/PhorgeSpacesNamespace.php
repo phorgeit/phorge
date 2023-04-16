@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorSpacesNamespace
-  extends PhabricatorSpacesDAO
+final class PhorgeSpacesNamespace
+  extends PhorgeSpacesDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface {
 
   protected $namespaceName;
   protected $viewPolicy;
@@ -14,18 +14,18 @@ final class PhabricatorSpacesNamespace
   protected $description;
   protected $isArchived;
 
-  public static function initializeNewNamespace(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewNamespace(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorSpacesApplication'))
+      ->withClasses(array('PhorgeSpacesApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
-      PhabricatorSpacesCapabilityDefaultView::CAPABILITY);
+      PhorgeSpacesCapabilityDefaultView::CAPABILITY);
     $edit_policy = $app->getPolicy(
-      PhabricatorSpacesCapabilityDefaultEdit::CAPABILITY);
+      PhorgeSpacesCapabilityDefaultEdit::CAPABILITY);
 
-    return id(new PhabricatorSpacesNamespace())
+    return id(new PhorgeSpacesNamespace())
       ->setIsDefaultNamespace(null)
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
@@ -52,8 +52,8 @@ final class PhabricatorSpacesNamespace
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorSpacesNamespacePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeSpacesNamespacePHIDType::TYPECONST);
   }
 
   public function getMonogram() {
@@ -61,46 +61,46 @@ final class PhabricatorSpacesNamespace
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorSpacesNamespaceEditor();
+    return new PhorgeSpacesNamespaceEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorSpacesNamespaceTransaction();
+    return new PhorgeSpacesNamespaceTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 

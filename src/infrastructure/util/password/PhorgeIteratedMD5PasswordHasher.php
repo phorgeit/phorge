@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIteratedMD5PasswordHasher
-  extends PhabricatorPasswordHasher {
+final class PhorgeIteratedMD5PasswordHasher
+  extends PhorgePasswordHasher {
 
   public function getHumanReadableName() {
     return pht('Iterated MD5');

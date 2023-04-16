@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFerretMetadata extends Phobject {
+final class PhorgeFerretMetadata extends Phobject {
 
   private $phid;
   private $engine;

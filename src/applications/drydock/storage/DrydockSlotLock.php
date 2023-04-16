@@ -96,7 +96,7 @@ final class DrydockSlotLock extends DrydockDAO {
 
     $indexes = array();
     foreach ($locks as $lock) {
-      $indexes[] = PhabricatorHash::digestForIndex($lock);
+      $indexes[] = PhorgeHash::digestForIndex($lock);
     }
 
     return id(new DrydockSlotLock())->loadAllWhere(
@@ -133,7 +133,7 @@ final class DrydockSlotLock extends DrydockDAO {
         $conn_w,
         '(%s, %s, %s)',
         $owner_phid,
-        PhabricatorHash::digestForIndex($lock),
+        PhorgeHash::digestForIndex($lock),
         $lock);
     }
 

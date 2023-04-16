@@ -4,7 +4,7 @@ abstract class PHUICurtainExtension extends Phobject {
 
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -46,7 +46,7 @@ abstract class PHUICurtainExtension extends Phobject {
   }
 
   final public static function buildExtensionPanels(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $object) {
 
     $extensions = self::getAllExtensions();
@@ -56,7 +56,7 @@ abstract class PHUICurtainExtension extends Phobject {
 
     foreach ($extensions as $key => $extension) {
       $application = $extension->getExtensionApplication();
-      if (!($application instanceof PhabricatorApplication)) {
+      if (!($application instanceof PhorgeApplication)) {
         throw new Exception(
           pht(
             'Curtain extension ("%s", of class "%s") did not return an '.
@@ -65,10 +65,10 @@ abstract class PHUICurtainExtension extends Phobject {
             $key,
             get_class($extension),
             'getExtensionApplication()',
-            'PhabricatorApplication'));
+            'PhorgeApplication'));
       }
 
-      $has_application = PhabricatorApplication::isClassInstalledForViewer(
+      $has_application = PhorgeApplication::isClassInstalledForViewer(
         get_class($application),
         $viewer);
 

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorWorkerManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeWorkerManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function getTaskSelectionArguments() {
     return array(
@@ -157,8 +157,8 @@ abstract class PhabricatorWorkerManagementWorkflow
       }
     }
 
-    $active_query = new PhabricatorWorkerActiveTaskQuery();
-    $archive_query = new PhabricatorWorkerArchiveTaskQuery();
+    $active_query = new PhorgeWorkerActiveTaskQuery();
+    $archive_query = new PhorgeWorkerArchiveTaskQuery();
 
     if ($ids) {
       $active_query = $active_query->withIDs($ids);
@@ -233,8 +233,8 @@ abstract class PhabricatorWorkerManagementWorkflow
     // fake it when doing manual CLI stuff. This makes sure CLI yields have
     // their expires times set properly.
     foreach ($tasks as $task) {
-      if ($task instanceof PhabricatorWorkerActiveTask) {
-        $task->setServerTime(PhabricatorTime::getNow());
+      if ($task instanceof PhorgeWorkerActiveTask) {
+        $task->setServerTime(PhorgeTime::getNow());
       }
     }
 
@@ -255,7 +255,7 @@ abstract class PhabricatorWorkerManagementWorkflow
     return $tasks;
   }
 
-  protected function describeTask(PhabricatorWorkerTask $task) {
+  protected function describeTask(PhorgeWorkerTask $task) {
     return pht('Task %d (%s)', $task->getID(), $task->getTaskClass());
   }
 
@@ -274,7 +274,7 @@ abstract class PhabricatorWorkerManagementWorkflow
       $seen_names[$name] = true;
     }
 
-    $object_query = id(new PhabricatorObjectQuery())
+    $object_query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($names);
 

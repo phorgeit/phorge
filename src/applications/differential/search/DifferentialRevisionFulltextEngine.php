@@ -1,10 +1,10 @@
 <?php
 
 final class DifferentialRevisionFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $revision = id(new DifferentialRevisionQuery())
@@ -19,18 +19,18 @@ final class DifferentialRevisionFulltextEngine
     $document->setDocumentTitle($revision->getTitle());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $revision->getAuthorPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $revision->getDateCreated());
 
     $document->addRelationship(
       $revision->isClosed()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $revision->getPHID(),
       DifferentialRevisionPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
     // If a revision needs review, the owners are the reviewers. Otherwise, the
     // owner is the author (e.g., accepted, rejected, closed).
@@ -41,23 +41,23 @@ final class DifferentialRevisionFulltextEngine
       if ($reviewers) {
         foreach ($reviewers as $phid) {
           $document->addRelationship(
-            PhabricatorSearchRelationship::RELATIONSHIP_OWNER,
+            PhorgeSearchRelationship::RELATIONSHIP_OWNER,
             $phid,
-            PhabricatorPeopleUserPHIDType::TYPECONST,
+            PhorgePeopleUserPHIDType::TYPECONST,
             $revision->getDateModified()); // Bogus timestamp.
         }
       } else {
         $document->addRelationship(
-          PhabricatorSearchRelationship::RELATIONSHIP_UNOWNED,
+          PhorgeSearchRelationship::RELATIONSHIP_UNOWNED,
           $revision->getPHID(),
-          PhabricatorPeopleUserPHIDType::TYPECONST,
+          PhorgePeopleUserPHIDType::TYPECONST,
           $revision->getDateModified()); // Bogus timestamp.
       }
     } else {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_OWNER,
+        PhorgeSearchRelationship::RELATIONSHIP_OWNER,
         $revision->getAuthorPHID(),
-        PhabricatorPHIDConstants::PHID_TYPE_VOID,
+        PhorgePHIDConstants::PHID_TYPE_VOID,
         $revision->getDateCreated());
     }
   }

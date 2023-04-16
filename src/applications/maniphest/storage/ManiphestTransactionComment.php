@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
     return new ManiphestTransaction();

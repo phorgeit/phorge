@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthEditController
-  extends PhabricatorAuthProviderConfigController {
+final class PhorgeAuthEditController
+  extends PhorgeAuthProviderConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
@@ -12,12 +12,12 @@ final class PhabricatorAuthEditController
     $config_id = $request->getURIData('id');
 
     if ($config_id) {
-      $config = id(new PhabricatorAuthProviderConfigQuery())
+      $config = id(new PhorgeAuthProviderConfigQuery())
         ->setViewer($viewer)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->withIDs(array($config_id))
         ->executeOne();
@@ -34,7 +34,7 @@ final class PhabricatorAuthEditController
     } else {
       $provider = null;
 
-      $providers = PhabricatorAuthProvider::getAllBaseProviders();
+      $providers = PhorgeAuthProvider::getAllBaseProviders();
       foreach ($providers as $candidate_provider) {
         if (get_class($candidate_provider) === $provider_class) {
           $provider = $candidate_provider;
@@ -48,7 +48,7 @@ final class PhabricatorAuthEditController
 
       // TODO: When we have multi-auth providers, support them here.
 
-      $configs = id(new PhabricatorAuthProviderConfigQuery())
+      $configs = id(new PhorgeAuthProviderConfigQuery())
         ->setViewer($viewer)
         ->withProviderClasses(array(get_class($provider)))
         ->execute();
@@ -107,42 +107,42 @@ final class PhabricatorAuthEditController
           }
         }
 
-        $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+        $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
           ->setTransactionType(
-            PhabricatorAuthProviderConfigTransaction::TYPE_LOGIN)
+            PhorgeAuthProviderConfigTransaction::TYPE_LOGIN)
           ->setNewValue($request->getInt('allowLogin', 0));
 
-        $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+        $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
           ->setTransactionType(
-            PhabricatorAuthProviderConfigTransaction::TYPE_REGISTRATION)
+            PhorgeAuthProviderConfigTransaction::TYPE_REGISTRATION)
           ->setNewValue($request->getInt('allowRegistration', 0));
 
-        $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+        $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
           ->setTransactionType(
-            PhabricatorAuthProviderConfigTransaction::TYPE_LINK)
+            PhorgeAuthProviderConfigTransaction::TYPE_LINK)
           ->setNewValue($request->getInt('allowLink', 0));
 
-        $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+        $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
           ->setTransactionType(
-            PhabricatorAuthProviderConfigTransaction::TYPE_UNLINK)
+            PhorgeAuthProviderConfigTransaction::TYPE_UNLINK)
           ->setNewValue($request->getInt('allowUnlink', 0));
 
-        $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+        $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
           ->setTransactionType(
-            PhabricatorAuthProviderConfigTransaction::TYPE_TRUST_EMAILS)
+            PhorgeAuthProviderConfigTransaction::TYPE_TRUST_EMAILS)
           ->setNewValue($request->getInt('trustEmails', 0));
 
         if ($provider->supportsAutoLogin()) {
-          $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+          $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
             ->setTransactionType(
-              PhabricatorAuthProviderConfigTransaction::TYPE_AUTO_LOGIN)
+              PhorgeAuthProviderConfigTransaction::TYPE_AUTO_LOGIN)
             ->setNewValue($request->getInt('autoLogin', 0));
         }
 
         foreach ($properties as $key => $value) {
-          $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+          $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
             ->setTransactionType(
-              PhabricatorAuthProviderConfigTransaction::TYPE_PROPERTY)
+              PhorgeAuthProviderConfigTransaction::TYPE_PROPERTY)
             ->setMetadataValue('auth:property', $key)
             ->setNewValue($value);
         }
@@ -151,7 +151,7 @@ final class PhabricatorAuthEditController
           $config->save();
         }
 
-        $editor = id(new PhabricatorAuthProviderConfigEditor())
+        $editor = id(new PhorgeAuthProviderConfigEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true);
@@ -209,7 +209,7 @@ final class PhabricatorAuthEditController
     $config_name = 'auth.email-domains';
     $config_href = '/config/edit/'.$config_name.'/';
 
-    $email_domains = PhabricatorEnv::getEnvConfig($config_name);
+    $email_domains = PhorgeEnv::getEnvConfig($config_name);
     if ($email_domains) {
       $registration_warning = pht(
         'Users will only be able to register with a verified email address '.
@@ -330,7 +330,7 @@ final class PhabricatorAuthEditController
     $provider->extendEditForm($request, $form, $properties, $issues);
 
     $locked_config_key = 'auth.lock-config';
-    $is_locked = PhabricatorEnv::getEnvConfig($locked_config_key);
+    $is_locked = PhorgeEnv::getEnvConfig($locked_config_key);
 
     $locked_warning = null;
     if ($is_locked && !$validation_exception) {

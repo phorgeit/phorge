@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthChallengeUpdate
+final class PhorgeAuthChallengeUpdate
   extends Phobject {
 
   private $retry = false;

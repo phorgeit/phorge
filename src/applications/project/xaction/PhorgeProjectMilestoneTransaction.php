@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMilestoneTransaction
-  extends PhabricatorProjectTypeTransaction {
+final class PhorgeProjectMilestoneTransaction
+  extends PhorgeProjectTypeTransaction {
 
   const TRANSACTIONTYPE = 'project:milestone';
 
@@ -11,13 +11,13 @@ final class PhabricatorProjectMilestoneTransaction
 
   public function applyInternalEffects($object, $value) {
     $parent_phid = $value;
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($this->getActor())
       ->withPHIDs(array($parent_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 

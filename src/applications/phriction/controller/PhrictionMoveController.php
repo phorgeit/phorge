@@ -11,8 +11,8 @@ final class PhrictionMoveController extends PhrictionController {
       ->needContent(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$document) {
@@ -31,7 +31,7 @@ final class PhrictionMoveController extends PhrictionController {
     if ($request->isFormPost()) {
       $v_note = $request->getStr('description');
       $v_slug = $request->getStr('slug');
-      $normal_slug = PhabricatorSlug::normalize($v_slug);
+      $normal_slug = PhorgeSlug::normalize($v_slug);
 
       // If what the user typed isn't what we're actually using, warn them
       // about it.
@@ -69,13 +69,13 @@ final class PhrictionMoveController extends PhrictionController {
           PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE)
         ->setNewValue($document);
       $target_document = id(new PhrictionDocumentQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withSlugs(array($normal_slug))
         ->needContent(true)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$target_document) {
@@ -88,7 +88,7 @@ final class PhrictionMoveController extends PhrictionController {
         $redir_uri = PhrictionDocument::getSlugURI(
           $target_document->getSlug());
         return id(new AphrontRedirectResponse())->setURI($redir_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_slug = $ex->getShortMessage(
           PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE);

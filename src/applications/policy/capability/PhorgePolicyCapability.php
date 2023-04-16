@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorPolicyCapability extends Phobject {
+abstract class PhorgePolicyCapability extends Phobject {
 
   const CAN_VIEW        = 'view';
   const CAN_EDIT        = 'edit';

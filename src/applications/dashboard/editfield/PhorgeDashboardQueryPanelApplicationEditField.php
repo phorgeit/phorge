@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelApplicationEditField
-  extends PhabricatorEditField {
+final class PhorgeDashboardQueryPanelApplicationEditField
+  extends PhorgeEditField {
 
   private $controlID;
 
   protected function newControl() {
     $engines = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass('PhorgeApplicationSearchEngine')
       ->setFilterMethod('canUseInPanelContext')
       ->execute();
 
-    $all_apps = id(new PhabricatorApplicationQuery())
+    $all_apps = id(new PhorgeApplicationQuery())
       ->setViewer($this->getViewer())
       ->withUnlisted(false)
       ->withInstalled(true)

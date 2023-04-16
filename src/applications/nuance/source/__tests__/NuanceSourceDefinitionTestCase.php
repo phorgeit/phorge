@@ -1,6 +1,6 @@
 <?php
 
-final class NuanceSourceDefinitionTestCase extends PhabricatorTestCase {
+final class NuanceSourceDefinitionTestCase extends PhorgeTestCase {
 
   public function testGetAllTypes() {
     NuanceSourceDefinition::getAllDefinitions();

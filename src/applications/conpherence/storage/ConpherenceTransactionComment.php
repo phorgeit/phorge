@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   protected $conpherencePHID;
 

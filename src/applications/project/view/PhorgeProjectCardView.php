@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorProjectCardView extends AphrontTagView {
+final class PhorgeProjectCardView extends AphrontTagView {
 
   private $project;
   private $viewer;
   private $tag;
 
-  public function setProject(PhabricatorProject $project) {
+  public function setProject(PhorgeProject $project) {
     $this->project = $project;
     return $this;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -60,7 +60,7 @@ final class PhabricatorProjectCardView extends AphrontTagView {
       ->setPolicyObject($project)
       ->setImage($project->getProfileImageURI());
 
-    if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ACTIVE) {
+    if ($project->getStatus() == PhorgeProjectStatus::STATUS_ACTIVE) {
       $header->setStatus('fa-check', 'bluegrey', pht('Active'));
     } else {
       $header->setStatus('fa-ban', 'red', pht('Archived'));

@@ -7,13 +7,13 @@
  * return it to the caller. It can bulk load data for any list of fields,
  * even if they have different objects or object types.
  */
-final class PhabricatorCustomFieldStorageQuery extends Phobject {
+final class PhorgeCustomFieldStorageQuery extends Phobject {
 
   private $fieldMap = array();
   private $storageSources = array();
 
   public function addFields(array $fields) {
-    assert_instances_of($fields, 'PhabricatorCustomField');
+    assert_instances_of($fields, 'PhorgeCustomField');
 
     foreach ($fields as $field) {
       $this->addField($field);
@@ -22,8 +22,8 @@ final class PhabricatorCustomFieldStorageQuery extends Phobject {
     return $this;
   }
 
-  public function addField(PhabricatorCustomField $field) {
-    $role_storage = PhabricatorCustomField::ROLE_STORAGE;
+  public function addField(PhorgeCustomField $field) {
+    $role_storage = PhorgeCustomField::ROLE_STORAGE;
 
     if (!$field->shouldEnableForRole($role_storage)) {
       return $this;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhrequentTimeBlockTestCase extends PhabricatorTestCase {
+final class PhrequentTimeBlockTestCase extends PhorgeTestCase {
 
   public function testMergeTimeRanges() {
 

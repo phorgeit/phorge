@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProjectsSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeProjectsSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'projects';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorProjectApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeProjectApplication');
   }
 
   public function getExtensionName() {
@@ -19,18 +19,18 @@ final class PhabricatorProjectsSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     if (!empty($map['projectPHIDs'])) {
       $query->withEdgeLogicConstraints(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
         $map['projectPHIDs']);
     }
   }
@@ -38,7 +38,7 @@ final class PhabricatorProjectsSearchEngineExtension
   public function getSearchFields($object) {
     $fields = array();
 
-    $fields[] = id(new PhabricatorProjectSearchField())
+    $fields[] = id(new PhorgeProjectSearchField())
       ->setKey('projectPHIDs')
       ->setConduitKey('projects')
       ->setAliases(array('project', 'projects', 'tag', 'tags'))
@@ -51,7 +51,7 @@ final class PhabricatorProjectsSearchEngineExtension
 
   public function getSearchAttachments($object) {
     return array(
-      id(new PhabricatorProjectsSearchEngineAttachment())
+      id(new PhorgeProjectsSearchEngineAttachment())
         ->setAttachmentKey('projects'),
     );
   }

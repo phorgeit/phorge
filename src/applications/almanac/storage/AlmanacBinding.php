@@ -3,12 +3,12 @@
 final class AlmanacBinding
   extends AlmanacDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
     AlmanacPropertyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeDestructibleInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeConduitResultInterface {
 
   protected $servicePHID;
   protected $devicePHID;
@@ -142,13 +142,13 @@ final class AlmanacBinding
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -156,7 +156,7 @@ final class AlmanacBinding
     return $this->getService()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getService()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -172,16 +172,16 @@ final class AlmanacBinding
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->getService()->isClusterService()) {
           return array(
             array(
-              new PhabricatorAlmanacApplication(),
+              new PhorgeAlmanacApplication(),
               AlmanacManageClusterServicesCapability::CAPABILITY,
             ),
           );
@@ -192,7 +192,7 @@ final class AlmanacBinding
     return array();
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -204,34 +204,34 @@ final class AlmanacBinding
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->delete();
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('servicePHID')
         ->setType('phid')
         ->setDescription(pht('The bound service.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('devicePHID')
         ->setType('phid')
         ->setDescription(pht('The device the service is bound to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('interfacePHID')
         ->setType('phid')
         ->setDescription(pht('The interface the service is bound to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('disabled')
         ->setType('bool')
         ->setDescription(pht('Interface status.')),

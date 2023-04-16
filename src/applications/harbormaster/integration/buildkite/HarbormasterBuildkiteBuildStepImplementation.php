@@ -21,7 +21,7 @@ final class HarbormasterBuildkiteBuildStepImplementation
 
   public function getEditInstructions() {
     $hook_uri = '/harbormaster/hook/buildkite/';
-    $hook_uri = PhabricatorEnv::getProductionURI($hook_uri);
+    $hook_uri = PhorgeEnv::getProductionURI($hook_uri);
 
     return pht(<<<EOTEXT
 WARNING: This build step is new and experimental!
@@ -70,9 +70,9 @@ EOTEXT
   public function execute(
     HarbormasterBuild $build,
     HarbormasterBuildTarget $build_target) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->logSilencedCall($build, $build_target, pht('Buildkite'));
       throw new HarbormasterBuildFailureException();
     }
@@ -110,10 +110,10 @@ EOTEXT
         // See PHI611. These are undocumented secret magic.
         'phorge:build:id' => (int)$build->getID(),
         'phorge:build:url' =>
-          PhabricatorEnv::getProductionURI($build->getURI()),
+          PhorgeEnv::getProductionURI($build->getURI()),
         'phorge:buildable:id' => (int)$buildable->getID(),
         'phorge:buildable:url' =>
-          PhabricatorEnv::getProductionURI($buildable->getURI()),
+          PhorgeEnv::getProductionURI($buildable->getURI()),
       ),
     );
 

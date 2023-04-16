@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMessageQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthMessageQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -23,7 +23,7 @@ final class PhabricatorAuthMessageQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthMessage();
+    return new PhorgeAuthMessage();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -54,7 +54,7 @@ final class PhabricatorAuthMessageQuery
   }
 
   protected function willFilterPage(array $messages) {
-    $message_types = PhabricatorAuthMessageType::getAllMessageTypes();
+    $message_types = PhorgeAuthMessageType::getAllMessageTypes();
 
     foreach ($messages as $key => $message) {
       $message_key = $message->getMessageKey();
@@ -73,7 +73,7 @@ final class PhabricatorAuthMessageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

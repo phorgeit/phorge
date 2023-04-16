@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorOAuthClientDisableController
-  extends PhabricatorOAuthClientController {
+final class PhorgeOAuthClientDisableController
+  extends PhorgeOAuthClientController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $client = id(new PhabricatorOAuthServerClientQuery())
+    $client = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$client) {
@@ -25,11 +25,11 @@ final class PhabricatorOAuthClientDisableController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorOAuthServerTransaction())
-        ->setTransactionType(PhabricatorOAuthServerTransaction::TYPE_DISABLED)
+      $xactions[] = id(new PhorgeOAuthServerTransaction())
+        ->setTransactionType(PhorgeOAuthServerTransaction::TYPE_DISABLED)
         ->setNewValue((int)$is_disable);
 
-      $editor = id(new PhabricatorOAuthServerEditor())
+      $editor = id(new PhorgeOAuthServerEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

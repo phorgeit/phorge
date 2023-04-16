@@ -5,7 +5,7 @@ final class FuelHandleListItemView
 
   private $handle;
 
-  public function setHandle(PhabricatorObjectHandle $handle) {
+  public function setHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }

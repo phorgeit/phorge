@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
+final class PhorgeAuthPasswordTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -13,9 +13,9 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
     $password2 = new PhutilOpaqueEnvelope('hunter3');
 
     $user = $this->generateNewTestUser();
-    $type = PhabricatorAuthPassword::PASSWORD_TYPE_TEST;
+    $type = PhorgeAuthPassword::PASSWORD_TYPE_TEST;
 
-    $pass = PhabricatorAuthPassword::initializeNewPassword($user, $type)
+    $pass = PhorgeAuthPassword::initializeNewPassword($user, $type)
       ->setPassword($password1, $user)
       ->save();
 
@@ -33,17 +33,17 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
     $password2 = new PhutilOpaqueEnvelope('brown fox');
 
     $user = $this->generateNewTestUser();
-    $test_type = PhabricatorAuthPassword::PASSWORD_TYPE_TEST;
-    $account_type = PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT;
+    $test_type = PhorgeAuthPassword::PASSWORD_TYPE_TEST;
+    $account_type = PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT;
     $content_source = $this->newContentSource();
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($user)
       ->setContentSource($content_source)
       ->setPasswordType($test_type)
       ->setObject($user);
 
-    $account_engine = id(new PhabricatorAuthPasswordEngine())
+    $account_engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($user)
       ->setContentSource($content_source)
       ->setPasswordType($account_type)
@@ -54,7 +54,7 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
     $this->assertFalse($engine->isValidPassword($password1));
     $this->assertFalse($engine->isValidPassword($password2));
 
-    $pass = PhabricatorAuthPassword::initializeNewPassword($user, $test_type)
+    $pass = PhorgeAuthPassword::initializeNewPassword($user, $test_type)
       ->setPassword($password1, $user)
       ->save();
 
@@ -107,16 +107,16 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
       ->setRealName('Isaac Asimov')
       ->save();
 
-    $test_type = PhabricatorAuthPassword::PASSWORD_TYPE_TEST;
+    $test_type = PhorgeAuthPassword::PASSWORD_TYPE_TEST;
     $content_source = $this->newContentSource();
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($user)
       ->setContentSource($content_source)
       ->setPasswordType($test_type)
       ->setObject($user);
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('account.minimum-password-length', 4);
 
     $passwords = array(
@@ -154,7 +154,7 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
   }
 
   private function assertBlocklistedPassword(
-    PhabricatorAuthPasswordEngine $engine,
+    PhorgeAuthPasswordEngine $engine,
     $raw_password,
     $expect_valid) {
 
@@ -164,24 +164,24 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
     $caught = null;
     try {
       $engine->checkNewPassword($envelope_1, $envelope_2);
-    } catch (PhabricatorAuthPasswordException $exception) {
+    } catch (PhorgeAuthPasswordException $exception) {
       $caught = $exception;
     }
 
     $this->assertEqual(
       $expect_valid,
-      !($caught instanceof PhabricatorAuthPasswordException),
+      !($caught instanceof PhorgeAuthPasswordException),
       pht('Validity of password "%s".', $raw_password));
   }
 
 
   public function testPasswordUpgrade() {
-    $weak_hasher = new PhabricatorIteratedMD5PasswordHasher();
+    $weak_hasher = new PhorgeIteratedMD5PasswordHasher();
 
     // Make sure we have two different hashers, and that the second one is
     // stronger than iterated MD5. The most common reason this would fail is
     // if an install does not have bcrypt available.
-    $strong_hasher = PhabricatorPasswordHasher::getBestHasher();
+    $strong_hasher = PhorgePasswordHasher::getBestHasher();
     if ($strong_hasher->getStrength() <= $weak_hasher->getStrength()) {
       $this->assertSkipped(
         pht(
@@ -192,16 +192,16 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
     $envelope = new PhutilOpaqueEnvelope('lunar1997');
 
     $user = $this->generateNewTestUser();
-    $type = PhabricatorAuthPassword::PASSWORD_TYPE_TEST;
+    $type = PhorgeAuthPassword::PASSWORD_TYPE_TEST;
     $content_source = $this->newContentSource();
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($user)
       ->setContentSource($content_source)
       ->setPasswordType($type)
       ->setObject($user);
 
-    $password = PhabricatorAuthPassword::initializeNewPassword($user, $type)
+    $password = PhorgeAuthPassword::initializeNewPassword($user, $type)
       ->setPasswordWithHasher($envelope, $user, $weak_hasher)
       ->save();
 
@@ -237,12 +237,12 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
 
     // We should also have an "upgrade" transaction in the transaction record
     // now which records the two hasher names.
-    $xactions = id(new PhabricatorAuthPasswordTransactionQuery())
+    $xactions = id(new PhorgeAuthPasswordTransactionQuery())
       ->setViewer($user)
       ->withObjectPHIDs(array($password->getPHID()))
       ->withTransactionTypes(
         array(
-          PhabricatorAuthPasswordUpgradeTransaction::TRANSACTIONTYPE,
+          PhorgeAuthPasswordUpgradeTransaction::TRANSACTIONTYPE,
         ))
       ->execute();
 
@@ -261,11 +261,11 @@ final class PhabricatorAuthPasswordTestCase extends PhabricatorTestCase {
   }
 
   private function revokePassword(
-    PhabricatorUser $actor,
-    PhabricatorAuthPassword $password) {
+    PhorgeUser $actor,
+    PhorgeAuthPassword $password) {
 
     $content_source = $this->newContentSource();
-    $revoke_type = PhabricatorAuthPasswordRevokeTransaction::TRANSACTIONTYPE;
+    $revoke_type = PhorgeAuthPasswordRevokeTransaction::TRANSACTIONTYPE;
 
     $xactions = array();
 

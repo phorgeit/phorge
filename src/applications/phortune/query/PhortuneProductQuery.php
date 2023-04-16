@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneProductQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -101,8 +101,8 @@ final class PhortuneProductQuery
           $sql[] = qsprintf(
             $conn,
             '(productClassKey = %s AND productRefKey = %s)',
-            PhabricatorHash::digestForIndex($class),
-            PhabricatorHash::digestForIndex($ref));
+            PhorgeHash::digestForIndex($class),
+            PhorgeHash::digestForIndex($ref));
         }
       }
       $where[] = qsprintf($conn, '%LO', $sql);
@@ -114,7 +114,7 @@ final class PhortuneProductQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
 }

@@ -3,11 +3,11 @@
 /**
  * A trigger action reacts to a scheduled event.
  *
- * Almost all events should use a @{class:PhabricatorScheduleTaskTriggerAction}.
+ * Almost all events should use a @{class:PhorgeScheduleTaskTriggerAction}.
  * Avoid introducing new actions without strong justification. See that class
  * for discussion of concerns.
  */
-abstract class PhabricatorTriggerAction extends Phobject {
+abstract class PhorgeTriggerAction extends Phobject {
 
   private $properties;
 
@@ -45,7 +45,7 @@ abstract class PhabricatorTriggerAction extends Phobject {
    * performing processing directly, triggers can execute more involved actions
    * without blocking other triggers.
    *
-   * Almost all events should use @{class:PhabricatorScheduleTaskTriggerAction}
+   * Almost all events should use @{class:PhorgeScheduleTaskTriggerAction}
    * to do this, ensuring that they execute quickly.
    *
    * An action may trigger a long time after it is scheduled. For example,
@@ -53,7 +53,7 @@ abstract class PhabricatorTriggerAction extends Phobject {
    * execute until later (for example, because the server was down for
    * maintenance). You can detect cases like this by comparing `$this_epoch`
    * (which holds the time the event was scheduled to execute at) to
-   * `PhabricatorTime::getNow()` (which returns the current time). In the
+   * `PhorgeTime::getNow()` (which returns the current time). In the
    * case of a meeting reminder, you may want to ignore the action if it
    * executes too late to be useful (for example, after a meeting is over).
    *

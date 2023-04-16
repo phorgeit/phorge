@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorPackagesPublisherSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePackagesPublisherSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Package Publishers');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorPackagesPublisherQuery());
+    return id(new PhorgePackagesPublisherQuery());
   }
 
   public function canUseInPanelContext() {
@@ -31,7 +31,7 @@ final class PhabricatorPackagesPublisherSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('match')
         ->setDescription(pht('Search for publishers by name substring.')),
@@ -64,19 +64,19 @@ final class PhabricatorPackagesPublisherSearchEngine
 
   protected function renderResultList(
     array $publishers,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($publishers, 'PhabricatorPackagesPublisher');
+    assert_instances_of($publishers, 'PhorgePackagesPublisher');
 
     $viewer = $this->requireViewer();
 
-    $list = id(new PhabricatorPackagesPublisherListView())
+    $list = id(new PhorgePackagesPublisherListView())
       ->setViewer($viewer)
       ->setPublishers($publishers)
       ->newListView();
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No publishers found.'));
   }

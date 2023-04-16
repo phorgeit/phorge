@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorConfigDatabaseIssueController
-  extends PhabricatorConfigDatabaseController {
+final class PhorgeConfigDatabaseIssueController
+  extends PhorgeConfigDatabaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $query = new PhabricatorConfigSchemaQuery();
+    $query = new PhorgeConfigSchemaQuery();
 
     $actual = $query->loadActualSchemata();
     $expect = $query->loadExpectedSchemata();
@@ -70,8 +70,8 @@ final class PhabricatorConfigDatabaseIssueController
     $counts = array();
     foreach ($issues as $key => $issue) {
       $const = $issue[5];
-      $status = PhabricatorConfigStorageSchema::getIssueStatus($const);
-      $severity = PhabricatorConfigStorageSchema::getStatusSeverity($status);
+      $status = PhorgeConfigStorageSchema::getIssueStatus($const);
+      $severity = PhorgeConfigStorageSchema::getStatusSeverity($status);
       $order[$key] = sprintf(
         '~%d~%s%s%s',
         9 - $severity,
@@ -105,13 +105,13 @@ final class PhabricatorConfigDatabaseIssueController
 
       $rows[] = array(
         $this->renderIcon(
-          PhabricatorConfigStorageSchema::getIssueStatus($const)),
+          PhorgeConfigStorageSchema::getIssueStatus($const)),
         $issue[0],
         $database_link,
         $issue[2],
         $issue[3],
         $issue[4],
-        PhabricatorConfigStorageSchema::getIssueDescription($const),
+        PhorgeConfigStorageSchema::getIssueDescription($const),
       );
     }
 
@@ -141,16 +141,16 @@ final class PhabricatorConfigDatabaseIssueController
 
     $errors = array();
 
-    if (isset($counts[PhabricatorConfigStorageSchema::STATUS_FAIL])) {
+    if (isset($counts[PhorgeConfigStorageSchema::STATUS_FAIL])) {
       $errors[] = pht(
         'Detected %s serious issue(s) with the schemata.',
-        new PhutilNumber($counts[PhabricatorConfigStorageSchema::STATUS_FAIL]));
+        new PhutilNumber($counts[PhorgeConfigStorageSchema::STATUS_FAIL]));
     }
 
-    if (isset($counts[PhabricatorConfigStorageSchema::STATUS_WARN])) {
+    if (isset($counts[PhorgeConfigStorageSchema::STATUS_WARN])) {
       $errors[] = pht(
         'Detected %s warning(s) with the schemata.',
-        new PhutilNumber($counts[PhabricatorConfigStorageSchema::STATUS_WARN]));
+        new PhutilNumber($counts[PhorgeConfigStorageSchema::STATUS_WARN]));
     }
 
     $title = pht('Schemata Issues');

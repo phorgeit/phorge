@@ -15,7 +15,7 @@ final class DifferentialRevisionRequiredActionResultBucket
   }
 
   protected function buildResultGroups(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $objects) {
 
     $this->objects = $objects;

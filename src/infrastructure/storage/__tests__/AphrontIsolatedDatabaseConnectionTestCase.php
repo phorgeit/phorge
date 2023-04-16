@@ -1,9 +1,9 @@
 <?php
 
 final class AphrontIsolatedDatabaseConnectionTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       // We disable this here because this test is unique (it is testing that
       // isolation actually occurs) and must establish a live connection to the

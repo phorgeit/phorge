@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeWorkerDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'workers';
 
@@ -10,16 +10,16 @@ final class PhabricatorWorkerDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
-    $tasks = id(new PhabricatorWorkerActiveTask())->loadAllWhere(
+    $tasks = id(new PhorgeWorkerActiveTask())->loadAllWhere(
       'objectPHID = %s',
       $object->getPHID());
 
     foreach ($tasks as $task) {
       $task->archiveTask(
-        PhabricatorWorkerArchiveTask::RESULT_CANCELLED,
+        PhorgeWorkerArchiveTask::RESULT_CANCELLED,
         0);
     }
   }

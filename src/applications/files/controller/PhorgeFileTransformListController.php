@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileTransformListController
-  extends PhabricatorFileController {
+final class PhorgeFileTransformListController
+  extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorFileTransformListController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -20,7 +20,7 @@ final class PhabricatorFileTransformListController
 
     $monogram = $file->getMonogram();
 
-    $xdst = id(new PhabricatorTransformedFile())->loadAllWhere(
+    $xdst = id(new PhorgeTransformedFile())->loadAllWhere(
       'transformedPHID = %s',
       $file->getPHID());
 
@@ -46,13 +46,13 @@ final class PhabricatorFileTransformListController
         pht(
           'This file was not created by transforming another file.'));
 
-    $xsrc = id(new PhabricatorTransformedFile())->loadAllWhere(
+    $xsrc = id(new PhorgeTransformedFile())->loadAllWhere(
       'originalPHID = %s',
       $file->getPHID());
     $xsrc = mpull($xsrc, 'getTransformedPHID', 'getTransform');
 
     $src_rows = array();
-    $xforms = PhabricatorFileTransform::getAllTransforms();
+    $xforms = PhorgeFileTransform::getAllTransforms();
     foreach ($xforms as $xform) {
       $dst_phid = idx($xsrc, $xform->getTransformKey());
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectStatusTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectStatusTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:status';
 

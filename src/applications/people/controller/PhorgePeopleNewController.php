@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleNewController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleNewController
+  extends PhorgePeopleController {
 
   public function handleRequest(AphrontRequest $request) {
     $type = $request->getURIData('type');
     $admin = $request->getUser();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $admin,
       $request,
       $this->getApplicationURI());
@@ -29,8 +29,8 @@ final class PhabricatorPeopleNewController
         return new Aphront404Response();
     }
 
-    $user = new PhabricatorUser();
-    $require_real_name = PhabricatorEnv::getEnvConfig('user.require-real-name');
+    $user = new PhorgeUser();
+    $require_real_name = PhorgeEnv::getEnvConfig('user.require-real-name');
 
     $e_username = true;
     $e_realname = $require_real_name ? true : null;
@@ -50,11 +50,11 @@ final class PhabricatorPeopleNewController
       if (!strlen($new_email)) {
         $errors[] = pht('Email is required.');
         $e_email = pht('Required');
-      } else if (!PhabricatorUserEmail::isValidAddress($new_email)) {
-        $errors[] = PhabricatorUserEmail::describeValidAddresses();
+      } else if (!PhorgeUserEmail::isValidAddress($new_email)) {
+        $errors[] = PhorgeUserEmail::describeValidAddresses();
         $e_email = pht('Invalid');
-      } else if (!PhabricatorUserEmail::isAllowedAddress($new_email)) {
-        $errors[] = PhabricatorUserEmail::describeAllowedAddresses();
+      } else if (!PhorgeUserEmail::isAllowedAddress($new_email)) {
+        $errors[] = PhorgeUserEmail::describeAllowedAddresses();
         $e_email = pht('Not Allowed');
       } else {
         $e_email = null;
@@ -65,8 +65,8 @@ final class PhabricatorPeopleNewController
       if (!strlen($user->getUsername())) {
         $errors[] = pht('Username is required.');
         $e_username = pht('Required');
-      } else if (!PhabricatorUser::validateUsername($user->getUsername())) {
-        $errors[] = PhabricatorUser::describeValidUsername();
+      } else if (!PhorgeUser::validateUsername($user->getUsername())) {
+        $errors[] = PhorgeUser::describeValidUsername();
         $e_username = pht('Invalid');
       } else {
         $e_username = null;
@@ -82,7 +82,7 @@ final class PhabricatorPeopleNewController
       if (!$errors) {
         try {
 
-          $email = id(new PhabricatorUserEmail())
+          $email = id(new PhorgeUserEmail())
             ->setAddress($new_email)
             ->setIsVerified(0);
 
@@ -94,24 +94,24 @@ final class PhabricatorPeopleNewController
             $email->setIsVerified(1);
           }
 
-          id(new PhabricatorUserEditor())
+          id(new PhorgeUserEditor())
             ->setActor($admin)
             ->createNewUser($user, $email);
 
           if ($is_bot) {
-            id(new PhabricatorUserEditor())
+            id(new PhorgeUserEditor())
               ->setActor($admin)
               ->makeSystemAgentUser($user, true);
           }
 
           if ($is_list) {
-            id(new PhabricatorUserEditor())
+            id(new PhorgeUserEditor())
               ->setActor($admin)
               ->makeMailingListUser($user, true);
           }
 
           if ($welcome_checked) {
-            $welcome_engine = id(new PhabricatorPeopleWelcomeMailEngine())
+            $welcome_engine = id(new PhorgePeopleWelcomeMailEngine())
               ->setSender($admin)
               ->setRecipient($user);
             if ($welcome_engine->canSendMail()) {
@@ -125,9 +125,9 @@ final class PhabricatorPeopleNewController
         } catch (AphrontDuplicateKeyQueryException $ex) {
           $errors[] = pht('Username and email must be unique.');
 
-          $same_username = id(new PhabricatorUser())
+          $same_username = id(new PhorgeUser())
             ->loadOneWhere('username = %s', $user->getUsername());
-          $same_email = id(new PhabricatorUserEmail())
+          $same_email = id(new PhorgeUserEmail())
             ->loadOneWhere('address = %s', $new_email);
 
           if ($same_username) {
@@ -176,7 +176,7 @@ final class PhabricatorPeopleNewController
           ->setLabel(pht('Email'))
           ->setName('email')
           ->setValue($new_email)
-          ->setCaption(PhabricatorUserEmail::describeAllowedAddresses())
+          ->setCaption(PhorgeUserEmail::describeAllowedAddresses())
           ->setError($e_email));
 
     if (!$is_bot && !$is_list) {

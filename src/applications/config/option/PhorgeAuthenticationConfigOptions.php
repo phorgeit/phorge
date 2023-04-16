@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthenticationConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeAuthenticationConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Authentication');

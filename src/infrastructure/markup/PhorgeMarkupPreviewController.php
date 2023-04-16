@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMarkupPreviewController
-  extends PhabricatorController {
+final class PhorgeMarkupPreviewController
+  extends PhorgeController {
 
   public function processRequest() {
     $request = $this->getRequest();
@@ -9,8 +9,8 @@ final class PhabricatorMarkupPreviewController
 
     $text = $request->getStr('text');
 
-    $output = PhabricatorMarkupEngine::renderOneObject(
-      id(new PhabricatorMarkupOneOff())
+    $output = PhorgeMarkupEngine::renderOneObject(
+      id(new PhorgeMarkupOneOff())
         ->setPreserveLinebreaks(true)
         ->setDisableCache(true)
         ->setContent($text),

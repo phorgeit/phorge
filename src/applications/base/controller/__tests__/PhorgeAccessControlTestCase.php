@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
+final class PhorgeAccessControlTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -10,7 +10,7 @@ final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
 
   public function testControllerAccessControls() {
     $root = dirname(phutil_get_library_root('phorge'));
-    require_once $root.'/support/startup/PhabricatorStartup.php';
+    require_once $root.'/support/startup/PhorgeStartup.php';
 
     $application_configuration = new AphrontApplicationConfiguration();
 
@@ -22,10 +22,10 @@ final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
       ->setApplicationConfiguration($application_configuration)
       ->setRequestData(array());
 
-    $controller = new PhabricatorTestController();
+    $controller = new PhorgeTestController();
     $controller->setRequest($request);
 
-    $u_public = id(new PhabricatorUser())
+    $u_public = id(new PhorgeUser())
       ->setUsername('public');
 
     $u_unverified = $this->generateNewTestUser()
@@ -52,7 +52,7 @@ final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
       ->setUsername('notapproved')
       ->save();
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('phorge.base-uri', 'http://'.$host);
     $env->overrideEnvConfig('policy.allow-public', false);
     $env->overrideEnvConfig('auth.require-email-verification', false);
@@ -200,11 +200,11 @@ final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
     $env->overrideEnvConfig('policy.allow-public', false);
 
 
-    $app = PhabricatorApplication::getByClass('PhabricatorTestApplication');
+    $app = PhorgeApplication::getByClass('PhorgeTestApplication');
     $app->reset();
     $app->setPolicy(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicies::POLICY_NOONE);
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicies::POLICY_NOONE);
 
     $app_controller = id(clone $controller)->setCurrentApplication($app);
 

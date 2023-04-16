@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorTokensToken extends PhabricatorTokenDAO
+final class PhorgeTokensToken extends PhorgeTokenDAO
   implements
-    PhabricatorDestructibleInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeDestructibleInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $flavor;
@@ -46,14 +46,14 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorTokenTokenPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeTokenTokenPHIDType::TYPECONST);
   }
 
-  public static function initializeNewToken(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewToken(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorTokensApplication'))
+      ->withClasses(array('PhorgeTokensApplication'))
       ->executeOne();
 
     $token = id(new self())
@@ -78,7 +78,7 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
     return $this->getTokenImageFile()->getBestURI();
   }
 
-  public function attachTokenImageFile(PhabricatorFile $file) {
+  public function attachTokenImageFile(PhorgeFile $file) {
     $this->tokenImageFile = $file;
     return $this;
   }
@@ -92,20 +92,20 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
 
-      $tokens = id(new PhabricatorTokenGiven())
+      $tokens = id(new PhorgeTokenGiven())
         ->loadAllWhere('tokenPHID = %s', $this->getPHID());
       foreach ($tokens as $token) {
         $token->delete();
       }
       if ($this->getTokenImagePHID()) {
-        id(new PhabricatorFile())
+        id(new PhorgeFile())
           ->loadOneWhere('filePHID = %s', $this->getTokenImagePHID())
           ->delete();
       }
@@ -115,7 +115,7 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorSubscribableInterface Implementation  )-------------------- */
+/* -(  PhorgeSubscribableInterface Implementation  )-------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -123,20 +123,20 @@ final class PhabricatorTokensToken extends PhabricatorTokenDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the token.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('flavor')
         ->setType('string')
         ->setDescription(pht('Token flavor.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Archived or active status.')),

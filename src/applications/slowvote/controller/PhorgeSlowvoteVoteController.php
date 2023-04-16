@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteVoteController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvoteVoteController
+  extends PhorgeSlowvoteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -11,7 +11,7 @@ final class PhabricatorSlowvoteVoteController
       return id(new Aphront404Response());
     }
 
-    $poll = id(new PhabricatorSlowvoteQuery())
+    $poll = id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needOptions(true)
@@ -70,7 +70,7 @@ final class PhabricatorSlowvoteVoteController
 
       $poll->reload();
 
-      $old_votes = id(new PhabricatorSlowvoteChoice())->loadAllWhere(
+      $old_votes = id(new PhorgeSlowvoteChoice())->loadAllWhere(
         'pollID = %d AND authorPHID = %s',
         $poll->getID(),
         $viewer->getPHID());
@@ -89,7 +89,7 @@ final class PhabricatorSlowvoteVoteController
           continue;
         }
 
-        id(new PhabricatorSlowvoteChoice())
+        id(new PhorgeSlowvoteChoice())
           ->setAuthorPHID($viewer->getPHID())
           ->setPollID($poll->getID())
           ->setOptionID($vote)

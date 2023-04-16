@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacInterfaceTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new AlmanacInterfaceTransaction();

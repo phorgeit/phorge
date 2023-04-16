@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthLinkController
-  extends PhabricatorAuthController {
+final class PhorgeAuthLinkController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorAuthLinkController
 
     $id = $request->getURIData('id');
 
-    $config = id(new PhabricatorAuthProviderConfigQuery())
+    $config = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withIsEnabled(true)
@@ -43,7 +43,7 @@ final class PhabricatorAuthLinkController
         return new Aphront400Response();
     }
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withProviderConfigPHIDs(array($config->getPHID()))
@@ -78,7 +78,7 @@ final class PhabricatorAuthLinkController
 
     $panel_uri = '/settings/panel/external/';
 
-    PhabricatorCookies::setClientIDCookie($request);
+    PhorgeCookies::setClientIDCookie($request);
 
     switch ($action) {
       case 'link':

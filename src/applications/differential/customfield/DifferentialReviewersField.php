@@ -74,7 +74,7 @@ final class DifferentialReviewersField
 
     $viewer = $this->getViewer();
 
-    PhabricatorPolicyFilterSet::loadHandleViewCapabilities(
+    PhorgePolicyFilterSet::loadHandleViewCapabilities(
       $viewer,
       $handles,
       array($revision));

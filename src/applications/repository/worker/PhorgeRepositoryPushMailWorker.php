@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryPushMailWorker
-  extends PhabricatorWorker {
+final class PhorgeRepositoryPushMailWorker
+  extends PhorgeWorker {
 
   protected function doWork() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $task_data = $this->getTaskData();
 
@@ -15,7 +15,7 @@ final class PhabricatorRepositoryPushMailWorker
     }
 
     $event_phid = idx($task_data, 'eventPHID');
-    $event = id(new PhabricatorRepositoryPushEventQuery())
+    $event = id(new PhorgeRepositoryPushEventQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($event_phid))
       ->needLogs(true)
@@ -29,7 +29,7 @@ final class PhabricatorRepositoryPushMailWorker
       return;
     }
 
-    $targets = id(new PhabricatorRepositoryPushReplyHandler())
+    $targets = id(new PhorgeRepositoryPushReplyHandler())
       ->setMailReceiver($repository)
       ->getMailTargets($email_phids, array());
 
@@ -44,14 +44,14 @@ final class PhabricatorRepositoryPushMailWorker
   }
 
   private function sendMail(
-    PhabricatorMailTarget $target,
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryPushEvent $event) {
+    PhorgeMailTarget $target,
+    PhorgeRepository $repository,
+    PhorgeRepositoryPushEvent $event) {
 
     $task_data = $this->getTaskData();
     $viewer = $target->getViewer();
 
-    $locale = PhabricatorEnv::beginScopedLocale($viewer->getTranslation());
+    $locale = PhorgeEnv::beginScopedLocale($viewer->getTranslation());
 
     $logs = $event->getLogs();
 
@@ -64,7 +64,7 @@ final class PhabricatorRepositoryPushMailWorker
     $ref_count = count($ref_lines);
     $commit_count = count($commit_lines);
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($event->getPusherPHID()))
       ->execute();
@@ -85,10 +85,10 @@ final class PhabricatorRepositoryPushMailWorker
         $repo_name);
     }
 
-    $details_uri = PhabricatorEnv::getProductionURI(
+    $details_uri = PhorgeEnv::getProductionURI(
       '/diffusion/pushlog/view/'.$event->getID().'/');
 
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
     $body->addRawSection($overview);
 
     $body->addLinkSection(pht('DETAILS'), $details_uri);
@@ -118,7 +118,7 @@ final class PhabricatorRepositoryPushMailWorker
       $subject = pht('(%s)', $parts);
     }
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->setRelatedPHID($event->getPHID())
       ->setSubjectPrefix($prefix)
       ->setVarySubjectPrefix(pht('[Push]'))
@@ -140,22 +140,22 @@ final class PhabricatorRepositoryPushMailWorker
       $type_name = null;
       $type_prefix = null;
       switch ($log->getRefType()) {
-        case PhabricatorRepositoryPushLog::REFTYPE_BRANCH:
+        case PhorgeRepositoryPushLog::REFTYPE_BRANCH:
           $type_name = pht('branch');
           break;
-        case PhabricatorRepositoryPushLog::REFTYPE_TAG:
+        case PhorgeRepositoryPushLog::REFTYPE_TAG:
           $type_name = pht('tag');
           $type_prefix = pht('tag:');
           break;
-        case PhabricatorRepositoryPushLog::REFTYPE_BOOKMARK:
+        case PhorgeRepositoryPushLog::REFTYPE_BOOKMARK:
           $type_name = pht('bookmark');
           $type_prefix = pht('bookmark:');
           break;
-        case PhabricatorRepositoryPushLog::REFTYPE_REF:
+        case PhorgeRepositoryPushLog::REFTYPE_REF:
           $type_name = pht('ref');
           $type_prefix = pht('ref:');
           break;
-        case PhabricatorRepositoryPushLog::REFTYPE_COMMIT:
+        case PhorgeRepositoryPushLog::REFTYPE_COMMIT:
         default:
           break;
       }
@@ -165,15 +165,15 @@ final class PhabricatorRepositoryPushMailWorker
       }
 
       $flags = $log->getChangeFlags();
-      if ($flags & PhabricatorRepositoryPushLog::CHANGEFLAG_DANGEROUS) {
+      if ($flags & PhorgeRepositoryPushLog::CHANGEFLAG_DANGEROUS) {
         $action = '!';
-      } else if ($flags & PhabricatorRepositoryPushLog::CHANGEFLAG_DELETE) {
+      } else if ($flags & PhorgeRepositoryPushLog::CHANGEFLAG_DELETE) {
         $action = '-';
-      } else if ($flags & PhabricatorRepositoryPushLog::CHANGEFLAG_REWRITE) {
+      } else if ($flags & PhorgeRepositoryPushLog::CHANGEFLAG_REWRITE) {
         $action = '~';
-      } else if ($flags & PhabricatorRepositoryPushLog::CHANGEFLAG_APPEND) {
+      } else if ($flags & PhorgeRepositoryPushLog::CHANGEFLAG_APPEND) {
         $action = ' ';
-      } else if ($flags & PhabricatorRepositoryPushLog::CHANGEFLAG_ADD) {
+      } else if ($flags & PhorgeRepositoryPushLog::CHANGEFLAG_ADD) {
         $action = '+';
       } else {
         $action = '?';
@@ -195,14 +195,14 @@ final class PhabricatorRepositoryPushMailWorker
   }
 
   private function renderCommits(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $logs,
     array $info) {
 
     $commit_lines = array();
     $subject_line = null;
     foreach ($logs as $log) {
-      if ($log->getRefType() != PhabricatorRepositoryPushLog::REFTYPE_COMMIT) {
+      if ($log->getRefType() != PhorgeRepositoryPushLog::REFTYPE_COMMIT) {
         continue;
       }
 

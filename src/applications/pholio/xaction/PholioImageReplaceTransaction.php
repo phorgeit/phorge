@@ -47,13 +47,13 @@ final class PholioImageReplaceTransaction
   }
 
   public function getColor() {
-    return PhabricatorTransactions::COLOR_YELLOW;
+    return PhorgeTransactions::COLOR_YELLOW;
   }
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $u_phid = $u->getOldValue();
     $v_phid = $v->getOldValue();

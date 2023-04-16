@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFlagListController extends PhabricatorFlagController {
+final class PhorgeFlagListController extends PhorgeFlagController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,9 +10,9 @@ final class PhabricatorFlagListController extends PhabricatorFlagController {
     $viewer = $request->getViewer();
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
-      ->setSearchEngine(new PhabricatorFlagSearchEngine())
+      ->setSearchEngine(new PhorgeFlagSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);

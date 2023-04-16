@@ -101,7 +101,7 @@ final class PHUICalendarWeekView extends AphrontView {
 
     $box_start_time = clone $display_start_day;
 
-    $today_time = PhabricatorTime::getTodayMidnightDateTime($this->getViewer());
+    $today_time = PhorgeTime::getTodayMidnightDateTime($this->getViewer());
     $tomorrow_time = clone $today_time;
     $tomorrow_time->modify('+1 day');
 
@@ -125,7 +125,7 @@ final class PHUICalendarWeekView extends AphrontView {
   }
 
   private function getDefaultDateTime() {
-    return PhabricatorTime::getTodayMidnightDateTime($this->getViewer());
+    return PhorgeTime::getTodayMidnightDateTime($this->getViewer());
   }
 
 }

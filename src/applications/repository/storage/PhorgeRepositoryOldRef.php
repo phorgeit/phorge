@@ -6,9 +6,9 @@
  * When a branch is deleted, the old HEAD ends up here and the discovery
  * engine marks all the commits that previously appeared on it as unreachable.
  */
-final class PhabricatorRepositoryOldRef
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryOldRef
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   protected $repositoryPHID;
   protected $commitIdentifier;
@@ -28,20 +28,20 @@ final class PhabricatorRepositoryOldRef
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

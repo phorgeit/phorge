@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAApplication extends PhabricatorApplication {
+final class PhorgeMetaMTAApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Mail');
@@ -38,11 +38,11 @@ final class PhabricatorMetaMTAApplication extends PhabricatorApplication {
     return array(
       '/mail/' => array(
         '(query/(?P<queryKey>[^/]+)/)?' =>
-          'PhabricatorMetaMTAMailListController',
-        'detail/(?P<id>[1-9]\d*)/' => 'PhabricatorMetaMTAMailViewController',
-        'sendgrid/' => 'PhabricatorMetaMTASendGridReceiveController',
-        'mailgun/'  => 'PhabricatorMetaMTAMailgunReceiveController',
-        'postmark/'  => 'PhabricatorMetaMTAPostmarkReceiveController',
+          'PhorgeMetaMTAMailListController',
+        'detail/(?P<id>[1-9]\d*)/' => 'PhorgeMetaMTAMailViewController',
+        'sendgrid/' => 'PhorgeMetaMTASendGridReceiveController',
+        'mailgun/'  => 'PhorgeMetaMTAMailgunReceiveController',
+        'postmark/'  => 'PhorgeMetaMTAPostmarkReceiveController',
       ),
     );
   }

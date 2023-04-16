@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGestureUIExample extends PhabricatorUIExample {
+final class PhorgeGestureUIExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Gestures');

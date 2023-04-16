@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetronomeTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMetronomeTestCase
+  extends PhorgeTestCase {
 
   public function testMetronomeOffsets() {
     $cases = array(
@@ -15,7 +15,7 @@ final class PhabricatorMetronomeTestCase
       'web008.example.net' => 14,
     );
 
-    $metronome = id(new PhabricatorMetronome())
+    $metronome = id(new PhorgeMetronome())
       ->setFrequency(60);
 
     foreach ($cases as $input => $expect) {
@@ -29,7 +29,7 @@ final class PhabricatorMetronomeTestCase
   }
 
   public function testMetronomeTicks() {
-    $metronome = id(new PhabricatorMetronome())
+    $metronome = id(new PhorgeMetronome())
       ->setFrequency(60)
       ->setOffset(13);
 

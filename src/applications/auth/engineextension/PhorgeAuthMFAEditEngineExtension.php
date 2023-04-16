@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMFAEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeAuthMFAEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'auth.mfa';
   const FIELDKEY = 'mfa';
@@ -19,20 +19,20 @@ final class PhabricatorAuthMFAEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
     return true;
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    $mfa_type = PhabricatorTransactions::TYPE_MFA;
+    $mfa_type = PhorgeTransactions::TYPE_MFA;
 
     $viewer = $engine->getViewer();
 
-    $mfa_field = id(new PhabricatorApplyEditField())
+    $mfa_field = id(new PhorgeApplyEditField())
       ->setViewer($viewer)
       ->setKey(self::FIELDKEY)
       ->setLabel(pht('MFA'))

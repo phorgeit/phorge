@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class DifferentialSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new DifferentialRevision());
@@ -28,7 +28,7 @@ final class DifferentialSchemaSpec extends PhabricatorConfigSchemaSpec {
         ),
       ),
       array(
-        'persistence' => PhabricatorConfigTableSchema::PERSISTENCE_CACHE,
+        'persistence' => PhorgeConfigTableSchema::PERSISTENCE_CACHE,
       ));
 
     $this->buildRawSchema(

@@ -80,7 +80,7 @@ abstract class HarbormasterBuildMessageTransaction
   }
 
   final public function canApplyMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     try {
@@ -92,7 +92,7 @@ abstract class HarbormasterBuildMessageTransaction
   }
 
   final public function canSendMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     try {
@@ -104,13 +104,13 @@ abstract class HarbormasterBuildMessageTransaction
   }
 
   final public function assertCanApplyMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
     $this->newCanApplyMessageAssertion($viewer, $build);
   }
 
   final public function assertCanSendMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
     $plan = $build->getBuildPlan();
 
@@ -128,11 +128,11 @@ abstract class HarbormasterBuildMessageTransaction
     // prevent enemy engineers from sabotaging your builds. See T9614.
     if (!$plan->canRunWithoutEditCapability()) {
       try {
-        PhabricatorPolicyFilter::requireCapability(
+        PhorgePolicyFilter::requireCapability(
           $viewer,
           $plan,
-          PhabricatorPolicyCapability::CAN_EDIT);
-      } catch (PhabricatorPolicyException $ex) {
+          PhorgePolicyCapability::CAN_EDIT);
+      } catch (PhorgePolicyException $ex) {
         throw new HarbormasterMessageException(
           pht('Insufficent Build Plan Permission'),
           pht(
@@ -148,11 +148,11 @@ abstract class HarbormasterBuildMessageTransaction
   }
 
   abstract protected function newCanSendMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build);
 
   abstract protected function newCanApplyMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build);
 
 }

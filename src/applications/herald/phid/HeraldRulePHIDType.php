@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldRulePHIDType extends PhabricatorPHIDType {
+final class HeraldRulePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'HRUL';
 
@@ -13,11 +13,11 @@ final class HeraldRulePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new HeraldRuleQuery())
@@ -25,7 +25,7 @@ final class HeraldRulePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -40,7 +40,7 @@ final class HeraldRulePHIDType extends PhabricatorPHIDType {
       $handle->setURI("/{$monogram}");
 
       if ($rule->getIsDisabled()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -50,7 +50,7 @@ final class HeraldRulePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

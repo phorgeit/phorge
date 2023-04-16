@@ -16,7 +16,7 @@
  * @task globalsearch Integration with Global Search
  * @task herald       Integration with Herald
  */
-abstract class PhabricatorCustomField extends Phobject {
+abstract class PhorgeCustomField extends Phobject {
 
   private $viewer;
   private $object;
@@ -45,19 +45,19 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task apps
    */
   public static function getObjectFields(
-    PhabricatorCustomFieldInterface $object,
+    PhorgeCustomFieldInterface $object,
     $role) {
 
     try {
       $attachment = $object->getCustomFields();
-    } catch (PhabricatorDataNotAttachedException $ex) {
-      $attachment = new PhabricatorCustomFieldAttachment();
+    } catch (PhorgeDataNotAttachedException $ex) {
+      $attachment = new PhorgeCustomFieldAttachment();
       $object->attachCustomFields($attachment);
     }
 
     try {
       $field_list = $attachment->getCustomFieldList($role);
-    } catch (PhabricatorCustomFieldNotAttachedException $ex) {
+    } catch (PhorgeCustomFieldNotAttachedException $ex) {
       $base_class = $object->getCustomFieldBaseClass();
 
       $spec = $object->getCustomFieldSpecificationForRole($role);
@@ -97,7 +97,7 @@ abstract class PhabricatorCustomField extends Phobject {
         $field->setObject($object);
       }
 
-      $field_list = new PhabricatorCustomFieldList($fields);
+      $field_list = new PhorgeCustomFieldList($fields);
       $attachment->addCustomFieldList($role, $field_list);
     }
 
@@ -109,7 +109,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task apps
    */
   public static function getObjectField(
-    PhabricatorCustomFieldInterface $object,
+    PhorgeCustomFieldInterface $object,
     $role,
     $field_key) {
 
@@ -193,7 +193,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getFieldKey();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException(
+    throw new PhorgeCustomFieldImplementationIncompleteException(
       $this,
       $field_key_is_incomplete = true);
   }
@@ -244,7 +244,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * multiple field instances here.
    *
    * @param object The object to create fields for.
-   * @return list<PhabricatorCustomField> List of fields.
+   * @return list<PhorgeCustomField> List of fields.
    * @task core
    */
   public function createFields($object) {
@@ -348,7 +348,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task core
    */
   final public function getFieldIndex() {
-    return PhabricatorHash::digestForIndex($this->getFieldKey());
+    return PhorgeHash::digestForIndex($this->getFieldKey());
   }
 
 
@@ -362,7 +362,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * call through to the proxy by default.
    *
    * This is most commonly used to implement configuration-driven custom fields
-   * using @{class:PhabricatorStandardCustomField}.
+   * using @{class:PhorgeStandardCustomField}.
    *
    * This method must be overridden to return `true` before a field can accept
    * proxies.
@@ -371,7 +371,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task proxy
    */
   public function canSetProxy() {
-    if ($this instanceof PhabricatorStandardCustomFieldInterface) {
+    if ($this instanceof PhorgeStandardCustomFieldInterface) {
       return true;
     }
     return false;
@@ -382,12 +382,12 @@ abstract class PhabricatorCustomField extends Phobject {
    * Set the proxy implementation for this field. See @{method:canSetProxy} for
    * discussion of field proxies.
    *
-   * @param PhabricatorCustomField Field implementation.
+   * @param PhorgeCustomField Field implementation.
    * @return this
    */
-  final public function setProxy(PhabricatorCustomField $proxy) {
+  final public function setProxy(PhorgeCustomField $proxy) {
     if (!$this->canSetProxy()) {
-      throw new PhabricatorCustomFieldNotProxyException($this);
+      throw new PhorgeCustomFieldNotProxyException($this);
     }
 
     $this->proxy = $proxy;
@@ -399,7 +399,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * Get the field's proxy implementation, if any. For discussion, see
    * @{method:canSetProxy}.
    *
-   * @return PhabricatorCustomField|null  Proxy field, if one is set.
+   * @return PhorgeCustomField|null  Proxy field, if one is set.
    */
   final public function getProxy() {
     return $this->proxy;
@@ -412,11 +412,11 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Sets the object this field belongs to.
    *
-   * @param PhabricatorCustomFieldInterface The object this field belongs to.
+   * @param PhorgeCustomFieldInterface The object this field belongs to.
    * @return this
    * @task context
    */
-  final public function setObject(PhabricatorCustomFieldInterface $object) {
+  final public function setObject(PhorgeCustomFieldInterface $object) {
     if ($this->proxy) {
       $this->proxy->setObject($object);
       return $this;
@@ -431,11 +431,11 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Read object data into local field storage, if applicable.
    *
-   * @param PhabricatorCustomFieldInterface The object this field belongs to.
+   * @param PhorgeCustomFieldInterface The object this field belongs to.
    * @return this
    * @task context
    */
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     if ($this->proxy) {
       $this->proxy->readValueFromObject($object);
     }
@@ -446,7 +446,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the object this field belongs to.
    *
-   * @return PhabricatorCustomFieldInterface The object this field belongs to.
+   * @return PhorgeCustomFieldInterface The object this field belongs to.
    * @task context
    */
   final public function getObject() {
@@ -461,10 +461,10 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * This is a hook, primarily for subclasses to load object data.
    *
-   * @return PhabricatorCustomFieldInterface The object this field belongs to.
+   * @return PhorgeCustomFieldInterface The object this field belongs to.
    * @return void
    */
-  protected function didSetObject(PhabricatorCustomFieldInterface $object) {
+  protected function didSetObject(PhorgeCustomFieldInterface $object) {
     return;
   }
 
@@ -472,7 +472,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * @task context
    */
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     if ($this->proxy) {
       $this->proxy->setViewer($viewer);
       return $this;
@@ -504,7 +504,7 @@ abstract class PhabricatorCustomField extends Phobject {
     }
 
     if (!$this->viewer) {
-      throw new PhabricatorCustomFieldDataNotAvailableException($this);
+      throw new PhorgeCustomFieldDataNotAvailableException($this);
     }
     return $this->viewer;
   }
@@ -557,15 +557,15 @@ abstract class PhabricatorCustomField extends Phobject {
 
   /**
    * Return a new, empty storage object. This should be a subclass of
-   * @{class:PhabricatorCustomFieldStorage} which is bound to the application's
+   * @{class:PhorgeCustomFieldStorage} which is bound to the application's
    * database.
    *
-   * @return PhabricatorCustomFieldStorage New empty storage object.
+   * @return PhorgeCustomFieldStorage New empty storage object.
    * @task storage
    */
   public function newStorageObject() {
     // NOTE: This intentionally isn't proxied, to avoid call cycles.
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -584,7 +584,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getValueForStorage();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -608,7 +608,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->setValueFromStorage($value);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
   public function didSetValueFromStorage() {
@@ -656,7 +656,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *   }
    *   return $indexes;
    *
-   * @return list<PhabricatorCustomFieldIndexStorage> List of indexes.
+   * @return list<PhorgeCustomFieldIndexStorage> List of indexes.
    * @task appsearch
    */
   public function buildFieldIndexes() {
@@ -678,7 +678,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * Return null from this method if the field can not be ordered.
    *
-   * @return PhabricatorCustomFieldIndexStorage A single index to order by.
+   * @return PhorgeCustomFieldIndexStorage A single index to order by.
    * @task appsearch
    */
   public function buildOrderIndex() {
@@ -692,28 +692,28 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Build a new empty storage object for storing string indexes. Normally,
    * this should be a concrete subclass of
-   * @{class:PhabricatorCustomFieldStringIndexStorage}.
+   * @{class:PhorgeCustomFieldStringIndexStorage}.
    *
-   * @return PhabricatorCustomFieldStringIndexStorage Storage object.
+   * @return PhorgeCustomFieldStringIndexStorage Storage object.
    * @task appsearch
    */
   protected function newStringIndexStorage() {
     // NOTE: This intentionally isn't proxied, to avoid call cycles.
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
   /**
    * Build a new empty storage object for storing string indexes. Normally,
    * this should be a concrete subclass of
-   * @{class:PhabricatorCustomFieldStringIndexStorage}.
+   * @{class:PhorgeCustomFieldStringIndexStorage}.
    *
-   * @return PhabricatorCustomFieldStringIndexStorage Storage object.
+   * @return PhorgeCustomFieldStringIndexStorage Storage object.
    * @task appsearch
    */
   protected function newNumericIndexStorage() {
     // NOTE: This intentionally isn't proxied, to avoid call cycles.
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -721,7 +721,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * Build and populate storage for a string index.
    *
    * @param string String to index.
-   * @return PhabricatorCustomFieldStringIndexStorage Populated storage.
+   * @return PhorgeCustomFieldStringIndexStorage Populated storage.
    * @task appsearch
    */
   protected function newStringIndex($value) {
@@ -740,7 +740,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * Build and populate storage for a numeric index.
    *
    * @param string Numeric value to index.
-   * @return PhabricatorCustomFieldNumericIndexStorage Populated storage.
+   * @return PhorgeCustomFieldNumericIndexStorage Populated storage.
    * @task appsearch
    */
   protected function newNumericIndex($value) {
@@ -758,20 +758,20 @@ abstract class PhabricatorCustomField extends Phobject {
    * Read a query value from a request, for storage in a saved query. Normally,
    * this method should, e.g., read a string out of the request.
    *
-   * @param PhabricatorApplicationSearchEngine Engine building the query.
+   * @param PhorgeApplicationSearchEngine Engine building the query.
    * @param AphrontRequest Request to read from.
    * @return wild
    * @task appsearch
    */
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
     if ($this->proxy) {
       return $this->proxy->readApplicationSearchValueFromRequest(
         $engine,
         $request);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -780,15 +780,15 @@ abstract class PhabricatorCustomField extends Phobject {
    * use `with...()` methods to apply filters or other constraints to the
    * query.
    *
-   * @param PhabricatorApplicationSearchEngine Engine executing the query.
-   * @param PhabricatorCursorPagedPolicyAwareQuery Query to constrain.
+   * @param PhorgeApplicationSearchEngine Engine executing the query.
+   * @param PhorgeCursorPagedPolicyAwareQuery Query to constrain.
    * @param wild Constraint provided by the user.
    * @return void
    * @task appsearch
    */
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     if ($this->proxy) {
       return $this->proxy->applyApplicationSearchConstraintToQuery(
@@ -796,21 +796,21 @@ abstract class PhabricatorCustomField extends Phobject {
         $query,
         $value);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
   /**
    * Append search controls to the interface.
    *
-   * @param PhabricatorApplicationSearchEngine Engine constructing the form.
+   * @param PhorgeApplicationSearchEngine Engine constructing the form.
    * @param AphrontFormView The form to update.
    * @param wild Value from the saved query.
    * @return void
    * @task appsearch
    */
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
     if ($this->proxy) {
@@ -819,7 +819,7 @@ abstract class PhabricatorCustomField extends Phobject {
         $form,
         $value);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -848,7 +848,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionType();
     }
-    return PhabricatorTransactions::TYPE_CUSTOMFIELD;
+    return PhorgeTransactions::TYPE_CUSTOMFIELD;
   }
 
 
@@ -900,7 +900,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task appxaction
    */
   public function getNewValueFromApplicationTransactions(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getNewValueFromApplicationTransactions($xaction);
     }
@@ -912,7 +912,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task appxaction
    */
   public function getApplicationTransactionHasEffect(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionHasEffect($xaction);
     }
@@ -924,7 +924,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task appxaction
    */
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->applyApplicationTransactionInternalEffects($xaction);
     }
@@ -936,7 +936,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task appxaction
    */
   public function getApplicationTransactionRemarkupBlocks(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionRemarkupBlocks($xaction);
     }
@@ -948,7 +948,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task appxaction
    */
   public function applyApplicationTransactionExternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->applyApplicationTransactionExternalEffects($xaction);
     }
@@ -991,19 +991,19 @@ abstract class PhabricatorCustomField extends Phobject {
    * when a transaction would set a field to an invalid value, or when a field
    * is required but no transactions provide value.
    *
-   * @param PhabricatorLiskDAO Editor applying the transactions.
+   * @param PhorgeLiskDAO Editor applying the transactions.
    * @param string Transaction type. This type is always
-   *   `PhabricatorTransactions::TYPE_CUSTOMFIELD`, it is provided for
+   *   `PhorgeTransactions::TYPE_CUSTOMFIELD`, it is provided for
    *   convenience when constructing exceptions.
-   * @param list<PhabricatorApplicationTransaction> Transactions being applied,
+   * @param list<PhorgeApplicationTransaction> Transactions being applied,
    *   which may be empty if this field is not being edited.
-   * @return list<PhabricatorApplicationTransactionValidationError> Validation
+   * @return list<PhorgeApplicationTransactionValidationError> Validation
    *   errors.
    *
    * @task appxaction
    */
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
     if ($this->proxy) {
@@ -1016,7 +1016,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionTitle(
         $xaction);
@@ -1029,7 +1029,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionTitleForFeed(
         $xaction);
@@ -1045,7 +1045,7 @@ abstract class PhabricatorCustomField extends Phobject {
 
 
   public function getApplicationTransactionHasChangeDetails(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionHasChangeDetails(
         $xaction);
@@ -1054,8 +1054,8 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   public function getApplicationTransactionChangeDetails(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorUser $viewer) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeUser $viewer) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionChangeDetails(
         $xaction,
@@ -1065,7 +1065,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   public function getApplicationTransactionRequiredHandlePHIDs(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->getApplicationTransactionRequiredHandlePHIDs(
         $xaction);
@@ -1074,7 +1074,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   public function shouldHideInApplicationTransactions(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     if ($this->proxy) {
       return $this->proxy->shouldHideInApplicationTransactions($xaction);
     }
@@ -1100,8 +1100,8 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task xactionmail
    */
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
     if ($this->proxy) {
       return $this->proxy->updateTransactionMailBody($body, $editor, $xactions);
@@ -1113,7 +1113,7 @@ abstract class PhabricatorCustomField extends Phobject {
 /* -(  Edit View  )---------------------------------------------------------- */
 
 
-  public function getEditEngineFields(PhabricatorEditEngine $engine) {
+  public function getEditEngineFields(PhorgeEditEngine $engine) {
     $field = $this->newStandardEditField();
 
     return array(
@@ -1122,7 +1122,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   protected function newEditField() {
-    $field = id(new PhabricatorCustomFieldEditField())
+    $field = id(new PhorgeCustomFieldEditField())
       ->setCustomField($this);
 
     $http_type = $this->getHTTPParameterType();
@@ -1231,7 +1231,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->readValueFromRequest($request);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1264,7 +1264,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->renderEditControl($handles);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1300,7 +1300,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->renderPropertyViewValue($handles);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1358,7 +1358,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->renderOnListItem($view);
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1380,7 +1380,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @task globalsearch
    */
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     if ($this->proxy) {
       return $this->proxy->updateAbstractDocument($document);
     }
@@ -1399,7 +1399,7 @@ abstract class PhabricatorCustomField extends Phobject {
     try {
       $this->newExportFieldType();
       return true;
-    } catch (PhabricatorCustomFieldImplementationIncompleteException $ex) {
+    } catch (PhorgeCustomFieldImplementationIncompleteException $ex) {
       return false;
     }
   }
@@ -1417,14 +1417,14 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->newExportData();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
   protected function newExportFieldType() {
     if ($this->proxy) {
       return $this->proxy->newExportFieldType();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1449,7 +1449,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getConduitDictionaryValue();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1536,7 +1536,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getHeraldFieldValue();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1550,7 +1550,7 @@ abstract class PhabricatorCustomField extends Phobject {
     if ($this->proxy) {
       return $this->proxy->getHeraldFieldConditions();
     }
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
 
@@ -1636,7 +1636,7 @@ abstract class PhabricatorCustomField extends Phobject {
   }
 
   private static function adjustCustomFieldsForObjectSubtype(
-    PhabricatorCustomFieldInterface $object,
+    PhorgeCustomFieldInterface $object,
     $role,
     array $fields) {
     assert_instances_of($fields, __CLASS__);
@@ -1658,7 +1658,7 @@ abstract class PhabricatorCustomField extends Phobject {
 
     // If the object doesn't support subtypes, we can't possibly make
     // any adjustments based on subtype.
-    if (!($object instanceof PhabricatorEditEngineSubtypeInterface)) {
+    if (!($object instanceof PhorgeEditEngineSubtypeInterface)) {
       return $fields;
     }
 
@@ -1681,12 +1681,12 @@ abstract class PhabricatorCustomField extends Phobject {
       // future there's no technical or product reason we couldn't let you
       // override (some properites of) other fields like "Title", but they
       // don't usually support appropriate "setX()" methods today.
-      if (!($field instanceof PhabricatorStandardCustomField)) {
+      if (!($field instanceof PhorgeStandardCustomField)) {
         // For fields that are proxies on top of StandardCustomField, which
         // is how most application custom fields work today, we can reconfigure
         // the proxied field instead.
         $field = $field->getProxy();
-        if (!$field || !($field instanceof PhabricatorStandardCustomField)) {
+        if (!$field || !($field instanceof PhorgeStandardCustomField)) {
           continue;
         }
       }

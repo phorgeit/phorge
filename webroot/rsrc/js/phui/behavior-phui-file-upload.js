@@ -25,7 +25,7 @@ JX.behavior('phui-file-upload', function(config) {
     var callback = JX.bind(null, didUpload, state);
 
     var dummy = input;
-    var uploader = new JX.PhabricatorDragAndDropFileUpload(dummy)
+    var uploader = new JX.PhorgeDragAndDropFileUpload(dummy)
       .setURI(config.uploadURI)
       .setChunkThreshold(config.chunkThreshold);
 

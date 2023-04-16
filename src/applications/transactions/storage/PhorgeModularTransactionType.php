@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorModularTransactionType
+abstract class PhorgeModularTransactionType
   extends Phobject {
 
   private $storage;
@@ -101,13 +101,13 @@ abstract class PhabricatorModularTransactionType
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
     return null;
   }
 
   final public function setStorage(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->storage = $xaction;
     return $this;
   }
@@ -116,7 +116,7 @@ abstract class PhabricatorModularTransactionType
     return $this->storage;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -134,7 +134,7 @@ abstract class PhabricatorModularTransactionType
   }
 
   final public function setEditor(
-    PhabricatorApplicationTransactionEditor $editor) {
+    PhorgeApplicationTransactionEditor $editor) {
     $this->editor = $editor;
     return $this;
   }
@@ -211,7 +211,7 @@ abstract class PhabricatorModularTransactionType
     $viewer = $this->getViewer();
     $handles = $viewer->loadHandles(array($phid));
 
-    $policy = PhabricatorPolicy::newFromPolicyAndHandle(
+    $policy = PhorgePolicy::newFromPolicyAndHandle(
       $phid,
       $handles[$phid]);
 
@@ -314,7 +314,7 @@ abstract class PhabricatorModularTransactionType
   }
 
   final protected function newError($title, $message, $xaction = null) {
-    return new PhabricatorApplicationTransactionValidationError(
+    return new PhorgeApplicationTransactionValidationError(
       $this->getTransactionTypeConstant(),
       $title,
       $message,
@@ -354,11 +354,11 @@ abstract class PhabricatorModularTransactionType
 
   final protected function isTextMode() {
     $target = $this->getStorage()->getRenderingTarget();
-    return ($target == PhabricatorApplicationTransaction::TARGET_TEXT);
+    return ($target == PhorgeApplicationTransaction::TARGET_TEXT);
   }
 
   final protected function newRemarkupChange() {
-    return id(new PhabricatorTransactionRemarkupChange())
+    return id(new PhorgeTransactionRemarkupChange())
       ->setTransaction($this->getStorage());
   }
 
@@ -392,7 +392,7 @@ abstract class PhabricatorModularTransactionType
     $application_class = $this->getEditor()->getEditorApplicationClass();
     $application = newv($application_class, array());
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $this->getActor(),
       $application,
       $capability);
@@ -413,20 +413,20 @@ abstract class PhabricatorModularTransactionType
    * is usually better implemented as a validation check.
    *
    * @param object Object being edited.
-   * @param PhabricatorApplicationTransaction Transaction being applied.
+   * @param PhorgeApplicationTransaction Transaction being applied.
    * @return null|const|list<const> A capability constant (or list of
    *    capability constants) which the actor must have on the object. You can
    *    return `null` as a shorthand for "no capabilities are required".
    */
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
-    return PhabricatorPolicyCapability::CAN_EDIT;
+    PhorgeApplicationTransaction $xaction) {
+    return PhorgePolicyCapability::CAN_EDIT;
   }
 
   public function shouldTryMFA(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return false;
   }
 
@@ -436,22 +436,22 @@ abstract class PhabricatorModularTransactionType
 
   final public function getTitleForTextMail() {
     return $this->getTitleForMailWithRenderingTarget(
-      PhabricatorApplicationTransaction::TARGET_TEXT);
+      PhorgeApplicationTransaction::TARGET_TEXT);
   }
 
   final public function getTitleForHTMLMail() {
     return $this->getTitleForMailWithRenderingTarget(
-      PhabricatorApplicationTransaction::TARGET_TEXT);
+      PhorgeApplicationTransaction::TARGET_TEXT);
   }
 
   final public function getBodyForTextMail() {
     return $this->getBodyForMailWithRenderingTarget(
-      PhabricatorApplicationTransaction::TARGET_TEXT);
+      PhorgeApplicationTransaction::TARGET_TEXT);
   }
 
   final public function getBodyForHTMLMail() {
     return $this->getBodyForMailWithRenderingTarget(
-      PhabricatorApplicationTransaction::TARGET_TEXT);
+      PhorgeApplicationTransaction::TARGET_TEXT);
   }
 
   private function getTitleForMailWithRenderingTarget($target) {

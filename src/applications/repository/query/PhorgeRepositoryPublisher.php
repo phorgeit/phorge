@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryPublisher
+final class PhorgeRepositoryPublisher
   extends Phobject {
 
   private $repository;
@@ -12,7 +12,7 @@ final class PhabricatorRepositoryPublisher
   const HOLD_UNTRACKED = 'auto/notrack';
   const HOLD_NOT_PERMANENT_REF = 'auto/noclose';
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -34,7 +34,7 @@ final class PhabricatorRepositoryPublisher
     return !$this->getRefHoldReasons($ref);
   }
 
-  public function shouldPublishCommit(PhabricatorRepositoryCommit $commit) {
+  public function shouldPublishCommit(PhorgeRepositoryCommit $commit) {
     return !$this->getCommitHoldReasons($commit);
   }
 
@@ -70,7 +70,7 @@ final class PhabricatorRepositoryPublisher
     return $reasons;
   }
 
-  public function getCommitHoldReasons(PhabricatorRepositoryCommit $commit) {
+  public function getCommitHoldReasons(PhorgeRepositoryCommit $commit) {
     $repository = $this->getRepository();
     $reasons = $this->getRepositoryHoldReasons();
 

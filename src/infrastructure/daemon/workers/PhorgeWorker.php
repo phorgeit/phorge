@@ -3,7 +3,7 @@
 /**
  * @task config   Configuring Retries and Failures
  */
-abstract class PhabricatorWorker extends Phobject {
+abstract class PhorgeWorker extends Phobject {
 
   private $data;
   private static $runAllTasksInProcess = false;
@@ -50,7 +50,7 @@ abstract class PhabricatorWorker extends Phobject {
   /**
    * Return the maximum number of times this task may be retried before it is
    * considered permanently failed. By default, tasks retry indefinitely. You
-   * can throw a @{class:PhabricatorWorkerPermanentFailureException} to cause an
+   * can throw a @{class:PhorgeWorkerPermanentFailureException} to cause an
    * immediate permanent failure.
    *
    * @return int|null  Number of times the task will retry before permanent
@@ -68,7 +68,7 @@ abstract class PhabricatorWorker extends Phobject {
    * retrying. For most tasks you can leave this at `null`, which will give you
    * a short default retry period (currently 60 seconds).
    *
-   * @param  PhabricatorWorkerTask  The task itself. This object is probably
+   * @param  PhorgeWorkerTask  The task itself. This object is probably
    *                                useful mostly to examine the failure count
    *                                if you want to implement staggered retries,
    *                                or to examine the execution exception if
@@ -80,11 +80,11 @@ abstract class PhabricatorWorker extends Phobject {
    *
    * @task config
    */
-  public function getWaitBeforeRetry(PhabricatorWorkerTask $task) {
+  public function getWaitBeforeRetry(PhorgeWorkerTask $task) {
     return null;
   }
 
-  public function setCurrentWorkerTask(PhabricatorWorkerTask $task) {
+  public function setCurrentWorkerTask(PhorgeWorkerTask $task) {
     $this->currentWorkerTask = $task;
     return $this;
   }
@@ -114,7 +114,7 @@ abstract class PhabricatorWorker extends Phobject {
   final protected function getTaskDataValue($key, $default = null) {
     $data = $this->getTaskData();
     if (!is_array($data)) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Expected task data to be a dictionary.'));
     }
     return idx($data, $key, $default);
@@ -145,7 +145,7 @@ abstract class PhabricatorWorker extends Phobject {
     $object_phid = idx($options, 'objectPHID');
     $container_phid = idx($options, 'containerPHID');
 
-    $task = id(new PhabricatorWorkerActiveTask())
+    $task = id(new PhorgeWorkerActiveTask())
       ->setTaskClass($task_class)
       ->setData($data)
       ->setPriority($priority)
@@ -166,9 +166,9 @@ abstract class PhabricatorWorker extends Phobject {
           $worker->executeTask();
           $worker->flushTaskQueue();
 
-          $task_result = PhabricatorWorkerArchiveTask::RESULT_SUCCESS;
+          $task_result = PhorgeWorkerArchiveTask::RESULT_SUCCESS;
           break;
-        } catch (PhabricatorWorkerPermanentFailureException $ex) {
+        } catch (PhorgeWorkerPermanentFailureException $ex) {
           $proxy = new PhutilProxyException(
             pht(
               'In-process task ("%s") failed permanently.',
@@ -177,9 +177,9 @@ abstract class PhabricatorWorker extends Phobject {
 
           phlog($proxy);
 
-          $task_result = PhabricatorWorkerArchiveTask::RESULT_FAILURE;
+          $task_result = PhorgeWorkerArchiveTask::RESULT_FAILURE;
           break;
-        } catch (PhabricatorWorkerYieldException $ex) {
+        } catch (PhorgeWorkerYieldException $ex) {
           phlog(
             pht(
               'In-process task "%s" yielded for %s seconds, sleeping...',
@@ -204,7 +204,7 @@ abstract class PhabricatorWorker extends Phobject {
   }
 
 
-  public function renderForDisplay(PhabricatorUser $viewer) {
+  public function renderForDisplay(PhorgeUser $viewer) {
     return null;
   }
 
@@ -295,7 +295,7 @@ abstract class PhabricatorWorker extends Phobject {
       return;
     }
 
-    $table = new PhabricatorWorkerActiveTask();
+    $table = new PhorgeWorkerActiveTask();
     $conn_w = $table->establishConnection('w');
 
     // NOTE: At least for now, we're keeping these tasks yielded, just
@@ -305,7 +305,7 @@ abstract class PhabricatorWorker extends Phobject {
     // and because it's likely correct to push these tasks to the head of their
     // respective priorities. There is a good chance they are ready to execute.
     $window = phutil_units('1 hour in seconds');
-    $epoch_ago = (PhabricatorTime::getNow() - $window);
+    $epoch_ago = (PhorgeTime::getNow() - $window);
 
     queryfx(
       $conn_w,
@@ -322,8 +322,8 @@ abstract class PhabricatorWorker extends Phobject {
   }
 
   protected function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
   }
 
 }

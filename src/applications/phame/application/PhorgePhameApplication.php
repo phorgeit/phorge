@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhameApplication extends PhabricatorApplication {
+final class PhorgePhameApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Phame');
@@ -22,11 +22,11 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
     return "\xe2\x9c\xa9";
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Phame User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Phame User Guide'),
+        'href' => PhorgeEnv::getDoclink('Phame User Guide'),
       ),
     );
   }
@@ -49,7 +49,7 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
           'view/(?P<id>\d+)/(?:(?P<slug>[^/]+)/)?' => 'PhamePostViewController',
           '(?P<action>publish|unpublish)/(?P<id>\d+)/'
             => 'PhamePostPublishController',
-          'preview/' => 'PhabricatorMarkupPreviewController',
+          'preview/' => 'PhorgeMarkupPreviewController',
           'move/(?P<id>\d+)/' => 'PhamePostMoveController',
           'archive/(?P<id>\d+)/' => 'PhamePostArchiveController',
           'header/(?P<id>[1-9]\d*)/' => 'PhamePostHeaderPictureController',
@@ -71,9 +71,9 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
 
   public function getBlogRoutes() {
     return $this->getLiveRoutes() + array(
-      '/status/' => 'PhabricatorStatusController',
-      '/favicon.ico' => 'PhabricatorFaviconController',
-      '/robots.txt' => 'PhabricatorRobotsBlogController',
+      '/status/' => 'PhorgeStatusController',
+      '/favicon.ico' => 'PhorgeFaviconController',
+      '/robots.txt' => 'PhorgeRobotsBlogController',
     );
   }
 
@@ -103,7 +103,7 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
   protected function getCustomCapabilities() {
     return array(
       PhameBlogCreateCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_USER,
+        'default' => PhorgePolicies::POLICY_USER,
         'caption' => pht('Default create policy for blogs.'),
       ),
     );

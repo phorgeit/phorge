@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorDaemonLogViewController
-  extends PhabricatorDaemonController {
+final class PhorgeDaemonLogViewController
+  extends PhorgeDaemonController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $log = id(new PhabricatorDaemonLogQuery())
+    $log = id(new PhorgeDaemonLogQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->setAllowStatusWrites(true)
@@ -29,32 +29,32 @@ final class PhabricatorDaemonLogViewController
 
     $status = $log->getStatus();
     switch ($status) {
-      case PhabricatorDaemonLog::STATUS_UNKNOWN:
+      case PhorgeDaemonLog::STATUS_UNKNOWN:
         $color = 'orange';
         $name = pht('Unknown');
         $icon = 'fa-warning';
         break;
-      case PhabricatorDaemonLog::STATUS_RUNNING:
+      case PhorgeDaemonLog::STATUS_RUNNING:
         $color = 'green';
         $name = pht('Running');
         $icon = 'fa-rocket';
         break;
-      case PhabricatorDaemonLog::STATUS_DEAD:
+      case PhorgeDaemonLog::STATUS_DEAD:
         $color = 'red';
         $name = pht('Dead');
         $icon = 'fa-times';
         break;
-      case PhabricatorDaemonLog::STATUS_WAIT:
+      case PhorgeDaemonLog::STATUS_WAIT:
         $color = 'blue';
         $name = pht('Waiting');
         $icon = 'fa-clock-o';
         break;
-      case PhabricatorDaemonLog::STATUS_EXITING:
+      case PhorgeDaemonLog::STATUS_EXITING:
         $color = 'yellow';
         $name = pht('Exiting');
         $icon = 'fa-check';
         break;
-      case PhabricatorDaemonLog::STATUS_EXITED:
+      case PhorgeDaemonLog::STATUS_EXITED:
         $color = 'bluegrey';
         $name = pht('Exited');
         $icon = 'fa-check';
@@ -83,7 +83,7 @@ final class PhabricatorDaemonLogViewController
 
   }
 
-  private function buildPropertyListView(PhabricatorDaemonLog $daemon) {
+  private function buildPropertyListView(PhorgeDaemonLog $daemon) {
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
@@ -94,27 +94,27 @@ final class PhabricatorDaemonLogViewController
     $c_epoch = $daemon->getDateCreated();
     $u_epoch = $daemon->getDateModified();
 
-    $unknown_time = PhabricatorDaemonLogQuery::getTimeUntilUnknown();
-    $dead_time = PhabricatorDaemonLogQuery::getTimeUntilDead();
+    $unknown_time = PhorgeDaemonLogQuery::getTimeUntilUnknown();
+    $dead_time = PhorgeDaemonLogQuery::getTimeUntilDead();
     $wait_time = PhutilDaemonHandle::getWaitBeforeRestart();
 
     $details = null;
     $status = $daemon->getStatus();
     switch ($status) {
-      case PhabricatorDaemonLog::STATUS_RUNNING:
+      case PhorgeDaemonLog::STATUS_RUNNING:
         $details = pht(
           'This daemon is running normally and reported a status update '.
           'recently (within %s).',
           phutil_format_relative_time($unknown_time));
         break;
-      case PhabricatorDaemonLog::STATUS_UNKNOWN:
+      case PhorgeDaemonLog::STATUS_UNKNOWN:
         $details = pht(
           'This daemon has not reported a status update recently (within %s). '.
           'It may have exited abruptly. After %s, it will be presumed dead.',
           phutil_format_relative_time($unknown_time),
           phutil_format_relative_time($dead_time));
         break;
-      case PhabricatorDaemonLog::STATUS_DEAD:
+      case PhorgeDaemonLog::STATUS_DEAD:
         $details = pht(
           'This daemon did not report a status update for %s. It is '.
           'presumed dead. Usually, this indicates that the daemon was '.
@@ -122,7 +122,7 @@ final class PhabricatorDaemonLogViewController
           'need to restart it.',
           phutil_format_relative_time($dead_time));
         break;
-      case PhabricatorDaemonLog::STATUS_WAIT:
+      case PhorgeDaemonLog::STATUS_WAIT:
         $details = pht(
           'This daemon is running normally and reported a status update '.
           'recently (within %s). The process is currently waiting to '.
@@ -130,10 +130,10 @@ final class PhabricatorDaemonLogViewController
           'encountered an error.',
           phutil_format_relative_time($unknown_time));
         break;
-      case PhabricatorDaemonLog::STATUS_EXITING:
+      case PhorgeDaemonLog::STATUS_EXITING:
         $details = pht('This daemon is shutting down gracefully.');
         break;
-      case PhabricatorDaemonLog::STATUS_EXITED:
+      case PhorgeDaemonLog::STATUS_EXITED:
         $details = pht('This daemon exited normally and is no longer running.');
         break;
     }

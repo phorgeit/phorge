@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAphrontViewTestCase extends PhabricatorTestCase {
+final class PhorgeAphrontViewTestCase extends PhorgeTestCase {
 
   public function testHasChildren() {
     $view = new AphrontNullView();

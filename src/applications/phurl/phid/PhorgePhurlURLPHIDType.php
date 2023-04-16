@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPhurlURLPHIDType extends PhabricatorPHIDType {
+final class PhorgePhurlURLPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PHRL';
 
@@ -9,23 +9,23 @@ final class PhabricatorPhurlURLPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorPhurlURL();
+    return new PhorgePhurlURL();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPhurlURLQuery())
+    return id(new PhorgePhurlURLQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -48,7 +48,7 @@ final class PhabricatorPhurlURLPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -57,7 +57,7 @@ final class PhabricatorPhurlURLPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorPhurlURLQuery())
+    $objects = id(new PhorgePhurlURLQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

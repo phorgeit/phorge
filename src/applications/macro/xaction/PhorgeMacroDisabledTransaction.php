@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroDisabledTransaction
-  extends PhabricatorMacroTransactionType {
+final class PhorgeMacroDisabledTransaction
+  extends PhorgeMacroTransactionType {
 
   const TRANSACTIONTYPE = 'macro:disabled';
 

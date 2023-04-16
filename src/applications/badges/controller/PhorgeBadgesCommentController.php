@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesCommentController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesCommentController
+  extends PhorgeBadgesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -11,7 +11,7 @@ final class PhabricatorBadgesCommentController
       return new Aphront400Response();
     }
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -20,18 +20,18 @@ final class PhabricatorBadgesCommentController
     }
 
     $is_preview = $request->isPreviewRequest();
-    $draft = PhabricatorDraft::buildFromRequest($request);
+    $draft = PhorgeDraft::buildFromRequest($request);
 
     $view_uri = $this->getApplicationURI('view/'.$badge->getID());
 
     $xactions = array();
-    $xactions[] = id(new PhabricatorBadgesTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+    $xactions[] = id(new PhorgeBadgesTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->attachComment(
-        id(new PhabricatorBadgesTransactionComment())
+        id(new PhorgeBadgesTransactionComment())
           ->setContent($request->getStr('comment')));
 
-    $editor = id(new PhabricatorBadgesEditor())
+    $editor = id(new PhorgeBadgesEditor())
       ->setActor($viewer)
       ->setContinueOnNoEffect($request->isContinueRequest())
       ->setContentSourceFromRequest($request)
@@ -39,8 +39,8 @@ final class PhabricatorBadgesCommentController
 
     try {
       $xactions = $editor->applyTransactions($badge, $xactions);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-      return id(new PhabricatorApplicationTransactionNoEffectResponse())
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+      return id(new PhorgeApplicationTransactionNoEffectResponse())
         ->setCancelURI($view_uri)
         ->setException($ex);
     }
@@ -50,7 +50,7 @@ final class PhabricatorBadgesCommentController
     }
 
     if ($request->isAjax() && $is_preview) {
-      return id(new PhabricatorApplicationTransactionResponse())
+      return id(new PhorgeApplicationTransactionResponse())
         ->setObject($badge)
         ->setViewer($viewer)
         ->setTransactions($xactions)

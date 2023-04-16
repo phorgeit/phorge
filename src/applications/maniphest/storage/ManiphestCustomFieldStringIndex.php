@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestCustomFieldStringIndex
-  extends PhabricatorCustomFieldStringIndexStorage {
+  extends PhorgeCustomFieldStringIndexStorage {
 
   public function getApplicationName() {
     return 'maniphest';

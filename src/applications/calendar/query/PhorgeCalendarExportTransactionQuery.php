@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarExportTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeCalendarExportTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorCalendarExportTransaction();
+    return new PhorgeCalendarExportTransaction();
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialBlockingReviewerDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Blocking Reviewers');
@@ -12,14 +12,14 @@ final class DifferentialBlockingReviewerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectDatasource(),
-      new PhabricatorOwnersPackageDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectDatasource(),
+      new PhorgeOwnersPackageDatasource(),
     );
   }
 
@@ -44,7 +44,7 @@ final class DifferentialBlockingReviewerDatasource
     foreach ($results as $result) {
       $result
         ->setColor('red')
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-asterisk')
         ->setPHID('blocking('.$result->getPHID().')')
         ->setDisplayName(pht('Blocking: %s', $result->getDisplayName()))
@@ -90,7 +90,7 @@ final class DifferentialBlockingReviewerDatasource
       } else {
         $token
           ->setIcon('fa-asterisk')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setColor('red')
           ->setKey('blocking('.$token->getKey().')')
           ->setValue(pht('Blocking: %s', $token->getValue()));
@@ -103,13 +103,13 @@ final class DifferentialBlockingReviewerDatasource
   private function resolvePHIDs(array $phids) {
     $usernames = array();
     foreach ($phids as $key => $phid) {
-      if (phid_get_type($phid) != PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($phid) != PhorgePeopleUserPHIDType::TYPECONST) {
         $usernames[$key] = $phid;
       }
     }
 
     if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($usernames)
         ->execute();

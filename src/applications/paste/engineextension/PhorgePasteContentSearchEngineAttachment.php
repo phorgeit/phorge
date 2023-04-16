@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteContentSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgePasteContentSearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Paste Content');

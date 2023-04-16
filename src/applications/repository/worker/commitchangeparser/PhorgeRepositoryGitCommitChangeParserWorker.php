@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorRepositoryGitCommitChangeParserWorker
-  extends PhabricatorRepositoryCommitChangeParserWorker {
+final class PhorgeRepositoryGitCommitChangeParserWorker
+  extends PhorgeRepositoryCommitChangeParserWorker {
 
   protected function parseCommitChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $raw = DiffusionQuery::callConduitWithDiffusionRequest(
       $viewer,
       DiffusionRequest::newFromDictionary(
@@ -210,7 +210,7 @@ final class PhabricatorRepositoryGitCommitChangeParserWorker
 
     $results = array();
     foreach ($changes as $change) {
-      $result = id(new PhabricatorRepositoryParsedChange())
+      $result = id(new PhorgeRepositoryParsedChange())
         ->setPathID($change['pathID'])
         ->setTargetPathID($change['targetPathID'])
         ->setTargetCommitID($change['targetCommitID'])

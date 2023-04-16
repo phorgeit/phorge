@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Migrating macro authors...')."\n";
-foreach (new LiskMigrationIterator(new PhabricatorFileImageMacro()) as $macro) {
+foreach (new LiskMigrationIterator(new PhorgeFileImageMacro()) as $macro) {
   echo pht('Macro #%d', $macro->getID())."\n";
 
   if ($macro->getAuthorPHID()) {
@@ -14,7 +14,7 @@ foreach (new LiskMigrationIterator(new PhabricatorFileImageMacro()) as $macro) {
     continue;
   }
 
-  $file = id(new PhabricatorFile())->loadOneWhere(
+  $file = id(new PhorgeFile())->loadOneWhere(
     'phid = %s',
     $macro->getFilePHID());
 

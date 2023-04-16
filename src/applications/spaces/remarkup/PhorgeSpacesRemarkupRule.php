@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgeSpacesRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'S';
@@ -9,7 +9,7 @@ final class PhabricatorSpacesRemarkupRule
 
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
-    return id(new PhabricatorSpacesNamespaceQuery())
+    return id(new PhorgeSpacesNamespaceQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();

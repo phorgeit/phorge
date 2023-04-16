@@ -9,7 +9,7 @@ final class PHUICurtainObjectRefView
   private $exiled;
   private $exileNote = false;
 
-  public function setHandle(PhabricatorObjectHandle $handle) {
+  public function setHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }

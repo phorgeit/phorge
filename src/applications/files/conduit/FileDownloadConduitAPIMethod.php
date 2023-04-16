@@ -29,7 +29,7 @@ final class FileDownloadConduitAPIMethod extends FileConduitAPIMethod {
   protected function execute(ConduitAPIRequest $request) {
     $phid = $request->getValue('phid');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($request->getUser())
       ->withPHIDs(array($phid))
       ->executeOne();

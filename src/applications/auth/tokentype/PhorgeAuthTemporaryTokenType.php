@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorAuthTemporaryTokenType
+abstract class PhorgeAuthTemporaryTokenType
   extends Phobject {
 
   abstract public function getTokenTypeDisplayName();
   abstract public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token);
+    PhorgeAuthTemporaryToken $token);
 
-  public function isTokenRevocable(PhabricatorAuthTemporaryToken $token) {
+  public function isTokenRevocable(PhorgeAuthTemporaryToken $token) {
     return false;
   }
 

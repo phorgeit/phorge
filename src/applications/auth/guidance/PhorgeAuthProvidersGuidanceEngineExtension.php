@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuthProvidersGuidanceEngineExtension
-  extends PhabricatorGuidanceEngineExtension {
+final class PhorgeAuthProvidersGuidanceEngineExtension
+  extends PhorgeGuidanceEngineExtension {
 
   const GUIDANCEKEY = 'core.auth.providers';
 
-  public function canGenerateGuidance(PhabricatorGuidanceContext $context) {
-    return ($context instanceof PhabricatorAuthProvidersGuidanceContext);
+  public function canGenerateGuidance(PhorgeGuidanceContext $context) {
+    return ($context instanceof PhorgeAuthProvidersGuidanceContext);
   }
 
-  public function generateGuidance(PhabricatorGuidanceContext $context) {
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+  public function generateGuidance(PhorgeGuidanceContext $context) {
+    $configs = id(new PhorgeAuthProviderConfigQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIsEnabled(true)
       ->execute();
 
@@ -32,11 +32,11 @@ final class PhabricatorAuthProvidersGuidanceEngineExtension
 
     $domains_key = 'auth.email-domains';
     $domains_link = $this->renderConfigLink($domains_key);
-    $domains_value = PhabricatorEnv::getEnvConfig($domains_key);
+    $domains_value = PhorgeEnv::getEnvConfig($domains_key);
 
     $approval_key = 'auth.require-approval';
     $approval_link = $this->renderConfigLink($approval_key);
-    $approval_value = PhabricatorEnv::getEnvConfig($approval_key);
+    $approval_value = PhorgeEnv::getEnvConfig($approval_key);
 
     $results = array();
 
@@ -93,7 +93,7 @@ final class PhabricatorAuthProvidersGuidanceEngineExtension
     }
 
     $locked_config_key = 'auth.lock-config';
-    $is_locked = PhabricatorEnv::getEnvConfig($locked_config_key);
+    $is_locked = PhorgeEnv::getEnvConfig($locked_config_key);
     if ($is_locked) {
       $message = pht(
         'Authentication provider configuration is locked, and can not be '.

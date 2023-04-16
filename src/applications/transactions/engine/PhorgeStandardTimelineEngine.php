@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorStandardTimelineEngine
-   extends PhabricatorTimelineEngine {}
+final class PhorgeStandardTimelineEngine
+   extends PhorgeTimelineEngine {}

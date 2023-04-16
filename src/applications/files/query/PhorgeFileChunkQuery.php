@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileChunkQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFileChunkQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $chunkHandles;
   private $rangeStart;
@@ -31,7 +31,7 @@ final class PhabricatorFileChunkQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorFileChunk();
+    $table = new PhorgeFileChunk();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -51,7 +51,7 @@ final class PhabricatorFileChunkQuery
       $file_phids = mpull($chunks, 'getDataFilePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setViewer($this->getViewer())
           ->setParentQuery($this)
           ->withPHIDs($file_phids)
@@ -128,7 +128,7 @@ final class PhabricatorFileChunkQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
 }

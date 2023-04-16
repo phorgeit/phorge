@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSlowvoteTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeSlowvoteTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS = 'vote:details';
   const MAILTAG_RESPONSES = 'vote:responses';
@@ -12,28 +12,28 @@ final class PhabricatorSlowvoteTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorSlowvotePollPHIDType::TYPECONST;
+    return PhorgeSlowvotePollPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorSlowvoteTransactionComment();
+    return new PhorgeSlowvoteTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorSlowvoteTransactionType';
+    return 'PhorgeSlowvoteTransactionType';
   }
 
   public function getMailTags() {
     $tags = parent::getMailTags();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorSlowvoteQuestionTransaction::TRANSACTIONTYPE:
-      case PhabricatorSlowvoteDescriptionTransaction::TRANSACTIONTYPE:
-      case PhabricatorSlowvoteShuffleTransaction::TRANSACTIONTYPE:
-      case PhabricatorSlowvoteStatusTransaction::TRANSACTIONTYPE:
+      case PhorgeSlowvoteQuestionTransaction::TRANSACTIONTYPE:
+      case PhorgeSlowvoteDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgeSlowvoteShuffleTransaction::TRANSACTIONTYPE:
+      case PhorgeSlowvoteStatusTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_DETAILS;
         break;
-      case PhabricatorSlowvoteResponsesTransaction::TRANSACTIONTYPE:
+      case PhorgeSlowvoteResponsesTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_RESPONSES;
         break;
       default:

@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockLeaseStatus
-  extends PhabricatorObjectStatus {
+  extends PhorgeObjectStatus {
 
   const STATUS_PENDING = 'pending';
   const STATUS_ACQUIRED = 'acquired';

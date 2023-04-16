@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthFactorProviderQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -29,7 +29,7 @@ final class PhabricatorAuthFactorProviderQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthFactorProvider();
+    return new PhorgeAuthFactorProvider();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -67,7 +67,7 @@ final class PhabricatorAuthFactorProviderQuery
   }
 
   protected function willFilterPage(array $providers) {
-    $map = PhabricatorAuthFactor::getAllFactors();
+    $map = PhorgeAuthFactor::getAllFactors();
     foreach ($providers as $key => $provider) {
       $factor_key = $provider->getProviderFactorKey();
       $factor = idx($map, $factor_key);
@@ -84,7 +84,7 @@ final class PhabricatorAuthFactorProviderQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

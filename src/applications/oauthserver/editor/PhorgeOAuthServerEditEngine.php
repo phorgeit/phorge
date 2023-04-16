@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeOAuthServerEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'oauthserver.application';
 
@@ -22,16 +22,16 @@ final class PhabricatorOAuthServerEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorOAuthServerClient::initializeNewClient(
+    return PhorgeOAuthServerClient::initializeNewClient(
       $this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorOAuthServerClientQuery());
+    return id(new PhorgeOAuthServerClientQuery());
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -64,26 +64,26 @@ final class PhabricatorOAuthServerEditEngine
 
   protected function getCreateNewObjectPolicy() {
     return $this->getApplication()->getPolicy(
-      PhabricatorOAuthServerCreateClientsCapability::CAPABILITY);
+      PhorgeOAuthServerCreateClientsCapability::CAPABILITY);
   }
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setIsRequired(true)
-        ->setTransactionType(PhabricatorOAuthServerTransaction::TYPE_NAME)
+        ->setTransactionType(PhorgeOAuthServerTransaction::TYPE_NAME)
         ->setDescription(pht('The name of the OAuth application.'))
         ->setConduitDescription(pht('Rename the application.'))
         ->setConduitTypeDescription(pht('New application name.'))
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('redirectURI')
         ->setLabel(pht('Redirect URI'))
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorOAuthServerTransaction::TYPE_REDIRECT_URI)
+          PhorgeOAuthServerTransaction::TYPE_REDIRECT_URI)
         ->setDescription(
           pht('The redirect URI for OAuth handshakes.'))
         ->setConduitDescription(

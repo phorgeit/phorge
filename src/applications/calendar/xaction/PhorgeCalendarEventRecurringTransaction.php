@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventRecurringTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventRecurringTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.recurring';
 

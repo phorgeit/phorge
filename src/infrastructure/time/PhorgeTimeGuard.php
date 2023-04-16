@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTimeGuard extends Phobject {
+final class PhorgeTimeGuard extends Phobject {
 
   private $frameKey;
 
@@ -9,7 +9,7 @@ final class PhabricatorTimeGuard extends Phobject {
   }
 
   public function __destruct() {
-    PhabricatorTime::popTime($this->frameKey);
+    PhorgeTime::popTime($this->frameKey);
   }
 
 }

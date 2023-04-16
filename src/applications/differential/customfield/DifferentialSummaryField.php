@@ -28,7 +28,7 @@ final class DifferentialSummaryField
   }
 
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     if (strlen($this->getValue())) {
       $document->addField('body', $this->getValue());
     }
@@ -63,8 +63,8 @@ final class DifferentialSummaryField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     if (!$editor->isFirstBroadcast()) {

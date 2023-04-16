@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorNotificationSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeNotificationSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Notifications');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorNotificationsApplication';
+    return 'PhorgeNotificationsApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter(
       'unread',
@@ -21,8 +21,8 @@ final class PhabricatorNotificationSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorNotificationQuery())
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = id(new PhorgeNotificationQuery())
       ->withUserPHIDs(array($this->requireViewer()->getPHID()));
 
     if ($saved->getParameter('unread')) {
@@ -34,7 +34,7 @@ final class PhabricatorNotificationSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $unread = $saved->getParameter('unread');
 
@@ -78,9 +78,9 @@ final class PhabricatorNotificationSearchEngine
 
   protected function renderResultList(
     array $notifications,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($notifications, 'PhabricatorFeedStory');
+    assert_instances_of($notifications, 'PhorgeFeedStory');
 
     $viewer = $this->requireViewer();
 
@@ -107,7 +107,7 @@ final class PhabricatorNotificationSearchEngine
 
     $clear_uri = id(new PhutilURI('/notification/clear/'));
     if ($notifications) {
-      $builder = id(new PhabricatorNotificationBuilder($notifications))
+      $builder = id(new PhorgeNotificationBuilder($notifications))
         ->setUser($viewer);
 
       $view = $builder->buildView();
@@ -127,7 +127,7 @@ final class PhabricatorNotificationSearchEngine
       ->addClass('phorge-notification-list')
       ->appendChild($view);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->addAction($button);
     $result->setContent($view);
 

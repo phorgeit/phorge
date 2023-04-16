@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorClusterNoHostForRoleException
+final class PhorgeClusterNoHostForRoleException
   extends Exception {
 
   public function __construct($role) {

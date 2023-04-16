@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventDescriptionTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventDescriptionTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.description';
 
@@ -37,7 +37,7 @@ final class PhabricatorCalendarEventDescriptionTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

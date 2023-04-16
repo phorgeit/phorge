@@ -1,15 +1,15 @@
 <?php
 
 final class PhrequentUIEventListener
-  extends PhabricatorEventListener {
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
+    $this->listen(PhorgeEventType::TYPE_UI_DIDRENDERACTIONS);
   }
 
   public function handleEvent(PhutilEvent $event) {
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
+      case PhorgeEventType::TYPE_UI_DIDRENDERACTIONS:
         $this->handleActionEvent($event);
         break;
     }
@@ -37,13 +37,13 @@ final class PhrequentUIEventListener
       $user,
       $object->getPHID());
     if (!$tracking) {
-      $track_action = id(new PhabricatorActionView())
+      $track_action = id(new PhorgeActionView())
         ->setName(pht('Start Tracking Time'))
         ->setIcon('fa-clock-o')
         ->setWorkflow(true)
         ->setHref('/phrequent/track/start/'.$object->getPHID().'/');
     } else {
-      $track_action = id(new PhabricatorActionView())
+      $track_action = id(new PhorgeActionView())
         ->setName(pht('Stop Tracking Time'))
         ->setIcon('fa-clock-o red')
         ->setWorkflow(true)

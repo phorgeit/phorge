@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryURIQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryURIQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -31,7 +31,7 @@ final class PhabricatorRepositoryURIQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryURI();
+    return new PhorgeRepositoryURI();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -69,7 +69,7 @@ final class PhabricatorRepositoryURIQuery
     $repository_phids = array_diff_key($repository_phids, $repositories);
 
     if ($repository_phids) {
-      $more_repositories = id(new PhabricatorRepositoryQuery())
+      $more_repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($repository_phids)
         ->execute();
@@ -91,7 +91,7 @@ final class PhabricatorRepositoryURIQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

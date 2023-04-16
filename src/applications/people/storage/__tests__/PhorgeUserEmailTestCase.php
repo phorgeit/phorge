@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserEmailTestCase extends PhabricatorTestCase {
+final class PhorgeUserEmailTestCase extends PhorgeTestCase {
 
   public function testEmailValidation() {
     $tests = array(
@@ -37,7 +37,7 @@ final class PhabricatorUserEmailTestCase extends PhabricatorTestCase {
     );
 
     foreach ($tests as $input => $expect) {
-      $actual = PhabricatorUserEmail::isValidAddress($input);
+      $actual = PhorgeUserEmail::isValidAddress($input);
       $this->assertEqual(
         $expect,
         $actual,

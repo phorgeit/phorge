@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorEditEngineBulkJobType
-   extends PhabricatorWorkerBulkJobType {
+final class PhorgeEditEngineBulkJobType
+   extends PhorgeWorkerBulkJobType {
 
   public function getBulkJobTypeKey() {
     return 'transaction.edit';
   }
 
-  public function getJobName(PhabricatorWorkerBulkJob $job) {
+  public function getJobName(PhorgeWorkerBulkJob $job) {
     return pht('Bulk Edit');
   }
 
-  public function getDescriptionForConfirm(PhabricatorWorkerBulkJob $job) {
+  public function getDescriptionForConfirm(PhorgeWorkerBulkJob $job) {
     $parts = array();
 
     $parts[] = pht(
@@ -44,36 +44,36 @@ final class PhabricatorEditEngineBulkJobType
     return $parts;
   }
 
-  public function getJobSize(PhabricatorWorkerBulkJob $job) {
+  public function getJobSize(PhorgeWorkerBulkJob $job) {
     return count($job->getParameter('objectPHIDs', array()));
   }
 
-  public function getDoneURI(PhabricatorWorkerBulkJob $job) {
+  public function getDoneURI(PhorgeWorkerBulkJob $job) {
     return $job->getParameter('doneURI');
   }
 
-  public function createTasks(PhabricatorWorkerBulkJob $job) {
+  public function createTasks(PhorgeWorkerBulkJob $job) {
     $tasks = array();
 
     foreach ($job->getParameter('objectPHIDs', array()) as $phid) {
-      $tasks[] = PhabricatorWorkerBulkTask::initializeNewTask($job, $phid);
+      $tasks[] = PhorgeWorkerBulkTask::initializeNewTask($job, $phid);
     }
 
     return $tasks;
   }
 
   public function runTask(
-    PhabricatorUser $actor,
-    PhabricatorWorkerBulkJob $job,
-    PhabricatorWorkerBulkTask $task) {
+    PhorgeUser $actor,
+    PhorgeWorkerBulkJob $job,
+    PhorgeWorkerBulkTask $task) {
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($actor)
       ->withPHIDs(array($task->getObjectPHID()))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$object) {

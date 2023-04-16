@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardSelectCustomFieldDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeStandardSelectCustomFieldDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Values');
@@ -27,7 +27,7 @@ final class PhabricatorStandardSelectCustomFieldDatasource
     }
 
     $reflection = new ReflectionClass($class);
-    $interface = 'PhabricatorCustomFieldInterface';
+    $interface = 'PhorgeCustomFieldInterface';
     if (!$reflection->implementsInterface($interface)) {
       throw new Exception(
         pht(
@@ -42,7 +42,7 @@ final class PhabricatorStandardSelectCustomFieldDatasource
     }
 
     $object = newv($class, array());
-    $field_list = PhabricatorCustomField::getObjectFields($object, $role);
+    $field_list = PhorgeCustomField::getObjectFields($object, $role);
 
     $field_key = $this->getParameter('key');
     if (!strlen($field_key)) {
@@ -67,9 +67,9 @@ final class PhabricatorStandardSelectCustomFieldDatasource
           $role));
     }
 
-    if (!($field instanceof PhabricatorStandardCustomFieldSelect)) {
+    if (!($field instanceof PhorgeStandardCustomFieldSelect)) {
       $field = $field->getProxy();
-      if (!($field instanceof PhabricatorStandardCustomFieldSelect)) {
+      if (!($field instanceof PhorgeStandardCustomFieldSelect)) {
         throw new Exception(
           pht(
             'Field "%s" is not a standard select field, nor a proxy of a '.
@@ -82,7 +82,7 @@ final class PhabricatorStandardSelectCustomFieldDatasource
 
     $results = array();
     foreach ($options as $key => $option) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($option)
         ->setPHID($key);
     }

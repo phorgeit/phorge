@@ -1,7 +1,7 @@
 <?php
 
 final class PholioTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new PholioTransaction();

@@ -9,7 +9,7 @@
  *
  * @task load   Loading Types
  */
-abstract class PhabricatorEdgeType extends Phobject {
+abstract class PhorgeEdgeType extends Phobject {
 
   final public function getEdgeConstant() {
     $const = $this->getPhobjectClassConstant('EDGECONST');

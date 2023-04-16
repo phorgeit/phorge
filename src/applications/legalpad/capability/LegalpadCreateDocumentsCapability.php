@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadCreateDocumentsCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'legalpad.create';
 

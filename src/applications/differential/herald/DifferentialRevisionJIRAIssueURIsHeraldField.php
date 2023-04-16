@@ -10,7 +10,7 @@ final class DifferentialRevisionJIRAIssueURIsHeraldField
   }
 
   public function supportsObject($object) {
-    $provider = PhabricatorJIRAAuthProvider::getJIRAProvider();
+    $provider = PhorgeJIRAAuthProvider::getJIRAProvider();
     if (!$provider) {
       return false;
     }
@@ -22,9 +22,9 @@ final class DifferentialRevisionJIRAIssueURIsHeraldField
     $adapter = $this->getAdapter();
     $viewer = $adapter->getViewer();
 
-    $jira_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $jira_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorJiraIssueHasObjectEdgeType::EDGECONST);
+      PhorgeJiraIssueHasObjectEdgeType::EDGECONST);
     if (!$jira_phids) {
       return array();
     }

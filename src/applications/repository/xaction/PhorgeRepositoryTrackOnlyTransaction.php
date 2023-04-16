@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryTrackOnlyTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryTrackOnlyTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:track-only';
 

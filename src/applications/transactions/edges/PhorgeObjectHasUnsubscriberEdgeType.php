@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorObjectHasUnsubscriberEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeObjectHasUnsubscriberEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 23;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorUnsubscribedFromObjectEdgeType::EDGECONST;
+    return PhorgeUnsubscribedFromObjectEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

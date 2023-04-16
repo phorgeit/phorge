@@ -1,29 +1,29 @@
 <?php
 
-final class PhabricatorProjectSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeProjectSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Projects');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorProjectQuery())
+    return id(new PhorgeProjectQuery())
       ->needImages(true)
       ->needMembers(true)
       ->needWatchers(true);
   }
 
   protected function buildCustomSearchFields() {
-    $subtype_map = id(new PhabricatorProject())->newEditEngineSubtypeMap();
+    $subtype_map = id(new PhorgeProject())->newEditEngineSubtypeMap();
     $hide_subtypes = ($subtype_map->getCount() == 1);
 
     return array(
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name'))
         ->setKey('name')
         ->setDescription(
@@ -32,7 +32,7 @@ final class PhabricatorProjectSearchEngine
             'hashtag using tokenizer/datasource query matching rules. This '.
             'is deprecated in favor of the more powerful "query" '.
             'constraint.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Slugs'))
         ->setIsHidden(true)
         ->setKey('slugs')
@@ -40,21 +40,21 @@ final class PhabricatorProjectSearchEngine
           pht(
             'Search for projects with particular slugs. (Slugs are the same '.
             'as project hashtags.)')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Members'))
         ->setKey('memberPHIDs')
         ->setConduitKey('members')
         ->setAliases(array('member', 'members')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Watchers'))
         ->setKey('watcherPHIDs')
         ->setConduitKey('watchers')
         ->setAliases(array('watcher', 'watchers')),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Status'))
         ->setKey('status')
         ->setOptions($this->getStatusOptions()),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Milestones'))
         ->setKey('isMilestone')
         ->setOptions(
@@ -65,7 +65,7 @@ final class PhabricatorProjectSearchEngine
           pht(
             'Pass true to find only milestones, or false to omit '.
             'milestones.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Root Projects'))
         ->setKey('isRoot')
         ->setOptions(
@@ -76,7 +76,7 @@ final class PhabricatorProjectSearchEngine
           pht(
             'Pass true to find only root projects, or false to omit '.
             'root projects.')),
-      id(new PhabricatorSearchIntField())
+      id(new PhorgeSearchIntField())
         ->setLabel(pht('Minimum Depth'))
         ->setKey('minDepth')
         ->setIsHidden(true)
@@ -85,7 +85,7 @@ final class PhabricatorProjectSearchEngine
             'Find projects with a given minimum depth. Root projects '.
             'have depth 0, their immediate children have depth 1, and '.
             'so on.')),
-      id(new PhabricatorSearchIntField())
+      id(new PhorgeSearchIntField())
         ->setLabel(pht('Maximum Depth'))
         ->setKey('maxDepth')
         ->setIsHidden(true)
@@ -94,29 +94,29 @@ final class PhabricatorProjectSearchEngine
             'Find projects with a given maximum depth. Root projects '.
             'have depth 0, their immediate children have depth 1, and '.
             'so on.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Subtypes'))
         ->setKey('subtypes')
         ->setAliases(array('subtype'))
         ->setDescription(
           pht('Search for projects with given subtypes.'))
-        ->setDatasource(new PhabricatorProjectSubtypeDatasource())
+        ->setDatasource(new PhorgeProjectSubtypeDatasource())
         ->setIsHidden($hide_subtypes),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Icons'))
         ->setKey('icons')
         ->setOptions($this->getIconOptions()),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Colors'))
         ->setKey('colors')
         ->setOptions($this->getColorOptions()),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Parent Projects'))
         ->setKey('parentPHIDs')
         ->setConduitKey('parents')
         ->setAliases(array('parent', 'parents', 'parentPHID'))
         ->setDescription(pht('Find direct subprojects of specified parents.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Ancestor Projects'))
         ->setKey('ancestorPHIDs')
         ->setConduitKey('ancestors')
@@ -131,7 +131,7 @@ final class PhabricatorProjectSearchEngine
     $query = $this->newQuery();
 
     if (strlen($map['name'])) {
-      $tokens = PhabricatorTypeaheadDatasource::tokenizeString($map['name']);
+      $tokens = PhorgeTypeaheadDatasource::tokenizeString($map['name']);
       $query->withNameTokens($tokens);
     }
 
@@ -276,16 +276,16 @@ final class PhabricatorProjectSearchEngine
 
   private function getStatusValues() {
     return array(
-      'active'   => PhabricatorProjectQuery::STATUS_ACTIVE,
-      'archived' => PhabricatorProjectQuery::STATUS_ARCHIVED,
-      'all'      => PhabricatorProjectQuery::STATUS_ANY,
+      'active'   => PhorgeProjectQuery::STATUS_ACTIVE,
+      'archived' => PhorgeProjectQuery::STATUS_ARCHIVED,
+      'all'      => PhorgeProjectQuery::STATUS_ANY,
     );
   }
 
   private function getIconOptions() {
     $options = array();
 
-    $set = new PhabricatorProjectIconSet();
+    $set = new PhorgeProjectIconSet();
     foreach ($set->getIcons() as $icon) {
       if ($icon->getIsDisabled()) {
         continue;
@@ -305,7 +305,7 @@ final class PhabricatorProjectSearchEngine
   private function getColorOptions() {
     $options = array();
 
-    foreach (PhabricatorProjectIconSet::getColorMap() as $color => $name) {
+    foreach (PhorgeProjectIconSet::getColorMap() as $color => $name) {
       $options[$color] = array(
         id(new PHUITagView())
           ->setType(PHUITagView::TYPE_SHADE)
@@ -319,19 +319,19 @@ final class PhabricatorProjectSearchEngine
 
   protected function renderResultList(
     array $projects,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, 'PhorgeProject');
     $viewer = $this->requireViewer();
 
-    $list = id(new PhabricatorProjectListView())
+    $list = id(new PhorgeProjectListView())
       ->setUser($viewer)
       ->setProjects($projects)
       ->setShowWatching(true)
       ->setShowMember(true)
       ->renderList();
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No projects found.'));
   }

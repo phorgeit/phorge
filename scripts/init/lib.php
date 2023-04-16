@@ -23,5 +23,5 @@ function init_phorge_script(array $options) {
   phutil_load_library(dirname(__FILE__).'/../../src/');
 
   $config_optional = $options['config.optional'];
-  PhabricatorEnv::initializeScriptEnvironment($config_optional);
+  PhorgeEnv::initializeScriptEnvironment($config_optional);
 }

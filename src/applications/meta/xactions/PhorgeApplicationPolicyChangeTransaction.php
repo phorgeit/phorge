@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationPolicyChangeTransaction
-  extends PhabricatorApplicationTransactionType {
+final class PhorgeApplicationPolicyChangeTransaction
+  extends PhorgeApplicationTransactionType {
 
   const TRANSACTIONTYPE = 'application.policy';
   const METADATA_ATTRIBUTE = 'capability.name';
@@ -19,7 +19,7 @@ final class PhabricatorApplicationPolicyChangeTransaction
     $user = $this->getActor();
 
     $key = 'phorge.application-settings';
-    $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+    $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
     $current_value = $config_entry->getValue();
 
     $phid = $application->getPHID();
@@ -43,8 +43,8 @@ final class PhabricatorApplicationPolicyChangeTransaction
     // users can change application configuration if the application allows
     // them to do so.
 
-    PhabricatorConfigEditor::storeNewValue(
-      PhabricatorUser::getOmnipotentUser(),
+    PhorgeConfigEditor::storeNewValue(
+      PhorgeUser::getOmnipotentUser(),
       $config_entry,
       $current_value,
       $content_source,
@@ -73,7 +73,7 @@ final class PhabricatorApplicationPolicyChangeTransaction
   public function validateTransactions($object, array $xactions) {
     $user = $this->getActor();
     $application = $object;
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($user)
       ->setObject($application)
       ->execute();
@@ -85,7 +85,7 @@ final class PhabricatorApplicationPolicyChangeTransaction
 
       if (empty($policies[$new])) {
         // Not a standard policy, check for a custom policy.
-        $policy = id(new PhabricatorPolicyQuery())
+        $policy = id(new PhorgePolicyQuery())
           ->setViewer($user)
           ->withPHIDs(array($new))
           ->executeOne();
@@ -104,8 +104,8 @@ final class PhabricatorApplicationPolicyChangeTransaction
           continue;
       }
 
-      if ($new == PhabricatorPolicies::POLICY_PUBLIC) {
-        $capobj = PhabricatorPolicyCapability::getCapabilityByKey(
+      if ($new == PhorgePolicies::POLICY_PUBLIC) {
+        $capobj = PhorgePolicyCapability::getCapabilityByKey(
           $capability);
         if (!$capobj || !$capobj->shouldAllowPublicPolicySetting()) {
           $errors[] = $this->newInvalidError(
@@ -125,8 +125,8 @@ final class PhabricatorApplicationPolicyChangeTransaction
     // If we're changing these policies, the viewer needs to still be able to
     // view or edit the application under the new policy.
     $validate_map = array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
     $validate_map = array_fill_keys($validate_map, array());
 

@@ -22,19 +22,19 @@ abstract class HarbormasterDrydockLeaseArtifact
     );
   }
 
-  public function renderArtifactSummary(PhabricatorUser $viewer) {
+  public function renderArtifactSummary(PhorgeUser $viewer) {
     $artifact = $this->getBuildArtifact();
     $lease_phid = $artifact->getProperty('drydockLeasePHID');
     return $viewer->renderHandle($lease_phid);
   }
 
-  public function willCreateArtifact(PhabricatorUser $actor) {
+  public function willCreateArtifact(PhorgeUser $actor) {
     // We don't load the lease here because it's expected that artifacts are
     // created before leases actually exist. This guarantees that the leases
     // will be cleaned up.
   }
 
-  public function loadArtifactLease(PhabricatorUser $viewer) {
+  public function loadArtifactLease(PhorgeUser $viewer) {
     $artifact = $this->getBuildArtifact();
     $lease_phid = $artifact->getProperty('drydockLeasePHID');
 
@@ -52,7 +52,7 @@ abstract class HarbormasterDrydockLeaseArtifact
     return $lease;
   }
 
-  public function releaseArtifact(PhabricatorUser $actor) {
+  public function releaseArtifact(PhorgeUser $actor) {
     try {
       $lease = $this->loadArtifactLease($actor);
     } catch (Exception $ex) {
@@ -68,7 +68,7 @@ abstract class HarbormasterDrydockLeaseArtifact
 
     $author_phid = $actor->getPHID();
     if (!$author_phid) {
-      $author_phid = id(new PhabricatorHarbormasterApplication())->getPHID();
+      $author_phid = id(new PhorgeHarbormasterApplication())->getPHID();
     }
 
     $command = DrydockCommand::initializeNewCommand($actor)

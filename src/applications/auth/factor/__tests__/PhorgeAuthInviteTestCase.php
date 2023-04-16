@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
+final class PhorgeAuthInviteTestCase extends PhorgeTestCase {
 
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -20,7 +20,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
     $caught = null;
     try {
       $engine->processInviteCode('asdf1234');
-    } catch (PhabricatorAuthInviteInvalidException $ex) {
+    } catch (PhorgeAuthInviteInvalidException $ex) {
       $caught = $ex;
     }
 
@@ -36,7 +36,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
     $viewer = $this->generateUser();
     $address = Filesystem::readRandomCharacters(16).'@example.com';
 
-    $invite = id(new PhabricatorAuthInvite())
+    $invite = id(new PhorgeAuthInvite())
       ->setAuthorPHID($author->getPHID())
       ->setEmailAddress($address)
       ->save();
@@ -53,7 +53,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
 
     // This first time should accept the invite and verify the address.
     $this->assertTrue(
-      ($caught instanceof PhabricatorAuthInviteRegisteredException));
+      ($caught instanceof PhorgeAuthInviteRegisteredException));
 
     try {
       $result = $engine->processInviteCode($invite->getVerificationCode());
@@ -63,7 +63,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
 
     // The second time through, the invite should not be acceptable.
     $this->assertTrue(
-      ($caught instanceof PhabricatorAuthInviteInvalidException));
+      ($caught instanceof PhorgeAuthInviteInvalidException));
   }
 
 
@@ -77,20 +77,20 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
         null,
       ),
       'in' => array(
-        'PhabricatorAuthInviteVerifyException',
-        'PhabricatorAuthInviteRegisteredException',
+        'PhorgeAuthInviteVerifyException',
+        'PhorgeAuthInviteRegisteredException',
       ),
     );
 
     $author = $this->generateUser();
     $logged_in = $this->generateUser();
-    $logged_out = new PhabricatorUser();
+    $logged_out = new PhorgeUser();
 
     foreach (array('out', 'in') as $is_logged_in) {
       foreach (array(0, 1) as $should_verify) {
         $address = Filesystem::readRandomCharacters(16).'@example.com';
 
-        $invite = id(new PhabricatorAuthInvite())
+        $invite = id(new PhorgeAuthInvite())
           ->setAuthorPHID($author->getPHID())
           ->setEmailAddress($address)
           ->save();
@@ -160,7 +160,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
             // follow an invite with an unverified, nonprimary address, and
             // they haven't clicked the "Verify" button yet. We ask them to
             // verify that they want to register a new account.
-            'PhabricatorAuthInviteVerifyException',
+            'PhorgeAuthInviteVerifyException',
 
             // In this case, they have clicked the verify button. The engine
             // continues the workflow.
@@ -169,62 +169,62 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
           array(
             // And so on. All of the rest of these cases cover the other
             // permutations.
-            'PhabricatorAuthInviteLoginException',
-            'PhabricatorAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
           ),
         ),
         array(
           array(
-            'PhabricatorAuthInviteLoginException',
-            'PhabricatorAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
           ),
           array(
-            'PhabricatorAuthInviteLoginException',
-            'PhabricatorAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
+            'PhorgeAuthInviteLoginException',
           ),
         ),
       ),
       'in' => array(
         array(
           array(
-            'PhabricatorAuthInviteVerifyException',
-            array(true, 'PhabricatorAuthInviteRegisteredException'),
+            'PhorgeAuthInviteVerifyException',
+            array(true, 'PhorgeAuthInviteRegisteredException'),
           ),
           array(
-            'PhabricatorAuthInviteAccountException',
-            'PhabricatorAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
           ),
         ),
         array(
           array(
-            'PhabricatorAuthInviteAccountException',
-            'PhabricatorAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
           ),
           array(
-            'PhabricatorAuthInviteAccountException',
-            'PhabricatorAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
+            'PhorgeAuthInviteAccountException',
           ),
         ),
       ),
       'same' => array(
         array(
           array(
-            'PhabricatorAuthInviteVerifyException',
-            array(true, 'PhabricatorAuthInviteRegisteredException'),
+            'PhorgeAuthInviteVerifyException',
+            array(true, 'PhorgeAuthInviteRegisteredException'),
           ),
           array(
-            'PhabricatorAuthInviteVerifyException',
-            array(true, 'PhabricatorAuthInviteRegisteredException'),
+            'PhorgeAuthInviteVerifyException',
+            array(true, 'PhorgeAuthInviteRegisteredException'),
           ),
         ),
         array(
           array(
-            'PhabricatorAuthInviteRegisteredException',
-            'PhabricatorAuthInviteRegisteredException',
+            'PhorgeAuthInviteRegisteredException',
+            'PhorgeAuthInviteRegisteredException',
           ),
           array(
-            'PhabricatorAuthInviteRegisteredException',
-            'PhabricatorAuthInviteRegisteredException',
+            'PhorgeAuthInviteRegisteredException',
+            'PhorgeAuthInviteRegisteredException',
           ),
         ),
       ),
@@ -232,7 +232,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
 
     $author = $this->generateUser();
     $logged_in = $this->generateUser();
-    $logged_out = new PhabricatorUser();
+    $logged_out = new PhorgeUser();
 
     foreach (array('out', 'in', 'same') as $is_logged_in) {
       foreach (array(0, 1) as $is_verified) {
@@ -254,7 +254,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
 
             $email = $this->generateEmail($other, $is_verified, $is_primary);
 
-            $invite = id(new PhabricatorAuthInvite())
+            $invite = id(new PhorgeAuthInvite())
               ->setAuthorPHID($author->getPHID())
               ->setEmailAddress($email->getAddress())
               ->save();
@@ -315,7 +315,7 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
             }
 
             switch ($expect_exception) {
-              case 'PhabricatorAuthInviteRegisteredException':
+              case 'PhorgeAuthInviteRegisteredException':
                 $invite->reload();
 
                 $this->assertEqual(
@@ -337,13 +337,13 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
     return $this->generateNewTestUser();
   }
 
-  private function generateEngine(PhabricatorUser $viewer) {
-    return id(new PhabricatorAuthInviteEngine())
+  private function generateEngine(PhorgeUser $viewer) {
+    return id(new PhorgeAuthInviteEngine())
       ->setViewer($viewer);
   }
 
   private function generateEmail(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $is_verified,
     $is_primary) {
 
@@ -351,12 +351,12 @@ final class PhabricatorAuthInviteTestCase extends PhabricatorTestCase {
     // let you make an unverified address a primary account address, and
     // the test user will already have a verified primary address.
 
-    $email = id(new PhabricatorUserEmail())
+    $email = id(new PhorgeUserEmail())
       ->setAddress(Filesystem::readRandomCharacters(16).'@example.com')
       ->setIsVerified((int)($is_verified || $is_primary))
       ->setIsPrimary(0);
 
-    $editor = id(new PhabricatorUserEditor())
+    $editor = id(new PhorgeUserEditor())
       ->setActor($user);
 
     $editor->addEmail($user, $email);

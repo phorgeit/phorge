@@ -18,7 +18,7 @@ final class DifferentialRevisionReviewersHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectOrUserDatasource();
+    return new PhorgeProjectOrUserDatasource();
   }
 
 }

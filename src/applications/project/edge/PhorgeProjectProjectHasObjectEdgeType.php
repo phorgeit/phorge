@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorProjectProjectHasObjectEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeProjectProjectHasObjectEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 42;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    return PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
   }
 
 }

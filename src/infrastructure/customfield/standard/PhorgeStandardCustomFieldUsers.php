@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorStandardCustomFieldUsers
-  extends PhabricatorStandardCustomFieldTokenizer {
+final class PhorgeStandardCustomFieldUsers
+  extends PhorgeStandardCustomFieldTokenizer {
 
   public function getFieldType() {
     return 'users';
   }
 
   public function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
   protected function getHTTPParameterType() {

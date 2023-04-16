@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLanguageSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeLanguageSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'language';
 
@@ -14,7 +14,7 @@ final class PhabricatorLanguageSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAccountPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAccountPanelGroup::PANELGROUPKEY;
   }
 
   public function isManagementPanel() {

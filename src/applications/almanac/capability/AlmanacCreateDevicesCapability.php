@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacCreateDevicesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'almanac.devices';
 

@@ -7,7 +7,7 @@
  * @task conduit Integration with Conduit
  * @task util Utility Methods
  */
-abstract class PhabricatorSearchField extends Phobject {
+abstract class PhorgeSearchField extends Phobject {
 
   private $key;
   private $conduitKey;
@@ -86,11 +86,11 @@ abstract class PhabricatorSearchField extends Phobject {
    * Engines do not need to do this explicitly; it will be done on their
    * behalf by the caller.
    *
-   * @param PhabricatorUser Viewer.
+   * @param PhorgeUser Viewer.
    * @return this
    * @task config
    */
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -99,7 +99,7 @@ abstract class PhabricatorSearchField extends Phobject {
   /**
    * Get the acting viewer.
    *
-   * @return PhabricatorUser Viewer.
+   * @return PhorgeUser Viewer.
    * @task config
    */
   public function getViewer() {
@@ -261,7 +261,7 @@ abstract class PhabricatorSearchField extends Phobject {
     AphrontRequest $request,
     $key);
 
-  public function readValueFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function readValueFromSavedQuery(PhorgeSavedQuery $saved) {
     $value = $saved->getParameter(
       $this->getKey(),
       $this->getDefaultValue());

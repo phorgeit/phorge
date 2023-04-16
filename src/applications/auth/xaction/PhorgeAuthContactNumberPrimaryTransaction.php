@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberPrimaryTransaction
-  extends PhabricatorAuthContactNumberTransactionType {
+final class PhorgeAuthContactNumberPrimaryTransaction
+  extends PhorgeAuthContactNumberTransactionType {
 
   const TRANSACTIONTYPE = 'primary';
 

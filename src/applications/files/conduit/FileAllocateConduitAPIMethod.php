@@ -50,29 +50,29 @@ final class FileAllocateConduitAPIMethod
 
     $file = null;
     if ($hash !== null) {
-      $file = PhabricatorFile::newFileFromContentHash(
+      $file = PhorgeFile::newFileFromContentHash(
         $hash,
         $properties);
     }
 
     if ($hash !== null && !$file) {
-      $chunked_hash = PhabricatorChunkedFileStorageEngine::getChunkedHash(
+      $chunked_hash = PhorgeChunkedFileStorageEngine::getChunkedHash(
         $viewer,
         $hash);
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withContentHashes(array($chunked_hash))
         ->executeOne();
     }
 
     if (strlen($name) && !$hash && !$file) {
-      if ($length > PhabricatorFileStorageEngine::getChunkThreshold()) {
+      if ($length > PhorgeFileStorageEngine::getChunkThreshold()) {
         // If we don't have a hash, but this file is large enough to store in
         // chunks and thus may be resumable, try to find a partially uploaded
         // file by the same author with the same name and same length. This
         // allows us to resume uploads in Javascript where we can't efficiently
         // compute file hashes.
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withAuthorPHIDs(array($viewer->getPHID()))
           ->withNames(array($name))
@@ -92,7 +92,7 @@ final class FileAllocateConduitAPIMethod
 
     // If there are any non-chunk engines which this file can fit into,
     // just tell the client to upload the file.
-    $engines = PhabricatorFileStorageEngine::loadStorageEngines($length);
+    $engines = PhorgeFileStorageEngine::loadStorageEngines($length);
     if ($engines) {
       return array(
         'upload' => true,
@@ -102,7 +102,7 @@ final class FileAllocateConduitAPIMethod
 
     // Otherwise, this is a large file and we want to perform a chunked
     // upload if we have a chunk engine available.
-    $chunk_engines = PhabricatorFileStorageEngine::loadWritableChunkEngines();
+    $chunk_engines = PhorgeFileStorageEngine::loadWritableChunkEngines();
     if ($chunk_engines) {
       $chunk_properties = $properties;
 
@@ -122,7 +122,7 @@ final class FileAllocateConduitAPIMethod
     }
 
     // None of the storage engines can accept this file.
-    if (PhabricatorFileStorageEngine::loadWritableEngines()) {
+    if (PhorgeFileStorageEngine::loadWritableEngines()) {
       $error = pht(
         'Unable to upload file: this file is too large for any '.
         'configured storage engine.');

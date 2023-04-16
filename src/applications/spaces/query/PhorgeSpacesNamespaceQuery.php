@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNamespaceQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeSpacesNamespaceQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const KEY_ALL = 'spaces.all';
   const KEY_DEFAULT = 'spaces.default';
@@ -33,11 +33,11 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return 'PhorgeSpacesApplication';
   }
 
   public function newResultObject() {
-    return new PhabricatorSpacesNamespace();
+    return new PhorgeSpacesNamespace();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -80,7 +80,7 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public static function destroySpacesCache() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache->deleteKeys(
       array(
         self::KEY_ALL,
@@ -92,7 +92,7 @@ final class PhabricatorSpacesNamespaceQuery
     return (bool)self::getAllSpaces();
   }
 
-  public static function getViewerSpacesExist(PhabricatorUser $viewer) {
+  public static function getViewerSpacesExist(PhorgeUser $viewer) {
     if (!self::getSpacesExist()) {
       return false;
     }
@@ -104,13 +104,13 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public static function getAllSpaces() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache_key = self::KEY_ALL;
 
     $spaces = $cache->getKey($cache_key);
     if ($spaces === null) {
-      $spaces = id(new PhabricatorSpacesNamespaceQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $spaces = id(new PhorgeSpacesNamespaceQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->execute();
       $spaces = mpull($spaces, null, 'getPHID');
       $cache->setKey($cache_key, $spaces);
@@ -120,7 +120,7 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public static function getDefaultSpace() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $cache_key = self::KEY_DEFAULT;
 
     $default_space = $cache->getKey($cache_key, false);
@@ -141,8 +141,8 @@ final class PhabricatorSpacesNamespaceQuery
     return $default_space;
   }
 
-  public static function getViewerSpaces(PhabricatorUser $viewer) {
-    $cache = PhabricatorCaches::getRequestCache();
+  public static function getViewerSpaces(PhorgeUser $viewer) {
+    $cache = PhorgeCaches::getRequestCache();
     $cache_key = self::KEY_VIEWER.'('.$viewer->getCacheFragment().')';
 
     $result = $cache->getKey($cache_key);
@@ -151,10 +151,10 @@ final class PhabricatorSpacesNamespaceQuery
 
       $result = array();
       foreach ($spaces as $key => $space) {
-        $can_see = PhabricatorPolicyFilter::hasCapability(
+        $can_see = PhorgePolicyFilter::hasCapability(
           $viewer,
           $space,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
         if ($can_see) {
           $result[$key] = $space;
         }
@@ -167,7 +167,7 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
 
-  public static function getViewerActiveSpaces(PhabricatorUser $viewer) {
+  public static function getViewerActiveSpaces(PhorgeUser $viewer) {
     $spaces = self::getViewerSpaces($viewer);
 
     foreach ($spaces as $key => $space) {
@@ -180,7 +180,7 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public static function getSpaceOptionsForViewer(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $space_phid) {
 
     $viewer_spaces = self::getViewerSpaces($viewer);
@@ -220,7 +220,7 @@ final class PhabricatorSpacesNamespaceQuery
       return null;
     }
 
-    if (!($object instanceof PhabricatorSpacesInterface)) {
+    if (!($object instanceof PhorgeSpacesInterface)) {
       return null;
     }
 

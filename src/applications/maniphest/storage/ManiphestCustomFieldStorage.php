@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestCustomFieldStorage
-  extends PhabricatorCustomFieldStorage {
+  extends PhorgeCustomFieldStorage {
 
   public function getApplicationName() {
     return 'maniphest';

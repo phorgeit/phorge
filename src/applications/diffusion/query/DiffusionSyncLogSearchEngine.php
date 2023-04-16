@@ -1,18 +1,18 @@
 <?php
 
 final class DiffusionSyncLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Sync Logs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorRepositorySyncEventQuery();
+    return new PhorgeRepositorySyncEventQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -33,17 +33,17 @@ final class DiffusionSyncLogSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setDatasource(new DiffusionRepositoryDatasource())
         ->setKey('repositoryPHIDs')
         ->setAliases(array('repository', 'repositories', 'repositoryPHID'))
         ->setLabel(pht('Repositories'))
         ->setDescription(
           pht('Search for sync logs for specific repositories.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -53,34 +53,34 @@ final class DiffusionSyncLogSearchEngine
     $viewer = $this->requireViewer();
 
     $fields = array(
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('repositoryPHID')
         ->setLabel(pht('Repository PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('repository')
         ->setLabel(pht('Repository')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('devicePHID')
         ->setLabel(pht('Device PHID')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('fromDevicePHID')
         ->setLabel(pht('From Device PHID')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('deviceVersion')
         ->setLabel(pht('Device Version')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('fromDeviceVersion')
         ->setLabel(pht('From Device Version')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('result')
         ->setLabel(pht('Result')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('code')
         ->setLabel(pht('Code')),
-      id(new PhabricatorEpochExportField())
+      id(new PhorgeEpochExportField())
         ->setKey('date')
         ->setLabel(pht('Date')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('syncWait')
         ->setLabel(pht('Sync Wait')),
     );
@@ -140,14 +140,14 @@ final class DiffusionSyncLogSearchEngine
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $table = id(new DiffusionSyncLogListView())
       ->setViewer($this->requireViewer())
       ->setLogs($logs);
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table);
   }
 

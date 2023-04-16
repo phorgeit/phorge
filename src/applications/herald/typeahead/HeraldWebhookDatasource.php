@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldWebhookDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type a webhook name...');
@@ -12,7 +12,7 @@ final class HeraldWebhookDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function loadResults() {
@@ -23,7 +23,7 @@ final class HeraldWebhookDatasource
       ->setViewer($viewer)
       ->execute();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(mpull($hooks, 'getPHID'))
       ->execute();
@@ -32,7 +32,7 @@ final class HeraldWebhookDatasource
     foreach ($hooks as $hook) {
       $handle = $handles[$hook->getPHID()];
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($handle->getFullName())
         ->setPHID($handle->getPHID());
 

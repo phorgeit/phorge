@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldWebhookEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'herald.webhook';
 
@@ -22,7 +22,7 @@ final class HeraldWebhookEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function newEditableObject() {
@@ -77,21 +77,21 @@ final class HeraldWebhookEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the webhook.'))
         ->setTransactionType(HeraldWebhookNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('uri')
         ->setLabel(pht('URI'))
         ->setDescription(pht('URI for the webhook.'))
         ->setTransactionType(HeraldWebhookURITransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getWebhookURI()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setDescription(pht('Status mode for the webhook.'))

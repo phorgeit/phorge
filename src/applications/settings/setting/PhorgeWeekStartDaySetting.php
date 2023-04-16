@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWeekStartDaySetting
-  extends PhabricatorSelectSetting {
+final class PhorgeWeekStartDaySetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'week-start-day';
 
@@ -10,7 +10,7 @@ final class PhabricatorWeekStartDaySetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDateTimeSettingsPanel::PANELKEY;
+    return PhorgeDateTimeSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

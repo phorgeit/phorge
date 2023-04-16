@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeCalendarSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorCalendarEvent());
+    $this->buildEdgeSchemata(new PhorgeCalendarEvent());
   }
 
 }

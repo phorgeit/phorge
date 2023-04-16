@@ -105,14 +105,14 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->depthOnlyLines;
   }
 
-  public function attachOldFile(PhabricatorFile $old = null) {
+  public function attachOldFile(PhorgeFile $old = null) {
     $this->oldFile = $old;
     return $this;
   }
 
   public function getOldFile() {
     if ($this->oldFile === false) {
-      throw new PhabricatorDataNotAttachedException($this);
+      throw new PhorgeDataNotAttachedException($this);
     }
     return $this->oldFile;
   }
@@ -121,14 +121,14 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return (bool)$this->oldFile;
   }
 
-  public function attachNewFile(PhabricatorFile $new = null) {
+  public function attachNewFile(PhorgeFile $new = null) {
     $this->newFile = $new;
     return $this;
   }
 
   public function getNewFile() {
     if ($this->newFile === false) {
-      throw new PhabricatorDataNotAttachedException($this);
+      throw new PhorgeDataNotAttachedException($this);
     }
     return $this->newFile;
   }
@@ -169,7 +169,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->oldRender;
   }
 
-  public function setMarkupEngine(PhabricatorMarkupEngine $markup_engine) {
+  public function setMarkupEngine(PhorgeMarkupEngine $markup_engine) {
     $this->markupEngine = $markup_engine;
     return $this;
   }
@@ -178,7 +178,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -242,7 +242,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->oldChangesetID;
   }
 
-  public function setDocumentEngine(PhabricatorDocumentEngine $engine) {
+  public function setDocumentEngine(PhorgeDocumentEngine $engine) {
     $this->documentEngine = $engine;
     return $this;
   }
@@ -252,7 +252,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
   }
 
   public function setDocumentEngineBlocks(
-    PhabricatorDocumentEngineBlocks $blocks) {
+    PhorgeDocumentEngineBlocks $blocks) {
     $this->documentEngineBlocks = $blocks;
     return $this;
   }
@@ -263,7 +263,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
 
   public function setNewComments(array $new_comments) {
     foreach ($new_comments as $line_number => $comments) {
-      assert_instances_of($comments, 'PhabricatorInlineComment');
+      assert_instances_of($comments, 'PhorgeInlineComment');
     }
     $this->newComments = $new_comments;
     return $this;
@@ -274,7 +274,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
 
   public function setOldComments(array $old_comments) {
     foreach ($old_comments as $line_number => $comments) {
-      assert_instances_of($comments, 'PhabricatorInlineComment');
+      assert_instances_of($comments, 'PhorgeInlineComment');
     }
     $this->oldComments = $old_comments;
     return $this;
@@ -308,7 +308,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->hunkStartLines;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -412,7 +412,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     $rows);
 
   public function renderDocumentEngineBlocks(
-    PhabricatorDocumentEngineBlocks $blocks,
+    PhorgeDocumentEngineBlocks $blocks,
     $old_changeset_key,
     $new_changeset_key) {
     return null;
@@ -747,7 +747,7 @@ abstract class DifferentialChangesetRenderer extends Phobject {
         $scope_engine = null;
       } else {
         $line_map = $this->getNewLineTextMap();
-        $scope_engine = id(new PhabricatorDiffScopeEngine())
+        $scope_engine = id(new PhorgeDiffScopeEngine())
           ->setLineTextMap($line_map);
       }
 

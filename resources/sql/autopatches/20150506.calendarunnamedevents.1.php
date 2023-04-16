@@ -2,7 +2,7 @@
 
 echo pht('Retro-naming unnamed events.')."\n";
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $event) {
@@ -10,12 +10,12 @@ foreach ($iterator as $event) {
 
   if (strlen($event->getName()) == 0) {
     echo pht('Renaming event %d...', $id)."\n";
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     // NOTE: This uses PeopleQuery directly, instead of HandleQuery, to avoid
     // performing cache fills as a side effect; the caches were added by a
     // later patch. See T8209.
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($event->getHostPHID()))
       ->executeOne();

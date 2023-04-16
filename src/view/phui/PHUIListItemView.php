@@ -65,7 +65,7 @@ final class PHUIListItemView extends AphrontTagView {
     return $this->hideInApplicationMenu;
   }
 
-  public function setDropdownMenu(PhabricatorActionListView $actions) {
+  public function setDropdownMenu(PhorgeActionListView $actions) {
 
     $this->dropdownMenu = $actions;
 

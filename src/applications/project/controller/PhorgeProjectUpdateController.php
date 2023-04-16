@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectUpdateController
-  extends PhabricatorProjectController {
+final class PhorgeProjectUpdateController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,12 +9,12 @@ final class PhabricatorProjectUpdateController
     $action = $request->getURIData('action');
 
     $capabilities = array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
 
     switch ($action) {
       case 'join':
-        $capabilities[] = PhabricatorPolicyCapability::CAN_JOIN;
+        $capabilities[] = PhorgePolicyCapability::CAN_JOIN;
         break;
       case 'leave':
         break;
@@ -22,7 +22,7 @@ final class PhabricatorProjectUpdateController
         return new Aphront404Response();
     }
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needMembers(true)
@@ -55,19 +55,19 @@ final class PhabricatorProjectUpdateController
           break;
       }
 
-      $type_member = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+      $type_member = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
       $member_spec = array(
         $edge_action => array($viewer->getPHID() => $viewer->getPHID()),
       );
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorProjectTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      $xactions[] = id(new PhorgeProjectTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $type_member)
         ->setNewValue($member_spec);
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -78,10 +78,10 @@ final class PhabricatorProjectUpdateController
     }
 
     $is_locked = $project->getIsMembershipLocked();
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     $can_leave = ($can_edit || !$is_locked);
 
     $button = null;

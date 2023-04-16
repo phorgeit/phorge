@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFeedStoryPublisher extends Phobject {
+final class PhorgeFeedStoryPublisher extends Phobject {
 
   private $relatedPHIDs;
   private $storyType;
@@ -95,23 +95,23 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
         pht(
           "Story type must be a valid class name and must subclass %s. ".
           "'%s' is not a loadable class.",
-          'PhabricatorFeedStory',
+          'PhorgeFeedStory',
           $class));
     }
 
-    if (!is_subclass_of($class, 'PhabricatorFeedStory')) {
+    if (!is_subclass_of($class, 'PhorgeFeedStory')) {
       throw new Exception(
         pht(
           "Story type must be a valid class name and must subclass %s. ".
           "'%s' is not a subclass of %s.",
-          'PhabricatorFeedStory',
+          'PhorgeFeedStory',
           $class,
-          'PhabricatorFeedStory'));
+          'PhorgeFeedStory'));
     }
 
     $chrono_key = $this->generateChronologicalKey();
 
-    $story = new PhabricatorFeedStoryData();
+    $story = new PhorgeFeedStoryData();
     $story->setStoryType($this->storyType);
     $story->setStoryData($this->storyData);
     $story->setAuthorPHID((string)$this->storyAuthorPHID);
@@ -119,7 +119,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
     $story->save();
 
     if ($this->relatedPHIDs) {
-      $ref = new PhabricatorFeedStoryReference();
+      $ref = new PhorgeFeedStoryReference();
 
       $sql = array();
       $conn = $ref->establishConnection('w');
@@ -145,7 +145,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
       $this->sendNotification($chrono_key, $subscribed_phids);
     }
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'FeedPublisherWorker',
       array(
         'key' => $chrono_key,
@@ -163,7 +163,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
           'setSubscribedPHIDs()'));
     }
 
-    $notif = new PhabricatorFeedStoryNotification();
+    $notif = new PhorgeFeedStoryNotification();
     $sql = array();
     $conn = $notif->establishConnection('w');
 
@@ -196,8 +196,8 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
         $sql);
     }
 
-    PhabricatorUserCache::clearCaches(
-      PhabricatorUserNotificationCountCacheType::KEY_COUNT,
+    PhorgeUserCache::clearCaches(
+      PhorgeUserNotificationCountCacheType::KEY_COUNT,
       $user_phids);
   }
 
@@ -208,7 +208,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
       'subscribers' => $subscribed_phids,
     );
 
-    PhabricatorNotificationClient::tryToPostMessage($data);
+    PhorgeNotificationClient::tryToPostMessage($data);
   }
 
   /**
@@ -222,16 +222,16 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
 
     $tags = $this->getMailTags();
     if ($tags) {
-      $all_prefs = id(new PhabricatorUserPreferencesQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $all_prefs = id(new PhorgeUserPreferencesQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withUserPHIDs($phids)
         ->needSyntheticPreferences(true)
         ->execute();
       $all_prefs = mpull($all_prefs, null, 'getUserPHID');
     }
 
-    $pref_default = PhabricatorEmailTagsSetting::VALUE_EMAIL;
-    $pref_ignore = PhabricatorEmailTagsSetting::VALUE_IGNORE;
+    $pref_default = PhorgeEmailTagsSetting::VALUE_EMAIL;
+    $pref_ignore = PhorgeEmailTagsSetting::VALUE_IGNORE;
 
     $keep = array();
     foreach ($phids as $phid) {
@@ -241,7 +241,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
 
       if ($tags && isset($all_prefs[$phid])) {
         $mailtags = $all_prefs[$phid]->getSettingValue(
-          PhabricatorEmailTagsSetting::SETTINGKEY);
+          PhorgeEmailTagsSetting::SETTINGKEY);
 
         $notify = false;
         foreach ($tags as $tag) {
@@ -264,8 +264,8 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
   }
 
   private function expandRecipients(array $phids) {
-    $expanded_phids = id(new PhabricatorMetaMTAMemberQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $expanded_phids = id(new PhorgeMetaMTAMemberQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs($phids)
       ->executeExpansion();
 
@@ -325,7 +325,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
       } else {
         // Do the math in MySQL. TODO: If we formalize a bc dependency, get
         // rid of this.
-        $conn_r = id(new PhabricatorFeedStoryData())->establishConnection('r');
+        $conn_r = id(new PhorgeFeedStoryData())->establishConnection('r');
         $result = queryfx_one(
           $conn_r,
           'SELECT (%d << 32) + %d as N',

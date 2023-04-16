@@ -10,7 +10,7 @@ final class PhrequentCurtainExtension
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorPhrequentApplication();
+    return new PhorgePhrequentApplication();
   }
 
   public function buildCurtainPanel($object) {
@@ -29,7 +29,7 @@ final class PhrequentCurtainExtension
 
     $handles = $viewer->loadHandles(array_keys($event_groups));
     $status_view = new PHUIStatusListView();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     foreach ($event_groups as $user_phid => $event_group) {
       $item = new PHUIStatusItemView();

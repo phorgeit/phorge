@@ -28,7 +28,7 @@ final class PonderAnswerCommentController extends PonderController {
 
     $xactions = array();
     $xactions[] = id(new PonderAnswerTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
       ->attachComment(
         id(new PonderAnswerTransactionComment())
           ->setContent($request->getStr('comment')));
@@ -41,15 +41,15 @@ final class PonderAnswerCommentController extends PonderController {
 
     try {
       $xactions = $editor->applyTransactions($answer, $xactions);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
-      return id(new PhabricatorApplicationTransactionNoEffectResponse())
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
+      return id(new PhorgeApplicationTransactionNoEffectResponse())
         ->setCancelURI($view_uri)
         ->setException($ex);
     }
 
 
     if ($request->isAjax() && $is_preview) {
-      return id(new PhabricatorApplicationTransactionResponse())
+      return id(new PhorgeApplicationTransactionResponse())
         ->setObject($answer)
         ->setViewer($viewer)
         ->setTransactions($xactions)

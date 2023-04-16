@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceColumnMinimizeSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeConpherenceColumnMinimizeSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'conpherence-minimize-column';
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementRevokeWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementRevokeWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -50,7 +50,7 @@ final class PhabricatorAuthManagementRevokeWorkflow
   public function execute(PhutilArgumentParser $args) {
     $viewer = $this->getViewer();
 
-    $all_types = PhabricatorAuthRevoker::getAllRevokers();
+    $all_types = PhorgeAuthRevoker::getAllRevokers();
     $is_force = $args->getArg('force');
 
     // The "--list" flag is compatible with revoker selection flags like
@@ -132,7 +132,7 @@ final class PhabricatorAuthManagementRevokeWorkflow
     } else if ($is_everywhere) {
       // Just carry the flag through.
     } else {
-      $target = id(new PhabricatorObjectQuery())
+      $target = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames(array($from))
         ->executeOne();

@@ -8,7 +8,7 @@ final class PhamePostListController extends PhamePostController {
 
   public function handleRequest(AphrontRequest $request) {
     $query_key = $request->getURIData('queryKey');
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
       ->setSearchEngine(new PhamePostSearchEngine())
       ->setNavigation($this->buildSideNavView());

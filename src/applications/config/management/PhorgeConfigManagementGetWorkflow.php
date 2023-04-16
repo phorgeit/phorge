@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementGetWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementGetWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -33,7 +33,7 @@ final class PhabricatorConfigManagementGetWorkflow
         pht('Too many arguments: expected one key.'));
     }
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     if (empty($options[$key])) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -43,7 +43,7 @@ final class PhabricatorConfigManagementGetWorkflow
     }
 
     $values = array();
-    $config = new PhabricatorConfigLocalSource();
+    $config = new PhorgeConfigLocalSource();
     $local_value = $config->getKeys(array($key));
     if (empty($local_value)) {
       $values['local'] = array(
@@ -62,7 +62,7 @@ final class PhabricatorConfigManagementGetWorkflow
     }
 
     try {
-      $database_config = new PhabricatorConfigDatabaseSource('default');
+      $database_config = new PhorgeConfigDatabaseSource('default');
       $database_value = $database_config->getKeys(array($key));
       if (empty($database_value)) {
         $values['database'] = array(

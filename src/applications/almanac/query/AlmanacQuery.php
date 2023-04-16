@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $needProperties;
 
@@ -55,7 +55,7 @@ abstract class AlmanacQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

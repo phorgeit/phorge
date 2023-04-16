@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorLipsumArtist extends Phobject {
+abstract class PhorgeLipsumArtist extends Phobject {
 
   protected function getHSBColor($h, $s, $b) {
     if ($s == 0) {
@@ -58,7 +58,7 @@ abstract class PhabricatorLipsumArtist extends Phobject {
   public function generate($x, $y) {
     $image = imagecreatetruecolor($x, $y);
     $this->draw($image, $x, $y);
-    return PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    return PhorgeImageTransformer::saveImageDataInAnyFormat(
       $image,
       'image/jpeg');
   }

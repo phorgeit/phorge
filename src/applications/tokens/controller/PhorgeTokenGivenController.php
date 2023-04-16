@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTokenGivenController extends PhabricatorTokenController {
+final class PhorgeTokenGivenController extends PhorgeTokenController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorTokenGivenController extends PhabricatorTokenController {
     $pager = id(new AphrontCursorPagerView())
       ->readFromRequest($request);
 
-    $tokens_given = id(new PhabricatorTokenGivenQuery())
+    $tokens_given = id(new PhorgeTokenGivenQuery())
       ->setViewer($viewer)
       ->executeWithCursorPager($pager);
 
@@ -21,7 +21,7 @@ final class PhabricatorTokenGivenController extends PhabricatorTokenController {
       $object_phids = mpull($tokens_given, 'getObjectPHID');
       $viewer_phids = mpull($tokens_given, 'getAuthorPHID');
       $handle_phids = array_merge($object_phids, $viewer_phids);
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs($handle_phids)
         ->execute();
@@ -30,7 +30,7 @@ final class PhabricatorTokenGivenController extends PhabricatorTokenController {
     $tokens = array();
     if ($tokens_given) {
       $token_phids = mpull($tokens_given, 'getTokenPHID');
-      $tokens = id(new PhabricatorTokenQuery())
+      $tokens = id(new PhorgeTokenQuery())
         ->setViewer($viewer)
         ->withPHIDs($token_phids)
         ->execute();

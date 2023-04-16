@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTagsRemovedField
-  extends PhabricatorProjectTagsField {
+final class PhorgeProjectTagsRemovedField
+  extends PhorgeProjectTagsField {
 
   const FIELDCONST = 'projects.removed';
 
@@ -15,7 +15,7 @@ final class PhabricatorProjectTagsRemovedField
       return array();
     }
 
-    $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+    $record = PhorgeEdgeChangeRecord::newFromTransaction($xaction);
 
     return $record->getRemovedPHIDs();
   }

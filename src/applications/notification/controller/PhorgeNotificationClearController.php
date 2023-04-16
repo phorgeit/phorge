@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationClearController
-  extends PhabricatorNotificationController {
+final class PhorgeNotificationClearController
+  extends PhorgeNotificationController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -14,7 +14,7 @@ final class PhabricatorNotificationClearController
     }
 
     if ($should_clear) {
-      $table = new PhabricatorFeedStoryNotification();
+      $table = new PhorgeFeedStoryNotification();
 
       queryfx(
         $table->establishConnection('w'),
@@ -24,8 +24,8 @@ final class PhabricatorNotificationClearController
         $viewer->getPHID(),
         $chrono_key);
 
-      PhabricatorUserCache::clearCache(
-        PhabricatorUserNotificationCountCacheType::KEY_COUNT,
+      PhorgeUserCache::clearCache(
+        PhorgeUserNotificationCountCacheType::KEY_COUNT,
         $viewer->getPHID());
 
       return id(new AphrontReloadResponse())
@@ -40,7 +40,7 @@ final class PhabricatorNotificationClearController
       $dialog->addHiddenInput('chronoKey', $chrono_key);
 
       $is_serious =
-        PhabricatorEnv::getEnvConfig('phorge.serious-business');
+        PhorgeEnv::getEnvConfig('phorge.serious-business');
       if ($is_serious) {
         $dialog->appendChild(
           pht(

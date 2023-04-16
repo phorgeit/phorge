@@ -53,7 +53,7 @@
  * @task query Querying the Graph Cache
  * @task cache Cache Internals
  */
-final class PhabricatorRepositoryGraphCache extends Phobject {
+final class PhorgeRepositoryGraphCache extends Phobject {
 
   private $rebuiltKeys = array();
 
@@ -249,8 +249,8 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
     // here are also unusual (not purely readthrough) because this cache is
     // appendable.
 
-    $cache_level1 = PhabricatorCaches::getRepositoryGraphL1Cache();
-    $cache_level2 = PhabricatorCaches::getRepositoryGraphL2Cache();
+    $cache_level1 = PhorgeCaches::getRepositoryGraphL1Cache();
+    $cache_level2 = PhorgeCaches::getRepositoryGraphL2Cache();
     if ($rebuild_data === null) {
       $bucket_data = $cache_level1->getKey($cache_key);
       if ($bucket_data) {
@@ -315,8 +315,8 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
     // commit IDs before small ones. Later on, we'll ignore the commits we
     // already know about.
 
-    $table_commit = new PhabricatorRepositoryCommit();
-    $table_repository = new PhabricatorRepository();
+    $table_commit = new PhorgeRepositoryCommit();
+    $table_repository = new PhorgeRepository();
     $conn_r = $table_commit->establishConnection('r');
 
     // Find all the Git and Mercurial commits in the block which have completed
@@ -333,13 +333,13 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
       $table_commit->getTableName(),
       $table_repository->getTableName(),
       array(
-        PhabricatorRepositoryType::REPOSITORY_TYPE_GIT,
-        PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL,
+        PhorgeRepositoryType::REPOSITORY_TYPE_GIT,
+        PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL,
       ),
       $bucket_min,
       $bucket_max,
-      PhabricatorRepositoryCommit::IMPORTED_CHANGE,
-      PhabricatorRepositoryCommit::IMPORTED_CHANGE);
+      PhorgeRepositoryCommit::IMPORTED_CHANGE,
+      PhorgeRepositoryCommit::IMPORTED_CHANGE);
 
     // If we don't have any data, just return the existing data.
     if (!$commit_rows) {
@@ -362,7 +362,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
       'SELECT commitID, pathID FROM %T
         WHERE commitID IN (%Ld)
         AND (isDirect = 1 OR changeType = %d)',
-      PhabricatorRepository::TABLE_PATHCHANGE,
+      PhorgeRepository::TABLE_PATHCHANGE,
       $commit_ids,
       DifferentialChangeType::TYPE_CHILD);
     $path_changes = igroup($path_changes, 'commitID');
@@ -373,7 +373,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
       'SELECT childCommitID, parentCommitID FROM %T
         WHERE childCommitID IN (%Ld)
         ORDER BY id ASC',
-      PhabricatorRepository::TABLE_PARENTS,
+      PhorgeRepository::TABLE_PARENTS,
       $commit_ids);
     $parents = igroup($parents, 'childCommitID');
 

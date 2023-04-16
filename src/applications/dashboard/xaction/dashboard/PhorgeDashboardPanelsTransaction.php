@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelsTransaction
-  extends PhabricatorDashboardTransactionType {
+final class PhorgeDashboardPanelsTransaction
+  extends PhorgeDashboardTransactionType {
 
   const TRANSACTIONTYPE = 'panels';
 
@@ -125,7 +125,7 @@ final class PhabricatorDashboardPanelsTransaction
       $add_phids = array_diff_key($new_phids, $old_phids);
 
       if ($add_phids) {
-        $panels = id(new PhabricatorDashboardPanelQuery())
+        $panels = id(new PhorgeDashboardPanelQuery())
           ->setViewer($actor)
           ->withPHIDs($add_phids)
           ->execute();

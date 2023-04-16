@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorPackagesPublisher
-  extends PhabricatorPackagesDAO
+final class PhorgePackagesPublisher
+  extends PhorgePackagesDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorProjectInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorNgramsInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSubscribableInterface,
+    PhorgeProjectInterface,
+    PhorgeConduitResultInterface,
+    PhorgeNgramsInterface {
 
   protected $name;
   protected $publisherKey;
   protected $editPolicy;
 
-  public static function initializeNewPublisher(PhabricatorUser $actor) {
-    $packages_application = id(new PhabricatorApplicationQuery())
+  public static function initializeNewPublisher(PhorgeUser $actor) {
+    $packages_application = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPackagesApplication'))
+      ->withClasses(array('PhorgePackagesApplication'))
       ->executeOne();
 
     $edit_policy = $packages_application->getPolicy(
-      PhabricatorPackagesPublisherDefaultEditCapability::CAPABILITY);
+      PhorgePackagesPublisherDefaultEditCapability::CAPABILITY);
 
     return id(new self())
       ->setEditPolicy($edit_policy);
@@ -45,8 +45,8 @@ final class PhabricatorPackagesPublisher
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPackagesPublisherPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePackagesPublisherPHIDType::TYPECONST);
   }
 
   public function getURI() {
@@ -103,7 +103,7 @@ final class PhabricatorPackagesPublisher
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -116,35 +116,35 @@ final class PhabricatorPackagesPublisher
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
 
     $this->openTransaction();
 
-      $packages = id(new PhabricatorPackagesPackageQuery())
+      $packages = id(new PhorgePackagesPackageQuery())
         ->setViewer($viewer)
         ->withPublisherPHIDs(array($this->getPHID()))
         ->execute();
@@ -158,39 +158,39 @@ final class PhabricatorPackagesPublisher
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorPackagesPublisherEditor();
+    return new PhorgePackagesPublisherEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorPackagesPublisherTransaction();
+    return new PhorgePackagesPublisherTransaction();
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorPackagesPublisherNameNgrams())
+      id(new PhorgePackagesPublisherNameNgrams())
         ->setValue($this->getName()),
     );
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the publisher.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('publisherKey')
         ->setType('string')
         ->setDescription(pht('The unique key of the publisher.')),

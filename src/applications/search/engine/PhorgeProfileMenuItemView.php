@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProfileMenuItemView
+final class PhorgeProfileMenuItemView
   extends Phobject {
 
   private $config;
@@ -18,7 +18,7 @@ final class PhabricatorProfileMenuItemView
   private $specialType;
 
   public function setMenuItemConfiguration(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $this->config = $config;
     return $this;
   }
@@ -142,7 +142,7 @@ final class PhabricatorProfileMenuItemView
     $uri = $this->getURI();
     if (strlen($uri)) {
       if ($this->getIsExternalLink()) {
-        if (!PhabricatorEnv::isValidURIForLink($uri)) {
+        if (!PhorgeEnv::isValidURIForLink($uri)) {
           $uri = '#';
         }
         $view->setRel('noreferrer');

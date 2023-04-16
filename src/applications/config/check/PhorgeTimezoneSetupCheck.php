@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTimezoneSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeTimezoneSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -28,7 +28,7 @@ final class PhabricatorTimezoneSetupCheck extends PhabricatorSetupCheck {
     }
 
     $timezone = nonempty(
-      PhabricatorEnv::getEnvConfig('phorge.timezone'),
+      PhorgeEnv::getEnvConfig('phorge.timezone'),
       ini_get('date.timezone'));
     if ($timezone) {
       return;
@@ -53,6 +53,6 @@ final class PhabricatorTimezoneSetupCheck extends PhabricatorSetupCheck {
       ->setSummary($summary)
       ->setMessage($message)
       ->addPHPConfig('date.timezone')
-      ->addPhabricatorConfig('phorge.timezone');
+      ->addPhorgeConfig('phorge.timezone');
   }
 }

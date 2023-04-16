@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorNamedQueryConfig
-  extends PhabricatorSearchDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeNamedQueryConfig
+  extends PhorgeSearchDAO
+  implements PhorgePolicyInterface {
 
   protected $engineClassName;
   protected $scopePHID;
@@ -60,20 +60,20 @@ final class PhabricatorNamedQueryConfig
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->isGlobal()) {
       return true;
     }

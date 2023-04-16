@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMySQLSearchHost
-  extends PhabricatorSearchHost {
+final class PhorgeMySQLSearchHost
+  extends PhorgeSearchHost {
 
   public function setConfig($config) {
     $this->setRoles(idx($config, 'roles',
@@ -26,7 +26,7 @@ final class PhabricatorMySQLSearchHost
 
   public function getHealthRecord() {
     if (!$this->healthRecord) {
-      $ref = PhabricatorDatabaseRef::getMasterDatabaseRefForApplication(
+      $ref = PhorgeDatabaseRef::getMasterDatabaseRefForApplication(
         'search');
       $this->healthRecord = $ref->getHealthRecord();
     }
@@ -34,8 +34,8 @@ final class PhabricatorMySQLSearchHost
   }
 
   public function getConnectionStatus() {
-    PhabricatorDatabaseRef::queryAll();
-    $ref = PhabricatorDatabaseRef::getMasterDatabaseRefForApplication('search');
+    PhorgeDatabaseRef::queryAll();
+    $ref = PhorgeDatabaseRef::getMasterDatabaseRefForApplication('search');
     $status = $ref->getConnectionStatus();
     return $status;
   }

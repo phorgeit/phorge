@@ -54,7 +54,7 @@ final class PonderAddAnswerView extends AphrontView {
       ->setWorkflow(true)
       ->addHiddenInput('question_id', $question->getID())
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setName('answer')
           ->setLabel(pht('Answer'))
           ->setError(true)

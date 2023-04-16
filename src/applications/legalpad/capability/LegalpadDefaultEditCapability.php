@@ -1,6 +1,6 @@
 <?php
 
-final class LegalpadDefaultEditCapability extends PhabricatorPolicyCapability {
+final class LegalpadDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'legalpad.default.edit';
 

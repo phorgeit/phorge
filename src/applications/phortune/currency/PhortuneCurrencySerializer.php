@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneCurrencySerializer extends PhabricatorLiskSerializer {
+final class PhortuneCurrencySerializer extends PhorgeLiskSerializer {
 
   public function willReadValue($value) {
     return PhortuneCurrency::newFromString($value);

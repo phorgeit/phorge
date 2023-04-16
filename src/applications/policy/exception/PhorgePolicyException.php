@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyException extends Exception {
+final class PhorgePolicyException extends Exception {
 
   private $title;
   private $rejection;

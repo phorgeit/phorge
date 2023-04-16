@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSlowvoteReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+final class PhorgeSlowvoteReplyHandler
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
-    if (!($mail_receiver instanceof PhabricatorSlowvotePoll)) {
+    if (!($mail_receiver instanceof PhorgeSlowvotePoll)) {
       throw new Exception(pht('Mail receiver is not a %s!', 'Slowvote'));
     }
   }

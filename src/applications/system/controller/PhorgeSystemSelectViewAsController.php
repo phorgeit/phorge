@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSystemSelectViewAsController
-  extends PhabricatorController {
+final class PhorgeSystemSelectViewAsController
+  extends PhorgeController {
 
   public function shouldRequireLogin() {
     return false;
@@ -16,7 +16,7 @@ final class PhabricatorSystemSelectViewAsController
       return id(new AphrontAjaxResponse())->setContent($result);
     }
 
-    $engines = PhabricatorDocumentEngine::getAllEngines();
+    $engines = PhorgeDocumentEngine::getAllEngines();
 
     $options = $request->getStrList('options');
     $options = array_fuse($options);
@@ -26,7 +26,7 @@ final class PhabricatorSystemSelectViewAsController
     // Callers can pass a list of "options" to control which options are
     // presented, at least.
 
-    $ref = new PhabricatorDocumentRef();
+    $ref = new PhorgeDocumentRef();
 
     $map = array();
     foreach ($engines as $engine) {

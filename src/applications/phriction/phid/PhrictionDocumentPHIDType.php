@@ -1,6 +1,6 @@
 <?php
 
-final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
+final class PhrictionDocumentPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'WIKI';
 
@@ -13,11 +13,11 @@ final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhrictionDocumentQuery())
@@ -26,7 +26,7 @@ final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -42,7 +42,7 @@ final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
       $handle->setURI(PhrictionDocument::getSlugURI($slug));
 
       if ($status != PhrictionDocumentStatus::STATUS_EXISTS) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

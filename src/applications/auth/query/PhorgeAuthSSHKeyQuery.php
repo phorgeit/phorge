@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthSSHKeyQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   const AUTHSTRUCT_CACHEKEY = 'ssh.authstruct';
 
@@ -12,7 +12,7 @@ final class PhabricatorAuthSSHKeyQuery
   private $isActive;
 
   public static function deleteSSHKeyCache() {
-    $cache = PhabricatorCaches::getMutableCache();
+    $cache = PhorgeCaches::getMutableCache();
     $authfile_key = self::AUTHSTRUCT_CACHEKEY;
     $cache->deleteKey($authfile_key);
   }
@@ -33,7 +33,7 @@ final class PhabricatorAuthSSHKeyQuery
   }
 
   public function withKeys(array $keys) {
-    assert_instances_of($keys, 'PhabricatorAuthSSHPublicKey');
+    assert_instances_of($keys, 'PhorgeAuthSSHPublicKey');
     $this->keys = $keys;
     return $this;
   }
@@ -44,13 +44,13 @@ final class PhabricatorAuthSSHKeyQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthSSHKey();
+    return new PhorgeAuthSSHKey();
   }
 
   protected function willFilterPage(array $keys) {
     $object_phids = mpull($keys, 'getObjectPHID');
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($object_phids)
@@ -62,7 +62,7 @@ final class PhabricatorAuthSSHKeyQuery
 
       // We must have an object, and that object must be a valid object for
       // SSH keys.
-      if (!$object || !($object instanceof PhabricatorSSHPublicKeyInterface)) {
+      if (!$object || !($object instanceof PhorgeSSHPublicKeyInterface)) {
         $this->didRejectResult($ssh_key);
         unset($keys[$key]);
         continue;
@@ -128,7 +128,7 @@ final class PhabricatorAuthSSHKeyQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

@@ -15,12 +15,12 @@ abstract class PhortuneCartController
 
     if ($this->shouldRequireAccountAuthority()) {
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       );
     } else {
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       );
     }
 
@@ -35,10 +35,10 @@ abstract class PhortuneCartController
     }
 
     if ($this->shouldRequireMerchantAuthority()) {
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $cart->getMerchant(),
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     $this->cart = $cart;
@@ -68,10 +68,10 @@ abstract class PhortuneCartController
   }
 
   final protected function hasAccountAuthority() {
-    return (bool)PhabricatorPolicyFilter::hasCapability(
+    return (bool)PhorgePolicyFilter::hasCapability(
       $this->getViewer(),
       $this->getCart(),
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
 }

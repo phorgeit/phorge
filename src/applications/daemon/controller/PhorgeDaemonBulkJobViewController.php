@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorDaemonBulkJobViewController
-  extends PhabricatorDaemonBulkJobController {
+final class PhorgeDaemonBulkJobViewController
+  extends PhorgeDaemonBulkJobController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $job = id(new PhabricatorWorkerBulkJobQuery())
+    $job = id(new PhorgeWorkerBulkJobQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -30,7 +30,7 @@ final class PhabricatorDaemonBulkJobViewController
 
     $timeline = $this->buildTransactionTimeline(
       $job,
-      new PhabricatorWorkerBulkJobTransactionQuery());
+      new PhorgeWorkerBulkJobTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $header = id(new PHUIHeaderView())
@@ -51,7 +51,7 @@ final class PhabricatorDaemonBulkJobViewController
       ->appendChild($view);
   }
 
-  private function renderProperties(PhabricatorWorkerBulkJob $job) {
+  private function renderProperties(PhorgeWorkerBulkJob $job) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -67,7 +67,7 @@ final class PhabricatorDaemonBulkJobViewController
     return $view;
   }
 
-  private function buildCurtainView(PhabricatorWorkerBulkJob $job) {
+  private function buildCurtainView(PhorgeWorkerBulkJob $job) {
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($job);
 

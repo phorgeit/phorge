@@ -105,7 +105,7 @@ final class ConduitConnectConduitAPIMethod extends ConduitAPIMethod {
     $token = $request->getValue('authToken');
     $signature = $request->getValue('authSignature');
 
-    $user = id(new PhabricatorUser())->loadOneWhere('username = %s', $username);
+    $user = id(new PhorgeUser())->loadOneWhere('username = %s', $username);
     if (!$user) {
       throw new ConduitException('ERR-INVALID-USER');
     }
@@ -137,8 +137,8 @@ final class ConduitConnectConduitAPIMethod extends ConduitAPIMethod {
       if (!phutil_hashes_are_identical($valid, $signature)) {
         throw new ConduitException('ERR-INVALID-CERTIFICATE');
       }
-      $session_key = id(new PhabricatorAuthSessionEngine())->establishSession(
-        PhabricatorAuthSession::TYPE_CONDUIT,
+      $session_key = id(new PhorgeAuthSessionEngine())->establishSession(
+        PhorgeAuthSession::TYPE_CONDUIT,
         $user->getPHID(),
         $partial = false);
     } else {

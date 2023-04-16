@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCountdownApplication extends PhabricatorApplication {
+final class PhorgeCountdownApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/countdown/';
@@ -32,33 +32,33 @@ final class PhabricatorCountdownApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorCountdownRemarkupRule(),
+      new PhorgeCountdownRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
-      '/C(?P<id>[1-9]\d*)' => 'PhabricatorCountdownViewController',
+      '/C(?P<id>[1-9]\d*)' => 'PhorgeCountdownViewController',
       '/countdown/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorCountdownListController',
+          => 'PhorgeCountdownListController',
         $this->getEditRoutePattern('edit/')
-          => 'PhabricatorCountdownEditController',
+          => 'PhorgeCountdownEditController',
       ),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorCountdownDefaultViewCapability::CAPABILITY => array(
+      PhorgeCountdownDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for new countdowns.'),
-        'template' => PhabricatorCountdownCountdownPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeCountdownCountdownPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
-      PhabricatorCountdownDefaultEditCapability::CAPABILITY => array(
+      PhorgeCountdownDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for new countdowns.'),
-        'template' => PhabricatorCountdownCountdownPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgeCountdownCountdownPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

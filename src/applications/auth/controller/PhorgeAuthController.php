@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuthController extends PhabricatorController {
+abstract class PhorgeAuthController extends PhorgeController {
 
   protected function renderErrorPage($title, array $messages) {
     $view = new PHUIInfoView();
@@ -21,14 +21,14 @@ abstract class PhabricatorAuthController extends PhabricatorController {
   protected function isFirstTimeSetup() {
     // If there are any auth providers, this isn't first time setup, even if
     // we don't have accounts.
-    if (PhabricatorAuthProvider::getAllEnabledProviders()) {
+    if (PhorgeAuthProvider::getAllEnabledProviders()) {
       return false;
     }
 
     // Otherwise, check if there are any user accounts. If not, we're in first
     // time setup.
-    $any_users = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $any_users = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->setLimit(1)
       ->execute();
 
@@ -44,16 +44,16 @@ abstract class PhabricatorAuthController extends PhabricatorController {
    * the user's cookies are set. However, event listeners can intercept this
    * event and do something else if they prefer.
    *
-   * @param   PhabricatorUser   User to log the viewer in as.
+   * @param   PhorgeUser   User to log the viewer in as.
    * @param bool True to issue a full session immediately, bypassing MFA.
    * @return  AphrontResponse   Response which continues the login process.
    */
   protected function loginUser(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     $force_full_session = false) {
 
     $response = $this->buildLoginValidateResponse($user);
-    $session_type = PhabricatorAuthSession::TYPE_WEB;
+    $session_type = PhorgeAuthSession::TYPE_WEB;
 
     if ($force_full_session) {
       $partial_session = false;
@@ -61,7 +61,7 @@ abstract class PhabricatorAuthController extends PhabricatorController {
       $partial_session = true;
     }
 
-    $session_key = id(new PhabricatorAuthSessionEngine())
+    $session_key = id(new PhorgeAuthSessionEngine())
       ->establishSession($session_type, $user->getPHID(), $partial_session);
 
     // NOTE: We allow disabled users to login and roadblock them later, so
@@ -69,10 +69,10 @@ abstract class PhabricatorAuthController extends PhabricatorController {
 
     $request = $this->getRequest();
     $request->setCookie(
-      PhabricatorCookies::COOKIE_USERNAME,
+      PhorgeCookies::COOKIE_USERNAME,
       $user->getUsername());
     $request->setCookie(
-      PhabricatorCookies::COOKIE_SESSION,
+      PhorgeCookies::COOKIE_SESSION,
       $session_key);
 
     $this->clearRegistrationCookies();
@@ -84,16 +84,16 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     $request = $this->getRequest();
 
     // Clear the registration key.
-    $request->clearCookie(PhabricatorCookies::COOKIE_REGISTRATION);
+    $request->clearCookie(PhorgeCookies::COOKIE_REGISTRATION);
 
     // Clear the client ID / OAuth state key.
-    $request->clearCookie(PhabricatorCookies::COOKIE_CLIENTID);
+    $request->clearCookie(PhorgeCookies::COOKIE_CLIENTID);
 
     // Clear the invite cookie.
-    $request->clearCookie(PhabricatorCookies::COOKIE_INVITE);
+    $request->clearCookie(PhorgeCookies::COOKIE_INVITE);
   }
 
-  private function buildLoginValidateResponse(PhabricatorUser $user) {
+  private function buildLoginValidateResponse(PhorgeUser $user) {
     $validate_uri = new PhutilURI($this->getApplicationURI('validate/'));
     $validate_uri->replaceQueryParam('expect', $user->getUsername());
 
@@ -130,14 +130,14 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     // but it won't actually be meaningfully checked because we're using the
     // omnipotent user.
 
-    $account = id(new PhabricatorExternalAccountQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $account = id(new PhorgeExternalAccountQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withAccountSecrets(array($account_key))
       ->needImages(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
 
@@ -162,7 +162,7 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     }
 
     $registration_key = $request->getCookie(
-      PhabricatorCookies::COOKIE_REGISTRATION);
+      PhorgeCookies::COOKIE_REGISTRATION);
 
     // NOTE: This registration key check is not strictly necessary, because
     // we're only creating new accounts, not linking existing accounts. It
@@ -188,7 +188,7 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     // hijacking registration sessions.
 
     $actual = $account->getProperty('registrationKey');
-    $expect = PhabricatorHash::weakDigest($registration_key);
+    $expect = PhorgeHash::weakDigest($registration_key);
     if (!phutil_hashes_are_identical($actual, $expect)) {
       $response = $this->renderError(
         pht(
@@ -214,13 +214,13 @@ abstract class PhabricatorAuthController extends PhabricatorController {
   }
 
   protected function loadInvite() {
-    $invite_cookie = PhabricatorCookies::COOKIE_INVITE;
+    $invite_cookie = PhorgeCookies::COOKIE_INVITE;
     $invite_code = $this->getRequest()->getCookie($invite_cookie);
     if (!$invite_code) {
       return null;
     }
 
-    $engine = id(new PhabricatorAuthInviteEngine())
+    $engine = id(new PhorgeAuthInviteEngine())
       ->setViewer($this->getViewer())
       ->setUserHasConfirmedVerify(true);
 
@@ -234,14 +234,14 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     }
   }
 
-  protected function renderInviteHeader(PhabricatorAuthInvite $invite) {
+  protected function renderInviteHeader(PhorgeAuthInvite $invite) {
     $viewer = $this->getViewer();
 
     // Since the user hasn't registered yet, they may not be able to see other
     // user accounts. Load the inviting user with the omnipotent viewer.
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
+    $omnipotent_viewer = PhorgeUser::getOmnipotentUser();
 
-    $invite_author = id(new PhabricatorPeopleQuery())
+    $invite_author = id(new PhorgePeopleQuery())
       ->setViewer($omnipotent_viewer)
       ->withPHIDs(array($invite->getAuthorPHID()))
       ->needProfileImage(true)
@@ -278,9 +278,9 @@ abstract class PhabricatorAuthController extends PhabricatorController {
   final protected function newCustomStartMessage() {
     $viewer = $this->getViewer();
 
-    $text = PhabricatorAuthMessage::loadMessageText(
+    $text = PhorgeAuthMessage::loadMessageText(
       $viewer,
-      PhabricatorAuthLoginMessageType::MESSAGEKEY);
+      PhorgeAuthLoginMessageType::MESSAGEKEY);
 
     if (!strlen($text)) {
       return null;

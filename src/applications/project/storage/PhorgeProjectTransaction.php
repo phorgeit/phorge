@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeProjectTransaction
+  extends PhorgeModularTransaction {
 
   // NOTE: This is deprecated, members are just a normal edge now.
   const TYPE_MEMBERS    = 'project:members';
@@ -16,11 +16,11 @@ final class PhabricatorProjectTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorProjectProjectPHIDType::TYPECONST;
+    return PhorgeProjectProjectPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorProjectTransactionType';
+    return 'PhorgeProjectTransactionType';
   }
 
   public function getRequiredHandlePHIDs() {
@@ -41,10 +41,10 @@ final class PhabricatorProjectTransaction
 
   public function shouldHide() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
-          case PhabricatorProjectSilencedEdgeType::EDGECONST:
+          case PhorgeProjectSilencedEdgeType::EDGECONST:
             return true;
           default:
             break;
@@ -56,10 +56,10 @@ final class PhabricatorProjectTransaction
 
   public function shouldHideForMail(array $xactions) {
     switch ($this->getTransactionType()) {
-      case PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectSortTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectFilterTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectWorkboardBackgroundTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectWorkboardTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectSortTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectFilterTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectWorkboardBackgroundTransaction::TRANSACTIONTYPE:
         return true;
     }
 
@@ -81,7 +81,7 @@ final class PhabricatorProjectTransaction
     $author_handle = $this->renderHandleLink($author_phid);
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return pht(
           '%s created this project.',
           $this->renderHandleLink($author_phid));
@@ -132,18 +132,18 @@ final class PhabricatorProjectTransaction
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
-      case PhabricatorProjectNameTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectImageTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectIconTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectColorTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectNameTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectSlugsTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectImageTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectIconTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectColorTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_METADATA;
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $type = $this->getMetadata('edge:type');
         $type = head($type);
-        $type_member = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
-        $type_watcher = PhabricatorObjectHasWatcherEdgeType::EDGECONST;
+        $type_member = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
+        $type_watcher = PhorgeObjectHasWatcherEdgeType::EDGECONST;
         if ($type == $type_member) {
           $tags[] = self::MAILTAG_MEMBERS;
         } else if ($type == $type_watcher) {
@@ -152,8 +152,8 @@ final class PhabricatorProjectTransaction
           $tags[] = self::MAILTAG_OTHER;
         }
         break;
-      case PhabricatorProjectStatusTransaction::TRANSACTIONTYPE:
-      case PhabricatorProjectLockTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectStatusTransaction::TRANSACTIONTYPE:
+      case PhorgeProjectLockTransaction::TRANSACTIONTYPE:
       default:
         $tags[] = self::MAILTAG_OTHER;
         break;

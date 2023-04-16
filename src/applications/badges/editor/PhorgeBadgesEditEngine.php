@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeBadgesEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'badges.badge';
 
@@ -10,7 +10,7 @@ final class PhabricatorBadgesEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   public function getSummaryHeader() {
@@ -26,11 +26,11 @@ final class PhabricatorBadgesEditEngine
   }
 
   protected function newEditableObject() {
-    return PhabricatorBadgesBadge::initializeNewBadge($this->getViewer());
+    return PhorgeBadgesBadge::initializeNewBadge($this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorBadgesQuery();
+    return new PhorgeBadgesQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -75,70 +75,70 @@ final class PhabricatorBadgesEditEngine
 
   protected function getCreateNewObjectPolicy() {
     return $this->getApplication()->getPolicy(
-      PhabricatorBadgesCreateCapability::CAPABILITY);
+      PhorgeBadgesCreateCapability::CAPABILITY);
   }
 
   protected function buildCustomEditFields($object) {
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Badge name.'))
         ->setConduitTypeDescription(pht('New badge name.'))
         ->setTransactionType(
-          PhabricatorBadgesBadgeNameTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeNameTransaction::TRANSACTIONTYPE)
         ->setValue($object->getName())
         ->setIsRequired(true),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('flavor')
         ->setLabel(pht('Flavor Text'))
         ->setDescription(pht('Short description of the badge.'))
         ->setConduitTypeDescription(pht('New badge flavor.'))
         ->setValue($object->getFlavor())
         ->setTransactionType(
-          PhabricatorBadgesBadgeFlavorTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorIconSetEditField())
+          PhorgeBadgesBadgeFlavorTransaction::TRANSACTIONTYPE),
+      id(new PhorgeIconSetEditField())
         ->setKey('icon')
         ->setLabel(pht('Icon'))
-        ->setIconSet(new PhabricatorBadgesIconSet())
+        ->setIconSet(new PhorgeBadgesIconSet())
         ->setTransactionType(
-          PhabricatorBadgesBadgeIconTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeIconTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Change the badge icon.'))
         ->setConduitTypeDescription(pht('New badge icon.'))
         ->setValue($object->getIcon()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('quality')
         ->setLabel(pht('Quality'))
         ->setDescription(pht('Color and rarity of the badge.'))
         ->setConduitTypeDescription(pht('New badge quality.'))
         ->setValue($object->getQuality())
         ->setTransactionType(
-          PhabricatorBadgesBadgeQualityTransaction::TRANSACTIONTYPE)
-        ->setOptions(PhabricatorBadgesQuality::getDropdownQualityMap()),
-      id(new PhabricatorRemarkupEditField())
+          PhorgeBadgesBadgeQualityTransaction::TRANSACTIONTYPE)
+        ->setOptions(PhorgeBadgesQuality::getDropdownQualityMap()),
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('Badge long description.'))
         ->setConduitTypeDescription(pht('New badge description.'))
         ->setTransactionType(
-          PhabricatorBadgesBadgeDescriptionTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setKey('award')
         ->setIsFormField(false)
         ->setDescription(pht('New badge award recipients.'))
         ->setConduitTypeDescription(pht('New badge award recipients.'))
         ->setTransactionType(
-          PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Award Recipients')),
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setKey('revoke')
         ->setIsFormField(false)
         ->setDescription(pht('Revoke badge award recipients.'))
         ->setConduitTypeDescription(pht('Revoke badge award recipients.'))
         ->setTransactionType(
-          PhabricatorBadgesBadgeRevokeTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeRevokeTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Revoke Recipients')),
 
     );

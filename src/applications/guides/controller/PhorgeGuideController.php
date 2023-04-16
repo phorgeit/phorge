@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorGuideController extends PhabricatorController {
+abstract class PhorgeGuideController extends PhorgeController {
 
   public function buildSideNavView($filter = null, $for_app = false) {
 
@@ -8,7 +8,7 @@ abstract class PhabricatorGuideController extends PhabricatorController {
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
     $nav->addLabel(pht('Guides'));
 
-    $modules = PhabricatorGuideModule::getEnabledModules();
+    $modules = PhorgeGuideModule::getEnabledModules();
     foreach ($modules as $key => $module) {
       $nav->addFilter($key.'/', $module->getModuleName());
     }

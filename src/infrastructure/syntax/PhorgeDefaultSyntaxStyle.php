@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDefaultSyntaxStyle
-  extends PhabricatorSyntaxStyle {
+final class PhorgeDefaultSyntaxStyle
+  extends PhorgeSyntaxStyle {
 
   const STYLEKEY = 'default';
 

@@ -10,13 +10,13 @@ final class DrydockLandRepositoryOperation
 
   public function getOperationDescription(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Land Revision');
   }
 
   public function getOperationCurrentStatus(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $target = $operation->getRepositoryTarget();
     $repository = $operation->getRepository();
@@ -167,13 +167,13 @@ final class DrydockLandRepositoryOperation
     $committer_name = null;
 
     $author_phid = $operation->getAuthorPHID();
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($author_phid))
       ->executeOne();
 
     if ($object) {
-      if ($object instanceof PhabricatorUser) {
+      if ($object instanceof PhorgeUser) {
         $committer_name = $object->getUsername();
       }
     }
@@ -223,7 +223,7 @@ final class DrydockLandRepositoryOperation
   }
 
   public function getBarrierToLanding(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialRevision $revision) {
 
     $repository = $revision->getRepository();
@@ -275,7 +275,7 @@ final class DrydockLandRepositoryOperation
     // code" permission to more users than "push any commit", because it is
     // a much less powerful operation. For now, just require push so this
     // doesn't do anything users can't do on their own.
-    $can_push = PhabricatorPolicyFilter::hasCapability(
+    $can_push = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
       DiffusionPushCapability::CAPABILITY);

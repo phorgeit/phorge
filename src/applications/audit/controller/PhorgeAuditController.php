@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuditController extends PhabricatorController {
+abstract class PhorgeAuditController extends PhorgeController {
 
   public function buildSideNavView() {
 
@@ -9,7 +9,7 @@ abstract class PhabricatorAuditController extends PhabricatorController {
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorCommitSearchEngine())
+    id(new PhorgeCommitSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

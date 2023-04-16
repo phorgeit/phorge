@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeIconTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeIconTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.icon';
 
@@ -45,7 +45,7 @@ final class PhabricatorBadgesBadgeIconTransaction
   }
 
   private function getIconLabel($icon) {
-    $set = new PhabricatorBadgesIconSet();
+    $set = new PhorgeBadgesIconSet();
     return $set->getIconLabel($icon);
   }
 

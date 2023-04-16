@@ -11,7 +11,7 @@ final class HarbormasterBuildGraph extends AbstractDirectedGraph {
     HarbormasterBuildPlan $plan) {
 
     $steps = id(new HarbormasterBuildStepQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withBuildPlanPHIDs(array($plan->getPHID()))
       ->execute();
 

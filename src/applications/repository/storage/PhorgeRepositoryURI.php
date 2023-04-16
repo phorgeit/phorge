@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorRepositoryURI
-  extends PhabricatorRepositoryDAO
+final class PhorgeRepositoryURI
+  extends PhorgeRepositoryDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeConduitResultInterface {
 
   protected $repositoryPHID;
   protected $uri;
@@ -71,11 +71,11 @@ final class PhabricatorRepositoryURI
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryURIPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryURIPHIDType::TYPECONST);
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -195,11 +195,11 @@ final class PhabricatorRepositoryURI
     $vcs = $this->getRepository()->getVersionControlSystem();
 
     $map = array(
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT =>
+      PhorgeRepositoryType::REPOSITORY_TYPE_GIT =>
         ArcanistRepositoryURINormalizer::TYPE_GIT,
-      PhabricatorRepositoryType::REPOSITORY_TYPE_SVN =>
+      PhorgeRepositoryType::REPOSITORY_TYPE_SVN =>
         ArcanistRepositoryURINormalizer::TYPE_SVN,
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL =>
+      PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL =>
         ArcanistRepositoryURINormalizer::TYPE_MERCURIAL,
     );
 
@@ -236,7 +236,7 @@ final class PhabricatorRepositoryURI
     if ($is_http && !$is_svn && $credential_phid) {
       $key = PassphrasePasswordKey::loadFromPHID(
         $credential_phid,
-        PhabricatorUser::getOmnipotentUser());
+        PhorgeUser::getOmnipotentUser());
 
       $uri->setUser($key->getUsernameEnvelope()->openEnvelope());
       $uri->setPass($key->getPasswordEnvelope()->openEnvelope());
@@ -338,14 +338,14 @@ final class PhabricatorRepositoryURI
   }
 
   private function getForcedHost() {
-    $phorge_uri = PhabricatorEnv::getURI('/');
+    $phorge_uri = PhorgeEnv::getURI('/');
     $phorge_uri = new PhutilURI($phorge_uri);
 
     $phorge_host = $phorge_uri->getDomain();
 
     switch ($this->getBuiltinProtocol()) {
       case self::BUILTIN_PROTOCOL_SSH:
-        $ssh_host = PhabricatorEnv::getEnvConfig('diffusion.ssh-host');
+        $ssh_host = PhorgeEnv::getEnvConfig('diffusion.ssh-host');
         if ($ssh_host !== null) {
           return $ssh_host;
         }
@@ -362,7 +362,7 @@ final class PhabricatorRepositoryURI
     $protocol = $this->getBuiltinProtocol();
 
     if ($protocol == self::BUILTIN_PROTOCOL_SSH) {
-      return PhabricatorEnv::getEnvConfig('diffusion.ssh-port');
+      return PhorgeEnv::getEnvConfig('diffusion.ssh-port');
     }
 
     // If Phorge is running on a nonstandard port, use that as the default
@@ -372,7 +372,7 @@ final class PhabricatorRepositoryURI
     $is_https = ($protocol == self::BUILTIN_PROTOCOL_HTTPS);
 
     if ($is_http || $is_https) {
-      $uri = PhabricatorEnv::getURI('/');
+      $uri = PhorgeEnv::getURI('/');
       $uri = new PhutilURI($uri);
 
       $port = $uri->getPort();
@@ -599,7 +599,7 @@ final class PhabricatorRepositoryURI
 
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -607,41 +607,41 @@ final class PhabricatorRepositoryURI
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorRepositoryURITransaction();
+    return new PhorgeRepositoryURITransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         // To edit a repository URI, you must be able to edit the
         // corresponding repository.
         $extended[] = array($this->getRepository(), $capability);
@@ -652,49 +652,49 @@ final class PhabricatorRepositoryURI
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('repositoryPHID')
         ->setType('phid')
         ->setDescription(pht('The associated repository PHID.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('uri')
         ->setType('map<string, string>')
         ->setDescription(pht('The raw and effective URI.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('io')
         ->setType('map<string, const>')
         ->setDescription(
           pht('The raw, default, and effective I/O Type settings.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('display')
         ->setType('map<string, const>')
         ->setDescription(
           pht('The raw, default, and effective Display Type settings.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('credentialPHID')
         ->setType('phid?')
         ->setDescription(
           pht('The associated credential PHID, if one exists.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('disabled')
         ->setType('bool')
         ->setDescription(pht('True if the URI is disabled.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('builtin')
         ->setType('map<string, string>')
         ->setDescription(
           pht('Information about builtin URIs.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dateCreated')
         ->setType('int')
         ->setDescription(
           pht('Epoch timestamp when the object was created.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dateModified')
         ->setType('int')
         ->setDescription(
@@ -743,7 +743,7 @@ final class PhabricatorRepositoryURI
     // base URI, store it as a "<base-uri>" token instead of the actual domain
     // so that the index does not fall out of date if the install moves.
 
-    $base_uri = PhabricatorEnv::getURI('/');
+    $base_uri = PhorgeEnv::getURI('/');
     $base_uri = new PhutilURI($base_uri);
     $base_domain = $base_uri->getDomain();
     $domain_map['<base-uri>'] = $base_domain;
@@ -751,7 +751,7 @@ final class PhabricatorRepositoryURI
     // Likewise, store a token for the "SSH Host" domain so it can be changed
     // without requiring an index rebuild.
 
-    $ssh_host = PhabricatorEnv::getEnvConfig('diffusion.ssh-host');
+    $ssh_host = PhorgeEnv::getEnvConfig('diffusion.ssh-host');
     if (strlen($ssh_host)) {
       $domain_map['<ssh-host>'] = $ssh_host;
     }

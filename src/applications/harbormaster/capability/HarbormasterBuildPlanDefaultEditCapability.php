@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'harbormaster.plan.default.edit';
 

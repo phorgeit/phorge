@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEdgeEditType
-  extends PhabricatorPHIDListEditType {
+final class PhorgeEdgeEditType
+  extends PhorgePHIDListEditType {
 
   private $edgeOperation;
   private $valueDescription;
@@ -16,7 +16,7 @@ final class PhabricatorEdgeEditType
   }
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $value = idx($spec, 'value');

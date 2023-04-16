@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorPeopleCreateGuidanceContext
-  extends PhabricatorGuidanceContext {}
+final class PhorgePeopleCreateGuidanceContext
+  extends PhorgeGuidanceContext {}

@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Blogs');
@@ -12,7 +12,7 @@ final class PhameBlogDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function loadResults() {
@@ -23,8 +23,8 @@ final class PhameBlogDatasource
       ->needProfileImage(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -33,11 +33,11 @@ final class PhameBlogDatasource
       $closed = null;
 
       $status = $blog->getStatus();
-      if ($status === PhabricatorBadgesBadge::STATUS_ARCHIVED) {
+      if ($status === PhorgeBadgesBadge::STATUS_ARCHIVED) {
         $closed = pht('Archived');
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($blog->getName())
         ->setClosed($closed)
         ->addAttribute(pht('Phame Blog'))

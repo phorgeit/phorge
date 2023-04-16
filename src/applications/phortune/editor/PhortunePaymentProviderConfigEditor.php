@@ -1,10 +1,10 @@
 <?php
 
 final class PhortunePaymentProviderConfigEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -22,8 +22,8 @@ final class PhortunePaymentProviderConfigEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     switch ($xaction->getTransactionType()) {
       case PhortunePaymentProviderConfigTransaction::TYPE_CREATE:
         return null;
@@ -39,8 +39,8 @@ final class PhortunePaymentProviderConfigEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortunePaymentProviderConfigTransaction::TYPE_CREATE:
@@ -54,8 +54,8 @@ final class PhortunePaymentProviderConfigEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortunePaymentProviderConfigTransaction::TYPE_CREATE:
@@ -73,8 +73,8 @@ final class PhortunePaymentProviderConfigEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PhortunePaymentProviderConfigTransaction::TYPE_CREATE:

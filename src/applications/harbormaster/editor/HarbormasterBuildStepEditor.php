@@ -1,10 +1,10 @@
 <?php
 
 final class HarbormasterBuildStepEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -23,8 +23,8 @@ final class HarbormasterBuildStepEditor
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case HarbormasterBuildStepTransaction::TYPE_CREATE:
@@ -50,8 +50,8 @@ final class HarbormasterBuildStepEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case HarbormasterBuildStepTransaction::TYPE_CREATE:
@@ -66,8 +66,8 @@ final class HarbormasterBuildStepEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case HarbormasterBuildStepTransaction::TYPE_CREATE:
@@ -84,8 +84,8 @@ final class HarbormasterBuildStepEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case HarbormasterBuildStepTransaction::TYPE_CREATE:

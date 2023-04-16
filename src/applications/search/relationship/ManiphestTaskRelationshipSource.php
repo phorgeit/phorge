@@ -1,13 +1,13 @@
 <?php
 
 final class ManiphestTaskRelationshipSource
-  extends PhabricatorObjectRelationshipSource {
+  extends PhorgeObjectRelationshipSource {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeManiphestApplication',
       $viewer);
   }
 

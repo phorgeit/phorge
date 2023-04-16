@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineSubtypeTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineSubtypeTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.subtype';
 

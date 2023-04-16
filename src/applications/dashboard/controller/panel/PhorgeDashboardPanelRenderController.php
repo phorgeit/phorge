@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelRenderController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelRenderController
+  extends PhorgeDashboardController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorDashboardPanelRenderController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $panel = id(new PhabricatorDashboardPanelQuery())
+    $panel = id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -31,7 +31,7 @@ final class PhabricatorDashboardPanelRenderController
       $parent_phids = array();
     }
 
-    $engine = id(new PhabricatorDashboardPanelRenderingEngine())
+    $engine = id(new PhorgeDashboardPanelRenderingEngine())
       ->setViewer($viewer)
       ->setPanel($panel)
       ->setPanelPHID($panel->getPHID())
@@ -42,7 +42,7 @@ final class PhabricatorDashboardPanelRenderController
 
     $context_phid = $request->getStr('contextPHID');
     if ($context_phid) {
-      $context = id(new PhabricatorObjectQuery())
+      $context = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($context_phid))
         ->executeOne();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFilesCurtainExtension
+final class PhorgeFilesCurtainExtension
   extends PHUICurtainExtension {
 
   const EXTENSIONKEY = 'files.files';
@@ -10,19 +10,19 @@ final class PhabricatorFilesCurtainExtension
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorFilesApplication();
+    return new PhorgeFilesApplication();
   }
 
   public function buildCurtainPanel($object) {
     $viewer = $this->getViewer();
 
-    $attachment_table = new PhabricatorFileAttachment();
+    $attachment_table = new PhorgeFileAttachment();
     $attachment_conn = $attachment_table->establishConnection('r');
 
     $exact_limit = 100;
     $visible_limit = 8;
 
-    $attachments = id(new PhabricatorFileAttachmentQuery())
+    $attachments = id(new PhorgeFileAttachmentQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
       ->setLimit($exact_limit + 1)
@@ -38,8 +38,8 @@ final class PhabricatorFilesCurtainExtension
       ->setViewer($viewer)
       ->setEmptyMessage(pht('None'));
 
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
-    $object_policies = PhabricatorPolicyQuery::loadPolicies(
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
+    $object_policies = PhorgePolicyQuery::loadPolicies(
       $viewer,
       $object);
     $object_policy = idx($object_policies, $view_capability);
@@ -56,7 +56,7 @@ final class PhabricatorFilesCurtainExtension
         // ...
       } else {
         if (!$attachment->isPolicyAttachment()) {
-          $file_policies = PhabricatorPolicyQuery::loadPolicies(
+          $file_policies = PhorgePolicyQuery::loadPolicies(
             $viewer,
             $file);
           $file_policy = idx($file_policies, $view_capability);

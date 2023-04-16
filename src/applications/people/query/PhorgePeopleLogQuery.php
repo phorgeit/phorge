@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePeopleLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $actorPHIDs;
@@ -55,7 +55,7 @@ final class PhabricatorPeopleLogQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorUserLog();
+    return new PhorgeUserLog();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -129,7 +129,7 @@ final class PhabricatorPeopleLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
 }

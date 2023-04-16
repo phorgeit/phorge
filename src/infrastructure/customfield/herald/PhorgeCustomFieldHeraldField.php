@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCustomFieldHeraldField extends HeraldField {
+final class PhorgeCustomFieldHeraldField extends HeraldField {
 
   const FIELDCONST = 'herald.custom';
 
   private $customField;
 
-  public function setCustomField(PhabricatorCustomField $custom_field) {
+  public function setCustomField(PhorgeCustomField $custom_field) {
     $this->customField = $custom_field;
     return $this;
   }
@@ -16,18 +16,18 @@ final class PhabricatorCustomFieldHeraldField extends HeraldField {
   }
 
   public function getFieldGroupKey() {
-    return PhabricatorCustomFieldHeraldFieldGroup::FIELDGROUPKEY;
+    return PhorgeCustomFieldHeraldFieldGroup::FIELDGROUPKEY;
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
   public function getFieldsForObject($object) {
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_HERALD);
-    $field_list->setViewer(PhabricatorUser::getOmnipotentUser());
+      PhorgeCustomField::ROLE_HERALD);
+    $field_list->setViewer(PhorgeUser::getOmnipotentUser());
     $field_list->readFieldsFromStorage($object);
 
     $prefix = 'herald.custom/';
@@ -43,10 +43,10 @@ final class PhabricatorCustomFieldHeraldField extends HeraldField {
 
       $full_key = $prefix.$key;
       if (strlen($full_key) > $limit) {
-        $full_key = PhabricatorHash::digestToLength($full_key, $limit);
+        $full_key = PhorgeHash::digestToLength($full_key, $limit);
       }
 
-      $map[$full_key] = id(new PhabricatorCustomFieldHeraldField())
+      $map[$full_key] = id(new PhorgeCustomFieldHeraldField())
         ->setCustomField($field);
     }
 

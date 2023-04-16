@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeFileEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'files.file';
 
@@ -16,7 +16,7 @@ final class PhabricatorFileEditEngine
   protected function getCreateNewObjectPolicy() {
     // TODO: For now, this EditEngine can only edit objects, since there is
     // a lot of complexity in dealing with file data during file creation.
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
   public function getSummaryHeader() {
@@ -28,15 +28,15 @@ final class PhabricatorFileEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorFile::initializeNewFile();
+    return PhorgeFile::initializeNewFile();
   }
 
   protected function newObjectQuery() {
-    $query = new PhabricatorFileQuery();
+    $query = new PhorgeFileQuery();
     $query->withIsDeleted(false);
     return $query;
   }
@@ -67,18 +67,18 @@ final class PhabricatorFileEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
-        ->setTransactionType(PhabricatorFileNameTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeFileNameTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('The name of the file.'))
         ->setConduitDescription(pht('Rename the file.'))
         ->setConduitTypeDescription(pht('New file name.'))
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('alt')
         ->setLabel(pht('Alt Text'))
-        ->setTransactionType(PhabricatorFileAltTextTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgeFileAltTextTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('Human-readable file description.'))
         ->setConduitDescription(pht('Set the file alt text.'))
         ->setConduitTypeDescription(pht('New alt text.'))

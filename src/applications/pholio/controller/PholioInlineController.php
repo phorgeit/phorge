@@ -39,7 +39,7 @@ final class PholioInlineController extends PholioController {
         ->setCommentVersion(1)
         ->setAuthorPHID($viewer->getPHID())
         ->setEditPolicy($viewer->getPHID())
-        ->setViewPolicy(PhabricatorPolicies::POLICY_PUBLIC)
+        ->setViewPolicy(PhorgePolicies::POLICY_PUBLIC)
         ->setContentSourceFromRequest($request)
         ->setWidth($request->getInt('endX') - $request->getInt('startX'))
         ->setHeight($request->getInt('endY') - $request->getInt('startY'));
@@ -147,7 +147,7 @@ final class PholioInlineController extends PholioController {
 
     $form
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setUser($viewer)
           ->setName('content')
           ->setLabel(pht('Comment'))

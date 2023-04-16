@@ -44,10 +44,10 @@ final class PonderAnswerView extends AphrontTagView {
     $id = $answer->getID();
 
     if ($status == PonderAnswerStatus::ANSWER_STATUS_HIDDEN) {
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $answer,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       $message = array();
       $message[] = phutil_tag(
@@ -97,12 +97,12 @@ final class PonderAnswerView extends AphrontTagView {
       array(
         'class' => 'phorge-remarkup',
       ),
-      PhabricatorMarkupEngine::renderOneObject(
+      PhorgeMarkupEngine::renderOneObject(
         $answer,
         $answer->getMarkupField(),
         $viewer));
 
-    $anchor = id(new PhabricatorAnchorView())
+    $anchor = id(new PhorgeAnchorView())
         ->setAnchorName("A$id");
 
     $content_id = celerity_generate_unique_node_id();
@@ -119,7 +119,7 @@ final class PonderAnswerView extends AphrontTagView {
       ->addClass('ponder-answer')
       ->appendChild($content);
 
-    $comment_view = id(new PhabricatorApplicationTransactionCommentView())
+    $comment_view = id(new PhorgeApplicationTransactionCommentView())
       ->setUser($viewer)
       ->setObjectPHID($answer->getPHID())
       ->setShowPreview(false)
@@ -149,17 +149,17 @@ final class PonderAnswerView extends AphrontTagView {
     $answer = $this->answer;
     $id = $answer->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $answer,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $view = id(new PhabricatorActionListView())
+    $view = id(new PhorgeActionListView())
       ->setUser($viewer)
       ->setObject($answer);
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Answer'))
         ->setHref("/ponder/answer/edit/{$id}/")
@@ -167,7 +167,7 @@ final class PonderAnswerView extends AphrontTagView {
         ->setWorkflow(!$can_edit));
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-list')
         ->setName(pht('View History'))
         ->setHref("/ponder/answer/history/{$id}/"));

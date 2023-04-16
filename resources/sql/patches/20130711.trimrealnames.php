@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorUser();
+$table = new PhorgeUser();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Trimming trailing whitespace from user real names...')."\n";

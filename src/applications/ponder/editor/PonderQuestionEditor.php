@@ -35,7 +35,7 @@ final class PonderQuestionEditor
   }
 
   protected function shouldApplyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     foreach ($xactions as $xaction) {
@@ -49,7 +49,7 @@ final class PonderQuestionEditor
   }
 
   protected function applyInitialEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     foreach ($xactions as $xaction) {
@@ -72,8 +72,8 @@ final class PonderQuestionEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
 
     return $types;
   }
@@ -83,8 +83,8 @@ final class PonderQuestionEditor
   }
 
   protected function shouldImplyCC(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case PonderQuestionAnswerTransaction::TRANSACTIONTYPE:
@@ -95,7 +95,7 @@ final class PonderQuestionEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
       foreach ($xactions as $xaction) {
         switch ($xaction->getTransactionType()) {
@@ -106,7 +106,7 @@ final class PonderQuestionEditor
       return true;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->requireActor()->getPHID(),
@@ -114,7 +114,7 @@ final class PonderQuestionEditor
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
       foreach ($xactions as $xaction) {
         switch ($xaction->getTransactionType()) {
@@ -138,21 +138,21 @@ final class PonderQuestionEditor
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PonderQuestionReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $title = $object->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("Q{$id}: {$title}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -173,19 +173,19 @@ final class PonderQuestionEditor
 
     $body->addLinkSection(
       $header,
-      PhabricatorEnv::getProductionURI($uri));
+      PhorgeEnv::getProductionURI($uri));
 
     return $body;
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return id(new HeraldPonderQuestionAdapter())

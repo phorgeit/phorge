@@ -4,7 +4,7 @@
  * @task enormous Detecting Enormous Images
  * @task save     Saving Image Data
  */
-final class PhabricatorImageTransformer extends Phobject {
+final class PhorgeImageTransformer extends Phobject {
 
 
 /* -(  Saving Image Data  )-------------------------------------------------- */

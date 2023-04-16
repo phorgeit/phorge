@@ -3,16 +3,16 @@
 abstract class ProjectConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorProjectApplication');
+    return PhorgeApplication::getByClass('PhorgeProjectApplication');
   }
 
-  protected function buildProjectInfoDictionary(PhabricatorProject $project) {
+  protected function buildProjectInfoDictionary(PhorgeProject $project) {
     $results = $this->buildProjectInfoDictionaries(array($project));
     return idx($results, $project->getPHID());
   }
 
   protected function buildProjectInfoDictionaries(array $projects) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, 'PhorgeProject');
     if (!$projects) {
       return array();
     }

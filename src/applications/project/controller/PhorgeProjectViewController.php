@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectViewController
-  extends PhabricatorProjectController {
+final class PhorgeProjectViewController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
@@ -25,18 +25,18 @@ final class PhabricatorProjectViewController
     if ($default) {
       $default_key = $default->getBuiltinKey();
     } else {
-      $default_key = PhabricatorProject::ITEM_MANAGE;
+      $default_key = PhorgeProject::ITEM_MANAGE;
     }
 
     switch ($default_key) {
-      case PhabricatorProject::ITEM_WORKBOARD:
-        $controller_object = new PhabricatorProjectBoardViewController();
+      case PhorgeProject::ITEM_WORKBOARD:
+        $controller_object = new PhorgeProjectBoardViewController();
         break;
-      case PhabricatorProject::ITEM_PROFILE:
-        $controller_object = new PhabricatorProjectProfileController();
+      case PhorgeProject::ITEM_PROFILE:
+        $controller_object = new PhorgeProjectProfileController();
         break;
-      case PhabricatorProject::ITEM_MANAGE:
-        $controller_object = new PhabricatorProjectManageController();
+      case PhorgeProject::ITEM_MANAGE:
+        $controller_object = new PhorgeProjectManageController();
         break;
       default:
         return $engine->buildResponse();

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorWorkerTrigger
-  extends PhabricatorWorkerDAO
+final class PhorgeWorkerTrigger
+  extends PhorgeWorkerDAO
   implements
-    PhabricatorDestructibleInterface,
-    PhabricatorPolicyInterface {
+    PhorgeDestructibleInterface,
+    PhorgePolicyInterface {
 
   protected $triggerVersion;
   protected $clockClass;
@@ -44,7 +44,7 @@ final class PhabricatorWorkerTrigger
     $this->openTransaction();
       $next_version = LiskDAO::loadNextCounterValue(
         $conn_w,
-        PhabricatorTriggerDaemon::COUNTER_VERSION);
+        PhorgeTriggerDaemon::COUNTER_VERSION);
       $this->setTriggerVersion($next_version);
 
       $result = parent::save();
@@ -54,8 +54,8 @@ final class PhabricatorWorkerTrigger
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorWorkerTriggerPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeWorkerTriggerPHIDType::TYPECONST);
   }
 
   /**
@@ -95,12 +95,12 @@ final class PhabricatorWorkerTrigger
     return $this->assertAttached($this->event);
   }
 
-  public function attachEvent(PhabricatorWorkerTriggerEvent $event = null) {
+  public function attachEvent(PhorgeWorkerTriggerEvent $event = null) {
     $this->event = $event;
     return $this;
   }
 
-  public function setAction(PhabricatorTriggerAction $action) {
+  public function setAction(PhorgeTriggerAction $action) {
     $this->actionClass = get_class($action);
     $this->actionProperties = $action->getProperties();
     return $this->attachAction($action);
@@ -110,12 +110,12 @@ final class PhabricatorWorkerTrigger
     return $this->assertAttached($this->action);
   }
 
-  public function attachAction(PhabricatorTriggerAction $action) {
+  public function attachAction(PhorgeTriggerAction $action) {
     $this->action = $action;
     return $this;
   }
 
-  public function setClock(PhabricatorTriggerClock $clock) {
+  public function setClock(PhorgeTriggerClock $clock) {
     $this->clockClass = get_class($clock);
     $this->clockProperties = $clock->getProperties();
     return $this->attachClock($clock);
@@ -125,7 +125,7 @@ final class PhabricatorWorkerTrigger
     return $this->assertAttached($this->clock);
   }
 
-  public function attachClock(PhabricatorTriggerClock $clock) {
+  public function attachClock(PhorgeTriggerClock $clock) {
     $this->clock = $clock;
     return $this;
   }
@@ -151,17 +151,17 @@ final class PhabricatorWorkerTrigger
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       queryfx(
         $this->establishConnection('w'),
         'DELETE FROM %T WHERE triggerID = %d',
-        id(new PhabricatorWorkerTriggerEvent())->getTableName(),
+        id(new PhorgeWorkerTriggerEvent())->getTableName(),
         $this->getID());
 
       $this->delete();
@@ -169,7 +169,7 @@ final class PhabricatorWorkerTrigger
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   // NOTE: Triggers are low-level infrastructure and do not have real
@@ -178,15 +178,15 @@ final class PhabricatorWorkerTrigger
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return true;
   }
 

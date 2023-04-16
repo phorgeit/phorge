@@ -23,9 +23,9 @@ final class DifferentialReviewersCommitMessageField
     $results = $this->parseObjectList(
       $value,
       array(
-        PhabricatorPeopleUserPHIDType::TYPECONST,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
-        PhabricatorOwnersPackagePHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
+        PhorgeOwnersPackagePHIDType::TYPECONST,
       ),
       false,
       array('!'));

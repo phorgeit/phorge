@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorAsanaSubtaskHasObjectEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeAsanaSubtaskHasObjectEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 80002;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorObjectHasAsanaSubtaskEdgeType::EDGECONST;
+    return PhorgeObjectHasAsanaSubtaskEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

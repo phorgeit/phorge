@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorProjectColumnEditController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnEditController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $project_id = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($project_id))
       ->needImages(true)
@@ -27,20 +27,20 @@ final class PhabricatorProjectColumnEditController
     $is_new = ($id ? false : true);
 
     if (!$is_new) {
-      $column = id(new PhabricatorProjectColumnQuery())
+      $column = id(new PhorgeProjectColumnQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$column) {
         return new Aphront404Response();
       }
     } else {
-      $column = PhabricatorProjectColumn::initializeNewColumn($viewer);
+      $column = PhorgeProjectColumn::initializeNewColumn($viewer);
     }
 
     $e_name = null;
@@ -60,7 +60,7 @@ final class PhabricatorProjectColumnEditController
         $column->setProjectPHID($project->getPHID());
         $column->attachProject($project);
 
-        $columns = id(new PhabricatorProjectColumnQuery())
+        $columns = id(new PhorgeProjectColumnQuery())
           ->setViewer($viewer)
           ->withProjectPHIDs(array($project->getPHID()))
           ->execute();
@@ -75,27 +75,27 @@ final class PhabricatorProjectColumnEditController
 
       $xactions = array();
 
-      $type_name = PhabricatorProjectColumnNameTransaction::TRANSACTIONTYPE;
-      $type_limit = PhabricatorProjectColumnLimitTransaction::TRANSACTIONTYPE;
+      $type_name = PhorgeProjectColumnNameTransaction::TRANSACTIONTYPE;
+      $type_limit = PhorgeProjectColumnLimitTransaction::TRANSACTIONTYPE;
 
       if (!$column->getProxy()) {
-        $xactions[] = id(new PhabricatorProjectColumnTransaction())
+        $xactions[] = id(new PhorgeProjectColumnTransaction())
           ->setTransactionType($type_name)
           ->setNewValue($v_name);
       }
 
-      $xactions[] = id(new PhabricatorProjectColumnTransaction())
+      $xactions[] = id(new PhorgeProjectColumnTransaction())
         ->setTransactionType($type_limit)
         ->setNewValue($v_limit);
 
       try {
-        $editor = id(new PhabricatorProjectColumnTransactionEditor())
+        $editor = id(new PhorgeProjectColumnTransactionEditor())
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
           ->setContentSourceFromRequest($request)
           ->applyTransactions($column, $xactions);
         return id(new AphrontRedirectResponse())->setURI($view_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $e_name = $ex->getShortMessage($type_name);
         $e_limit = $ex->getShortMessage($type_limit);
         $validation_exception = $ex;

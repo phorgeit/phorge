@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementCancelWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementCancelWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -41,9 +41,9 @@ final class PhabricatorWorkerManagementCancelWorkflow
       // task.
       $task
         ->setLeaseOwner(null)
-        ->setLeaseExpires(PhabricatorTime::getNow());
+        ->setLeaseExpires(PhorgeTime::getNow());
 
-      $task->archiveTask(PhabricatorWorkerArchiveTask::RESULT_CANCELLED, 0);
+      $task->archiveTask(PhorgeWorkerArchiveTask::RESULT_CANCELLED, 0);
 
       $this->logInfo(
         pht('CANCELLED'),

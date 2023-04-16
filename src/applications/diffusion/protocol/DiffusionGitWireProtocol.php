@@ -4,7 +4,7 @@ abstract class DiffusionGitWireProtocol extends Phobject {
 
   private $protocolLog;
 
-  final public function setProtocolLog(PhabricatorProtocolLog $protocol_log) {
+  final public function setProtocolLog(PhorgeProtocolLog $protocol_log) {
     $this->protocolLog = $protocol_log;
     return $this;
   }

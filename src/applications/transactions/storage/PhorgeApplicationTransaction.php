@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorApplicationTransaction
-  extends PhabricatorLiskDAO
+abstract class PhorgeApplicationTransaction
+  extends PhorgeLiskDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   const TARGET_TEXT = 'text';
   const TARGET_HTML = 'html';
@@ -54,9 +54,9 @@ abstract class PhabricatorApplicationTransaction
 
   public function shouldGenerateOldValue() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_TOKEN:
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
-      case PhabricatorTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_INLINESTATE:
         return false;
     }
     return true;
@@ -65,7 +65,7 @@ abstract class PhabricatorApplicationTransaction
   abstract public function getApplicationTransactionType();
 
   private function getApplicationObjectTypeName() {
-    $types = PhabricatorPHIDType::getAllTypes();
+    $types = PhorgePHIDType::getAllTypes();
 
     $type = idx($types, $this->getApplicationTransactionType());
     if ($type) {
@@ -89,10 +89,10 @@ abstract class PhabricatorApplicationTransaction
   }
 
   public function generatePHID() {
-    $type = PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST;
+    $type = PhorgeApplicationTransactionTransactionPHIDType::TYPECONST;
     $subtype = $this->getApplicationTransactionType();
 
-    return PhabricatorPHID::generateNewPHID($type, $subtype);
+    return PhorgePHID::generateNewPHID($type, $subtype);
   }
 
   protected function getConfiguration() {
@@ -117,13 +117,13 @@ abstract class PhabricatorApplicationTransaction
     ) + parent::getConfiguration();
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source->serialize();
     return $this;
   }
 
   public function getContentSource() {
-    return PhabricatorContentSource::newFromSerialized($this->contentSource);
+    return PhorgeContentSource::newFromSerialized($this->contentSource);
   }
 
   public function hasComment() {
@@ -195,7 +195,7 @@ abstract class PhabricatorApplicationTransaction
   }
 
   public function attachComment(
-    PhabricatorApplicationTransactionComment $comment) {
+    PhorgeApplicationTransactionComment $comment) {
     $this->comment = $comment;
     $this->commentNotLoaded = false;
     return $this;
@@ -217,7 +217,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function getRemarkupChanges() {
     $changes = $this->newRemarkupChanges();
-    assert_instances_of($changes, 'PhabricatorTransactionRemarkupChange');
+    assert_instances_of($changes, 'PhorgeTransactionRemarkupChange');
 
     // Convert older-style remarkup blocks into newer-style remarkup changes.
     // This builds changes that do not have the correct "old value", so rules
@@ -264,7 +264,7 @@ abstract class PhabricatorApplicationTransaction
   }
 
   protected function newRemarkupChange() {
-    return id(new PhabricatorTransactionRemarkupChange())
+    return id(new PhorgeTransactionRemarkupChange())
       ->setTransaction($this);
   }
 
@@ -275,7 +275,7 @@ abstract class PhabricatorApplicationTransaction
     $blocks = array();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           $custom_blocks = $field->getApplicationTransactionRemarkupBlocks(
@@ -317,7 +317,7 @@ abstract class PhabricatorApplicationTransaction
     return $this->renderingTarget;
   }
 
-  public function attachViewer(PhabricatorUser $viewer) {
+  public function attachViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -335,25 +335,25 @@ abstract class PhabricatorApplicationTransaction
     $phids[] = array($this->getAuthorPHID());
     $phids[] = array($this->getObjectPHID());
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           $phids[] = $field->getApplicationTransactionRequiredHandlePHIDs(
             $this);
         }
         break;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $phids[] = $old;
         $phids[] = $new;
         break;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         $phids[] = array_keys($old + $new);
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
-        $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
+      case PhorgeTransactions::TYPE_EDGE:
+        $record = PhorgeEdgeChangeRecord::newFromTransaction($this);
         $phids[] = $record->getChangedPHIDs();
         break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         foreach ($new as $move) {
           $phids[] = array(
             $move['columnPHID'],
@@ -362,18 +362,18 @@ abstract class PhabricatorApplicationTransaction
           $phids[] = $move['fromColumnPHIDs'];
         }
         break;
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-        if (!PhabricatorPolicyQuery::isSpecialPolicy($old)) {
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
+        if (!PhorgePolicyQuery::isSpecialPolicy($old)) {
           $phids[] = array($old);
         }
-        if (!PhabricatorPolicyQuery::isSpecialPolicy($new)) {
+        if (!PhorgePolicyQuery::isSpecialPolicy($new)) {
           $phids[] = array($new);
         }
         break;
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         if ($old) {
           $phids[] = array($old);
         }
@@ -381,7 +381,7 @@ abstract class PhabricatorApplicationTransaction
           $phids[] = array($new);
         }
         break;
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         break;
     }
 
@@ -455,7 +455,7 @@ abstract class PhabricatorApplicationTransaction
   }
 
   protected function renderPolicyName($phid, $state = 'old') {
-    $policy = PhabricatorPolicy::newFromPolicyAndHandle(
+    $policy = PhorgePolicy::newFromPolicyAndHandle(
       $phid,
       $this->getHandleIfExists($phid));
 
@@ -472,13 +472,13 @@ abstract class PhabricatorApplicationTransaction
 
   public function getIcon() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $comment = $this->getComment();
         if ($comment && $comment->getIsRemoved()) {
           return 'fa-trash';
         }
         return 'fa-comment';
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $old = $this->getOldValue();
         $new = $this->getNewValue();
         $add = array_diff($new, $old);
@@ -492,12 +492,12 @@ abstract class PhabricatorApplicationTransaction
         } else {
           return 'fa-user';
         }
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         return 'fa-lock';
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
           case DiffusionCommitRevertedByCommitEdgeType::EDGECONST:
             return 'fa-undo';
@@ -505,13 +505,13 @@ abstract class PhabricatorApplicationTransaction
             return 'fa-ambulance';
         }
         return 'fa-link';
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         return 'fa-trophy';
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         return 'fa-th-large';
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return 'fa-columns';
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return 'fa-vcard';
     }
 
@@ -520,7 +520,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function getToken() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         $old = $this->getOldValue();
         $new = $this->getNewValue();
         if ($new) {
@@ -536,13 +536,13 @@ abstract class PhabricatorApplicationTransaction
 
   public function getColor() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT;
+      case PhorgeTransactions::TYPE_COMMENT;
         $comment = $this->getComment();
         if ($comment && $comment->getIsRemoved()) {
           return 'grey';
         }
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
           case DiffusionCommitRevertedByCommitEdgeType::EDGECONST:
             return 'pink';
@@ -550,7 +550,7 @@ abstract class PhabricatorApplicationTransaction
             return 'sky';
         }
         break;
-      case PhabricatorTransactions::TYPE_MFA;
+      case PhorgeTransactions::TYPE_MFA;
         return 'pink';
     }
     return null;
@@ -558,7 +558,7 @@ abstract class PhabricatorApplicationTransaction
 
   protected function getTransactionCustomField() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $key = $this->getMetadataValue('customfield:key');
         if (!$key) {
           return null;
@@ -566,13 +566,13 @@ abstract class PhabricatorApplicationTransaction
 
         $object = $this->getObject();
 
-        if (!($object instanceof PhabricatorCustomFieldInterface)) {
+        if (!($object instanceof PhorgeCustomFieldInterface)) {
           return null;
         }
 
-        $field = PhabricatorCustomField::getObjectField(
+        $field = PhorgeCustomField::getObjectField(
           $object,
-          PhabricatorCustomField::ROLE_APPLICATIONTRANSACTIONS,
+          PhorgeCustomField::ROLE_APPLICATIONTRANSACTIONS,
           $key);
         if (!$field) {
           return null;
@@ -594,12 +594,12 @@ abstract class PhabricatorApplicationTransaction
     $xaction_type = $this->getTransactionType();
 
     // Always hide requests for object history.
-    if ($xaction_type === PhabricatorTransactions::TYPE_HISTORY) {
+    if ($xaction_type === PhorgeTransactions::TYPE_HISTORY) {
       return true;
     }
 
     // Always hide file attach/detach transactions.
-    if ($xaction_type === PhabricatorTransactions::TYPE_FILE) {
+    if ($xaction_type === PhorgeTransactions::TYPE_FILE) {
       if ($this->getMetadataValue('attach.implicit')) {
         return true;
       }
@@ -610,14 +610,14 @@ abstract class PhabricatorApplicationTransaction
     // essentially never interesting.
     if ($this->getIsCreateTransaction()) {
       switch ($xaction_type) {
-        case PhabricatorTransactions::TYPE_CREATE:
-        case PhabricatorTransactions::TYPE_VIEW_POLICY:
-        case PhabricatorTransactions::TYPE_EDIT_POLICY:
-        case PhabricatorTransactions::TYPE_JOIN_POLICY:
-        case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-        case PhabricatorTransactions::TYPE_SPACE:
+        case PhorgeTransactions::TYPE_CREATE:
+        case PhorgeTransactions::TYPE_VIEW_POLICY:
+        case PhorgeTransactions::TYPE_EDIT_POLICY:
+        case PhorgeTransactions::TYPE_JOIN_POLICY:
+        case PhorgeTransactions::TYPE_INTERACT_POLICY:
+        case PhorgeTransactions::TYPE_SPACE:
           break;
-        case PhabricatorTransactions::TYPE_SUBTYPE:
+        case PhorgeTransactions::TYPE_SUBTYPE:
           return true;
         default:
           $old = $this->getOldValue();
@@ -656,11 +656,11 @@ abstract class PhabricatorApplicationTransaction
     }
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_SPACE:
         if ($this->getIsCreateTransaction()) {
           break;
         }
@@ -679,25 +679,25 @@ abstract class PhabricatorApplicationTransaction
           return false;
         }
         break;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           return $field->shouldHideInApplicationTransactions($this);
         }
         break;
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return !$this->getInterestingMoves($this->getNewValue());
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
-          case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
+          case PhorgeObjectMentionsObjectEdgeType::EDGECONST:
           case ManiphestTaskHasDuplicateTaskEdgeType::EDGECONST:
           case ManiphestTaskIsDuplicateOfTaskEdgeType::EDGECONST:
-          case PhabricatorMutedEdgeType::EDGECONST:
-          case PhabricatorMutedByEdgeType::EDGECONST:
+          case PhorgeMutedEdgeType::EDGECONST:
+          case PhorgeMutedByEdgeType::EDGECONST:
             return true;
-          case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
-            $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
+          case PhorgeObjectMentionedByObjectEdgeType::EDGECONST:
+            $record = PhorgeEdgeChangeRecord::newFromTransaction($this);
             $add = $record->getAddedPHIDs();
             $add_value = reset($add);
             $add_handle = $this->getHandle($add_value);
@@ -711,7 +711,7 @@ abstract class PhabricatorApplicationTransaction
         }
         break;
 
-      case PhabricatorTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_INLINESTATE:
         list($done, $undone) = $this->getInterestingInlineStateChangeCounts();
 
         if (!$done && !$undone) {
@@ -731,13 +731,13 @@ abstract class PhabricatorApplicationTransaction
     }
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         return true;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
-          case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
-          case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
+          case PhorgeObjectMentionsObjectEdgeType::EDGECONST:
+          case PhorgeObjectMentionedByObjectEdgeType::EDGECONST:
           case DifferentialRevisionDependsOnRevisionEdgeType::EDGECONST:
           case DifferentialRevisionDependedOnByRevisionEdgeType::EDGECONST:
           case ManiphestTaskHasCommitEdgeType::EDGECONST:
@@ -745,7 +745,7 @@ abstract class PhabricatorApplicationTransaction
           case DiffusionCommitHasRevisionEdgeType::EDGECONST:
           case DifferentialRevisionHasCommitEdgeType::EDGECONST:
             return true;
-          case PhabricatorProjectObjectHasProjectEdgeType::EDGECONST:
+          case PhorgeProjectObjectHasProjectEdgeType::EDGECONST:
             // When an object is first created, we hide any corresponding
             // project transactions in the web UI because you can just look at
             // the UI element elsewhere on screen to see which projects it
@@ -791,21 +791,21 @@ abstract class PhabricatorApplicationTransaction
     }
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_TOKEN:
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_MFA:
         return true;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         // See T8952. When an application (usually Herald) modifies
         // subscribers, this tends to be very uninteresting.
         if ($this->isApplicationAuthor()) {
           return true;
         }
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         $edge_type = $this->getMetadataValue('edge:type');
         switch ($edge_type) {
-          case PhabricatorObjectMentionsObjectEdgeType::EDGECONST:
-          case PhabricatorObjectMentionedByObjectEdgeType::EDGECONST:
+          case PhorgeObjectMentionsObjectEdgeType::EDGECONST:
+          case PhorgeObjectMentionedByObjectEdgeType::EDGECONST:
           case DifferentialRevisionDependsOnRevisionEdgeType::EDGECONST:
           case DifferentialRevisionDependedOnByRevisionEdgeType::EDGECONST:
           case ManiphestTaskHasCommitEdgeType::EDGECONST:
@@ -817,7 +817,7 @@ abstract class PhabricatorApplicationTransaction
             break;
         }
         break;
-     case PhabricatorTransactions::TYPE_INLINESTATE:
+     case PhorgeTransactions::TYPE_INLINESTATE:
        return true;
     }
 
@@ -861,7 +861,7 @@ abstract class PhabricatorApplicationTransaction
 
     if ($this->hasChangeDetails()) {
       $details_uri = $this->getChangeDetailsURI();
-      $details_uri = PhabricatorEnv::getProductionURI($details_uri);
+      $details_uri = PhorgeEnv::getProductionURI($details_uri);
 
       $show_details = phutil_tag(
         'a',
@@ -899,37 +899,37 @@ abstract class PhabricatorApplicationTransaction
   public function getNoEffectDescription() {
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return pht('You can not post an empty comment.');
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         return pht(
           'This %s already has that view policy.',
           $this->getApplicationObjectTypeName());
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         return pht(
           'This %s already has that edit policy.',
           $this->getApplicationObjectTypeName());
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
         return pht(
           'This %s already has that join policy.',
           $this->getApplicationObjectTypeName());
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         return pht(
           'This %s already has that interact policy.',
           $this->getApplicationObjectTypeName());
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return pht(
           'All users are already subscribed to this %s.',
           $this->getApplicationObjectTypeName());
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         return pht('This object is already in that space.');
-      case PhabricatorTransactions::TYPE_EDGE:
+      case PhorgeTransactions::TYPE_EDGE:
         return pht('Edges already exist; transaction has no effect.');
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         return pht(
           'You have not moved this object to any columns it is not '.
           'already in.');
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return pht(
           'You can not sign a transaction group that has no other '.
           'effects.');
@@ -947,15 +947,15 @@ abstract class PhabricatorApplicationTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return pht(
           '%s created this object.',
           $this->renderHandleLink($author_phid));
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return pht(
           '%s added a comment.',
           $this->renderHandleLink($author_phid));
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created this object with visibility "%s".',
@@ -968,7 +968,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderPolicyName($old, 'old'),
             $this->renderPolicyName($new, 'new'));
         }
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created this object with edit policy "%s".',
@@ -981,7 +981,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderPolicyName($old, 'old'),
             $this->renderPolicyName($new, 'new'));
         }
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created this object with join policy "%s".',
@@ -994,7 +994,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderPolicyName($old, 'old'),
             $this->renderPolicyName($new, 'new'));
         }
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created this object with interact policy "%s".',
@@ -1007,7 +1007,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderPolicyName($old, 'old'),
             $this->renderPolicyName($new, 'new'));
         }
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created this object in space %s.',
@@ -1020,7 +1020,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($old),
             $this->renderHandleLink($new));
         }
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $add = array_diff($new, $old);
         $rem = array_diff($old, $new);
 
@@ -1052,7 +1052,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($author_phid));
         }
         break;
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         $add = array_diff_key($new, $old);
         $add = array_keys($add);
 
@@ -1081,8 +1081,8 @@ abstract class PhabricatorApplicationTransaction
         // be shown more clearly than the generic default transaction shows
         // it.
 
-        $mode_reference = PhabricatorFileAttachment::MODE_REFERENCE;
-        $mode_attach = PhabricatorFileAttachment::MODE_ATTACH;
+        $mode_reference = PhorgeFileAttachment::MODE_REFERENCE;
+        $mode_attach = PhorgeFileAttachment::MODE_ATTACH;
 
         $is_refattach = false;
         if ($mod && !$add && !$rem) {
@@ -1170,8 +1170,8 @@ abstract class PhabricatorApplicationTransaction
         }
 
         break;
-      case PhabricatorTransactions::TYPE_EDGE:
-        $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
+      case PhorgeTransactions::TYPE_EDGE:
+        $record = PhorgeEdgeChangeRecord::newFromTransaction($this);
         $add = $record->getAddedPHIDs();
         $rem = $record->getRemovedPHIDs();
 
@@ -1179,7 +1179,7 @@ abstract class PhabricatorApplicationTransaction
         $type = head($type);
 
         try {
-          $type_obj = PhabricatorEdgeType::getByConstant($type);
+          $type_obj = PhorgeEdgeType::getByConstant($type);
         } catch (Exception $ex) {
           // Recover somewhat gracefully from edge transactions which
           // we don't have the classes for.
@@ -1211,13 +1211,13 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($author_phid));
         }
 
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           return $field->getApplicationTransactionTitle($this);
         } else {
           $developer_mode = 'phorge.developer-mode';
-          $is_developer = PhabricatorEnv::getEnvConfig($developer_mode);
+          $is_developer = PhorgeEnv::getEnvConfig($developer_mode);
           if ($is_developer) {
             return pht(
               '%s edited a custom field (with key "%s").',
@@ -1230,7 +1230,7 @@ abstract class PhabricatorApplicationTransaction
           }
         }
 
-      case PhabricatorTransactions::TYPE_TOKEN:
+      case PhorgeTransactions::TYPE_TOKEN:
         if ($old && $new) {
           return pht(
             '%s updated a token.',
@@ -1245,7 +1245,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($author_phid));
         }
 
-      case PhabricatorTransactions::TYPE_INLINESTATE:
+      case PhorgeTransactions::TYPE_INLINESTATE:
         list($done, $undone) = $this->getInterestingInlineStateChangeCounts();
         if ($done && $undone) {
           return pht(
@@ -1267,7 +1267,7 @@ abstract class PhabricatorApplicationTransaction
         }
         break;
 
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         $moves = $this->getInterestingMoves($new);
         if (count($moves) == 1) {
           $move = head($moves);
@@ -1308,7 +1308,7 @@ abstract class PhabricatorApplicationTransaction
         break;
 
 
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return pht(
           '%s signed these changes with MFA.',
           $this->renderHandleLink($author_phid));
@@ -1317,7 +1317,7 @@ abstract class PhabricatorApplicationTransaction
         // In developer mode, provide a better hint here about which string
         // we're missing.
         $developer_mode = 'phorge.developer-mode';
-        $is_developer = PhabricatorEnv::getEnvConfig($developer_mode);
+        $is_developer = PhorgeEnv::getEnvConfig($developer_mode);
         if ($is_developer) {
           return pht(
             '%s edited this object (transaction type "%s").',
@@ -1340,42 +1340,42 @@ abstract class PhabricatorApplicationTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return pht(
           '%s created %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return pht(
           '%s added a comment to %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
         return pht(
           '%s changed the visibility for %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
         return pht(
           '%s changed the edit policy for %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
         return pht(
           '%s changed the join policy for %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         return pht(
           '%s changed the interact policy for %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return pht(
           '%s updated subscribers of %s.',
           $this->renderHandleLink($author_phid),
           $this->renderHandleLink($object_phid));
-      case PhabricatorTransactions::TYPE_SPACE:
+      case PhorgeTransactions::TYPE_SPACE:
         if ($this->getIsCreateTransaction()) {
           return pht(
             '%s created %s in the %s space.',
@@ -1390,15 +1390,15 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($old),
             $this->renderHandleLink($new));
         }
-      case PhabricatorTransactions::TYPE_EDGE:
-        $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
+      case PhorgeTransactions::TYPE_EDGE:
+        $record = PhorgeEdgeChangeRecord::newFromTransaction($this);
         $add = $record->getAddedPHIDs();
         $rem = $record->getRemovedPHIDs();
 
         $type = $this->getMetadata('edge:type');
         $type = head($type);
 
-        $type_obj = PhabricatorEdgeType::getByConstant($type);
+        $type_obj = PhorgeEdgeType::getByConstant($type);
 
         if ($add && $rem) {
           return $type_obj->getFeedEditString(
@@ -1428,7 +1428,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($object_phid));
         }
 
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           return $field->getApplicationTransactionTitleForFeed($this);
@@ -1439,7 +1439,7 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($object_phid));
         }
 
-      case PhabricatorTransactions::TYPE_COLUMNS:
+      case PhorgeTransactions::TYPE_COLUMNS:
         $moves = $this->getInterestingMoves($new);
         if (count($moves) == 1) {
           $move = head($moves);
@@ -1480,7 +1480,7 @@ abstract class PhabricatorApplicationTransaction
         }
         break;
 
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         return null;
 
     }
@@ -1488,11 +1488,11 @@ abstract class PhabricatorApplicationTransaction
     return $this->getTitle();
   }
 
-  public function getMarkupFieldsForFeed(PhabricatorFeedStory $story) {
+  public function getMarkupFieldsForFeed(PhorgeFeedStory $story) {
     $fields = array();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $text = $this->getComment()->getContent();
         if (strlen($text)) {
           $fields[] = 'comment/'.$this->getID();
@@ -1503,20 +1503,20 @@ abstract class PhabricatorApplicationTransaction
     return $fields;
   }
 
-  public function getMarkupTextForFeed(PhabricatorFeedStory $story, $field) {
+  public function getMarkupTextForFeed(PhorgeFeedStory $story, $field) {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $text = $this->getComment()->getContent();
-        return PhabricatorMarkupEngine::summarize($text);
+        return PhorgeMarkupEngine::summarize($text);
     }
 
     return null;
   }
 
-  public function getBodyForFeed(PhabricatorFeedStory $story) {
+  public function getBodyForFeed(PhorgeFeedStory $story) {
     $remarkup = $this->getRemarkupBodyForFeed($story);
     if ($remarkup !== null) {
-      $remarkup = PhabricatorMarkupEngine::summarize($remarkup);
+      $remarkup = PhorgeMarkupEngine::summarize($remarkup);
       return new PHUIRemarkupView($this->viewer, $remarkup);
     }
 
@@ -1526,7 +1526,7 @@ abstract class PhabricatorApplicationTransaction
     $body = null;
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $text = $this->getComment()->getContent();
         if (strlen($text)) {
           $body = $story->getMarkupFieldOutput('comment/'.$this->getID());
@@ -1537,7 +1537,7 @@ abstract class PhabricatorApplicationTransaction
     return $body;
   }
 
-  public function getRemarkupBodyForFeed(PhabricatorFeedStory $story) {
+  public function getRemarkupBodyForFeed(PhorgeFeedStory $story) {
     return null;
   }
 
@@ -1547,9 +1547,9 @@ abstract class PhabricatorApplicationTransaction
     }
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return 50;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         if ($this->isSelfSubscription()) {
           // Make this weaker than TYPE_COMMENT.
           return 25;
@@ -1559,7 +1559,7 @@ abstract class PhabricatorApplicationTransaction
         // (which are shown anyway) but less interesting than any other type of
         // transaction.
         return 75;
-      case PhabricatorTransactions::TYPE_MFA:
+      case PhorgeTransactions::TYPE_MFA:
         // We want MFA signatures to render at the top of transaction groups,
         // on top of the things they signed.
         return 1000;
@@ -1574,7 +1574,7 @@ abstract class PhabricatorApplicationTransaction
     }
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return true;
     }
 
@@ -1587,14 +1587,14 @@ abstract class PhabricatorApplicationTransaction
 
   public function getActionName() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         return pht('Commented On');
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorTransactions::TYPE_INTERACT_POLICY:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeTransactions::TYPE_INTERACT_POLICY:
         return pht('Changed Policy');
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         return pht('Changed Subscribers');
       default:
         return pht('Updated');
@@ -1607,9 +1607,9 @@ abstract class PhabricatorApplicationTransaction
 
   public function hasChangeDetails() {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         return true;
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           return $field->getApplicationTransactionHasChangeDetails($this);
@@ -1623,24 +1623,24 @@ abstract class PhabricatorApplicationTransaction
     return $this->hasChangeDetails();
   }
 
-  public function renderChangeDetailsForMail(PhabricatorUser $viewer) {
+  public function renderChangeDetailsForMail(PhorgeUser $viewer) {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         return false;
     }
 
     $view = $this->renderChangeDetails($viewer);
-    if ($view instanceof PhabricatorApplicationTransactionTextDiffDetailView) {
+    if ($view instanceof PhorgeApplicationTransactionTextDiffDetailView) {
       return $view->renderForMail();
     }
     return null;
   }
 
-  public function renderChangeDetails(PhabricatorUser $viewer) {
+  public function renderChangeDetails(PhorgeUser $viewer) {
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_FILE:
+      case PhorgeTransactions::TYPE_FILE:
         return $this->newFileTransactionChangeDetails($viewer);
-      case PhabricatorTransactions::TYPE_CUSTOMFIELD:
+      case PhorgeTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
           return $field->getApplicationTransactionChangeDetails($this, $viewer);
@@ -1655,10 +1655,10 @@ abstract class PhabricatorApplicationTransaction
   }
 
   public function renderTextCorpusChangeDetails(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $old,
     $new) {
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setUser($viewer)
       ->setOldText($old)
       ->setNewText($new);
@@ -1678,7 +1678,7 @@ abstract class PhabricatorApplicationTransaction
    * Should this transaction be visually grouped with an existing transaction
    * group?
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhorgeApplicationTransaction> List of transactions.
    * @return bool True to display in a group with the other transactions.
    */
   public function shouldDisplayGroupWith(array $group) {
@@ -1687,7 +1687,7 @@ abstract class PhabricatorApplicationTransaction
       $this_source = $this->getContentSource()->getSource();
     }
 
-    $type_mfa = PhabricatorTransactions::TYPE_MFA;
+    $type_mfa = PhorgeTransactions::TYPE_MFA;
 
     foreach ($group as $xaction) {
       // Don't group transactions by different authors.
@@ -1767,7 +1767,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function renderAsTextForDoorkeeper(
     DoorkeeperFeedStoryPublisher $publisher,
-    PhabricatorFeedStory $story,
+    PhorgeFeedStory $story,
     array $xactions) {
 
     $text = array();
@@ -1808,7 +1808,7 @@ abstract class PhabricatorApplicationTransaction
    */
   private function isSelfSubscription() {
     $type = $this->getTransactionType();
-    if ($type != PhabricatorTransactions::TYPE_SUBSCRIBERS) {
+    if ($type != PhorgeTransactions::TYPE_SUBSCRIBERS) {
       return false;
     }
 
@@ -1835,7 +1835,7 @@ abstract class PhabricatorApplicationTransaction
   private function isApplicationAuthor() {
     $author_phid = $this->getAuthorPHID();
     $author_type = phid_get_type($author_phid);
-    $application_type = PhabricatorApplicationApplicationPHIDType::TYPECONST;
+    $application_type = PhorgeApplicationApplicationPHIDType::TYPECONST;
     return ($author_type == $application_type);
   }
 
@@ -1863,7 +1863,7 @@ abstract class PhabricatorApplicationTransaction
     $done = 0;
     $undone = 0;
     foreach ($new as $phid => $state) {
-      $is_done = ($state == PhabricatorInlineComment::STATE_DONE);
+      $is_done = ($state == PhorgeInlineComment::STATE_DONE);
 
       // See PHI995. If you're marking your own inline comments as "Done",
       // don't count them when rendering a timeline story. In the case where
@@ -1906,7 +1906,7 @@ abstract class PhabricatorApplicationTransaction
       ->addInt(-$this->getActionStrength());
   }
 
-  private function newFileTransactionChangeDetails(PhabricatorUser $viewer) {
+  private function newFileTransactionChangeDetails(PhorgeUser $viewer) {
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
@@ -1914,8 +1914,8 @@ abstract class PhabricatorApplicationTransaction
     $handles = $viewer->loadHandles($phids);
 
     $names = array(
-      PhabricatorFileAttachment::MODE_REFERENCE => pht('Referenced'),
-      PhabricatorFileAttachment::MODE_ATTACH => pht('Attached'),
+      PhorgeFileAttachment::MODE_REFERENCE => pht('Referenced'),
+      PhorgeFileAttachment::MODE_ATTACH => pht('Attached'),
     );
 
     $rows = array();
@@ -1967,26 +1967,26 @@ abstract class PhabricatorApplicationTransaction
 
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getAuthorPHID());
   }
 
@@ -2011,11 +2011,11 @@ abstract class PhabricatorApplicationTransaction
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $comment_template = $this->getApplicationTransactionCommentObject();

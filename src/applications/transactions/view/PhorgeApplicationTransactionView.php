@@ -3,7 +3,7 @@
 /**
  * @concrete-extensible
  */
-class PhabricatorApplicationTransactionView extends AphrontView {
+class PhorgeApplicationTransactionView extends AphrontView {
 
   private $transactions;
   private $engine;
@@ -43,7 +43,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   public function setObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -79,13 +79,13 @@ class PhabricatorApplicationTransactionView extends AphrontView {
     return $this->showEditActions;
   }
 
-  public function setMarkupEngine(PhabricatorMarkupEngine $engine) {
+  public function setMarkupEngine(PhorgeMarkupEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
 
   public function setTransactions(array $transactions) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($transactions, 'PhorgeApplicationTransaction');
     $this->transactions = $transactions;
     return $this;
   }
@@ -153,7 +153,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
       // the first few keys either.
       $group_keys = array_slice($group_keys, 2, -2);
 
-      $type_comment = PhabricatorTransactions::TYPE_COMMENT;
+      $type_comment = PhorgeTransactions::TYPE_COMMENT;
       foreach ($group_keys as $group_key) {
         $group = $groups[$group_key];
         foreach ($group as $xaction) {
@@ -245,9 +245,9 @@ class PhabricatorApplicationTransactionView extends AphrontView {
 
   protected function getOrBuildEngine() {
     if (!$this->engine) {
-      $field = PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT;
+      $field = PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT;
 
-      $engine = id(new PhabricatorMarkupEngine())
+      $engine = id(new PhorgeMarkupEngine())
         ->setViewer($this->getViewer());
 
       $object = $this->getObject();
@@ -270,7 +270,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   private function buildChangeDetailsLink(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     return javelin_tag(
       'a',
@@ -282,7 +282,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   private function buildExtraInformationLink(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $link = $xaction->renderExtraInformationLink();
     if (!$link) {
@@ -298,15 +298,15 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   protected function shouldGroupTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
     return false;
   }
 
   protected function renderTransactionContent(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
-    $field = PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT;
+    $field = PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT;
     $engine = $this->getOrBuildEngine();
     $comment = $xaction->getComment();
 
@@ -420,7 +420,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   private function renderEvent(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     array $group) {
     $viewer = $this->getViewer();
 
@@ -478,7 +478,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
     }
 
     $transaction_type = $xaction->getTransactionType();
-    $comment_type = PhabricatorTransactions::TYPE_COMMENT;
+    $comment_type = PhorgeTransactions::TYPE_COMMENT;
     $is_normal_comment = ($transaction_type == $comment_type);
 
     if ($this->getShowEditActions() &&
@@ -517,10 +517,10 @@ class PhabricatorApplicationTransactionView extends AphrontView {
         }
       }
 
-      $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
+      $can_edit = PhorgePolicyCapability::CAN_EDIT;
 
       if ($xaction->hasComment() || $has_deleted_comment) {
-        $has_edit_capability = PhabricatorPolicyFilter::hasCapability(
+        $has_edit_capability = PhorgePolicyFilter::hasCapability(
           $viewer,
           $xaction,
           $can_edit);
@@ -535,7 +535,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
         }
       }
 
-      $can_interact = PhabricatorPolicyFilter::canInteract(
+      $can_interact = PhorgePolicyFilter::canInteract(
         $viewer,
         $xaction->getObject());
       $event->setCanInteract($can_interact);
@@ -550,7 +550,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   private function shouldSuppressTitle(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     array $group) {
 
     // This is a little hard-coded, but we don't have any other reasonable
@@ -558,7 +558,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
     // the display group.
 
     if (count($group) > 1) {
-      $type_comment = PhabricatorTransactions::TYPE_COMMENT;
+      $type_comment = PhorgeTransactions::TYPE_COMMENT;
       if ($xaction->getTransactionType() == $type_comment) {
         return true;
       }

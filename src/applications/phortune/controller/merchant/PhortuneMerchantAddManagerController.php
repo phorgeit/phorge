@@ -18,7 +18,7 @@ final class PhortuneMerchantAddManagerController
     if ($request->isFormOrHiSecPost()) {
       $xactions = array();
       $v_members = $request->getArr('managerPHIDs');
-      $type_edge = PhabricatorTransactions::TYPE_EDGE;
+      $type_edge = PhorgeTransactions::TYPE_EDGE;
 
       $xactions[] = id(new PhortuneMerchantTransaction())
         ->setTransactionType($type_edge)
@@ -39,7 +39,7 @@ final class PhortuneMerchantAddManagerController
         $editor->applyTransactions($merchant, $xactions);
 
         return id(new AphrontRedirectResponse())->setURI($merchant_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_members = $ex->getShortMessage($type_edge);
       }
@@ -49,7 +49,7 @@ final class PhortuneMerchantAddManagerController
       ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setLabel(pht('New Managers'))
           ->setName('managerPHIDs')
           ->setValue($v_members)

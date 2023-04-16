@@ -24,7 +24,7 @@ final class PhameBlogFeedController extends PhameBlogController {
       ->withVisibility(array(PhameConstants::VISIBILITY_PUBLISHED))
       ->execute();
 
-    $blog_uri = PhabricatorEnv::getProductionURI(
+    $blog_uri = PhorgeEnv::getProductionURI(
       $this->getApplicationURI('blog/feed/'.$blog->getID().'/'));
     $content = array();
     $content[] = phutil_tag('title', array(), $blog->getName());
@@ -47,14 +47,14 @@ final class PhameBlogFeedController extends PhameBlogController {
       $content[] = phutil_tag('subtitle', array(), $description);
     }
 
-    $engine = id(new PhabricatorMarkupEngine())->setViewer($viewer);
+    $engine = id(new PhorgeMarkupEngine())->setViewer($viewer);
     foreach ($posts as $post) {
       $engine->addObject($post, PhamePost::MARKUP_FIELD_BODY);
     }
     $engine->process();
 
     $blogger_phids = mpull($posts, 'getBloggerPHID');
-    $bloggers = id(new PhabricatorHandleQuery())
+    $bloggers = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($blogger_phids)
       ->execute();
@@ -64,7 +64,7 @@ final class PhameBlogFeedController extends PhameBlogController {
       $content[] = phutil_tag('title', array(), $post->getTitle());
       $content[] = phutil_tag('link', array('href' => $post->getLiveURI()));
 
-      $content[] = phutil_tag('id', array(), PhabricatorEnv::getProductionURI(
+      $content[] = phutil_tag('id', array(), PhorgeEnv::getProductionURI(
         '/phame/post/view/'.$post->getID().'/'));
 
       $content[] = hsprintf(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTemporaryTokenTypeModule
-  extends PhabricatorConfigModule {
+final class PhorgeAuthTemporaryTokenTypeModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'temporarytoken';
@@ -14,7 +14,7 @@ final class PhabricatorAuthTemporaryTokenTypeModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $types = PhabricatorAuthTemporaryTokenType::getAllTypes();
+    $types = PhorgeAuthTemporaryTokenType::getAllTypes();
 
     $rows = array();
     foreach ($types as $type) {

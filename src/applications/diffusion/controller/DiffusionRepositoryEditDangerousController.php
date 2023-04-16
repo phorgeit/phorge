@@ -29,12 +29,12 @@ final class DiffusionRepositoryEditDangerousController
     }
 
     if ($request->isFormPost()) {
-      $xaction = id(new PhabricatorRepositoryTransaction())
+      $xaction = id(new PhorgeRepositoryTransaction())
         ->setTransactionType(
-          PhabricatorRepositoryDangerousTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryDangerousTransaction::TRANSACTIONTYPE)
         ->setNewValue(!$repository->shouldAllowDangerousChanges());
 
-      $editor = id(new PhabricatorRepositoryEditor())
+      $editor = id(new PhorgeRepositoryEditor())
         ->setContinueOnNoEffect(true)
         ->setContentSourceFromRequest($request)
         ->setActor($viewer)

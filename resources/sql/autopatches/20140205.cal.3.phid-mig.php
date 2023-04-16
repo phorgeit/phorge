@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Assigning PHIDs to events...')."\n";

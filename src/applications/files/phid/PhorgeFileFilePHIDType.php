@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
+final class PhorgeFileFilePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'FILE';
 
@@ -9,23 +9,23 @@ final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorFile();
+    return new PhorgeFile();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorFileQuery())
+    return id(new PhorgeFileQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -50,7 +50,7 @@ final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -59,7 +59,7 @@ final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorFileQuery())
+    $objects = id(new PhorgeFileQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

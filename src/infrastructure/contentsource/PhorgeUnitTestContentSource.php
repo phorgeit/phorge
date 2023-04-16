@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUnitTestContentSource
-  extends PhabricatorContentSource {
+final class PhorgeUnitTestContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'unittest';
 

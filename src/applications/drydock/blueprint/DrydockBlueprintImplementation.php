@@ -44,7 +44,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
   }
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
 
@@ -399,7 +399,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
     switch ($lease_status) {
       case DrydockLeaseStatus::STATUS_PENDING:
       case DrydockLeaseStatus::STATUS_ACQUIRED:
-        throw new PhabricatorWorkerYieldException(15);
+        throw new PhorgeWorkerYieldException(15);
       case DrydockLeaseStatus::STATUS_ACTIVE:
         return;
       default:

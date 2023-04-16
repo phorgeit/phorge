@@ -4,9 +4,9 @@ final class DiffusionCommitRevisionQuery
   extends Phobject {
 
   public static function loadRevisionMapForCommits(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
 
     if (!$commits) {
       return array();
@@ -14,7 +14,7 @@ final class DiffusionCommitRevisionQuery
 
     $commit_phids = mpull($commits, 'getPHID');
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($commit_phids)
       ->withEdgeTypes(
         array(
@@ -47,8 +47,8 @@ final class DiffusionCommitRevisionQuery
   }
 
   public static function loadRevisionForCommit(
-    PhabricatorUser $viewer,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeUser $viewer,
+    PhorgeRepositoryCommit $commit) {
 
     $data = $commit->getCommitData();
 
@@ -65,10 +65,10 @@ final class DiffusionCommitRevisionQuery
   }
 
   public static function loadRevertedObjects(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $source_object,
     array $object_names,
-    PhabricatorRepository $repository_scope = null) {
+    PhorgeRepository $repository_scope = null) {
 
     // Fetch commits first, since we need to load data on commits in order
     // to identify associated revisions later on.
@@ -87,7 +87,7 @@ final class DiffusionCommitRevisionQuery
 
     $objects = $commit_query->execute();
 
-    $more_objects = id(new PhabricatorObjectQuery())
+    $more_objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($object_names)
       ->withTypes(
@@ -107,7 +107,7 @@ final class DiffusionCommitRevisionQuery
     // effort in the future.
 
     foreach ($objects as $object) {
-      if (!($object instanceof PhabricatorRepositoryCommit)) {
+      if (!($object instanceof PhorgeRepositoryCommit)) {
         continue;
       }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDaemonTasksTableView extends AphrontView {
+final class PhorgeDaemonTasksTableView extends AphrontView {
 
   private $tasks;
   private $noDataString;

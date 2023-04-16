@@ -12,7 +12,7 @@ final class DifferentialGetWorkingCopy extends Phobject {
    * return ArcanistGitAPI
    */
   public static function getCleanGitWorkspace(
-    PhabricatorRepository $repo) {
+    PhorgeRepository $repo) {
 
     $origin_path = $repo->getLocalPath();
 
@@ -48,7 +48,7 @@ final class DifferentialGetWorkingCopy extends Phobject {
    * return ArcanistMercurialAPI
    */
   public static function getCleanMercurialWorkspace(
-    PhabricatorRepository $repo) {
+    PhorgeRepository $repo) {
 
     $origin_path = $repo->getLocalPath();
 

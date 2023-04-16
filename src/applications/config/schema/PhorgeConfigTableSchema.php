@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigTableSchema
-  extends PhabricatorConfigStorageSchema {
+final class PhorgeConfigTableSchema
+  extends PhorgeConfigStorageSchema {
 
   private $collation;
   private $engine;
@@ -13,7 +13,7 @@ final class PhabricatorConfigTableSchema
   const PERSISTENCE_CACHE = 'cache';
   const PERSISTENCE_INDEX = 'index';
 
-  public function addColumn(PhabricatorConfigColumnSchema $column) {
+  public function addColumn(PhorgeConfigColumnSchema $column) {
     $key = $column->getName();
     if (isset($this->columns[$key])) {
       throw new Exception(
@@ -23,7 +23,7 @@ final class PhabricatorConfigTableSchema
     return $this;
   }
 
-  public function addKey(PhabricatorConfigKeySchema $key) {
+  public function addKey(PhorgeConfigKeySchema $key) {
     $name = $key->getName();
     if (isset($this->keys[$name])) {
       throw new Exception(
@@ -99,7 +99,7 @@ final class PhabricatorConfigTableSchema
   }
 
   protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect) {
+    PhorgeConfigStorageSchema $expect) {
 
     $issues = array();
     if ($this->getCollation() != $expect->getCollation()) {

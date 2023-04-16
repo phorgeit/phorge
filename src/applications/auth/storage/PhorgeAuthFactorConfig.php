@@ -1,11 +1,11 @@
 <?php
 
 
-final class PhabricatorAuthFactorConfig
-  extends PhabricatorAuthDAO
+final class PhorgeAuthFactorConfig
+  extends PhorgeAuthDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $userPHID;
   protected $factorProviderPHID;
@@ -36,11 +36,11 @@ final class PhabricatorAuthFactorConfig
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthAuthFactorPHIDType::TYPECONST;
+    return PhorgeAuthAuthFactorPHIDType::TYPECONST;
   }
 
   public function attachFactorProvider(
-    PhabricatorAuthFactorProvider $provider) {
+    PhorgeAuthFactorProvider $provider) {
     $this->factorProvider = $provider;
     return $this;
   }
@@ -49,7 +49,7 @@ final class PhabricatorAuthFactorConfig
     return $this->assertAttached($this->factorProvider);
   }
 
-  public function setSessionEngine(PhabricatorAuthSessionEngine $engine) {
+  public function setSessionEngine(PhorgeAuthSessionEngine $engine) {
     $this->sessionEngine = $engine;
     return $this;
   }
@@ -62,7 +62,7 @@ final class PhabricatorAuthFactorConfig
     return $this->sessionEngine;
   }
 
-  public function setMFASyncToken(PhabricatorAuthTemporaryToken $token) {
+  public function setMFASyncToken(PhorgeAuthTemporaryToken $token) {
     $this->mfaSyncToken = $token;
     return $this;
   }
@@ -87,13 +87,13 @@ final class PhabricatorAuthFactorConfig
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -101,18 +101,18 @@ final class PhabricatorAuthFactorConfig
     return $this->getUserPHID();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($engine->getViewer())
       ->withPHIDs(array($this->getUserPHID()))
       ->executeOne();

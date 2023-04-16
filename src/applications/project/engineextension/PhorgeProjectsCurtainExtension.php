@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorProjectsCurtainExtension
+final class PhorgeProjectsCurtainExtension
   extends PHUICurtainExtension {
 
   const EXTENSIONKEY = 'projects.projects';
 
   public function shouldEnableForObject($object) {
-    return ($object instanceof PhabricatorProjectInterface);
+    return ($object instanceof PhorgeProjectInterface);
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorProjectApplication();
+    return new PhorgeProjectApplication();
   }
 
   public function buildCurtainPanel($object) {
     $viewer = $this->getViewer();
 
-    $project_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $project_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
 
     $has_projects = (bool)$project_phids;
     $project_phids = array_reverse($project_phids);
@@ -31,7 +31,7 @@ final class PhabricatorProjectsCurtainExtension
 
     $annotations = array();
     if ($has_projects && $can_appear_on_boards) {
-      $engine = id(new PhabricatorBoardLayoutEngine())
+      $engine = id(new PhorgeBoardLayoutEngine())
         ->setViewer($viewer)
         ->setBoardPHIDs($project_phids)
         ->setObjectPHIDs(array($object->getPHID()))

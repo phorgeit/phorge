@@ -13,7 +13,7 @@
  * name to just the class required to serve that request. This means that we
  * load fewer classes and have less overhead to execute API calls.
  */
-final class PhabricatorCachedClassMapQuery
+final class PhorgeCachedClassMapQuery
   extends Phobject {
 
   private $query;
@@ -32,7 +32,7 @@ final class PhabricatorCachedClassMapQuery
   }
 
   public function loadClasses(array $values) {
-    $cache = PhabricatorCaches::getRuntimeCache();
+    $cache = PhorgeCaches::getRuntimeCache();
 
     $cache_keys = $this->getCacheKeys($values);
     $cache_map = $cache->getKeys($cache_keys);

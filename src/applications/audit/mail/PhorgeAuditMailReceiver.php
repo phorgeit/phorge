@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuditMailReceiver extends PhabricatorObjectMailReceiver {
+final class PhorgeAuditMailReceiver extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDiffusionApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeDiffusionApplication');
   }
 
   protected function getObjectPattern() {
     return 'COMMIT[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)preg_replace('/^COMMIT/i', '', $pattern);
 
     return id(new DiffusionCommitQuery())
@@ -22,7 +22,7 @@ final class PhabricatorAuditMailReceiver extends PhabricatorObjectMailReceiver {
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorAuditReplyHandler();
+    return new PhorgeAuditReplyHandler();
   }
 
 }

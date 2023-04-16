@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffusionBlameSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeDiffusionBlameSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'diffusion-blame';
 

@@ -1,7 +1,7 @@
 <?php
 
 abstract class NuanceManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+  extends PhorgeManagementWorkflow {
 
   protected function loadSource(PhutilArgumentParser $argv, $key) {
     $source = $argv->getArg($key);
@@ -16,7 +16,7 @@ abstract class NuanceManagementWorkflow
       ->setViewer($this->getViewer())
       ->setRaisePolicyExceptions(true);
 
-    $type_unknown = PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+    $type_unknown = PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
 
     if (ctype_digit($source)) {
       $kind = 'id';
@@ -77,7 +77,7 @@ abstract class NuanceManagementWorkflow
       ->setViewer($this->getViewer())
       ->setRaisePolicyExceptions(true);
 
-    $type_unknown = PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN;
+    $type_unknown = PhorgePHIDConstants::PHID_TYPE_UNKNOWN;
 
     if (ctype_digit($item)) {
       $kind = 'id';

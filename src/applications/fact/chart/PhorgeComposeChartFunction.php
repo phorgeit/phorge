@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorComposeChartFunction
-  extends PhabricatorHigherOrderChartFunction {
+final class PhorgeComposeChartFunction
+  extends PhorgeHigherOrderChartFunction {
 
   const FUNCTIONKEY = 'compose';
 

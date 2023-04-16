@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerPlaySoundRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerPlaySoundRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'sound';
 

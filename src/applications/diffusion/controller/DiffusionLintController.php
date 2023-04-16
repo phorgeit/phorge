@@ -37,7 +37,7 @@ final class DiffusionLintController extends DiffusionController {
     $codes = $this->loadLintCodes($drequest, $owners);
 
     if ($codes) {
-      $branches = id(new PhabricatorRepositoryBranch())->loadAllWhere(
+      $branches = id(new PhorgeRepositoryBranch())->loadAllWhere(
         'id IN (%Ld)',
         array_unique(ipull($codes, 'branchID')));
       $branches = mpull($branches, null, 'getID');
@@ -46,7 +46,7 @@ final class DiffusionLintController extends DiffusionController {
     }
 
     if ($branches) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withIDs(mpull($branches, 'getRepositoryID'))
         ->execute();
@@ -144,7 +144,7 @@ final class DiffusionLintController extends DiffusionController {
         ->setMethod('GET')
         ->appendControl(
           id(new AphrontFormTokenizerControl())
-            ->setDatasource(new PhabricatorPeopleDatasource())
+            ->setDatasource(new PhorgePeopleDatasource())
             ->setLimit(1)
             ->setName('owner')
             ->setLabel(pht('Owner'))
@@ -217,7 +217,7 @@ final class DiffusionLintController extends DiffusionController {
   }
 
   private function loadLintCodes($drequest, array $owner_phids) {
-    $conn = id(new PhabricatorRepository())->establishConnection('r');
+    $conn = id(new PhorgeRepository())->establishConnection('r');
     $where = array('1 = 1');
 
     if ($drequest) {
@@ -242,22 +242,22 @@ final class DiffusionLintController extends DiffusionController {
       $or[] = qsprintf($conn, 'authorPHID IN (%Ls)', $owner_phids);
 
       $paths = array();
-      $packages = id(new PhabricatorOwnersOwner())
+      $packages = id(new PhorgeOwnersOwner())
         ->loadAllWhere('userPHID IN (%Ls)', $owner_phids);
       if ($packages) {
-        $paths = id(new PhabricatorOwnersPath())->loadAllWhere(
+        $paths = id(new PhorgeOwnersPath())->loadAllWhere(
           'packageID IN (%Ld)',
           mpull($packages, 'getPackageID'));
       }
 
       if ($paths) {
-        $repositories = id(new PhabricatorRepositoryQuery())
+        $repositories = id(new PhorgeRepositoryQuery())
           ->setViewer($this->getRequest()->getUser())
           ->withPHIDs(mpull($paths, 'getRepositoryPHID'))
           ->execute();
         $repositories = mpull($repositories, 'getID', 'getPHID');
 
-        $branches = id(new PhabricatorRepositoryBranch())->loadAllWhere(
+        $branches = id(new PhorgeRepositoryBranch())->loadAllWhere(
           'repositoryID IN (%Ld)',
           $repositories);
         $branches = mgroup($branches, 'getRepositoryID');
@@ -299,14 +299,14 @@ final class DiffusionLintController extends DiffusionController {
         WHERE %LA
         GROUP BY branchID, code
         ORDER BY n DESC',
-      PhabricatorRepository::TABLE_LINTMESSAGE,
+      PhorgeRepository::TABLE_LINTMESSAGE,
       $where);
   }
 
   protected function buildActionView(DiffusionRequest $drequest) {
     $viewer = $this->getRequest()->getUser();
 
-    $view = id(new PhabricatorActionListView())
+    $view = id(new PhorgeActionListView())
       ->setUser($viewer);
 
     $list_uri = $drequest->generateURI(
@@ -316,7 +316,7 @@ final class DiffusionLintController extends DiffusionController {
       ));
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View As List'))
         ->setHref($list_uri)
         ->setIcon('fa-list'));
@@ -327,7 +327,7 @@ final class DiffusionLintController extends DiffusionController {
       ));
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View History'))
         ->setHref($history_uri)
         ->setIcon('fa-clock-o'));
@@ -338,7 +338,7 @@ final class DiffusionLintController extends DiffusionController {
       ));
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Browse Content'))
         ->setHref($browse_uri)
         ->setIcon('fa-files-o'));
@@ -348,9 +348,9 @@ final class DiffusionLintController extends DiffusionController {
 
   protected function buildPropertyView(
     DiffusionRequest $drequest,
-    PhabricatorRepositoryBranch $branch,
+    PhorgeRepositoryBranch $branch,
     $total,
-    PhabricatorActionListView $actions) {
+    PhorgeActionListView $actions) {
 
     $viewer = $this->getRequest()->getUser();
 
@@ -492,7 +492,7 @@ final class DiffusionLintController extends DiffusionController {
   }
 
   private function loadLintMessages(
-    PhabricatorRepositoryBranch $branch,
+    PhorgeRepositoryBranch $branch,
     $limit,
     $offset) {
 
@@ -528,7 +528,7 @@ final class DiffusionLintController extends DiffusionController {
         FROM %T
         WHERE %LA
         ORDER BY path, code, line LIMIT %d OFFSET %d',
-      PhabricatorRepository::TABLE_LINTMESSAGE,
+      PhorgeRepository::TABLE_LINTMESSAGE,
       $where,
       $limit,
       $offset);

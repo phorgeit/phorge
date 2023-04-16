@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorIconSetEditField
-  extends PhabricatorEditField {
+final class PhorgeIconSetEditField
+  extends PhorgeEditField {
 
   private $iconSet;
 
-  public function setIconSet(PhabricatorIconSet $icon_set) {
+  public function setIconSet(PhorgeIconSet $icon_set) {
     $this->iconSet = $icon_set;
     return $this;
   }

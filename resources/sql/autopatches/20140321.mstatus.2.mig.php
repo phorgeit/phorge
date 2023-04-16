@@ -58,10 +58,10 @@ foreach (new LiskMigrationIterator(new ManiphestTransaction()) as $xaction) {
 }
 echo pht('Done.')."\n";
 
-$conn_w = id(new PhabricatorSavedQuery())->establishConnection('w');
+$conn_w = id(new PhorgeSavedQuery())->establishConnection('w');
 
 echo pht('Migrating searches to new status constants...')."\n";
-foreach (new LiskMigrationIterator(new PhabricatorSavedQuery()) as $query) {
+foreach (new LiskMigrationIterator(new PhorgeSavedQuery()) as $query) {
   $id = $query->getID();
   echo pht('Migrating %d...', $id)."\n";
 

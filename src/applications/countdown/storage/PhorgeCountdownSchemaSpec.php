@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeCountdownSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorCountdown());
+    $this->buildEdgeSchemata(new PhorgeCountdown());
   }
 
 }

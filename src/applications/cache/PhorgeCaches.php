@@ -7,12 +7,12 @@
  * @task setup      Setup Cache
  * @task compress   Compression
  */
-final class PhabricatorCaches extends Phobject {
+final class PhorgeCaches extends Phobject {
 
   private static $requestCache;
 
   public static function getNamespace() {
-    return PhabricatorEnv::getEnvConfig('phorge.cache-namespace');
+    return PhorgeEnv::getEnvConfig('phorge.cache-namespace');
   }
 
   private static function newStackFromCaches(array $caches) {
@@ -100,7 +100,7 @@ final class PhabricatorCaches extends Phobject {
       $caches[] = $apc;
     }
 
-    $caches[] = new PhabricatorKeyValueDatabaseCache();
+    $caches[] = new PhorgeKeyValueDatabaseCache();
 
     return $caches;
   }
@@ -117,7 +117,7 @@ final class PhabricatorCaches extends Phobject {
   private static function buildMutableCaches() {
     $caches = array();
 
-    $caches[] = new PhabricatorKeyValueDatabaseCache();
+    $caches[] = new PhorgeKeyValueDatabaseCache();
 
     return $caches;
   }
@@ -134,8 +134,8 @@ final class PhabricatorCaches extends Phobject {
   private static function buildMutableStructureCaches() {
     $caches = array();
 
-    $cache = new PhabricatorKeyValueDatabaseCache();
-    $cache = new PhabricatorKeyValueSerializingCacheProxy($cache);
+    $cache = new PhorgeKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueSerializingCacheProxy($cache);
     $caches[] = $cache;
 
     return $caches;
@@ -215,7 +215,7 @@ final class PhabricatorCaches extends Phobject {
 
   private static function buildRepositoryGraphL2Caches() {
     $caches = array();
-    $caches[] = new PhabricatorKeyValueDatabaseCache();
+    $caches[] = new PhorgeKeyValueDatabaseCache();
     return $caches;
   }
 

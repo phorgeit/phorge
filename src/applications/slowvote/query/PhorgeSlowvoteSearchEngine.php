@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorSlowvoteSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeSlowvoteSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Slowvotes');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSlowvoteApplication';
+    return 'PhorgeSlowvoteApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorSlowvoteQuery();
+    return new PhorgeSlowvoteQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -39,11 +39,11 @@ final class PhabricatorSlowvoteSearchEngine
     $status_options = mpull($status_options, 'getName');
 
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('authors'))
         ->setLabel(pht('Authors')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('voted')
         ->setLabel(pht('Voted'))
 
@@ -55,7 +55,7 @@ final class PhabricatorSlowvoteSearchEngine
         ->setOptions(array(
           'voted' => pht("Show only polls I've voted in."),
           )),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Statuses'))
         ->setOptions($status_options),
@@ -102,16 +102,16 @@ final class PhabricatorSlowvoteSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $polls,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return mpull($polls, 'getAuthorPHID');
   }
 
   protected function renderResultList(
     array $polls,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($polls, 'PhabricatorSlowvotePoll');
+    assert_instances_of($polls, 'PhorgeSlowvotePoll');
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
@@ -156,7 +156,7 @@ final class PhabricatorSlowvoteSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No polls found.'));
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerTriggerEvent
-  extends PhabricatorWorkerDAO {
+final class PhorgeWorkerTriggerEvent
+  extends PhorgeWorkerDAO {
 
   protected $triggerID;
   protected $lastEventEpoch;
@@ -26,8 +26,8 @@ final class PhabricatorWorkerTriggerEvent
     ) + parent::getConfiguration();
   }
 
-  public static function initializeNewEvent(PhabricatorWorkerTrigger $trigger) {
-    $event = new PhabricatorWorkerTriggerEvent();
+  public static function initializeNewEvent(PhorgeWorkerTrigger $trigger) {
+    $event = new PhorgeWorkerTriggerEvent();
     $event->setTriggerID($trigger->getID());
     return $event;
   }

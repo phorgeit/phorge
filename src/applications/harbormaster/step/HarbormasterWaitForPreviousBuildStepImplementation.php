@@ -24,7 +24,7 @@ final class HarbormasterWaitForPreviousBuildStepImplementation
     // We can only wait when building against commits.
     $buildable = $build->getBuildable();
     $object = $buildable->getBuildableObject();
-    if (!($object instanceof PhabricatorRepositoryCommit)) {
+    if (!($object instanceof PhorgeRepositoryCommit)) {
       return;
     }
 
@@ -34,12 +34,12 @@ final class HarbormasterWaitForPreviousBuildStepImplementation
     $blockers = $this->getBlockers($object, $plan, $build);
 
     if ($blockers) {
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
   }
 
   private function getBlockers(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     HarbormasterBuildPlan $plan,
     HarbormasterBuild $source) {
 
@@ -49,11 +49,11 @@ final class HarbormasterWaitForPreviousBuildStepImplementation
         'commit' => $commit->getCommitIdentifier(),
         'repository' => $commit->getRepository()->getPHID(),
       ));
-    $call->setUser(PhabricatorUser::getOmnipotentUser());
+    $call->setUser(PhorgeUser::getOmnipotentUser());
     $parents = $call->execute();
 
     $parents = id(new DiffusionCommitQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withRepository($commit->getRepository())
       ->withIdentifiers($parents)
       ->execute();
@@ -71,7 +71,7 @@ final class HarbormasterWaitForPreviousBuildStepImplementation
 
     if ($build_objects) {
       $buildables = id(new HarbormasterBuildableQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withBuildablePHIDs($build_objects)
         ->withManualBuildables(false)
         ->execute();
@@ -79,7 +79,7 @@ final class HarbormasterWaitForPreviousBuildStepImplementation
 
       if ($buildable_phids) {
         $builds = id(new HarbormasterBuildQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withBuildablePHIDs($buildable_phids)
           ->withBuildPlanPHIDs(array($plan->getPHID()))
           ->execute();

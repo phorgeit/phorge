@@ -2,7 +2,7 @@
 
 echo pht('Migrating user emails...')."\n";
 
-$table  = new PhabricatorUser();
+$table  = new PhorgeUser();
 $table->openTransaction();
 $conn   = $table->establishConnection('w');
 
@@ -12,7 +12,7 @@ $emails = queryfx_all(
   $table->getTableName());
 $emails = ipull($emails, 'email', 'phid');
 
-$etable = new PhabricatorUserEmail();
+$etable = new PhorgeUserEmail();
 
 foreach ($emails as $phid => $email) {
 

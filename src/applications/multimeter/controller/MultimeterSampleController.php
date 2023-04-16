@@ -18,7 +18,7 @@ final class MultimeterSampleController extends MultimeterController {
       $group['type'] = 'type';
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $ago = ($now - phutil_units('24 hours in seconds'));
 
     $table = new MultimeterEvent();

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Simple blob store DAO for @{class:PhabricatorMySQLFileStorageEngine}.
+ * Simple blob store DAO for @{class:PhorgeMySQLFileStorageEngine}.
  */
-final class PhabricatorFileStorageBlob extends PhabricatorFileDAO {
+final class PhorgeFileStorageBlob extends PhorgeFileDAO {
 
   protected $data;
 

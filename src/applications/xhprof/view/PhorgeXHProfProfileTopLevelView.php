@@ -3,8 +3,8 @@
 /**
  * @phutil-external-symbol function xhprof_compute_flat_info
  */
-final class PhabricatorXHProfProfileTopLevelView
-  extends PhabricatorXHProfProfileView {
+final class PhorgeXHProfProfileTopLevelView
+  extends PhorgeXHProfProfileView {
 
   private $profileData;
   private $limit;
@@ -20,7 +20,7 @@ final class PhabricatorXHProfProfileTopLevelView
     return $this;
   }
 
-  public function setFile(PhabricatorFile $file) {
+  public function setFile(PhorgeFile $file) {
     $this->file = $file;
     return $this;
   }

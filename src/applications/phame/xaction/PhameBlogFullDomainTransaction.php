@@ -71,7 +71,7 @@ final class PhameBlogFullDomainTransaction
       $errors[] = $this->newInvalidError($error_text);
     }
 
-    if ($object->getViewPolicy() != PhabricatorPolicies::POLICY_PUBLIC) {
+    if ($object->getViewPolicy() != PhorgePolicies::POLICY_PUBLIC) {
       $errors[] = $this->newInvalidError(
         pht('For custom domains to work, the blog must have a view policy of '.
             'public. This blog is currently set to "%s".',
@@ -81,7 +81,7 @@ final class PhameBlogFullDomainTransaction
     $domain = new PhutilURI($custom_domain);
     $domain = $domain->getDomain();
     $duplicate_blog = id(new PhameBlogQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withDomain($domain)
       ->executeOne();
     if ($duplicate_blog && $duplicate_blog->getID() != $object->getID()) {

@@ -1,7 +1,7 @@
 <?php
 
-interface PhabricatorConduitResultInterface
-  extends PhabricatorPHIDInterface {
+interface PhorgeConduitResultInterface
+  extends PhorgePHIDInterface {
 
   public function getFieldSpecificationsForConduit();
   public function getFieldValuesForConduit();
@@ -11,12 +11,12 @@ interface PhabricatorConduitResultInterface
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 /*
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the object.')),

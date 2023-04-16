@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockCreateBlueprintsCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'drydock.blueprint.create';
 

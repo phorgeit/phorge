@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthProviderConfig
-  extends PhabricatorAuthDAO
+final class PhorgeAuthProviderConfig
+  extends PhorgeAuthDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $providerClass;
   protected $providerType;
@@ -24,8 +24,8 @@ final class PhabricatorAuthProviderConfig
   private $provider;
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorAuthAuthProviderPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeAuthAuthProviderPHIDType::TYPECONST);
   }
 
   protected function getConfiguration() {
@@ -69,7 +69,7 @@ final class PhabricatorAuthProviderConfig
 
   public function getProvider() {
     if (!$this->provider) {
-      $base = PhabricatorAuthProvider::getAllBaseProviders();
+      $base = PhorgeAuthProvider::getAllBaseProviders();
       $found = null;
       foreach ($base as $provider) {
         if (get_class($provider) == $this->providerClass) {
@@ -106,52 +106,52 @@ final class PhabricatorAuthProviderConfig
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthProviderConfigEditor();
+    return new PhorgeAuthProviderConfigEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthProviderConfigTransaction();
+    return new PhorgeAuthProviderConfigTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_USER;
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_ADMIN;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_ADMIN;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $engine->getViewer();
     $config_phid = $this->getPHID();
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withProviderConfigPHIDs(array($config_phid))
       ->newIterator();
@@ -159,7 +159,7 @@ final class PhabricatorAuthProviderConfig
       $engine->destroyObject($account);
     }
 
-    $identifiers = id(new PhabricatorExternalAccountIdentifierQuery())
+    $identifiers = id(new PhorgeExternalAccountIdentifierQuery())
       ->setViewer($viewer)
       ->withProviderConfigPHIDs(array($config_phid))
       ->newIterator();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineSelectCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEngineSelectCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   private $options;
 

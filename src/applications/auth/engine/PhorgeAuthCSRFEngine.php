@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthCSRFEngine extends Phobject {
+final class PhorgeAuthCSRFEngine extends Phobject {
 
   private $salt;
   private $secret;
@@ -65,7 +65,7 @@ final class PhabricatorAuthCSRFEngine extends Phobject {
   }
 
   private function newRawToken($salt, $offset = 0) {
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $cycle_frequency = $this->getCycleFrequency();
 
     $time_block = (int)floor($now / $cycle_frequency);
@@ -77,7 +77,7 @@ final class PhabricatorAuthCSRFEngine extends Phobject {
     }
     $secret = $secret->openEnvelope();
 
-    $hash = PhabricatorHash::digestWithNamedKey(
+    $hash = PhorgeHash::digestWithNamedKey(
       $secret.$time_block.$salt,
       'csrf');
 

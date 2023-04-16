@@ -10,7 +10,7 @@ final class DiffusionCommitAuditorsHeraldField
   }
 
   public function getHeraldFieldValue($object) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commit = id(new DiffusionCommitQuery())
       ->setViewer($viewer)

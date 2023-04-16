@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentEditController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionCommentEditController
+  extends PhorgeApplicationTransactionController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($request->getURIData('phid')))
       ->executeOne();
@@ -36,7 +36,7 @@ final class PhabricatorApplicationTransactionCommentEditController
     // auditing, and editing comments serves neither goal.
 
     $object = $xaction->getObject();
-    $can_interact = PhabricatorPolicyFilter::canInteract(
+    $can_interact = PhorgePolicyFilter::canInteract(
       $viewer,
       $object);
     if (!$can_interact) {
@@ -58,9 +58,9 @@ final class PhabricatorApplicationTransactionCommentEditController
         $comment->setIsDeleted(true);
       }
 
-      $editor = id(new PhabricatorApplicationTransactionCommentEditor())
+      $editor = id(new PhorgeApplicationTransactionCommentEditor())
         ->setActor($viewer)
-        ->setContentSource(PhabricatorContentSource::newFromRequest($request))
+        ->setContentSource(PhorgeContentSource::newFromRequest($request))
         ->setRequest($request)
         ->setCancelURI($done_uri)
         ->applyEdit($xaction, $comment);
@@ -87,7 +87,7 @@ final class PhabricatorApplicationTransactionCommentEditController
       ->setUser($viewer)
       ->setFullWidth(true)
       ->appendControl(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setName('text')
           ->setValue($xaction->getComment()->getContent()));
 

@@ -35,7 +35,7 @@ final class PasteQueryConduitAPIMethod extends PasteConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $query = id(new PhabricatorPasteQuery())
+    $query = id(new PhorgePasteQuery())
       ->setViewer($request->getUser())
       ->needRawContent(true);
 

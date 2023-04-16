@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarImportLog
-  extends PhabricatorCalendarDAO
+final class PhorgeCalendarImportLog
+  extends PhorgeCalendarDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $importPHID;
   protected $parameters = array();
@@ -38,24 +38,24 @@ final class PhabricatorCalendarImportLog
     return $this->assertAttached($this->import);
   }
 
-  public function attachImport(PhabricatorCalendarImport $import) {
+  public function attachImport(PhorgeCalendarImport $import) {
     $this->import = $import;
     return $this;
   }
 
-  public function getDisplayIcon(PhabricatorUser $viewer) {
+  public function getDisplayIcon(PhorgeUser $viewer) {
     return $this->getLogType()->getDisplayIcon($viewer, $this);
   }
 
-  public function getDisplayColor(PhabricatorUser $viewer) {
+  public function getDisplayColor(PhorgeUser $viewer) {
     return $this->getLogType()->getDisplayColor($viewer, $this);
   }
 
-  public function getDisplayType(PhabricatorUser $viewer) {
+  public function getDisplayType(PhorgeUser $viewer) {
     return $this->getLogType()->getDisplayType($viewer, $this);
   }
 
-  public function getDisplayDescription(PhabricatorUser $viewer) {
+  public function getDisplayDescription(PhorgeUser $viewer) {
     return $this->getLogType()->getDisplayDescription($viewer, $this);
   }
 
@@ -63,35 +63,35 @@ final class PhabricatorCalendarImportLog
     return $this->assertAttached($this->logType);
   }
 
-  public function attachLogType(PhabricatorCalendarImportLogType $type) {
+  public function attachLogType(PhorgeCalendarImportLogType $type) {
     $this->logType = $type;
     return $this;
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
     $this->delete();
   }

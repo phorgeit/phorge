@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroViewController
-  extends PhabricatorMacroController {
+final class PhorgeMacroViewController
+  extends PhorgeMacroController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorMacroViewController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $macro = id(new PhabricatorMacroQuery())
+    $macro = id(new PhorgeMacroQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needFiles(true)
@@ -34,7 +34,7 @@ final class PhabricatorMacroViewController
 
     $timeline = $this->buildTransactionTimeline(
       $macro,
-      new PhabricatorMacroTransactionQuery());
+      new PhorgeMacroTransactionQuery());
 
     $comment_form = $this->buildCommentForm($macro, $timeline);
 
@@ -69,24 +69,24 @@ final class PhabricatorMacroViewController
   }
 
   private function buildCommentForm(
-    PhabricatorFileImageMacro $macro, $timeline) {
+    PhorgeFileImageMacro $macro, $timeline) {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorMacroEditEngine())
+    return id(new PhorgeMacroEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($macro)
       ->setTransactionTimeline($timeline);
   }
 
   private function buildCurtain(
-    PhabricatorFileImageMacro $macro) {
+    PhorgeFileImageMacro $macro) {
     $can_manage = $this->hasApplicationCapability(
-      PhabricatorMacroManageCapability::CAPABILITY);
+      PhorgeMacroManageCapability::CAPABILITY);
 
     $curtain = $this->newCurtainView($macro);
 
     $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
         ->setName(pht('Edit Macro'))
         ->setHref($this->getApplicationURI('/edit/'.$macro->getID().'/'))
         ->setDisabled(!$can_manage)
@@ -94,7 +94,7 @@ final class PhabricatorMacroViewController
         ->setIcon('fa-pencil'));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Audio'))
         ->setHref($this->getApplicationURI('/audio/'.$macro->getID().'/'))
         ->setDisabled(!$can_manage)
@@ -103,7 +103,7 @@ final class PhabricatorMacroViewController
 
     if ($macro->getIsDisabled()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Macro'))
           ->setHref($this->getApplicationURI('/disable/'.$macro->getID().'/'))
           ->setWorkflow(true)
@@ -111,7 +111,7 @@ final class PhabricatorMacroViewController
           ->setIcon('fa-check'));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Macro'))
           ->setHref($this->getApplicationURI('/disable/'.$macro->getID().'/'))
           ->setWorkflow(true)
@@ -123,7 +123,7 @@ final class PhabricatorMacroViewController
   }
 
   private function buildSubheaderView(
-    PhabricatorFileImageMacro $macro) {
+    PhorgeFileImageMacro $macro) {
     $viewer = $this->getViewer();
 
     $author_phid = $macro->getAuthorPHID();
@@ -150,17 +150,17 @@ final class PhabricatorMacroViewController
   }
 
   private function buildPropertySectionView(
-    PhabricatorFileImageMacro $macro) {
+    PhorgeFileImageMacro $macro) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
       ->setUser($viewer);
 
     switch ($macro->getAudioBehavior()) {
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_ONCE:
         $view->addProperty(pht('Audio Behavior'), pht('Play Once'));
         break;
-      case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP:
+      case PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP:
         $view->addProperty(pht('Audio Behavior'), pht('Loop'));
         break;
     }
@@ -180,7 +180,7 @@ final class PhabricatorMacroViewController
   }
 
   private function buildFileView(
-    PhabricatorFileImageMacro $macro) {
+    PhorgeFileImageMacro $macro) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())

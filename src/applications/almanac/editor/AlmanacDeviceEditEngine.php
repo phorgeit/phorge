@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacDeviceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'almanac.device';
 
@@ -22,7 +22,7 @@ final class AlmanacDeviceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -79,14 +79,14 @@ final class AlmanacDeviceEditEngine
     $status_map = $this->getDeviceStatusMap($object);
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the device.'))
         ->setTransactionType(AlmanacDeviceNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setDescription(pht('Device status.'))

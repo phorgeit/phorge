@@ -40,10 +40,10 @@ final class PhortuneAccountManagersController
   private function buildMembersSection(PhortuneAccount $account) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $account,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $account->getID();
 

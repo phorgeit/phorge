@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthProviderConfigQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthProviderConfigQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -29,7 +29,7 @@ final class PhabricatorAuthProviderConfigQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthProviderConfig();
+    return new PhorgeAuthProviderConfig();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -80,7 +80,7 @@ final class PhabricatorAuthProviderConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

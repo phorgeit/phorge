@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthMainMenuBarExtension
-  extends PhabricatorMainMenuBarExtension {
+final class PhorgeAuthMainMenuBarExtension
+  extends PhorgeMainMenuBarExtension {
 
   const MAINMENUBARKEY = 'auth';
 
-  public function isExtensionEnabledForViewer(PhabricatorUser $viewer) {
+  public function isExtensionEnabledForViewer(PhorgeUser $viewer) {
     return true;
   }
 
@@ -25,7 +25,7 @@ final class PhabricatorAuthMainMenuBarExtension
     }
 
     $controller = $this->getController();
-    if ($controller instanceof PhabricatorAuthController) {
+    if ($controller instanceof PhorgeAuthController) {
       // Don't show the "Login" item on auth controllers, since they're
       // generally all related to logging in anyway.
       return array();
@@ -44,7 +44,7 @@ final class PhabricatorAuthMainMenuBarExtension
     // site.
 
     $uri = '/auth/start/';
-    $uri = PhabricatorEnv::getURI($uri);
+    $uri = PhorgeEnv::getURI($uri);
     $uri = new PhutilURI($uri);
     if ($controller) {
       $path = $controller->getRequest()->getPath();

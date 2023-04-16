@@ -1,12 +1,12 @@
 <?php
 
-$table = new PhabricatorFileImageMacro();
+$table = new PhorgeFileImageMacro();
 foreach (new LiskMigrationIterator($table) as $macro) {
   $name = $macro->getName();
 
   echo pht("Linking macro '%s'...", $name)."\n";
 
-  $editor = new PhabricatorEdgeEditor();
+  $editor = new PhorgeEdgeEditor();
 
   $phids[] = $macro->getFilePHID();
   $phids[] = $macro->getAudioPHID();

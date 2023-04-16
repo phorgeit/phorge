@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldEditField
-  extends PhabricatorEditField {
+final class PhorgeCustomFieldEditField
+  extends PhorgeEditField {
 
   private $customField;
   private $httpParameterType;
@@ -9,7 +9,7 @@ final class PhabricatorCustomFieldEditField
   private $bulkParameterType;
   private $commentAction;
 
-  public function setCustomField(PhabricatorCustomField $custom_field) {
+  public function setCustomField(PhorgeCustomField $custom_field) {
     $this->customField = $custom_field;
     return $this;
   }
@@ -49,7 +49,7 @@ final class PhabricatorCustomFieldEditField
   }
 
   public function setCustomFieldCommentAction(
-    PhabricatorEditEngineCommentAction $comment_action) {
+    PhorgeEditEngineCommentAction $comment_action) {
     $this->commentAction = $comment_action;
     return $this;
   }
@@ -73,7 +73,7 @@ final class PhabricatorCustomFieldEditField
   }
 
   protected function newEditType() {
-    return id(new PhabricatorCustomFieldEditType())
+    return id(new PhorgeCustomFieldEditType())
       ->setCustomField($this->getCustomField());
   }
 

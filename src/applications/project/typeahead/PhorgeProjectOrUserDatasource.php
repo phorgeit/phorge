@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectOrUserDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectOrUserDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Users and Projects');
@@ -13,8 +13,8 @@ final class PhabricatorProjectOrUserDatasource
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 

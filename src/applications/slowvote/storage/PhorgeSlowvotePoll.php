@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorSlowvotePoll
-  extends PhabricatorSlowvoteDAO
+final class PhorgeSlowvotePoll
+  extends PhorgeSlowvoteDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSpacesInterface,
+    PhorgeConduitResultInterface {
 
   protected $question;
   protected $description;
@@ -27,19 +27,19 @@ final class PhabricatorSlowvotePoll
   private $choices = self::ATTACHABLE;
   private $viewerChoices = self::ATTACHABLE;
 
-  public static function initializeNewPoll(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewPoll(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorSlowvoteApplication'))
+      ->withClasses(array('PhorgeSlowvoteApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
-      PhabricatorSlowvoteDefaultViewCapability::CAPABILITY);
+      PhorgeSlowvoteDefaultViewCapability::CAPABILITY);
 
     $default_responses = SlowvotePollResponseVisibility::RESPONSES_VISIBLE;
     $default_method = SlowvotePollVotingMethod::METHOD_PLURALITY;
 
-    return id(new PhabricatorSlowvotePoll())
+    return id(new PhorgeSlowvotePoll())
       ->setAuthorPHID($actor->getPHID())
       ->setViewPolicy($view_policy)
       ->setSpacePHID($actor->getDefaultSpacePHID())
@@ -65,7 +65,7 @@ final class PhabricatorSlowvotePoll
   }
 
   public function getPHIDType() {
-    return PhabricatorSlowvotePollPHIDType::TYPECONST;
+    return PhorgeSlowvotePollPHIDType::TYPECONST;
   }
 
   public function getStatusObject() {
@@ -81,7 +81,7 @@ final class PhabricatorSlowvotePoll
   }
 
   public function attachOptions(array $options) {
-    assert_instances_of($options, 'PhabricatorSlowvoteOption');
+    assert_instances_of($options, 'PhorgeSlowvoteOption');
     $this->options = $options;
     return $this;
   }
@@ -91,20 +91,20 @@ final class PhabricatorSlowvotePoll
   }
 
   public function attachChoices(array $choices) {
-    assert_instances_of($choices, 'PhabricatorSlowvoteChoice');
+    assert_instances_of($choices, 'PhorgeSlowvoteChoice');
     $this->choices = $choices;
     return $this;
   }
 
-  public function getViewerChoices(PhabricatorUser $viewer) {
+  public function getViewerChoices(PhorgeUser $viewer) {
     return $this->assertAttachedKey($this->viewerChoices, $viewer->getPHID());
   }
 
-  public function attachViewerChoices(PhabricatorUser $viewer, array $choices) {
+  public function attachViewerChoices(PhorgeUser $viewer, array $choices) {
     if ($this->viewerChoices === self::ATTACHABLE) {
       $this->viewerChoices = array();
     }
-    assert_instances_of($choices, 'PhabricatorSlowvoteChoice');
+    assert_instances_of($choices, 'PhorgeSlowvoteChoice');
     $this->viewerChoices[$viewer->getPHID()] = $choices;
     return $this;
   }
@@ -118,38 +118,38 @@ final class PhabricatorSlowvotePoll
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorSlowvoteEditor();
+    return new PhorgeSlowvoteEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorSlowvoteTransaction();
+    return new PhorgeSlowvoteTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->viewPolicy;
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getAuthorPHID());
   }
 
@@ -159,7 +159,7 @@ final class PhabricatorSlowvotePoll
 
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -167,26 +167,26 @@ final class PhabricatorSlowvotePoll
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
     return array($this->getAuthorPHID());
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
-      $choices = id(new PhabricatorSlowvoteChoice())->loadAllWhere(
+      $choices = id(new PhorgeSlowvoteChoice())->loadAllWhere(
         'pollID = %d',
         $this->getID());
       foreach ($choices as $choice) {
         $choice->delete();
       }
-      $options = id(new PhabricatorSlowvoteOption())->loadAllWhere(
+      $options = id(new PhorgeSlowvoteOption())->loadAllWhere(
         'pollID = %d',
         $this->getID());
       foreach ($options as $option) {
@@ -196,21 +196,21 @@ final class PhabricatorSlowvotePoll
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
   public function getSpacePHID() {
     return $this->spacePHID;
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the poll.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('string')
         ->setDescription(pht('The author of the poll.')),

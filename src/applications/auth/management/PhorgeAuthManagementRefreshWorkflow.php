@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementRefreshWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementRefreshWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -25,17 +25,17 @@ final class PhabricatorAuthManagementRefreshWorkflow
     $console = PhutilConsole::getConsole();
     $viewer = $this->getViewer();
 
-    $query = id(new PhabricatorExternalAccountQuery())
+    $query = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ));
 
     $username = $args->getArg('user');
     if (strlen($username)) {
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($username))
         ->executeOne();
@@ -60,7 +60,7 @@ final class PhabricatorAuthManagementRefreshWorkflow
           phutil_count($accounts)));
     }
 
-    $providers = PhabricatorAuthProvider::getAllEnabledProviders();
+    $providers = PhorgeAuthProvider::getAllEnabledProviders();
     $providers = mpull($providers, null, 'getProviderConfigPHID');
 
     foreach ($accounts as $account) {
@@ -79,7 +79,7 @@ final class PhabricatorAuthManagementRefreshWorkflow
       }
 
       $provider = $providers[$config_phid];
-      if (!($provider instanceof PhabricatorOAuth2AuthProvider)) {
+      if (!($provider instanceof PhorgeOAuth2AuthProvider)) {
         $console->writeOut(
           "> %s\n",
           pht('Skipping, provider is not an OAuth2 provider.'));

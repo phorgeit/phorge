@@ -14,7 +14,7 @@ final class HeraldCommentAction extends HeraldAction {
   }
 
   public function supportsObject($object) {
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       return false;
     }
 
@@ -37,7 +37,7 @@ final class HeraldCommentAction extends HeraldAction {
     $comment_text = $effect->getTarget();
 
     $xaction = $adapter->newTransaction()
-      ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT);
+      ->setTransactionType(PhorgeTransactions::TYPE_COMMENT);
 
     $comment = $xaction->getApplicationTransactionCommentObject()
       ->setContent($comment_text);
@@ -64,12 +64,12 @@ final class HeraldCommentAction extends HeraldAction {
   }
 
   public function renderActionDescription($value) {
-    $summary = PhabricatorMarkupEngine::summarize($value);
+    $summary = PhorgeMarkupEngine::summarize($value);
     return pht('Add comment: %s', $summary);
   }
 
   protected function renderActionEffectDescription($type, $data) {
-    $summary = PhabricatorMarkupEngine::summarize($data);
+    $summary = PhorgeMarkupEngine::summarize($data);
     return pht('Added a comment: %s', $summary);
   }
 

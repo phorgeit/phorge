@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryVCSTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryVCSTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:vcs';
 
@@ -16,7 +16,7 @@ final class PhabricatorRepositoryVCSTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $vcs_map = PhabricatorRepositoryType::getAllRepositoryTypes();
+    $vcs_map = PhorgeRepositoryType::getAllRepositoryTypes();
     $current_vcs = $object->getVersionControlSystem();
 
     if (!$this->isNewObject()) {

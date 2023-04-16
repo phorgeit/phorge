@@ -237,14 +237,14 @@ final class PHUITimelineView extends AphrontView {
     assert_instances_of($events, 'PHUITimelineEventView');
 
     $viewer = $this->getUser();
-    $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+    $can_use_badges = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeBadgesApplication',
       $viewer);
     if (!$can_use_badges) {
       return;
     }
 
-    $user_phid_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_phid_type = PhorgePeopleUserPHIDType::TYPECONST;
 
     $user_phids = array();
     foreach ($events as $key => $event) {
@@ -268,7 +268,7 @@ final class PHUITimelineView extends AphrontView {
       return;
     }
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs($user_phids)
       ->needBadgeAwards(true)

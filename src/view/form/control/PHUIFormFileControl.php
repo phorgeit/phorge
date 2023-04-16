@@ -27,7 +27,7 @@ final class PHUIFormFileControl
         'fileInputID' => $file_id,
         'inputName' => $this->getName(),
         'uploadURI' => '/file/dropupload/',
-        'chunkThreshold' => PhabricatorFileStorageEngine::getChunkThreshold(),
+        'chunkThreshold' => PhorgeFileStorageEngine::getChunkThreshold(),
       ));
 
 

@@ -8,13 +8,13 @@ final class DifferentialRevisionAbandonTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Abandon Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('This revision will be abandoned and closed.');
   }
 
@@ -55,7 +55,7 @@ final class DifferentialRevisionAbandonTransaction
     $object->setModernRevisionStatus($status_abandoned);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isClosed()) {
       throw new Exception(
         pht(
@@ -64,7 +64,7 @@ final class DifferentialRevisionAbandonTransaction
     }
 
     $config_key = 'differential.always-allow-abandon';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       if (!$this->isViewerRevisionAuthor($object, $viewer)) {
         throw new Exception(
           pht(

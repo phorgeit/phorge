@@ -1,10 +1,10 @@
 <?php
 
 final class HeraldWebhookWorker
-  extends PhabricatorWorker {
+  extends PhorgeWorker {
 
   protected function doWork() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $data = $this->getTaskData();
     $request_phid = idx($data, 'webhookRequestPHID');
@@ -14,7 +14,7 @@ final class HeraldWebhookWorker
       ->withPHIDs(array($request_phid))
       ->executeOne();
     if (!$request) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load webhook request ("%s"). It may have been '.
           'garbage collected.',
@@ -23,7 +23,7 @@ final class HeraldWebhookWorker
 
     $status = $request->getStatus();
     if ($status !== HeraldWebhookRequest::STATUS_QUEUED) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Webhook request ("%s") is not in "%s" status (actual '.
           'status is "%s"). Declining call to hook.',
@@ -34,7 +34,7 @@ final class HeraldWebhookWorker
 
     // If we're in silent mode, permanently fail the webhook request and then
     // return to complete this task.
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->failRequest(
         $request,
         HeraldWebhookRequest::ERRORTYPE_HOOK,
@@ -49,7 +49,7 @@ final class HeraldWebhookWorker
         $request,
         HeraldWebhookRequest::ERRORTYPE_HOOK,
         HeraldWebhookRequest::ERROR_DISABLED);
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Associated hook ("%s") for webhook request ("%s") is disabled.',
           $hook->getPHID(),
@@ -58,7 +58,7 @@ final class HeraldWebhookWorker
 
     $uri = $hook->getWebhookURI();
     try {
-      PhabricatorEnv::requireValidRemoteURIForFetch(
+      PhorgeEnv::requireValidRemoteURIForFetch(
         $uri,
         array(
           'http',
@@ -69,7 +69,7 @@ final class HeraldWebhookWorker
         $request,
         HeraldWebhookRequest::ERRORTYPE_HOOK,
         HeraldWebhookRequest::ERROR_URI);
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Associated hook ("%s") for webhook request ("%s") has invalid '.
           'fetch URI: %s',
@@ -80,7 +80,7 @@ final class HeraldWebhookWorker
 
     $object_phid = $request->getObjectPHID();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->executeOne();
@@ -90,14 +90,14 @@ final class HeraldWebhookWorker
         HeraldWebhookRequest::ERRORTYPE_HOOK,
         HeraldWebhookRequest::ERROR_OBJECT);
 
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load object ("%s") for webhook request ("%s").',
           $object_phid,
           $request_phid));
     }
 
-    $xaction_query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+    $xaction_query = PhorgeApplicationTransactionQuery::newQueryForObject(
       $object);
     $xaction_phids = $request->getTransactionPHIDs();
     if ($xaction_phids) {
@@ -117,13 +117,13 @@ final class HeraldWebhookWorker
     // parallelize requests to a particular webhook.
 
     $lock_key = 'webhook('.$hook->getPHID().')';
-    $lock = PhabricatorGlobalLock::newLock($lock_key);
+    $lock = PhorgeGlobalLock::newLock($lock_key);
 
     try {
       $lock->lock();
     } catch (Exception $ex) {
       phlog($ex);
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
 
     $caught = null;
@@ -145,10 +145,10 @@ final class HeraldWebhookWorker
     HeraldWebhookRequest $request,
     $object,
     array $xactions) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     if ($hook->isInErrorBackoff($viewer)) {
-      throw new PhabricatorWorkerYieldException($hook->getErrorBackoffWindow());
+      throw new PhorgeWorkerYieldException($hook->getErrorBackoffWindow());
     }
 
     $xaction_data = array();
@@ -182,7 +182,7 @@ final class HeraldWebhookWorker
 
     $payload = id(new PhutilJSON())->encodeFormatted($payload);
     $key = $hook->getHmacKey();
-    $signature = PhabricatorHash::digestHMACSHA256($payload, $key);
+    $signature = PhorgeHash::digestHMACSHA256($payload, $key);
     $uri = $hook->getWebhookURI();
 
     $future = id(new HTTPSFuture($uri))
@@ -204,7 +204,7 @@ final class HeraldWebhookWorker
     $request
       ->setErrorType($error_type)
       ->setErrorCode($error_code)
-      ->setLastRequestEpoch(PhabricatorTime::getNow());
+      ->setLastRequestEpoch(PhorgeTime::getNow());
 
     $retry_forever = HeraldWebhookRequest::RETRY_FOREVER;
     if ($status->isTimeout() || $status->isError()) {
@@ -229,7 +229,7 @@ final class HeraldWebhookWorker
           ->setStatus(HeraldWebhookRequest::STATUS_FAILED)
           ->save();
 
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Webhook request ("%s", to "%s") failed (%s / %s). The request '.
             'will not be retried.',

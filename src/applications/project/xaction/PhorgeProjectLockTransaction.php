@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLockTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectLockTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:locked';
 

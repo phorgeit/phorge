@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerDefaultEditCapability extends PhabricatorPolicyCapability {
+final class DivinerDefaultEditCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diviner.default.edit';
 

@@ -71,7 +71,7 @@ final class HarbormasterQueryBuildablesConduitAPIMethod
         'id' => $buildable->getID(),
         'phid' => $buildable->getPHID(),
         'monogram' => $monogram,
-        'uri' => PhabricatorEnv::getProductionURI('/'.$monogram),
+        'uri' => PhorgeEnv::getProductionURI('/'.$monogram),
         'buildableStatus' => $status,
         'buildableStatusName' => $status_name,
         'buildablePHID' => $buildable->getBuildablePHID(),

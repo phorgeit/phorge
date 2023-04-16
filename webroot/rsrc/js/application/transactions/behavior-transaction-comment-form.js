@@ -33,7 +33,7 @@ JX.behavior('phorge-transaction-comment-form', function(config) {
   };
 
   if (config.showPreview) {
-    var request = new JX.PhabricatorShapedRequest(
+    var request = new JX.PhorgeShapedRequest(
       config.actionURI,
       onresponse,
       getdata);

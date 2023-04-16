@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorPDFCatalogObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFCatalogObject
+  extends PhorgePDFObject {
 
   private $pagesObject;
 
-  public function setPagesObject(PhabricatorPDFPagesObject $pages_object) {
+  public function setPagesObject(PhorgePDFPagesObject $pages_object) {
     $this->pagesObject = $this->newChildObject($pages_object);
     return $this;
   }

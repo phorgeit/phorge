@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorQueryConstraint extends Phobject {
+final class PhorgeQueryConstraint extends Phobject {
 
   const OPERATOR_AND = 'and';
   const OPERATOR_OR = 'or';

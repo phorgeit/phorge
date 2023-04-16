@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementIntegrityWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementIntegrityWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();

@@ -84,10 +84,10 @@ final class AlmanacDeviceViewController
   private function buildCurtain(AlmanacDevice $device) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $device,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $device->getID();
     $edit_uri = $this->getApplicationURI("device/edit/{$id}/");
@@ -95,7 +95,7 @@ final class AlmanacDeviceViewController
     $curtain = $this->newCurtainView($device);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Device'))
         ->setHref($edit_uri)
@@ -109,10 +109,10 @@ final class AlmanacDeviceViewController
     $viewer = $this->getViewer();
     $id = $device->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $device,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $interfaces = id(new AlmanacInterfaceQuery())
       ->setViewer($viewer)
@@ -146,18 +146,18 @@ final class AlmanacDeviceViewController
     $id = $device->getID();
     $device_phid = $device->getPHID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $device,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $keys = id(new PhabricatorAuthSSHKeyQuery())
+    $keys = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($device_phid))
       ->withIsActive(true)
       ->execute();
 
-    $table = id(new PhabricatorAuthSSHKeyTableView())
+    $table = id(new PhorgeAuthSSHKeyTableView())
       ->setUser($viewer)
       ->setKeys($keys)
       ->setCanEdit($can_edit)
@@ -165,7 +165,7 @@ final class AlmanacDeviceViewController
       ->setShowTrusted(true)
       ->setNoDataString(pht('This device has no associated SSH public keys.'));
 
-    $menu_button = PhabricatorAuthSSHKeyTableView::newKeyActionsMenu(
+    $menu_button = PhorgeAuthSSHKeyTableView::newKeyActionsMenu(
       $viewer,
       $device);
 
@@ -189,7 +189,7 @@ final class AlmanacDeviceViewController
     // addition of always letting you see that locks exist.
 
     $services = id(new AlmanacServiceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withDevicePHIDs(array($device->getPHID()))
       ->execute();
 

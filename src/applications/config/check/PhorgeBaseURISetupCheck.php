@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorBaseURISetupCheck extends PhabricatorSetupCheck {
+final class PhorgeBaseURISetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_IMPORTANT;
   }
 
   protected function executeChecks() {
-    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+    $base_uri = PhorgeEnv::getEnvConfig('phorge.base-uri');
 
     $host_header = AphrontRequest::getHTTPHeader('Host');
     if (strpos($host_header, '.') === false) {
@@ -65,7 +65,7 @@ final class PhabricatorBaseURISetupCheck extends PhabricatorSetupCheck {
       return;
     }
 
-    $base_uri_guess = PhabricatorEnv::getRequestBaseURI();
+    $base_uri_guess = PhorgeEnv::getRequestBaseURI();
 
     $summary = pht(
       'The base URI for this install is not configured. Many major features '.

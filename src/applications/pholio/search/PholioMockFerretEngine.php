@@ -1,7 +1,7 @@
 <?php
 
 final class PholioMockFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'pholio';

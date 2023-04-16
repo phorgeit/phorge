@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMemeRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeMemeRemarkupRule extends PhutilRemarkupRule {
 
   private $images;
 
@@ -29,8 +29,8 @@ final class PhabricatorMemeRemarkupRule extends PhutilRemarkupRule {
     $parser = new PhutilSimpleOptions();
     $options = $parser->parse($matches[1]) + $options;
 
-    $engine = id(new PhabricatorMemeEngine())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $engine = id(new PhorgeMemeEngine())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->setTemplate($options['src'])
       ->setAboveText($options['above'])
       ->setBelowText($options['below']);

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorCustomFieldNumericIndexStorage
-  extends PhabricatorCustomFieldIndexStorage {
+abstract class PhorgeCustomFieldNumericIndexStorage
+  extends PhorgeCustomFieldIndexStorage {
 
   protected function getConfiguration() {
     return array(

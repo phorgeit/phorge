@@ -1,6 +1,6 @@
 <?php
 
-final class ConduitAPIMethodTestCase extends PhabricatorTestCase {
+final class ConduitAPIMethodTestCase extends PhorgeTestCase {
 
   public function testLoadAllConduitMethods() {
     ConduitAPIMethod::loadAllConduitMethods();

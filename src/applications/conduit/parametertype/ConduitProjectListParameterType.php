@@ -6,7 +6,7 @@ final class ConduitProjectListParameterType
   protected function getParameterValue(array $request, $key, $strict) {
     $list = parent::getParameterValue($request, $key, $strict);
     $list = $this->parseStringList($request, $key, $list, $strict);
-    return id(new PhabricatorProjectPHIDResolver())
+    return id(new PhorgeProjectPHIDResolver())
       ->setViewer($this->getViewer())
       ->resolvePHIDs($list);
   }

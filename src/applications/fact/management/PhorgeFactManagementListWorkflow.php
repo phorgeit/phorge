@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactManagementListWorkflow
-  extends PhabricatorFactManagementWorkflow {
+final class PhorgeFactManagementListWorkflow
+  extends PhorgeFactManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -13,7 +13,7 @@ final class PhabricatorFactManagementListWorkflow
   public function execute(PhutilArgumentParser $args) {
     $console = PhutilConsole::getConsole();
 
-    $engines = PhabricatorFactEngine::loadAllEngines();
+    $engines = PhorgeFactEngine::loadAllEngines();
     foreach ($engines as $engine) {
       $console->writeOut("%s\n", get_class($engine));
     }

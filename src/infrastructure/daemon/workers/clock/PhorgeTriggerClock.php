@@ -11,7 +11,7 @@
  * For example, it might schedule an event every hour, or every Thursday, or on
  * the 15th of every month at 3PM, or only at a specific time.
  */
-abstract class PhabricatorTriggerClock extends Phobject {
+abstract class PhorgeTriggerClock extends Phobject {
 
   private $properties;
 

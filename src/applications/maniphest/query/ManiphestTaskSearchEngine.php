@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $showBatchControls;
   private $baseURI;
@@ -35,7 +35,7 @@ final class ManiphestTaskSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function newQuery() {
@@ -50,27 +50,27 @@ final class ManiphestTaskSearchEngine
     $hide_subtypes = ($subtype_map->getCount() == 1);
 
     return array(
-      id(new PhabricatorOwnersSearchField())
+      id(new PhorgeOwnersSearchField())
         ->setLabel(pht('Assigned To'))
         ->setKey('assignedPHIDs')
         ->setConduitKey('assigned')
         ->setAliases(array('assigned'))
         ->setDescription(
           pht('Search for tasks owned by a user from a list.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors'))
         ->setDescription(
           pht('Search for tasks with given authors.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setAliases(array('status'))
         ->setDescription(
           pht('Search for tasks with given statuses.'))
         ->setDatasource(new ManiphestTaskStatusFunctionDatasource()),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Priorities'))
         ->setKey('priorities')
         ->setAliases(array('priority'))
@@ -78,7 +78,7 @@ final class ManiphestTaskSearchEngine
           pht('Search for tasks with given priorities.'))
         ->setConduitParameterType(new ConduitIntListParameterType())
         ->setDatasource(new ManiphestTaskPriorityDatasource()),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Subtypes'))
         ->setKey('subtypes')
         ->setAliases(array('subtype'))
@@ -86,11 +86,11 @@ final class ManiphestTaskSearchEngine
           pht('Search for tasks with given subtypes.'))
         ->setDatasource(new ManiphestTaskSubtypeDatasource())
         ->setIsHidden($hide_subtypes),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Columns'))
         ->setKey('columnPHIDs')
         ->setAliases(array('column', 'columnPHID', 'columns')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Open Parents'))
         ->setKey('hasParents')
         ->setAliases(array('blocking'))
@@ -98,7 +98,7 @@ final class ManiphestTaskSearchEngine
           pht('(Show All)'),
           pht('Show Only Tasks With Open Parents'),
           pht('Show Only Tasks Without Open Parents')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Open Subtasks'))
         ->setKey('hasSubtasks')
         ->setAliases(array('blocked'))
@@ -106,42 +106,42 @@ final class ManiphestTaskSearchEngine
           pht('(Show All)'),
           pht('Show Only Tasks With Open Subtasks'),
           pht('Show Only Tasks Without Open Subtasks')),
-      id(new PhabricatorIDsSearchField())
+      id(new PhorgeIDsSearchField())
         ->setLabel(pht('Parent IDs'))
         ->setKey('parentIDs')
         ->setAliases(array('parentID')),
-      id(new PhabricatorIDsSearchField())
+      id(new PhorgeIDsSearchField())
         ->setLabel(pht('Subtask IDs'))
         ->setKey('subtaskIDs')
         ->setAliases(array('subtaskID')),
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setLabel(pht('Group By'))
         ->setKey('group')
         ->setOptions($this->getGroupOptions()),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Updated After'))
         ->setKey('modifiedStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Updated Before'))
         ->setKey('modifiedEnd'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Closed After'))
         ->setKey('closedStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Closed Before'))
         ->setKey('closedEnd'),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Closed By'))
         ->setKey('closerPHIDs')
         ->setAliases(array('closer', 'closerPHID', 'closers'))
         ->setDescription(pht('Search for tasks closed by certain users.')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Page Size'))
         ->setKey('limit'),
     );
@@ -360,7 +360,7 @@ final class ManiphestTaskSearchEngine
 
   protected function renderResultList(
     array $tasks,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $handles) {
 
     $viewer = $this->requireViewer();
@@ -368,7 +368,7 @@ final class ManiphestTaskSearchEngine
     if ($this->isPanelContext()) {
       $can_bulk_edit = false;
     } else {
-      $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_bulk_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $this->getApplication(),
         ManiphestBulkEditCapability::CAPABILITY);
@@ -381,20 +381,20 @@ final class ManiphestTaskSearchEngine
       ->setCanBatchEdit($can_bulk_edit)
       ->setShowBatchControls($this->showBatchControls);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($list);
 
     return $result;
   }
 
-  protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {
+  protected function willUseSavedQuery(PhorgeSavedQuery $saved) {
 
     // The 'withUnassigned' parameter may be present in old saved queries from
     // before parameterized typeaheads, and is retained for compatibility. We
     // could remove it by migrating old saved queries.
     $assigned_phids = $saved->getParameter('assignedPHIDs', array());
     if ($saved->getParameter('withUnassigned')) {
-      $assigned_phids[] = PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN;
+      $assigned_phids[] = PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN;
     }
     $saved->setParameter('assignedPHIDs', $assigned_phids);
 
@@ -458,58 +458,58 @@ final class ManiphestTaskSearchEngine
 
   protected function newExportFields() {
     $fields = array(
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('monogram')
         ->setLabel(pht('Monogram')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('authorPHID')
         ->setLabel(pht('Author PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('author')
         ->setLabel(pht('Author')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('ownerPHID')
         ->setLabel(pht('Owner PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('owner')
         ->setLabel(pht('Owner')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('status')
         ->setLabel(pht('Status')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('statusName')
         ->setLabel(pht('Status Name')),
-      id(new PhabricatorEpochExportField())
+      id(new PhorgeEpochExportField())
         ->setKey('dateClosed')
         ->setLabel(pht('Date Closed')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('closerPHID')
         ->setLabel(pht('Closer PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('closer')
         ->setLabel(pht('Closer')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('priority')
         ->setLabel(pht('Priority')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('priorityName')
         ->setLabel(pht('Priority Name')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('subtype')
         ->setLabel('Subtype'),
-      id(new PhabricatorURIExportField())
+      id(new PhorgeURIExportField())
         ->setKey('uri')
         ->setLabel(pht('URI')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('title')
         ->setLabel(pht('Title')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('description')
         ->setLabel(pht('Description')),
     );
 
     if (ManiphestTaskPoints::getIsEnabled()) {
-      $fields[] = id(new PhabricatorDoubleExportField())
+      $fields[] = id(new PhorgeDoubleExportField())
         ->setKey('points')
         ->setLabel('Points');
     }
@@ -572,7 +572,7 @@ final class ManiphestTaskSearchEngine
         'points' => $task->getPoints(),
         'subtype' => $task->getSubtype(),
         'title' => $task->getTitle(),
-        'uri' => PhabricatorEnv::getProductionURI($task->getURI()),
+        'uri' => PhorgeEnv::getProductionURI($task->getURI()),
         'description' => $task->getDescription(),
         'dateClosed' => $task->getClosedEpoch(),
         'closerPHID' => $closer_phid,

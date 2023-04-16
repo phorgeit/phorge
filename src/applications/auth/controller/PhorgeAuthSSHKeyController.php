@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorAuthSSHKeyController
-  extends PhabricatorAuthController {
+abstract class PhorgeAuthSSHKeyController
+  extends PhorgeAuthController {
 
   private $keyObject;
 
-  public function setSSHKeyObject(PhabricatorSSHPublicKeyInterface $object) {
+  public function setSSHKeyObject(PhorgeSSHPublicKeyInterface $object) {
     $this->keyObject = $object;
     return $this;
   }
@@ -17,15 +17,15 @@ abstract class PhabricatorAuthSSHKeyController
   protected function loadSSHKeyObject($object_phid, $need_edit) {
     $viewer = $this->getViewer();
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid));
 
     if ($need_edit) {
       $query->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ));
     }
 
@@ -37,7 +37,7 @@ abstract class PhabricatorAuthSSHKeyController
 
     // If this kind of object can't have SSH keys, don't let the viewer
     // add them.
-    if (!($object instanceof PhabricatorSSHPublicKeyInterface)) {
+    if (!($object instanceof PhorgeSSHPublicKeyInterface)) {
       return null;
     }
 
@@ -54,7 +54,7 @@ abstract class PhabricatorAuthSSHKeyController
       return null;
     }
 
-    return PhabricatorAuthSSHKey::initializeNewSSHKey($viewer, $object);
+    return PhorgeAuthSSHKey::initializeNewSSHKey($viewer, $object);
   }
 
   protected function buildApplicationCrumbs() {

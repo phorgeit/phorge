@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepository();
+$table = new PhorgeRepository();
 $conn_w = $table->establishConnection('w');
 
 $mirrors = queryfx_all(
@@ -12,7 +12,7 @@ foreach ($mirrors as $mirror) {
   $repository_phid = $mirror['repositoryPHID'];
   $uri = $mirror['remoteURI'];
 
-  $already_exists = id(new PhabricatorRepositoryURI())->loadOneWhere(
+  $already_exists = id(new PhorgeRepositoryURI())->loadOneWhere(
     'repositoryPHID = %s AND uri = %s',
     $repository_phid,
     $uri);
@@ -21,8 +21,8 @@ foreach ($mirrors as $mirror) {
     continue;
   }
 
-  $new_uri = PhabricatorRepositoryURI::initializeNewURI()
-    ->setIOType(PhabricatorRepositoryURI::IO_MIRROR)
+  $new_uri = PhorgeRepositoryURI::initializeNewURI()
+    ->setIOType(PhorgeRepositoryURI::IO_MIRROR)
     ->setRepositoryPHID($repository_phid)
     ->setURI($uri)
     ->setCredentialPHID($mirror['credentialPHID'])

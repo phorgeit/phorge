@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorGarbageCollectorManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeGarbageCollectorManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function getCollector($const) {
-    $collectors = PhabricatorGarbageCollector::getAllCollectors();
+    $collectors = PhorgeGarbageCollector::getAllCollectors();
 
     $collector_list = array_keys($collectors);
     sort($collector_list);

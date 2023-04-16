@@ -2,9 +2,9 @@
 
 final class NuanceSource extends NuanceDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorNgramsInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeNgramsInterface {
 
   protected $name;
   protected $type;
@@ -38,7 +38,7 @@ final class NuanceSource extends NuanceDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(NuanceSourcePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(NuanceSourcePHIDType::TYPECONST);
   }
 
   public function save() {
@@ -53,11 +53,11 @@ final class NuanceSource extends NuanceDAO
   }
 
   public static function initializeNewSource(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     NuanceSourceDefinition $definition) {
-    $app = id(new PhabricatorApplicationQuery())
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorNuanceApplication'))
+      ->withClasses(array('PhorgeNuanceApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -92,7 +92,7 @@ final class NuanceSource extends NuanceDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -104,31 +104,31 @@ final class NuanceSource extends NuanceDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {

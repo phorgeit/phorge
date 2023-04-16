@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailRePrefixSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailRePrefixSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 're-prefix';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailRePrefixSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailFormatSettingsPanel::PANELKEY;
+    return PhorgeEmailFormatSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

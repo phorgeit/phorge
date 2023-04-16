@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffPreferencesSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeDiffPreferencesSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'diff';
 
@@ -14,7 +14,7 @@ final class PhabricatorDiffPreferencesSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsApplicationsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsApplicationsPanelGroup::PANELGROUPKEY;
   }
 
   public function isTemplatePanel() {

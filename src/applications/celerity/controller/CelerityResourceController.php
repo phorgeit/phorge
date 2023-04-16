@@ -1,6 +1,6 @@
 <?php
 
-abstract class CelerityResourceController extends PhabricatorController {
+abstract class CelerityResourceController extends PhorgeController {
 
   protected function buildResourceTransformer() {
     return null;
@@ -41,7 +41,7 @@ abstract class CelerityResourceController extends PhabricatorController {
       throw new Exception(pht('Only static resources may be served.'));
     }
 
-    $dev_mode = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+    $dev_mode = PhorgeEnv::getEnvConfig('phorge.developer-mode');
 
     $map = $this->getCelerityResourceMap();
     $expect_hash = $map->getHashForName($path);
@@ -61,7 +61,7 @@ abstract class CelerityResourceController extends PhabricatorController {
     $cache = null;
     $data = null;
     if ($is_cacheable && $is_locally_cacheable && !$dev_mode) {
-      $cache = PhabricatorCaches::getImmutableCache();
+      $cache = PhorgeCaches::getImmutableCache();
 
       $request_path = $this->getRequest()->getPath();
       $cache_key = $this->getCacheKey($request_path);
@@ -206,7 +206,7 @@ abstract class CelerityResourceController extends PhabricatorController {
   }
 
   protected function getCacheKey($path) {
-    return 'celerity:'.PhabricatorHash::digestToLength($path, 64);
+    return 'celerity:'.PhorgeHash::digestToLength($path, 64);
   }
 
 }

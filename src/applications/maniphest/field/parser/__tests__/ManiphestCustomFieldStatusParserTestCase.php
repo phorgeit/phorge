@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestCustomFieldStatusParserTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testParser() {
     $map = array(

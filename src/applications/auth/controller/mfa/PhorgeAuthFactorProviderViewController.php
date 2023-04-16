@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderViewController
-  extends PhabricatorAuthFactorProviderController {
+final class PhorgeAuthFactorProviderViewController
+  extends PhorgeAuthFactorProviderController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorAuthFactorProviderViewController
     $this->requireApplicationCapability(
       AuthManageProvidersCapability::CAPABILITY);
 
-    $provider = id(new PhabricatorAuthFactorProviderQuery())
+    $provider = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -28,7 +28,7 @@ final class PhabricatorAuthFactorProviderViewController
 
     $timeline = $this->buildTransactionTimeline(
       $provider,
-      new PhabricatorAuthFactorProviderTransactionQuery());
+      new PhorgeAuthFactorProviderTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -50,7 +50,7 @@ final class PhabricatorAuthFactorProviderViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorAuthFactorProvider $provider) {
+  private function buildHeaderView(PhorgeAuthFactorProvider $provider) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIHeaderView())
@@ -71,7 +71,7 @@ final class PhabricatorAuthFactorProviderViewController
   }
 
   private function buildPropertiesView(
-    PhabricatorAuthFactorProvider $provider) {
+    PhorgeAuthFactorProvider $provider) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
@@ -94,19 +94,19 @@ final class PhabricatorAuthFactorProviderViewController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorAuthFactorProvider $provider) {
+  private function buildCurtain(PhorgeAuthFactorProvider $provider) {
     $viewer = $this->getViewer();
     $id = $provider->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $provider,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($provider);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit MFA Provider'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("mfa/edit/{$id}/"))
@@ -114,7 +114,7 @@ final class PhabricatorAuthFactorProviderViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Customize Enroll Message'))
         ->setIcon('fa-commenting-o')
         ->setHref($this->getApplicationURI("mfa/message/{$id}/"))

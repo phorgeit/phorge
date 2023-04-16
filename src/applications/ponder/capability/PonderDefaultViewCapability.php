@@ -1,7 +1,7 @@
 <?php
 
 final class PonderDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'ponder.default.view';
 

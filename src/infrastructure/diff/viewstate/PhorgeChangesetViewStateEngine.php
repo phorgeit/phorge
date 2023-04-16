@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChangesetViewStateEngine
+final class PhorgeChangesetViewStateEngine
   extends Phobject {
 
   private $viewer;
@@ -8,7 +8,7 @@ final class PhabricatorChangesetViewStateEngine
   private $changeset;
   private $storage;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -67,7 +67,7 @@ final class PhabricatorChangesetViewStateEngine
 
     $this->saveViewStateStorage();
 
-    $state = new PhabricatorChangesetViewState();
+    $state = new PhorgeChangesetViewState();
 
     $highlight_language = $this->getChangesetProperty('highlight');
     $state->setHighlightLanguage($highlight_language);
@@ -159,7 +159,7 @@ final class PhabricatorChangesetViewStateEngine
   }
 
   private function saveViewStateStorage() {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
@@ -186,7 +186,7 @@ final class PhabricatorChangesetViewStateEngine
     unset($unguarded);
   }
 
-  private function updateHiddenState(PhabricatorChangesetViewState $state) {
+  private function updateHiddenState(PhorgeChangesetViewState $state) {
     $is_hidden = false;
     $was_modified = false;
 

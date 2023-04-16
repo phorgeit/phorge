@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarImportDefaultLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportDefaultLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'default';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
 
     $type = $log->getParameter('type');
     if (strlen($type)) {

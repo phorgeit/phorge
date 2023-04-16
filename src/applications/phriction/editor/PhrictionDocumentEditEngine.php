@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'phriction.document';
 
@@ -22,7 +22,7 @@ final class PhrictionDocumentEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   protected function newEditableObject() {
@@ -75,7 +75,7 @@ final class PhrictionDocumentEditEngine
 
   protected function getCreateNewObjectPolicy() {
     // NOTE: For now, this engine is only to support commenting.
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
   protected function buildCustomEditFields($object) {

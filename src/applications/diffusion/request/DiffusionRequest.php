@@ -88,7 +88,7 @@ abstract class DiffusionRequest extends Phobject {
     }
 
     if ($have_repository) {
-      if (!($repository instanceof PhabricatorRepository)) {
+      if (!($repository instanceof PhorgeRepository)) {
         if (empty($data[$viewer_key])) {
           throw new Exception(
             pht(
@@ -134,16 +134,16 @@ abstract class DiffusionRequest extends Phobject {
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
    * @param   string              Repository identifier.
-   * @param   PhabricatorUser     Viewing user.
+   * @param   PhorgeUser     Viewing user.
    * @return  DiffusionRequest    New request object.
    * @task new
    */
   private static function newFromIdentifier(
     $identifier,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $need_edit = false) {
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIdentifiers(array($identifier))
       ->needProfileImage(true)
@@ -152,8 +152,8 @@ abstract class DiffusionRequest extends Phobject {
     if ($need_edit) {
       $query->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ));
     }
 
@@ -170,17 +170,17 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
-   * @param   PhabricatorRepository   Repository object.
+   * @param   PhorgeRepository   Repository object.
    * @return  DiffusionRequest        New request object.
    * @task new
    */
   private static function newFromRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
 
     $map = array(
-      PhabricatorRepositoryType::REPOSITORY_TYPE_GIT => 'DiffusionGitRequest',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_SVN => 'DiffusionSvnRequest',
-      PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL =>
+      PhorgeRepositoryType::REPOSITORY_TYPE_GIT => 'DiffusionGitRequest',
+      PhorgeRepositoryType::REPOSITORY_TYPE_SVN => 'DiffusionSvnRequest',
+      PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL =>
         'DiffusionMercurialRequest',
     );
 
@@ -228,7 +228,7 @@ abstract class DiffusionRequest extends Phobject {
         throw new Exception(
           pht(
             'You must provide a %s in the dictionary!',
-            'PhabricatorUser'));
+            'PhorgeUser'));
       }
       $this->setUser($user);
     }
@@ -236,7 +236,7 @@ abstract class DiffusionRequest extends Phobject {
     $this->didInitialize();
   }
 
-  final public function setUser(PhabricatorUser $user) {
+  final public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -366,7 +366,7 @@ abstract class DiffusionRequest extends Phobject {
     // TODO: Get rid of this and do real Queries on real objects.
 
     if ($this->branchObject === false) {
-      $this->branchObject = PhabricatorRepositoryBranch::loadBranch(
+      $this->branchObject = PhorgeRepositoryBranch::loadBranch(
         $this->getRepository()->getID(),
         $this->getArcanistBranch());
     }
@@ -385,7 +385,7 @@ abstract class DiffusionRequest extends Phobject {
     $path_map = id(new DiffusionPathIDQuery(array($path)))->loadPathIDs();
 
     $coverage_row = queryfx_one(
-      id(new PhabricatorRepository())->establishConnection('r'),
+      id(new PhorgeRepository())->establishConnection('r'),
       'SELECT * FROM %T WHERE branchID = %d AND pathID = %d
         ORDER BY commitID DESC LIMIT 1',
       'repository_coverage',
@@ -420,11 +420,11 @@ abstract class DiffusionRequest extends Phobject {
   public function loadCommitData() {
     if (empty($this->repositoryCommitData)) {
       $commit = $this->loadCommit();
-      $data = id(new PhabricatorRepositoryCommitData())->loadOneWhere(
+      $data = id(new PhorgeRepositoryCommitData())->loadOneWhere(
         'commitID = %d',
         $commit->getID());
       if (!$data) {
-        $data = new PhabricatorRepositoryCommitData();
+        $data = new PhorgeRepositoryCommitData();
         $data->setCommitMessage(
           pht('(This commit has not been fully parsed yet.)'));
       }
@@ -580,7 +580,7 @@ abstract class DiffusionRequest extends Phobject {
       if ($this->supportsBranches()) {
         $ref = $this->getBranch();
         $types = array(
-          PhabricatorRepositoryRefCursor::TYPE_BRANCH,
+          PhorgeRepositoryRefCursor::TYPE_BRANCH,
         );
       } else {
         $ref = 'HEAD';

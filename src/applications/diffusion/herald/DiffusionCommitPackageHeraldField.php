@@ -23,7 +23,7 @@ final class DiffusionCommitPackageHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorOwnersPackageDatasource();
+    return new PhorgeOwnersPackageDatasource();
   }
 
 }

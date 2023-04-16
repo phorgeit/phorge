@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProjectMembersViewController
-  extends PhabricatorProjectController {
+final class PhorgeProjectMembersViewController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needMembers(true)
@@ -22,14 +22,14 @@ final class PhabricatorProjectMembersViewController
     $title = pht('Members and Watchers');
     $curtain = $this->buildCurtainView($project);
 
-    $member_list = id(new PhabricatorProjectMemberListView())
+    $member_list = id(new PhorgeProjectMemberListView())
       ->setUser($viewer)
       ->setProject($project)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setUserPHIDs($project->getMemberPHIDs())
       ->setShowNote(true);
 
-    $watcher_list = id(new PhabricatorProjectWatcherListView())
+    $watcher_list = id(new PhorgeProjectWatcherListView())
       ->setUser($viewer)
       ->setProject($project)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
@@ -38,7 +38,7 @@ final class PhabricatorProjectMembersViewController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_MEMBERS);
+      PhorgeProject::ITEM_MEMBERS);
 
     $crumbs = $this->buildApplicationCrumbs();
     $crumbs->addTextCrumb(pht('Members'));
@@ -67,7 +67,7 @@ final class PhabricatorProjectMembersViewController
       ->appendChild($view);
   }
 
-  private function buildCurtainView(PhabricatorProject $project) {
+  private function buildCurtainView(PhorgeProject $project) {
     $viewer = $this->getViewer();
     $id = $project->getID();
 
@@ -75,17 +75,17 @@ final class PhabricatorProjectMembersViewController
 
     $is_locked = $project->getIsMembershipLocked();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $supports_edit = $project->supportsEditMembers();
 
-    $can_join = $supports_edit && PhabricatorPolicyFilter::hasCapability(
+    $can_join = $supports_edit && PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_JOIN);
+      PhorgePolicyCapability::CAN_JOIN);
 
     $can_leave = $supports_edit && (!$is_locked || $can_edit);
 
@@ -93,7 +93,7 @@ final class PhabricatorProjectMembersViewController
 
     if (!$project->isUserMember($viewer_phid)) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref('/project/update/'.$project->getID().'/join/')
           ->setIcon('fa-plus')
           ->setDisabled(!$can_join)
@@ -101,7 +101,7 @@ final class PhabricatorProjectMembersViewController
           ->setName(pht('Join Project')));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref('/project/update/'.$project->getID().'/leave/')
           ->setIcon('fa-times')
           ->setDisabled(!$can_leave)
@@ -111,14 +111,14 @@ final class PhabricatorProjectMembersViewController
 
     if (!$project->isUserWatcher($viewer->getPHID())) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setWorkflow(true)
           ->setHref('/project/watch/'.$project->getID().'/')
           ->setIcon('fa-eye')
           ->setName(pht('Watch Project')));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setWorkflow(true)
           ->setHref('/project/unwatch/'.$project->getID().'/')
           ->setIcon('fa-eye-slash')
@@ -135,7 +135,7 @@ final class PhabricatorProjectMembersViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($silence_text)
         ->setIcon('fa-envelope-o')
         ->setHref("/project/silence/{$id}/")
@@ -145,7 +145,7 @@ final class PhabricatorProjectMembersViewController
     $can_add = $can_edit && $supports_edit;
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Add Members'))
         ->setIcon('fa-user-plus')
         ->setHref("/project/members/{$id}/add/")
@@ -164,7 +164,7 @@ final class PhabricatorProjectMembersViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($lock_name)
         ->setIcon($lock_icon)
         ->setHref($this->getApplicationURI("lock/{$id}/"))
@@ -172,8 +172,8 @@ final class PhabricatorProjectMembersViewController
         ->setWorkflow(true));
 
     if ($project->isMilestone()) {
-      $icon_key = PhabricatorProjectIconSet::getMilestoneIconKey();
-      $header = PhabricatorProjectIconSet::getIconName($icon_key);
+      $icon_key = PhorgeProjectIconSet::getMilestoneIconKey();
+      $header = PhorgeProjectIconSet::getIconName($icon_key);
       $note = pht(
         'Members of the parent project are members of this project.');
       $show_join = false;
@@ -198,19 +198,19 @@ final class PhabricatorProjectMembersViewController
       ->appendChild($note);
 
     if ($show_join) {
-      $descriptions = PhabricatorPolicyQuery::renderPolicyDescriptions(
+      $descriptions = PhorgePolicyQuery::renderPolicyDescriptions(
         $viewer,
         $project);
 
       $curtain->newPanel()
         ->setHeaderText(pht('Joinable By'))
-        ->appendChild($descriptions[PhabricatorPolicyCapability::CAN_JOIN]);
+        ->appendChild($descriptions[PhorgePolicyCapability::CAN_JOIN]);
     }
 
     return $curtain;
   }
 
-  private function isProjectSilenced(PhabricatorProject $project) {
+  private function isProjectSilenced(PhorgeProject $project) {
     $viewer = $this->getViewer();
 
     $viewer_phid = $viewer->getPHID();
@@ -218,8 +218,8 @@ final class PhabricatorProjectMembersViewController
       return false;
     }
 
-    $edge_type = PhabricatorProjectSilencedEdgeType::EDGECONST;
-    $silenced = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $edge_type = PhorgeProjectSilencedEdgeType::EDGECONST;
+    $silenced = PhorgeEdgeQuery::loadDestinationPHIDs(
       $project->getPHID(),
       $edge_type);
     $silenced = array_fuse($silenced);

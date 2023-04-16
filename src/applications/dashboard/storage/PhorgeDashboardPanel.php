@@ -3,16 +3,16 @@
 /**
  * An individual dashboard panel.
  */
-final class PhabricatorDashboardPanel
-  extends PhabricatorDashboardDAO
+final class PhorgeDashboardPanel
+  extends PhorgeDashboardDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorDashboardPanelContainerInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeDashboardPanelContainerInterface {
 
   protected $name;
   protected $panelType;
@@ -22,11 +22,11 @@ final class PhabricatorDashboardPanel
   protected $isArchived = 0;
   protected $properties = array();
 
-  public static function initializeNewPanel(PhabricatorUser $actor) {
-    return id(new PhabricatorDashboardPanel())
+  public static function initializeNewPanel(PhorgeUser $actor) {
+    return id(new PhorgeDashboardPanel())
       ->setName('')
       ->setAuthorPHID($actor->getPHID())
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
       ->setEditPolicy($actor->getPHID());
   }
 
@@ -46,7 +46,7 @@ final class PhabricatorDashboardPanel
   }
 
   public function getPHIDType() {
-    return PhabricatorDashboardPanelPHIDType::TYPECONST;
+    return PhorgeDashboardPanelPHIDType::TYPECONST;
   }
 
   public function getProperty($key, $default = null) {
@@ -67,7 +67,7 @@ final class PhabricatorDashboardPanel
   }
 
   public function getPanelTypes() {
-    $panel_types = PhabricatorDashboardPanelType::getAllPanelTypes();
+    $panel_types = PhorgeDashboardPanelType::getAllPanelTypes();
     $panel_types = mpull($panel_types, 'getPanelTypeName', 'getPanelTypeKey');
     asort($panel_types);
     $panel_types = (array('' => pht('(All Types)')) + $panel_types);
@@ -86,7 +86,7 @@ final class PhabricatorDashboardPanel
 
   public function getImplementation() {
     return idx(
-      PhabricatorDashboardPanelType::getAllPanelTypes(),
+      PhorgeDashboardPanelType::getAllPanelTypes(),
       $this->getPanelType());
   }
 
@@ -107,7 +107,7 @@ final class PhabricatorDashboardPanel
   }
 
   public function newHeaderEditActions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $context_phid) {
     return $this->requireImplementation()->newHeaderEditActions(
       $this,
@@ -116,69 +116,69 @@ final class PhabricatorDashboardPanel
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorDashboardPanelTransactionEditor();
+    return new PhorgeDashboardPanelTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorDashboardPanelTransaction();
+    return new PhorgeDashboardPanelTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorDashboardPanelContainerInterface  )------------------------ */
+/* -(  PhorgeDashboardPanelContainerInterface  )------------------------ */
 
   public function getDashboardPanelContainerPanelPHIDs() {
     return $this->requireImplementation()->getSubpanelPHIDs($this);
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
-    return new PhabricatorDashboardPanelFulltextEngine();
+    return new PhorgeDashboardPanelFulltextEngine();
   }
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
   public function newFerretEngine() {
-    return new PhabricatorDashboardPanelFerretEngine();
+    return new PhorgeDashboardPanelFerretEngine();
   }
 
 }

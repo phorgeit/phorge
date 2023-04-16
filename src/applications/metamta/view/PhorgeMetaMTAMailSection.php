@@ -7,7 +7,7 @@
  * @task render   Rendering
  * @group metamta
  */
-final class PhabricatorMetaMTAMailSection extends Phobject {
+final class PhorgeMetaMTAMailSection extends Phobject {
   private $plaintextFragments = array();
   private $htmlFragments = array();
 

@@ -2,11 +2,11 @@
 
 final class DivinerLiveBook extends DivinerDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFulltextInterface {
+    PhorgePolicyInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeFulltextInterface {
 
   protected $name;
   protected $repositoryPHID;
@@ -51,7 +51,7 @@ final class DivinerLiveBook extends DivinerDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(DivinerBookPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(DivinerBookPHIDType::TYPECONST);
   }
 
   public function getTitle() {
@@ -72,7 +72,7 @@ final class DivinerLiveBook extends DivinerDAO
     return idx($spec, 'name', $group);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(PhorgeRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -91,35 +91,35 @@ final class DivinerLiveBook extends DivinerDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $atoms = id(new DivinerAtomQuery())
@@ -136,7 +136,7 @@ final class DivinerLiveBook extends DivinerDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -147,7 +147,7 @@ final class DivinerLiveBook extends DivinerDAO
     return new DivinerLiveBookTransaction();
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {

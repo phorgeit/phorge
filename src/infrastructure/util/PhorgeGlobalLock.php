@@ -14,7 +14,7 @@
  * roundtrips). This makes it unsuitable for tasks where lock performance is
  * important.
  *
- *    $lock = PhabricatorGlobalLock::newLock('example');
+ *    $lock = PhorgeGlobalLock::newLock('example');
  *    $lock->lock();
  *      do_contentious_things();
  *    $lock->unlock();
@@ -26,7 +26,7 @@
  * @task construct  Constructing Locks
  * @task impl       Implementation
  */
-final class PhabricatorGlobalLock extends PhutilLock {
+final class PhorgeGlobalLock extends PhutilLock {
 
   private $parameters;
   private $conn;
@@ -41,8 +41,8 @@ final class PhabricatorGlobalLock extends PhutilLock {
 
 
   public static function newLock($name, $parameters = array()) {
-    $namespace = PhabricatorLiskDAO::getStorageNamespace();
-    $namespace = PhabricatorHash::digestToLength($namespace, 20);
+    $namespace = PhorgeLiskDAO::getStorageNamespace();
+    $namespace = PhorgeHash::digestToLength($namespace, 20);
 
     $parts = array();
     ksort($parameters);
@@ -67,12 +67,12 @@ final class PhabricatorGlobalLock extends PhutilLock {
     $parts = implode(', ', $parts);
 
     $local = "{$name}({$parts})";
-    $local = PhabricatorHash::digestToLength($local, 20);
+    $local = PhorgeHash::digestToLength($local, 20);
 
     $full_name = "ph:{$namespace}:{$local}";
     $lock = self::getLock($full_name);
     if (!$lock) {
-      $lock = new PhabricatorGlobalLock($full_name);
+      $lock = new PhorgeGlobalLock($full_name);
       self::registerLock($lock);
 
       $lock->parameters = $parameters;
@@ -84,7 +84,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
   /**
    * Use a specific database connection for locking.
    *
-   * By default, `PhabricatorGlobalLock` will lock on the "repository" database
+   * By default, `PhorgeGlobalLock` will lock on the "repository" database
    * (somewhat arbitrarily). In most cases this is fine, but this method can
    * be used to lock on a specific connection.
    *
@@ -129,7 +129,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
     // We could build a database-free connection instead, but that's kind of
     // messy and unusual.
 
-    $dao = new PhabricatorRepository();
+    $dao = new PhorgeRepository();
 
     // NOTE: Using "force_new" to make sure each lock is on its own connection.
 
@@ -218,7 +218,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
     if ($this->shouldLogLock()) {
       $lock_context = $this->newLockContext();
 
-      $log = id(new PhabricatorDaemonLockLog())
+      $log = id(new PhorgeDaemonLockLog())
         ->setLockName($lock_name)
         ->setLockParameters($this->parameters)
         ->setLockContext($lock_context)
@@ -276,7 +276,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
       return false;
     }
 
-    $policy = id(new PhabricatorDaemonLockLogGarbageCollector())
+    $policy = id(new PhorgeDaemonLockLogGarbageCollector())
       ->getRetentionPolicy();
     if (!$policy) {
       return false;
@@ -307,10 +307,10 @@ final class PhabricatorGlobalLock extends PhutilLock {
     // "AccessLog" if we do, since that's the only one we actually read any
     // parameters from.
 
-    // NOTE: "PhabricatorStartup" is only available from web requests, not
+    // NOTE: "PhorgeStartup" is only available from web requests, not
     // from CLI scripts.
-    if (class_exists('PhabricatorStartup', false)) {
-      $access_log = PhabricatorAccessLog::getLog();
+    if (class_exists('PhorgeStartup', false)) {
+      $access_log = PhorgeAccessLog::getLog();
     }
 
     if ($access_log) {
@@ -335,14 +335,14 @@ final class PhabricatorGlobalLock extends PhutilLock {
         'which process is holding this lock.');
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // First, look for recent logs. If other processes have been acquiring and
     // releasing this lock while we've been waiting, this is more likely to be
     // a contention/throughput issue than an issue with something hung while
     // holding the lock.
     $limit = 100;
-    $logs = id(new PhabricatorDaemonLockLog())->loadAllWhere(
+    $logs = id(new PhorgeDaemonLockLog())->loadAllWhere(
       'lockName = %s AND dateCreated >= %d ORDER BY id ASC LIMIT %d',
       $lock_name,
       ($now - $wait),
@@ -368,7 +368,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
       }
     }
 
-    $last_log = id(new PhabricatorDaemonLockLog())->loadOneWhere(
+    $last_log = id(new PhorgeDaemonLockLog())->loadOneWhere(
       'lockName = %s ORDER BY id DESC LIMIT 1',
       $lock_name);
 

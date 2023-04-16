@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWorkerBulkJobPHIDType extends PhabricatorPHIDType {
+final class PhorgeWorkerBulkJobPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'BULK';
 
@@ -9,23 +9,23 @@ final class PhabricatorWorkerBulkJobPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorWorkerBulkJob();
+    return new PhorgeWorkerBulkJob();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return 'PhorgeDaemonsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorWorkerBulkJobQuery())
+    return id(new PhorgeWorkerBulkJobQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

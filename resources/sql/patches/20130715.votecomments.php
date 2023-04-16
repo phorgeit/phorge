@@ -2,10 +2,10 @@
 
 echo pht('Moving Slowvote comments to transactions...')."\n";
 
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
-$table_xaction = new PhabricatorSlowvoteTransaction();
-$table_comment = new PhabricatorSlowvoteTransactionComment();
+$table_xaction = new PhorgeSlowvoteTransaction();
+$table_comment = new PhorgeSlowvoteTransactionComment();
 $conn_w = $table_xaction->establishConnection('w');
 
 $comments = new LiskRawMigrationIterator($conn_w, 'slowvote_comment');
@@ -22,7 +22,7 @@ foreach ($comments as $comment) {
 
   echo pht('Migrating comment %d.', $id)."\n";
 
-  $poll = id(new PhabricatorSlowvoteQuery())
+  $poll = id(new PhorgeSlowvoteQuery())
     ->setViewer($viewer)
     ->withIDs(array($poll_id))
     ->executeOne();
@@ -31,7 +31,7 @@ foreach ($comments as $comment) {
     continue;
   }
 
-  $user = id(new PhabricatorPeopleQuery())
+  $user = id(new PhorgePeopleQuery())
     ->setViewer($viewer)
     ->withPHIDs(array($author_phid))
     ->executeOne();
@@ -40,14 +40,14 @@ foreach ($comments as $comment) {
     continue;
   }
 
-  $comment_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorPHIDConstants::PHID_TYPE_XCMT);
-  $xaction_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
-    PhabricatorSlowvotePollPHIDType::TYPECONST);
+  $comment_phid = PhorgePHID::generateNewPHID(
+    PhorgePHIDConstants::PHID_TYPE_XCMT);
+  $xaction_phid = PhorgePHID::generateNewPHID(
+    PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
+    PhorgeSlowvotePollPHIDType::TYPECONST);
 
-  $content_source = PhabricatorContentSource::newForSource(
-    PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+  $content_source = PhorgeContentSource::newForSource(
+    PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
   queryfx(
     $conn_w,
@@ -61,7 +61,7 @@ foreach ($comments as $comment) {
     $comment_phid,
     $xaction_phid,
     $user->getPHID(),
-    PhabricatorPolicies::POLICY_PUBLIC,
+    PhorgePolicies::POLICY_PUBLIC,
     $user->getPHID(),
     1,
     $text,
@@ -82,11 +82,11 @@ foreach ($comments as $comment) {
     $xaction_phid,
     $user->getPHID(),
     $poll->getPHID(),
-    PhabricatorPolicies::POLICY_PUBLIC,
+    PhorgePolicies::POLICY_PUBLIC,
     $user->getPHID(),
     $comment_phid,
     1,
-    PhabricatorTransactions::TYPE_COMMENT,
+    PhorgeTransactions::TYPE_COMMENT,
     null,
     null,
     $source,

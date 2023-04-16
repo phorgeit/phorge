@@ -1,14 +1,14 @@
 <?php
 
 final class DiffusionCommitSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'diffusion.commit.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorCommitSearchEngine();
+    return new PhorgeCommitSearchEngine();
   }
 
   public function getMethodSummary() {

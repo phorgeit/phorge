@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConfigStorageSchema extends Phobject {
+abstract class PhorgeConfigStorageSchema extends Phobject {
 
   const ISSUE_MISSING = 'missing';
   const ISSUE_MISSINGKEY = 'missingkey';
@@ -29,10 +29,10 @@ abstract class PhabricatorConfigStorageSchema extends Phobject {
 
   abstract public function newEmptyClone();
   abstract protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect);
+    PhorgeConfigStorageSchema $expect);
   abstract protected function getSubschemata();
 
-  public function compareTo(PhabricatorConfigStorageSchema $expect) {
+  public function compareTo(PhorgeConfigStorageSchema $expect) {
     if (get_class($expect) != get_class($this)) {
       throw new Exception(pht('Classes must match to compare schemata!'));
     }

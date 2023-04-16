@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorColumnsEditField
-  extends PhabricatorPHIDListEditField {
+final class PhorgeColumnsEditField
+  extends PhorgePHIDListEditField {
 
   private $columnMap;
 
@@ -35,7 +35,7 @@ final class PhabricatorColumnsEditField
       return null;
     }
 
-    return id(new PhabricatorEditEngineColumnsCommentAction())
+    return id(new PhorgeEditEngineColumnsCommentAction())
       ->setColumnMap($this->getColumnMap());
   }
 

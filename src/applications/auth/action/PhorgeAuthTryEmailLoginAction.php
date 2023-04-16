@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTryEmailLoginAction
-  extends PhabricatorSystemAction {
+final class PhorgeAuthTryEmailLoginAction
+  extends PhorgeSystemAction {
 
   const TYPECONST = 'mail.try-login';
 

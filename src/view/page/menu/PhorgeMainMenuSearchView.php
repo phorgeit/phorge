@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMainMenuSearchView extends AphrontView {
+final class PhorgeMainMenuSearchView extends AphrontView {
 
   const DEFAULT_APPLICATION_ICON = 'fa-dot-circle-o';
 
   private $id;
   private $application;
 
-  public function setApplication(PhabricatorApplication $application) {
+  public function setApplication(PhorgeApplication $application) {
     $this->application = $application;
     return $this;
   }
@@ -52,8 +52,8 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
       ),
       '');
 
-    $search_datasource = new PhabricatorSearchDatasource();
-    $scope_key = PhabricatorSearchScopeSetting::SETTINGKEY;
+    $search_datasource = new PhorgeSearchDatasource();
+    $scope_key = PhorgeSearchScopeSetting::SETTINGKEY;
 
     Javelin::initBehavior(
       'phorge-search-typeahead',
@@ -64,7 +64,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
         'selectorID' => $selector_id,
         'applicationID' => $application_id,
         'defaultApplicationIcon' => self::DEFAULT_APPLICATION_ICON,
-        'appScope' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
+        'appScope' => PhorgeSearchController::SCOPE_CURRENT_APPLICATION,
         'src' => $search_datasource->getDatasourceURI(),
         'limit' => 10,
         'placeholder' => pht('Search'),
@@ -117,8 +117,8 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
   }
 
   public static function getGlobalSearchScopeItems(
-    PhabricatorUser $viewer,
-    PhabricatorApplication $application = null,
+    PhorgeUser $viewer,
+    PhorgeApplication $application = null,
     $global_only = false) {
 
     $items = array();
@@ -144,7 +144,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
     $items[] = array(
       'icon' => $application_icon,
       'name' => pht('Current Application'),
-      'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
+      'value' => PhorgeSearchController::SCOPE_CURRENT_APPLICATION,
     );
 
     $items[] = array(
@@ -152,7 +152,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
     );
 
 
-    $engine = id(new PhabricatorSearchApplicationSearchEngine())
+    $engine = id(new PhorgeSearchApplicationSearchEngine())
       ->setViewer($viewer);
     $engine_queries = $engine->loadEnabledNamedQueries();
     foreach ($engine_queries as $query) {
@@ -193,7 +193,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
     $items[] = array(
       'icon' => 'fa-book',
       'name' => pht('User Guide: Search'),
-      'href' => PhabricatorEnv::getDoclink('Search User Guide'),
+      'href' => PhorgeEnv::getDoclink('Search User Guide'),
     );
 
     return $items;
@@ -204,7 +204,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $items = self::getGlobalSearchScopeItems($viewer, $this->getApplication());
 
-    $scope_key = PhabricatorSearchScopeSetting::SETTINGKEY;
+    $scope_key = PhorgeSearchScopeSetting::SETTINGKEY;
     $current_value = $viewer->getUserSetting($scope_key);
 
     $current_icon = 'fa-globe';

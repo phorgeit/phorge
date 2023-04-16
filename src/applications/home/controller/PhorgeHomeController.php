@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorHomeController
-  extends PhabricatorController {}
+abstract class PhorgeHomeController
+  extends PhorgeController {}

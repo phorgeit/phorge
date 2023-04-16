@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSlugTestCase extends PhabricatorTestCase {
+final class PhorgeSlugTestCase extends PhorgeTestCase {
 
   public function testSlugNormalization() {
     $slugs = array(
@@ -42,7 +42,7 @@ final class PhabricatorSlugTestCase extends PhabricatorTestCase {
     foreach ($slugs as $slug => $normal) {
       $this->assertEqual(
         $normal,
-        PhabricatorSlug::normalize($slug),
+        PhorgeSlug::normalize($slug),
         pht("Normalization of '%s'", $slug));
     }
   }
@@ -60,7 +60,7 @@ final class PhabricatorSlugTestCase extends PhabricatorTestCase {
     foreach ($slugs as $slug => $normal) {
       $this->assertEqual(
         $normal,
-        PhabricatorSlug::normalizeProjectSlug($slug),
+        PhorgeSlug::normalizeProjectSlug($slug),
         pht('Hashtag normalization of "%s"', $slug));
     }
   }
@@ -75,7 +75,7 @@ final class PhabricatorSlugTestCase extends PhabricatorTestCase {
     foreach ($slugs as $slug => $ancestry) {
       $this->assertEqual(
         $ancestry,
-        PhabricatorSlug::getAncestry($slug),
+        PhorgeSlug::getAncestry($slug),
         pht("Ancestry of '%s'", $slug));
     }
   }
@@ -91,7 +91,7 @@ final class PhabricatorSlugTestCase extends PhabricatorTestCase {
     foreach ($slugs as $slug => $depth) {
       $this->assertEqual(
         $depth,
-        PhabricatorSlug::getDepth($slug),
+        PhorgeSlug::getDepth($slug),
         pht("Depth of '%s'", $slug));
     }
   }

@@ -1,19 +1,19 @@
 <?php
 
-abstract class PhabricatorWorkingCopyTestCase extends PhabricatorTestCase {
+abstract class PhorgeWorkingCopyTestCase extends PhorgeTestCase {
 
   private $dirs = array();
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   protected function buildBareRepository($callsign) {
-    $existing_repository = id(new PhabricatorRepositoryQuery())
+    $existing_repository = id(new PhorgeRepositoryQuery())
       ->withCallsigns(array($callsign))
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->executeOne();
     if ($existing_repository) {
       $existing_repository->delete();
@@ -22,9 +22,9 @@ abstract class PhabricatorWorkingCopyTestCase extends PhabricatorTestCase {
     $data_dir = dirname(__FILE__).'/data/';
 
     $types = array(
-      'svn'   => PhabricatorRepositoryType::REPOSITORY_TYPE_SVN,
-      'hg'    => PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL,
-      'git'   => PhabricatorRepositoryType::REPOSITORY_TYPE_GIT,
+      'svn'   => PhorgeRepositoryType::REPOSITORY_TYPE_SVN,
+      'hg'    => PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL,
+      'git'   => PhorgeRepositoryType::REPOSITORY_TYPE_GIT,
     );
 
     $hits = array();
@@ -61,7 +61,7 @@ abstract class PhabricatorWorkingCopyTestCase extends PhabricatorTestCase {
     $local = new TempFile('.ignore');
 
     $user = $this->generateNewTestUser();
-    $repo = PhabricatorRepository::initializeNewRepository($user)
+    $repo = PhorgeRepository::initializeNewRepository($user)
       ->setCallsign($callsign)
       ->setName(pht('Test Repo "%s"', $callsign))
       ->setVersionControlSystem($vcs_type)
@@ -79,14 +79,14 @@ abstract class PhabricatorWorkingCopyTestCase extends PhabricatorTestCase {
     return $repo;
   }
 
-  protected function didConstructRepository(PhabricatorRepository $repository) {
+  protected function didConstructRepository(PhorgeRepository $repository) {
     return;
   }
 
   protected function buildPulledRepository($callsign) {
     $repository = $this->buildBareRepository($callsign);
 
-    id(new PhabricatorRepositoryPullEngine())
+    id(new PhorgeRepositoryPullEngine())
       ->setRepository($repository)
       ->pullRepository();
 
@@ -96,7 +96,7 @@ abstract class PhabricatorWorkingCopyTestCase extends PhabricatorTestCase {
   protected function buildDiscoveredRepository($callsign) {
     $repository = $this->buildPulledRepository($callsign);
 
-    id(new PhabricatorRepositoryDiscoveryEngine())
+    id(new PhorgeRepositoryDiscoveryEngine())
       ->setRepository($repository)
       ->discoverCommits();
 

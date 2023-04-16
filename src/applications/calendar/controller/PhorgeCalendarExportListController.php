@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarExportListController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarExportListController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorCalendarExportSearchEngine())
+    return id(new PhorgeCalendarExportSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -13,7 +13,7 @@ final class PhabricatorCalendarExportListController
     $crumbs = parent::buildApplicationCrumbs();
 
     $doc_name = 'Calendar User Guide: Exporting Events';
-    $doc_href = PhabricatorEnv::getDoclink($doc_name);
+    $doc_href = PhorgeEnv::getDoclink($doc_name);
 
     $crumbs->addAction(
       id(new PHUIListItemView())

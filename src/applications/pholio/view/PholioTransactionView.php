@@ -1,7 +1,7 @@
 <?php
 
 final class PholioTransactionView
-  extends PhabricatorApplicationTransactionView {
+  extends PhorgeApplicationTransactionView {
 
   private $mock;
 
@@ -15,8 +15,8 @@ final class PholioTransactionView
   }
 
   protected function shouldGroupTransactions(
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     if ($u->getAuthorPHID() != $v->getAuthorPHID()) {
       // Don't group transactions by different authors.
@@ -29,7 +29,7 @@ final class PholioTransactionView
     }
 
     switch ($u->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
       case PholioMockInlineTransaction::TRANSACTIONTYPE:
         break;
       default:
@@ -45,7 +45,7 @@ final class PholioTransactionView
   }
 
   protected function renderTransactionContent(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $out = array();
 

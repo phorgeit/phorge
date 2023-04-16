@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementUpgradeWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementUpgradeWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -108,9 +108,9 @@ final class PhabricatorStorageManagementUpgradeWorkflow
     // Synchronize the InnoDB fulltext stopwords table from the stopwords file
     // on disk.
 
-    $table = new PhabricatorSearchDocument();
+    $table = new PhorgeSearchDocument();
     $conn = $table->establishConnection('w');
-    $table_ref = PhabricatorSearchDocument::STOPWORDS_TABLE;
+    $table_ref = PhorgeSearchDocument::STOPWORDS_TABLE;
 
     $stopwords_database = queryfx_all(
       $conn,

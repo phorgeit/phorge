@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSearchEngineAttachment extends Phobject {
+abstract class PhorgeSearchEngineAttachment extends Phobject {
 
   private $attachmentKey;
   private $viewer;
@@ -16,7 +16,7 @@ abstract class PhabricatorSearchEngineAttachment extends Phobject {
   }
 
   final public function setSearchEngine(
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeApplicationSearchEngine $engine) {
     $this->searchEngine = $engine;
     return $this;
   }

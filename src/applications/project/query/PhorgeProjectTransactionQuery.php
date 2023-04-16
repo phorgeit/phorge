@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProjectTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeProjectTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorProjectTransaction();
+    return new PhorgeProjectTransaction();
   }
 
 }

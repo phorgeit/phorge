@@ -6,12 +6,12 @@
  * is to make the workflows highly testable, because this code is high-stakes
  * and difficult to test.
  */
-final class PhabricatorAuthInviteEngine extends Phobject {
+final class PhorgeAuthInviteEngine extends Phobject {
 
   private $viewer;
   private $userHasConfirmedVerify;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -35,12 +35,12 @@ final class PhabricatorAuthInviteEngine extends Phobject {
   public function processInviteCode($code) {
     $viewer = $this->getViewer();
 
-    $invite = id(new PhabricatorAuthInviteQuery())
+    $invite = id(new PhorgeAuthInviteQuery())
       ->setViewer($viewer)
       ->withVerificationCodes(array($code))
       ->executeOne();
     if (!$invite) {
-      throw id(new PhabricatorAuthInviteInvalidException(
+      throw id(new PhorgeAuthInviteInvalidException(
         pht('Bad Invite Code'),
         pht(
           'The invite code in the link you clicked is invalid. Check that '.
@@ -52,14 +52,14 @@ final class PhabricatorAuthInviteEngine extends Phobject {
     $accepted_phid = $invite->getAcceptedByPHID();
     if ($accepted_phid) {
       if ($accepted_phid == $viewer->getPHID()) {
-        throw id(new PhabricatorAuthInviteInvalidException(
+        throw id(new PhorgeAuthInviteInvalidException(
           pht('Already Accepted'),
           pht(
             'You have already accepted this invitation.')))
           ->setCancelButtonURI('/')
           ->setCancelButtonText(pht('Awesome'));
       } else {
-        throw id(new PhabricatorAuthInviteInvalidException(
+        throw id(new PhorgeAuthInviteInvalidException(
           pht('Already Accepted'),
           pht(
             'The invite code in the link you clicked has already '.
@@ -69,7 +69,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
       }
     }
 
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'address = %s',
       $invite->getEmailAddress());
 
@@ -81,7 +81,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
       $other_user = $this->loadUserForEmail($email);
 
       if ($email->getIsVerified()) {
-        throw id(new PhabricatorAuthInviteLoginException(
+        throw id(new PhorgeAuthInviteLoginException(
           pht('Already Registered'),
           pht(
             'The email address you just clicked a link from is already '.
@@ -91,7 +91,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
           ->setCancelButtonText(pht('Log In'))
           ->setCancelButtonURI($this->getLoginURI());
       } else if ($email->getIsPrimary()) {
-        throw id(new PhabricatorAuthInviteLoginException(
+        throw id(new PhorgeAuthInviteLoginException(
           pht('Already Registered'),
           pht(
             'The email address you just clicked a link from is already '.
@@ -101,7 +101,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
           ->setCancelButtonText(pht('Log In'))
           ->setCancelButtonURI($this->getLoginURI());
       } else if (!$this->shouldVerify()) {
-        throw id(new PhabricatorAuthInviteVerifyException(
+        throw id(new PhorgeAuthInviteVerifyException(
           pht('Already Associated'),
           pht(
             'The email address you just clicked a link from is already '.
@@ -123,14 +123,14 @@ final class PhabricatorAuthInviteEngine extends Phobject {
   }
 
   private function handleLoggedInInvite(
-    PhabricatorAuthInvite $invite,
-    PhabricatorUser $viewer,
-    PhabricatorUserEmail $email = null) {
+    PhorgeAuthInvite $invite,
+    PhorgeUser $viewer,
+    PhorgeUserEmail $email = null) {
 
     if ($email && ($email->getUserPHID() !== $viewer->getPHID())) {
       $other_user = $this->loadUserForEmail($email);
       if ($email->getIsVerified()) {
-        throw id(new PhabricatorAuthInviteAccountException(
+        throw id(new PhorgeAuthInviteAccountException(
           pht('Wrong Account'),
           pht(
             'You are logged in as %s, but the email address you just '.
@@ -146,7 +146,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
         // if they are unverified. This would leave the other account with
         // no address. Users can use password recovery to access the other
         // account if they really control the address.
-        throw id(new PhabricatorAuthInviteAccountException(
+        throw id(new PhorgeAuthInviteAccountException(
           pht('Wrong Account'),
           pht(
             'You are logged in as %s, but the email address you just '.
@@ -158,7 +158,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
           ->setSubmitButtonURI($this->getLogoutURI())
           ->setCancelButtonURI('/');
       } else if (!$this->shouldVerify()) {
-        throw id(new PhabricatorAuthInviteVerifyException(
+        throw id(new PhorgeAuthInviteVerifyException(
           pht('Verify Email'),
           pht(
             'You are logged in as %s, but the email address (%s) you just '.
@@ -181,7 +181,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
     }
 
     if (!$email) {
-      $email = id(new PhabricatorUserEmail())
+      $email = id(new PhorgeUserEmail())
         ->setAddress($invite->getEmailAddress())
         ->setIsVerified(0)
         ->setIsPrimary(0);
@@ -191,7 +191,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
       // We're doing this check here so that we can verify the address if
       // it's already attached to the viewer's account, just not verified.
       if (!$this->shouldVerify()) {
-        throw id(new PhabricatorAuthInviteVerifyException(
+        throw id(new PhorgeAuthInviteVerifyException(
           pht('Verify Email'),
           pht(
             'Verify this email address (%s) and attach it to your '.
@@ -205,7 +205,7 @@ final class PhabricatorAuthInviteEngine extends Phobject {
           ->setCancelButtonURI('/');
       }
 
-      $editor = id(new PhabricatorUserEditor())
+      $editor = id(new PhorgeUserEditor())
         ->setActor($viewer);
 
       // If this is a new email, add it to the user's account.
@@ -226,12 +226,12 @@ final class PhabricatorAuthInviteEngine extends Phobject {
     // If we make it here, the user was already logged in with the email
     // address attached to their account and verified, or we attached it to
     // their account (if it was not already attached) and verified it.
-    throw new PhabricatorAuthInviteRegisteredException();
+    throw new PhorgeAuthInviteRegisteredException();
   }
 
-  private function loadUserForEmail(PhabricatorUserEmail $email) {
-    $user = id(new PhabricatorHandleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+  private function loadUserForEmail(PhorgeUserEmail $email) {
+    $user = id(new PhorgeHandleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($email->getUserPHID()))
       ->executeOne();
     if (!$user) {

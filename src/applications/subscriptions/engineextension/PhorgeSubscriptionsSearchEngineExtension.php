@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorSubscriptionsSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeSubscriptionsSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'subscriptions';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSubscriptionsApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeSubscriptionsApplication');
   }
 
   public function getExtensionName() {
@@ -19,19 +19,19 @@ final class PhabricatorSubscriptionsSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     if (!empty($map['subscriberPHIDs'])) {
       $query->withEdgeLogicPHIDs(
-        PhabricatorObjectHasSubscriberEdgeType::EDGECONST,
-        PhabricatorQueryConstraint::OPERATOR_OR,
+        PhorgeObjectHasSubscriberEdgeType::EDGECONST,
+        PhorgeQueryConstraint::OPERATOR_OR,
         $map['subscriberPHIDs']);
     }
   }
@@ -39,7 +39,7 @@ final class PhabricatorSubscriptionsSearchEngineExtension
   public function getSearchFields($object) {
     $fields = array();
 
-    $fields[] = id(new PhabricatorSearchSubscribersField())
+    $fields[] = id(new PhorgeSearchSubscribersField())
       ->setLabel(pht('Subscribers'))
       ->setKey('subscriberPHIDs')
       ->setConduitKey('subscribers')
@@ -52,7 +52,7 @@ final class PhabricatorSubscriptionsSearchEngineExtension
 
   public function getSearchAttachments($object) {
     return array(
-      id(new PhabricatorSubscriptionsSearchEngineAttachment())
+      id(new PhorgeSubscriptionsSearchEngineAttachment())
         ->setAttachmentKey('subscribers'),
     );
   }

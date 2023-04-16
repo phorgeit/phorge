@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSubscriptionsTransactionController
-  extends PhabricatorController {
+final class PhorgeSubscriptionsTransactionController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $phid = $request->getURIData('phid');
     $type = $request->getURIData('type');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();
@@ -35,7 +35,7 @@ final class PhabricatorSubscriptionsTransactionController
     $handle_phids[] = $object_phid;
     $handle_phids[] = $author_phid;
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($handle_phids)
       ->execute();

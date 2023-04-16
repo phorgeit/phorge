@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSearchEngineExtension extends Phobject {
+abstract class PhorgeSearchEngineExtension extends Phobject {
 
   private $viewer;
   private $searchEngine;
@@ -19,7 +19,7 @@ abstract class PhabricatorSearchEngineExtension extends Phobject {
   }
 
   final public function setSearchEngine(
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeApplicationSearchEngine $engine) {
     $this->searchEngine = $engine;
     return $this;
   }
@@ -47,7 +47,7 @@ abstract class PhabricatorSearchEngineExtension extends Phobject {
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
     return;
   }

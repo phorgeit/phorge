@@ -11,7 +11,7 @@ abstract class ConduitParameterType extends Phobject {
   private $viewer;
 
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

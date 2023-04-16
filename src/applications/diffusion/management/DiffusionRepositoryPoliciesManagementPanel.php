@@ -17,8 +17,8 @@ final class DiffusionRepositoryPoliciesManagementPanel
     $viewer = $this->getViewer();
     $repository = $this->getRepository();
 
-    $can_view = PhabricatorPolicyCapability::CAN_VIEW;
-    $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
+    $can_view = PhorgePolicyCapability::CAN_VIEW;
+    $can_edit = PhorgePolicyCapability::CAN_EDIT;
     $can_push = DiffusionPushCapability::CAPABILITY;
 
     $actual_values = array(
@@ -28,7 +28,7 @@ final class DiffusionRepositoryPoliciesManagementPanel
       'push' => $repository->getPolicy($can_push),
     );
 
-    $default = PhabricatorRepository::initializeNewRepository(
+    $default = PhorgeRepository::initializeNewRepository(
       $viewer);
 
     $default_values = array(
@@ -59,15 +59,15 @@ final class DiffusionRepositoryPoliciesManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getEditPageURI();
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Policies'))
         ->setHref($edit_uri)
         ->setIcon('fa-pencil')
@@ -86,17 +86,17 @@ final class DiffusionRepositoryPoliciesManagementPanel
     $view = id(new PHUIPropertyListView())
       ->setViewer($viewer);
 
-    $descriptions = PhabricatorPolicyQuery::renderPolicyDescriptions(
+    $descriptions = PhorgePolicyQuery::renderPolicyDescriptions(
       $viewer,
       $repository);
 
     $view_parts = array();
-    if (PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
-      $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+    if (PhorgeSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
+      $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
         $repository);
       $view_parts[] = $viewer->renderHandle($space_phid);
     }
-    $view_parts[] = $descriptions[PhabricatorPolicyCapability::CAN_VIEW];
+    $view_parts[] = $descriptions[PhorgePolicyCapability::CAN_VIEW];
 
     $view->addProperty(
       pht('Visible To'),
@@ -104,7 +104,7 @@ final class DiffusionRepositoryPoliciesManagementPanel
 
     $view->addProperty(
       pht('Editable By'),
-      $descriptions[PhabricatorPolicyCapability::CAN_EDIT]);
+      $descriptions[PhorgePolicyCapability::CAN_EDIT]);
 
     $pushable = $repository->isHosted()
       ? $descriptions[DiffusionPushCapability::CAPABILITY]

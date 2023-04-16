@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIDiffGraphViewTestCase extends PhabricatorTestCase {
+final class PHUIDiffGraphViewTestCase extends PhorgeTestCase {
 
   public function testTailTermination() {
     $nodes = array(

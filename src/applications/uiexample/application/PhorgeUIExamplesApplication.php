@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUIExamplesApplication extends PhabricatorApplication {
+final class PhorgeUIExamplesApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/uiexample/';
@@ -41,8 +41,8 @@ final class PhabricatorUIExamplesApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/uiexample/' => array(
-        '' => 'PhabricatorUIExampleRenderController',
-        'view/(?P<class>[^/]+)/' => 'PhabricatorUIExampleRenderController',
+        '' => 'PhorgeUIExampleRenderController',
+        'view/(?P<class>[^/]+)/' => 'PhorgeUIExampleRenderController',
       ),
     );
   }

@@ -58,7 +58,7 @@ final class AlmanacNetworkNameTransaction
       }
 
       $other = id(new AlmanacNetworkQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withNames(array($name))
         ->executeOne();
       if ($other && ($other->getID() != $object->getID())) {

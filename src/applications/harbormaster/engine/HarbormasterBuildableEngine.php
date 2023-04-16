@@ -8,7 +8,7 @@ abstract class HarbormasterBuildableEngine
   private $contentSource;
   private $object;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -27,7 +27,7 @@ abstract class HarbormasterBuildableEngine
   }
 
   final public function setContentSource(
-    PhabricatorContentSource $content_source) {
+    PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -57,7 +57,7 @@ abstract class HarbormasterBuildableEngine
 
   final public static function newForObject(
     HarbormasterBuildableInterface $object,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return $object->newBuildableEngine()
       ->setViewer($viewer)
       ->setObject($object);

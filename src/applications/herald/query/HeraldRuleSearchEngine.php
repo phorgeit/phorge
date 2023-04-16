@@ -1,13 +1,13 @@
 <?php
 
-final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
+final class HeraldRuleSearchEngine extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Herald Rules');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function newQuery() {
@@ -22,40 +22,40 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
     $content_types = HeraldAdapter::getEnabledAdapterMap($viewer);
 
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors', 'authorPHID'))
         ->setDescription(
           pht('Search for rules with given authors.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('ruleTypes')
         ->setAliases(array('ruleType'))
         ->setLabel(pht('Rule Type'))
         ->setDescription(
           pht('Search for rules of given types.'))
         ->setOptions($rule_types),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('contentTypes')
         ->setLabel(pht('Content Type'))
         ->setDescription(
           pht('Search for rules affecting given types of content.'))
         ->setOptions($content_types),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Active Rules'))
         ->setKey('active')
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Active Rules'),
           pht('Show Only Inactive Rules')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Disabled Rules'))
         ->setKey('disabled')
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Disabled Rules'),
           pht('Show Only Enabled Rules')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Affected Objects'))
         ->setKey('affectedPHIDs')
         ->setAliases(array('affectedPHID')),
@@ -132,7 +132,7 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function renderResultList(
     array $rules,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($rules, 'HeraldRule');
     $viewer = $this->requireViewer();
@@ -142,7 +142,7 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
       ->setRules($rules)
       ->newObjectList();
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No rules found.'));
 

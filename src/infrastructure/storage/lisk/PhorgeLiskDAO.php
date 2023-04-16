@@ -3,7 +3,7 @@
 /**
  * @task config Configuring Storage
  */
-abstract class PhabricatorLiskDAO extends LiskDAO {
+abstract class PhorgeLiskDAO extends LiskDAO {
 
   private static $namespaceStack = array();
   private $forcedNamespace;
@@ -31,7 +31,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
    * @task config
    */
   public static function getDefaultStorageNamespace() {
-    return PhabricatorEnv::getEnvConfig('storage.default-namespace');
+    return PhorgeEnv::getEnvConfig('storage.default-namespace');
   }
 
   /**
@@ -60,7 +60,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
     $namespace = self::getStorageNamespace();
     $database = $namespace.'_'.$this->getApplicationName();
 
-    $is_readonly = PhabricatorEnv::isReadOnly();
+    $is_readonly = PhorgeEnv::isReadOnly();
 
     if ($is_readonly && ($mode != 'r')) {
       $this->raiseImproperWrite($database);
@@ -83,7 +83,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   }
 
   private function newClusterConnection($application, $database, $mode) {
-    $master = PhabricatorDatabaseRef::getMasterDatabaseRefForApplication(
+    $master = PhorgeDatabaseRef::getMasterDatabaseRefForApplication(
       $application);
 
     $master_exception = null;
@@ -96,15 +96,15 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         if ($mode == 'w') {
           $this->raiseImpossibleWrite($database);
         }
-        PhabricatorEnv::setReadOnly(
+        PhorgeEnv::setReadOnly(
           true,
-          PhabricatorEnv::READONLY_UNREACHABLE);
+          PhorgeEnv::READONLY_UNREACHABLE);
 
         $master_exception = $master->getConnectionException();
       }
     }
 
-    $replica = PhabricatorDatabaseRef::getReplicaDatabaseRefForApplication(
+    $replica = PhorgeDatabaseRef::getReplicaDatabaseRefForApplication(
       $application);
     if ($replica) {
       $connection = $replica->newApplicationConnection($database);
@@ -135,7 +135,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   }
 
   private function raiseImproperWrite($database) {
-    throw new PhabricatorClusterImproperWriteException(
+    throw new PhorgeClusterImproperWriteException(
       pht(
         'Unable to establish a write-mode connection (to application '.
         'database "%s") because this server is in read-only mode. Whatever '.
@@ -144,7 +144,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   }
 
   private function raiseImpossibleWrite($database) {
-    throw new PhabricatorClusterImpossibleWriteException(
+    throw new PhorgeClusterImpossibleWriteException(
       pht(
         'Unable to connect to master database ("%s"). This is a severe '.
         'failure; your request did not complete.',
@@ -174,7 +174,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
       $message = $message."\n\n".$proxy_message;
     }
 
-    throw new PhabricatorClusterStrandedException($message);
+    throw new PhorgeClusterStrandedException($message);
   }
 
 
@@ -272,7 +272,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
 
   protected function assertAttached($property) {
     if ($property === self::ATTACHABLE) {
-      throw new PhabricatorDataNotAttachedException($this);
+      throw new PhorgeDataNotAttachedException($this);
     }
     return $property;
   }
@@ -280,7 +280,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   protected function assertAttachedKey($value, $key) {
     $this->assertAttached($value);
     if (!array_key_exists($key, $value)) {
-      throw new PhabricatorDataNotAttachedException($this);
+      throw new PhorgeDataNotAttachedException($this);
     }
     return $value[$key];
   }

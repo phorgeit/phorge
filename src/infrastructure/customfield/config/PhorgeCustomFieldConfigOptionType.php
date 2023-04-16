@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCustomFieldConfigOptionType
-  extends PhabricatorConfigOptionType {
+final class PhorgeCustomFieldConfigOptionType
+  extends PhorgeConfigOptionType {
 
   public function readRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $e_value = null;
@@ -23,7 +23,7 @@ final class PhabricatorCustomFieldConfigOptionType
   }
 
   public function renderControl(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 
@@ -31,13 +31,13 @@ final class PhabricatorCustomFieldConfigOptionType
 
     $field_spec = $display_value;
     if (!is_array($field_spec)) {
-      $field_spec = PhabricatorEnv::getEnvConfig($option->getKey());
+      $field_spec = PhorgeEnv::getEnvConfig($option->getKey());
     }
 
     // TODO: We might need to build a real object here eventually.
     $faux_object = null;
 
-    $fields = PhabricatorCustomField::buildFieldList(
+    $fields = PhorgeCustomField::buildFieldList(
       $field_base_class,
       $field_spec,
       $faux_object,

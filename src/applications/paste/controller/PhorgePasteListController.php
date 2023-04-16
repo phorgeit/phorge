@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPasteListController extends PhabricatorPasteController {
+final class PhorgePasteListController extends PhorgePasteController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorPasteSearchEngine())
+    return id(new PhorgePasteSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -15,7 +15,7 @@ final class PhabricatorPasteListController extends PhabricatorPasteController {
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorPasteEditEngine())
+    id(new PhorgePasteEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

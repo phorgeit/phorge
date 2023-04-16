@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeMetaMTAApplicationEmailQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,12 +35,12 @@ final class PhabricatorMetaMTAApplicationEmailQuery
   }
 
   protected function loadPage() {
-    return $this->loadStandardPage(new PhabricatorMetaMTAApplicationEmail());
+    return $this->loadStandardPage(new PhorgeMetaMTAApplicationEmail());
   }
 
   protected function willFilterPage(array $app_emails) {
     $app_emails_map = mgroup($app_emails, 'getApplicationPHID');
-    $applications = id(new PhabricatorApplicationQuery())
+    $applications = id(new PhorgeApplicationQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs(array_keys($app_emails_map))
       ->execute();
@@ -105,7 +105,7 @@ final class PhabricatorMetaMTAApplicationEmailQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationSortController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationSortController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -11,13 +11,13 @@ final class PhabricatorEditEngineConfigurationSortController
     $type = $request->getURIData('type');
     $is_create = ($type == 'create');
 
-    $engine = id(new PhabricatorEditEngineQuery())
+    $engine = id(new PhorgeEditEngineQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$engine) {
@@ -27,7 +27,7 @@ final class PhabricatorEditEngineConfigurationSortController
     $cancel_uri = "/transactions/editengine/{$engine_key}/";
     $reorder_uri = "/transactions/editengine/{$engine_key}/sort/{$type}/";
 
-    $query = id(new PhabricatorEditEngineConfigurationQuery())
+    $query = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine->getEngineKey()));
 
@@ -42,10 +42,10 @@ final class PhabricatorEditEngineConfigurationSortController
     // Do this check here (instead of in the Query above) to get a proper
     // policy exception if the user doesn't satisfy
     foreach ($configs as $config) {
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $config,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     }
 
     if ($is_create) {
@@ -70,17 +70,17 @@ final class PhabricatorEditEngineConfigurationSortController
 
         if ($is_create) {
           $xaction_type =
-            PhabricatorEditEngineCreateOrderTransaction::TRANSACTIONTYPE;
+            PhorgeEditEngineCreateOrderTransaction::TRANSACTIONTYPE;
         } else {
           $xaction_type =
-            PhabricatorEditEngineEditOrderTransaction::TRANSACTIONTYPE;
+            PhorgeEditEngineEditOrderTransaction::TRANSACTIONTYPE;
         }
 
-        $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+        $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
           ->setTransactionType($xaction_type)
           ->setNewValue($order);
 
-        $editor = id(new PhabricatorEditEngineConfigurationEditor())
+        $editor = id(new PhorgeEditEngineConfigurationEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true);

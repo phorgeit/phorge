@@ -6,7 +6,7 @@ final class SubscriptionListStringBuilder extends Phobject {
   private $objectPHID;
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }

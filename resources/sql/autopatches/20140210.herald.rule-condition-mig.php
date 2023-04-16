@@ -18,7 +18,7 @@ foreach (new LiskMigrationIterator($table) as $condition) {
   echo pht('Updating condition %s...', $id)."\n";
 
   $rule = id(new HeraldRuleQuery())
-    ->setViewer(PhabricatorUser::getOmnipotentUser())
+    ->setViewer(PhorgeUser::getOmnipotentUser())
     ->withIDs(array($value))
     ->executeOne();
 

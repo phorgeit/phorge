@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorBoolConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeBoolConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'bool';
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!preg_match('/^(true|false)\z/', $value)) {
@@ -22,7 +22,7 @@ final class PhabricatorBoolConfigType
   }
 
   public function newDisplayValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if ($value) {
@@ -33,7 +33,7 @@ final class PhabricatorBoolConfigType
   }
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_bool($value)) {
@@ -46,7 +46,7 @@ final class PhabricatorBoolConfigType
     }
   }
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     $bool_map = $option->getBoolOptions();
 
     $map = array(

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorBadgesSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgeBadgesSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'badge.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorBadgesSearchEngine();
+    return new PhorgeBadgesSearchEngine();
   }
 
   public function getMethodSummary() {

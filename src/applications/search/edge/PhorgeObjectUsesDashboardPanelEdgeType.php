@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorObjectUsesDashboardPanelEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeObjectUsesDashboardPanelEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 71;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorDashboardPanelUsedByObjectEdgeType::EDGECONST;
+    return PhorgeDashboardPanelUsedByObjectEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

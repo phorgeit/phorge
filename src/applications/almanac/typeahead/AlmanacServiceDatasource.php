@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacServiceDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Services');
@@ -12,7 +12,7 @@ final class AlmanacServiceDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function loadResults() {
@@ -36,7 +36,7 @@ final class AlmanacServiceDatasource
     $services = $this->executeQuery($services);
 
     if ($services) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($services, 'getPHID'))
         ->execute();
@@ -46,7 +46,7 @@ final class AlmanacServiceDatasource
 
     $results = array();
     foreach ($handles as $handle) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($handle->getName())
         ->setPHID($handle->getPHID());
     }

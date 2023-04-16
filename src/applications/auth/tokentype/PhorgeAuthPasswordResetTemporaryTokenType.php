@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthPasswordResetTemporaryTokenType
-  extends PhabricatorAuthTemporaryTokenType {
+final class PhorgeAuthPasswordResetTemporaryTokenType
+  extends PhorgeAuthTemporaryTokenType {
 
   const TOKENTYPE = 'login:password';
 
@@ -10,11 +10,11 @@ final class PhabricatorAuthPasswordResetTemporaryTokenType
   }
 
   public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token) {
+    PhorgeAuthTemporaryToken $token) {
     return pht('Password Reset Token');
   }
 
-  public function isTokenRevocable(PhabricatorAuthTemporaryToken $token) {
+  public function isTokenRevocable(PhorgeAuthTemporaryToken $token) {
     return true;
   }
 

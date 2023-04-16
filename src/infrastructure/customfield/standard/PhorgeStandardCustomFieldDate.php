@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldDate
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldDate
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'date';
@@ -75,7 +75,7 @@ final class PhabricatorStandardCustomFieldDate
 
     $value = $this->getFieldValue();
     if (!ctype_digit($value)) {
-      $value = PhabricatorTime::parseLocalTime($value, $this->getViewer());
+      $value = PhorgeTime::parseLocalTime($value, $this->getViewer());
     }
 
     // If we don't have anything valid, make sure we pass `null`, since the
@@ -86,7 +86,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
 
     $key = $this->getFieldKey();
@@ -98,8 +98,8 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
 
     $viewer = $this->getViewer();
@@ -110,14 +110,14 @@ final class PhabricatorStandardCustomFieldDate
 
     $min_str = idx($value, 'min', '');
     if (strlen($min_str)) {
-      $min = PhabricatorTime::parseLocalTime($min_str, $viewer);
+      $min = PhorgeTime::parseLocalTime($min_str, $viewer);
     } else {
       $min = null;
     }
 
     $max_str = idx($value, 'max', '');
     if (strlen($max_str)) {
-      $max = PhabricatorTime::parseLocalTime($max_str, $viewer);
+      $max = PhorgeTime::parseLocalTime($max_str, $viewer);
     } else {
       $max = null;
     }
@@ -131,7 +131,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -153,7 +153,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -192,7 +192,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $viewer = $this->getViewer();
 
@@ -237,7 +237,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   protected function newExportFieldType() {
-    return new PhabricatorEpochExportField();
+    return new PhorgeEpochExportField();
   }
 
 }

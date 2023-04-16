@@ -1188,7 +1188,7 @@ abstract class LiskDAO extends Phobject
    */
   public function generatePHID() {
     $type = $this->getPHIDType();
-    return PhabricatorPHID::generateNewPHID($type);
+    return PhorgePHID::generateNewPHID($type);
   }
 
   public function getPHIDType() {
@@ -1482,7 +1482,7 @@ abstract class LiskDAO extends Phobject
   public static function closeInactiveConnections($idle_window) {
     $connections = self::$connections;
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     foreach ($connections as $key => $connection) {
       // If the connection is not idle, never consider it inactive.
       if (!$connection->isIdle()) {
@@ -1638,7 +1638,7 @@ abstract class LiskDAO extends Phobject
    * @task   util
    */
   public function __set($name, $value) {
-    // Hack for policy system hints, see PhabricatorPolicyRule for notes.
+    // Hack for policy system hints, see PhorgePolicyRule for notes.
     if ($name != '_hashKey') {
       phlog(
         pht(
@@ -1821,7 +1821,7 @@ abstract class LiskDAO extends Phobject
       }
 
       // We don't know the type of this column.
-      $map[$property] = PhabricatorConfigSchemaSpec::DATATYPE_UNKNOWN;
+      $map[$property] = PhorgeConfigSchemaSpec::DATATYPE_UNKNOWN;
     }
 
     return $map;
@@ -1872,7 +1872,7 @@ abstract class LiskDAO extends Phobject
 
     $data_type = $map[$column];
 
-    return id(new PhabricatorStorageSchemaSpec())
+    return id(new PhorgeStorageSchemaSpec())
       ->getMaximumByteLengthForDataType($data_type);
   }
 

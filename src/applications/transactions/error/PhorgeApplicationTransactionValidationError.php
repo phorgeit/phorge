@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionValidationError
+final class PhorgeApplicationTransactionValidationError
   extends Phobject {
 
   private $type;
@@ -13,7 +13,7 @@ final class PhabricatorApplicationTransactionValidationError
     $type,
     $short_message,
     $message,
-    PhabricatorApplicationTransaction $xaction = null) {
+    PhorgeApplicationTransaction $xaction = null) {
 
     $this->type = $type;
     $this->shortMessage = $short_message;

@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'phame.blog';
 
@@ -10,7 +10,7 @@ final class PhameBlogEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function getSummaryHeader() {
@@ -69,7 +69,7 @@ final class PhameBlogEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Blog name.'))
@@ -78,7 +78,7 @@ final class PhameBlogEditEngine
         ->setTransactionType(PhameBlogNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('subtitle')
         ->setLabel(pht('Subtitle'))
         ->setDescription(pht('Blog subtitle.'))
@@ -86,7 +86,7 @@ final class PhameBlogEditEngine
         ->setConduitTypeDescription(pht('New blog subtitle.'))
         ->setTransactionType(PhameBlogSubtitleTransaction::TRANSACTIONTYPE)
         ->setValue($object->getSubtitle()),
-     id(new PhabricatorRemarkupEditField())
+     id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('Blog description.'))
@@ -94,7 +94,7 @@ final class PhameBlogEditEngine
         ->setConduitTypeDescription(pht('New blog description.'))
         ->setTransactionType(PhameBlogDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('domainFullURI')
         ->setLabel(pht('Full Domain URI'))
         ->setControlInstructions(pht('Set Full Domain URI if you plan to '.
@@ -106,7 +106,7 @@ final class PhameBlogEditEngine
         ->setConduitTypeDescription(pht('New blog full domain URI.'))
         ->setValue($object->getDomainFullURI())
         ->setTransactionType(PhameBlogFullDomainTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('parentSite')
         ->setLabel(pht('Parent Site Name'))
         ->setDescription(pht('Blog parent site name.'))
@@ -114,7 +114,7 @@ final class PhameBlogEditEngine
         ->setConduitTypeDescription(pht('New blog parent site name.'))
         ->setValue($object->getParentSite())
         ->setTransactionType(PhameBlogParentSiteTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('parentDomain')
         ->setLabel(pht('Parent Site URI'))
         ->setDescription(pht('Blog parent domain name.'))
@@ -122,7 +122,7 @@ final class PhameBlogEditEngine
         ->setConduitTypeDescription(pht('New blog parent domain.'))
         ->setValue($object->getParentDomain())
         ->setTransactionType(PhameBlogParentDomainTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setTransactionType(PhameBlogStatusTransaction::TRANSACTIONTYPE)

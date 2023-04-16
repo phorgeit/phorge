@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMultiFactorSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeMultiFactorSettingsPanel
+  extends PhorgeSettingsPanel {
 
   private $isEnrollment;
 
@@ -18,7 +18,7 @@ final class PhabricatorMultiFactorSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function isMultiFactorEnrollmentPanel() {
@@ -50,7 +50,7 @@ final class PhabricatorMultiFactorSettingsPanel
     $user = $this->getUser();
     $viewer = $request->getUser();
 
-    $factors = id(new PhabricatorAuthFactorConfigQuery())
+    $factors = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($user->getPHID()))
       ->execute();
@@ -138,7 +138,7 @@ final class PhabricatorMultiFactorSettingsPanel
         true,
       ));
 
-    $help_uri = PhabricatorEnv::getDoclink(
+    $help_uri = PhorgeEnv::getDoclink(
       'User Guide: Multi-Factor Authentication');
 
     $buttons = array();
@@ -193,7 +193,7 @@ final class PhabricatorMultiFactorSettingsPanel
         ->addCancelButton($cancel_uri);
     }
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $cancel_uri);
@@ -277,17 +277,17 @@ final class PhabricatorMultiFactorSettingsPanel
       // Subject users to rate limiting so that it's difficult to add factors
       // by pure brute force. This is normally not much of an attack, but push
       // factor types may have side effects.
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorAuthNewFactorAction(),
+        new PhorgeAuthNewFactorAction(),
         1);
     } else {
       // Test the limit before showing the user a form, so we don't give them
       // a form which can never possibly work because it will always hit rate
       // limiting.
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorAuthNewFactorAction(),
+        new PhorgeAuthNewFactorAction(),
         0);
     }
 
@@ -298,9 +298,9 @@ final class PhabricatorMultiFactorSettingsPanel
 
     if ($config) {
       // If the user added a factor, give them a rate limiting point back.
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorAuthNewFactorAction(),
+        new PhorgeAuthNewFactorAction(),
         -1);
 
       $config->save();
@@ -312,10 +312,10 @@ final class PhabricatorMultiFactorSettingsPanel
         $sync_token->revokeToken();
       }
 
-      $log = PhabricatorUserLog::initializeNewLog(
+      $log = PhorgeUserLog::initializeNewLog(
         $viewer,
         $user->getPHID(),
-        PhabricatorAddMultifactorUserLogType::LOGTYPE);
+        PhorgeAddMultifactorUserLogType::LOGTYPE);
       $log->save();
 
       $user->updateMultiFactorEnrollment();
@@ -323,10 +323,10 @@ final class PhabricatorMultiFactorSettingsPanel
       // Terminate other sessions so they must log in and survive the
       // multi-factor auth check.
 
-      id(new PhabricatorAuthSessionEngine())->terminateLoginSessions(
+      id(new PhorgeAuthSessionEngine())->terminateLoginSessions(
         $user,
         new PhutilOpaqueEnvelope(
-          $request->getCookie(PhabricatorCookies::COOKIE_SESSION)));
+          $request->getCookie(PhorgeCookies::COOKIE_SESSION)));
 
       return id(new AphrontRedirectResponse())
         ->setURI($this->getPanelURI('?id='.$config->getID()));
@@ -347,7 +347,7 @@ final class PhabricatorMultiFactorSettingsPanel
     $viewer = $request->getUser();
     $user = $this->getUser();
 
-    $factor = id(new PhabricatorAuthFactorConfig())->loadOneWhere(
+    $factor = id(new PhorgeAuthFactorConfig())->loadOneWhere(
       'id = %d AND userPHID = %s',
       $request->getInt('edit'),
       $user->getPHID());
@@ -404,12 +404,12 @@ final class PhabricatorMultiFactorSettingsPanel
     $viewer = $request->getUser();
     $user = $this->getUser();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $this->getPanelURI());
 
-    $factor = id(new PhabricatorAuthFactorConfig())->loadOneWhere(
+    $factor = id(new PhorgeAuthFactorConfig())->loadOneWhere(
       'id = %d AND userPHID = %s',
       $request->getInt('delete'),
       $user->getPHID());
@@ -420,10 +420,10 @@ final class PhabricatorMultiFactorSettingsPanel
     if ($request->isFormPost()) {
       $factor->delete();
 
-      $log = PhabricatorUserLog::initializeNewLog(
+      $log = PhorgeUserLog::initializeNewLog(
         $viewer,
         $user->getPHID(),
-        PhabricatorRemoveMultifactorUserLogType::LOGTYPE);
+        PhorgeRemoveMultifactorUserLogType::LOGTYPE);
       $log->save();
 
       $user->updateMultiFactorEnrollment();
@@ -450,11 +450,11 @@ final class PhabricatorMultiFactorSettingsPanel
   private function loadActiveMFAProviders() {
     $viewer = $this->getViewer();
 
-    $providers = id(new PhabricatorAuthFactorProviderQuery())
+    $providers = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->withStatuses(
         array(
-          PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
+          PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
         ))
       ->execute();
 

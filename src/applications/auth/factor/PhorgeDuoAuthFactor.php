@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDuoAuthFactor
-  extends PhabricatorAuthFactor {
+final class PhorgeDuoAuthFactor
+  extends PhorgeAuthFactor {
 
   const PROP_CREDENTIAL = 'duo.credentialPHID';
   const PROP_ENROLL = 'duo.enroll';
@@ -31,8 +31,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function getEnrollDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return pht(
       'To add a Duo factor, first download and install the Duo application '.
       'on your phone. Once you have launched the application and are ready '.
@@ -40,8 +40,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function canCreateNewConfiguration(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     if ($this->loadConfigurationsForProvider($provider, $user)) {
       return false;
@@ -51,8 +51,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function getConfigurationCreateDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     $messages = array();
 
@@ -71,9 +71,9 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function getConfigurationListDetails(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $viewer) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $viewer) {
 
     $duo_user = $config->getAuthFactorConfigProperty('duo.username');
 
@@ -82,8 +82,8 @@ final class PhabricatorDuoAuthFactor
 
 
   public function newEditEngineFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorAuthFactorProvider $provider) {
+    PhorgeEditEngine $engine,
+    PhorgeAuthFactorProvider $provider) {
 
     $viewer = $engine->getViewer();
 
@@ -104,29 +104,29 @@ final class PhabricatorDuoAuthFactor
       ->execute();
 
     $xaction_hostname =
-      PhabricatorAuthFactorProviderDuoHostnameTransaction::TRANSACTIONTYPE;
+      PhorgeAuthFactorProviderDuoHostnameTransaction::TRANSACTIONTYPE;
     $xaction_credential =
-      PhabricatorAuthFactorProviderDuoCredentialTransaction::TRANSACTIONTYPE;
+      PhorgeAuthFactorProviderDuoCredentialTransaction::TRANSACTIONTYPE;
     $xaction_usernames =
-      PhabricatorAuthFactorProviderDuoUsernamesTransaction::TRANSACTIONTYPE;
+      PhorgeAuthFactorProviderDuoUsernamesTransaction::TRANSACTIONTYPE;
     $xaction_enroll =
-      PhabricatorAuthFactorProviderDuoEnrollTransaction::TRANSACTIONTYPE;
+      PhorgeAuthFactorProviderDuoEnrollTransaction::TRANSACTIONTYPE;
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setLabel(pht('Duo API Hostname'))
         ->setKey('duo.hostname')
         ->setValue($hostname)
         ->setTransactionType($xaction_hostname)
         ->setIsRequired(true),
-      id(new PhabricatorCredentialEditField())
+      id(new PhorgeCredentialEditField())
         ->setLabel(pht('Duo API Credential'))
         ->setKey('duo.credential')
         ->setValue($credential_phid)
         ->setTransactionType($xaction_credential)
         ->setCredentialType($credential_type)
         ->setCredentials($credentials),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setLabel(pht('Duo Username'))
         ->setKey('duo.usernames')
         ->setValue($usernames)
@@ -138,7 +138,7 @@ final class PhabricatorDuoAuthFactor
               PlatformSymbols::getPlatformServerName()),
             'email' => pht('Use Primary Email Address'),
           )),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setLabel(pht('Create Accounts'))
         ->setKey('duo.enroll')
         ->setValue($enroll)
@@ -153,10 +153,10 @@ final class PhabricatorDuoAuthFactor
 
 
   public function processAddFactorForm(
-    PhabricatorAuthFactorProvider $provider,
+    PhorgeAuthFactorProvider $provider,
     AphrontFormView $form,
     AphrontRequest $request,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $token = $this->loadMFASyncToken($provider, $request, $form, $user);
     if ($this->isAuthResult($token)) {
@@ -337,8 +337,8 @@ final class PhabricatorDuoAuthFactor
 
 
   protected function newMFASyncTokenProperties(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     $duo_user = $this->getDuoUsername($provider, $user);
 
@@ -422,8 +422,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   protected function newIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     // If we already issued a valid challenge for this workflow and session,
@@ -555,13 +555,13 @@ final class PhabricatorDuoAuthFactor
     return array(
       $this->newChallenge($config, $viewer)
         ->setChallengeKey($duo_xaction)
-        ->setChallengeTTL(PhabricatorTime::getNow() + $ttl_seconds),
+        ->setChallengeTTL(PhorgeTime::getNow() + $ttl_seconds),
     );
   }
 
   protected function newResultFromIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     $challenge = $this->getChallengeForCurrentContext(
@@ -601,11 +601,11 @@ final class PhabricatorDuoAuthFactor
       }
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     switch ($state) {
       case 'allow':
-        $ttl = PhabricatorTime::getNow()
+        $ttl = PhorgeTime::getNow()
           + phutil_units('15 minutes in seconds');
 
         $challenge
@@ -657,10 +657,10 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function renderValidateFactorForm(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontFormView $form,
-    PhabricatorUser $viewer,
-    PhabricatorAuthFactorResult $result) {
+    PhorgeUser $viewer,
+    PhorgeAuthFactorResult $result) {
 
     $control = $this->newAutomaticControl($result);
 
@@ -672,14 +672,14 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function getRequestHasChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontRequest $request) {
     return false;
   }
 
   protected function newResultFromChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
 
@@ -691,8 +691,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   protected function newResultForPrompt(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
 
@@ -718,11 +718,11 @@ final class PhabricatorDuoAuthFactor
     return $result;
   }
 
-  private function newDuoFuture(PhabricatorAuthFactorProvider $provider) {
+  private function newDuoFuture(PhorgeAuthFactorProvider $provider) {
     $credential_phid = $provider->getAuthFactorProviderProperty(
       self::PROP_CREDENTIAL);
 
-    $omnipotent = PhabricatorUser::getOmnipotentUser();
+    $omnipotent = PhorgeUser::getOmnipotentUser();
 
     $credential = id(new PassphraseCredentialQuery())
       ->setViewer($omnipotent)
@@ -749,7 +749,7 @@ final class PhabricatorDuoAuthFactor
       self::PROP_HOSTNAME);
     self::requireDuoAPIHostname($duo_host);
 
-    return id(new PhabricatorDuoFuture())
+    return id(new PhorgeDuoFuture())
       ->setIntegrationKey($duo_key)
       ->setSecretKey($duo_secret)
       ->setAPIHostname($duo_host)
@@ -758,8 +758,8 @@ final class PhabricatorDuoAuthFactor
   }
 
   private function getDuoUsername(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
     $mode = $provider->getAuthFactorProviderProperty(self::PROP_USERNAMES);
     switch ($mode) {
@@ -776,7 +776,7 @@ final class PhabricatorDuoAuthFactor
   }
 
   private function shouldAllowDuoEnrollment(
-    PhabricatorAuthFactorProvider $provider) {
+    PhorgeAuthFactorProvider $provider) {
 
     $mode = $provider->getAuthFactorProviderProperty(self::PROP_ENROLL);
     switch ($mode) {
@@ -792,7 +792,7 @@ final class PhabricatorDuoAuthFactor
     }
   }
 
-  private function newDuoConfig(PhabricatorUser $user, $duo_user) {
+  private function newDuoConfig(PhorgeUser $user, $duo_user) {
     $config_properties = array(
       'duo.username' => $duo_user,
     );
@@ -817,10 +817,10 @@ final class PhabricatorDuoAuthFactor
   }
 
   public function newChallengeStatusView(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $viewer,
-    PhabricatorAuthChallenge $challenge) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $viewer,
+    PhorgeAuthChallenge $challenge) {
 
     $duo_xaction = $challenge->getChallengeKey();
 
@@ -828,7 +828,7 @@ final class PhabricatorDuoAuthFactor
       'txid' => $duo_xaction,
     );
 
-    $default_result = id(new PhabricatorAuthChallengeUpdate())
+    $default_result = id(new PhorgeAuthChallengeUpdate())
       ->setRetry(true);
 
     try {
@@ -841,14 +841,14 @@ final class PhabricatorDuoAuthFactor
       $state = $result['response']['result'];
     } catch (HTTPFutureCURLResponseStatus $exception) {
       // If we failed or timed out, retry. Usually, this is a timeout.
-      return id(new PhabricatorAuthChallengeUpdate())
+      return id(new PhorgeAuthChallengeUpdate())
         ->setRetry(true);
     }
 
     // For now, don't update the view for anything but an "Allow". Updates
     // here are just about providing more visual feedback for user convenience.
     if ($state !== 'allow') {
-      return id(new PhabricatorAuthChallengeUpdate())
+      return id(new PhorgeAuthChallengeUpdate())
         ->setRetry(false);
     }
 
@@ -860,7 +860,7 @@ final class PhabricatorDuoAuthFactor
       ->appendChild(pht('You responded to this challenge correctly.'))
       ->newTimerView();
 
-    return id(new PhabricatorAuthChallengeUpdate())
+    return id(new PhorgeAuthChallengeUpdate())
       ->setState('allow')
       ->setRetry(false)
       ->setMarkup($view);

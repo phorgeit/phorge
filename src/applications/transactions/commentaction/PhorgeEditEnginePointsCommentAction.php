@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEnginePointsCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEnginePointsCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   public function getPHUIXControlType() {
     return 'points';

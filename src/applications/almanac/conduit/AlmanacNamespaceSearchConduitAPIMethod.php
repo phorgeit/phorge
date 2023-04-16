@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacNamespaceSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'almanac.namespace.search';

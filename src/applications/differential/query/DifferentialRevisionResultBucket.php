@@ -1,7 +1,7 @@
 <?php
 
 abstract class DifferentialRevisionResultBucket
-  extends PhabricatorSearchResultBucket {
+  extends PhorgeSearchResultBucket {
 
   public static function getAllResultBuckets() {
     return id(new PhutilClassMapQuery())

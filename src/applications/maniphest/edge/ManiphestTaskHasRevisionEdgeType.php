@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskHasRevisionEdgeType extends PhabricatorEdgeType {
+final class ManiphestTaskHasRevisionEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 11;
 

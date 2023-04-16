@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAphrontBarUIExample extends PhabricatorUIExample {
+final class PhorgeAphrontBarUIExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Bars');

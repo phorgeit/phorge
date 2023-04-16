@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorEditEngineSubtypeInterface {
+interface PhorgeEditEngineSubtypeInterface {
 
   public function getEditEngineSubtype();
   public function setEditEngineSubtype($subtype);

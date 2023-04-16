@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthSSHKey
-  extends PhabricatorAuthDAO
+final class PhorgeAuthSSHKey
+  extends PhorgeAuthDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $objectPHID;
   protected $name;
@@ -19,14 +19,14 @@ final class PhabricatorAuthSSHKey
   private $object = self::ATTACHABLE;
 
   public static function initializeNewSSHKey(
-    PhabricatorUser $viewer,
-    PhabricatorSSHPublicKeyInterface $object) {
+    PhorgeUser $viewer,
+    PhorgeSSHPublicKeyInterface $object) {
 
     // You must be able to edit an object to create a new key on it.
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $object_phid = $object->getPHID();
 
@@ -71,7 +71,7 @@ final class PhabricatorAuthSSHKey
   }
 
   public function toPublicKey() {
-    return PhabricatorAuthSSHPublicKey::newFromStoredKey($this);
+    return PhorgeAuthSSHPublicKey::newFromStoredKey($this);
   }
 
   public function getEntireKey() {
@@ -87,14 +87,14 @@ final class PhabricatorAuthSSHKey
     return $this->assertAttached($this->object);
   }
 
-  public function attachObject(PhabricatorSSHPublicKeyInterface $object) {
+  public function attachObject(PhorgeSSHPublicKeyInterface $object) {
     $this->object = $object;
     return $this;
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorAuthSSHKeyPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeAuthSSHKeyPHIDType::TYPECONST);
   }
 
   public function getURI() {
@@ -102,27 +102,27 @@ final class PhabricatorAuthSSHKey
     return "/auth/sshkey/view/{$id}/";
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     if (!$this->getIsActive()) {
-      if ($capability == PhabricatorPolicyCapability::CAN_EDIT) {
-        return PhabricatorPolicies::POLICY_NOONE;
+      if ($capability == PhorgePolicyCapability::CAN_EDIT) {
+        return PhorgePolicies::POLICY_NOONE;
       }
     }
 
     return $this->getObject()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if (!$this->getIsActive()) {
       return false;
     }
@@ -140,11 +140,11 @@ final class PhabricatorAuthSSHKey
       'SSH keys inherit the policies of the user or object they authenticate.');
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();
@@ -152,15 +152,15 @@ final class PhabricatorAuthSSHKey
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthSSHKeyEditor();
+    return new PhorgeAuthSSHKeyEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthSSHKeyTransaction();
+    return new PhorgeAuthSSHKeyTransaction();
   }
 
 }

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorDashboardInstallController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardInstallController
+  extends PhorgeDashboardController {
 
   private $dashboard;
 
-  public function setDashboard(PhabricatorDashboard $dashboard) {
+  public function setDashboard(PhorgeDashboard $dashboard) {
     $this->dashboard = $dashboard;
     return $this;
   }
@@ -18,7 +18,7 @@ final class PhabricatorDashboardInstallController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $dashboard = id(new PhabricatorDashboardQuery())
+    $dashboard = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -31,7 +31,7 @@ final class PhabricatorDashboardInstallController
 
     $workflow_key = $request->getURIData('workflowKey');
 
-    $workflows = PhabricatorDashboardInstallWorkflow::getAllWorkflows();
+    $workflows = PhorgeDashboardInstallWorkflow::getAllWorkflows();
     if (!isset($workflows[$workflow_key])) {
       return $this->newWorkflowDialog($dashboard, $workflows);
     }
@@ -45,7 +45,7 @@ final class PhabricatorDashboardInstallController
   }
 
   private function newWorkflowDialog(
-    PhabricatorDashboard $dashboard,
+    PhorgeDashboard $dashboard,
     array $workflows) {
     $viewer = $this->getViewer();
     $cancel_uri = $dashboard->getURI();

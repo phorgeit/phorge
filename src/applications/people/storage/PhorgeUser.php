@@ -8,20 +8,20 @@
  * @task settings Settings
  * @task cache User Cache
  */
-final class PhabricatorUser
-  extends PhabricatorUserDAO
+final class PhorgeUser
+  extends PhorgeUserDAO
   implements
     PhutilPerson,
-    PhabricatorPolicyInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSSHPublicKeyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorAuthPasswordHashInterface {
+    PhorgePolicyInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSSHPublicKeyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeConduitResultInterface,
+    PhorgeAuthPasswordHashInterface {
 
   const SESSION_TABLE = 'phorge_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
@@ -112,7 +112,7 @@ final class PhabricatorUser
       return false;
     }
 
-    if (PhabricatorUserEmail::isEmailVerificationRequired()) {
+    if (PhorgeUserEmail::isEmailVerificationRequired()) {
       if (!$this->getIsEmailVerified()) {
         return false;
       }
@@ -167,7 +167,7 @@ final class PhabricatorUser
     // Intracluster requests are permitted even if the user is logged out:
     // in particular, public users are allowed to issue intracluster requests
     // when browsing Diffusion.
-    if (PhabricatorEnv::isClusterRemoteAddress()) {
+    if (PhorgeEnv::isClusterRemoteAddress()) {
       if (!$this->isLoggedIn()) {
         return true;
       }
@@ -204,7 +204,7 @@ final class PhabricatorUser
    *              a normal session.
    */
   public function getIsStandardUser() {
-    $type_user = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $type_user = PhorgePeopleUserPHIDType::TYPECONST;
     return $this->getPHID() && (phid_get_type($this->getPHID()) == $type_user);
   }
 
@@ -254,8 +254,8 @@ final class PhabricatorUser
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPeopleUserPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePeopleUserPHIDType::TYPECONST);
   }
 
   public function getMonogram() {
@@ -288,12 +288,12 @@ final class PhabricatorUser
 
     $this->updateNameTokens();
 
-    PhabricatorSearchWorker::queueDocumentForIndexing($this->getPHID());
+    PhorgeSearchWorker::queueDocumentForIndexing($this->getPHID());
 
     return $result;
   }
 
-  public function attachSession(PhabricatorAuthSession $session) {
+  public function attachSession(PhorgeAuthSession $session) {
     $this->session = $session;
     return $this;
   }
@@ -336,7 +336,7 @@ final class PhabricatorUser
     return $this->assertAttached($this->profile);
   }
 
-  public function attachUserProfile(PhabricatorUserProfile $profile) {
+  public function attachUserProfile(PhorgeUserProfile $profile) {
     $this->profile = $profile;
 
     if ($this->isDisabled) {
@@ -351,12 +351,12 @@ final class PhabricatorUser
       return $this->profile;
     }
 
-    $profile_dao = new PhabricatorUserProfile();
+    $profile_dao = new PhorgeUserProfile();
     $this->profile = $profile_dao->loadOneWhere('userPHID = %s',
       $this->getPHID());
 
     if (!$this->profile) {
-      $this->profile = PhabricatorUserProfile::initializeNewProfile($this);
+      $this->profile = PhorgeUserProfile::initializeNewProfile($this);
     }
 
     if ($this->isDisabled) {
@@ -375,7 +375,7 @@ final class PhabricatorUser
   }
 
   public function loadPrimaryEmail() {
-    return id(new PhabricatorUserEmail())->loadOneWhere(
+    return id(new PhorgeUserEmail())->loadOneWhere(
       'userPHID = %s AND isPrimary = 1',
       $this->getPHID());
   }
@@ -391,7 +391,7 @@ final class PhabricatorUser
       return $this->settingCache[$key];
     }
 
-    $settings_key = PhabricatorUserPreferencesCacheType::KEY_PREFERENCES;
+    $settings_key = PhorgeUserPreferencesCacheType::KEY_PREFERENCES;
     if ($this->getPHID()) {
       $settings = $this->requireCacheData($settings_key);
     } else {
@@ -403,14 +403,14 @@ final class PhabricatorUser
       return $this->writeUserSettingCache($key, $value);
     }
 
-    $cache = PhabricatorCaches::getRuntimeCache();
+    $cache = PhorgeCaches::getRuntimeCache();
     $cache_key = "settings.defaults({$key})";
     $cache_map = $cache->getKeys(array($cache_key));
 
     if ($cache_map) {
       $value = $cache_map[$cache_key];
     } else {
-      $defaults = PhabricatorSetting::getAllSettings();
+      $defaults = PhorgeSetting::getAllSettings();
       if (isset($defaults[$key])) {
         $value = id(clone $defaults[$key])
           ->setViewer($this)
@@ -446,11 +446,11 @@ final class PhabricatorUser
   }
 
   public function getTranslation() {
-    return $this->getUserSetting(PhabricatorTranslationSetting::SETTINGKEY);
+    return $this->getUserSetting(PhorgeTranslationSetting::SETTINGKEY);
   }
 
   public function getTimezoneIdentifier() {
-    return $this->getUserSetting(PhabricatorTimezoneSetting::SETTINGKEY);
+    return $this->getUserSetting(PhorgeTimezoneSetting::SETTINGKEY);
   }
 
   public static function getGlobalSettingsCacheKey() {
@@ -459,11 +459,11 @@ final class PhabricatorUser
 
   private function loadGlobalSettings() {
     $cache_key = self::getGlobalSettingsCacheKey();
-    $cache = PhabricatorCaches::getMutableStructureCache();
+    $cache = PhorgeCaches::getMutableStructureCache();
 
     $settings = $cache->getKey($cache_key);
     if (!$settings) {
-      $preferences = PhabricatorUserPreferences::loadGlobalPreferences($this);
+      $preferences = PhorgeUserPreferences::loadGlobalPreferences($this);
       $settings = $preferences->getPreferences();
       $cache->setKey($cache_key, $settings);
     }
@@ -482,14 +482,14 @@ final class PhabricatorUser
    * @task settings
    */
   public function overrideTimezoneIdentifier($identifier) {
-    $timezone_key = PhabricatorTimezoneSetting::SETTINGKEY;
+    $timezone_key = PhorgeTimezoneSetting::SETTINGKEY;
     $this->settingCacheKeys[$timezone_key] = true;
     $this->settingCache[$timezone_key] = $identifier;
     return $this;
   }
 
   public function getGender() {
-    return $this->getUserSetting(PhabricatorPronounSetting::SETTINGKEY);
+    return $this->getUserSetting(PhorgePronounSetting::SETTINGKEY);
   }
 
   /**
@@ -501,7 +501,7 @@ final class PhabricatorUser
     $table  = self::NAMETOKEN_TABLE;
     $conn_w = $this->establishConnection('w');
 
-    $tokens = PhabricatorTypeaheadDatasource::tokenizeString(
+    $tokens = PhorgeTypeaheadDatasource::tokenizeString(
       $this->getUserName().' '.$this->getRealName());
 
     $sql = array();
@@ -555,22 +555,22 @@ final class PhabricatorUser
   }
 
   public function getProfileImageURI() {
-    $uri_key = PhabricatorUserProfileImageCacheType::KEY_URI;
+    $uri_key = PhorgeUserProfileImageCacheType::KEY_URI;
     return $this->requireCacheData($uri_key);
   }
 
   public function getUnreadNotificationCount() {
-    $notification_key = PhabricatorUserNotificationCountCacheType::KEY_COUNT;
+    $notification_key = PhorgeUserNotificationCountCacheType::KEY_COUNT;
     return $this->requireCacheData($notification_key);
   }
 
   public function getUnreadMessageCount() {
-    $message_key = PhabricatorUserMessageCountCacheType::KEY_COUNT;
+    $message_key = PhorgeUserMessageCountCacheType::KEY_COUNT;
     return $this->requireCacheData($message_key);
   }
 
   public function getRecentBadgeAwards() {
-    $badges_key = PhabricatorUserBadgesCacheType::KEY_BADGES;
+    $badges_key = PhorgeUserBadgesCacheType::KEY_BADGES;
     return $this->requireCacheData($badges_key);
   }
 
@@ -588,7 +588,7 @@ final class PhabricatorUser
 
   public function getTimeZoneOffset() {
     $timezone = $this->getTimeZone();
-    $now = new DateTime('@'.PhabricatorTime::getNow());
+    $now = new DateTime('@'.PhorgeTime::getNow());
     $offset = $timezone->getOffset($now);
 
     // Javascript offsets are in minutes and have the opposite sign.
@@ -607,7 +607,7 @@ final class PhabricatorUser
 
   public function formatShortDateTime($when, $now = null) {
     if ($now === null) {
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
     }
 
     try {
@@ -630,7 +630,7 @@ final class PhabricatorUser
       $format = 'M j';
     } else {
       // Same year, month and day so show a time of day.
-      $pref_time = PhabricatorTimeFormatSetting::SETTINGKEY;
+      $pref_time = PhorgeTimeFormatSetting::SETTINGKEY;
       $format = $this->getUserSetting($pref_time);
     }
 
@@ -642,13 +642,13 @@ final class PhabricatorUser
   }
 
   public static function loadOneWithEmailAddress($address) {
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'address = %s',
       $address);
     if (!$email) {
       return null;
     }
-    return id(new PhabricatorUser())->loadOneWhere(
+    return id(new PhorgeUser())->loadOneWhere(
       'phid = %s',
       $email->getUserPHID());
   }
@@ -658,7 +658,7 @@ final class PhabricatorUser
     // for now just use the global space if one exists.
 
     // If the viewer has access to the default space, use that.
-    $spaces = PhabricatorSpacesNamespaceQuery::getViewerActiveSpaces($this);
+    $spaces = PhorgeSpacesNamespaceQuery::getViewerActiveSpaces($this);
     foreach ($spaces as $space) {
       if ($space->getIsDefaultNamespace()) {
         return $space->getPHID();
@@ -681,7 +681,7 @@ final class PhabricatorUser
     return ($this->conduitClusterToken !== self::ATTACHABLE);
   }
 
-  public function attachConduitClusterToken(PhabricatorConduitToken $token) {
+  public function attachConduitClusterToken(PhorgeConduitToken $token) {
     $this->conduitClusterToken = $token;
     return $this;
   }
@@ -729,7 +729,7 @@ final class PhabricatorUser
       return null;
     }
 
-    $busy = PhabricatorCalendarEventInvitee::AVAILABILITY_BUSY;
+    $busy = PhorgeCalendarEventInvitee::AVAILABILITY_BUSY;
 
     return idx($availability, 'availability', $busy);
   }
@@ -754,7 +754,7 @@ final class PhabricatorUser
    * @task availability
    */
   public function getAvailabilityCache() {
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     if ($this->availabilityCacheTTL <= $now) {
       return null;
     }
@@ -776,7 +776,7 @@ final class PhabricatorUser
    * @task availability
    */
   public function writeAvailabilityCache(array $availability, $ttl) {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return $this;
     }
 
@@ -814,13 +814,13 @@ final class PhabricatorUser
    * @task factors
    */
   public function updateMultiFactorEnrollment() {
-    $factors = id(new PhabricatorAuthFactorConfigQuery())
+    $factors = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($this)
       ->withUserPHIDs(array($this->getPHID()))
       ->withFactorProviderStatuses(
         array(
-          PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
-          PhabricatorAuthFactorProviderStatus::STATUS_DEPRECATED,
+          PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
+          PhorgeAuthFactorProviderStatus::STATUS_DEPRECATED,
         ))
       ->execute();
 
@@ -873,12 +873,12 @@ final class PhabricatorUser
    * Get an omnipotent user object for use in contexts where there is no acting
    * user, notably daemons.
    *
-   * @return PhabricatorUser An omnipotent user.
+   * @return PhorgeUser An omnipotent user.
    */
   public static function getOmnipotentUser() {
     static $user = null;
     if (!$user) {
-      $user = new PhabricatorUser();
+      $user = new PhorgeUser();
       $user->omnipotent = true;
       $user->makeEphemeral();
     }
@@ -913,16 +913,16 @@ final class PhabricatorUser
 
 
   /**
-   * Get a @{class:PhabricatorHandleList} which benefits from this viewer's
+   * Get a @{class:PhorgeHandleList} which benefits from this viewer's
    * internal handle pool.
    *
    * @param list<phid> List of PHIDs to load.
-   * @return PhabricatorHandleList Handle list object.
+   * @return PhorgeHandleList Handle list object.
    * @task handle
    */
   public function loadHandles(array $phids) {
     if ($this->handlePool === null) {
-      $this->handlePool = id(new PhabricatorHandlePool())
+      $this->handlePool = id(new PhorgeHandlePool())
         ->setViewer($this);
     }
 
@@ -1005,7 +1005,7 @@ final class PhabricatorUser
       $vec = $vec.$this->getSession()->getSessionKey();
     }
 
-    $engine = new PhabricatorAuthCSRFEngine();
+    $engine = new PhorgeAuthCSRFEngine();
 
     if ($this->csrfSalt === null) {
       $this->csrfSalt = $engine->newSalt();
@@ -1019,36 +1019,36 @@ final class PhabricatorUser
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_PUBLIC;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_PUBLIC;
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->getIsSystemAgent() || $this->getIsMailingList()) {
-          return PhabricatorPolicies::POLICY_ADMIN;
+          return PhorgePolicies::POLICY_ADMIN;
         } else {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         }
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getPHID() && ($viewer->getPHID() === $this->getPHID());
   }
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht('Only you can edit your information.');
       default:
         return null;
@@ -1056,39 +1056,39 @@ final class PhabricatorUser
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('user.fields');
+    return PhorgeEnv::getEnvConfig('user.fields');
   }
 
   public function getCustomFieldBaseClass() {
-    return 'PhabricatorUserCustomField';
+    return 'PhorgeUserCustomField';
   }
 
   public function getCustomFields() {
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $engine->getViewer();
 
     $this->openTransaction();
       $this->delete();
 
-      $externals = id(new PhabricatorExternalAccountQuery())
+      $externals = id(new PhorgeExternalAccountQuery())
         ->setViewer($viewer)
         ->withUserPHIDs(array($this->getPHID()))
         ->newIterator();
@@ -1096,7 +1096,7 @@ final class PhabricatorUser
         $engine->destroyObject($external);
       }
 
-      $prefs = id(new PhabricatorUserPreferencesQuery())
+      $prefs = id(new PhorgeUserPreferencesQuery())
         ->setViewer($viewer)
         ->withUsers(array($this))
         ->execute();
@@ -1104,14 +1104,14 @@ final class PhabricatorUser
         $engine->destroyObject($pref);
       }
 
-      $profiles = id(new PhabricatorUserProfile())->loadAllWhere(
+      $profiles = id(new PhorgeUserProfile())->loadAllWhere(
         'userPHID = %s',
         $this->getPHID());
       foreach ($profiles as $profile) {
         $profile->delete();
       }
 
-      $keys = id(new PhabricatorAuthSSHKeyQuery())
+      $keys = id(new PhorgeAuthSSHKeyQuery())
         ->setViewer($viewer)
         ->withObjectPHIDs(array($this->getPHID()))
         ->execute();
@@ -1119,21 +1119,21 @@ final class PhabricatorUser
         $engine->destroyObject($key);
       }
 
-      $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+      $emails = id(new PhorgeUserEmail())->loadAllWhere(
         'userPHID = %s',
         $this->getPHID());
       foreach ($emails as $email) {
         $engine->destroyObject($email);
       }
 
-      $sessions = id(new PhabricatorAuthSession())->loadAllWhere(
+      $sessions = id(new PhorgeAuthSession())->loadAllWhere(
         'userPHID = %s',
         $this->getPHID());
       foreach ($sessions as $session) {
         $session->delete();
       }
 
-      $factors = id(new PhabricatorAuthFactorConfig())->loadAllWhere(
+      $factors = id(new PhorgeAuthFactorConfig())->loadAllWhere(
         'userPHID = %s',
         $this->getPHID());
       foreach ($factors as $factor) {
@@ -1144,10 +1144,10 @@ final class PhabricatorUser
   }
 
 
-/* -(  PhabricatorSSHPublicKeyInterface  )----------------------------------- */
+/* -(  PhorgeSSHPublicKeyInterface  )----------------------------------- */
 
 
-  public function getSSHPublicKeyManagementURI(PhabricatorUser $viewer) {
+  public function getSSHPublicKeyManagementURI(PhorgeUser $viewer) {
     if ($viewer->getPHID() == $this->getPHID()) {
       // If the viewer is managing their own keys, take them to the normal
       // panel.
@@ -1169,48 +1169,48 @@ final class PhabricatorUser
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorUserTransactionEditor();
+    return new PhorgeUserTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorUserTransaction();
+    return new PhorgeUserTransaction();
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
-    return new PhabricatorUserFulltextEngine();
+    return new PhorgeUserFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorUserFerretEngine();
+    return new PhorgeUserFerretEngine();
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('username')
         ->setType('string')
         ->setDescription(pht("The user's username.")),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('realName')
         ->setType('string')
         ->setDescription(pht("The user's real name.")),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('roles')
         ->setType('list<string>')
         ->setDescription(pht('List of account roles.')),
@@ -1257,7 +1257,7 @@ final class PhabricatorUser
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorPeopleAvailabilitySearchEngineAttachment())
+      id(new PhorgePeopleAvailabilitySearchEngineAttachment())
         ->setAttachmentKey('availability'),
     );
   }
@@ -1287,7 +1287,7 @@ final class PhabricatorUser
       return $this->usableCacheData[$key];
     }
 
-    $type = PhabricatorUserCacheType::requireCacheTypeForKey($key);
+    $type = PhorgeUserCacheType::requireCacheTypeForKey($key);
 
     if (isset($this->rawCacheData[$key])) {
       $raw_value = $this->rawCacheData[$key];
@@ -1301,7 +1301,7 @@ final class PhabricatorUser
     // By default, we throw if a cache isn't available. This is consistent
     // with the standard `needX()` + `attachX()` + `getX()` interaction.
     if (!$this->allowInlineCacheGeneration) {
-      throw new PhabricatorDataNotAttachedException($this);
+      throw new PhorgeDataNotAttachedException($this);
     }
 
     $user_phid = $this->getPHID();
@@ -1310,7 +1310,7 @@ final class PhabricatorUser
     // end up here via Conduit, which does not use normal sessions and can
     // not pick up a free cache load during session identification.
     if ($user_phid) {
-      $raw_data = PhabricatorUserCache::readCaches(
+      $raw_data = PhorgeUserCache::readCaches(
         $type,
         $key,
         array($user_phid));
@@ -1332,7 +1332,7 @@ final class PhabricatorUser
         $usable_value = $type->getValueFromStorage($raw_value);
 
         $this->rawCacheData[$key] = $raw_value;
-        PhabricatorUserCache::writeCache(
+        PhorgeUserCache::writeCache(
           $type,
           $key,
           $user_phid,
@@ -1357,7 +1357,7 @@ final class PhabricatorUser
 
 
   public function getCSSValue($variable_key) {
-    $preference = PhabricatorAccessibilitySetting::SETTINGKEY;
+    $preference = PhorgeAccessibilitySetting::SETTINGKEY;
     $key = $this->getUserSetting($preference);
 
     $postprocessor = CelerityPostprocessor::getPostprocessor($key);
@@ -1373,12 +1373,12 @@ final class PhabricatorUser
     return $variables[$variable_key];
   }
 
-/* -(  PhabricatorAuthPasswordHashInterface  )------------------------------- */
+/* -(  PhorgeAuthPasswordHashInterface  )------------------------------- */
 
 
   public function newPasswordDigest(
     PhutilOpaqueEnvelope $envelope,
-    PhabricatorAuthPassword $password) {
+    PhorgeAuthPassword $password) {
 
     // Before passwords are hashed, they are digested. The goal of digestion
     // is twofold: to reduce the length of very long passwords to something
@@ -1412,17 +1412,17 @@ final class PhabricatorUser
 
     if ($password->getLegacyDigestFormat() == 'v1') {
       switch ($password->getPasswordType()) {
-        case PhabricatorAuthPassword::PASSWORD_TYPE_VCS:
+        case PhorgeAuthPassword::PASSWORD_TYPE_VCS:
           // Old VCS passwords use an iterated HMAC SHA1 as a digest algorithm.
           // They originally used this as a hasher, but it became a digest
           // algorithm once hashing was upgraded to include bcrypt.
           $digest = $envelope->openEnvelope();
           $salt = $this->getPHID();
           for ($ii = 0; $ii < 1000; $ii++) {
-            $digest = PhabricatorHash::weakDigest($digest, $salt);
+            $digest = PhorgeHash::weakDigest($digest, $salt);
           }
           return new PhutilOpaqueEnvelope($digest);
-        case PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT:
+        case PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT:
           // Account passwords previously used this weird mess of salt and did
           // not digest the input to a standard length.
 
@@ -1454,7 +1454,7 @@ final class PhabricatorUser
     // other digest algorithm, HMAC SHA256 is an excellent choice. It satisfies
     // the digest requirements and is simple.
 
-    $digest = PhabricatorHash::digestHMACSHA256(
+    $digest = PhorgeHash::digestHMACSHA256(
       $envelope->openEnvelope(),
       $password->getPasswordSalt());
 
@@ -1462,14 +1462,14 @@ final class PhabricatorUser
   }
 
   public function newPasswordBlocklist(
-    PhabricatorUser $viewer,
-    PhabricatorAuthPasswordEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeAuthPasswordEngine $engine) {
 
     $list = array();
     $list[] = $this->getUsername();
     $list[] = $this->getRealName();
 
-    $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+    $emails = id(new PhorgeUserEmail())->loadAllWhere(
       'userPHID = %s',
       $this->getPHID());
     foreach ($emails as $email) {

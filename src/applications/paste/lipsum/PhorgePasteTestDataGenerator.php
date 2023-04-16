@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgePasteTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'pastes';
 
@@ -14,25 +14,25 @@ final class PhabricatorPasteTestDataGenerator
 
     list($name, $language, $content) = $this->newPasteContent();
 
-    $paste = PhabricatorPaste::initializeNewPaste($author);
+    $paste = PhorgePaste::initializeNewPaste($author);
 
     $xactions = array();
 
     $xactions[] = $this->newTransaction(
-      PhabricatorPasteTitleTransaction::TRANSACTIONTYPE,
+      PhorgePasteTitleTransaction::TRANSACTIONTYPE,
       $name);
 
     if (strlen($language) > 0) {
         $xactions[] = $this->newTransaction(
-            PhabricatorPasteLanguageTransaction::TRANSACTIONTYPE,
+            PhorgePasteLanguageTransaction::TRANSACTIONTYPE,
             $language);
     }
 
     $xactions[] = $this->newTransaction(
-      PhabricatorPasteContentTransaction::TRANSACTIONTYPE,
+      PhorgePasteContentTransaction::TRANSACTIONTYPE,
       $content);
 
-    $editor = id(new PhabricatorPasteEditor())
+    $editor = id(new PhorgePasteEditor())
       ->setActor($author)
       ->setContentSource($this->getLipsumContentSource())
       ->setContinueOnNoEffect(true)
@@ -42,7 +42,7 @@ final class PhabricatorPasteTestDataGenerator
   }
 
   protected function newEmptyTransaction() {
-    return new PhabricatorPasteTransaction();
+    return new PhorgePasteTransaction();
   }
 
   public function getSupportedLanguages() {
@@ -73,7 +73,7 @@ final class PhabricatorPasteTestDataGenerator
 
     $title_generator = idx($spec, 'title');
     if (!$title_generator) {
-      $title_generator = 'PhabricatorPasteFilenameContextFreeGrammar';
+      $title_generator = 'PhorgePasteFilenameContextFreeGrammar';
     }
 
     $title = newv($title_generator, array())

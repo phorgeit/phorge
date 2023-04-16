@@ -1,4 +1,4 @@
 <?php
 
 abstract class HarbormasterManagementWorkflow
-  extends PhabricatorManagementWorkflow {}
+  extends PhorgeManagementWorkflow {}

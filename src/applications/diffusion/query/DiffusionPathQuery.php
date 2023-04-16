@@ -10,14 +10,14 @@ final class DiffusionPathQuery extends Phobject {
   }
 
   public function execute() {
-    $conn = id(new PhabricatorRepository())->establishConnection('r');
+    $conn = id(new PhorgeRepository())->establishConnection('r');
 
     $where = $this->buildWhereClause($conn);
 
     $results = queryfx_all(
       $conn,
       'SELECT * FROM %T %Q',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       $where);
 
     return ipull($results, null, 'id');

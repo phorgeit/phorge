@@ -1,10 +1,10 @@
 <?php
 
 final class NuanceQueueSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   public function getResultTypeDescription() {
@@ -51,7 +51,7 @@ final class NuanceQueueSearchEngine
 
   protected function renderResultList(
     array $queues,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($queues, 'NuanceQueue');
 
@@ -67,7 +67,7 @@ final class NuanceQueueSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No queues found.'));
 

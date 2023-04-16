@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialDiffPHIDType extends PhabricatorPHIDType {
+final class DifferentialDiffPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DIFF';
 
@@ -13,11 +13,11 @@ final class DifferentialDiffPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DifferentialDiffQuery())
@@ -25,7 +25,7 @@ final class DifferentialDiffPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

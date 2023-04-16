@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorHexdumpDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeHexdumpDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'hexdump';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Hexdump');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-microchip';
   }
 
@@ -17,19 +17,19 @@ final class PhabricatorHexdumpDocumentEngine
     return (1024 * 1024 * 1);
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     return 500;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  protected function canRenderPartialDocument(PhabricatorDocumentRef $ref) {
+  protected function canRenderPartialDocument(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $limit = $this->getByteLengthLimit();
     $length = $ref->getByteLength();
 
@@ -63,7 +63,7 @@ final class PhabricatorHexdumpDocumentEngine
     $container = phutil_tag(
       'div',
       array(
-        'class' => 'document-engine-hexdump PhabricatorMonospaced',
+        'class' => 'document-engine-hexdump PhorgeMonospaced',
       ),
       $output);
 

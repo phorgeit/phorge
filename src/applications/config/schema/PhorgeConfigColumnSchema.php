@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigColumnSchema
-  extends PhabricatorConfigStorageSchema {
+final class PhorgeConfigColumnSchema
+  extends PhorgeConfigStorageSchema {
 
   private $characterSet;
   private $collation;
@@ -68,7 +68,7 @@ final class PhabricatorConfigColumnSchema
     return $this->characterSet;
   }
 
-  public function hasSameColumnTypeAs(PhabricatorConfigColumnSchema $other) {
+  public function hasSameColumnTypeAs(PhorgeConfigColumnSchema $other) {
     $u_type = $this->getColumnType();
     $v_type = $other->getColumnType();
 
@@ -153,11 +153,11 @@ final class PhabricatorConfigColumnSchema
   }
 
   protected function compareToSimilarSchema(
-    PhabricatorConfigStorageSchema $expect) {
+    PhorgeConfigStorageSchema $expect) {
 
     $issues = array();
 
-    $type_unknown = PhabricatorConfigSchemaSpec::DATATYPE_UNKNOWN;
+    $type_unknown = PhorgeConfigSchemaSpec::DATATYPE_UNKNOWN;
     if ($expect->getColumnType() == $type_unknown) {
       $issues[] = self::ISSUE_UNKNOWN;
     } else {

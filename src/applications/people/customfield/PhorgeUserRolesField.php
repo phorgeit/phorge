@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserRolesField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserRolesField
+  extends PhorgeUserCustomField {
 
   private $value;
 

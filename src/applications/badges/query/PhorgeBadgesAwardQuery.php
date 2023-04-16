@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesAwardQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeBadgesAwardQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $badgePHIDs;
   private $recipientPHIDs;
@@ -14,7 +14,7 @@ final class PhabricatorBadgesAwardQuery
       $badge_phids[] = $award->getBadgePHID();
     }
 
-    $badges = id(new PhabricatorBadgesQuery())
+    $badges = id(new PhorgeBadgesQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($badge_phids)
       ->execute();
@@ -58,7 +58,7 @@ final class PhabricatorBadgesAwardQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorBadgesAward();
+    return new PhorgeBadgesAward();
   }
 
   protected function getPrimaryTableAlias() {
@@ -102,7 +102,7 @@ final class PhabricatorBadgesAwardQuery
 
   protected function buildJoinClauseParts(AphrontDatabaseConnection $conn) {
     $join = parent::buildJoinClauseParts($conn);
-    $badges = new PhabricatorBadgesBadge();
+    $badges = new PhorgeBadgesBadge();
 
     if ($this->shouldJoinBadge()) {
       $join[] = qsprintf(
@@ -115,7 +115,7 @@ final class PhabricatorBadgesAwardQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
 }

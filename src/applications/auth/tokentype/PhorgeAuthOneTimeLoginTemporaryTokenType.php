@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthOneTimeLoginTemporaryTokenType
-  extends PhabricatorAuthTemporaryTokenType {
+final class PhorgeAuthOneTimeLoginTemporaryTokenType
+  extends PhorgeAuthTemporaryTokenType {
 
   const TOKENTYPE = 'login:onetime';
 
@@ -10,11 +10,11 @@ final class PhabricatorAuthOneTimeLoginTemporaryTokenType
   }
 
   public function getTokenReadableTypeName(
-    PhabricatorAuthTemporaryToken $token) {
+    PhorgeAuthTemporaryToken $token) {
     return pht('One-Time Login Token');
   }
 
-  public function isTokenRevocable(PhabricatorAuthTemporaryToken $token) {
+  public function isTokenRevocable(PhorgeAuthTemporaryToken $token) {
     return true;
   }
 

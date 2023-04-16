@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadRuntimeCompositeDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeTypeaheadRuntimeCompositeDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   private $datasources = array();
 
@@ -13,7 +13,7 @@ final class PhabricatorTypeaheadRuntimeCompositeDatasource
     throw new Exception(pht('This source is not usable directly.'));
   }
 
-  public function addDatasource(PhabricatorTypeaheadDatasource $source) {
+  public function addDatasource(PhorgeTypeaheadDatasource $source) {
     $this->datasources[] = $source;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserApproveTransaction
-  extends PhabricatorUserTransactionType {
+final class PhorgeUserApproveTransaction
+  extends PhorgeUserTransactionType {
 
   const TRANSACTIONTYPE = 'user.approve';
 
@@ -34,9 +34,9 @@ final class PhabricatorUserApproveTransaction
         PlatformSymbols::getPlatformServerName(),
         $user->getUsername(),
         $actor->getUsername()),
-      PhabricatorEnv::getProductionURI('/'));
+      PhorgeEnv::getProductionURI('/'));
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($user->getPHID()))
       ->addCCs(array($actor->getPHID()))
       ->setSubject(
@@ -91,7 +91,7 @@ final class PhabricatorUserApproveTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // Unlike normal user edits, approvals require admin permissions, which
     // is enforced by validateTransactions().

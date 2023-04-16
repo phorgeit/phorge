@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorConfigClusterNotificationsController
-  extends PhabricatorConfigServicesController {
+final class PhorgeConfigClusterNotificationsController
+  extends PhorgeConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
     $title = pht('Notification Servers');
-    $doc_href = PhabricatorEnv::getDoclink('Cluster: Notifications');
+    $doc_href = PhorgeEnv::getDoclink('Cluster: Notifications');
     $button = id(new PHUIButtonView())
       ->setIcon('fa-book')
       ->setHref($doc_href)
@@ -38,7 +38,7 @@ final class PhabricatorConfigClusterNotificationsController
   private function buildClusterNotificationStatus() {
     $viewer = $this->getViewer();
 
-    $servers = PhabricatorNotificationServerRef::newRefs();
+    $servers = PhorgeNotificationServerRef::newRefs();
     Javelin::initBehavior('phorge-tooltips');
 
     $rows = array();

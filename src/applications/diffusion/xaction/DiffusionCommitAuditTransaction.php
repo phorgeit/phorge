@@ -12,21 +12,21 @@ abstract class DiffusionCommitAuditTransaction
   }
 
   protected function isViewerAnyAuditor(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
     return ($this->getViewerAuditStatus($commit, $viewer) !== null);
   }
 
   protected function isViewerAnyActiveAuditor(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
 
     // This omits inactive states; currently just "Resigned".
     $active = array(
-      PhabricatorAuditRequestStatus::AUDIT_REQUIRED,
-      PhabricatorAuditRequestStatus::CONCERNED,
-      PhabricatorAuditRequestStatus::ACCEPTED,
-      PhabricatorAuditRequestStatus::AUDIT_REQUESTED,
+      PhorgeAuditRequestStatus::AUDIT_REQUIRED,
+      PhorgeAuditRequestStatus::CONCERNED,
+      PhorgeAuditRequestStatus::ACCEPTED,
+      PhorgeAuditRequestStatus::AUDIT_REQUESTED,
     );
     $active = array_fuse($active);
 
@@ -36,30 +36,30 @@ abstract class DiffusionCommitAuditTransaction
   }
 
   protected function isViewerFullyAccepted(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
     return $this->isViewerAuditStatusFullyAmong(
       $commit,
       $viewer,
       array(
-        PhabricatorAuditRequestStatus::ACCEPTED,
+        PhorgeAuditRequestStatus::ACCEPTED,
       ));
   }
 
   protected function isViewerFullyRejected(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
     return $this->isViewerAuditStatusFullyAmong(
       $commit,
       $viewer,
       array(
-        PhabricatorAuditRequestStatus::CONCERNED,
+        PhorgeAuditRequestStatus::CONCERNED,
       ));
   }
 
   protected function getViewerAuditStatus(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
 
     if (!$viewer->getPHID()) {
       return null;
@@ -77,8 +77,8 @@ abstract class DiffusionCommitAuditTransaction
   }
 
   protected function isViewerAuditStatusFullyAmong(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer,
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer,
     array $status_list) {
 
     $status = $this->getViewerAuditStatus($commit, $viewer);
@@ -104,8 +104,8 @@ abstract class DiffusionCommitAuditTransaction
   }
 
   protected function applyAuditorEffect(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer,
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer,
     $value,
     $status) {
 
@@ -117,7 +117,7 @@ abstract class DiffusionCommitAuditTransaction
 
     $map = array();
 
-    $with_authority = ($status != PhabricatorAuditRequestStatus::RESIGNED);
+    $with_authority = ($status != PhorgeAuditRequestStatus::RESIGNED);
     if ($with_authority) {
       foreach ($audits as $audit) {
         if ($commit->hasAuditAuthority($actor, $audit, $acting_phid)) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBcryptPasswordHasher
-  extends PhabricatorPasswordHasher {
+final class PhorgeBcryptPasswordHasher
+  extends PhorgePasswordHasher {
 
   public function getHumanReadableName() {
     return pht('bcrypt');

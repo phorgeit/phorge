@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorTestDataGenerator extends Phobject {
+abstract class PhorgeTestDataGenerator extends Phobject {
 
   private $viewer;
 
   abstract public function getGeneratorName();
   abstract public function generateObject();
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -38,11 +38,11 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
   protected function loadRandomUser() {
     $viewer = $this->getViewer();
 
-    $user_phid = $this->loadRandomPHID(new PhabricatorUser());
+    $user_phid = $this->loadRandomPHID(new PhorgeUser());
 
     $user = null;
     if ($user_phid) {
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($user_phid))
         ->needUserSettings(true)
@@ -60,8 +60,8 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
   }
 
   protected function getLipsumContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorLipsumContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgeLipsumContentSource::SOURCECONST);
   }
 
   /**
@@ -108,12 +108,12 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
     }
   }
 
-  public function loadPhabricatorUserPHID() {
-    return $this->loadOneRandom('PhabricatorUser')->getPHID();
+  public function loadPhorgeUserPHID() {
+    return $this->loadOneRandom('PhorgeUser')->getPHID();
   }
 
-  public function loadPhabricatorUser() {
-    return $this->loadOneRandom('PhabricatorUser');
+  public function loadPhorgeUser() {
+    return $this->loadOneRandom('PhorgeUser');
   }
 
 }

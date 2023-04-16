@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesListController
-  extends PhabricatorSpacesController {
+final class PhorgeSpacesListController
+  extends PhorgeSpacesController {
 
   public function shouldAllowPublic() {
     return true;
@@ -9,9 +9,9 @@ final class PhabricatorSpacesListController
 
   public function handleRequest(AphrontRequest $request) {
     $request = $this->getRequest();
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorSpacesNamespaceSearchEngine())
+      ->setSearchEngine(new PhorgeSpacesNamespaceSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);
@@ -23,7 +23,7 @@ final class PhabricatorSpacesListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorSpacesNamespaceSearchEngine())
+    id(new PhorgeSpacesNamespaceSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 
@@ -36,7 +36,7 @@ final class PhabricatorSpacesListController
     $crumbs = parent::buildApplicationCrumbs();
 
     $can_create = $this->hasApplicationCapability(
-      PhabricatorSpacesCapabilityCreateSpaces::CAPABILITY);
+      PhorgeSpacesCapabilityCreateSpaces::CAPABILITY);
 
     $crumbs->addAction(
       id(new PHUIListItemView())

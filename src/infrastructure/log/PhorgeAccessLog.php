@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAccessLog extends Phobject {
+final class PhorgeAccessLog extends Phobject {
 
   private static $log;
 
@@ -13,8 +13,8 @@ final class PhabricatorAccessLog extends Phobject {
 
   public static function getLog() {
     if (!self::$log) {
-      $path = PhabricatorEnv::getEnvConfig('log.access.path');
-      $format = PhabricatorEnv::getEnvConfig('log.access.format');
+      $path = PhorgeEnv::getEnvConfig('log.access.path');
+      $format = PhorgeEnv::getEnvConfig('log.access.format');
       $format = nonempty(
         $format,
         "[%D]\t%p\t%h\t%r\t%u\t%C\t%m\t%U\t%R\t%c\t%T");
@@ -30,7 +30,7 @@ final class PhabricatorAccessLog extends Phobject {
             'h' => php_uname('n'),
             'p' => getmypid(),
             'e' => time(),
-            'I' => PhabricatorEnv::getEnvConfig('cluster.instance'),
+            'I' => PhorgeEnv::getEnvConfig('cluster.instance'),
           ));
 
       self::$log = $log;

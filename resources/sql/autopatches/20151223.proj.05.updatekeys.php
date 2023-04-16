@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $project) {
@@ -11,7 +11,7 @@ foreach (new LiskMigrationIterator($table) as $project) {
     continue;
   }
 
-  $path_key = PhabricatorHash::digestForIndex($project->getPHID());
+  $path_key = PhorgeHash::digestForIndex($project->getPHID());
   $path_key = substr($path_key, 0, 4);
 
   queryfx(

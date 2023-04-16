@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionCommitRevertsCommitEdgeType extends PhabricatorEdgeType {
+final class DiffusionCommitRevertsCommitEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 55;
 

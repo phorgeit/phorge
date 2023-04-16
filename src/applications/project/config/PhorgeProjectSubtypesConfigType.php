@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectSubtypesConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeProjectSubtypesConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'projects.subtypes';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
-    PhabricatorEditEngineSubtype::validateConfiguration($value);
+    PhorgeEditEngineSubtype::validateConfiguration($value);
   }
 
 }

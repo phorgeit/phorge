@@ -1,7 +1,7 @@
 <?php
 
 final class ProjectCreateProjectsCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'project.create';
 

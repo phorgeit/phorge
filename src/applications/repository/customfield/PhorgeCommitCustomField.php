@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorCommitCustomField
-  extends PhabricatorCustomField {}
+abstract class PhorgeCommitCustomField
+  extends PhorgeCustomField {}

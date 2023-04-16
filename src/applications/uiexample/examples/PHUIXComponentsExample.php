@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIXComponentsExample extends PhabricatorUIExample {
+final class PHUIXComponentsExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('PHUIX Components');

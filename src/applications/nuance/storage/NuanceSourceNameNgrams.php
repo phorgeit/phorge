@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceSourceNameNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'sourcename';

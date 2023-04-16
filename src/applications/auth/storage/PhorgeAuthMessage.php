@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthMessage
-  extends PhabricatorAuthDAO
+final class PhorgeAuthMessage
+  extends PhorgeAuthDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $messageKey;
   protected $messageText;
@@ -13,7 +13,7 @@ final class PhabricatorAuthMessage
   private $messageType = self::ATTACHABLE;
 
   public static function initializeNewMessage(
-    PhabricatorAuthMessageType $type) {
+    PhorgeAuthMessageType $type) {
 
     return id(new self())
       ->setMessageKey($type->getMessageTypeKey())
@@ -37,7 +37,7 @@ final class PhabricatorAuthMessage
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthMessagePHIDType::TYPECONST;
+    return PhorgeAuthMessagePHIDType::TYPECONST;
   }
 
   public function getObjectName() {
@@ -48,7 +48,7 @@ final class PhabricatorAuthMessage
     return urisprintf('/auth/message/%s/', $this->getID());
   }
 
-  public function attachMessageType(PhabricatorAuthMessageType $type) {
+  public function attachMessageType(PhorgeAuthMessageType $type) {
     $this->messageType = $type;
     return $this;
   }
@@ -62,16 +62,16 @@ final class PhabricatorAuthMessage
   }
 
   public static function loadMessage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $message_key) {
-    return id(new PhabricatorAuthMessageQuery())
+    return id(new PhorgeAuthMessageQuery())
       ->setViewer($viewer)
       ->withMessageKeys(array($message_key))
       ->executeOne();
   }
 
   public static function loadMessageText(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $message_key) {
 
     $message = self::loadMessage($viewer, $message_key);
@@ -82,34 +82,34 @@ final class PhabricatorAuthMessage
       }
     }
 
-    $message_type = PhabricatorAuthMessageType::newFromKey($message_key);
+    $message_type = PhorgeAuthMessageType::newFromKey($message_key);
 
     return $message_type->getDefaultMessageText();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
       default:
         return false;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // Even if an install doesn't allow public users, you can still view
         // auth messages: otherwise, we can't do things like show you
         // guidance on the login screen.
@@ -119,23 +119,23 @@ final class PhabricatorAuthMessage
     }
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthMessageEditor();
+    return new PhorgeAuthMessageEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthMessageTransaction();
+    return new PhorgeAuthMessageTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 

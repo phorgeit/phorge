@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorObjectMailReceiverTestCase
-  extends PhabricatorTestCase {
+final class PhorgeObjectMailReceiverTestCase
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -12,7 +12,7 @@ final class PhabricatorObjectMailReceiverTestCase
   public function testDropUnconfiguredPublicMail() {
     list($task, $user, $mail) = $this->buildMail('public');
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('metamta.public-replies', false);
 
     $mail->save();
@@ -27,11 +27,11 @@ final class PhabricatorObjectMailReceiverTestCase
     list($task, $user, $mail) = $this->buildMail('policy');
 
     $task
-      ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+      ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
       ->setOwnerPHID(null)
       ->save();
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('metamta.public-replies', true);
 
     $mail->save();
@@ -78,7 +78,7 @@ final class PhabricatorObjectMailReceiverTestCase
   private function buildMail($style) {
     $user = $this->generateNewTestUser();
 
-    $task = id(new PhabricatorManiphestTaskTestDataGenerator())
+    $task = id(new PhorgeManiphestTaskTestDataGenerator())
       ->setViewer($user)
       ->generateObject();
 
@@ -96,12 +96,12 @@ final class PhabricatorObjectMailReceiverTestCase
     }
 
     if ($is_bad_hash) {
-      $hash = PhabricatorObjectMailReceiver::computeMailHash('x', 'y');
+      $hash = PhorgeObjectMailReceiver::computeMailHash('x', 'y');
     } else {
 
-      $mail_key = PhabricatorMetaMTAMailProperties::loadMailKey($task);
+      $mail_key = PhorgeMetaMTAMailProperties::loadMailKey($task);
 
-      $hash = PhabricatorObjectMailReceiver::computeMailHash(
+      $hash = PhorgeObjectMailReceiver::computeMailHash(
         $mail_key,
         $is_public ? $task->getPHID() : $user->getPHID());
     }
@@ -114,7 +114,7 @@ final class PhabricatorObjectMailReceiverTestCase
 
     $to = $task_identifier.'+'.$user_identifier.'+'.$hash.'@example.com';
 
-    $mail = new PhabricatorMetaMTAReceivedMail();
+    $mail = new PhorgeMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
         'Message-ID' => 'test@example.com',

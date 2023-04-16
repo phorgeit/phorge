@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSlowvoteEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeSlowvoteEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return 'PhorgeSlowvoteApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -21,38 +21,38 @@ final class PhabricatorSlowvoteEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorSlowvoteTransaction::MAILTAG_DETAILS =>
+      PhorgeSlowvoteTransaction::MAILTAG_DETAILS =>
         pht('Someone changes the poll details.'),
-      PhabricatorSlowvoteTransaction::MAILTAG_RESPONSES =>
+      PhorgeSlowvoteTransaction::MAILTAG_RESPONSES =>
         pht('Someone votes on a poll.'),
-      PhabricatorSlowvoteTransaction::MAILTAG_OTHER =>
+      PhorgeSlowvoteTransaction::MAILTAG_OTHER =>
         pht('Other poll activity not listed above occurs.'),
     );
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $monogram = $object->getMonogram();
     $name = $object->getQuestion();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("{$monogram}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -66,12 +66,12 @@ final class PhabricatorSlowvoteEditor
 
     $body->addLinkSection(
       pht('SLOWVOTE DETAIL'),
-      PhabricatorEnv::getProductionURI('/'.$object->getMonogram()));
+      PhorgeEnv::getProductionURI('/'.$object->getMonogram()));
 
     return $body;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->requireActor()->getPHID(),
@@ -81,13 +81,13 @@ final class PhabricatorSlowvoteEditor
     return '[Slowvote]';
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorSlowvoteReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeSlowvoteReplyHandler())
       ->setMailReceiver($object);
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

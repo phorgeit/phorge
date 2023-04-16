@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorFileComposeController
-  extends PhabricatorFileController {
+final class PhorgeFileComposeController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $color_map = PhabricatorFilesComposeIconBuiltinFile::getAllColors();
+    $color_map = PhorgeFilesComposeIconBuiltinFile::getAllColors();
     $icon_map = $this->getIconMap();
 
     if ($request->isFormPost()) {
       $project_phid = $request->getStr('projectPHID');
       if ($project_phid) {
-        $project = id(new PhabricatorProjectQuery())
+        $project = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($project_phid))
           ->requireCapabilities(
             array(
-              PhabricatorPolicyCapability::CAN_VIEW,
-              PhabricatorPolicyCapability::CAN_EDIT,
+              PhorgePolicyCapability::CAN_VIEW,
+              PhorgePolicyCapability::CAN_EDIT,
             ))
           ->executeOne();
         if (!$project) {
@@ -29,13 +29,13 @@ final class PhabricatorFileComposeController
       $icon = $request->getStr('icon');
       $color = $request->getStr('color');
 
-      $composer = id(new PhabricatorFilesComposeIconBuiltinFile())
+      $composer = id(new PhorgeFilesComposeIconBuiltinFile())
         ->setIcon($icon)
         ->setColor($color);
 
       $data = $composer->loadBuiltinFileData();
 
-      $file = PhabricatorFile::newFromFileData(
+      $file = PhorgeFile::newFromFileData(
         $data,
         array(
           'name' => $composer->getBuiltinDisplayName(),
@@ -47,12 +47,12 @@ final class PhabricatorFileComposeController
         $edit_uri = '/project/manage/'.$project->getID().'/';
 
         $xactions = array();
-        $xactions[] = id(new PhabricatorProjectTransaction())
+        $xactions[] = id(new PhorgeProjectTransaction())
           ->setTransactionType(
-              PhabricatorProjectImageTransaction::TRANSACTIONTYPE)
+              PhorgeProjectImageTransaction::TRANSACTIONTYPE)
           ->setNewValue($file->getPHID());
 
-        $editor = id(new PhabricatorProjectTransactionEditor())
+        $editor = id(new PhorgeProjectTransactionEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnMissingFields(true)
@@ -191,7 +191,7 @@ final class PhabricatorFileComposeController
   }
 
   private function getIconMap() {
-    $icon_map = PhabricatorFilesComposeIconBuiltinFile::getAllIcons();
+    $icon_map = PhorgeFilesComposeIconBuiltinFile::getAllIcons();
 
     $first = array(
       'fa-briefcase',

@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorAuthFactorProvider
-  extends PhabricatorAuthDAO
+final class PhorgeAuthFactorProvider
+  extends PhorgeAuthDAO
   implements
-     PhabricatorApplicationTransactionInterface,
-     PhabricatorPolicyInterface,
-     PhabricatorExtendedPolicyInterface,
-     PhabricatorEditEngineMFAInterface {
+     PhorgeApplicationTransactionInterface,
+     PhorgePolicyInterface,
+     PhorgeExtendedPolicyInterface,
+     PhorgeEditEngineMFAInterface {
 
   protected $providerFactorKey;
   protected $name;
@@ -15,11 +15,11 @@ final class PhabricatorAuthFactorProvider
 
   private $factor = self::ATTACHABLE;
 
-  public static function initializeNewProvider(PhabricatorAuthFactor $factor) {
+  public static function initializeNewProvider(PhorgeAuthFactor $factor) {
     return id(new self())
       ->setProviderFactorKey($factor->getFactorKey())
       ->attachFactor($factor)
-      ->setStatus(PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE);
+      ->setStatus(PhorgeAuthFactorProviderStatus::STATUS_ACTIVE);
   }
 
   protected function getConfiguration() {
@@ -37,7 +37,7 @@ final class PhabricatorAuthFactorProvider
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthAuthFactorProviderPHIDType::TYPECONST;
+    return PhorgeAuthAuthFactorProviderPHIDType::TYPECONST;
   }
 
   public function getURI() {
@@ -65,7 +65,7 @@ final class PhabricatorAuthFactorProvider
     return $this->setAuthFactorProviderProperty('enroll-message', $message);
   }
 
-  public function attachFactor(PhabricatorAuthFactor $factor) {
+  public function attachFactor(PhorgeAuthFactor $factor) {
     $this->factor = $factor;
     return $this;
   }
@@ -94,7 +94,7 @@ final class PhabricatorAuthFactorProvider
   public function processAddFactorForm(
     AphrontFormView $form,
     AphrontRequest $request,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     $factor = $this->getFactor();
 
@@ -114,30 +114,30 @@ final class PhabricatorAuthFactorProvider
       ->addInt($this->getID());
   }
 
-  public function getEnrollDescription(PhabricatorUser $user) {
+  public function getEnrollDescription(PhorgeUser $user) {
     return $this->getFactor()->getEnrollDescription($this, $user);
   }
 
-  public function getEnrollButtonText(PhabricatorUser $user) {
+  public function getEnrollButtonText(PhorgeUser $user) {
     return $this->getFactor()->getEnrollButtonText($this, $user);
   }
 
   public function newStatus() {
     $status_key = $this->getStatus();
-    return PhabricatorAuthFactorProviderStatus::newForStatus($status_key);
+    return PhorgeAuthFactorProviderStatus::newForStatus($status_key);
   }
 
-  public function canCreateNewConfiguration(PhabricatorUser $user) {
+  public function canCreateNewConfiguration(PhorgeUser $user) {
     return $this->getFactor()->canCreateNewConfiguration($this, $user);
   }
 
-  public function getConfigurationCreateDescription(PhabricatorUser $user) {
+  public function getConfigurationCreateDescription(PhorgeUser $user) {
     return $this->getFactor()->getConfigurationCreateDescription($this, $user);
   }
 
   public function getConfigurationListDetails(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer) {
     return $this->getFactor()->getConfigurationListDetails(
       $config,
       $this,
@@ -145,49 +145,49 @@ final class PhabricatorAuthFactorProvider
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthFactorProviderEditor();
+    return new PhorgeAuthFactorProviderEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthFactorProviderTransaction();
+    return new PhorgeAuthFactorProviderTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         break;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         $extended[] = array(
-          new PhabricatorAuthApplication(),
+          new PhorgeAuthApplication(),
           AuthManageProvidersCapability::CAPABILITY,
         );
         break;
@@ -197,11 +197,11 @@ final class PhabricatorAuthFactorProvider
   }
 
 
-/* -(  PhabricatorEditEngineMFAInterface  )---------------------------------- */
+/* -(  PhorgeEditEngineMFAInterface  )---------------------------------- */
 
 
   public function newEditEngineMFAEngine() {
-    return new PhabricatorAuthFactorProviderMFAEngine();
+    return new PhorgeAuthFactorProviderMFAEngine();
   }
 
 }

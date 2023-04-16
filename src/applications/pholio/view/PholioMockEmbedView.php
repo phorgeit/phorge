@@ -28,8 +28,8 @@ final class PholioMockEmbedView extends AphrontView {
         $this->mock->getActiveImages(), array_flip($this->images));
     }
 
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PINBOARD);
 
     if ($images_to_show) {
       $image = head($images_to_show);

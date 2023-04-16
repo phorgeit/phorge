@@ -128,7 +128,7 @@ final class ConpherenceListController extends ConpherenceController {
           $conpherence->attachTransactions(array());
           $conpherence->makeEphemeral();
         }
-        $policy_objects = id(new PhabricatorPolicyQuery())
+        $policy_objects = id(new PhorgePolicyQuery())
           ->setViewer($user)
           ->setObject($conpherence)
           ->execute();

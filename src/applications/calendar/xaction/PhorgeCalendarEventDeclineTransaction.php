@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCalendarEventDeclineTransaction
-  extends PhabricatorCalendarEventReplyTransaction {
+final class PhorgeCalendarEventDeclineTransaction
+  extends PhorgeCalendarEventReplyTransaction {
 
   const TRANSACTIONTYPE = 'calendar.decline';
 
   public function generateNewValue($object, $value) {
-    return PhabricatorCalendarEventInvitee::STATUS_DECLINED;
+    return PhorgeCalendarEventInvitee::STATUS_DECLINED;
   }
 
   public function getTitle() {

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileinfoSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeFileinfoSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;

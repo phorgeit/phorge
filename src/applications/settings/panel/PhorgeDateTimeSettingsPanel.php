@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDateTimeSettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeDateTimeSettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'datetime';
 
@@ -14,7 +14,7 @@ final class PhabricatorDateTimeSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAccountPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAccountPanelGroup::PANELGROUPKEY;
   }
 
   public function isManagementPanel() {

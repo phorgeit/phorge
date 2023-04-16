@@ -14,8 +14,8 @@ final class PhrictionPublishController
       ->needContent(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->executeOne();
     if (!$document) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthInviteController
-  extends PhabricatorAuthController {
+final class PhorgeAuthInviteController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -10,7 +10,7 @@ final class PhabricatorAuthInviteController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorAuthInviteEngine())
+    $engine = id(new PhorgeAuthInviteEngine())
       ->setViewer($viewer);
 
     if ($request->isFormPost()) {
@@ -21,7 +21,7 @@ final class PhabricatorAuthInviteController
 
     try {
       $invite = $engine->processInviteCode($invite_code);
-    } catch (PhabricatorAuthInviteDialogException $ex) {
+    } catch (PhorgeAuthInviteDialogException $ex) {
       $response = $this->newDialog()
         ->setTitle($ex->getTitle())
         ->appendParagraph($ex->getBody());
@@ -45,7 +45,7 @@ final class PhabricatorAuthInviteController
       }
 
       return $response;
-    } catch (PhabricatorAuthInviteRegisteredException $ex) {
+    } catch (PhorgeAuthInviteRegisteredException $ex) {
       // We're all set on processing this invite, just send the user home.
       return id(new AphrontRedirectResponse())->setURI('/');
     }
@@ -53,7 +53,7 @@ final class PhabricatorAuthInviteController
     // Give the user a cookie with the invite code and send them through
     // normal registration. We'll adjust the flow there.
     $request->setCookie(
-      PhabricatorCookies::COOKIE_INVITE,
+      PhorgeCookies::COOKIE_INVITE,
       $invite_code);
 
     return id(new AphrontRedirectResponse())->setURI('/auth/start/');

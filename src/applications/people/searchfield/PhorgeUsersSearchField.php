@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUsersSearchField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeUsersSearchField
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();
@@ -12,7 +12,7 @@ final class PhabricatorUsersSearchField
   }
 
   protected function newDatasource() {
-    return new PhabricatorPeopleUserFunctionDatasource();
+    return new PhorgePeopleUserFunctionDatasource();
   }
 
   protected function newConduitParameterType() {

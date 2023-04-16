@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownViewController
-  extends PhabricatorCountdownController {
+final class PhorgeCountdownViewController
+  extends PhorgeCountdownController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorCountdownViewController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $countdown = id(new PhabricatorCountdownQuery())
+    $countdown = id(new PhorgeCountdownQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -19,7 +19,7 @@ final class PhabricatorCountdownViewController
       return new Aphront404Response();
     }
 
-    $countdown_view = id(new PhabricatorCountdownView())
+    $countdown_view = id(new PhorgeCountdownView())
       ->setUser($viewer)
       ->setCountdown($countdown);
 
@@ -32,7 +32,7 @@ final class PhabricatorCountdownViewController
       ->setBorder(true);
 
     $epoch = $countdown->getEpoch();
-    if ($epoch >= PhabricatorTime::getNow()) {
+    if ($epoch >= PhorgeTime::getNow()) {
       $icon = 'fa-clock-o';
       $color = '';
       $status = pht('Running');
@@ -54,9 +54,9 @@ final class PhabricatorCountdownViewController
 
     $timeline = $this->buildTransactionTimeline(
       $countdown,
-      new PhabricatorCountdownTransactionQuery());
+      new PhorgeCountdownTransactionQuery());
 
-    $comment_view = id(new PhabricatorCountdownEditEngine())
+    $comment_view = id(new PhorgeCountdownEditEngine())
       ->setViewer($viewer)
       ->buildEditEngineCommentView($countdown);
 
@@ -82,20 +82,20 @@ final class PhabricatorCountdownViewController
       ->appendChild($view);
   }
 
-  private function buildCurtain(PhabricatorCountdown $countdown) {
+  private function buildCurtain(PhorgeCountdown $countdown) {
     $viewer = $this->getViewer();
 
     $id = $countdown->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $countdown,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($countdown);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Countdown'))
         ->setHref($this->getApplicationURI("edit/{$id}/"))
@@ -106,14 +106,14 @@ final class PhabricatorCountdownViewController
   }
 
   private function buildSubheaderView(
-    PhabricatorCountdown $countdown) {
+    PhorgeCountdown $countdown) {
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($countdown->getAuthorPHID())->render();
     $date = phorge_datetime($countdown->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
-    $person = id(new PhabricatorPeopleQuery())
+    $person = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($countdown->getAuthorPHID()))
       ->needProfileImage(true)

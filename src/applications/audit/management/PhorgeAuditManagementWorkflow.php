@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuditManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeAuditManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
 
   protected function getCommitConstraintArguments() {
@@ -37,9 +37,9 @@ abstract class PhabricatorAuditManagementWorkflow
     }
 
     if ($all) {
-      $objects = new LiskMigrationIterator(new PhabricatorRepository());
+      $objects = new LiskMigrationIterator(new PhorgeRepository());
     } else {
-      $query = id(new PhabricatorObjectQuery())
+      $query = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames($names);
 
@@ -57,8 +57,8 @@ abstract class PhabricatorAuditManagementWorkflow
         }
 
         $object = $results[$name];
-        if (!($object instanceof PhabricatorRepository) &&
-            !($object instanceof PhabricatorRepositoryCommit)) {
+        if (!($object instanceof PhorgeRepository) &&
+            !($object instanceof PhorgeRepositoryCommit)) {
           throw new PhutilArgumentUsageException(
             pht(
               'Object "%s" is not a valid repository or commit.',
@@ -75,7 +75,7 @@ abstract class PhabricatorAuditManagementWorkflow
   protected function loadCommitsForConstraintObject($object) {
     $viewer = $this->getViewer();
 
-    if ($object instanceof PhabricatorRepository) {
+    if ($object instanceof PhorgeRepository) {
       $commits = id(new DiffusionCommitQuery())
         ->setViewer($viewer)
         ->withRepository($object)

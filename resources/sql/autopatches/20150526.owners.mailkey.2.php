@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorOwnersPackage();
+$table = new PhorgeOwnersPackage();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $package) {

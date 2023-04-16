@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorVoidDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeVoidDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'void';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return null;
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file';
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     return 1000;
   }
 
@@ -21,11 +21,11 @@ final class PhabricatorVoidDocumentEngine
     return null;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $message = pht(
       'No document engine can render the contents of this file.');
 

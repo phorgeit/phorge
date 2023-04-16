@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenGiven extends PhabricatorTokenDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeTokenGiven extends PhorgeTokenDAO
+  implements PhorgePolicyInterface {
 
   protected $authorPHID;
   protected $objectPHID;
@@ -27,7 +27,7 @@ final class PhabricatorTokenGiven extends PhabricatorTokenDAO
     ) + parent::getConfiguration();
   }
 
-  public function attachObject(PhabricatorTokenReceiverInterface $object) {
+  public function attachObject(PhorgeTokenReceiverInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -36,7 +36,7 @@ final class PhabricatorTokenGiven extends PhabricatorTokenDAO
     return $this->assertAttached($this->object);
   }
 
-  public function attachToken(PhabricatorToken $token) {
+  public function attachToken(PhorgeToken $token) {
     $this->token = $token;
     return $this;
   }
@@ -47,23 +47,23 @@ final class PhabricatorTokenGiven extends PhabricatorTokenDAO
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getObject()->getPolicy($capability);
       default:
-        return PhabricatorPolicies::POLICY_NOONE;
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getObject()->hasAutomaticCapability(
           $capability,
           $user);
@@ -77,10 +77,10 @@ final class PhabricatorTokenGiven extends PhabricatorTokenDAO
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht(
           'A token inherits the policies of the object it is awarded to.');
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht(
           'The user who gave a token can always edit it.');
     }

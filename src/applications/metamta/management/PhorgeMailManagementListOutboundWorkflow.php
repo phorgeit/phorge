@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementListOutboundWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementListOutboundWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -24,7 +24,7 @@ final class PhabricatorMailManagementListOutboundWorkflow
     $console = PhutilConsole::getConsole();
     $viewer = $this->getViewer();
 
-    $mails = id(new PhabricatorMetaMTAMail())->loadAllWhere(
+    $mails = id(new PhorgeMetaMTAMail())->loadAllWhere(
       '1 = 1 ORDER BY id DESC LIMIT %d',
       $args->getArg('limit'));
 
@@ -47,7 +47,7 @@ final class PhabricatorMailManagementListOutboundWorkflow
       $table->addRow(array(
         'id'      => $mail->getID(),
         'encrypt' => ($mail->getMustEncrypt() ? '#' : ' '),
-        'status'  => PhabricatorMailOutboundStatus::getStatusName($status),
+        'status'  => PhorgeMailOutboundStatus::getStatusName($status),
         'type' => $mail->getMessageType(),
         'subject' => $mail->getSubject(),
       ));

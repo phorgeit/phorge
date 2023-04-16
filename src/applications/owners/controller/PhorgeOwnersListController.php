@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorOwnersListController
-  extends PhabricatorOwnersController {
+final class PhorgeOwnersListController
+  extends PhorgeOwnersController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorOwnersPackageSearchEngine())
+    return id(new PhorgeOwnersPackageSearchEngine())
       ->setController($this)
       ->buildResponse();
   }
@@ -16,7 +16,7 @@ final class PhabricatorOwnersListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorOwnersPackageEditEngine())
+    id(new PhorgeOwnersPackageEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

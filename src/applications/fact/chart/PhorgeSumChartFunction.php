@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSumChartFunction
-  extends PhabricatorHigherOrderChartFunction {
+final class PhorgeSumChartFunction
+  extends PhorgeHigherOrderChartFunction {
 
   const FUNCTIONKEY = 'sum';
 

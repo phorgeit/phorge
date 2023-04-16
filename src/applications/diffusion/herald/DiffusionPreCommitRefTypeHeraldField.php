@@ -22,16 +22,16 @@ final class DiffusionPreCommitRefTypeHeraldField
 
   public function getHeraldFieldValueType($condition) {
     $types = array(
-      PhabricatorRepositoryPushLog::REFTYPE_BRANCH => pht('branch (git/hg)'),
-      PhabricatorRepositoryPushLog::REFTYPE_TAG => pht('tag (git)'),
-      PhabricatorRepositoryPushLog::REFTYPE_REF => pht('ref (git)'),
-      PhabricatorRepositoryPushLog::REFTYPE_BOOKMARK => pht('bookmark (hg)'),
+      PhorgeRepositoryPushLog::REFTYPE_BRANCH => pht('branch (git/hg)'),
+      PhorgeRepositoryPushLog::REFTYPE_TAG => pht('tag (git)'),
+      PhorgeRepositoryPushLog::REFTYPE_REF => pht('ref (git)'),
+      PhorgeRepositoryPushLog::REFTYPE_BOOKMARK => pht('bookmark (hg)'),
     );
 
     return id(new HeraldSelectFieldValue())
       ->setKey(self::FIELDCONST)
       ->setOptions($types)
-      ->setDefault(PhabricatorRepositoryPushLog::REFTYPE_BRANCH);
+      ->setDefault(PhorgeRepositoryPushLog::REFTYPE_BRANCH);
   }
 
 }

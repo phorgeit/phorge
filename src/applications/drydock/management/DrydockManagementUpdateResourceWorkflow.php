@@ -34,7 +34,7 @@ final class DrydockManagementUpdateResourceWorkflow
       ->withIDs($ids)
       ->execute();
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     foreach ($ids as $id) {
       $resource = idx($resources, $id);

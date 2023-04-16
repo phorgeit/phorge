@@ -1,3 +1,3 @@
 <?php
 
-interface PhabricatorIndexableInterface {}
+interface PhorgeIndexableInterface {}

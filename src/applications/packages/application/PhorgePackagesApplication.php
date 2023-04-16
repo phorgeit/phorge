@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPackagesApplication extends PhabricatorApplication {
+final class PhorgePackagesApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Packages');
@@ -32,22 +32,22 @@ final class PhabricatorPackagesApplication extends PhabricatorApplication {
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorPackagesCreatePublisherCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      PhorgePackagesCreatePublisherCapability::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
-      PhabricatorPackagesPublisherDefaultEditCapability::CAPABILITY => array(
+      PhorgePackagesPublisherDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created publishers.'),
-        'template' => PhabricatorPackagesPublisherPHIDType::TYPECONST,
-        'default' => PhabricatorPolicies::POLICY_NOONE,
+        'template' => PhorgePackagesPublisherPHIDType::TYPECONST,
+        'default' => PhorgePolicies::POLICY_NOONE,
       ),
-      PhabricatorPackagesPackageDefaultViewCapability::CAPABILITY => array(
+      PhorgePackagesPackageDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created packages.'),
-        'template' => PhabricatorPackagesPackagePHIDType::TYPECONST,
+        'template' => PhorgePackagesPackagePHIDType::TYPECONST,
       ),
-      PhabricatorPackagesPackageDefaultEditCapability::CAPABILITY => array(
+      PhorgePackagesPackageDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created packages.'),
-        'template' => PhabricatorPackagesPackagePHIDType::TYPECONST,
-        'default' => PhabricatorPolicies::POLICY_NOONE,
+        'template' => PhorgePackagesPackagePHIDType::TYPECONST,
+        'default' => PhorgePolicies::POLICY_NOONE,
       ),
     );
   }
@@ -55,32 +55,32 @@ final class PhabricatorPackagesApplication extends PhabricatorApplication {
     return array(
       '/package/' => array(
         '(?P<publisherKey>[^/]+)/' => array(
-          '' => 'PhabricatorPackagesPublisherViewController',
+          '' => 'PhorgePackagesPublisherViewController',
           '(?P<packageKey>[^/]+)/' => array(
-            '' => 'PhabricatorPackagesPackageViewController',
+            '' => 'PhorgePackagesPackageViewController',
             '(?P<versionKey>[^/]+)/' =>
-              'PhabricatorPackagesVersionViewController',
+              'PhorgePackagesVersionViewController',
           ),
         ),
       ),
       '/packages/' => array(
         'publisher/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorPackagesPublisherListController',
+            'PhorgePackagesPublisherListController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorPackagesPublisherEditController',
+            'PhorgePackagesPublisherEditController',
         ),
         'package/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorPackagesPackageListController',
+            'PhorgePackagesPackageListController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorPackagesPackageEditController',
+            'PhorgePackagesPackageEditController',
         ),
         'version/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorPackagesVersionListController',
+            'PhorgePackagesVersionListController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorPackagesVersionEditController',
+            'PhorgePackagesVersionEditController',
         ),
       ),
     );

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeMailSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   protected function executeChecks() {
-    if (PhabricatorEnv::getEnvConfig('cluster.mailers')) {
+    if (PhorgeEnv::getEnvConfig('cluster.mailers')) {
       return;
     }
 
@@ -19,6 +19,6 @@ final class PhabricatorMailSetupCheck extends PhabricatorSetupCheck {
     $this->newIssue('cluster.mailers')
       ->setName(pht('Mailers Not Configured'))
       ->setMessage($message)
-      ->addPhabricatorConfig('cluster.mailers');
+      ->addPhorgeConfig('cluster.mailers');
   }
 }

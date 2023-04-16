@@ -5,7 +5,7 @@ final class FuelHandleListView
 
   private $items = array();
 
-  public function addHandleList(PhabricatorHandleList $list) {
+  public function addHandleList(PhorgeHandleList $list) {
     $this->items[] = array(
       'type' => 'list',
       'item' => $list,

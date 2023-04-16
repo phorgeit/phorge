@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteLanguageTransaction
-  extends PhabricatorPasteTransactionType {
+final class PhorgePasteLanguageTransaction
+  extends PhorgePasteTransactionType {
 
   const TRANSACTIONTYPE = 'paste.language';
 

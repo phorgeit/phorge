@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailLoginController
-  extends PhabricatorAuthController {
+final class PhorgeEmailLoginController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -53,21 +53,21 @@ final class PhabricatorEmailLoginController
         // it expensive to fish for valid email addresses while giving the user
         // a better error if they goof their email.
 
-        $action_actor = PhabricatorSystemActionEngine::newActorFromRequest(
+        $action_actor = PhorgeSystemActionEngine::newActorFromRequest(
           $request);
 
-        PhabricatorSystemActionEngine::willTakeAction(
+        PhorgeSystemActionEngine::willTakeAction(
           array($action_actor),
-          new PhabricatorAuthTryEmailLoginAction(),
+          new PhorgeAuthTryEmailLoginAction(),
           1);
 
-        $target_email = id(new PhabricatorUserEmail())->loadOneWhere(
+        $target_email = id(new PhorgeUserEmail())->loadOneWhere(
           'address = %s',
           $v_email);
 
         $target_user = null;
         if ($target_email) {
-          $target_user = id(new PhabricatorUser())->loadOneWhere(
+          $target_user = id(new PhorgeUser())->loadOneWhere(
             'phid = %s',
             $target_email->getUserPHID());
         }
@@ -87,7 +87,7 @@ final class PhabricatorEmailLoginController
         // which is why we'll send to an unverified address in that case.)
 
         if ($target_email && !$target_email->getIsVerified()) {
-          $verified_addresses = id(new PhabricatorUserEmail())->loadAllWhere(
+          $verified_addresses = id(new PhorgeUserEmail())->loadAllWhere(
             'userPHID = %s AND isVerified = 1',
             $target_email->getUserPHID());
           if ($verified_addresses) {
@@ -104,12 +104,12 @@ final class PhabricatorEmailLoginController
         if (!$errors) {
           $target_address = new PhutilEmailAddress($target_email->getAddress());
 
-          $user_log = PhabricatorUserLog::initializeNewLog(
+          $user_log = PhorgeUserLog::initializeNewLog(
             $viewer,
             $target_user->getPHID(),
-            PhabricatorEmailLoginUserLogType::LOGTYPE);
+            PhorgeEmailLoginUserLogType::LOGTYPE);
 
-          $mail_engine = id(new PhabricatorPeopleEmailLoginMailEngine())
+          $mail_engine = id(new PhorgePeopleEmailLoginMailEngine())
             ->setSender($viewer)
             ->setRecipient($target_user)
             ->setRecipientAddress($target_address)
@@ -117,7 +117,7 @@ final class PhabricatorEmailLoginController
 
           try {
             $mail_engine->validateMail();
-          } catch (PhabricatorPeopleMailEngineException $ex) {
+          } catch (PhorgePeopleMailEngineException $ex) {
             return $this->newDialog()
               ->setTitle($ex->getTitle())
               ->appendParagraph($ex->getBody())
@@ -202,6 +202,6 @@ final class PhabricatorEmailLoginController
   }
 
   private function isPasswordAuthEnabled() {
-    return (bool)PhabricatorPasswordAuthProvider::getPasswordProvider();
+    return (bool)PhorgePasswordAuthProvider::getPasswordProvider();
   }
 }

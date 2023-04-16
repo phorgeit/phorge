@@ -31,7 +31,7 @@ final class Aphront403Response extends AphrontHTMLResponse {
       ->addCancelButton('/', pht('Yikes!'))
       ->appendParagraph($forbidden_text);
 
-    $view = id(new PhabricatorStandardPageView())
+    $view = id(new PhorgeStandardPageView())
       ->setTitle(pht('403 Forbidden'))
       ->setRequest($request)
       ->setDeviceReady(true)

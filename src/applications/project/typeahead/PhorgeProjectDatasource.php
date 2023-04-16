@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeProjectDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Projects');
@@ -12,7 +12,7 @@ final class PhabricatorProjectDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function loadResults() {
@@ -24,7 +24,7 @@ final class PhabricatorProjectDatasource
     $raw_query = ltrim($raw_query, '#');
     $tokens = self::tokenizeString($raw_query);
 
-    $query = id(new PhabricatorProjectQuery())
+    $query = id(new PhorgeProjectQuery())
       ->needImages(true)
       ->needSlugs(true)
       ->setOrderVector(array('-status', 'id'));
@@ -50,7 +50,7 @@ final class PhabricatorProjectDatasource
 
     $must_have_cols = $this->getParameter('mustHaveColumns', false);
     if ($must_have_cols) {
-      $columns = id(new PhabricatorProjectColumnQuery())
+      $columns = id(new PhorgeProjectColumnQuery())
         ->setViewer($viewer)
         ->withProjectPHIDs(array_keys($projs))
         ->withIsProxyColumn(false)
@@ -64,11 +64,11 @@ final class PhabricatorProjectDatasource
     if ($is_browse && $projs) {
       // TODO: This is a little ad-hoc, but we don't currently have
       // infrastructure for bulk querying custom fields efficiently.
-      $table = new PhabricatorProjectCustomFieldStorage();
+      $table = new PhorgeProjectCustomFieldStorage();
       $descriptions = $table->loadAllWhere(
         'objectPHID IN (%Ls) AND fieldIndex = %s',
         array_keys($projs),
-        PhabricatorHash::digestForIndex('std:project:internal:description'));
+        PhorgeHash::digestForIndex('std:project:internal:description'));
       $descriptions = mpull($descriptions, 'getFieldValue', 'getObjectPHID');
     } else {
       $descriptions = array();
@@ -121,7 +121,7 @@ final class PhabricatorProjectDatasource
 
       $all_strings = implode("\n", $all_strings);
 
-      $proj_result = id(new PhabricatorTypeaheadResult())
+      $proj_result = id(new PhorgeTypeaheadResult())
         ->setName($all_strings)
         ->setDisplayName($proj->getDisplayName())
         ->setDisplayType($proj->getDisplayIconName())
@@ -143,7 +143,7 @@ final class PhabricatorProjectDatasource
 
         $description = idx($descriptions, $phid);
         if (strlen($description)) {
-          $summary = PhabricatorMarkupEngine::summarizeSentence($description);
+          $summary = PhorgeMarkupEngine::summarizeSentence($description);
           $proj_result->addAttribute($summary);
         }
       }

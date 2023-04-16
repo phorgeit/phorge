@@ -41,47 +41,47 @@ final class ProjectCreateConduitAPIMethod extends ProjectConduitAPIMethod {
       ProjectCreateProjectsCapability::CAPABILITY,
       $user);
 
-    $project = PhabricatorProject::initializeNewProject($user);
-    $type_name = PhabricatorProjectNameTransaction::TRANSACTIONTYPE;
+    $project = PhorgeProject::initializeNewProject($user);
+    $type_name = PhorgeProjectNameTransaction::TRANSACTIONTYPE;
     $members = $request->getValue('members');
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
+    $xactions[] = id(new PhorgeProjectTransaction())
       ->setTransactionType($type_name)
       ->setNewValue($request->getValue('name'));
 
     if ($request->getValue('icon')) {
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectIconTransaction::TRANSACTIONTYPE)
+            PhorgeProjectIconTransaction::TRANSACTIONTYPE)
         ->setNewValue($request->getValue('icon'));
     }
 
     if ($request->getValue('color')) {
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-          PhabricatorProjectColorTransaction::TRANSACTIONTYPE)
+          PhorgeProjectColorTransaction::TRANSACTIONTYPE)
         ->setNewValue($request->getValue('color'));
     }
 
     if ($request->getValue('tags')) {
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectSlugsTransaction::TRANSACTIONTYPE)
+            PhorgeProjectSlugsTransaction::TRANSACTIONTYPE)
         ->setNewValue($request->getValue('tags'));
     }
 
-    $xactions[] = id(new PhabricatorProjectTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+    $xactions[] = id(new PhorgeProjectTransaction())
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue(
         'edge:type',
-        PhabricatorProjectProjectHasMemberEdgeType::EDGECONST)
+        PhorgeProjectProjectHasMemberEdgeType::EDGECONST)
       ->setNewValue(
         array(
           '+' => array_fuse($members),
         ));
 
-    $editor = id(new PhabricatorProjectTransactionEditor())
+    $editor = id(new PhorgeProjectTransactionEditor())
       ->setActor($user)
       ->setContinueOnNoEffect(true)
       ->setContentSource($request->newContentSource());

@@ -14,7 +14,7 @@ final class DiffusionRepositoryLimitsManagementPanel
   }
 
   public function shouldEnableForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isGit();
   }
 
@@ -47,15 +47,15 @@ final class DiffusionRepositoryLimitsManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $limits_uri = $this->getEditPageURI();
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Limits'))
         ->setHref($limits_uri)

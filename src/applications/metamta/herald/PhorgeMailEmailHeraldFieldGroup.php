@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailEmailHeraldFieldGroup extends HeraldFieldGroup {
+final class PhorgeMailEmailHeraldFieldGroup extends HeraldFieldGroup {
 
   const FIELDGROUPKEY = 'mail.message';
 

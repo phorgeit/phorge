@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuthRevoker
+abstract class PhorgeAuthRevoker
   extends Phobject {
 
   private $viewer;
@@ -15,7 +15,7 @@ abstract class PhabricatorAuthRevoker
     return null;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

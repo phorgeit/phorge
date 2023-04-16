@@ -28,7 +28,7 @@ final class DrydockCommandQuery extends DrydockQuery {
   protected function willFilterPage(array $commands) {
     $target_phids = mpull($commands, 'getTargetPHID');
 
-    $targets = id(new PhabricatorObjectQuery())
+    $targets = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($target_phids)

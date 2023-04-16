@@ -52,26 +52,26 @@ final class PasteCreateConduitAPIMethod extends PasteConduitAPIMethod {
 
     $viewer = $request->getUser();
 
-    $paste = PhabricatorPaste::initializeNewPaste($viewer);
+    $paste = PhorgePaste::initializeNewPaste($viewer);
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorPasteTransaction())
-      ->setTransactionType(PhabricatorPasteContentTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgePasteTransaction())
+      ->setTransactionType(PhorgePasteContentTransaction::TRANSACTIONTYPE)
       ->setNewValue($content);
 
-    $xactions[] = id(new PhabricatorPasteTransaction())
-      ->setTransactionType(PhabricatorPasteTitleTransaction::TRANSACTIONTYPE)
+    $xactions[] = id(new PhorgePasteTransaction())
+      ->setTransactionType(PhorgePasteTitleTransaction::TRANSACTIONTYPE)
       ->setNewValue($title);
 
     if (strlen($language)) {
-      $xactions[] = id(new PhabricatorPasteTransaction())
+      $xactions[] = id(new PhorgePasteTransaction())
         ->setTransactionType(
-          PhabricatorPasteLanguageTransaction::TRANSACTIONTYPE)
+          PhorgePasteLanguageTransaction::TRANSACTIONTYPE)
         ->setNewValue($language);
     }
 
-    $editor = id(new PhabricatorPasteEditor())
+    $editor = id(new PhorgePasteEditor())
       ->setActor($viewer)
       ->setContinueOnNoEffect(true)
       ->setContentSource($request->newContentSource());

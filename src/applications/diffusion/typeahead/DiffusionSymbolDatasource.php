@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionSymbolDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function isBrowsable() {
     // This is slightly involved to make browsable, and browsing symbols
@@ -18,7 +18,7 @@ final class DiffusionSymbolDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function loadResults() {
@@ -41,7 +41,7 @@ final class DiffusionSymbolDatasource
         $type = $symbol->getSymbolType();
         $repo = $symbol->getRepository()->getName();
 
-        $results[] = id(new PhabricatorTypeaheadResult())
+        $results[] = id(new PhorgeTypeaheadResult())
           ->setName($name)
           ->setURI($symbol->getURI())
           ->setPHID(md5($symbol->getURI())) // Just needs to be unique.

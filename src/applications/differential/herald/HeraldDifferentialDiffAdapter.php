@@ -3,7 +3,7 @@
 final class HeraldDifferentialDiffAdapter extends HeraldDifferentialAdapter {
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function initializeNewAdapter() {

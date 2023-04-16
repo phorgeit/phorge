@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorFileDeleteController extends PhabricatorFileController {
+final class PhorgeFileDeleteController extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withIsDeleted(false)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$file) {
@@ -28,11 +28,11 @@ final class PhabricatorFileDeleteController extends PhabricatorFileController {
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorFileTransaction())
-        ->setTransactionType(PhabricatorFileDeleteTransaction::TRANSACTIONTYPE)
+      $xactions[] = id(new PhorgeFileTransaction())
+        ->setTransactionType(PhorgeFileDeleteTransaction::TRANSACTIONTYPE)
         ->setNewValue(true);
 
-      id(new PhabricatorFileEditor())
+      id(new PhorgeFileEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

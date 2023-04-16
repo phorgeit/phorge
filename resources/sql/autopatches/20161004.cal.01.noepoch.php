@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorCalendarEvent();
+$table = new PhorgeCalendarEvent();
 $conn = $table->establishConnection('w');
 $table_name = 'calendar_event';
 
@@ -94,9 +94,9 @@ foreach (new LiskRawMigrationIterator($conn, $table_name) as $row) {
 
 // Generate UTC epochs for all events. We can't readily do this one at a
 // time because instance UTC epochs rely on having the parent event.
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
-$all_events = id(new PhabricatorCalendarEventQuery())
+$all_events = id(new PhorgeCalendarEventQuery())
   ->setViewer($viewer)
   ->execute();
 foreach ($all_events as $event) {

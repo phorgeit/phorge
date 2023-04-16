@@ -3,8 +3,8 @@
 /**
  * Pushes a repository to its mirrors.
  */
-final class PhabricatorRepositoryMirrorEngine
-  extends PhabricatorRepositoryEngine {
+final class PhorgeRepositoryMirrorEngine
+  extends PhorgeRepositoryEngine {
 
   public function pushToMirrors() {
     $viewer = $this->getViewer();
@@ -14,18 +14,18 @@ final class PhabricatorRepositoryMirrorEngine
       return;
     }
 
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->log(
         pht('This software is running in silent mode; declining to mirror.'));
       return;
     }
 
-    $uris = id(new PhabricatorRepositoryURIQuery())
+    $uris = id(new PhorgeRepositoryURIQuery())
       ->setViewer($viewer)
       ->withRepositories(array($repository))
       ->execute();
 
-    $io_mirror = PhabricatorRepositoryURI::IO_MIRROR;
+    $io_mirror = PhorgeRepositoryURI::IO_MIRROR;
 
     $exceptions = array();
     foreach ($uris as $mirror) {
@@ -55,8 +55,8 @@ final class PhabricatorRepositoryMirrorEngine
   }
 
   private function pushRepositoryToMirror(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryURI $mirror_uri) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryURI $mirror_uri) {
 
     $this->log(
       pht(
@@ -73,8 +73,8 @@ final class PhabricatorRepositoryMirrorEngine
   }
 
   private function pushToGitRepository(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryURI $mirror_uri) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryURI $mirror_uri) {
 
     // See T5965. Test if we have any refs to mirror. If we have nothing, git
     // will exit with an error ("No refs in common and none specified; ...")
@@ -105,8 +105,8 @@ final class PhabricatorRepositoryMirrorEngine
   }
 
   private function pushToHgRepository(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryURI $mirror_uri) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryURI $mirror_uri) {
 
     $argv = array(
       'push --verbose --rev tip -- %P',

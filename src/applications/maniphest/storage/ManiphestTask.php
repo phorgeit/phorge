@@ -2,27 +2,27 @@
 
 final class ManiphestTask extends ManiphestDAO
   implements
-    PhabricatorSubscribableInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorMentionableInterface,
+    PhorgeSubscribableInterface,
+    PhorgeMarkupInterface,
+    PhorgePolicyInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeFlaggableInterface,
+    PhorgeMentionableInterface,
     PhrequentTrackableInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorProjectInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeProjectInterface,
+    PhorgeSpacesInterface,
+    PhorgeConduitResultInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
     DoorkeeperBridgedObjectInterface,
-    PhabricatorEditEngineSubtypeInterface,
-    PhabricatorEditEngineLockableInterface,
-    PhabricatorEditEngineMFAInterface,
-    PhabricatorPolicyCodexInterface,
-    PhabricatorUnlockableInterface {
+    PhorgeEditEngineSubtypeInterface,
+    PhorgeEditEngineLockableInterface,
+    PhorgeEditEngineMFAInterface,
+    PhorgePolicyCodexInterface,
+    PhorgeUnlockableInterface {
 
   protected $authorPHID;
   protected $ownerPHID;
@@ -35,8 +35,8 @@ final class ManiphestTask extends ManiphestDAO
   protected $description = '';
   protected $originalEmailSource;
   protected $mailKey;
-  protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
-  protected $editPolicy = PhabricatorPolicies::POLICY_USER;
+  protected $viewPolicy = PhorgePolicies::POLICY_USER;
+  protected $editPolicy = PhorgePolicies::POLICY_USER;
 
   protected $ownerOrdering;
   protected $spacePHID;
@@ -54,10 +54,10 @@ final class ManiphestTask extends ManiphestDAO
   private $edgeProjectPHIDs = self::ATTACHABLE;
   private $bridgedObject = self::ATTACHABLE;
 
-  public static function initializeNewTask(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewTask(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorManiphestApplication'))
+      ->withClasses(array('PhorgeManiphestApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(ManiphestDefaultViewCapability::CAPABILITY);
@@ -70,7 +70,7 @@ final class ManiphestTask extends ManiphestDAO
       ->setViewPolicy($view_policy)
       ->setEditPolicy($edit_policy)
       ->setSpacePHID($actor->getDefaultSpacePHID())
-      ->setSubtype(PhabricatorEditEngineSubtype::SUBTYPE_DEFAULT)
+      ->setSubtype(PhorgeEditEngineSubtype::SUBTYPE_DEFAULT)
       ->attachProjectPHIDs(array())
       ->attachSubscriberPHIDs(array());
   }
@@ -148,19 +148,19 @@ final class ManiphestTask extends ManiphestDAO
   }
 
   public function loadDependsOnTaskPHIDs() {
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $this->getPHID(),
       ManiphestTaskDependsOnTaskEdgeType::EDGECONST);
   }
 
   public function loadDependedOnByTaskPHIDs() {
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $this->getPHID(),
       ManiphestTaskDependedOnByTaskEdgeType::EDGECONST);
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(ManiphestTaskPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(ManiphestTaskPHIDType::TYPECONST);
   }
 
   public function getSubscriberPHIDs() {
@@ -258,7 +258,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -274,7 +274,7 @@ final class ManiphestTask extends ManiphestDAO
    */
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
 
@@ -290,7 +290,7 @@ final class ManiphestTask extends ManiphestDAO
    * @task markup
    */
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newManiphestMarkupEngine();
+    return PhorgeMarkupEngine::newManiphestMarkupEngine();
   }
 
 
@@ -318,32 +318,32 @@ final class ManiphestTask extends ManiphestDAO
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_INTERACT,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_INTERACT,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_INTERACT:
+      case PhorgePolicyCapability::CAN_INTERACT:
         if ($this->areCommentsLocked()) {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         } else {
           return $this->getViewPolicy();
         }
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         if ($this->areEditsLocked()) {
-          return PhabricatorPolicies::POLICY_NOONE;
+          return PhorgePolicies::POLICY_NOONE;
         } else {
           return $this->getEditPolicy();
         }
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     // The owner of a task can always view and edit it.
     $owner_phid = $this->getOwnerPHID();
     if ($owner_phid) {
@@ -357,7 +357,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -371,11 +371,11 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('maniphest.fields');
+    return PhorgeEnv::getEnvConfig('maniphest.fields');
   }
 
   public function getCustomFieldBaseClass() {
@@ -386,17 +386,17 @@ final class ManiphestTask extends ManiphestDAO
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();
@@ -404,7 +404,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -416,7 +416,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -424,49 +424,49 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('The title of the task.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('remarkup')
         ->setDescription(pht('The task description.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('phid')
         ->setDescription(pht('Original task author.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('ownerPHID')
         ->setType('phid?')
         ->setDescription(pht('Current task owner, if task is assigned.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about task status.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('priority')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about task priority.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('points')
         ->setType('points')
         ->setDescription(pht('Point value of the task.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('subtype')
         ->setType('string')
         ->setDescription(pht('Subtype of the task.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('closerPHID')
         ->setType('phid?')
         ->setDescription(
           pht('User who closed the task, if the task is closed.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dateClosed')
         ->setType('int?')
         ->setDescription(
@@ -512,7 +512,7 @@ final class ManiphestTask extends ManiphestDAO
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorBoardColumnsSearchEngineAttachment())
+      id(new PhorgeBoardColumnsSearchEngineAttachment())
         ->setAttachmentKey('columns'),
     );
   }
@@ -523,7 +523,7 @@ final class ManiphestTask extends ManiphestDAO
     return $subtype_map->getSubtype($subtype_key);
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -545,7 +545,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorEditEngineSubtypeInterface  )------------------------------ */
+/* -(  PhorgeEditEngineSubtypeInterface  )------------------------------ */
 
 
   public function getEditEngineSubtype() {
@@ -557,13 +557,13 @@ final class ManiphestTask extends ManiphestDAO
   }
 
   public function newEditEngineSubtypeMap() {
-    $config = PhabricatorEnv::getEnvConfig('maniphest.subtypes');
-    return PhabricatorEditEngineSubtype::newSubtypeMap($config)
+    $config = PhorgeEnv::getEnvConfig('maniphest.subtypes');
+    return PhorgeEditEngineSubtype::newSubtypeMap($config)
       ->setDatasource(new ManiphestTaskSubtypeDatasource());
   }
 
 
-/* -(  PhabricatorEditEngineLockableInterface  )----------------------------- */
+/* -(  PhorgeEditEngineLockableInterface  )----------------------------- */
 
 
   public function newEditEngineLock() {
@@ -571,7 +571,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -579,7 +579,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorEditEngineMFAInterface  )---------------------------------- */
+/* -(  PhorgeEditEngineMFAInterface  )---------------------------------- */
 
 
   public function newEditEngineMFAEngine() {
@@ -587,7 +587,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
 
   public function newPolicyCodex() {
@@ -595,7 +595,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
 
-/* -(  PhabricatorUnlockableInterface  )------------------------------------- */
+/* -(  PhorgeUnlockableInterface  )------------------------------------- */
 
 
   public function newUnlockEngine() {

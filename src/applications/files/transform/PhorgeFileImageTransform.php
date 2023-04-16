@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
+abstract class PhorgeFileImageTransform extends PhorgeFileTransform {
 
   private $file;
   private $data;
@@ -11,14 +11,14 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get an estimate of the transformed dimensions of a file.
    *
-   * @param PhabricatorFile File to transform.
+   * @param PhorgeFile File to transform.
    * @return list<int, int>|null Width and height, if available.
    */
-  public function getTransformedDimensions(PhabricatorFile $file) {
+  public function getTransformedDimensions(PhorgeFile $file) {
     return null;
   }
 
-  public function canApplyTransform(PhabricatorFile $file) {
+  public function canApplyTransform(PhorgeFile $file) {
     if (!$file->isViewableImage()) {
       return false;
     }
@@ -30,7 +30,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
     return true;
   }
 
-  protected function willTransformFile(PhabricatorFile $file) {
+  protected function willTransformFile(PhorgeFile $file) {
     $this->file = $file;
     $this->data = null;
     $this->image = null;
@@ -105,7 +105,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
           $errors));
     }
 
-    $data = PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    $data = PhorgeImageTransformer::saveImageDataInAnyFormat(
       $dst,
       $this->file->getMimeType());
 
@@ -130,7 +130,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
 
 
   /**
-   * Create a new @{class:PhabricatorFile} from raw data.
+   * Create a new @{class:PhorgeFile} from raw data.
    *
    * @param string Raw file data.
    */
@@ -148,7 +148,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
 
     $properties = $this->getFileProperties() + $defaults;
 
-    return PhabricatorFile::newFromFileData($data, $properties);
+    return PhorgeFile::newFromFileData($data, $properties);
   }
 
 
@@ -362,7 +362,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   }
 
   private function shouldUseImagemagick() {
-    if (!PhabricatorEnv::getEnvConfig('files.enable-imagemagick')) {
+    if (!PhorgeEnv::getEnvConfig('files.enable-imagemagick')) {
       return false;
     }
 

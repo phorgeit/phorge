@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeEditEngineConfigurationEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'transactions.editengine.config';
 
   private $targetEngine;
 
-  public function setTargetEngine(PhabricatorEditEngine $target_engine) {
+  public function setTargetEngine(PhorgeEditEngine $target_engine) {
     $this->targetEngine = $target_engine;
     return $this;
   }
@@ -15,7 +15,7 @@ final class PhabricatorEditEngineConfigurationEditEngine
   public function getTargetEngine() {
     if (!$this->targetEngine) {
       // If we don't have a target engine, assume we're editing ourselves.
-      return new PhabricatorEditEngineConfigurationEditEngine();
+      return new PhorgeEditEngineConfigurationEditEngine();
     }
     return $this->targetEngine;
   }
@@ -23,7 +23,7 @@ final class PhabricatorEditEngineConfigurationEditEngine
   protected function getCreateNewObjectPolicy() {
     return $this->getTargetEngine()
       ->getApplication()
-      ->getPolicy(PhabricatorPolicyCapability::CAN_EDIT);
+      ->getPolicy(PhorgePolicyCapability::CAN_EDIT);
   }
 
   public function getEngineName() {
@@ -41,17 +41,17 @@ final class PhabricatorEditEngineConfigurationEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorEditEngineConfiguration::initializeNewConfiguration(
+    return PhorgeEditEngineConfiguration::initializeNewConfiguration(
       $this->getViewer(),
       $this->getTargetEngine());
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorEditEngineConfigurationQuery());
+    return id(new PhorgeEditEngineConfigurationQuery());
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -94,19 +94,19 @@ final class PhabricatorEditEngineConfigurationEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the form.'))
         ->setTransactionType(
-          PhabricatorEditEngineNameTransaction::TRANSACTIONTYPE)
+          PhorgeEditEngineNameTransaction::TRANSACTIONTYPE)
         ->setValue($object->getName()),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('preamble')
         ->setLabel(pht('Preamble'))
         ->setDescription(pht('Optional instructions, shown above the form.'))
         ->setTransactionType(
-          PhabricatorEditEnginePreambleTransaction::TRANSACTIONTYPE)
+          PhorgeEditEnginePreambleTransaction::TRANSACTIONTYPE)
         ->setValue($object->getPreamble()),
     );
   }

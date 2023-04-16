@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorPaste extends PhabricatorPasteDAO
+final class PhorgePaste extends PhorgePasteDAO
   implements
-    PhabricatorSubscribableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorSpacesInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorFerretInterface,
-    PhabricatorFulltextInterface {
+    PhorgeSubscribableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeFlaggableInterface,
+    PhorgeMentionableInterface,
+    PhorgePolicyInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeSpacesInterface,
+    PhorgeConduitResultInterface,
+    PhorgeFerretInterface,
+    PhorgeFulltextInterface {
 
   protected $title;
   protected $authorPHID;
@@ -33,16 +33,16 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   private $rawContent = self::ATTACHABLE;
   private $snippet = self::ATTACHABLE;
 
-  public static function initializeNewPaste(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewPaste(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPasteApplication'))
+      ->withClasses(array('PhorgePasteApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PasteDefaultViewCapability::CAPABILITY);
     $edit_policy = $app->getPolicy(PasteDefaultEditCapability::CAPABILITY);
 
-    return id(new PhabricatorPaste())
+    return id(new PhorgePaste())
       ->setTitle('')
       ->setStatus(self::STATUS_ACTIVE)
       ->setAuthorPHID($actor->getPHID())
@@ -99,8 +99,8 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPastePastePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePastePastePHIDType::TYPECONST);
   }
 
   public function isArchived() {
@@ -144,12 +144,12 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
     return $this->assertAttached($this->snippet);
   }
 
-  public function attachSnippet(PhabricatorPasteSnippet $snippet) {
+  public function attachSnippet(PhorgePasteSnippet $snippet) {
     $this->snippet = $snippet;
     return $this;
   }
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -157,7 +157,7 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
   public function getUsersToNotifyOfTokenGiven() {
     return array(
@@ -166,26 +166,26 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
       return $this->viewPolicy;
-    } else if ($capability == PhabricatorPolicyCapability::CAN_EDIT) {
+    } else if ($capability == PhorgePolicyCapability::CAN_EDIT) {
       return $this->editPolicy;
     }
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return ($user->getPHID() == $this->getAuthorPHID());
   }
 
@@ -194,14 +194,14 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     if ($this->filePHID) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($engine->getViewer())
         ->withPHIDs(array($this->filePHID))
         ->executeOne();
@@ -214,19 +214,19 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorPasteEditor();
+    return new PhorgePasteEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorPasteTransaction();
+    return new PhorgePasteTransaction();
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -234,28 +234,28 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('The title of the paste.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('uri')
         ->setType('uri')
         ->setDescription(pht('View URI for the paste.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('authorPHID')
         ->setType('phid')
         ->setDescription(pht('User PHID of the author.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('language')
         ->setType('string?')
         ->setDescription(pht('Language to use for syntax highlighting.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Active or archived status of the paste.')),
@@ -265,7 +265,7 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   public function getFieldValuesForConduit() {
     return array(
       'title' => $this->getTitle(),
-      'uri' => PhabricatorEnv::getURI($this->getURI()),
+      'uri' => PhorgeEnv::getURI($this->getURI()),
       'authorPHID' => $this->getAuthorPHID(),
       'language' => nonempty($this->getLanguage(), null),
       'status' => $this->getStatus(),
@@ -274,24 +274,24 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorPasteContentSearchEngineAttachment())
+      id(new PhorgePasteContentSearchEngineAttachment())
         ->setAttachmentKey('content'),
     );
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
-    return new PhabricatorPasteFerretEngine();
+    return new PhorgePasteFerretEngine();
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
-    return new PhabricatorPasteFulltextEngine();
+    return new PhorgePasteFulltextEngine();
   }
 
 }

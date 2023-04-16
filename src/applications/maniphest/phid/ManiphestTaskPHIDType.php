@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
+final class ManiphestTaskPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'TASK';
 
@@ -13,11 +13,11 @@ final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new ManiphestTaskQuery())
@@ -25,7 +25,7 @@ final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -39,7 +39,7 @@ final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
       $handle->setURI("/T{$id}");
 
       if ($task->isClosed()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -49,7 +49,7 @@ final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

@@ -1,7 +1,7 @@
 <?php
 
 final class PonderAnswerTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'ponder';

@@ -16,7 +16,7 @@ final class HeraldTokenizerFieldValue
     return $this->key;
   }
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

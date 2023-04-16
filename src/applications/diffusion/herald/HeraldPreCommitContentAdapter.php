@@ -98,15 +98,15 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
     $repository = $this->getHookEngine()->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $ref = $this->getCommitRef();
         $author = $ref->getAuthor();
         if (!strlen($author)) {
           return null;
         }
         return $this->lookupUser($author);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // In Subversion, the pusher is always the author.
         return $this->getHookEngine()->getViewer()->getPHID();
     }
@@ -116,8 +116,8 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
     $repository = $this->getHookEngine()->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         // If there's no committer information, we're going to return the
         // author instead. However, if there's committer information and we
         // can't resolve it, return `null`.
@@ -127,7 +127,7 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
           return $this->getAuthorPHID();
         }
         return $this->lookupUser($committer);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // In Subversion, the pusher is always the committer.
         return $this->getHookEngine()->getViewer()->getPHID();
     }
@@ -137,11 +137,11 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
     $repository = $this->getHookEngine()->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $ref = $this->getCommitRef();
         return $ref->getAuthor();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // In Subversion, the pusher is always the author.
         return $this->getHookEngine()->getViewer()->getUsername();
     }
@@ -151,8 +151,8 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
     $repository = $this->getHookEngine()->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         // Here, if there's no committer, we're going to return the author
         // instead.
         $ref = $this->getCommitRef();
@@ -161,7 +161,7 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
           return $committer;
         }
         return $ref->getAuthor();
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // In Subversion, the pusher is always the committer.
         return $this->getHookEngine()->getViewer()->getUsername();
     }
@@ -220,7 +220,7 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
         $this->revision = null;
       } else {
         $this->revision = id(new DifferentialRevisionQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withIDs(array($revision_id))
           ->needReviewers(true)
           ->executeOne();
@@ -234,15 +234,15 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
     $repository = $this->getHookEngine()->getRepository();
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $parents = id(new DiffusionLowLevelParentsQuery())
           ->setRepository($repository)
           ->withIdentifier($this->getObject()->getRefNew())
           ->execute();
 
         return (count($parents) > 1);
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         // NOTE: For now, we ignore "svn:mergeinfo" at all levels. We might
         // change this some day, but it's not nearly as clear a signal as
         // ancestry is in Git/Mercurial.
@@ -257,7 +257,7 @@ final class HeraldPreCommitContentAdapter extends HeraldPreCommitAdapter {
 
   public function loadAffectedPackages() {
     if ($this->affectedPackages === null) {
-      $packages = PhabricatorOwnersPackage::loadAffectedPackages(
+      $packages = PhorgeOwnersPackage::loadAffectedPackages(
         $this->getHookEngine()->getRepository(),
         $this->getDiffContent('name'));
       $this->affectedPackages = $packages;

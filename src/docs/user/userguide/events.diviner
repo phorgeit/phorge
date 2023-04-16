@@ -55,7 +55,7 @@ event listener.
 = Example Listener =
 
 Phorge includes an example event listener,
-@{class:PhabricatorExampleEventListener}, which may be useful as a starting
+@{class:PhorgeExampleEventListener}, which may be useful as a starting
 point in developing your own listeners. This listener listens for a test
 event that is emitted by the script `scripts/util/emit_test_event.php`.
 
@@ -69,10 +69,10 @@ This is because there are no listeners for the event, so nothing reacts to it
 when it is emitted. You can add the example listener by either adding it to
 your `events.listeners` configuration or with the `--listen` command-line flag:
 
-  $ ./scripts/util/emit_test_event.php --listen PhabricatorExampleEventListener
-  Installing 'PhabricatorExampleEventListener'...
+  $ ./scripts/util/emit_test_event.php --listen PhorgeExampleEventListener
+  Installing 'PhorgeExampleEventListener'...
   Emitting event...
-  PhabricatorExampleEventListener got test event at 1341344566
+  PhorgeExampleEventListener got test event at 1341344566
   Done.
 
 This time, the listener was installed and had its callback invoked when the
@@ -80,7 +80,7 @@ test event was emitted.
 
 = Available Events =
 
-You can find a list of all Phorge events in @{class:PhabricatorEventType}.
+You can find a list of all Phorge events in @{class:PhorgeEventType}.
 
 == All Events ==
 
@@ -137,7 +137,7 @@ fields to, e.g., edit revision titles. Data available on this event:
 == Differential: Will Mark Generated ==
 
 The constant for this event is
-`PhabricatorEventType::TYPE_DIFFERENTIAL_WILLMARKGENERATED`.
+`PhorgeEventType::TYPE_DIFFERENTIAL_WILLMARKGENERATED`.
 
 This event is dispatched before Differential decides if a file is generated (and
 doesn't need to be reviewed) or not. Data available on this event:
@@ -149,29 +149,29 @@ doesn't need to be reviewed) or not. Data available on this event:
 == Diffusion: Did Discover Commit ==
 
 The constant for this event is
-`PhabricatorEventType::TYPE_DIFFUSION_DIDDISCOVERCOMMIT`.
+`PhorgeEventType::TYPE_DIFFUSION_DIDDISCOVERCOMMIT`.
 
 This event is dispatched when the daemons discover a commit for the first time.
 This event happens very early in the pipeline, and not all commit information
 will be available yet. Data available on this event:
 
-  - `commit` The @{class:PhabricatorRepositoryCommit} that was discovered.
-  - `repository` The @{class:PhabricatorRepository} the commit was discovered
+  - `commit` The @{class:PhorgeRepositoryCommit} that was discovered.
+  - `repository` The @{class:PhorgeRepository} the commit was discovered
     in.
 
 == Test: Did Run Test ==
 
 The constant for this event is
-`PhabricatorEventType::TYPE_TEST_DIDRUNTEST`.
+`PhorgeEventType::TYPE_TEST_DIDRUNTEST`.
 
 This is a test event for testing event listeners. See above for details.
 
 == UI: Did Render Actions ==
 
 The constant for this event is
-`PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS`.
+`PhorgeEventType::TYPE_UI_DIDRENDERACTIONS`.
 
-This event is dispatched after a @{class:PhabricatorActionListView} is built by
+This event is dispatched after a @{class:PhorgeActionListView} is built by
 the UI. It allows you to add new actions that your application may provide, like
 "Fax this Object". Data available on this event:
 
@@ -214,5 +214,5 @@ If you're having problems with your listener, try these steps:
 
 Continue by:
 
-  - taking a look at @{class:PhabricatorExampleEventListener}; or
+  - taking a look at @{class:PhorgeExampleEventListener}; or
   - building a library with @{article:libphutil Libraries User Guide}.

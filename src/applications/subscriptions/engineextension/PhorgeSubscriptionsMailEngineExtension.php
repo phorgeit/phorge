@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorSubscriptionsMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+final class PhorgeSubscriptionsMailEngineExtension
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'subscriptions';
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function newMailStampTemplates($object) {
     return array(
-      id(new PhabricatorPHIDMailStamp())
+      id(new PhorgePHIDMailStamp())
         ->setKey('subscriber')
         ->setLabel(pht('Subscriber')),
     );
@@ -21,9 +21,9 @@ final class PhabricatorSubscriptionsMailEngineExtension
     $editor = $this->getEditor();
     $viewer = $this->getViewer();
 
-    $subscriber_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $subscriber_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorObjectHasSubscriberEdgeType::EDGECONST);
+      PhorgeObjectHasSubscriberEdgeType::EDGECONST);
 
     $this->getMailStamp('subscriber')
       ->setValue($subscriber_phids);

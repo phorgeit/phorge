@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesCapabilityDefaultView
-  extends PhabricatorPolicyCapability {
+final class PhorgeSpacesCapabilityDefaultView
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'spaces.default.view';
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSyntaxHighlightingConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeSyntaxHighlightingConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Syntax Highlighting');
@@ -20,7 +20,7 @@ final class PhabricatorSyntaxHighlightingConfigOptions
   }
 
   public function getOptions() {
-    $caches_href = PhabricatorEnv::getDoclink('Managing Caches');
+    $caches_href = PhorgeEnv::getDoclink('Managing Caches');
 
     return array(
       $this->newOption(
@@ -119,7 +119,7 @@ final class PhabricatorSyntaxHighlightingConfigOptions
             'this is where that list is defined.')),
       $this->newOption(
         'syntax.filemap',
-        'custom:PhabricatorConfigRegexOptionType',
+        'custom:PhorgeConfigRegexOptionType',
         array(
           '@\.arcconfig$@' => 'json',
           '@\.arclint$@' => 'json',

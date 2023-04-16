@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorProjectEditPictureController
-  extends PhabricatorProjectController {
+final class PhorgeProjectEditPictureController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needImages(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$project) {
@@ -25,24 +25,24 @@ final class PhabricatorProjectEditPictureController
 
     $manage_uri = $this->getApplicationURI('manage/'.$project->getID().'/');
 
-    $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    $supported_formats = PhorgeFile::getTransformableImageFormats();
     $e_file = true;
     $errors = array();
 
     if ($request->isFormPost()) {
       $phid = $request->getStr('phid');
       $is_default = false;
-      if ($phid == PhabricatorPHIDConstants::PHID_VOID) {
+      if ($phid == PhorgePHIDConstants::PHID_VOID) {
         $phid = null;
         $is_default = true;
       } else if ($phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($phid))
           ->executeOne();
       } else {
         if ($request->getFileExists('picture')) {
-          $file = PhabricatorFile::newFromPHPUpload(
+          $file = PhorgeFile::newFromPHPUpload(
             $_FILES['picture'],
             array(
               'authorPHID' => $viewer->getPHID(),
@@ -62,8 +62,8 @@ final class PhabricatorProjectEditPictureController
             'This server only supports these image formats: %s.',
             implode(', ', $supported_formats));
         } else {
-          $xform = PhabricatorFileTransform::getTransformByKey(
-            PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+          $xform = PhorgeFileTransform::getTransformByKey(
+            PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
           $xformed = $xform->executeTransform($file);
         }
       }
@@ -76,12 +76,12 @@ final class PhabricatorProjectEditPictureController
         }
 
         $xactions = array();
-        $xactions[] = id(new PhabricatorProjectTransaction())
+        $xactions[] = id(new PhorgeProjectTransaction())
           ->setTransactionType(
-              PhabricatorProjectImageTransaction::TRANSACTIONTYPE)
+              PhorgeProjectImageTransaction::TRANSACTIONTYPE)
           ->setNewValue($new_value);
 
-        $editor = id(new PhabricatorProjectTransactionEditor())
+        $editor = id(new PhorgeProjectTransactionEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnMissingFields(true)
@@ -98,9 +98,9 @@ final class PhabricatorProjectEditPictureController
     $form = id(new PHUIFormLayoutView())
       ->setUser($viewer);
 
-    $builtin = PhabricatorProjectIconSet::getIconImage(
+    $builtin = PhorgeProjectIconSet::getIconImage(
       $project->getIcon());
-    $default_image = PhabricatorFile::loadBuiltin($this->getViewer(),
+    $default_image = PhorgeFile::loadBuiltin($this->getViewer(),
       'projects/'.$builtin);
 
     $images = array();
@@ -108,7 +108,7 @@ final class PhabricatorProjectEditPictureController
     $current = $project->getProfileImagePHID();
     $has_current = false;
     if ($current) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($current))
         ->execute();
@@ -133,14 +133,14 @@ final class PhabricatorProjectEditPictureController
       ->find();
 
     foreach ($builtins as $builtin) {
-      $file = PhabricatorFile::loadBuiltin($viewer, 'projects/v3/'.$builtin);
+      $file = PhorgeFile::loadBuiltin($viewer, 'projects/v3/'.$builtin);
       $images[$file->getPHID()] = array(
         'uri' => $file->getBestURI(),
         'tip' => pht('Builtin Image'),
       );
     }
 
-    $images[PhabricatorPHIDConstants::PHID_VOID] = array(
+    $images[PhorgePHIDConstants::PHID_VOID] = array(
       'uri' => $default_image->getBestURI(),
       'tip' => pht('Default Picture'),
     );
@@ -275,7 +275,7 @@ final class PhabricatorProjectEditPictureController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_MANAGE);
+      PhorgeProject::ITEM_MANAGE);
 
     return $this->newPage()
       ->setTitle($title)
@@ -287,16 +287,16 @@ final class PhabricatorProjectEditPictureController
         ));
   }
 
-  private function renderDefaultForm(PhabricatorProject $project) {
+  private function renderDefaultForm(PhorgeProject $project) {
     $viewer = $this->getViewer();
     $compose_color = $project->getDisplayIconComposeColor();
     $compose_icon = $project->getDisplayIconComposeIcon();
 
-    $default_builtin = id(new PhabricatorFilesComposeIconBuiltinFile())
+    $default_builtin = id(new PhorgeFilesComposeIconBuiltinFile())
       ->setColor($compose_color)
       ->setIcon($compose_icon);
 
-    $file_builtins = PhabricatorFile::loadBuiltins(
+    $file_builtins = PhorgeFile::loadBuiltins(
       $viewer,
       array($default_builtin));
 

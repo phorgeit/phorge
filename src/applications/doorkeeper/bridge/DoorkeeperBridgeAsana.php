@@ -27,12 +27,12 @@ final class DoorkeeperBridgeAsana extends DoorkeeperBridge {
     $id_map = mpull($refs, 'getObjectID', 'getObjectKey');
     $viewer = $this->getViewer();
 
-    $provider = PhabricatorAsanaAuthProvider::getAsanaProvider();
+    $provider = PhorgeAsanaAuthProvider::getAsanaProvider();
     if (!$provider) {
       return;
     }
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withProviderConfigPHIDs(
@@ -41,8 +41,8 @@ final class DoorkeeperBridgeAsana extends DoorkeeperBridge {
         ))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 

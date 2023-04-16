@@ -31,15 +31,15 @@ final class PholioUploadedImageView extends AphrontView {
       ->setSigil('image-title')
       ->setLabel(pht('Title'));
 
-    $description = id(new PhabricatorRemarkupControl())
+    $description = id(new PhorgeRemarkupControl())
       ->setUser($this->getUser())
       ->setName('description_'.$phid)
       ->setValue($image->getDescription())
       ->setSigil('image-description')
       ->setLabel(pht('Description'));
 
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PINBOARD);
     $thumbnail_uri = $file->getURIForTransform($xform);
 
     $thumb_img = javelin_tag(

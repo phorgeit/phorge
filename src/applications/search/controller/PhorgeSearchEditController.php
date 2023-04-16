@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorSearchEditController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchEditController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
     $id = $request->getURIData('id');
     if ($id) {
-      $named_query = id(new PhabricatorNamedQueryQuery())
+      $named_query = id(new PhorgeNamedQueryQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$named_query) {
@@ -27,7 +27,7 @@ final class PhabricatorSearchEditController
       $named_query = null;
     }
 
-    $saved_query = id(new PhabricatorSavedQueryQuery())
+    $saved_query = id(new PhorgeSavedQueryQuery())
       ->setViewer($viewer)
       ->withQueryKeys(array($query_key))
       ->executeOne();
@@ -41,7 +41,7 @@ final class PhabricatorSearchEditController
     $cancel_uri = $complete_uri;
 
     if (!$named_query) {
-      $named_query = id(new PhabricatorNamedQuery())
+      $named_query = id(new PhorgeNamedQuery())
         ->setUserPHID($viewer->getPHID())
         ->setQueryKey($saved_query->getQueryKey())
         ->setEngineClassName($saved_query->getEngineClassName());
@@ -68,7 +68,7 @@ final class PhabricatorSearchEditController
       if ($can_global) {
         $v_global = $request->getBool('global');
         if ($v_global) {
-          $named_query->setUserPHID(PhabricatorNamedQuery::SCOPE_GLOBAL);
+          $named_query->setUserPHID(PhorgeNamedQuery::SCOPE_GLOBAL);
         }
       }
 

@@ -9,8 +9,8 @@ $dst_table = 'differential_transaction_comment';
 
 echo pht('Migrating Differential inline comments to new format...')."\n";
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 $rows = new LiskRawMigrationIterator($conn_w, $src_table);
 foreach ($rows as $row) {
@@ -32,15 +32,15 @@ foreach ($rows as $row) {
   $revision_phid = $revision_row['phid'];
 
   if ($row['commentID']) {
-    $xaction_phid = PhabricatorPHID::generateNewPHID(
-      PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+    $xaction_phid = PhorgePHID::generateNewPHID(
+      PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
       DifferentialRevisionPHIDType::TYPECONST);
   } else {
     $xaction_phid = null;
   }
 
-  $comment_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorPHIDConstants::PHID_TYPE_XCMT,
+  $comment_phid = PhorgePHID::generateNewPHID(
+    PhorgePHIDConstants::PHID_TYPE_XCMT,
     DifferentialRevisionPHIDType::TYPECONST);
 
   queryfx(

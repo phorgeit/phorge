@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentView
+final class PhorgeApplicationTransactionCommentView
   extends AphrontView {
 
   private $submitButtonName;
@@ -66,7 +66,7 @@ final class PhabricatorApplicationTransactionCommentView
   }
 
   public function setVersionedDraft(
-    PhabricatorVersionedDraft $versioned_draft) {
+    PhorgeVersionedDraft $versioned_draft) {
     $this->versionedDraft = $versioned_draft;
     return $this;
   }
@@ -75,7 +75,7 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->versionedDraft;
   }
 
-  public function setDraft(PhabricatorDraft $draft) {
+  public function setDraft(PhorgeDraft $draft) {
     $this->draft = $draft;
     return $this;
   }
@@ -122,7 +122,7 @@ final class PhabricatorApplicationTransactionCommentView
   }
 
   public function setCommentActions(array $comment_actions) {
-    assert_instances_of($comment_actions, 'PhabricatorEditEngineCommentAction');
+    assert_instances_of($comment_actions, 'PhorgeEditEngineCommentAction');
     $this->commentActions = $comment_actions;
     return $this;
   }
@@ -132,7 +132,7 @@ final class PhabricatorApplicationTransactionCommentView
   }
 
   public function setCommentActionGroups(array $groups) {
-    assert_instances_of($groups, 'PhabricatorEditEngineCommentActionGroup');
+    assert_instances_of($groups, 'PhorgeEditEngineCommentActionGroup');
     $this->commentActionGroups = $groups;
     return $this;
   }
@@ -150,7 +150,7 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->noPermission;
   }
 
-  public function setEditEngineLock(PhabricatorEditEngineLock $lock) {
+  public function setEditEngineLock(PhorgeEditEngineLock $lock) {
     $this->editEngineLock = $lock;
     return $this;
   }
@@ -169,7 +169,7 @@ final class PhabricatorApplicationTransactionCommentView
   }
 
   public function setTransactionTimeline(
-    PhabricatorApplicationTransactionView $timeline) {
+    PhorgeApplicationTransactionView $timeline) {
 
     $timeline->setQuoteTargetID($this->getCommentID());
     if ($this->getNoPermission() || $this->getEditEngineLock()) {
@@ -270,7 +270,7 @@ final class PhabricatorApplicationTransactionCommentView
 
     $badge_view = $this->renderBadgeView();
 
-    $anchor = id(new PhabricatorAnchorView())
+    $anchor = id(new PhorgeAnchorView())
       ->setAnchorName('reply');
 
     $comment_box = id(new PHUIObjectBoxView())
@@ -296,7 +296,7 @@ final class PhabricatorApplicationTransactionCommentView
   private function renderCommentPanel() {
     $viewer = $this->getViewer();
 
-    $remarkup_control = id(new PhabricatorRemarkupControl())
+    $remarkup_control = id(new PhorgeRemarkupControl())
       ->setViewer($viewer)
       ->setID($this->getCommentID())
       ->addClass('phui-comment-fullwidth-control')
@@ -335,7 +335,7 @@ final class PhabricatorApplicationTransactionCommentView
       throw new PhutilInvalidStateException('setObjectPHID', 'render');
     }
 
-    $version_key = PhabricatorVersionedDraft::KEY_VERSION;
+    $version_key = PhorgeVersionedDraft::KEY_VERSION;
     $version_value = $this->getCurrentVersion();
 
     $form = id(new AphrontFormView())
@@ -600,8 +600,8 @@ final class PhabricatorApplicationTransactionCommentView
 
   private function renderBadgeView() {
     $user = $this->getUser();
-    $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+    $can_use_badges = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeBadgesApplication',
       $user);
     if (!$can_use_badges) {
       return null;

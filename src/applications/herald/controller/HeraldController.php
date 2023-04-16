@@ -1,6 +1,6 @@
 <?php
 
-abstract class HeraldController extends PhabricatorController {
+abstract class HeraldController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->buildSideNavView()->getMenu();

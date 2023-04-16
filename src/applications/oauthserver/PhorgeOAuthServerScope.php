@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOAuthServerScope extends Phobject {
+final class PhorgeOAuthServerScope extends Phobject {
 
   public static function getScopeMap() {
     return array();

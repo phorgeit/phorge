@@ -137,18 +137,18 @@ final class PhortuneCartViewController
 
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Printable Version'))
         ->setHref($print_uri)
         ->setOpenInNewWindow(true)
         ->setIcon('fa-print'));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Pay Now'))
         ->setIcon('fa-credit-card')
         ->setDisabled(!$can_checkout)
@@ -156,7 +156,7 @@ final class PhortuneCartViewController
         ->setHref($checkout_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Cancel Order'))
         ->setIcon('fa-times')
         ->setDisabled(!$can_cancel)
@@ -164,14 +164,14 @@ final class PhortuneCartViewController
         ->setHref($cancel_uri));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Update Status'))
         ->setIcon('fa-refresh')
         ->setHref($update_uri));
 
     if ($can_edit && $resume_uri) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Continue Checkout'))
           ->setIcon('fa-shopping-bag')
           ->setHref($resume_uri));
@@ -179,11 +179,11 @@ final class PhortuneCartViewController
 
     if ($authority) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
-          ->setType(PhabricatorActionView::TYPE_DIVIDER));
+        id(new PhorgeActionView())
+          ->setType(PhorgeActionView::TYPE_DIVIDER));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Accept Order'))
           ->setIcon('fa-check')
           ->setWorkflow(true)
@@ -191,7 +191,7 @@ final class PhortuneCartViewController
           ->setHref($accept_uri));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Refund Order'))
           ->setIcon('fa-reply')
           ->setWorkflow(true)
@@ -199,7 +199,7 @@ final class PhortuneCartViewController
           ->setHref($refund_uri));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Void Invoice'))
           ->setIcon('fa-times')
           ->setWorkflow(true)

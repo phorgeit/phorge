@@ -7,12 +7,12 @@
  * This source is writable if any source in the stack is writable. Writes happen
  * to the first writable source only.
  */
-final class PhabricatorConfigStackSource
-  extends PhabricatorConfigSource {
+final class PhorgeConfigStackSource
+  extends PhorgeConfigSource {
 
   private $stack = array();
 
-  public function pushSource(PhabricatorConfigSource $source) {
+  public function pushSource(PhorgeConfigSource $source) {
     array_unshift($this->stack, $source);
     return $this;
   }

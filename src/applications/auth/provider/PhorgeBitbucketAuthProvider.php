@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBitbucketAuthProvider
-  extends PhabricatorOAuth1AuthProvider {
+final class PhorgeBitbucketAuthProvider
+  extends PhorgeOAuth1AuthProvider {
 
   public function getProviderName() {
     return pht('Bitbucket');

@@ -2,8 +2,8 @@
 
 final class DrydockResource extends DrydockDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeConduitResultInterface {
 
   protected $id;
   protected $phid;
@@ -48,7 +48,7 @@ final class DrydockResource extends DrydockDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(DrydockResourcePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(DrydockResourcePHIDType::TYPECONST);
   }
 
   public function getResourceName() {
@@ -238,7 +238,7 @@ final class DrydockResource extends DrydockDAO
   }
 
   public function scheduleUpdate($epoch = null) {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'DrydockResourceUpdateWorker',
       array(
         'resourcePHID' => $this->getPHID(),
@@ -251,7 +251,7 @@ final class DrydockResource extends DrydockDAO
   }
 
   private function didActivate() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $need_update = false;
 
@@ -276,7 +276,7 @@ final class DrydockResource extends DrydockDAO
 
   public function logEvent($type, array $data = array()) {
     $log = id(new DrydockLog())
-      ->setEpoch(PhabricatorTime::getNow())
+      ->setEpoch(PhorgeTime::getNow())
       ->setType($type)
       ->setData($data);
 
@@ -323,13 +323,13 @@ final class DrydockResource extends DrydockDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -337,7 +337,7 @@ final class DrydockResource extends DrydockDAO
     return $this->getBlueprint()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBlueprint()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -348,16 +348,16 @@ final class DrydockResource extends DrydockDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('blueprintPHID')
         ->setType('phid')
         ->setDescription(pht('The blueprint which generated this resource.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about resource status.')),

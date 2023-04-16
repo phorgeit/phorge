@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorUserPreferencesSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeUserPreferencesSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('User Preferences');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSettingApplication';
+    return 'PhorgeSettingApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorUserPreferencesQuery())
+    return id(new PhorgeUserPreferencesQuery())
       ->withHasUserPHID(false);
   }
 
@@ -52,9 +52,9 @@ final class PhabricatorUserPreferencesSearchEngine
 
   protected function renderResultList(
     array $settings,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($settings, 'PhabricatorUserPreferences');
+    assert_instances_of($settings, 'PhorgeUserPreferences');
 
     $viewer = $this->requireViewer();
 
@@ -82,7 +82,7 @@ final class PhabricatorUserPreferencesSearchEngine
         ->setImageURI($viewer->getProfileImageURI())
         ->setHref('/settings/user/'.$viewer->getUsername().'/'));
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list);
   }
 

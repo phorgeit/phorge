@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgePasteTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_CONTENT = 'paste-content';
   const MAILTAG_OTHER = 'paste-other';
@@ -12,26 +12,26 @@ final class PhabricatorPasteTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorPastePastePHIDType::TYPECONST;
+    return PhorgePastePastePHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorPasteTransactionComment();
+    return new PhorgePasteTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorPasteTransactionType';
+    return 'PhorgePasteTransactionType';
   }
 
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
-      case PhabricatorPasteTitleTransaction::TRANSACTIONTYPE:
-      case PhabricatorPasteContentTransaction::TRANSACTIONTYPE:
-      case PhabricatorPasteLanguageTransaction::TRANSACTIONTYPE:
+      case PhorgePasteTitleTransaction::TRANSACTIONTYPE:
+      case PhorgePasteContentTransaction::TRANSACTIONTYPE:
+      case PhorgePasteLanguageTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_CONTENT;
         break;
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       default:

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionShowOlderController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionShowOlderController
+  extends PhorgeApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorApplicationTransactionShowOlderController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->withPHIDs(array($request->getURIData('phid')))
       ->setViewer($viewer)
       ->executeOne();
@@ -18,11 +18,11 @@ final class PhabricatorApplicationTransactionShowOlderController
       return new Aphront404Response();
     }
 
-    if (!$object instanceof PhabricatorApplicationTransactionInterface) {
+    if (!$object instanceof PhorgeApplicationTransactionInterface) {
       return new Aphront404Response();
     }
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($object);
     if (!$query) {
       return new Aphront404Response();
     }

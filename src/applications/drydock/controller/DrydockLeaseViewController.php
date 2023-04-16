@@ -108,13 +108,13 @@ final class DrydockLeaseViewController extends DrydockLeaseController {
       $can_release = false;
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $lease,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Release Lease'))
         ->setIcon('fa-times')
         ->setHref($this->getApplicationURI("/lease/{$id}/release/"))

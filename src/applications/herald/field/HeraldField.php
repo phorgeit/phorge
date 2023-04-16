@@ -162,7 +162,7 @@ abstract class HeraldField extends Phobject {
   }
 
   public function renderConditionValue(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $condition,
     $value) {
 
@@ -172,7 +172,7 @@ abstract class HeraldField extends Phobject {
   }
 
   public function getEditorValue(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $condition,
     $value) {
 
@@ -182,7 +182,7 @@ abstract class HeraldField extends Phobject {
   }
 
   public function renderTranscriptValue(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $field_value) {
     $value_type = $this->getHeraldFieldValueType($condition_type = null);
     $value_type->setViewer($viewer);
@@ -272,7 +272,7 @@ abstract class HeraldField extends Phobject {
   final protected function getAppliedEdgeTransactionOfType($edge_type) {
     $edge_xactions = $this->getAppliedTransactionsOfTypes(
       array(
-        PhabricatorTransactions::TYPE_EDGE,
+        PhorgeTransactions::TYPE_EDGE,
       ));
 
     $results = array();

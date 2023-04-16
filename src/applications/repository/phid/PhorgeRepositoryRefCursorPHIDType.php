@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryRefCursorPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeRepositoryRefCursorPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'RREF';
 
@@ -14,23 +14,23 @@ final class PhabricatorRepositoryRefCursorPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorRepositoryRefCursor();
+    return new PhorgeRepositoryRefCursor();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositoryRefCursorQuery())
+    return id(new PhorgeRepositoryRefCursorQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

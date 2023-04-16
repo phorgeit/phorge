@@ -24,12 +24,12 @@ final class DiffusionRepositoryEditPublishingController
         $new_status = false;
       }
 
-      $xaction = id(new PhabricatorRepositoryTransaction())
+      $xaction = id(new PhorgeRepositoryTransaction())
         ->setTransactionType(
-          PhabricatorRepositoryNotifyTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryNotifyTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      $editor = id(new PhabricatorRepositoryEditor())
+      $editor = id(new PhorgeRepositoryEditor())
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true)
         ->setContentSourceFromRequest($request)

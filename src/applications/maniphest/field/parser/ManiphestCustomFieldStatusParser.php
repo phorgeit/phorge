@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestCustomFieldStatusParser
-  extends PhabricatorCustomFieldMonogramParser {
+  extends PhorgeCustomFieldMonogramParser {
 
   protected function getPrefixes() {
     return array_keys(ManiphestTaskStatus::getStatusPrefixMap());

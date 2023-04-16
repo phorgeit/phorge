@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardIconSet
-  extends PhabricatorIconSet {
+final class PhorgeDashboardIconSet
+  extends PhorgeIconSet {
 
   const ICONSETKEY = 'dashboards';
 
@@ -45,7 +45,7 @@ final class PhabricatorDashboardIconSet
 
     $icons = array();
     foreach ($map as $key => $label) {
-      $icons[] = id(new PhabricatorIconSetIcon())
+      $icons[] = id(new PhorgeIconSetIcon())
         ->setKey($key)
         ->setLabel($label);
     }

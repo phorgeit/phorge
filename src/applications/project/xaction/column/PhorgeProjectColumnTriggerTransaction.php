@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnTriggerTransaction
-  extends PhabricatorProjectColumnTransactionType {
+final class PhorgeProjectColumnTriggerTransaction
+  extends PhorgeProjectColumnTransactionType {
 
   const TRANSACTIONTYPE = 'trigger';
 
@@ -28,7 +28,7 @@ final class PhabricatorProjectColumnTriggerTransaction
     }
 
     foreach ($column_phids as $phid) {
-      PhabricatorSearchWorker::queueDocumentForIndexing($phid);
+      PhorgeSearchWorker::queueDocumentForIndexing($phid);
     }
   }
 
@@ -76,7 +76,7 @@ final class PhabricatorProjectColumnTriggerTransaction
         continue;
       }
 
-      $trigger = id(new PhabricatorProjectTriggerQuery())
+      $trigger = id(new PhorgeProjectTriggerQuery())
         ->setViewer($actor)
         ->withPHIDs(array($trigger_phid))
         ->execute();

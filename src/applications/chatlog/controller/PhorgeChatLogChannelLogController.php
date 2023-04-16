@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChatLogChannelLogController
-  extends PhabricatorChatLogController {
+final class PhorgeChatLogChannelLogController
+  extends PhorgeChatLogController {
 
   public function shouldAllowPublic() {
     return true;
@@ -17,11 +17,11 @@ final class PhabricatorChatLogChannelLogController
     $pager->setURI($uri);
     $pager->setPageSize(250);
 
-    $query = id(new PhabricatorChatLogQuery())
+    $query = id(new PhorgeChatLogQuery())
       ->setViewer($viewer)
       ->withChannelIDs(array($id));
 
-    $channel = id(new PhabricatorChatLogChannelQuery())
+    $channel = id(new PhorgeChatLogChannelQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -261,7 +261,7 @@ final class PhabricatorChatLogChannelLogController
    */
   private function getPagingParameters(
     AphrontRequest $request,
-    PhabricatorChatLogQuery $query) {
+    PhorgeChatLogQuery $query) {
 
     $viewer = $request->getViewer();
 
@@ -288,7 +288,7 @@ final class PhabricatorChatLogChannelLogController
       );
 
     } else if ($at_date) {
-      $timestamp = PhabricatorTime::parseLocalTime($at_date, $viewer);
+      $timestamp = PhorgeTime::parseLocalTime($at_date, $viewer);
 
       if ($timestamp) {
         $context_logs = $query

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTokenCount extends PhabricatorTokenDAO {
+final class PhorgeTokenCount extends PhorgeTokenDAO {
 
   protected $objectPHID;
   protected $tokenCount;

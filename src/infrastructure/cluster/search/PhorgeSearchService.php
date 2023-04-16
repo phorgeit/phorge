@@ -1,6 +1,6 @@
 <?php
 
-class PhabricatorSearchService
+class PhorgeSearchService
   extends Phobject {
 
   const KEY_REFS = 'cluster.search.refs';
@@ -19,7 +19,7 @@ class PhabricatorSearchService
   const ROLE_WRITE = 'write';
   const ROLE_READ = 'read';
 
-  public function __construct(PhabricatorFulltextStorageEngine $engine) {
+  public function __construct(PhorgeFulltextStorageEngine $engine) {
     $this->engine = $engine;
     $this->hostType = $engine->getHostType();
   }
@@ -114,8 +114,8 @@ class PhabricatorSearchService
   /**
    * Get a random host reference with the specified role, skipping hosts which
    * failed recent health checks.
-   * @throws PhabricatorClusterNoHostForRoleException if no healthy hosts match.
-   * @return PhabricatorSearchHost
+   * @throws PhorgeClusterNoHostForRoleException if no healthy hosts match.
+   * @return PhorgeSearchHost
    */
   public function getAnyHostForRole($role) {
     $hosts = $this->getAllHostsForRole($role);
@@ -126,13 +126,13 @@ class PhabricatorSearchService
         return $host;
       }
     }
-    throw new PhabricatorClusterNoHostForRoleException($role);
+    throw new PhorgeClusterNoHostForRoleException($role);
   }
 
 
   /**
    * Get all configured hosts for this service which have the specified role.
-   * @return PhabricatorSearchHost[]
+   * @return PhorgeSearchHost[]
    */
   public function getAllHostsForRole($role) {
     // if the role is explicitly set to false at the top level, then all hosts
@@ -152,10 +152,10 @@ class PhabricatorSearchService
 
   /**
    * Get a reference to all configured fulltext search cluster services
-   * @return PhabricatorSearchService[]
+   * @return PhorgeSearchService[]
    */
   public static function getAllServices() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
 
     $refs = $cache->getKey(self::KEY_REFS);
     if (!$refs) {
@@ -167,21 +167,21 @@ class PhabricatorSearchService
   }
 
   /**
-   * Load all valid PhabricatorFulltextStorageEngine subclasses
+   * Load all valid PhorgeFulltextStorageEngine subclasses
    */
   public static function loadAllFulltextStorageEngines() {
     return id(new PhutilClassMapQuery())
-    ->setAncestorClass('PhabricatorFulltextStorageEngine')
+    ->setAncestorClass('PhorgeFulltextStorageEngine')
     ->setUniqueMethod('getEngineIdentifier')
     ->execute();
   }
 
   /**
-   * Create instances of PhabricatorSearchService based on configuration
-   * @return PhabricatorSearchService[]
+   * Create instances of PhorgeSearchService based on configuration
+   * @return PhorgeSearchService[]
    */
   public static function newRefs() {
-    $services = PhabricatorEnv::getEnvConfig('cluster.search');
+    $services = PhorgeEnv::getEnvConfig('cluster.search');
     $engines = self::loadAllFulltextStorageEngines();
     $refs = array();
 
@@ -214,7 +214,7 @@ class PhabricatorSearchService
    * fulltext search hosts
    */
   public static function reindexAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     $exceptions = array();
     foreach (self::getAllServices() as $service) {
@@ -244,12 +244,12 @@ class PhabricatorSearchService
    * @return string[]
    * @throws PhutilAggregateException
    */
-  public static function executeSearch(PhabricatorSavedQuery $query) {
+  public static function executeSearch(PhorgeSavedQuery $query) {
     $result_set = self::newResultSet($query);
     return $result_set->getPHIDs();
   }
 
-  public static function newResultSet(PhabricatorSavedQuery $query) {
+  public static function newResultSet(PhorgeSavedQuery $query) {
     $exceptions = array();
     // try all services until one succeeds
     foreach (self::getAllServices() as $service) {
@@ -261,7 +261,7 @@ class PhabricatorSearchService
         $engine = $service->getEngine();
         $phids = $engine->executeSearch($query);
 
-        return id(new PhabricatorFulltextResultSet())
+        return id(new PhorgeFulltextResultSet())
           ->setPHIDs($phids)
           ->setFulltextTokens($engine->getFulltextTokens());
       } catch (PhutilSearchQueryCompilerSyntaxException $ex) {

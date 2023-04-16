@@ -1,4 +1,4 @@
-/* PhabricatorBadgeHasRecipientEdgeType::TYPECONST = 59 */
+/* PhorgeBadgeHasRecipientEdgeType::TYPECONST = 59 */
 
 INSERT IGNORE INTO {$NAMESPACE}_badges.badges_award
   (badgePHID, recipientPHID, awarderPHID, dateCreated, dateModified)

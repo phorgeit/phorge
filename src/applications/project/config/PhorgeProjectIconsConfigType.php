@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectIconsConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeProjectIconsConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'project.icons';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
-    PhabricatorProjectIconSet::validateConfiguration($value);
+    PhorgeProjectIconSet::validateConfiguration($value);
   }
 
 }

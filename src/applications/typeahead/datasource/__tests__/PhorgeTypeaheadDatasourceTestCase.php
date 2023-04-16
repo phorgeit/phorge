@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadDatasourceTestCase
-  extends PhabricatorTestCase {
+final class PhorgeTypeaheadDatasourceTestCase
+  extends PhorgeTestCase {
 
   public function testTypeaheadTokenization() {
     $this->assertTokenization(
@@ -44,14 +44,14 @@ final class PhabricatorTypeaheadDatasourceTestCase
   private function assertTokenization($input, $expect) {
     $this->assertEqual(
       $expect,
-      PhabricatorTypeaheadDatasource::tokenizeString($input),
+      PhorgeTypeaheadDatasource::tokenizeString($input),
       pht('Tokenization of "%s"', $input));
   }
 
   public function testFunctionEvaluation() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $datasource = id(new PhabricatorTypeaheadTestNumbersDatasource())
+    $datasource = id(new PhorgeTypeaheadTestNumbersDatasource())
       ->setViewer($viewer);
 
     $constraints = $datasource->evaluateTokens(

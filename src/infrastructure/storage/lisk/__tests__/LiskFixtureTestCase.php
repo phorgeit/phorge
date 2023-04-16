@@ -1,8 +1,8 @@
 <?php
 
-final class LiskFixtureTestCase extends PhabricatorTestCase {
+final class LiskFixtureTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );

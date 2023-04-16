@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardChartPanelChartTransaction
-  extends PhabricatorDashboardPanelPropertyTransaction {
+final class PhorgeDashboardChartPanelChartTransaction
+  extends PhorgeDashboardPanelPropertyTransaction {
 
   const TRANSACTIONTYPE = 'chart.chartKey';
 

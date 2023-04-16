@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportDeleteTransaction
-  extends PhabricatorCalendarImportTransactionType {
+final class PhorgeCalendarImportDeleteTransaction
+  extends PhorgeCalendarImportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.import.delete';
 
@@ -10,12 +10,12 @@ final class PhabricatorCalendarImportDeleteTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $events = id(new PhabricatorCalendarEventQuery())
+    $events = id(new PhorgeCalendarEventQuery())
       ->setViewer($this->getActor())
       ->withImportSourcePHIDs(array($object->getPHID()))
       ->execute();
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     foreach ($events as $event) {
       $engine->destroyObject($event);
     }

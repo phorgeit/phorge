@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Generating file keys...')."\n";
-$table = new PhabricatorFile();
+$table = new PhorgeFile();
 $table->openTransaction();
 $table->beginReadLocking();
 

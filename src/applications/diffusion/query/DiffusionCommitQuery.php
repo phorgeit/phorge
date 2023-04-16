@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -68,7 +68,7 @@ final class DiffusionCommitQuery
    * Look up commits in a specific repository. This is a shorthand for calling
    * @{method:withDefaultRepository} and @{method:withRepositoryIDs}.
    */
-  public function withRepository(PhabricatorRepository $repository) {
+  public function withRepository(PhorgeRepository $repository) {
     $this->withDefaultRepository($repository);
     $this->withRepositoryIDs(array($repository->getID()));
     return $this;
@@ -93,7 +93,7 @@ final class DiffusionCommitQuery
    * considered ambiguous, but if you provide a default repository it will
    * be correctly resolved.
    */
-  public function withDefaultRepository(PhabricatorRepository $repository) {
+  public function withDefaultRepository(PhorgeRepository $repository) {
     $this->defaultRepository = $repository;
     return $this;
   }
@@ -124,7 +124,7 @@ final class DiffusionCommitQuery
   }
 
   public function needAuditAuthority(array $users) {
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, 'PhorgeUser');
     $this->needAuditAuthority = $users;
     return $this;
   }
@@ -201,7 +201,7 @@ final class DiffusionCommitQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryCommit();
+    return new PhorgeRepositoryCommit();
   }
 
   protected function loadPage() {
@@ -233,7 +233,7 @@ final class DiffusionCommitQuery
         $subqueries[] = $this->buildStandardPageQuery(
           $conn,
           $table->getTableName());
-      } catch (PhabricatorEmptyQueryException $ex) {
+      } catch (PhorgeEmptyQueryException $ex) {
         $empty_exception = $ex;
       }
 
@@ -243,7 +243,7 @@ final class DiffusionCommitQuery
         $subqueries[] = $this->buildStandardPageQuery(
           $conn,
           $table->getTableName());
-      } catch (PhabricatorEmptyQueryException $ex) {
+      } catch (PhorgeEmptyQueryException $ex) {
         $empty_exception = $ex;
       }
     } else {
@@ -292,12 +292,12 @@ final class DiffusionCommitQuery
 
   protected function willFilterPage(array $commits) {
     $repository_ids = mpull($commits, 'getRepositoryID', 'getRepositoryID');
-    $repos = id(new PhabricatorRepositoryQuery())
+    $repos = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->withIDs($repository_ids)
       ->execute();
 
-    $min_qualified = PhabricatorRepository::MINIMUM_QUALIFIED_HASH;
+    $min_qualified = PhorgeRepository::MINIMUM_QUALIFIED_HASH;
     $result = array();
 
     foreach ($commits as $key => $commit) {
@@ -386,7 +386,7 @@ final class DiffusionCommitQuery
               'commits' => $ancestor_list,
             ));
         } catch (ConduitClientException $ex) {
-          throw new PhabricatorSearchConstraintException(
+          throw new PhorgeSearchConstraintException(
             $ex->getMessage());
         }
 
@@ -410,21 +410,21 @@ final class DiffusionCommitQuery
     }
 
     if ($this->needCommitData) {
-      $data = id(new PhabricatorRepositoryCommitData())->loadAllWhere(
+      $data = id(new PhorgeRepositoryCommitData())->loadAllWhere(
         'commitID in (%Ld)',
         mpull($commits, 'getID'));
       $data = mpull($data, null, 'getCommitID');
       foreach ($commits as $commit) {
         $commit_data = idx($data, $commit->getID());
         if (!$commit_data) {
-          $commit_data = new PhabricatorRepositoryCommitData();
+          $commit_data = new PhorgeRepositoryCommitData();
         }
         $commit->attachCommitData($commit_data);
       }
     }
 
     if ($this->needAuditRequests) {
-      $requests = id(new PhabricatorRepositoryAuditRequest())->loadAllWhere(
+      $requests = id(new PhorgeRepositoryAuditRequest())->loadAllWhere(
         'commitPHID IN (%Ls)',
         mpull($commits, 'getPHID'));
 
@@ -443,7 +443,7 @@ final class DiffusionCommitQuery
         mpull($commits, 'getAuthorIdentityPHID'),
         mpull($commits, 'getCommitterIdentityPHID'));
 
-      $data = id(new PhabricatorRepositoryIdentityQuery())
+      $data = id(new PhorgeRepositoryIdentityQuery())
         ->withPHIDs($identity_phids)
         ->setViewer($this->getViewer())
         ->execute();
@@ -457,7 +457,7 @@ final class DiffusionCommitQuery
     }
 
     if ($this->needDrafts) {
-      PhabricatorDraftEngine::attachDrafts(
+      PhorgeDraftEngine::attachDrafts(
         $viewer,
         $commits);
     }
@@ -491,7 +491,7 @@ final class DiffusionCommitQuery
         $result_phids[] = $authority_phid;
 
         // Users have authority over packages they own.
-        $owned_packages = id(new PhabricatorOwnersPackageQuery())
+        $owned_packages = id(new PhorgeOwnersPackageQuery())
           ->setViewer($viewer)
           ->withAuthorityPHIDs(array($authority_phid))
           ->execute();
@@ -500,7 +500,7 @@ final class DiffusionCommitQuery
         }
 
         // Users have authority over projects they're members of.
-        $projects = id(new PhabricatorProjectQuery())
+        $projects = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withMemberPHIDs(array($authority_phid))
           ->execute();
@@ -535,13 +535,13 @@ final class DiffusionCommitQuery
     $where = parent::buildWhereClauseParts($conn);
 
     if ($this->repositoryPHIDs !== null) {
-      $map_repositories = id(new PhabricatorRepositoryQuery())
+      $map_repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($this->repositoryPHIDs)
         ->execute();
 
       if (!$map_repositories) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
       $repository_ids = mpull($map_repositories, 'getID');
       if ($this->repositoryIDs !== null) {
@@ -552,7 +552,7 @@ final class DiffusionCommitQuery
 
     if ($this->ancestorsOf !== null) {
       if (count($this->repositoryIDs) !== 1) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'To search for commits which are ancestors of particular refs, '.
             'you must constrain the search to exactly one repository.'));
@@ -562,17 +562,17 @@ final class DiffusionCommitQuery
       $history_limit = $this->getRawResultLimit() * 32;
       $viewer = $this->getViewer();
 
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withIDs(array($repository_id))
         ->executeOne();
 
       if (!$repository) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       if ($repository->isSVN()) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'Subversion does not support searching for ancestors of '.
             'a particular ref. This operation is not meaningful in '.
@@ -580,7 +580,7 @@ final class DiffusionCommitQuery
       }
 
       if ($repository->isHg()) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'Mercurial does not currently support searching for ancestors of '.
             'a particular ref.'));
@@ -603,7 +603,7 @@ final class DiffusionCommitQuery
               'limit' => $history_limit,
             ));
         } catch (ConduitClientException $ex) {
-          throw new PhabricatorSearchConstraintException(
+          throw new PhorgeSearchConstraintException(
             $ex->getMessage());
         }
 
@@ -665,7 +665,7 @@ final class DiffusionCommitQuery
       if ($author_phids) {
         $author_phids = $this->selectPossibleAuthors($author_phids);
         if (!$author_phids) {
-          throw new PhabricatorEmptyQueryException(
+          throw new PhorgeEmptyQueryException(
             pht('Author PHIDs contain no possible authors.'));
         }
       }
@@ -695,20 +695,20 @@ final class DiffusionCommitQuery
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) != %d',
-          PhabricatorRepositoryCommit::IMPORTED_ALL,
-          PhabricatorRepositoryCommit::IMPORTED_ALL);
+          PhorgeRepositoryCommit::IMPORTED_ALL,
+          PhorgeRepositoryCommit::IMPORTED_ALL);
       } else {
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) = %d',
-          PhabricatorRepositoryCommit::IMPORTED_ALL,
-          PhabricatorRepositoryCommit::IMPORTED_ALL);
+          PhorgeRepositoryCommit::IMPORTED_ALL,
+          PhorgeRepositoryCommit::IMPORTED_ALL);
       }
     }
 
     if ($this->identifiers !== null) {
-      $min_unqualified = PhabricatorRepository::MINIMUM_UNQUALIFIED_HASH;
-      $min_qualified   = PhabricatorRepository::MINIMUM_QUALIFIED_HASH;
+      $min_unqualified = PhorgeRepository::MINIMUM_UNQUALIFIED_HASH;
+      $min_qualified   = PhorgeRepository::MINIMUM_QUALIFIED_HASH;
 
       $refs = array();
       $bare = array();
@@ -751,7 +751,7 @@ final class DiffusionCommitQuery
       if ($refs) {
         $repositories = ipull($refs, 'repository');
 
-        $repos = id(new PhabricatorRepositoryQuery())
+        $repos = id(new PhorgeRepositoryQuery())
           ->setViewer($this->getViewer())
           ->withIdentifiers($repositories);
         $repos->execute();
@@ -806,7 +806,7 @@ final class DiffusionCommitQuery
         // If we discarded all possible identifiers (e.g., they all referenced
         // bogus repositories or were all too short), make sure the query finds
         // nothing.
-        throw new PhabricatorEmptyQueryException(
+        throw new PhorgeEmptyQueryException(
           pht('No commit identifiers.'));
       }
 
@@ -849,13 +849,13 @@ final class DiffusionCommitQuery
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) = %d',
-          PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
-          PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+          PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
+          PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
       } else {
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) = 0',
-          PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+          PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
       }
     }
 
@@ -864,13 +864,13 @@ final class DiffusionCommitQuery
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) = %d',
-          PhabricatorRepositoryCommit::IMPORTED_PERMANENT,
-          PhabricatorRepositoryCommit::IMPORTED_PERMANENT);
+          PhorgeRepositoryCommit::IMPORTED_PERMANENT,
+          PhorgeRepositoryCommit::IMPORTED_PERMANENT);
       } else {
         $where[] = qsprintf(
           $conn,
           '(commit.importStatus & %d) = 0',
-          PhabricatorRepositoryCommit::IMPORTED_PERMANENT);
+          PhorgeRepositoryCommit::IMPORTED_PERMANENT);
       }
     }
 
@@ -897,7 +897,7 @@ final class DiffusionCommitQuery
 
   protected function buildJoinClauseParts(AphrontDatabaseConnection $conn) {
     $join = parent::buildJoinClauseParts($conn);
-    $audit_request = new PhabricatorRepositoryAuditRequest();
+    $audit_request = new PhorgeRepositoryAuditRequest();
 
     if ($this->shouldJoinAuditor()) {
       $join[] = qsprintf(
@@ -911,7 +911,7 @@ final class DiffusionCommitQuery
         $conn,
         'JOIN %T package ON commit.phid = package.src
           AND package.type = %s',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         DiffusionCommitHasPackageEdgeType::EDGECONST);
     }
 
@@ -931,7 +931,7 @@ final class DiffusionCommitQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function getOrderableColumns() {
@@ -983,7 +983,7 @@ final class DiffusionCommitQuery
     // filtering is to improve the performance of the final query.
 
     foreach ($phids as $key => $phid) {
-      if (phid_get_type($phid) !== PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($phid) !== PhorgePeopleUserPHIDType::TYPECONST) {
         unset($phids[$key]);
       }
     }

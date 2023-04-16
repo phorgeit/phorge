@@ -13,7 +13,7 @@ final class HeraldDifferentialRevisionAdapter
   private $buildRequests = array();
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function newObject() {
@@ -29,7 +29,7 @@ final class HeraldDifferentialRevisionAdapter
       'Test rules which run when a revision is created or updated.');
   }
 
-  public function newTestAdapter(PhabricatorUser $viewer, $object) {
+  public function newTestAdapter(PhorgeUser $viewer, $object) {
     return self::newLegacyAdapter(
       $object,
       $object->loadActiveDiff());
@@ -77,7 +77,7 @@ final class HeraldDifferentialRevisionAdapter
     // Reload the revision to pick up relationship information.
     $revision = id(new DifferentialRevisionQuery())
       ->withIDs(array($revision->getID()))
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->needReviewers(true)
       ->executeOne();
 
@@ -105,7 +105,7 @@ final class HeraldDifferentialRevisionAdapter
       $this->haveHunks = true;
 
       id(new DifferentialHunkQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withChangesets($changesets)
         ->needAttachToChangesets(true)
         ->execute();
@@ -120,7 +120,7 @@ final class HeraldDifferentialRevisionAdapter
 
       $repository = $this->loadRepository();
       if ($repository) {
-        $packages = PhabricatorOwnersPackage::loadAffectedPackagesForChangesets(
+        $packages = PhorgeOwnersPackage::loadAffectedPackagesForChangesets(
           $repository,
           $this->getDiff(),
           $this->loadChangesets());

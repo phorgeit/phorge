@@ -2,7 +2,7 @@
 
 echo pht('Indexing username tokens for typeaheads...')."\n";
 
-$table = new PhabricatorUser();
+$table = new PhorgeUser();
 $table->openTransaction();
 $table->beginReadLocking();
 

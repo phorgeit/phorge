@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarEventEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+final class PhorgeCalendarEventEditConduitAPIMethod
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'calendar.event.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorCalendarEventEditEngine();
+    return new PhorgeCalendarEventEditEngine();
   }
 
   public function getMethodSummary() {

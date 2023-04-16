@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   private $blueprintImplementation;
 
@@ -24,7 +24,7 @@ final class DrydockBlueprintEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function setBlueprintImplementation(
@@ -145,12 +145,12 @@ final class DrydockBlueprintEditEngine
 
     return array(
       // This field appears in the web UI
-      id(new PhabricatorStaticEditField())
+      id(new PhorgeStaticEditField())
         ->setKey('displayType')
         ->setLabel(pht('Blueprint Type'))
         ->setDescription(pht('Type of blueprint.'))
         ->setValue($impl->getBlueprintName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('type')
         ->setLabel(pht('Type'))
         ->setIsFormField(false)
@@ -160,7 +160,7 @@ final class DrydockBlueprintEditEngine
         ->setConduitDescription(pht('Set the blueprint type.'))
         ->setConduitTypeDescription(pht('Blueprint type.'))
         ->setValue($object->getClassName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the blueprint.'))

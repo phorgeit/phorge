@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSessionGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeAuthSessionGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'auth.sessions';
 
@@ -14,7 +14,7 @@ final class PhabricatorAuthSessionGarbageCollector
   }
 
   protected function collectGarbage() {
-    $session_table = new PhabricatorAuthSession();
+    $session_table = new PhorgeAuthSession();
     $conn_w = $session_table->establishConnection('w');
 
     queryfx(

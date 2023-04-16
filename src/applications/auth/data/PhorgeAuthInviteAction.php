@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthInviteAction extends Phobject {
+final class PhorgeAuthInviteAction extends Phobject {
 
   private $rawInput;
   private $emailAddress;
@@ -92,12 +92,12 @@ final class PhabricatorAuthInviteAction extends Phobject {
   }
 
   public static function newActionListFromAddresses(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $addresses) {
 
     $results = array();
     foreach ($addresses as $address) {
-      $result = new PhabricatorAuthInviteAction();
+      $result = new PhorgeAuthInviteAction();
       $result->rawInput = $address;
 
       $email = new PhutilEmailAddress($address);
@@ -122,7 +122,7 @@ final class PhabricatorAuthInviteAction extends Phobject {
 
     // Identify addresses which are already in the system.
     $addresses = mpull($results, 'getEmailAddress');
-    $email_objects = id(new PhabricatorUserEmail())->loadAllWhere(
+    $email_objects = id(new PhorgeUserEmail())->loadAllWhere(
       'address IN (%Ls)',
       $addresses);
 
@@ -133,7 +133,7 @@ final class PhabricatorAuthInviteAction extends Phobject {
     }
 
     // Identify outstanding invites.
-    $invites = id(new PhabricatorAuthInviteQuery())
+    $invites = id(new PhorgeAuthInviteQuery())
       ->setViewer($viewer)
       ->withEmailAddresses($addresses)
       ->execute();
@@ -189,7 +189,7 @@ final class PhabricatorAuthInviteAction extends Phobject {
     return $results;
   }
 
-  public function sendInvite(PhabricatorUser $actor, $template) {
+  public function sendInvite(PhorgeUser $actor, $template) {
     if (!$this->willSend()) {
       throw new Exception(pht('Invite action is not a send action!'));
     }
@@ -198,8 +198,8 @@ final class PhabricatorAuthInviteAction extends Phobject {
       throw new Exception(pht('Invite template does not include invite URI!'));
     }
 
-    PhabricatorWorker::scheduleTask(
-      'PhabricatorAuthInviteWorker',
+    PhorgeWorker::scheduleTask(
+      'PhorgeAuthInviteWorker',
       array(
         'address' => $this->getEmailAddress(),
         'template' => $template,

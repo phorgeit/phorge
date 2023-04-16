@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorSearchConstraintException
+final class PhorgeSearchConstraintException
   extends Exception {}

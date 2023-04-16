@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDiffInlineCommentQuery
-  extends PhabricatorApplicationTransactionCommentQuery {
+abstract class PhorgeDiffInlineCommentQuery
+  extends PhorgeApplicationTransactionCommentQuery {
 
   const INLINE_CONTEXT_CACHE_VERSION = 1;
 
@@ -129,7 +129,7 @@ abstract class PhabricatorDiffInlineCommentQuery
       // We can end up with a known-empty query if we (for example) query for
       // publishable comments and the viewer is logged-out.
       if (!$clauses) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $where[] = qsprintf(
@@ -191,7 +191,7 @@ abstract class PhabricatorDiffInlineCommentQuery
     if ($convert_objects) {
       $inlines = mpull($inlines, 'newInlineCommentObject');
 
-      PhabricatorInlineComment::loadAndAttachVersionedDrafts(
+      PhorgeInlineComment::loadAndAttachVersionedDrafts(
         $viewer,
         $inlines);
 
@@ -294,7 +294,7 @@ abstract class PhabricatorDiffInlineCommentQuery
         self::INLINE_CONTEXT_CACHE_VERSION);
     }
 
-    $cache = PhabricatorCaches::getMutableStructureCache();
+    $cache = PhorgeCaches::getMutableStructureCache();
 
     $cache_map = $cache->getKeys($cache_keys);
 
@@ -346,7 +346,7 @@ abstract class PhabricatorDiffInlineCommentQuery
   }
 
   protected function newCacheDataFromInlineContext(
-    PhabricatorInlineCommentContext $context) {
+    PhorgeInlineCommentContext $context) {
     return $context->newCacheDataMap();
   }
 

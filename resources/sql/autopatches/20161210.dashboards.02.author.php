@@ -2,10 +2,10 @@
 
 // Set authorPHID on Dashboards
 //
-$table = new PhabricatorDashboard();
+$table = new PhorgeDashboard();
 $conn_w = $table->establishConnection('w');
 
-$txn_table = new PhabricatorDashboardTransaction();
+$txn_table = new PhorgeDashboardTransaction();
 $txn_conn = $table->establishConnection('r');
 
 echo pht("Building Dashboard authorPHIDs...\n");
@@ -23,7 +23,7 @@ foreach (new LiskMigrationIterator($table) as $dashboard) {
     $dashboard->getPHID());
 
   if (!$author_row) {
-    $author_phid = id(new PhabricatorDashboardApplication())->getPHID();
+    $author_phid = id(new PhorgeDashboardApplication())->getPHID();
   } else {
     $author_phid = $author_row['authorPHID'];
   }

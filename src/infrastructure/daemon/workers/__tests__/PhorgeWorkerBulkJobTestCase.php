@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorWorkerBulkJobTestCase extends PhabricatorTestCase {
+final class PhorgeWorkerBulkJobTestCase extends PhorgeTestCase {
 
   public function testGetAllBulkJobTypes() {
-    PhabricatorWorkerBulkJobType::getAllJobTypes();
+    PhorgeWorkerBulkJobType::getAllJobTypes();
     $this->assertTrue(true);
   }
 

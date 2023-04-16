@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailPropertiesDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeMailPropertiesDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'mail.properties';
 
@@ -10,13 +10,13 @@ final class PhabricatorMailPropertiesDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $object_phid = $object->getPHID();
     $viewer = $engine->getViewer();
 
-    $properties = id(new PhabricatorMetaMTAMailPropertiesQuery())
+    $properties = id(new PhorgeMetaMTAMailPropertiesQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object_phid))
       ->executeOne();

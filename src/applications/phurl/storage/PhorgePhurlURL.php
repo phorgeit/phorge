@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
-  implements PhabricatorPolicyInterface,
-  PhabricatorProjectInterface,
-  PhabricatorApplicationTransactionInterface,
-  PhabricatorSubscribableInterface,
-  PhabricatorTokenReceiverInterface,
-  PhabricatorDestructibleInterface,
-  PhabricatorMentionableInterface,
-  PhabricatorFlaggableInterface,
-  PhabricatorSpacesInterface,
-  PhabricatorConduitResultInterface,
-  PhabricatorNgramsInterface {
+final class PhorgePhurlURL extends PhorgePhurlDAO
+  implements PhorgePolicyInterface,
+  PhorgeProjectInterface,
+  PhorgeApplicationTransactionInterface,
+  PhorgeSubscribableInterface,
+  PhorgeTokenReceiverInterface,
+  PhorgeDestructibleInterface,
+  PhorgeMentionableInterface,
+  PhorgeFlaggableInterface,
+  PhorgeSpacesInterface,
+  PhorgeConduitResultInterface,
+  PhorgeNgramsInterface {
 
   protected $name;
   protected $alias;
@@ -28,15 +28,15 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
 
   const DEFAULT_ICON = 'fa-compress';
 
-  public static function initializeNewPhurlURL(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewPhurlURL(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPhurlApplication'))
+      ->withClasses(array('PhorgePhurlApplication'))
       ->executeOne();
 
-    return id(new PhabricatorPhurlURL())
+    return id(new PhorgePhurlURL())
       ->setAuthorPHID($actor->getPHID())
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
       ->setEditPolicy($actor->getPHID())
       ->setSpacePHID($actor->getDefaultSpacePHID());
   }
@@ -71,8 +71,8 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPhurlURLPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePhurlURLPHIDType::TYPECONST);
   }
 
   public function getMonogram() {
@@ -85,7 +85,7 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
   }
 
   public function isValid() {
-    $allowed_protocols = PhabricatorEnv::getEnvConfig('uri.allowed-protocols');
+    $allowed_protocols = PhorgeEnv::getEnvConfig('uri.allowed-protocols');
     $uri = new PhutilURI($this->getLongURL());
 
     return isset($allowed_protocols[$uri->getProtocol()]);
@@ -105,9 +105,9 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
     } else {
       $path = '/u/'.$this->getID();
     }
-    $domain = PhabricatorEnv::getEnvConfig('phurl.short-uri');
+    $domain = PhorgeEnv::getEnvConfig('phurl.short-uri');
     if (!$domain) {
-      $domain = PhabricatorEnv::getEnvConfig('phorge.base-uri');
+      $domain = PhorgeEnv::getEnvConfig('phorge.base-uri');
     }
 
     $uri = new PhutilURI($domain);
@@ -115,26 +115,26 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
     return (string)$uri;
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $user_phid = $this->getAuthorPHID();
     if ($user_phid) {
       $viewer_phid = $viewer->getPHID();
@@ -150,19 +150,19 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
     return pht('The owner of a URL can always view and edit it.');
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorPhurlURLEditor();
+    return new PhorgePhurlURLEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorPhurlURLTransaction();
+    return new PhorgePhurlURLTransaction();
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -170,49 +170,49 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
     return array($this->getAuthorPHID());
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();
     $this->saveTransaction();
   }
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
     return $this->spacePHID;
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('URL name.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('alias')
         ->setType('string')
         ->setDescription(pht('The alias for the URL.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('longurl')
         ->setType('string')
         ->setDescription(pht('The pre-shortened URL.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('string')
         ->setDescription(pht('A description of the URL.')),
@@ -235,12 +235,12 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
     return array();
   }
 
-/* -(  PhabricatorNgramInterface  )------------------------------------------ */
+/* -(  PhorgeNgramInterface  )------------------------------------------ */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorPhurlURLNameNgrams())
+      id(new PhorgePhurlURLNameNgrams())
         ->setValue($this->getName()),
     );
   }

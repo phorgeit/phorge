@@ -18,7 +18,7 @@ final class DifferentialRevisionHasCommitRelationship
   }
 
   public function canRelateObjects($src, $dst) {
-    return ($dst instanceof PhabricatorRepositoryCommit);
+    return ($dst instanceof PhorgeRepositoryCommit);
   }
 
   public function getDialogTitleText() {

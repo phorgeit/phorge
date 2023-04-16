@@ -36,12 +36,12 @@ final class DiffusionCommitResignTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $status = PhabricatorAuditRequestStatus::RESIGNED;
+    $status = PhorgeAuditRequestStatus::RESIGNED;
     $actor = $this->getActor();
     $this->applyAuditorEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if (!$this->isViewerAnyActiveAuditor($object, $viewer)) {
       throw new Exception(
         pht(

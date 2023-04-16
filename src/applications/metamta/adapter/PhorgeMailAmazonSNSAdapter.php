@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailAmazonSNSAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailAmazonSNSAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'sns';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailSMSMessage::MESSAGETYPE,
+      PhorgeMailSMSMessage::MESSAGETYPE,
     );
   }
 
@@ -31,7 +31,7 @@ final class PhabricatorMailAmazonSNSAdapter
     );
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $access_key = $this->getOption('access-key');
 
     $secret_key = $this->getOption('secret-key');
@@ -50,7 +50,7 @@ final class PhabricatorMailAmazonSNSAdapter
       'Message' => $text_body,
     );
 
-    return id(new PhabricatorAmazonSNSFuture())
+    return id(new PhorgeAmazonSNSFuture())
       ->setParameters($params)
       ->setEndpoint($endpoint)
       ->setAccessKey($access_key)

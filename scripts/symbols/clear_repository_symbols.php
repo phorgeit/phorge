@@ -26,8 +26,8 @@ if (count($identifiers) !== 1) {
 }
 
 $identifier = head($identifiers);
-$repository = id(new PhabricatorRepositoryQuery())
-  ->setViewer(PhabricatorUser::getOmnipotentUser())
+$repository = id(new PhorgeRepositoryQuery())
+  ->setViewer(PhorgeUser::getOmnipotentUser())
   ->withIdentifiers($identifiers)
   ->executeOne();
 
@@ -44,10 +44,10 @@ foreach (explode("\n", trim($input)) as $path) {
   // Emulate the behavior of the symbol generation scripts.
   $normalized[] = '/'.ltrim($path, './');
 }
-$paths = PhabricatorRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
+$paths = PhorgeRepositoryCommitChangeParserWorker::lookupOrCreatePaths(
   $normalized);
 
-$symbol = new PhabricatorRepositorySymbol();
+$symbol = new PhorgeRepositorySymbol();
 $conn_w = $symbol->establishConnection('w');
 
 foreach (array_chunk(array_values($paths), 128) as $chunk) {

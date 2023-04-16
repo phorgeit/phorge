@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorProjectHeraldAdapter extends HeraldAdapter {
+final class PhorgeProjectHeraldAdapter extends HeraldAdapter {
 
   private $project;
 
   protected function newObject() {
-    return new PhabricatorProject();
+    return new PhorgeProject();
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getAdapterContentDescription() {
@@ -35,7 +35,7 @@ final class PhabricatorProjectHeraldAdapter extends HeraldAdapter {
     }
   }
 
-  public function setProject(PhabricatorProject $project) {
+  public function setProject(PhorgeProject $project) {
     $this->project = $project;
     return $this;
   }

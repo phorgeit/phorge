@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorXHProfProfileView extends AphrontView {
+abstract class PhorgeXHProfProfileView extends AphrontView {
 
   private $baseURI;
   private $isFramed;

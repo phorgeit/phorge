@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorImagemagickSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeImagemagickSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   protected function executeChecks() {
-    $imagemagick = PhabricatorEnv::getEnvConfig('files.enable-imagemagick');
+    $imagemagick = PhorgeEnv::getEnvConfig('files.enable-imagemagick');
     if ($imagemagick) {
       if (!Filesystem::binaryExists('convert')) {
         $message = pht(
@@ -21,8 +21,8 @@ final class PhabricatorImagemagickSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht(
           "'%s' binary not found or Imagemagick is not installed.", 'convert'))
         ->setMessage($message)
-        ->addRelatedPhabricatorConfig('files.enable-imagemagick')
-        ->addPhabricatorConfig('environment.append-paths');
+        ->addRelatedPhorgeConfig('files.enable-imagemagick')
+        ->addPhorgeConfig('environment.append-paths');
       }
     }
   }

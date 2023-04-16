@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCalendarImportLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCalendarImportLogSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Calendar Import Logs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,12 +16,12 @@ final class PhabricatorCalendarImportLogSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorCalendarImportLogQuery();
+    return new PhorgeCalendarImportLogQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Import Sources'))
         ->setKey('importSourcePHIDs')
         ->setAliases(array('importSourcePHID')),
@@ -64,18 +64,18 @@ final class PhabricatorCalendarImportLogSearchEngine
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($logs, 'PhabricatorCalendarImportLog');
+    assert_instances_of($logs, 'PhorgeCalendarImportLog');
     $viewer = $this->requireViewer();
 
-    $view = id(new PhabricatorCalendarImportLogView())
+    $view = id(new PhorgeCalendarImportLogView())
       ->setShowImportSources(true)
       ->setViewer($viewer)
       ->setLogs($logs);
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($view->newTable());
   }
 }

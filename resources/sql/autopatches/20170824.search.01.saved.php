@@ -9,10 +9,10 @@
 // a builtin query was at the top of the list, we try to write a preference
 // which pins that query as their default to minimize disruption.
 
-$table = new PhabricatorNamedQuery();
+$table = new PhorgeNamedQuery();
 $conn = $table->establishConnection('w');
 
-$config_table = new PhabricatorNamedQueryConfig();
+$config_table = new PhorgeNamedQueryConfig();
 
 foreach (new LiskMigrationIterator($table) as $named_query) {
 
@@ -35,11 +35,11 @@ foreach (new LiskMigrationIterator($table) as $named_query) {
       $named_query->getUserPHID(),
       phutil_json_encode(
         array(
-          PhabricatorNamedQueryConfig::PROPERTY_PINNED =>
+          PhorgeNamedQueryConfig::PROPERTY_PINNED =>
             $named_query->getQueryKey(),
         )),
-      PhabricatorTime::getNow(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow(),
+      PhorgeTime::getNow());
   }
 
   $named_query->delete();

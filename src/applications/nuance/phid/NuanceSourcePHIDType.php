@@ -1,6 +1,6 @@
 <?php
 
-final class NuanceSourcePHIDType extends PhabricatorPHIDType {
+final class NuanceSourcePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'NUAS';
 
@@ -13,11 +13,11 @@ final class NuanceSourcePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new NuanceSourceQuery())
@@ -25,7 +25,7 @@ final class NuanceSourcePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

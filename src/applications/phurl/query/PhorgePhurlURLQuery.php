@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePhurlURLQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -11,7 +11,7 @@ final class PhabricatorPhurlURLQuery
   private $authorPHIDs;
 
   public function newResultObject() {
-    return new PhabricatorPhurlURL();
+    return new PhorgePhurlURL();
   }
 
   public function withIDs(array $ids) {
@@ -31,7 +31,7 @@ final class PhabricatorPhurlURLQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      id(new PhabricatorPhurlURLNameNgrams()),
+      id(new PhorgePhurlURLNameNgrams()),
       $ngrams);
   }
 
@@ -103,6 +103,6 @@ final class PhabricatorPhurlURLQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 }

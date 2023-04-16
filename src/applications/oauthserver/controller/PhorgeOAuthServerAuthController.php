@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerAuthController
-  extends PhabricatorOAuthServerController {
+final class PhorgeOAuthServerAuthController
+  extends PhorgeOAuthServerController {
 
   protected function buildApplicationCrumbs() {
     // We're specifically not putting an "OAuth Server" application crumb
@@ -12,7 +12,7 @@ final class PhabricatorOAuthServerAuthController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $server = new PhabricatorOAuthServer();
+    $server = new PhorgeOAuthServer();
     $client_phid = $request->getStr('client_id');
     $redirect_uri = $request->getStr('redirect_uri');
     $response_type = $request->getStr('response_type');
@@ -34,11 +34,11 @@ final class PhabricatorOAuthServerAuthController
     // in order to authorize it. This allows an application's visibility
     // policy to be used to restrict authorized users.
     try {
-      $client = id(new PhabricatorOAuthServerClientQuery())
+      $client = id(new PhorgeOAuthServerClientQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($client_phid))
         ->executeOne();
-    } catch (PhabricatorPolicyException $ex) {
+    } catch (PhorgePolicyException $ex) {
       $ex->setContext(self::CONTEXT_AUTHORIZE);
       throw $ex;
     }
@@ -117,7 +117,7 @@ final class PhabricatorOAuthServerAuthController
       $requested_scope = $request->getStrList('scope');
       $requested_scope = array_fuse($requested_scope);
 
-      $scope = PhabricatorOAuthServerScope::filterScope($requested_scope);
+      $scope = PhorgeOAuthServerScope::filterScope($requested_scope);
 
       // NOTE: We're always requiring a confirmation dialog to redirect.
       // Partly this is a general defense against redirect attacks, and

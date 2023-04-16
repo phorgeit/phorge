@@ -2,8 +2,8 @@
 
 final class PholioImage extends PholioDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   protected $authorPHID;
   protected $mockPHID;
@@ -48,7 +48,7 @@ final class PholioImage extends PholioDAO
     return PholioImagePHIDType::TYPECONST;
   }
 
-  public function attachFile(PhabricatorFile $file) {
+  public function attachFile(PhorgeFile $file) {
     $this->file = $file;
     return $this;
   }
@@ -98,13 +98,13 @@ final class PholioImage extends PholioDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -112,22 +112,22 @@ final class PholioImage extends PholioDAO
     // If the image is attached to a mock, we use an extended policy to match
     // the mock's permissions.
     if ($this->hasMock()) {
-      return PhabricatorPolicies::getMostOpenPolicy();
+      return PhorgePolicies::getMostOpenPolicy();
     }
 
     // If the image is not attached to a mock, only the author can see it.
     return $this->getAuthorPHID();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     if ($this->hasMock()) {
       return array(
         array(

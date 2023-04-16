@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorObjectHasJiraIssueEdgeType extends PhabricatorEdgeType {
+final class PhorgeObjectHasJiraIssueEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 80005;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorJiraIssueHasObjectEdgeType::EDGECONST;
+    return PhorgeJiraIssueHasObjectEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

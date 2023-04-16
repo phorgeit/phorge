@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacServiceTypeTestCase extends PhabricatorTestCase {
+final class AlmanacServiceTypeTestCase extends PhorgeTestCase {
 
   public function testGetAllServiceTypes() {
     AlmanacServiceType::getAllServiceTypes();

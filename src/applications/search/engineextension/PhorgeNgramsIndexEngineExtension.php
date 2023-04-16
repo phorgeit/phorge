@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNgramsIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+final class PhorgeNgramsIndexEngineExtension
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'ngrams';
 
@@ -15,15 +15,15 @@ final class PhabricatorNgramsIndexEngineExtension
     ksort($map);
     $serialized = serialize($map);
 
-    return PhabricatorHash::digestForIndex($serialized);
+    return PhorgeHash::digestForIndex($serialized);
   }
 
   public function shouldIndexObject($object) {
-    return ($object instanceof PhabricatorNgramsInterface);
+    return ($object instanceof PhorgeNgramsInterface);
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     foreach ($object->newNgrams() as $ngram) {

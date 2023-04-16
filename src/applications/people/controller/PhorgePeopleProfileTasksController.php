@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleProfileTasksController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileTasksController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfile(true)
@@ -18,8 +18,8 @@ final class PhabricatorPeopleProfileTasksController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorManiphestApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeManiphestApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
 
@@ -34,7 +34,7 @@ final class PhabricatorPeopleProfileTasksController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_TASKS);
+      PhorgePeopleProfileMenuEngine::ITEM_TASKS);
 
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)
@@ -51,7 +51,7 @@ final class PhabricatorPeopleProfileTasksController
       ->appendChild($view);
   }
 
-  private function buildTasksView(PhabricatorUser $user) {
+  private function buildTasksView(PhorgeUser $user) {
     $viewer = $this->getViewer();
 
     $open = ManiphestTaskStatus::getOpenStatusConstants();

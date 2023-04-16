@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardPanelRef
+final class PhorgeDashboardPanelRef
   extends Phobject {
 
   private $panelPHID;

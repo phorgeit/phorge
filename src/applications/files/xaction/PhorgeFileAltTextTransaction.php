@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileAltTextTransaction
-  extends PhabricatorFileTransactionType {
+final class PhorgeFileAltTextTransaction
+  extends PhorgeFileTransactionType {
 
   const TRANSACTIONTYPE = 'file:alt';
 

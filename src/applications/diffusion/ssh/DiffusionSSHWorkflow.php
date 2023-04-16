@@ -1,6 +1,6 @@
 <?php
 
-abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
+abstract class DiffusionSSHWorkflow extends PhorgeSSHWorkflow {
 
   private $args;
   private $repository;
@@ -15,7 +15,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
     return $this->repository;
   }
 
-  private function setRepository(PhabricatorRepository $repository) {
+  private function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -49,7 +49,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
   abstract protected function identifyRepository();
   abstract protected function executeRepositoryOperations();
   abstract protected function raiseWrongVCSException(
-    PhabricatorRepository $repository);
+    PhorgeRepository $repository);
 
   protected function getBaseRequestPath() {
     return $this->baseRequestPath;
@@ -165,8 +165,8 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
     $this->args = $args;
 
     $viewer = $this->getSSHUser();
-    $have_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+    $have_diffusion = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDiffusionApplication',
       $viewer);
     if (!$have_diffusion) {
       throw new Exception(
@@ -209,7 +209,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
   protected function loadRepositoryWithPath($path, $vcs) {
     $viewer = $this->getSSHUser();
 
-    $info = PhabricatorRepository::parseRepositoryServicePath($path, $vcs);
+    $info = PhorgeRepository::parseRepositoryServicePath($path, $vcs);
     if ($info === null) {
       throw new Exception(
         pht(
@@ -226,7 +226,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
 
     $this->baseRequestPath = $base;
 
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIdentifiers(array($identifier))
       ->needURIs(true)
@@ -238,7 +238,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
 
     $is_cluster = $this->getIsClusterRequest();
 
-    $protocol = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH;
+    $protocol = PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH;
     if (!$repository->canServeProtocol($protocol, false, $is_cluster)) {
       throw new Exception(
         pht(
@@ -273,9 +273,9 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
       throw new Exception($repository->getReadOnlyMessageForDisplay());
     }
 
-    $protocol = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH;
+    $protocol = PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH;
     if ($repository->canServeProtocol($protocol, true)) {
-      $can_push = PhabricatorPolicyFilter::hasCapability(
+      $can_push = PhorgePolicyFilter::hasCapability(
         $viewer,
         $repository,
         DiffusionPushCapability::CAPABILITY);
@@ -318,10 +318,10 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
     $repository = $this->getRepository();
     $remote_address = $this->getSSHRemoteAddress();
 
-    return id(new PhabricatorRepositoryPullEvent())
-      ->setEpoch(PhabricatorTime::getNow())
+    return id(new PhorgeRepositoryPullEvent())
+      ->setEpoch(PhorgeTime::getNow())
       ->setRemoteAddress($remote_address)
-      ->setRemoteProtocol(PhabricatorRepositoryPullEvent::PROTOCOL_SSH)
+      ->setRemoteProtocol(PhorgeRepositoryPullEvent::PROTOCOL_SSH)
       ->setPullerPHID($viewer->getPHID())
       ->setRepositoryPHID($repository->getPHID());
   }

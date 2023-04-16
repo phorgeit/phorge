@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorPeopleProfilePictureController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfilePictureController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfileImage(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$user) {
@@ -26,24 +26,24 @@ final class PhabricatorPeopleProfilePictureController
 
     $done_uri = '/p/'.$name.'/';
 
-    $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    $supported_formats = PhorgeFile::getTransformableImageFormats();
     $e_file = true;
     $errors = array();
 
     if ($request->isFormPost()) {
       $phid = $request->getStr('phid');
       $is_default = false;
-      if ($phid == PhabricatorPHIDConstants::PHID_VOID) {
+      if ($phid == PhorgePHIDConstants::PHID_VOID) {
         $phid = null;
         $is_default = true;
       } else if ($phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($phid))
           ->executeOne();
       } else {
         if ($request->getFileExists('picture')) {
-          $file = PhabricatorFile::newFromPHPUpload(
+          $file = PhorgeFile::newFromPHPUpload(
             $_FILES['picture'],
             array(
               'authorPHID' => $viewer->getPHID(),
@@ -63,8 +63,8 @@ final class PhabricatorPeopleProfilePictureController
             'This server only supports these image formats: %s.',
             implode(', ', $supported_formats));
         } else {
-          $xform = PhabricatorFileTransform::getTransformByKey(
-            PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+          $xform = PhorgeFileTransform::getTransformByKey(
+            PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
           $xformed = $xform->executeTransform($file);
         }
       }
@@ -88,14 +88,14 @@ final class PhabricatorPeopleProfilePictureController
 
     $default_image = $user->getDefaultProfileImagePHID();
     if ($default_image) {
-      $default_image = id(new PhabricatorFileQuery())
+      $default_image = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($default_image))
         ->executeOne();
     }
 
     if (!$default_image) {
-      $default_image = PhabricatorFile::loadBuiltin($viewer, 'profile.png');
+      $default_image = PhorgeFile::loadBuiltin($viewer, 'profile.png');
     }
 
     $images = array();
@@ -103,7 +103,7 @@ final class PhabricatorPeopleProfilePictureController
     $current = $user->getProfileImagePHID();
     $has_current = false;
     if ($current) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($current))
         ->execute();
@@ -131,7 +131,7 @@ final class PhabricatorPeopleProfilePictureController
       'user9.png',
     );
     foreach ($builtins as $builtin) {
-      $file = PhabricatorFile::loadBuiltin($viewer, $builtin);
+      $file = PhorgeFile::loadBuiltin($viewer, $builtin);
       $images[$file->getPHID()] = array(
         'uri' => $file->getBestURI(),
         'tip' => pht('Builtin Image'),
@@ -139,14 +139,14 @@ final class PhabricatorPeopleProfilePictureController
     }
 
     // Try to add external account images for any associated external accounts.
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($user->getPHID()))
       ->needImages(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -170,7 +170,7 @@ final class PhabricatorPeopleProfilePictureController
       }
     }
 
-    $images[PhabricatorPHIDConstants::PHID_VOID] = array(
+    $images[PhorgePHIDConstants::PHID_VOID] = array(
       'uri' => $default_image->getBestURI(),
       'tip' => pht('Default Picture'),
     );
@@ -268,7 +268,7 @@ final class PhabricatorPeopleProfilePictureController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_MANAGE);
+      PhorgePeopleProfileMenuEngine::ITEM_MANAGE);
 
     $header = $this->buildProfileHeader();
 

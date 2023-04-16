@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardConsoleController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardConsoleController
+  extends PhorgeDashboardController {
 
   public function shouldAllowPublic() {
     return true;

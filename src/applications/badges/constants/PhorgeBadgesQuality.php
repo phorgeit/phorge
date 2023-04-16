@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBadgesQuality
+final class PhorgeBadgesQuality
   extends Phobject {
 
   const POOR = 140;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerClientAuthorizationPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeOAuthServerClientAuthorizationPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'OASA';
 
@@ -10,23 +10,23 @@ final class PhabricatorOAuthServerClientAuthorizationPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorOAuthClientAuthorization();
+    return new PhorgeOAuthClientAuthorization();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return 'PhorgeOAuthServerApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorOAuthClientAuthorizationQuery())
+    return id(new PhorgeOAuthClientAuthorizationQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

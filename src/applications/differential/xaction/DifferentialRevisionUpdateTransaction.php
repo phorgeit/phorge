@@ -82,7 +82,7 @@ final class DifferentialRevisionUpdateTransaction
   public function didCommitTransaction($object, $value) {
     $editor = $this->getEditor();
     $diff = $editor->requireDiff($value);
-    $omnipotent = PhabricatorUser::getOmnipotentUser();
+    $omnipotent = PhorgeUser::getOmnipotentUser();
 
     // If there are any outstanding buildables for this diff, tell
     // Harbormaster that their containers need to be updated. This is

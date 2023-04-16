@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMutedByEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeMutedByEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 68;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorMutedEdgeType::EDGECONST;
+    return PhorgeMutedEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

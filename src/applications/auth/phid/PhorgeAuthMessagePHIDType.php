@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthMessagePHIDType extends PhabricatorPHIDType {
+final class PhorgeAuthMessagePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'AMSG';
 
@@ -9,23 +9,23 @@ final class PhabricatorAuthMessagePHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorAuthMessage();
+    return new PhorgeAuthMessage();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorAuthMessageQuery())
+    return id(new PhorgeAuthMessageQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

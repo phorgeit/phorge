@@ -60,10 +60,10 @@ final class PhortuneMerchantProviderViewController
     $viewer = $this->getViewer();
     $merchant = $this->getMerchant();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $provider,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getApplicationURI(
       urisprintf(
@@ -80,7 +80,7 @@ final class PhortuneMerchantProviderViewController
     $curtain = $this->newCurtainView($provider);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Provider'))
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)
@@ -98,7 +98,7 @@ final class PhortuneMerchantProviderViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setHref($disable_uri)

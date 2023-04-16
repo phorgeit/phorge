@@ -13,7 +13,7 @@ final class DifferentialRevisionAuthorPackagesHeraldField
     $adapter = $this->getAdapter();
     $viewer = $adapter->getViewer();
 
-    $packages = id(new PhabricatorOwnersPackageQuery())
+    $packages = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withAuthorityPHIDs(array($object->getAuthorPHID()))
       ->execute();
@@ -26,7 +26,7 @@ final class DifferentialRevisionAuthorPackagesHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorOwnersPackageDatasource();
+    return new PhorgeOwnersPackageDatasource();
   }
 
 }

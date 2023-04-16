@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeFilesConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Files');

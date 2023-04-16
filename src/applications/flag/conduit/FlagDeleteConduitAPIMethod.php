@@ -33,7 +33,7 @@ final class FlagDeleteConduitAPIMethod extends FlagConduitAPIMethod {
     $id = $request->getValue('id');
     $object = $request->getValue('objectPHID');
     if ($id) {
-      $flag = id(new PhabricatorFlag())->load($id);
+      $flag = id(new PhorgeFlag())->load($id);
       if (!$flag) {
         throw new ConduitException('ERR_NOT_FOUND');
       }
@@ -41,7 +41,7 @@ final class FlagDeleteConduitAPIMethod extends FlagConduitAPIMethod {
         throw new ConduitException('ERR_WRONG_USER');
       }
     } else if ($object) {
-      $flag = id(new PhabricatorFlag())->loadOneWhere(
+      $flag = id(new PhorgeFlag())->loadOneWhere(
         'objectPHID = %s AND ownerPHID = %s',
         $object,
         $request->getUser()->getPHID());

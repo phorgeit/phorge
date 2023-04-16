@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPDFFragmentOffset
+final class PhorgePDFFragmentOffset
   extends Phobject {
 
   private $fragment;
   private $offset;
 
-  public function setFragment(PhabricatorPDFFragment $fragment) {
+  public function setFragment(PhorgePDFFragment $fragment) {
     $this->fragment = $fragment;
     return $this;
   }

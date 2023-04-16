@@ -3,26 +3,26 @@
 /**
  * Defines Phorge's static resources.
  */
-final class CelerityPhabricatorResources extends CelerityResourcesOnDisk {
+final class CelerityPhorgeResources extends CelerityResourcesOnDisk {
 
   public function getName() {
     return 'phorge';
   }
 
   public function getPathToResources() {
-    return $this->getPhabricatorPath('webroot/');
+    return $this->getPhorgePath('webroot/');
   }
 
   public function getPathToMap() {
-    return $this->getPhabricatorPath('resources/celerity/map.php');
+    return $this->getPhorgePath('resources/celerity/map.php');
   }
 
-  private function getPhabricatorPath($to_file) {
+  private function getPhorgePath($to_file) {
     return dirname(phutil_get_library_root('phorge')).'/'.$to_file;
   }
 
   public function getResourcePackages() {
-    return include $this->getPhabricatorPath('resources/celerity/packages.php');
+    return include $this->getPhorgePath('resources/celerity/packages.php');
   }
 
 }

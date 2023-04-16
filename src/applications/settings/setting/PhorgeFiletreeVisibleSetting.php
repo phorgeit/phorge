@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFiletreeVisibleSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeFiletreeVisibleSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'nav-collapsed';
 

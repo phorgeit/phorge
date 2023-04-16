@@ -22,18 +22,18 @@ final class PhortuneCartCancelController
     switch ($action) {
       case 'cancel':
         // You must be able to edit the account to cancel an order.
-        PhabricatorPolicyFilter::requireCapability(
+        PhorgePolicyFilter::requireCapability(
           $viewer,
           $cart->getAccount(),
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
         $is_refund = false;
         break;
       case 'refund':
         // You must be able to control the merchant to refund an order.
-        PhabricatorPolicyFilter::requireCapability(
+        PhorgePolicyFilter::requireCapability(
           $viewer,
           $cart->getMerchant(),
-          PhabricatorPolicyCapability::CAN_EDIT);
+          PhorgePolicyCapability::CAN_EDIT);
         $is_refund = true;
         break;
       default:

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherEditor
-  extends PhabricatorPackagesEditor {
+final class PhorgePackagesPublisherEditor
+  extends PhorgePackagesEditor {
 
   public function getEditorObjectsDescription() {
     return pht('Package Publishers');
@@ -17,29 +17,29 @@ final class PhabricatorPackagesPublisherEditor
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
     return $types;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array();
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorPackagesPublisherKeyTransaction::TRANSACTIONTYPE,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgePackagesPublisherKeyTransaction::TRANSACTIONTYPE,
       pht('Duplicate'),
       pht(
         'The publisher key "%s" is already in use by another publisher.',
         $object->getPublisherKey()),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 }

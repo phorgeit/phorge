@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialRevisionHasTaskEdgeType extends PhabricatorEdgeType {
+final class DifferentialRevisionHasTaskEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 12;
 

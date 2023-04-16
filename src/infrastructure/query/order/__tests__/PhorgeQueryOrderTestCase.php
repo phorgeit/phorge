@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorQueryOrderTestCase extends PhabricatorTestCase {
+final class PhorgeQueryOrderTestCase extends PhorgeTestCase {
 
   public function testQueryOrderItem() {
-    $item = PhabricatorQueryOrderItem::newFromScalar('id');
+    $item = PhorgeQueryOrderItem::newFromScalar('id');
     $this->assertEqual('id', $item->getOrderKey());
     $this->assertEqual(false, $item->getIsReversed());
 
-    $item = PhabricatorQueryOrderItem::newFromScalar('-id');
+    $item = PhorgeQueryOrderItem::newFromScalar('-id');
     $this->assertEqual('id', $item->getOrderKey());
     $this->assertEqual(true, $item->getIsReversed());
   }
@@ -25,7 +25,7 @@ final class PhabricatorQueryOrderTestCase extends PhabricatorTestCase {
     foreach ($bad as $input) {
       $caught = null;
       try {
-        PhabricatorQueryOrderVector::newFromVector($input);
+        PhorgeQueryOrderVector::newFromVector($input);
       } catch (Exception $ex) {
         $caught = $ex;
       }
@@ -35,7 +35,7 @@ final class PhabricatorQueryOrderTestCase extends PhabricatorTestCase {
   }
 
   public function testQueryOrderVector() {
-    $vector = PhabricatorQueryOrderVector::newFromVector(
+    $vector = PhorgeQueryOrderVector::newFromVector(
       array(
         'a',
         'b',

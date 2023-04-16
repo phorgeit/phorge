@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUIExampleRenderController extends PhabricatorController {
+final class PhorgeUIExampleRenderController extends PhorgeController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorUIExampleRenderController extends PhabricatorController {
     $id = $request->getURIData('class');
 
     $classes = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorUIExample')
+      ->setAncestorClass('PhorgeUIExample')
       ->setSortMethod('getName')
       ->execute();
 

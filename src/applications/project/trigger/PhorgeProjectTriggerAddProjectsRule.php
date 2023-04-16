@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerAddProjectsRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerAddProjectsRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'task.projects.add';
 
@@ -32,10 +32,10 @@ final class PhabricatorProjectTriggerAddProjectsRule
   }
 
   protected function newDropTransactions($object, $value) {
-    $project_edge_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+    $project_edge_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
 
     $xaction = $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $project_edge_type)
       ->setNewValue(
         array(
@@ -62,7 +62,7 @@ final class PhabricatorProjectTriggerAddProjectsRule
   }
 
   private function getDatasource() {
-    return id(new PhabricatorProjectDatasource())
+    return id(new PhorgeProjectDatasource())
       ->setViewer($this->getViewer());
   }
 

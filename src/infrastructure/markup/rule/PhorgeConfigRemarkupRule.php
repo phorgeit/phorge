@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigRemarkupRule
+final class PhorgeConfigRemarkupRule
   extends PhutilRemarkupRule {
 
   public function apply($text) {
@@ -24,7 +24,7 @@ final class PhabricatorConfigRemarkupRule
     $config_key = $matches[1];
 
     try {
-      $option = PhabricatorEnv::getEnvConfig($config_key);
+      $option = PhorgeEnv::getEnvConfig($config_key);
     } catch (Exception $ex) {
       return $matches[0];
     }

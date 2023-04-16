@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactChartController
-  extends PhabricatorFactController {
+final class PhorgeFactChartController
+  extends PhorgeFactController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -11,7 +11,7 @@ final class PhabricatorFactChartController
       return new Aphront404Response();
     }
 
-    $engine = id(new PhabricatorChartRenderingEngine())
+    $engine = id(new PhorgeChartRenderingEngine())
       ->setViewer($viewer);
 
     $chart = $engine->loadChart($chart_key);
@@ -30,7 +30,7 @@ final class PhabricatorFactChartController
     // In developer mode, always pull the data in the main request. We'll
     // throw it away if we're just drawing the chart frame, but this currently
     // makes errors quite a bit easier to debug.
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       $want_data = true;
     }
 

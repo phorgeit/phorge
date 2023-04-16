@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuthFactor extends Phobject {
+abstract class PhorgeAuthFactor extends Phobject {
 
   abstract public function getFactorName();
   abstract public function getFactorShortName();
@@ -8,19 +8,19 @@ abstract class PhabricatorAuthFactor extends Phobject {
   abstract public function getFactorCreateHelp();
   abstract public function getFactorDescription();
   abstract public function processAddFactorForm(
-    PhabricatorAuthFactorProvider $provider,
+    PhorgeAuthFactorProvider $provider,
     AphrontFormView $form,
     AphrontRequest $request,
-    PhabricatorUser $user);
+    PhorgeUser $user);
 
   abstract public function renderValidateFactorForm(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontFormView $form,
-    PhabricatorUser $viewer,
-    PhabricatorAuthFactorResult $validation_result);
+    PhorgeUser $viewer,
+    PhorgeAuthFactorResult $validation_result);
 
   public function getParameterName(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     $name) {
     return 'authfactor.'.$config->getID().'.'.$name;
   }
@@ -32,14 +32,14 @@ abstract class PhabricatorAuthFactor extends Phobject {
       ->execute();
   }
 
-  protected function newConfigForUser(PhabricatorUser $user) {
-    return id(new PhabricatorAuthFactorConfig())
+  protected function newConfigForUser(PhorgeUser $user) {
+    return id(new PhorgeAuthFactorConfig())
       ->setUserPHID($user->getPHID())
       ->setFactorSecret('');
   }
 
   protected function newResult() {
-    return new PhabricatorAuthFactorResult();
+    return new PhorgeAuthFactorResult();
   }
 
   public function newIconView() {
@@ -56,35 +56,35 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   public function canCreateNewConfiguration(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return true;
   }
 
   public function getConfigurationCreateDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return null;
   }
 
   public function getConfigurationListDetails(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $viewer) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $viewer) {
     return null;
   }
 
   public function newEditEngineFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorAuthFactorProvider $provider) {
+    PhorgeEditEngine $engine,
+    PhorgeAuthFactorProvider $provider) {
     return array();
   }
 
   public function newChallengeStatusView(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $viewer,
-    PhabricatorAuthChallenge $challenge) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $viewer,
+    PhorgeAuthChallenge $challenge) {
     return null;
   }
 
@@ -101,12 +101,12 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   abstract public function getEnrollDescription(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user);
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user);
 
   public function getEnrollButtonText(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return pht('Continue');
   }
 
@@ -122,12 +122,12 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   protected function newChallenge(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer) {
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer) {
 
     $engine = $config->getSessionEngine();
 
-    return PhabricatorAuthChallenge::initializeNewChallenge()
+    return PhorgeAuthChallenge::initializeNewChallenge()
       ->setUserPHID($viewer->getPHID())
       ->setSessionPHID($viewer->getSession()->getPHID())
       ->setFactorPHID($config->getPHID())
@@ -136,16 +136,16 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   abstract public function getRequestHasChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontRequest $response);
 
   final public function getNewIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, 'PhorgeAuthChallenge');
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // Factor implementations may need to perform writes in order to issue
     // challenges, particularly push factors like SMS.
@@ -161,7 +161,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
       return $new_challenges;
     }
 
-    assert_instances_of($new_challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($new_challenges, 'PhorgeAuthChallenge');
 
     foreach ($new_challenges as $new_challenge) {
       $ttl = $new_challenge->getChallengeTTL();
@@ -190,15 +190,15 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   abstract protected function newIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges);
 
   final public function getResultFromIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, 'PhorgeAuthChallenge');
 
     $result = $this->newResultFromIssuedChallenges(
       $config,
@@ -214,7 +214,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
         pht(
           'Expected "newResultFromIssuedChallenges()" to return null or '.
           'an object of class "%s"; got something else (in "%s").',
-          'PhabricatorAuthFactorResult',
+          'PhorgeAuthFactorResult',
           get_class($this)));
     }
 
@@ -222,11 +222,11 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   final public function getResultForPrompt(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, 'PhorgeAuthChallenge');
 
     $result = $this->newResultForPrompt(
       $config,
@@ -239,7 +239,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
         pht(
           'Expected "newResultForPrompt()" to return an object of class "%s", '.
           'but it returned something else ("%s"; in "%s").',
-          'PhabricatorAuthFactorResult',
+          'PhorgeAuthFactorResult',
           phutil_describe_type($result),
           get_class($this)));
     }
@@ -248,24 +248,24 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   protected function newResultForPrompt(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
     return $this->newResult();
   }
 
   abstract protected function newResultFromIssuedChallenges(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges);
 
   final public function getResultFromChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges) {
-    assert_instances_of($challenges, 'PhabricatorAuthChallenge');
+    assert_instances_of($challenges, 'PhorgeAuthChallenge');
 
     $result = $this->newResultFromChallengeResponse(
       $config,
@@ -278,7 +278,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
         pht(
           'Expected "newResultFromChallengeResponse()" to return an object '.
           'of class "%s"; got something else (in "%s").',
-          'PhabricatorAuthFactorResult',
+          'PhorgeAuthFactorResult',
           get_class($this)));
     }
 
@@ -286,13 +286,13 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   abstract protected function newResultFromChallengeResponse(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     AphrontRequest $request,
     array $challenges);
 
   final protected function newAutomaticControl(
-    PhabricatorAuthFactorResult $result) {
+    PhorgeAuthFactorResult $result) {
 
     $is_error = $result->getIsError();
     if ($is_error) {
@@ -318,7 +318,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   private function newWaitControl(
-    PhabricatorAuthFactorResult $result) {
+    PhorgeAuthFactorResult $result) {
 
     $error = $result->getErrorMessage();
 
@@ -335,7 +335,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   private function newAnsweredControl(
-    PhabricatorAuthFactorResult $result) {
+    PhorgeAuthFactorResult $result) {
 
     $icon = $result->getIcon();
     if (!$icon) {
@@ -350,7 +350,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   private function newErrorControl(
-    PhabricatorAuthFactorResult $result) {
+    PhorgeAuthFactorResult $result) {
 
     $error = $result->getErrorMessage();
 
@@ -367,7 +367,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   private function newContinueControl(
-    PhabricatorAuthFactorResult $result) {
+    PhorgeAuthFactorResult $result) {
 
     $error = $result->getErrorMessage();
 
@@ -397,10 +397,10 @@ abstract class PhabricatorAuthFactor extends Phobject {
 
 
   final protected function loadMFASyncToken(
-    PhabricatorAuthFactorProvider $provider,
+    PhorgeAuthFactorProvider $provider,
     AphrontRequest $request,
     AphrontFormView $form,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     // If the form included a synchronization key, load the corresponding
     // token. The user must synchronize to a key we generated because this
@@ -410,16 +410,16 @@ abstract class PhabricatorAuthFactor extends Phobject {
     // (We store and verify the hash of the key, not the key itself, to limit
     // how useful the data in the table is to an attacker.)
 
-    $sync_type = PhabricatorAuthMFASyncTemporaryTokenType::TOKENTYPE;
+    $sync_type = PhorgeAuthMFASyncTemporaryTokenType::TOKENTYPE;
     $sync_token = null;
 
     $sync_key = $request->getStr($this->getMFASyncTokenFormKey());
     if (strlen($sync_key)) {
-      $sync_key_digest = PhabricatorHash::digestWithNamedKey(
+      $sync_key_digest = PhorgeHash::digestWithNamedKey(
         $sync_key,
-        PhabricatorAuthMFASyncTemporaryTokenType::DIGEST_KEY);
+        PhorgeAuthMFASyncTemporaryTokenType::DIGEST_KEY);
 
-      $sync_token = id(new PhabricatorAuthTemporaryTokenQuery())
+      $sync_token = id(new PhorgeAuthTemporaryTokenQuery())
         ->setViewer($user)
         ->withTokenResources(array($user->getPHID()))
         ->withTokenTypes(array($sync_type))
@@ -436,7 +436,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
       // message.
 
       $outstanding_limit = 10;
-      $outstanding_tokens = id(new PhabricatorAuthTemporaryTokenQuery())
+      $outstanding_tokens = id(new PhorgeAuthTemporaryTokenQuery())
         ->setViewer($user)
         ->withTokenResources(array($user->getPHID()))
         ->withTokenTypes(array($sync_type))
@@ -449,15 +449,15 @@ abstract class PhabricatorAuthFactor extends Phobject {
             'synchronization attempts. Wait an hour and try again.'));
       }
 
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
 
       $sync_key = Filesystem::readRandomCharacters(32);
-      $sync_key_digest = PhabricatorHash::digestWithNamedKey(
+      $sync_key_digest = PhorgeHash::digestWithNamedKey(
         $sync_key,
-        PhabricatorAuthMFASyncTemporaryTokenType::DIGEST_KEY);
+        PhorgeAuthMFASyncTemporaryTokenType::DIGEST_KEY);
       $sync_ttl = $this->getMFASyncTokenTTL();
 
-      $sync_token = id(new PhabricatorAuthTemporaryToken())
+      $sync_token = id(new PhorgeAuthTemporaryToken())
         ->setIsNewTemporaryToken(true)
         ->setTokenResource($user->getPHID())
         ->setTokenType($sync_type)
@@ -485,8 +485,8 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   protected function newMFASyncTokenProperties(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
     return array();
   }
 
@@ -499,8 +499,8 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   final protected function getChallengeForCurrentContext(
-    PhabricatorAuthFactorConfig $config,
-    PhabricatorUser $viewer,
+    PhorgeAuthFactorConfig $config,
+    PhorgeUser $viewer,
     array $challenges) {
 
     $session_phid = $viewer->getSession()->getPHID();
@@ -574,18 +574,18 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   final protected function getInstallDisplayName() {
-    $uri = PhabricatorEnv::getURI('/');
+    $uri = PhorgeEnv::getURI('/');
     $uri = new PhutilURI($uri);
     return $uri->getDomain();
   }
 
   final protected function getChallengeResponseParameterName(
-    PhabricatorAuthFactorConfig $config) {
+    PhorgeAuthFactorConfig $config) {
     return $this->getParameterName($config, 'mfa.response');
   }
 
   final protected function getChallengeResponseFromRequest(
-    PhabricatorAuthFactorConfig $config,
+    PhorgeAuthFactorConfig $config,
     AphrontRequest $request) {
 
     $name = $this->getChallengeResponseParameterName($config);
@@ -597,7 +597,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
     return $value;
   }
 
-  final protected function hasCSRF(PhabricatorAuthFactorConfig $config) {
+  final protected function hasCSRF(PhorgeAuthFactorConfig $config) {
     $engine = $config->getSessionEngine();
     $request = $engine->getRequest();
 
@@ -609,10 +609,10 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   final protected function loadConfigurationsForProvider(
-    PhabricatorAuthFactorProvider $provider,
-    PhabricatorUser $user) {
+    PhorgeAuthFactorProvider $provider,
+    PhorgeUser $user) {
 
-    return id(new PhabricatorAuthFactorConfigQuery())
+    return id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($user)
       ->withUserPHIDs(array($user->getPHID()))
       ->withFactorProviderPHIDs(array($provider->getPHID()))
@@ -620,7 +620,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
   }
 
   final protected function isAuthResult($object) {
-    return ($object instanceof PhabricatorAuthFactorResult);
+    return ($object instanceof PhorgeAuthFactorResult);
   }
 
 }

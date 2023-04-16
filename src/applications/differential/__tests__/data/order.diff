@@ -2,7 +2,7 @@ diff --git a/src/applications/conpherence/controller/ConpherenceUpdateController
 --- a/src/applications/conpherence/controller/ConpherenceUpdateController
 +++ b/src/applications/conpherence/controller/ConpherenceUpdateController
 @@ -209,14 +209,19 @@
-         ->setDatasource(new PhabricatorPeopleDatasource()));
+         ->setDatasource(new PhorgePeopleDatasource()));
 
      require_celerity_resource('conpherence-update-css');
 -    return id(new AphrontDialogView())

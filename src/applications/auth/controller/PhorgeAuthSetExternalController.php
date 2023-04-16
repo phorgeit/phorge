@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorAuthSetExternalController
-  extends PhabricatorAuthController {
+final class PhorgeAuthSetExternalController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->withIsEnabled(true)
       ->execute();
@@ -37,9 +37,9 @@ final class PhabricatorAuthSetExternalController
         ->addCancelButton('/');
     }
 
-    $text = PhabricatorAuthMessage::loadMessageText(
+    $text = PhorgeAuthMessage::loadMessageText(
       $viewer,
-      PhabricatorAuthLinkMessageType::MESSAGEKEY);
+      PhorgeAuthLinkMessageType::MESSAGEKEY);
     if (!strlen($text)) {
       $text = pht(
         'You can link your %s account to an external account to '.
@@ -57,7 +57,7 @@ final class PhabricatorAuthSetExternalController
       ),
       $remarkup_view);
 
-    PhabricatorCookies::setClientIDCookie($request);
+    PhorgeCookies::setClientIDCookie($request);
 
     $view = array();
     foreach ($configs as $config) {

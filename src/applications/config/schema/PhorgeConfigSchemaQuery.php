@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigSchemaQuery extends Phobject {
+final class PhorgeConfigSchemaQuery extends Phobject {
 
   private $refs;
   private $apis;
@@ -12,7 +12,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
 
   public function getRefs() {
     if (!$this->refs) {
-      return PhabricatorDatabaseRef::getMasterDatabaseRefs();
+      return PhorgeDatabaseRef::getMasterDatabaseRefs();
     }
     return $this->refs;
   }
@@ -26,26 +26,26 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
     return $this;
   }
 
-  private function getDatabaseNames(PhabricatorDatabaseRef $ref) {
+  private function getDatabaseNames(PhorgeDatabaseRef $ref) {
     $api = $this->getAPI($ref);
-    $patches = PhabricatorSQLPatchList::buildAllPatches();
+    $patches = PhorgeSQLPatchList::buildAllPatches();
     return $api->getDatabaseList(
       $patches,
       $only_living = true);
   }
 
-  private function getAPI(PhabricatorDatabaseRef $ref) {
+  private function getAPI(PhorgeDatabaseRef $ref) {
     $key = $ref->getRefKey();
 
     if (isset($this->apis[$key])) {
       return $this->apis[$key];
     }
 
-    return id(new PhabricatorStorageManagementAPI())
+    return id(new PhorgeStorageManagementAPI())
       ->setUser($ref->getUser())
       ->setHost($ref->getHost())
       ->setPort($ref->getPort())
-      ->setNamespace(PhabricatorLiskDAO::getDefaultStorageNamespace())
+      ->setNamespace(PhorgeLiskDAO::getDefaultStorageNamespace())
       ->setPassword($ref->getPass());
   }
 
@@ -61,7 +61,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
     return $schemata;
   }
 
-  private function loadActualSchemaForServer(PhabricatorDatabaseRef $ref) {
+  private function loadActualSchemaForServer(PhorgeDatabaseRef $ref) {
     $databases = $this->getDatabaseNames($ref);
 
     $conn = $ref->newManagementConnection();
@@ -126,14 +126,14 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
     // primary, unique, and foreign keys, so we can't use them here. We pull
     // indexes later on using SHOW INDEXES.
 
-    $server_schema = id(new PhabricatorConfigServerSchema())
+    $server_schema = id(new PhorgeConfigServerSchema())
       ->setRef($ref);
 
     $tables = igroup($tables, 'TABLE_SCHEMA');
     foreach ($tables as $database_name => $database_tables) {
       $info = $database_info[$database_name];
 
-      $database_schema = id(new PhabricatorConfigDatabaseSchema())
+      $database_schema = id(new PhorgeConfigDatabaseSchema())
         ->setName($database_name)
         ->setCharacterSet($info['DEFAULT_CHARACTER_SET_NAME'])
         ->setCollation($info['DEFAULT_COLLATION_NAME']);
@@ -144,7 +144,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
       foreach ($database_tables as $table) {
         $table_name = $table['TABLE_NAME'];
 
-        $table_schema = id(new PhabricatorConfigTableSchema())
+        $table_schema = id(new PhorgeConfigTableSchema())
           ->setName($table_name)
           ->setCollation($table['TABLE_COLLATION'])
           ->setEngine($table['ENGINE']);
@@ -157,7 +157,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
             $auto_increment = true;
           }
 
-          $column_schema = id(new PhabricatorConfigColumnSchema())
+          $column_schema = id(new PhorgeConfigColumnSchema())
             ->setName($column['COLUMN_NAME'])
             ->setCharacterSet($column['CHARACTER_SET_NAME'])
             ->setCollation($column['COLLATION_NAME'])
@@ -188,7 +188,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
             $column_names[] = $name;
           }
 
-          $key_schema = id(new PhabricatorConfigKeySchema())
+          $key_schema = id(new PhorgeConfigKeySchema())
             ->setName($key_name)
             ->setColumnNames($column_names)
             ->setUnique(!$head['Non_unique'])
@@ -205,7 +205,7 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
 
     foreach ($invisible_databases as $database_name) {
       $server_schema->addDatabase(
-        id(new PhabricatorConfigDatabaseSchema())
+        id(new PhorgeConfigDatabaseSchema())
           ->setName($database_name)
           ->setAccessDenied(true));
     }
@@ -225,25 +225,25 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
     return $schemata;
   }
 
-  public function loadExpectedSchemaForServer(PhabricatorDatabaseRef $ref) {
+  public function loadExpectedSchemaForServer(PhorgeDatabaseRef $ref) {
     $databases = $this->getDatabaseNames($ref);
     $info = $this->getAPI($ref)->getCharsetInfo();
 
     $specs = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorConfigSchemaSpec')
+      ->setAncestorClass('PhorgeConfigSchemaSpec')
       ->execute();
 
-    $server_schema = id(new PhabricatorConfigServerSchema())
+    $server_schema = id(new PhorgeConfigServerSchema())
       ->setRef($ref);
 
     foreach ($specs as $spec) {
       $spec
         ->setUTF8Charset(
-          $info[PhabricatorStorageManagementAPI::CHARSET_DEFAULT])
+          $info[PhorgeStorageManagementAPI::CHARSET_DEFAULT])
         ->setUTF8BinaryCollation(
-          $info[PhabricatorStorageManagementAPI::COLLATE_TEXT])
+          $info[PhorgeStorageManagementAPI::COLLATE_TEXT])
         ->setUTF8SortingCollation(
-          $info[PhabricatorStorageManagementAPI::COLLATE_SORT])
+          $info[PhorgeStorageManagementAPI::COLLATE_SORT])
         ->setServer($server_schema)
         ->buildSchemata($server_schema);
     }
@@ -266,8 +266,8 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
   }
 
   private function buildComparisonSchemaForServer(
-    PhabricatorConfigServerSchema $expect,
-    PhabricatorConfigServerSchema $actual) {
+    PhorgeConfigServerSchema $expect,
+    PhorgeConfigServerSchema $actual) {
 
     $comp_server = $actual->newEmptyClone();
 
@@ -349,18 +349,18 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
   }
 
   private function compareSchemata(
-    PhabricatorConfigStorageSchema $expect = null,
-    PhabricatorConfigStorageSchema $actual = null) {
+    PhorgeConfigStorageSchema $expect = null,
+    PhorgeConfigStorageSchema $actual = null) {
 
-    $expect_is_key = ($expect instanceof PhabricatorConfigKeySchema);
-    $actual_is_key = ($actual instanceof PhabricatorConfigKeySchema);
+    $expect_is_key = ($expect instanceof PhorgeConfigKeySchema);
+    $actual_is_key = ($actual instanceof PhorgeConfigKeySchema);
 
     if ($expect_is_key || $actual_is_key) {
-      $missing_issue = PhabricatorConfigStorageSchema::ISSUE_MISSINGKEY;
-      $surplus_issue = PhabricatorConfigStorageSchema::ISSUE_SURPLUSKEY;
+      $missing_issue = PhorgeConfigStorageSchema::ISSUE_MISSINGKEY;
+      $surplus_issue = PhorgeConfigStorageSchema::ISSUE_SURPLUSKEY;
     } else {
-      $missing_issue = PhabricatorConfigStorageSchema::ISSUE_MISSING;
-      $surplus_issue = PhabricatorConfigStorageSchema::ISSUE_SURPLUS;
+      $missing_issue = PhorgeConfigStorageSchema::ISSUE_MISSING;
+      $surplus_issue = PhorgeConfigStorageSchema::ISSUE_SURPLUS;
     }
 
     if (!$expect && !$actual) {

@@ -18,7 +18,7 @@ abstract class DifferentialCoreCustomField
   protected function writeValueToRevision(
     DifferentialRevision $revision,
     $value) {
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
   protected function isCoreFieldRequired() {
@@ -33,11 +33,11 @@ abstract class DifferentialCoreCustomField
   }
 
   protected function getCoreFieldRequiredErrorString() {
-    throw new PhabricatorCustomFieldImplementationIncompleteException($this);
+    throw new PhorgeCustomFieldImplementationIncompleteException($this);
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -53,7 +53,7 @@ abstract class DifferentialCoreCustomField
       $value = $xaction->getNewValue();
       if ($this->isCoreFieldRequired()) {
         if ($this->isCoreFieldValueEmpty($value)) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             $this->getCoreFieldRequiredErrorString(),
@@ -77,7 +77,7 @@ abstract class DifferentialCoreCustomField
     return true;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     if ($this->isCoreFieldRequired()) {
       $this->setFieldError(true);
     }
@@ -93,7 +93,7 @@ abstract class DifferentialCoreCustomField
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->writeValueToRevision($this->getObject(), $xaction->getNewValue());
   }
 

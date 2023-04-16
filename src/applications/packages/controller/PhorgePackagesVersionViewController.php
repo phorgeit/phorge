@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionViewController
-  extends PhabricatorPackagesVersionController {
+final class PhorgePackagesVersionViewController
+  extends PhorgePackagesVersionController {
 
   public function shouldAllowPublic() {
     return true;
@@ -15,7 +15,7 @@ final class PhabricatorPackagesVersionViewController
     $full_key = $publisher_key.'/'.$package_key;
     $version_key = $request->getURIData('versionKey');
 
-    $version = id(new PhabricatorPackagesVersionQuery())
+    $version = id(new PhorgePackagesVersionQuery())
       ->setViewer($viewer)
       ->withFullKeys(array($full_key))
       ->withNames(array($version_key))
@@ -38,7 +38,7 @@ final class PhabricatorPackagesVersionViewController
 
     $timeline = $this->buildTransactionTimeline(
       $version,
-      new PhabricatorPackagesVersionTransactionQuery());
+      new PhorgePackagesVersionTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $version_view = id(new PHUITwoColumnView())
@@ -56,7 +56,7 @@ final class PhabricatorPackagesVersionViewController
   }
 
 
-  private function buildHeaderView(PhabricatorPackagesVersion $version) {
+  private function buildHeaderView(PhorgePackagesVersion $version) {
     $viewer = $this->getViewer();
     $name = $version->getName();
 
@@ -67,20 +67,20 @@ final class PhabricatorPackagesVersionViewController
       ->setHeaderIcon('fa-tag');
   }
 
-  private function buildCurtain(PhabricatorPackagesVersion $version) {
+  private function buildCurtain(PhorgePackagesVersion $version) {
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($version);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $version,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $version->getID();
     $edit_uri = $this->getApplicationURI("version/edit/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Version'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)

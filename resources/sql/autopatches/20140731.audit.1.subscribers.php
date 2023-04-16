@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryAuditRequest();
+$table = new PhorgeRepositoryAuditRequest();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Migrating Audit subscribers to subscriptions...')."\n";
@@ -17,9 +17,9 @@ foreach (new LiskMigrationIterator($table) as $request) {
   queryfx(
     $conn_w,
     'INSERT IGNORE INTO %T (src, type, dst) VALUES (%s, %d, %s)',
-    PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+    PhorgeEdgeConfig::TABLE_NAME_EDGE,
     $request->getCommitPHID(),
-    PhabricatorObjectHasSubscriberEdgeType::EDGECONST,
+    PhorgeObjectHasSubscriberEdgeType::EDGECONST,
     $request->getAuditorPHID());
 
 

@@ -1,14 +1,14 @@
 <?php
 
 
-final class PhabricatorEditEngineSubtypeMap
+final class PhorgeEditEngineSubtypeMap
   extends Phobject {
 
   private $subtypes;
   private $datasource;
 
   public function __construct(array $subtypes) {
-    assert_instances_of($subtypes, 'PhabricatorEditEngineSubtype');
+    assert_instances_of($subtypes, 'PhorgeEditEngineSubtype');
 
     $this->subtypes = $subtypes;
   }
@@ -40,7 +40,7 @@ final class PhabricatorEditEngineSubtypeMap
     return $this->subtypes[$subtype_key];
   }
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }
@@ -92,8 +92,8 @@ final class PhabricatorEditEngineSubtypeMap
   }
 
   public function getCreateFormsForSubtype(
-    PhabricatorEditEngine $edit_engine,
-    PhabricatorEditEngineSubtypeInterface $object) {
+    PhorgeEditEngine $edit_engine,
+    PhorgeEditEngineSubtypeInterface $object) {
 
     $subtype_key = $object->getEditEngineSubtype();
     $subtype = $this->getSubtype($subtype_key);

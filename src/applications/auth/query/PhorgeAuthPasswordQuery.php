@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthPasswordQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthPasswordQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorAuthPasswordQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthPassword();
+    return new PhorgeAuthPassword();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -82,7 +82,7 @@ final class PhabricatorAuthPasswordQuery
   protected function willFilterPage(array $passwords) {
     $object_phids = mpull($passwords, 'getObjectPHID');
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($object_phids)
@@ -104,7 +104,7 @@ final class PhabricatorAuthPasswordQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

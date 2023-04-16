@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerCreateClientsCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeOAuthServerCreateClientsCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'oauthserver.create';
 

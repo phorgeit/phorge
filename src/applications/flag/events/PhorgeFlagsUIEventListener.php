@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFlagsUIEventListener extends PhabricatorEventListener {
+final class PhorgeFlagsUIEventListener extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
+    $this->listen(PhorgeEventType::TYPE_UI_DIDRENDERACTIONS);
   }
 
   public function handleEvent(PhutilEvent $event) {
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
+      case PhorgeEventType::TYPE_UI_DIDRENDERACTIONS:
         $this->handleActionEvent($event);
       break;
     }
@@ -24,7 +24,7 @@ final class PhabricatorFlagsUIEventListener extends PhabricatorEventListener {
       return;
     }
 
-    if (!($object instanceof PhabricatorFlaggableInterface)) {
+    if (!($object instanceof PhorgeFlaggableInterface)) {
       return;
     }
 
@@ -32,18 +32,18 @@ final class PhabricatorFlagsUIEventListener extends PhabricatorEventListener {
       return null;
     }
 
-    $flag = PhabricatorFlagQuery::loadUserFlag($user, $object->getPHID());
+    $flag = PhorgeFlagQuery::loadUserFlag($user, $object->getPHID());
 
     if ($flag) {
-      $color = PhabricatorFlagColor::getColorName($flag->getColor());
-      $flag_icon = PhabricatorFlagColor::getIcon($flag->getColor());
-      $flag_action = id(new PhabricatorActionView())
+      $color = PhorgeFlagColor::getColorName($flag->getColor());
+      $flag_icon = PhorgeFlagColor::getIcon($flag->getColor());
+      $flag_action = id(new PhorgeActionView())
         ->setWorkflow(true)
         ->setHref('/flag/delete/'.$flag->getID().'/')
         ->setName(pht('Remove %s Flag', $color))
         ->setIcon($flag_icon);
     } else {
-      $flag_action = id(new PhabricatorActionView())
+      $flag_action = id(new PhorgeActionView())
         ->setWorkflow(true)
         ->setHref('/flag/edit/'.$object->getPHID().'/')
         ->setName(pht('Flag For Later'))

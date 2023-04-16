@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthFactorProviderController
-  extends PhabricatorAuthProviderController {
+abstract class PhorgeAuthFactorProviderController
+  extends PhorgeAuthProviderController {
 
   protected function buildApplicationCrumbs() {
     return parent::buildApplicationCrumbs()

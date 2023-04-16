@@ -24,8 +24,8 @@ final class DiffusionPreCommitRefChangeHeraldField
     return id(new HeraldSelectFieldValue())
       ->setKey(self::FIELDCONST)
       ->setOptions(
-        PhabricatorRepositoryPushLog::getHeraldChangeFlagConditionOptions())
-      ->setDefault(PhabricatorRepositoryPushLog::CHANGEFLAG_ADD);
+        PhorgeRepositoryPushLog::getHeraldChangeFlagConditionOptions())
+      ->setDefault(PhorgeRepositoryPushLog::CHANGEFLAG_ADD);
   }
 
 }

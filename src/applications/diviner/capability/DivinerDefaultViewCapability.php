@@ -1,6 +1,6 @@
 <?php
 
-final class DivinerDefaultViewCapability extends PhabricatorPolicyCapability {
+final class DivinerDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diviner.default.view';
 

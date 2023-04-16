@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorCalendarEventEmailCommand
+abstract class PhorgeCalendarEventEmailCommand
   extends MetaMTAEmailTransactionCommand {
 
   public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorCalendarEvent);
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeCalendarEvent);
   }
 
 }

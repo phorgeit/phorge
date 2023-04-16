@@ -17,7 +17,7 @@ final class PhortuneCurrency extends Phobject {
     return self::newFromString('0.00 USD');
   }
 
-  public static function newFromUserInput(PhabricatorUser $user, $string) {
+  public static function newFromUserInput(PhorgeUser $user, $string) {
     // Eventually, this might select a default currency based on user settings.
     return self::newFromString($string, self::getDefaultCurrency());
   }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorUserLogType
+abstract class PhorgeUserLogType
   extends Phobject {
 
   final public function getLogTypeKey() {

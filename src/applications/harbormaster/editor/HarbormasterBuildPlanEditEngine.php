@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'harbormaster.buildplan';
 
@@ -22,7 +22,7 @@ final class HarbormasterBuildPlanEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   protected function newEditableObject() {
@@ -78,7 +78,7 @@ final class HarbormasterBuildPlanEditEngine
 
   protected function buildCustomEditFields($object) {
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setIsRequired(true)
@@ -107,7 +107,7 @@ final class HarbormasterBuildPlanEditEngine
         $behavior_option = $behavior->getPlanOption($object)->getKey();
       }
 
-      $fields[] = id(new PhabricatorSelectEditField())
+      $fields[] = id(new PhorgeSelectEditField())
         ->setIsFormField(false)
         ->setKey(sprintf('behavior.%s', $behavior->getKey()))
         ->setMetadataValue($metadata_key, $behavior->getKey())

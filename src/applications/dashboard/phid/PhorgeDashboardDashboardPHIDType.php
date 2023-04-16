@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardDashboardPHIDType extends PhabricatorPHIDType {
+final class PhorgeDashboardDashboardPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DSHB';
 
@@ -9,23 +9,23 @@ final class PhabricatorDashboardDashboardPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorDashboard();
+    return new PhorgeDashboard();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorDashboardQuery())
+    return id(new PhorgeDashboardQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

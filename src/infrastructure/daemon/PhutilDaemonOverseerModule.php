@@ -3,7 +3,7 @@
 /**
  * Overseer modules allow daemons to be externally influenced.
  *
- * See @{class:PhabricatorDaemonOverseerModule} for a concrete example.
+ * See @{class:PhorgeDaemonOverseerModule} for a concrete example.
  */
 abstract class PhutilDaemonOverseerModule extends Phobject {
 

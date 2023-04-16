@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBulkManagementExportWorkflow
-  extends PhabricatorBulkManagementWorkflow {
+final class PhorgeBulkManagementExportWorkflow
+  extends PhorgeBulkManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -57,7 +57,7 @@ final class PhabricatorBulkManagementExportWorkflow
           'Specify an export format with "--format".'));
     }
 
-    $all_formats = PhabricatorExportFormat::getAllExportFormats();
+    $all_formats = PhorgeExportFormat::getAllExportFormats();
     $format = idx($all_formats, $format_key);
     if (!$format) {
       throw new PhutilArgumentUsageException(
@@ -114,7 +114,7 @@ final class PhabricatorBulkManagementExportWorkflow
       $saved_query = head($queries);
     }
 
-    $export_engine = id(new PhabricatorExportEngine())
+    $export_engine = id(new PhorgeExportEngine())
       ->setViewer($viewer)
       ->setTitle(pht('Export'))
       ->setFilename(pht('export'))
@@ -160,7 +160,7 @@ final class PhabricatorBulkManagementExportWorkflow
     }
 
     $engine_classes = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass('PhorgeApplicationSearchEngine')
       ->execute();
 
     $class = $args->getArg('class');
@@ -224,7 +224,7 @@ final class PhabricatorBulkManagementExportWorkflow
         }
       }
 
-      $saved_query = id(new PhabricatorSavedQueryQuery())
+      $saved_query = id(new PhorgeSavedQueryQuery())
         ->setViewer($viewer)
         ->withQueryKeys(array($query_key))
         ->executeOne();
@@ -284,10 +284,10 @@ final class PhabricatorBulkManagementExportWorkflow
   }
 
   private function newUnionQuery(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     array $queries) {
 
-    assert_instances_of($queries, 'PhabricatorSavedQuery');
+    assert_instances_of($queries, 'PhorgeSavedQuery');
 
     $engine = clone $engine;
 

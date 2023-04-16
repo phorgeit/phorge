@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectCustomFieldNumericIndex
-  extends PhabricatorCustomFieldNumericIndexStorage {
+final class PhorgeProjectCustomFieldNumericIndex
+  extends PhorgeCustomFieldNumericIndexStorage {
 
   public function getApplicationName() {
     return 'project';

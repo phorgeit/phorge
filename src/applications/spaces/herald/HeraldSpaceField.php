@@ -13,11 +13,11 @@ final class HeraldSpaceField extends HeraldField {
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSpacesInterface);
+    return ($object instanceof PhorgeSpacesInterface);
   }
 
   public function getHeraldFieldValue($object) {
-    return PhabricatorSpacesNamespaceQuery::getObjectSpacePHID($object);
+    return PhorgeSpacesNamespaceQuery::getObjectSpacePHID($object);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -25,7 +25,7 @@ final class HeraldSpaceField extends HeraldField {
   }
 
   protected function getDatasource() {
-    return new PhabricatorSpacesNamespaceDatasource();
+    return new PhorgeSpacesNamespaceDatasource();
   }
 
 }

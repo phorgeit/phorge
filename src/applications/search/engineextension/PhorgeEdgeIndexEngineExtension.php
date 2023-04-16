@@ -1,18 +1,18 @@
 <?php
 
-abstract class PhabricatorEdgeIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+abstract class PhorgeEdgeIndexEngineExtension
+  extends PhorgeIndexEngineExtension {
 
   abstract protected function getIndexEdgeType();
   abstract protected function getIndexDestinationPHIDs($object);
 
   final public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     $edge_type = $this->getIndexEdgeType();
 
-    $old_edges = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $old_edges = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
       $edge_type);
     $old_edges = array_fuse($old_edges);
@@ -27,7 +27,7 @@ abstract class PhabricatorEdgeIndexEngineExtension
       return;
     }
 
-    $editor = new PhabricatorEdgeEditor();
+    $editor = new PhorgeEdgeEditor();
 
     foreach ($add_edges as $phid) {
       $editor->addEdge($object->getPHID(), $edge_type, $phid);
@@ -44,7 +44,7 @@ abstract class PhabricatorEdgeIndexEngineExtension
     $phids = $this->getIndexDestinationPHIDs($object);
     sort($phids);
     $phids = implode(':', $phids);
-    return PhabricatorHash::digestForIndex($phids);
+    return PhorgeHash::digestForIndex($phids);
   }
 
 }

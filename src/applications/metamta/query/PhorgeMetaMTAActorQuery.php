@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
+final class PhorgeMetaMTAActorQuery extends PhorgeQuery {
 
   private $phids = array();
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -25,15 +25,15 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
     $type_map = array();
     foreach ($phids as $phid) {
       $type_map[phid_get_type($phid)][] = $phid;
-      $actors[$phid] = id(new PhabricatorMetaMTAActor())->setPHID($phid);
+      $actors[$phid] = id(new PhorgeMetaMTAActor())->setPHID($phid);
     }
 
-    // TODO: Move this to PhabricatorPHIDType, or the objects, or some
+    // TODO: Move this to PhorgePHIDType, or the objects, or some
     // interface.
 
     foreach ($type_map as $type => $phids) {
       switch ($type) {
-        case PhabricatorPeopleUserPHIDType::TYPECONST:
+        case PhorgePeopleUserPHIDType::TYPECONST:
           $this->loadUserActors($actors, $phids);
           break;
         default:
@@ -46,14 +46,14 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
   }
 
   private function loadUserActors(array $actors, array $phids) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, 'PhorgeMetaMTAActor');
 
-    $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+    $emails = id(new PhorgeUserEmail())->loadAllWhere(
       'userPHID IN (%Ls) AND isPrimary = 1',
       $phids);
     $emails = mpull($emails, null, 'getUserPHID');
 
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($phids)
       ->needUserSettings(true)
@@ -65,14 +65,14 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
 
       $user = idx($users, $phid);
       if (!$user) {
-        $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_UNLOADABLE);
+        $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_UNLOADABLE);
       } else {
         $actor->setName($this->getUserName($user));
         if ($user->getIsDisabled()) {
-          $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_DISABLED);
+          $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_DISABLED);
         }
         if ($user->getIsSystemAgent()) {
-          $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_BOT);
+          $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_BOT);
         }
 
         // NOTE: We do send email to unapproved users, and to unverified users,
@@ -83,7 +83,7 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
 
       $email = idx($emails, $phid);
       if (!$email) {
-        $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_NO_ADDRESS);
+        $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_NO_ADDRESS);
       } else {
         $actor->setEmailAddress($email->getAddress());
         $actor->setIsVerified($email->getIsVerified());
@@ -94,7 +94,7 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
   private function loadUnknownActors(array $actors, array $phids) {
     foreach ($phids as $phid) {
       $actor = $actors[$phid];
-      $actor->setUndeliverable(PhabricatorMetaMTAActor::REASON_UNMAILABLE);
+      $actor->setUndeliverable(PhorgeMetaMTAActor::REASON_UNMAILABLE);
     }
   }
 
@@ -103,8 +103,8 @@ final class PhabricatorMetaMTAActorQuery extends PhabricatorQuery {
    * Small helper function to make sure we format the username properly as
    * specified by the `metamta.user-address-format` configuration value.
    */
-  private function getUserName(PhabricatorUser $user) {
-    $format = PhabricatorEnv::getEnvConfig('metamta.user-address-format');
+  private function getUserName(PhorgeUser $user) {
+    $format = PhorgeEnv::getEnvConfig('metamta.user-address-format');
 
     switch ($format) {
       case 'short':

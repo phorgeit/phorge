@@ -8,11 +8,11 @@
  * @task  fact  Fact Integration
  * @task  meta  Application Management
  */
-abstract class PhabricatorApplication
-  extends PhabricatorLiskDAO
+abstract class PhorgeApplication
+  extends PhorgeLiskDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   const GROUP_CORE            = 'core';
   const GROUP_UTILITIES       = 'util';
@@ -66,12 +66,12 @@ abstract class PhabricatorApplication
       return true;
     }
 
-    $prototypes = PhabricatorEnv::getEnvConfig('phorge.show-prototypes');
+    $prototypes = PhorgeEnv::getEnvConfig('phorge.show-prototypes');
     if (!$prototypes && $this->isPrototype()) {
       return false;
     }
 
-    $uninstalled = PhabricatorEnv::getEnvConfig(
+    $uninstalled = PhorgeEnv::getEnvConfig(
       'phorge.uninstalled-applications');
 
     return empty($uninstalled[get_class($this)]);
@@ -126,10 +126,10 @@ abstract class PhabricatorApplication
    *
    * Users who have not yet set preferences see a default list of applications.
    *
-   * @param PhabricatorUser User viewing the pinned application list.
+   * @param PhorgeUser User viewing the pinned application list.
    * @return bool True if this application should be pinned by default.
    */
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return false;
   }
 
@@ -190,13 +190,13 @@ abstract class PhabricatorApplication
     return null;
   }
 
-  final public function getHelpMenuItems(PhabricatorUser $viewer) {
+  final public function getHelpMenuItems(PhorgeUser $viewer) {
     $items = array();
 
     $articles = $this->getHelpDocumentationArticles($viewer);
     if ($articles) {
       foreach ($articles as $article) {
-        $item = id(new PhabricatorActionView())
+        $item = id(new PhorgeActionView())
           ->setName($article['name'])
           ->setHref($article['href'])
           ->addSigil('help-item')
@@ -212,7 +212,7 @@ abstract class PhabricatorApplication
 
         $class = get_class($this);
         $href = '/applications/mailcommands/'.$class.'/'.$key.'/';
-        $item = id(new PhabricatorActionView())
+        $item = id(new PhorgeActionView())
           ->setName($spec['name'])
           ->setHref($href)
           ->addSigil('help-item')
@@ -222,16 +222,16 @@ abstract class PhabricatorApplication
     }
 
     if ($items) {
-      $divider = id(new PhabricatorActionView())
+      $divider = id(new PhorgeActionView())
         ->addSigil('help-item')
-        ->setType(PhabricatorActionView::TYPE_DIVIDER);
+        ->setType(PhorgeActionView::TYPE_DIVIDER);
       array_unshift($items, $divider);
     }
 
     return array_values($items);
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array();
   }
 
@@ -276,7 +276,7 @@ abstract class PhabricatorApplication
   }
 
   final protected function getInboundEmailSupportLink() {
-    return PhabricatorEnv::getDoclink('Configuring Inbound Email');
+    return PhorgeEnv::getDoclink('Configuring Inbound Email');
   }
 
   public function getAppEmailBlurb() {
@@ -310,15 +310,15 @@ abstract class PhabricatorApplication
   /**
    * Build items for the main menu.
    *
-   * @param  PhabricatorUser    The viewing user.
+   * @param  PhorgeUser    The viewing user.
    * @param  AphrontController  The current controller. May be null for special
    *                            pages like 404, exception handlers, etc.
    * @return list<PHUIListItemView> List of menu items.
    * @task ui
    */
   public function buildMainMenuItems(
-    PhabricatorUser $user,
-    PhabricatorController $controller = null) {
+    PhorgeUser $user,
+    PhorgeController $controller = null) {
     return array();
   }
 
@@ -406,19 +406,19 @@ abstract class PhabricatorApplication
    * @{method:isClassInstalled}.
    *
    * @param string Application class name.
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @return bool True if the class is installed for the viewer.
    * @task meta
    */
   final public static function isClassInstalledForViewer(
     $class,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     if ($viewer->isOmnipotent()) {
       return true;
     }
 
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $viewer_fragment = $viewer->getCacheFragment();
     $key = 'app.'.$class.'.installed.'.$viewer_fragment;
 
@@ -435,10 +435,10 @@ abstract class PhabricatorApplication
           // does not allow public viewers.
           $result = true;
         } else {
-          $result = PhabricatorPolicyFilter::hasCapability(
+          $result = PhorgePolicyFilter::hasCapability(
             $viewer,
             self::getByClass($class),
-            PhabricatorPolicyCapability::CAN_VIEW);
+            PhorgePolicyCapability::CAN_VIEW);
         }
       }
 
@@ -449,14 +449,14 @@ abstract class PhabricatorApplication
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array_merge(
       array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       ),
       array_keys($this->getCustomCapabilities()));
   }
@@ -468,17 +468,17 @@ abstract class PhabricatorApplication
     }
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_ADMIN;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_ADMIN;
       default:
         $spec = $this->getCustomCapabilitySpecification($capability);
-        return idx($spec, 'default', PhabricatorPolicies::POLICY_USER);
+        return idx($spec, 'default', PhorgePolicies::POLICY_USER);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
@@ -494,12 +494,12 @@ abstract class PhabricatorApplication
       return null;
     }
 
-    $policy_locked = PhabricatorEnv::getEnvConfig('policy.locked');
+    $policy_locked = PhorgeEnv::getEnvConfig('policy.locked');
     if (isset($policy_locked[$capability])) {
       return $policy_locked[$capability];
     }
 
-    $config = PhabricatorEnv::getEnvConfig('phorge.application-settings');
+    $config = PhorgeEnv::getEnvConfig('phorge.application-settings');
 
     $app = idx($config, $this->getPHID());
     if (!$app) {
@@ -525,13 +525,13 @@ abstract class PhabricatorApplication
 
   final public function getCapabilityLabel($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht('Can Use Application');
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht('Can Configure Application');
     }
 
-    $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+    $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
     if ($capobj) {
       return $capobj->getCapabilityName();
     }
@@ -541,9 +541,9 @@ abstract class PhabricatorApplication
 
   final public function isCapabilityEditable($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->canUninstall();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return true;
       default:
         $spec = $this->getCustomCapabilitySpecification($capability);
@@ -553,7 +553,7 @@ abstract class PhabricatorApplication
 
   final public function getCapabilityCaption($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if (!$this->canUninstall()) {
           return pht(
             'This application is required, so all '.
@@ -561,7 +561,7 @@ abstract class PhabricatorApplication
         } else {
           return null;
         }
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return null;
       default:
         $spec = $this->getCustomCapabilitySpecification($capability);
@@ -571,8 +571,8 @@ abstract class PhabricatorApplication
 
   final public function getCapabilityTemplatePHIDType($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_EDIT:
         return null;
     }
 
@@ -641,15 +641,15 @@ abstract class PhabricatorApplication
     );
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorApplicationEditor();
+    return new PhorgeApplicationEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorApplicationApplicationTransaction();
+    return new PhorgeApplicationApplicationTransaction();
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditEngineAPIMethod
+abstract class PhorgeEditEngineAPIMethod
   extends ConduitAPIMethod {
 
   abstract public function newEditEngine();
@@ -8,7 +8,7 @@ abstract class PhabricatorEditEngineAPIMethod
   public function getApplication() {
     $engine = $this->newEditEngine();
     $class = $engine->getEngineApplicationClass();
-    return PhabricatorApplication::getByClass($class);
+    return PhorgeApplication::getByClass($class);
   }
 
   final protected function defineParamTypes() {
@@ -35,10 +35,10 @@ abstract class PhabricatorEditEngineAPIMethod
       'create and modify objects by applying transactions. For documentation '.
       'on these endpoints, see '.
       '**[[ %s | Conduit API: Using Edit Endpoints ]]**.',
-      PhabricatorEnv::getDoclink('Conduit API: Using Edit Endpoints'));
+      PhorgeEnv::getDoclink('Conduit API: Using Edit Endpoints'));
   }
 
-  final protected function newDocumentationPages(PhabricatorUser $viewer) {
+  final protected function newDocumentationPages(PhorgeUser $viewer) {
     $engine = $this->newEditEngine()
       ->setViewer($viewer);
 
@@ -50,8 +50,8 @@ abstract class PhabricatorEditEngineAPIMethod
   }
 
   private function buildEditTypesDocumentationPages(
-    PhabricatorUser $viewer,
-    PhabricatorEditEngine $engine,
+    PhorgeUser $viewer,
+    PhorgeEditEngine $engine,
     array $types) {
 
     $pages = array();

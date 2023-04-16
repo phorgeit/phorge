@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSlowvotePollPHIDType extends PhabricatorPHIDType {
+final class PhorgeSlowvotePollPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'POLL';
 
@@ -9,23 +9,23 @@ final class PhabricatorSlowvotePollPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorSlowvotePoll();
+    return new PhorgeSlowvotePoll();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return 'PhorgeSlowvoteApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorSlowvoteQuery())
+    return id(new PhorgeSlowvoteQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -43,7 +43,7 @@ final class PhabricatorSlowvotePollPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -52,7 +52,7 @@ final class PhabricatorSlowvotePollPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorSlowvoteQuery())
+    $objects = id(new PhorgeSlowvoteQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

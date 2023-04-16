@@ -120,7 +120,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
     return $this;
   }
 
-  public function setAnchor(PhabricatorAnchorView $anchor) {
+  public function setAnchor(PhorgeAnchorView $anchor) {
     $this->anchor = $anchor;
     return $this;
   }
@@ -135,7 +135,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
   }
 
   public function setValidationException(
-    PhabricatorApplicationTransactionValidationException $ex = null) {
+    PhorgeApplicationTransactionValidationException $ex = null) {
     $this->validationException = $ex;
     return $this;
   }

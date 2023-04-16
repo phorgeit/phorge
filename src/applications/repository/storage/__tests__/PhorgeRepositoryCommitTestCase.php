@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryCommitTestCase
-  extends PhabricatorTestCase {
+final class PhorgeRepositoryCommitTestCase
+  extends PhorgeTestCase {
 
   public function testSummarizeCommits() {
     // Cyrillic "zhe".
@@ -28,7 +28,7 @@ final class PhabricatorRepositoryCommitTestCase
     );
 
     foreach ($map as $input => $expect) {
-      $actual = PhabricatorRepositoryCommitData::summarizeCommitMessage(
+      $actual = PhorgeRepositoryCommitData::summarizeCommitMessage(
         $input);
       $this->assertEqual($expect, strlen($actual));
     }

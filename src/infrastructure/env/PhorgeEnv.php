@@ -11,7 +11,7 @@
  * The primary role of this class is to provide an API for reading
  * Phorge configuration, @{method:getEnvConfig}:
  *
- *   $value = PhabricatorEnv::getEnvConfig('some.key', $default);
+ *   $value = PhorgeEnv::getEnvConfig('some.key', $default);
  *
  * The class also handles some URI construction based on configuration, via
  * the methods @{method:getURI}, @{method:getProductionURI},
@@ -30,7 +30,7 @@
  * the environment when it is destroyed. For example:
  *
  *   public function testExample() {
- *     $env = PhabricatorEnv::beginScopedEnv();
+ *     $env = PhorgeEnv::beginScopedEnv();
  *     $env->overrideEnv('some.key', 'new-value-for-this-test');
  *
  *     // Some test which depends on the value of 'some.key'.
@@ -48,7 +48,7 @@
  * @task test     Unit Test Support
  * @task internal Internals
  */
-final class PhabricatorEnv extends Phobject {
+final class PhorgeEnv extends Phobject {
 
   private static $sourceStack;
   private static $repairSource;
@@ -65,7 +65,7 @@ final class PhabricatorEnv extends Phobject {
   const READONLY_MASTERLESS = 'masterless';
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public static function initializeWebEnvironment() {
     self::initializeCommonEnvironment(false);
@@ -130,7 +130,7 @@ final class PhabricatorEnv extends Phobject {
       $_ENV['PHORGE_INSTANCE'] = $instance;
     }
 
-    PhabricatorEventEngine::initialize();
+    PhorgeEventEngine::initialize();
 
     // TODO: Add a "locale.default" config option once we have some reasonable
     // defaults which aren't silly nonsense.
@@ -143,7 +143,7 @@ final class PhabricatorEnv extends Phobject {
   }
 
   public static function beginScopedLocale($locale_code) {
-    return new PhabricatorLocaleScopeGuard($locale_code);
+    return new PhorgeLocaleScopeGuard($locale_code);
   }
 
   public static function getLocaleCode() {
@@ -182,22 +182,22 @@ final class PhabricatorEnv extends Phobject {
   private static function buildConfigurationSourceStack($config_optional) {
     self::dropConfigCache();
 
-    $stack = new PhabricatorConfigStackSource();
+    $stack = new PhorgeConfigStackSource();
     self::$sourceStack = $stack;
 
-    $default_source = id(new PhabricatorConfigDefaultSource())
+    $default_source = id(new PhorgeConfigDefaultSource())
       ->setName(pht('Global Default'));
     $stack->pushSource($default_source);
 
     $env = self::getSelectedEnvironmentName();
     if ($env) {
       $stack->pushSource(
-        id(new PhabricatorConfigFileSource($env))
+        id(new PhorgeConfigFileSource($env))
           ->setName(pht("File '%s'", $env)));
     }
 
     $stack->pushSource(
-      id(new PhabricatorConfigLocalSource())
+      id(new PhorgeConfigLocalSource())
         ->setName(pht('Local Config')));
 
     // If the install overrides the database adapter, we might need to load
@@ -220,7 +220,7 @@ final class PhabricatorEnv extends Phobject {
 
     // If this install has site config sources, load them now.
     $site_sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorConfigSiteSource')
+      ->setAncestorClass('PhorgeConfigSiteSource')
       ->setSortMethod('getPriority')
       ->execute();
 
@@ -232,7 +232,7 @@ final class PhabricatorEnv extends Phobject {
       self::dropConfigCache();
     }
 
-    $masters = PhabricatorDatabaseRef::getMasterDatabaseRefs();
+    $masters = PhorgeDatabaseRef::getMasterDatabaseRefs();
     if (!$masters) {
       self::setReadOnly(true, self::READONLY_MASTERLESS);
     } else {
@@ -257,9 +257,9 @@ final class PhabricatorEnv extends Phobject {
       // See T13403. If we're starting up in "config optional" mode, suppress
       // messages about connection retries.
       if ($config_optional) {
-        $database_source = @new PhabricatorConfigDatabaseSource('default');
+        $database_source = @new PhorgeConfigDatabaseSource('default');
       } else {
-        $database_source = new PhabricatorConfigDatabaseSource('default');
+        $database_source = new PhorgeConfigDatabaseSource('default');
       }
 
       $database_source->setName(pht('Database'));
@@ -269,7 +269,7 @@ final class PhabricatorEnv extends Phobject {
       // If the database is not available, just skip this configuration
       // source. This happens during `bin/storage upgrade`, `bin/conf` before
       // schema setup, etc.
-    } catch (PhabricatorClusterStrandedException $ex) {
+    } catch (PhorgeClusterStrandedException $ex) {
       // This means we can't connect to any database host. That's fine as
       // long as we're running a setup script like `bin/storage`.
       if (!$config_optional) {
@@ -284,7 +284,7 @@ final class PhabricatorEnv extends Phobject {
 
   public static function repairConfig($key, $value) {
     if (!self::$repairSource) {
-      self::$repairSource = id(new PhabricatorConfigDictionarySource(array()))
+      self::$repairSource = id(new PhorgeConfigDictionarySource(array()))
         ->setName(pht('Repaired Config'));
       self::$sourceStack->pushSource(self::$repairSource);
     }
@@ -294,7 +294,7 @@ final class PhabricatorEnv extends Phobject {
 
   public static function overrideConfig($key, $value) {
     if (!self::$overrideSource) {
-      self::$overrideSource = id(new PhabricatorConfigDictionarySource(array()))
+      self::$overrideSource = id(new PhorgeConfigDictionarySource(array()))
         ->setName(pht('Overridden Config'));
       self::$sourceStack->pushSource(self::$overrideSource);
     }
@@ -593,7 +593,7 @@ final class PhabricatorEnv extends Phobject {
    * @task test
    */
   public static function beginScopedEnv() {
-    return new PhabricatorScopedEnv(self::pushTestEnvironment());
+    return new PhorgeScopedEnv(self::pushTestEnvironment());
   }
 
 
@@ -602,7 +602,7 @@ final class PhabricatorEnv extends Phobject {
    */
   private static function pushTestEnvironment() {
     self::dropConfigCache();
-    $source = new PhabricatorConfigDictionarySource(array());
+    $source = new PhorgeConfigDictionarySource(array());
     self::$sourceStack->pushSource($source);
     return spl_object_hash($source);
   }

@@ -1,14 +1,14 @@
 <?php
 
 final class PhrictionDocumentSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Wiki Documents');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   public function newQuery() {
@@ -40,19 +40,19 @@ final class PhrictionDocumentSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setOptions(PhrictionDocumentStatus::getStatusMap()),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('paths')
         ->setIsHidden(true)
         ->setLabel(pht('Paths')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('parentPaths')
         ->setIsHidden(true)
         ->setLabel(pht('Parent Paths')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('ancestorPaths')
         ->setIsHidden(true)
         ->setLabel(pht('Ancestor Paths')),
@@ -93,7 +93,7 @@ final class PhrictionDocumentSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $documents,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = array();
     foreach ($documents as $document) {
@@ -107,7 +107,7 @@ final class PhrictionDocumentSearchEngine
 
   protected function renderResultList(
     array $documents,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($documents, 'PhrictionDocument');
 
@@ -151,7 +151,7 @@ final class PhrictionDocumentSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No documents found.'));
 

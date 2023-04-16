@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorEditEngineLock
+abstract class PhorgeEditEngineLock
   extends Phobject {
 
   private $viewer;
   private $object;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -47,13 +47,13 @@ abstract class PhabricatorEditEngineLock
   }
 
   public static function newForObject(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $object) {
 
-    if ($object instanceof PhabricatorEditEngineLockableInterface) {
+    if ($object instanceof PhorgeEditEngineLockableInterface) {
       $lock = $object->newEditEngineLock();
     } else {
-      $lock = new PhabricatorEditEngineDefaultLock();
+      $lock = new PhorgeEditEngineDefaultLock();
     }
 
     return $lock

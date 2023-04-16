@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPDFFontObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFFontObject
+  extends PhorgePDFObject {
 
   protected function writeObject() {
     $this->writeLine('/Type /Font');

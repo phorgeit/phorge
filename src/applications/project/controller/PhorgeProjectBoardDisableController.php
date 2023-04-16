@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorProjectBoardDisableController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardDisableController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
     $project_id = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($project_id))
       ->executeOne();
@@ -32,12 +32,12 @@ final class PhabricatorProjectBoardDisableController
     if ($request->isFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectWorkboardTransaction::TRANSACTIONTYPE)
+            PhorgeProjectWorkboardTransaction::TRANSACTIONTYPE)
         ->setNewValue(0);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

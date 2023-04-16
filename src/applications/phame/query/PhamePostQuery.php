@@ -1,6 +1,6 @@
 <?php
 
-final class PhamePostQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhamePostQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $blogPHIDs;
@@ -78,7 +78,7 @@ final class PhamePostQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       $file_phids = mpull($posts, 'getHeaderImagePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($this->getViewer())
           ->withPHIDs($file_phids)

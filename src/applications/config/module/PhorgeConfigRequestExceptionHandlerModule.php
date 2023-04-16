@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigRequestExceptionHandlerModule
-  extends PhabricatorConfigModule {
+final class PhorgeConfigRequestExceptionHandlerModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'exception-handler';

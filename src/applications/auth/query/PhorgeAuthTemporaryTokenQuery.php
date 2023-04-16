@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTemporaryTokenQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthTemporaryTokenQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $tokenResources;
@@ -41,7 +41,7 @@ final class PhabricatorAuthTemporaryTokenQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthTemporaryToken();
+    return new PhorgeAuthTemporaryToken();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -100,7 +100,7 @@ final class PhabricatorAuthTemporaryTokenQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

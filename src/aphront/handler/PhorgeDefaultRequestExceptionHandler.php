@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDefaultRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeDefaultRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 900000;
@@ -15,7 +15,7 @@ final class PhabricatorDefaultRequestExceptionHandler
     AphrontRequest $request,
     $throwable) {
 
-    if (!$this->isPhabricatorSite($request)) {
+    if (!$this->isPhorgeSite($request)) {
       return false;
     }
 
@@ -51,7 +51,7 @@ final class PhabricatorDefaultRequestExceptionHandler
         'bin/storage upgrade');
     }
 
-    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       $trace = id(new AphrontStackTraceView())
         ->setUser($viewer)
         ->setTrace($throwable->getTrace());

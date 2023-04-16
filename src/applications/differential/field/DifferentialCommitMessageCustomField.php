@@ -43,9 +43,9 @@ abstract class DifferentialCommitMessageCustomField
   }
 
   protected function getCustomFieldOrder($key) {
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       new DifferentialRevision(),
-      PhabricatorCustomField::ROLE_DEFAULT);
+      PhorgeCustomField::ROLE_DEFAULT);
 
     $fields = $field_list->getFields();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderMessageController
-  extends PhabricatorAuthFactorProviderController {
+final class PhorgeAuthFactorProviderMessageController
+  extends PhorgeAuthFactorProviderController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
@@ -10,13 +10,13 @@ final class PhabricatorAuthFactorProviderMessageController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $provider = id(new PhabricatorAuthFactorProviderQuery())
+    $provider = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$provider) {
@@ -25,7 +25,7 @@ final class PhabricatorAuthFactorProviderMessageController
 
     $cancel_uri = $provider->getURI();
     $enroll_key =
-      PhabricatorAuthFactorProviderEnrollMessageTransaction::TRANSACTIONTYPE;
+      PhorgeAuthFactorProviderEnrollMessageTransaction::TRANSACTIONTYPE;
 
     $message = $provider->getEnrollMessage();
 
@@ -34,11 +34,11 @@ final class PhabricatorAuthFactorProviderMessageController
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorAuthFactorProviderTransaction())
+      $xactions[] = id(new PhorgeAuthFactorProviderTransaction())
         ->setTransactionType($enroll_key)
         ->setNewValue($message);
 
-      $editor = id(new PhabricatorAuthFactorProviderEditor())
+      $editor = id(new PhorgeAuthFactorProviderEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -68,7 +68,7 @@ final class PhabricatorAuthFactorProviderMessageController
           'You may optionally customize the enrollment message users are '.
           'presented with by providing a replacement message below:'))
       ->appendControl(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setLabel(pht('Custom Message'))
           ->setName('message')
           ->setValue($message));

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailAttachment extends Phobject {
+final class PhorgeMailAttachment extends Phobject {
 
   private $data;
   private $filename;
@@ -45,9 +45,9 @@ final class PhabricatorMailAttachment extends Phobject {
     if (!$this->file) {
       $iterator = new ArrayIterator(array($this->getData()));
 
-      $source = id(new PhabricatorIteratorFileUploadSource())
+      $source = id(new PhorgeIteratorFileUploadSource())
         ->setName($this->getFilename())
-        ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+        ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
         ->setMIMEType($this->getMimeType())
         ->setIterator($iterator);
 
@@ -66,8 +66,8 @@ final class PhabricatorMailAttachment extends Phobject {
 
     $file_phid = idx($dict, 'filePHID');
     if ($file_phid) {
-      $file = id(new PhabricatorFileQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $file = id(new PhorgeFileQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs(array($file_phid))
         ->executeOne();
       if ($file) {

@@ -225,7 +225,7 @@ abstract class PhortunePaymentProvider extends Phobject {
   public function renderOneTimePaymentButton(
     PhortuneAccount $account,
     PhortuneCart $cart,
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
 
     require_celerity_resource('phortune-css');
 
@@ -270,7 +270,7 @@ abstract class PhortunePaymentProvider extends Phobject {
     $local = false) {
 
     $id = $this->getProviderConfig()->getID();
-    $app = PhabricatorApplication::getByClass('PhabricatorPhortuneApplication');
+    $app = PhorgeApplication::getByClass('PhorgePhortuneApplication');
     $path = $app->getBaseURI().'provider/'.$id.'/'.$action.'/';
 
     $uri = new PhutilURI($path, $params);
@@ -278,7 +278,7 @@ abstract class PhortunePaymentProvider extends Phobject {
     if ($local) {
       return $uri;
     } else {
-      return PhabricatorEnv::getURI((string)$uri);
+      return PhorgeEnv::getURI((string)$uri);
     }
   }
 

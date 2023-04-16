@@ -69,15 +69,15 @@ final class HeraldRuleViewController extends HeraldController {
 
     $id = $rule->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $rule,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($rule);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Rule'))
         ->setHref($this->getApplicationURI("edit/{$id}/"))
         ->setIcon('fa-pencil')
@@ -95,7 +95,7 @@ final class HeraldRuleViewController extends HeraldController {
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($this->getApplicationURI($disable_uri))
         ->setIcon($disable_icon)
         ->setName($disable_name)

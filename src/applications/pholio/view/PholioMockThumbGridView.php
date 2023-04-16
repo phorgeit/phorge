@@ -115,8 +115,8 @@ final class PholioMockThumbGridView extends AphrontView {
   private function renderThumbnail(PholioImage $image) {
     $thumbfile = $image->getFile();
 
-    $preview_key = PhabricatorFileThumbnailTransform::TRANSFORM_THUMBGRID;
-    $xform = PhabricatorFileTransform::getTransformByKey($preview_key);
+    $preview_key = PhorgeFileThumbnailTransform::TRANSFORM_THUMBGRID;
+    $xform = PhorgeFileTransform::getTransformByKey($preview_key);
     Javelin::initBehavior('phorge-tooltips');
 
     $attributes = array(

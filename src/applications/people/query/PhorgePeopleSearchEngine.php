@@ -1,35 +1,35 @@
 <?php
 
-final class PhabricatorPeopleSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgePeopleSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Users');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorPeopleQuery())
+    return id(new PhorgePeopleQuery())
       ->needPrimaryEmail(true)
       ->needProfileImage(true);
   }
 
   protected function buildCustomSearchFields() {
     $fields = array(
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Usernames'))
         ->setKey('usernames')
         ->setAliases(array('username'))
         ->setDescription(pht('Find users by exact username.')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('nameLike')
         ->setDescription(
           pht('Find users whose usernames contain a substring.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Administrators'))
         ->setKey('isAdmin')
         ->setOptions(
@@ -40,7 +40,7 @@ final class PhabricatorPeopleSearchEngine
           pht(
             'Pass true to find only administrators, or false to omit '.
             'administrators.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Disabled'))
         ->setKey('isDisabled')
         ->setOptions(
@@ -51,7 +51,7 @@ final class PhabricatorPeopleSearchEngine
           pht(
             'Pass true to find only disabled users, or false to omit '.
             'disabled users.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Bots'))
         ->setKey('isBot')
         ->setAliases(array('isSystemAgent'))
@@ -62,7 +62,7 @@ final class PhabricatorPeopleSearchEngine
         ->setDescription(
           pht(
             'Pass true to find only bots, or false to omit bots.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Mailing Lists'))
         ->setKey('isMailingList')
         ->setOptions(
@@ -73,7 +73,7 @@ final class PhabricatorPeopleSearchEngine
           pht(
             'Pass true to find only mailing lists, or false to omit '.
             'mailing lists.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Needs Approval'))
         ->setKey('needsApproval')
         ->setOptions(
@@ -88,7 +88,7 @@ final class PhabricatorPeopleSearchEngine
 
     $viewer = $this->requireViewer();
     if ($viewer->getIsAdmin()) {
-      $fields[] = id(new PhabricatorSearchThreeStateField())
+      $fields[] = id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Has MFA'))
         ->setKey('mfa')
         ->setOptions(
@@ -101,13 +101,13 @@ final class PhabricatorPeopleSearchEngine
             'to omit these users.'));
     }
 
-    $fields[] = id(new PhabricatorSearchDateField())
+    $fields[] = id(new PhorgeSearchDateField())
       ->setKey('createdStart')
       ->setLabel(pht('Joined After'))
       ->setDescription(
         pht('Find user accounts created after a given time.'));
 
-    $fields[] = id(new PhabricatorSearchDateField())
+    $fields[] = id(new PhorgeSearchDateField())
       ->setKey('createdEnd')
       ->setLabel(pht('Joined Before'))
       ->setDescription(
@@ -133,7 +133,7 @@ final class PhabricatorPeopleSearchEngine
     // just the user's own profile. This is a little bit silly, but serves to
     // restrict users from creating a dashboard panel which essentially just
     // contains a user directory anyway.
-    $can_browse = PhabricatorPolicyFilter::hasCapability(
+    $can_browse = PhorgePolicyFilter::hasCapability(
       $viewer,
       $this->getApplication(),
       PeopleBrowseUserDirectoryCapability::CAPABILITY);
@@ -172,7 +172,7 @@ final class PhabricatorPeopleSearchEngine
     if (idx($map, 'mfa') !== null) {
       $viewer = $this->requireViewer();
       if (!$viewer->getIsAdmin()) {
-        throw new PhabricatorSearchConstraintException(
+        throw new PhorgeSearchConstraintException(
           pht(
             'The "Has MFA" query constraint may only be used by '.
             'administrators, to prevent attackers from using it to target '.
@@ -236,10 +236,10 @@ final class PhabricatorPeopleSearchEngine
 
   protected function renderResultList(
     array $users,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, 'PhorgeUser');
 
     $request = $this->getRequest();
     $viewer = $this->requireViewer();
@@ -317,7 +317,7 @@ final class PhabricatorPeopleSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No accounts found.'));
 
@@ -326,10 +326,10 @@ final class PhabricatorPeopleSearchEngine
 
   protected function newExportFields() {
     return array(
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('username')
         ->setLabel(pht('Username')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('realName')
         ->setLabel(pht('Real Name')),
     );

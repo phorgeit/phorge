@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAccessLogConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeAccessLogConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Access Logs');

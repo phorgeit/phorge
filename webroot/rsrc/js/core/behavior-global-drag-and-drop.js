@@ -8,7 +8,7 @@
  */
 
 JX.behavior('global-drag-and-drop', function(config, statics) {
-  if (!JX.PhabricatorDragAndDropFileUpload.isSupported()) {
+  if (!JX.PhorgeDragAndDropFileUpload.isSupported()) {
     return;
   }
 
@@ -23,7 +23,7 @@ JX.behavior('global-drag-and-drop', function(config, statics) {
     }
 
     var page = JX.$('phorge-standard-page');
-    statics.drop = new JX.PhabricatorDragAndDropFileUpload(page)
+    statics.drop = new JX.PhorgeDragAndDropFileUpload(page)
       .setURI(config.uploadURI)
       .setViewPolicy(config.viewPolicy)
       .setChunkThreshold(config.chunkThreshold);

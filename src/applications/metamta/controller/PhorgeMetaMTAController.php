@@ -1,3 +1,3 @@
 <?php
 
-abstract class PhabricatorMetaMTAController extends PhabricatorController {}
+abstract class PhorgeMetaMTAController extends PhorgeController {}

@@ -4,11 +4,11 @@
  * @task restrictions   Domain Restrictions
  * @task email          Email About Email
  */
-final class PhabricatorUserEmail
-  extends PhabricatorUserDAO
+final class PhorgeUserEmail
+  extends PhorgeUserDAO
   implements
-    PhabricatorDestructibleInterface,
-    PhabricatorPolicyInterface {
+    PhorgeDestructibleInterface,
+    PhorgePolicyInterface {
 
   protected $userPHID;
   protected $address;
@@ -42,7 +42,7 @@ final class PhabricatorUserEmail
   }
 
   public function getPHIDType() {
-    return PhabricatorPeopleUserEmailPHIDType::TYPECONST;
+    return PhorgePeopleUserEmailPHIDType::TYPECONST;
   }
 
   public function getVerificationURI() {
@@ -56,7 +56,7 @@ final class PhabricatorUserEmail
     return parent::save();
   }
 
-  public function attachUser(PhabricatorUser $user) {
+  public function attachUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -117,7 +117,7 @@ final class PhabricatorUserEmail
       return false;
     }
 
-    $allowed_domains = PhabricatorEnv::getEnvConfig('auth.email-domains');
+    $allowed_domains = PhorgeEnv::getEnvConfig('auth.email-domains');
     if (!$allowed_domains) {
       return true;
     }
@@ -145,7 +145,7 @@ final class PhabricatorUserEmail
    * @task restrictions
    */
   public static function describeAllowedAddresses() {
-    $domains = PhabricatorEnv::getEnvConfig('auth.email-domains');
+    $domains = PhorgeEnv::getEnvConfig('auth.email-domains');
     if (!$domains) {
       return null;
     }
@@ -169,8 +169,8 @@ final class PhabricatorUserEmail
    */
   public static function isEmailVerificationRequired() {
     // NOTE: Configuring required email domains implies required verification.
-    return PhabricatorEnv::getEnvConfig('auth.require-email-verification') ||
-           PhabricatorEnv::getEnvConfig('auth.email-domains');
+    return PhorgeEnv::getEnvConfig('auth.require-email-verification') ||
+           PhorgeEnv::getEnvConfig('auth.email-domains');
   }
 
 
@@ -180,18 +180,18 @@ final class PhabricatorUserEmail
   /**
    * Send a verification email from $user to this address.
    *
-   * @param PhabricatorUser The user sending the verification.
+   * @param PhorgeUser The user sending the verification.
    * @return this
    * @task email
    */
-  public function sendVerificationEmail(PhabricatorUser $user) {
+  public function sendVerificationEmail(PhorgeUser $user) {
     $username = $user->getUsername();
 
     $address = $this->getAddress();
-    $link = PhabricatorEnv::getProductionURI($this->getVerificationURI());
+    $link = PhorgeEnv::getProductionURI($this->getVerificationURI());
 
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
 
     $signature = null;
     if (!$is_serious) {
@@ -210,7 +210,7 @@ final class PhabricatorUserEmail
       $link,
       $signature);
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addRawTos(array($address))
       ->setForceDelivery(true)
       ->setSubject(
@@ -229,14 +229,14 @@ final class PhabricatorUserEmail
    * Send a notification email from $user to this address, informing the
    * recipient that this is no longer their account's primary address.
    *
-   * @param PhabricatorUser The user sending the notification.
-   * @param PhabricatorUserEmail New primary email address.
+   * @param PhorgeUser The user sending the notification.
+   * @param PhorgeUserEmail New primary email address.
    * @return this
    * @task email
    */
   public function sendOldPrimaryEmail(
-    PhabricatorUser $user,
-    PhabricatorUserEmail $new) {
+    PhorgeUser $user,
+    PhorgeUserEmail $new) {
     $username = $user->getUsername();
 
     $old_address = $this->getAddress();
@@ -252,7 +252,7 @@ final class PhabricatorUserEmail
         $old_address,
         $new_address));
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addRawTos(array($old_address))
       ->setForceDelivery(true)
       ->setSubject(
@@ -270,11 +270,11 @@ final class PhabricatorUserEmail
    * Send a notification email from $user to this address, informing the
    * recipient that this is now their account's new primary email address.
    *
-   * @param PhabricatorUser The user sending the verification.
+   * @param PhorgeUser The user sending the verification.
    * @return this
    * @task email
    */
-  public function sendNewPrimaryEmail(PhabricatorUser $user) {
+  public function sendNewPrimaryEmail(PhorgeUser $user) {
     $username = $user->getUsername();
 
     $new_address = $this->getAddress();
@@ -287,7 +287,7 @@ final class PhabricatorUserEmail
         'all email will be sent here.',
         $new_address));
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addRawTos(array($new_address))
       ->setForceDelivery(true)
       ->setSubject(
@@ -303,21 +303,21 @@ final class PhabricatorUserEmail
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -325,13 +325,13 @@ final class PhabricatorUserEmail
     $user = $this->getUser();
 
     if ($this->getIsSystemAgent() || $this->getIsMailingList()) {
-      return PhabricatorPolicies::POLICY_ADMIN;
+      return PhorgePolicies::POLICY_ADMIN;
     }
 
     return $user->getPHID();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

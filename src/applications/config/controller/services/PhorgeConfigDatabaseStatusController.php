@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigDatabaseStatusController
-  extends PhabricatorConfigDatabaseController {
+final class PhorgeConfigDatabaseStatusController
+  extends PhorgeConfigDatabaseController {
 
   private $database;
   private $table;
@@ -17,7 +17,7 @@ final class PhabricatorConfigDatabaseStatusController
     $this->key = $request->getURIData('key');
     $this->ref = $request->getURIData('ref');
 
-    $query = new PhabricatorConfigSchemaQuery();
+    $query = new PhorgeConfigSchemaQuery();
 
     $actual = $query->loadActualSchemata();
     $expect = $query->loadExpectedSchemata();
@@ -129,7 +129,7 @@ final class PhabricatorConfigDatabaseStatusController
       }
     }
 
-    $doc_link = PhabricatorEnv::getDoclink('Managing Storage Adjustments');
+    $doc_link = PhorgeEnv::getDoclink('Managing Storage Adjustments');
     $button = id(new PHUIButtonView())
       ->setTag('a')
       ->setIcon('fa-book')
@@ -155,8 +155,8 @@ final class PhabricatorConfigDatabaseStatusController
     array $expect_servers,
     array $actual_servers) {
 
-    $charset_issue = PhabricatorConfigStorageSchema::ISSUE_CHARSET;
-    $collation_issue = PhabricatorConfigStorageSchema::ISSUE_COLLATION;
+    $charset_issue = PhorgeConfigStorageSchema::ISSUE_CHARSET;
+    $collation_issue = PhorgeConfigStorageSchema::ISSUE_COLLATION;
 
     $rows = array();
     foreach ($comp_servers as $ref_key => $comp) {
@@ -226,12 +226,12 @@ final class PhabricatorConfigDatabaseStatusController
   }
 
   private function renderDatabase(
-    PhabricatorConfigServerSchema $comp,
-    PhabricatorConfigServerSchema $expect,
-    PhabricatorConfigServerSchema $actual,
+    PhorgeConfigServerSchema $comp,
+    PhorgeConfigServerSchema $expect,
+    PhorgeConfigServerSchema $actual,
     $database_name) {
 
-    $collation_issue = PhabricatorConfigStorageSchema::ISSUE_COLLATION;
+    $collation_issue = PhorgeConfigStorageSchema::ISSUE_COLLATION;
 
     $database = $comp->getDatabase($database_name);
     if (!$database) {
@@ -330,20 +330,20 @@ final class PhabricatorConfigDatabaseStatusController
   }
 
   private function renderTable(
-    PhabricatorConfigServerSchema $comp,
-    PhabricatorConfigServerSchema $expect,
-    PhabricatorConfigServerSchema $actual,
+    PhorgeConfigServerSchema $comp,
+    PhorgeConfigServerSchema $expect,
+    PhorgeConfigServerSchema $actual,
     $database_name,
     $table_name) {
 
-    $type_issue = PhabricatorConfigStorageSchema::ISSUE_COLUMNTYPE;
-    $charset_issue = PhabricatorConfigStorageSchema::ISSUE_CHARSET;
-    $collation_issue = PhabricatorConfigStorageSchema::ISSUE_COLLATION;
-    $nullable_issue = PhabricatorConfigStorageSchema::ISSUE_NULLABLE;
-    $unique_issue = PhabricatorConfigStorageSchema::ISSUE_UNIQUE;
-    $columns_issue = PhabricatorConfigStorageSchema::ISSUE_KEYCOLUMNS;
-    $longkey_issue = PhabricatorConfigStorageSchema::ISSUE_LONGKEY;
-    $auto_issue = PhabricatorConfigStorageSchema::ISSUE_AUTOINCREMENT;
+    $type_issue = PhorgeConfigStorageSchema::ISSUE_COLUMNTYPE;
+    $charset_issue = PhorgeConfigStorageSchema::ISSUE_CHARSET;
+    $collation_issue = PhorgeConfigStorageSchema::ISSUE_COLLATION;
+    $nullable_issue = PhorgeConfigStorageSchema::ISSUE_NULLABLE;
+    $unique_issue = PhorgeConfigStorageSchema::ISSUE_UNIQUE;
+    $columns_issue = PhorgeConfigStorageSchema::ISSUE_KEYCOLUMNS;
+    $longkey_issue = PhorgeConfigStorageSchema::ISSUE_LONGKEY;
+    $auto_issue = PhorgeConfigStorageSchema::ISSUE_AUTOINCREMENT;
 
     $database = $comp->getDatabase($database_name);
     if (!$database) {
@@ -546,9 +546,9 @@ final class PhabricatorConfigDatabaseStatusController
   }
 
   private function renderColumn(
-    PhabricatorConfigServerSchema $comp,
-    PhabricatorConfigServerSchema $expect,
-    PhabricatorConfigServerSchema $actual,
+    PhorgeConfigServerSchema $comp,
+    PhorgeConfigServerSchema $expect,
+    PhorgeConfigServerSchema $actual,
     $database_name,
     $table_name,
     $column_name) {
@@ -684,9 +684,9 @@ final class PhabricatorConfigDatabaseStatusController
   }
 
   private function renderKey(
-    PhabricatorConfigServerSchema $comp,
-    PhabricatorConfigServerSchema $expect,
-    PhabricatorConfigServerSchema $actual,
+    PhorgeConfigServerSchema $comp,
+    PhorgeConfigServerSchema $expect,
+    PhorgeConfigServerSchema $actual,
     $database_name,
     $table_name,
     $key_name) {
@@ -795,15 +795,15 @@ final class PhabricatorConfigDatabaseStatusController
           ->setTarget(pht('No Schema Issues')));
     } else {
       foreach ($issues as $issue) {
-        $note = PhabricatorConfigStorageSchema::getIssueDescription($issue);
+        $note = PhorgeConfigStorageSchema::getIssueDescription($issue);
 
-        $status = PhabricatorConfigStorageSchema::getIssueStatus($issue);
+        $status = PhorgeConfigStorageSchema::getIssueStatus($issue);
         switch ($status) {
-          case PhabricatorConfigStorageSchema::STATUS_WARN:
+          case PhorgeConfigStorageSchema::STATUS_WARN:
             $icon = PHUIStatusItemView::ICON_WARNING;
             $color = 'yellow';
             break;
-          case PhabricatorConfigStorageSchema::STATUS_FAIL:
+          case PhorgeConfigStorageSchema::STATUS_FAIL:
           default:
             $icon = PHUIStatusItemView::ICON_REJECT;
             $color = 'red';
@@ -811,7 +811,7 @@ final class PhabricatorConfigDatabaseStatusController
         }
 
         $item = id(new PHUIStatusItemView())
-          ->setTarget(PhabricatorConfigStorageSchema::getIssueName($issue))
+          ->setTarget(PhorgeConfigStorageSchema::getIssueName($issue))
           ->setIcon($icon, $color)
           ->setNote($note);
 

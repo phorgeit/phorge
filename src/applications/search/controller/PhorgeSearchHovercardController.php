@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchHovercardController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchHovercardController
+  extends PhorgeSearchBaseController {
 
   public function shouldAllowPublic() {
     return true;
@@ -18,7 +18,7 @@ final class PhabricatorSearchHovercardController
     // hovercards.
     $names = $request->getStrList('names');
     if ($names) {
-      $named_objects = id(new PhabricatorObjectQuery())
+      $named_objects = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withNames($names)
         ->execute();
@@ -47,12 +47,12 @@ final class PhabricatorSearchHovercardController
       }
     }
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($handle_phids)
       ->execute();
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($object_phids)
       ->execute();
@@ -61,14 +61,14 @@ final class PhabricatorSearchHovercardController
     $context_objects = array_select_keys($objects, $context_phids);
 
     if ($context_objects) {
-      PhabricatorPolicyFilterSet::loadHandleViewCapabilities(
+      PhorgePolicyFilterSet::loadHandleViewCapabilities(
         $viewer,
         $handles,
         $context_objects);
     }
 
     $extensions =
-      PhabricatorHovercardEngineExtension::getAllEnabledExtensions();
+      PhorgeHovercardEngineExtension::getAllEnabledExtensions();
 
     $extension_maps = array();
     foreach ($extensions as $extension_key => $extension) {

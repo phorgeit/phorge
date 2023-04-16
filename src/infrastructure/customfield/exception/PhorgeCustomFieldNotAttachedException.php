@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorCustomFieldNotAttachedException
+final class PhorgeCustomFieldNotAttachedException
   extends Exception {}

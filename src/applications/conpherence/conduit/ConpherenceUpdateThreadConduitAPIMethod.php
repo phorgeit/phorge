@@ -108,7 +108,7 @@ final class ConpherenceUpdateThreadConduitAPIMethod
 
     try {
       $xactions = $editor->applyTransactions($conpherence, $xactions);
-    } catch (PhabricatorApplicationTransactionNoEffectException $ex) {
+    } catch (PhorgeApplicationTransactionNoEffectException $ex) {
       throw new ConduitException('ERR_USAGE_NO_UPDATES');
     }
 

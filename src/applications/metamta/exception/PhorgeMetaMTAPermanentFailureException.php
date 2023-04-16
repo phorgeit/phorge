@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorMetaMTAPermanentFailureException
+final class PhorgeMetaMTAPermanentFailureException
   extends Exception {}

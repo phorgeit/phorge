@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorSpacesNamespaceTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeSpacesNamespaceTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'spaces';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorSpacesNamespacePHIDType::TYPECONST;
+    return PhorgeSpacesNamespacePHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorSpacesNamespaceTransactionType';
+    return 'PhorgeSpacesNamespaceTransactionType';
   }
 
 }

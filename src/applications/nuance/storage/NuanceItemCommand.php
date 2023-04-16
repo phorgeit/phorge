@@ -2,7 +2,7 @@
 
 final class NuanceItemCommand
   extends NuanceDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   const STATUS_ISSUED = 'issued';
   const STATUS_EXECUTING = 'executing';
@@ -85,20 +85,20 @@ final class NuanceItemCommand
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

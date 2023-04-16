@@ -1,6 +1,6 @@
 <?php
 
-final class DrydockSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class DrydockSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new DrydockBlueprint());

@@ -1,13 +1,13 @@
 <?php
 
-final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
+final class DivinerAtomSearchEngine extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Documentation Atoms');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDivinerApplication';
+    return 'PhorgeDivinerApplication';
   }
 
   public function canUseInPanelContext() {
@@ -15,7 +15,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter(
       'bookPHIDs',
@@ -31,7 +31,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new DivinerAtomQuery());
 
     $books = $saved->getParameter('bookPHIDs');
@@ -59,7 +59,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $form->appendChild(
       id(new AphrontFormTextControl())
@@ -125,7 +125,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function renderResultList(
     array $symbols,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     assert_instances_of($symbols, 'DivinerLiveSymbol');
@@ -148,7 +148,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No books found.'));
 

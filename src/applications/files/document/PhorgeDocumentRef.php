@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDocumentRef
+final class PhorgeDocumentRef
   extends Phobject {
 
   private $name;
@@ -13,7 +13,7 @@ final class PhabricatorDocumentRef
   private $coverage = array();
   private $data;
 
-  public function setFile(PhabricatorFile $file) {
+  public function setFile(PhorgeFile $file) {
     $this->file = $file;
     return $this;
   }

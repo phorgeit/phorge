@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIImageMaskExample extends PhabricatorUIExample {
+final class PHUIImageMaskExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Image Masks');

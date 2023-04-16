@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardColumn
+final class PhorgeDashboardColumn
   extends Phobject {
 
   private $columnKey;
@@ -26,12 +26,12 @@ final class PhabricatorDashboardColumn
   }
 
   public function setPanelRefs(array $refs) {
-    assert_instances_of($refs, 'PhabricatorDashboardPanelRef');
+    assert_instances_of($refs, 'PhorgeDashboardPanelRef');
     $this->refs = $refs;
     return $this;
   }
 
-  public function addPanelRef(PhabricatorDashboardPanelRef $ref) {
+  public function addPanelRef(PhorgeDashboardPanelRef $ref) {
     $this->refs[] = $ref;
     return $this;
   }

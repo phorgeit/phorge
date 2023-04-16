@@ -5,7 +5,7 @@ final class PHUIFormIconSetControl
 
   private $iconSet;
 
-  public function setIconSet(PhabricatorIconSet $icon_set) {
+  public function setIconSet(PhorgeIconSet $icon_set) {
     $this->iconSet = $icon_set;
     return $this;
   }

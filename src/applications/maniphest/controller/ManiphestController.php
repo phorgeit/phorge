@@ -1,6 +1,6 @@
 <?php
 
-abstract class ManiphestController extends PhabricatorController {
+abstract class ManiphestController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->buildSideNavView()->getMenu();
@@ -54,16 +54,16 @@ abstract class ManiphestController extends PhabricatorController {
       $task->getID());
     $subtasks_uri = $this->getApplicationURI($subtasks_uri);
 
-    $dropdown_menu = id(new PhabricatorActionListView())
+    $dropdown_menu = id(new PhorgeActionListView())
       ->setViewer($viewer)
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($parents_uri)
           ->setName(pht('Search Parent Tasks'))
           ->setDisabled(!$has_parents)
           ->setIcon('fa-chevron-circle-up'))
       ->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($subtasks_uri)
           ->setName(pht('Search Subtasks'))
           ->setDisabled(!$has_subtasks)
@@ -74,7 +74,7 @@ abstract class ManiphestController extends PhabricatorController {
       $standalone_uri = $this->getApplicationURI($standalone_uri);
 
       $dropdown_menu->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setHref($standalone_uri)
           ->setName(pht('View Standalone Graph'))
           ->setIcon('fa-code-fork'));

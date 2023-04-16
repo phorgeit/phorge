@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRemarkupFigletBlockInterpreter
+final class PhorgeRemarkupFigletBlockInterpreter
   extends PhutilRemarkupBlockInterpreter {
 
   public function getInterpreterName() {
@@ -40,7 +40,7 @@ final class PhabricatorRemarkupFigletBlockInterpreter
     return phutil_tag(
       'div',
       array(
-        'class' => 'PhabricatorMonospaced remarkup-figlet',
+        'class' => 'PhorgeMonospaced remarkup-figlet',
       ),
       $result);
   }

@@ -7,7 +7,7 @@ final class SubscriptionListDialogBuilder extends Phobject {
   private $objectPHID;
   private $title;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -17,7 +17,7 @@ final class SubscriptionListDialogBuilder extends Phobject {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -58,7 +58,7 @@ final class SubscriptionListDialogBuilder extends Phobject {
       ->addCancelButton($object_handle->getURI(), pht('Close'));
   }
 
-  private function buildBody(PhabricatorUser $viewer, $handles) {
+  private function buildBody(PhorgeUser $viewer, $handles) {
 
     $list = id(new PHUIObjectItemListView())
       ->setUser($viewer);

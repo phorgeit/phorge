@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorPolicyCodexInterface {
+interface PhorgePolicyCodexInterface {
 
   public function newPolicyCodex();
 
@@ -8,7 +8,7 @@ interface PhabricatorPolicyCodexInterface {
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 /*
 
   public function newPolicyCodex() {

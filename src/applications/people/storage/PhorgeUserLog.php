@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserLog extends PhabricatorUserDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeUserLog extends PhorgeUserDAO
+  implements PhorgePolicyInterface {
 
   protected $actorPHID;
   protected $userPHID;
@@ -13,11 +13,11 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
   protected $session;
 
   public static function initializeNewLog(
-    PhabricatorUser $actor = null,
+    PhorgeUser $actor = null,
     $object_phid = null,
     $action = null) {
 
-    $log = new PhabricatorUserLog();
+    $log = new PhorgeUserLog();
 
     if ($actor) {
       $log->setActorPHID($actor->getPHID());
@@ -33,7 +33,7 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
     $log->setUserPHID((string)$object_phid);
     $log->setAction($action);
 
-    $address = PhabricatorEnv::getRemoteAddress();
+    $address = PhorgeEnv::getRemoteAddress();
     if ($address) {
       $log->remoteAddr = $address->getAddress();
     } else {
@@ -44,17 +44,17 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
   }
 
   public static function loadRecentEventsFromThisIP($action, $timespan) {
-    $address = PhabricatorEnv::getRemoteAddress();
+    $address = PhorgeEnv::getRemoteAddress();
     if (!$address) {
       return array();
     }
 
-    return id(new PhabricatorUserLog())->loadAllWhere(
+    return id(new PhorgeUserLog())->loadAllWhere(
       'action = %s AND remoteAddr = %s AND dateCreated > %d
         ORDER BY dateCreated DESC',
       $action,
       $address->getAddress(),
-      PhabricatorTime::getNow() - $timespan);
+      PhorgeTime::getNow() - $timespan);
   }
 
   public function save() {
@@ -108,7 +108,7 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
     return pht('Activity Log %d', $this->getID());
   }
 
-  public function getRemoteAddressForViewer(PhabricatorUser $viewer) {
+  public function getRemoteAddressForViewer(PhorgeUser $viewer) {
     $viewer_phid = $viewer->getPHID();
     $actor_phid = $this->getActorPHID();
     $user_phid = $this->getUserPHID();
@@ -138,23 +138,23 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($viewer->getIsAdmin()) {
       return true;
     }

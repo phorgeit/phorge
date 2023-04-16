@@ -23,7 +23,7 @@ final class AlmanacBindingInterfaceTransaction
     // recalculate whether it is a cluster device or not so we can tell if
     // the "Can Manage Cluster Services" permission applies to it.
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $interface_phids = array();
 
     $interface_phids[] = $this->getOldValue();
@@ -96,7 +96,7 @@ final class AlmanacBindingInterfaceTransaction
       }
 
       $binding = id(new AlmanacBindingQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withServicePHIDs(array($object->getServicePHID()))
         ->withInterfacePHIDs(array($interface_phid))
         ->executeOne();

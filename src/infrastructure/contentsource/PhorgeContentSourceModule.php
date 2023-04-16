@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorContentSourceModule
-  extends PhabricatorConfigModule {
+final class PhorgeContentSourceModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'contentsource';
@@ -14,7 +14,7 @@ final class PhabricatorContentSourceModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $sources = PhabricatorContentSource::getAllContentSources();
+    $sources = PhorgeContentSource::getAllContentSources();
     ksort($sources);
 
     $rows = array();

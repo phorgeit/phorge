@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnPosition extends PhabricatorProjectDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeProjectColumnPosition extends PhorgeProjectDAO
+  implements PhorgePolicyInterface {
 
   protected $boardPHID;
   protected $columnPHID;
@@ -36,7 +36,7 @@ final class PhabricatorProjectColumnPosition extends PhabricatorProjectDAO
     return $this->assertAttached($this->column);
   }
 
-  public function attachColumn(PhabricatorProjectColumn $column) {
+  public function attachColumn(PhorgeProjectColumn $column) {
     $this->column = $column;
     return $this;
   }
@@ -67,22 +67,22 @@ final class PhabricatorProjectColumnPosition extends PhabricatorProjectDAO
       ->addInt(-1 * $this->getID());
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

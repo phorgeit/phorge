@@ -46,7 +46,7 @@ final class ConduitAPIDocumentationPage
 
   public function newView() {
     $anchor_name = $this->getAnchor();
-    $anchor_view = id(new PhabricatorAnchorView())
+    $anchor_view = id(new PhorgeAnchorView())
       ->setAnchorName($anchor_name);
 
     $content = $this->content;

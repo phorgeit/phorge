@@ -1,7 +1,7 @@
 <?php
 
 final class FilesDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'files.default.view';
 

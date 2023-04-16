@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorTokenReceiverQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeTokenReceiverQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $tokenCounts;
 
   protected function loadPage() {
-    $table = new PhabricatorTokenCount();
+    $table = new PhorgeTokenCount();
     $conn_r = $table->establishConnection('r');
 
     $rows = queryfx_all(
@@ -19,7 +19,7 @@ final class PhabricatorTokenReceiverQuery
   }
 
   protected function willFilterPage(array $phids) {
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($phids)
       ->execute();
@@ -35,7 +35,7 @@ final class PhabricatorTokenReceiverQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return 'PhorgeTokensApplication';
   }
 
 }

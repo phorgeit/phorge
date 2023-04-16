@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeMacroQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -34,7 +34,7 @@ final class PhabricatorMacroQuery
       '-2' => pht('(Marked With Any Flag)'),
     );
 
-    foreach (PhabricatorFlagColor::getColorNameMap() as $color => $name) {
+    foreach (PhorgeFlagColor::getColorNameMap() as $color => $name) {
       $options[$color] = $name;
     }
 
@@ -97,7 +97,7 @@ final class PhabricatorMacroQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorFileImageMacro();
+    return new PhorgeFileImageMacro();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -178,19 +178,19 @@ final class PhabricatorMacroQuery
 
     if ($this->flagColor != '-1' && $this->flagColor !== null) {
       if ($this->flagColor == '-2') {
-        $flag_colors = array_keys(PhabricatorFlagColor::getColorNameMap());
+        $flag_colors = array_keys(PhorgeFlagColor::getColorNameMap());
       } else {
         $flag_colors = array($this->flagColor);
       }
-      $flags = id(new PhabricatorFlagQuery())
+      $flags = id(new PhorgeFlagQuery())
         ->withOwnerPHIDs(array($this->getViewer()->getPHID()))
-        ->withTypes(array(PhabricatorMacroMacroPHIDType::TYPECONST))
+        ->withTypes(array(PhorgeMacroMacroPHIDType::TYPECONST))
         ->withColors($flag_colors)
         ->setViewer($this->getViewer())
         ->execute();
 
       if (empty($flags)) {
-        throw new PhabricatorEmptyQueryException(pht('No matching flags.'));
+        throw new PhorgeEmptyQueryException(pht('No matching flags.'));
       } else {
         $where[] = qsprintf(
           $conn,
@@ -205,7 +205,7 @@ final class PhabricatorMacroQuery
   protected function didFilterPage(array $macros) {
     if ($this->needFiles) {
       $file_phids = mpull($macros, 'getFilePHID');
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($file_phids)
@@ -230,7 +230,7 @@ final class PhabricatorMacroQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function getOrderableColumns() {

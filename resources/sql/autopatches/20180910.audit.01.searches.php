@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorSavedQuery();
+$table = new PhorgeSavedQuery();
 $conn = $table->establishConnection('w');
 
 $status_map = array(
@@ -13,7 +13,7 @@ $status_map = array(
 );
 
 foreach (new LiskMigrationIterator($table) as $query) {
-  if ($query->getEngineClassName() !== 'PhabricatorCommitSearchEngine') {
+  if ($query->getEngineClassName() !== 'PhorgeCommitSearchEngine') {
     continue;
   }
 

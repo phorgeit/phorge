@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeDashboardPanelDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Dashboard Panels');
@@ -12,7 +12,7 @@ final class PhabricatorDashboardPanelDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function loadResults() {
@@ -25,7 +25,7 @@ final class PhabricatorDashboardPanelDatasource
   }
 
   public function buildResults() {
-    $query = new PhabricatorDashboardPanelQuery();
+    $query = new PhorgeDashboardPanelQuery();
 
     $raw_query = $this->getRawQuery();
     if (preg_match('/^[wW]\d+\z/', $raw_query)) {
@@ -35,7 +35,7 @@ final class PhabricatorDashboardPanelDatasource
     } else {
       $this->applyFerretConstraints(
         $query,
-        id(new PhabricatorDashboardPanel())->newFerretEngine(),
+        id(new PhorgeDashboardPanel())->newFerretEngine(),
         'title',
         $this->getRawQuery());
     }
@@ -56,7 +56,7 @@ final class PhabricatorDashboardPanelDatasource
       $monogram = $panel->getMonogram();
       $properties = $panel->getProperties();
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($monogram.' '.$panel->getName())
         ->setPHID($phid)
         ->setIcon($icon)

@@ -1,25 +1,25 @@
 <?php
 
-final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
+final class PhorgeOwnersPackageTestCase extends PhorgeTestCase {
 
   public function testFindLongestPathsPerPackage() {
     $rows = array(
       array(
         'id' => 1,
         'excluded' => 0,
-        'dominion' => PhabricatorOwnersPackage::DOMINION_STRONG,
+        'dominion' => PhorgeOwnersPackage::DOMINION_STRONG,
         'path' => 'src/',
       ),
       array(
         'id' => 1,
         'excluded' => 1,
-        'dominion' => PhabricatorOwnersPackage::DOMINION_STRONG,
+        'dominion' => PhorgeOwnersPackage::DOMINION_STRONG,
         'path' => 'src/example/',
       ),
       array(
         'id' => 2,
         'excluded' => 0,
-        'dominion' => PhabricatorOwnersPackage::DOMINION_STRONG,
+        'dominion' => PhorgeOwnersPackage::DOMINION_STRONG,
         'path' => 'src/example/',
       ),
     );
@@ -33,7 +33,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
         1 => strlen('src/'),
         2 => strlen('src/example/'),
       ),
-      PhabricatorOwnersPackage::findLongestPathsPerPackage($rows, $paths));
+      PhorgeOwnersPackage::findLongestPathsPerPackage($rows, $paths));
 
     $paths = array(
       'src/' => array('src/example/b.php' => true),
@@ -43,7 +43,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       array(
         2 => strlen('src/example/'),
       ),
-      PhabricatorOwnersPackage::findLongestPathsPerPackage($rows, $paths));
+      PhorgeOwnersPackage::findLongestPathsPerPackage($rows, $paths));
 
 
     // Test packages with weak dominion. Here, only package #2 should own the
@@ -55,13 +55,13 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       array(
         'id' => 1,
         'excluded' => 0,
-        'dominion' => PhabricatorOwnersPackage::DOMINION_WEAK,
+        'dominion' => PhorgeOwnersPackage::DOMINION_WEAK,
         'path' => 'src/',
       ),
       array(
         'id' => 2,
         'excluded' => 0,
-        'dominion' => PhabricatorOwnersPackage::DOMINION_WEAK,
+        'dominion' => PhorgeOwnersPackage::DOMINION_WEAK,
         'path' => 'src/applications/',
       ),
     );
@@ -77,7 +77,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       array(
         2 => strlen('src/applications/'),
       ),
-      PhabricatorOwnersPackage::findLongestPathsPerPackage($rows, $paths));
+      PhorgeOwnersPackage::findLongestPathsPerPackage($rows, $paths));
 
 
     // Now, add a more specific path to Package #1. This tests nested ownership
@@ -87,7 +87,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
     $rows[] = array(
       'id' => 1,
       'excluded' => 0,
-      'dominion' => PhabricatorOwnersPackage::DOMINION_WEAK,
+      'dominion' => PhorgeOwnersPackage::DOMINION_WEAK,
       'path' => 'src/applications/main/',
     );
 
@@ -97,7 +97,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       array(
         1 => strlen('src/applications/main/'),
       ),
-      PhabricatorOwnersPackage::findLongestPathsPerPackage($rows, $paths));
+      PhorgeOwnersPackage::findLongestPathsPerPackage($rows, $paths));
 
 
     // Test cases where multiple packages own the same path, with various
@@ -108,27 +108,27 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
     $rules = array(
       // All claims strong.
       array(
-        PhabricatorOwnersPackage::DOMINION_STRONG,
-        PhabricatorOwnersPackage::DOMINION_STRONG,
-        PhabricatorOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_STRONG,
       ),
       // All claims weak.
       array(
-        PhabricatorOwnersPackage::DOMINION_WEAK,
-        PhabricatorOwnersPackage::DOMINION_WEAK,
-        PhabricatorOwnersPackage::DOMINION_WEAK,
+        PhorgeOwnersPackage::DOMINION_WEAK,
+        PhorgeOwnersPackage::DOMINION_WEAK,
+        PhorgeOwnersPackage::DOMINION_WEAK,
       ),
       // Mixture of strong and weak claims, strong first.
       array(
-        PhabricatorOwnersPackage::DOMINION_STRONG,
-        PhabricatorOwnersPackage::DOMINION_STRONG,
-        PhabricatorOwnersPackage::DOMINION_WEAK,
+        PhorgeOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_WEAK,
       ),
       // Mixture of strong and weak claims, weak first.
       array(
-        PhabricatorOwnersPackage::DOMINION_WEAK,
-        PhabricatorOwnersPackage::DOMINION_STRONG,
-        PhabricatorOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_WEAK,
+        PhorgeOwnersPackage::DOMINION_STRONG,
+        PhorgeOwnersPackage::DOMINION_STRONG,
       ),
     );
 
@@ -164,7 +164,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       $strong = array();
       $weak = array();
       foreach ($rule as $idx => $dominion) {
-        if ($dominion == PhabricatorOwnersPackage::DOMINION_STRONG) {
+        if ($dominion == PhorgeOwnersPackage::DOMINION_STRONG) {
           $strong[] = $idx + 1;
         } else {
           $weak[] = $idx + 1;
@@ -178,7 +178,7 @@ final class PhabricatorOwnersPackageTestCase extends PhabricatorTestCase {
       }
 
       $expect = array_fill_keys($expect, strlen($main_c));
-      $actual = PhabricatorOwnersPackage::findLongestPathsPerPackage(
+      $actual = PhorgeOwnersPackage::findLongestPathsPerPackage(
         $rows,
         $paths);
 

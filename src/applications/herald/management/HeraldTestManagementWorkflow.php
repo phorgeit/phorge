@@ -35,7 +35,7 @@ final class HeraldTestManagementWorkflow
         pht('Specify an object to test rules for with "--object".'));
     }
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($object_name))
       ->execute();
@@ -126,7 +126,7 @@ final class HeraldTestManagementWorkflow
     $xscript = $engine->getTranscript();
 
     $uri = '/herald/transcript/'.$xscript->getID().'/';
-    $uri = PhabricatorEnv::getProductionURI($uri);
+    $uri = PhorgeEnv::getProductionURI($uri);
 
     echo tsprintf(
       "%s\n\n    __%s__\n\n",

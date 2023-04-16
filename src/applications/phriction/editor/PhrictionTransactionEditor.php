@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   const VALIDATE_CREATE_ANCESTRY = 'create';
   const VALIDATE_MOVE_ANCESTRY   = 'move';
@@ -90,7 +90,7 @@ final class PhrictionTransactionEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -100,16 +100,16 @@ final class PhrictionTransactionEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function expandTransactions(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $this->setOldContent($object->getContent());
@@ -118,8 +118,8 @@ final class PhrictionTransactionEditor
   }
 
   protected function expandTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $xactions = parent::expandTransaction($object, $xaction);
     switch ($xaction->getTransactionType()) {
@@ -139,10 +139,10 @@ final class PhrictionTransactionEditor
       case PhrictionDocumentMoveToTransaction::TRANSACTIONTYPE:
         $document = $xaction->getNewValue();
         $xactions[] = id(new PhrictionTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+          ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
           ->setNewValue($document->getViewPolicy());
         $xactions[] = id(new PhrictionTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+          ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
           ->setNewValue($document->getEditPolicy());
         break;
       default:
@@ -153,7 +153,7 @@ final class PhrictionTransactionEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     if ($this->hasNewDocumentContent()) {
@@ -166,10 +166,10 @@ final class PhrictionTransactionEditor
 
     if ($this->getIsNewObject() && !$this->getSkipAncestorCheck()) {
       // Stub out empty parent documents if they don't exist
-      $ancestral_slugs = PhabricatorSlug::getAncestry($object->getSlug());
+      $ancestral_slugs = PhorgeSlug::getAncestry($object->getSlug());
       if ($ancestral_slugs) {
         $ancestors = id(new PhrictionDocumentQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withSlugs($ancestral_slugs)
           ->needContent(true)
           ->execute();
@@ -186,7 +186,7 @@ final class PhrictionTransactionEditor
             $stub_xactions[] = id(new PhrictionTransaction())
               ->setTransactionType(
                 PhrictionDocumentTitleTransaction::TRANSACTIONTYPE)
-              ->setNewValue(PhabricatorSlug::getDefaultTitle($slug))
+              ->setNewValue(PhorgeSlug::getDefaultTitle($slug))
               ->setMetadataValue('stub:create:phid', $object->getPHID());
             $stub_xactions[] = id(new PhrictionTransaction())
               ->setTransactionType(
@@ -194,10 +194,10 @@ final class PhrictionTransactionEditor
               ->setNewValue('')
               ->setMetadataValue('stub:create:phid', $object->getPHID());
             $stub_xactions[] = id(new PhrictionTransaction())
-              ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+              ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
               ->setNewValue($object->getViewPolicy());
             $stub_xactions[] = id(new PhrictionTransaction())
-              ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+              ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
               ->setNewValue($object->getEditPolicy());
             $sub_editor = id(new PhrictionTransactionEditor())
               ->setActor($this->getActor())
@@ -248,7 +248,7 @@ final class PhrictionTransactionEditor
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -257,7 +257,7 @@ final class PhrictionTransactionEditor
     return '[Phriction]';
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $this->getActingAsPHID(),
     );
@@ -278,20 +278,20 @@ final class PhrictionTransactionEditor
     );
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PhrictionReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $title = $object->getContent()->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($title);
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -303,7 +303,7 @@ final class PhrictionTransactionEditor
     } else if ($this->contentDiffURI) {
       $body->addLinkSection(
         pht('DOCUMENT DIFF'),
-        PhabricatorEnv::getProductionURI($this->contentDiffURI));
+        PhorgeEnv::getProductionURI($this->contentDiffURI));
     }
 
     $description = $object->getContent()->getDescription();
@@ -315,20 +315,20 @@ final class PhrictionTransactionEditor
 
     $body->addLinkSection(
       pht('DOCUMENT DETAIL'),
-      PhabricatorEnv::getProductionURI(
+      PhorgeEnv::getProductionURI(
         PhrictionDocument::getSlugURI($object->getSlug())));
 
     return $body;
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return $this->shouldSendMail($object, $xactions);
   }
 
   protected function getFeedRelatedPHIDs(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $phids = parent::getFeedRelatedPHIDs($object, $xactions);
@@ -346,7 +346,7 @@ final class PhrictionTransactionEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -392,7 +392,7 @@ final class PhrictionTransactionEditor
           }
 
           $target_document = id(new PhrictionDocumentQuery())
-            ->setViewer(PhabricatorUser::getOmnipotentUser())
+            ->setViewer(PhorgeUser::getOmnipotentUser())
             ->withSlugs(array($object->getSlug()))
             ->needContent(true)
             ->executeOne();
@@ -412,7 +412,7 @@ final class PhrictionTransactionEditor
                 'location. Move or delete the existing document first.');
             }
             if ($message !== null) {
-              $error = new PhabricatorApplicationTransactionValidationError(
+              $error = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Invalid'),
                 $message,
@@ -429,16 +429,16 @@ final class PhrictionTransactionEditor
   }
 
   public function validateAncestry(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $verb) {
 
     $errors = array();
     // NOTE: We use the omnipotent user for these checks because policy
     // doesn't matter; existence does.
-    $other_doc_viewer = PhabricatorUser::getOmnipotentUser();
-    $ancestral_slugs = PhabricatorSlug::getAncestry($object->getSlug());
+    $other_doc_viewer = PhorgeUser::getOmnipotentUser();
+    $ancestral_slugs = PhorgeSlug::getAncestry($object->getSlug());
     if ($ancestral_slugs) {
       $ancestors = id(new PhrictionDocumentQuery())
         ->setViewer($other_doc_viewer)
@@ -469,7 +469,7 @@ final class PhrictionTransactionEditor
                 $create_link);
               break;
           }
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Missing Ancestor'),
             $message,
@@ -482,14 +482,14 @@ final class PhrictionTransactionEditor
   }
 
   private function validateContentVersion(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $error = null;
     if ($this->getContentVersion() &&
        ($object->getMaxVersion() != $this->getContentVersion())) {
-      $error = new PhabricatorApplicationTransactionValidationError(
+      $error = new PhorgeApplicationTransactionValidationError(
         $type,
         pht('Edit Conflict'),
         pht(
@@ -508,13 +508,13 @@ final class PhrictionTransactionEditor
   }
 
   protected function shouldApplyHeraldRules(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   protected function buildHeraldAdapter(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     return id(new PhrictionDocumentHeraldAdapter())
@@ -538,7 +538,7 @@ final class PhrictionTransactionEditor
 
       $document->setContentPHID($content_phid);
       $document->attachContent($content);
-      $document->setEditedEpoch(PhabricatorTime::getNow());
+      $document->setEditedEpoch(PhorgeTime::getNow());
       $document->setMaxVersion($content->getVersion());
 
       $this->newContent = $content;

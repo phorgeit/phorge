@@ -7,7 +7,7 @@ abstract class DiffusionRepositoryManagementPanel
   private $repository;
   private $controller;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -16,7 +16,7 @@ abstract class DiffusionRepositoryManagementPanel
     return $this->viewer;
   }
 
-  final public function setRepository(PhabricatorRepository $repository) {
+  final public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -29,7 +29,7 @@ abstract class DiffusionRepositoryManagementPanel
     return $this->controller->getRequest();
   }
 
-  final public function setController(PhabricatorController $controller) {
+  final public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -52,7 +52,7 @@ abstract class DiffusionRepositoryManagementPanel
   }
 
   public function shouldEnableForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return true;
   }
 
@@ -84,7 +84,7 @@ abstract class DiffusionRepositoryManagementPanel
     $label = $this->getManagementPanelLabel();
     $panel_uri = $this->getPanelURI();
 
-    return id(new PhabricatorEditPage())
+    return id(new PhorgeEditPage())
       ->setKey($key)
       ->setLabel($label)
       ->setViewURI($panel_uri)
@@ -116,7 +116,7 @@ abstract class DiffusionRepositoryManagementPanel
     // on mobile on the header
     $action_id = celerity_generate_unique_node_id();
 
-    return id(new PhabricatorActionListView())
+    return id(new PhorgeActionListView())
       ->setViewer($viewer)
       ->setID($action_id);
   }

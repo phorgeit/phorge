@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorChatLogChannel
-  extends PhabricatorChatLogDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeChatLogChannel
+  extends PhorgeChatLogDAO
+  implements PhorgePolicyInterface {
 
   protected $serviceName;
   protected $serviceType;
@@ -28,23 +28,23 @@ final class PhabricatorChatLogChannel
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->viewPolicy;
         break;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->editPolicy;
         break;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

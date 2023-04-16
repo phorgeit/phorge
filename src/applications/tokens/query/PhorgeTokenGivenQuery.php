@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenGivenQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeTokenGivenQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $authorPHIDs;
   private $objectPHIDs;
@@ -23,7 +23,7 @@ final class PhabricatorTokenGivenQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorTokenGiven();
+    return new PhorgeTokenGiven();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -58,7 +58,7 @@ final class PhabricatorTokenGivenQuery
 
     $object_phids = mpull($results, 'getObjectPHID');
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($object_phids)
       ->execute();
@@ -68,7 +68,7 @@ final class PhabricatorTokenGivenQuery
       $object = idx($objects, $result->getObjectPHID());
 
       if ($object) {
-        if ($object instanceof PhabricatorTokenReceiverInterface) {
+        if ($object instanceof PhorgeTokenReceiverInterface) {
           $result->attachObject($object);
           continue;
         }
@@ -84,7 +84,7 @@ final class PhabricatorTokenGivenQuery
 
     $token_phids = mpull($results, 'getTokenPHID');
 
-    $tokens = id(new PhabricatorTokenQuery())
+    $tokens = id(new PhorgeTokenQuery())
       ->setViewer($viewer)
       ->withPHIDs($token_phids)
       ->execute();
@@ -107,7 +107,7 @@ final class PhabricatorTokenGivenQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return 'PhorgeTokensApplication';
   }
 
 }

@@ -1,12 +1,12 @@
 <?php
 
 final class DiffusionUpdateObjectAfterCommitWorker
-  extends PhabricatorWorker {
+  extends PhorgeWorker {
 
   private $properties;
 
   protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   protected function doWork() {
@@ -15,7 +15,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
 
     $commit_phid = idx($data, 'commitPHID');
     if (!$commit_phid) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No "commitPHID" in task data.'));
     }
 
@@ -25,7 +25,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
       ->needIdentities(true)
       ->executeOne();
     if (!$commit) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load commit "%s".',
           $commit_phid));
@@ -33,16 +33,16 @@ final class DiffusionUpdateObjectAfterCommitWorker
 
     $object_phid = idx($data, 'objectPHID');
     if (!$object_phid) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No "objectPHID" in task data.'));
     }
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->executeOne();
     if (!$object) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load object "%s".',
           $object_phid));
@@ -62,7 +62,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
     return idx($this->properties, $key, $default);
   }
 
-  protected function getActingPHID(PhabricatorRepositoryCommit $commit) {
+  protected function getActingPHID(PhorgeRepositoryCommit $commit) {
     if ($commit->hasCommitterIdentity()) {
       return $commit->getCommitterIdentity()->getIdentityDisplayPHID();
     }
@@ -71,7 +71,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
       return $commit->getAuthorIdentity()->getIdentityDisplayPHID();
     }
 
-    return id(new PhabricatorDiffusionApplication())->getPHID();
+    return id(new PhorgeDiffusionApplication())->getPHID();
   }
 
   protected function loadActingUser($acting_phid) {
@@ -93,9 +93,9 @@ final class DiffusionUpdateObjectAfterCommitWorker
 
     $viewer = $this->getViewer();
 
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
+    $user_type = PhorgePeopleUserPHIDType::TYPECONST;
     if (phid_get_type($acting_phid) === $user_type) {
-      $acting_user = id(new PhabricatorPeopleQuery())
+      $acting_user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($acting_phid))
         ->executeOne();
@@ -108,7 +108,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
   }
 
   private function updateTask(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     ManiphestTask $task) {
 
     $acting_phid = $this->getActingPHID($commit);
@@ -145,7 +145,7 @@ final class DiffusionUpdateObjectAfterCommitWorker
   }
 
   private function updateRevision(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     DifferentialRevision $revision) {
 
     $acting_phid = $this->getActingPHID($commit);
@@ -213,13 +213,13 @@ final class DiffusionUpdateObjectAfterCommitWorker
 
   private function newEdgeTransaction(
     $object,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $edge_type) {
 
     $commit_phid = $commit->getPHID();
 
     return $object->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
       ->setMetadataValue('edge:type', $edge_type)
       ->setNewValue(
         array(

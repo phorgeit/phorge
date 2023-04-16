@@ -19,7 +19,7 @@ final class DifferentialRevisionPackageOwnerHeraldField
       return array();
     }
 
-    $owners = PhabricatorOwnersOwner::loadAllForPackages($packages);
+    $owners = PhorgeOwnersOwner::loadAllForPackages($packages);
     return mpull($owners, 'getUserPHID');
   }
 
@@ -28,7 +28,7 @@ final class DifferentialRevisionPackageOwnerHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectOrUserDatasource();
+    return new PhorgeProjectOrUserDatasource();
   }
 
 }

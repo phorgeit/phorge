@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersSearchField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeOwnersSearchField
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();
@@ -12,7 +12,7 @@ final class PhabricatorOwnersSearchField
   }
 
   protected function newDatasource() {
-    return new PhabricatorPeopleOwnerDatasource();
+    return new PhorgePeopleOwnerDatasource();
   }
 
   protected function newConduitParameterType() {

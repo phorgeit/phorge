@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeSubscriptionsEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'subscriptions.subscribers';
   const FIELDKEY = 'subscriberPHIDs';
@@ -23,20 +23,20 @@ final class PhabricatorSubscriptionsEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    $subscribers_type = PhabricatorTransactions::TYPE_SUBSCRIBERS;
+    $subscribers_type = PhorgeTransactions::TYPE_SUBSCRIBERS;
 
     $object_phid = $object->getPHID();
     if ($object_phid) {
-      $sub_phids = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+      $sub_phids = PhorgeSubscribersQuery::loadSubscribersForPHID(
         $object_phid);
     } else {
       $sub_phids = array();
@@ -44,7 +44,7 @@ final class PhabricatorSubscriptionsEditEngineExtension
 
     $viewer = $engine->getViewer();
 
-    $subscribers_field = id(new PhabricatorSubscribersEditField())
+    $subscribers_field = id(new PhorgeSubscribersEditField())
       ->setKey(self::FIELDKEY)
       ->setLabel(pht('Subscribers'))
       ->setEditTypeKey('subscribers')
@@ -58,7 +58,7 @@ final class PhabricatorSubscriptionsEditEngineExtension
       ->setValue($sub_phids)
       ->setViewer($viewer);
 
-    $subscriber_datasource = id(new PhabricatorMetaMTAMailableDatasource())
+    $subscriber_datasource = id(new PhorgeMetaMTAMailableDatasource())
       ->setViewer($viewer);
 
     $edit_add = $subscribers_field->getConduitEditType(self::EDITKEY_ADD)

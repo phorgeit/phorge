@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorTokenGiveController extends PhabricatorTokenController {
+final class PhorgeTokenGiveController extends PhorgeTokenController {
 
  public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $phid = $request->getURIData('phid');
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -14,17 +14,17 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
       return new Aphront404Response();
     }
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
-    if (!($object instanceof PhabricatorTokenReceiverInterface)) {
+    if (!($object instanceof PhorgeTokenReceiverInterface)) {
       return new Aphront400Response();
     }
 
-    if (!PhabricatorPolicyFilter::canInteract($viewer, $object)) {
-      $lock = PhabricatorEditEngineLock::newForObject($viewer, $object);
+    if (!PhorgePolicyFilter::canInteract($viewer, $object)) {
+      $lock = PhorgeEditEngineLock::newForObject($viewer, $object);
 
       $dialog = $this->newDialog()
         ->addCancelButton($handle->getURI());
@@ -32,7 +32,7 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
       return $lock->willBlockUserInteractionWithDialog($dialog);
     }
 
-    $current = id(new PhabricatorTokenGivenQuery())
+    $current = id(new PhorgeTokenGivenQuery())
       ->setViewer($viewer)
       ->withAuthorPHIDs(array($viewer->getPHID()))
       ->withObjectPHIDs(array($handle->getPHID()))
@@ -48,9 +48,9 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
 
     $done_uri = $handle->getURI();
     if ($request->isFormOrHisecPost()) {
-      $content_source = PhabricatorContentSource::newFromRequest($request);
+      $content_source = PhorgeContentSource::newFromRequest($request);
 
-      $editor = id(new PhabricatorTokenGivenEditor())
+      $editor = id(new PhorgeTokenGivenEditor())
         ->setActor($viewer)
         ->setRequest($request)
         ->setCancelURI($handle->getURI())
@@ -80,7 +80,7 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
   private function buildGiveTokenDialog() {
     $viewer = $this->getViewer();
 
-    $tokens = id(new PhabricatorTokenQuery())
+    $tokens = id(new PhorgeTokenQuery())
       ->setViewer($viewer)
       ->execute();
 
@@ -129,7 +129,7 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
     return $dialog;
   }
 
-  private function buildRescindTokenDialog(PhabricatorTokenGiven $token_given) {
+  private function buildRescindTokenDialog(PhorgeTokenGiven $token_given) {
     $dialog = new AphrontDialogView();
     $dialog->setTitle(pht('Rescind Token'));
 

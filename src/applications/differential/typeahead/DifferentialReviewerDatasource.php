@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialReviewerDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Reviewers');
@@ -12,14 +12,14 @@ final class DifferentialReviewerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectDatasource(),
-      new PhabricatorOwnersPackageDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectDatasource(),
+      new PhorgeOwnersPackageDatasource(),
       new DifferentialBlockingReviewerDatasource(),
     );
   }

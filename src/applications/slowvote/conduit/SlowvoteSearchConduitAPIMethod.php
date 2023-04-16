@@ -1,14 +1,14 @@
 <?php
 
 final class SlowvoteSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'slowvote.poll.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorSlowvoteSearchEngine();
+    return new PhorgeSlowvoteSearchEngine();
   }
 
   public function getMethodSummary() {

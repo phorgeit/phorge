@@ -33,7 +33,7 @@ final class DiffusionInternalAncestorsConduitAPIMethod
     $commits = $request->getValue('commits');
     $ref = $request->getValue('ref');
 
-    $graph = new PhabricatorGitGraphStream($repository, $ref);
+    $graph = new PhorgeGitGraphStream($repository, $ref);
 
     $keep = array();
     foreach ($commits as $identifier) {

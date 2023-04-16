@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryAuditRequest();
+$table = new PhorgeRepositoryAuditRequest();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Removing duplicate Audit requests...')."\n";

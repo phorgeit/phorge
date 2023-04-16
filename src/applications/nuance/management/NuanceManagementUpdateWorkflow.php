@@ -21,7 +21,7 @@ final class NuanceManagementUpdateWorkflow
   public function execute(PhutilArgumentParser $args) {
     $item = $this->loadItem($args, 'item');
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
     $item->scheduleUpdate();
 
     return 0;

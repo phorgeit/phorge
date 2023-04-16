@@ -7,7 +7,7 @@ abstract class HeraldPreCommitAdapter extends HeraldAdapter {
 
   abstract public function isPreCommitRefAdapter();
 
-  public function setPushLog(PhabricatorRepositoryPushLog $log) {
+  public function setPushLog(PhorgeRepositoryPushLog $log) {
     $this->log = $log;
     return $this;
   }
@@ -22,11 +22,11 @@ abstract class HeraldPreCommitAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function isTestAdapterForObject($object) {
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
   public function canCreateTestAdapterForObject($object) {
@@ -40,7 +40,7 @@ abstract class HeraldPreCommitAdapter extends HeraldAdapter {
   }
 
   protected function initializeNewAdapter() {
-    $this->log = new PhabricatorRepositoryPushLog();
+    $this->log = new PhorgeRepositoryPushLog();
   }
 
   public function isSingleEventAdapter() {
@@ -63,11 +63,11 @@ abstract class HeraldPreCommitAdapter extends HeraldAdapter {
   }
 
   public function canTriggerOnObject($object) {
-    if ($object instanceof PhabricatorRepository) {
+    if ($object instanceof PhorgeRepository) {
       return true;
     }
 
-    if ($object instanceof PhabricatorProject) {
+    if ($object instanceof PhorgeProject) {
       return true;
     }
 

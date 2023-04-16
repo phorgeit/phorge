@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorEvent extends PhutilEvent {
+final class PhorgeEvent extends PhutilEvent {
 
   private $user;
   private $aphrontRequest;
   private $conduitRequest;
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }

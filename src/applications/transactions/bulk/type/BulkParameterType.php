@@ -5,7 +5,7 @@ abstract class BulkParameterType extends Phobject {
   private $viewer;
   private $field;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -14,7 +14,7 @@ abstract class BulkParameterType extends Phobject {
     return $this->viewer;
   }
 
-  final public function setField(PhabricatorEditField $field) {
+  final public function setField(PhorgeEditField $field) {
     $this->field = $field;
     return $this;
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskStatusTestCase extends PhabricatorTestCase {
+final class ManiphestTaskStatusTestCase extends PhorgeTestCase {
 
   public function testManiphestStatusConstants() {
     $map = array(

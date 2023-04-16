@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSettingsTimezoneController
-  extends PhabricatorController {
+final class PhorgeSettingsTimezoneController
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -10,7 +10,7 @@ final class PhabricatorSettingsTimezoneController
     $client_offset = (int)$client_offset;
 
     $timezones = DateTimeZone::listIdentifiers();
-    $now = new DateTime('@'.PhabricatorTime::getNow());
+    $now = new DateTime('@'.PhorgeTime::getNow());
 
     $options = array(
       'ignore' => pht('Ignore Conflict'),
@@ -20,7 +20,7 @@ final class PhabricatorSettingsTimezoneController
       $zone = new DateTimeZone($identifier);
       $offset = -($zone->getOffset($now) / 60);
       if ($offset == $client_offset) {
-        $name = PhabricatorTime::getTimezoneDisplayName($identifier);
+        $name = PhorgeTime::getTimezoneDisplayName($identifier);
         $options[$identifier] = $name;
       }
     }
@@ -32,8 +32,8 @@ final class PhabricatorSettingsTimezoneController
     if ($request->isFormPost()) {
       $timezone = $request->getStr('timezone');
 
-      $pref_ignore = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
-      $pref_timezone = PhabricatorTimezoneSetting::SETTINGKEY;
+      $pref_ignore = PhorgeTimezoneIgnoreOffsetSetting::SETTINGKEY;
+      $pref_timezone = PhorgeTimezoneSetting::SETTINGKEY;
 
       if ($timezone == 'ignore') {
         $this->writeSettings(
@@ -133,9 +133,9 @@ final class PhabricatorSettingsTimezoneController
     $request = $this->getRequest();
     $viewer = $this->getViewer();
 
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($viewer);
+    $preferences = PhorgeUserPreferences::loadUserPreferences($viewer);
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnNoEffect(true)

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'maniphest.search';

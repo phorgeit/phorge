@@ -84,7 +84,7 @@ final class DarkConsoleErrorLogPlugin extends DarkConsolePlugin {
       array(),
       array(
         phutil_tag('div', array(), $table->render()),
-        phutil_tag('pre', array('class' => 'PhabricatorMonospaced'), $details),
+        phutil_tag('pre', array('class' => 'PhorgeMonospaced'), $details),
       ));
   }
 

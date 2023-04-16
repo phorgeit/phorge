@@ -1,14 +1,14 @@
 <?php
 
 final class UserSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'user.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorPeopleSearchEngine();
+    return new PhorgePeopleSearchEngine();
   }
 
   public function getMethodSummary() {

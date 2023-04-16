@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceSourceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'nuance.source';
 
@@ -34,7 +34,7 @@ final class NuanceSourceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return 'PhorgeNuanceApplication';
   }
 
   protected function newEditableObject() {
@@ -92,14 +92,14 @@ final class NuanceSourceEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the source.'))
         ->setTransactionType(NuanceSourceNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey('defaultQueue')
         ->setLabel(pht('Default Queue'))
         ->setDescription(pht('Default queue.'))

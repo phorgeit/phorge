@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIInvisibleCharacterTestCase extends PhabricatorTestCase {
+final class PHUIInvisibleCharacterTestCase extends PhorgeTestCase {
 
   public function testEmptyString() {
     $view = new PHUIInvisibleCharacterView('');

@@ -247,7 +247,7 @@ final class DiffusionBlameController extends DiffusionController {
   }
 
   private function renderCommitTooltip(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $handles) {
 
     $viewer = $this->getViewer();

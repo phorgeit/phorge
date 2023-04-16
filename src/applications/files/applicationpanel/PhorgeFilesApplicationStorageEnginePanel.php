@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorFilesApplicationStorageEnginePanel
-  extends PhabricatorApplicationConfigurationPanel {
+final class PhorgeFilesApplicationStorageEnginePanel
+  extends PhorgeApplicationConfigurationPanel {
 
   public function getPanelKey() {
     return 'storage';
   }
 
   public function shouldShowForApplication(
-    PhabricatorApplication $application) {
-    return ($application instanceof PhabricatorFilesApplication);
+    PhorgeApplication $application) {
+    return ($application instanceof PhorgeFilesApplication);
   }
 
   public function buildConfigurationPagePanel() {
     $viewer = $this->getViewer();
     $application = $this->getApplication();
 
-    $engines = PhabricatorFileStorageEngine::loadAllEngines();
-    $writable_engines = PhabricatorFileStorageEngine::loadWritableEngines();
-    $chunk_engines = PhabricatorFileStorageEngine::loadWritableChunkEngines();
+    $engines = PhorgeFileStorageEngine::loadAllEngines();
+    $writable_engines = PhorgeFileStorageEngine::loadWritableEngines();
+    $chunk_engines = PhorgeFileStorageEngine::loadWritableChunkEngines();
 
     $yes = pht('Yes');
     $no = pht('No');
@@ -84,7 +84,7 @@ final class PhabricatorFilesApplicationStorageEnginePanel
 
   public function handlePanelRequest(
     AphrontRequest $request,
-    PhabricatorController $controller) {
+    PhorgeController $controller) {
     return new Aphront404Response();
   }
 

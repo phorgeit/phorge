@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCalendarImportViewController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarImportViewController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $import = id(new PhabricatorCalendarImportQuery())
+    $import = id(new PhorgeCalendarImportQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -23,7 +23,7 @@ final class PhabricatorCalendarImportViewController
 
     $timeline = $this->buildTransactionTimeline(
       $import,
-      new PhabricatorCalendarImportTransactionQuery());
+      new PhorgeCalendarImportTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $header = $this->buildHeaderView($import);
@@ -57,7 +57,7 @@ final class PhabricatorCalendarImportViewController
   }
 
   private function buildHeaderView(
-    PhabricatorCalendarImport $import) {
+    PhorgeCalendarImport $import) {
     $viewer = $this->getViewer();
     $id = $import->getID();
 
@@ -80,17 +80,17 @@ final class PhabricatorCalendarImportViewController
     return $header;
   }
 
-  private function buildCurtain(PhabricatorCalendarImport $import) {
+  private function buildCurtain(PhorgeCalendarImport $import) {
     $viewer = $this->getViewer();
     $id = $import->getID();
 
     $curtain = $this->newCurtainView($import);
     $engine = $import->getEngine();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $import,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = "import/edit/{$id}/";
     $edit_uri = $this->getApplicationURI($edit_uri);
@@ -98,7 +98,7 @@ final class PhabricatorCalendarImportViewController
     $can_disable = ($can_edit && $engine->canDisable($viewer, $import));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Import'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -109,7 +109,7 @@ final class PhabricatorCalendarImportViewController
     $reload_uri = $this->getApplicationURI($reload_uri);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Reload Import'))
         ->setIcon('fa-refresh')
         ->setDisabled(!$can_edit)
@@ -127,7 +127,7 @@ final class PhabricatorCalendarImportViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($disable_name)
         ->setIcon($disable_icon)
         ->setDisabled(!$can_disable)
@@ -144,7 +144,7 @@ final class PhabricatorCalendarImportViewController
     $delete_uri = $this->getApplicationURI($delete_uri);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Delete Imported Events'))
         ->setIcon('fa-times')
         ->setDisabled(!$can_delete)
@@ -155,7 +155,7 @@ final class PhabricatorCalendarImportViewController
   }
 
   private function buildPropertySection(
-    PhabricatorCalendarImport $import) {
+    PhorgeCalendarImport $import) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -172,11 +172,11 @@ final class PhabricatorCalendarImportViewController
       $has_trigger = false;
     } else {
       $frequency = $import->getTriggerFrequency();
-      $frequency_map = PhabricatorCalendarImport::getTriggerFrequencyMap();
+      $frequency_map = PhorgeCalendarImport::getTriggerFrequencyMap();
       $frequency_names = ipull($frequency_map, 'name');
       $auto_updates = idx($frequency_names, $frequency, $frequency);
 
-      if ($frequency == PhabricatorCalendarImport::FREQUENCY_ONCE) {
+      if ($frequency == PhorgeCalendarImport::FREQUENCY_ONCE) {
         $has_trigger = false;
         $auto_updates = phutil_tag('em', array(), $auto_updates);
       } else {
@@ -189,7 +189,7 @@ final class PhabricatorCalendarImportViewController
       $auto_updates);
 
     if ($has_trigger) {
-      $trigger = id(new PhabricatorWorkerTriggerQuery())
+      $trigger = id(new PhorgeWorkerTriggerQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($import->getTriggerPHID()))
         ->needEvents(true)
@@ -198,7 +198,7 @@ final class PhabricatorCalendarImportViewController
       if (!$trigger) {
         $next_trigger = phutil_tag('em', array(), pht('Invalid Trigger'));
       } else {
-        $now = PhabricatorTime::getNow();
+        $now = PhorgeTime::getNow();
         $next_epoch = $trigger->getNextEventPrediction();
         $next_trigger = pht(
           '%s (%s)',
@@ -219,16 +219,16 @@ final class PhabricatorCalendarImportViewController
     return $properties;
   }
 
-  private function buildLogMessages(PhabricatorCalendarImport $import) {
+  private function buildLogMessages(PhorgeCalendarImport $import) {
     $viewer = $this->getViewer();
 
-    $logs = id(new PhabricatorCalendarImportLogQuery())
+    $logs = id(new PhorgeCalendarImportLogQuery())
       ->setViewer($viewer)
       ->withImportPHIDs(array($import->getPHID()))
       ->setLimit(25)
       ->execute();
 
-    $logs_view = id(new PhabricatorCalendarImportLogView())
+    $logs_view = id(new PhorgeCalendarImportLogView())
       ->setViewer($viewer)
       ->setLogs($logs);
 
@@ -252,10 +252,10 @@ final class PhabricatorCalendarImportViewController
       ->setTable($logs_view);
   }
 
-  private function buildImportedEvents(PhabricatorCalendarImport $import) {
+  private function buildImportedEvents(PhorgeCalendarImport $import) {
     $viewer = $this->getViewer();
 
-    $engine = id(new PhabricatorCalendarEventSearchEngine())
+    $engine = id(new PhorgeCalendarEventSearchEngine())
       ->setViewer($viewer);
 
     $saved = $engine->newSavedQuery()

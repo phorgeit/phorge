@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChangesetResponse extends AphrontProxyResponse {
+final class PhorgeChangesetResponse extends AphrontProxyResponse {
 
   private $renderedChangeset;
   private $coverage;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementCycleWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementCycleWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();
@@ -21,8 +21,8 @@ final class PhabricatorFilesManagementCycleWorkflow
   public function execute(PhutilArgumentParser $args) {
     $iterator = $this->buildIterator($args);
 
-    $format_map = PhabricatorFileStorageFormat::getAllFormats();
-    $engines = PhabricatorFileStorageEngine::loadAllEngines();
+    $format_map = PhorgeFileStorageFormat::getAllFormats();
+    $engines = PhorgeFileStorageEngine::loadAllEngines();
 
     $key_name = $args->getArg('key');
 

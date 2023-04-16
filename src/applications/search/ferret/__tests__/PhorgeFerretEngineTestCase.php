@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFerretEngineTestCase
-  extends PhabricatorTestCase {
+final class PhorgeFerretEngineTestCase
+  extends PhorgeTestCase {
 
   public function testTermsCorpus() {
     $map = array(
@@ -43,7 +43,7 @@ final class PhabricatorFerretEngineTestCase
       ),
     );
 
-    $ngram_engine = new PhabricatorSearchNgramEngine();
+    $ngram_engine = new PhorgeSearchNgramEngine();
 
     foreach ($map as $input => $expect) {
       $actual = $ngram_engine->getTermNgramsFromString($input);

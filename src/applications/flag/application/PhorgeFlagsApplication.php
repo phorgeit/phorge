@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFlagsApplication extends PhabricatorApplication {
+final class PhorgeFlagsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Flags');
@@ -20,7 +20,7 @@ final class PhabricatorFlagsApplication extends PhabricatorApplication {
 
   public function getEventListeners() {
     return array(
-      new PhabricatorFlagsUIEventListener(),
+      new PhorgeFlagsUIEventListener(),
     );
   }
 
@@ -35,10 +35,10 @@ final class PhabricatorFlagsApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/flag/' => array(
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorFlagListController',
-        'view/(?P<view>[^/]+)/' => 'PhabricatorFlagListController',
-        'edit/(?P<phid>[^/]+)/' => 'PhabricatorFlagEditController',
-        'delete/(?P<id>[1-9]\d*)/' => 'PhabricatorFlagDeleteController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeFlagListController',
+        'view/(?P<view>[^/]+)/' => 'PhorgeFlagListController',
+        'edit/(?P<phid>[^/]+)/' => 'PhorgeFlagEditController',
+        'delete/(?P<id>[1-9]\d*)/' => 'PhorgeFlagDeleteController',
       ),
     );
   }

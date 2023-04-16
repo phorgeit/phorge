@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageDescriptionTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageDescriptionTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.description';
 
@@ -24,7 +24,7 @@ final class PhabricatorOwnersPackageDescriptionTransaction
   }
 
   public function newChangeDetailView() {
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($this->getViewer())
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

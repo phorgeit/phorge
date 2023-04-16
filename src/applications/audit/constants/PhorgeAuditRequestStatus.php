@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuditRequestStatus extends Phobject {
+final class PhorgeAuditRequestStatus extends Phobject {
 
   const AUDIT_REQUIRED          = 'audit-required';
   const CONCERNED               = 'concerned';

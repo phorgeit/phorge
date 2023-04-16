@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPygmentSetupCheck extends PhabricatorSetupCheck {
+final class PhorgePygmentSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   protected function executeChecks() {
-    $pygment = PhabricatorEnv::getEnvConfig('pygments.enabled');
+    $pygment = PhorgeEnv::getEnvConfig('pygments.enabled');
 
     if ($pygment) {
       if (!Filesystem::binaryExists('pygmentize')) {
@@ -31,8 +31,8 @@ final class PhabricatorPygmentSetupCheck extends PhabricatorSetupCheck {
           ->setName(pht('%s Not Found', 'pygmentize'))
           ->setSummary($summary)
           ->setMessage($message)
-          ->addRelatedPhabricatorConfig('pygments.enabled')
-          ->addPhabricatorConfig('environment.append-paths');
+          ->addRelatedPhorgeConfig('pygments.enabled')
+          ->addPhorgeConfig('environment.append-paths');
       } else {
         list($err) = exec_manual('pygmentize -h');
         if ($err) {
@@ -54,8 +54,8 @@ final class PhabricatorPygmentSetupCheck extends PhabricatorSetupCheck {
             ->setName(pht('%s Not Working', 'pygmentize'))
             ->setSummary($summary)
             ->setMessage($message)
-            ->addRelatedPhabricatorConfig('pygments.enabled')
-            ->addPhabricatorConfig('environment.append-paths');
+            ->addRelatedPhorgeConfig('pygments.enabled')
+            ->addPhorgeConfig('environment.append-paths');
         }
       }
     } else {
@@ -77,7 +77,7 @@ final class PhabricatorPygmentSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('Install Pygments to Improve Syntax Highlighting'))
         ->setSummary($summary)
         ->setMessage($message)
-        ->addRelatedPhabricatorConfig('pygments.enabled');
+        ->addRelatedPhorgeConfig('pygments.enabled');
     }
   }
 }

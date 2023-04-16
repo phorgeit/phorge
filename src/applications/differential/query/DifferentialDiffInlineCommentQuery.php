@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialDiffInlineCommentQuery
-  extends PhabricatorDiffInlineCommentQuery {
+  extends PhorgeDiffInlineCommentQuery {
 
   private $revisionPHIDs;
 
@@ -68,7 +68,7 @@ final class DifferentialDiffInlineCommentQuery
   }
 
   protected function newInlineContextFromCacheData(array $map) {
-    return PhabricatorDiffInlineCommentContext::newFromCacheData($map);
+    return PhorgeDiffInlineCommentContext::newFromCacheData($map);
   }
 
   protected function newInlineContextMap(array $inlines) {
@@ -138,7 +138,7 @@ final class DifferentialDiffInlineCommentQuery
       $tail = array_slice($corpus, $offset + $length, 3, true);
       $tail = $this->simplifyContext($tail, false);
 
-      $context = id(new PhabricatorDiffInlineCommentContext())
+      $context = id(new PhorgeDiffInlineCommentContext())
         ->setFilename($filename)
         ->setHeadLines($head)
         ->setBodyLines($body)

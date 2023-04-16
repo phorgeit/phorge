@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPathSetupCheck extends PhabricatorSetupCheck {
+final class PhorgePathSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -34,7 +34,7 @@ final class PhabricatorPathSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('%s Not Set', '$PATH'))
         ->setSummary($summary)
         ->setMessage($message)
-        ->addPhabricatorConfig('environment.append-paths');
+        ->addPhorgeConfig('environment.append-paths');
 
       // Bail on checks below.
       return;
@@ -107,7 +107,7 @@ final class PhabricatorPathSetupCheck extends PhabricatorSetupCheck {
 
     if ($bad_paths) {
       foreach ($bad_paths as $path_part => $message) {
-        $digest = substr(PhabricatorHash::weakDigest($path_part), 0, 8);
+        $digest = substr(PhorgeHash::weakDigest($path_part), 0, 8);
 
         $this
           ->newIssue('config.PATH.'.$digest)
@@ -128,7 +128,7 @@ final class PhabricatorPathSetupCheck extends PhabricatorSetupCheck {
               "The user that the webserver runs as must be able to read all ".
               "the directories in PATH in order to make use of them.",
               $message))
-          ->addPhabricatorConfig('environment.append-paths');
+          ->addPhorgeConfig('environment.append-paths');
       }
     }
 

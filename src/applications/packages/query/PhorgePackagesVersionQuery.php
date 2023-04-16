@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionQuery
-  extends PhabricatorPackagesQuery {
+final class PhorgePackagesVersionQuery
+  extends PhorgePackagesQuery {
 
   private $ids;
   private $phids;
@@ -36,12 +36,12 @@ final class PhabricatorPackagesVersionQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      new PhabricatorPackagesVersionNameNgrams(),
+      new PhorgePackagesVersionNameNgrams(),
       $ngrams);
   }
 
   public function newResultObject() {
-    return new PhabricatorPackagesVersion();
+    return new PhorgePackagesVersion();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -90,7 +90,7 @@ final class PhabricatorPackagesVersionQuery
     $join_package = ($this->fullKeys !== null) || $join_publisher;
 
     if ($join_package) {
-      $package_table = new PhabricatorPackagesPackage();
+      $package_table = new PhorgePackagesPackage();
 
       $joins[] = qsprintf(
         $conn,
@@ -99,7 +99,7 @@ final class PhabricatorPackagesVersionQuery
     }
 
     if ($join_publisher) {
-      $publisher_table = new PhabricatorPackagesPublisher();
+      $publisher_table = new PhorgePackagesPublisher();
 
       $joins[] = qsprintf(
         $conn,
@@ -113,7 +113,7 @@ final class PhabricatorPackagesVersionQuery
   protected function willFilterPage(array $versions) {
     $package_phids = mpull($versions, 'getPackagePHID');
 
-    $packages = id(new PhabricatorPackagesPackageQuery())
+    $packages = id(new PhorgePackagesPackageQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($package_phids)

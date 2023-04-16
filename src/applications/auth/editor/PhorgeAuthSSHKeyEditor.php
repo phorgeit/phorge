@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeAuthSSHKeyEditor
+  extends PhorgeApplicationTransactionEditor {
 
   private $isAdministrativeEdit;
 
@@ -15,7 +15,7 @@ final class PhabricatorAuthSSHKeyEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -25,52 +25,52 @@ final class PhabricatorAuthSSHKeyEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorAuthSSHKeyTransaction::TYPE_NAME;
-    $types[] = PhabricatorAuthSSHKeyTransaction::TYPE_KEY;
-    $types[] = PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE;
+    $types[] = PhorgeAuthSSHKeyTransaction::TYPE_NAME;
+    $types[] = PhorgeAuthSSHKeyTransaction::TYPE_KEY;
+    $types[] = PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthSSHKeyTransaction::TYPE_NAME:
+      case PhorgeAuthSSHKeyTransaction::TYPE_NAME:
         return $object->getName();
-      case PhabricatorAuthSSHKeyTransaction::TYPE_KEY:
+      case PhorgeAuthSSHKeyTransaction::TYPE_KEY:
         return $object->getEntireKey();
-      case PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE:
+      case PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE:
         return !$object->getIsActive();
     }
 
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthSSHKeyTransaction::TYPE_NAME:
-      case PhabricatorAuthSSHKeyTransaction::TYPE_KEY:
+      case PhorgeAuthSSHKeyTransaction::TYPE_NAME:
+      case PhorgeAuthSSHKeyTransaction::TYPE_KEY:
         return $xaction->getNewValue();
-      case PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE:
+      case PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE:
         return (bool)$xaction->getNewValue();
     }
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $value = $xaction->getNewValue();
     switch ($xaction->getTransactionType()) {
-      case PhabricatorAuthSSHKeyTransaction::TYPE_NAME:
+      case PhorgeAuthSSHKeyTransaction::TYPE_NAME:
         $object->setName($value);
         return;
-      case PhabricatorAuthSSHKeyTransaction::TYPE_KEY:
-        $public_key = PhabricatorAuthSSHPublicKey::newFromRawKey($value);
+      case PhorgeAuthSSHKeyTransaction::TYPE_KEY:
+        $public_key = PhorgeAuthSSHPublicKey::newFromRawKey($value);
 
         $type = $public_key->getType();
         $body = $public_key->getBody();
@@ -80,7 +80,7 @@ final class PhabricatorAuthSSHKeyEditor
         $object->setKeyBody($body);
         $object->setKeyComment($comment);
         return;
-      case PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE:
+      case PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE:
         if ($value) {
           $new = null;
         } else {
@@ -93,13 +93,13 @@ final class PhabricatorAuthSSHKeyEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
     return;
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
@@ -107,13 +107,13 @@ final class PhabricatorAuthSSHKeyEditor
     $viewer = $this->requireActor();
 
     switch ($type) {
-      case PhabricatorAuthSSHKeyTransaction::TYPE_NAME:
+      case PhorgeAuthSSHKeyTransaction::TYPE_NAME:
         $missing = $this->validateIsEmptyTextField(
           $object->getName(),
           $xactions);
 
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('SSH key name is required.'),
@@ -124,13 +124,13 @@ final class PhabricatorAuthSSHKeyEditor
         }
         break;
 
-      case PhabricatorAuthSSHKeyTransaction::TYPE_KEY;
+      case PhorgeAuthSSHKeyTransaction::TYPE_KEY;
         $missing = $this->validateIsEmptyTextField(
           $object->getName(),
           $xactions);
 
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('SSH key material is required.'),
@@ -143,9 +143,9 @@ final class PhabricatorAuthSSHKeyEditor
             $new = $xaction->getNewValue();
 
             try {
-              $public_key = PhabricatorAuthSSHPublicKey::newFromRawKey($new);
+              $public_key = PhorgeAuthSSHPublicKey::newFromRawKey($new);
             } catch (Exception $ex) {
-              $errors[] = new PhabricatorApplicationTransactionValidationError(
+              $errors[] = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Invalid'),
                 $ex->getMessage(),
@@ -159,14 +159,14 @@ final class PhabricatorAuthSSHKeyEditor
             // from adding keys that are on the revocation list back to their
             // accounts. Explicitly check for a revoked copy of the key.
 
-            $revoked_keys = id(new PhabricatorAuthSSHKeyQuery())
+            $revoked_keys = id(new PhorgeAuthSSHKeyQuery())
               ->setViewer($viewer)
               ->withObjectPHIDs(array($object->getObjectPHID()))
               ->withIsActive(0)
               ->withKeys(array($public_key))
               ->execute();
             if ($revoked_keys) {
-              $errors[] = new PhabricatorApplicationTransactionValidationError(
+              $errors[] = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Revoked'),
                 pht(
@@ -179,10 +179,10 @@ final class PhabricatorAuthSSHKeyEditor
         }
         break;
 
-      case PhabricatorAuthSSHKeyTransaction::TYPE_DEACTIVATE:
+      case PhorgeAuthSSHKeyTransaction::TYPE_DEACTIVATE:
         foreach ($xactions as $xaction) {
           if (!$xaction->getNewValue()) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht('SSH keys can not be reactivated.'),
@@ -196,25 +196,25 @@ final class PhabricatorAuthSSHKeyEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorAuthSSHKeyTransaction::TYPE_KEY,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgeAuthSSHKeyTransaction::TYPE_KEY,
       pht('Duplicate'),
       pht(
         'This public key is already associated with another user or device. '.
         'Each key must unambiguously identify a single unique owner.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
@@ -223,40 +223,40 @@ final class PhabricatorAuthSSHKeyEditor
     return pht('[SSH Key]');
   }
 
-  protected function getMailThreadID(PhabricatorLiskDAO $object) {
+  protected function getMailThreadID(PhorgeLiskDAO $object) {
     return 'ssh-key-'.$object->getPHID();
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // After making any change to an SSH key, drop the authfile cache so it
     // is regenerated the next time anyone authenticates.
-    PhabricatorAuthSSHKeyQuery::deleteSSHKeyCache();
+    PhorgeAuthSSHKeyQuery::deleteSSHKeyCache();
 
     return $xactions;
   }
 
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return $object->getObject()->getSSHKeyNotifyPHIDs();
   }
 
-  protected function getMailCC(PhabricatorLiskDAO $object) {
+  protected function getMailCC(PhorgeLiskDAO $object) {
     return array();
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorAuthSSHKeyReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeAuthSSHKeyReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $name = $object->getName();
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->setSubject(pht('SSH Key %d: %s', $id, $name));
 
     // The primary value of this mail is alerting users to account compromises,
@@ -268,7 +268,7 @@ final class PhabricatorAuthSSHKeyEditor
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -282,7 +282,7 @@ final class PhabricatorAuthSSHKeyEditor
     }
 
     $detail_uri = $object->getURI();
-    $detail_uri = PhabricatorEnv::getProductionURI($detail_uri);
+    $detail_uri = PhorgeEnv::getProductionURI($detail_uri);
 
     $body->addLinkSection(pht('SSH KEY DETAIL'), $detail_uri);
 

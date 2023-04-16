@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartFunctionLabel
+final class PhorgeChartFunctionLabel
   extends Phobject {
 
   private $key;

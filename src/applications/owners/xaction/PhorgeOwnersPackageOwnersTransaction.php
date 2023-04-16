@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageOwnersTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageOwnersTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.owners';
 
@@ -34,7 +34,7 @@ final class PhabricatorOwnersPackageOwnersTransaction
 
     $add = array_diff($new, $old);
     foreach ($add as $phid) {
-      $owners[$phid] = id(new PhabricatorOwnersOwner())
+      $owners[$phid] = id(new PhorgeOwnersOwner())
         ->setPackageID($object->getID())
         ->setUserPHID($phid)
         ->save();

@@ -1,20 +1,20 @@
 <?php
 
 final class FileCreateMailReceiver
-  extends PhabricatorApplicationMailReceiver {
+  extends PhorgeApplicationMailReceiver {
 
   protected function newApplication() {
-    return new PhabricatorFilesApplication();
+    return new PhorgeFilesApplication();
   }
 
   protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
     $author = $this->getAuthor();
 
     $attachment_phids = $mail->getAttachments();
     if (empty($attachment_phids)) {
-      throw new PhabricatorMetaMTAReceivedMailProcessingException(
+      throw new PhorgeMetaMTAReceivedMailProcessingException(
         MetaMTAReceivedMailStatus::STATUS_UNHANDLED_EXCEPTION,
         pht(
           'Ignoring email to create files that did not include attachments.'));
@@ -38,14 +38,14 @@ final class FileCreateMailReceiver
     $file_uris = array();
     foreach ($attachment_phids as $phid) {
       $file_uris[] =
-        PhabricatorEnv::getProductionURI('/file/info/'.$phid.'/');
+        PhorgeEnv::getProductionURI('/file/info/'.$phid.'/');
     }
 
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
     $body->addRawSection($subject);
     $body->addTextSection(pht('FILE LINKS'), implode("\n", $file_uris));
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addTos(array($sender->getPHID()))
       ->setSubject($subject)
       ->setSubjectPrefix($subject_prefix)

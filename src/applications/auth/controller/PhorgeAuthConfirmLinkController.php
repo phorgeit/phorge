@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthConfirmLinkController
-  extends PhabricatorAuthController {
+final class PhorgeAuthConfirmLinkController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -25,7 +25,7 @@ final class PhabricatorAuthConfirmLinkController
         'account.link(%s)',
         $account->getPHID());
 
-      $hisec_token = id(new PhabricatorAuthSessionEngine())
+      $hisec_token = id(new PhorgeAuthSessionEngine())
         ->setWorkflowKey($workflow_key)
         ->requireHighSecurityToken($viewer, $request, $panel_uri);
 
@@ -58,7 +58,7 @@ final class PhabricatorAuthConfirmLinkController
             $provider->getProviderName(),
             PlatformSymbols::getPlatformServerName())))
       ->appendChild(
-        id(new PhabricatorAuthAccountView())
+        id(new PhorgeAuthAccountView())
           ->setUser($viewer)
           ->setExternalAccount($account)
           ->setAuthProvider($provider));

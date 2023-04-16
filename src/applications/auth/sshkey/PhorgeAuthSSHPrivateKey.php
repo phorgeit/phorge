@@ -3,7 +3,7 @@
 /**
  * Data structure representing a raw private key.
  */
-final class PhabricatorAuthSSHPrivateKey extends Phobject {
+final class PhorgeAuthSSHPrivateKey extends Phobject {
 
   private $body;
   private $passphrase;
@@ -114,7 +114,7 @@ final class PhabricatorAuthSSHPrivateKey extends Phobject {
         '',
         $tmp);
       if (!$err) {
-        throw new PhabricatorAuthSSHPrivateKeySurplusPassphraseException(
+        throw new PhorgeAuthSSHPrivateKeySurplusPassphraseException(
           pht(
             'A passphrase was provided for this private key, but it does '.
             'not require a passphrase. Check that you supplied the correct '.
@@ -160,7 +160,7 @@ final class PhabricatorAuthSSHPrivateKey extends Phobject {
     }
 
     if ($reason === $reason_format) {
-      throw new PhabricatorAuthSSHPrivateKeyFormatException(
+      throw new PhorgeAuthSSHPrivateKeyFormatException(
         pht(
           'This private key is not formatted correctly. Check that you '.
           'have provided the complete text of a valid private key.'));
@@ -168,13 +168,13 @@ final class PhabricatorAuthSSHPrivateKey extends Phobject {
 
     if ($reason === $reason_passphrase) {
       if ($passphrase) {
-        throw new PhabricatorAuthSSHPrivateKeyIncorrectPassphraseException(
+        throw new PhorgeAuthSSHPrivateKeyIncorrectPassphraseException(
           pht(
             'This private key requires a passphrase, but the wrong '.
             'passphrase was provided. Check that you supplied the correct '.
             'key and passphrase.'));
       } else {
-        throw new PhabricatorAuthSSHPrivateKeyIncorrectPassphraseException(
+        throw new PhorgeAuthSSHPrivateKeyIncorrectPassphraseException(
           pht(
             'This private key requires a passphrase, but no passphrase was '.
             'provided. Check that you supplied the correct key, or provide '.
@@ -183,14 +183,14 @@ final class PhabricatorAuthSSHPrivateKey extends Phobject {
     }
 
     if ($passphrase) {
-      throw new PhabricatorAuthSSHPrivateKeyUnknownException(
+      throw new PhorgeAuthSSHPrivateKeyUnknownException(
         pht(
           'This private key could not be opened with the provided passphrase. '.
           'This might mean that the passphrase is wrong or that the key is '.
           'not formatted correctly. Check that you have supplied the '.
           'complete text of a valid private key and the correct passphrase.'));
     } else {
-      throw new PhabricatorAuthSSHPrivateKeyUnknownException(
+      throw new PhorgeAuthSSHPrivateKeyUnknownException(
         pht(
           'This private key could not be opened. This might mean that the '.
           'key requires a passphrase, or might mean that the key is not '.

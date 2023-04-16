@@ -1,14 +1,14 @@
 <?php
 
 final class PasteSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'paste.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorPasteSearchEngine();
+    return new PhorgePasteSearchEngine();
   }
 
   public function getMethodSummary() {

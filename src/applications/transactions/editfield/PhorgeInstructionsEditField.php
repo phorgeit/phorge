@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorInstructionsEditField
-  extends PhabricatorEditField {
+final class PhorgeInstructionsEditField
+  extends PhorgeEditField {
 
   public function appendToForm(AphrontFormView $form) {
     return $form->appendRemarkupInstructions($this->getValue());

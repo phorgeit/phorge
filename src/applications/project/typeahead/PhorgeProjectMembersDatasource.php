@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMembersDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectMembersDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Members');
@@ -12,12 +12,12 @@ final class PhabricatorProjectMembersDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -39,7 +39,7 @@ final class PhabricatorProjectMembersDatasource
   protected function didLoadResults(array $results) {
     foreach ($results as $result) {
       $result
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-users')
         ->setColor(null)
         ->setPHID('members('.$result->getPHID().')')
@@ -59,7 +59,7 @@ final class PhabricatorProjectMembersDatasource
       $phids[] = head($argv);
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($this->getViewer())
       ->needMembers(true)
       ->withPHIDs($phids)
@@ -92,7 +92,7 @@ final class PhabricatorProjectMembersDatasource
       } else {
         $token
           ->setIcon('fa-users')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setKey('members('.$token->getKey().')')
           ->setValue(pht('Members: %s', $token->getValue()));
       }

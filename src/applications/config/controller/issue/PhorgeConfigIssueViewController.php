@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorConfigIssueViewController
-  extends PhabricatorConfigController {
+final class PhorgeConfigIssueViewController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $issue_key = $request->getURIData('key');
 
-    $engine = new PhabricatorSetupEngine();
+    $engine = new PhorgeSetupEngine();
     $response = $engine->execute();
     if ($response) {
       return $response;
@@ -51,10 +51,10 @@ final class PhabricatorConfigIssueViewController
       ->appendChild($content);
   }
 
-  private function renderIssue(PhabricatorSetupIssue $issue) {
+  private function renderIssue(PhorgeSetupIssue $issue) {
     require_celerity_resource('setup-issue-css');
 
-    $view = new PhabricatorSetupIssueView();
+    $view = new PhorgeSetupIssueView();
     $view->setIssue($issue);
 
     $container = phutil_tag(

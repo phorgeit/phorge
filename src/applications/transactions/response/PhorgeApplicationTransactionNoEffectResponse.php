@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionNoEffectResponse
+final class PhorgeApplicationTransactionNoEffectResponse
   extends AphrontProxyResponse {
 
   private $viewer;
@@ -13,7 +13,7 @@ final class PhabricatorApplicationTransactionNoEffectResponse
   }
 
   public function setException(
-    PhabricatorApplicationTransactionNoEffectException $exception) {
+    PhorgeApplicationTransactionNoEffectException $exception) {
     $this->exception = $exception;
     return $this;
   }
@@ -28,7 +28,7 @@ final class PhabricatorApplicationTransactionNoEffectResponse
     $ex = $this->exception;
     $xactions = $ex->getTransactions();
 
-    $type_comment = PhabricatorTransactions::TYPE_COMMENT;
+    $type_comment = PhorgeTransactions::TYPE_COMMENT;
     $only_empty_comment = (count($xactions) == 1) &&
       (head($xactions)->getTransactionType() == $type_comment);
 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFilesBuiltinFile extends Phobject {
+abstract class PhorgeFilesBuiltinFile extends Phobject {
 
   abstract public function getBuiltinFileKey();
   abstract public function getBuiltinDisplayName();

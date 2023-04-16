@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldTranscriptQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -75,7 +75,7 @@ final class HeraldTranscriptQuery
   protected function willFilterPage(array $transcripts) {
     $phids = mpull($transcripts, 'getObjectPHID');
 
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($phids)
       ->execute();
@@ -130,7 +130,7 @@ final class HeraldTranscriptQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
 }

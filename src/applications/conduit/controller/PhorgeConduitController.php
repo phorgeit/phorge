@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConduitController extends PhabricatorController {
+abstract class PhorgeConduitController extends PhorgeController {
 
   protected function buildSideNavView() {
     $viewer = $this->getRequest()->getUser();
@@ -8,7 +8,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorConduitSearchEngine())
+    id(new PhorgeConduitSearchEngine())
       ->setViewer($viewer)
       ->addNavigationItems($nav->getMenu());
 
@@ -36,7 +36,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $php_example = id(new PHUIPropertyListView())
       ->addRawContent($this->renderExample($method, 'php', $params));
 
-    $panel_uri = id(new PhabricatorConduitTokensSettingsPanel())
+    $panel_uri = id(new PhorgeConduitTokensSettingsPanel())
       ->setViewer($viewer)
       ->setUser($viewer)
       ->getPanelURI();
@@ -136,7 +136,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $parts[] = phutil_tag(
       'strong',
       array('class' => 'real'),
-      PhabricatorEnv::getURI('/'));
+      PhorgeEnv::getURI('/'));
     $parts[] = ' ';
 
     $parts[] = '--conduit-token ';
@@ -186,7 +186,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $parts[] = phutil_tag(
       'strong',
       array('class' => 'real'),
-      phutil_var_export(PhabricatorEnv::getURI('/')));
+      phutil_var_export(PhorgeEnv::getURI('/')));
     $parts[] = ");\n";
 
     $parts[] = '$client->setConduitToken($api_token);';
@@ -220,7 +220,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     $parts[] = phutil_tag(
       'strong',
       array('class' => 'real'),
-      csprintf('%R', PhabricatorEnv::getURI($call_uri)));
+      csprintf('%R', PhorgeEnv::getURI($call_uri)));
     $parts[] = ' ';
     $parts[] = $linebreak;
 
@@ -263,7 +263,7 @@ abstract class PhabricatorConduitController extends PhabricatorController {
     return phutil_tag(
       'div',
       array(
-        'class' => 'PhabricatorMonospaced conduit-api-example-code',
+        'class' => 'PhorgeMonospaced conduit-api-example-code',
       ),
       $example);
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSetPasswordController
-  extends PhabricatorAuthController {
+final class PhorgeAuthSetPasswordController
+  extends PhorgeAuthController {
 
   public function shouldAllowPartialSessions() {
     return true;
@@ -14,36 +14,36 @@ final class PhabricatorAuthSetPasswordController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    if (!PhabricatorPasswordAuthProvider::getPasswordProvider()) {
+    if (!PhorgePasswordAuthProvider::getPasswordProvider()) {
       return new Aphront404Response();
     }
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       '/');
 
     $key = $request->getStr('key');
-    $password_type = PhabricatorAuthPasswordResetTemporaryTokenType::TOKENTYPE;
+    $password_type = PhorgeAuthPasswordResetTemporaryTokenType::TOKENTYPE;
     if (!$key) {
       return new Aphront404Response();
     }
 
-    $auth_token = id(new PhabricatorAuthTemporaryTokenQuery())
+    $auth_token = id(new PhorgeAuthTemporaryTokenQuery())
       ->setViewer($viewer)
       ->withTokenResources(array($viewer->getPHID()))
       ->withTokenTypes(array($password_type))
-      ->withTokenCodes(array(PhabricatorHash::weakDigest($key)))
+      ->withTokenCodes(array(PhorgeHash::weakDigest($key)))
       ->withExpired(false)
       ->executeOne();
     if (!$auth_token) {
       return new Aphront404Response();
     }
 
-    $content_source = PhabricatorContentSource::newFromRequest($request);
-    $account_type = PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT;
+    $content_source = PhorgeContentSource::newFromRequest($request);
+    $account_type = PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT;
 
-    $password_objects = id(new PhabricatorAuthPasswordQuery())
+    $password_objects = id(new PhorgeAuthPasswordQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($viewer->getPHID()))
       ->withPasswordTypes(array($account_type))
@@ -53,13 +53,13 @@ final class PhabricatorAuthSetPasswordController
       $password_object = head($password_objects);
       $has_password = true;
     } else {
-      $password_object = PhabricatorAuthPassword::initializeNewPassword(
+      $password_object = PhorgeAuthPassword::initializeNewPassword(
         $viewer,
         $account_type);
       $has_password = false;
     }
 
-    $engine = id(new PhabricatorAuthPasswordEngine())
+    $engine = id(new PhorgeAuthPasswordEngine())
       ->setViewer($viewer)
       ->setContentSource($content_source)
       ->setPasswordType($account_type)
@@ -79,7 +79,7 @@ final class PhabricatorAuthSetPasswordController
         $engine->checkNewPassword($password_envelope, $confirm_envelope, true);
         $e_password = null;
         $e_confirm = null;
-      } catch (PhabricatorAuthPasswordException $ex) {
+      } catch (PhorgeAuthPasswordException $ex) {
         $errors[] = $ex->getMessage();
         $e_password = $ex->getPasswordError();
         $e_confirm = $ex->getConfirmError();
@@ -97,7 +97,7 @@ final class PhabricatorAuthSetPasswordController
       }
     }
 
-    $min_len = PhabricatorEnv::getEnvConfig('account.minimum-password-length');
+    $min_len = PhorgeEnv::getEnvConfig('account.minimum-password-length');
     $min_len = (int)$min_len;
 
     $len_caption = null;

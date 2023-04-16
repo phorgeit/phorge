@@ -30,11 +30,11 @@ final class PhrictionCreateConduitAPIMethod extends PhrictionConduitAPIMethod {
     }
     $doc = id(new PhrictionDocumentQuery())
       ->setViewer($request->getUser())
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+      ->withSlugs(array(PhorgeSlug::normalize($slug)))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if ($doc) {
@@ -61,7 +61,7 @@ final class PhrictionCreateConduitAPIMethod extends PhrictionConduitAPIMethod {
 
     try {
       $editor->applyTransactions($doc, $xactions);
-    } catch (PhabricatorApplicationTransactionValidationException $ex) {
+    } catch (PhorgeApplicationTransactionValidationException $ex) {
       // TODO - some magical hotness via T5873
       throw $ex;
     }

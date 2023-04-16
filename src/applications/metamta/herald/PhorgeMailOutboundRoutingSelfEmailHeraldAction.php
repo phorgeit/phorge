@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailOutboundRoutingSelfEmailHeraldAction
-  extends PhabricatorMailOutboundRoutingHeraldAction {
+final class PhorgeMailOutboundRoutingSelfEmailHeraldAction
+  extends PhorgeMailOutboundRoutingHeraldAction {
 
   const ACTIONCONST = 'routing.self.email';
 
@@ -19,7 +19,7 @@ final class PhabricatorMailOutboundRoutingSelfEmailHeraldAction
 
     $this->applyRouting(
       $rule,
-      PhabricatorMailRoutingRule::ROUTE_AS_MAIL,
+      PhorgeMailRoutingRule::ROUTE_AS_MAIL,
       array($author_phid));
   }
 

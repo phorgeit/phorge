@@ -38,7 +38,7 @@ final class DifferentialTasksCommitMessageField
       return array();
     }
 
-    $projects = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $projects = PhorgeEdgeQuery::loadDestinationPHIDs(
       $revision->getPHID(),
       DifferentialRevisionHasTaskEdgeType::EDGECONST);
     $projects = array_reverse($projects);

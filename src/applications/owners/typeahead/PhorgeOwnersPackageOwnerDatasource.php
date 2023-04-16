@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageOwnerDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeOwnersPackageOwnerDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Packages by Owner');
@@ -12,13 +12,13 @@ final class PhabricatorOwnersPackageOwnerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -43,7 +43,7 @@ final class PhabricatorOwnersPackageOwnerDatasource
     foreach ($results as $result) {
       $result
         ->setColor(null)
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-asterisk')
         ->setPHID('packages('.$result->getPHID().')')
         ->setDisplayName(pht('Packages: %s', $result->getDisplayName()))
@@ -64,8 +64,8 @@ final class PhabricatorOwnersPackageOwnerDatasource
     $owner_phids = array();
     foreach ($phids as $key => $phid) {
       switch (phid_get_type($phid)) {
-        case PhabricatorPeopleUserPHIDType::TYPECONST:
-        case PhabricatorProjectProjectPHIDType::TYPECONST:
+        case PhorgePeopleUserPHIDType::TYPECONST:
+        case PhorgeProjectProjectPHIDType::TYPECONST:
           $owner_phids[] = $phid;
           unset($phids[$key]);
           break;
@@ -73,7 +73,7 @@ final class PhabricatorOwnersPackageOwnerDatasource
     }
 
     if ($owner_phids) {
-      $packages = id(new PhabricatorOwnersPackageQuery())
+      $packages = id(new PhorgeOwnersPackageQuery())
         ->setViewer($this->getViewer())
         ->withOwnerPHIDs($owner_phids)
         ->execute();
@@ -102,7 +102,7 @@ final class PhabricatorOwnersPackageOwnerDatasource
       } else {
         $token
           ->setIcon('fa-asterisk')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setKey('packages('.$token->getKey().')')
           ->setValue(pht('Packages: %s', $token->getValue()));
       }
@@ -115,13 +115,13 @@ final class PhabricatorOwnersPackageOwnerDatasource
 
     // TODO: It would be nice for this to handle `packages(#project)` from a
     // query string or eventually via Conduit. This could also share code with
-    // PhabricatorProjectLogicalUserDatasource.
+    // PhorgeProjectLogicalUserDatasource.
 
     $usernames = array();
     foreach ($phids as $key => $phid) {
       switch (phid_get_type($phid)) {
-        case PhabricatorPeopleUserPHIDType::TYPECONST:
-        case PhabricatorProjectProjectPHIDType::TYPECONST:
+        case PhorgePeopleUserPHIDType::TYPECONST:
+        case PhorgeProjectProjectPHIDType::TYPECONST:
           break;
         default:
           $usernames[$key] = $phid;
@@ -130,7 +130,7 @@ final class PhabricatorOwnersPackageOwnerDatasource
     }
 
     if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($usernames)
         ->execute();

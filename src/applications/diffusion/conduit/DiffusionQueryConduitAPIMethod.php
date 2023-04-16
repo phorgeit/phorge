@@ -151,13 +151,13 @@ abstract class DiffusionQueryConduitAPIMethod
     $repository = $this->getRepository($request);
     $result = null;
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $result = $this->getGitResult($request);
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $result = $this->getMercurialResult($request);
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $result = $this->getSVNResult($request);
         break;
       default:

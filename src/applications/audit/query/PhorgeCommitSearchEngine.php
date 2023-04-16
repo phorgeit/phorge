@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCommitSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeCommitSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Diffusion Commits');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function newQuery() {
@@ -71,7 +71,7 @@ final class PhabricatorCommitSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Responsible Users'))
         ->setKey('responsiblePHIDs')
         ->setConduitKey('responsible')
@@ -81,13 +81,13 @@ final class PhabricatorCommitSearchEngine
           pht(
             'Find commits where given users, projects, or packages are '.
             'responsible for the next steps in the audit workflow.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setConduitKey('authors')
         ->setAliases(array('author', 'authors', 'authorPHID'))
         ->setDescription(pht('Find commits authored by particular users.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Auditors'))
         ->setKey('auditorPHIDs')
         ->setConduitKey('auditors')
@@ -97,7 +97,7 @@ final class PhabricatorCommitSearchEngine
           pht(
             'Find commits where given users, projects, or packages are '.
             'auditors.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Audit Status'))
         ->setKey('statuses')
         ->setAliases(array('status'))
@@ -105,22 +105,22 @@ final class PhabricatorCommitSearchEngine
         ->setDeprecatedOptions(
           DiffusionCommitAuditStatus::newDeprecatedOptions())
         ->setDescription(pht('Find commits with given audit statuses.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Repositories'))
         ->setKey('repositoryPHIDs')
         ->setConduitKey('repositories')
         ->setAliases(array('repository', 'repositories', 'repositoryPHID'))
         ->setDatasource(new DiffusionRepositoryFunctionDatasource())
         ->setDescription(pht('Find commits in particular repositories.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Packages'))
         ->setKey('packagePHIDs')
         ->setConduitKey('packages')
         ->setAliases(array('package', 'packages', 'packagePHID'))
-        ->setDatasource(new PhabricatorOwnersPackageDatasource())
+        ->setDatasource(new PhorgeOwnersPackageDatasource())
         ->setDescription(
           pht('Find commits which affect given packages.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Unreachable'))
         ->setKey('unreachable')
         ->setOptions(
@@ -131,7 +131,7 @@ final class PhabricatorCommitSearchEngine
           pht(
             'Find or exclude unreachable commits which are not ancestors of '.
             'any branch, tag, or ref.')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Permanent'))
         ->setKey('permanent')
         ->setOptions(
@@ -142,14 +142,14 @@ final class PhabricatorCommitSearchEngine
           pht(
             'Find or exclude permanent commits which are ancestors of '.
             'any permanent branch, tag, or ref.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Ancestors Of'))
         ->setKey('ancestorsOf')
         ->setDescription(
           pht(
             'Find commits which are ancestors of a particular ref, '.
             'like "master".')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Identifiers'))
         ->setKey('identifiers')
         ->setDescription(
@@ -214,9 +214,9 @@ final class PhabricatorCommitSearchEngine
 
   protected function renderResultList(
     array $commits,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, 'PhorgeRepositoryCommit');
     $viewer = $this->requireViewer();
 
     $bucket = $this->getResultBucket($query);
@@ -258,7 +258,7 @@ final class PhabricatorCommitSearchEngine
         ->setNoDataString(pht('No commits found.'));
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($views);
   }
 

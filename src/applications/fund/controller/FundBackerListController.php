@@ -24,7 +24,7 @@ final class FundBackerListController
       }
     }
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine($this->getEngine())
       ->setNavigation($this->buildSideNavView());

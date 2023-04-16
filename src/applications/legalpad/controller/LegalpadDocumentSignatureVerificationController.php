@@ -14,7 +14,7 @@ final class LegalpadDocumentSignatureVerificationController
     // NOTE: We're using the omnipotent user to handle logged-out signatures
     // and corporate signatures.
     $signature = id(new LegalpadDocumentSignatureQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withSecretKeys(array($code))
       ->executeOne();
 

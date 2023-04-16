@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBulkEditGroup
+final class PhorgeBulkEditGroup
   extends Phobject {
 
   private $key;

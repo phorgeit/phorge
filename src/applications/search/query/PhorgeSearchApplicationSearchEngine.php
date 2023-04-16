@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchApplicationSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeSearchApplicationSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   private $resultSet;
 
@@ -10,11 +10,11 @@ final class PhabricatorSearchApplicationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter('query', $request->getStr('query'));
     $saved->setParameter(
@@ -43,24 +43,24 @@ final class PhabricatorSearchApplicationSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = new PhabricatorSearchDocumentQuery();
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = new PhorgeSearchDocumentQuery();
 
     // Convert the saved query into a resolved form (without typeahead
     // functions) which the fulltext search engines can execute.
     $config = clone $saved;
     $viewer = $this->requireViewer();
 
-    $datasource = id(new PhabricatorPeopleOwnerDatasource())
+    $datasource = id(new PhorgePeopleOwnerDatasource())
       ->setViewer($viewer);
     $owner_phids = $this->readOwnerPHIDs($config);
     $owner_phids = $datasource->evaluateTokens($owner_phids);
     foreach ($owner_phids as $key => $phid) {
-      if ($phid == PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN) {
+      if ($phid == PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN) {
         $config->setParameter('withUnowned', true);
         unset($owner_phids[$key]);
       }
-      if ($phid == PhabricatorPeopleAnyOwnerDatasource::FUNCTION_TOKEN) {
+      if ($phid == PhorgePeopleAnyOwnerDatasource::FUNCTION_TOKEN) {
         $config->setParameter('withAnyOwner', true);
         unset($owner_phids[$key]);
       }
@@ -68,14 +68,14 @@ final class PhabricatorSearchApplicationSearchEngine
     $config->setParameter('ownerPHIDs', $owner_phids);
 
 
-    $datasource = id(new PhabricatorPeopleUserFunctionDatasource())
+    $datasource = id(new PhorgePeopleUserFunctionDatasource())
       ->setViewer($viewer);
     $author_phids = $config->getParameter('authorPHIDs', array());
     $author_phids = $datasource->evaluateTokens($author_phids);
     $config->setParameter('authorPHIDs', $author_phids);
 
 
-    $datasource = id(new PhabricatorMetaMTAMailableFunctionDatasource())
+    $datasource = id(new PhorgeMetaMTAMailableFunctionDatasource())
       ->setViewer($viewer);
     $subscriber_phids = $config->getParameter('subscriberPHIDs', array());
     $subscriber_phids = $datasource->evaluateTokens($subscriber_phids);
@@ -89,7 +89,7 @@ final class PhabricatorSearchApplicationSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $options = array();
     $author_value = null;
@@ -106,8 +106,8 @@ final class PhabricatorSearchApplicationSearchEngine
     $status_values = array_fuse($status_values);
 
     $statuses = array(
-      PhabricatorSearchRelationship::RELATIONSHIP_OPEN => pht('Open'),
-      PhabricatorSearchRelationship::RELATIONSHIP_CLOSED => pht('Closed'),
+      PhorgeSearchRelationship::RELATIONSHIP_OPEN => pht('Open'),
+      PhorgeSearchRelationship::RELATIONSHIP_CLOSED => pht('Closed'),
     );
     $status_control = id(new AphrontFormCheckboxControl())
       ->setLabel(pht('Document Status'));
@@ -125,7 +125,7 @@ final class PhabricatorSearchApplicationSearchEngine
     $types_control = id(new AphrontFormTokenizerControl())
       ->setLabel(pht('Document Types'))
       ->setName('types')
-      ->setDatasource(new PhabricatorSearchDocumentTypeDatasource())
+      ->setDatasource(new PhorgeSearchDocumentTypeDatasource())
       ->setValue($type_values);
 
     $form
@@ -148,25 +148,25 @@ final class PhabricatorSearchApplicationSearchEngine
         id(new AphrontFormTokenizerControl())
           ->setName('authorPHIDs')
           ->setLabel(pht('Authors'))
-          ->setDatasource(new PhabricatorPeopleUserFunctionDatasource())
+          ->setDatasource(new PhorgePeopleUserFunctionDatasource())
           ->setValue($author_phids))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('ownerPHIDs')
           ->setLabel(pht('Owners'))
-          ->setDatasource(new PhabricatorPeopleOwnerDatasource())
+          ->setDatasource(new PhorgePeopleOwnerDatasource())
           ->setValue($owner_phids))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('subscriberPHIDs')
           ->setLabel(pht('Subscribers'))
-          ->setDatasource(new PhabricatorMetaMTAMailableFunctionDatasource())
+          ->setDatasource(new PhorgeMetaMTAMailableFunctionDatasource())
           ->setValue($subscriber_phids))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('projectPHIDs')
           ->setLabel(pht('Tags'))
-          ->setDatasource(new PhabricatorProjectDatasource())
+          ->setDatasource(new PhorgeProjectDatasource())
           ->setValue($project_phids));
   }
 
@@ -201,13 +201,13 @@ final class PhabricatorSearchApplicationSearchEngine
   }
 
   public static function getIndexableDocumentTypes(
-    PhabricatorUser $viewer = null) {
+    PhorgeUser $viewer = null) {
 
     // TODO: This is inelegant and not very efficient, but gets us reasonable
     // results. It would be nice to do this more elegantly.
 
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFulltextInterface')
+      ->setAncestorClass('PhorgeFulltextInterface')
       ->execute();
 
     $type_map = array();
@@ -217,9 +217,9 @@ final class PhabricatorSearchApplicationSearchEngine
     }
 
     if ($viewer) {
-      $types = PhabricatorPHIDType::getAllInstalledTypes($viewer);
+      $types = PhorgePHIDType::getAllInstalledTypes($viewer);
     } else {
-      $types = PhabricatorPHIDType::getAllTypes();
+      $types = PhorgePHIDType::getAllTypes();
     }
 
     $results = array();
@@ -242,7 +242,7 @@ final class PhabricatorSearchApplicationSearchEngine
 
   protected function renderResultList(
     array $results,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $result_set = $this->resultSet;
@@ -253,13 +253,13 @@ final class PhabricatorSearchApplicationSearchEngine
     $list->setNoDataString(pht('No results found.'));
 
     if ($results) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($results, 'getPHID'))
         ->execute();
 
       foreach ($results as $phid => $handle) {
-        $view = id(new PhabricatorSearchResultView())
+        $view = id(new PhorgeSearchResultView())
           ->setHandle($handle)
           ->setTokens($fulltext_tokens)
           ->setObject(idx($objects, $phid))
@@ -288,25 +288,25 @@ final class PhabricatorSearchApplicationSearchEngine
         ));
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($fulltext_view);
     $result->setObjectList($list);
 
     return $result;
   }
 
-  private function readOwnerPHIDs(PhabricatorSavedQuery $saved) {
+  private function readOwnerPHIDs(PhorgeSavedQuery $saved) {
     $owner_phids = $saved->getParameter('ownerPHIDs', array());
 
     // This was an old checkbox from before typeahead functions.
     if ($saved->getParameter('withUnowned')) {
-      $owner_phids[] = PhabricatorPeopleNoOwnerDatasource::FUNCTION_TOKEN;
+      $owner_phids[] = PhorgePeopleNoOwnerDatasource::FUNCTION_TOKEN;
     }
 
     return $owner_phids;
   }
 
-  protected function didExecuteQuery(PhabricatorPolicyAwareQuery $query) {
+  protected function didExecuteQuery(PhorgePolicyAwareQuery $query) {
     $this->resultSet = $query->getFulltextResultSet();
   }
 

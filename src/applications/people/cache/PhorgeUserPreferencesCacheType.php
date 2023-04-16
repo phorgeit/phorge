@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserPreferencesCacheType
-  extends PhabricatorUserCacheType {
+final class PhorgeUserPreferencesCacheType
+  extends PhorgeUserCacheType {
 
   const CACHETYPE = 'preferences';
 
@@ -27,14 +27,14 @@ final class PhabricatorUserPreferencesCacheType
     $users = mpull($users, null, 'getPHID');
     $user_phids = array_keys($users);
 
-    $preferences = id(new PhabricatorUserPreferencesQuery())
+    $preferences = id(new PhorgeUserPreferencesQuery())
       ->setViewer($viewer)
       ->withUsers($users)
       ->needSyntheticPreferences(true)
       ->execute();
     $preferences = mpull($preferences, null, 'getUserPHID');
 
-    $all_settings = PhabricatorSetting::getAllSettings();
+    $all_settings = PhorgeSetting::getAllSettings();
 
     $settings = array();
     foreach ($users as $user_phid => $user) {

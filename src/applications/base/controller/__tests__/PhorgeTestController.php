@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTestController extends PhabricatorController {
+final class PhorgeTestController extends PhorgeController {
 
   private $config = array();
 

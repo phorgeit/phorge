@@ -1,6 +1,6 @@
 <?php
 
-final class AphrontHTTPSinkTestCase extends PhabricatorTestCase {
+final class AphrontHTTPSinkTestCase extends PhorgeTestCase {
 
   public function testHTTPSinkBasics() {
     $sink = new AphrontIsolatedHTTPSink();

@@ -22,7 +22,7 @@ final class PHUIPropertyListView extends AphrontView {
     return $this;
   }
 
-  public function setActionList(PhabricatorActionListView $list) {
+  public function setActionList(PhorgeActionListView $list) {
     $this->actionList = $list;
     return $this;
   }
@@ -103,8 +103,8 @@ final class PHUIPropertyListView extends AphrontView {
 
   public function invokeWillRenderEvent() {
     if ($this->object && $this->getUser() && !$this->invokedWillRenderEvent) {
-      $event = new PhabricatorEvent(
-        PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES,
+      $event = new PhorgeEvent(
+        PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES,
         array(
           'object'  => $this->object,
           'view'    => $this,

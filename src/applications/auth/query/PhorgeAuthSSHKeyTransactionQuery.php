@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthSSHKeyTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeAuthSSHKeyTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorAuthSSHKeyTransaction();
+    return new PhorgeAuthSSHKeyTransaction();
   }
 
 }

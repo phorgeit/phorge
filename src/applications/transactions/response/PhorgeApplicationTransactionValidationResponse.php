@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionValidationResponse
+final class PhorgeApplicationTransactionValidationResponse
   extends AphrontProxyResponse {
 
   private $viewer;
@@ -13,7 +13,7 @@ final class PhabricatorApplicationTransactionValidationResponse
   }
 
   public function setException(
-    PhabricatorApplicationTransactionValidationException $exception) {
+    PhorgeApplicationTransactionValidationException $exception) {
     $this->exception = $exception;
     return $this;
   }

@@ -1,10 +1,10 @@
 <?php
 
 final class PassphraseCredentialFulltextEngine
-  extends PhabricatorFulltextEngine {
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $credential = $object;
@@ -12,16 +12,16 @@ final class PassphraseCredentialFulltextEngine
     $document->setDocumentTitle($credential->getName());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $credential->getDescription());
 
     $document->addRelationship(
       $credential->getIsDestroyed()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $credential->getPHID(),
       PassphraseCredentialPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
   }
 
 }

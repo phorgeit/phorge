@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHomeMenuItemController
-  extends PhabricatorHomeController {
+final class PhorgeHomeMenuItemController
+  extends PhorgeHomeController {
 
   public function shouldAllowPublic() {
     return true;
@@ -19,14 +19,14 @@ final class PhabricatorHomeMenuItemController
     // get the content.
     $is_content = $request->getURIData('content');
 
-    $application = 'PhabricatorHomeApplication';
-    $home_app = id(new PhabricatorApplicationQuery())
+    $application = 'PhorgeHomeApplication';
+    $home_app = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application))
       ->withInstalled(true)
       ->executeOne();
 
-    $engine = id(new PhabricatorHomeProfileMenuEngine())
+    $engine = id(new PhorgeHomeProfileMenuEngine())
       ->setProfileObject($home_app)
       ->setCustomPHID($viewer->getPHID())
       ->setController($this)

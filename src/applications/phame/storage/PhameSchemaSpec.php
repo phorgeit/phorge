@@ -1,7 +1,7 @@
 <?php
 
 final class PhameSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new PhameBlog());

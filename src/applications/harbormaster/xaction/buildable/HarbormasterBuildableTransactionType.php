@@ -1,4 +1,4 @@
 <?php
 
 abstract class HarbormasterBuildableTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

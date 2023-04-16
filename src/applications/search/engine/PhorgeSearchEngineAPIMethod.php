@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSearchEngineAPIMethod
+abstract class PhorgeSearchEngineAPIMethod
   extends ConduitAPIMethod {
 
   abstract public function newSearchEngine();
@@ -29,7 +29,7 @@ abstract class PhabricatorSearchEngineAPIMethod
   public function getApplication() {
     $engine = $this->newSearchEngine();
     $class = $engine->getApplicationClassName();
-    return PhabricatorApplication::getByClass($class);
+    return PhorgeApplication::getByClass($class);
   }
 
   final protected function defineParamTypes() {
@@ -57,10 +57,10 @@ abstract class PhabricatorSearchEngineAPIMethod
       'This is a standard **ApplicationSearch** method which will let you '.
       'list, query, or search for objects. For documentation on these '.
       'endpoints, see **[[ %s | Conduit API: Using Search Endpoints ]]**.',
-      PhabricatorEnv::getDoclink('Conduit API: Using Search Endpoints'));
+      PhorgeEnv::getDoclink('Conduit API: Using Search Endpoints'));
   }
 
-  final protected function newDocumentationPages(PhabricatorUser $viewer) {
+  final protected function newDocumentationPages(PhorgeUser $viewer) {
     $viewer = $this->getViewer();
 
     $engine = $this->newSearchEngine()
@@ -81,8 +81,8 @@ abstract class PhabricatorSearchEngineAPIMethod
   }
 
   private function buildQueriesDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine) {
     $viewer = $this->getViewer();
 
     $info = pht(<<<EOTEXT
@@ -152,8 +152,8 @@ EOTEXT
   }
 
   private function buildConstraintsDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine) {
 
     $info = pht(<<<EOTEXT
 You can apply custom constraints by passing a dictionary in `constraints`.
@@ -299,8 +299,8 @@ EOTEXT
   }
 
   private function buildOrderDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine,
     $query) {
 
     $orders_info = pht(<<<EOTEXT
@@ -411,8 +411,8 @@ EOTEXT
   }
 
   private function buildFieldsDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine) {
 
     $info = pht(<<<EOTEXT
 Objects matching your query are returned as a list of dictionaries in the
@@ -494,8 +494,8 @@ EOTEXT
   }
 
   private function buildAttachmentsDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine) {
 
     $info = pht(<<<EOTEXT
 By default, only basic information about objects is returned. If you want
@@ -588,8 +588,8 @@ EOTEXT
   }
 
   private function buildPagingDocumentationPage(
-    PhabricatorUser $viewer,
-    PhabricatorApplicationSearchEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeApplicationSearchEngine $engine) {
 
     $info = pht(<<<EOTEXT
 Queries are limited to returning 100 results at a time. If you want fewer

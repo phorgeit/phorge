@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorUserTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeUserTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'user';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorPeopleUserPHIDType::TYPECONST;
+    return PhorgePeopleUserPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorUserTransactionType';
+    return 'PhorgeUserTransactionType';
   }
 
 }

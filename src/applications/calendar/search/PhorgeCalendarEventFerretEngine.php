@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventFerretEngine
-  extends PhabricatorFerretEngine {
+final class PhorgeCalendarEventFerretEngine
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'calendar';
@@ -12,7 +12,7 @@ final class PhabricatorCalendarEventFerretEngine
   }
 
   public function newSearchEngine() {
-    return new PhabricatorCalendarEventSearchEngine();
+    return new PhorgeCalendarEventSearchEngine();
   }
 
 }

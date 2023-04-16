@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMacroListController extends PhabricatorMacroController {
+final class PhorgeMacroListController extends PhorgeMacroController {
 
   public function shouldAllowPublic() {
     return true;
@@ -9,9 +9,9 @@ final class PhabricatorMacroListController extends PhabricatorMacroController {
   public function handleRequest(AphrontRequest $request) {
     $key = $request->getURIData('key');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($key)
-      ->setSearchEngine(new PhabricatorMacroSearchEngine())
+      ->setSearchEngine(new PhorgeMacroSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTokenGivenFeedStory
-  extends PhabricatorFeedStory {
+final class PhorgeTokenGivenFeedStory
+  extends PhorgeFeedStory {
 
   public function getPrimaryObjectPHID() {
     return $this->getValue('objectPHID');
@@ -47,7 +47,7 @@ final class PhabricatorTokenGivenFeedStory
 
   public function renderText() {
     $old_target = $this->getRenderingTarget();
-    $this->setRenderingTarget(PhabricatorApplicationTransaction::TARGET_TEXT);
+    $this->setRenderingTarget(PhorgeApplicationTransaction::TARGET_TEXT);
     $title = $this->renderTitle();
     $this->setRenderingTarget($old_target);
     return $title;

@@ -19,7 +19,7 @@ EOHELP
 );
 $args->parseStandardArguments();
 
-$default_namespace  = PhabricatorLiskDAO::getDefaultStorageNamespace();
+$default_namespace  = PhorgeLiskDAO::getDefaultStorageNamespace();
 
 try {
   $args->parsePartial(
@@ -87,7 +87,7 @@ try {
 // First, test that the Phorge configuration is set up correctly. After
 // we know this works we'll test any administrative credentials specifically.
 
-$refs = PhabricatorDatabaseRef::getActiveDatabaseRefs();
+$refs = PhorgeDatabaseRef::getActiveDatabaseRefs();
 if (!$refs) {
   throw new PhutilArgumentUsageException(
     pht('No databases are configured.'));
@@ -102,7 +102,7 @@ if (($host !== null) || ($ref_key !== null)) {
         'Use "--host" or "--ref" to select a database, but not both.'));
   }
 
-  $refs = PhabricatorDatabaseRef::getActiveDatabaseRefs();
+  $refs = PhorgeDatabaseRef::getActiveDatabaseRefs();
 
   $possible_refs = array();
   foreach ($refs as $possible_ref) {
@@ -149,7 +149,7 @@ foreach ($refs as $ref) {
   $default_host = $ref->getHost();
   $default_port = $ref->getPort();
 
-  $test_api = id(new PhabricatorStorageManagementAPI())
+  $test_api = id(new PhorgeStorageManagementAPI())
     ->setUser($default_user)
     ->setHost($default_host)
     ->setPort($default_port)
@@ -189,7 +189,7 @@ foreach ($refs as $ref) {
   } else {
     // Put this in a PhutilOpaqueEnvelope.
     $password = new PhutilOpaqueEnvelope($args->getArg('password'));
-    PhabricatorEnv::overrideConfig('mysql.pass', $args->getArg('password'));
+    PhorgeEnv::overrideConfig('mysql.pass', $args->getArg('password'));
   }
 
   $selected_user = $args->getArg('user');
@@ -197,14 +197,14 @@ foreach ($refs as $ref) {
     $selected_user = $default_user;
   }
 
-  $api = id(new PhabricatorStorageManagementAPI())
+  $api = id(new PhorgeStorageManagementAPI())
     ->setUser($selected_user)
     ->setHost($default_host)
     ->setPort($default_port)
     ->setPassword($password)
     ->setNamespace($args->getArg('namespace'))
     ->setDisableUTF8MB4($args->getArg('disable-utf8mb4'));
-  PhabricatorEnv::overrideConfig('mysql.user', $api->getUser());
+  PhorgeEnv::overrideConfig('mysql.user', $api->getUser());
 
   $ref->setUser($selected_user);
   $ref->setPass($password);
@@ -234,10 +234,10 @@ foreach ($refs as $ref) {
 }
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorStorageManagementWorkflow')
+  ->setAncestorClass('PhorgeStorageManagementWorkflow')
   ->execute();
 
-$patches = PhabricatorSQLPatchList::buildAllPatches();
+$patches = PhorgeSQLPatchList::buildAllPatches();
 
 foreach ($workflows as $workflow) {
   $workflow->setAPIs($apis);

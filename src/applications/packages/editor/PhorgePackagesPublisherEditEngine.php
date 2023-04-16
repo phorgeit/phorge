@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPublisherEditEngine
-  extends PhabricatorPackagesEditEngine {
+final class PhorgePackagesPublisherEditEngine
+  extends PhorgePackagesEditEngine {
 
   const ENGINECONST = 'packages.publisher';
 
@@ -19,11 +19,11 @@ final class PhabricatorPackagesPublisherEditEngine
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorPackagesPublisher::initializeNewPublisher($viewer);
+    return PhorgePackagesPublisher::initializeNewPublisher($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorPackagesPublisherQuery();
+    return new PhorgePackagesPublisherQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -64,28 +64,28 @@ final class PhabricatorPackagesPublisherEditEngine
 
   protected function getCreateNewObjectPolicy() {
     return $this->getApplication()->getPolicy(
-      PhabricatorPackagesCreatePublisherCapability::CAPABILITY);
+      PhorgePackagesCreatePublisherCapability::CAPABILITY);
   }
 
   protected function buildCustomEditFields($object) {
     $fields = array();
 
-    $fields[] = id(new PhabricatorTextEditField())
+    $fields[] = id(new PhorgeTextEditField())
       ->setKey('name')
       ->setLabel(pht('Name'))
       ->setDescription(pht('Name of the publisher.'))
       ->setTransactionType(
-        PhabricatorPackagesPublisherNameTransaction::TRANSACTIONTYPE)
+        PhorgePackagesPublisherNameTransaction::TRANSACTIONTYPE)
       ->setIsRequired(true)
       ->setValue($object->getName());
 
     if ($this->getIsCreate()) {
-      $fields[] = id(new PhabricatorTextEditField())
+      $fields[] = id(new PhorgeTextEditField())
         ->setKey('publisherKey')
         ->setLabel(pht('Publisher Key'))
         ->setDescription(pht('Unique key to identify the publisher.'))
         ->setTransactionType(
-          PhabricatorPackagesPublisherKeyTransaction::TRANSACTIONTYPE)
+          PhorgePackagesPublisherKeyTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getPublisherKey());
     }

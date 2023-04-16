@@ -2,8 +2,8 @@
 
 final class FundBacker extends FundDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $initiativePHID;
   protected $backerPHID;
@@ -17,7 +17,7 @@ final class FundBacker extends FundDAO
   const STATUS_IN_CART = 'in-cart';
   const STATUS_PURCHASED = 'purchased';
 
-  public static function initializeNewBacker(PhabricatorUser $actor) {
+  public static function initializeNewBacker(PhorgeUser $actor) {
     return id(new FundBacker())
       ->setBackerPHID($actor->getPHID())
       ->setStatus(self::STATUS_NEW);
@@ -48,7 +48,7 @@ final class FundBacker extends FundDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(FundBackerPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(FundBackerPHIDType::TYPECONST);
   }
 
   public function getProperty($key, $default = null) {
@@ -70,19 +70,19 @@ final class FundBacker extends FundDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // If we have the initiative, use the initiative's policy.
         // Otherwise, return NOONE. This allows the backer to continue seeing
         // a backer even if they're no longer allowed to see the initiative.
@@ -91,13 +91,13 @@ final class FundBacker extends FundDAO
         if ($initiative) {
           return $initiative->getPolicy($capability);
         }
-        return PhabricatorPolicies::POLICY_NOONE;
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+        return PhorgePolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getBackerPHID());
   }
 
@@ -106,7 +106,7 @@ final class FundBacker extends FundDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorCacheSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeCacheSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_PHP;
   }
 
   protected function executeChecks() {
-    $code_cache = PhabricatorOpcodeCacheSpec::getActiveCacheSpec();
-    $data_cache = PhabricatorDataCacheSpec::getActiveCacheSpec();
+    $code_cache = PhorgeOpcodeCacheSpec::getActiveCacheSpec();
+    $data_cache = PhorgeDataCacheSpec::getActiveCacheSpec();
 
     $issues = $code_cache->getIssues() + $data_cache->getIssues();
 

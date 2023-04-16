@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIBigInfoExample extends PhabricatorUIExample {
+final class PHUIBigInfoExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Big Info View');
@@ -15,7 +15,7 @@ final class PHUIBigInfoExample extends PhabricatorUIExample {
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
-    $image = PhabricatorFile::loadBuiltin($viewer,
+    $image = PhorgeFile::loadBuiltin($viewer,
       'projects/v3/rocket.png');
 
     $button = id(new PHUIButtonView())

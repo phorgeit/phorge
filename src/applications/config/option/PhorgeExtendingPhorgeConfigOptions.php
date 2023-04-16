@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExtendingPhabricatorConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeExtendingPhorgeConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Extensions');
@@ -34,7 +34,7 @@ final class PhabricatorExtendingPhabricatorConfigOptions
             'You can respond to various application events by installing '.
             'listeners, which will receive callbacks when interesting things '.
             'occur. Specify a list of classes which extend '.
-            'PhabricatorEventListener here.'))
+            'PhorgeEventListener here.'))
         ->addExample('MyEventListener', pht('Valid Setting')),
     );
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUnknownContentSource
-  extends PhabricatorContentSource {
+final class PhorgeUnknownContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'unknown';
 

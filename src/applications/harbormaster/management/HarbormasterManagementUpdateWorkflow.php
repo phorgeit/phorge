@@ -45,7 +45,7 @@ final class HarbormasterManagementUpdateWorkflow
         pht('Specify exactly one buildable, by object name.'));
     }
 
-    $buildable = id(new PhabricatorObjectQuery())
+    $buildable = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($names)
       ->executeOne();
@@ -84,7 +84,7 @@ final class HarbormasterManagementUpdateWorkflow
     $console = PhutilConsole::getConsole();
 
     if (!$args->getArg('background')) {
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
     }
 
     foreach ($builds as $build) {

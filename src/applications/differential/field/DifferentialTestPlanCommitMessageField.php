@@ -26,7 +26,7 @@ final class DifferentialTestPlanCommitMessageField
   }
 
   public function validateFieldValue($value) {
-    $is_required = PhabricatorEnv::getEnvConfig(
+    $is_required = PhorgeEnv::getEnvConfig(
       'differential.require-test-plan-field');
 
     if ($is_required && !strlen($value)) {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTitleGlyphsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeTitleGlyphsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'titles';
 
@@ -13,7 +13,7 @@ final class PhabricatorTitleGlyphsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDisplayPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDisplayPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

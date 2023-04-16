@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorEditEngineMFAInterface {
+interface PhorgeEditEngineMFAInterface {
 
   public function newEditEngineMFAEngine();
 

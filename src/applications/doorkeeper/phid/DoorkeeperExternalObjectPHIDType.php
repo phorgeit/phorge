@@ -1,7 +1,7 @@
 <?php
 
 final class DoorkeeperExternalObjectPHIDType
-  extends PhabricatorPHIDType {
+  extends PhorgePHIDType {
 
   const TYPECONST = 'XOBJ';
 
@@ -14,11 +14,11 @@ final class DoorkeeperExternalObjectPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDoorkeeperApplication';
+    return 'PhorgeDoorkeeperApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new DoorkeeperExternalObjectQuery())
@@ -26,7 +26,7 @@ final class DoorkeeperExternalObjectPHIDType
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

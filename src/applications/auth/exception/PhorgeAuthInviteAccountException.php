@@ -3,5 +3,5 @@
 /**
  * Exception raised when the user is logged in to the wrong account.
  */
-final class PhabricatorAuthInviteAccountException
-  extends PhabricatorAuthInviteDialogException {}
+final class PhorgeAuthInviteAccountException
+  extends PhorgeAuthInviteDialogException {}

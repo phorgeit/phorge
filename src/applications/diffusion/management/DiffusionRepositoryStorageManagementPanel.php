@@ -30,10 +30,10 @@ final class DiffusionRepositoryStorageManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $doc_href = PhabricatorEnv::getDoclink('Cluster: Repositories');
+    $doc_href = PhorgeEnv::getDoclink('Cluster: Repositories');
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-book')
         ->setHref($doc_href)
         ->setName(pht('Cluster Documentation')));
@@ -108,10 +108,10 @@ final class DiffusionRepositoryStorageManagementPanel
       $bindings = mgroup($bindings, 'getDevicePHID');
 
       // This is an unusual read which always comes from the master.
-      if (PhabricatorEnv::isReadOnly()) {
+      if (PhorgeEnv::isReadOnly()) {
         $versions = array();
       } else {
-        $versions = PhabricatorRepositoryWorkingCopyVersion::loadVersions(
+        $versions = PhorgeRepositoryWorkingCopyVersion::loadVersions(
           $repository->getPHID());
       }
 

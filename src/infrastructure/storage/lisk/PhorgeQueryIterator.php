@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorQueryIterator extends PhutilBufferedIterator {
+final class PhorgeQueryIterator extends PhutilBufferedIterator {
 
   private $query;
   private $pager;
 
-  public function __construct(PhabricatorCursorPagedPolicyAwareQuery $query) {
+  public function __construct(PhorgeCursorPagedPolicyAwareQuery $query) {
     $this->query = $query;
   }
 

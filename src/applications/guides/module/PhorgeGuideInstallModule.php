@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
+final class PhorgeGuideInstallModule extends PhorgeGuideModule {
 
   public function getModuleKey() {
     return 'install';
@@ -15,7 +15,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
   }
 
   public function getIsModuleEnabled() {
-    if (PhabricatorEnv::getEnvConfig('cluster.instance')) {
+    if (PhorgeEnv::getEnvConfig('cluster.instance')) {
       return false;
     }
     return true;
@@ -24,11 +24,11 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $guide_items = new PhabricatorGuideListView();
+    $guide_items = new PhorgeGuideListView();
 
     $title = pht('Resolve Setup Issues');
-    $issues_resolved = !PhabricatorSetupCheck::getOpenSetupIssueKeys();
-    $href = PhabricatorEnv::getURI('/config/issue/');
+    $issues_resolved = !PhorgeSetupCheck::getOpenSetupIssueKeys();
+    $href = PhorgeEnv::getURI('/config/issue/');
     if ($issues_resolved) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -41,7 +41,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
         pht('You have some unresolved setup issues to take care of.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -49,12 +49,12 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
       ->setDescription($description);
     $guide_items->addItem($item);
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->execute();
 
     $title = pht('Login and Registration');
-    $href = PhabricatorEnv::getURI('/auth/');
+    $href = PhorgeEnv::getURI('/auth/');
     $have_auth = (bool)$configs;
     if ($have_auth) {
       $icon = 'fa-check';
@@ -69,7 +69,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
         'log in.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -79,11 +79,11 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
 
 
     $title = pht('Configure');
-    $href = PhabricatorEnv::getURI('/config/');
+    $href = PhorgeEnv::getURI('/config/');
 
     // Just load any config value at all; if one exists the install has figured
     // out how to configure things.
-    $have_config = (bool)id(new PhabricatorConfigEntry())->loadAllWhere(
+    $have_config = (bool)id(new PhorgeConfigEntry())->loadAllWhere(
       '1 = 1 LIMIT 1');
 
     if ($have_config) {
@@ -98,7 +98,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
         'Learn how to configure mail and other options.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -108,8 +108,8 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
 
 
     $title = pht('User Account Settings');
-    $href = PhabricatorEnv::getURI('/settings/');
-    $preferences = id(new PhabricatorUserPreferencesQuery())
+    $href = PhorgeEnv::getURI('/settings/');
+    $preferences = id(new PhorgeUserPreferencesQuery())
       ->setViewer($viewer)
       ->withUsers(array($viewer))
       ->executeOne();
@@ -127,7 +127,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
         'Configure account settings for all users, or just yourself');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)
@@ -137,8 +137,8 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
 
 
     $title = pht('Notification Server');
-    $href = PhabricatorEnv::getURI('/config/edit/notification.servers/');
-    $have_notifications = PhabricatorEnv::getEnvConfig('notification.servers');
+    $href = PhorgeEnv::getURI('/config/edit/notification.servers/');
+    $have_notifications = PhorgeEnv::getEnvConfig('notification.servers');
     if ($have_notifications) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
@@ -151,7 +151,7 @@ final class PhabricatorGuideInstallModule extends PhabricatorGuideModule {
         'Real-time notifications can be delivered with WebSockets.');
     }
 
-    $item = id(new PhabricatorGuideItemView())
+    $item = id(new PhorgeGuideItemView())
       ->setTitle($title)
       ->setHref($href)
       ->setIcon($icon)

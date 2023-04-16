@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFactEngine extends Phobject {
+abstract class PhorgeFactEngine extends Phobject {
 
   private $factMap;
   private $viewer;
@@ -14,9 +14,9 @@ abstract class PhabricatorFactEngine extends Phobject {
   abstract public function newFacts();
 
   abstract public function supportsDatapointsForObject(
-    PhabricatorLiskDAO $object);
+    PhorgeLiskDAO $object);
 
-  abstract public function newDatapointsForObject(PhabricatorLiskDAO $object);
+  abstract public function newDatapointsForObject(PhorgeLiskDAO $object);
 
   final protected function getFact($key) {
     if ($this->factMap === null) {
@@ -36,7 +36,7 @@ abstract class PhabricatorFactEngine extends Phobject {
     return $this->factMap[$key];
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorFileTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeFileTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'file';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorFileFilePHIDType::TYPECONST;
+    return PhorgeFileFilePHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorFileTransactionComment();
+    return new PhorgeFileTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorFileTransactionType';
+    return 'PhorgeFileTransactionType';
   }
 
 }

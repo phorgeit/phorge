@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorAuthContactNumberDisableController
-  extends PhabricatorAuthContactNumberController {
+final class PhorgeAuthContactNumberDisableController
+  extends PhorgeAuthContactNumberController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $number = id(new PhabricatorAuthContactNumberQuery())
+    $number = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$number) {
@@ -28,17 +28,17 @@ final class PhabricatorAuthContactNumberDisableController
       $xactions = array();
 
       if ($is_disable) {
-        $new_status = PhabricatorAuthContactNumber::STATUS_DISABLED;
+        $new_status = PhorgeAuthContactNumber::STATUS_DISABLED;
       } else {
-        $new_status = PhabricatorAuthContactNumber::STATUS_ACTIVE;
+        $new_status = PhorgeAuthContactNumber::STATUS_ACTIVE;
       }
 
-      $xactions[] = id(new PhabricatorAuthContactNumberTransaction())
+      $xactions[] = id(new PhorgeAuthContactNumberTransaction())
         ->setTransactionType(
-          PhabricatorAuthContactNumberStatusTransaction::TRANSACTIONTYPE)
+          PhorgeAuthContactNumberStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      $editor = id(new PhabricatorAuthContactNumberEditor())
+      $editor = id(new PhorgeAuthContactNumberEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -47,7 +47,7 @@ final class PhabricatorAuthContactNumberDisableController
 
       try {
         $editor->applyTransactions($number, $xactions);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         // This happens when you enable a number which collides with another
         // number.
         return $this->newDialog()

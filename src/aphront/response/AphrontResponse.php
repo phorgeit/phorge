@@ -87,7 +87,7 @@ abstract class AphrontResponse extends Phobject {
 
     if ($this->getRequest() && $this->getRequest()->isHTTPS()) {
       $hsts_key = 'security.strict-transport-security';
-      $use_hsts = PhabricatorEnv::getEnvConfig($hsts_key);
+      $use_hsts = PhorgeEnv::getEnvConfig($hsts_key);
       if ($use_hsts) {
         $duration = phutil_units('365 days in seconds');
       } else {
@@ -130,8 +130,8 @@ abstract class AphrontResponse extends Phobject {
     // to emit a Content-Security-Policy header.
 
     try {
-      $cdn = PhabricatorEnv::getEnvConfig('security.alternate-file-domain');
-      $base_uri = PhabricatorEnv::getURI('/');
+      $cdn = PhorgeEnv::getEnvConfig('security.alternate-file-domain');
+      $base_uri = PhorgeEnv::getURI('/');
     } catch (Exception $ex) {
       return null;
     }

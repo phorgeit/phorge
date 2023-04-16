@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchNgramEngine
+final class PhorgeSearchNgramEngine
   extends Phobject {
 
   public function tokenizeNgramString($value) {

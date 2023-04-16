@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigCacheController
-  extends PhabricatorConfigServicesController {
+final class PhorgeConfigCacheController
+  extends PhorgeConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -42,14 +42,14 @@ final class PhabricatorConfigCacheController
   }
 
   private function renderCodeBox() {
-    $cache = PhabricatorOpcodeCacheSpec::getActiveCacheSpec();
+    $cache = PhorgeOpcodeCacheSpec::getActiveCacheSpec();
     $properties = id(new PHUIPropertyListView());
     $this->renderCommonProperties($properties, $cache);
     return $this->buildConfigBoxView(pht('Opcode Cache'), $properties);
   }
 
   private function renderDataBox() {
-    $cache = PhabricatorDataCacheSpec::getActiveCacheSpec();
+    $cache = PhorgeDataCacheSpec::getActiveCacheSpec();
 
     $properties = id(new PHUIPropertyListView());
 
@@ -102,7 +102,7 @@ final class PhabricatorConfigCacheController
 
   private function renderCommonProperties(
     PHUIPropertyListView $properties,
-    PhabricatorCacheSpec $cache) {
+    PhorgeCacheSpec $cache) {
 
     if ($cache->getName() !== null) {
       $name = $this->renderYes($cache->getName());

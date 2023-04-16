@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorHigherOrderChartFunction
-  extends PhabricatorChartFunction {
+abstract class PhorgeHigherOrderChartFunction
+  extends PhorgeChartFunction {
 
   public function getDomain() {
     $domains = array();
@@ -9,10 +9,10 @@ abstract class PhabricatorHigherOrderChartFunction
       $domains[] = $function->getDomain();
     }
 
-    return PhabricatorChartInterval::newFromIntervalList($domains);
+    return PhorgeChartInterval::newFromIntervalList($domains);
   }
 
-  public function newInputValues(PhabricatorChartDataQuery $query) {
+  public function newInputValues(PhorgeChartDataQuery $query) {
     $map = array();
     foreach ($this->getFunctionArguments() as $function) {
       $xv = $function->newInputValues($query);

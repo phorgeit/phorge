@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSessionsSettingsPanel extends PhabricatorSettingsPanel {
+final class PhorgeSessionsSettingsPanel extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'sessions';
@@ -15,7 +15,7 @@ final class PhabricatorSessionsSettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsLogsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsLogsPanelGroup::PANELGROUPKEY;
   }
 
   public function isEnabled() {
@@ -25,32 +25,32 @@ final class PhabricatorSessionsSettingsPanel extends PhabricatorSettingsPanel {
   public function processRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
     $identity_phids = mpull($accounts, 'getPHID');
     $identity_phids[] = $viewer->getPHID();
 
-    $sessions = id(new PhabricatorAuthSessionQuery())
+    $sessions = id(new PhorgeAuthSessionQuery())
       ->setViewer($viewer)
       ->withIdentityPHIDs($identity_phids)
       ->execute();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($identity_phids)
       ->execute();
 
-    $current_key = PhabricatorAuthSession::newSessionDigest(
+    $current_key = PhorgeAuthSession::newSessionDigest(
       new PhutilOpaqueEnvelope(
-        $request->getCookie(PhabricatorCookies::COOKIE_SESSION)));
+        $request->getCookie(PhorgeCookies::COOKIE_SESSION)));
 
     $rows = array();
     $rowc = array();

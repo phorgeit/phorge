@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardPanelPHIDType extends PhabricatorPHIDType {
+final class PhorgeDashboardPanelPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'DSHP';
 
@@ -9,23 +9,23 @@ final class PhabricatorDashboardPanelPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorDashboardPanel();
+    return new PhorgeDashboardPanel();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorDashboardPanelQuery())
+    return id(new PhorgeDashboardPanelQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -42,7 +42,7 @@ final class PhabricatorDashboardPanelPHIDType extends PhabricatorPHIDType {
         ->setURI($panel->getURI());
 
       if ($panel->getIsArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -52,7 +52,7 @@ final class PhabricatorDashboardPanelPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -61,7 +61,7 @@ final class PhabricatorDashboardPanelPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorDashboardPanelQuery())
+    $objects = id(new PhorgeDashboardPanelQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

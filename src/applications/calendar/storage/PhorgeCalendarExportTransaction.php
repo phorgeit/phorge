@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorCalendarExportTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeCalendarExportTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'calendar';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorCalendarExportPHIDType::TYPECONST;
+    return PhorgeCalendarExportPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCalendarExportTransactionType';
+    return 'PhorgeCalendarExportTransactionType';
   }
 
 }

@@ -1,13 +1,13 @@
 <?php
 
 
-final class PhabricatorAuthContactNumber
-  extends PhabricatorAuthDAO
+final class PhorgeAuthContactNumber
+  extends PhorgeAuthDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorEditEngineMFAInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeEditEngineMFAInterface {
 
   protected $objectPHID;
   protected $contactNumber;
@@ -51,7 +51,7 @@ final class PhabricatorAuthContactNumber
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthContactNumberPHIDType::TYPECONST;
+    return PhorgeAuthContactNumberPHIDType::TYPECONST;
   }
 
   public function getURI() {
@@ -99,7 +99,7 @@ final class PhabricatorAuthContactNumber
 
     $parts = implode("\0", $parts);
 
-    return PhabricatorHash::digestForIndex($parts);
+    return PhorgeHash::digestForIndex($parts);
   }
 
   public function save() {
@@ -193,13 +193,13 @@ final class PhabricatorAuthContactNumber
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -207,37 +207,37 @@ final class PhabricatorAuthContactNumber
     return $this->getObjectPHID();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuthContactNumberEditor();
+    return new PhorgeAuthContactNumberEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuthContactNumberTransaction();
+    return new PhorgeAuthContactNumberTransaction();
   }
 
 
-/* -(  PhabricatorEditEngineMFAInterface  )---------------------------------- */
+/* -(  PhorgeEditEngineMFAInterface  )---------------------------------- */
 
 
   public function newEditEngineMFAEngine() {
-    return new PhabricatorAuthContactNumberMFAEngine();
+    return new PhorgeAuthContactNumberMFAEngine();
   }
 
 }

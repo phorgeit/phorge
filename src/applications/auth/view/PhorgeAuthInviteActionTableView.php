@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthInviteActionTableView extends AphrontView {
+final class PhorgeAuthInviteActionTableView extends AphrontView {
 
   private $inviteActions;
   private $handles;

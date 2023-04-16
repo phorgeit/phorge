@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorProjectColumnRemoveTriggerController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnRemoveTriggerController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $column = id(new PhabricatorProjectColumnQuery())
+    $column = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$column) {
@@ -35,7 +35,7 @@ final class PhabricatorProjectColumnRemoveTriggerController
 
       $column_xactions[] = $column->getApplicationTransactionTemplate()
         ->setTransactionType(
-          PhabricatorProjectColumnTriggerTransaction::TRANSACTIONTYPE)
+          PhorgeProjectColumnTriggerTransaction::TRANSACTIONTYPE)
         ->setNewValue(null);
 
       $column_editor = $column->getApplicationTransactionEditor()

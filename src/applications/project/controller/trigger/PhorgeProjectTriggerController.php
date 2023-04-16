@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorProjectTriggerController
-  extends PhabricatorProjectController {
+abstract class PhorgeProjectTriggerController
+  extends PhorgeProjectController {
 
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();

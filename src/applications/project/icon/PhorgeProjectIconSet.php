@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectIconSet
-  extends PhabricatorIconSet {
+final class PhorgeProjectIconSet
+  extends PhorgeIconSet {
 
   const ICONSETKEY = 'projects';
 
@@ -132,7 +132,7 @@ final class PhabricatorProjectIconSet
         continue;
       }
 
-      $icons[] = id(new PhabricatorIconSetIcon())
+      $icons[] = id(new PhorgeIconSetIcon())
         ->setKey($spec['key'])
         ->setIsDisabled(idx($spec, 'disabled'))
         ->setIcon($spec['icon'])
@@ -143,7 +143,7 @@ final class PhabricatorProjectIconSet
   }
 
   private static function getIconSpecifications() {
-    return PhabricatorEnv::getEnvConfig('projects.icons');
+    return PhorgeEnv::getEnvConfig('projects.icons');
   }
 
   public static function getDefaultIconKey() {
@@ -266,7 +266,7 @@ final class PhabricatorProjectIconSet
       $image = idx($value, 'image');
       if ($image !== null) {
         $builtin = idx($value, 'image');
-        $builtin_map = id(new PhabricatorFilesOnDiskBuiltinFile())
+        $builtin_map = id(new PhorgeFilesOnDiskBuiltinFile())
           ->getProjectBuiltinFiles();
         $builtin_map = array_flip($builtin_map);
 
@@ -349,7 +349,7 @@ final class PhabricatorProjectIconSet
   }
 
   private static function getColorSpecifications() {
-    return PhabricatorEnv::getEnvConfig('projects.colors');
+    return PhorgeEnv::getEnvConfig('projects.colors');
   }
 
   public static function getColorMap() {

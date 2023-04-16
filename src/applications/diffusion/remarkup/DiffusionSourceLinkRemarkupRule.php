@@ -149,7 +149,7 @@ final class DiffusionSourceLinkRemarkupRule
       return;
     }
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withIdentifiers(ipull($tags, 'identifier'));
 

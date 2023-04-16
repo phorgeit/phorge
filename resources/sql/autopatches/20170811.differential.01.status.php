@@ -4,7 +4,7 @@
 // control with hard-coded status groups for status selection to using a
 // tokenizer with status functions.
 
-$table = new PhabricatorSavedQuery();
+$table = new PhorgeSavedQuery();
 $conn = $table->establishConnection('w');
 
 $status_map = array(

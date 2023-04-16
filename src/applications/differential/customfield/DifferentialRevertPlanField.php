@@ -52,7 +52,7 @@ final class DifferentialRevertPlanField
   }
 
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     if (strlen($this->getValue())) {
       $document->addField('rvrt', $this->getValue());
     }
@@ -79,7 +79,7 @@ final class DifferentialRevertPlanField
   }
 
   public function renderEditControl(array $handles) {
-    return id(new PhabricatorRemarkupControl())
+    return id(new PhorgeRemarkupControl())
       ->setUser($this->getViewer())
       ->setName($this->getFieldKey())
       ->setValue($this->getValue())
@@ -87,7 +87,7 @@ final class DifferentialRevertPlanField
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -98,7 +98,7 @@ final class DifferentialRevertPlanField
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $object_phid = $xaction->getObjectPHID();
     $author_phid = $xaction->getAuthorPHID();
@@ -112,13 +112,13 @@ final class DifferentialRevertPlanField
   }
 
   public function getApplicationTransactionHasChangeDetails(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return true;
   }
 
   public function getApplicationTransactionChangeDetails(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorUser $viewer) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeUser $viewer) {
     return $xaction->renderTextCorpusChangeDetails(
       $viewer,
       $xaction->getOldValue(),
@@ -126,7 +126,7 @@ final class DifferentialRevertPlanField
   }
 
   public function getApplicationTransactionRemarkupBlocks(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return array($xaction->getNewValue());
   }
 

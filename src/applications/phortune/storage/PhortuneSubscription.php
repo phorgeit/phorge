@@ -6,10 +6,10 @@
 final class PhortuneSubscription
   extends PhortuneDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorPolicyCodexInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgePolicyCodexInterface,
+    PhorgeApplicationTransactionInterface {
 
   const STATUS_ACTIVE = 'active';
   const STATUS_CANCELLED = 'cancelled';
@@ -67,11 +67,11 @@ final class PhortuneSubscription
   public static function initializeNewSubscription(
     PhortuneAccount $account,
     PhortuneMerchant $merchant,
-    PhabricatorUser $author,
+    PhorgeUser $author,
     PhortuneSubscriptionImplementation $implementation,
-    PhabricatorTriggerClock $clock) {
+    PhorgeTriggerClock $clock) {
 
-    $trigger = id(new PhabricatorWorkerTrigger())
+    $trigger = id(new PhorgeWorkerTrigger())
       ->setClock($clock);
 
     return id(new PhortuneSubscription())
@@ -115,7 +115,7 @@ final class PhortuneSubscription
     return $this->assertAttached($this->merchant);
   }
 
-  public function attachTrigger(PhabricatorWorkerTrigger $trigger) {
+  public function attachTrigger(PhorgeWorkerTrigger $trigger) {
     $this->trigger = $trigger;
     return $this;
   }
@@ -125,10 +125,10 @@ final class PhortuneSubscription
   }
 
   public function save() {
-    $this->subscriptionClassKey = PhabricatorHash::digestForIndex(
+    $this->subscriptionClassKey = PhorgeHash::digestForIndex(
       $this->subscriptionClass);
 
-    $this->subscriptionRefKey = PhabricatorHash::digestForIndex(
+    $this->subscriptionRefKey = PhorgeHash::digestForIndex(
       $this->subscriptionRef);
 
     $is_new = (!$this->getID());
@@ -138,15 +138,15 @@ final class PhortuneSubscription
       // If we're saving this subscription for the first time, we're also
       // going to set up the trigger for it.
       if ($is_new) {
-        $trigger_phid = PhabricatorPHID::generateNewPHID(
-          PhabricatorWorkerTriggerPHIDType::TYPECONST);
+        $trigger_phid = PhorgePHID::generateNewPHID(
+          PhorgeWorkerTriggerPHIDType::TYPECONST);
         $this->setTriggerPHID($trigger_phid);
       }
 
       $result = parent::save();
 
       if ($is_new) {
-        $trigger_action = new PhabricatorScheduleTaskTriggerAction(
+        $trigger_action = new PhorgeScheduleTaskTriggerAction(
           array(
             'class' => 'PhortuneSubscriptionWorker',
             'data' => array(
@@ -154,7 +154,7 @@ final class PhortuneSubscription
             ),
             'options' => array(
               'objectPHID' => $this->getPHID(),
-              'priority' => PhabricatorWorker::PRIORITY_BULK,
+              'priority' => PhorgeWorker::PRIORITY_BULK,
             ),
           ));
 
@@ -249,7 +249,7 @@ final class PhortuneSubscription
       $purchase);
   }
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -260,24 +260,24 @@ final class PhortuneSubscription
     return new PhortuneSubscriptionTransaction();
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     // See T13366. If you can edit the merchant associated with this
     // subscription, you can view the subscription.
-    if ($capability === PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability === PhorgePolicyCapability::CAN_VIEW) {
       $any_edit = PhortuneMerchantQuery::canViewersEditMerchants(
         array($viewer->getPHID()),
         array($this->getMerchantPHID()));
@@ -290,10 +290,10 @@ final class PhortuneSubscription
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     if ($this->hasAutomaticCapability($capability, $viewer)) {
       return array();
     }
@@ -303,13 +303,13 @@ final class PhortuneSubscription
     return array(
       array(
         $this->getAccount(),
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }
 
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
 
   public function newPolicyCodex() {

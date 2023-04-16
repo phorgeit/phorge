@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuditManagementDeleteWorkflow
-  extends PhabricatorAuditManagementWorkflow {
+final class PhorgeAuditManagementDeleteWorkflow
+  extends PhorgeAuditManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -111,7 +111,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
       $query->withPHIDs(mpull($commits, 'getPHID'));
     }
 
-    $commit_iterator = id(new PhabricatorQueryIterator($query));
+    $commit_iterator = id(new PhorgeQueryIterator($query));
 
     // See T13457. We may be examining many commits; each commit is small so
     // we can safely increase the page size to improve performance a bit.
@@ -146,7 +146,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
         continue;
       }
 
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($commit_audits, 'getAuditorPHID'))
         ->execute();
@@ -207,7 +207,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
     foreach ($audits_by_commit as $commit_phid => $audit_specs) {
       $audit_ids = ipull($audit_specs, 'auditID');
 
-      $audits = id(new PhabricatorRepositoryAuditRequest())->loadAllWhere(
+      $audits = id(new PhorgeRepositoryAuditRequest())->loadAllWhere(
         'id IN (%Ld)',
         $audit_ids);
 
@@ -233,7 +233,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
       return null;
     }
 
-    $objects = id(new PhabricatorPeopleQuery())
+    $objects = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withUsernames($users)
       ->execute();
@@ -271,7 +271,7 @@ final class PhabricatorAuditManagementDeleteWorkflow
       return null;
     }
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->withIdentifiers($identifiers);
 

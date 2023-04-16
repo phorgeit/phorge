@@ -1,7 +1,7 @@
 <?php
 
 final class MultimeterEventGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'multimeter.events';
 

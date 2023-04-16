@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCoreConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeCoreConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Core');
@@ -32,7 +32,7 @@ final class PhabricatorCoreConfigOptions
 
     $path = getenv('PATH');
 
-    $proto_doc_href = PhabricatorEnv::getDoclink(
+    $proto_doc_href = PhorgeEnv::getDoclink(
       'User Guide: Prototype Applications');
     $proto_doc_name = pht('User Guide: Prototype Applications');
     $applications_app_href = '/applications/';
@@ -269,7 +269,7 @@ EOREMARKUP
   }
 
   protected function didValidateOption(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $key = $option->getKey();
@@ -279,7 +279,7 @@ EOREMARKUP
       $uri = new PhutilURI($value);
       $protocol = $uri->getProtocol();
       if ($protocol !== 'http' && $protocol !== 'https') {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             'Config option "%s" is invalid. The URI must start with '.
             '"%s" or "%s".',
@@ -290,7 +290,7 @@ EOREMARKUP
 
       $domain = $uri->getDomain();
       if (strpos($domain, '.') === false) {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             'Config option "%s" is invalid. The URI must contain a dot '.
             '("%s"), like "%s", not just a bare name like "%s". Some web '.
@@ -303,7 +303,7 @@ EOREMARKUP
 
       $path = $uri->getPath();
       if ($path !== '' && $path !== '/') {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             "Config option '%s' is invalid. The URI must NOT have a path, ".
             "e.g. '%s' is OK, but '%s' is not. This software must be '.
@@ -321,7 +321,7 @@ EOREMARKUP
       @date_default_timezone_set($old);
 
       if (!$ok) {
-        throw new PhabricatorConfigValidationException(
+        throw new PhorgeConfigValidationException(
           pht(
             'Config option "%s" is invalid. The timezone identifier must '.
             'be a valid timezone identifier recognized by PHP, like "%s".',

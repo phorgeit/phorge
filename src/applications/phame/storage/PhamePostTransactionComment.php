@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
     return new PhamePostTransaction();

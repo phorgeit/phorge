@@ -27,7 +27,7 @@ final class FlagEditConduitAPIMethod extends FlagConduitAPIMethod {
     $phid = $request->getValue('objectPHID');
     $new = false;
 
-    $flag = id(new PhabricatorFlag())->loadOneWhere(
+    $flag = id(new PhorgeFlag())->loadOneWhere(
       'objectPHID = %s AND ownerPHID = %s',
       $phid,
       $user);
@@ -40,8 +40,8 @@ final class FlagEditConduitAPIMethod extends FlagConduitAPIMethod {
         $flag->setNote($params['note']);
       }
     } else {
-      $default_color = PhabricatorFlagColor::COLOR_BLUE;
-      $flag = id(new PhabricatorFlag())
+      $default_color = PhorgeFlagColor::COLOR_BLUE;
+      $flag = id(new PhorgeFlag())
         ->setOwnerPHID($user)
         ->setType(phid_get_type($phid))
         ->setObjectPHID($phid)

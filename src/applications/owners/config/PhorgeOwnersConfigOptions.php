@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeOwnersConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Owners');
@@ -20,10 +20,10 @@ final class PhabricatorOwnersConfigOptions
   }
 
   public function getOptions() {
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
     $default_fields = array();
 
-    $field_base_class = id(new PhabricatorOwnersPackage())
+    $field_base_class = id(new PhorgeOwnersPackage())
       ->getCustomFieldBaseClass();
 
     $fields_example = array(

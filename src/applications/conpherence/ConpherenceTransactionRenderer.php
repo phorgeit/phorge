@@ -3,7 +3,7 @@
 final class ConpherenceTransactionRenderer extends Phobject {
 
   public static function renderTransactions(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     ConpherenceThread $conpherence,
     $marker_type = 'older') {
 
@@ -41,7 +41,7 @@ final class ConpherenceTransactionRenderer extends Phobject {
     $transactions = array_reverse($transactions);
     $handles = $conpherence->getHandles();
     $rendered_transactions = array();
-    $engine = id(new PhabricatorMarkupEngine())
+    $engine = id(new PhorgeMarkupEngine())
       ->setViewer($user)
       ->setContextObject($conpherence);
     foreach ($transactions as $key => $transaction) {
@@ -52,7 +52,7 @@ final class ConpherenceTransactionRenderer extends Phobject {
       if ($transaction->getComment()) {
         $engine->addObject(
           $transaction->getComment(),
-          PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT);
+          PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT);
       }
     }
     $engine->process();

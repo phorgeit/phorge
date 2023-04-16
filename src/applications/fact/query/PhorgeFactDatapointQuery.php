@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFactDatapointQuery extends Phobject {
+final class PhorgeFactDatapointQuery extends Phobject {
 
   private $facts;
   private $objectPHIDs;
@@ -77,7 +77,7 @@ final class PhabricatorFactDatapointQuery extends Phobject {
       }
     }
 
-    $dimension_unmap += id(new PhabricatorFactObjectDimension())
+    $dimension_unmap += id(new PhorgeFactObjectDimension())
       ->newDimensionUnmap($need_phids);
 
     $results = array();
@@ -129,7 +129,7 @@ final class PhabricatorFactDatapointQuery extends Phobject {
     $conn = $table->establishConnection('r');
 
     $fact_keys = mpull($facts, 'getKey');
-    $this->keyMap = id(new PhabricatorFactKeyDimension())
+    $this->keyMap = id(new PhorgeFactKeyDimension())
       ->newDimensionMap($fact_keys);
 
     if (!$this->keyMap) {
@@ -144,7 +144,7 @@ final class PhabricatorFactDatapointQuery extends Phobject {
       $this->keyMap);
 
     if ($this->objectPHIDs) {
-      $object_map = id(new PhabricatorFactObjectDimension())
+      $object_map = id(new PhorgeFactObjectDimension())
         ->newDimensionMap($this->objectPHIDs);
       if (!$object_map) {
         return array();

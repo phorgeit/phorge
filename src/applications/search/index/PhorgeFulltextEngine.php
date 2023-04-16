@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFulltextEngine
+abstract class PhorgeFulltextEngine
   extends Phobject {
 
   private $object;
@@ -15,17 +15,17 @@ abstract class PhabricatorFulltextEngine
   }
 
   protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   abstract protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object);
 
   final public function buildFulltextIndexes() {
     $object = $this->getObject();
 
-    $extensions = PhabricatorFulltextEngineExtension::getAllExtensions();
+    $extensions = PhorgeFulltextEngineExtension::getAllExtensions();
 
     $enrich_extensions = array();
     $index_extensions = array();
@@ -51,12 +51,12 @@ abstract class PhabricatorFulltextEngine
       $extension->indexFulltextObject($object, $document);
     }
 
-    PhabricatorSearchService::reindexAbstractDocument($document);
+    PhorgeSearchService::reindexAbstractDocument($document);
   }
 
   protected function newAbstractDocument($object) {
     $phid = $object->getPHID();
-    return id(new PhabricatorSearchAbstractDocument())
+    return id(new PhorgeSearchAbstractDocument())
       ->setPHID($phid)
       ->setDocumentType(phid_get_type($phid));
   }

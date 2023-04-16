@@ -7,7 +7,7 @@
 // There's no "IF EXISTS" modifier for "ALTER TABLE" so run this as a PHP patch
 // instead of an SQL patch.
 
-$table = new PhabricatorWorkerActiveTask();
+$table = new PhorgeWorkerActiveTask();
 $conn = $table->establishConnection('w');
 
 try {

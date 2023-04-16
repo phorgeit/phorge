@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSlowvoteListController
-  extends PhabricatorSlowvoteController {
+final class PhorgeSlowvoteListController
+  extends PhorgeSlowvoteController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorSlowvoteSearchEngine())
+    return id(new PhorgeSlowvoteSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

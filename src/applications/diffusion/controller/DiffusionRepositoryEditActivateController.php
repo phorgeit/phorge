@@ -19,17 +19,17 @@ final class DiffusionRepositoryEditActivateController
 
     if ($request->isFormPost()) {
       if (!$repository->isTracked()) {
-        $new_status = PhabricatorRepository::STATUS_ACTIVE;
+        $new_status = PhorgeRepository::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorRepository::STATUS_INACTIVE;
+        $new_status = PhorgeRepository::STATUS_INACTIVE;
       }
 
-      $xaction = id(new PhabricatorRepositoryTransaction())
+      $xaction = id(new PhorgeRepositoryTransaction())
         ->setTransactionType(
-          PhabricatorRepositoryActivateTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryActivateTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      $editor = id(new PhabricatorRepositoryEditor())
+      $editor = id(new PhorgeRepositoryEditor())
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true)
         ->setContentSourceFromRequest($request)

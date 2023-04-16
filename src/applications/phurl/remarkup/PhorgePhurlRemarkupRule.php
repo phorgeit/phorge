@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgePhurlRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'U';
@@ -10,7 +10,7 @@ final class PhabricatorPhurlRemarkupRule
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorPhurlURLQuery())
+    return id(new PhorgePhurlURLQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();

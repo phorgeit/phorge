@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceNotificationsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeConpherenceNotificationsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'conph-notifications';
 
@@ -13,7 +13,7 @@ final class PhabricatorConpherenceNotificationsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorConpherencePreferencesSettingsPanel::PANELKEY;
+    return PhorgeConpherencePreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getControlInstructions() {
@@ -21,9 +21,9 @@ final class PhabricatorConpherenceNotificationsSetting
       'Choose the default notification behavior for Conpherence rooms.');
   }
 
-  protected function isEnabledForViewer(PhabricatorUser $viewer) {
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorConpherenceApplication',
+  protected function isEnabledForViewer(PhorgeUser $viewer) {
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeConpherenceApplication',
       $viewer);
   }
 

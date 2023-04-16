@@ -12,7 +12,7 @@ final class LiskIsolationTestDAO extends LiskDAO {
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID('TISO');
+    return PhorgePHID::generateNewPHID('TISO');
   }
 
   protected function establishLiveConnection($mode) {

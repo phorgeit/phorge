@@ -16,7 +16,7 @@
  * All VCS binaries ignore the response body; we include it only for
  * completeness.
  */
-final class PhabricatorVCSResponse extends AphrontResponse {
+final class PhorgeVCSResponse extends AphrontResponse {
 
   private $code;
   private $message;

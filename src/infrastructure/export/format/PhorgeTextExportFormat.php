@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTextExportFormat
-  extends PhabricatorExportFormat {
+final class PhorgeTextExportFormat
+  extends PhorgeExportFormat {
 
   const EXPORTKEY = 'text';
 

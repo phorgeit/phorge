@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementDumpWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementDumpWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -130,7 +130,7 @@ final class PhabricatorStorageManagementDumpWorkflow
     $ref = $api->getRef();
     $ref_key = $ref->getRefKey();
 
-    $schemata_query = id(new PhabricatorConfigSchemaQuery())
+    $schemata_query = id(new PhorgeConfigSchemaQuery())
       ->setAPIs(array($api))
       ->setRefs(array($ref));
 
@@ -203,7 +203,7 @@ final class PhabricatorStorageManagementDumpWorkflow
         // these are data tables and always dump them, erring on the side of
         // caution.
 
-        $persistence = PhabricatorConfigTableSchema::PERSISTENCE_DATA;
+        $persistence = PhorgeConfigTableSchema::PERSISTENCE_DATA;
         if ($expect_database) {
           $expect_table = $expect_database->getTable($table_name);
           if ($expect_table) {
@@ -212,19 +212,19 @@ final class PhabricatorStorageManagementDumpWorkflow
         }
 
         switch ($persistence) {
-          case PhabricatorConfigTableSchema::PERSISTENCE_CACHE:
+          case PhorgeConfigTableSchema::PERSISTENCE_CACHE:
             // When dumping tables, leave the data in cache tables in the
             // database. This will be automatically rebuild after the data
             // is restored and does not need to be persisted in backups.
             $with_data = $with_caches;
             break;
-          case PhabricatorConfigTableSchema::PERSISTENCE_INDEX:
+          case PhorgeConfigTableSchema::PERSISTENCE_INDEX:
             // When dumping tables, leave index data behind of the caller
             // specified "--no-indexes". These tables can be rebuilt manually
             // from other tables, but do not rebuild automatically.
             $with_data = $with_indexes;
             break;
-          case PhabricatorConfigTableSchema::PERSISTENCE_DATA:
+          case PhorgeConfigTableSchema::PERSISTENCE_DATA:
           default:
             $with_data = true;
             break;

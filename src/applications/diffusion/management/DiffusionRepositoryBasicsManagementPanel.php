@@ -33,10 +33,10 @@ final class DiffusionRepositoryBasicsManagementPanel
 
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getEditPageURI();
     $activate_uri = $repository->getPathURI('edit/activate/');
@@ -86,7 +86,7 @@ final class DiffusionRepositoryBasicsManagementPanel
     }
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Basic Information'))
         ->setHref($edit_uri)
         ->setIcon('fa-pencil')
@@ -94,7 +94,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(!$can_edit));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Text Encoding'))
         ->setIcon('fa-text-width')
         ->setHref($encoding_uri)
@@ -102,7 +102,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(!$can_edit));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($dangerous_name)
         ->setHref($dangerous_uri)
         ->setIcon($dangerous_icon)
@@ -110,7 +110,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(true));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($enormous_name)
         ->setHref($enormous_uri)
         ->setIcon($enormous_icon)
@@ -118,11 +118,11 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(true));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($activate_label)
         ->setHref($activate_uri)
         ->setIcon($activate_icon)
@@ -130,7 +130,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(true));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($publish_label)
         ->setHref($publish_uri)
         ->setIcon($publish_icon)
@@ -138,7 +138,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setWorkflow(true));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setName(pht('Update Now'))
       ->setHref($update_uri)
       ->setIcon('fa-refresh')
@@ -146,11 +146,11 @@ final class DiffusionRepositoryBasicsManagementPanel
       ->setDisabled(!$can_edit));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
-        ->setType(PhabricatorActionView::TYPE_DIVIDER));
+      id(new PhorgeActionView())
+        ->setType(PhorgeActionView::TYPE_DIVIDER));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Delete Repository'))
         ->setHref($delete_uri)
         ->setIcon('fa-times')
@@ -214,7 +214,7 @@ final class DiffusionRepositoryBasicsManagementPanel
     $name = $repository->getName();
     $view->addProperty(pht('Name'), $name);
 
-    $type = PhabricatorRepositoryType::getNameForRepositoryType(
+    $type = PhorgeRepositoryType::getNameForRepositoryType(
       $repository->getVersionControlSystem());
     $view->addProperty(pht('Type'), $type);
 
@@ -312,11 +312,11 @@ final class DiffusionRepositoryBasicsManagementPanel
   }
 
   private function buildRepositoryUpdateInterval(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
 
     $smart_wait = $repository->loadUpdateInterval();
 
-    $doc_href = PhabricatorEnv::getDoclink(
+    $doc_href = PhorgeEnv::getDoclink(
       'Diffusion User Guide: Repository Updates');
 
     return array(
@@ -333,7 +333,7 @@ final class DiffusionRepositoryBasicsManagementPanel
   }
 
   private function buildRepositoryStatus(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $messages) {
 
     $viewer = $this->getViewer();
@@ -359,57 +359,57 @@ final class DiffusionRepositoryBasicsManagementPanel
     $binaries = array();
     $svnlook_check = false;
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         $binaries[] = 'git';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         $binaries[] = 'svn';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         $binaries[] = 'hg';
         break;
     }
 
     if ($repository->isHosted()) {
-      $proto_https = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTPS;
-      $proto_http = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_HTTP;
+      $proto_https = PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTPS;
+      $proto_http = PhorgeRepositoryURI::BUILTIN_PROTOCOL_HTTP;
       $can_http = $repository->canServeProtocol($proto_http, false) ||
                   $repository->canServeProtocol($proto_https, false);
 
       if ($can_http) {
         switch ($repository->getVersionControlSystem()) {
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
             $binaries[] = 'git-http-backend';
             break;
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
             $binaries[] = 'svnserve';
             $binaries[] = 'svnadmin';
             $binaries[] = 'svnlook';
             $svnlook_check = true;
             break;
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
             $binaries[] = 'hg';
             break;
         }
       }
 
 
-      $proto_ssh = PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH;
+      $proto_ssh = PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH;
       $can_ssh = $repository->canServeProtocol($proto_ssh, false);
 
       if ($can_ssh) {
         switch ($repository->getVersionControlSystem()) {
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
             $binaries[] = 'git-receive-pack';
             $binaries[] = 'git-upload-pack';
             break;
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
             $binaries[] = 'svnserve';
             $binaries[] = 'svnadmin';
             $binaries[] = 'svnlook';
             $svnlook_check = true;
             break;
-          case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+          case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
             $binaries[] = 'hg';
             break;
         }
@@ -452,7 +452,7 @@ final class DiffusionRepositoryBasicsManagementPanel
         $where = Filesystem::resolveBinary('svnlook');
         if ($where) {
           $path = substr($where, 0, strlen($where) - strlen('svnlook'));
-          $dirs = PhabricatorEnv::getEnvConfig('environment.append-paths');
+          $dirs = PhorgeEnv::getEnvConfig('environment.append-paths');
           $in_path = false;
           foreach ($dirs as $dir) {
             if (Filesystem::isDescendant($path, $dir)) {
@@ -479,7 +479,7 @@ final class DiffusionRepositoryBasicsManagementPanel
       }
     }
 
-    $doc_href = PhabricatorEnv::getDoclink('Managing Daemons with phd');
+    $doc_href = PhorgeEnv::getDoclink('Managing Daemons with phd');
 
     $daemon_instructions = pht(
       'Use %s to start daemons. See %s.',
@@ -492,10 +492,10 @@ final class DiffusionRepositoryBasicsManagementPanel
         pht('Managing Daemons with phd')));
 
 
-    $pull_daemon = id(new PhabricatorDaemonLogQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withStatus(PhabricatorDaemonLogQuery::STATUS_ALIVE)
-      ->withDaemonClasses(array('PhabricatorRepositoryPullLocalDaemon'))
+    $pull_daemon = id(new PhorgeDaemonLogQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
+      ->withStatus(PhorgeDaemonLogQuery::STATUS_ALIVE)
+      ->withDaemonClasses(array('PhorgeRepositoryPullLocalDaemon'))
       ->setLimit(1)
       ->execute();
 
@@ -519,10 +519,10 @@ final class DiffusionRepositoryBasicsManagementPanel
     }
 
 
-    $task_daemon = id(new PhabricatorDaemonLogQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withStatus(PhabricatorDaemonLogQuery::STATUS_ALIVE)
-      ->withDaemonClasses(array('PhabricatorTaskmasterDaemon'))
+    $task_daemon = id(new PhorgeDaemonLogQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
+      ->withStatus(PhorgeDaemonLogQuery::STATUS_ALIVE)
+      ->withDaemonClasses(array('PhorgeTaskmasterDaemon'))
       ->setLimit(1)
       ->execute();
     if ($task_daemon) {
@@ -565,17 +565,17 @@ final class DiffusionRepositoryBasicsManagementPanel
       }
 
       $local_path = $repository->getLocalPath();
-      $message = idx($messages, PhabricatorRepositoryStatusMessage::TYPE_INIT);
+      $message = idx($messages, PhorgeRepositoryStatusMessage::TYPE_INIT);
       if ($message) {
         switch ($message->getStatusCode()) {
-          case PhabricatorRepositoryStatusMessage::CODE_ERROR:
+          case PhorgeRepositoryStatusMessage::CODE_ERROR:
             $view->addItem(
               id(new PHUIStatusItemView())
               ->setIcon(PHUIStatusItemView::ICON_WARNING, 'red')
                 ->setTarget(pht('Initialization Error'))
                 ->setNote($message->getParameter('message')));
             return $view;
-          case PhabricatorRepositoryStatusMessage::CODE_OKAY:
+          case PhorgeRepositoryStatusMessage::CODE_OKAY:
               if (Filesystem::pathExists($local_path)) {
                 $view->addItem(
                   id(new PHUIStatusItemView())
@@ -616,10 +616,10 @@ final class DiffusionRepositoryBasicsManagementPanel
       }
     }
 
-    $message = idx($messages, PhabricatorRepositoryStatusMessage::TYPE_FETCH);
+    $message = idx($messages, PhorgeRepositoryStatusMessage::TYPE_FETCH);
     if ($message) {
       switch ($message->getStatusCode()) {
-        case PhabricatorRepositoryStatusMessage::CODE_ERROR:
+        case PhorgeRepositoryStatusMessage::CODE_ERROR:
           $message = $message->getParameter('message');
 
           $suggestion = null;
@@ -636,8 +636,8 @@ final class DiffusionRepositoryBasicsManagementPanel
               ->setTarget(pht('Update Error'))
               ->setNote($suggestion));
           return $view;
-        case PhabricatorRepositoryStatusMessage::CODE_OKAY:
-          $ago = (PhabricatorTime::getNow() - $message->getEpoch());
+        case PhorgeRepositoryStatusMessage::CODE_OKAY:
+          $ago = (PhorgeTime::getNow() - $message->getEpoch());
           $view->addItem(
             id(new PHUIStatusItemView())
               ->setIcon(PHUIStatusItemView::ICON_ACCEPT, 'green')
@@ -675,7 +675,7 @@ final class DiffusionRepositoryBasicsManagementPanel
           ->setTarget(pht('Fully Imported')));
     }
 
-    if (idx($messages, PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE)) {
+    if (idx($messages, PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE)) {
       $view->addItem(
         id(new PHUIStatusItemView())
           ->setIcon(PHUIStatusItemView::ICON_UP, 'indigo')
@@ -687,21 +687,21 @@ final class DiffusionRepositoryBasicsManagementPanel
   }
 
   private function buildRepositoryRawError(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $messages) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $raw_error = null;
 
-    $message = idx($messages, PhabricatorRepositoryStatusMessage::TYPE_FETCH);
+    $message = idx($messages, PhorgeRepositoryStatusMessage::TYPE_FETCH);
     if ($message) {
       switch ($message->getStatusCode()) {
-        case PhabricatorRepositoryStatusMessage::CODE_ERROR:
+        case PhorgeRepositoryStatusMessage::CODE_ERROR:
           $raw_error = $message->getParameter('message');
           break;
       }
@@ -723,8 +723,8 @@ final class DiffusionRepositoryBasicsManagementPanel
     return $raw_message;
   }
 
-  private function loadStatusMessages(PhabricatorRepository $repository) {
-    $messages = id(new PhabricatorRepositoryStatusMessage())
+  private function loadStatusMessages(PhorgeRepository $repository) {
+    $messages = id(new PhorgeRepositoryStatusMessage())
       ->loadAllWhere('repositoryID = %d', $repository->getID());
     $messages = mpull($messages, null, 'getStatusType');
 
@@ -741,7 +741,7 @@ final class DiffusionRepositoryBasicsManagementPanel
       'environment.append-paths');
   }
 
-  private function buildStateView(PhabricatorRepository $repository) {
+  private function buildStateView(PhorgeRepository $repository) {
     $viewer = $this->getViewer();
     $is_new = $repository->isNewlyInitialized();
 

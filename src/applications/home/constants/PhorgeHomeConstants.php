@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHomeConstants
-  extends PhabricatorHomeController {
+final class PhorgeHomeConstants
+  extends PhorgeHomeController {
 
   const ITEM_HOME = 'home.dashboard';
   const ITEM_LAUNCHER = 'home.launcher';

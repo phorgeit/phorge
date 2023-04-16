@@ -104,7 +104,7 @@ final class DiffusionBranchTableController extends DiffusionController {
   }
 
   private function sortBranches(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $branches) {
 
     $publisher = $repository->newPublisher();

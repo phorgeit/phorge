@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorProjectColumnHideController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnHideController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $project_id = $request->getURIData('projectID');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($project_id))
       ->executeOne();
@@ -23,13 +23,13 @@ final class PhabricatorProjectColumnHideController
     }
     $this->setProject($project);
 
-    $column = id(new PhabricatorProjectColumnQuery())
+    $column = id(new PhorgeProjectColumnQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$column) {
@@ -57,19 +57,19 @@ final class PhabricatorProjectColumnHideController
     if ($request->isFormPost()) {
       if ($proxy) {
         if ($proxy->isArchived()) {
-          $new_status = PhabricatorProjectStatus::STATUS_ACTIVE;
+          $new_status = PhorgeProjectStatus::STATUS_ACTIVE;
         } else {
-          $new_status = PhabricatorProjectStatus::STATUS_ARCHIVED;
+          $new_status = PhorgeProjectStatus::STATUS_ARCHIVED;
         }
 
         $xactions = array();
 
-        $xactions[] = id(new PhabricatorProjectTransaction())
+        $xactions[] = id(new PhorgeProjectTransaction())
           ->setTransactionType(
-              PhabricatorProjectStatusTransaction::TRANSACTIONTYPE)
+              PhorgeProjectStatusTransaction::TRANSACTIONTYPE)
           ->setNewValue($new_status);
 
-        id(new PhabricatorProjectTransactionEditor())
+        id(new PhorgeProjectTransactionEditor())
           ->setActor($viewer)
           ->setContentSourceFromRequest($request)
           ->setContinueOnNoEffect(true)
@@ -77,21 +77,21 @@ final class PhabricatorProjectColumnHideController
           ->applyTransactions($proxy, $xactions);
       } else {
         if ($column->isHidden()) {
-          $new_status = PhabricatorProjectColumn::STATUS_ACTIVE;
+          $new_status = PhorgeProjectColumn::STATUS_ACTIVE;
         } else {
-          $new_status = PhabricatorProjectColumn::STATUS_HIDDEN;
+          $new_status = PhorgeProjectColumn::STATUS_HIDDEN;
         }
 
         $type_status =
-          PhabricatorProjectColumnStatusTransaction::TRANSACTIONTYPE;
+          PhorgeProjectColumnStatusTransaction::TRANSACTIONTYPE;
 
         $xactions = array(
-          id(new PhabricatorProjectColumnTransaction())
+          id(new PhorgeProjectColumnTransaction())
             ->setTransactionType($type_status)
             ->setNewValue($new_status),
         );
 
-        $editor = id(new PhabricatorProjectColumnTransactionEditor())
+        $editor = id(new PhorgeProjectColumnTransactionEditor())
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
           ->setContinueOnMissingFields(true)

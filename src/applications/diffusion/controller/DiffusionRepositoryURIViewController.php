@@ -14,7 +14,7 @@ final class DiffusionRepositoryURIViewController
     $repository = $drequest->getRepository();
     $id = $request->getURIData('id');
 
-    $uri = id(new PhabricatorRepositoryURIQuery())
+    $uri = id(new PhorgeRepositoryURIQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->withRepositories(array($repository))
@@ -75,7 +75,7 @@ final class DiffusionRepositoryURIViewController
 
     $timeline = $this->buildTransactionTimeline(
       $uri,
-      new PhabricatorRepositoryURITransactionQuery());
+      new PhorgeRepositoryURITransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -93,22 +93,22 @@ final class DiffusionRepositoryURIViewController
       ->appendChild($view);
   }
 
-  private function buildCurtain(PhabricatorRepositoryURI $uri) {
+  private function buildCurtain(PhorgeRepositoryURI $uri) {
     $viewer = $this->getViewer();
     $repository = $uri->getRepository();
     $id = $uri->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $uri,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($uri);
 
     $edit_uri = $uri->getEditURI();
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit URI'))
         ->setHref($edit_uri)
@@ -137,7 +137,7 @@ final class DiffusionRepositoryURIViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-key')
         ->setName($credential_name)
         ->setHref($credential_uri)
@@ -145,7 +145,7 @@ final class DiffusionRepositoryURIViewController
         ->setDisabled(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-times')
         ->setName(pht('Remove Credential'))
         ->setHref($remove_uri)
@@ -165,7 +165,7 @@ final class DiffusionRepositoryURIViewController
     $disable_uri = $repository->getPathURI("uri/disable/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon($disable_icon)
         ->setName($disable_name)
         ->setHref($disable_uri)
@@ -175,7 +175,7 @@ final class DiffusionRepositoryURIViewController
     return $curtain;
   }
 
-  private function buildPropertySection(PhabricatorRepositoryURI $uri) {
+  private function buildPropertySection(PhorgeRepositoryURI $uri) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -263,7 +263,7 @@ final class DiffusionRepositoryURIViewController
 
 
     $io_type = $uri->getEffectiveIOType();
-    $io_map = PhabricatorRepositoryURI::getIOTypeMap();
+    $io_map = PhorgeRepositoryURI::getIOTypeMap();
     $io_spec = idx($io_map, $io_type, array());
 
     $io_icon = idx($io_spec, 'icon');
@@ -283,7 +283,7 @@ final class DiffusionRepositoryURIViewController
 
 
     $display_type = $uri->getEffectiveDisplayType();
-    $display_map = PhabricatorRepositoryURI::getDisplayTypeMap();
+    $display_map = PhorgeRepositoryURI::getDisplayTypeMap();
     $display_spec = idx($display_map, $display_type, array());
 
     $display_icon = idx($display_spec, 'icon');

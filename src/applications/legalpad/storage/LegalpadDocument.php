@@ -2,11 +2,11 @@
 
 final class LegalpadDocument extends LegalpadDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeSubscribableInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $title;
   protected $contributorCount;
@@ -30,10 +30,10 @@ final class LegalpadDocument extends LegalpadDAO
   private $signatures = self::ATTACHABLE;
   private $userSignatures = array();
 
-  public static function initializeNewDocument(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewDocument(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorLegalpadApplication'))
+      ->withClasses(array('PhorgeLegalpadApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(LegalpadDefaultViewCapability::CAPABILITY);
@@ -79,8 +79,8 @@ final class LegalpadDocument extends LegalpadDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorLegalpadDocumentPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeLegalpadDocumentPHIDType::TYPECONST);
   }
 
   public function getDocumentBody() {
@@ -165,30 +165,30 @@ final class LegalpadDocument extends LegalpadDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
     return ($this->creatorPHID == $phid);
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('title')
         ->setType('string')
         ->setDescription(pht('The title of this document')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('creatorPHID')
         ->setType('phid')
         ->setDescription(pht('This user who created this document')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('versions')
         ->setType('int')
         ->setDescription(pht('The number of versions of this document')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('requireSignature')
         ->setType('bool')
         ->setDescription(pht(
@@ -207,40 +207,40 @@ final class LegalpadDocument extends LegalpadDAO
 
   public function getConduitSearchAttachments() {
     return array(
-      id(new PhabricatorLegalpadBodySearchEngineAttachment())
+      id(new PhorgeLegalpadBodySearchEngineAttachment())
         ->setAttachmentKey('body'),
-      id(new PhabricatorLegalpadSignaturesSearchEngineAttachment())
+      id(new PhorgeLegalpadSignaturesSearchEngineAttachment())
         ->setAttachmentKey('signatures'),
     );
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $policy = $this->viewPolicy;
         break;
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         $policy = $this->editPolicy;
         break;
       default:
-        $policy = PhabricatorPolicies::POLICY_NOONE;
+        $policy = PhorgePolicies::POLICY_NOONE;
         break;
     }
     return $policy;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return ($user->getPHID() == $this->getCreatorPHID());
   }
 
@@ -249,7 +249,7 @@ final class LegalpadDocument extends LegalpadDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -261,11 +261,11 @@ final class LegalpadDocument extends LegalpadDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();

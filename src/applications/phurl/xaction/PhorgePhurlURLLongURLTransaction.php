@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLLongURLTransaction
-  extends PhabricatorPhurlURLTransactionType {
+final class PhorgePhurlURLLongURLTransaction
+  extends PhorgePhurlURLTransactionType {
 
   const TRANSACTIONTYPE = 'phurl.longurl';
 
@@ -40,7 +40,7 @@ final class PhabricatorPhurlURLLongURLTransaction
 
     foreach ($xactions as $xaction) {
       if ($xaction->getOldValue() != $xaction->getNewValue()) {
-        $protocols = PhabricatorEnv::getEnvConfig('uri.allowed-protocols');
+        $protocols = PhorgeEnv::getEnvConfig('uri.allowed-protocols');
         $uri = new PhutilURI($xaction->getNewValue());
         if (!isset($protocols[$uri->getProtocol()])) {
           $errors[] = $this->newRequiredError(

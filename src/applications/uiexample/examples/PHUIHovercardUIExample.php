@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIHovercardUIExample extends PhabricatorUIExample {
+final class PHUIHovercardUIExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Hovercard');
@@ -57,7 +57,7 @@ final class PHUIHovercardUIExample extends PhabricatorUIExample {
 
     $user_handle = $this->createBasicDummyHandle(
       'gwashington',
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       'George Washington');
     $user_handle->setImageURI(
       celerity_get_resource_uri('/rsrc/image/people/washington.png'));

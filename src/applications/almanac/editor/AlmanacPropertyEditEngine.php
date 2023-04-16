@@ -1,7 +1,7 @@
 <?php
 
 abstract class AlmanacPropertyEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   private $propertyKey;
 
@@ -35,7 +35,7 @@ abstract class AlmanacPropertyEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -70,7 +70,7 @@ abstract class AlmanacPropertyEditEngine
     if (isset($specs[$property_key])) {
       $field_template = clone $specs[$property_key];
     } else {
-      $field_template = new PhabricatorTextEditField();
+      $field_template = new PhorgeTextEditField();
     }
 
     return array(

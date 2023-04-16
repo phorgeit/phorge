@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorContentSource extends Phobject {
+abstract class PhorgeContentSource extends Phobject {
 
   private $source;
   private $params = array();
@@ -26,7 +26,7 @@ abstract class PhabricatorContentSource extends Phobject {
    * @param array Source parameters.
    * @param bool True to suppress errors and force construction of a source
    *   even if the source type is not valid.
-   * @return PhabricatorContentSource New source object.
+   * @return PhorgeContentSource New source object.
    */
   final public static function newForSource(
     $source,
@@ -38,7 +38,7 @@ abstract class PhabricatorContentSource extends Phobject {
       $obj = clone $map[$source];
     } else {
       if ($force) {
-        $obj = new PhabricatorUnknownContentSource();
+        $obj = new PhorgeUnknownContentSource();
       } else {
         throw new Exception(
           pht(
@@ -70,7 +70,7 @@ abstract class PhabricatorContentSource extends Phobject {
 
   public static function newFromRequest(AphrontRequest $request) {
     return self::newForSource(
-      PhabricatorWebContentSource::SOURCECONST);
+      PhorgeWebContentSource::SOURCECONST);
   }
 
   final public function serialize() {

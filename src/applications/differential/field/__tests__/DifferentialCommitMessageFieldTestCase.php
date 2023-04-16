@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCommitMessageFieldTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testRevisionCommitMessageFieldParsing() {
     $base_uri = 'https://www.example.com/';
@@ -16,7 +16,7 @@ final class DifferentialCommitMessageFieldTestCase
       'https://www.other.com/D123' => null,
     );
 
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('phorge.base-uri', $base_uri);
 
     foreach ($tests as $input => $expect) {

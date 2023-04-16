@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldWebhookPHIDType extends PhabricatorPHIDType {
+final class HeraldWebhookPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'HWBH';
 
@@ -13,11 +13,11 @@ final class HeraldWebhookPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new HeraldWebhookQuery())
@@ -25,7 +25,7 @@ final class HeraldWebhookPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -41,7 +41,7 @@ final class HeraldWebhookPHIDType extends PhabricatorPHIDType {
         ->setFullName(pht('Webhook %d %s', $id, $name));
 
       if ($hook->isDisabled()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

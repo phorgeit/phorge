@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionDependsOnRevisionEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 5;
 

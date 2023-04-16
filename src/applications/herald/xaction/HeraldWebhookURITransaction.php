@@ -55,7 +55,7 @@ final class HeraldWebhookURITransaction
       }
 
       try {
-        PhabricatorEnv::requireValidRemoteURIForFetch(
+        PhorgeEnv::requireValidRemoteURIForFetch(
           $new_value,
           array(
             'http',

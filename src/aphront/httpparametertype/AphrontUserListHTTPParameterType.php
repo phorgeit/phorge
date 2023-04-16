@@ -7,7 +7,7 @@ final class AphrontUserListHTTPParameterType
     $type = new AphrontStringListHTTPParameterType();
     $list = $this->getValueWithType($type, $request, $key);
 
-    return id(new PhabricatorUserPHIDResolver())
+    return id(new PhorgeUserPHIDResolver())
       ->setViewer($this->getViewer())
       ->resolvePHIDs($list);
   }

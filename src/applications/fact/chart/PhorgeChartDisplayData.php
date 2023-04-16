@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartDisplayData
+final class PhorgeChartDisplayData
   extends Phobject {
 
   private $wireData;
@@ -15,7 +15,7 @@ final class PhabricatorChartDisplayData
     return $this->wireData;
   }
 
-  public function setRange(PhabricatorChartInterval $range) {
+  public function setRange(PhorgeChartInterval $range) {
     $this->range = $range;
     return $this;
   }

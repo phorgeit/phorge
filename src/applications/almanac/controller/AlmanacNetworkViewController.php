@@ -58,10 +58,10 @@ final class AlmanacNetworkViewController
   private function buildCurtain(AlmanacNetwork $network) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $network,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $network->getID();
     $edit_uri = $this->getApplicationURI("network/edit/{$id}/");
@@ -69,7 +69,7 @@ final class AlmanacNetworkViewController
     $curtain = $this->newCurtainView($network);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Network'))
         ->setHref($edit_uri)

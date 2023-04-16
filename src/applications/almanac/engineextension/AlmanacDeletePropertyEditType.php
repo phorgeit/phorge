@@ -1,10 +1,10 @@
 <?php
 
 final class AlmanacDeletePropertyEditType
-  extends PhabricatorEditType {
+  extends PhorgeEditType {
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $value = idx($spec, 'value');

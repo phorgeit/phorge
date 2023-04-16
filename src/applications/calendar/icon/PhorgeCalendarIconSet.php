@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarIconSet
-  extends PhabricatorIconSet {
+final class PhorgeCalendarIconSet
+  extends PhorgeIconSet {
 
   const ICONSETKEY = 'calendar.event';
 
@@ -34,7 +34,7 @@ final class PhabricatorCalendarIconSet
 
     $icons = array();
     foreach ($map as $key => $label) {
-      $icons[] = id(new PhabricatorIconSetIcon())
+      $icons[] = id(new PhorgeIconSetIcon())
         ->setKey($key)
         ->setLabel($label);
     }

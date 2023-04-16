@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorOwnersPath();
+$table = new PhorgeOwnersPath();
 $conn = $table->establishConnection('w');
 
 $seen = array();

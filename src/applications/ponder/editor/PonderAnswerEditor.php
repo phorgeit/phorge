@@ -16,18 +16,18 @@ final class PonderAnswerEditor extends PonderEditor {
 
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     $phids = array();
     $phids[] = $object->getAuthorPHID();
     $phids[] = $this->requireActor()->getPHID();
@@ -43,25 +43,25 @@ final class PonderAnswerEditor extends PonderEditor {
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
       return true;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new PonderAnswerReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("ANSR{$id}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -77,7 +77,7 @@ final class PonderAnswerEditor extends PonderEditor {
 
     $body->addLinkSection(
       pht('ANSWER DETAIL'),
-      PhabricatorEnv::getProductionURI($object->getURI()));
+      PhorgeEnv::getProductionURI($object->getURI()));
 
     return $body;
   }

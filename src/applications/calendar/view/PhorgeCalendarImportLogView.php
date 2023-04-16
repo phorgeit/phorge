@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorCalendarImportLogView extends AphrontView {
+final class PhorgeCalendarImportLogView extends AphrontView {
 
   private $logs = array();
   private $showImportSources = false;
 
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorCalendarImportLog');
+    assert_instances_of($logs, 'PhorgeCalendarImportLog');
     $this->logs = $logs;
     return $this;
   }

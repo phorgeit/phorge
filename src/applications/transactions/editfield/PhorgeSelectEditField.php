@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSelectEditField
-  extends PhabricatorEditField {
+final class PhorgeSelectEditField
+  extends PhorgeEditField {
 
   private $options;
   private $optionAliases = array();
@@ -46,7 +46,7 @@ final class PhabricatorSelectEditField
   }
 
   protected function newCommentAction() {
-    return id(new PhabricatorEditEngineSelectCommentAction())
+    return id(new PhorgeEditEngineSelectCommentAction())
       ->setOptions($this->getOptions());
   }
 

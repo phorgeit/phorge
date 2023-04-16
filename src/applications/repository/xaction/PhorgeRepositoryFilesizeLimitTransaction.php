@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryFilesizeLimitTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryFilesizeLimitTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'limit.filesize';
 

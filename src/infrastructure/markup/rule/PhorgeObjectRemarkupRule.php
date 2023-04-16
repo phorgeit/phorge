@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
+abstract class PhorgeObjectRemarkupRule extends PhutilRemarkupRule {
 
   private $referencePattern;
   private $embedPattern;
@@ -30,7 +30,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function getObjectNameText(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $id) {
     return $this->getObjectNamePrefix().$id;
   }
@@ -51,13 +51,13 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function getObjectHref(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $id) {
 
     $uri = $handle->getURI();
 
     if ($this->getEngine()->getConfig('uri.full')) {
-      $uri = PhabricatorEnv::getURI($uri);
+      $uri = PhorgeEnv::getURI($uri);
     }
 
     return $uri;
@@ -65,7 +65,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function renderObjectRefForAnyMedia(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $anchor,
     $id) {
 
@@ -78,9 +78,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     }
 
     if ($this->getEngine()->isTextMode()) {
-      return $text.' <'.PhabricatorEnv::getProductionURI($href).'>';
+      return $text.' <'.PhorgeEnv::getProductionURI($href).'>';
     } else if ($this->getEngine()->isHTMLMailMode()) {
-      $href = PhabricatorEnv::getProductionURI($href);
+      $href = PhorgeEnv::getProductionURI($href);
       return $this->renderObjectTagForMail($text, $href, $handle);
     }
 
@@ -90,13 +90,13 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function renderObjectRef(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $anchor,
     $id) {
 
     $href = $this->getObjectHref($object, $handle, $id);
     $text = $this->getObjectNameText($object, $handle, $id);
-    $status_closed = PhabricatorObjectHandle::STATUS_CLOSED;
+    $status_closed = PhorgeObjectHandle::STATUS_CLOSED;
 
     if ($anchor) {
       $href = $href.'#'.$anchor;
@@ -113,22 +113,22 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function renderObjectEmbedForAnyMedia(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $name = $handle->getFullName();
     $href = $handle->getURI();
 
     if ($this->getEngine()->isTextMode()) {
-      return $name.' <'.PhabricatorEnv::getProductionURI($href).'>';
+      return $name.' <'.PhorgeEnv::getProductionURI($href).'>';
     } else if ($this->getEngine()->isHTMLMailMode()) {
-      $href = PhabricatorEnv::getProductionURI($href);
+      $href = PhorgeEnv::getProductionURI($href);
       return $this->renderObjectTagForMail($name, $href, $handle);
     }
 
     // See T13678. If we're already rendering embedded content, render a
     // default reference instead to avoid cycles.
-    if (PhabricatorMarkupEngine::isRenderingEmbeddedContent()) {
+    if (PhorgeMarkupEngine::isRenderingEmbeddedContent()) {
       return $this->renderDefaultObjectEmbed($object, $handle);
     }
 
@@ -137,18 +137,18 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
     return $this->renderDefaultObjectEmbed($object, $handle);
   }
 
   final protected function renderDefaultObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle) {
+    PhorgeObjectHandle $handle) {
 
     $name = $handle->getFullName();
     $href = $handle->getURI();
-    $status_closed = PhabricatorObjectHandle::STATUS_CLOSED;
+    $status_closed = PhorgeObjectHandle::STATUS_CLOSED;
     $attr = array(
       'phid' => $handle->getPHID(),
       'closed'  => ($handle->getStatus() == $status_closed),
@@ -160,9 +160,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
   protected function renderObjectTagForMail(
     $text,
     $href,
-    PhabricatorObjectHandle $handle) {
+    PhorgeObjectHandle $handle) {
 
-    $status_closed = PhabricatorObjectHandle::STATUS_CLOSED;
+    $status_closed = PhorgeObjectHandle::STATUS_CLOSED;
     $strikethrough = $handle->getStatus() == $status_closed ?
       'text-decoration: line-through;' :
       'text-decoration: none;';
@@ -348,7 +348,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     }
 
     $regex = trim(
-      PhabricatorEnv::getEnvConfig('remarkup.ignored-object-names'));
+      PhorgeEnv::getEnvConfig('remarkup.ignored-object-names'));
     if ($regex && preg_match($regex, $params['original'])) {
       return $params['original'];
     }

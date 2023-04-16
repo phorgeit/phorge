@@ -10,8 +10,8 @@
  * interact directly with objects and can leave comments, sign documents, etc.
  * However, CAN_EDIT is restricted to users who own the accounts.
  */
-final class PhabricatorExternalAccountQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeExternalAccountQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -63,13 +63,13 @@ final class PhabricatorExternalAccountQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorExternalAccount();
+    return new PhorgeExternalAccount();
   }
 
   protected function willFilterPage(array $accounts) {
     $viewer = $this->getViewer();
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->withPHIDs(mpull($accounts, 'getProviderConfigPHID'))
       ->execute();
@@ -97,8 +97,8 @@ final class PhabricatorExternalAccountQuery
         // the correct policies, since the relevant user account does not exist
         // yet. In effect, if you can see an ExternalAccount, you can see its
         // profile image.
-        $files = id(new PhabricatorFileQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $files = id(new PhorgeFileQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withPHIDs($file_phids)
           ->execute();
         $files = mpull($files, null, 'getPHID');
@@ -113,7 +113,7 @@ final class PhabricatorExternalAccountQuery
           $account->attachProfileImageFile($files[$image_phid]);
         } else {
           if ($default_file === null) {
-            $default_file = PhabricatorFile::loadBuiltin(
+            $default_file = PhorgeFile::loadBuiltin(
               $this->getViewer(),
               'profile.png');
           }
@@ -125,7 +125,7 @@ final class PhabricatorExternalAccountQuery
     if ($this->needAccountIdentifiers) {
       $account_phids = mpull($accounts, 'getPHID');
 
-      $identifiers = id(new PhabricatorExternalAccountIdentifierQuery())
+      $identifiers = id(new PhorgeExternalAccountIdentifierQuery())
         ->setViewer($viewer)
         ->setParentQuery($this)
         ->withExternalAccountPHIDs($account_phids)
@@ -199,7 +199,7 @@ final class PhabricatorExternalAccountQuery
       $hashes = array();
 
       foreach ($this->rawAccountIdentifiers as $raw_identifier) {
-        $hashes[] = PhabricatorHash::digestForIndex($raw_identifier);
+        $hashes[] = PhorgeHash::digestForIndex($raw_identifier);
       }
 
       $where[] = qsprintf(
@@ -218,7 +218,7 @@ final class PhabricatorExternalAccountQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %R identifier ON account.phid = identifier.externalAccountPHID',
-        new PhabricatorExternalAccountIdentifier());
+        new PhorgeExternalAccountIdentifier());
     }
 
     return $joins;
@@ -241,7 +241,7 @@ final class PhabricatorExternalAccountQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
 }

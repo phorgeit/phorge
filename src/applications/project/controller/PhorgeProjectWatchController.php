@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectWatchController
-  extends PhabricatorProjectController {
+final class PhorgeProjectWatchController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $action = $request->getURIData('action');
 
-    $project = id(new PhabricatorProjectQuery())
+    $project = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needMembers(true)
@@ -53,18 +53,18 @@ final class PhabricatorProjectWatchController
           break;
       }
 
-      $type_watcher = PhabricatorObjectHasWatcherEdgeType::EDGECONST;
+      $type_watcher = PhorgeObjectHasWatcherEdgeType::EDGECONST;
       $member_spec = array(
         $edge_action => array($viewer->getPHID() => $viewer->getPHID()),
       );
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorProjectTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+      $xactions[] = id(new PhorgeProjectTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $type_watcher)
         ->setNewValue($member_spec);
 
-      $editor = id(new PhabricatorProjectTransactionEditor())
+      $editor = id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

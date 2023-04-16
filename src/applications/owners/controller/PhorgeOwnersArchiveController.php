@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorOwnersArchiveController
-  extends PhabricatorOwnersController {
+final class PhorgeOwnersArchiveController
+  extends PhorgeOwnersController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $package = id(new PhabricatorOwnersPackageQuery())
+    $package = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$package) {
@@ -24,19 +24,19 @@ final class PhabricatorOwnersArchiveController
 
     if ($request->isFormPost()) {
       if ($package->isArchived()) {
-        $new_status = PhabricatorOwnersPackage::STATUS_ACTIVE;
+        $new_status = PhorgeOwnersPackage::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorOwnersPackage::STATUS_ARCHIVED;
+        $new_status = PhorgeOwnersPackage::STATUS_ARCHIVED;
       }
 
       $xactions = array();
 
-      $type = PhabricatorOwnersPackageStatusTransaction::TRANSACTIONTYPE;
-      $xactions[] = id(new PhabricatorOwnersPackageTransaction())
+      $type = PhorgeOwnersPackageStatusTransaction::TRANSACTIONTYPE;
+      $xactions[] = id(new PhorgeOwnersPackageTransaction())
         ->setTransactionType($type)
         ->setNewValue($new_status);
 
-      id(new PhabricatorOwnersPackageTransactionEditor())
+      id(new PhorgeOwnersPackageTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

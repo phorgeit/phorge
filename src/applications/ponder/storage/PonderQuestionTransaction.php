@@ -1,7 +1,7 @@
 <?php
 
 final class PonderQuestionTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const MAILTAG_DETAILS = 'question:details';
   const MAILTAG_COMMENT = 'question:comment';
@@ -32,7 +32,7 @@ final class PonderQuestionTransaction
     $tags = parent::getMailTags();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       case PonderQuestionTitleTransaction::TRANSACTIONTYPE:

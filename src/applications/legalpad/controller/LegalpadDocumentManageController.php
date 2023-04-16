@@ -15,20 +15,20 @@ final class LegalpadDocumentManageController extends LegalpadController {
       ->needContributors(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$document) {
       return new Aphront404Response();
     }
 
-    $subscribers = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $subscribers = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $document->getPHID());
 
     $document_body = $document->getDocumentBody();
 
-    $engine = id(new PhabricatorMarkupEngine())
+    $engine = id(new PhorgeMarkupEngine())
       ->setViewer($viewer);
     $engine->addObject(
       $document_body,
@@ -80,7 +80,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
 
   private function buildDocumentView(
     LegalpadDocument $document,
-    PhabricatorMarkupEngine $engine) {
+    PhorgeMarkupEngine $engine) {
 
     $viewer = $this->getViewer();
 
@@ -111,21 +111,21 @@ final class LegalpadDocumentManageController extends LegalpadController {
 
     $curtain = $this->newCurtainView($document);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $document,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $doc_id = $document->getID();
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setIcon('fa-pencil-square')
       ->setName(pht('View/Sign Document'))
       ->setHref('/'.$document->getMonogram()));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Document'))
         ->setHref($this->getApplicationURI('/edit/'.$doc_id.'/'))
@@ -133,7 +133,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setIcon('fa-terminal')
       ->setName(pht('View Signatures'))
       ->setHref($this->getApplicationURI('/signatures/'.$doc_id.'/')));
@@ -143,7 +143,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
 
   private function buildPropertyView(
     LegalpadDocument $document,
-    PhabricatorMarkupEngine $engine) {
+    PhorgeMarkupEngine $engine) {
 
     $viewer = $this->getViewer();
 

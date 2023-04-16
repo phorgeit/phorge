@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventNameHeraldField
-  extends PhabricatorCalendarEventHeraldField {
+final class PhorgeCalendarEventNameHeraldField
+  extends PhorgeCalendarEventHeraldField {
 
   const FIELDCONST = 'calendar.event.name';
 

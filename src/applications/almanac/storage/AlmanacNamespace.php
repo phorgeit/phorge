@@ -3,12 +3,12 @@
 final class AlmanacNamespace
   extends AlmanacDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorNgramsInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeNgramsInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $nameIndex;
@@ -17,8 +17,8 @@ final class AlmanacNamespace
 
   public static function initializeNewNamespace() {
     return id(new self())
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setEditPolicy(PhabricatorPolicies::POLICY_ADMIN);
+      ->setViewPolicy(PhorgePolicies::POLICY_USER)
+      ->setEditPolicy(PhorgePolicies::POLICY_ADMIN);
   }
 
   protected function getConfiguration() {
@@ -47,7 +47,7 @@ final class AlmanacNamespace
   public function save() {
     AlmanacNames::validateName($this->getName());
 
-    $this->nameIndex = PhabricatorHash::digestForIndex($this->getName());
+    $this->nameIndex = PhorgeHash::digestForIndex($this->getName());
 
     return parent::save();
   }
@@ -66,7 +66,7 @@ final class AlmanacNamespace
    * Load the namespace which prevents use of an Almanac name, if one exists.
    */
   public static function loadRestrictedNamespace(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $name) {
 
     // For a name like "x.y.z", produce a list of controlling namespaces like
@@ -79,7 +79,7 @@ final class AlmanacNamespace
 
     // Load all the possible controlling namespaces.
     $namespaces = id(new AlmanacNamespaceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withNames($names)
       ->execute();
     if (!$namespaces) {
@@ -92,10 +92,10 @@ final class AlmanacNamespace
     $namespaces = msort($namespaces, 'getNameLength');
     $namespace = last($namespaces);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $namespace,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
     if ($can_edit) {
       return null;
     }
@@ -104,31 +104,31 @@ final class AlmanacNamespace
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -140,16 +140,16 @@ final class AlmanacNamespace
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
@@ -160,12 +160,12 @@ final class AlmanacNamespace
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the namespace.')),

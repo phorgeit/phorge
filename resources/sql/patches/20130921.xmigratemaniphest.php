@@ -43,7 +43,7 @@ foreach ($rows as $row) {
     $xaction_meta = @json_decode($xaction_meta, true);
     $xaction_meta = nonempty($xaction_meta, array());
 
-    $xaction_type = PhabricatorTransactions::TYPE_CUSTOMFIELD;
+    $xaction_type = PhorgeTransactions::TYPE_CUSTOMFIELD;
 
     $aux_key = idx($xaction_meta, 'aux:key');
     if (!preg_match('/^std:maniphest:/', $aux_key)) {
@@ -61,8 +61,8 @@ foreach ($rows as $row) {
   // insert a new transaction for that action. If there was a comment (or
   // a comment in addition to an action) we'll insert that below.
   if ($row['transactionType'] != 'comment') {
-    $xaction_phid = PhabricatorPHID::generateNewPHID(
-      PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+    $xaction_phid = PhorgePHID::generateNewPHID(
+      PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
       ManiphestTaskPHIDType::TYPECONST);
 
     queryfx(
@@ -91,13 +91,13 @@ foreach ($rows as $row) {
   // Now, if the old transaction has a comment, we insert an explicit new
   // transaction for it.
   if ($has_comment) {
-    $comment_phid = PhabricatorPHID::generateNewPHID(
-      PhabricatorPHIDConstants::PHID_TYPE_XCMT,
+    $comment_phid = PhorgePHID::generateNewPHID(
+      PhorgePHIDConstants::PHID_TYPE_XCMT,
       ManiphestTaskPHIDType::TYPECONST);
     $comment_version = 1;
 
-    $comment_xaction_phid = PhabricatorPHID::generateNewPHID(
-      PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
+    $comment_xaction_phid = PhorgePHID::generateNewPHID(
+      PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
       ManiphestTaskPHIDType::TYPECONST);
 
     // Insert the comment data.
@@ -134,7 +134,7 @@ foreach ($rows as $row) {
       $row['authorPHID'],
       $comment_phid,
       $comment_version,
-      PhabricatorTransactions::TYPE_COMMENT,
+      PhorgeTransactions::TYPE_COMMENT,
       $xaction_old,
       $xaction_new,
       $xaction_source,

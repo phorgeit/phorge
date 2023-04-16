@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAEmailSelfHeraldAction
-  extends PhabricatorMetaMTAEmailHeraldAction {
+final class PhorgeMetaMTAEmailSelfHeraldAction
+  extends PhorgeMetaMTAEmailHeraldAction {
 
   const ACTIONCONST = 'email.self';
 

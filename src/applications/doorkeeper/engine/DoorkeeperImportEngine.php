@@ -10,7 +10,7 @@ final class DoorkeeperImportEngine extends Phobject {
   private $context = array();
   private $timeout;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

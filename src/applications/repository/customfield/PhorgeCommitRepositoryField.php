@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommitRepositoryField
-  extends PhabricatorCommitCustomField {
+final class PhorgeCommitRepositoryField
+  extends PhorgeCommitCustomField {
 
   public function getFieldKey() {
     return 'diffusion:repository';
@@ -24,8 +24,8 @@ final class PhabricatorCommitRepositoryField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     $repository = $this->getObject()->getRepository();

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthContactNumberEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeAuthContactNumberEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -20,18 +20,18 @@ final class PhabricatorAuthContactNumberEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorAuthContactNumberNumberTransaction::TRANSACTIONTYPE,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgeAuthContactNumberNumberTransaction::TRANSACTIONTYPE,
       pht('Duplicate'),
       pht('This contact number is already in use.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 

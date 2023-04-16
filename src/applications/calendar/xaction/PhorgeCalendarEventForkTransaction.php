@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventForkTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventForkTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.fork';
 

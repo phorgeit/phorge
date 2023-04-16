@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserProfileImageCacheType
-  extends PhabricatorUserCacheType {
+final class PhorgeUserProfileImageCacheType
+  extends PhorgeUserCacheType {
 
   const CACHETYPE = 'user.profile';
 
@@ -18,7 +18,7 @@ final class PhabricatorUserProfileImageCacheType
   }
 
   public function getDefaultValue() {
-    return PhabricatorUser::getDefaultProfileImageURI();
+    return PhorgeUser::getDefaultProfileImageURI();
   }
 
   public function newValueForUsers($key, array $users) {
@@ -37,7 +37,7 @@ final class PhabricatorUserProfileImageCacheType
         continue;
       }
       if ($default_phid) {
-        if ($version == PhabricatorFilesComposeAvatarBuiltinFile::VERSION) {
+        if ($version == PhorgeFilesComposeAvatarBuiltinFile::VERSION) {
           $file_phids[$user_phid] = $default_phid;
           continue;
         }
@@ -45,14 +45,14 @@ final class PhabricatorUserProfileImageCacheType
       $generate_users[] = $user;
     }
 
-    $generator = new PhabricatorFilesComposeAvatarBuiltinFile();
+    $generator = new PhorgeFilesComposeAvatarBuiltinFile();
     foreach ($generate_users as $user) {
       $file = $generator->updateUser($user);
       $file_phids[$user->getPHID()] = $file->getPHID();
     }
 
     if ($file_phids) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($file_phids)
         ->execute();
@@ -70,7 +70,7 @@ final class PhabricatorUserProfileImageCacheType
       } else if (isset($files[$default_phid])) {
         $image_uri = $files[$default_phid]->getBestURI();
       } else {
-        $image_uri = PhabricatorUser::getDefaultProfileImageURI();
+        $image_uri = PhorgeUser::getDefaultProfileImageURI();
       }
 
       $user_phid = $user->getPHID();
@@ -90,20 +90,20 @@ final class PhabricatorUserProfileImageCacheType
     return true;
   }
 
-  public function isRawCacheDataValid(PhabricatorUser $user, $key, $data) {
+  public function isRawCacheDataValid(PhorgeUser $user, $key, $data) {
     $parts = explode(',', $data, 2);
     $version = reset($parts);
     return ($version === $this->getCacheVersion($user));
   }
 
-  private function getCacheVersion(PhabricatorUser $user) {
+  private function getCacheVersion(PhorgeUser $user) {
     $parts = array(
-      PhabricatorEnv::getCDNURI('/'),
-      PhabricatorEnv::getEnvConfig('cluster.instance'),
+      PhorgeEnv::getCDNURI('/'),
+      PhorgeEnv::getEnvConfig('cluster.instance'),
       $user->getProfileImagePHID(),
     );
     $parts = serialize($parts);
-    return PhabricatorHash::digestForIndex($parts);
+    return PhorgeHash::digestForIndex($parts);
   }
 
 }

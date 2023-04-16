@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommitMergedCommitsField
-  extends PhabricatorCommitCustomField {
+final class PhorgeCommitMergedCommitsField
+  extends PhorgeCommitCustomField {
 
   public function getFieldKey() {
     return 'diffusion:mergedcommits';
@@ -24,8 +24,8 @@ final class PhabricatorCommitMergedCommitsField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     // Put all the merged commits info int the mail body if this is a merge

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageAutoreviewTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageAutoreviewTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.autoreview';
 
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageAutoreviewTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
 
@@ -37,7 +37,7 @@ final class PhabricatorOwnersPackageAutoreviewTransaction
   }
 
   public function getTitle() {
-    $map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     $map = ipull($map, 'name');
 
     $old = $this->getOldValue();

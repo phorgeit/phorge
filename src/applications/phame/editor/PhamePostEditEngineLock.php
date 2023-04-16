@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostEditEngineLock
-  extends PhabricatorEditEngineLock {
+  extends PhorgeEditEngineLock {
 
   public function willPromptUserForLockOverrideWithDialog(
     AphrontDialogView $dialog) {

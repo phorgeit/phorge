@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryIdentityDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'repository-identities';
 
@@ -10,7 +10,7 @@ final class DiffusionRepositoryIdentityDestructionEngineExtension
   }
 
   public function didDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     // When users or email addresses are destroyed, queue a task to update
@@ -19,17 +19,17 @@ final class DiffusionRepositoryIdentityDestructionEngineExtension
     $related_phids = array();
     $email_addresses = array();
 
-    if ($object instanceof PhabricatorUser) {
+    if ($object instanceof PhorgeUser) {
       $related_phids[] = $object->getPHID();
     }
 
-    if ($object instanceof PhabricatorUserEmail) {
+    if ($object instanceof PhorgeUserEmail) {
       $email_addresses[] = $object->getAddress();
     }
 
     if ($related_phids || $email_addresses) {
-      PhabricatorWorker::scheduleTask(
-        'PhabricatorRepositoryIdentityChangeWorker',
+      PhorgeWorker::scheduleTask(
+        'PhorgeRepositoryIdentityChangeWorker',
         array(
           'relatedPHIDs' => $related_phids,
           'emailAddresses' => $email_addresses,

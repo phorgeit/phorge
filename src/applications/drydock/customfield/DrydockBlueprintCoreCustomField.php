@@ -2,7 +2,7 @@
 
 final class DrydockBlueprintCoreCustomField
   extends DrydockBlueprintCustomField
-  implements PhabricatorStandardCustomFieldInterface {
+  implements PhorgeStandardCustomFieldInterface {
 
   public function getStandardCustomFieldNamespace() {
     return 'drydock:core';
@@ -18,21 +18,21 @@ final class DrydockBlueprintCoreCustomField
     $impl = $object->getImplementation();
     $specs = $impl->getFieldSpecifications();
 
-    return PhabricatorStandardCustomField::buildStandardFields($this, $specs);
+    return PhorgeStandardCustomField::buildStandardFields($this, $specs);
   }
 
   public function shouldUseStorage() {
     return false;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $key = $this->getProxy()->getRawStandardFieldKey();
     $this->setValueFromStorage($object->getDetail($key));
     $this->didSetValueFromStorage();
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $object = $this->getObject();
     $key = $this->getProxy()->getRawStandardFieldKey();
 

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPasteFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgePasteFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
-    $paste = id(new PhabricatorPasteQuery())
+    $paste = id(new PhorgePasteQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs(array($object->getPHID()))
       ->needContent(true)
@@ -17,20 +17,20 @@ final class PhabricatorPasteFulltextEngine
 
     $document->addRelationship(
       $paste->isArchived()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $paste->getPHID(),
-      PhabricatorPastePastePHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgePastePastePHIDType::TYPECONST,
+      PhorgeTime::getNow());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $paste->getContent());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $paste->getAuthorPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $paste->getDateCreated());
   }
 

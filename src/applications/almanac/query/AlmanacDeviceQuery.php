@@ -76,7 +76,7 @@ final class AlmanacDeviceQuery
     if ($this->names !== null) {
       $hashes = array();
       foreach ($this->names as $name) {
-        $hashes[] = PhabricatorHash::digestForIndex($name);
+        $hashes[] = PhorgeHash::digestForIndex($name);
       }
       $where[] = qsprintf(
         $conn,
@@ -148,7 +148,7 @@ final class AlmanacDeviceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
 }

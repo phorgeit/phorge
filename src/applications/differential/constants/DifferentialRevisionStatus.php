@@ -104,7 +104,7 @@ final class DifferentialRevisionStatus extends Phobject {
   }
 
   private static function getMap() {
-    $close_on_accept = PhabricatorEnv::getEnvConfig(
+    $close_on_accept = PhorgeEnv::getEnvConfig(
       'differential.close-on-accept');
 
     return array(

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarExportEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeCalendarExportEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function getEditorObjectsDescription() {

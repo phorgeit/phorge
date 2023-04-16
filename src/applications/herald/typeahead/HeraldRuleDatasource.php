@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldRuleDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type a Herald rule name...');
@@ -12,7 +12,7 @@ final class HeraldRuleDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   public function loadResults() {
@@ -32,7 +32,7 @@ final class HeraldRuleDatasource
 
     $rules = $query->execute();
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(mpull($rules, 'getPHID'))
       ->execute();
@@ -41,7 +41,7 @@ final class HeraldRuleDatasource
     foreach ($rules as $rule) {
       $handle = $handles[$rule->getPHID()];
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($handle->getFullName())
         ->setPHID($handle->getPHID());
 

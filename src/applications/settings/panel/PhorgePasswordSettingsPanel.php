@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
+final class PhorgePasswordSettingsPanel extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'password';
@@ -15,13 +15,13 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function isEnabled() {
     // There's no sense in showing a change password panel if this install
     // doesn't support password authentication.
-    if (!PhabricatorPasswordAuthProvider::getPasswordProvider()) {
+    if (!PhorgePasswordAuthProvider::getPasswordProvider()) {
       return false;
     }
 
@@ -32,9 +32,9 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
     $viewer = $request->getUser();
     $user = $this->getUser();
 
-    $content_source = PhabricatorContentSource::newFromRequest($request);
+    $content_source = PhorgeContentSource::newFromRequest($request);
 
-    $min_len = PhabricatorEnv::getEnvConfig('account.minimum-password-length');
+    $min_len = PhorgeEnv::getEnvConfig('account.minimum-password-length');
     $min_len = (int)$min_len;
 
     // NOTE: Users can also change passwords through the separate "set/reset"
@@ -42,9 +42,9 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
     // registration or password reset. If this flow changes, that flow may
     // also need to change.
 
-    $account_type = PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT;
+    $account_type = PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT;
 
-    $password_objects = id(new PhabricatorAuthPasswordQuery())
+    $password_objects = id(new PhorgeAuthPasswordQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withPasswordTypes(array($account_type))
@@ -65,21 +65,21 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
         'password.change(%s)',
         $user->getPHID());
 
-      $hisec_token = id(new PhabricatorAuthSessionEngine())
+      $hisec_token = id(new PhorgeAuthSessionEngine())
         ->setWorkflowKey($workflow_key)
         ->requireHighSecurityToken($viewer, $request, '/settings/');
 
       // Rate limit guesses about the old password. This page requires MFA and
       // session compromise already, so this is mostly just to stop researchers
       // from reporting this as a vulnerability.
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorAuthChangePasswordAction(),
+        new PhorgeAuthChangePasswordAction(),
         1);
 
       $envelope = new PhutilOpaqueEnvelope($request->getStr('old_pw'));
 
-      $engine = id(new PhabricatorAuthPasswordEngine())
+      $engine = id(new PhorgeAuthPasswordEngine())
         ->setViewer($viewer)
         ->setContentSource($content_source)
         ->setPasswordType($account_type)
@@ -95,9 +95,9 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
         $e_old = null;
 
         // Refund the user an action credit for getting the password right.
-        PhabricatorSystemActionEngine::willTakeAction(
+        PhorgeSystemActionEngine::willTakeAction(
           array($viewer->getPHID()),
-          new PhabricatorAuthChangePasswordAction(),
+          new PhorgeAuthChangePasswordAction(),
           -1);
       }
 
@@ -110,7 +110,7 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
         $engine->checkNewPassword($password_envelope, $confirm_envelope);
         $e_new = null;
         $e_conf = null;
-      } catch (PhabricatorAuthPasswordException $ex) {
+      } catch (PhorgeAuthPasswordException $ex) {
         $errors[] = $ex->getMessage();
         $e_new = $ex->getPasswordError();
         $e_conf = $ex->getConfirmError();
@@ -123,10 +123,10 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
 
         $next = $this->getPanelURI('?saved=true');
 
-        id(new PhabricatorAuthSessionEngine())->terminateLoginSessions(
+        id(new PhorgeAuthSessionEngine())->terminateLoginSessions(
           $user,
           new PhutilOpaqueEnvelope(
-            $request->getCookie(PhabricatorCookies::COOKIE_SESSION)));
+            $request->getCookie(PhorgeCookies::COOKIE_SESSION)));
 
         return id(new AphrontRedirectResponse())->setURI($next);
       }
@@ -135,7 +135,7 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
     if ($password_object->getID()) {
       try {
         $can_upgrade = $password_object->canUpgrade();
-      } catch (PhabricatorPasswordHasherUnavailableException $ex) {
+      } catch (PhorgePasswordHasherUnavailableException $ex) {
         $can_upgrade = false;
 
         $errors[] = pht(
@@ -190,12 +190,12 @@ final class PhabricatorPasswordSettingsPanel extends PhabricatorSettingsPanel {
 
     $properties->addProperty(
       pht('Current Algorithm'),
-      PhabricatorPasswordHasher::getCurrentAlgorithmName(
+      PhorgePasswordHasher::getCurrentAlgorithmName(
         $password_object->newPasswordEnvelope()));
 
     $properties->addProperty(
       pht('Best Available Algorithm'),
-      PhabricatorPasswordHasher::getBestAlgorithmName());
+      PhorgePasswordHasher::getBestAlgorithmName());
 
     $info_view = id(new PHUIInfoView())
       ->setSeverity(PHUIInfoView::SEVERITY_NOTICE)

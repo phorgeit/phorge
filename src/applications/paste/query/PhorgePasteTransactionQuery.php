@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPasteTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgePasteTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorPasteTransaction();
+    return new PhorgePasteTransaction();
   }
 
 }

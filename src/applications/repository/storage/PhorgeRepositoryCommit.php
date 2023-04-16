@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorRepositoryCommit
-  extends PhabricatorRepositoryDAO
+final class PhorgeRepositoryCommit
+  extends PhorgeRepositoryDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorProjectInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorMentionableInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeProjectInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeSubscribableInterface,
+    PhorgeMentionableInterface,
     HarbormasterBuildableInterface,
     HarbormasterCircleCIBuildableInterface,
     HarbormasterBuildkiteBuildableInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorTimelineInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorDraftInterface {
+    PhorgeCustomFieldInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeTimelineInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeConduitResultInterface,
+    PhorgeDraftInterface {
 
   protected $repositoryID;
   protected $phid;
@@ -49,7 +49,7 @@ final class PhabricatorRepositoryCommit
   private $drafts = array();
   private $auditAuthorityPHIDs = array();
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -155,21 +155,21 @@ final class PhabricatorRepositoryCommit
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryCommitPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryCommitPHIDType::TYPECONST);
   }
 
   public function loadCommitData() {
     if (!$this->getID()) {
       return null;
     }
-    return id(new PhabricatorRepositoryCommitData())->loadOneWhere(
+    return id(new PhorgeRepositoryCommitData())->loadOneWhere(
       'commitID = %d',
       $this->getID());
   }
 
   public function attachCommitData(
-    PhabricatorRepositoryCommitData $data = null) {
+    PhorgeRepositoryCommitData $data = null) {
     $this->commitData = $data;
     return $this;
   }
@@ -184,7 +184,7 @@ final class PhabricatorRepositoryCommit
   }
 
   public function attachAudits(array $audits) {
-    assert_instances_of($audits, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of($audits, 'PhorgeRepositoryAuditRequest');
     $this->audits = $audits;
     return $this;
   }
@@ -198,8 +198,8 @@ final class PhabricatorRepositoryCommit
   }
 
   public function attachIdentities(
-    PhabricatorRepositoryIdentity $author = null,
-    PhabricatorRepositoryIdentity $committer = null) {
+    PhorgeRepositoryIdentity $author = null,
+    PhorgeRepositoryIdentity $committer = null) {
 
     $this->authorIdentity = $author;
     $this->committerIdentity = $committer;
@@ -216,7 +216,7 @@ final class PhabricatorRepositoryCommit
   }
 
   public function attachAuditAuthority(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     array $authority) {
 
     $user_phid = $user->getPHID();
@@ -231,8 +231,8 @@ final class PhabricatorRepositoryCommit
   }
 
   public function hasAuditAuthority(
-    PhabricatorUser $user,
-    PhabricatorRepositoryAuditRequest $audit) {
+    PhorgeUser $user,
+    PhorgeRepositoryAuditRequest $audit) {
 
     $user_phid = $user->getPHID();
     if (!$user_phid) {
@@ -248,9 +248,9 @@ final class PhabricatorRepositoryCommit
     $src_phid = $this->getPHID();
     $edge_type = DiffusionCommitHasPackageEdgeType::EDGECONST;
 
-    $editor = new PhabricatorEdgeEditor();
+    $editor = new PhorgeEdgeEditor();
 
-    $dst_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $dst_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $src_phid,
       $edge_type);
 
@@ -274,7 +274,7 @@ final class PhabricatorRepositoryCommit
 
   public function delete() {
     $data = $this->loadCommitData();
-    $audits = id(new PhabricatorRepositoryAuditRequest())
+    $audits = id(new PhorgeRepositoryAuditRequest())
       ->loadAllWhere('commitPHID = %s', $this->getPHID());
     $this->openTransaction();
 
@@ -304,7 +304,7 @@ final class PhabricatorRepositoryCommit
    * triggers.
    */
   public function updateAuditStatus(array $requests) {
-    assert_instances_of($requests, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of($requests, 'PhorgeRepositoryAuditRequest');
 
     $any_concern = false;
     $any_accept = false;
@@ -312,14 +312,14 @@ final class PhabricatorRepositoryCommit
 
     foreach ($requests as $request) {
       switch ($request->getAuditStatus()) {
-        case PhabricatorAuditRequestStatus::AUDIT_REQUIRED:
-        case PhabricatorAuditRequestStatus::AUDIT_REQUESTED:
+        case PhorgeAuditRequestStatus::AUDIT_REQUIRED:
+        case PhorgeAuditRequestStatus::AUDIT_REQUESTED:
           $any_need = true;
           break;
-        case PhabricatorAuditRequestStatus::ACCEPTED:
+        case PhorgeAuditRequestStatus::ACCEPTED:
           $any_accept = true;
           break;
-        case PhabricatorAuditRequestStatus::CONCERNED:
+        case PhorgeAuditRequestStatus::CONCERNED:
           $any_concern = true;
           break;
       }
@@ -382,7 +382,7 @@ final class PhabricatorRepositoryCommit
     return $repository->formatCommitName($identifier, $local = true);
   }
 
-  public function loadIdentities(PhabricatorUser $viewer) {
+  public function loadIdentities(PhorgeUser $viewer) {
     if ($this->authorIdentity !== self::ATTACHABLE) {
       return $this;
     }
@@ -470,7 +470,7 @@ final class PhabricatorRepositoryCommit
     return (bool)$this->isPartiallyImported(self::IMPORTED_PERMANENT);
   }
 
-  public function newCommitAuthorView(PhabricatorUser $viewer) {
+  public function newCommitAuthorView(PhorgeUser $viewer) {
     $author_phid = $this->getAuthorDisplayPHID();
     if ($author_phid) {
       $handles = $viewer->loadHandles(array($author_phid));
@@ -485,7 +485,7 @@ final class PhabricatorRepositoryCommit
     return null;
   }
 
-  public function newCommitCommitterView(PhabricatorUser $viewer) {
+  public function newCommitCommitterView(PhorgeUser $viewer) {
     $committer_phid = $this->getCommitterDisplayPHID();
     if ($committer_phid) {
       $handles = $viewer->loadHandles(array($committer_phid));
@@ -534,7 +534,7 @@ final class PhabricatorRepositoryCommit
     return $message;
   }
 
-  public function newCommitRef(PhabricatorUser $viewer) {
+  public function newCommitRef(PhorgeUser $viewer) {
     $repository = $this->getRepository();
 
     $future = $repository->newConduitFuture(
@@ -579,25 +579,25 @@ final class PhabricatorRepositoryCommit
     return DiffusionCommitRef::newFromDictionary($ref_record);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getRepository()->getPolicy($capability);
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_USER;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getRepository()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -607,7 +607,7 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
   public function getUsersToNotifyOfTokenGiven() {
     return array(
@@ -636,7 +636,7 @@ final class PhabricatorRepositoryCommit
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new PhabricatorRepositoryCommit())
+    return id(new PhorgeRepositoryCommit())
       ->loadFromArray($dict);
   }
 
@@ -739,7 +739,7 @@ final class PhabricatorRepositoryCommit
 
 
   public function getBuildkiteBranch() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $repository = $this->getRepository();
 
     $branches = DiffusionQuery::callConduitWithDiffusionRequest(
@@ -773,28 +773,28 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
-    return PhabricatorEnv::getEnvConfig('diffusion.fields');
+    return PhorgeEnv::getEnvConfig('diffusion.fields');
   }
 
   public function getCustomFieldBaseClass() {
-    return 'PhabricatorCommitCustomField';
+    return 'PhorgeCommitCustomField';
   }
 
   public function getCustomFields() {
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -807,18 +807,18 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorAuditEditor();
+    return new PhorgeAuditEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorAuditTransaction();
+    return new PhorgeAuditTransaction();
   }
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -826,7 +826,7 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -834,42 +834,42 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('identifier')
         ->setType('string')
         ->setDescription(pht('The commit identifier.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('repositoryPHID')
         ->setType('phid')
         ->setDescription(pht('The repository this commit belongs to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('author')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about the commit author.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('committer')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about the committer.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isImported')
         ->setType('bool')
         ->setDescription(pht('True if the commit is fully imported.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isUnreachable')
         ->setType('bool')
         ->setDescription(
           pht(
             'True if the commit is not the ancestor of any tag, branch, or '.
             'ref.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('auditStatus')
         ->setType('map<string, wild>')
         ->setDescription(pht('Information about the current audit status.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('message')
         ->setType('string')
         ->setDescription(pht('The commit message.')),
@@ -952,23 +952,23 @@ final class PhabricatorRepositoryCommit
   }
 
 
-/* -(  PhabricatorDraftInterface  )------------------------------------------ */
+/* -(  PhorgeDraftInterface  )------------------------------------------ */
 
   public function newDraftEngine() {
     return new DiffusionCommitDraftEngine();
   }
 
-  public function getHasDraft(PhabricatorUser $viewer) {
+  public function getHasDraft(PhorgeUser $viewer) {
     return $this->assertAttachedKey($this->drafts, $viewer->getCacheFragment());
   }
 
-  public function attachHasDraft(PhabricatorUser $viewer, $has_draft) {
+  public function attachHasDraft(PhorgeUser $viewer, $has_draft) {
     $this->drafts[$viewer->getCacheFragment()] = $has_draft;
     return $this;
   }
 
 
-/* -(  PhabricatorTimelineInterface  )--------------------------------------- */
+/* -(  PhorgeTimelineInterface  )--------------------------------------- */
 
 
   public function newTimelineEngine() {

@@ -160,11 +160,11 @@ want to add a field to:
 | Application | Extend  |
 |-------------|---------|
 | Differential | @{class:DifferentialCustomField} |
-| Diffusion | @{class:PhabricatorCommitCustomField} |
+| Diffusion | @{class:PhorgeCommitCustomField} |
 | Maniphest | @{class:ManiphestCustomField} |
-| Owners | @{class:PhabricatorOwnersCustomField} |
-| People | @{class:PhabricatorUserCustomField} |
-| Projects | @{class:PhabricatorProjectCustomField} |
+| Owners | @{class:PhorgeOwnersCustomField} |
+| People | @{class:PhorgeUserCustomField} |
+| Projects | @{class:PhorgeProjectCustomField} |
 
 The easiest way to get started is to drop your subclass into
 `phorge/src/extensions/`. If Phorge is configured in development
@@ -205,7 +205,7 @@ Broadly, you can then add features by overriding more methods and implementing
 them. Many of the native fields are implemented on the custom field
 architecture, and it may be useful to look at them. For details on available
 integrations, see the base class for your application and
-@{class:PhabricatorCustomField}.
+@{class:PhorgeCustomField}.
 
 = Next Steps =
 

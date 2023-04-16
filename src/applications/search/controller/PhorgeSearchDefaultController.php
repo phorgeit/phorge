@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorSearchDefaultController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchDefaultController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $engine_class = $request->getURIData('engine');
 
-    $base_class = 'PhabricatorApplicationSearchEngine';
+    $base_class = 'PhorgeApplicationSearchEngine';
     if (!is_subclass_of($engine_class, $base_class)) {
       return new Aphront400Response();
     }
@@ -17,14 +17,14 @@ final class PhabricatorSearchDefaultController
 
     $key = $request->getURIData('queryKey');
 
-    $named_query = id(new PhabricatorNamedQueryQuery())
+    $named_query = id(new PhorgeNamedQueryQuery())
       ->setViewer($viewer)
       ->withEngineClassNames(array($engine_class))
       ->withQueryKeys(array($key))
       ->withUserPHIDs(
         array(
           $viewer->getPHID(),
-          PhabricatorNamedQuery::SCOPE_GLOBAL,
+          PhorgeNamedQuery::SCOPE_GLOBAL,
         ))
       ->executeOne();
 
@@ -44,19 +44,19 @@ final class PhabricatorSearchDefaultController
     }
 
     if ($request->isFormPost()) {
-      $config = id(new PhabricatorNamedQueryConfigQuery())
+      $config = id(new PhorgeNamedQueryConfigQuery())
         ->setViewer($viewer)
         ->withEngineClassNames(array($engine_class))
         ->withScopePHIDs(array($viewer->getPHID()))
         ->executeOne();
       if (!$config) {
-        $config = PhabricatorNamedQueryConfig::initializeNewQueryConfig()
+        $config = PhorgeNamedQueryConfig::initializeNewQueryConfig()
           ->setEngineClassName($engine_class)
           ->setScopePHID($viewer->getPHID());
       }
 
       $config->setConfigProperty(
-        PhabricatorNamedQueryConfig::PROPERTY_PINNED,
+        PhorgeNamedQueryConfig::PROPERTY_PINNED,
         $key);
 
       $config->save();

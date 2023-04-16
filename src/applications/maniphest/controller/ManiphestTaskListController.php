@@ -10,7 +10,7 @@ final class ManiphestTaskListController
   public function handleRequest(AphrontRequest $request) {
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine(
         id(new ManiphestTaskSearchEngine())

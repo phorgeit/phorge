@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWebContentSource
-  extends PhabricatorContentSource {
+final class PhorgeWebContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'web';
 

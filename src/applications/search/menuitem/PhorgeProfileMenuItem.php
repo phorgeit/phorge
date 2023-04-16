@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProfileMenuItem extends Phobject {
+abstract class PhorgeProfileMenuItem extends Phobject {
 
   private $viewer;
   private $engine;
@@ -12,10 +12,10 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   abstract public function getMenuItemTypeName();
 
   abstract public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config);
+    PhorgeProfileMenuItemConfiguration $config);
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array();
   }
 
@@ -28,16 +28,16 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   public function canHideMenuItem(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return false;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -46,7 +46,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
     return $this->viewer;
   }
 
-  public function setEngine(PhabricatorProfileMenuEngine $engine) {
+  public function setEngine(PhorgeProfileMenuEngine $engine) {
     $this->engine = $engine;
     return $this;
   }
@@ -67,13 +67,13 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   final protected function newItemView() {
-    return new PhabricatorProfileMenuItemView();
+    return new PhorgeProfileMenuItemView();
   }
 
   public function willGetMenuItemViewList(array $items) {}
 
   final public function getMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $list = $this->newMenuItemViewList($config);
 
     if (!is_array($list)) {
@@ -85,7 +85,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
           phutil_describe_type($list)));
     }
 
-    assert_instances_of($list, 'PhabricatorProfileMenuItemView');
+    assert_instances_of($list, 'PhorgeProfileMenuItemView');
 
     foreach ($list as $view) {
       $view->setMenuItemConfiguration($config);
@@ -95,16 +95,16 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   abstract protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config);
+    PhorgeProfileMenuItemConfiguration $config);
 
 
   public function newPageContent(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return null;
   }
 
   public function getItemViewURI(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $engine = $this->getEngine();
     $key = $config->getItemIdentifier();
@@ -113,7 +113,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -130,15 +130,15 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   final protected function newError($title, $message, $xaction = null) {
-    return new PhabricatorApplicationTransactionValidationError(
-      PhabricatorProfileMenuItemConfigurationTransaction::TYPE_PROPERTY,
+    return new PhorgeApplicationTransactionValidationError(
+      PhorgeProfileMenuItemConfigurationTransaction::TYPE_PROPERTY,
       $title,
       $message,
       $xaction);
   }
 
   final protected function newRequiredError($message, $type) {
-    $xaction = id(new PhabricatorProfileMenuItemConfigurationTransaction())
+    $xaction = id(new PhorgeProfileMenuItemConfigurationTransaction())
       ->setMetadataValue('property.key', $type);
 
     return $this->newError(pht('Required'), $message, $xaction)
@@ -160,7 +160,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
   }
 
   public function getAffectedObjectPHIDs(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array();
   }
 

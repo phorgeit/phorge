@@ -162,7 +162,7 @@ final class DiffusionCommitController extends DiffusionController {
           "information is available.",
           $subpath));
     } else {
-      $engine = PhabricatorMarkupEngine::newDifferentialMarkupEngine();
+      $engine = PhorgeMarkupEngine::newDifferentialMarkupEngine();
       $engine->setConfig('viewer', $viewer);
 
       $commit_tag = $this->renderCommitHashTag($drequest);
@@ -262,7 +262,7 @@ final class DiffusionCommitController extends DiffusionController {
           $reasons[] = pht('No further details are available.');
         }
 
-        $doc_href = PhabricatorEnv::getDoclink(
+        $doc_href = PhorgeEnv::getDoclink(
           'Diffusion User Guide: Permanent Refs');
         $doc_link = phutil_tag(
           'a',
@@ -370,11 +370,11 @@ final class DiffusionCommitController extends DiffusionController {
 
       $vcs = $repository->getVersionControlSystem();
       switch ($vcs) {
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
           $vcs_supports_directory_changes = true;
           break;
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+        case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
           $vcs_supports_directory_changes = false;
           break;
         default:
@@ -519,8 +519,8 @@ final class DiffusionCommitController extends DiffusionController {
   }
 
   private function buildPropertyListView(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorRepositoryCommitData $data,
+    PhorgeRepositoryCommit $commit,
+    PhorgeRepositoryCommitData $data,
     array $audit_requests) {
 
     $viewer = $this->getViewer();
@@ -532,7 +532,7 @@ final class DiffusionCommitController extends DiffusionController {
       ->setUser($this->getRequest()->getUser())
       ->setObject($commit);
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($commit_phid))
       ->withEdgeTypes(array(
         DiffusionCommitHasTaskEdgeType::EDGECONST,
@@ -575,11 +575,11 @@ final class DiffusionCommitController extends DiffusionController {
 
     $push_logs = array();
     if ($repository->isHosted() && !$repository->isSVN()) {
-      $push_logs = id(new PhabricatorRepositoryPushLogQuery())
+      $push_logs = id(new PhorgeRepositoryPushLogQuery())
         ->setViewer($viewer)
         ->withRepositoryPHIDs(array($repository->getPHID()))
         ->withNewRefs(array($commit->getCommitIdentifier()))
-        ->withRefTypes(array(PhabricatorRepositoryPushLog::REFTYPE_COMMIT))
+        ->withRefTypes(array(PhorgeRepositoryPushLog::REFTYPE_COMMIT))
         ->execute();
       foreach ($push_logs as $log) {
         $phids[] = $log->getPusherPHID();
@@ -753,10 +753,10 @@ final class DiffusionCommitController extends DiffusionController {
     return $view;
   }
 
-  private function buildComments(PhabricatorRepositoryCommit $commit) {
+  private function buildComments(PhorgeRepositoryCommit $commit) {
     $timeline = $this->buildTransactionTimeline(
       $commit,
-      new PhabricatorAuditTransactionQuery());
+      new PhorgeAuditTransactionQuery());
 
     $timeline->setQuoteRef($commit->getMonogram());
 
@@ -764,7 +764,7 @@ final class DiffusionCommitController extends DiffusionController {
   }
 
   private function renderAddCommentPanel(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $timeline) {
 
     $request = $this->getRequest();
@@ -783,7 +783,7 @@ final class DiffusionCommitController extends DiffusionController {
     return $comment_view;
   }
 
-  private function buildMergesTable(PhabricatorRepositoryCommit $commit) {
+  private function buildMergesTable(PhorgeRepositoryCommit $commit) {
     $viewer = $this->getViewer();
     $drequest = $this->getDiffusionRequest();
     $repository = $drequest->getRepository();
@@ -824,22 +824,22 @@ final class DiffusionCommitController extends DiffusionController {
   }
 
   private function buildCurtain(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorRepository $repository) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeRepository $repository) {
 
     $request = $this->getRequest();
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($commit);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $commit,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $commit->getID();
     $edit_uri = $this->getApplicationURI("/commit/edit/{$id}/");
 
-    $action = id(new PhabricatorActionView())
+    $action = id(new PhorgeActionView())
       ->setName(pht('Edit Commit'))
       ->setHref($edit_uri)
       ->setIcon('fa-pencil')
@@ -847,13 +847,13 @@ final class DiffusionCommitController extends DiffusionController {
       ->setWorkflow(!$can_edit);
     $curtain->addAction($action);
 
-    $action = id(new PhabricatorActionView())
+    $action = id(new PhorgeActionView())
       ->setName(pht('Download Raw Diff'))
       ->setHref($request->getRequestURI()->alter('diff', true))
       ->setIcon('fa-download');
     $curtain->addAction($action);
 
-    $relationship_list = PhabricatorObjectRelationshipList::newForObject(
+    $relationship_list = PhorgeObjectRelationshipList::newForObject(
       $viewer,
       $commit);
 
@@ -875,7 +875,7 @@ final class DiffusionCommitController extends DiffusionController {
 
     $file_phid = $diff_info['filePHID'];
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -891,9 +891,9 @@ final class DiffusionCommitController extends DiffusionController {
   }
 
   private function renderAuditStatusView(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     array $audit_requests) {
-    assert_instances_of($audit_requests, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of($audit_requests, 'PhorgeRepositoryAuditRequest');
     $viewer = $this->getViewer();
 
     $view = new PHUIStatusListView();
@@ -921,12 +921,12 @@ final class DiffusionCommitController extends DiffusionController {
   }
 
   private function linkBugtraq($corpus) {
-    $url = PhabricatorEnv::getEnvConfig('bugtraq.url');
+    $url = PhorgeEnv::getEnvConfig('bugtraq.url');
     if (!strlen($url)) {
       return $corpus;
     }
 
-    $regexes = PhabricatorEnv::getEnvConfig('bugtraq.logregex');
+    $regexes = PhorgeEnv::getEnvConfig('bugtraq.logregex');
     if (!$regexes) {
       return $corpus;
     }
@@ -965,8 +965,8 @@ final class DiffusionCommitController extends DiffusionController {
     $diffusion_view = id(new DiffusionEmptyResultView())
       ->setDiffusionRequest($drequest);
 
-    $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+    $have_owners = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeOwnersApplication',
       $viewer);
 
     if (!$changesets) {
@@ -975,9 +975,9 @@ final class DiffusionCommitController extends DiffusionController {
 
     if ($have_owners) {
       if ($viewer->getPHID()) {
-        $packages = id(new PhabricatorOwnersPackageQuery())
+        $packages = id(new PhorgeOwnersPackageQuery())
           ->setViewer($viewer)
-          ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+          ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
           ->withAuthorityPHIDs(array($viewer->getPHID()))
           ->execute();
         $toc_view->setAuthorityPackages($packages);
@@ -986,9 +986,9 @@ final class DiffusionCommitController extends DiffusionController {
       $repository = $drequest->getRepository();
       $repository_phid = $repository->getPHID();
 
-      $control_query = id(new PhabricatorOwnersPackageQuery())
+      $control_query = id(new PhorgeOwnersPackageQuery())
         ->setViewer($viewer)
-        ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+        ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
         ->withControl($repository_phid, mpull($changesets, 'getFilename'));
       $control_query->execute();
     }

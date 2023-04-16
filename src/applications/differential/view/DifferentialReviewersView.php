@@ -13,7 +13,7 @@ final class DifferentialReviewersView extends AphrontView {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -42,7 +42,7 @@ final class DifferentialReviewersView extends AphrontView {
       }
     }
 
-    PhabricatorPolicyFilterSet::loadHandleViewCapabilities(
+    PhorgePolicyFilterSet::loadHandleViewCapabilities(
       $viewer,
       $handles,
       array($diff));

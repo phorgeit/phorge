@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorWorkerArchiveTaskQuery
-  extends PhabricatorWorkerTaskQuery {
+final class PhorgeWorkerArchiveTaskQuery
+  extends PhorgeWorkerTaskQuery {
 
   public function execute() {
-    $task_table = new PhabricatorWorkerArchiveTask();
+    $task_table = new PhorgeWorkerArchiveTask();
 
     $conn_r = $task_table->establishConnection('r');
 

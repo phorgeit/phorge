@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthFactorProviderTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeAuthFactorProviderTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorAuthFactorProviderTransaction();
+    return new PhorgeAuthFactorProviderTransaction();
   }
 
 }

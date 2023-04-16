@@ -1,7 +1,7 @@
 <?php
 
 final class PonderAnswerReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
     if (!($mail_receiver instanceof PonderAnswer)) {

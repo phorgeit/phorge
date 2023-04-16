@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarNotificationEngine
+final class PhorgeCalendarNotificationEngine
   extends Phobject {
 
   private $cursor;
@@ -8,7 +8,7 @@ final class PhabricatorCalendarNotificationEngine
 
   public function getCursor() {
     if (!$this->cursor) {
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       $this->cursor = $now - phutil_units('10 minutes in seconds');
     }
 
@@ -36,18 +36,18 @@ final class PhabricatorCalendarNotificationEngine
   public function publishNotifications() {
     $cursor = $this->getCursor();
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     if ($cursor > $now) {
       return;
     }
 
-    $calendar_class = 'PhabricatorCalendarApplication';
-    if (!PhabricatorApplication::isClassInstalled($calendar_class)) {
+    $calendar_class = 'PhorgeCalendarApplication';
+    if (!PhorgeApplication::isClassInstalled($calendar_class)) {
       return;
     }
 
     try {
-      $lock = PhabricatorGlobalLock::newLock('calendar.notify')
+      $lock = PhorgeGlobalLock::newLock('calendar.notify')
         ->lock(5);
     } catch (PhutilLockException $ex) {
       return;
@@ -76,9 +76,9 @@ final class PhabricatorCalendarNotificationEngine
     $window_min = $cursor - phutil_units('16 hours in seconds');
     $window_max = $cursor + phutil_units('16 hours in seconds');
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $events = id(new PhabricatorCalendarEventQuery())
+    $events = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withDateRange($window_min, $window_max)
       ->withIsCancelled(false)
@@ -119,7 +119,7 @@ final class PhabricatorCalendarNotificationEngine
       }
     }
 
-    $user_map = id(new PhabricatorPeopleQuery())
+    $user_map = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs($all_attendees)
       ->withIsDisabled(false)
@@ -139,7 +139,7 @@ final class PhabricatorCalendarNotificationEngine
       }
     }
 
-    $table = new PhabricatorCalendarNotification();
+    $table = new PhorgeCalendarNotification();
     $conn = $table->establishConnection('w');
 
     $rows = queryfx_all(
@@ -156,7 +156,7 @@ final class PhabricatorCalendarNotificationEngine
       $sent_map[$event_phid][$target_phid][$initial_epoch] = $row;
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $notify_min = $now;
     $notify_max = $now + $this->getNotifyWindow();
     $notify_map = array();
@@ -194,7 +194,7 @@ final class PhabricatorCalendarNotificationEngine
           continue;
         }
 
-        $view = id(new PhabricatorCalendarEventNotificationView())
+        $view = id(new PhorgeCalendarEventNotificationView())
           ->setViewer($user)
           ->setEvent($event)
           ->setDateTime($user_datetime)
@@ -206,11 +206,11 @@ final class PhabricatorCalendarNotificationEngine
 
     $mail_list = array();
     $mark_list = array();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     foreach ($notify_map as $user_phid => $events) {
       $user = $user_map[$user_phid];
 
-      $locale = PhabricatorEnv::beginScopedLocale($user->getTranslation());
+      $locale = PhorgeEnv::beginScopedLocale($user->getTranslation());
       $caught = null;
       try {
         $mail_list[] = $this->newMailMessage($user, $events);
@@ -240,7 +240,7 @@ final class PhabricatorCalendarNotificationEngine
 
     // Mark all the notifications we're about to send as delivered so we
     // do not double-notify.
-    foreach (PhabricatorLiskDAO::chunkSQL($mark_list) as $chunk) {
+    foreach (PhorgeLiskDAO::chunkSQL($mark_list) as $chunk) {
       queryfx(
         $conn,
         'INSERT IGNORE INTO %T
@@ -256,12 +256,12 @@ final class PhabricatorCalendarNotificationEngine
   }
 
 
-  private function newMailMessage(PhabricatorUser $viewer, array $events) {
+  private function newMailMessage(PhorgeUser $viewer, array $events) {
     $events = msort($events, 'getEpoch');
 
     $next_event = head($events);
 
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
     foreach ($events as $event) {
       $body->addTextSection(
         null,
@@ -273,7 +273,7 @@ final class PhabricatorCalendarNotificationEngine
 
       $body->addLinkSection(
         pht('EVENT DETAIL'),
-        PhabricatorEnv::getProductionURI($event->getEvent()->getURI()));
+        PhorgeEnv::getProductionURI($event->getEvent()->getURI()));
     }
 
     $next_event = head($events)->getEvent();
@@ -285,10 +285,10 @@ final class PhabricatorCalendarNotificationEngine
       $subject = "{$subject} {$more}";
     }
 
-    $calendar_phid = id(new PhabricatorCalendarApplication())
+    $calendar_phid = id(new PhorgeCalendarApplication())
       ->getPHID();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject($subject)
       ->addTos(array($viewer->getPHID()))
       ->setSensitiveContent(false)

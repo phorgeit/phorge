@@ -18,7 +18,7 @@ foreach ($rows as $row) {
       VALUES (%s, %s, %s)',
     $table_name,
     $phid,
-    PhabricatorHash::digestForIndex('std:maniphest:'.$name),
+    PhorgeHash::digestForIndex('std:maniphest:'.$name),
     $row['value']);
 }
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMonospacedFontSetting
-  extends PhabricatorStringSetting {
+final class PhorgeMonospacedFontSetting
+  extends PhorgeStringSetting {
 
   const SETTINGKEY = 'monospaced';
 
@@ -10,7 +10,7 @@ final class PhabricatorMonospacedFontSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDisplayPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDisplayPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

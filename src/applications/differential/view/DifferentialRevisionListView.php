@@ -100,7 +100,7 @@ final class DifferentialRevisionListView extends AphrontView {
       $phid = $revision->getPHID();
       $flag = $revision->getFlag($viewer);
       if ($flag) {
-        $flag_class = PhabricatorFlagColor::getCSSClass($flag->getColor());
+        $flag_class = PhorgeFlagColor::getCSSClass($flag->getColor());
         $icons['flag'] = phutil_tag(
           'div',
           array(

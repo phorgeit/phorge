@@ -97,7 +97,7 @@ final class ConpherenceThreadParticipantsTransaction
       $rem_map = array_fuse(array_diff($old, $new));
 
       foreach ($add_map as $user_phid) {
-        $user = id(new PhabricatorPeopleQuery())
+        $user = id(new PhorgePeopleQuery())
           ->setViewer($this->getActor())
           ->withPHIDs(array($user_phid))
           ->executeOne();
@@ -116,7 +116,7 @@ final class ConpherenceThreadParticipantsTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $old_map = array_fuse($xaction->getOldValue());
     $new_map = array_fuse($xaction->getNewValue());
@@ -141,7 +141,7 @@ final class ConpherenceThreadParticipantsTransaction
 
     // You need CAN_EDIT to add or remove participants. For additional
     // discussion, see D17696 and T4411.
-    return PhabricatorPolicyCapability::CAN_EDIT;
+    return PhorgePolicyCapability::CAN_EDIT;
   }
 
 }

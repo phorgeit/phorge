@@ -2,7 +2,7 @@
 
 echo pht('Populating pastes with mail keys...')."\n";
 
-$table = new PhabricatorPaste();
+$table = new PhorgePaste();
 $table->openTransaction();
 $conn_w = $table->establishConnection('w');
 

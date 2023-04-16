@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleTasksProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgePeopleTasksProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'people.tasks';
 
@@ -14,12 +14,12 @@ final class PhabricatorPeopleTasksProfileMenuItem
   }
 
   public function canHideMenuItem(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -30,9 +30,9 @@ final class PhabricatorPeopleTasksProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -41,7 +41,7 @@ final class PhabricatorPeopleTasksProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $user = $config->getProfileObject();
     $id = $user->getID();

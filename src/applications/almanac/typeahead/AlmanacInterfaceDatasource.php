@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacInterfaceDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Interfaces');
@@ -12,7 +12,7 @@ final class AlmanacInterfaceDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function loadResults() {
@@ -36,7 +36,7 @@ final class AlmanacInterfaceDatasource
     }
 
     if ($interfaces) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(mpull($interfaces, 'getPHID'))
         ->execute();
@@ -52,7 +52,7 @@ final class AlmanacInterfaceDatasource
         $closed = null;
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($handle->getName())
         ->setPHID($handle->getPHID())
         ->setClosed($closed);

@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorDestructibleCodexInterface {
+interface PhorgeDestructibleCodexInterface {
 
   public function newDestructibleCodex();
 
@@ -8,7 +8,7 @@ interface PhabricatorDestructibleCodexInterface {
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorDestructibleCodexInterface  )------------------------------ */
+/* -(  PhorgeDestructibleCodexInterface  )------------------------------ */
 /*
 
   public function newDestructibleCodex() {

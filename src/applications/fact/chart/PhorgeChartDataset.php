@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorChartDataset
+abstract class PhorgeChartDataset
   extends Phobject {
 
   private $functions;
@@ -14,7 +14,7 @@ abstract class PhabricatorChartDataset
   }
 
   final public function setFunctions(array $functions) {
-    assert_instances_of($functions, 'PhabricatorComposeChartFunction');
+    assert_instances_of($functions, 'PhorgeComposeChartFunction');
 
     $this->functions = $functions;
 
@@ -52,7 +52,7 @@ abstract class PhabricatorChartDataset
 
     $functions = array();
     foreach ($map['functions'] as $map) {
-      $functions[] = PhabricatorChartFunction::newFromDictionary($map);
+      $functions[] = PhorgeChartFunction::newFromDictionary($map);
     }
     $dataset->setFunctions($functions);
 
@@ -60,16 +60,16 @@ abstract class PhabricatorChartDataset
   }
 
   final public function getChartDisplayData(
-    PhabricatorChartDataQuery $data_query) {
+    PhorgeChartDataQuery $data_query) {
     return $this->newChartDisplayData($data_query);
   }
 
   abstract protected function newChartDisplayData(
-    PhabricatorChartDataQuery $data_query);
+    PhorgeChartDataQuery $data_query);
 
 
   final public function getTabularDisplayData(
-    PhabricatorChartDataQuery $data_query) {
+    PhorgeChartDataQuery $data_query) {
     $results = array();
 
     $functions = $this->getFunctions();
@@ -95,7 +95,7 @@ abstract class PhabricatorChartDataset
       );
     }
 
-    return id(new PhabricatorChartDisplayData())
+    return id(new PhorgeChartDisplayData())
       ->setWireData($results);
   }
 

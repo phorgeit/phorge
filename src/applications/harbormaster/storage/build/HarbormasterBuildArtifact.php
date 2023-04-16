@@ -3,9 +3,9 @@
 final class HarbormasterBuildArtifact
   extends HarbormasterDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $buildTargetPHID;
   protected $artifactType;
@@ -88,7 +88,7 @@ final class HarbormasterBuildArtifact
     );
     $parts = implode("\0", $parts);
 
-    return PhabricatorHash::digestForIndex($parts);
+    return PhorgeHash::digestForIndex($parts);
   }
 
   public function releaseArtifact() {
@@ -98,7 +98,7 @@ final class HarbormasterBuildArtifact
 
     $impl = $this->getArtifactImplementation();
     if ($impl) {
-      $impl->releaseArtifact(PhabricatorUser::getOmnipotentUser());
+      $impl->releaseArtifact(PhorgeUser::getOmnipotentUser());
     }
 
     return $this
@@ -128,12 +128,12 @@ final class HarbormasterBuildArtifact
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -141,7 +141,7 @@ final class HarbormasterBuildArtifact
     return $this->getBuildTarget()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuildTarget()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -153,11 +153,11 @@ final class HarbormasterBuildArtifact
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $viewer = $this->getViewer();
 
@@ -168,23 +168,23 @@ final class HarbormasterBuildArtifact
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildTargetPHID')
         ->setType('phid')
         ->setDescription(pht('The build target this artifact is attached to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('artifactType')
         ->setType('string')
         ->setDescription(pht('The artifact type.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('artifactKey')
         ->setType('string')
         ->setDescription(pht('The artifact key.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('isReleased')
         ->setType('bool')
         ->setDescription(pht('True if this artifact has been released.')),

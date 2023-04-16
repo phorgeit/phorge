@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorMonogramDatasourceEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+final class PhorgeMonogramDatasourceEngineExtension
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array(
-      new PhabricatorTypeaheadMonogramDatasource(),
+      new PhorgeTypeaheadMonogramDatasource(),
     );
   }
 
@@ -31,7 +31,7 @@ final class PhabricatorMonogramDatasourceEngineExtension
     }
 
     // Otherwise, if the user entered an object name, jump to that object.
-    $objects = id(new PhabricatorObjectQuery())
+    $objects = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($query))
       ->execute();

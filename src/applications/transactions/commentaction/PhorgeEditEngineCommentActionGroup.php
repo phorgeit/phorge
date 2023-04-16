@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEditEngineCommentActionGroup
+final class PhorgeEditEngineCommentActionGroup
   extends Phobject {
 
   private $key;

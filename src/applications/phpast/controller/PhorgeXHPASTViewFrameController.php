@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHPASTViewFrameController
-  extends PhabricatorXHPASTViewController {
+final class PhorgeXHPASTViewFrameController
+  extends PhorgeXHPASTViewController {
 
   public function shouldAllowPublic() {
     return true;

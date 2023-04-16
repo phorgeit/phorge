@@ -1,10 +1,10 @@
 <?php
 
-$packages_table = new PhabricatorOwnersPackage();
+$packages_table = new PhorgeOwnersPackage();
 $packages_conn = $packages_table->establishConnection('w');
 $packages_name = $packages_table->getTableName();
 
-$properties_table = new PhabricatorMetaMTAMailProperties();
+$properties_table = new PhorgeMetaMTAMailProperties();
 $conn = $properties_table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator($packages_conn, $packages_name);
@@ -21,6 +21,6 @@ foreach ($iterator as $package) {
       array(
         'mailKey' => $package['mailKey'],
       )),
-    PhabricatorTime::getNow(),
-    PhabricatorTime::getNow());
+    PhorgeTime::getNow(),
+    PhorgeTime::getNow());
 }

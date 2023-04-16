@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportReloadWorker extends PhabricatorWorker {
+final class PhorgeCalendarImportReloadWorker extends PhorgeWorker {
 
   const VIA_TRIGGER = 'trigger';
   const VIA_BACKGROUND = 'background';
 
   protected function doWork() {
     $import = $this->loadImport();
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     if ($import->getIsDisabled()) {
       return;
     }
 
-    $author = id(new PhabricatorPeopleQuery())
+    $author = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($import->getAuthorPHID()))
       ->needUserSettings(true)
@@ -23,7 +23,7 @@ final class PhabricatorCalendarImportReloadWorker extends PhabricatorWorker {
 
     $data = $this->getTaskData();
     $import->newLogMessage(
-      PhabricatorCalendarImportTriggerLogType::LOGTYPE,
+      PhorgeCalendarImportTriggerLogType::LOGTYPE,
       array(
         'via' => idx($data, 'via', self::VIA_TRIGGER),
       ));
@@ -32,17 +32,17 @@ final class PhabricatorCalendarImportReloadWorker extends PhabricatorWorker {
   }
 
   private function loadImport() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $data = $this->getTaskData();
     $import_phid = idx($data, 'importPHID');
 
-    $import = id(new PhabricatorCalendarImportQuery())
+    $import = id(new PhorgeCalendarImportQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($import_phid))
       ->executeOne();
     if (!$import) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Failed to load import with PHID "%s".',
           $import_phid));

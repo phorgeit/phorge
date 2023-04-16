@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSpacesNamespaceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeSpacesNamespaceSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorSpacesApplication';
+    return 'PhorgeSpacesApplication';
   }
 
   public function getResultTypeDescription() {
@@ -12,12 +12,12 @@ final class PhabricatorSpacesNamespaceSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorSpacesNamespaceQuery();
+    return new PhorgeSpacesNamespaceQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Active'))
         ->setKey('active')
         ->setOptions(
@@ -66,9 +66,9 @@ final class PhabricatorSpacesNamespaceSearchEngine
 
   protected function renderResultList(
     array $spaces,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($spaces, 'PhabricatorSpacesNamespace');
+    assert_instances_of($spaces, 'PhorgeSpacesNamespace');
 
     $viewer = $this->requireViewer();
 
@@ -91,7 +91,7 @@ final class PhabricatorSpacesNamespaceSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No spaces found.'));
 

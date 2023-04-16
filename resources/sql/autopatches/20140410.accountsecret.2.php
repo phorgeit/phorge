@@ -2,7 +2,7 @@
 
 echo pht('Updating users...')."\n";
 
-foreach (new LiskMigrationIterator(new PhabricatorUser()) as $user) {
+foreach (new LiskMigrationIterator(new PhorgeUser()) as $user) {
   $id = $user->getID();
   echo pht('Updating %d...', $id)."\n";
 

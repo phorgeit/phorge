@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialInlineCommentEditController
-  extends PhabricatorInlineCommentController {
+  extends PhorgeInlineCommentController {
 
   protected function newInlineCommentQuery() {
     return new DifferentialDiffInlineCommentQuery();
@@ -119,7 +119,7 @@ final class DifferentialInlineCommentEditController
   }
 
   protected function canEditInlineComment(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialInlineComment $inline) {
 
     // Only the author may edit a comment.
@@ -142,7 +142,7 @@ final class DifferentialInlineCommentEditController
   }
 
   protected function loadObjectOwnerPHID(
-    PhabricatorInlineComment $inline) {
+    PhorgeInlineComment $inline) {
     return $this->loadRevision()->getAuthorPHID();
   }
 

@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFacebookAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeFacebookAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('Facebook');
   }
 
   protected function getProviderConfigurationHelp() {
-    $uri = PhabricatorEnv::getProductionURI($this->getLoginURI());
+    $uri = PhorgeEnv::getProductionURI($this->getLoginURI());
 
     $domain = id(new PhutilURI($uri))->getDomain();
 

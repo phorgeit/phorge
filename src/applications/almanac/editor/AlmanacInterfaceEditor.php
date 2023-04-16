@@ -16,13 +16,13 @@ final class AlmanacInterfaceEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
 
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
+    $errors[] = new PhorgeApplicationTransactionValidationError(
       null,
       pht('Invalid'),
       pht(
@@ -30,7 +30,7 @@ final class AlmanacInterfaceEditor
         'address, and port.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 }

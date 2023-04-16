@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorAdministratorsPolicyRule extends PhabricatorPolicyRule {
+final class PhorgeAdministratorsPolicyRule extends PhorgePolicyRule {
 
   public function getRuleDescription() {
     return pht('administrators');
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
     return $viewer->getIsAdmin();
   }
 

@@ -3,14 +3,14 @@
 /**
  * Mail adapter that uses Mailgun's web API to deliver email.
  */
-final class PhabricatorMailMailgunAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailMailgunAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'mailgun';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
     );
   }
 
@@ -36,7 +36,7 @@ final class PhabricatorMailMailgunAdapter
     );
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $api_key = $this->getOption('api-key');
     $domain = $this->getOption('domain');
     $api_hostname = $this->getOption('api-hostname');

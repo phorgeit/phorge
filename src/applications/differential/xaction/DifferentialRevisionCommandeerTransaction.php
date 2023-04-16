@@ -8,13 +8,13 @@ final class DifferentialRevisionCommandeerTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Commandeer Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('You will take control of this revision and become its author.');
   }
 
@@ -61,7 +61,7 @@ final class DifferentialRevisionCommandeerTransaction
     $object->setAuthorPHID($value);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     // If a revision has already landed, we generally want to discourage
     // reopening and reusing it since this tends to create a big mess (users
     // should create a new revision instead). Thus, we stop you from

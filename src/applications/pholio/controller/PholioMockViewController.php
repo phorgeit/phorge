@@ -32,7 +32,7 @@ final class PholioMockViewController extends PholioController {
       return new Aphront404Response();
     }
 
-    $phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $mock->getPHID(),
       PholioMockHasTaskEdgeType::EDGECONST);
     $this->setManiphestTaskPHIDs($phids);
@@ -118,13 +118,13 @@ final class PholioMockViewController extends PholioController {
 
     $curtain = $this->newCurtainView($mock);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $mock,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setIcon('fa-pencil')
       ->setName(pht('Edit Mock'))
       ->setHref($this->getApplicationURI('/edit/'.$mock->getID().'/'))
@@ -133,7 +133,7 @@ final class PholioMockViewController extends PholioController {
 
     if ($mock->isClosed()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
         ->setIcon('fa-check')
         ->setName(pht('Open Mock'))
         ->setHref($this->getApplicationURI('/archive/'.$mock->getID().'/'))
@@ -141,7 +141,7 @@ final class PholioMockViewController extends PholioController {
         ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
         ->setIcon('fa-ban')
         ->setName(pht('Close Mock'))
         ->setHref($this->getApplicationURI('/archive/'.$mock->getID().'/'))
@@ -149,7 +149,7 @@ final class PholioMockViewController extends PholioController {
         ->setWorkflow(true));
     }
 
-    $relationship_list = PhabricatorObjectRelationshipList::newForObject(
+    $relationship_list = PhorgeObjectRelationshipList::newForObject(
       $viewer,
       $mock);
 
@@ -214,14 +214,14 @@ final class PholioMockViewController extends PholioController {
   private function buildAddCommentView(PholioMock $mock, $comment_form_id) {
     $viewer = $this->getViewer();
 
-    $draft = PhabricatorDraft::newFromUserAndKey($viewer, $mock->getPHID());
+    $draft = PhorgeDraft::newFromUserAndKey($viewer, $mock->getPHID());
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     $title = $is_serious
       ? pht('Add Comment')
       : pht('History Beckons');
 
-    $form = id(new PhabricatorApplicationTransactionCommentView())
+    $form = id(new PhorgeApplicationTransactionCommentView())
       ->setUser($viewer)
       ->setObjectPHID($mock->getPHID())
       ->setFormID($comment_form_id)

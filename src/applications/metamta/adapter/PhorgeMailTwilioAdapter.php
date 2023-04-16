@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailTwilioAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailTwilioAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'twilio';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailSMSMessage::MESSAGETYPE,
+      PhorgeMailSMSMessage::MESSAGETYPE,
     );
   }
 
@@ -21,7 +21,7 @@ final class PhabricatorMailTwilioAdapter
       ));
 
     // Construct an object from the "from-number" to validate it.
-    $number = new PhabricatorPhoneNumber($options['from-number']);
+    $number = new PhorgePhoneNumber($options['from-number']);
   }
 
   public function newDefaultOptions() {
@@ -32,14 +32,14 @@ final class PhabricatorMailTwilioAdapter
     );
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $account_sid = $this->getOption('account-sid');
 
     $auth_token = $this->getOption('auth-token');
     $auth_token = new PhutilOpaqueEnvelope($auth_token);
 
     $from_number = $this->getOption('from-number');
-    $from_number = new PhabricatorPhoneNumber($from_number);
+    $from_number = new PhorgePhoneNumber($from_number);
 
     $to_number = $message->getToNumber();
     $text_body = $message->getTextBody();
@@ -50,7 +50,7 @@ final class PhabricatorMailTwilioAdapter
       'Body' => $text_body,
     );
 
-    $result = id(new PhabricatorTwilioFuture())
+    $result = id(new PhorgeTwilioFuture())
       ->setAccountSID($account_sid)
       ->setAuthToken($auth_token)
       ->setMethod('Messages.json', $parameters)

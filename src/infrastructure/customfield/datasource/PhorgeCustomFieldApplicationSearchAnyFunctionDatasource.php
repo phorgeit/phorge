@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldApplicationSearchAnyFunctionDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeCustomFieldApplicationSearchAnyFunctionDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Any');
@@ -39,8 +39,8 @@ final class PhabricatorCustomFieldApplicationSearchAnyFunctionDatasource
     $results = array();
 
     foreach ($argv_list as $argv) {
-      $results[] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_ANY,
+      $results[] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_ANY,
         null);
     }
 
@@ -50,7 +50,7 @@ final class PhabricatorCustomFieldApplicationSearchAnyFunctionDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->newAnyFunction());
     }
     return $results;

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorConfigModuleController
-  extends PhabricatorConfigController {
+final class PhorgeConfigModuleController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $key = $request->getURIData('module');
 
-    $all_modules = PhabricatorConfigModule::getAllModules();
+    $all_modules = PhorgeConfigModule::getAllModules();
 
     if (!strlen($key)) {
       $key = head_key($all_modules);
@@ -26,7 +26,7 @@ final class PhabricatorConfigModuleController
 
     $modules_uri = $this->getApplicationURI('module/');
 
-    $modules = PhabricatorConfigModule::getAllModules();
+    $modules = PhorgeConfigModule::getAllModules();
 
     foreach ($modules as $module_key => $module) {
       $nav->newLink($module_key)

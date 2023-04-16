@@ -4,8 +4,8 @@
  * Manages markup engine selection, configuration, application, caching and
  * pipelining.
  *
- * @{class:PhabricatorMarkupEngine} can be used to render objects which
- * implement @{interface:PhabricatorMarkupInterface} in a batched, cache-aware
+ * @{class:PhorgeMarkupEngine} can be used to render objects which
+ * implement @{interface:PhorgeMarkupInterface} in a batched, cache-aware
  * way. For example, if you have a list of comments written in remarkup (and
  * the objects implement the correct interface) you can render them by first
  * building an engine and adding the fields with @{method:addObject}.
@@ -13,7 +13,7 @@
  *   $field  = 'field:body'; // Field you want to render. Each object exposes
  *                           // one or more fields of markup.
  *
- *   $engine = new PhabricatorMarkupEngine();
+ *   $engine = new PhorgeMarkupEngine();
  *   foreach ($comments as $comment) {
  *     $engine->addObject($comment, $field);
  *   }
@@ -37,7 +37,7 @@
  * @task markup Markup Pipeline
  * @task engine Engine Construction
  */
-final class PhabricatorMarkupEngine extends Phobject {
+final class PhorgeMarkupEngine extends Phobject {
 
   private $objects = array();
   private $viewer;
@@ -56,19 +56,19 @@ final class PhabricatorMarkupEngine extends Phobject {
    * Convenience method for pushing a single object through the markup
    * pipeline.
    *
-   * @param PhabricatorMarkupInterface  The object to render.
+   * @param PhorgeMarkupInterface  The object to render.
    * @param string                      The field to render.
-   * @param PhabricatorUser             User viewing the markup.
+   * @param PhorgeUser             User viewing the markup.
    * @param object                      A context object for policy checks
    * @return string                     Marked up output.
    * @task markup
    */
   public static function renderOneObject(
-    PhabricatorMarkupInterface $object,
+    PhorgeMarkupInterface $object,
     $field,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $context_object = null) {
-    return id(new PhabricatorMarkupEngine())
+    return id(new PhorgeMarkupEngine())
       ->setViewer($viewer)
       ->setContextObject($context_object)
       ->addObject($object, $field)
@@ -81,12 +81,12 @@ final class PhabricatorMarkupEngine extends Phobject {
    * Queue an object for markup generation when @{method:process} is
    * called. You can retrieve the output later with @{method:getOutput}.
    *
-   * @param PhabricatorMarkupInterface  The object to render.
+   * @param PhorgeMarkupInterface  The object to render.
    * @param string                      The field to render.
    * @return this
    * @task markup
    */
-  public function addObject(PhabricatorMarkupInterface $object, $field) {
+  public function addObject(PhorgeMarkupInterface $object, $field) {
     $key = $this->getMarkupFieldKey($object, $field);
     $this->objects[$key] = array(
       'object' => $object,
@@ -175,12 +175,12 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @{method:addObject}. Before you can call this method, you must call
    * @{method:process}.
    *
-   * @param PhabricatorMarkupInterface  The object to retrieve.
+   * @param PhorgeMarkupInterface  The object to retrieve.
    * @param string                      The field to retrieve.
    * @return string                     Processed output.
    * @task markup
    */
-  public function getOutput(PhabricatorMarkupInterface $object, $field) {
+  public function getOutput(PhorgeMarkupInterface $object, $field) {
     $key = $this->getMarkupFieldKey($object, $field);
     $this->requireKeyProcessed($key);
 
@@ -191,14 +191,14 @@ final class PhabricatorMarkupEngine extends Phobject {
   /**
    * Retrieve engine metadata for a given field.
    *
-   * @param PhabricatorMarkupInterface  The object to retrieve.
+   * @param PhorgeMarkupInterface  The object to retrieve.
    * @param string                      The field to retrieve.
    * @param string                      The engine metadata field to retrieve.
    * @param wild                        Optional default value.
    * @task markup
    */
   public function getEngineMetadata(
-    PhabricatorMarkupInterface $object,
+    PhorgeMarkupInterface $object,
     $field,
     $metadata_key,
     $default = null) {
@@ -232,7 +232,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @task markup
    */
   private function getMarkupFieldKey(
-    PhabricatorMarkupInterface $object,
+    PhorgeMarkupInterface $object,
     $field) {
 
     static $custom;
@@ -243,7 +243,7 @@ final class PhabricatorMarkupEngine extends Phobject {
 
       $custom = mpull($custom, 'getRuleVersion', null);
       ksort($custom);
-      $custom = PhabricatorHash::digestForIndex(serialize($custom));
+      $custom = PhorgeHash::digestForIndex(serialize($custom));
     }
 
     return $object->getMarkupFieldKey($field).'@'.$this->version.'@'.$custom;
@@ -265,7 +265,7 @@ final class PhabricatorMarkupEngine extends Phobject {
 
     if ($use_cache) {
       try {
-        $blocks = id(new PhabricatorMarkupCache())->loadAllWhere(
+        $blocks = id(new PhorgeMarkupCache())->loadAllWhere(
           'cacheKey IN (%Ls)',
           array_keys($use_cache));
         $blocks = mpull($blocks, null, 'getCacheKey');
@@ -274,7 +274,7 @@ final class PhabricatorMarkupEngine extends Phobject {
       }
     }
 
-    $is_readonly = PhabricatorEnv::isReadOnly();
+    $is_readonly = PhorgeEnv::isReadOnly();
 
     foreach ($objects as $key => $info) {
       // False check in case MySQL doesn't support unicode characters
@@ -296,7 +296,7 @@ final class PhabricatorMarkupEngine extends Phobject {
         'host' => php_uname('n'),
       );
 
-      $blocks[$key] = id(new PhabricatorMarkupCache())
+      $blocks[$key] = id(new PhorgeMarkupCache())
         ->setCacheKey($key)
         ->setCacheData($data)
         ->setMetadata($metadata);
@@ -316,11 +316,11 @@ final class PhabricatorMarkupEngine extends Phobject {
   /**
    * Set the viewing user. Used to implement object permissions.
    *
-   * @param PhabricatorUser The viewing user.
+   * @param PhorgeUser The viewing user.
    * @return this
    * @task markup
    */
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -376,7 +376,7 @@ final class PhabricatorMarkupEngine extends Phobject {
         'macros' => false,
         'uri.full' => true,
         'uri.same-window' => true,
-        'uri.base' => PhabricatorEnv::getURI('/'),
+        'uri.base' => PhorgeEnv::getURI('/'),
       ));
   }
 
@@ -472,16 +472,16 @@ final class PhabricatorMarkupEngine extends Phobject {
    */
   private static function getMarkupEngineDefaultConfiguration() {
     return array(
-      'pygments'      => PhabricatorEnv::getEnvConfig('pygments.enabled'),
-      'youtube'       => PhabricatorEnv::getEnvConfig(
+      'pygments'      => PhorgeEnv::getEnvConfig('pygments.enabled'),
+      'youtube'       => PhorgeEnv::getEnvConfig(
         'remarkup.enable-embedded-youtube'),
       'differential.diff' => null,
       'header.generate-toc' => false,
       'macros'        => true,
-      'uri.allowed-protocols' => PhabricatorEnv::getEnvConfig(
+      'uri.allowed-protocols' => PhorgeEnv::getEnvConfig(
         'uri.allowed-protocols'),
       'uri.full' => false,
-      'syntax-highlighter.engine' => PhabricatorEnv::getEnvConfig(
+      'syntax-highlighter.engine' => PhorgeEnv::getEnvConfig(
         'syntax-highlighter.engine'),
       'preserve-linebreaks' => true,
     );
@@ -508,7 +508,7 @@ final class PhabricatorMarkupEngine extends Phobject {
       'syntax-highlighter.engine',
       $options['syntax-highlighter.engine']);
 
-    $style_map = id(new PhabricatorDefaultSyntaxStyle())
+    $style_map = id(new PhorgeDefaultSyntaxStyle())
       ->getRemarkupStyleMap();
     $engine->setConfig('phutil.codeblock.style-map', $style_map);
 
@@ -529,19 +529,19 @@ final class PhabricatorMarkupEngine extends Phobject {
 
 
     $rules[] = new PhutilRemarkupDocumentLinkRule();
-    $rules[] = new PhabricatorNavigationRemarkupRule();
-    $rules[] = new PhabricatorKeyboardRemarkupRule();
-    $rules[] = new PhabricatorConfigRemarkupRule();
+    $rules[] = new PhorgeNavigationRemarkupRule();
+    $rules[] = new PhorgeKeyboardRemarkupRule();
+    $rules[] = new PhorgeConfigRemarkupRule();
 
     if ($options['youtube']) {
-      $rules[] = new PhabricatorYoutubeRemarkupRule();
+      $rules[] = new PhorgeYoutubeRemarkupRule();
     }
 
-    $rules[] = new PhabricatorIconRemarkupRule();
-    $rules[] = new PhabricatorEmojiRemarkupRule();
-    $rules[] = new PhabricatorHandleRemarkupRule();
+    $rules[] = new PhorgeIconRemarkupRule();
+    $rules[] = new PhorgeEmojiRemarkupRule();
+    $rules[] = new PhorgeHandleRemarkupRule();
 
-    $applications = PhabricatorApplication::getAllInstalledApplications();
+    $applications = PhorgeApplication::getAllInstalledApplications();
     foreach ($applications as $application) {
       foreach ($application->getRemarkupRules() as $rule) {
         $rules[] = $rule;
@@ -551,8 +551,8 @@ final class PhabricatorMarkupEngine extends Phobject {
     $rules[] = new PhutilRemarkupHyperlinkRule();
 
     if ($options['macros']) {
-      $rules[] = new PhabricatorImageMacroRemarkupRule();
-      $rules[] = new PhabricatorMemeRemarkupRule();
+      $rules[] = new PhorgeImageMacroRemarkupRule();
+      $rules[] = new PhorgeMemeRemarkupRule();
     }
 
     $rules[] = new PhutilRemarkupBoldRule();
@@ -594,7 +594,7 @@ final class PhabricatorMarkupEngine extends Phobject {
   }
 
   public static function extractPHIDsFromMentions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $content_blocks) {
 
     $mentions = array();
@@ -613,7 +613,7 @@ final class PhabricatorMarkupEngine extends Phobject {
 
       $engine->markupText($content_block);
       $phids = $engine->getTextMetadata(
-        PhabricatorMentionRemarkupRule::KEY_MENTIONED,
+        PhorgeMentionRemarkupRule::KEY_MENTIONED,
         array());
       $mentions += $phids;
     }
@@ -622,7 +622,7 @@ final class PhabricatorMarkupEngine extends Phobject {
   }
 
   public static function extractFilePHIDsFromEmbeddedFiles(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $content_blocks) {
     $files = array();
 
@@ -632,7 +632,7 @@ final class PhabricatorMarkupEngine extends Phobject {
     foreach ($content_blocks as $content_block) {
       $engine->markupText($content_block);
       $phids = $engine->getTextMetadata(
-        PhabricatorEmbedFileRemarkupRule::KEY_ATTACH_INTENT_FILE_PHIDS,
+        PhorgeEmbedFileRemarkupRule::KEY_ATTACH_INTENT_FILE_PHIDS,
         array());
       foreach ($phids as $phid) {
         $files[$phid] = $phid;
@@ -715,13 +715,13 @@ final class PhabricatorMarkupEngine extends Phobject {
 
   private static function loadCustomInlineRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomInlineRule')
+      ->setAncestorClass('PhorgeRemarkupCustomInlineRule')
       ->execute();
   }
 
   private static function loadCustomBlockRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomBlockRule')
+      ->setAncestorClass('PhorgeRemarkupCustomBlockRule')
       ->execute();
   }
 
@@ -729,7 +729,7 @@ final class PhabricatorMarkupEngine extends Phobject {
     $parts = array();
     $parts[] = get_class($object);
 
-    if ($object instanceof PhabricatorLiskDAO) {
+    if ($object instanceof PhorgeLiskDAO) {
       $parts[] = $object->getID();
     }
 
@@ -737,7 +737,7 @@ final class PhabricatorMarkupEngine extends Phobject {
 
     $message = implode("\n", $parts);
 
-    return PhabricatorHash::digestWithNamedKey($message, 'remarkup');
+    return PhorgeHash::digestWithNamedKey($message, 'remarkup');
   }
 
 }

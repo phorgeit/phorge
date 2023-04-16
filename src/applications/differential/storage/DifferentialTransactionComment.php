@@ -1,9 +1,9 @@
 <?php
 
 final class DifferentialTransactionComment
-  extends PhabricatorApplicationTransactionComment
+  extends PhorgeApplicationTransactionComment
   implements
-    PhabricatorInlineCommentInterface {
+    PhorgeInlineCommentInterface {
 
   protected $revisionPHID;
   protected $changesetID;
@@ -139,7 +139,7 @@ final class DifferentialTransactionComment
   }
 
   public function attachInlineContext(
-    PhabricatorInlineCommentContext $context = null) {
+    PhorgeInlineCommentContext $context = null) {
     $this->inlineContext = $context;
     return $this;
   }

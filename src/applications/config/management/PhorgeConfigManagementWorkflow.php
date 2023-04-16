@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorConfigManagementWorkflow
-  extends PhabricatorManagementWorkflow {}
+abstract class PhorgeConfigManagementWorkflow
+  extends PhorgeManagementWorkflow {}

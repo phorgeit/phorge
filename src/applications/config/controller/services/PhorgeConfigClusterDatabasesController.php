@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorConfigClusterDatabasesController
-  extends PhabricatorConfigServicesController {
+final class PhorgeConfigClusterDatabasesController
+  extends PhorgeConfigServicesController {
 
   public function handleRequest(AphrontRequest $request) {
     $nav = $this->newNavigation('database-servers');
 
     $title = pht('Database Servers');
-    $doc_href = PhabricatorEnv::getDoclink('Cluster: Databases');
+    $doc_href = PhorgeEnv::getDoclink('Cluster: Databases');
     $button = id(new PHUIButtonView())
       ->setIcon('fa-book')
       ->setHref($doc_href)
@@ -36,9 +36,9 @@ final class PhabricatorConfigClusterDatabasesController
   private function buildClusterDatabaseStatus() {
     $viewer = $this->getViewer();
 
-    $databases = PhabricatorDatabaseRef::queryAll();
-    $connection_map = PhabricatorDatabaseRef::getConnectionStatusMap();
-    $replica_map = PhabricatorDatabaseRef::getReplicaStatusMap();
+    $databases = PhorgeDatabaseRef::queryAll();
+    $connection_map = PhorgeDatabaseRef::getConnectionStatusMap();
+    $replica_map = PhorgeDatabaseRef::getReplicaStatusMap();
     Javelin::initBehavior('phorge-tooltips');
 
     $rows = array();
@@ -75,7 +75,7 @@ final class PhabricatorConfigClusterDatabasesController
         $conn_color = idx($info, 'color');
         $conn_label = idx($info, 'label');
 
-        if ($status === PhabricatorDatabaseRef::STATUS_OKAY) {
+        if ($status === PhorgeDatabaseRef::STATUS_OKAY) {
           $latency = $database->getConnectionLatency();
           $latency = (int)(1000000 * $latency);
           $conn_label = pht('%s us', new PhutilNumber($latency));
@@ -101,13 +101,13 @@ final class PhabricatorConfigClusterDatabasesController
         $replica_label = idx($info, 'label');
 
         if ($database->getIsMaster()) {
-          if ($status === PhabricatorDatabaseRef::REPLICATION_OKAY) {
+          if ($status === PhorgeDatabaseRef::REPLICATION_OKAY) {
             $replica_icon = 'fa-database';
           }
         } else {
           switch ($status) {
-            case PhabricatorDatabaseRef::REPLICATION_OKAY:
-            case PhabricatorDatabaseRef::REPLICATION_SLOW:
+            case PhorgeDatabaseRef::REPLICATION_OKAY:
+            case PhorgeDatabaseRef::REPLICATION_SLOW:
               $delay = $database->getReplicaDelay();
               if ($delay) {
                 $replica_label = pht('%ss Behind', new PhutilNumber($delay));

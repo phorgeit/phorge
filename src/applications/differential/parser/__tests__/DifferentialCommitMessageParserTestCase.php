@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCommitMessageParserTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testDifferentialCommitMessageParser() {
     $dir = dirname(__FILE__).'/messages/';

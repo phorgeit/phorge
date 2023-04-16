@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorStandardCustomFieldTokenizer
-  extends PhabricatorStandardCustomFieldPHIDs {
+abstract class PhorgeStandardCustomFieldTokenizer
+  extends PhorgeStandardCustomFieldPHIDs {
 
   abstract public function getDatasource();
 
@@ -26,7 +26,7 @@ abstract class PhabricatorStandardCustomFieldTokenizer
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -40,8 +40,8 @@ abstract class PhabricatorStandardCustomFieldTokenizer
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     if ($value) {
 
@@ -139,7 +139,7 @@ abstract class PhabricatorStandardCustomFieldTokenizer
   protected function newApplicationSearchDatasource() {
     $datasource = $this->getDatasource();
 
-    return id(new PhabricatorCustomFieldApplicationSearchDatasource())
+    return id(new PhorgeCustomFieldApplicationSearchDatasource())
       ->setDatasource($datasource);
   }
 
@@ -149,7 +149,7 @@ abstract class PhabricatorStandardCustomFieldTokenizer
     $datasource = $this->getDatasource()
       ->setViewer($viewer);
 
-    $action = id(new PhabricatorEditEngineTokenizerCommentAction())
+    $action = id(new PhorgeEditEngineTokenizerCommentAction())
       ->setDatasource($datasource);
 
     $limit = $this->getFieldConfigValue('limit');

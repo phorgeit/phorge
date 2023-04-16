@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitCertificateUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeConduitCertificateUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'conduit-cert';
 

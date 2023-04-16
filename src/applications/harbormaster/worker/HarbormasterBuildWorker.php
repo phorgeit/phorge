@@ -5,7 +5,7 @@
  */
 final class HarbormasterBuildWorker extends HarbormasterWorker {
 
-  public function renderForDisplay(PhabricatorUser $viewer) {
+  public function renderForDisplay(PhorgeUser $viewer) {
     try {
       $build = $this->loadBuild();
     } catch (Exception $ex) {
@@ -44,7 +44,7 @@ final class HarbormasterBuildWorker extends HarbormasterWorker {
       ->withIDs(array($id))
       ->executeOne();
     if (!$build) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Invalid build ID "%s".', $id));
     }
 
@@ -61,7 +61,7 @@ final class HarbormasterBuildWorker extends HarbormasterWorker {
       ->withPHIDs(array($phid))
       ->executeOne();
     if (!$buildable) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Invalid buildable PHID "%s".', $phid));
     }
 

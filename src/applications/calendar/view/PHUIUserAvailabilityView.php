@@ -5,7 +5,7 @@ final class PHUIUserAvailabilityView
 
   private $user;
 
-  public function setAvailableUser(PhabricatorUser $user) {
+  public function setAvailableUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -24,8 +24,8 @@ final class PHUIUserAvailabilityView
     }
 
     $const = $user->getDisplayAvailability();
-    $name = PhabricatorCalendarEventInvitee::getAvailabilityName($const);
-    $color = PhabricatorCalendarEventInvitee::getAvailabilityColor($const);
+    $name = PhorgeCalendarEventInvitee::getAvailabilityName($const);
+    $color = PhorgeCalendarEventInvitee::getAvailabilityColor($const);
 
     $away_tag = id(new PHUITagView())
       ->setType(PHUITagView::TYPE_SHADE)
@@ -33,7 +33,7 @@ final class PHUIUserAvailabilityView
       ->setName($name)
       ->setDotColor($color);
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // Try to load the event handle. If it's invalid or the user can't see it,
     // we'll just render a generic message.
@@ -48,7 +48,7 @@ final class PHUIUserAvailabilityView
     }
 
     switch ($const) {
-      case PhabricatorCalendarEventInvitee::AVAILABILITY_AWAY:
+      case PhorgeCalendarEventInvitee::AVAILABILITY_AWAY:
         if ($handle) {
           $description = pht(
             'Away at %s until %s.',
@@ -60,7 +60,7 @@ final class PHUIUserAvailabilityView
             $viewer->formatShortDateTime($until, $now));
         }
         break;
-      case PhabricatorCalendarEventInvitee::AVAILABILITY_BUSY:
+      case PhorgeCalendarEventInvitee::AVAILABILITY_BUSY:
       default:
         if ($handle) {
           $description = pht(

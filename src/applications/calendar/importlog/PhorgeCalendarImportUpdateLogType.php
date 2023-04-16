@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorCalendarImportUpdateLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportUpdateLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'update';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     $is_new = $log->getParameter('new');
     if ($is_new) {
       return pht('Imported Event');
@@ -17,21 +17,21 @@ final class PhabricatorCalendarImportUpdateLogType
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     $event_phid = $log->getParameter('phid');
     return $viewer->renderHandle($event_phid);
   }
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-calendar';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'green';
   }
 

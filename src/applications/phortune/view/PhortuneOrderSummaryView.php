@@ -55,15 +55,15 @@ final class PhortuneOrderSummaryView
 
     $resume_uri = $this->getResumeURI();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $order,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $can_merchant = PhabricatorPolicyFilter::hasCapability(
+    $can_merchant = PhorgePolicyFilter::hasCapability(
       $viewer,
       $order->getMerchant(),
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     switch ($order->getStatus()) {
       case PhortuneCart::STATUS_READY:

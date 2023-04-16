@@ -1,11 +1,11 @@
 <?php
 
 final class ProjectDatasourceEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array(
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -22,7 +22,7 @@ final class ProjectDatasourceEngineExtension
     if (preg_match('/^p\s+(.+)\z/i', $query, $matches)) {
       $raw_query = $matches[1];
 
-      $engine = id(new PhabricatorProject())
+      $engine = id(new PhorgeProject())
         ->newFerretEngine();
 
       $compiler = id(new PhutilSearchQueryCompiler())
@@ -32,12 +32,12 @@ final class ProjectDatasourceEngineExtension
 
       $fulltext_tokens = array();
       foreach ($raw_tokens as $raw_token) {
-        $fulltext_token = id(new PhabricatorFulltextToken())
+        $fulltext_token = id(new PhorgeFulltextToken())
           ->setToken($raw_token);
         $fulltext_tokens[] = $fulltext_token;
       }
 
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withFerretConstraint($engine, $fulltext_tokens)
         ->execute();

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'maniphest';

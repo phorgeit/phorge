@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacNamespacePHIDType extends PhabricatorPHIDType {
+final class AlmanacNamespacePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ANAM';
 
@@ -13,11 +13,11 @@ final class AlmanacNamespacePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacNamespaceQuery())
@@ -25,7 +25,7 @@ final class AlmanacNamespacePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

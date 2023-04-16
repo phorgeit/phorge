@@ -30,7 +30,7 @@ final class HarbormasterBuildEngine extends Phobject {
     return $this->newBuildTargets;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -53,7 +53,7 @@ final class HarbormasterBuildEngine extends Phobject {
     $build = $this->getBuild();
 
     $lock_key = 'harbormaster.build:'.$build->getID();
-    $lock = PhabricatorGlobalLock::newLock($lock_key)->lock(15);
+    $lock = PhorgeGlobalLock::newLock($lock_key)->lock(15);
 
     $build->reload();
     $old_status = $build->getBuildStatus();
@@ -79,7 +79,7 @@ final class HarbormasterBuildEngine extends Phobject {
     // NOTE: We queue new targets after releasing the lock so that in-process
     // execution via `bin/harbormaster` does not reenter the locked region.
     foreach ($this->getNewBuildTargets() as $target) {
-      $task = PhabricatorWorker::scheduleTask(
+      $task = PhorgeWorker::scheduleTask(
         'HarbormasterTargetWorker',
         array(
           'targetID' => $target->getID(),
@@ -107,12 +107,12 @@ final class HarbormasterBuildEngine extends Phobject {
   private function updateBuild(HarbormasterBuild $build) {
     $viewer = $this->getViewer();
 
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
 
     $acting_phid = $viewer->getPHID();
     if (!$acting_phid) {
-      $acting_phid = id(new PhabricatorHarbormasterApplication())->getPHID();
+      $acting_phid = id(new PhorgeHarbormasterApplication())->getPHID();
     }
 
     $editor = $build->getApplicationTransactionEditor()
@@ -420,7 +420,7 @@ final class HarbormasterBuildEngine extends Phobject {
         $target->setTargetStatus($new_status);
 
         if ($target->isComplete()) {
-          $target->setDateCompleted(PhabricatorTime::getNow());
+          $target->setDateCompleted(PhorgeTime::getNow());
         }
 
         $target->save();
@@ -443,7 +443,7 @@ final class HarbormasterBuildEngine extends Phobject {
     $viewer = $this->getViewer();
 
     $lock_key = 'harbormaster.buildable:'.$buildable->getID();
-    $lock = PhabricatorGlobalLock::newLock($lock_key)->lock(15);
+    $lock = PhorgeGlobalLock::newLock($lock_key)->lock(15);
 
     $buildable = id(new HarbormasterBuildableQuery())
       ->setViewer($viewer)
@@ -489,7 +489,7 @@ final class HarbormasterBuildEngine extends Phobject {
     // If we've been informed that the container for the buildable has
     // changed, update it.
     if ($update_container) {
-      $object = id(new PhabricatorObjectQuery())
+      $object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($buildable->getBuildablePHID()))
         ->executeOne();
@@ -585,7 +585,7 @@ final class HarbormasterBuildEngine extends Phobject {
     // objects should generally ignore manual buildables, but it's up to them
     // to decide.
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($new->getBuildablePHID()))
       ->executeOne();
@@ -595,10 +595,10 @@ final class HarbormasterBuildEngine extends Phobject {
 
     $engine = HarbormasterBuildableEngine::newForObject($object, $viewer);
 
-    $daemon_source = PhabricatorContentSource::newForSource(
-      PhabricatorDaemonContentSource::SOURCECONST);
+    $daemon_source = PhorgeContentSource::newForSource(
+      PhorgeDaemonContentSource::SOURCECONST);
 
-    $harbormaster_phid = id(new PhabricatorHarbormasterApplication())
+    $harbormaster_phid = id(new PhorgeHarbormasterApplication())
       ->getPHID();
 
     $engine

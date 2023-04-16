@@ -6,7 +6,7 @@ final class DiffusionPushEventViewController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $event = id(new PhabricatorRepositoryPushEventQuery())
+    $event = id(new PhorgeRepositoryPushEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->needLogs(true)
@@ -63,7 +63,7 @@ final class DiffusionPushEventViewController
         ));
   }
 
-  private function buildPropertyList(PhabricatorRepositoryPushEvent $event) {
+  private function buildPropertyList(PhorgeRepositoryPushEvent $event) {
     $viewer = $this->getRequest()->getUser();
     $view = new PHUIPropertyListView();
 
@@ -82,12 +82,12 @@ final class DiffusionPushEventViewController
     return $view;
   }
 
-  private function loadCommits(PhabricatorRepositoryPushEvent $event) {
+  private function loadCommits(PhorgeRepositoryPushEvent $event) {
     $viewer = $this->getRequest()->getUser();
 
     $identifiers = array();
     foreach ($event->getLogs() as $log) {
-      if ($log->getRefType() == PhabricatorRepositoryPushLog::REFTYPE_COMMIT) {
+      if ($log->getRefType() == PhorgeRepositoryPushLog::REFTYPE_COMMIT) {
         $identifiers[] = $log->getRefNew();
       }
     }
@@ -117,7 +117,7 @@ final class DiffusionPushEventViewController
   }
 
   private function renderCommitsTable(
-    PhabricatorRepositoryPushEvent $event,
+    PhorgeRepositoryPushEvent $event,
     array $commits) {
 
     $viewer = $this->getRequest()->getUser();
@@ -126,8 +126,8 @@ final class DiffusionPushEventViewController
     $rows = array();
     foreach ($commits as $identifier => $commit) {
       if ($commit) {
-        $partial_import = PhabricatorRepositoryCommit::IMPORTED_MESSAGE |
-                          PhabricatorRepositoryCommit::IMPORTED_CHANGE;
+        $partial_import = PhorgeRepositoryCommit::IMPORTED_MESSAGE |
+                          PhorgeRepositoryCommit::IMPORTED_CHANGE;
         if ($commit->isPartiallyImported($partial_import)) {
           $summary = AphrontTableView::renderSingleDisplayLine(
             $commit->getSummary());

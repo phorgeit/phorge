@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorDashboardPortalSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgeDashboardPortalSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'portal.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorDashboardPortalSearchEngine();
+    return new PhorgeDashboardPortalSearchEngine();
   }
 
   public function getMethodSummary() {

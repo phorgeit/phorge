@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackageDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgePackagesPackageDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Packages');
@@ -12,19 +12,19 @@ final class PhabricatorPackagesPackageDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
     $raw_query = $this->getRawQuery();
 
-    $package_query = id(new PhabricatorPackagesPackageQuery());
+    $package_query = id(new PhorgePackagesPackageQuery());
     $packages = $this->executeQuery($package_query);
 
     $results = array();
     foreach ($packages as $package) {
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($package->getName())
         ->setPHID($package->getPHID());
     }

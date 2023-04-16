@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorFileDeleteTransaction
-  extends PhabricatorFileTransactionType {
+final class PhorgeFileDeleteTransaction
+  extends PhorgeFileTransactionType {
 
   const TRANSACTIONTYPE = 'file:delete';
 
   public function generateOldValue($object) {
-    return PhabricatorFile::STATUS_ACTIVE;
+    return PhorgeFile::STATUS_ACTIVE;
   }
 
   public function applyInternalEffects($object, $value) {
@@ -15,10 +15,10 @@ final class PhabricatorFileDeleteTransaction
     // sweep by later and pick it up.
     $file->setIsDeleted(true);
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'FileDeletionWorker',
       array('objectPHID' => $file->getPHID()),
-      array('priority' => PhabricatorWorker::PRIORITY_BULK));
+      array('priority' => PhorgeWorker::PRIORITY_BULK));
   }
 
   public function getIcon() {

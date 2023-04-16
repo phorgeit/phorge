@@ -13,7 +13,7 @@ final class ManiphestTaskCoverImageTransaction
     $file_phid = $value;
 
     if ($file_phid) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($file_phid))
         ->executeOne();
@@ -27,8 +27,8 @@ final class ManiphestTaskCoverImageTransaction
       return;
     }
 
-    $xform_key = PhabricatorFileThumbnailTransform::TRANSFORM_WORKCARD;
-    $xform = PhabricatorFileTransform::getTransformByKey($xform_key)
+    $xform_key = PhorgeFileThumbnailTransform::TRANSFORM_WORKCARD;
+    $xform = PhorgeFileTransform::getTransformByKey($xform_key)
       ->executeTransform($file);
 
     $object->setProperty('cover.filePHID', $file->getPHID());
@@ -75,7 +75,7 @@ final class ManiphestTaskCoverImageTransaction
     foreach ($xactions as $xaction) {
       $file_phid = $xaction->getNewValue();
 
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($file_phid))
         ->executeOne();

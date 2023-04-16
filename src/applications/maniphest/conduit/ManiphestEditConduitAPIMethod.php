@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'maniphest.edit';

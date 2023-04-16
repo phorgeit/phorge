@@ -15,8 +15,8 @@ final class DifferentialDiffCreateController extends DifferentialController {
         ->withIDs(array($revision_id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$revision) {
@@ -47,7 +47,7 @@ final class DifferentialDiffCreateController extends DifferentialController {
       }
 
       if ($request->getFileExists('diff-file')) {
-        $diff = PhabricatorFile::readUploadedFileData($_FILES['diff-file']);
+        $diff = PhorgeFile::readUploadedFileData($_FILES['diff-file']);
       } else {
         $diff = $request->getStr('diff');
       }
@@ -81,14 +81,14 @@ final class DifferentialDiffCreateController extends DifferentialController {
           }
 
           return id(new AphrontRedirectResponse())->setURI($uri);
-        } catch (PhabricatorApplicationTransactionValidationException $ex) {
+        } catch (PhorgeApplicationTransactionValidationException $ex) {
           $validation_exception = $ex;
         }
       }
     }
 
     $form = new AphrontFormView();
-    $arcanist_href = PhabricatorEnv::getDoclink('Arcanist User Guide');
+    $arcanist_href = PhorgeEnv::getDoclink('Arcanist User Guide');
     $arcanist_link = phutil_tag(
       'a',
       array(
@@ -99,7 +99,7 @@ final class DifferentialDiffCreateController extends DifferentialController {
 
     $cancel_uri = $this->getApplicationURI();
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($diff_object)
       ->execute();
@@ -182,7 +182,7 @@ final class DifferentialDiffCreateController extends DifferentialController {
           ->setName('viewPolicy')
           ->setPolicyObject($diff_object)
           ->setPolicies($policies)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW))
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW))
       ->appendChild(
         id(new AphrontFormSubmitControl())
           ->addCancelButton($cancel_uri)

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAWSSESFuture extends PhutilAWSFuture {
+final class PhorgeAWSSESFuture extends PhutilAWSFuture {
 
   private $parameters;
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventExportController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarEventExportController
+  extends PhorgeCalendarController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorCalendarEventExportController
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $event = id(new PhabricatorCalendarEventQuery())
+    $event = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();

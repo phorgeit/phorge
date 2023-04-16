@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProtocolLog
+final class PhorgeProtocolLog
   extends Phobject {
 
   private $logfile;

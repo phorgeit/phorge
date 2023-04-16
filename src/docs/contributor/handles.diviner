@@ -26,7 +26,7 @@ To load handles, you'll usually call `loadHandles(...)` on the viewer:
 
   $handles = $viewer->loadHandles($phids);
 
-This returns a @{class:PhabricatorHandleList}. This object behaves like an
+This returns a @{class:PhorgeHandleList}. This object behaves like an
 array, and you can access handle objects by using their PHIDs as indexes:
 
   $handle = $handles[$phid];
@@ -81,7 +81,7 @@ correct and desirable:
 
 If you're rendering a very large number of handles (for example, 100+ handles
 in a result list view) it's //slightly// more efficient to render them through
-a @{class:PhabricatorHandleList}:
+a @{class:PhorgeHandleList}:
 
   $handles = $viewer->loadHandles($phids);
   foreach ($items as $item) {

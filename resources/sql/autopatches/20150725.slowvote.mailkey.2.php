@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorSlowvotePoll();
+$table = new PhorgeSlowvotePoll();
 $conn_w = $table->establishConnection('w');
 $iterator = new LiskMigrationIterator($table);
 foreach ($iterator as $slowvote) {

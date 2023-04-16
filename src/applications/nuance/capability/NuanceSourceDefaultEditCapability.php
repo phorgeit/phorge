@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceSourceDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'nuance.source.default.edit';
 

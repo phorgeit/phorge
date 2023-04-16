@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryDangerousTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryDangerousTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:dangerous';
 

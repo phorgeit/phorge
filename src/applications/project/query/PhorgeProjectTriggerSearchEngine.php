@@ -1,24 +1,24 @@
 <?php
 
-final class PhabricatorProjectTriggerSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeProjectTriggerSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Triggers');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorProjectTriggerQuery())
+    return id(new PhorgeProjectTriggerQuery())
       ->needUsage(true);
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Active'))
         ->setKey('isActive')
         ->setOptions(
@@ -71,9 +71,9 @@ final class PhabricatorProjectTriggerSearchEngine
 
   protected function renderResultList(
     array $triggers,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($triggers, 'PhabricatorProjectTrigger');
+    assert_instances_of($triggers, 'PhorgeProjectTrigger');
     $viewer = $this->requireViewer();
 
     $example_phids = array();
@@ -147,7 +147,7 @@ final class PhabricatorProjectTriggerSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No triggers found.'));
   }

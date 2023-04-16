@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDashboardTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeDashboardTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorDashboardTransaction();
+    return new PhorgeDashboardTransaction();
   }
 
 }

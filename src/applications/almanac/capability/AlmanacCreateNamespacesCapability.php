@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacCreateNamespacesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'almanac.namespaces';
 

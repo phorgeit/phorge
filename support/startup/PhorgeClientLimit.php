@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorClientLimit {
+abstract class PhorgeClientLimit {
 
   private $limitKey;
   private $clientKey;

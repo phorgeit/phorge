@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFileUploadSource
+abstract class PhorgeFileUploadSource
   extends Phobject {
 
   private $name;
@@ -116,7 +116,7 @@ abstract class PhabricatorFileUploadSource
     $this->totalBytesRead += strlen($read_bytes);
 
     if ($this->byteLimit && ($this->totalBytesRead > $this->byteLimit)) {
-      throw new PhabricatorFileUploadSourceByteLimitException();
+      throw new PhorgeFileUploadSourceByteLimitException();
     }
 
     $rope = $this->getRope();
@@ -130,7 +130,7 @@ abstract class PhabricatorFileUploadSource
       return $this->shouldChunk;
     }
 
-    $threshold = PhabricatorFileStorageEngine::getChunkThreshold();
+    $threshold = PhorgeFileStorageEngine::getChunkThreshold();
 
     if ($threshold === null) {
       // If there are no chunk engines available, we clearly can't chunk the
@@ -167,7 +167,7 @@ abstract class PhabricatorFileUploadSource
 
     $parameters = $this->getNewFileParameters();
 
-    return PhabricatorFile::newFromFileData($data, $parameters);
+    return PhorgeFile::newFromFileData($data, $parameters);
   }
 
   private function writeChunkedFile() {
@@ -182,7 +182,7 @@ abstract class PhabricatorFileUploadSource
       $length = 0;
     }
 
-    $file = PhabricatorFile::newChunkedFile($engine, $length, $parameters);
+    $file = PhorgeFile::newChunkedFile($engine, $length, $parameters);
     $file->saveAndIndex();
 
     $rope = $this->getRope();
@@ -215,8 +215,8 @@ abstract class PhabricatorFileUploadSource
   }
 
   private function writeChunk(
-    PhabricatorFile $file,
-    PhabricatorFileStorageEngine $engine) {
+    PhorgeFile $file,
+    PhorgeFileStorageEngine $engine) {
 
     $offset = $this->getTotalBytesWritten();
     $max_length = $engine->getChunkSize();
@@ -228,7 +228,7 @@ abstract class PhabricatorFileUploadSource
 
     $params = array(
       'name' => $file->getMonogram().'.chunk-'.$offset,
-      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       'chunk' => true,
     );
 
@@ -238,9 +238,9 @@ abstract class PhabricatorFileUploadSource
       $params['mime-type'] = 'application/octet-stream';
     }
 
-    $chunk_data = PhabricatorFile::newFromFileData($data, $params);
+    $chunk_data = PhorgeFile::newFromFileData($data, $params);
 
-    $chunk = PhabricatorFileChunk::initializeNewChunk(
+    $chunk = PhorgeFileChunk::initializeNewChunk(
       $file->getStorageHandle(),
       $offset,
       $offset + $actual_length);
@@ -279,7 +279,7 @@ abstract class PhabricatorFileUploadSource
   }
 
   private function getChunkEngine() {
-    $chunk_engines = PhabricatorFileStorageEngine::loadWritableChunkEngines();
+    $chunk_engines = PhorgeFileStorageEngine::loadWritableChunkEngines();
     if (!$chunk_engines) {
       throw new Exception(
         pht(

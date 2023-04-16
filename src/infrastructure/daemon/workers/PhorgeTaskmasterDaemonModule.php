@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorTaskmasterDaemonModule
+final class PhorgeTaskmasterDaemonModule
   extends PhutilDaemonOverseerModule {
 
   public function shouldWakePool(PhutilDaemonPool $pool) {
     $class = $pool->getPoolDaemonClass();
 
-    if ($class != 'PhabricatorTaskmasterDaemon') {
+    if ($class != 'PhorgeTaskmasterDaemon') {
       return false;
     }
 
@@ -14,7 +14,7 @@ final class PhabricatorTaskmasterDaemonModule
       return false;
     }
 
-    $table = new PhabricatorWorkerActiveTask();
+    $table = new PhorgeWorkerActiveTask();
     $conn = $table->establishConnection('r');
 
     $row = queryfx_one(
@@ -22,7 +22,7 @@ final class PhabricatorTaskmasterDaemonModule
       'SELECT id FROM %T WHERE leaseOwner IS NULL
         OR leaseExpires <= %d LIMIT 1',
       $table->getTableName(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
     if (!$row) {
       return false;
     }

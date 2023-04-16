@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCustomFieldExportEngineExtension
-  extends PhabricatorExportEngineExtension {
+final class PhorgeCustomFieldExportEngineExtension
+  extends PhorgeExportEngineExtension {
 
   const EXTENSIONKEY = 'custom-field';
 
@@ -9,7 +9,7 @@ final class PhabricatorCustomFieldExportEngineExtension
 
   public function supportsObject($object) {
     $this->object = $object;
-    return ($object instanceof PhabricatorCustomFieldInterface);
+    return ($object instanceof PhorgeCustomFieldInterface);
   }
 
   public function newExportFields() {
@@ -35,9 +35,9 @@ final class PhabricatorCustomFieldExportEngineExtension
     foreach ($objects as $object) {
       $object_phid = $object->getPHID();
 
-      $fields = PhabricatorCustomField::getObjectFields(
+      $fields = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_EXPORT);
+        PhorgeCustomField::ROLE_EXPORT);
 
       $fields
         ->setViewer($viewer)
@@ -53,7 +53,7 @@ final class PhabricatorCustomFieldExportEngineExtension
       }
     }
 
-    id(new PhabricatorCustomFieldStorageQuery())
+    id(new PhorgeCustomFieldStorageQuery())
       ->addFields($all_fields)
       ->execute();
 
@@ -75,9 +75,9 @@ final class PhabricatorCustomFieldExportEngineExtension
   }
 
   private function newCustomFields($object) {
-    $fields = PhabricatorCustomField::getObjectFields(
+    $fields = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_EXPORT);
+      PhorgeCustomField::ROLE_EXPORT);
     $fields->setViewer($this->getViewer());
 
     return $fields->getFields();

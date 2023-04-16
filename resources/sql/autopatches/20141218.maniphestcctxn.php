@@ -13,7 +13,7 @@ foreach (new LiskMigrationIterator($table) as $txn) {
       $conn_w,
       'UPDATE %T SET transactionType = %s WHERE id = %d',
       $table->getTableName(),
-      PhabricatorTransactions::TYPE_SUBSCRIBERS,
+      PhorgeTransactions::TYPE_SUBSCRIBERS,
       $txn->getID());
   }
 }

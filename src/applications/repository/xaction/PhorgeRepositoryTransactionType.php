@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorRepositoryTransactionType
-  extends PhabricatorModularTransactionType {
+abstract class PhorgeRepositoryTransactionType
+  extends PhorgeModularTransactionType {
 
   protected function validateRefList($object, array $xactions) {
     $errors = array();
@@ -9,7 +9,7 @@ abstract class PhabricatorRepositoryTransactionType
     foreach ($xactions as $xaction) {
       foreach ($xaction->getNewValue() as $pattern) {
         // Check for invalid regular expressions.
-        $regexp = PhabricatorRepository::extractBranchRegexp($pattern);
+        $regexp = PhorgeRepository::extractBranchRegexp($pattern);
         if ($regexp !== null) {
           $ok = @preg_match($regexp, '');
           if ($ok === false) {

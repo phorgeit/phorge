@@ -147,7 +147,7 @@ final class PHUIButtonView extends AphrontTagView {
     return $this->tag;
   }
 
-  public function setDropdownMenu(PhabricatorActionListView $actions) {
+  public function setDropdownMenu(PhorgeActionListView $actions) {
     Javelin::initBehavior('phui-dropdown-menu');
 
     $this->addSigil('phui-dropdown-menu');

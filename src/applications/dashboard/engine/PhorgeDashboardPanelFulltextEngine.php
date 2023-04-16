@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDashboardPanelFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeDashboardPanelFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $panel = $object;
@@ -13,11 +13,11 @@ final class PhabricatorDashboardPanelFulltextEngine
 
     $document->addRelationship(
       $panel->getIsArchived()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $panel->getPHID(),
-      PhabricatorDashboardPanelPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeDashboardPanelPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 
 }

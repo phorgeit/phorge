@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorSystemDebugUIEventListener
-  extends PhabricatorEventListener {
+final class PhorgeSystemDebugUIEventListener
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
+    $this->listen(PhorgeEventType::TYPE_UI_DIDRENDERACTIONS);
   }
 
   public function handleEvent(PhutilEvent $event) {
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
+      case PhorgeEventType::TYPE_UI_DIDRENDERACTIONS:
         $this->handleActionEvent($event);
         break;
     }
@@ -19,7 +19,7 @@ final class PhabricatorSystemDebugUIEventListener
     $viewer = $event->getUser();
     $object = $event->getValue('object');
 
-    if (!PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
+    if (!PhorgeEnv::getEnvConfig('phorge.developer-mode')) {
       return;
     }
 
@@ -33,19 +33,19 @@ final class PhabricatorSystemDebugUIEventListener
 
     $submenu = array();
 
-    $submenu[] = id(new PhabricatorActionView())
+    $submenu[] = id(new PhorgeActionView())
       ->setIcon('fa-asterisk')
       ->setName(pht('View Handle'))
       ->setHref(urisprintf('/search/handle/%s/', $phid))
       ->setWorkflow(true);
 
-    $submenu[] = id(new PhabricatorActionView())
+    $submenu[] = id(new PhorgeActionView())
       ->setIcon('fa-address-card-o')
       ->setName(pht('View Hovercard'))
       ->setHref(urisprintf('/search/hovercard/?names=%s', $phid));
 
     if ($object instanceof DifferentialRevision) {
-      $submenu[] = id(new PhabricatorActionView())
+      $submenu[] = id(new PhorgeActionView())
         ->setIcon('fa-database')
         ->setName(pht('View Affected Path Index'))
         ->setHref(
@@ -54,7 +54,7 @@ final class PhabricatorSystemDebugUIEventListener
             $object->getID()));
     }
 
-    $developer_action = id(new PhabricatorActionView())
+    $developer_action = id(new PhorgeActionView())
       ->setName(pht('Advanced/Developer...'))
       ->setIcon('fa-magic')
       ->setOrder(9001)

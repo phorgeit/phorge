@@ -165,4 +165,4 @@ Writing New Item Types
 
 IMPORTANT: This feature is not stable, and the API is subject to change.
 
-To add new types of items, subclass @{class:PhabricatorProfileMenuItem}.
+To add new types of items, subclass @{class:PhorgeProfileMenuItem}.

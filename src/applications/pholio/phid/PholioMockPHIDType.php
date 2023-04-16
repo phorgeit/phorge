@@ -1,6 +1,6 @@
 <?php
 
-final class PholioMockPHIDType extends PhabricatorPHIDType {
+final class PholioMockPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'MOCK';
 
@@ -13,11 +13,11 @@ final class PholioMockPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PholioMockQuery())
@@ -25,7 +25,7 @@ final class PholioMockPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -40,7 +40,7 @@ final class PholioMockPHIDType extends PhabricatorPHIDType {
       $handle->setFullName("M{$id}: {$name}");
 
       if ($mock->isClosed()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -50,7 +50,7 @@ final class PholioMockPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

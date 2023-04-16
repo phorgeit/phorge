@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDocumentEngineBlocks
+final class PhorgeDocumentEngineBlocks
   extends Phobject {
 
   private $lists = array();
@@ -39,10 +39,10 @@ final class PhabricatorDocumentEngineBlocks
   }
 
   public function addBlockList(
-    PhabricatorDocumentRef $ref = null,
+    PhorgeDocumentRef $ref = null,
     array $blocks = array()) {
 
-    assert_instances_of($blocks, 'PhabricatorDocumentEngineBlock');
+    assert_instances_of($blocks, 'PhorgeDocumentEngineBlock');
 
     $this->lists[] = array(
       'ref' => $ref,
@@ -76,7 +76,7 @@ final class PhabricatorDocumentEngineBlocks
     $old_list = $specs[0]['list'];
     $new_list = $specs[1]['list'];
 
-    $changeset = id(new PhabricatorDifferenceEngine())
+    $changeset = id(new PhorgeDifferenceEngine())
       ->generateChangesetFromFileContent($old_list, $new_list);
 
     $hunk_parser = id(new DifferentialHunkParser())

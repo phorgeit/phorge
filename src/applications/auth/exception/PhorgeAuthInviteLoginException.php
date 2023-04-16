@@ -5,5 +5,5 @@
  * workflow (for example, the because the email address is already bound to an
  * account).
  */
-final class PhabricatorAuthInviteLoginException
-  extends PhabricatorAuthInviteDialogException {}
+final class PhorgeAuthInviteLoginException
+  extends PhorgeAuthInviteDialogException {}

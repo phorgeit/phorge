@@ -1,14 +1,14 @@
 <?php
 
 final class DifferentialCreateMailReceiver
-  extends PhabricatorApplicationMailReceiver {
+  extends PhorgeApplicationMailReceiver {
 
   protected function newApplication() {
-    return new PhabricatorDifferentialApplication();
+    return new PhorgeDifferentialApplication();
   }
 
   protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
 
     $author = $this->getAuthor();
@@ -17,7 +17,7 @@ final class DifferentialCreateMailReceiver
     $files = array();
     $errors = array();
     if ($attachments) {
-      $files = id(new PhabricatorFileQuery())
+      $files = id(new PhorgeFileQuery())
         ->setViewer($author)
         ->withPHIDs($attachments)
         ->execute();
@@ -79,7 +79,7 @@ final class DifferentialCreateMailReceiver
         'Diff creation failed; see body for %s error(s).',
         phutil_count($errors));
     }
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
     $body->addRawSection($subject);
     if (count($diffs)) {
       $text_body = '';
@@ -100,7 +100,7 @@ final class DifferentialCreateMailReceiver
     }
 
     if (count($errors)) {
-      $body_section = new PhabricatorMetaMTAMailSection();
+      $body_section = new PhorgeMetaMTAMailSection();
       $body_label = pht('%s ERROR(S)', phutil_count($errors));
       foreach ($errors as $error) {
         $body_section->addFragment($error);
@@ -108,7 +108,7 @@ final class DifferentialCreateMailReceiver
       $body->addTextSection($body_label, $body_section);
     }
 
-    id(new PhabricatorMetaMTAMail())
+    id(new PhorgeMetaMTAMail())
       ->addTos(array($author->getPHID()))
       ->setSubject($subject)
       ->setSubjectPrefix($subject_prefix)

@@ -14,7 +14,7 @@ abstract class HarbormasterArtifact extends Phobject {
   abstract public function getArtifactTypeDescription();
   abstract public function getArtifactParameterSpecification();
   abstract public function getArtifactParameterDescriptions();
-  abstract public function willCreateArtifact(PhabricatorUser $actor);
+  abstract public function willCreateArtifact(PhorgeUser $actor);
 
   public function readArtifactHTTPParameter($key, $value) {
     return $value;
@@ -25,11 +25,11 @@ abstract class HarbormasterArtifact extends Phobject {
     PhutilTypeSpec::checkMap($artifact_data, $artifact_spec);
   }
 
-  public function renderArtifactSummary(PhabricatorUser $viewer) {
+  public function renderArtifactSummary(PhorgeUser $viewer) {
     return null;
   }
 
-  public function releaseArtifact(PhabricatorUser $actor) {
+  public function releaseArtifact(PhorgeUser $actor) {
     return;
   }
 

@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionMarkupPreviewController
-  extends PhabricatorController {
+  extends PhorgeController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -27,8 +27,8 @@ final class PhrictionMarkupPreviewController
         ->attachContent($content);
     }
 
-    $output = PhabricatorMarkupEngine::renderOneObject(
-      id(new PhabricatorMarkupOneOff())
+    $output = PhorgeMarkupEngine::renderOneObject(
+      id(new PhorgeMarkupOneOff())
         ->setPreserveLinebreaks(true)
         ->setDisableCache(true)
         ->setContent($text),

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementMigrateWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementMigrateWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();
@@ -73,7 +73,7 @@ final class PhabricatorFilesManagementMigrateWorkflow
             'readable directory on local disk.'));
       }
 
-      $env = PhabricatorEnv::beginScopedEnv();
+      $env = PhorgeEnv::beginScopedEnv();
       $env->overrideEnvConfig('storage.local-disk.path', $path);
     }
 
@@ -87,7 +87,7 @@ final class PhabricatorFilesManagementMigrateWorkflow
           'files engines'));
     }
 
-    $target_engine = PhabricatorFile::buildEngine($target_key);
+    $target_engine = PhorgeFile::buildEngine($target_key);
 
     $iterator = $this->buildIterator($args);
     $is_dry_run = $args->getArg('dry-run');
@@ -98,7 +98,7 @@ final class PhabricatorFilesManagementMigrateWorkflow
     $is_copy = $args->getArg('copy');
 
     $failed = array();
-    $engines = PhabricatorFileStorageEngine::loadAllEngines();
+    $engines = PhorgeFileStorageEngine::loadAllEngines();
     $total_bytes = 0;
     $total_files = 0;
     foreach ($iterator as $file) {
@@ -120,7 +120,7 @@ final class PhabricatorFilesManagementMigrateWorkflow
 
       $ttl = $file->getTTL();
       if ($ttl) {
-        if ($ttl < PhabricatorTime::getNow()) {
+        if ($ttl < PhorgeTime::getNow()) {
           echo tsprintf(
             "%s\n",
             pht(

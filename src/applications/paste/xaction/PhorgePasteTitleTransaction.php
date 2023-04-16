@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteTitleTransaction
-  extends PhabricatorPasteTransactionType {
+final class PhorgePasteTitleTransaction
+  extends PhorgePasteTransactionType {
 
   const TRANSACTIONTYPE = 'paste.title';
 

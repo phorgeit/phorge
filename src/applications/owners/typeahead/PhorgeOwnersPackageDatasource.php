@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeOwnersPackageDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Packages');
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   public function loadResults() {
@@ -21,7 +21,7 @@ final class PhabricatorOwnersPackageDatasource
 
     $results = array();
 
-    $query = id(new PhabricatorOwnersPackageQuery())
+    $query = id(new PhorgeOwnersPackageQuery())
       ->setOrder('name');
 
     // If the user is querying by monogram explicitly, like "O123", do an ID
@@ -39,7 +39,7 @@ final class PhabricatorOwnersPackageDatasource
       $name = $package->getName();
       $monogram = $package->getMonogram();
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName("{$monogram}: {$name}")
         ->setURI($package->getURI())
         ->setPHID($package->getPHID());

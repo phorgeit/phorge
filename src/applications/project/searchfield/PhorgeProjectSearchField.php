@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorProjectSearchField
-  extends PhabricatorSearchTokenizerField {
+final class PhorgeProjectSearchField
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();
   }
 
   protected function newDatasource() {
-    return new PhabricatorProjectLogicalDatasource();
+    return new PhorgeProjectLogicalDatasource();
   }
 
   protected function getValueFromRequest(AphrontRequest $request, $key) {
@@ -16,13 +16,13 @@ final class PhabricatorProjectSearchField
 
     $phids = array();
     $slugs = array();
-    $project_type = PhabricatorProjectProjectPHIDType::TYPECONST;
+    $project_type = PhorgeProjectProjectPHIDType::TYPECONST;
     foreach ($list as $item) {
       $type = phid_get_type($item);
       if ($type == $project_type) {
         $phids[] = $item;
       } else {
-        if (PhabricatorTypeaheadDatasource::isFunctionToken($item)) {
+        if (PhorgeTypeaheadDatasource::isFunctionToken($item)) {
           // If this is a function, pass it through unchanged; we'll evaluate
           // it later.
           $phids[] = $item;
@@ -33,7 +33,7 @@ final class PhabricatorProjectSearchField
     }
 
     if ($slugs) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withSlugs($slugs)
         ->execute();

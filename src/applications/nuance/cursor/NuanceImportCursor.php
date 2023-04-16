@@ -61,11 +61,11 @@ abstract class NuanceImportCursor extends Phobject {
     $parts = array(
       'nsc',
       $source->getID(),
-      PhabricatorHash::digestToLength($key, 20),
+      PhorgeHash::digestToLength($key, 20),
     );
     $lock_name = implode('.', $parts);
 
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
     $lock->lock(1);
 
     try {

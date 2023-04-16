@@ -34,7 +34,7 @@ final class DrydockManagementUpdateLeaseWorkflow
       ->withIDs($ids)
       ->execute();
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     foreach ($ids as $id) {
       $lease = idx($leases, $id);

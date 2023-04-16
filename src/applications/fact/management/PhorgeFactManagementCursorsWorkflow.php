@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactManagementCursorsWorkflow
-  extends PhabricatorFactManagementWorkflow {
+final class PhorgeFactManagementCursorsWorkflow
+  extends PhorgeFactManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -27,7 +27,7 @@ final class PhabricatorFactManagementCursorsWorkflow
     $reset = $args->getArg('reset');
     if ($reset) {
       foreach ($reset as $name) {
-        $cursor = id(new PhabricatorFactCursor())->loadOneWhere(
+        $cursor = id(new PhorgeFactCursor())->loadOneWhere(
           'name = %s',
           $name);
         if ($cursor) {
@@ -42,13 +42,13 @@ final class PhabricatorFactManagementCursorsWorkflow
       return 0;
     }
 
-    $iterator_map = PhabricatorFactDaemon::getAllApplicationIterators();
+    $iterator_map = PhorgeFactDaemon::getAllApplicationIterators();
     if (!$iterator_map) {
       $console->writeErr("%s\n", pht('No cursors.'));
       return 0;
     }
 
-    $cursors = id(new PhabricatorFactCursor())->loadAllWhere(
+    $cursors = id(new PhorgeFactCursor())->loadAllWhere(
       'name IN (%Ls)',
       array_keys($iterator_map));
     $cursors = mpull($cursors, 'getPosition', 'getName');

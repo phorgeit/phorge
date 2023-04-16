@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailUtil
+final class PhorgeMailUtil
   extends Phobject {
 
   /**
@@ -20,7 +20,7 @@ final class PhabricatorMailUtil
 
     // If a mailbox prefix is configured and present, strip it off.
     $prefix_key = 'metamta.single-reply-handler-prefix';
-    $prefix = PhabricatorEnv::getEnvConfig($prefix_key);
+    $prefix = PhorgeEnv::getEnvConfig($prefix_key);
 
     if (phutil_nonempty_string($prefix)) {
       $prefix = $prefix.'+';
@@ -92,13 +92,13 @@ final class PhabricatorMailUtil
       return true;
     }
 
-    $default_address = id(new PhabricatorMailEmailEngine())
+    $default_address = id(new PhorgeMailEmailEngine())
       ->newDefaultEmailAddress();
     if (self::matchAddresses($address, $default_address)) {
       return true;
     }
 
-    $void_address = id(new PhabricatorMailEmailEngine())
+    $void_address = id(new PhorgeMailEmailEngine())
       ->newVoidEmailAddress();
     if (self::matchAddresses($address, $void_address)) {
       return true;
@@ -108,7 +108,7 @@ final class PhabricatorMailUtil
   }
 
   public static function isUserAddress(PhutilEmailAddress $address) {
-    $user_email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $user_email = id(new PhorgeUserEmail())->loadOneWhere(
       'address = %s',
       $address->getAddress());
 

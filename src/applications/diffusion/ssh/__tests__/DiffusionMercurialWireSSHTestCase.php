@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionMercurialWireSSHTestCase extends PhabricatorTestCase {
+final class DiffusionMercurialWireSSHTestCase extends PhorgeTestCase {
 
   public function testMercurialClientWireProtocolParser() {
     $data = dirname(__FILE__).'/hgwiredata/';

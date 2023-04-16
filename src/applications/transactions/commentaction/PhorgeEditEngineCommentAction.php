@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditEngineCommentAction extends Phobject {
+abstract class PhorgeEditEngineCommentAction extends Phobject {
 
   private $key;
   private $label;

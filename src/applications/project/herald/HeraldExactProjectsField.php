@@ -9,11 +9,11 @@ final class HeraldExactProjectsField extends HeraldField {
   }
 
   public function getFieldGroupKey() {
-    return PhabricatorProjectHeraldFieldGroup::FIELDGROUPKEY;
+    return PhorgeProjectHeraldFieldGroup::FIELDGROUPKEY;
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorProject);
+    return ($object instanceof PhorgeProject);
   }
 
   public function getHeraldFieldValue($object) {
@@ -25,7 +25,7 @@ final class HeraldExactProjectsField extends HeraldField {
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

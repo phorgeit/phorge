@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementUnpublishWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementUnpublishWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -73,7 +73,7 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
   }
 
   private function unpublishCommit(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $is_dry_run) {
     $viewer = $this->getViewer();
 
@@ -83,7 +83,7 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
         'Unpublishing commit "%s".',
         $commit->getMonogram()));
 
-    $stories = id(new PhabricatorFeedQuery())
+    $stories = id(new PhorgeFeedQuery())
       ->setViewer($viewer)
       ->withFilterPHIDs(array($commit->getPHID()))
       ->execute();
@@ -96,7 +96,7 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
           count($stories)));
 
       if (!$is_dry_run) {
-        $engine = new PhabricatorDestructionEngine();
+        $engine = new PhorgeDestructionEngine();
         foreach ($stories as $story) {
           $story_data = $story->getStoryData();
           $engine->destroyObject($story_data);
@@ -111,13 +111,13 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
     }
 
     $edge_types = array(
-      PhabricatorObjectMentionsObjectEdgeType::EDGECONST => true,
+      PhorgeObjectMentionsObjectEdgeType::EDGECONST => true,
       DiffusionCommitHasTaskEdgeType::EDGECONST => true,
       DiffusionCommitHasRevisionEdgeType::EDGECONST => true,
       DiffusionCommitRevertsCommitEdgeType::EDGECONST => true,
     );
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($commit->getPHID()))
       ->withEdgeTypes(array_keys($edge_types));
     $edges = $query->execute();
@@ -134,12 +134,12 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
             $type,
             $dst));
 
-        $object = id(new PhabricatorObjectQuery())
+        $object = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($dst))
           ->executeOne();
         if ($object) {
-          if ($object instanceof PhabricatorApplicationTransactionInterface) {
+          if ($object instanceof PhorgeApplicationTransactionInterface) {
             $this->unpublishEdgeTransaction(
               $commit,
               $type,
@@ -154,25 +154,25 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
   private function unpublishEdgeTransaction(
     $src,
     $type,
-    PhabricatorApplicationTransactionInterface $dst,
+    PhorgeApplicationTransactionInterface $dst,
     $is_dry_run) {
     $viewer = $this->getViewer();
 
-    $query = PhabricatorApplicationTransactionQuery::newQueryForObject($dst)
+    $query = PhorgeApplicationTransactionQuery::newQueryForObject($dst)
       ->setViewer($viewer)
       ->withObjectPHIDs(array($dst->getPHID()));
 
     $xactions = id(clone $query)
       ->withTransactionTypes(
         array(
-          PhabricatorTransactions::TYPE_EDGE,
+          PhorgeTransactions::TYPE_EDGE,
         ))
       ->execute();
 
-    $type_obj = PhabricatorEdgeType::getByConstant($type);
+    $type_obj = PhorgeEdgeType::getByConstant($type);
     $inverse_type = $type_obj->getInverseEdgeConstant();
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     foreach ($xactions as $xaction) {
       $edge_type = $xaction->getMetadataValue('edge:type');
       if ($edge_type != $inverse_type) {
@@ -180,7 +180,7 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
         continue;
       }
 
-      $record = PhabricatorEdgeChangeRecord::newFromTransaction($xaction);
+      $record = PhorgeEdgeChangeRecord::newFromTransaction($xaction);
       $changed = $record->getChangedPHIDs();
       if ($changed !== array($src->getPHID())) {
         // Affected objects were not just the object we're unpublishing.
@@ -254,7 +254,7 @@ final class PhabricatorRepositoryManagementUnpublishWorkflow
     }
 
     if (!$is_dry_run) {
-      id(new PhabricatorEdgeEditor())
+      id(new PhorgeEdgeEditor())
         ->removeEdge($src->getPHID(), $type, $dst->getPHID())
         ->save();
       echo tsprintf(

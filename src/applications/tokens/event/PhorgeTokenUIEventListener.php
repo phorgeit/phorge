@@ -1,25 +1,25 @@
 <?php
 
-final class PhabricatorTokenUIEventListener
-  extends PhabricatorEventListener {
+final class PhorgeTokenUIEventListener
+  extends PhorgeEventListener {
 
   public function register() {
-    $this->listen(PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS);
-    $this->listen(PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES);
+    $this->listen(PhorgeEventType::TYPE_UI_DIDRENDERACTIONS);
+    $this->listen(PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES);
   }
 
   public function handleEvent(PhutilEvent $event) {
     $object = $event->getValue('object');
 
     switch ($event->getType()) {
-      case PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS:
+      case PhorgeEventType::TYPE_UI_DIDRENDERACTIONS:
         $this->handleActionEvent($event);
         break;
-      case PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES:
+      case PhorgeEventType::TYPE_UI_WILLRENDERPROPERTIES:
         // Hacky solution so that property list view on Diffusion
         // commits shows build status, but not Projects, Subscriptions,
         // or Tokens.
-        if ($object instanceof PhabricatorRepositoryCommit) {
+        if ($object instanceof PhorgeRepositoryCommit) {
           return;
         }
         $this->handlePropertyEvent($event);
@@ -36,7 +36,7 @@ final class PhabricatorTokenUIEventListener
       return;
     }
 
-    if (!($object instanceof PhabricatorTokenReceiverInterface)) {
+    if (!($object instanceof PhorgeTokenReceiverInterface)) {
       // This object isn't a token receiver.
       return;
     }
@@ -45,23 +45,23 @@ final class PhabricatorTokenUIEventListener
       return null;
     }
 
-    $can_interact = PhabricatorPolicyFilter::canInteract($user, $object);
+    $can_interact = PhorgePolicyFilter::canInteract($user, $object);
 
-    $current = id(new PhabricatorTokenGivenQuery())
+    $current = id(new PhorgeTokenGivenQuery())
       ->setViewer($user)
       ->withAuthorPHIDs(array($user->getPHID()))
       ->withObjectPHIDs(array($object->getPHID()))
       ->execute();
 
     if (!$current) {
-      $token_action = id(new PhabricatorActionView())
+      $token_action = id(new PhorgeActionView())
         ->setWorkflow(true)
         ->setHref('/token/give/'.$object->getPHID().'/')
         ->setName(pht('Award Token'))
         ->setIcon('fa-trophy')
         ->setDisabled(!$can_interact);
     } else {
-      $token_action = id(new PhabricatorActionView())
+      $token_action = id(new PhorgeActionView())
         ->setWorkflow(true)
         ->setHref('/token/give/'.$object->getPHID().'/')
         ->setName(pht('Rescind Token'))
@@ -87,7 +87,7 @@ final class PhabricatorTokenUIEventListener
       return;
     }
 
-    if (!($object instanceof PhabricatorTokenReceiverInterface)) {
+    if (!($object instanceof PhorgeTokenReceiverInterface)) {
       // This object isn't a token receiver.
       return;
     }
@@ -98,7 +98,7 @@ final class PhabricatorTokenUIEventListener
 
     $limit = 1;
 
-    $tokens_given = id(new PhabricatorTokenGivenQuery())
+    $tokens_given = id(new PhorgeTokenGivenQuery())
       ->setViewer($user)
       ->withObjectPHIDs(array($object->getPHID()))
       ->execute();
@@ -107,14 +107,14 @@ final class PhabricatorTokenUIEventListener
       return;
     }
 
-    $tokens = id(new PhabricatorTokenQuery())
+    $tokens = id(new PhorgeTokenQuery())
       ->setViewer($user)
       ->withPHIDs(mpull($tokens_given, 'getTokenPHID'))
       ->execute();
     $tokens = mpull($tokens, null, 'getPHID');
 
     $author_phids = mpull($tokens_given, 'getAuthorPHID');
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs($author_phids)
       ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositorySymbolLanguagesTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositorySymbolLanguagesTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:symbol-language';
 

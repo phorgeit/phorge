@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDrydockApplication extends PhabricatorApplication {
+final class PhorgeDrydockApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/drydock/';
@@ -30,11 +30,11 @@ final class PhabricatorDrydockApplication extends PhabricatorApplication {
     return self::GROUP_UTILITIES;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Drydock User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Drydock User Guide'),
+        'href' => PhorgeEnv::getDoclink('Drydock User Guide'),
       ),
     );
   }
@@ -105,15 +105,15 @@ final class PhabricatorDrydockApplication extends PhabricatorApplication {
     return array(
       DrydockDefaultViewCapability::CAPABILITY => array(
         'template' => DrydockBlueprintPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       DrydockDefaultEditCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
         'template' => DrydockBlueprintPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
       DrydockCreateBlueprintsCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsListController
-  extends PhabricatorController {
+final class PhorgeSubscriptionsListController
+  extends PhorgeController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorSubscriptionsListController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($request->getURIData('phid')))
       ->executeOne();
@@ -18,16 +18,16 @@ final class PhabricatorSubscriptionsListController
       return new Aphront404Response();
     }
 
-    if (!($object instanceof PhabricatorSubscribableInterface)) {
+    if (!($object instanceof PhorgeSubscribableInterface)) {
       return new Aphront404Response();
     }
 
     $phid = $object->getPHID();
 
-    $handle_phids = PhabricatorSubscribersQuery::loadSubscribersForPHID($phid);
+    $handle_phids = PhorgeSubscribersQuery::loadSubscribersForPHID($phid);
     $handle_phids[] = $phid;
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($handle_phids)
       ->execute();

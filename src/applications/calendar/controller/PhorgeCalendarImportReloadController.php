@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorCalendarImportReloadController
-  extends PhabricatorCalendarController {
+final class PhorgeCalendarImportReloadController
+  extends PhorgeCalendarController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $import = id(new PhabricatorCalendarImportQuery())
+    $import = id(new PhorgeCalendarImportQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$import) {
@@ -23,12 +23,12 @@ final class PhabricatorCalendarImportReloadController
 
     if ($request->isFormPost()) {
       $xactions = array();
-      $xactions[] = id(new PhabricatorCalendarImportTransaction())
+      $xactions[] = id(new PhorgeCalendarImportTransaction())
         ->setTransactionType(
-          PhabricatorCalendarImportReloadTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarImportReloadTransaction::TRANSACTIONTYPE)
         ->setNewValue(true);
 
-      $editor = id(new PhabricatorCalendarImportEditor())
+      $editor = id(new PhorgeCalendarImportEditor())
         ->setActor($viewer)
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true)

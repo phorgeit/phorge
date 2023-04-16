@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFlagAddFlagHeraldAction
-  extends PhabricatorFlagHeraldAction {
+final class PhorgeFlagAddFlagHeraldAction
+  extends PhorgeFlagHeraldAction {
 
   const ACTIONCONST = 'flag';
 
@@ -17,13 +17,13 @@ final class PhabricatorFlagAddFlagHeraldAction
     $rule = $effect->getRule();
     $author = $rule->getAuthor();
 
-    $flag = PhabricatorFlagQuery::loadUserFlag($author, $phid);
+    $flag = PhorgeFlagQuery::loadUserFlag($author, $phid);
     if ($flag) {
       $this->logEffect(self::DO_IGNORE, $flag->getColor());
       return;
     }
 
-    $flag = id(new PhabricatorFlag())
+    $flag = id(new PhorgeFlag())
       ->setOwnerPHID($author->getPHID())
       ->setType(phid_get_type($phid))
       ->setObjectPHID($phid)
@@ -38,8 +38,8 @@ final class PhabricatorFlagAddFlagHeraldAction
   public function getHeraldActionValueType() {
     return id(new HeraldSelectFieldValue())
       ->setKey('flag.color')
-      ->setOptions(PhabricatorFlagColor::getColorNameMap())
-      ->setDefault(PhabricatorFlagColor::COLOR_BLUE);
+      ->setOptions(PhorgeFlagColor::getColorNameMap())
+      ->setDefault(PhorgeFlagColor::COLOR_BLUE);
   }
 
   protected function getActionEffectMap() {
@@ -57,7 +57,7 @@ final class PhabricatorFlagAddFlagHeraldAction
   }
 
   public function renderActionDescription($value) {
-    $color = PhabricatorFlagColor::getColorName($value);
+    $color = PhorgeFlagColor::getColorName($value);
     return pht('Mark with %s flag.', $color);
   }
 
@@ -66,11 +66,11 @@ final class PhabricatorFlagAddFlagHeraldAction
       case self::DO_IGNORE:
         return pht(
           'Already marked with %s flag.',
-          PhabricatorFlagColor::getColorName($data));
+          PhorgeFlagColor::getColorName($data));
       case self::DO_FLAG:
         return pht(
           'Marked with "%s" flag.',
-          PhabricatorFlagColor::getColorName($data));
+          PhorgeFlagColor::getColorName($data));
     }
   }
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeDashboardProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'dashboard';
 
@@ -23,11 +23,11 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
-  private function attachDashboard(PhabricatorDashboard $dashboard = null) {
+  private function attachDashboard(PhorgeDashboard $dashboard = null) {
     $this->dashboard = $dashboard;
     return $this;
   }
@@ -37,7 +37,7 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   public function getAffectedObjectPHIDs(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
       $this->getDashboardPHID($config),
     );
@@ -45,13 +45,13 @@ final class PhabricatorDashboardProfileMenuItem
 
 
   public function newPageContent(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
 
     $dashboard_phid = $this->getDashboardPHID($config);
 
     // Reload the dashboard to attach panels, which we need for rendering.
-    $dashboard = id(new PhabricatorDashboardQuery())
+    $dashboard = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($dashboard_phid))
       ->executeOne();
@@ -67,7 +67,7 @@ final class PhabricatorDashboardProfileMenuItem
         pht('This dashboard has been archived.'));
     }
 
-    $engine = id(new PhabricatorDashboardRenderingEngine())
+    $engine = id(new PhorgeDashboardRenderingEngine())
       ->setViewer($viewer)
       ->setDashboard($dashboard);
 
@@ -81,7 +81,7 @@ final class PhabricatorDashboardProfileMenuItem
       $dashboard_phids[] = $this->getDashboardPHID($item);
     }
 
-    $dashboards = id(new PhabricatorDashboardQuery())
+    $dashboards = id(new PhorgeDashboardQuery())
       ->setViewer($viewer)
       ->withPHIDs($dashboard_phids)
       ->execute();
@@ -102,7 +102,7 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $dashboard = $this->getDashboard();
 
     if (!$dashboard) {
@@ -125,15 +125,15 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey(self::FIELD_DASHBOARD)
         ->setLabel(pht('Dashboard'))
         ->setIsRequired(true)
-        ->setDatasource(new PhabricatorDashboardDatasource())
+        ->setDatasource(new PhorgeDashboardDatasource())
         ->setSingleValue($this->getDashboardPHID($config)),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setValue($this->getName($config)),
@@ -141,12 +141,12 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   private function getName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $is_disabled = true;
     $action_uri = null;
@@ -189,7 +189,7 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -215,7 +215,7 @@ final class PhabricatorDashboardProfileMenuItem
           continue;
         }
 
-        $dashboards = id(new PhabricatorDashboardQuery())
+        $dashboards = id(new PhorgeDashboardQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($new))
           ->execute();
@@ -234,7 +234,7 @@ final class PhabricatorDashboardProfileMenuItem
   }
 
   private function getDashboardPHID(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('dashboardPHID');
   }
 
@@ -242,7 +242,7 @@ final class PhabricatorDashboardProfileMenuItem
     return $this->dashboardHandle;
   }
 
-  private function setDashboardHandle(PhabricatorObjectHandle $handle) {
+  private function setDashboardHandle(PhorgeObjectHandle $handle) {
     $this->dashboardHandle = $handle;
     return $this;
   }

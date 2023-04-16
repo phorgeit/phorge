@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAMailPropertiesQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeMetaMTAMailPropertiesQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $objectPHIDs;
@@ -17,7 +17,7 @@ final class PhabricatorMetaMTAMailPropertiesQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorMetaMTAMailProperties();
+    return new PhorgeMetaMTAMailProperties();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -41,7 +41,7 @@ final class PhabricatorMetaMTAMailPropertiesQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
 }

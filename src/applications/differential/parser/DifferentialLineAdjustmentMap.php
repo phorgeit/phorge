@@ -264,7 +264,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
       $keys[self::getCacheKey($u, $v)] = $map;
     }
 
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
     $cache = new PhutilKeyValueCacheProfiler($cache);
     $cache->setProfiler(PhutilServiceProfiler::getInstance());
 
@@ -311,7 +311,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
 
     if ($need) {
       $changesets = id(new DifferentialChangesetQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withIDs($need)
         ->needHunks(true)
         ->execute();
@@ -358,7 +358,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
         continue;
       }
 
-      $changeset = id(new PhabricatorDifferenceEngine())
+      $changeset = id(new PhorgeDifferenceEngine())
         ->generateChangesetFromFileContent($u_old, $v_old);
 
       $results[$u][$v] = self::newFromHunks(

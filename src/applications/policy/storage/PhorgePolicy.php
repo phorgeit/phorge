@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPolicy
-  extends PhabricatorPolicyDAO
+final class PhorgePolicy
+  extends PhorgePolicyDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   const ACTION_ALLOW = 'allow';
   const ACTION_DENY = 'deny';
@@ -41,20 +41,20 @@ final class PhabricatorPolicy
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPolicyPHIDTypePolicy::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePolicyPHIDTypePolicy::TYPECONST);
   }
 
   public static function newFromPolicyAndHandle(
     $policy_identifier,
-    PhabricatorObjectHandle $handle = null) {
+    PhorgeObjectHandle $handle = null) {
 
-    $is_global = PhabricatorPolicyQuery::isGlobalPolicy($policy_identifier);
+    $is_global = PhorgePolicyQuery::isGlobalPolicy($policy_identifier);
     if ($is_global) {
-      return PhabricatorPolicyQuery::getGlobalPolicy($policy_identifier);
+      return PhorgePolicyQuery::getGlobalPolicy($policy_identifier);
     }
 
-    $policy = PhabricatorPolicyQuery::getObjectPolicy($policy_identifier);
+    $policy = PhorgePolicyQuery::getObjectPolicy($policy_identifier);
     if ($policy) {
       return $policy;
     }
@@ -78,30 +78,30 @@ final class PhabricatorPolicy
           $handle_phid));
     }
 
-    $policy = id(new PhabricatorPolicy())
+    $policy = id(new PhorgePolicy())
       ->setPHID($policy_identifier)
       ->setHref($handle->getURI());
 
     $phid_type = phid_get_type($policy_identifier);
     switch ($phid_type) {
-      case PhabricatorProjectProjectPHIDType::TYPECONST:
+      case PhorgeProjectProjectPHIDType::TYPECONST:
         $policy
-          ->setType(PhabricatorPolicyType::TYPE_PROJECT)
+          ->setType(PhorgePolicyType::TYPE_PROJECT)
           ->setName($handle->getName())
           ->setIcon($handle->getIcon());
         break;
-      case PhabricatorPeopleUserPHIDType::TYPECONST:
-        $policy->setType(PhabricatorPolicyType::TYPE_USER);
+      case PhorgePeopleUserPHIDType::TYPECONST:
+        $policy->setType(PhorgePolicyType::TYPE_USER);
         $policy->setName($handle->getFullName());
         break;
-      case PhabricatorPolicyPHIDTypePolicy::TYPECONST:
+      case PhorgePolicyPHIDTypePolicy::TYPECONST:
         // TODO: This creates a weird handle-based version of a rule policy.
         // It behaves correctly, but can't be applied since it doesn't have
         // any rules. It is used to render transactions, and might need some
         // cleanup.
         break;
       default:
-        $policy->setType(PhabricatorPolicyType::TYPE_MASKED);
+        $policy->setType(PhorgePolicyType::TYPE_MASKED);
         $policy->setName($handle->getFullName());
         break;
     }
@@ -118,7 +118,7 @@ final class PhabricatorPolicy
 
   public function getType() {
     if (!$this->type) {
-      return PhabricatorPolicyType::TYPE_CUSTOM;
+      return PhorgePolicyType::TYPE_CUSTOM;
     }
     return $this->type;
   }
@@ -176,20 +176,20 @@ final class PhabricatorPolicy
     }
 
     switch ($this->getType()) {
-      case PhabricatorPolicyType::TYPE_GLOBAL:
+      case PhorgePolicyType::TYPE_GLOBAL:
         static $map = array(
-          PhabricatorPolicies::POLICY_PUBLIC  => 'fa-globe',
-          PhabricatorPolicies::POLICY_USER    => 'fa-users',
-          PhabricatorPolicies::POLICY_ADMIN   => 'fa-eye',
-          PhabricatorPolicies::POLICY_NOONE   => 'fa-ban',
+          PhorgePolicies::POLICY_PUBLIC  => 'fa-globe',
+          PhorgePolicies::POLICY_USER    => 'fa-users',
+          PhorgePolicies::POLICY_ADMIN   => 'fa-eye',
+          PhorgePolicies::POLICY_NOONE   => 'fa-ban',
         );
         return idx($map, $this->getPHID(), 'fa-question-circle');
-      case PhabricatorPolicyType::TYPE_USER:
+      case PhorgePolicyType::TYPE_USER:
         return 'fa-user';
-      case PhabricatorPolicyType::TYPE_PROJECT:
+      case PhorgePolicyType::TYPE_PROJECT:
         return 'fa-briefcase';
-      case PhabricatorPolicyType::TYPE_CUSTOM:
-      case PhabricatorPolicyType::TYPE_MASKED:
+      case PhorgePolicyType::TYPE_CUSTOM:
+      case PhorgePolicyType::TYPE_MASKED:
         return 'fa-certificate';
       default:
         return 'fa-question-circle';
@@ -199,17 +199,17 @@ final class PhabricatorPolicy
   public function getSortKey() {
     return sprintf(
       '%02d%s',
-      PhabricatorPolicyType::getPolicyTypeOrder($this->getType()),
+      PhorgePolicyType::getPolicyTypeOrder($this->getType()),
       $this->getSortName());
   }
 
   private function getSortName() {
-    if ($this->getType() == PhabricatorPolicyType::TYPE_GLOBAL) {
+    if ($this->getType() == PhorgePolicyType::TYPE_GLOBAL) {
       static $map = array(
-        PhabricatorPolicies::POLICY_PUBLIC  => 0,
-        PhabricatorPolicies::POLICY_USER    => 1,
-        PhabricatorPolicies::POLICY_ADMIN   => 2,
-        PhabricatorPolicies::POLICY_NOONE   => 3,
+        PhorgePolicies::POLICY_PUBLIC  => 0,
+        PhorgePolicies::POLICY_USER    => 1,
+        PhorgePolicies::POLICY_ADMIN   => 2,
+        PhorgePolicies::POLICY_NOONE   => 3,
       );
       return idx($map, $this->getPHID());
     }
@@ -217,12 +217,12 @@ final class PhabricatorPolicy
   }
 
   public static function getPolicyExplanation(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $policy) {
 
     $type = phid_get_type($policy);
-    if ($type === PhabricatorProjectProjectPHIDType::TYPECONST) {
-      $handle = id(new PhabricatorHandleQuery())
+    if ($type === PhorgeProjectProjectPHIDType::TYPECONST) {
+      $handle = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($policy))
         ->executeOne();
@@ -236,42 +236,42 @@ final class PhabricatorPolicy
   }
 
   public static function getOpaquePolicyExplanation(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $policy) {
 
-    $rule = PhabricatorPolicyQuery::getObjectPolicyRule($policy);
+    $rule = PhorgePolicyQuery::getObjectPolicyRule($policy);
     if ($rule) {
       return $rule->getPolicyExplanation();
     }
 
     switch ($policy) {
-      case PhabricatorPolicies::POLICY_PUBLIC:
+      case PhorgePolicies::POLICY_PUBLIC:
         return pht(
           'This object is public and can be viewed by anyone, even if they '.
           'do not have an account on this server.');
-      case PhabricatorPolicies::POLICY_USER:
+      case PhorgePolicies::POLICY_USER:
         return pht('Logged in users can take this action.');
-      case PhabricatorPolicies::POLICY_ADMIN:
+      case PhorgePolicies::POLICY_ADMIN:
         return pht('Administrators can take this action.');
-      case PhabricatorPolicies::POLICY_NOONE:
+      case PhorgePolicies::POLICY_NOONE:
         return pht('By default, no one can take this action.');
       default:
-        $handle = id(new PhabricatorHandleQuery())
+        $handle = id(new PhorgeHandleQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($policy))
           ->executeOne();
 
         $type = phid_get_type($policy);
-        if ($type == PhabricatorProjectProjectPHIDType::TYPECONST) {
+        if ($type == PhorgeProjectProjectPHIDType::TYPECONST) {
           return pht(
             'Members of a particular project can take this action. (You '.
             'can not see this object, so the name of this project is '.
             'restricted.)');
-        } else if ($type == PhabricatorPeopleUserPHIDType::TYPECONST) {
+        } else if ($type == PhorgePeopleUserPHIDType::TYPECONST) {
           return pht(
             '%s can take this action.',
             $handle->getFullName());
-        } else if ($type == PhabricatorPolicyPHIDTypePolicy::TYPECONST) {
+        } else if ($type == PhorgePolicyPHIDTypePolicy::TYPECONST) {
           return pht(
             'This object has a custom policy controlling who can take this '.
             'action.');
@@ -285,38 +285,38 @@ final class PhabricatorPolicy
 
   public function getFullName() {
     switch ($this->getType()) {
-      case PhabricatorPolicyType::TYPE_PROJECT:
+      case PhorgePolicyType::TYPE_PROJECT:
         return pht('Members of Project: %s', $this->getName());
-      case PhabricatorPolicyType::TYPE_MASKED:
+      case PhorgePolicyType::TYPE_MASKED:
         return pht('Other: %s', $this->getName());
-      case PhabricatorPolicyType::TYPE_USER:
+      case PhorgePolicyType::TYPE_USER:
         return pht('Only User: %s', $this->getName());
       default:
         return $this->getName();
     }
   }
 
-  public function newRef(PhabricatorUser $viewer) {
-    return id(new PhabricatorPolicyRef())
+  public function newRef(PhorgeUser $viewer) {
+    return id(new PhorgePolicyRef())
       ->setViewer($viewer)
       ->setPolicy($this);
   }
 
   public function isProjectPolicy() {
-    return ($this->getType() === PhabricatorPolicyType::TYPE_PROJECT);
+    return ($this->getType() === PhorgePolicyType::TYPE_PROJECT);
   }
 
   public function isCustomPolicy() {
-    return ($this->getType() === PhabricatorPolicyType::TYPE_CUSTOM);
+    return ($this->getType() === PhorgePolicyType::TYPE_CUSTOM);
   }
 
   public function isMaskedPolicy() {
-    return ($this->getType() === PhabricatorPolicyType::TYPE_MASKED);
+    return ($this->getType() === PhorgePolicyType::TYPE_MASKED);
   }
 
   /**
    * Return a list of custom rule classes (concrete subclasses of
-   * @{class:PhabricatorPolicyRule}) this policy uses.
+   * @{class:PhorgePolicyRule}) this policy uses.
    *
    * @return list<string> List of class names.
    */
@@ -402,19 +402,19 @@ final class PhabricatorPolicy
    * set of unique users. In this case, neither is strictly stronger than
    * the other.
    *
-   * @param PhabricatorPolicy Other policy.
+   * @param PhorgePolicy Other policy.
    * @return bool `true` if this policy is more restrictive than the other
    *  policy.
    */
-  public function isStrongerThan(PhabricatorPolicy $other) {
+  public function isStrongerThan(PhorgePolicy $other) {
     $this_policy = $this->getPHID();
     $other_policy = $other->getPHID();
 
     $strengths = array(
-      PhabricatorPolicies::POLICY_PUBLIC => -2,
-      PhabricatorPolicies::POLICY_USER => -1,
+      PhorgePolicies::POLICY_PUBLIC => -2,
+      PhorgePolicies::POLICY_USER => -1,
       // (Default policies have strength 0.)
-      PhabricatorPolicies::POLICY_NOONE => 1,
+      PhorgePolicies::POLICY_NOONE => 1,
     );
 
     $this_strength = idx($strengths, $this_policy, 0);
@@ -423,7 +423,7 @@ final class PhabricatorPolicy
     return ($this_strength > $other_strength);
   }
 
-  public function isStrongerThanOrEqualTo(PhabricatorPolicy $other) {
+  public function isStrongerThanOrEqualTo(PhorgePolicy $other) {
     $this_policy = $this->getPHID();
     $other_policy = $other->getPHID();
 
@@ -435,18 +435,18 @@ final class PhabricatorPolicy
   }
 
   public function isValidPolicyForEdit() {
-    return $this->getType() !== PhabricatorPolicyType::TYPE_MASKED;
+    return $this->getType() !== PhorgePolicyType::TYPE_MASKED;
   }
 
   public static function getSpecialRules(
-    PhabricatorPolicyInterface $object,
-    PhabricatorUser $viewer,
+    PhorgePolicyInterface $object,
+    PhorgeUser $viewer,
     $capability,
     $active_only) {
 
     $exceptions = array();
-    if ($object instanceof PhabricatorPolicyCodexInterface) {
-      $codex = id(PhabricatorPolicyCodex::newFromObject($object, $viewer))
+    if ($object instanceof PhorgePolicyCodexInterface) {
+      $codex = id(PhorgePolicyCodex::newFromObject($object, $viewer))
         ->setCapability($capability);
       $rules = $codex->getPolicySpecialRuleDescriptions();
 
@@ -491,12 +491,12 @@ final class PhabricatorPolicy
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -504,19 +504,19 @@ final class PhabricatorPolicy
     // NOTE: We implement policies only so we can comply with the interface.
     // The actual query skips them, as enforcing policies on policies seems
     // perilous and isn't currently required by the application.
-    return PhabricatorPolicies::POLICY_PUBLIC;
+    return PhorgePolicies::POLICY_PUBLIC;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->delete();
   }

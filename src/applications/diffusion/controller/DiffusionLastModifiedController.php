@@ -84,7 +84,7 @@ final class DiffusionLastModifiedController extends DiffusionController {
 
   private function renderColumns(
     DiffusionRequest $drequest,
-    PhabricatorRepositoryCommit $commit = null,
+    PhorgeRepositoryCommit $commit = null,
     $lint = null) {
     $viewer = $this->getViewer();
 

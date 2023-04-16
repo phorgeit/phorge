@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorInlineCommentContext
+abstract class PhorgeInlineCommentContext
   extends Phobject {}

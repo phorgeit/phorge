@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryFerretEngine
-  extends PhabricatorFerretEngine {
+final class PhorgeRepositoryFerretEngine
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'repository';
@@ -12,7 +12,7 @@ final class PhabricatorRepositoryFerretEngine
   }
 
   public function newSearchEngine() {
-    return new PhabricatorRepositorySearchEngine();
+    return new PhorgeRepositorySearchEngine();
   }
 
 }

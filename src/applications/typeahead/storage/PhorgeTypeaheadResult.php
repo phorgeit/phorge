@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTypeaheadResult extends Phobject {
+final class PhorgeTypeaheadResult extends Phobject {
 
   private $name;
   private $uri;
@@ -104,7 +104,7 @@ final class PhabricatorTypeaheadResult extends Phobject {
 
   public function getTokenType() {
     if ($this->closed && !$this->tokenType) {
-      return PhabricatorTypeaheadTokenView::TYPE_DISABLED;
+      return PhorgeTypeaheadTokenView::TYPE_DISABLED;
     }
     return $this->tokenType;
   }
@@ -172,7 +172,7 @@ final class PhabricatorTypeaheadResult extends Phobject {
   private function getDefaultIcon() {
     static $icon_map;
     if ($icon_map === null) {
-      $types = PhabricatorPHIDType::getAllTypes();
+      $types = PhorgePHIDType::getAllTypes();
 
       $map = array();
       foreach ($types as $type) {

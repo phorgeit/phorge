@@ -7,7 +7,7 @@
 // There's no "IF EXISTS" modifier for "ALTER TABLE" so run this as a PHP patch
 // instead of an SQL patch.
 
-$table = new PhabricatorExternalAccount();
+$table = new PhorgeExternalAccount();
 $conn = $table->establishConnection('w');
 
 try {

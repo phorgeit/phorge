@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorApplicationEditController
-  extends PhabricatorApplicationsController {
+final class PhorgeApplicationEditController
+  extends PhorgeApplicationsController {
 
   public function handleRequest(AphrontRequest $request) {
     $user = $request->getUser();
     $application = $request->getURIData('application');
 
-    $application = id(new PhabricatorApplicationQuery())
+    $application = id(new PhorgeApplicationQuery())
       ->setViewer($user)
       ->withClasses(array($application))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$application) {
@@ -24,7 +24,7 @@ final class PhabricatorApplicationEditController
 
     $view_uri = $this->getApplicationURI('view/'.get_class($application).'/');
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($user)
       ->setObject($application)
       ->execute();
@@ -48,14 +48,14 @@ final class PhabricatorApplicationEditController
 
         $xactions[] = id(clone $template)
           ->setTransactionType(
-              PhabricatorApplicationPolicyChangeTransaction::TRANSACTIONTYPE)
+              PhorgeApplicationPolicyChangeTransaction::TRANSACTIONTYPE)
           ->setMetadataValue(
-            PhabricatorApplicationPolicyChangeTransaction::METADATA_ATTRIBUTE,
+            PhorgeApplicationPolicyChangeTransaction::METADATA_ATTRIBUTE,
             $capability)
           ->setNewValue($new);
       }
 
-      $editor = id(new PhabricatorApplicationEditor())
+      $editor = id(new PhorgeApplicationEditor())
         ->setActor($user)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -64,7 +64,7 @@ final class PhabricatorApplicationEditController
       try {
         $editor->applyTransactions($application, $xactions);
         return id(new AphrontRedirectResponse())->setURI($view_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
 
@@ -74,14 +74,14 @@ final class PhabricatorApplicationEditController
         ->addCancelButton($view_uri);
     }
 
-    $descriptions = PhabricatorPolicyQuery::renderPolicyDescriptions(
+    $descriptions = PhorgePolicyQuery::renderPolicyDescriptions(
       $user,
       $application);
 
     $form = id(new AphrontFormView())
       ->setUser($user);
 
-    $locked_policies = PhabricatorEnv::getEnvConfig('policy.locked');
+    $locked_policies = PhorgeEnv::getEnvConfig('policy.locked');
     foreach ($application->getCapabilities() as $capability) {
       $label = $application->getCapabilityLabel($capability);
       $can_edit = $application->isCapabilityEditable($capability);
@@ -107,12 +107,12 @@ final class PhabricatorApplicationEditController
 
         $template = $application->getCapabilityTemplatePHIDType($capability);
         if ($template) {
-          $phid_types = PhabricatorPHIDType::getAllTypes();
+          $phid_types = PhorgePHIDType::getAllTypes();
           $phid_type = idx($phid_types, $template);
           if ($phid_type) {
             $template_object = $phid_type->newObject();
             if ($template_object) {
-              $template_policies = id(new PhabricatorPolicyQuery())
+              $template_policies = id(new PhorgePolicyQuery())
                 ->setViewer($user)
                 ->setObject($template_object)
                 ->execute();

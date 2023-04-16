@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorInvalidConfigSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeInvalidConfigSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
   }
 
   protected function executeChecks() {
-    $groups = PhabricatorApplicationConfigOptions::loadAll();
+    $groups = PhorgeApplicationConfigOptions::loadAll();
     foreach ($groups as $group) {
       $options = $group->getOptions();
       foreach ($options as $option) {
         try {
           $group->validateOption(
             $option,
-            PhabricatorEnv::getUnrepairedEnvConfig($option->getKey()));
-        } catch (PhabricatorConfigValidationException $ex) {
+            PhorgeEnv::getUnrepairedEnvConfig($option->getKey()));
+        } catch (PhorgeConfigValidationException $ex) {
           $this
             ->newIssue('config.invalid.'.$option->getKey())
             ->setName(pht("Config '%s' Invalid", $option->getKey()))
@@ -25,7 +25,7 @@ final class PhabricatorInvalidConfigSetupCheck extends PhabricatorSetupCheck {
                 "was restored to the default: %s",
                 $option->getKey(),
                 $ex->getMessage()))
-            ->addPhabricatorConfig($option->getKey());
+            ->addPhorgeConfig($option->getKey());
         }
       }
     }

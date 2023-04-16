@@ -1,9 +1,9 @@
 <?php
 
-abstract class HarbormasterWorker extends PhabricatorWorker {
+abstract class HarbormasterWorker extends PhorgeWorker {
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
 }

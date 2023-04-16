@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileImageProxyController
-  extends PhabricatorFileController {
+final class PhorgeFileImageProxyController
+  extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorFileImageProxyController
     $img_uri = $request->getStr('uri');
 
     // Validate the URI before doing anything
-    PhabricatorEnv::requireValidRemoteURIForLink($img_uri);
+    PhorgeEnv::requireValidRemoteURIForLink($img_uri);
     $uri = new PhutilURI($img_uri);
     $proto = $uri->getProtocol();
 
@@ -28,16 +28,16 @@ final class PhabricatorFileImageProxyController
     }
 
     // Check if we already have the specified image URI downloaded
-    $cached_request = id(new PhabricatorFileExternalRequest())->loadOneWhere(
+    $cached_request = id(new PhorgeFileExternalRequest())->loadOneWhere(
       'uriIndex = %s',
-      PhabricatorHash::digestForIndex($img_uri));
+      PhorgeHash::digestForIndex($img_uri));
 
     if ($cached_request) {
       return $this->getExternalResponse($cached_request);
     }
 
-    $ttl = PhabricatorTime::getNow() + phutil_units('7 days in seconds');
-    $external_request = id(new PhabricatorFileExternalRequest())
+    $ttl = PhorgeTime::getNow() + phutil_units('7 days in seconds');
+    $external_request = id(new PhorgeFileExternalRequest())
       ->setURI($img_uri)
       ->setTTL($ttl);
 
@@ -47,21 +47,21 @@ final class PhabricatorFileImageProxyController
     try {
       // Rate limit outbound fetches to make this mechanism less useful for
       // scanning networks and ports.
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorFilesOutboundRequestAction(),
+        new PhorgeFilesOutboundRequestAction(),
         1);
 
-      $file = PhabricatorFile::newFromFileDownload(
+      $file = PhorgeFile::newFromFileDownload(
         $uri,
         array(
-          'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+          'viewPolicy' => PhorgePolicies::POLICY_NOONE,
           'canCDN' => true,
         ));
 
       if (!$file->isViewableImage()) {
         $mime_type = $file->getMimeType();
-        $engine = new PhabricatorDestructionEngine();
+        $engine = new PhorgeDestructionEngine();
         $engine->destroyObject($file);
         $file = null;
         throw new Exception(
@@ -99,7 +99,7 @@ final class PhabricatorFileImageProxyController
         // just throw our result away and use the winner's result.
         $external_request = $external_request->loadOneWhere(
           'uriIndex = %s',
-          PhabricatorHash::digestForIndex($img_uri));
+          PhorgeHash::digestForIndex($img_uri));
         if (!$external_request) {
           throw new Exception(
             pht(
@@ -117,7 +117,7 @@ final class PhabricatorFileImageProxyController
   }
 
   private function getExternalResponse(
-    PhabricatorFileExternalRequest $request) {
+    PhorgeFileExternalRequest $request) {
     if (!$request->getIsSuccessful()) {
       throw new Exception(
         pht(
@@ -126,8 +126,8 @@ final class PhabricatorFileImageProxyController
           $request->getResponseMessage()));
     }
 
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $file = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($request->getFilePHID()))
       ->executeOne();
     if (!$file) {

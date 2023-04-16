@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorProjectColumnTransactionEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeProjectColumnTransactionEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getEditorObjectsDescription() {

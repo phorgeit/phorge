@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorEventListener extends PhutilEventListener {
+abstract class PhorgeEventListener extends PhutilEventListener {
 
   private $application;
 
-  public function setApplication(PhabricatorApplication $application) {
+  public function setApplication(PhorgeApplication $application) {
     $this->application = $application;
     return $this;
   }
@@ -14,22 +14,22 @@ abstract class PhabricatorEventListener extends PhutilEventListener {
   }
 
   public function hasApplicationCapability(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $capability) {
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $this->getApplication(),
       $capability);
   }
 
-  public function canUseApplication(PhabricatorUser $viewer) {
+  public function canUseApplication(PhorgeUser $viewer) {
     return $this->hasApplicationCapability(
       $viewer,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
   }
 
   protected function addActionMenuItems(PhutilEvent $event, $items) {
-    if ($event->getType() !== PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS) {
+    if ($event->getType() !== PhorgeEventType::TYPE_UI_DIDRENDERACTIONS) {
       throw new Exception(pht('Not an action menu event!'));
     }
 

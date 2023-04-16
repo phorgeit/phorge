@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalProfileMenuEngine
-  extends PhabricatorProfileMenuEngine {
+final class PhorgeDashboardPortalProfileMenuEngine
+  extends PhorgeProfileMenuEngine {
 
   protected function isMenuEngineConfigurable() {
     return true;
@@ -25,7 +25,7 @@ final class PhabricatorDashboardPortalProfileMenuEngine
     $items[] = $this->newManageItem();
 
     $items[] = $this->newItem()
-      ->setMenuItemKey(PhabricatorDashboardPortalMenuItem::MENUITEMKEY)
+      ->setMenuItemKey(PhorgeDashboardPortalMenuItem::MENUITEMKEY)
       ->setBuiltinKey('manage')
       ->setIsTailItem(true);
 

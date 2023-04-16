@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileUploadDialogController
-  extends PhabricatorFileController {
+final class PhorgeFileUploadDialogController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -11,7 +11,7 @@ final class PhabricatorFileUploadDialogController
     if ($request->isDialogFormPost()) {
       $file_phids = $request->getStrList('filePHIDs');
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs($file_phids)
           ->setRaisePolicyExceptions(true)

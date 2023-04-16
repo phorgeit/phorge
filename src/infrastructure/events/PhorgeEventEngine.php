@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEventEngine extends Phobject {
+final class PhorgeEventEngine extends Phobject {
 
   public static function initialize() {
     // NOTE: If any of this fails, we just log it and move on. It's important
@@ -10,11 +10,11 @@ final class PhabricatorEventEngine extends Phobject {
 
     // Load automatic listeners.
     $listeners = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorAutoEventListener')
+      ->setAncestorClass('PhorgeAutoEventListener')
       ->execute();
 
     // Load configured listeners.
-    $config_listeners = PhabricatorEnv::getEnvConfig('events.listeners');
+    $config_listeners = PhorgeEnv::getEnvConfig('events.listeners');
     foreach ($config_listeners as $listener_class) {
       try {
         $listeners[] = newv($listener_class, array());
@@ -27,7 +27,7 @@ final class PhabricatorEventEngine extends Phobject {
     $listeners[] = new DarkConsoleEventPluginAPI();
 
     // Add application listeners.
-    $applications = PhabricatorApplication::getAllInstalledApplications();
+    $applications = PhorgeApplication::getAllInstalledApplications();
     foreach ($applications as $application) {
       $app_listeners = $application->getEventListeners();
       foreach ($app_listeners as $listener) {

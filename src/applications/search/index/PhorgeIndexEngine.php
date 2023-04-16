@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorIndexEngine extends Phobject {
+final class PhorgeIndexEngine extends Phobject {
 
   private $object;
   private $extensions;
@@ -86,7 +86,7 @@ final class PhabricatorIndexEngine extends Phobject {
   private function newExtensions() {
     $object = $this->getObject();
 
-    $extensions = PhabricatorIndexEngineExtension::getAllExtensions();
+    $extensions = PhorgeIndexEngineExtension::getAllExtensions();
     foreach ($extensions as $key => $extension) {
       if (!$extension->shouldIndexObject($object)) {
         unset($extensions[$key]);
@@ -104,7 +104,7 @@ final class PhabricatorIndexEngine extends Phobject {
     $object = $this->getObject();
     $object_phid = $object->getPHID();
 
-    $table = new PhabricatorSearchIndexVersion();
+    $table = new PhorgeSearchIndexVersion();
     $conn_r = $table->establishConnection('w');
 
     $rows = queryfx_all(
@@ -127,10 +127,10 @@ final class PhabricatorIndexEngine extends Phobject {
     $object = $this->getObject();
     $object_phid = $object->getPHID();
 
-    $table = new PhabricatorSearchIndexVersion();
+    $table = new PhorgeSearchIndexVersion();
     $conn_w = $table->establishConnection('w');
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     // See T13587. For now, this is just a marker to make it easy to reindex
     // documents if some version of the indexing code is later discovered to

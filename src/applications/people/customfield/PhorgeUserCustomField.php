@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorUserCustomField
-  extends PhabricatorCustomField {}
+abstract class PhorgeUserCustomField
+  extends PhorgeCustomField {}

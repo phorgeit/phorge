@@ -1,10 +1,10 @@
 <?php
 
 abstract class DiffusionCommitTransactionType
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   protected function updateAudits(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     array $new) {
 
     $audits = $commit->getAudits();
@@ -13,7 +13,7 @@ abstract class DiffusionCommitTransactionType
     foreach ($new as $phid => $status) {
       $audit = idx($audits, $phid);
       if (!$audit) {
-        $audit = id(new PhabricatorRepositoryAuditRequest())
+        $audit = id(new PhorgeRepositoryAuditRequest())
           ->setAuditorPHID($phid)
           ->setCommitPHID($commit->getPHID());
 

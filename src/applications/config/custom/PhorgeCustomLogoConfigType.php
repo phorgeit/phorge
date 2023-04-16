@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCustomLogoConfigType
-  extends PhabricatorConfigOptionType {
+final class PhorgeCustomLogoConfigType
+  extends PhorgeConfigOptionType {
 
   public static function getLogoImagePHID() {
-    $logo = PhabricatorEnv::getEnvConfig('ui.logo');
+    $logo = PhorgeEnv::getEnvConfig('ui.logo');
     return idx($logo, 'logoImagePHID');
   }
 
   public static function getLogoWordmark() {
-    $logo = PhabricatorEnv::getEnvConfig('ui.logo');
+    $logo = PhorgeEnv::getEnvConfig('ui.logo');
     return idx($logo, 'wordmarkText');
   }
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     if (!is_array($value)) {
       throw new Exception(
         pht(
@@ -29,16 +29,16 @@ final class PhabricatorCustomLogoConfigType
   }
 
   public function readRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $viewer = $request->getViewer();
-    $view_policy = PhabricatorPolicies::POLICY_PUBLIC;
+    $view_policy = PhorgePolicies::POLICY_PUBLIC;
 
     if ($request->getBool('removeLogo')) {
       $logo_image_phid = null;
     } else if ($request->getFileExists('logoImage')) {
-      $logo_image = PhabricatorFile::newFromPHPUpload(
+      $logo_image = PhorgeFile::newFromPHPUpload(
         idx($_FILES, 'logoImage'),
         array(
           'name' => 'logo',
@@ -74,7 +74,7 @@ final class PhabricatorCustomLogoConfigType
   }
 
   public function renderControls(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 

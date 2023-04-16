@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionPathQueryTestCase extends PhabricatorTestCase {
+final class DiffusionPathQueryTestCase extends PhorgeTestCase {
 
   public function testParentEdgeCases() {
     $this->assertEqual(

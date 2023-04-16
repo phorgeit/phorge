@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNoAccessController
-  extends PhabricatorSpacesController {
+final class PhorgeSpacesNoAccessController
+  extends PhorgeSpacesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();

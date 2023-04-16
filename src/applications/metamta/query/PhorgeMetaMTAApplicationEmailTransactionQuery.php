@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeMetaMTAApplicationEmailTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorMetaMTAApplicationEmailTransaction();
+    return new PhorgeMetaMTAApplicationEmailTransaction();
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new NuanceItem());

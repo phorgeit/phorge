@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchDateControlField
-  extends PhabricatorSearchField {
+final class PhorgeSearchDateControlField
+  extends PhorgeSearchField {
 
   protected function getValueExistsInRequest(AphrontRequest $request, $key) {
     // The control doesn't actually submit a value with the same name as the

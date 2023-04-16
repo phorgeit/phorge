@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryStatusMessage
-  extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryStatusMessage
+  extends PhorgeRepositoryDAO {
 
   const TYPE_INIT = 'init';
   const TYPE_FETCH = 'fetch';

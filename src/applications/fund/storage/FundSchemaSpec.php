@@ -1,7 +1,7 @@
 <?php
 
 final class FundSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new FundInitiative());

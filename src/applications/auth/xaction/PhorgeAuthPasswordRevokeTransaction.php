@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthPasswordRevokeTransaction
-  extends PhabricatorAuthPasswordTransactionType {
+final class PhorgeAuthPasswordRevokeTransaction
+  extends PhorgeAuthPasswordTransactionType {
 
   const TRANSACTIONTYPE = 'password.revoke';
 

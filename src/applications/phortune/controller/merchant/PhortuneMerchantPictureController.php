@@ -13,24 +13,24 @@ final class PhortuneMerchantPictureController
 
     $uri = $merchant->getDetailsURI();
 
-    $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    $supported_formats = PhorgeFile::getTransformableImageFormats();
     $e_file = true;
     $errors = array();
 
     if ($request->isFormPost()) {
       $phid = $request->getStr('phid');
       $is_default = false;
-      if ($phid == PhabricatorPHIDConstants::PHID_VOID) {
+      if ($phid == PhorgePHIDConstants::PHID_VOID) {
         $phid = null;
         $is_default = true;
       } else if ($phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($phid))
           ->executeOne();
       } else {
         if ($request->getFileExists('picture')) {
-          $file = PhabricatorFile::newFromPHPUpload(
+          $file = PhorgeFile::newFromPHPUpload(
             $_FILES['picture'],
             array(
               'authorPHID' => $viewer->getPHID(),
@@ -50,8 +50,8 @@ final class PhortuneMerchantPictureController
             'This server only supports these image formats: %s.',
             implode(', ', $supported_formats));
         } else {
-          $xform = PhabricatorFileTransform::getTransformByKey(
-            PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+          $xform = PhorgeFileTransform::getTransformByKey(
+            PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
           $xformed = $xform->executeTransform($file);
         }
       }
@@ -87,14 +87,14 @@ final class PhortuneMerchantPictureController
     $form = id(new PHUIFormLayoutView())
       ->setUser($viewer);
 
-    $default_image = PhabricatorFile::loadBuiltin($viewer, 'merchant.png');
+    $default_image = PhorgeFile::loadBuiltin($viewer, 'merchant.png');
 
     $images = array();
 
     $current = $merchant->getProfileImagePHID();
     $has_current = false;
     if ($current) {
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($current))
         ->executeOne();
@@ -109,7 +109,7 @@ final class PhortuneMerchantPictureController
       }
     }
 
-    $images[PhabricatorPHIDConstants::PHID_VOID] = array(
+    $images[PhorgePHIDConstants::PHID_VOID] = array(
       'uri' => $default_image->getBestURI(),
       'tip' => pht('Default Picture'),
     );

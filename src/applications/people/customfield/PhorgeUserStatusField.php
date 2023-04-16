@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserStatusField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserStatusField
+  extends PhorgeUserCustomField {
 
   private $value;
 
@@ -22,8 +22,8 @@ final class PhabricatorUserStatusField
   }
 
   public function isFieldEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorCalendarApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeCalendarApplication');
   }
 
   public function renderPropertyViewValue(array $handles) {

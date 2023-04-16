@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerTokenController
-  extends PhabricatorOAuthServerController {
+final class PhorgeOAuthServerTokenController
+  extends PhorgeOAuthServerController {
 
   public function shouldRequireLogin() {
     return false;
@@ -18,8 +18,8 @@ final class PhabricatorOAuthServerTokenController
     $grant_type = $request->getStr('grant_type');
     $code = $request->getStr('code');
     $redirect_uri = $request->getStr('redirect_uri');
-    $response = new PhabricatorOAuthResponse();
-    $server = new PhabricatorOAuthServer();
+    $response = new PhorgeOAuthResponse();
+    $server = new PhorgeOAuthServer();
 
     $client_id_parameter = $request->getStr('client_id');
     $client_id_header = idx($_SERVER, 'PHP_AUTH_USER');
@@ -84,7 +84,7 @@ final class PhabricatorOAuthServerTokenController
     // one giant try / catch around all the exciting database stuff so we
     // can return a 'server_error' response if something goes wrong!
     try {
-      $auth_code = id(new PhabricatorOAuthServerAuthorizationCode())
+      $auth_code = id(new PhorgeOAuthServerAuthorizationCode())
         ->loadOneWhere('code = %s',
                        $code);
       if (!$auth_code) {
@@ -120,7 +120,7 @@ final class PhabricatorOAuthServerTokenController
         return $response;
       }
 
-      $client = id(new PhabricatorOAuthServerClient())
+      $client = id(new PhorgeOAuthServerClient())
         ->loadOneWhere('phid = %s', $client_phid);
       if (!$client) {
         $response->setError('invalid_client');
@@ -145,7 +145,7 @@ final class PhabricatorOAuthServerTokenController
       $server->setClient($client);
 
       $user_phid = $auth_code->getUserPHID();
-      $user = id(new PhabricatorUser())
+      $user = id(new PhorgeUser())
         ->loadOneWhere('phid = %s', $user_phid);
       if (!$user) {
         $response->setError('invalid_grant');
@@ -157,7 +157,7 @@ final class PhabricatorOAuthServerTokenController
       }
       $server->setUser($user);
 
-      $test_code = new PhabricatorOAuthServerAuthorizationCode();
+      $test_code = new PhorgeOAuthServerAuthorizationCode();
       $test_code->setClientSecret($client_secret);
       $test_code->setClientPHID($client_phid);
       $is_good_code = $server->validateAuthorizationCode(

@@ -6,7 +6,7 @@
  * If a worker throws this exception while processing a task, the task will be
  * pushed toward the back of the queue and tried again later.
  */
-final class PhabricatorWorkerYieldException extends Exception {
+final class PhorgeWorkerYieldException extends Exception {
 
   private $duration;
 

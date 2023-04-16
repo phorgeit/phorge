@@ -1,17 +1,17 @@
 <?php
 
-final class PhabricatorAuthFactorProviderDuoCredentialTransaction
-  extends PhabricatorAuthFactorProviderTransactionType {
+final class PhorgeAuthFactorProviderDuoCredentialTransaction
+  extends PhorgeAuthFactorProviderTransactionType {
 
   const TRANSACTIONTYPE = 'duo.credential';
 
   public function generateOldValue($object) {
-    $key = PhabricatorDuoAuthFactor::PROP_CREDENTIAL;
+    $key = PhorgeDuoAuthFactor::PROP_CREDENTIAL;
     return $object->getAuthFactorProviderProperty($key);
   }
 
   public function applyInternalEffects($object, $value) {
-    $key = PhabricatorDuoAuthFactor::PROP_CREDENTIAL;
+    $key = PhorgeDuoAuthFactor::PROP_CREDENTIAL;
     $object->setAuthFactorProviderProperty($key, $value);
   }
 

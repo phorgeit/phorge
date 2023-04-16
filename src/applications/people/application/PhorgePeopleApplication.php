@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPeopleApplication extends PhabricatorApplication {
+final class PhorgePeopleApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('People');
@@ -22,7 +22,7 @@ final class PhabricatorPeopleApplication extends PhabricatorApplication {
     return 'fa-users';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return $viewer->getIsAdmin();
   }
 
@@ -41,63 +41,63 @@ final class PhabricatorPeopleApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/people/' => array(
-        $this->getQueryRoutePattern() => 'PhabricatorPeopleListController',
+        $this->getQueryRoutePattern() => 'PhorgePeopleListController',
         'logs/' => array(
-          $this->getQueryRoutePattern() => 'PhabricatorPeopleLogsController',
-          '(?P<id>\d+)/' => 'PhabricatorPeopleLogViewController',
+          $this->getQueryRoutePattern() => 'PhorgePeopleLogsController',
+          '(?P<id>\d+)/' => 'PhorgePeopleLogViewController',
         ),
         'invite/' => array(
           '(?:query/(?P<queryKey>[^/]+)/)?'
-            => 'PhabricatorPeopleInviteListController',
+            => 'PhorgePeopleInviteListController',
           'send/'
-            => 'PhabricatorPeopleInviteSendController',
+            => 'PhorgePeopleInviteSendController',
         ),
         'approve/(?P<id>[1-9]\d*)/(?:via/(?P<via>[^/]+)/)?'
-          => 'PhabricatorPeopleApproveController',
+          => 'PhorgePeopleApproveController',
         '(?P<via>disapprove)/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorPeopleDisableController',
+          => 'PhorgePeopleDisableController',
         '(?P<via>disable)/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorPeopleDisableController',
-        'empower/(?P<id>[1-9]\d*)/' => 'PhabricatorPeopleEmpowerController',
-        'delete/(?P<id>[1-9]\d*)/' => 'PhabricatorPeopleDeleteController',
-        'rename/(?P<id>[1-9]\d*)/' => 'PhabricatorPeopleRenameController',
-        'welcome/(?P<id>[1-9]\d*)/' => 'PhabricatorPeopleWelcomeController',
-        'create/' => 'PhabricatorPeopleCreateController',
-        'new/(?P<type>[^/]+)/' => 'PhabricatorPeopleNewController',
+          => 'PhorgePeopleDisableController',
+        'empower/(?P<id>[1-9]\d*)/' => 'PhorgePeopleEmpowerController',
+        'delete/(?P<id>[1-9]\d*)/' => 'PhorgePeopleDeleteController',
+        'rename/(?P<id>[1-9]\d*)/' => 'PhorgePeopleRenameController',
+        'welcome/(?P<id>[1-9]\d*)/' => 'PhorgePeopleWelcomeController',
+        'create/' => 'PhorgePeopleCreateController',
+        'new/(?P<type>[^/]+)/' => 'PhorgePeopleNewController',
         'editprofile/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileEditController',
+          'PhorgePeopleProfileEditController',
         'badges/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileBadgesController',
+          'PhorgePeopleProfileBadgesController',
         'tasks/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileTasksController',
+          'PhorgePeopleProfileTasksController',
         'commits/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileCommitsController',
+          'PhorgePeopleProfileCommitsController',
         'revisions/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileRevisionsController',
+          'PhorgePeopleProfileRevisionsController',
         'picture/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfilePictureController',
+          'PhorgePeopleProfilePictureController',
         'manage/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorPeopleProfileManageController',
+          'PhorgePeopleProfileManageController',
       ),
       '/p/(?P<username>[\w._-]+)/' => array(
-        '' => 'PhabricatorPeopleProfileViewController',
+        '' => 'PhorgePeopleProfileViewController',
       ),
     );
   }
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorMentionRemarkupRule(),
+      new PhorgeMentionRemarkupRule(),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
       PeopleCreateUsersCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       PeopleDisableUsersCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
       PeopleBrowseUserDirectoryCapability::CAPABILITY => array(),
     );
@@ -105,7 +105,7 @@ final class PhabricatorPeopleApplication extends PhabricatorApplication {
 
   public function getApplicationSearchDocumentTypes() {
     return array(
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
     );
   }
 

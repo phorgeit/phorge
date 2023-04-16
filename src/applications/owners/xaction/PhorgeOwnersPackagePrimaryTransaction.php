@@ -3,8 +3,8 @@
 /**
  * @deprecated
  */
-final class PhabricatorOwnersPackagePrimaryTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackagePrimaryTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.primary';
 

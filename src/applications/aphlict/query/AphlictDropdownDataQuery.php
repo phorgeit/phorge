@@ -6,7 +6,7 @@ final class AphlictDropdownDataQuery extends Phobject {
   private $notificationData;
   private $conpherenceData;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -42,8 +42,8 @@ final class AphlictDropdownDataQuery extends Phobject {
   public function execute() {
     $viewer = $this->getViewer();
 
-    $conpherence_app = 'PhabricatorConpherenceApplication';
-    $is_c_installed = PhabricatorApplication::isClassInstalledForViewer(
+    $conpherence_app = 'PhorgeConpherenceApplication';
+    $is_c_installed = PhorgeApplication::isClassInstalledForViewer(
       $conpherence_app,
       $viewer);
     if ($is_c_installed) {
@@ -63,8 +63,8 @@ final class AphlictDropdownDataQuery extends Phobject {
     );
     $this->setConpherenceData($conpherence_data);
 
-    $notification_app = 'PhabricatorNotificationsApplication';
-    $is_n_installed = PhabricatorApplication::isClassInstalledForViewer(
+    $notification_app = 'PhorgeNotificationsApplication';
+    $is_n_installed = PhorgeApplication::isClassInstalledForViewer(
       $notification_app,
       $viewer);
     if ($is_n_installed) {

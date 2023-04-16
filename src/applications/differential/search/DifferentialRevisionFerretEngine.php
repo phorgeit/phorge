@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'differential';

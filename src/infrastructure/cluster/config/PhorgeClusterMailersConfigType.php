@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorClusterMailersConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeClusterMailersConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'cluster.mailers';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if ($value === null) {
@@ -31,7 +31,7 @@ final class PhabricatorClusterMailersConfigType
       }
     }
 
-    $adapters = PhabricatorMailAdapter::getAllAdapters();
+    $adapters = PhorgeMailAdapter::getAllAdapters();
 
     $map = array();
     foreach ($value as $index => $spec) {

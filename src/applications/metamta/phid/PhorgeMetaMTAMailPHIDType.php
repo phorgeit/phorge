@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAMailPHIDType extends PhabricatorPHIDType {
+final class PhorgeMetaMTAMailPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'MTAM';
 
@@ -9,23 +9,23 @@ final class PhabricatorMetaMTAMailPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorMetaMTAMail();
+    return new PhorgeMetaMTAMail();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorMetaMTAMailQuery())
+    return id(new PhorgeMetaMTAMailQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

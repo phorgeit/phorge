@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAMailHasRecipientEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeMetaMTAMailHasRecipientEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 57;
 

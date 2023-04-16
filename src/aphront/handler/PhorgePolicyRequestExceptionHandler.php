@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgePolicyRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 320000;
@@ -17,11 +17,11 @@ final class PhabricatorPolicyRequestExceptionHandler
     AphrontRequest $request,
     $throwable) {
 
-    if (!$this->isPhabricatorSite($request)) {
+    if (!$this->isPhorgeSite($request)) {
       return false;
     }
 
-    return ($throwable instanceof PhabricatorPolicyException);
+    return ($throwable instanceof PhorgePolicyException);
   }
 
   public function handleRequestThrowable(
@@ -37,10 +37,10 @@ final class PhabricatorPolicyRequestExceptionHandler
       //
       // Possibly we should add a header here like "you need to login to see
       // the thing you are trying to look at".
-      $auth_app_class = 'PhabricatorAuthApplication';
-      $auth_app = PhabricatorApplication::getByClass($auth_app_class);
+      $auth_app_class = 'PhorgeAuthApplication';
+      $auth_app = PhorgeApplication::getByClass($auth_app_class);
 
-      return id(new PhabricatorAuthStartController())
+      return id(new PhorgeAuthStartController())
         ->setRequest($request)
         ->setCurrentApplication($auth_app)
         ->handleRequest($request);
@@ -88,7 +88,7 @@ final class PhabricatorPolicyRequestExceptionHandler
     // policy exception came from and this can make it easier to hunt down
     // bugs or improve ambiguous/confusing messaging.
 
-    $is_developer = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+    $is_developer = PhorgeEnv::getEnvConfig('phorge.developer-mode');
     if ($is_developer) {
       $dialog->appendChild(
         id(new AphrontStackTraceView())

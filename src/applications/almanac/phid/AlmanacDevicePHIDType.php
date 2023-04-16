@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacDevicePHIDType extends PhabricatorPHIDType {
+final class AlmanacDevicePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'ADEV';
 
@@ -13,11 +13,11 @@ final class AlmanacDevicePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new AlmanacDeviceQuery())
@@ -25,7 +25,7 @@ final class AlmanacDevicePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

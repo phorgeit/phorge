@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeProjectColumnQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -53,7 +53,7 @@ final class PhabricatorProjectColumnQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorProjectColumn();
+    return new PhorgeProjectColumn();
   }
 
   protected function willFilterPage(array $page) {
@@ -61,7 +61,7 @@ final class PhabricatorProjectColumnQuery
 
     $project_phids = array_filter(mpull($page, 'getProjectPHID'));
     if ($project_phids) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setParentQuery($this)
         ->setViewer($this->getViewer())
         ->withPHIDs($project_phids)
@@ -95,7 +95,7 @@ final class PhabricatorProjectColumnQuery
     }
 
     if ($proxy_phids) {
-      $proxies = id(new PhabricatorObjectQuery())
+      $proxies = id(new PhorgeObjectQuery())
         ->setParentQuery($this)
         ->setViewer($this->getViewer())
         ->withPHIDs($proxy_phids)
@@ -113,7 +113,7 @@ final class PhabricatorProjectColumnQuery
 
         // Only attach valid proxies, so we don't end up getting surprised if
         // an install somehow gets junk into their database.
-        if (!($proxy instanceof PhabricatorColumnProxyInterface)) {
+        if (!($proxy instanceof PhorgeColumnProxyInterface)) {
           $proxy = null;
         }
 
@@ -141,7 +141,7 @@ final class PhabricatorProjectColumnQuery
       }
 
       if ($trigger_phids) {
-        $triggers = id(new PhabricatorProjectTriggerQuery())
+        $triggers = id(new PhorgeProjectTriggerQuery())
           ->setViewer($this->getViewer())
           ->setParentQuery($this)
           ->withPHIDs($trigger_phids)
@@ -225,7 +225,7 @@ final class PhabricatorProjectColumnQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
 }

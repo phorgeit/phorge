@@ -26,7 +26,7 @@ final class AlmanacManagementUntrustKeyWorkflow
         pht('Specify a public key to revoke trust for with --id.'));
     }
 
-    $key = id(new PhabricatorAuthSSHKeyQuery())
+    $key = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($this->getViewer())
       ->withIDs(array($id))
       ->executeOne();
@@ -43,7 +43,7 @@ final class AlmanacManagementUntrustKeyWorkflow
     $key->setIsTrusted(0);
     $key->save();
 
-    PhabricatorAuthSSHKeyQuery::deleteSSHKeyCache();
+    PhorgeAuthSSHKeyQuery::deleteSSHKeyCache();
 
     $console->writeOut(
       "**<bg:green> %s </bg>** %s\n",

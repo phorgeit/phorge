@@ -1,28 +1,28 @@
 <?php
 
-final class PhabricatorCalendarEventMailReceiver
-  extends PhabricatorObjectMailReceiver {
+final class PhorgeCalendarEventMailReceiver
+  extends PhorgeObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorCalendarApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    $app_class = 'PhorgeCalendarApplication';
+    return PhorgeApplication::isClassInstalled($app_class);
   }
 
   protected function getObjectPattern() {
     return 'E[1-9]\d*';
   }
 
-  protected function loadObject($pattern, PhabricatorUser $viewer) {
+  protected function loadObject($pattern, PhorgeUser $viewer) {
     $id = (int)substr($pattern, 1);
 
-    return id(new PhabricatorCalendarEventQuery())
+    return id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
   }
 
   protected function getTransactionReplyHandler() {
-    return new PhabricatorCalendarReplyHandler();
+    return new PhorgeCalendarReplyHandler();
   }
 
 }

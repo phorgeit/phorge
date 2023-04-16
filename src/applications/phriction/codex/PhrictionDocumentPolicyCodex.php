@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentPolicyCodex
-  extends PhabricatorPolicyCodex {
+  extends PhorgePolicyCodex {
 
   public function getPolicySpecialRuleDescriptions() {
     $object = $this->getObject();
@@ -14,13 +14,13 @@ final class PhrictionDocumentPolicyCodex
             'of its ancestors. The most-restrictive view policy of this '.
             'document\'s ancestors is "%s".',
             $strongest_policy->getShortName()))
-      ->setCapabilities(array(PhabricatorPolicyCapability::CAN_VIEW));
+      ->setCapabilities(array(PhorgePolicyCapability::CAN_VIEW));
 
     $rules[] = $this->newRule()
       ->setDescription(
         pht('To edit a wiki document, you must also be able to view all '.
             'of its ancestors.'))
-      ->setCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT));
+      ->setCapabilities(array(PhorgePolicyCapability::CAN_EDIT));
 
     return $rules;
   }
@@ -35,7 +35,7 @@ final class PhrictionDocumentPolicyCodex
 
     $root_policy_phid = $root->getPolicy($this->getCapability());
 
-    return id(new PhabricatorPolicyQuery())
+    return id(new PhorgePolicyQuery())
             ->setViewer($this->getViewer())
             ->withPHIDs(array($root_policy_phid))
             ->executeOne();
@@ -49,7 +49,7 @@ final class PhrictionDocumentPolicyCodex
     foreach ($ancestors as $ancestor) {
       $ancestor_policy_phid = $ancestor->getPolicy($this->getCapability());
 
-      $ancestor_policy = id(new PhabricatorPolicyQuery())
+      $ancestor_policy = id(new PhorgePolicyQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs(array($ancestor_policy_phid))
         ->executeOne();

@@ -1,13 +1,13 @@
 <?php
 
 final class DiffusionHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'diffusion';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDiffusionApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeDiffusionApplication');
   }
 
   public function getExtensionName() {
@@ -15,12 +15,12 @@ final class DiffusionHovercardEngineExtension
   }
 
   public function canRenderObjectHovercard($object) {
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $commit,
     $data) {
 

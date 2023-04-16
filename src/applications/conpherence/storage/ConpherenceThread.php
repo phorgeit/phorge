@@ -2,11 +2,11 @@
 
 final class ConpherenceThread extends ConpherenceDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorMentionableInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorNgramsInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeMentionableInterface,
+    PhorgeDestructibleInterface,
+    PhorgeNgramsInterface {
 
   protected $title;
   protected $topic;
@@ -22,7 +22,7 @@ final class ConpherenceThread extends ConpherenceDAO
   private $profileImageFile = self::ATTACHABLE;
   private $handles = self::ATTACHABLE;
 
-  public static function initializeNewRoom(PhabricatorUser $sender) {
+  public static function initializeNewRoom(PhorgeUser $sender) {
     $default_policy = id(new ConpherenceThreadMembersPolicyRule())
       ->getObjectPolicyFullKey();
     return id(new ConpherenceThread())
@@ -57,8 +57,8 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorConpherenceThreadPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeConpherenceThreadPHIDType::TYPECONST);
   }
 
   public function save() {
@@ -102,7 +102,7 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
   public function attachHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -138,7 +138,7 @@ final class ConpherenceThread extends ConpherenceDAO
     return $this->getProfileImageFile()->getBestURI();
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
@@ -165,7 +165,7 @@ final class ConpherenceThread extends ConpherenceDAO
     return pht('Private Room');
   }
 
-  public function getDisplayData(PhabricatorUser $viewer) {
+  public function getDisplayData(PhorgeUser $viewer) {
     $handles = $this->getHandles();
 
     if ($this->hasAttachedTransactions()) {
@@ -182,7 +182,7 @@ final class ConpherenceThread extends ConpherenceDAO
         break;
       }
       switch ($transaction->getTransactionType()) {
-        case PhabricatorTransactions::TYPE_COMMENT:
+        case PhorgeTransactions::TYPE_COMMENT:
           $message_transaction = $transaction;
           break;
         default:
@@ -232,34 +232,34 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     // this bad boy isn't even created yet so go nuts $user
     if (!$this->getID()) {
       return true;
     }
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return false;
     }
 
@@ -269,14 +269,14 @@ final class ConpherenceThread extends ConpherenceDAO
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht('Participants in a room can always view it.');
         break;
     }
   }
 
   public static function loadViewPolicyObjects(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $conpherences) {
 
     assert_instances_of($conpherences, __CLASS__);
@@ -287,7 +287,7 @@ final class ConpherenceThread extends ConpherenceDAO
     }
     $policy_objects = array();
     if ($policies) {
-      $policy_objects = id(new PhabricatorPolicyQuery())
+      $policy_objects = id(new PhorgePolicyQuery())
         ->setViewer($viewer)
         ->withPHIDs(array_keys($policies))
         ->execute();
@@ -297,14 +297,14 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
   public function getPolicyIconName(array $policy_objects) {
-    assert_instances_of($policy_objects, 'PhabricatorPolicy');
+    assert_instances_of($policy_objects, 'PhorgePolicy');
 
     $icon = $policy_objects[$this->getViewPolicy()]->getIcon();
     return $icon;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -316,7 +316,7 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
 
-/* -(  PhabricatorNgramInterface  )------------------------------------------ */
+/* -(  PhorgeNgramInterface  )------------------------------------------ */
 
 
   public function newNgrams() {
@@ -327,11 +327,11 @@ final class ConpherenceThread extends ConpherenceDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEpochEditField
-  extends PhabricatorEditField {
+final class PhorgeEpochEditField
+  extends PhorgeEditField {
 
   private $allowNull;
   private $hideTime;

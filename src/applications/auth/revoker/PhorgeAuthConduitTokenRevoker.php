@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthConduitTokenRevoker
-  extends PhabricatorAuthRevoker {
+final class PhorgeAuthConduitTokenRevoker
+  extends PhorgeAuthRevoker {
 
   const REVOKERKEY = 'conduit';
 
@@ -19,7 +19,7 @@ final class PhabricatorAuthConduitTokenRevoker
   }
 
   public function revokeAllCredentials() {
-    $table = id(new PhabricatorConduitToken());
+    $table = id(new PhorgeConduitToken());
     $conn = $table->establishConnection('w');
 
     queryfx(
@@ -31,7 +31,7 @@ final class PhabricatorAuthConduitTokenRevoker
   }
 
   public function revokeCredentialsFrom($object) {
-    $table = id(new PhabricatorConduitToken());
+    $table = id(new PhorgeConduitToken());
     $conn = $table->establishConnection('w');
 
     queryfx(

@@ -1,7 +1,7 @@
 <?php
 
 abstract class DifferentialRevisionTransactionType
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   protected function validateCommitMessageCorpusTransactions(
     $object,

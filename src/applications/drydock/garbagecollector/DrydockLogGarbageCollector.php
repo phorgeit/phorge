@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockLogGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'drydock.logs';
 

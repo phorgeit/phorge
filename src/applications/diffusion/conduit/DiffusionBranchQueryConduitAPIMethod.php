@@ -64,7 +64,7 @@ final class DiffusionBranchQueryConduitAPIMethod
         ->setRepository($repository)
         ->withRefTypes(
           array(
-            PhabricatorRepositoryRefCursor::TYPE_BRANCH,
+            PhorgeRepositoryRefCursor::TYPE_BRANCH,
           ))
         ->execute();
     }

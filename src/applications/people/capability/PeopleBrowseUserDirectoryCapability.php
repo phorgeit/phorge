@@ -1,7 +1,7 @@
 <?php
 
 final class PeopleBrowseUserDirectoryCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'people.browse';
 

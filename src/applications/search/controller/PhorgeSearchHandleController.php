@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchHandleController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchHandleController
+  extends PhorgeSearchBaseController {
 
   public function shouldAllowPublic() {
     return true;

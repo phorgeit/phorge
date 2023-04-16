@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskEditEngineLock
-  extends PhabricatorEditEngineLock {
+  extends PhorgeEditEngineLock {
 
   public function willPromptUserForLockOverrideWithDialog(
     AphrontDialogView $dialog) {

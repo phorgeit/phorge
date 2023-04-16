@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesCreateCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeBadgesCreateCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'badges.default.create';
 

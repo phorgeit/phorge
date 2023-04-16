@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorExtensionsSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeExtensionsSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_PHP;

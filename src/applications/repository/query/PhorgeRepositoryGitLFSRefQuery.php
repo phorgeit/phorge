@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryGitLFSRefQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryGitLFSRefQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $repositoryPHIDs;
@@ -23,7 +23,7 @@ final class PhabricatorRepositoryGitLFSRefQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryGitLFSRef();
+    return new PhorgeRepositoryGitLFSRef();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -54,7 +54,7 @@ final class PhabricatorRepositoryGitLFSRefQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

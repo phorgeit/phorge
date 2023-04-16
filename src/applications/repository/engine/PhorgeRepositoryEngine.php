@@ -4,7 +4,7 @@
  * @task config     Configuring Repository Engines
  * @task internal   Internals
  */
-abstract class PhabricatorRepositoryEngine extends Phobject {
+abstract class PhorgeRepositoryEngine extends Phobject {
 
   private $repository;
   private $verbose;
@@ -12,7 +12,7 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
   /**
    * @task config
    */
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -48,11 +48,11 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
 
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   protected function newRepositoryLock(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $lock_key,
     $lock_device_only) {
 
@@ -67,7 +67,7 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
       }
     }
 
-    return PhabricatorGlobalLock::newLock($lock_key, $lock_parts);
+    return PhorgeGlobalLock::newLock($lock_key, $lock_parts);
   }
 
   /**
@@ -84,21 +84,21 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
   }
 
   final protected function queueCommitImportTask(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $commit_phid,
     $task_priority,
     $via) {
 
     $vcs = $repository->getVersionControlSystem();
     switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        $class = 'PhabricatorRepositoryGitCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+        $class = 'PhorgeRepositoryGitCommitMessageParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-        $class = 'PhabricatorRepositorySvnCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+        $class = 'PhorgeRepositorySvnCommitMessageParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-        $class = 'PhabricatorRepositoryMercurialCommitMessageParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        $class = 'PhorgeRepositoryMercurialCommitMessageParserWorker';
         break;
       default:
         throw new Exception(
@@ -121,13 +121,13 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
       'containerPHID' => $repository->getPHID(),
     );
 
-    PhabricatorWorker::scheduleTask($class, $data, $options);
+    PhorgeWorker::scheduleTask($class, $data, $options);
   }
 
   final protected function getImportTaskPriority(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $refs) {
-    assert_instances_of($refs, 'PhabricatorRepositoryCommitRef');
+    assert_instances_of($refs, 'PhorgeRepositoryCommitRef');
 
     // If the repository is importing for the first time, we schedule tasks
     // at IMPORT priority, which is very low. Making progress on importing a
@@ -151,7 +151,7 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
           'because this repository is still importing.',
           phutil_count($refs)));
 
-      return PhabricatorWorker::PRIORITY_IMPORT;
+      return PhorgeWorker::PRIORITY_IMPORT;
     }
 
     // See T13369. If we've discovered a lot of commits at once, import them
@@ -170,14 +170,14 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
     // detecting "someone synchronized an upstream", and import them at a lower
     // priority to more closely approximate fair scheduling.
 
-    if (count($refs) >= PhabricatorRepository::LOWPRI_THRESHOLD) {
+    if (count($refs) >= PhorgeRepository::LOWPRI_THRESHOLD) {
       $this->log(
         pht(
           'Importing %s commit(s) at low priority ("PRIORITY_IMPORT") '.
           'because many commits were discovered at once.',
           phutil_count($refs)));
 
-      return PhabricatorWorker::PRIORITY_IMPORT;
+      return PhorgeWorker::PRIORITY_IMPORT;
     }
 
     // Otherwise, import at normal priority.
@@ -189,7 +189,7 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
           phutil_count($refs)));
     }
 
-    return PhabricatorWorker::PRIORITY_COMMIT;
+    return PhorgeWorker::PRIORITY_COMMIT;
   }
 
 

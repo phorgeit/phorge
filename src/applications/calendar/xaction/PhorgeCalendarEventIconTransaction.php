@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventIconTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventIconTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.icon';
 
@@ -45,7 +45,7 @@ final class PhabricatorCalendarEventIconTransaction
   }
 
   private function getIconLabel($icon) {
-    $set = new PhabricatorCalendarIconSet();
+    $set = new PhorgeCalendarIconSet();
     return $set->getIconLabel($icon);
   }
 

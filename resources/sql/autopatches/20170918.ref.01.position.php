@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryRefPosition();
+$table = new PhorgeRepositoryRefPosition();
 $conn = $table->establishConnection('w');
 $key_name = 'key_position';
 

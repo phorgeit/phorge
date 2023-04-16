@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorAuthSession();
+$table = new PhorgeAuthSession();
 $iterator = new LiskMigrationIterator($table);
 $conn = $table->establishConnection('w');
 

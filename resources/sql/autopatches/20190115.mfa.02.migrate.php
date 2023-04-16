@@ -12,10 +12,10 @@
 // creating one if none exists. This migration is a little bit messy, but
 // gives us a clean slate going forward with no "builtin" providers.
 
-$table = new PhabricatorAuthFactorConfig();
+$table = new PhorgeAuthFactorConfig();
 $conn = $table->establishConnection('w');
 
-$provider_table = new PhabricatorAuthFactorProvider();
+$provider_table = new PhorgeAuthFactorProvider();
 $provider_phid = null;
 $iterator = new LiskRawMigrationIterator($conn, $table->getTableName());
 $totp_key = 'totp';
@@ -58,8 +58,8 @@ foreach ($iterator as $row) {
         '',
         'active',
         '{}',
-        PhabricatorTime::getNow(),
-        PhabricatorTime::getNow());
+        PhorgeTime::getNow(),
+        PhorgeTime::getNow());
     }
   }
 

@@ -1,17 +1,17 @@
 <?php
 
-abstract class PhabricatorTextConfigType
-  extends PhabricatorConfigType {
+abstract class PhorgeTextConfigType
+  extends PhorgeConfigType {
 
   public function isValuePresentInRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
     $value = parent::readValueFromRequest($option, $request);
     return (bool)strlen($value);
   }
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return (string)$value;
   }
@@ -20,7 +20,7 @@ abstract class PhabricatorTextConfigType
     return new AphrontStringHTTPParameterType();
   }
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     return new AphrontFormTextControl();
   }
 

@@ -8,10 +8,10 @@ require_once $root.'/scripts/init/init-script.php';
 
 $error_log = id(new PhutilErrorLog())
   ->setLogName(pht('SSH Error Log'))
-  ->setLogPath(PhabricatorEnv::getEnvConfig('log.ssh-error.path'))
+  ->setLogPath(PhorgeEnv::getEnvConfig('log.ssh-error.path'))
   ->activateLog();
 
-$ssh_log = PhabricatorSSHLog::getLog();
+$ssh_log = PhorgeSSHLog::getLog();
 
 $request_identifier = Filesystem::readRandomCharacters(12);
 $ssh_log->setData(
@@ -104,8 +104,8 @@ try {
         $user_name,
         $device_name));
   } else if (phutil_nonempty_string($user_name)) {
-    $user = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $user = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUsernames(array($user_name))
       ->executeOne();
     if (!$user) {
@@ -115,7 +115,7 @@ try {
           $user_name));
     }
 
-    id(new PhabricatorAuthSessionEngine())
+    id(new PhorgeAuthSessionEngine())
       ->willServeRequestForUser($user);
   } else if (phutil_nonempty_string($device_name)) {
     if (!$remote_address) {
@@ -127,7 +127,7 @@ try {
           'SSH_CLIENT'));
     }
 
-    if (!PhabricatorEnv::isClusterAddress($remote_address)) {
+    if (!PhorgeEnv::isClusterAddress($remote_address)) {
       throw new Exception(
         pht(
           'This request originates from outside of the cluster address range. '.
@@ -136,7 +136,7 @@ try {
     }
 
     $device = id(new AlmanacDeviceQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withNames(array($device_name))
       ->executeOne();
     if (!$device) {
@@ -181,8 +181,8 @@ try {
     if (preg_match('/^@/', $first_argument)) {
       $act_as_name = array_shift($original_argv);
       $act_as_name = substr($act_as_name, 1);
-      $user = id(new PhabricatorPeopleQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $user = id(new PhorgePeopleQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withUsernames(array($act_as_name))
         ->executeOne();
       if (!$user) {
@@ -193,7 +193,7 @@ try {
             $act_as_name));
       }
     } else {
-      $user = PhabricatorUser::getOmnipotentUser();
+      $user = PhorgeUser::getOmnipotentUser();
     }
   }
 
@@ -220,7 +220,7 @@ try {
   }
 
   $workflows = id(new PhutilClassMapQuery())
-    ->setAncestorClass('PhabricatorSSHWorkflow')
+    ->setAncestorClass('PhorgeSSHWorkflow')
     ->setUniqueMethod('getName')
     ->execute();
 

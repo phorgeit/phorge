@@ -4,17 +4,17 @@
  * Configuration source which reads from defaults defined in the authoritative
  * configuration definitions.
  */
-final class PhabricatorConfigDefaultSource
-  extends PhabricatorConfigProxySource {
+final class PhorgeConfigDefaultSource
+  extends PhorgeConfigProxySource {
 
   public function __construct() {
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     $options = mpull($options, 'getDefault');
-    $this->setSource(new PhabricatorConfigDictionarySource($options));
+    $this->setSource(new PhorgeConfigDictionarySource($options));
   }
 
   public function loadExternalOptions() {
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions(true);
+    $options = PhorgeApplicationConfigOptions::loadAllOptions(true);
     $options = mpull($options, 'getDefault');
     $this->setKeys($options);
   }

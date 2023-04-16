@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryStagingURITransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryStagingURITransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:staging-uri';
 
@@ -53,7 +53,7 @@ final class PhabricatorRepositoryStagingURITransaction
       }
 
       try {
-        PhabricatorRepository::assertValidRemoteURI($new);
+        PhorgeRepository::assertValidRemoteURI($new);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError(
           $ex->getMessage(),

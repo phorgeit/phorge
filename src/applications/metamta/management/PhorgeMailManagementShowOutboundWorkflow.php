@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementShowOutboundWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementShowOutboundWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -46,7 +46,7 @@ final class PhabricatorMailManagementShowOutboundWorkflow
       }
     }
 
-    $messages = id(new PhabricatorMetaMTAMail())->loadAllWhere(
+    $messages = id(new PhorgeMetaMTAMail())->loadAllWhere(
       'id IN (%Ld)',
       $ids);
 
@@ -179,8 +179,8 @@ final class PhabricatorMailManagementShowOutboundWorkflow
 
           $reasons = $actor_info['reasons'];
           foreach ($reasons as $reason) {
-            $name = PhabricatorMetaMTAActor::getReasonName($reason);
-            $desc = PhabricatorMetaMTAActor::getReasonDescription($reason);
+            $name = PhorgeMetaMTAActor::getReasonName($reason);
+            $desc = PhorgeMetaMTAActor::getReasonDescription($reason);
             $info[] = '    - '.$name.': '.$desc;
           }
         }

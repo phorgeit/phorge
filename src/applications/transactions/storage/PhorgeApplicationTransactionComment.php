@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorApplicationTransactionComment
-  extends PhabricatorLiskDAO
+abstract class PhorgeApplicationTransactionComment
+  extends PhorgeLiskDAO
   implements
-    PhabricatorMarkupInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeMarkupInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   const MARKUP_FIELD_COMMENT  = 'markup:comment';
 
@@ -23,8 +23,8 @@ abstract class PhabricatorApplicationTransactionComment
   abstract public function getApplicationTransactionObject();
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPHIDConstants::PHID_TYPE_XCMT);
+    return PhorgePHID::generateNewPHID(
+      PhorgePHIDConstants::PHID_TYPE_XCMT);
   }
 
   protected function getConfiguration() {
@@ -56,22 +56,22 @@ abstract class PhabricatorApplicationTransactionComment
   }
 
   public static function getTableNameFromTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return $xaction->getTableName().'_comment';
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source->serialize();
     return $this;
   }
 
   public function setContentSourceFromRequest(AphrontRequest $request) {
     return $this->setContentSource(
-      PhabricatorContentSource::newFromRequest($request));
+      PhorgeContentSource::newFromRequest($request));
   }
 
   public function getContentSource() {
-    return PhabricatorContentSource::newFromSerialized($this->contentSource);
+    return PhorgeContentSource::newFromSerialized($this->contentSource);
   }
 
   public function getIsRemoved() {
@@ -88,7 +88,7 @@ abstract class PhabricatorApplicationTransactionComment
   }
 
   public function attachOldComment(
-    PhabricatorApplicationTransactionComment $old_comment) {
+    PhorgeApplicationTransactionComment $old_comment) {
     $this->oldComment = $old_comment;
     return $this;
   }
@@ -119,16 +119,16 @@ abstract class PhabricatorApplicationTransactionComment
     return false;
   }
 
-/* -(  PhabricatorMarkupInterface  )----------------------------------------- */
+/* -(  PhorgeMarkupInterface  )----------------------------------------- */
 
 
   public function getMarkupFieldKey($field) {
-    return PhabricatorPHIDConstants::PHID_TYPE_XCMT.':'.$this->getPHID();
+    return PhorgePHIDConstants::PHID_TYPE_XCMT.':'.$this->getPHID();
   }
 
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::getEngine();
+    return PhorgeMarkupEngine::getEngine();
   }
 
 
@@ -152,26 +152,26 @@ abstract class PhabricatorApplicationTransactionComment
     return (bool)$this->getPHID();
   }
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getAuthorPHID());
   }
 
@@ -182,10 +182,10 @@ abstract class PhabricatorApplicationTransactionComment
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->openTransaction();
       $this->delete();
     $this->saveTransaction();

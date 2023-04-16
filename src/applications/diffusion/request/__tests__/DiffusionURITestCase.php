@@ -86,9 +86,9 @@ final class DiffusionURITestCase extends PhutilTestCase {
   }
 
   public function testURIGeneration() {
-    $actor = PhabricatorUser::getOmnipotentUser();
+    $actor = PhorgeUser::getOmnipotentUser();
 
-    $repository = PhabricatorRepository::initializeNewRepository($actor)
+    $repository = PhorgeRepository::initializeNewRepository($actor)
       ->setCallsign('A')
       ->makeEphemeral();
 

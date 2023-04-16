@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorBadgesSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeBadgesSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorBadgesBadge());
+    $this->buildEdgeSchemata(new PhorgeBadgesBadge());
   }
 
 }

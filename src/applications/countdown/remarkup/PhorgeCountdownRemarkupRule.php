@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+final class PhorgeCountdownRemarkupRule
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'C';
@@ -9,7 +9,7 @@ final class PhabricatorCountdownRemarkupRule
 
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
-    return id(new PhabricatorCountdownQuery())
+    return id(new PhorgeCountdownQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->execute();
@@ -17,12 +17,12 @@ final class PhabricatorCountdownRemarkupRule
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorCountdownView())
+    return id(new PhorgeCountdownView())
       ->setCountdown($object)
       ->setUser($viewer);
   }

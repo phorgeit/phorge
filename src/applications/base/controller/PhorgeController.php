@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorController extends AphrontController {
+abstract class PhorgeController extends AphrontController {
 
   private $handles;
 
@@ -25,7 +25,7 @@ abstract class PhabricatorController extends AphrontController {
   }
 
   public function shouldRequireEmailVerification() {
-    return PhabricatorUserEmail::isEmailVerificationRequired();
+    return PhorgeUserEmail::isEmailVerificationRequired();
   }
 
   public function shouldAllowRestrictedParameter($parameter_name) {
@@ -50,7 +50,7 @@ abstract class PhabricatorController extends AphrontController {
       return false;
     }
 
-    return PhabricatorEnv::getEnvConfig('security.require-multi-factor-auth');
+    return PhorgeEnv::getEnvConfig('security.require-multi-factor-auth');
   }
 
   public function shouldAllowLegallyNonCompliantUsers() {
@@ -67,16 +67,16 @@ abstract class PhabricatorController extends AphrontController {
     if ($request->getUser()) {
       // NOTE: Unit tests can set a user explicitly. Normal requests are not
       // permitted to do this.
-      PhabricatorTestCase::assertExecutingUnitTests();
+      PhorgeTestCase::assertExecutingUnitTests();
       $user = $request->getUser();
     } else {
-      $user = new PhabricatorUser();
-      $session_engine = new PhabricatorAuthSessionEngine();
+      $user = new PhorgeUser();
+      $session_engine = new PhorgeAuthSessionEngine();
 
-      $phsid = $request->getCookie(PhabricatorCookies::COOKIE_SESSION);
+      $phsid = $request->getCookie(PhorgeCookies::COOKIE_SESSION);
       if (strlen($phsid)) {
         $session_user = $session_engine->loadUserForSession(
-          PhabricatorAuthSession::TYPE_WEB,
+          PhorgeAuthSession::TYPE_WEB,
           $phsid);
         if ($session_user) {
           $user = $session_user;
@@ -85,33 +85,33 @@ abstract class PhabricatorController extends AphrontController {
         // If the client doesn't have a session token, generate an anonymous
         // session. This is used to provide CSRF protection to logged-out users.
         $phsid = $session_engine->establishSession(
-          PhabricatorAuthSession::TYPE_WEB,
+          PhorgeAuthSession::TYPE_WEB,
           null,
           $partial = false);
 
         // This may be a resource request, in which case we just don't set
         // the cookie.
         if ($request->canSetCookies()) {
-          $request->setCookie(PhabricatorCookies::COOKIE_SESSION, $phsid);
+          $request->setCookie(PhorgeCookies::COOKIE_SESSION, $phsid);
         }
       }
 
 
       if (!$user->isLoggedIn()) {
-        $csrf = PhabricatorHash::digestWithNamedKey($phsid, 'csrf.alternate');
+        $csrf = PhorgeHash::digestWithNamedKey($phsid, 'csrf.alternate');
         $user->attachAlternateCSRFString($csrf);
       }
 
       $request->setUser($user);
     }
 
-    id(new PhabricatorAuthSessionEngine())
+    id(new PhorgeAuthSessionEngine())
       ->willServeRequestForUser($user);
 
-    if (PhabricatorEnv::getEnvConfig('darkconsole.enabled')) {
-      $dark_console = PhabricatorDarkConsoleSetting::SETTINGKEY;
+    if (PhorgeEnv::getEnvConfig('darkconsole.enabled')) {
+      $dark_console = PhorgeDarkConsoleSetting::SETTINGKEY;
       if ($user->getUserSetting($dark_console) ||
-         PhabricatorEnv::getEnvConfig('darkconsole.always-on')) {
+         PhorgeEnv::getEnvConfig('darkconsole.always-on')) {
         $console = new DarkConsoleCore();
         $request->getApplicationConfiguration()->setConsole($console);
       }
@@ -139,19 +139,19 @@ abstract class PhabricatorController extends AphrontController {
 
     if ($this->shouldRequireEnabledUser()) {
       if ($user->getIsDisabled()) {
-        $controller = new PhabricatorDisabledUserController();
+        $controller = new PhorgeDisabledUserController();
         return $this->delegateToController($controller);
       }
     }
 
-    $auth_class = 'PhabricatorAuthApplication';
-    $auth_application = PhabricatorApplication::getByClass($auth_class);
+    $auth_class = 'PhorgeAuthApplication';
+    $auth_application = PhorgeApplication::getByClass($auth_class);
 
     // Require partial sessions to finish login before doing anything.
     if (!$this->shouldAllowPartialSessions()) {
       if ($user->hasSession() &&
           $user->getSession()->getIsPartial()) {
-        $login_controller = new PhabricatorAuthFinishController();
+        $login_controller = new PhorgeAuthFinishController();
         $this->setCurrentApplication($auth_application);
         return $this->delegateToController($login_controller);
       }
@@ -174,7 +174,7 @@ abstract class PhabricatorController extends AphrontController {
       // and require MFA enrollment.
       $user->updateMultiFactorEnrollment();
       if (!$user->getIsEnrolledInMultiFactor()) {
-        $mfa_controller = new PhabricatorAuthNeedsMultiFactorController();
+        $mfa_controller = new PhorgeAuthNeedsMultiFactorController();
         $this->setCurrentApplication($auth_application);
         return $this->delegateToController($mfa_controller);
       }
@@ -187,12 +187,12 @@ abstract class PhabricatorController extends AphrontController {
       //   - permission to see at least one Space if spaces are configured.
 
       $allow_public = $this->shouldAllowPublic() &&
-                      PhabricatorEnv::getEnvConfig('policy.allow-public');
+                      PhorgeEnv::getEnvConfig('policy.allow-public');
 
       // If this controller isn't public, and the user isn't logged in, require
       // login.
       if (!$allow_public && !$user->isLoggedIn()) {
-        $login_controller = new PhabricatorAuthStartController();
+        $login_controller = new PhorgeAuthStartController();
         $this->setCurrentApplication($auth_application);
         return $this->delegateToController($login_controller);
       }
@@ -200,7 +200,7 @@ abstract class PhabricatorController extends AphrontController {
       if ($user->isLoggedIn()) {
         if ($this->shouldRequireEmailVerification()) {
           if (!$user->getIsEmailVerified()) {
-            $controller = new PhabricatorMustVerifyEmailController();
+            $controller = new PhorgeMustVerifyEmailController();
             $this->setCurrentApplication($auth_application);
             return $this->delegateToController($controller);
           }
@@ -210,12 +210,12 @@ abstract class PhabricatorController extends AphrontController {
       // If Spaces are configured, require that the user have access to at
       // least one. If we don't do this, they'll get confusing error messages
       // later on.
-      $spaces = PhabricatorSpacesNamespaceQuery::getSpacesExist();
+      $spaces = PhorgeSpacesNamespaceQuery::getSpacesExist();
       if ($spaces) {
-        $viewer_spaces = PhabricatorSpacesNamespaceQuery::getViewerSpaces(
+        $viewer_spaces = PhorgeSpacesNamespaceQuery::getViewerSpaces(
           $user);
         if (!$viewer_spaces) {
-          $controller = new PhabricatorSpacesNoAccessController();
+          $controller = new PhorgeSpacesNoAccessController();
           return $this->delegateToController($controller);
         }
       }
@@ -225,7 +225,7 @@ abstract class PhabricatorController extends AphrontController {
       // a policy exception if the viewer doesn't have permission.
       $application = $this->getCurrentApplication();
       if ($application) {
-        id(new PhabricatorApplicationQuery())
+        id(new PhorgeApplicationQuery())
           ->setViewer($user)
           ->withPHIDs(array($application->getPHID()))
           ->executeOne();
@@ -237,7 +237,7 @@ abstract class PhabricatorController extends AphrontController {
       // look at things. See T13024 for more discussion.
       if ($this->shouldRequireEnabledUser()) {
         if ($user->isLoggedIn() && !$user->getIsApproved()) {
-          $controller = new PhabricatorAuthNeedsApprovalController();
+          $controller = new PhorgeAuthNeedsApprovalController();
           return $this->delegateToController($controller);
         }
       }
@@ -275,7 +275,7 @@ abstract class PhabricatorController extends AphrontController {
           $response->buildResponseString(),
         );
 
-        $view = id(new PhabricatorStandardPageView())
+        $view = id(new PhorgeStandardPageView())
           ->setRequest($request)
           ->setController($this)
           ->setDeviceReady(true)
@@ -313,7 +313,7 @@ abstract class PhabricatorController extends AphrontController {
    * @deprecated See "Handles Technical Documentation".
    */
   protected function loadViewerHandles(array $phids) {
-    return id(new PhabricatorHandleQuery())
+    return id(new PhorgeHandleQuery())
       ->setViewer($this->getRequest()->getUser())
       ->withPHIDs($phids)
       ->execute();
@@ -348,14 +348,14 @@ abstract class PhabricatorController extends AphrontController {
   }
 
   protected function hasApplicationCapability($capability) {
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $this->getRequest()->getUser(),
       $this->getCurrentApplication(),
       $capability);
   }
 
   protected function requireApplicationCapability($capability) {
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $this->getRequest()->getUser(),
       $this->getCurrentApplication(),
       $capability);
@@ -425,7 +425,7 @@ abstract class PhabricatorController extends AphrontController {
   }
 
   public function newPage() {
-    $page = id(new PhabricatorStandardPageView())
+    $page = id(new PhorgeStandardPageView())
       ->setRequest($this->getRequest())
       ->setController($this)
       ->setDeviceReady(true);
@@ -456,15 +456,15 @@ abstract class PhabricatorController extends AphrontController {
 
     $action_id = celerity_generate_unique_node_id();
 
-    $action_list = id(new PhabricatorActionListView())
+    $action_list = id(new PhorgeActionListView())
       ->setViewer($viewer)
       ->setID($action_id);
 
-    // NOTE: Applications (objects of class PhabricatorApplication) can't
+    // NOTE: Applications (objects of class PhorgeApplication) can't
     // currently be set here, although they don't need any of the extensions
     // anyway. This should probably work differently than it does, though.
     if ($object) {
-      if ($object instanceof PhabricatorLiskDAO) {
+      if ($object instanceof PhorgeLiskDAO) {
         $action_list->setObject($object);
       }
     }
@@ -484,9 +484,9 @@ abstract class PhabricatorController extends AphrontController {
   }
 
   protected function buildTransactionTimeline(
-    PhabricatorApplicationTransactionInterface $object,
-    PhabricatorApplicationTransactionQuery $query = null,
-    PhabricatorMarkupEngine $engine = null,
+    PhorgeApplicationTransactionInterface $object,
+    PhorgeApplicationTransactionQuery $query = null,
+    PhorgeMarkupEngine $engine = null,
     $view_data = array()) {
 
     $request = $this->getRequest();
@@ -494,7 +494,7 @@ abstract class PhabricatorController extends AphrontController {
     $xaction = $object->getApplicationTransactionTemplate();
 
     if (!$query) {
-      $query = PhabricatorApplicationTransactionQuery::newQueryForObject(
+      $query = PhorgeApplicationTransactionQuery::newQueryForObject(
         $object);
       if (!$query) {
         throw new Exception(
@@ -516,7 +516,7 @@ abstract class PhabricatorController extends AphrontController {
       ->executeWithCursorPager($pager);
     $xactions = array_reverse($xactions);
 
-    $timeline_engine = PhabricatorTimelineEngine::newForObject($object)
+    $timeline_engine = PhorgeTimelineEngine::newForObject($object)
       ->setViewer($viewer)
       ->setTransactions($xactions)
       ->setViewData($view_data);
@@ -528,7 +528,7 @@ abstract class PhabricatorController extends AphrontController {
         if ($xaction->getComment()) {
           $engine->addObject(
             $xaction->getComment(),
-            PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT);
+            PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT);
         }
       }
       $engine->process();
@@ -584,8 +584,8 @@ abstract class PhabricatorController extends AphrontController {
     $must_sign_docs = array();
     $sign_docs = array();
 
-    $legalpad_class = 'PhabricatorLegalpadApplication';
-    $legalpad_installed = PhabricatorApplication::isClassInstalledForViewer(
+    $legalpad_class = 'PhorgeLegalpadApplication';
+    $legalpad_installed = PhorgeApplication::isClassInstalledForViewer(
       $legalpad_class,
       $viewer);
     if ($legalpad_installed) {
@@ -607,7 +607,7 @@ abstract class PhabricatorController extends AphrontController {
       // If nothing needs to be signed (either because there are no documents
       // which require a signature, or because the user has already signed
       // all of them) mark the session as good and continue.
-      $engine = id(new PhabricatorAuthSessionEngine())
+      $engine = id(new PhorgeAuthSessionEngine())
         ->signLegalpadDocuments($viewer, $sign_docs);
 
       return null;
@@ -619,7 +619,7 @@ abstract class PhabricatorController extends AphrontController {
         'id' => head($must_sign_docs)->getID(),
       ));
 
-    $application = PhabricatorApplication::getByClass($legalpad_class);
+    $application = PhorgeApplication::getByClass($legalpad_class);
     $this->setCurrentApplication($application);
 
     $controller = new LegalpadDocumentSignController();

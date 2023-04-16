@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExternalInviteeQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarExternalInviteeQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -23,7 +23,7 @@ final class PhabricatorCalendarExternalInviteeQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorCalendarExternalInvitee();
+    return new PhorgeCalendarExternalInvitee();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -46,7 +46,7 @@ final class PhabricatorCalendarExternalInviteeQuery
     if ($this->names !== null) {
       $name_indexes = array();
       foreach ($this->names as $name) {
-        $name_indexes[] = PhabricatorHash::digestForIndex($name);
+        $name_indexes[] = PhorgeHash::digestForIndex($name);
       }
       $where[] = qsprintf(
         $conn,
@@ -58,7 +58,7 @@ final class PhabricatorCalendarExternalInviteeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
 }

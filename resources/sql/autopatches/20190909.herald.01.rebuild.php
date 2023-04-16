@@ -2,4 +2,4 @@
 
 // @phase worker
 
-PhabricatorRebuildIndexesWorker::rebuildObjectsWithQuery('HeraldRuleQuery');
+PhorgeRebuildIndexesWorker::rebuildObjectsWithQuery('HeraldRuleQuery');

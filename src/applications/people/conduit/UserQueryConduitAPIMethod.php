@@ -51,7 +51,7 @@ final class UserQueryConduitAPIMethod extends UserConduitAPIMethod {
     $offset      = $request->getValue('offset',    0);
     $limit       = $request->getValue('limit',     100);
 
-    $query = id(new PhabricatorPeopleQuery())
+    $query = id(new PhorgePeopleQuery())
       ->setViewer($request->getUser())
       ->needProfileImage(true)
       ->needAvailability(true);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileNameTransaction
-  extends PhabricatorFileTransactionType {
+final class PhorgeFileNameTransaction
+  extends PhorgeFileTransactionType {
 
   const TRANSACTIONTYPE = 'file:name';
 

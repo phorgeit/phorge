@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthApplication extends PhabricatorApplication {
+final class PhorgeAuthApplication extends PhorgeApplication {
 
   public function canUninstall() {
     return false;
@@ -14,7 +14,7 @@ final class PhabricatorAuthApplication extends PhabricatorApplication {
     return 'fa-key';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return $viewer->getIsAdmin();
   }
 
@@ -26,7 +26,7 @@ final class PhabricatorAuthApplication extends PhabricatorApplication {
     return pht('Login/Registration');
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     // NOTE: Although reasonable help exists for this in "Configuring Accounts
     // and Registration", specifying help items here means we get the menu
     // item in all the login/link interfaces, which is confusing and not
@@ -45,113 +45,113 @@ final class PhabricatorAuthApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/auth/' => array(
-        '' => 'PhabricatorAuthListController',
+        '' => 'PhorgeAuthListController',
         'config/' => array(
-          'new/' => 'PhabricatorAuthNewController',
-          'edit/(?:(?P<id>\d+)/)?' => 'PhabricatorAuthEditController',
+          'new/' => 'PhorgeAuthNewController',
+          'edit/(?:(?P<id>\d+)/)?' => 'PhorgeAuthEditController',
           '(?P<action>enable|disable)/(?P<id>\d+)/'
-            => 'PhabricatorAuthDisableController',
-          'view/(?P<id>\d+)/' => 'PhabricatorAuthProviderViewController',
+            => 'PhorgeAuthDisableController',
+          'view/(?P<id>\d+)/' => 'PhorgeAuthProviderViewController',
         ),
         'login/(?P<pkey>[^/]+)/(?:(?P<extra>[^/]+)/)?'
-          => 'PhabricatorAuthLoginController',
-        '(?P<loggedout>loggedout)/' => 'PhabricatorAuthStartController',
-        'invite/(?P<code>[^/]+)/' => 'PhabricatorAuthInviteController',
-        'register/(?:(?P<akey>[^/]+)/)?' => 'PhabricatorAuthRegisterController',
-        'start/' => 'PhabricatorAuthStartController',
-        'validate/' => 'PhabricatorAuthValidateController',
-        'finish/' => 'PhabricatorAuthFinishController',
-        'unlink/(?P<id>\d+)/' => 'PhabricatorAuthUnlinkController',
+          => 'PhorgeAuthLoginController',
+        '(?P<loggedout>loggedout)/' => 'PhorgeAuthStartController',
+        'invite/(?P<code>[^/]+)/' => 'PhorgeAuthInviteController',
+        'register/(?:(?P<akey>[^/]+)/)?' => 'PhorgeAuthRegisterController',
+        'start/' => 'PhorgeAuthStartController',
+        'validate/' => 'PhorgeAuthValidateController',
+        'finish/' => 'PhorgeAuthFinishController',
+        'unlink/(?P<id>\d+)/' => 'PhorgeAuthUnlinkController',
         '(?P<action>link|refresh)/(?P<id>\d+)/'
-          => 'PhabricatorAuthLinkController',
+          => 'PhorgeAuthLinkController',
         'confirmlink/(?P<akey>[^/]+)/'
-          => 'PhabricatorAuthConfirmLinkController',
+          => 'PhorgeAuthConfirmLinkController',
         'session/terminate/(?P<id>[^/]+)/'
-          => 'PhabricatorAuthTerminateSessionController',
+          => 'PhorgeAuthTerminateSessionController',
         'token/revoke/(?P<id>[^/]+)/'
-          => 'PhabricatorAuthRevokeTokenController',
+          => 'PhorgeAuthRevokeTokenController',
         'session/downgrade/'
-          => 'PhabricatorAuthDowngradeSessionController',
+          => 'PhorgeAuthDowngradeSessionController',
         'enroll/' => array(
           '(?:(?P<pageKey>[^/]+)/)?'
-            => 'PhabricatorAuthNeedsMultiFactorController',
+            => 'PhorgeAuthNeedsMultiFactorController',
         ),
         'sshkey/' => array(
           $this->getQueryRoutePattern('for/(?P<forPHID>[^/]+)/')
-            => 'PhabricatorAuthSSHKeyListController',
-          'generate/' => 'PhabricatorAuthSSHKeyGenerateController',
-          'upload/' => 'PhabricatorAuthSSHKeyEditController',
-          'edit/(?P<id>\d+)/' => 'PhabricatorAuthSSHKeyEditController',
+            => 'PhorgeAuthSSHKeyListController',
+          'generate/' => 'PhorgeAuthSSHKeyGenerateController',
+          'upload/' => 'PhorgeAuthSSHKeyEditController',
+          'edit/(?P<id>\d+)/' => 'PhorgeAuthSSHKeyEditController',
           'revoke/(?P<id>\d+)/'
-            => 'PhabricatorAuthSSHKeyRevokeController',
-          'view/(?P<id>\d+)/' => 'PhabricatorAuthSSHKeyViewController',
+            => 'PhorgeAuthSSHKeyRevokeController',
+          'view/(?P<id>\d+)/' => 'PhorgeAuthSSHKeyViewController',
         ),
 
-        'password/' => 'PhabricatorAuthSetPasswordController',
-        'external/' => 'PhabricatorAuthSetExternalController',
+        'password/' => 'PhorgeAuthSetPasswordController',
+        'external/' => 'PhorgeAuthSetExternalController',
 
         'mfa/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorAuthFactorProviderListController',
+            'PhorgeAuthFactorProviderListController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorAuthFactorProviderEditController',
+            'PhorgeAuthFactorProviderEditController',
           '(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthFactorProviderViewController',
+            'PhorgeAuthFactorProviderViewController',
           'message/(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthFactorProviderMessageController',
+            'PhorgeAuthFactorProviderMessageController',
           'challenge/status/(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthChallengeStatusController',
+            'PhorgeAuthChallengeStatusController',
         ),
 
         'message/' => array(
           $this->getQueryRoutePattern() =>
-            'PhabricatorAuthMessageListController',
+            'PhorgeAuthMessageListController',
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorAuthMessageEditController',
+            'PhorgeAuthMessageEditController',
           '(?P<id>[^/]+)/' =>
-            'PhabricatorAuthMessageViewController',
+            'PhorgeAuthMessageViewController',
         ),
 
         'contact/' => array(
           $this->getEditRoutePattern('edit/') =>
-            'PhabricatorAuthContactNumberEditController',
+            'PhorgeAuthContactNumberEditController',
           '(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthContactNumberViewController',
+            'PhorgeAuthContactNumberViewController',
           '(?P<action>disable|enable)/(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthContactNumberDisableController',
+            'PhorgeAuthContactNumberDisableController',
           'primary/(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthContactNumberPrimaryController',
+            'PhorgeAuthContactNumberPrimaryController',
           'test/(?P<id>[1-9]\d*)/' =>
-            'PhabricatorAuthContactNumberTestController',
+            'PhorgeAuthContactNumberTestController',
         ),
       ),
 
       '/oauth/(?P<provider>\w+)/login/'
-        => 'PhabricatorAuthOldOAuthRedirectController',
+        => 'PhorgeAuthOldOAuthRedirectController',
 
       '/login/' => array(
-        '' => 'PhabricatorAuthStartController',
-        'email/' => 'PhabricatorEmailLoginController',
+        '' => 'PhorgeAuthStartController',
+        'email/' => 'PhorgeEmailLoginController',
         'once/'.
           '(?P<type>[^/]+)/'.
           '(?P<id>\d+)/'.
           '(?P<key>[^/]+)/'.
-          '(?:(?P<emailID>\d+)/)?' => 'PhabricatorAuthOneTimeLoginController',
-        'refresh/' => 'PhabricatorRefreshCSRFController',
-        'mustverify/' => 'PhabricatorMustVerifyEmailController',
+          '(?:(?P<emailID>\d+)/)?' => 'PhorgeAuthOneTimeLoginController',
+        'refresh/' => 'PhorgeRefreshCSRFController',
+        'mustverify/' => 'PhorgeMustVerifyEmailController',
       ),
 
       '/emailverify/(?P<code>[^/]+)/'
-        => 'PhabricatorEmailVerificationController',
+        => 'PhorgeEmailVerificationController',
 
-      '/logout/' => 'PhabricatorLogoutController',
+      '/logout/' => 'PhorgeLogoutController',
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
       AuthManageProvidersCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

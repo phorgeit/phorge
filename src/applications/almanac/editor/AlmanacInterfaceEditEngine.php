@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacInterfaceEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'almanac.interface';
 
@@ -36,7 +36,7 @@ final class AlmanacInterfaceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   protected function newEditableObject() {
@@ -77,8 +77,8 @@ final class AlmanacInterfaceEditEngine
       ->withPHIDs(array($device_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$device) {
@@ -147,7 +147,7 @@ final class AlmanacInterfaceEditEngine
     $network_map = mpull($networks, 'getName', 'getPHID');
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('device')
         ->setLabel(pht('Device'))
         ->setIsFormField(false)
@@ -157,7 +157,7 @@ final class AlmanacInterfaceEditEngine
         ->setConduitDescription(pht('Set the device.'))
         ->setConduitTypeDescription(pht('Device PHID.'))
         ->setValue($object->getDevicePHID()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('network')
         ->setLabel(pht('Network'))
         ->setDescription(pht('Network for the interface.'))
@@ -165,7 +165,7 @@ final class AlmanacInterfaceEditEngine
           AlmanacInterfaceNetworkTransaction::TRANSACTIONTYPE)
         ->setValue($object->getNetworkPHID())
         ->setOptions($network_map),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('address')
         ->setLabel(pht('Address'))
         ->setDescription(pht('Address of the service.'))
@@ -173,7 +173,7 @@ final class AlmanacInterfaceEditEngine
           AlmanacInterfaceAddressTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getAddress()),
-      id(new PhabricatorIntEditField())
+      id(new PhorgeIntEditField())
         ->setKey('port')
         ->setLabel(pht('Port'))
         ->setDescription(pht('Port of the service.'))

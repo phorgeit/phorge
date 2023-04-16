@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthOneTimeLoginController
-  extends PhabricatorAuthController {
+final class PhorgeAuthOneTimeLoginController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -14,8 +14,8 @@ final class PhabricatorAuthOneTimeLoginController
     $key = $request->getURIData('key');
     $email_id = $request->getURIData('emailID');
 
-    $target_user = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $target_user = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIDs(array($id))
       ->executeOne();
     if (!$target_user) {
@@ -59,7 +59,7 @@ final class PhabricatorAuthOneTimeLoginController
 
     $target_email = null;
     if ($email_id) {
-      $target_email = id(new PhabricatorUserEmail())->loadOneWhere(
+      $target_email = id(new PhorgeUserEmail())->loadOneWhere(
         'userPHID = %s AND id = %d',
         $target_user->getPHID(),
         $email_id);
@@ -68,7 +68,7 @@ final class PhabricatorAuthOneTimeLoginController
       }
     }
 
-    $engine = new PhabricatorAuthSessionEngine();
+    $engine = new PhorgeAuthSessionEngine();
     $token = $engine->loadOneTimeLoginKey(
       $target_user,
       $target_email,
@@ -113,7 +113,7 @@ final class PhabricatorAuthOneTimeLoginController
       // the link in the "Welcome" email is good enough, without requiring users
       // to go through a second round of email verification.
 
-      $editor = id(new PhabricatorUserEditor())
+      $editor = id(new PhorgeUserEditor())
         ->setActor($target_user);
 
       $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
@@ -135,10 +135,10 @@ final class PhabricatorAuthOneTimeLoginController
         return id(new AphrontRedirectResponse())->setURI($next_uri);
       }
 
-      PhabricatorCookies::setNextURICookie($request, $next_uri, $force = true);
+      PhorgeCookies::setNextURICookie($request, $next_uri, $force = true);
 
       $force_full_session = false;
-      if ($link_type === PhabricatorAuthSessionEngine::ONETIME_RECOVER) {
+      if ($link_type === PhorgeAuthSessionEngine::ONETIME_RECOVER) {
         $force_full_session = $token->getShouldForceFullSession();
       }
 
@@ -150,16 +150,16 @@ final class PhabricatorAuthOneTimeLoginController
     // form submissions.
 
     switch ($link_type) {
-      case PhabricatorAuthSessionEngine::ONETIME_WELCOME:
+      case PhorgeAuthSessionEngine::ONETIME_WELCOME:
         $title = pht(
           'Welcome to %s',
           PlatformSymbols::getPlatformServerName());
         break;
-      case PhabricatorAuthSessionEngine::ONETIME_RECOVER:
+      case PhorgeAuthSessionEngine::ONETIME_RECOVER:
         $title = pht('Account Recovery');
         break;
-      case PhabricatorAuthSessionEngine::ONETIME_USERNAME:
-      case PhabricatorAuthSessionEngine::ONETIME_RESET:
+      case PhorgeAuthSessionEngine::ONETIME_USERNAME:
+      case PhorgeAuthSessionEngine::ONETIME_RESET:
       default:
         $title = pht(
           'Log in to %s',
@@ -196,31 +196,31 @@ final class PhabricatorAuthOneTimeLoginController
     return id(new AphrontDialogResponse())->setDialog($dialog);
   }
 
-  private function getNextStepURI(PhabricatorUser $user) {
+  private function getNextStepURI(PhorgeUser $user) {
     $request = $this->getRequest();
 
     // If we have password auth, let the user set or reset their password after
     // login.
-    $have_passwords = PhabricatorPasswordAuthProvider::getPasswordProvider();
+    $have_passwords = PhorgePasswordAuthProvider::getPasswordProvider();
     if ($have_passwords) {
       // We're going to let the user reset their password without knowing
       // the old one. Generate a one-time token for that.
       $key = Filesystem::readRandomCharacters(16);
       $password_type =
-        PhabricatorAuthPasswordResetTemporaryTokenType::TOKENTYPE;
+        PhorgeAuthPasswordResetTemporaryTokenType::TOKENTYPE;
 
       $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-        id(new PhabricatorAuthTemporaryToken())
+        id(new PhorgeAuthTemporaryToken())
           ->setTokenResource($user->getPHID())
           ->setTokenType($password_type)
           ->setTokenExpires(time() + phutil_units('1 hour in seconds'))
-          ->setTokenCode(PhabricatorHash::weakDigest($key))
+          ->setTokenCode(PhorgeHash::weakDigest($key))
           ->save();
       unset($unguarded);
 
       $panel_uri = '/auth/password/';
 
-      $request->setTemporaryCookie(PhabricatorCookies::COOKIE_HISEC, 'yes');
+      $request->setTemporaryCookie(PhorgeCookies::COOKIE_HISEC, 'yes');
 
       $params = array(
         'key' => $key,
@@ -232,12 +232,12 @@ final class PhabricatorAuthOneTimeLoginController
     // Check if the user already has external accounts linked. If they do,
     // it's not obvious why they aren't using them to log in, but assume they
     // know what they're doing. We won't send them to the link workflow.
-    $accounts = id(new PhabricatorExternalAccountQuery())
+    $accounts = id(new PhorgeExternalAccountQuery())
       ->setViewer($user)
       ->withUserPHIDs(array($user->getPHID()))
       ->execute();
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($user)
       ->withIsEnabled(true)
       ->execute();

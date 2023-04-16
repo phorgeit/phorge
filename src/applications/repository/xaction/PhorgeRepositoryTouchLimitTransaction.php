@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryTouchLimitTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryTouchLimitTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'limit.touch';
 

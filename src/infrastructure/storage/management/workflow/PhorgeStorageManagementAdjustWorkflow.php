@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStorageManagementAdjustWorkflow
-  extends PhabricatorStorageManagementWorkflow {
+final class PhorgeStorageManagementAdjustWorkflow
+  extends PhorgeStorageManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -39,7 +39,7 @@ final class PhabricatorStorageManagementAdjustWorkflow
   }
 
   private function requireAllPatchesApplied(
-    PhabricatorStorageManagementAPI $api) {
+    PhorgeStorageManagementAPI $api) {
     $applied = $api->getAppliedPatches();
 
     if ($applied === null) {

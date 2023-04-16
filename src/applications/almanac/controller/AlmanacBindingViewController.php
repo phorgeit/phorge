@@ -118,10 +118,10 @@ final class AlmanacBindingViewController
   private function buildCurtain(AlmanacBinding $binding) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $binding,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $binding->getID();
     $edit_uri = $this->getApplicationURI("binding/edit/{$id}/");
@@ -130,7 +130,7 @@ final class AlmanacBindingViewController
     $curtain = $this->newCurtainView($binding);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Binding'))
         ->setHref($edit_uri)
@@ -146,7 +146,7 @@ final class AlmanacBindingViewController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon($disable_icon)
         ->setName($disable_text)
         ->setHref($disable_uri)

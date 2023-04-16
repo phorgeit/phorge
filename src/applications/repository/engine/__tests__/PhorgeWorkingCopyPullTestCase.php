@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkingCopyPullTestCase
-  extends PhabricatorWorkingCopyTestCase {
+final class PhorgeWorkingCopyPullTestCase
+  extends PhorgeWorkingCopyTestCase {
 
   public function testGitPullBasic() {
     $repo = $this->buildPulledRepository('GT');

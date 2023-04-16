@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailEmailMessage
-  extends PhabricatorMailExternalMessage {
+final class PhorgeMailEmailMessage
+  extends PhorgeMailExternalMessage {
 
   const MESSAGETYPE = 'email';
 
@@ -16,7 +16,7 @@ final class PhabricatorMailEmailMessage
   private $htmlBody;
 
   public function newMailMessageEngine() {
-    return new PhabricatorMailEmailEngine();
+    return new PhorgeMailEmailEngine();
   }
 
   public function setFromAddress(PhutilEmailAddress $from_address) {
@@ -58,7 +58,7 @@ final class PhabricatorMailEmailMessage
   }
 
   public function setHeaders(array $headers) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, 'PhorgeMailHeader');
     $this->headers = $headers;
     return $this;
   }
@@ -68,7 +68,7 @@ final class PhabricatorMailEmailMessage
   }
 
   public function setAttachments(array $attachments) {
-    assert_instances_of($attachments, 'PhabricatorMailAttachment');
+    assert_instances_of($attachments, 'PhorgeMailAttachment');
     $this->attachments = $attachments;
     return $this;
   }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class HeraldDAO extends PhabricatorLiskDAO {
+abstract class HeraldDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'herald';

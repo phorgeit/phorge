@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFlagRemoveFlagHeraldAction
-  extends PhabricatorFlagHeraldAction {
+final class PhorgeFlagRemoveFlagHeraldAction
+  extends PhorgeFlagHeraldAction {
 
   const ACTIONCONST = 'unflag';
 
@@ -17,7 +17,7 @@ final class PhabricatorFlagRemoveFlagHeraldAction
     $rule = $effect->getRule();
     $author = $rule->getAuthor();
 
-    $flag = PhabricatorFlagQuery::loadUserFlag($author, $phid);
+    $flag = PhorgeFlagQuery::loadUserFlag($author, $phid);
     if (!$flag) {
       $this->logEffect(self::DO_IGNORE_UNFLAG, null);
       return;
@@ -36,8 +36,8 @@ final class PhabricatorFlagRemoveFlagHeraldAction
   public function getHeraldActionValueType() {
     return id(new HeraldSelectFieldValue())
       ->setKey('flag.color')
-      ->setOptions(PhabricatorFlagColor::getColorNameMap())
-      ->setDefault(PhabricatorFlagColor::COLOR_BLUE);
+      ->setOptions(PhorgeFlagColor::getColorNameMap())
+      ->setDefault(PhorgeFlagColor::COLOR_BLUE);
   }
 
   protected function getActionEffectMap() {
@@ -55,7 +55,7 @@ final class PhabricatorFlagRemoveFlagHeraldAction
   }
 
   public function renderActionDescription($value) {
-    $color = PhabricatorFlagColor::getColorName($value);
+    $color = PhorgeFlagColor::getColorName($value);
     return pht('Remove %s flag.', $color);
   }
 
@@ -67,12 +67,12 @@ final class PhabricatorFlagRemoveFlagHeraldAction
         } else {
           return pht(
             'Marked with flag of the wrong color ("%s").',
-            PhabricatorFlagColor::getColorName($data));
+            PhorgeFlagColor::getColorName($data));
         }
       case self::DO_UNFLAG:
         return pht(
           'Removed "%s" flag.',
-          PhabricatorFlagColor::getColorName($data));
+          PhorgeFlagColor::getColorName($data));
     }
   }
 

@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorBadgesProfileController
-  extends PhabricatorController {
+abstract class PhorgeBadgesProfileController
+  extends PhorgeController {
 
   private $badge;
 
-  public function setBadge(PhabricatorBadgesBadge $badge) {
+  public function setBadge(PhorgeBadgesBadge $badge) {
     $this->badge = $badge;
     return $this;
   }
@@ -31,7 +31,7 @@ abstract class PhabricatorBadgesProfileController
       $status_color = 'bluegrey';
     }
     $status_name = idx(
-      PhabricatorBadgesBadge::getStatusNameMap(),
+      PhorgeBadgesBadge::getStatusNameMap(),
       $badge->getStatus());
 
     return id(new PHUIHeaderView())
@@ -58,10 +58,10 @@ abstract class PhabricatorBadgesProfileController
     $badge = $this->getBadge();
     $id = $badge->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $nav = id(new AphrontSideNavFilterView())
       ->setBaseURI(new PhutilURI($this->getApplicationURI()));

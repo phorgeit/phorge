@@ -47,10 +47,10 @@ final class PhameBlogManageController extends PhameBlogController {
       ->setStatus($header_icon, $header_color, $header_name)
       ->addActionLink($view);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $blog,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($can_edit) {
       $header->setImageEditURL(
@@ -128,7 +128,7 @@ final class PhameBlogManageController extends PhameBlogController {
 
     $properties->addProperty(pht('Parent Domain'), $parent_domain);
 
-    $feed_uri = PhabricatorEnv::getProductionURI(
+    $feed_uri = PhorgeEnv::getProductionURI(
       $this->getApplicationURI('blog/feed/'.$blog->getID().'/'));
     $properties->addProperty(
       pht('Atom URI'),
@@ -160,17 +160,17 @@ final class PhameBlogManageController extends PhameBlogController {
 
     $curtain = $this->newCurtainView($blog);
 
-    $actions = id(new PhabricatorActionListView())
+    $actions = id(new PhorgeActionListView())
       ->setObject($blog)
       ->setUser($viewer);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $blog,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI('blog/edit/'.$blog->getID().'/'))
         ->setName(pht('Edit Blog'))
@@ -178,7 +178,7 @@ final class PhameBlogManageController extends PhameBlogController {
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-camera')
         ->setHref($this->getApplicationURI('blog/header/'.$blog->getID().'/'))
         ->setName(pht('Edit Blog Header'))
@@ -186,7 +186,7 @@ final class PhameBlogManageController extends PhameBlogController {
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-picture-o')
         ->setHref($this->getApplicationURI('blog/picture/'.$blog->getID().'/'))
         ->setName(pht('Edit Blog Picture'))
@@ -195,7 +195,7 @@ final class PhameBlogManageController extends PhameBlogController {
 
     if ($blog->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Blog'))
           ->setIcon('fa-check')
           ->setHref(
@@ -204,7 +204,7 @@ final class PhameBlogManageController extends PhameBlogController {
           ->setWorkflow(true));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Blog'))
           ->setIcon('fa-ban')
           ->setHref(

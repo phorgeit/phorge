@@ -1,7 +1,7 @@
 <?php
 
-interface PhabricatorNgramsInterface
-  extends PhabricatorIndexableInterface {
+interface PhorgeNgramsInterface
+  extends PhorgeIndexableInterface {
 
   public function newNgrams();
 

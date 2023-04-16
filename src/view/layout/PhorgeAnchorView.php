@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAnchorView extends AphrontView {
+final class PhorgeAnchorView extends AphrontView {
 
   private $anchorName;
   private $navigationMarker;

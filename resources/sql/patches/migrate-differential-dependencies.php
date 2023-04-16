@@ -14,7 +14,7 @@ foreach (new LiskMigrationIterator($table) as $rev) {
     continue;
   }
 
-  $editor = new PhabricatorEdgeEditor();
+  $editor = new PhorgeEdgeEditor();
   foreach ($deps as $dep) {
     $editor->addEdge(
       $rev->getPHID(),

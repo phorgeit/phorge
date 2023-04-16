@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonLogGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeDaemonLogGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'daemon.logs';
 
@@ -14,7 +14,7 @@ final class PhabricatorDaemonLogGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorDaemonLog();
+    $table = new PhorgeDaemonLog();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

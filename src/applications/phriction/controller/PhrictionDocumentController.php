@@ -14,7 +14,7 @@ final class PhrictionDocumentController
     $viewer = $request->getViewer();
     $this->slug = $request->getURIData('slug');
 
-    $slug = PhabricatorSlug::normalize($this->slug);
+    $slug = PhorgeSlug::normalize($this->slug);
     if ($slug != $this->slug) {
       $uri = PhrictionDocument::getSlugURI($slug);
       // Canonicalize pages to their one true URI.
@@ -189,10 +189,10 @@ final class PhrictionDocumentController
         $content = $document->getContent();
 
         if ($content->getVersion() < $document->getMaxVersion()) {
-          $can_edit = PhabricatorPolicyFilter::hasCapability(
+          $can_edit = PhorgePolicyFilter::hasCapability(
             $viewer,
             $document,
-            PhabricatorPolicyCapability::CAN_EDIT);
+            PhorgePolicyCapability::CAN_EDIT);
           if ($can_edit) {
             $document_uri = new PhutilURI($document->getURI());
             $draft_uri = $document_uri->alter('v', $document->getMaxVersion());
@@ -411,25 +411,25 @@ final class PhrictionDocumentController
     PhrictionContent $content) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $document,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $slug = PhabricatorSlug::normalize($this->slug);
+    $slug = PhorgeSlug::normalize($this->slug);
     $id = $document->getID();
 
     $curtain = $this->newCurtainView($document);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Document'))
         ->setDisabled(!$can_edit)
         ->setIcon('fa-pencil')
         ->setHref('/phriction/edit/'.$document->getID().'/'));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setName(pht('View History'))
       ->setIcon('fa-history')
       ->setHref(PhrictionDocument::getSlugURI($slug, 'history')));
@@ -469,7 +469,7 @@ final class PhrictionDocumentController
     $publish_uri = "/phriction/publish/{$id}/{$content_id}/";
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setName($publish_name)
       ->setIcon('fa-upload')
       ->setSelected($hint_publish)
@@ -479,7 +479,7 @@ final class PhrictionDocumentController
 
     if ($document->getStatus() == PhrictionDocumentStatus::STATUS_EXISTS) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Move Document'))
           ->setDisabled(!$can_edit)
           ->setIcon('fa-arrows')
@@ -487,7 +487,7 @@ final class PhrictionDocumentController
           ->setWorkflow(true));
 
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Delete Document'))
           ->setDisabled(!$can_edit)
           ->setIcon('fa-times')
@@ -498,7 +498,7 @@ final class PhrictionDocumentController
     $print_uri = PhrictionDocument::getSlugURI($slug).'?__print__=1';
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
       ->setName(pht('Printable Page'))
       ->setIcon('fa-print')
       ->setOpenInNewWindow(true)
@@ -509,8 +509,8 @@ final class PhrictionDocumentController
 
   private function renderDocumentChildren($slug) {
 
-    $d_child = PhabricatorSlug::getDepth($slug) + 1;
-    $d_grandchild = PhabricatorSlug::getDepth($slug) + 2;
+    $d_child = PhorgeSlug::getDepth($slug) + 1;
+    $d_grandchild = PhorgeSlug::getDepth($slug) + 2;
     $limit = 250;
 
     $query = id(new PhrictionDocumentQuery())
@@ -570,7 +570,7 @@ final class PhrictionDocumentController
       } else {
         unset($children[$key]);
         if ($show_grandchildren) {
-          $ancestors = PhabricatorSlug::getAncestry($child->getSlug());
+          $ancestors = PhorgeSlug::getAncestry($child->getSlug());
           $grandchildren_dicts[end($ancestors)][] = $child_dict;
         }
       }
@@ -583,7 +583,7 @@ final class PhrictionDocumentController
         $children_dicts[] = array(
           'slug'    => $slug,
           'depth'   => $d_child,
-          'title'   => PhabricatorSlug::getDefaultTitle($slug),
+          'title'   => PhorgeSlug::getDefaultTitle($slug),
           'empty'   => true,
         );
       }

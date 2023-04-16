@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLNameTransaction
-  extends PhabricatorPhurlURLTransactionType {
+final class PhorgePhurlURLNameTransaction
+  extends PhorgePhurlURLTransactionType {
 
   const TRANSACTIONTYPE = 'phurl.name';
 

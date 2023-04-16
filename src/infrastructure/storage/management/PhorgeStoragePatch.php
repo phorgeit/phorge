@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorStoragePatch extends Phobject {
+final class PhorgeStoragePatch extends Phobject {
 
   private $key;
   private $fullKey;

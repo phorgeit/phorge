@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorUserEmail();
+$table = new PhorgeUserEmail();
 $conn = $table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator($conn, $table->getTableName());

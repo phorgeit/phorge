@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCalendarImportEngine
+abstract class PhorgeCalendarImportEngine
   extends Phobject {
 
   const QUEUE_BYTE_LIMIT = 524288;
@@ -14,35 +14,35 @@ abstract class PhabricatorCalendarImportEngine
   abstract public function getImportEngineHint();
 
   public function appendImportProperties(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     PHUIPropertyListView $properties) {
     return;
   }
 
   abstract public function newEditEngineFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorCalendarImport $import);
+    PhorgeEditEngine $engine,
+    PhorgeCalendarImport $import);
 
-  abstract public function getDisplayName(PhabricatorCalendarImport $import);
+  abstract public function getDisplayName(PhorgeCalendarImport $import);
 
   abstract public function importEventsFromSource(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     $should_queue);
 
   abstract public function canDisable(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import);
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import);
 
   public function explainCanDisable(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import) {
     throw new PhutilMethodNotImplementedException();
   }
 
   abstract public function supportsTriggers(
-    PhabricatorCalendarImport $import);
+    PhorgeCalendarImport $import);
 
   final public static function getAllImportEngines() {
     return id(new PhutilClassMapQuery())
@@ -53,8 +53,8 @@ abstract class PhabricatorCalendarImportEngine
   }
 
   final protected function importEventDocument(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import,
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import,
     PhutilCalendarRootNode $root = null) {
 
     $event_type = PhutilCalendarEventNode::NODETYPE;
@@ -66,7 +66,7 @@ abstract class PhabricatorCalendarImportEngine
           $node_type = $node->getNodeType();
           if ($node_type != $event_type) {
             $import->newLogMessage(
-              PhabricatorCalendarImportIgnoredNodeLogType::LOGTYPE,
+              PhorgeCalendarImportIgnoredNodeLogType::LOGTYPE,
               array(
                 'node.type' => $node_type,
               ));
@@ -108,7 +108,7 @@ abstract class PhabricatorCalendarImportEngine
 
       if ($bad_date) {
         $import->newLogMessage(
-          PhabricatorCalendarImportEpochLogType::LOGTYPE,
+          PhorgeCalendarImportEpochLogType::LOGTYPE,
           array());
         unset($nodes[$key]);
       }
@@ -131,7 +131,7 @@ abstract class PhabricatorCalendarImportEngine
       } else {
         // This is an hourly, minutely, or secondly event.
         $import->newLogMessage(
-          PhabricatorCalendarImportFrequencyLogType::LOGTYPE,
+          PhorgeCalendarImportFrequencyLogType::LOGTYPE,
           array(
             'frequency' => $rrule->getFrequency(),
           ));
@@ -144,7 +144,7 @@ abstract class PhabricatorCalendarImportEngine
       $full_uid = $this->getFullNodeUID($node);
       if (isset($node_map[$full_uid])) {
         $import->newLogMessage(
-          PhabricatorCalendarImportDuplicateLogType::LOGTYPE,
+          PhorgeCalendarImportDuplicateLogType::LOGTYPE,
           array(
             'uid.full' => $full_uid,
           ));
@@ -170,8 +170,8 @@ abstract class PhabricatorCalendarImportEngine
       // NOTE: We're using the omnipotent viewer here because we don't want
       // to collide with events that already exist, even if you can't see
       // them.
-      $events = id(new PhabricatorCalendarEventQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $events = id(new PhorgeCalendarEventQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($likely_phids)
         ->execute();
       $events = mpull($events, null, 'getPHID');
@@ -187,7 +187,7 @@ abstract class PhabricatorCalendarImportEngine
         }
 
         $import->newLogMessage(
-          PhabricatorCalendarImportOriginalLogType::LOGTYPE,
+          PhorgeCalendarImportOriginalLogType::LOGTYPE,
           array(
             'phid' => $event->getPHID(),
           ));
@@ -197,7 +197,7 @@ abstract class PhabricatorCalendarImportEngine
     }
 
     if ($node_map) {
-      $events = id(new PhabricatorCalendarEventQuery())
+      $events = id(new PhorgeCalendarEventQuery())
         ->setViewer($viewer)
         ->withImportAuthorPHIDs(array($import->getAuthorPHID()))
         ->withImportUIDs(array_keys($node_map))
@@ -214,7 +214,7 @@ abstract class PhabricatorCalendarImportEngine
     foreach ($node_map as $full_uid => $node) {
       $event = idx($events, $full_uid);
       if (!$event) {
-        $event = PhabricatorCalendarEvent::initializeNewCalendarEvent($viewer);
+        $event = PhorgeCalendarEvent::initializeNewCalendarEvent($viewer);
       }
 
       $event
@@ -259,7 +259,7 @@ abstract class PhabricatorCalendarImportEngine
     }
 
     if ($attendee_names) {
-      $external_invitees = id(new PhabricatorCalendarExternalInviteeQuery())
+      $external_invitees = id(new PhorgeCalendarExternalInviteeQuery())
         ->setViewer($viewer)
         ->withNames(array_keys($attendee_names))
         ->execute();
@@ -270,7 +270,7 @@ abstract class PhabricatorCalendarImportEngine
           continue;
         }
 
-        $external_invitee = id(new PhabricatorCalendarExternalInvitee())
+        $external_invitee = id(new PhorgeCalendarExternalInvitee())
           ->setName($name)
           ->setURI($attendee->getURI())
           ->setSourcePHID($import->getPHID());
@@ -279,7 +279,7 @@ abstract class PhabricatorCalendarImportEngine
           $external_invitee->save();
         } catch (AphrontDuplicateKeyQueryException $ex) {
           $external_invitee =
-            id(new PhabricatorCalendarExternalInviteeQuery())
+            id(new PhorgeCalendarExternalInviteeQuery())
               ->setViewer($viewer)
               ->withNames(array($name))
               ->executeOne();
@@ -305,7 +305,7 @@ abstract class PhabricatorCalendarImportEngine
         // this node.
 
         $import->newLogMessage(
-          PhabricatorCalendarImportOrphanLogType::LOGTYPE,
+          PhorgeCalendarImportOrphanLogType::LOGTYPE,
           array(
             'uid.full' => $full_uid,
             'uid.parent' => $parent_uid,
@@ -322,12 +322,12 @@ abstract class PhabricatorCalendarImportEngine
 
     // TODO: Define per-engine content sources so this can say "via Upload" or
     // whatever.
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorWebContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeWebContentSource::SOURCECONST);
 
     // NOTE: We're using the omnipotent user here because imported events are
     // otherwise immutable.
-    $edit_actor = PhabricatorUser::getOmnipotentUser();
+    $edit_actor = PhorgeUser::getOmnipotentUser();
 
     $update_map = array_select_keys($update_map, $insert_order);
     foreach ($update_map as $full_uid => $event) {
@@ -342,7 +342,7 @@ abstract class PhabricatorCalendarImportEngine
 
       $event_xactions = $xactions[$full_uid];
 
-      $editor = id(new PhabricatorCalendarEventEditor())
+      $editor = id(new PhorgeCalendarEventEditor())
         ->setActor($edit_actor)
         ->setActingAsPHID($import->getPHID())
         ->setContentSource($content_source)
@@ -366,7 +366,7 @@ abstract class PhabricatorCalendarImportEngine
 
         $invitee = idx($old_map, $phid);
         if (!$invitee) {
-          $invitee = id(new PhabricatorCalendarEventInvitee())
+          $invitee = id(new PhorgeCalendarEventInvitee())
             ->setEventPHID($event->getPHID())
             ->setInviteePHID($phid)
             ->setInviterPHID($import->getPHID());
@@ -374,14 +374,14 @@ abstract class PhabricatorCalendarImportEngine
 
         switch ($attendee->getStatus()) {
           case PhutilCalendarUserNode::STATUS_ACCEPTED:
-            $status = PhabricatorCalendarEventInvitee::STATUS_ATTENDING;
+            $status = PhorgeCalendarEventInvitee::STATUS_ATTENDING;
             break;
           case PhutilCalendarUserNode::STATUS_DECLINED:
-            $status = PhabricatorCalendarEventInvitee::STATUS_DECLINED;
+            $status = PhorgeCalendarEventInvitee::STATUS_DECLINED;
             break;
           case PhutilCalendarUserNode::STATUS_INVITED:
           default:
-            $status = PhabricatorCalendarEventInvitee::STATUS_INVITED;
+            $status = PhorgeCalendarEventInvitee::STATUS_INVITED;
             break;
         }
         $invitee->setStatus($status);
@@ -399,7 +399,7 @@ abstract class PhabricatorCalendarImportEngine
       $event->attachInvitees($new_map);
 
       $import->newLogMessage(
-        PhabricatorCalendarImportUpdateLogType::LOGTYPE,
+        PhorgeCalendarImportUpdateLogType::LOGTYPE,
         array(
           'new' => $is_new,
           'phid' => $event->getPHID(),
@@ -408,18 +408,18 @@ abstract class PhabricatorCalendarImportEngine
 
     if (!$update_map) {
       $import->newLogMessage(
-        PhabricatorCalendarImportEmptyLogType::LOGTYPE,
+        PhorgeCalendarImportEmptyLogType::LOGTYPE,
         array());
     }
 
     // Delete any events which are no longer present in the source.
     $updated_events = mpull($update_map, null, 'getPHID');
-    $source_events = id(new PhabricatorCalendarEventQuery())
+    $source_events = id(new PhorgeCalendarEventQuery())
       ->setViewer($viewer)
       ->withImportSourcePHIDs(array($import->getPHID()))
       ->execute();
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     foreach ($source_events as $source_event) {
       if (isset($updated_events[$source_event->getPHID()])) {
         // We imported and updated this event, so keep it around.
@@ -427,7 +427,7 @@ abstract class PhabricatorCalendarImportEngine
       }
 
       $import->newLogMessage(
-        PhabricatorCalendarImportDeleteLogType::LOGTYPE,
+        PhorgeCalendarImportDeleteLogType::LOGTYPE,
         array(
           'name' => $source_event->getName(),
         ));
@@ -468,15 +468,15 @@ abstract class PhabricatorCalendarImportEngine
   }
 
   private function newUpdateTransactions(
-    PhabricatorCalendarEvent $event,
+    PhorgeCalendarEvent $event,
     PhutilCalendarEventNode $node) {
 
     $xactions = array();
     $uid = $node->getUID();
 
     if (!$event->getID()) {
-      $xactions[] = id(new PhabricatorCalendarEventTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_CREATE)
+      $xactions[] = id(new PhorgeCalendarEventTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_CREATE)
         ->setNewValue(true);
     }
 
@@ -488,29 +488,29 @@ abstract class PhabricatorCalendarImportEngine
         $name = pht('Unnamed Imported Event');
       }
     }
-    $xactions[] = id(new PhabricatorCalendarEventTransaction())
+    $xactions[] = id(new PhorgeCalendarEventTransaction())
       ->setTransactionType(
-        PhabricatorCalendarEventNameTransaction::TRANSACTIONTYPE)
+        PhorgeCalendarEventNameTransaction::TRANSACTIONTYPE)
       ->setNewValue($name);
 
     $description = $node->getDescription();
-    $xactions[] = id(new PhabricatorCalendarEventTransaction())
+    $xactions[] = id(new PhorgeCalendarEventTransaction())
       ->setTransactionType(
-        PhabricatorCalendarEventDescriptionTransaction::TRANSACTIONTYPE)
+        PhorgeCalendarEventDescriptionTransaction::TRANSACTIONTYPE)
       ->setNewValue((string)$description);
 
     $is_recurring = (bool)$node->getRecurrenceRule();
-    $xactions[] = id(new PhabricatorCalendarEventTransaction())
+    $xactions[] = id(new PhorgeCalendarEventTransaction())
       ->setTransactionType(
-        PhabricatorCalendarEventRecurringTransaction::TRANSACTIONTYPE)
+        PhorgeCalendarEventRecurringTransaction::TRANSACTIONTYPE)
       ->setNewValue($is_recurring);
 
     return $xactions;
   }
 
   private function updateEventFromNode(
-    PhabricatorUser $actor,
-    PhabricatorCalendarEvent $event,
+    PhorgeUser $actor,
+    PhorgeCalendarEvent $event,
     PhutilCalendarEventNode $node) {
 
     $instance_epoch = $this->getNodeInstanceEpoch($node);
@@ -551,10 +551,10 @@ abstract class PhabricatorCalendarImportEngine
   }
 
   public function canDeleteAnyEvents(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImport $import) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImport $import) {
 
-    $table = new PhabricatorCalendarEvent();
+    $table = new PhorgeCalendarEvent();
     $conn = $table->establishConnection('r');
 
     // Using a CalendarEventQuery here was failing oddly in a way that was
@@ -575,11 +575,11 @@ abstract class PhabricatorCalendarImportEngine
   }
 
   final protected function queueDataImport(
-    PhabricatorCalendarImport $import,
+    PhorgeCalendarImport $import,
     $data) {
 
     $import->newLogMessage(
-      PhabricatorCalendarImportQueueLogType::LOGTYPE,
+      PhorgeCalendarImportQueueLogType::LOGTYPE,
       array(
         'data.size' => strlen($data),
         'data.limit' => self::QUEUE_BYTE_LIMIT,
@@ -589,11 +589,11 @@ abstract class PhabricatorCalendarImportEngine
     // user action (like uploading a big `.ics` file), so we queue at normal
     // priority instead of bulk/import priority.
 
-    PhabricatorWorker::scheduleTask(
-      'PhabricatorCalendarImportReloadWorker',
+    PhorgeWorker::scheduleTask(
+      'PhorgeCalendarImportReloadWorker',
       array(
         'importPHID' => $import->getPHID(),
-        'via' => PhabricatorCalendarImportReloadWorker::VIA_BACKGROUND,
+        'via' => PhorgeCalendarImportReloadWorker::VIA_BACKGROUND,
       ),
       array(
         'objectPHID' => $import->getPHID(),

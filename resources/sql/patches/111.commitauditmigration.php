@@ -1,11 +1,11 @@
 <?php
 
 echo pht('Updating old commit authors...')."\n";
-$table = new PhabricatorRepositoryCommit();
+$table = new PhorgeRepositoryCommit();
 $table->openTransaction();
 
 $conn = $table->establishConnection('w');
-$data = new PhabricatorRepositoryCommitData();
+$data = new PhorgeRepositoryCommitData();
 $commits = queryfx_all(
   $conn,
   'SELECT c.id id, c.authorPHID authorPHID, d.commitDetails details

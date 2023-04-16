@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentRawController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionCommentRawController
+  extends PhorgeApplicationTransactionController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $phid = $request->getURIData('phid');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->withPHIDs(array($phid))
       ->setViewer($viewer)
       ->executeOne();
@@ -27,7 +27,7 @@ final class PhabricatorApplicationTransactionCommentRawController
     }
 
     $obj_phid = $xaction->getObjectPHID();
-    $obj_handle = id(new PhabricatorHandleQuery())
+    $obj_handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($obj_phid))
       ->executeOne();
@@ -37,11 +37,11 @@ final class PhabricatorApplicationTransactionCommentRawController
     $addendum = null;
     if ($request->getExists('email')) {
       $content_source = $xaction->getContentSource();
-      $source_email = PhabricatorEmailContentSource::SOURCECONST;
+      $source_email = PhorgeEmailContentSource::SOURCECONST;
       if ($content_source->getSource() == $source_email) {
         $source_id = $content_source->getContentSourceParameter('id');
         if ($source_id) {
-          $message = id(new PhabricatorMetaMTAReceivedMail())->loadOneWhere(
+          $message = id(new PhorgeMetaMTAReceivedMail())->loadOneWhere(
             'id = %d',
             $source_id);
           if ($message) {

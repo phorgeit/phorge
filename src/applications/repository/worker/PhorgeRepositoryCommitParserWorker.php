@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorRepositoryCommitParserWorker
-  extends PhabricatorWorker {
+abstract class PhorgeRepositoryCommitParserWorker
+  extends PhorgeWorker {
 
   protected $commit;
   protected $repository;
@@ -35,7 +35,7 @@ abstract class PhabricatorRepositoryCommitParserWorker
     }
 
     if (!$commit_phid) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Task data has no "commitPHID".'));
     }
 
@@ -43,12 +43,12 @@ abstract class PhabricatorRepositoryCommitParserWorker
       ->withPHIDs(array($commit_phid))
       ->executeOne();
     if (!$commit) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('Commit "%s" does not exist.', $commit_phid));
     }
 
     if ($commit->isUnreachable()) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Commit "%s" (with PHID "%s") is no longer reachable from any '.
           'branch, tag, or ref in this repository, so it will not be '.
@@ -145,11 +145,11 @@ abstract class PhabricatorRepositoryCommitParserWorker
   }
 
   abstract protected function parseCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit);
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit);
 
-  protected function loadCommitHint(PhabricatorRepositoryCommit $commit) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+  protected function loadCommitHint(PhorgeRepositoryCommit $commit) {
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $repository = $commit->getRepository();
 
@@ -160,7 +160,7 @@ abstract class PhabricatorRepositoryCommitParserWorker
       ->executeOne();
   }
 
-  public function renderForDisplay(PhabricatorUser $viewer) {
+  public function renderForDisplay(PhorgeUser $viewer) {
     $suffix = parent::renderForDisplay($viewer);
 
     $commit = id(new DiffusionCommitQuery())
@@ -178,18 +178,18 @@ abstract class PhabricatorRepositoryCommitParserWorker
     return array($link, $suffix);
   }
 
-  final protected function loadCommitData(PhabricatorRepositoryCommit $commit) {
+  final protected function loadCommitData(PhorgeRepositoryCommit $commit) {
     if ($commit->hasCommitData()) {
       return $commit->getCommitData();
     }
 
     $commit_id = $commit->getID();
 
-    $data = id(new PhabricatorRepositoryCommitData())->loadOneWhere(
+    $data = id(new PhorgeRepositoryCommitData())->loadOneWhere(
       'commitID = %d',
       $commit_id);
     if (!$data) {
-      $data = id(new PhabricatorRepositoryCommitData())
+      $data = id(new PhorgeRepositoryCommitData())
         ->setCommitID($commit_id);
     }
 
@@ -199,7 +199,7 @@ abstract class PhabricatorRepositoryCommitParserWorker
   }
 
   final public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
 }

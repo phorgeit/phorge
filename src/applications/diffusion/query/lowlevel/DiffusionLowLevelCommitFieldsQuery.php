@@ -37,7 +37,7 @@ final class DiffusionLowLevelCommitFieldsQuery
     );
 
     $result = id(new ConduitCall('differential.parsecommitmessage', $params))
-      ->setUser(PhabricatorUser::getOmnipotentUser())
+      ->setUser(PhorgeUser::getOmnipotentUser())
       ->execute();
     $fields = $result['fields'];
 
@@ -62,7 +62,7 @@ final class DiffusionLowLevelCommitFieldsQuery
         $hash_list[] = array($hash->getHashType(), $hash->getHashValue());
       }
       $revisions = id(new DifferentialRevisionQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->needHashes(true)
         ->withCommitHashes($hash_list)
         ->execute();

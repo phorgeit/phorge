@@ -50,7 +50,7 @@ final class DifferentialRevisionIDCommitMessageField
     $uri = new PhutilURI($uri_string);
     $path = $uri->getPath();
 
-    if (PhabricatorEnv::isSelfURI($uri_string)) {
+    if (PhorgeEnv::isSelfURI($uri_string)) {
       $matches = null;
       if (preg_match('#^/D(\d+)$#', $path, $matches)) {
         return (int)$matches[1];
@@ -76,7 +76,7 @@ final class DifferentialRevisionIDCommitMessageField
       return null;
     }
 
-    return PhabricatorEnv::getProductionURI('/D'.$value);
+    return PhorgeEnv::getProductionURI('/D'.$value);
   }
 
   public function getFieldTransactions($value) {

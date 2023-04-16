@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorRepositoryIdentityTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeRepositoryIdentityTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationTransactionType() {
-    return PhabricatorRepositoryIdentityPHIDType::TYPECONST;
+    return PhorgeRepositoryIdentityPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorRepositoryIdentityTransactionType';
+    return 'PhorgeRepositoryIdentityTransactionType';
   }
 
   public function getApplicationName() {

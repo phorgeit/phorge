@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeAuthFactorProviderEditEngine
+  extends PhorgeEditEngine {
 
   private $providerFactor;
 
@@ -24,10 +24,10 @@ final class PhabricatorAuthFactorProviderEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
-  public function setProviderFactor(PhabricatorAuthFactor $factor) {
+  public function setProviderFactor(PhorgeAuthFactor $factor) {
     $this->providerFactor = $factor;
     return $this;
   }
@@ -39,16 +39,16 @@ final class PhabricatorAuthFactorProviderEditEngine
   protected function newEditableObject() {
     $factor = $this->getProviderFactor();
     if ($factor) {
-      $provider = PhabricatorAuthFactorProvider::initializeNewProvider($factor);
+      $provider = PhorgeAuthFactorProvider::initializeNewProvider($factor);
     } else {
-      $provider = new PhabricatorAuthFactorProvider();
+      $provider = new PhorgeAuthFactorProvider();
     }
 
     return $provider;
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorAuthFactorProviderQuery();
+    return new PhorgeAuthFactorProviderQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -96,26 +96,26 @@ final class PhabricatorAuthFactorProviderEditEngine
     $factor = $object->getFactor();
     $factor_name = $factor->getFactorName();
 
-    $status_map = PhabricatorAuthFactorProviderStatus::getMap();
+    $status_map = PhorgeAuthFactorProviderStatus::getMap();
 
     $fields = array(
-      id(new PhabricatorStaticEditField())
+      id(new PhorgeStaticEditField())
         ->setKey('displayType')
         ->setLabel(pht('Factor Type'))
         ->setDescription(pht('Type of the MFA provider.'))
         ->setValue($factor_name),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setTransactionType(
-          PhabricatorAuthFactorProviderNameTransaction::TRANSACTIONTYPE)
+          PhorgeAuthFactorProviderNameTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Name'))
         ->setDescription(pht('Display name for the MFA provider.'))
         ->setValue($object->getName())
         ->setPlaceholder($factor_name),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setTransactionType(
-          PhabricatorAuthFactorProviderStatusTransaction::TRANSACTIONTYPE)
+          PhorgeAuthFactorProviderStatusTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Status'))
         ->setDescription(pht('Status of the MFA provider.'))
         ->setValue($object->getStatus())

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Scope guard to hold a temporary environment. See @{class:PhabricatorEnv} for
+ * Scope guard to hold a temporary environment. See @{class:PhorgeEnv} for
  * instructions on use.
  *
  * @task internal Internals
  * @task override Overriding Environment Configuration
  */
-final class PhabricatorScopedEnv extends Phobject {
+final class PhorgeScopedEnv extends Phobject {
 
   private $key;
   private $isPopped = false;
@@ -24,7 +24,7 @@ final class PhabricatorScopedEnv extends Phobject {
    * @task override
    */
   public function overrideEnvConfig($key, $value) {
-    PhabricatorEnv::overrideTestEnvConfig(
+    PhorgeEnv::overrideTestEnvConfig(
       $this->key,
       $key,
       $value);
@@ -51,7 +51,7 @@ final class PhabricatorScopedEnv extends Phobject {
    */
   public function __destruct() {
     if (!$this->isPopped) {
-      PhabricatorEnv::popTestEnvironment($this->key);
+      PhorgeEnv::popTestEnvironment($this->key);
       $this->isPopped = true;
     }
   }

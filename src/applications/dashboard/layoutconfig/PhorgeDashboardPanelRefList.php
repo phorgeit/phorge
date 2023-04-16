@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardPanelRefList
+final class PhorgeDashboardPanelRefList
   extends Phobject {
 
   private $refs;
@@ -11,7 +11,7 @@ final class PhabricatorDashboardPanelRefList
       $config = array();
     }
 
-    $mode_map = PhabricatorDashboardLayoutMode::getAllLayoutModes();
+    $mode_map = PhorgeDashboardLayoutMode::getAllLayoutModes();
     $mode_key = idx($config, 'layoutMode');
     if (!isset($mode_map[$mode_key])) {
       $mode_key = head_key($mode_map);
@@ -48,7 +48,7 @@ final class PhabricatorDashboardPanelRefList
       $column_key = idx($panel, 'columnKey');
       $column = idx($columns, $column_key, $default_column);
 
-      $ref = id(new PhabricatorDashboardPanelRef())
+      $ref = id(new PhorgeDashboardPanelRef())
         ->setPanelPHID($panel_phid)
         ->setPanelKey($panel_key)
         ->setColumnKey($column->getColumnKey());
@@ -88,14 +88,14 @@ final class PhabricatorDashboardPanelRefList
   }
 
   public function newPanelRef(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     $column_key = null) {
 
     if ($column_key === null) {
       $column_key = head_key($this->columns);
     }
 
-    $ref = id(new PhabricatorDashboardPanelRef())
+    $ref = id(new PhorgeDashboardPanelRef())
       ->setPanelKey($this->newPanelKey())
       ->setPanelPHID($panel->getPHID())
       ->setColumnKey($column_key);
@@ -105,7 +105,7 @@ final class PhabricatorDashboardPanelRefList
     return $ref;
   }
 
-  public function removePanelRef(PhabricatorDashboardPanelRef $target) {
+  public function removePanelRef(PhorgeDashboardPanelRef $target) {
     foreach ($this->refs as $key => $ref) {
       if ($ref->getPanelKey() !== $target->getPanelKey()) {
         continue;
@@ -119,9 +119,9 @@ final class PhabricatorDashboardPanelRefList
   }
 
   public function movePanelRef(
-    PhabricatorDashboardPanelRef $target,
+    PhorgeDashboardPanelRef $target,
     $column_key,
-    PhabricatorDashboardPanelRef $after = null) {
+    PhorgeDashboardPanelRef $after = null) {
 
     $target->setColumnKey($column_key);
 

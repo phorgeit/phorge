@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeConpherenceProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'conpherence';
   const FIELD_CONPHERENCE = 'conpherence';
@@ -17,7 +17,7 @@ final class PhabricatorConpherenceProfileMenuItem
   }
 
   public function canAddToObject($object) {
-    $application = new PhabricatorConpherenceApplication();
+    $application = new PhorgeConpherenceApplication();
 
     if (!$application->isInstalled()) {
       return false;
@@ -63,7 +63,7 @@ final class PhabricatorConpherenceProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $room = $this->getConpherence($config);
     if (!$room) {
       return pht('(Restricted/Invalid Conpherence)');
@@ -78,15 +78,15 @@ final class PhabricatorConpherenceProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey(self::FIELD_CONPHERENCE)
         ->setLabel(pht('Conpherence Room'))
         ->setDatasource(new ConpherenceThreadDatasource())
         ->setIsRequired(true)
         ->setSingleValue($config->getMenuItemProperty('conpherence')),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setValue($this->getName($config)),
@@ -94,12 +94,12 @@ final class PhabricatorConpherenceProfileMenuItem
   }
 
   private function getName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
     $room = $this->getConpherence($config);
     if (!$room) {
@@ -129,7 +129,7 @@ final class PhabricatorConpherenceProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {

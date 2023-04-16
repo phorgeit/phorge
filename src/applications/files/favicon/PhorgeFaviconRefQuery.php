@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorFaviconRefQuery extends Phobject {
+final class PhorgeFaviconRefQuery extends Phobject {
 
   private $refs;
 
   public function withRefs(array $refs) {
-    assert_instances_of($refs, 'PhabricatorFaviconRef');
+    assert_instances_of($refs, 'PhorgeFaviconRef');
     $this->refs = $refs;
     return $this;
   }
 
   public function execute() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $refs = $this->refs;
 
-    $config_digest = PhabricatorFaviconRef::newConfigurationDigest();
+    $config_digest = PhorgeFaviconRef::newConfigurationDigest();
 
     $ref_map = array();
     foreach ($refs as $ref) {
@@ -29,7 +29,7 @@ final class PhabricatorFaviconRefQuery extends Phobject {
       $ref_map[$ref_key] = $ref;
     }
 
-    $cache = PhabricatorCaches::getImmutableCache();
+    $cache = PhorgeCaches::getImmutableCache();
     $ref_hits = $cache->getKeys(array_keys($ref_map));
 
     foreach ($ref_hits as $ref_key => $ref_uri) {

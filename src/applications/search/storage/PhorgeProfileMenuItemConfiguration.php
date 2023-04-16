@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorProfileMenuItemConfiguration
-  extends PhabricatorSearchDAO
+final class PhorgeProfileMenuItemConfiguration
+  extends PhorgeSearchDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorIndexableInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeIndexableInterface {
 
   protected $profilePHID;
   protected $menuItemKey;
@@ -37,7 +37,7 @@ final class PhabricatorProfileMenuItemConfiguration
 
   public static function initializeNewItem(
     $profile_object,
-    PhabricatorProfileMenuItem $item,
+    PhorgeProfileMenuItem $item,
     $custom_phid) {
 
     return self::initializeNewBuiltin()
@@ -70,11 +70,11 @@ final class PhabricatorProfileMenuItemConfiguration
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorProfileMenuItemPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeProfileMenuItemPHIDType::TYPECONST);
   }
 
-  public function attachMenuItem(PhabricatorProfileMenuItem $item) {
+  public function attachMenuItem(PhorgeProfileMenuItem $item) {
     $this->menuItem = $item;
     return $this;
   }
@@ -263,20 +263,20 @@ final class PhabricatorProfileMenuItemConfiguration
   public function getProfileMenuTypeDescription() {
     $profile_phid = $this->getProfilePHID();
 
-    $home_phid = id(new PhabricatorHomeApplication())->getPHID();
+    $home_phid = id(new PhorgeHomeApplication())->getPHID();
     if ($profile_phid === $home_phid) {
       return pht('Home Menu');
     }
 
-    $favorites_phid = id(new PhabricatorFavoritesApplication())->getPHID();
+    $favorites_phid = id(new PhorgeFavoritesApplication())->getPHID();
     if ($profile_phid === $favorites_phid) {
       return pht('Favorites Menu');
     }
 
     switch (phid_get_type($profile_phid)) {
-      case PhabricatorProjectProjectPHIDType::TYPECONST:
+      case PhorgeProjectProjectPHIDType::TYPECONST:
         return pht('Project Menu');
-      case PhabricatorDashboardPortalPHIDType::TYPECONST:
+      case PhorgeDashboardPortalPHIDType::TYPECONST:
         return pht('Portal Menu');
     }
 
@@ -300,38 +300,38 @@ final class PhabricatorProfileMenuItemConfiguration
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getProfileObject()->hasAutomaticCapability(
       $capability,
       $viewer);
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     // If this is an item with a custom PHID (like a personal menu item),
     // we only require that the user can edit the corresponding custom
     // object (usually their own user profile), not the object that the
     // menu appears on (which may be an Application like Favorites or Home).
-    if ($capability == PhabricatorPolicyCapability::CAN_EDIT) {
+    if ($capability == PhorgePolicyCapability::CAN_EDIT) {
       if ($this->getCustomPHID()) {
         return array(
           array(
@@ -351,15 +351,15 @@ final class PhabricatorProfileMenuItemConfiguration
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorProfileMenuEditor();
+    return new PhorgeProfileMenuEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorProfileMenuItemConfigurationTransaction();
+    return new PhorgeProfileMenuItemConfigurationTransaction();
   }
 
 }

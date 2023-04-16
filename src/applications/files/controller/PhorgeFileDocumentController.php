@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFileDocumentController
-  extends PhabricatorFileController {
+final class PhorgeFileDocumentController
+  extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    $engine = id(new PhabricatorFileDocumentRenderingEngine())
+    $engine = id(new PhorgeFileDocumentRenderingEngine())
       ->setRequest($request)
       ->setController($this);
 
@@ -16,7 +16,7 @@ final class PhabricatorFileDocumentController
 
     $file_phid = $request->getURIData('phid');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -27,7 +27,7 @@ final class PhabricatorFileDocumentController
           $file_phid));
     }
 
-    $ref = id(new PhabricatorDocumentRef())
+    $ref = id(new PhorgeDocumentRef())
       ->setFile($file);
 
     return $engine->newRenderResponse($ref);

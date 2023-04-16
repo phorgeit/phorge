@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorNotificationListController
-  extends PhabricatorNotificationController {
+final class PhorgeNotificationListController
+  extends PhorgeNotificationController {
 
   public function handleRequest(AphrontRequest $request) {
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
-      ->setSearchEngine(new PhabricatorNotificationSearchEngine())
+      ->setSearchEngine(new PhorgeNotificationSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);
@@ -20,7 +20,7 @@ final class PhabricatorNotificationListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorNotificationSearchEngine())
+    id(new PhorgeNotificationSearchEngine())
       ->setViewer($viewer)
       ->addNavigationItems($nav->getMenu());
     $nav->selectFilter(null);

@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorRepositoryPushReplyHandler
-  extends PhabricatorMailReplyHandler {
+final class PhorgeRepositoryPushReplyHandler
+  extends PhorgeMailReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
     return;
   }
 
   public function getPrivateReplyHandlerEmailAddress(
-    PhabricatorUser $user) {
+    PhorgeUser $user) {
     return null;
   }
 
-  protected function receiveEmail(PhabricatorMetaMTAReceivedMail $mail) {
+  protected function receiveEmail(PhorgeMetaMTAReceivedMail $mail) {
     return;
   }
 

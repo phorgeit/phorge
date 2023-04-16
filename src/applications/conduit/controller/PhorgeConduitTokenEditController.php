@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorConduitTokenEditController
-  extends PhabricatorConduitController {
+final class PhorgeConduitTokenEditController
+  extends PhorgeConduitController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
     if ($id) {
-      $token = id(new PhabricatorConduitTokenQuery())
+      $token = id(new PhorgeConduitTokenQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->withExpired(false)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$token) {
@@ -27,34 +27,34 @@ final class PhabricatorConduitTokenEditController
       $is_new = false;
       $title = pht('View API Token');
     } else {
-      $object = id(new PhabricatorObjectQuery())
+      $object = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($request->getStr('objectPHID')))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$object) {
         return new Aphront404Response();
       }
 
-      $token = PhabricatorConduitToken::initializeNewToken(
+      $token = PhorgeConduitToken::initializeNewToken(
         $object->getPHID(),
-        PhabricatorConduitToken::TYPE_STANDARD);
+        PhorgeConduitToken::TYPE_STANDARD);
 
       $is_new = true;
       $title = pht('Generate API Token');
       $submit_button = pht('Generate Token');
     }
 
-    $panel_uri = id(new PhabricatorConduitTokensSettingsPanel())
+    $panel_uri = id(new PhorgeConduitTokensSettingsPanel())
       ->setViewer($viewer)
       ->setUser($object)
       ->getPanelURI();
 
-    id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $panel_uri);
@@ -84,7 +84,7 @@ final class PhabricatorConduitTokenEditController
       $form = id(new AphrontFormView())
         ->setUser($viewer);
 
-      if ($token->getTokenType() === PhabricatorConduitToken::TYPE_CLUSTER) {
+      if ($token->getTokenType() === PhorgeConduitToken::TYPE_CLUSTER) {
         $dialog->appendChild(
           pht(
             'This token is automatically generated, and used to make '.

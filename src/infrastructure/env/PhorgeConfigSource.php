@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConfigSource extends Phobject {
+abstract class PhorgeConfigSource extends Phobject {
 
   private $name;
 

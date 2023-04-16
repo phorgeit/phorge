@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorApplicationUninstallTransaction
-  extends PhabricatorApplicationTransactionType {
+final class PhorgeApplicationUninstallTransaction
+  extends PhorgeApplicationTransactionType {
 
   const TRANSACTIONTYPE = 'application.uninstall';
 
   public function generateOldValue($object) {
     $key = 'phorge.uninstalled-applications';
-    $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+    $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
     $list = $config_entry->getValue();
-    $uninstalled = PhabricatorEnv::getEnvConfig($key);
+    $uninstalled = PhorgeEnv::getEnvConfig($key);
 
     if (isset($uninstalled[get_class($object)])) {
       return 'uninstalled';
@@ -31,9 +31,9 @@ final class PhabricatorApplicationUninstallTransaction
     $user = $this->getActor();
 
     $key = 'phorge.uninstalled-applications';
-    $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+    $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
     $list = $config_entry->getValue();
-    $uninstalled = PhabricatorEnv::getEnvConfig($key);
+    $uninstalled = PhorgeEnv::getEnvConfig($key);
 
     if (isset($uninstalled[get_class($application)])) {
       unset($list[get_class($application)]);
@@ -46,8 +46,8 @@ final class PhabricatorApplicationUninstallTransaction
 
     // Today, changing config requires "Administrator", but "Can Edit" on
     // applications to let you uninstall them may be granted to any user.
-    PhabricatorConfigEditor::storeNewValue(
-      PhabricatorUser::getOmnipotentUser(),
+    PhorgeConfigEditor::storeNewValue(
+      PhorgeUser::getOmnipotentUser(),
       $config_entry,
       $list,
       $content_source,

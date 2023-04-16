@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Build Plans');
@@ -12,7 +12,7 @@ final class HarbormasterBuildPlanDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function loadResults() {
@@ -32,7 +32,7 @@ final class HarbormasterBuildPlanDatasource
         $closed = pht('Disabled');
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($plan->getName())
         ->setClosed($closed)
         ->setPHID($plan->getPHID());

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditorMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+final class PhorgeEditorMailEngineExtension
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'editor';
 
@@ -12,35 +12,35 @@ final class PhabricatorEditorMailEngineExtension
   public function newMailStampTemplates($object) {
     $templates = array();
 
-    $templates[] = id(new PhabricatorPHIDMailStamp())
+    $templates[] = id(new PhorgePHIDMailStamp())
       ->setKey('actor')
       ->setLabel(pht('Acting User'));
 
-    $templates[] = id(new PhabricatorStringMailStamp())
+    $templates[] = id(new PhorgeStringMailStamp())
       ->setKey('via')
       ->setLabel(pht('Via Content Source'));
 
-    $templates[] = id(new PhabricatorBoolMailStamp())
+    $templates[] = id(new PhorgeBoolMailStamp())
       ->setKey('silent')
       ->setLabel(pht('Silent Edit'));
 
-    $templates[] = id(new PhabricatorBoolMailStamp())
+    $templates[] = id(new PhorgeBoolMailStamp())
       ->setKey('encrypted')
       ->setLabel(pht('Encryption Required'));
 
-    $templates[] = id(new PhabricatorBoolMailStamp())
+    $templates[] = id(new PhorgeBoolMailStamp())
       ->setKey('new')
       ->setLabel(pht('New Object'));
 
-    $templates[] = id(new PhabricatorPHIDMailStamp())
+    $templates[] = id(new PhorgePHIDMailStamp())
       ->setKey('mention')
       ->setLabel(pht('Mentioned User'));
 
-    $templates[] = id(new PhabricatorStringMailStamp())
+    $templates[] = id(new PhorgeStringMailStamp())
       ->setKey('herald')
       ->setLabel(pht('Herald Rule'));
 
-    $templates[] = id(new PhabricatorPHIDMailStamp())
+    $templates[] = id(new PhorgePHIDMailStamp())
       ->setKey('removed')
       ->setLabel(pht('Recipient Removed'));
 

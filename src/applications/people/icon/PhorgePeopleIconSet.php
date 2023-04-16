@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleIconSet
-  extends PhabricatorIconSet {
+final class PhorgePeopleIconSet
+  extends PhorgeIconSet {
 
   const ICONSETKEY = 'people';
 
@@ -14,7 +14,7 @@ final class PhabricatorPeopleIconSet
 
     $icons = array();
     foreach ($specifications as $spec) {
-      $icons[] = id(new PhabricatorIconSetIcon())
+      $icons[] = id(new PhorgeIconSetIcon())
         ->setKey($spec['key'])
         ->setIcon($spec['icon'])
         ->setLabel($spec['name']);

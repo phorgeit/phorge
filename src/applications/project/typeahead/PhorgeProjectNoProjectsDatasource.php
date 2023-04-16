@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectNoProjectsDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeProjectNoProjectsDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Not Tagged With Any Projects');
@@ -12,7 +12,7 @@ final class PhabricatorProjectNoProjectsDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -43,8 +43,8 @@ final class PhabricatorProjectNoProjectsDatasource
     $results = array();
 
     foreach ($argv_list as $argv) {
-      $results[] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_NULL,
+      $results[] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_NULL,
         'empty');
     }
 
@@ -54,7 +54,7 @@ final class PhabricatorProjectNoProjectsDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildNullResult());
     }
     return $results;

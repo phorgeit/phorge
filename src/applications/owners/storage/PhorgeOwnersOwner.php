@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
+final class PhorgeOwnersOwner extends PhorgeOwnersDAO {
 
   protected $packageID;
 
@@ -25,11 +25,11 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
   }
 
   public static function loadAllForPackages(array $packages) {
-    assert_instances_of($packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($packages, 'PhorgeOwnersPackage');
     if (!$packages) {
       return array();
     }
-    return id(new PhabricatorOwnersOwner())->loadAllWhere(
+    return id(new PhorgeOwnersOwner())->loadAllWhere(
       'packageID IN (%Ls)',
       mpull($packages, 'getID'));
   }
@@ -41,30 +41,30 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
       return array();
     }
 
-    $owners = id(new PhabricatorOwnersOwner())->loadAllWhere(
+    $owners = id(new PhorgeOwnersOwner())->loadAllWhere(
       'packageID IN (%Ls)',
       $package_ids);
 
-    $type_user = PhabricatorPeopleUserPHIDType::TYPECONST;
-    $type_project = PhabricatorProjectProjectPHIDType::TYPECONST;
+    $type_user = PhorgePeopleUserPHIDType::TYPECONST;
+    $type_project = PhorgeProjectProjectPHIDType::TYPECONST;
 
     $user_phids = array();
     $project_phids = array();
     foreach ($owners as $owner) {
       $owner_phid = $owner->getUserPHID();
       switch (phid_get_type($owner_phid)) {
-        case PhabricatorPeopleUserPHIDType::TYPECONST:
+        case PhorgePeopleUserPHIDType::TYPECONST:
           $user_phids[] = $owner_phid;
           break;
-        case PhabricatorProjectProjectPHIDType::TYPECONST:
+        case PhorgeProjectProjectPHIDType::TYPECONST:
           $project_phids[] = $owner_phid;
           break;
       }
     }
 
     if ($project_phids) {
-      $projects = id(new PhabricatorProjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $projects = id(new PhorgeProjectQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPHIDs($project_phids)
         ->needMembers(true)
         ->execute();

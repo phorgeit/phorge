@@ -1,14 +1,14 @@
 <?php
 
 final class PhamePostSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phame Posts');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function newQuery() {
@@ -31,7 +31,7 @@ final class PhamePostSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('visibility')
         ->setLabel(pht('Visibility'))
         ->setOptions(
@@ -40,7 +40,7 @@ final class PhamePostSearchEngine
             PhameConstants::VISIBILITY_DRAFT => pht('Draft'),
             PhameConstants::VISIBILITY_ARCHIVED => pht('Archived'),
           )),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Blogs'))
         ->setKey('blogPHIDs')
         ->setAliases(array('blog', 'blogs', 'blogPHIDs'))
@@ -89,7 +89,7 @@ final class PhamePostSearchEngine
 
   protected function renderResultList(
     array $posts,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     assert_instances_of($posts, 'PhamePost');
@@ -132,7 +132,7 @@ final class PhamePostSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No blogs posts found.'));
 

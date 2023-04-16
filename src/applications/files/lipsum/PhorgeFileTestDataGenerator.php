@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeFileTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'files';
 
@@ -10,11 +10,11 @@ final class PhabricatorFileTestDataGenerator
   }
 
   public function generateObject() {
-    $author_phid = $this->loadPhabricatorUserPHID();
+    $author_phid = $this->loadPhorgeUserPHID();
     $dimension = 1 << rand(5, 12);
-    $image = id(new PhabricatorLipsumMondrianArtist())
+    $image = id(new PhorgeLipsumMondrianArtist())
       ->generate($dimension, $dimension);
-    $file = PhabricatorFile::newFromFileData(
+    $file = PhorgeFile::newFromFileData(
       $image,
       array(
         'name' => 'rand-'.rand(1000, 9999),

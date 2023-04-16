@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCalendarImportLogType
+abstract class PhorgeCalendarImportLogType
   extends Phobject {
 
   final public function getLogTypeConstant() {
@@ -15,24 +15,24 @@ abstract class PhabricatorCalendarImportLogType
   }
 
   abstract public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log);
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log);
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-warning';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'yellow';
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return null;
   }
 

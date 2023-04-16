@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigPHIDModule extends PhabricatorConfigModule {
+final class PhorgeConfigPHIDModule extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'phid';
@@ -13,14 +13,14 @@ final class PhabricatorConfigPHIDModule extends PhabricatorConfigModule {
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $types = PhabricatorPHIDType::getAllTypes();
+    $types = PhorgePHIDType::getAllTypes();
     $types = msort($types, 'getTypeConstant');
 
     $rows = array();
     foreach ($types as $key => $type) {
       $class_name = $type->getPHIDTypeApplicationClass();
       if ($class_name !== null) {
-        $app = PhabricatorApplication::getByClass($class_name);
+        $app = PhorgeApplication::getByClass($class_name);
         $app_name = $app->getName();
 
         $icon = $app->getIcon();

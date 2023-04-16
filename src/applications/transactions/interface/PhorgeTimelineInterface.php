@@ -1,6 +1,6 @@
 <?php
 
-interface PhabricatorTimelineInterface {
+interface PhorgeTimelineInterface {
 
   public function newTimelineEngine();
 

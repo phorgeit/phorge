@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectWorkboardBackgroundTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectWorkboardBackgroundTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:background';
 

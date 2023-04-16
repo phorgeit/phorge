@@ -1,6 +1,6 @@
 <?php
 
-final class PholioMockHasTaskEdgeType extends PhabricatorEdgeType {
+final class PholioMockHasTaskEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 37;
 

@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorFileController extends PhabricatorController {
+abstract class PhorgeFileController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorFileSearchEngine());
+      ->setSearchEngine(new PhorgeFileSearchEngine());
   }
 
 }

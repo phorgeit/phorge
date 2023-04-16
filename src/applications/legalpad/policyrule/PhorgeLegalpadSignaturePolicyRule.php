@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLegalpadSignaturePolicyRule
-  extends PhabricatorPolicyRule {
+final class PhorgeLegalpadSignaturePolicyRule
+  extends PhorgePolicyRule {
 
   private $signatures = array();
 
@@ -10,7 +10,7 @@ final class PhabricatorLegalpadSignaturePolicyRule
   }
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
 
@@ -23,7 +23,7 @@ final class PhabricatorLegalpadSignaturePolicyRule
     // older version.
 
     $documents = id(new LegalpadDocumentQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs($values)
       ->withSignerPHIDs(array($viewer->getPHID()))
       ->execute();
@@ -31,9 +31,9 @@ final class PhabricatorLegalpadSignaturePolicyRule
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     foreach ($value as $document_phid) {
       if (!isset($this->signatures[$document_phid])) {
@@ -61,8 +61,8 @@ final class PhabricatorLegalpadSignaturePolicyRule
     return array_values($value);
   }
 
-  public function getValueForDisplay(PhabricatorUser $viewer, $value) {
-    $handles = id(new PhabricatorHandleQuery())
+  public function getValueForDisplay(PhorgeUser $viewer, $value) {
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($value)
       ->execute();

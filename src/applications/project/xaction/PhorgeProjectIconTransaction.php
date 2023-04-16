@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectIconTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectIconTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:icon';
 
@@ -14,7 +14,7 @@ final class PhabricatorProjectIconTransaction
   }
 
   public function getTitle() {
-    $set = new PhabricatorProjectIconSet();
+    $set = new PhorgeProjectIconSet();
     $new = $this->getNewValue();
 
     return pht(
@@ -24,7 +24,7 @@ final class PhabricatorProjectIconTransaction
   }
 
   public function getTitleForFeed() {
-    $set = new PhabricatorProjectIconSet();
+    $set = new PhorgeProjectIconSet();
     $new = $this->getNewValue();
 
     return pht(
@@ -36,7 +36,7 @@ final class PhabricatorProjectIconTransaction
 
   public function getIcon() {
     $new = $this->getNewValue();
-    return PhabricatorProjectIconSet::getIconIcon($new);
+    return PhorgeProjectIconSet::getIconIcon($new);
   }
 
 }

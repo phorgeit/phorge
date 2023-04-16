@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMetaMTADAO extends PhabricatorLiskDAO {
+abstract class PhorgeMetaMTADAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'metamta';

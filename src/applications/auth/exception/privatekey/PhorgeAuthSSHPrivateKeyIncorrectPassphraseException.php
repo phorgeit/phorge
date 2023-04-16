@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorAuthSSHPrivateKeyIncorrectPassphraseException
-  extends PhabricatorAuthSSHPrivateKeyPassphraseException {}
+final class PhorgeAuthSSHPrivateKeyIncorrectPassphraseException
+  extends PhorgeAuthSSHPrivateKeyPassphraseException {}

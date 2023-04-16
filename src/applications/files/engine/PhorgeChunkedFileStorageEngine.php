@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChunkedFileStorageEngine
-  extends PhabricatorFileStorageEngine {
+final class PhorgeChunkedFileStorageEngine
+  extends PhorgeFileStorageEngine {
 
   public function getEngineIdentifier() {
     return 'chunks';
@@ -50,7 +50,7 @@ final class PhabricatorChunkedFileStorageEngine
   }
 
   public function deleteFile($handle) {
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     $chunks = $this->loadAllChunks($handle, true);
     foreach ($chunks as $chunk) {
       $engine->destroyObject($chunk);
@@ -58,8 +58,8 @@ final class PhabricatorChunkedFileStorageEngine
   }
 
   private function loadAllChunks($handle, $need_files) {
-    $chunks = id(new PhabricatorFileChunkQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $chunks = id(new PhorgeFileChunkQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withChunkHandles(array($handle))
       ->needDataFiles($need_files)
       ->execute();
@@ -87,11 +87,11 @@ final class PhabricatorChunkedFileStorageEngine
    * Ideally, we'd like to be able to verify hashes, but this is complicated
    * and time consuming and gives us a fairly small benefit.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhorgeUser Viewing user.
    * @param string Claimed file hash.
    * @return string Rehashed file hash.
    */
-  public static function getChunkedHash(PhabricatorUser $viewer, $hash) {
+  public static function getChunkedHash(PhorgeUser $viewer, $hash) {
     if (!$viewer->getPHID()) {
       throw new Exception(
         pht('Unable to compute chunked hash without real viewer!'));
@@ -102,7 +102,7 @@ final class PhabricatorChunkedFileStorageEngine
   }
 
   public static function getChunkedHashForInput($input) {
-    $rehash = PhabricatorHash::weakDigest($input);
+    $rehash = PhorgeHash::weakDigest($input);
 
     // Add a suffix to identify this as a chunk hash.
     $rehash = substr($rehash, 0, -2).'-C';
@@ -111,7 +111,7 @@ final class PhabricatorChunkedFileStorageEngine
   }
 
   public function allocateChunks($length, array $properties) {
-    $file = PhabricatorFile::newChunkedFile($this, $length, $properties);
+    $file = PhorgeFile::newChunkedFile($this, $length, $properties);
 
     $chunk_size = $this->getChunkSize();
 
@@ -119,7 +119,7 @@ final class PhabricatorChunkedFileStorageEngine
 
     $chunks = array();
     for ($ii = 0; $ii < $length; $ii += $chunk_size) {
-      $chunks[] = PhabricatorFileChunk::initializeNewChunk(
+      $chunks[] = PhorgeFileChunk::initializeNewChunk(
         $handle,
         $ii,
         min($ii + $chunk_size, $length));
@@ -175,23 +175,23 @@ final class PhabricatorChunkedFileStorageEngine
   }
 
   public function getRawFileDataIterator(
-    PhabricatorFile $file,
+    PhorgeFile $file,
     $begin,
     $end,
-    PhabricatorFileStorageFormat $format) {
+    PhorgeFileStorageFormat $format) {
 
     // NOTE: It is currently impossible for files stored with the chunk
     // engine to have their own formatting (instead, the individual chunks
     // are formatted), so we ignore the format object.
 
-    $chunks = id(new PhabricatorFileChunkQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $chunks = id(new PhorgeFileChunkQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withChunkHandles(array($file->getStorageHandle()))
       ->withByteRange($begin, $end)
       ->needDataFiles(true)
       ->execute();
 
-    return new PhabricatorFileChunkIterator($chunks, $begin, $end);
+    return new PhorgeFileChunkIterator($chunks, $begin, $end);
   }
 
 }

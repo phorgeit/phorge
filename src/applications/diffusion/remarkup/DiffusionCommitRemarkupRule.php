@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionCommitRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class DiffusionCommitRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return '';
@@ -11,12 +11,12 @@ final class DiffusionCommitRemarkupRule extends PhabricatorObjectRemarkupRule {
   }
 
   protected function getObjectIDPattern() {
-    return PhabricatorRepositoryCommitPHIDType::getCommitObjectNamePattern();
+    return PhorgeRepositoryCommitPHIDType::getCommitObjectNamePattern();
   }
 
   protected function getObjectNameText(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $id) {
 
     // If this commit is unreachable, return the handle name instead of the

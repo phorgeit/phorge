@@ -1,6 +1,6 @@
 <?php
 
-abstract class DrydockController extends PhabricatorController {
+abstract class DrydockController extends PhorgeController {
 
   protected function buildLocksTab($owner_phid) {
     $locks = DrydockSlotLock::loadLocks($owner_phid);

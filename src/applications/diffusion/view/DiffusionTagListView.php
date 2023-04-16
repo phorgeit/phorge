@@ -144,7 +144,7 @@ final class DiffusionTagListView extends DiffusionView {
 
   private function renderAuthor(
     DiffusionRepositoryTag $tag,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepositoryCommit $commit) {
     $viewer = $this->getViewer();
 
     if ($commit->getAuthorPHID()) {

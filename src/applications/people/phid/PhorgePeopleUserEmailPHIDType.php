@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleUserEmailPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgePeopleUserEmailPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'EADR';
 
@@ -10,23 +10,23 @@ final class PhabricatorPeopleUserEmailPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorUserEmail();
+    return new PhorgeUserEmail();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPeopleUserEmailQuery())
+    return id(new PhorgePeopleUserEmailQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

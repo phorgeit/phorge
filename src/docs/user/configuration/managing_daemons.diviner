@@ -67,10 +67,10 @@ You can get a list of launchable daemons with **phd list**:
 
   - **test daemons** are not generally useful unless you are
     developing daemon infrastructure or debugging a daemon problem;
-  - **PhabricatorTaskmasterDaemon** performs work from a task queue;
-  - **PhabricatorRepositoryPullLocalDaemon** daemons track repositories, for
+  - **PhorgeTaskmasterDaemon** performs work from a task queue;
+  - **PhorgeRepositoryPullLocalDaemon** daemons track repositories, for
     more information see @{article:Diffusion User Guide}; and
-  - **PhabricatorTriggerDaemon** schedules event triggers and cleans up old
+  - **PhorgeTriggerDaemon** schedules event triggers and cleans up old
     logs and caches.
 
 = Debugging and Tuning =
@@ -109,7 +109,7 @@ This daemon will daemonize and run normally.
     just those started with `phd start`. If you're writing a restart script,
     have it launch any custom daemons explicitly after `phd restart`.
   - You can write your own daemons and manage them with `phd` by extending
-    @{class:PhabricatorDaemon}. See @{article@contrib:Adding New Classes}.
+    @{class:PhorgeDaemon}. See @{article@contrib:Adding New Classes}.
   - See @{article:Diffusion User Guide} for details about tuning the repository
     daemon.
 

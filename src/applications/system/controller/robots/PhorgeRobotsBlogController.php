@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRobotsBlogController
-  extends PhabricatorRobotsController {
+final class PhorgeRobotsBlogController
+  extends PhorgeRobotsController {
 
   protected function newRobotsRules() {
     $out = array();

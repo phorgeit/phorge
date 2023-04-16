@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileExternalRequestGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeFileExternalRequestGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'files.externalttl';
 
@@ -14,10 +14,10 @@ final class PhabricatorFileExternalRequestGarbageCollector
   }
 
   protected function collectGarbage() {
-    $file_requests = id(new PhabricatorFileExternalRequest())->loadAllWhere(
+    $file_requests = id(new PhorgeFileExternalRequest())->loadAllWhere(
       'ttl < %d LIMIT 100',
-      PhabricatorTime::getNow());
-    $engine = new PhabricatorDestructionEngine();
+      PhorgeTime::getNow());
+    $engine = new PhorgeDestructionEngine();
     foreach ($file_requests as $request) {
       $engine->destroyObject($request);
     }

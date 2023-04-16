@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDaemonController
-  extends PhabricatorController {
+abstract class PhorgeDaemonController
+  extends PhorgeController {
 
   public function shouldRequireAdmin() {
     return true;

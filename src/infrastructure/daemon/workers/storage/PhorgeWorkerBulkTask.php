@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerBulkTask
-  extends PhabricatorWorkerDAO {
+final class PhorgeWorkerBulkTask
+  extends PhorgeWorkerDAO {
 
   const STATUS_WAITING = 'waiting';
   const STATUS_RUNNING = 'running';
@@ -34,10 +34,10 @@ final class PhabricatorWorkerBulkTask
   }
 
   public static function initializeNewTask(
-    PhabricatorWorkerBulkJob $job,
+    PhorgeWorkerBulkJob $job,
     $object_phid) {
 
-    return id(new PhabricatorWorkerBulkTask())
+    return id(new PhorgeWorkerBulkTask())
       ->setBulkJobPHID($job->getPHID())
       ->setStatus(self::STATUS_WAITING)
       ->setObjectPHID($object_phid);

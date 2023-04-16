@@ -3,8 +3,8 @@
 /**
  * Configuration source which proxies some other configuration source.
  */
-abstract class PhabricatorConfigProxySource
-  extends PhabricatorConfigSource {
+abstract class PhorgeConfigProxySource
+  extends PhorgeConfigSource {
 
   private $source;
 
@@ -15,7 +15,7 @@ abstract class PhabricatorConfigProxySource
     return $this->source;
   }
 
-  final protected function setSource(PhabricatorConfigSource $source) {
+  final protected function setSource(PhorgeConfigSource $source) {
     $this->source = $source;
     return $this;
   }

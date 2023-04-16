@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMySQLConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeMySQLConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('MySQL');

@@ -6,7 +6,7 @@
  * @javelin
  */
 
-JX.install('PhabricatorFileUpload', {
+JX.install('PhorgeFileUpload', {
 
   construct : function() {
     this._notification = new JX.Notification();

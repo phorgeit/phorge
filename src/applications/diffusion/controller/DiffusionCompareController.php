@@ -252,7 +252,7 @@ final class DiffusionCompareController extends DiffusionController {
       ));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Reverse Comparison'))
         ->setHref($reverse_uri)
         ->setIcon('fa-refresh'));
@@ -264,7 +264,7 @@ final class DiffusionCompareController extends DiffusionController {
       ));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Compare Against...'))
         ->setIcon('fa-code-fork')
         ->setWorkflow(true)

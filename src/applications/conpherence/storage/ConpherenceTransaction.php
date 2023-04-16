@@ -1,14 +1,14 @@
 <?php
 
 final class ConpherenceTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'conpherence';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorConpherenceThreadPHIDType::TYPECONST;
+    return PhorgeConpherenceThreadPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {

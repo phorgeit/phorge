@@ -14,8 +14,8 @@ final class HarbormasterObject extends HarbormasterDAO {
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPHIDConstants::PHID_TYPE_TOBJ);
+    return PhorgePHID::generateNewPHID(
+      PhorgePHIDConstants::PHID_TYPE_TOBJ);
   }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-final class PonderRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class PonderRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'Q';

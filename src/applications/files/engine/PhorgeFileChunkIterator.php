@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileChunkIterator
+final class PhorgeFileChunkIterator
   extends Phobject
   implements Iterator {
 

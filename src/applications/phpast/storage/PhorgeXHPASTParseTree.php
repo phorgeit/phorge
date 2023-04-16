@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorXHPASTParseTree extends PhabricatorXHPASTDAO {
+final class PhorgeXHPASTParseTree extends PhorgeXHPASTDAO {
 
   protected $authorPHID;
   protected $input;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementRebuildIdentitiesWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   private $identityCache = array();
   private $phidCache = array();
@@ -101,9 +101,9 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
       if ($repositories) {
         $repository_list = $this->loadRepositories($args, 'repository');
       } else {
-        $repository_query = id(new PhabricatorRepositoryQuery())
+        $repository_query = id(new PhorgeRepositoryQuery())
           ->setViewer($viewer);
-        $repository_list = new PhabricatorQueryIterator($repository_query);
+        $repository_list = new PhorgeQueryIterator($repository_query);
       }
 
       foreach ($repository_list as $repository) {
@@ -116,7 +116,7 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
         // to improve performance slightly, since these records are small.
         $commit_query->setOrderVector(array('-epoch', '-id'));
 
-        $commit_iterator = id(new PhabricatorQueryIterator($commit_query))
+        $commit_iterator = id(new PhorgeQueryIterator($commit_query))
           ->setPageSize(1000);
 
         $this->rebuildCommits($commit_iterator);
@@ -156,7 +156,7 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
       $rebuilt_anything = true;
 
       if ($raw) {
-        $identities = id(new PhabricatorRepositoryIdentityQuery())
+        $identities = id(new PhorgeRepositoryIdentityQuery())
           ->setViewer($viewer)
           ->withIdentityNames($raw)
           ->execute();
@@ -174,10 +174,10 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
 
         $identity_list = $identities;
       } else {
-        $identity_query = id(new PhabricatorRepositoryIdentityQuery())
+        $identity_query = id(new PhorgeRepositoryIdentityQuery())
           ->setViewer($viewer);
 
-        $identity_list = new PhabricatorQueryIterator($identity_query);
+        $identity_list = new PhorgeQueryIterator($identity_query);
 
         $this->logInfo(
           pht('REBUILD'),
@@ -255,7 +255,7 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
   }
 
   private function getIdentityForCommit(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $raw_identity) {
 
     if (!isset($this->identityCache[$raw_identity])) {
@@ -280,14 +280,14 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
           'Rebuilding identities for user "%s".',
           $user->getMonogram()));
 
-      $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+      $emails = id(new PhorgeUserEmail())->loadAllWhere(
         'userPHID = %s',
         $user->getPHID());
       if ($emails) {
         $this->rebuildEmails(mpull($emails, 'getAddress'));
       }
 
-      $identities = id(new PhabricatorRepositoryIdentityQuery())
+      $identities = id(new PhorgeRepositoryIdentityQuery())
         ->setViewer($viewer)
         ->withRelatedPHIDs(array($user->getPHID()))
         ->execute();
@@ -311,7 +311,7 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
         pht('EMAIL'),
         pht('Rebuilding identities for email address "%s".', $email));
 
-      $identities = id(new PhabricatorRepositoryIdentityQuery())
+      $identities = id(new PhorgeRepositoryIdentityQuery())
         ->setViewer($viewer)
         ->withEmailAddresses(array($email))
         ->execute();

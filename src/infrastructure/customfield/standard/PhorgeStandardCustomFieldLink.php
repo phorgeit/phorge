@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldLink
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldLink
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'link';
@@ -25,7 +25,7 @@ final class PhabricatorStandardCustomFieldLink
       return null;
     }
 
-    if (!PhabricatorEnv::isValidRemoteURIForLink($value)) {
+    if (!PhorgeEnv::isValidRemoteURIForLink($value)) {
       return $value;
     }
 
@@ -40,15 +40,15 @@ final class PhabricatorStandardCustomFieldLink
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
 
     return $request->getStr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
 
     if (is_string($value) && !strlen($value)) {
@@ -64,7 +64,7 @@ final class PhabricatorStandardCustomFieldLink
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 

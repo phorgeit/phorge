@@ -25,9 +25,9 @@ final class DifferentialSubscribersCommitMessageField
     return $this->parseObjectList(
       $value,
       array(
-        PhabricatorPeopleUserPHIDType::TYPECONST,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
-        PhabricatorOwnersPackagePHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
+        PhorgeOwnersPackagePHIDType::TYPECONST,
       ));
   }
 
@@ -36,7 +36,7 @@ final class DifferentialSubscribersCommitMessageField
       return array();
     }
 
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    return PhorgeSubscribersQuery::loadSubscribersForPHID(
       $revision->getPHID());
   }
 
@@ -51,7 +51,7 @@ final class DifferentialSubscribersCommitMessageField
   public function getFieldTransactions($value) {
     return array(
       array(
-        'type' => PhabricatorSubscriptionsEditEngineExtension::EDITKEY_SET,
+        'type' => PhorgeSubscriptionsEditEngineExtension::EDITKEY_SET,
         'value' => $value,
       ),
     );

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorGarbageCollectorManagementSetPolicyWorkflow
-  extends PhabricatorGarbageCollectorManagementWorkflow {
+final class PhorgeGarbageCollectorManagementSetPolicyWorkflow
+  extends PhorgeGarbageCollectorManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -89,7 +89,7 @@ final class PhabricatorGarbageCollectorManagementSetPolicyWorkflow
     }
 
     $collector_const = $collector->getCollectorConstant();
-    $value = PhabricatorEnv::getEnvConfig($config_key);
+    $value = PhorgeEnv::getEnvConfig($config_key);
 
     if ($days !== null) {
       echo tsprintf(
@@ -118,7 +118,7 @@ final class PhabricatorGarbageCollectorManagementSetPolicyWorkflow
       unset($value[$collector_const]);
     }
 
-    id(new PhabricatorConfigLocalSource())
+    id(new PhorgeConfigLocalSource())
       ->setKeys(
         array(
           $config_key => $value,

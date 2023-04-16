@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthOldOAuthRedirectController
-  extends PhabricatorAuthController {
+final class PhorgeAuthOldOAuthRedirectController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;

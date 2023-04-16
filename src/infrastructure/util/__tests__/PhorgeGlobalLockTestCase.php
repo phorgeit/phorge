@@ -1,49 +1,49 @@
 <?php
 
-final class PhabricatorGlobalLockTestCase
-  extends PhabricatorTestCase {
+final class PhorgeGlobalLockTestCase
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testConnectionPoolWithDefaultConnection() {
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Clear Connection Pool'));
 
     $lock_name = $this->newLockName();
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
     $lock->lock();
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Connection Pool With Lock'));
 
     $lock->unlock();
 
     $this->assertEqual(
       1,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Connection Pool With Lock Released'));
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
   }
 
   public function testConnectionPoolWithSpecificConnection() {
-    $conn = PhabricatorGlobalLock::newConnection();
+    $conn = PhorgeGlobalLock::newConnection();
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Clear Connection Pool'));
 
     $this->assertEqual(
@@ -52,13 +52,13 @@ final class PhabricatorGlobalLockTestCase
       pht('Specific Connection, No Lock'));
 
     $lock_name = $this->newLockName();
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
     $lock->setExternalConnection($conn);
     $lock->lock();
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Connection Pool + Specific, With Lock'));
 
     $this->assertEqual(
@@ -73,7 +73,7 @@ final class PhabricatorGlobalLockTestCase
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Connection Pool + Specific, With Lock Released'));
 
     $this->assertEqual(
@@ -81,14 +81,14 @@ final class PhabricatorGlobalLockTestCase
       $conn->isHoldingAnyLock(),
       pht('Specific Connection, No Lock'));
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
   }
 
   public function testExternalConnectionMutationScope() {
-    $conn = PhabricatorGlobalLock::newConnection();
+    $conn = PhorgeGlobalLock::newConnection();
 
     $lock_name = $this->newLockName();
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
     $lock->lock();
 
     $caught = null;
@@ -108,17 +108,17 @@ final class PhabricatorGlobalLockTestCase
   }
 
   public function testMultipleLocks() {
-    $conn = PhabricatorGlobalLock::newConnection();
+    $conn = PhorgeGlobalLock::newConnection();
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
 
     $lock_name_a = $this->newLockName();
     $lock_name_b = $this->newLockName();
 
-    $lock_a = PhabricatorGlobalLock::newLock($lock_name_a);
+    $lock_a = PhorgeGlobalLock::newLock($lock_name_a);
     $lock_a->setExternalConnection($conn);
 
-    $lock_b = PhabricatorGlobalLock::newLock($lock_name_b);
+    $lock_b = PhorgeGlobalLock::newLock($lock_name_b);
     $lock_b->setExternalConnection($conn);
 
     $lock_a->lock();
@@ -141,24 +141,24 @@ final class PhabricatorGlobalLockTestCase
   }
 
   public function testPoolReleaseOnFailure() {
-    $conn = PhabricatorGlobalLock::newConnection();
+    $conn = PhorgeGlobalLock::newConnection();
     $lock_name = $this->newLockName();
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Clear Connection Pool'));
 
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
 
     // NOTE: We're cheating here, since there's a global registry of locks
     // for the process that we have to bypass. In the real world, this lock
     // would have to be held by some external process. To simplify this
     // test case, just use a raw "GET_LOCK()" call to hold the lock.
 
-    $raw_conn = PhabricatorGlobalLock::newConnection();
+    $raw_conn = PhorgeGlobalLock::newConnection();
     $raw_name = $lock->getName();
 
     $row = queryfx_one(
@@ -170,7 +170,7 @@ final class PhabricatorGlobalLockTestCase
 
     $this->assertEqual(
       0,
-      PhabricatorGlobalLock::getConnectionPoolSize(),
+      PhorgeGlobalLock::getConnectionPoolSize(),
       pht('Connection Pool with Held Lock'));
 
     // We expect this sequence to establish a new connection, fail to acquire
@@ -181,11 +181,11 @@ final class PhabricatorGlobalLockTestCase
       $this->tryHeldLock($lock_name);
       $this->assertEqual(
         1,
-        PhabricatorGlobalLock::getConnectionPoolSize(),
+        PhorgeGlobalLock::getConnectionPoolSize(),
         pht('Connection Pool After Lock Failure'));
     }
 
-    PhabricatorGlobalLock::clearConnectionPool();
+    PhorgeGlobalLock::clearConnectionPool();
 
     // Now, do the same thing with an external connection. This connection
     // should not be put into the pool! See T13627.
@@ -194,7 +194,7 @@ final class PhabricatorGlobalLockTestCase
       $this->tryHeldLock($lock_name, $conn);
       $this->assertEqual(
         0,
-        PhabricatorGlobalLock::getConnectionPoolSize(),
+        PhorgeGlobalLock::getConnectionPoolSize(),
         pht('Connection Pool After External Lock Failure'));
     }
   }
@@ -207,7 +207,7 @@ final class PhabricatorGlobalLockTestCase
     $lock_name,
     AphrontDatabaseConnection $conn = null) {
 
-    $lock = PhabricatorGlobalLock::newLock($lock_name);
+    $lock = PhorgeGlobalLock::newLock($lock_name);
 
     if ($conn) {
       $lock->setExternalConnection($conn);

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPasteSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgePasteSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorPaste());
+    $this->buildEdgeSchemata(new PhorgePaste());
   }
 
 }

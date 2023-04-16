@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorProjectsPolicyRule
-  extends PhabricatorProjectsBasePolicyRule {
+final class PhorgeProjectsPolicyRule
+  extends PhorgeProjectsBasePolicyRule {
 
   public function getRuleDescription() {
     return pht('members of any project');
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $memberships = $this->getMemberships($viewer->getPHID());
     foreach ($value as $project_phid) {

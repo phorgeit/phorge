@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRebuildIndexesWorker extends PhabricatorWorker {
+final class PhorgeRebuildIndexesWorker extends PhorgeWorker {
 
   public static function rebuildObjectsWithQuery($query_class) {
     parent::scheduleTask(
@@ -14,7 +14,7 @@ final class PhabricatorRebuildIndexesWorker extends PhabricatorWorker {
   }
 
   protected function doWork() {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $data = $this->getTaskData();
     $query_class = idx($data, 'queryClass');
@@ -22,7 +22,7 @@ final class PhabricatorRebuildIndexesWorker extends PhabricatorWorker {
     try {
       $query = newv($query_class, array());
     } catch (Exception $ex) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to instantiate query class "%s": %s',
            $query_class,
@@ -31,9 +31,9 @@ final class PhabricatorRebuildIndexesWorker extends PhabricatorWorker {
 
     $query->setViewer($viewer);
 
-    $iterator = new PhabricatorQueryIterator($query);
+    $iterator = new PhorgeQueryIterator($query);
     foreach ($iterator as $object) {
-      PhabricatorSearchWorker::queueDocumentForIndexing(
+      PhorgeSearchWorker::queueDocumentForIndexing(
         $object->getPHID(),
         array(
           'force' => true,

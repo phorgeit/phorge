@@ -18,7 +18,7 @@ final class DiffusionPreCommitContentAuthorPackagesHeraldField
       return array();
     }
 
-    $packages = id(new PhabricatorOwnersPackageQuery())
+    $packages = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withAuthorityPHIDs(array($author_phid))
       ->execute();
@@ -31,7 +31,7 @@ final class DiffusionPreCommitContentAuthorPackagesHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorOwnersPackageDatasource();
+    return new PhorgeOwnersPackageDatasource();
   }
 
 }

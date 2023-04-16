@@ -36,7 +36,7 @@ final class HarbormasterPlanRunController extends HarbormasterPlanController {
       $v_name = $request->getStr('buildablePHID');
 
       if ($v_name) {
-        $object = id(new PhabricatorObjectQuery())
+        $object = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withNames(array($v_name))
           ->executeOne();

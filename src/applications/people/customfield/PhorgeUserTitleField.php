@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserTitleField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserTitleField
+  extends PhorgeUserCustomField {
 
   private $value;
 
@@ -37,7 +37,7 @@ final class PhabricatorUserTitleField
     return true;
   }
 
-  public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
+  public function readValueFromObject(PhorgeCustomFieldInterface $object) {
     $this->value = $object->loadUserProfile()->getTitle();
   }
 
@@ -50,7 +50,7 @@ final class PhabricatorUserTitleField
   }
 
   public function applyApplicationTransactionInternalEffects(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $this->getObject()->loadUserProfile()->setTitle($xaction->getNewValue());
   }
 

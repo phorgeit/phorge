@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectProfileController
-  extends PhabricatorProjectController {
+final class PhorgeProjectProfileController
+  extends PhorgeProjectController {
 
   public function shouldAllowPublic() {
     return true;
@@ -31,16 +31,16 @@ final class PhabricatorProjectProfileController
       ->setPolicyObject($project)
       ->setProfileHeader(true);
 
-    if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ACTIVE) {
+    if ($project->getStatus() == PhorgeProjectStatus::STATUS_ACTIVE) {
       $header->setStatus('fa-check', 'bluegrey', pht('Active'));
     } else {
       $header->setStatus('fa-ban', 'red', pht('Archived'));
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($can_edit) {
       $header->setImageEditURL($this->getApplicationURI("picture/{$id}/"));
@@ -60,14 +60,14 @@ final class PhabricatorProjectProfileController
     $milestone_list = $this->buildMilestoneList($project);
     $subproject_list = $this->buildSubprojectList($project);
 
-    $member_list = id(new PhabricatorProjectMemberListView())
+    $member_list = id(new PhorgeProjectMemberListView())
       ->setUser($viewer)
       ->setProject($project)
       ->setLimit(10)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setUserPHIDs($project->getMemberPHIDs());
 
-    $watcher_list = id(new PhabricatorProjectWatcherListView())
+    $watcher_list = id(new PhorgeProjectWatcherListView())
       ->setUser($viewer)
       ->setProject($project)
       ->setLimit(10)
@@ -76,9 +76,9 @@ final class PhabricatorProjectProfileController
 
     $nav = $this->newNavigation(
       $project,
-      PhabricatorProject::ITEM_PROFILE);
+      PhorgeProject::ITEM_PROFILE);
 
-    $query = id(new PhabricatorFeedQuery())
+    $query = id(new PhorgeFeedQuery())
       ->setViewer($viewer)
       ->withFilterPHIDs(array($project->getPHID()))
       ->setLimit(50)
@@ -90,7 +90,7 @@ final class PhabricatorProjectProfileController
     $is_overheated = $query->getIsOverheated();
     if ($is_overheated) {
       $overheated_message =
-        PhabricatorApplicationSearchController::newOverheatedError(
+        PhorgeApplicationSearchController::newOverheatedError(
           (bool)$stories);
 
       $overheated_view = id(new PHUIInfoView())
@@ -155,7 +155,7 @@ final class PhabricatorProjectProfileController
   }
 
   private function buildPropertyListView(
-    PhabricatorProject $project) {
+    PhorgeProject $project) {
     $request = $this->getRequest();
     $viewer = $request->getUser();
 
@@ -163,9 +163,9 @@ final class PhabricatorProjectProfileController
       ->setUser($viewer)
       ->setObject($project);
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $project,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list->appendFieldsToPropertyList($project, $viewer, $view);
 
     if (!$view->hasAnyProperties()) {
@@ -185,9 +185,9 @@ final class PhabricatorProjectProfileController
   }
 
   private function renderStories(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, 'PhorgeFeedStory');
 
-    $builder = new PhabricatorFeedBuilder($stories);
+    $builder = new PhorgeFeedBuilder($stories);
     $builder->setUser($this->getRequest()->getUser());
     $builder->setShowHovercards(true);
     $view = $builder->buildView();
@@ -195,7 +195,7 @@ final class PhabricatorProjectProfileController
     return $view;
   }
 
-  private function renderWatchAction(PhabricatorProject $project) {
+  private function renderWatchAction(PhorgeProject $project) {
     $viewer = $this->getViewer();
     $id = $project->getID();
 
@@ -237,7 +237,7 @@ final class PhabricatorProjectProfileController
       ->setDisabled($watch_disabled);
   }
 
-  private function buildMilestoneList(PhabricatorProject $project) {
+  private function buildMilestoneList(PhorgeProject $project) {
     if (!$project->getHasMilestones()) {
       return null;
     }
@@ -245,14 +245,14 @@ final class PhabricatorProjectProfileController
     $viewer = $this->getViewer();
     $id = $project->getID();
 
-    $milestones = id(new PhabricatorProjectQuery())
+    $milestones = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withParentProjectPHIDs(array($project->getPHID()))
       ->needImages(true)
       ->withIsMilestone(true)
       ->withStatuses(
         array(
-          PhabricatorProjectStatus::STATUS_ACTIVE,
+          PhorgeProjectStatus::STATUS_ACTIVE,
         ))
       ->setOrderVector(array('milestoneNumber', 'id'))
       ->execute();
@@ -260,7 +260,7 @@ final class PhabricatorProjectProfileController
       return null;
     }
 
-    $milestone_list = id(new PhabricatorProjectListView())
+    $milestone_list = id(new PhorgeProjectListView())
       ->setUser($viewer)
       ->setProjects($milestones)
       ->renderList();
@@ -283,7 +283,7 @@ final class PhabricatorProjectProfileController
       ->setObjectList($milestone_list);
   }
 
-  private function buildSubprojectList(PhabricatorProject $project) {
+  private function buildSubprojectList(PhorgeProject $project) {
     if (!$project->getHasSubprojects()) {
       return null;
     }
@@ -293,13 +293,13 @@ final class PhabricatorProjectProfileController
 
     $limit = 25;
 
-    $subprojects = id(new PhabricatorProjectQuery())
+    $subprojects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withParentProjectPHIDs(array($project->getPHID()))
       ->needImages(true)
       ->withStatuses(
         array(
-          PhabricatorProjectStatus::STATUS_ACTIVE,
+          PhorgeProjectStatus::STATUS_ACTIVE,
         ))
       ->withIsMilestone(false)
       ->setLimit($limit)
@@ -308,7 +308,7 @@ final class PhabricatorProjectProfileController
       return null;
     }
 
-    $subproject_list = id(new PhabricatorProjectListView())
+    $subproject_list = id(new PhorgeProjectListView())
       ->setUser($viewer)
       ->setProjects($subprojects)
       ->renderList();

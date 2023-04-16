@@ -44,7 +44,7 @@ final class RemarkupProcessConduitAPIMethod extends ConduitAPIMethod {
       throw new ConduitException('ERR-INVALID_ENGINE');
     }
 
-    $engine = PhabricatorMarkupEngine::$engine_class();
+    $engine = PhorgeMarkupEngine::$engine_class();
     $engine->setConfig('viewer', $request->getUser());
 
     $results = array();

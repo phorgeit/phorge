@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionSubversionWireProtocolTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testSubversionWireProtocolParser() {
     $this->assertSameSubversionMessages(

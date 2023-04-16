@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorProjectColumnOrder
+abstract class PhorgeProjectColumnOrder
   extends Phobject {
 
   private $viewer;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -67,7 +67,7 @@ abstract class PhabricatorProjectColumnOrder
       $result = array();
     }
 
-    assert_instances_of($result, 'PhabricatorApplicationTransaction');
+    assert_instances_of($result, 'PhorgeApplicationTransaction');
 
     return $result;
   }
@@ -108,7 +108,7 @@ abstract class PhabricatorProjectColumnOrder
           phutil_describe_type($headers)));
     }
 
-    assert_instances_of($headers, 'PhabricatorProjectColumnHeader');
+    assert_instances_of($headers, 'PhorgeProjectColumnHeader');
 
     // Add a "0" to the end of each header. This makes them sort above object
     // cards in the same group.
@@ -192,12 +192,12 @@ abstract class PhabricatorProjectColumnOrder
   }
 
   final protected function newHeader() {
-    return id(new PhabricatorProjectColumnHeader())
+    return id(new PhorgeProjectColumnHeader())
       ->setOrderKey($this->getColumnOrderKey());
   }
 
   final protected function newEffect() {
-    return new PhabricatorProjectDropEffect();
+    return new PhorgeProjectDropEffect();
   }
 
   final public function toDictionary() {

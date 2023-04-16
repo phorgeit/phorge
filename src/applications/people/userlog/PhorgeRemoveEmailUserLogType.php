@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRemoveEmailUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeRemoveEmailUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'email-remove';
 

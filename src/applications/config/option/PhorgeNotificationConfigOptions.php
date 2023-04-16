@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeNotificationConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Notifications');
@@ -28,7 +28,7 @@ For help setting up notification servers, see **[[ %s | %s ]]** in the
 documentation.
 EOTEXT
       ,
-      PhabricatorEnv::getDoclink(
+      PhorgeEnv::getDoclink(
         'Notifications User Guide: Setup and Configuration'),
       pht('Notifications User Guide: Setup and Configuration')));
 

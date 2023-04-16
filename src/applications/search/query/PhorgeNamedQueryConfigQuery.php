@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNamedQueryConfigQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeNamedQueryConfigQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $engineClassNames;
@@ -23,7 +23,7 @@ final class PhabricatorNamedQueryConfigQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorNamedQueryConfig();
+    return new PhorgeNamedQueryConfig();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -54,7 +54,7 @@ final class PhabricatorNamedQueryConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
 }

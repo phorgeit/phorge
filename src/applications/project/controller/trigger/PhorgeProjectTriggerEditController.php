@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerEditController
-  extends PhabricatorProjectTriggerController {
+final class PhorgeProjectTriggerEditController
+  extends PhorgeProjectTriggerController {
 
   public function handleRequest(AphrontRequest $request) {
     $request = $this->getRequest();
@@ -9,33 +9,33 @@ final class PhabricatorProjectTriggerEditController
 
     $id = $request->getURIData('id');
     if ($id) {
-      $trigger = id(new PhabricatorProjectTriggerQuery())
+      $trigger = id(new PhorgeProjectTriggerQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$trigger) {
         return new Aphront404Response();
       }
     } else {
-      $trigger = PhabricatorProjectTrigger::initializeNewTrigger();
+      $trigger = PhorgeProjectTrigger::initializeNewTrigger();
     }
 
     $trigger->setViewer($viewer);
 
     $column_phid = $request->getStr('columnPHID');
     if ($column_phid) {
-      $column = id(new PhabricatorProjectColumnQuery())
+      $column = id(new PhorgeProjectColumnQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($column_phid))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$column) {
@@ -81,22 +81,22 @@ final class PhabricatorProjectTriggerEditController
         $xactions = array();
         if (!$trigger->getID()) {
           $xactions[] = $trigger->getApplicationTransactionTemplate()
-            ->setTransactionType(PhabricatorTransactions::TYPE_CREATE)
+            ->setTransactionType(PhorgeTransactions::TYPE_CREATE)
             ->setNewValue(true);
         }
 
         $xactions[] = $trigger->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorProjectTriggerNameTransaction::TRANSACTIONTYPE)
+            PhorgeProjectTriggerNameTransaction::TRANSACTIONTYPE)
           ->setNewValue($v_name);
 
         $xactions[] = $trigger->getApplicationTransactionTemplate()
-          ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+          ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
           ->setNewValue($v_edit);
 
         $xactions[] = $trigger->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorProjectTriggerRulesetTransaction::TRANSACTIONTYPE)
+            PhorgeProjectTriggerRulesetTransaction::TRANSACTIONTYPE)
           ->setNewValue($raw_rules);
 
         $editor = $trigger->getApplicationTransactionEditor()
@@ -113,7 +113,7 @@ final class PhabricatorProjectTriggerEditController
 
           $column_xactions[] = $column->getApplicationTransactionTemplate()
             ->setTransactionType(
-              PhabricatorProjectColumnTriggerTransaction::TRANSACTIONTYPE)
+              PhorgeProjectColumnTriggerTransaction::TRANSACTIONTYPE)
             ->setNewValue($trigger->getPHID());
 
           $column_editor = $column->getApplicationTransactionEditor()
@@ -128,14 +128,14 @@ final class PhabricatorProjectTriggerEditController
         }
 
         return id(new AphrontRedirectResponse())->setURI($next_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
 
         $e_name = $ex->getShortMessage(
-          PhabricatorProjectTriggerNameTransaction::TRANSACTIONTYPE);
+          PhorgeProjectTriggerNameTransaction::TRANSACTIONTYPE);
 
         $e_edit = $ex->getShortMessage(
-          PhabricatorTransactions::TYPE_EDIT_POLICY);
+          PhorgeTransactions::TYPE_EDIT_POLICY);
 
         $trigger->setEditPolicy($v_edit);
       }
@@ -172,7 +172,7 @@ final class PhabricatorProjectTriggerEditController
         ->setError($e_name)
         ->setPlaceholder($trigger->getDefaultName()));
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($trigger)
       ->execute();
@@ -181,7 +181,7 @@ final class PhabricatorProjectTriggerEditController
       id(new AphrontFormPolicyControl())
         ->setName('editPolicy')
         ->setPolicyObject($trigger)
-        ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
+        ->setCapability(PhorgePolicyCapability::CAN_EDIT)
         ->setPolicies($policies)
         ->setError($e_edit));
 
@@ -263,7 +263,7 @@ final class PhabricatorProjectTriggerEditController
   }
 
   private function setupEditorBehavior(
-    PhabricatorProjectTrigger $trigger,
+    PhorgeProjectTrigger $trigger,
     array $rule_list,
     $form_id,
     $table_id,
@@ -273,7 +273,7 @@ final class PhabricatorProjectTriggerEditController
     $rule_list = mpull($rule_list, 'toDictionary');
     $rule_list = array_values($rule_list);
 
-    $type_list = PhabricatorProjectTriggerRule::getAllTriggerRules();
+    $type_list = PhorgeProjectTriggerRule::getAllTriggerRules();
 
     foreach ($type_list as $rule) {
       $rule->setViewer($this->getViewer());

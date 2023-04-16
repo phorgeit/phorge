@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryIdentityEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorObjectsDescription() {
     return pht('Repository Identity');
@@ -20,7 +20,7 @@ final class DiffusionRepositoryIdentityEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

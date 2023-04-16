@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCustomFieldHeraldFieldGroup extends HeraldFieldGroup {
+final class PhorgeCustomFieldHeraldFieldGroup extends HeraldFieldGroup {
 
   const FIELDGROUPKEY = 'customfield';
 

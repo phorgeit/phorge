@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionAuditorsSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Diffusion Auditors');

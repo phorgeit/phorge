@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorContactNumbersSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeContactNumbersSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'contact';
@@ -16,7 +16,7 @@ final class PhabricatorContactNumbersSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
   public function isMultiFactorEnrollmentPanel() {
@@ -27,7 +27,7 @@ final class PhabricatorContactNumbersSettingsPanel
     $user = $this->getUser();
     $viewer = $request->getUser();
 
-    $numbers = id(new PhabricatorAuthContactNumberQuery())
+    $numbers = id(new PhorgeAuthContactNumberQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($user->getPHID()))
       ->execute();

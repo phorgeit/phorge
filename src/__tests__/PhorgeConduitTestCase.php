@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConduitTestCase extends PhabricatorTestCase {
+final class PhorgeConduitTestCase extends PhorgeTestCase {
 
   public function testConduitMethods() {
     $methods = id(new PhutilClassMapQuery())

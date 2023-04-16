@@ -1,7 +1,7 @@
 <?php
 
 final class DoorkeeperSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new DoorkeeperExternalObject());

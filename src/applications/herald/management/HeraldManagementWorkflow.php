@@ -1,4 +1,4 @@
 <?php
 
 abstract class HeraldManagementWorkflow
-  extends PhabricatorManagementWorkflow {}
+  extends PhorgeManagementWorkflow {}

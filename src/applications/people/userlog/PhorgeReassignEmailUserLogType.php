@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorReassignEmailUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeReassignEmailUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'email-reassign';
 

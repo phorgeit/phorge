@@ -1,13 +1,13 @@
 <?php
 
 final class DifferentialRevisionRelationshipSource
-  extends PhabricatorObjectRelationshipSource {
+  extends PhorgeObjectRelationshipSource {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDifferentialApplication',
       $viewer);
   }
 

@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorSlowvoteController extends PhabricatorController {
+abstract class PhorgeSlowvoteController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorSlowvoteSearchEngine());
+      ->setSearchEngine(new PhorgeSlowvoteSearchEngine());
   }
 
 }

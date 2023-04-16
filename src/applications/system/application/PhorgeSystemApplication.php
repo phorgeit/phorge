@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSystemApplication extends PhabricatorApplication {
+final class PhorgeSystemApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('System');
@@ -16,33 +16,33 @@ final class PhabricatorSystemApplication extends PhabricatorApplication {
 
   public function getEventListeners() {
     return array(
-      new PhabricatorSystemDebugUIEventListener(),
+      new PhorgeSystemDebugUIEventListener(),
     );
   }
 
   public function getRoutes() {
     return array(
-      '/status/' => 'PhabricatorStatusController',
-      '/debug/' => 'PhabricatorDebugController',
-      '/favicon.ico' => 'PhabricatorFaviconController',
-      '/robots.txt' => 'PhabricatorRobotsPlatformController',
+      '/status/' => 'PhorgeStatusController',
+      '/debug/' => 'PhorgeDebugController',
+      '/favicon.ico' => 'PhorgeFaviconController',
+      '/robots.txt' => 'PhorgeRobotsPlatformController',
       '/services/' => array(
-        'encoding/' => 'PhabricatorSystemSelectEncodingController',
-        'highlight/' => 'PhabricatorSystemSelectHighlightController',
-        'viewas/' => 'PhabricatorSystemSelectViewAsController',
+        'encoding/' => 'PhorgeSystemSelectEncodingController',
+        'highlight/' => 'PhorgeSystemSelectHighlightController',
+        'viewas/' => 'PhorgeSystemSelectViewAsController',
       ),
       '/readonly/' => array(
-        '(?P<reason>[^/]+)/' => 'PhabricatorSystemReadOnlyController',
+        '(?P<reason>[^/]+)/' => 'PhorgeSystemReadOnlyController',
       ),
-      '/object/(?P<name>[^/]+)/' => 'PhabricatorSystemObjectController',
+      '/object/(?P<name>[^/]+)/' => 'PhorgeSystemObjectController',
     );
   }
 
   public function getResourceRoutes() {
     return array(
-      '/status/' => 'PhabricatorStatusController',
-      '/favicon.ico' => 'PhabricatorFaviconController',
-      '/robots.txt' => 'PhabricatorRobotsResourceController',
+      '/status/' => 'PhorgeStatusController',
+      '/favicon.ico' => 'PhorgeFaviconController',
+      '/robots.txt' => 'PhorgeRobotsResourceController',
     );
   }
 

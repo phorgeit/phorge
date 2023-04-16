@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardChartPanelType
-  extends PhabricatorDashboardPanelType {
+final class PhorgeDashboardChartPanelType
+  extends PhorgeDashboardPanelType {
 
   public function getPanelTypeKey() {
     return 'chart';
@@ -19,12 +19,12 @@ final class PhabricatorDashboardChartPanelType
     return pht('Show a chart.');
   }
 
-  protected function newEditEngineFields(PhabricatorDashboardPanel $panel) {
-    $chart_field = id(new PhabricatorTextEditField())
+  protected function newEditEngineFields(PhorgeDashboardPanel $panel) {
+    $chart_field = id(new PhorgeTextEditField())
       ->setKey('chartKey')
       ->setLabel(pht('Chart'))
       ->setTransactionType(
-        PhabricatorDashboardChartPanelChartTransaction::TRANSACTIONTYPE)
+        PhorgeDashboardChartPanelChartTransaction::TRANSACTIONTYPE)
       ->setValue($panel->getProperty('chartKey', ''));
 
     return array(
@@ -33,11 +33,11 @@ final class PhabricatorDashboardChartPanelType
   }
 
   public function renderPanelContent(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine) {
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine) {
 
-    $engine = id(new PhabricatorChartRenderingEngine())
+    $engine = id(new PhorgeChartRenderingEngine())
       ->setViewer($viewer);
 
     $chart = $engine->loadChart($panel->getProperty('chartKey'));
@@ -49,13 +49,13 @@ final class PhabricatorDashboardChartPanelType
   }
 
   public function adjustPanelHeader(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine,
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine,
     PHUIHeaderView $header) {
 
     $key = $panel->getProperty('chartKey');
-    $uri = PhabricatorChartRenderingEngine::getChartURI($key);
+    $uri = PhorgeChartRenderingEngine::getChartURI($key);
 
     $icon = id(new PHUIIconView())
       ->setIcon('fa-area-chart');

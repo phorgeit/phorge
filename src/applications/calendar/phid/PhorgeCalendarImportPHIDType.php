@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarImportPHIDType extends PhabricatorPHIDType {
+final class PhorgeCalendarImportPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CIMP';
 
@@ -9,23 +9,23 @@ final class PhabricatorCalendarImportPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorCalendarImport();
+    return new PhorgeCalendarImport();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorCalendarImportQuery())
+    return id(new PhorgeCalendarImportQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -42,7 +42,7 @@ final class PhabricatorCalendarImportPHIDType extends PhabricatorPHIDType {
         ->setURI($uri);
 
       if ($import->getIsDisabled()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

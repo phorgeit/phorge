@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDiffInlineCommentContext
-  extends PhabricatorInlineCommentContext {
+final class PhorgeDiffInlineCommentContext
+  extends PhorgeInlineCommentContext {
 
   private $filename;
   private $headLines;

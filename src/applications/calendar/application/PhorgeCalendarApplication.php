@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarApplication extends PhabricatorApplication {
+final class PhorgeCalendarApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Calendar');
@@ -38,82 +38,82 @@ final class PhabricatorCalendarApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorCalendarRemarkupRule(),
+      new PhorgeCalendarRemarkupRule(),
     );
   }
 
   public function getRoutes() {
     return array(
       '/E(?P<id>[1-9]\d*)(?:/(?P<sequence>\d+)/)?'
-        => 'PhabricatorCalendarEventViewController',
+        => 'PhorgeCalendarEventViewController',
       '/calendar/' => array(
         '(?:query/(?P<queryKey>[^/]+)/(?:(?P<year>\d+)/'.
           '(?P<month>\d+)/)?(?:(?P<day>\d+)/)?)?'
-          => 'PhabricatorCalendarEventListController',
+          => 'PhorgeCalendarEventListController',
         'event/' => array(
           $this->getEditRoutePattern('edit/')
-            => 'PhabricatorCalendarEventEditController',
+            => 'PhorgeCalendarEventEditController',
           'drag/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarEventDragController',
+            => 'PhorgeCalendarEventDragController',
           'cancel/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarEventCancelController',
+            => 'PhorgeCalendarEventCancelController',
           '(?P<action>join|decline|accept)/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarEventJoinController',
+            => 'PhorgeCalendarEventJoinController',
           'export/(?P<id>[1-9]\d*)/(?P<filename>[^/]*)'
-            => 'PhabricatorCalendarEventExportController',
+            => 'PhorgeCalendarEventExportController',
           'availability/(?P<id>[1-9]\d*)/(?P<availability>[^/]+)/'
-            => 'PhabricatorCalendarEventAvailabilityController',
+            => 'PhorgeCalendarEventAvailabilityController',
         ),
         'export/' => array(
           $this->getQueryRoutePattern()
-            => 'PhabricatorCalendarExportListController',
+            => 'PhorgeCalendarExportListController',
           $this->getEditRoutePattern('edit/')
-            => 'PhabricatorCalendarExportEditController',
+            => 'PhorgeCalendarExportEditController',
           '(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarExportViewController',
+            => 'PhorgeCalendarExportViewController',
           'ics/(?P<secretKey>[^/]+)/(?P<filename>[^/]*)'
-            => 'PhabricatorCalendarExportICSController',
+            => 'PhorgeCalendarExportICSController',
           'disable/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarExportDisableController',
+            => 'PhorgeCalendarExportDisableController',
         ),
         'import/' => array(
           $this->getQueryRoutePattern()
-            => 'PhabricatorCalendarImportListController',
+            => 'PhorgeCalendarImportListController',
           $this->getEditRoutePattern('edit/')
-            => 'PhabricatorCalendarImportEditController',
+            => 'PhorgeCalendarImportEditController',
           '(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarImportViewController',
+            => 'PhorgeCalendarImportViewController',
           'disable/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarImportDisableController',
+            => 'PhorgeCalendarImportDisableController',
           'delete/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarImportDeleteController',
+            => 'PhorgeCalendarImportDeleteController',
           'reload/(?P<id>[1-9]\d*)/'
-            => 'PhabricatorCalendarImportReloadController',
+            => 'PhorgeCalendarImportReloadController',
           'drop/'
-            => 'PhabricatorCalendarImportDropController',
+            => 'PhorgeCalendarImportDropController',
           'log/' => array(
             $this->getQueryRoutePattern()
-              => 'PhabricatorCalendarImportLogListController',
+              => 'PhorgeCalendarImportLogListController',
           ),
         ),
       ),
     );
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Calendar User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Calendar User Guide'),
+        'href' => PhorgeEnv::getDoclink('Calendar User Guide'),
       ),
       array(
         'name' => pht('Importing Events'),
-        'href' => PhabricatorEnv::getDoclink(
+        'href' => PhorgeEnv::getDoclink(
           'Calendar User Guide: Importing Events'),
       ),
       array(
         'name' => pht('Exporting Events'),
-        'href' => PhabricatorEnv::getDoclink(
+        'href' => PhorgeEnv::getDoclink(
           'Calendar User Guide: Exporting Events'),
       ),
     );
@@ -124,7 +124,7 @@ final class PhabricatorCalendarApplication extends PhabricatorApplication {
       'event' => array(
         'name' => pht('Email Commands: Events'),
         'header' => pht('Interacting with Calendar Events'),
-        'object' => new PhabricatorCalendarEvent(),
+        'object' => new PhorgeCalendarEvent(),
         'summary' => pht(
           'This page documents the commands you can use to interact with '.
           'events in Calendar. These commands work when creating new tasks '.
@@ -135,15 +135,15 @@ final class PhabricatorCalendarApplication extends PhabricatorApplication {
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorCalendarEventDefaultViewCapability::CAPABILITY => array(
+      PhorgeCalendarEventDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created events.'),
-        'template' => PhabricatorCalendarEventPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeCalendarEventPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
-      PhabricatorCalendarEventDefaultEditCapability::CAPABILITY => array(
+      PhorgeCalendarEventDefaultEditCapability::CAPABILITY => array(
         'caption' => pht('Default edit policy for newly created events.'),
-        'template' => PhabricatorCalendarEventPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'template' => PhorgeCalendarEventPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

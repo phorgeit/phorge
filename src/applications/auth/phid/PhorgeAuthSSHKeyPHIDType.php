@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeAuthSSHKeyPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'AKEY';
 
@@ -10,23 +10,23 @@ final class PhabricatorAuthSSHKeyPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorAuthSSHKey();
+    return new PhorgeAuthSSHKey();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorAuthSSHKeyQuery())
+    return id(new PhorgeAuthSSHKeyQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
     foreach ($handles as $phid => $handle) {
@@ -34,7 +34,7 @@ final class PhabricatorAuthSSHKeyPHIDType
       $handle->setName(pht('SSH Key %d', $key->getID()));
 
       if (!$key->getIsActive()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }

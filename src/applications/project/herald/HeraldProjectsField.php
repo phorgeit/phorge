@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldProjectsField
-  extends PhabricatorProjectTagsField {
+  extends PhorgeProjectTagsField {
 
   const FIELDCONST = 'projects';
 
@@ -10,9 +10,9 @@ final class HeraldProjectsField
   }
 
   public function getHeraldFieldValue($object) {
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
   }
 
 }

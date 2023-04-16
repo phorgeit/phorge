@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineEditOrderTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineEditOrderTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.order.edit';
 

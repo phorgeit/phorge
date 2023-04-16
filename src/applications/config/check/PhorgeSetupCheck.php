@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSetupCheck extends Phobject {
+abstract class PhorgeSetupCheck extends Phobject {
 
   private $issues;
 
@@ -34,7 +34,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
   }
 
   final protected function newIssue($key) {
-    $issue = id(new PhabricatorSetupIssue())
+    $issue = id(new PhorgeSetupIssue())
       ->setIssueKey($key);
     $this->issues[$key] = $issue;
 
@@ -49,7 +49,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
     return $this->issues;
   }
 
-  protected function addIssue(PhabricatorSetupIssue $issue) {
+  protected function addIssue(PhorgeSetupIssue $issue) {
     $this->issues[$issue->getIssueKey()] = $issue;
     return $this;
   }
@@ -64,15 +64,15 @@ abstract class PhabricatorSetupCheck extends Phobject {
   }
 
   final public static function getOpenSetupIssueKeys() {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     return $cache->getKey('phorge.setup.issue-keys');
   }
 
   final public static function resetSetupState() {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache->deleteKey('phorge.setup.issue-keys');
 
-    $server_cache = PhabricatorCaches::getServerStateCache();
+    $server_cache = PhorgeCaches::getServerStateCache();
     $server_cache->deleteKey('phorge.in-flight');
 
     $use_scope = AphrontWriteGuard::isGuardActive();
@@ -83,7 +83,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
     }
 
     try {
-      $db_cache = new PhabricatorKeyValueDatabaseCache();
+      $db_cache = new PhorgeKeyValueDatabaseCache();
       $db_cache->deleteKey('phorge.setup.issue-keys');
     } catch (Exception $ex) {
       // If we hit an exception here, just ignore it. In particular, this can
@@ -100,14 +100,14 @@ abstract class PhabricatorSetupCheck extends Phobject {
   final public static function setOpenSetupIssueKeys(
     array $keys,
     $update_database) {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache->setKey('phorge.setup.issue-keys', $keys);
 
-    $server_cache = PhabricatorCaches::getServerStateCache();
+    $server_cache = PhorgeCaches::getServerStateCache();
     $server_cache->setKey('phorge.in-flight', 1);
 
     if ($update_database) {
-      $db_cache = new PhabricatorKeyValueDatabaseCache();
+      $db_cache = new PhorgeKeyValueDatabaseCache();
       try {
         $json = phutil_json_encode($keys);
         $db_cache->setKey('phorge.setup.issue-keys', $json);
@@ -119,7 +119,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
   }
 
   final public static function getOpenSetupIssueKeysFromDatabase() {
-    $db_cache = new PhabricatorKeyValueDatabaseCache();
+    $db_cache = new PhorgeKeyValueDatabaseCache();
     try {
       $value = $db_cache->getKey('phorge.setup.issue-keys');
       if (!strlen($value)) {
@@ -132,7 +132,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
   }
 
   final public static function getUnignoredIssueKeys(array $all_issues) {
-    assert_instances_of($all_issues, 'PhabricatorSetupIssue');
+    assert_instances_of($all_issues, 'PhorgeSetupIssue');
     $keys = array();
     foreach ($all_issues as $issue) {
       if (!$issue->getIsIgnored()) {
@@ -143,17 +143,17 @@ abstract class PhabricatorSetupCheck extends Phobject {
   }
 
   final public static function getConfigNeedsRepair() {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     return $cache->getKey('phorge.setup.needs-repair');
   }
 
   final public static function setConfigNeedsRepair($needs_repair) {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache->setKey('phorge.setup.needs-repair', $needs_repair);
   }
 
   final public static function deleteSetupCheckCache() {
-    $cache = PhabricatorCaches::getSetupCache();
+    $cache = PhorgeCaches::getSetupCache();
     $cache->deleteKeys(
       array(
         'phorge.setup.needs-repair',
@@ -179,18 +179,18 @@ abstract class PhabricatorSetupCheck extends Phobject {
     return null;
   }
 
-  public static function newIssueResponse(PhabricatorSetupIssue $issue) {
-    $view = id(new PhabricatorSetupIssueView())
+  public static function newIssueResponse(PhorgeSetupIssue $issue) {
+    $view = id(new PhorgeSetupIssueView())
       ->setIssue($issue);
 
-    return id(new PhabricatorConfigResponse())
+    return id(new PhorgeConfigResponse())
       ->setView($view);
   }
 
   final public static function willProcessRequest() {
     $issue_keys = self::getOpenSetupIssueKeys();
     if ($issue_keys === null) {
-      $engine = new PhabricatorSetupEngine();
+      $engine = new PhorgeSetupEngine();
       $response = $engine->execute();
       if ($response) {
         return $response;
@@ -233,7 +233,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
    * @return bool True if we've made it through setup since the last restart.
    */
   final public static function isInFlight() {
-    $cache = PhabricatorCaches::getServerStateCache();
+    $cache = PhorgeCaches::getServerStateCache();
     return (bool)$cache->getKey('phorge.in-flight');
   }
 
@@ -270,7 +270,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
       }
     }
 
-    $ignore_issues = PhabricatorEnv::getEnvConfig('config.ignore-issues');
+    $ignore_issues = PhorgeEnv::getEnvConfig('config.ignore-issues');
     foreach ($ignore_issues as $ignorable => $derp) {
       if (isset($issues[$ignorable])) {
         $issues[$ignorable]->setIsIgnored(true);
@@ -283,14 +283,14 @@ abstract class PhabricatorSetupCheck extends Phobject {
   final public static function repairConfig() {
     $needs_repair = false;
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     foreach ($options as $option) {
       try {
         $option->getGroup()->validateOption(
           $option,
-          PhabricatorEnv::getEnvConfig($option->getKey()));
-      } catch (PhabricatorConfigValidationException $ex) {
-        PhabricatorEnv::repairConfig($option->getKey(), $option->getDefault());
+          PhorgeEnv::getEnvConfig($option->getKey()));
+      } catch (PhorgeConfigValidationException $ex) {
+        PhorgeEnv::repairConfig($option->getKey(), $option->getDefault());
         $needs_repair = true;
       }
     }

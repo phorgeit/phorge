@@ -9,7 +9,7 @@ final class HeraldManiphestTaskAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function getAdapterContentDescription() {

@@ -2,16 +2,16 @@
 
 final class PhameBlog extends PhameDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorProjectInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface {
+    PhorgePolicyInterface,
+    PhorgeMarkupInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeProjectInterface,
+    PhorgeDestructibleInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeConduitResultInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface {
 
   protected $name;
   protected $subtitle;
@@ -81,17 +81,17 @@ final class PhameBlog extends PhameDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPhameBlogPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePhameBlogPHIDType::TYPECONST);
   }
 
-  public static function initializeNewBlog(PhabricatorUser $actor) {
+  public static function initializeNewBlog(PhorgeUser $actor) {
     $blog = id(new PhameBlog())
       ->setCreatorPHID($actor->getPHID())
       ->setStatus(self::STATUS_ACTIVE)
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
-      ->setEditPolicy(PhabricatorPolicies::POLICY_USER)
-      ->setInteractPolicy(PhabricatorPolicies::POLICY_USER);
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
+      ->setEditPolicy(PhorgePolicies::POLICY_USER)
+      ->setInteractPolicy(PhorgePolicies::POLICY_USER);
 
     return $blog;
   }
@@ -150,8 +150,8 @@ final class PhameBlog extends PhameDAO
           $example_domain);
     }
 
-    if (!PhabricatorEnv::getEnvConfig('policy.allow-public')) {
-      $href = PhabricatorEnv::getProductionURI(
+    if (!PhorgeEnv::getEnvConfig('policy.allow-public')) {
+      $href = PhorgeEnv::getProductionURI(
         '/config/edit/policy.allow-public/');
       return pht(
         'For custom domains to work, this this server must be '.
@@ -178,13 +178,13 @@ final class PhameBlog extends PhameDAO
 
   public function getExternalLiveURI() {
     $uri = new PhutilURI($this->getDomainFullURI());
-    PhabricatorEnv::requireValidRemoteURIForLink($uri);
+    PhorgeEnv::requireValidRemoteURIForLink($uri);
     return (string)$uri;
   }
 
   public function getExternalParentURI() {
     $uri = $this->getParentDomain();
-    PhabricatorEnv::requireValidRemoteURIForLink($uri);
+    PhorgeEnv::requireValidRemoteURIForLink($uri);
     return (string)$uri;
   }
 
@@ -204,7 +204,7 @@ final class PhameBlog extends PhameDAO
     return $this->getProfileImageFile()->getBestURI();
   }
 
-  public function attachProfileImageFile(PhabricatorFile $file) {
+  public function attachProfileImageFile(PhorgeFile $file) {
     $this->profileImageFile = $file;
     return $this;
   }
@@ -217,7 +217,7 @@ final class PhameBlog extends PhameDAO
     return $this->getHeaderImageFile()->getBestURI();
   }
 
-  public function attachHeaderImageFile(PhabricatorFile $file) {
+  public function attachHeaderImageFile(PhorgeFile $file) {
     $this->headerImageFile = $file;
     return $this;
   }
@@ -227,36 +227,36 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_INTERACT,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_INTERACT,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_INTERACT:
+      case PhorgePolicyCapability::CAN_INTERACT:
         return $this->getInteractPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
-    $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
+    $can_edit = PhorgePolicyCapability::CAN_EDIT;
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // Users who can edit or post to a blog can always view it.
-        if (PhabricatorPolicyFilter::hasCapability($user, $this, $can_edit)) {
+        if (PhorgePolicyFilter::hasCapability($user, $this, $can_edit)) {
           return true;
         }
         break;
@@ -268,7 +268,7 @@ final class PhameBlog extends PhameDAO
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht(
           'Users who can edit a blog can always view it.');
     }
@@ -277,17 +277,17 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorMarkupInterface Implementation  )-------------------------- */
+/* -(  PhorgeMarkupInterface Implementation  )-------------------------- */
 
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newPhameMarkupEngine();
+    return PhorgeMarkupEngine::newPhameMarkupEngine();
   }
 
 
@@ -307,10 +307,10 @@ final class PhameBlog extends PhameDAO
     return (bool)$this->getPHID();
   }
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
 
@@ -327,7 +327,7 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -339,7 +339,7 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface Implementation  )-------------------- */
+/* -(  PhorgeSubscribableInterface Implementation  )-------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -347,20 +347,20 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the blog.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('string')
         ->setDescription(pht('Blog description.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('string')
         ->setDescription(pht('Archived or active status.')),
@@ -380,14 +380,14 @@ final class PhameBlog extends PhameDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
   public function newFulltextEngine() {
     return new PhameBlogFulltextEngine();
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {

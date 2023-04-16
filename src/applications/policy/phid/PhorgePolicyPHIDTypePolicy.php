@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyPHIDTypePolicy extends PhabricatorPHIDType {
+final class PhorgePolicyPHIDTypePolicy extends PhorgePHIDType {
 
   const TYPECONST = 'PLCY';
 
@@ -9,23 +9,23 @@ final class PhabricatorPolicyPHIDTypePolicy extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorPolicy();
+    return new PhorgePolicy();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPolicyApplication';
+    return 'PhorgePolicyApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPolicyQuery())
+    return id(new PhorgePolicyQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

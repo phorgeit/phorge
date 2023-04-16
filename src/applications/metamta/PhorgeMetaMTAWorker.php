@@ -1,38 +1,38 @@
 <?php
 
-final class PhabricatorMetaMTAWorker
-  extends PhabricatorWorker {
+final class PhorgeMetaMTAWorker
+  extends PhorgeWorker {
 
   public function getMaximumRetryCount() {
     return 250;
   }
 
-  public function getWaitBeforeRetry(PhabricatorWorkerTask $task) {
+  public function getWaitBeforeRetry(PhorgeWorkerTask $task) {
     return ($task->getFailureCount() * 15);
   }
 
   protected function doWork() {
     $message = $this->loadMessage();
 
-    if ($message->getStatus() != PhabricatorMailOutboundStatus::STATUS_QUEUE) {
+    if ($message->getStatus() != PhorgeMailOutboundStatus::STATUS_QUEUE) {
       return;
     }
 
     try {
       $message->sendNow();
-    } catch (PhabricatorMetaMTAPermanentFailureException $ex) {
+    } catch (PhorgeMetaMTAPermanentFailureException $ex) {
       // If the mailer fails permanently, fail this task permanently.
-      throw new PhabricatorWorkerPermanentFailureException($ex->getMessage());
+      throw new PhorgeWorkerPermanentFailureException($ex->getMessage());
     }
   }
 
   private function loadMessage() {
     $message_id = $this->getTaskData();
-    $message = id(new PhabricatorMetaMTAMail())
+    $message = id(new PhorgeMetaMTAMail())
       ->load($message_id);
 
     if (!$message) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load mail message (with ID "%s") while preparing to '.
           'deliver it.',
@@ -42,7 +42,7 @@ final class PhabricatorMetaMTAWorker
     return $message;
   }
 
-  public function renderForDisplay(PhabricatorUser $viewer) {
+  public function renderForDisplay(PhorgeUser $viewer) {
     return phutil_tag(
       'pre',
       array(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorProviderStatusTransaction
-  extends PhabricatorAuthFactorProviderTransactionType {
+final class PhorgeAuthFactorProviderStatusTransaction
+  extends PhorgeAuthFactorProviderTransactionType {
 
   const TRANSACTIONTYPE = 'status';
 
@@ -17,9 +17,9 @@ final class PhabricatorAuthFactorProviderStatusTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    $old_display = PhabricatorAuthFactorProviderStatus::newForStatus($old)
+    $old_display = PhorgeAuthFactorProviderStatus::newForStatus($old)
       ->getName();
-    $new_display = PhabricatorAuthFactorProviderStatus::newForStatus($new)
+    $new_display = PhorgeAuthFactorProviderStatus::newForStatus($new)
       ->getName();
 
     return pht(
@@ -33,7 +33,7 @@ final class PhabricatorAuthFactorProviderStatusTransaction
     $errors = array();
     $actor = $this->getActor();
 
-    $map = PhabricatorAuthFactorProviderStatus::getMap();
+    $map = PhorgeAuthFactorProviderStatus::getMap();
     foreach ($xactions as $xaction) {
       $new_value = $xaction->getNewValue();
 
@@ -48,12 +48,12 @@ final class PhabricatorAuthFactorProviderStatusTransaction
       }
 
       $require_key = 'security.require-multi-factor-auth';
-      $require_mfa = PhabricatorEnv::getEnvConfig($require_key);
+      $require_mfa = PhorgeEnv::getEnvConfig($require_key);
 
       if ($require_mfa) {
-        $status_active = PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE;
+        $status_active = PhorgeAuthFactorProviderStatus::STATUS_ACTIVE;
         if ($new_value !== $status_active) {
-          $active_providers = id(new PhabricatorAuthFactorProviderQuery())
+          $active_providers = id(new PhorgeAuthFactorProviderQuery())
             ->setViewer($actor)
             ->withStatuses(
               array(
@@ -81,7 +81,7 @@ final class PhabricatorAuthFactorProviderStatusTransaction
   }
 
   public function didCommitTransaction($object, $value) {
-    $status = PhabricatorAuthFactorProviderStatus::newForStatus($value);
+    $status = PhorgeAuthFactorProviderStatus::newForStatus($value);
 
     // If a provider has undergone a status change, reset the MFA enrollment
     // cache for all users. This may immediately force a lot of users to redo
@@ -91,7 +91,7 @@ final class PhabricatorAuthFactorProviderStatusTransaction
     // users who had a factor under the provider, and only really need to
     // do anything if a provider was disabled. This is just a little simpler.
 
-    $table = new PhabricatorUser();
+    $table = new PhorgeUser();
     $conn = $table->establishConnection('w');
 
     queryfx(

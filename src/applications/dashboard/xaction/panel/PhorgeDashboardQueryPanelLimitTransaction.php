@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQueryPanelLimitTransaction
-  extends PhabricatorDashboardPanelPropertyTransaction {
+final class PhorgeDashboardQueryPanelLimitTransaction
+  extends PhorgeDashboardPanelPropertyTransaction {
 
   const TRANSACTIONTYPE = 'search.limit';
 

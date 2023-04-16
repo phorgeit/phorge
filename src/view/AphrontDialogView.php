@@ -247,7 +247,7 @@ final class AphrontDialogView
   }
 
   public function setValidationException(
-    PhabricatorApplicationTransactionValidationException $ex = null) {
+    PhorgeApplicationTransactionValidationException $ex = null) {
     $this->validationException = $ex;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAMailableFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeMetaMTAMailableFunctionDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Subscribers');
@@ -13,17 +13,17 @@ final class PhabricatorMetaMTAMailableFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorViewerDatasource(),
-      new PhabricatorPeopleDatasource(),
-      new PhabricatorProjectMembersDatasource(),
-      new PhabricatorProjectDatasource(),
-      new PhabricatorOwnersPackageDatasource(),
-      new PhabricatorOwnersPackageOwnerDatasource(),
+      new PhorgeViewerDatasource(),
+      new PhorgePeopleDatasource(),
+      new PhorgeProjectMembersDatasource(),
+      new PhorgeProjectDatasource(),
+      new PhorgeOwnersPackageDatasource(),
+      new PhorgeOwnersPackageOwnerDatasource(),
     );
   }
 

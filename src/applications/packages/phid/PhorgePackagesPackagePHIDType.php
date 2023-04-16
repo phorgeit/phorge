@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackagePHIDType
-  extends PhabricatorPHIDType {
+final class PhorgePackagesPackagePHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'PPAK';
 
@@ -10,23 +10,23 @@ final class PhabricatorPackagesPackagePHIDType
   }
 
   public function newObject() {
-    return new PhabricatorPackagesPackage();
+    return new PhorgePackagesPackage();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPackagesPackageQuery())
+    return id(new PhorgePackagesPackageQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

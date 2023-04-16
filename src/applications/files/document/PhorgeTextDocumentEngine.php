@@ -1,20 +1,20 @@
 <?php
 
-abstract class PhabricatorTextDocumentEngine
-  extends PhabricatorDocumentEngine {
+abstract class PhorgeTextDocumentEngine
+  extends PhorgeDocumentEngine {
 
   private $encodingMessage = null;
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     return $ref->isProbablyText();
   }
 
-  public function canConfigureEncoding(PhabricatorDocumentRef $ref) {
+  public function canConfigureEncoding(PhorgeDocumentRef $ref) {
     return true;
   }
 
   protected function newTextDocumentContent(
-    PhabricatorDocumentRef $ref,
+    PhorgeDocumentRef $ref,
     $content,
     array $options = array()) {
 
@@ -31,7 +31,7 @@ abstract class PhabricatorTextDocumentEngine
       $lines = phutil_split_lines($content);
     }
 
-    $view = id(new PhabricatorSourceCodeView())
+    $view = id(new PhorgeSourceCodeView())
       ->setHighlights($this->getHighlightedLines())
       ->setLines($lines)
       ->setSymbolMetadata($ref->getSymbolMetadata());
@@ -64,7 +64,7 @@ abstract class PhabricatorTextDocumentEngine
     return $container;
   }
 
-  protected function loadTextData(PhabricatorDocumentRef $ref) {
+  protected function loadTextData(PhorgeDocumentRef $ref) {
     $content = $ref->loadData();
 
     $encoding = $this->getEncodingConfiguration();

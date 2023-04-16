@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorRepositoryManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeRepositoryManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function loadRepositories(PhutilArgumentParser $args, $param) {
     $identifiers = $args->getArg($param);
@@ -10,7 +10,7 @@ abstract class PhabricatorRepositoryManagementWorkflow
       return array();
     }
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->needURIs(true)
       ->withIdentifiers($identifiers);

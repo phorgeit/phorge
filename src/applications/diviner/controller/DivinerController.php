@@ -1,6 +1,6 @@
 <?php
 
-abstract class DivinerController extends PhabricatorController {
+abstract class DivinerController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()

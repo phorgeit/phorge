@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadDocumentSignatureSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $document;
 
@@ -11,34 +11,34 @@ final class LegalpadDocumentSignatureSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Signed By'))
         ->setKey('signerPHIDs')
         ->setAliases(array('signer', 'signers', 'signerPHID'))
         ->setDescription(
           pht('Search for signatures by given users.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Documents'))
         ->setKey('documentPHIDs')
         ->setAliases(array('document', 'documents', 'documentPHID'))
         ->setDescription(
           pht('Search for signatures on the given documents')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('nameContains')
         ->setDescription(
           pht('Search for signatures with a name containing the '.
               'given string.')),
-      id(new PhabricatorSearchTextField())
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Email Contains'))
         ->setKey('emailContains')
         ->setDescription(
           pht('Search for signatures with an email containing the '.
               'given string.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd'),
     );
@@ -79,7 +79,7 @@ final class LegalpadDocumentSignatureSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   public function setDocument(LegalpadDocument $document) {
@@ -88,7 +88,7 @@ final class LegalpadDocumentSignatureSearchEngine
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter(
       'signerPHIDs',
@@ -100,7 +100,7 @@ final class LegalpadDocumentSignatureSearchEngine
         $request,
         'documents',
         array(
-          PhabricatorLegalpadDocumentPHIDType::TYPECONST,
+          PhorgeLegalpadDocumentPHIDType::TYPECONST,
         )));
 
     $saved->setParameter('nameContains', $request->getStr('nameContains'));
@@ -109,7 +109,7 @@ final class LegalpadDocumentSignatureSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new LegalpadDocumentSignatureQuery());
 
     $signer_phids = $saved->getParameter('signerPHIDs', array());
@@ -141,7 +141,7 @@ final class LegalpadDocumentSignatureSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {
+    PhorgeSavedQuery $saved_query) {
 
     $document_phids = $saved_query->getParameter('documentPHIDs', array());
     $signer_phids = $saved_query->getParameter('signerPHIDs', array());
@@ -162,7 +162,7 @@ final class LegalpadDocumentSignatureSearchEngine
     $form
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setName('signers')
           ->setLabel(pht('Signers'))
           ->setValue($signer_phids))
@@ -209,7 +209,7 @@ final class LegalpadDocumentSignatureSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $signatures,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     return array_merge(
       mpull($signatures, 'getSignerPHID'),
@@ -218,7 +218,7 @@ final class LegalpadDocumentSignatureSearchEngine
 
   protected function renderResultList(
     array $signatures,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($signatures, 'LegalpadDocumentSignature');
 
@@ -354,7 +354,7 @@ final class LegalpadDocumentSignatureSearchEngine
             'documents you have permission to edit.'));
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($table);
     if ($button) {
       $result->addAction($button);

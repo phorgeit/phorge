@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageTestDataGenerator
-  extends PhabricatorTestDataGenerator {
+final class PhorgeOwnersPackageTestDataGenerator
+  extends PhorgeTestDataGenerator {
 
   const GENERATORKEY = 'owners';
 
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageTestDataGenerator
   public function generateObject() {
     $author = $this->loadRandomUser();
 
-    $name = id(new PhabricatorOwnersPackageContextFreeGrammar())
+    $name = id(new PhorgeOwnersPackageContextFreeGrammar())
       ->generate();
 
     switch ($this->roll(1, 4)) {
@@ -43,19 +43,19 @@ final class PhabricatorOwnersPackageTestDataGenerator
       'value' => array($author->getPHID()),
     );
 
-    $dominion = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $dominion = PhorgeOwnersPackage::getDominionOptionsMap();
     $dominion = array_rand($dominion);
     $xactions[] = array(
       'type' => 'dominion',
       'value' => $dominion,
     );
 
-    $paths = id(new PhabricatorOwnersPathContextFreeGrammar())
+    $paths = id(new PhorgeOwnersPathContextFreeGrammar())
       ->generateSeveral($path_count, "\n");
     $paths = explode("\n", $paths);
     $paths = array_unique($paths);
 
-    $repository_phid = $this->loadOneRandom('PhabricatorRepository')
+    $repository_phid = $this->loadOneRandom('PhorgeRepository')
       ->getPHID();
 
     $paths_value = array();

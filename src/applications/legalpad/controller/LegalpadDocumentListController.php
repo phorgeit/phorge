@@ -9,7 +9,7 @@ final class LegalpadDocumentListController extends LegalpadController {
   public function handleRequest(AphrontRequest $request) {
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine(new LegalpadDocumentSearchEngine())
       ->setNavigation($this->buildSideNav());

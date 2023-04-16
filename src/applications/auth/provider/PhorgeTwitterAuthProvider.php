@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorTwitterAuthProvider
-  extends PhabricatorOAuth1AuthProvider {
+final class PhorgeTwitterAuthProvider
+  extends PhorgeOAuth1AuthProvider {
 
   public function getProviderName() {
     return pht('Twitter');
   }
 
   protected function getProviderConfigurationHelp() {
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure Twitter OAuth, create a new application here:".

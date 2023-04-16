@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDraftEngine
+abstract class PhorgeDraftEngine
   extends Phobject {
 
   private $viewer;
@@ -8,7 +8,7 @@ abstract class PhabricatorDraftEngine
   private $hasVersionedDraft;
   private $versionedDraft;
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -27,7 +27,7 @@ abstract class PhabricatorDraftEngine
   }
 
   final public function setVersionedDraft(
-    PhabricatorVersionedDraft $draft = null) {
+    PhorgeVersionedDraft $draft = null) {
     $this->hasVersionedDraft = true;
     $this->versionedDraft = $draft;
     return $this;
@@ -35,7 +35,7 @@ abstract class PhabricatorDraftEngine
 
   final public function getVersionedDraft() {
     if (!$this->hasVersionedDraft) {
-      $draft = PhabricatorVersionedDraft::loadDraft(
+      $draft = PhorgeVersionedDraft::loadDraft(
         $this->getObject()->getPHID(),
         $this->getViewer()->getPHID());
       $this->setVersionedDraft($draft);
@@ -83,8 +83,8 @@ abstract class PhabricatorDraftEngine
 
     $has_draft = $this->hasAnyDraftContent();
 
-    $draft_type = PhabricatorObjectHasDraftEdgeType::EDGECONST;
-    $editor = id(new PhabricatorEdgeEditor());
+    $draft_type = PhorgeObjectHasDraftEdgeType::EDGECONST;
+    $editor = id(new PhorgeEdgeEditor());
 
     if ($has_draft) {
       $editor->addEdge($object_phid, $draft_type, $viewer_phid);
@@ -96,9 +96,9 @@ abstract class PhabricatorDraftEngine
   }
 
   final public static function attachDrafts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $objects) {
-    assert_instances_of($objects, 'PhabricatorDraftInterface');
+    assert_instances_of($objects, 'PhorgeDraftInterface');
 
     $viewer_phid = $viewer->getPHID();
 
@@ -109,9 +109,9 @@ abstract class PhabricatorDraftEngine
       }
       return;
     } else {
-      $draft_type = PhabricatorObjectHasDraftEdgeType::EDGECONST;
+      $draft_type = PhorgeObjectHasDraftEdgeType::EDGECONST;
 
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($objects, 'getPHID'))
         ->withEdgeTypes(
           array(

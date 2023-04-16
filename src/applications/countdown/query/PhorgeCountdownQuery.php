@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCountdownQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCountdownQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -29,7 +29,7 @@ final class PhabricatorCountdownQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorCountdown();
+    return new PhorgeCountdown();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -60,14 +60,14 @@ final class PhabricatorCountdownQuery
       $where[] = qsprintf(
         $conn,
         'epoch >= %d',
-        PhabricatorTime::getNow());
+        PhorgeTime::getNow());
     }
 
     return $where;
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return 'PhorgeCountdownApplication';
   }
 
   public function getBuiltinOrders() {

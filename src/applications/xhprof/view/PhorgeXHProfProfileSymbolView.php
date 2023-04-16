@@ -3,8 +3,8 @@
 /**
  * @phutil-external-symbol function xhprof_compute_flat_info
  */
-final class PhabricatorXHProfProfileSymbolView
-  extends PhabricatorXHProfProfileView {
+final class PhorgeXHProfProfileSymbolView
+  extends PhorgeXHProfProfileView {
 
   private $profileData;
   private $symbol;

@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportICSLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportICSLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'ics';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('ICS Parse Error');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht(
       'Failed to parse ICS data ("%s"): %s',
       $log->getParameter('ics.code'),
@@ -22,14 +22,14 @@ final class PhabricatorCalendarImportICSLogType
 
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-file';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'red';
   }
 

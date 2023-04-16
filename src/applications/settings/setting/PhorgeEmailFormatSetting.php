@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailFormatSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailFormatSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'html-emails';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailFormatSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailFormatSettingsPanel::PANELKEY;
+    return PhorgeEmailFormatSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

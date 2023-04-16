@@ -29,7 +29,7 @@ final class DifferentialTagsCommitMessageField
     return $this->parseObjectList(
       $value,
       array(
-        PhabricatorProjectProjectPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
       ));
   }
 
@@ -38,9 +38,9 @@ final class DifferentialTagsCommitMessageField
       return array();
     }
 
-    $projects = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $projects = PhorgeEdgeQuery::loadDestinationPHIDs(
       $revision->getPHID(),
-      PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+      PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
     $projects = array_reverse($projects);
 
     return $projects;
@@ -57,7 +57,7 @@ final class DifferentialTagsCommitMessageField
   public function getFieldTransactions($value) {
     return array(
       array(
-        'type' => PhabricatorProjectsEditEngineExtension::EDITKEY_SET,
+        'type' => PhorgeProjectsEditEngineExtension::EDITKEY_SET,
         'value' => $value,
       ),
     );

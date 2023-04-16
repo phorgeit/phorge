@@ -3,14 +3,14 @@
 /**
  * Mail adapter that uses SendGrid's web API to deliver email.
  */
-final class PhabricatorMailSendGridAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailSendGridAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'sendgrid';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
     );
   }
 
@@ -28,7 +28,7 @@ final class PhabricatorMailSendGridAdapter
     );
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $key = $this->getOption('api-key');
 
     $parameters = array();

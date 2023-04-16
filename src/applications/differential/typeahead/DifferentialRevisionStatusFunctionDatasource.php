@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionStatusFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Statuses');

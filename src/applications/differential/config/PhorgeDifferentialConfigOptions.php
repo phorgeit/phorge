@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeDifferentialConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Differential');
@@ -20,9 +20,9 @@ final class PhabricatorDifferentialConfigOptions
   }
 
   public function getOptions() {
-    $caches_href = PhabricatorEnv::getDoclink('Managing Caches');
+    $caches_href = PhorgeEnv::getDoclink('Managing Caches');
 
-    $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
+    $custom_field_type = 'custom:PhorgeCustomFieldConfigOptionType';
 
     $fields = array(
       new DifferentialSummaryField(),

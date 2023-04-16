@@ -39,13 +39,13 @@ abstract class DifferentialRevisionReviewTransaction
 
   protected function isViewerAnyReviewer(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return ($this->getViewerReviewerStatus($revision, $viewer) !== null);
   }
 
   protected function isViewerAnyAuthority(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $reviewers = $revision->getReviewers();
     foreach ($revision->getReviewers() as $reviewer) {
@@ -59,7 +59,7 @@ abstract class DifferentialRevisionReviewTransaction
 
   protected function isViewerFullyAccepted(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return $this->isViewerReviewerStatusFully(
       $revision,
       $viewer,
@@ -68,7 +68,7 @@ abstract class DifferentialRevisionReviewTransaction
 
   protected function isViewerFullyRejected(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return $this->isViewerReviewerStatusFully(
       $revision,
       $viewer,
@@ -77,7 +77,7 @@ abstract class DifferentialRevisionReviewTransaction
 
   protected function getViewerReviewerStatus(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     if (!$viewer->getPHID()) {
       return null;
@@ -96,7 +96,7 @@ abstract class DifferentialRevisionReviewTransaction
 
   private function isViewerReviewerStatusFully(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $require_status) {
 
     // If the user themselves is not a reviewer, the reviews they have
@@ -162,7 +162,7 @@ abstract class DifferentialRevisionReviewTransaction
 
   protected function applyReviewerEffect(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
     $status,
     array $reviewer_options = array()) {

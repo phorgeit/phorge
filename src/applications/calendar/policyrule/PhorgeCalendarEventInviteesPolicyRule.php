@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventInviteesPolicyRule
-  extends PhabricatorPolicyRule {
+final class PhorgeCalendarEventInviteesPolicyRule
+  extends PhorgePolicyRule {
 
   private $invited = array();
   private $sourcePHIDs = array();
@@ -22,12 +22,12 @@ final class PhabricatorCalendarEventInviteesPolicyRule
     return pht('event invitees');
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
-    return ($object instanceof PhabricatorCalendarEvent);
+  public function canApplyToObject(PhorgePolicyInterface $object) {
+    return ($object instanceof PhorgeCalendarEvent);
   }
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
 
@@ -41,9 +41,9 @@ final class PhabricatorCalendarEventInviteesPolicyRule
     }
 
     if (!isset($this->sourcePHIDs[$viewer_phid])) {
-      $source_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $source_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $viewer_phid,
-        PhabricatorProjectMaterializedMemberEdgeType::EDGECONST);
+        PhorgeProjectMaterializedMemberEdgeType::EDGECONST);
       $source_phids[] = $viewer_phid;
       $this->sourcePHIDs[$viewer_phid] = $source_phids;
     }
@@ -71,22 +71,22 @@ final class PhabricatorCalendarEventInviteesPolicyRule
       return;
     }
 
-    $invited = id(new PhabricatorCalendarEventInvitee())->loadAllWhere(
+    $invited = id(new PhorgeCalendarEventInvitee())->loadAllWhere(
       'eventPHID IN (%Ls)
         AND inviteePHID IN (%Ls)
         AND status != %s',
       $phids,
       $this->sourcePHIDs[$viewer_phid],
-      PhabricatorCalendarEventInvitee::STATUS_UNINVITED);
+      PhorgeCalendarEventInvitee::STATUS_UNINVITED);
     $invited = mpull($invited, 'getEventPHID');
 
     $this->invited[$viewer_phid] += array_fill_keys($invited, true);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {

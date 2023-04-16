@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSignDocumentsUserLogType
-  extends PhabricatorUserLogType {
+final class PhorgeSignDocumentsUserLogType
+  extends PhorgeUserLogType {
 
   const LOGTYPE = 'login-legalpad';
 

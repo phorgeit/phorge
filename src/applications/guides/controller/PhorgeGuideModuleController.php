@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorGuideModuleController
-  extends PhabricatorGuideController {
+final class PhorgeGuideModuleController
+  extends PhorgeGuideController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $key = $request->getURIData('module');
 
-    $all_modules = PhabricatorGuideModule::getEnabledModules();
+    $all_modules = PhorgeGuideModule::getEnabledModules();
 
     if (!$key) {
       $key = key($all_modules);

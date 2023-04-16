@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailTagsSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeEmailTagsSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'mailtags';
 

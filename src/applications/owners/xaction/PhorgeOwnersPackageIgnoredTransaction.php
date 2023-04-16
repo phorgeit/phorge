@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageIgnoredTransaction
-  extends PhabricatorOwnersPackageTransactionType {
+final class PhorgeOwnersPackageIgnoredTransaction
+  extends PhorgeOwnersPackageTransactionType {
 
   const TRANSACTIONTYPE = 'owners.ignored';
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationSubtypeController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationSubtypeController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $engine_key = $request->getURIData('engineKey');
@@ -10,14 +10,14 @@ final class PhabricatorEditEngineConfigurationSubtypeController
     $key = $request->getURIData('key');
     $viewer = $this->getViewer();
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$config) {
@@ -35,12 +35,12 @@ final class PhabricatorEditEngineConfigurationSubtypeController
       $xactions = array();
 
       $subtype = $request->getStr('subtype');
-      $type_subtype = PhabricatorEditEngineSubtypeTransaction::TRANSACTIONTYPE;
-      $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+      $type_subtype = PhorgeEditEngineSubtypeTransaction::TRANSACTIONTYPE;
+      $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
         ->setTransactionType($type_subtype)
         ->setNewValue($subtype);
 
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)

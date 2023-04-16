@@ -2,12 +2,12 @@
 
 final class PonderAnswer extends PonderDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorMarkupInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeMarkupInterface,
+    PhorgePolicyInterface,
+    PhorgeFlaggableInterface,
+    PhorgeSubscribableInterface,
+    PhorgeDestructibleInterface {
 
   const MARKUP_FIELD_CONTENT = 'markup:content';
 
@@ -23,11 +23,11 @@ final class PonderAnswer extends PonderDAO
   private $comments;
 
   public static function initializeNewAnswer(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PonderQuestion $question) {
-    $app = id(new PhabricatorApplicationQuery())
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPonderApplication'))
+      ->withClasses(array('PhorgePonderApplication'))
       ->executeOne();
 
     return id(new PonderAnswer())
@@ -95,7 +95,7 @@ final class PonderAnswer extends PonderDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(PonderAnswerPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(PonderAnswerPHIDType::TYPECONST);
   }
 
   public function getMarkupField() {
@@ -110,7 +110,7 @@ final class PonderAnswer extends PonderDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -126,7 +126,7 @@ final class PonderAnswer extends PonderDAO
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
   public function getMarkupText($field) {
@@ -134,7 +134,7 @@ final class PonderAnswer extends PonderDAO
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::getEngine();
+    return PhorgeMarkupEngine::getEngine();
   }
 
   public function didMarkupText(
@@ -149,37 +149,37 @@ final class PonderAnswer extends PonderDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getQuestion()->getPolicy($capability);
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        $app = PhabricatorApplication::getByClass(
-          'PhabricatorPonderApplication');
+      case PhorgePolicyCapability::CAN_EDIT:
+        $app = PhorgeApplication::getByClass(
+          'PhorgePonderApplication');
         return $app->getPolicy(PonderModerateCapability::CAPABILITY);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->getAuthorPHID() == $viewer->getPHID()) {
           return true;
         }
         return $this->getQuestion()->hasAutomaticCapability(
           $capability,
           $viewer);
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return ($this->getAuthorPHID() == $viewer->getPHID());
     }
   }
@@ -189,7 +189,7 @@ final class PonderAnswer extends PonderDAO
     $out = array();
     $out[] = pht('The author of an answer can always view and edit it.');
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $out[] = pht(
           'The user who asks a question can always view the answers.');
         $out[] = pht(
@@ -200,7 +200,7 @@ final class PonderAnswer extends PonderDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -208,11 +208,11 @@ final class PonderAnswer extends PonderDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();

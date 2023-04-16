@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMessageTextTransaction
-  extends PhabricatorAuthMessageTransactionType {
+final class PhorgeAuthMessageTextTransaction
+  extends PhorgeAuthMessageTransactionType {
 
   const TRANSACTIONTYPE = 'text';
 
@@ -30,7 +30,7 @@ final class PhabricatorAuthMessageTextTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

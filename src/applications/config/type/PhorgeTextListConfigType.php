@@ -1,15 +1,15 @@
 <?php
 
-abstract class PhabricatorTextListConfigType
-  extends PhabricatorTextConfigType {
+abstract class PhorgeTextListConfigType
+  extends PhorgeTextConfigType {
 
-  protected function newControl(PhabricatorConfigOption $option) {
+  protected function newControl(PhorgeConfigOption $option) {
     return id(new AphrontFormTextAreaControl())
       ->setCaption(pht('Separate values with newlines.'));
   }
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $value = phutil_split_lines($value, $retain_endings = false);
@@ -23,7 +23,7 @@ abstract class PhabricatorTextListConfigType
   }
 
   public function newValueFromCommandLineValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     try {
@@ -43,13 +43,13 @@ abstract class PhabricatorTextListConfigType
   }
 
   public function newDisplayValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return implode("\n", $value);
   }
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_array($value)) {
@@ -90,7 +90,7 @@ abstract class PhabricatorTextListConfigType
   }
 
   protected function validateStoredItem(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return;
   }

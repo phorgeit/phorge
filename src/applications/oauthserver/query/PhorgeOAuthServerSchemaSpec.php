@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorOAuthServerSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeOAuthServerSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorOAuthServerClient());
+    $this->buildEdgeSchemata(new PhorgeOAuthServerClient());
   }
 
 }

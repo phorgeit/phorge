@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAphlictSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeAphlictSetupCheck extends PhorgeSetupCheck {
 
   protected function executeChecks() {
     try {
-      PhabricatorNotificationClient::tryAnyConnection();
+      PhorgeNotificationClient::tryAnyConnection();
     } catch (Exception $ex) {
       $message = pht(
         "This server is configured to use a notification server, but is ".
@@ -29,7 +29,7 @@ final class PhabricatorAphlictSetupCheck extends PhabricatorSetupCheck {
             'This server is configured to use a notification server, '.
             'but is not able to connect to it.'))
         ->setMessage($message)
-        ->addRelatedPhabricatorConfig('notification.servers')
+        ->addRelatedPhorgeConfig('notification.servers')
         ->addCommand(
           pht(
             "(To start the server, run this command.)\n%s",

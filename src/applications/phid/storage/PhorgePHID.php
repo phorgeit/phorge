@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPHID extends Phobject {
+final class PhorgePHID extends Phobject {
 
   public static function generateNewPHID($type, $subtype = null) {
     if (!$type) {

@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseCredentialTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new PassphraseCredentialTransaction();

@@ -61,7 +61,7 @@ final class DarkConsoleCore extends Phobject {
         : null,
     );
 
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
     $cache = new PhutilKeyValueCacheProfiler($cache);
     $cache->setProfiler(PhutilServiceProfiler::getInstance());
 
@@ -94,7 +94,7 @@ final class DarkConsoleCore extends Phobject {
   public function render(AphrontRequest $request) {
     $user = $request->getUser();
     $visible = $user->getUserSetting(
-      PhabricatorDarkConsoleVisibleSetting::SETTINGKEY);
+      PhorgeDarkConsoleVisibleSetting::SETTINGKEY);
 
     return javelin_tag(
       'div',

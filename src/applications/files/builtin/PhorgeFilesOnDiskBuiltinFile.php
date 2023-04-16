@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesOnDiskBuiltinFile
-  extends PhabricatorFilesBuiltinFile {
+final class PhorgeFilesOnDiskBuiltinFile
+  extends PhorgeFilesBuiltinFile {
 
   private $name;
 
@@ -25,7 +25,7 @@ final class PhabricatorFilesOnDiskBuiltinFile
   public function getBuiltinFileKey() {
     $name = $this->getName();
     $desc = "disk(name={$name})";
-    $hash = PhabricatorHash::digestToLength($desc, 40);
+    $hash = PhorgeHash::digestToLength($desc, 40);
     return "builtin:{$hash}";
   }
 

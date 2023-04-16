@@ -12,7 +12,7 @@ final class DiffusionIdentityListController
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    id(new PhabricatorRepositoryIdentityEditEngine())
+    id(new PhorgeRepositoryIdentityEditEngine())
       ->setViewer($this->getViewer())
       ->addActionToCrumbs($crumbs);
 

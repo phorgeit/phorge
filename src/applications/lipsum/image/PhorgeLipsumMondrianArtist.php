@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorLipsumMondrianArtist extends PhabricatorLipsumArtist {
+final class PhorgeLipsumMondrianArtist extends PhorgeLipsumArtist {
 
   protected function draw($image, $x, $y) {
     $c_white = 0xFFFFFF;

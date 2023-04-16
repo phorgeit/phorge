@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeCalendarEventTransaction
+  extends PhorgeModularTransaction {
 
   const MAILTAG_RESCHEDULE = 'calendar-reschedule';
   const MAILTAG_CONTENT = 'calendar-content';
@@ -12,28 +12,28 @@ final class PhabricatorCalendarEventTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorCalendarEventPHIDType::TYPECONST;
+    return PhorgeCalendarEventPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorCalendarEventTransactionComment();
+    return new PhorgeCalendarEventTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCalendarEventTransactionType';
+    return 'PhorgeCalendarEventTransactionType';
   }
 
   public function getMailTags() {
     $tags = array();
     switch ($this->getTransactionType()) {
-      case PhabricatorCalendarEventNameTransaction::TRANSACTIONTYPE:
-      case PhabricatorCalendarEventDescriptionTransaction::TRANSACTIONTYPE:
-      case PhabricatorCalendarEventInviteTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventNameTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventDescriptionTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventInviteTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_CONTENT;
         break;
-      case PhabricatorCalendarEventStartDateTransaction::TRANSACTIONTYPE:
-      case PhabricatorCalendarEventEndDateTransaction::TRANSACTIONTYPE:
-      case PhabricatorCalendarEventCancelTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventStartDateTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventEndDateTransaction::TRANSACTIONTYPE:
+      case PhorgeCalendarEventCancelTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_RESCHEDULE;
         break;
     }

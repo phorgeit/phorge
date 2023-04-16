@@ -1,10 +1,10 @@
 <?php
 
-abstract class PhabricatorStringSetting
-  extends PhabricatorSetting {
+abstract class PhorgeStringSetting
+  extends PhorgeSetting {
 
   final protected function newCustomEditField($object) {
-    return $this->newEditField($object, new PhabricatorTextEditField());
+    return $this->newEditField($object, new PhorgeTextEditField());
   }
 
   public function getTransactionNewValue($value) {

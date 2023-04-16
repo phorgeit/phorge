@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorAuthInvite
-  extends PhabricatorUserDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeAuthInvite
+  extends PhorgeUserDAO
+  implements PhorgePolicyInterface {
 
   protected $authorPHID;
   protected $emailAddress;
@@ -34,8 +34,8 @@ final class PhabricatorAuthInvite
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorAuthInvitePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeAuthInvitePHIDType::TYPECONST);
   }
 
   public function regenerateVerificationCode() {
@@ -59,7 +59,7 @@ final class PhabricatorAuthInvite
 
   public function save() {
     if (!$this->getVerificationHash()) {
-      $hash = PhabricatorHash::digestForIndex($this->getVerificationCode());
+      $hash = PhorgeHash::digestForIndex($this->getVerificationCode());
       $this->setVerificationHash($hash);
     }
 
@@ -72,23 +72,23 @@ final class PhabricatorAuthInvite
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_ADMIN;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_ADMIN;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($this->viewerHasVerificationCode) {
       return true;
     }

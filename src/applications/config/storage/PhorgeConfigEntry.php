@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorConfigEntry
-  extends PhabricatorConfigEntryDAO
+final class PhorgeConfigEntry
+  extends PhorgeConfigEntryDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface {
 
   protected $namespace;
   protected $configKey;
@@ -32,19 +32,19 @@ final class PhabricatorConfigEntry
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorConfigConfigPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeConfigConfigPHIDType::TYPECONST);
   }
 
   public static function loadConfigEntry($key) {
-    $config_entry = id(new PhabricatorConfigEntry())
+    $config_entry = id(new PhorgeConfigEntry())
       ->loadOneWhere(
         'configKey = %s AND namespace = %s',
         $key,
         'default');
 
     if (!$config_entry) {
-      $config_entry = id(new PhabricatorConfigEntry())
+      $config_entry = id(new PhorgeConfigEntry())
         ->setConfigKey($key)
         ->setNamespace('default')
         ->setIsDeleted(0);
@@ -54,33 +54,33 @@ final class PhabricatorConfigEntry
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorConfigEditor();
+    return new PhorgeConfigEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorConfigTransaction();
+    return new PhorgeConfigTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_ADMIN;
+    return PhorgePolicies::POLICY_ADMIN;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

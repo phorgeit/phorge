@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorChatLogDAO extends PhabricatorLiskDAO {
+abstract class PhorgeChatLogDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'chatlog';

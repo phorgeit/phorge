@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryDefaultBranchTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryDefaultBranchTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:default-branch';
 

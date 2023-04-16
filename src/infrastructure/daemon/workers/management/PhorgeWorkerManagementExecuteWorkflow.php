@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerManagementExecuteWorkflow
-  extends PhabricatorWorkerManagementWorkflow {
+final class PhorgeWorkerManagementExecuteWorkflow
+  extends PhorgeWorkerManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -53,7 +53,7 @@ final class PhabricatorWorkerManagementExecuteWorkflow
           continue;
         }
 
-        $result_success = PhabricatorWorkerArchiveTask::RESULT_SUCCESS;
+        $result_success = PhorgeWorkerArchiveTask::RESULT_SUCCESS;
         if ($task->getResult() == $result_success) {
           if (!$is_repeat) {
             $this->logWarn(
@@ -80,10 +80,10 @@ final class PhabricatorWorkerManagementExecuteWorkflow
 
       $task
         ->setLeaseOwner(null)
-        ->setLeaseExpires(PhabricatorTime::getNow())
+        ->setLeaseExpires(PhorgeTime::getNow())
         ->save();
 
-      $task_data = id(new PhabricatorWorkerTaskData())->loadOneWhere(
+      $task_data = id(new PhorgeWorkerTaskData())->loadOneWhere(
         'id = %d',
         $task->getDataID());
       $task->setData($task_data->getData());

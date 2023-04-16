@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorTypeaheadCompositeDatasource
-  extends PhabricatorTypeaheadDatasource {
+abstract class PhorgeTypeaheadCompositeDatasource
+  extends PhorgeTypeaheadDatasource {
 
   private $usable;
   private $prefixString;
@@ -195,7 +195,7 @@ abstract class PhabricatorTypeaheadCompositeDatasource
     return $source_results;
   }
 
-  private function getResultPhase(PhabricatorTypeaheadResult $result) {
+  private function getResultPhase(PhorgeTypeaheadResult $result) {
     if ($this->prefixLength) {
       $result_name = phutil_utf8_strtolower($result->getName());
       if (!strncmp($result_name, $this->prefixString, $this->prefixLength)) {
@@ -227,7 +227,7 @@ abstract class PhabricatorTypeaheadCompositeDatasource
 
       $sources = $this->getComponentDatasources();
 
-      $extension_sources = id(new PhabricatorDatasourceEngine())
+      $extension_sources = id(new PhorgeDatasourceEngine())
         ->setViewer($viewer)
         ->newDatasourcesForCompositeDatasource($this);
       foreach ($extension_sources as $extension_source) {
@@ -239,7 +239,7 @@ abstract class PhabricatorTypeaheadCompositeDatasource
         $application_class = $source->getDatasourceApplicationClass();
 
         if ($application_class) {
-          $result = id(new PhabricatorApplicationQuery())
+          $result = id(new PhorgeApplicationQuery())
             ->setViewer($this->getViewer())
             ->withClasses(array($application_class))
             ->execute();

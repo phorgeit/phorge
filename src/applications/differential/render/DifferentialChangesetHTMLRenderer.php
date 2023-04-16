@@ -438,7 +438,7 @@ abstract class DifferentialChangesetHTMLRenderer
     $classes = array();
     $classes[] = 'differential-diff';
     $classes[] = 'remarkup-code';
-    $classes[] = 'PhabricatorMonospaced';
+    $classes[] = 'PhorgeMonospaced';
     $classes[] = $this->getRendererTableClass();
 
     $sigils = array();
@@ -464,7 +464,7 @@ abstract class DifferentialChangesetHTMLRenderer
   }
 
   protected function buildInlineComment(
-    PhabricatorInlineComment $comment,
+    PhorgeInlineComment $comment,
     $on_right = false) {
 
     $viewer = $this->getUser();

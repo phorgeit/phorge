@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailExternalMessage
+abstract class PhorgeMailExternalMessage
   extends Phobject {
 
   final public function getMessageType() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLabelProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeLabelProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'label';
   const FIELD_NAME = 'name';
@@ -19,14 +19,14 @@ final class PhabricatorLabelProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $this->getLabelName($config);
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey(self::FIELD_NAME)
         ->setLabel(pht('Name'))
         ->setIsRequired(true)
@@ -35,12 +35,12 @@ final class PhabricatorLabelProfileMenuItem
   }
 
   private function getLabelName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $name = $this->getLabelName($config);
 
@@ -54,7 +54,7 @@ final class PhabricatorLabelProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {

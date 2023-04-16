@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorCachePurger
+abstract class PhorgeCachePurger
   extends Phobject {
 
   private $viewer;
 
   abstract public function purgeCache();
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

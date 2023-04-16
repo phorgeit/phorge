@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMessageEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeAuthMessageEditEngine
+  extends PhorgeEditEngine {
 
   private $messageType;
 
@@ -24,10 +24,10 @@ final class PhabricatorAuthMessageEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
-  public function setMessageType(PhabricatorAuthMessageType $type) {
+  public function setMessageType(PhorgeAuthMessageType $type) {
     $this->messageType = $type;
     return $this;
   }
@@ -40,16 +40,16 @@ final class PhabricatorAuthMessageEditEngine
     $type = $this->getMessageType();
 
     if ($type) {
-      $message = PhabricatorAuthMessage::initializeNewMessage($type);
+      $message = PhorgeAuthMessage::initializeNewMessage($type);
     } else {
-      $message = new PhabricatorAuthMessage();
+      $message = new PhorgeAuthMessage();
     }
 
     return $message;
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorAuthMessageQuery();
+    return new PhorgeAuthMessageQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -95,10 +95,10 @@ final class PhabricatorAuthMessageEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('messageText')
         ->setTransactionType(
-          PhabricatorAuthMessageTextTransaction::TRANSACTIONTYPE)
+          PhorgeAuthMessageTextTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Message Text'))
         ->setDescription(pht('Custom text for the message.'))
         ->setValue($object->getMessageText()),

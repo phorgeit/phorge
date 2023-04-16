@@ -1,12 +1,12 @@
 <?php
 
-abstract class PhabricatorApplicationConfigurationPanel
+abstract class PhorgeApplicationConfigurationPanel
   extends Phobject {
 
   private $viewer;
   private $application;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -15,7 +15,7 @@ abstract class PhabricatorApplicationConfigurationPanel
     return $this->viewer;
   }
 
-  public function setApplication(PhabricatorApplication $application) {
+  public function setApplication(PhorgeApplication $application) {
     $this->application = $application;
     return $this;
   }
@@ -39,12 +39,12 @@ abstract class PhabricatorApplicationConfigurationPanel
   abstract public function getPanelKey();
 
   abstract public function shouldShowForApplication(
-    PhabricatorApplication $application);
+    PhorgeApplication $application);
 
   abstract public function buildConfigurationPagePanel();
   abstract public function handlePanelRequest(
     AphrontRequest $request,
-    PhabricatorController $controller);
+    PhorgeController $controller);
 
   public static function loadAllPanels() {
     return id(new PhutilClassMapQuery())
@@ -54,7 +54,7 @@ abstract class PhabricatorApplicationConfigurationPanel
   }
 
   public static function loadAllPanelsForApplication(
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
     $panels = self::loadAllPanels();
 
     $application_panels = array();

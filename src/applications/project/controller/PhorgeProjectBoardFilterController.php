@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectBoardFilterController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardFilterController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();

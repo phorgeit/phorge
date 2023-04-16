@@ -1,6 +1,6 @@
 <?php
 
-final class PHUILeftRightExample extends PhabricatorUIExample {
+final class PHUILeftRightExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Responsive left-right table');

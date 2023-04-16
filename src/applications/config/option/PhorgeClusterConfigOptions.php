@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorClusterConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeClusterConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Cluster Setup');
@@ -31,11 +31,11 @@ read-only mode in the event of a failure on the primary host. For help with
 configuring cluster databases, see **[[ %s | %s ]]** in the documentation.
 EOTEXT
       ,
-      PhabricatorEnv::getDoclink('Cluster: Databases'),
+      PhorgeEnv::getDoclink('Cluster: Databases'),
       pht('Cluster: Databases')));
 
 
-    $intro_href = PhabricatorEnv::getDoclink('Clustering Introduction');
+    $intro_href = PhorgeEnv::getDoclink('Clustering Introduction');
     $intro_name = pht('Clustering Introduction');
 
     $search_type = 'cluster.search';
@@ -46,7 +46,7 @@ configuring fulltext search clusters, see **[[ %s | %s ]]** in the
 documentation.
 EOTEXT
     ,
-    PhabricatorEnv::getDoclink('Cluster: Search'),
+    PhorgeEnv::getDoclink('Cluster: Search'),
     pht('Cluster: Search')));
 
     return array(
@@ -103,7 +103,7 @@ EOTEXT
             'If you provide an instance identifier here (normally by '.
             'injecting it with a `%s`), the server will pass it to '.
             'subprocesses and commit hooks in the `%s` environmental variable.',
-            'PhabricatorConfigSiteSource',
+            'PhorgeConfigSiteSource',
             'PHORGE_INSTANCE')),
       $this->newOption('cluster.read-only', 'bool', false)
         ->setLocked(true)

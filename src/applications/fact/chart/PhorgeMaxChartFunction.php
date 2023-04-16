@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMaxChartFunction
-  extends PhabricatorPureChartFunction {
+final class PhorgeMaxChartFunction
+  extends PhorgePureChartFunction {
 
   const FUNCTIONKEY = 'max';
 

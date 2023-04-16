@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementReparseWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementReparseWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -147,8 +147,8 @@ final class PhabricatorRepositoryManagementReparseWorkflow
 
     $commits = array();
     if ($all_from_repo) {
-      $repository = id(new PhabricatorRepositoryQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $repository = id(new PhorgeRepositoryQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withIdentifiers(array($all_from_repo))
         ->executeOne();
 
@@ -158,7 +158,7 @@ final class PhabricatorRepositoryManagementReparseWorkflow
       }
 
       $query = id(new DiffusionCommitQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withRepository($repository);
 
       if ($min_timestamp) {
@@ -182,7 +182,7 @@ final class PhabricatorRepositoryManagementReparseWorkflow
     }
 
     if (!$background) {
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
     }
 
     $progress = new PhutilConsoleProgressBar();
@@ -198,11 +198,11 @@ final class PhabricatorRepositoryManagementReparseWorkflow
         $reparse_message = false;
         $reparse_change = false;
         $reparse_publish = false;
-        if (!($status & PhabricatorRepositoryCommit::IMPORTED_MESSAGE)) {
+        if (!($status & PhorgeRepositoryCommit::IMPORTED_MESSAGE)) {
           $reparse_message = true;
-        } else if (!($status & PhabricatorRepositoryCommit::IMPORTED_CHANGE)) {
+        } else if (!($status & PhorgeRepositoryCommit::IMPORTED_CHANGE)) {
           $reparse_change = true;
-        } else if (!($status & PhabricatorRepositoryCommit::IMPORTED_PUBLISH)) {
+        } else if (!($status & PhorgeRepositoryCommit::IMPORTED_PUBLISH)) {
           $reparse_publish = true;
         } else {
           continue;
@@ -211,35 +211,35 @@ final class PhabricatorRepositoryManagementReparseWorkflow
 
       $classes = array();
       switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
         if ($reparse_message) {
-          $classes[] = 'PhabricatorRepositoryGitCommitMessageParserWorker';
+          $classes[] = 'PhorgeRepositoryGitCommitMessageParserWorker';
         }
         if ($reparse_change) {
-          $classes[] = 'PhabricatorRepositoryGitCommitChangeParserWorker';
+          $classes[] = 'PhorgeRepositoryGitCommitChangeParserWorker';
         }
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
         if ($reparse_message) {
           $classes[] =
-            'PhabricatorRepositoryMercurialCommitMessageParserWorker';
+            'PhorgeRepositoryMercurialCommitMessageParserWorker';
         }
         if ($reparse_change) {
-          $classes[] = 'PhabricatorRepositoryMercurialCommitChangeParserWorker';
+          $classes[] = 'PhorgeRepositoryMercurialCommitChangeParserWorker';
         }
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         if ($reparse_message) {
-          $classes[] = 'PhabricatorRepositorySvnCommitMessageParserWorker';
+          $classes[] = 'PhorgeRepositorySvnCommitMessageParserWorker';
         }
         if ($reparse_change) {
-          $classes[] = 'PhabricatorRepositorySvnCommitChangeParserWorker';
+          $classes[] = 'PhorgeRepositorySvnCommitChangeParserWorker';
         }
         break;
       }
 
       if ($reparse_publish) {
-        $classes[] = 'PhabricatorRepositoryCommitPublishWorker';
+        $classes[] = 'PhorgeRepositoryCommitPublishWorker';
       }
 
       // NOTE: With "--importing", we queue the first unparsed step and let
@@ -254,15 +254,15 @@ final class PhabricatorRepositoryManagementReparseWorkflow
 
       foreach ($classes as $class) {
         try {
-          PhabricatorWorker::scheduleTask(
+          PhorgeWorker::scheduleTask(
             $class,
             $spec,
             array(
-              'priority' => PhabricatorWorker::PRIORITY_IMPORT,
+              'priority' => PhorgeWorker::PRIORITY_IMPORT,
               'objectPHID' => $commit->getPHID(),
               'containerPHID' => $repository->getPHID(),
             ));
-        } catch (PhabricatorWorkerPermanentFailureException $ex) {
+        } catch (PhorgeWorkerPermanentFailureException $ex) {
           // See T13315. We expect some reparse steps to occasionally raise
           // permanent failures: for example, because they are no longer
           // reachable. This is a routine condition, not a catastrophic

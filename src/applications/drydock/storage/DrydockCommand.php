@@ -2,7 +2,7 @@
 
 final class DrydockCommand
   extends DrydockDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   const COMMAND_RELEASE = 'release';
   const COMMAND_RECLAIM = 'reclaim';
@@ -15,7 +15,7 @@ final class DrydockCommand
 
   private $commandTarget = self::ATTACHABLE;
 
-  public static function initializeNewCommand(PhabricatorUser $author) {
+  public static function initializeNewCommand(PhorgeUser $author) {
     return id(new DrydockCommand())
       ->setAuthorPHID($author->getPHID())
       ->setIsConsumed(0);
@@ -56,12 +56,12 @@ final class DrydockCommand
     return idx($this->properties, $key, $default);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -69,7 +69,7 @@ final class DrydockCommand
     return $this->getCommandTarget()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getCommandTarget()->hasAutomaticCapability(
       $capability,
       $viewer);

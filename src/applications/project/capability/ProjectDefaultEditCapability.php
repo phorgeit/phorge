@@ -1,7 +1,7 @@
 <?php
 
 final class ProjectDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'project.default.edit';
 

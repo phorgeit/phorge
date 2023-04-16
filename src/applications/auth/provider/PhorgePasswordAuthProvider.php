@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
+final class PhorgePasswordAuthProvider extends PhorgeAuthProvider {
 
   private $adapter;
 
@@ -18,7 +18,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function renderConfigurationFooter() {
-    $hashers = PhabricatorPasswordHasher::getAllHashers();
+    $hashers = PhorgePasswordHasher::getAllHashers();
     $hashers = msort($hashers, 'getStrength');
     $hashers = array_reverse($hashers);
 
@@ -38,9 +38,9 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
 
     $best_hasher_name = null;
     try {
-      $best_hasher = PhabricatorPasswordHasher::getBestHasher();
+      $best_hasher = PhorgePasswordHasher::getBestHasher();
       $best_hasher_name = $best_hasher->getHashName();
-    } catch (PhabricatorPasswordHasherUnavailableException $ex) {
+    } catch (PhorgePasswordHasherUnavailableException $ex) {
       // There are no suitable hashers. The user might be able to enable some,
       // so we don't want to fatal here. We'll fatal when users try to actually
       // use this stuff if it isn't fixed before then. Until then, we just
@@ -131,13 +131,13 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function buildLoginForm(
-    PhabricatorAuthStartController $controller) {
+    PhorgeAuthStartController $controller) {
     $request = $controller->getRequest();
     return $this->renderPasswordLoginForm($request);
   }
 
   public function buildInviteForm(
-    PhabricatorAuthStartController $controller) {
+    PhorgeAuthStartController $controller) {
     $request = $controller->getRequest();
     $viewer = $request->getViewer();
 
@@ -192,7 +192,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
 
     $v_user = nonempty(
       $request->getStr('username'),
-      $request->getCookie(PhabricatorCookies::COOKIE_USERNAME));
+      $request->getCookie(PhorgeCookies::COOKIE_USERNAME));
 
     $e_user = null;
     $e_pass = null;
@@ -249,17 +249,17 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function processLoginRequest(
-    PhabricatorAuthLoginController $controller) {
+    PhorgeAuthLoginController $controller) {
 
     $request = $controller->getRequest();
     $viewer = $request->getUser();
-    $content_source = PhabricatorContentSource::newFromRequest($request);
+    $content_source = PhorgeContentSource::newFromRequest($request);
 
-    $rate_actor = PhabricatorSystemActionEngine::newActorFromRequest($request);
+    $rate_actor = PhorgeSystemActionEngine::newActorFromRequest($request);
 
-    PhabricatorSystemActionEngine::willTakeAction(
+    PhorgeSystemActionEngine::willTakeAction(
       array($rate_actor),
-      new PhabricatorAuthTryPasswordAction(),
+      new PhorgeAuthTryPasswordAction(),
       1);
 
     // If the same remote address has submitted several failed login attempts
@@ -268,11 +268,11 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
     $captcha_valid = false;
     if (AphrontFormRecaptchaControl::isRecaptchaEnabled()) {
       try {
-        PhabricatorSystemActionEngine::willTakeAction(
+        PhorgeSystemActionEngine::willTakeAction(
           array($rate_actor),
-          new PhabricatorAuthTryPasswordWithoutCAPTCHAAction(),
+          new PhorgeAuthTryPasswordWithoutCAPTCHAAction(),
           1);
-      } catch (PhabricatorSystemActionRateLimitException $ex) {
+      } catch (PhorgeSystemActionRateLimitException $ex) {
         $require_captcha = true;
         $captcha_valid = AphrontFormRecaptchaControl::processCaptcha($request);
       }
@@ -286,22 +286,22 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
       if (!$require_captcha || $captcha_valid) {
         $username_or_email = $request->getStr('username');
         if (strlen($username_or_email)) {
-          $user = id(new PhabricatorUser())->loadOneWhere(
+          $user = id(new PhorgeUser())->loadOneWhere(
             'username = %s',
             $username_or_email);
 
           if (!$user) {
-            $user = PhabricatorUser::loadOneWithEmailAddress(
+            $user = PhorgeUser::loadOneWithEmailAddress(
               $username_or_email);
           }
 
           if ($user) {
             $envelope = new PhutilOpaqueEnvelope($request->getStr('password'));
 
-            $engine = id(new PhabricatorAuthPasswordEngine())
+            $engine = id(new PhorgeAuthPasswordEngine())
               ->setViewer($user)
               ->setContentSource($content_source)
-              ->setPasswordType(PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT)
+              ->setPasswordType(PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT)
               ->setObject($user);
 
             if ($engine->isValidPassword($envelope)) {
@@ -315,14 +315,14 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
 
     if (!$account) {
       if ($request->isFormPost()) {
-        $log = PhabricatorUserLog::initializeNewLog(
+        $log = PhorgeUserLog::initializeNewLog(
           null,
           $log_user ? $log_user->getPHID() : null,
-          PhabricatorLoginFailureUserLogType::LOGTYPE);
+          PhorgeLoginFailureUserLogType::LOGTYPE);
         $log->save();
       }
 
-      $request->clearCookie(PhabricatorCookies::COOKIE_USERNAME);
+      $request->clearCookie(PhorgeCookies::COOKIE_USERNAME);
 
       $response = $controller->buildProviderPageResponse(
         $this,
@@ -343,7 +343,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
     $providers = self::getAllEnabledProviders();
 
     foreach ($providers as $provider) {
-      if ($provider instanceof PhabricatorPasswordAuthProvider) {
+      if ($provider instanceof PhorgePasswordAuthProvider) {
         return $provider;
       }
     }
@@ -352,9 +352,9 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
   }
 
   public function willRenderLinkedAccount(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PHUIObjectItemView $item,
-    PhabricatorExternalAccount $account) {
+    PhorgeExternalAccount $account) {
     return;
   }
 

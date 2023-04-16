@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExternalAccountIdentifierQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeExternalAccountIdentifierQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorExternalAccountIdentifierQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorExternalAccountIdentifier();
+    return new PhorgeExternalAccountIdentifier();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -72,7 +72,7 @@ final class PhabricatorExternalAccountIdentifierQuery
     if ($this->rawIdentifiers !== null) {
       $hashes = array();
       foreach ($this->rawIdentifiers as $raw_identifier) {
-        $hashes[] = PhabricatorHash::digestForIndex($raw_identifier);
+        $hashes[] = PhorgeHash::digestForIndex($raw_identifier);
       }
       $where[] = qsprintf(
         $conn,
@@ -84,7 +84,7 @@ final class PhabricatorExternalAccountIdentifierQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
 }

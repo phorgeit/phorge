@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class HeraldRuleQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -173,7 +173,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     }
 
     if ($object_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setParentQuery($this)
         ->setViewer($this->getViewer())
         ->withPHIDs($object_phids)
@@ -281,7 +281,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
         $conn,
         'JOIN %T edge_affects ON rule.phid = edge_affects.src
           AND edge_affects.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         HeraldRuleActionAffectsObjectEdgeType::EDGECONST);
     }
 
@@ -304,7 +304,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
     // For personal rules, the author needs to exist and not be disabled.
     $user_phids = mpull($rules, 'getAuthorPHID');
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($user_phids)
       ->execute();
@@ -327,7 +327,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return 'PhorgeHeraldApplication';
   }
 
   protected function getPrimaryTableAlias() {

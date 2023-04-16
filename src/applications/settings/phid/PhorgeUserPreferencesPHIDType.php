@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserPreferencesPHIDType extends PhabricatorPHIDType {
+final class PhorgeUserPreferencesPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PSET';
 
@@ -9,23 +9,23 @@ final class PhabricatorUserPreferencesPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorUserPreferences();
+    return new PhorgeUserPreferences();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return 'PhorgeSettingsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorUserPreferencesQuery())
+    return id(new PhorgeUserPreferencesQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigOption
+final class PhorgeConfigOption
   extends Phobject {
 
   private $key;
@@ -39,7 +39,7 @@ final class PhabricatorConfigOption
     }
 
     return idx(
-      PhabricatorEnv::getEnvConfig('config.hide'),
+      PhorgeEnv::getEnvConfig('config.hide'),
       $this->getKey(),
       false);
   }
@@ -59,7 +59,7 @@ final class PhabricatorConfigOption
     }
 
     return idx(
-      PhabricatorEnv::getEnvConfig('config.lock'),
+      PhorgeEnv::getEnvConfig('config.lock'),
       $this->getKey(),
       false);
   }
@@ -89,7 +89,7 @@ final class PhabricatorConfigOption
     return $this->examples;
   }
 
-  public function setGroup(PhabricatorApplicationConfigOptions $group) {
+  public function setGroup(PhorgeApplicationConfigOptions $group) {
     $this->group = $group;
     return $this;
   }
@@ -176,7 +176,7 @@ final class PhabricatorConfigOption
 
   public function newOptionType() {
     $type_key = $this->getType();
-    $type_map = PhabricatorConfigType::getAllTypes();
+    $type_map = PhorgeConfigType::getAllTypes();
     return idx($type_map, $type_key);
   }
 
@@ -203,7 +203,7 @@ final class PhabricatorConfigOption
     return $this;
   }
 
-  public function newDescriptionRemarkupView(PhabricatorUser $viewer) {
+  public function newDescriptionRemarkupView(PhorgeUser $viewer) {
     $description = $this->getDescription();
     if (!strlen($description)) {
       return null;

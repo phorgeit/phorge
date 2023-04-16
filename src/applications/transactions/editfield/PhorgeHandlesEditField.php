@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHandlesEditField
-  extends PhabricatorPHIDListEditField {
+final class PhorgeHandlesEditField
+  extends PhorgePHIDListEditField {
 
   private $handleParameterType;
   private $isInvisible;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchIndexVersion
-  extends PhabricatorSearchDAO {
+final class PhorgeSearchIndexVersion
+  extends PhorgeSearchDAO {
 
   protected $objectPHID;
   protected $extensionKey;

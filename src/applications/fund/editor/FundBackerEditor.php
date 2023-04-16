@@ -1,10 +1,10 @@
 <?php
 
 final class FundBackerEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   public function getEditorObjectsDescription() {

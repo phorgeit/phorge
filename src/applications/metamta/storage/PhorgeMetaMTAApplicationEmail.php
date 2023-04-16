@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmail
-  extends PhabricatorMetaMTADAO
+final class PhorgeMetaMTAApplicationEmail
+  extends PhorgeMetaMTADAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSpacesInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSpacesInterface {
 
   protected $applicationPHID;
   protected $address;
@@ -39,17 +39,17 @@ final class PhabricatorMetaMTAApplicationEmail
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorMetaMTAApplicationEmailPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeMetaMTAApplicationEmailPHIDType::TYPECONST);
   }
 
-  public static function initializeNewAppEmail(PhabricatorUser $actor) {
-    return id(new PhabricatorMetaMTAApplicationEmail())
+  public static function initializeNewAppEmail(PhorgeUser $actor) {
+    return id(new PhorgeMetaMTAApplicationEmail())
       ->setSpacePHID($actor->getDefaultSpacePHID())
       ->setConfigData(array());
   }
 
-  public function attachApplication(PhabricatorApplication $app) {
+  public function attachApplication(PhorgeApplication $app) {
     $this->application = $app;
     return $this;
   }
@@ -72,7 +72,7 @@ final class PhabricatorMetaMTAApplicationEmail
   }
 
   public function getInUseMessage() {
-    $applications = PhabricatorApplication::getAllApplications();
+    $applications = PhorgeApplication::getAllApplications();
     $applications = mpull($applications, null, 'getPHID');
     $application = idx(
       $applications,
@@ -95,13 +95,13 @@ final class PhabricatorMetaMTAApplicationEmail
     return new PhutilEmailAddress($this->getAddress());
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -111,7 +111,7 @@ final class PhabricatorMetaMTAApplicationEmail
 
   public function hasAutomaticCapability(
     $capability,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     return $this->getApplication()->hasAutomaticCapability(
       $capability,
@@ -123,28 +123,28 @@ final class PhabricatorMetaMTAApplicationEmail
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorMetaMTAApplicationEmailEditor();
+    return new PhorgeMetaMTAApplicationEmailEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorMetaMTAApplicationEmailTransaction();
+    return new PhorgeMetaMTAApplicationEmailTransaction();
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {

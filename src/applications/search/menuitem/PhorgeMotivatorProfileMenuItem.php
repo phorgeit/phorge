@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMotivatorProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeMotivatorProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'motivator';
 
@@ -14,11 +14,11 @@ final class PhabricatorMotivatorProfileMenuItem
   }
 
   public function canAddToObject($object) {
-    return ($object instanceof PhabricatorHomeApplication);
+    return ($object instanceof PhorgeHomeApplication);
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $options = $this->getOptions();
     $name = idx($options, $config->getMenuItemProperty('source'));
@@ -30,14 +30,14 @@ final class PhabricatorMotivatorProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorInstructionsEditField())
+      id(new PhorgeInstructionsEditField())
         ->setValue(
           pht(
             'Motivate your team with inspirational quotes from great minds. '.
             'This menu item shows a new quote every day.')),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('source')
         ->setLabel(pht('Source'))
         ->setOptions($this->getOptions()),
@@ -51,7 +51,7 @@ final class PhabricatorMotivatorProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $source = $config->getMenuItemProperty('source');
 

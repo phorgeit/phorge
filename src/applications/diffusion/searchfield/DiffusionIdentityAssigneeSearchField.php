@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionIdentityAssigneeSearchField
-  extends PhabricatorSearchTokenizerField {
+  extends PhorgeSearchTokenizerField {
 
   protected function getDefaultValue() {
     return array();

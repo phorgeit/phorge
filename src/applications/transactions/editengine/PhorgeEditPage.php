@@ -1,7 +1,7 @@
 <?php
 
 
-final class PhabricatorEditPage
+final class PhorgeEditPage
   extends Phobject {
 
   private $key;

@@ -1,26 +1,26 @@
 <?php
 
-interface PhabricatorDraftInterface {
+interface PhorgeDraftInterface {
 
   public function newDraftEngine();
 
-  public function getHasDraft(PhabricatorUser $viewer);
-  public function attachHasDraft(PhabricatorUser $viewer, $has_draft);
+  public function getHasDraft(PhorgeUser $viewer);
+  public function attachHasDraft(PhorgeUser $viewer, $has_draft);
 
 }
 
-/* -(  PhabricatorDraftInterface  )------------------------------------------ */
+/* -(  PhorgeDraftInterface  )------------------------------------------ */
 /*
 
   public function newDraftEngine() {
     return new <...>DraftEngine();
   }
 
-  public function getHasDraft(PhabricatorUser $viewer) {
+  public function getHasDraft(PhorgeUser $viewer) {
     return $this->assertAttachedKey($this->drafts, $viewer->getCacheFragment());
   }
 
-  public function attachHasDraft(PhabricatorUser $viewer, $has_draft) {
+  public function attachHasDraft(PhorgeUser $viewer, $has_draft) {
     $this->drafts[$viewer->getCacheFragment()] = $has_draft;
     return $this;
   }

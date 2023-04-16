@@ -1,6 +1,6 @@
 **Phorge** is a collection of web applications which help software companies build better software.
 
-Phorge is a community-maintained fork of [Phabricator](http://phabricator.org).
+Phorge is a community-maintained fork of [Phorge](http://phabricator.org).
 
 Phorge includes applications for:
 

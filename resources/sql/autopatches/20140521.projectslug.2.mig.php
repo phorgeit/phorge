@@ -1,10 +1,10 @@
 <?php
 
-$project_table = new PhabricatorProject();
+$project_table = new PhorgeProject();
 $table_name = $project_table->getTableName();
 $conn_w = $project_table->establishConnection('w');
-$slug_table_name = id(new PhabricatorProjectSlug())->getTableName();
-$time = PhabricatorTime::getNow();
+$slug_table_name = id(new PhorgeProjectSlug())->getTableName();
+$time = PhorgeTime::getNow();
 
 echo pht('Migrating projects to slugs...')."\n";
 foreach (new LiskMigrationIterator($project_table) as $project) {
@@ -12,8 +12,8 @@ foreach (new LiskMigrationIterator($project_table) as $project) {
 
   echo pht('Migrating project %d...', $id)."\n";
 
-  $slug_text = PhabricatorSlug::normalizeProjectSlug($project->getName());
-  $slug = id(new PhabricatorProjectSlug())
+  $slug_text = PhorgeSlug::normalizeProjectSlug($project->getName());
+  $slug = id(new PhorgeProjectSlug())
     ->loadOneWhere('slug = %s', $slug_text);
 
   if ($slug) {

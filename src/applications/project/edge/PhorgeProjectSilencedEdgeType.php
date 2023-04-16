@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSilencedEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeProjectSilencedEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 61;
 

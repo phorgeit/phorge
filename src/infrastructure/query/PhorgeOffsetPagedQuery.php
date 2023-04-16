@@ -4,7 +4,7 @@
  * A query class which uses offset/limit paging. Provides logic and accessors
  * for offsets and limits.
  */
-abstract class PhabricatorOffsetPagedQuery extends PhabricatorQuery {
+abstract class PhorgeOffsetPagedQuery extends PhorgeQuery {
 
   private $offset;
   private $limit;

@@ -44,15 +44,15 @@ final class DiffusionLookSoonConduitAPIMethod
       return null;
     }
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($request->getUser())
       ->withIdentifiers($identifiers)
       ->execute();
 
     foreach ($repositories as $repository) {
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
-        PhabricatorRepositoryStatusMessage::CODE_OKAY);
+        PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+        PhorgeRepositoryStatusMessage::CODE_OKAY);
     }
 
     return null;

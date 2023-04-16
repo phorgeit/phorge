@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthSSHKeyTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeAuthSSHKeyTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_NAME = 'sshkey.name';
   const TYPE_KEY = 'sshkey.key';
@@ -12,7 +12,7 @@ final class PhabricatorAuthSSHKeyTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorAuthSSHKeyPHIDType::TYPECONST;
+    return PhorgeAuthSSHKeyPHIDType::TYPECONST;
   }
 
   public function getTitle() {
@@ -22,7 +22,7 @@ final class PhabricatorAuthSSHKeyTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return pht(
           '%s created this key.',
           $this->renderHandleLink($author_phid));

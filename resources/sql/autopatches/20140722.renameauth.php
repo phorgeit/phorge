@@ -1,25 +1,25 @@
 <?php
 
 $map = array(
-  'PhabricatorAuthProviderOAuthAmazon' => 'PhabricatorAmazonAuthProvider',
-  'PhabricatorAuthProviderOAuthAsana' => 'PhabricatorAsanaAuthProvider',
-  'PhabricatorAuthProviderOAuth1Bitbucket'
-    => 'PhabricatorBitbucketAuthProvider',
-  'PhabricatorAuthProviderOAuthDisqus' => 'PhabricatorDisqusAuthProvider',
-  'PhabricatorAuthProviderOAuthFacebook' => 'PhabricatorFacebookAuthProvider',
-  'PhabricatorAuthProviderOAuthGitHub' => 'PhabricatorGitHubAuthProvider',
-  'PhabricatorAuthProviderOAuthGoogle' => 'PhabricatorGoogleAuthProvider',
-  'PhabricatorAuthProviderOAuth1JIRA' => 'PhabricatorJIRAAuthProvider',
-  'PhabricatorAuthProviderLDAP' => 'PhabricatorLDAPAuthProvider',
-  'PhabricatorAuthProviderPassword' => 'PhabricatorPasswordAuthProvider',
-  'PhabricatorAuthProviderPersona' => 'PhabricatorPersonaAuthProvider',
-  'PhabricatorAuthProviderOAuthTwitch' => 'PhabricatorTwitchAuthProvider',
-  'PhabricatorAuthProviderOAuth1Twitter' => 'PhabricatorTwitterAuthProvider',
-  'PhabricatorAuthProviderOAuthWordPress' => 'PhabricatorWordPressAuthProvider',
+  'PhorgeAuthProviderOAuthAmazon' => 'PhorgeAmazonAuthProvider',
+  'PhorgeAuthProviderOAuthAsana' => 'PhorgeAsanaAuthProvider',
+  'PhorgeAuthProviderOAuth1Bitbucket'
+    => 'PhorgeBitbucketAuthProvider',
+  'PhorgeAuthProviderOAuthDisqus' => 'PhorgeDisqusAuthProvider',
+  'PhorgeAuthProviderOAuthFacebook' => 'PhorgeFacebookAuthProvider',
+  'PhorgeAuthProviderOAuthGitHub' => 'PhorgeGitHubAuthProvider',
+  'PhorgeAuthProviderOAuthGoogle' => 'PhorgeGoogleAuthProvider',
+  'PhorgeAuthProviderOAuth1JIRA' => 'PhorgeJIRAAuthProvider',
+  'PhorgeAuthProviderLDAP' => 'PhorgeLDAPAuthProvider',
+  'PhorgeAuthProviderPassword' => 'PhorgePasswordAuthProvider',
+  'PhorgeAuthProviderPersona' => 'PhorgePersonaAuthProvider',
+  'PhorgeAuthProviderOAuthTwitch' => 'PhorgeTwitchAuthProvider',
+  'PhorgeAuthProviderOAuth1Twitter' => 'PhorgeTwitterAuthProvider',
+  'PhorgeAuthProviderOAuthWordPress' => 'PhorgeWordPressAuthProvider',
 );
 
 echo pht('Migrating auth providers...')."\n";
-$table = new PhabricatorAuthProviderConfig();
+$table = new PhorgeAuthProviderConfig();
 $conn_w = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $provider) {

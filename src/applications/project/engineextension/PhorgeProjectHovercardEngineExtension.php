@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+final class PhorgeProjectHovercardEngineExtension
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'project.card';
 
@@ -14,14 +14,14 @@ final class PhabricatorProjectHovercardEngineExtension
   }
 
   public function canRenderObjectHovercard($object) {
-    return ($object instanceof PhabricatorProject);
+    return ($object instanceof PhorgeProject);
   }
 
   public function willRenderHovercards(array $objects) {
     $viewer = $this->getViewer();
     $phids = mpull($objects, 'getPHID');
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->needImages(true)
@@ -35,7 +35,7 @@ final class PhabricatorProjectHovercardEngineExtension
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $object,
     $data) {
     $viewer = $this->getViewer();
@@ -45,7 +45,7 @@ final class PhabricatorProjectHovercardEngineExtension
       return;
     }
 
-    $project_card = id(new PhabricatorProjectCardView())
+    $project_card = id(new PhorgeProjectCardView())
       ->setProject($project)
       ->setViewer($viewer);
 

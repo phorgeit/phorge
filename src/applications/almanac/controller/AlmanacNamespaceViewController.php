@@ -57,10 +57,10 @@ final class AlmanacNamespaceViewController
   private function buildCurtain(AlmanacNamespace $namespace) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $namespace,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $namespace->getID();
     $edit_uri = $this->getApplicationURI("namespace/edit/{$id}/");
@@ -68,7 +68,7 @@ final class AlmanacNamespaceViewController
     $curtain = $this->newCurtainView($namespace);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Namespace'))
         ->setHref($edit_uri)

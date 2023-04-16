@@ -1,4 +1,4 @@
 <?php
 
 abstract class HeraldWebhookTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

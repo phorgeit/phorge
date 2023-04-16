@@ -1,7 +1,7 @@
 <?php
 
 final class PhortunePaymentProviderConfigQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -89,7 +89,7 @@ final class PhortunePaymentProviderConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
 }

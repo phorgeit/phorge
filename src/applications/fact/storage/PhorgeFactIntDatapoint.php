@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFactIntDatapoint extends PhabricatorFactDAO {
+final class PhorgeFactIntDatapoint extends PhorgeFactDAO {
 
   protected $keyID;
   protected $objectID;

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLiskFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeLiskFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'lisk';
 
@@ -10,7 +10,7 @@ final class PhabricatorLiskFulltextEngineExtension
   }
 
   public function shouldEnrichFulltextObject($object) {
-    if (!($object instanceof PhabricatorLiskDAO)) {
+    if (!($object instanceof PhorgeLiskDAO)) {
       return false;
     }
 
@@ -23,7 +23,7 @@ final class PhabricatorLiskFulltextEngineExtension
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     $document
       ->setDocumentCreated($object->getDateCreated())

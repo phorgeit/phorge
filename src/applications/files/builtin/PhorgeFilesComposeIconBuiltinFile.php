@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesComposeIconBuiltinFile
-  extends PhabricatorFilesBuiltinFile {
+final class PhorgeFilesComposeIconBuiltinFile
+  extends PhorgeFilesBuiltinFile {
 
   private $icon;
   private $color;
@@ -28,7 +28,7 @@ final class PhabricatorFilesComposeIconBuiltinFile
     $icon = $this->getIcon();
     $color = $this->getColor();
     $desc = "compose(icon={$icon}, color={$color})";
-    $hash = PhabricatorHash::digestToLength($desc, 40);
+    $hash = PhorgeHash::digestToLength($desc, 40);
     return "builtin:{$hash}";
   }
 
@@ -134,7 +134,7 @@ final class PhabricatorFilesComposeIconBuiltinFile
     imagefill($canvas, 0, 0, $color_const);
     imagecopy($canvas, $icon_img, 0, 0, 0, 0, 200, 200);
 
-    return PhabricatorImageTransformer::saveImageDataInAnyFormat(
+    return PhorgeImageTransformer::saveImageDataInAnyFormat(
       $canvas,
       'image/png');
   }

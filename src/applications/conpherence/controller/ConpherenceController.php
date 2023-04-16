@@ -1,6 +1,6 @@
 <?php
 
-abstract class ConpherenceController extends PhabricatorController {
+abstract class ConpherenceController extends PhorgeController {
 
   private $conpherence;
 
@@ -77,10 +77,10 @@ abstract class ConpherenceController extends PhabricatorController {
         $header->addTag($topic);
       }
 
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $viewer,
         $conpherence,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       if ($can_edit) {
         $header->setImageURL(
@@ -106,7 +106,7 @@ abstract class ConpherenceController extends PhabricatorController {
           ->setColor('pink')
           ->setWorkflow(true));
 
-      $widget_key = PhabricatorConpherenceWidgetVisibleSetting::SETTINGKEY;
+      $widget_key = PhorgeConpherenceWidgetVisibleSetting::SETTINGKEY;
       $widget_view = (bool)$viewer->getUserSetting($widget_key, false);
 
       Javelin::initBehavior(

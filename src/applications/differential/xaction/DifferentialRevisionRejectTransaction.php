@@ -8,13 +8,13 @@ final class DifferentialRevisionRejectTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Request Changes');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('This revision will be returned to the author for updates.');
   }
 
@@ -59,7 +59,7 @@ final class DifferentialRevisionRejectTransaction
     $this->applyReviewerEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isClosed()) {
       throw new Exception(
         pht(

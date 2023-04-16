@@ -112,7 +112,7 @@ final class DifferentialRevisionInlinesController
       }
 
       $reviewer = $handles[$inline->getAuthorPHID()]->renderLink();
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       $then = $inline->getDateModified();
       $datetime = phutil_format_relative_time($now - $then);
 
@@ -125,7 +125,7 @@ final class DifferentialRevisionInlinesController
         $inline->getContent());
 
       $state = $inline->getFixedState();
-      if ($state == PhabricatorInlineComment::STATE_DONE) {
+      if ($state == PhorgeInlineComment::STATE_DONE) {
         $status_icons[] = id(new PHUIIconView())
           ->setIcon('fa-check green')
           ->addClass('mmr');

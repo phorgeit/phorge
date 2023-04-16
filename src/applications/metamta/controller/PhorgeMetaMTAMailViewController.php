@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMetaMTAMailViewController
-  extends PhabricatorMetaMTAController {
+final class PhorgeMetaMTAMailViewController
+  extends PhorgeMetaMTAController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $mail = id(new PhabricatorMetaMTAMailQuery())
+    $mail = id(new PhorgeMetaMTAMailQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -27,9 +27,9 @@ final class PhabricatorMetaMTAMailViewController
       ->setHeaderIcon('fa-envelope');
 
     $status = $mail->getStatus();
-    $name = PhabricatorMailOutboundStatus::getStatusName($status);
-    $icon = PhabricatorMailOutboundStatus::getStatusIcon($status);
-    $color = PhabricatorMailOutboundStatus::getStatusColor($status);
+    $name = PhorgeMailOutboundStatus::getStatusName($status);
+    $icon = PhorgeMailOutboundStatus::getStatusIcon($status);
+    $color = PhorgeMailOutboundStatus::getStatusColor($status);
     $header->setStatus($icon, $color, $name);
 
     if ($mail->getMustEncrypt()) {
@@ -109,7 +109,7 @@ final class PhabricatorMetaMTAMailViewController
       ->appendChild($view);
   }
 
-  private function buildMessageProperties(PhabricatorMetaMTAMail $mail) {
+  private function buildMessageProperties(PhorgeMetaMTAMail $mail) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -181,7 +181,7 @@ final class PhabricatorMetaMTAMailViewController
     return $properties;
   }
 
-  private function buildHeaderProperties(PhabricatorMetaMTAMail $mail) {
+  private function buildHeaderProperties(PhorgeMetaMTAMail $mail) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -213,7 +213,7 @@ final class PhabricatorMetaMTAMailViewController
     return $properties;
   }
 
-  private function buildDeliveryProperties(PhabricatorMetaMTAMail $mail) {
+  private function buildDeliveryProperties(PhorgeMetaMTAMail $mail) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
@@ -222,7 +222,7 @@ final class PhabricatorMetaMTAMailViewController
     $actors = $mail->getDeliveredActors();
     $reasons = null;
     if (!$actors) {
-      if ($mail->getStatus() == PhabricatorMailOutboundStatus::STATUS_QUEUE) {
+      if ($mail->getStatus() == PhorgeMailOutboundStatus::STATUS_QUEUE) {
         $delivery = $this->renderEmptyMessage(
           pht(
             'This message has not been delivered yet, so delivery information '.
@@ -253,7 +253,7 @@ final class PhabricatorMetaMTAMailViewController
         $reason_codes = $actor['reasons'];
         if (!$reason_codes) {
           $reason_codes = array(
-            PhabricatorMetaMTAActor::REASON_NONE,
+            PhorgeMetaMTAActor::REASON_NONE,
           );
         }
 
@@ -264,9 +264,9 @@ final class PhabricatorMetaMTAMailViewController
           $target = phutil_tag(
             'strong',
             array(),
-            PhabricatorMetaMTAActor::getReasonName($reason));
+            PhorgeMetaMTAActor::getReasonName($reason));
 
-          if (PhabricatorMetaMTAActor::isDeliveryReason($reason)) {
+          if (PhorgeMetaMTAActor::isDeliveryReason($reason)) {
             $icon = $icon_yes;
           } else {
             $icon = $icon_no;
@@ -275,7 +275,7 @@ final class PhabricatorMetaMTAMailViewController
           $item = id(new PHUIStatusItemView())
             ->setIcon($icon)
             ->setTarget($target)
-            ->setNote(PhabricatorMetaMTAActor::getReasonDescription($reason));
+            ->setNote(PhorgeMetaMTAActor::getReasonDescription($reason));
 
           $reasons->addItem($item);
         }
@@ -298,7 +298,7 @@ final class PhabricatorMetaMTAMailViewController
     $map = $mail->getDeliveredRoutingMap();
     $routing_detail = null;
     if ($map === null) {
-      if ($mail->getStatus() == PhabricatorMailOutboundStatus::STATUS_QUEUE) {
+      if ($mail->getStatus() == PhorgeMailOutboundStatus::STATUS_QUEUE) {
         $routing_result = $this->renderEmptyMessage(
           pht(
             'This message has not been sent yet, so routing rules have '.
@@ -322,13 +322,13 @@ final class PhabricatorMetaMTAMailViewController
         $rule_const = $rule['rule'];
         $reason_phid = $rule['reason'];
         switch ($rule_const) {
-          case PhabricatorMailRoutingRule::ROUTE_AS_NOTIFICATION:
+          case PhorgeMailRoutingRule::ROUTE_AS_NOTIFICATION:
             $routing_result = pht(
               'This message was routed as a notification because it '.
               'matched %s.',
               $viewer->renderHandle($reason_phid)->render());
             break;
-          case PhabricatorMailRoutingRule::ROUTE_AS_MAIL:
+          case PhorgeMailRoutingRule::ROUTE_AS_MAIL:
             $routing_result = pht(
               'This message was routed as an email because it matched %s.',
               $viewer->renderHandle($reason_phid)->render());
@@ -365,7 +365,7 @@ final class PhabricatorMetaMTAMailViewController
           $rules[$key]['strength'] = sprintf(
             '~%s%08d',
             $type,
-            PhabricatorMailRoutingRule::getRuleStrength($const));
+            PhorgeMailRoutingRule::getRuleStrength($const));
         }
         $rules = isort($rules, 'strength');
 
@@ -374,10 +374,10 @@ final class PhabricatorMetaMTAMailViewController
           $const = $rule['routingRule'];
           $phids = $rule['phids'];
 
-          $name = PhabricatorMailRoutingRule::getRuleName($const);
+          $name = PhorgeMailRoutingRule::getRuleName($const);
 
-          $icon = PhabricatorMailRoutingRule::getRuleIcon($const);
-          $color = PhabricatorMailRoutingRule::getRuleColor($const);
+          $icon = PhorgeMailRoutingRule::getRuleIcon($const);
+          $color = PhorgeMailRoutingRule::getRuleColor($const);
 
           if ($phids === null) {
             $kind = pht('Global');
@@ -412,7 +412,7 @@ final class PhabricatorMetaMTAMailViewController
     return $properties;
   }
 
-  private function buildMetadataProperties(PhabricatorMetaMTAMail $mail) {
+  private function buildMetadataProperties(PhorgeMetaMTAMail $mail) {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())

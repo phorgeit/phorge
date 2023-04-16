@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorPHIDType extends Phobject {
+abstract class PhorgePHIDType extends Phobject {
 
   final public function getTypeConstant() {
     $const = $this->getPhobjectClassConstant('TYPECONST');
@@ -45,20 +45,20 @@ abstract class PhabricatorPHIDType extends Phobject {
   abstract public function getPHIDTypeApplicationClass();
 
   /**
-   * Build a @{class:PhabricatorPolicyAwareQuery} to load objects of this type
+   * Build a @{class:PhorgePolicyAwareQuery} to load objects of this type
    * by PHID.
    *
    * If you can not build a single query which satisfies this requirement, you
    * can provide a dummy implementation for this method and overload
    * @{method:loadObjects} instead.
    *
-   * @param PhabricatorObjectQuery Query being executed.
+   * @param PhorgeObjectQuery Query being executed.
    * @param list<phid> PHIDs to load.
-   * @return PhabricatorPolicyAwareQuery Query object which loads the
+   * @return PhorgePolicyAwareQuery Query object which loads the
    *   specified PHIDs when executed.
    */
   abstract protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids);
 
 
@@ -67,12 +67,12 @@ abstract class PhabricatorPHIDType extends Phobject {
    * necessary to implement @{method:buildQueryForObjects} to get object
    * loading to work.
    *
-   * @param PhabricatorObjectQuery Query being executed.
+   * @param PhorgeObjectQuery Query being executed.
    * @param list<phid> PHIDs to load.
    * @return list<wild> Corresponding objects.
    */
   public function loadObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     $object_query = $this->buildQueryForObjects($query, $phids)
@@ -110,17 +110,17 @@ abstract class PhabricatorPHIDType extends Phobject {
    *   }
    *
    * In general, an implementation should call `setName()` and `setURI()` on
-   * each handle at a minimum. See @{class:PhabricatorObjectHandle} for other
+   * each handle at a minimum. See @{class:PhorgeObjectHandle} for other
    * handle properties.
    *
-   * @param PhabricatorHandleQuery          Issuing query object.
-   * @param list<PhabricatorObjectHandle>   Handles to populate with data.
+   * @param PhorgeHandleQuery          Issuing query object.
+   * @param list<PhorgeObjectHandle>   Handles to populate with data.
    * @param list<Object>                    Objects for these PHIDs loaded by
    *                                        @{method:buildQueryForObjects()}.
    * @return void
    */
   abstract public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects);
 
@@ -129,7 +129,7 @@ abstract class PhabricatorPHIDType extends Phobject {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
     throw new PhutilMethodNotImplementedException();
   }
@@ -141,7 +141,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * To get PHID types a given user has access to, see
    * @{method:getAllInstalledTypes}.
    *
-   * @return dict<string, PhabricatorPHIDType> Map of type constants to types.
+   * @return dict<string, PhorgePHIDType> Map of type constants to types.
    */
   final public static function getAllTypes() {
     return self::newClassMapQuery()
@@ -149,7 +149,7 @@ abstract class PhabricatorPHIDType extends Phobject {
   }
 
   final public static function getTypes(array $types) {
-    return id(new PhabricatorCachedClassMapQuery())
+    return id(new PhorgeCachedClassMapQuery())
       ->setClassMapQuery(self::newClassMapQuery())
       ->setMapKeyMethod('getTypeConstant')
       ->loadClasses($types);
@@ -165,11 +165,11 @@ abstract class PhabricatorPHIDType extends Phobject {
   /**
    * Get all PHID types of applications installed for a given viewer.
    *
-   * @param PhabricatorUser Viewing user.
-   * @return dict<string, PhabricatorPHIDType> Map of constants to installed
+   * @param PhorgeUser Viewing user.
+   * @return dict<string, PhorgePHIDType> Map of constants to installed
    *  types.
    */
-  public static function getAllInstalledTypes(PhabricatorUser $viewer) {
+  public static function getAllInstalledTypes(PhorgeUser $viewer) {
     $all_types = self::getAllTypes();
 
     $installed_types = array();
@@ -191,7 +191,7 @@ abstract class PhabricatorPHIDType extends Phobject {
     }
 
     if ($app_classes) {
-      $apps = id(new PhabricatorApplicationQuery())
+      $apps = id(new PhorgeApplicationQuery())
         ->setViewer($viewer)
         ->withInstalled(true)
         ->withClasses(array_keys($app_classes))

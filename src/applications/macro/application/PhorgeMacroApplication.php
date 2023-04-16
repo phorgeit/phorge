@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMacroApplication extends PhabricatorApplication {
+final class PhorgeMacroApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/macro/';
@@ -29,22 +29,22 @@ final class PhabricatorMacroApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/macro/' => array(
-        '(query/(?P<key>[^/]+)/)?' => 'PhabricatorMacroListController',
-        'create/' => 'PhabricatorMacroEditController',
-        'view/(?P<id>[1-9]\d*)/' => 'PhabricatorMacroViewController',
+        '(query/(?P<key>[^/]+)/)?' => 'PhorgeMacroListController',
+        'create/' => 'PhorgeMacroEditController',
+        'view/(?P<id>[1-9]\d*)/' => 'PhorgeMacroViewController',
         $this->getEditRoutePattern('edit/')
-          => 'PhabricatorMacroEditController',
-        'audio/(?P<id>[1-9]\d*)/' => 'PhabricatorMacroAudioController',
-        'disable/(?P<id>[1-9]\d*)/' => 'PhabricatorMacroDisableController',
-        'meme/' => 'PhabricatorMacroMemeController',
-        'meme/create/' => 'PhabricatorMacroMemeDialogController',
+          => 'PhorgeMacroEditController',
+        'audio/(?P<id>[1-9]\d*)/' => 'PhorgeMacroAudioController',
+        'disable/(?P<id>[1-9]\d*)/' => 'PhorgeMacroDisableController',
+        'meme/' => 'PhorgeMacroMemeController',
+        'meme/create/' => 'PhorgeMacroMemeDialogController',
       ),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorMacroManageCapability::CAPABILITY => array(
+      PhorgeMacroManageCapability::CAPABILITY => array(
         'caption' => pht('Allows creating and editing macros.'),
       ),
     );
@@ -55,7 +55,7 @@ final class PhabricatorMacroApplication extends PhabricatorApplication {
       'macro' => array(
         'name' => pht('Email Commands: Macros'),
         'header' => pht('Interacting with Macros'),
-        'object' => new PhabricatorFileImageMacro(),
+        'object' => new PhorgeFileImageMacro(),
         'summary' => pht(
           'This page documents the commands you can use to interact with '.
           'image macros.'),

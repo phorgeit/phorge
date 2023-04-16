@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorProjectTrigger
-  extends PhabricatorProjectDAO
+final class PhorgeProjectTrigger
+  extends PhorgeProjectDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorIndexableInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeIndexableInterface,
+    PhorgeDestructibleInterface {
 
   protected $name;
   protected $ruleset = array();
@@ -17,7 +17,7 @@ final class PhabricatorProjectTrigger
   private $usage = self::ATTACHABLE;
 
   public static function initializeNewTrigger() {
-    $default_edit = PhabricatorPolicies::POLICY_USER;
+    $default_edit = PhorgePolicies::POLICY_USER;
 
     return id(new self())
       ->setName('')
@@ -39,14 +39,14 @@ final class PhabricatorProjectTrigger
   }
 
   public function getPHIDType() {
-    return PhabricatorProjectTriggerPHIDType::TYPECONST;
+    return PhorgeProjectTriggerPHIDType::TYPECONST;
   }
 
   public function getViewer() {
     return $this->viewer;
   }
 
-  public function setViewer(PhabricatorUser $user) {
+  public function setViewer(PhorgeUser $user) {
     $this->viewer = $user;
     return $this;
   }
@@ -102,7 +102,7 @@ final class PhabricatorProjectTrigger
   public static function newTriggerRulesFromRuleSpecifications(
     array $list,
     $allow_invalid,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     // NOTE: With "$allow_invalid" set, we're trying to preserve the database
     // state in the rule structure, even if it includes rule types we don't
@@ -122,13 +122,13 @@ final class PhabricatorProjectTrigger
     // the user what's wrong with the ruleset and can be saved without causing
     // any collateral damage.
 
-    $rule_map = PhabricatorProjectTriggerRule::getAllTriggerRules();
+    $rule_map = PhorgeProjectTriggerRule::getAllTriggerRules();
 
     // If the stored rule data isn't a list of rules (or we encounter other
     // fundamental structural problems, below), there isn't much we can do
     // to try to represent the state.
     if (!is_array($list)) {
-      throw new PhabricatorProjectTriggerCorruptionException(
+      throw new PhorgeProjectTriggerCorruptionException(
         pht(
           'Trigger ruleset is corrupt: expected a list of rule '.
           'specifications, found "%s".',
@@ -138,7 +138,7 @@ final class PhabricatorProjectTrigger
     $trigger_rules = array();
     foreach ($list as $key => $rule) {
       if (!is_array($rule)) {
-        throw new PhabricatorProjectTriggerCorruptionException(
+        throw new PhorgeProjectTriggerCorruptionException(
           pht(
             'Trigger ruleset is corrupt: rule (at index "%s") should be a '.
             'rule specification, but is actually "%s".',
@@ -154,7 +154,7 @@ final class PhabricatorProjectTrigger
             'value' => 'wild',
           ));
       } catch (PhutilTypeCheckException $ex) {
-        throw new PhabricatorProjectTriggerCorruptionException(
+        throw new PhorgeProjectTriggerCorruptionException(
           pht(
             'Trigger ruleset is corrupt: rule (at index "%s") is not a '.
             'valid rule specification: %s',
@@ -162,19 +162,19 @@ final class PhabricatorProjectTrigger
             $ex->getMessage()));
       }
 
-      $record = id(new PhabricatorProjectTriggerRuleRecord())
+      $record = id(new PhorgeProjectTriggerRuleRecord())
         ->setType(idx($rule, 'type'))
         ->setValue(idx($rule, 'value'));
 
       if (!isset($rule_map[$record->getType()])) {
         if (!$allow_invalid) {
-          throw new PhabricatorProjectTriggerCorruptionException(
+          throw new PhorgeProjectTriggerCorruptionException(
             pht(
               'Trigger ruleset is corrupt: rule type "%s" is unknown.',
               $record->getType()));
         }
 
-        $rule = new PhabricatorProjectTriggerUnknownRule();
+        $rule = new PhorgeProjectTriggerUnknownRule();
       } else {
         $rule = clone $rule_map[$record->getType()];
       }
@@ -183,7 +183,7 @@ final class PhabricatorProjectTrigger
         $rule->setRecord($record);
       } catch (Exception $ex) {
         if (!$allow_invalid) {
-          throw new PhabricatorProjectTriggerCorruptionException(
+          throw new PhorgeProjectTriggerCorruptionException(
             pht(
               'Trigger ruleset is corrupt, rule (of type "%s") does not '.
               'validate: %s',
@@ -191,7 +191,7 @@ final class PhabricatorProjectTrigger
               $ex->getMessage()));
         }
 
-        $rule = id(new PhabricatorProjectTriggerInvalidRule())
+        $rule = id(new PhorgeProjectTriggerInvalidRule())
           ->setRecord($record)
           ->setException($ex);
       }
@@ -218,8 +218,8 @@ final class PhabricatorProjectTrigger
   }
 
   public function newDropTransactions(
-    PhabricatorUser $viewer,
-    PhabricatorProjectColumn $column,
+    PhorgeUser $viewer,
+    PhorgeProjectColumn $column,
     $object) {
 
     $trigger_xactions = array();
@@ -256,7 +256,7 @@ final class PhabricatorProjectTrigger
   public function getPreviewEffect() {
     $header = pht('Trigger: %s', $this->getDisplayName());
 
-    return id(new PhabricatorProjectDropEffect())
+    return id(new PhorgeProjectDropEffect())
       ->setIcon('fa-cogs')
       ->setColor('blue')
       ->setIsHeader(true)
@@ -279,53 +279,53 @@ final class PhabricatorProjectTrigger
     return $this->assertAttached($this->usage);
   }
 
-  public function attachUsage(PhabricatorProjectTriggerUsage $usage) {
+  public function attachUsage(PhorgeProjectTriggerUsage $usage) {
     $this->usage = $usage;
     return $this;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorProjectTriggerEditor();
+    return new PhorgeProjectTriggerEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorProjectTriggerTransaction();
+    return new PhorgeProjectTriggerTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $conn = $this->establishConnection('w');
@@ -334,14 +334,14 @@ final class PhabricatorProjectTrigger
       queryfx(
         $conn,
         'UPDATE %R SET triggerPHID = null WHERE triggerPHID = %s',
-        new PhabricatorProjectColumn(),
+        new PhorgeProjectColumn(),
         $this->getPHID());
 
       // Remove the usage index row for this trigger, if one exists.
       queryfx(
         $conn,
         'DELETE FROM %R WHERE triggerPHID = %s',
-        new PhabricatorProjectTriggerUsage(),
+        new PhorgeProjectTriggerUsage(),
         $this->getPHID());
 
       $this->delete();

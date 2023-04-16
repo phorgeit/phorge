@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportFrequencyTransaction
-  extends PhabricatorCalendarImportTransactionType {
+final class PhorgeCalendarImportFrequencyTransaction
+  extends PhorgeCalendarImportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.import.frequency';
 
@@ -22,7 +22,7 @@ final class PhabricatorCalendarImportFrequencyTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $frequency_map = PhabricatorCalendarImport::getTriggerFrequencyMap();
+    $frequency_map = PhorgeCalendarImport::getTriggerFrequencyMap();
     $valid = array_keys($frequency_map);
     $valid = array_fuse($valid);
 

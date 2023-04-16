@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthSSHPrivateKeyPassphraseException
-  extends PhabricatorAuthSSHPrivateKeyException {
+abstract class PhorgeAuthSSHPrivateKeyPassphraseException
+  extends PhorgeAuthSSHPrivateKeyException {
 
   final public function isFormatException() {
     return false;

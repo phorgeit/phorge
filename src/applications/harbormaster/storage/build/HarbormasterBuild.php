@@ -2,10 +2,10 @@
 
 final class HarbormasterBuild extends HarbormasterDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorDestructibleInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeConduitResultInterface,
+    PhorgeDestructibleInterface {
 
   protected $buildablePHID;
   protected $buildPlanPHID;
@@ -20,7 +20,7 @@ final class HarbormasterBuild extends HarbormasterDAO
   private $buildTargets = self::ATTACHABLE;
   private $unprocessedMessages = self::ATTACHABLE;
 
-  public static function initializeNewBuild(PhabricatorUser $actor) {
+  public static function initializeNewBuild(PhorgeUser $actor) {
     return id(new HarbormasterBuild())
       ->setBuildStatus(HarbormasterBuildStatus::STATUS_INACTIVE)
       ->setBuildGeneration(0);
@@ -69,7 +69,7 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildPHIDType::TYPECONST);
   }
 
@@ -350,13 +350,13 @@ final class HarbormasterBuild extends HarbormasterDAO
     return $this;
   }
 
-  public function sendMessage(PhabricatorUser $viewer, $message_type) {
+  public function sendMessage(PhorgeUser $viewer, $message_type) {
     HarbormasterBuildMessage::initializeNewMessage($viewer)
       ->setReceiverPHID($this->getPHID())
       ->setType($message_type)
       ->save();
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'HarbormasterBuildWorker',
       array(
         'buildID' => $this->getID(),
@@ -367,7 +367,7 @@ final class HarbormasterBuild extends HarbormasterDAO
       ));
   }
 
-  public function releaseAllArtifacts(PhabricatorUser $viewer) {
+  public function releaseAllArtifacts(PhorgeUser $viewer) {
     $targets = id(new HarbormasterBuildTargetQuery())
       ->setViewer($viewer)
       ->withBuildPHIDs(array($this->getPHID()))
@@ -390,7 +390,7 @@ final class HarbormasterBuild extends HarbormasterDAO
     }
   }
 
-  public function restartBuild(PhabricatorUser $viewer) {
+  public function restartBuild(PhorgeUser $viewer) {
     // TODO: This should become transactional.
 
     // We're restarting the build, so release all previous artifacts.
@@ -409,7 +409,7 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -421,13 +421,13 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -435,7 +435,7 @@ final class HarbormasterBuild extends HarbormasterDAO
     return $this->getBuildable()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuildable()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -446,28 +446,28 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildablePHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the object this build is building.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildPlanPHID')
         ->setType('phid')
         ->setDescription(pht('PHID of the build plan being run.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildStatus')
         ->setType('map<string, wild>')
         ->setDescription(pht('The current status of this build.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('initiatorPHID')
         ->setType('phid')
         ->setDescription(pht('The person (or thing) that started this build.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of this build.')),
@@ -498,10 +498,10 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
 
     $this->openTransaction();

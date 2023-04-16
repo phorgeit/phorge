@@ -1,7 +1,7 @@
 <?php
 
 final class DoorkeeperExternalObject extends DoorkeeperDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $objectKey;
   protected $applicationType;
@@ -46,7 +46,7 @@ final class DoorkeeperExternalObject extends DoorkeeperDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DoorkeeperExternalObjectPHIDType::TYPECONST);
   }
 
@@ -105,11 +105,11 @@ final class DoorkeeperExternalObject extends DoorkeeperDAO
     return $this->getDisplayName();
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -117,7 +117,7 @@ final class DoorkeeperExternalObject extends DoorkeeperDAO
     return $this->viewPolicy;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

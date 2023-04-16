@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorPolicyCapabilityTestCase
-  extends PhabricatorTestCase {
+final class PhorgePolicyCapabilityTestCase
+  extends PhorgeTestCase {
 
   public function testGetCapabilityMap() {
-    PhabricatorPolicyCapability::getCapabilityMap();
+    PhorgePolicyCapability::getCapabilityMap();
     $this->assertTrue(true);
   }
 

@@ -4,7 +4,7 @@
  * A purchase represents a user buying something.
  */
 final class PhortunePurchase extends PhortuneDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   const STATUS_PENDING      = 'purchase:pending';
   const STATUS_PROCESSING   = 'purchase:processing';
@@ -26,7 +26,7 @@ final class PhortunePurchase extends PhortuneDAO
   private $product = self::ATTACHABLE;
 
   public static function initializeNewPurchase(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PhortuneProduct $product) {
     return id(new PhortunePurchase())
       ->setAuthorPHID($actor->getPHID())
@@ -61,7 +61,7 @@ final class PhortunePurchase extends PhortuneDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortunePurchasePHIDType::TYPECONST);
   }
 
@@ -112,13 +112,13 @@ final class PhortunePurchase extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -126,7 +126,7 @@ final class PhortunePurchase extends PhortuneDAO
     return $this->getCart()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getCart()->hasAutomaticCapability($capability, $viewer);
   }
 

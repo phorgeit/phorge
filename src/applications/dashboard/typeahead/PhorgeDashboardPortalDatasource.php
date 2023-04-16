@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeDashboardPortalDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Portals');
@@ -12,7 +12,7 @@ final class PhabricatorDashboardPortalDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function loadResults() {
@@ -25,11 +25,11 @@ final class PhabricatorDashboardPortalDatasource
   }
 
   public function buildResults() {
-    $query = new PhabricatorDashboardPortalQuery();
+    $query = new PhorgeDashboardPortalQuery();
 
     $this->applyFerretConstraints(
       $query,
-      id(new PhabricatorDashboardPortal())->newFerretEngine(),
+      id(new PhorgeDashboardPortal())->newFerretEngine(),
       'title',
       $this->getRawQuery());
 
@@ -37,7 +37,7 @@ final class PhabricatorDashboardPortalDatasource
 
     $results = array();
     foreach ($portals as $portal) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($portal->getObjectName().' '.$portal->getName())
         ->setPHID($portal->getPHID())
         ->setIcon('fa-compass');

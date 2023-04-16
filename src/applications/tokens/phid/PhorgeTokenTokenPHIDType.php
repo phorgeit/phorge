@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTokenTokenPHIDType extends PhabricatorPHIDType {
+final class PhorgeTokenTokenPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'TOKN';
 
@@ -9,23 +9,23 @@ final class PhabricatorTokenTokenPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorToken();
+    return new PhorgeToken();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return 'PhorgeTokensApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorTokenQuery())
+    return id(new PhorgeTokenQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

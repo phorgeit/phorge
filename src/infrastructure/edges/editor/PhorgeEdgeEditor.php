@@ -2,7 +2,7 @@
 
 /**
  * Add and remove edges between objects. You can use
- * @{class:PhabricatorEdgeQuery} to load object edges. For more information
+ * @{class:PhorgeEdgeQuery} to load object edges. For more information
  * on edges, see @{article:Using Edges}.
  *
  * Edges are not directly policy aware, and this editor makes low-level changes
@@ -10,10 +10,10 @@
  *
  *    name=Adding Edges
  *    $src  = $earth_phid;
- *    $type = PhabricatorEdgeConfig::TYPE_BODY_HAS_SATELLITE;
+ *    $type = PhorgeEdgeConfig::TYPE_BODY_HAS_SATELLITE;
  *    $dst  = $moon_phid;
  *
- *    id(new PhabricatorEdgeEditor())
+ *    id(new PhorgeEdgeEditor())
  *      ->addEdge($src, $type, $dst)
  *      ->save();
  *
@@ -21,7 +21,7 @@
  * @task cycles   Cycle Prevention
  * @task internal Internals
  */
-final class PhabricatorEdgeEditor extends Phobject {
+final class PhorgeEdgeEditor extends Phobject {
 
   private $addEdges = array();
   private $remEdges = array();
@@ -112,7 +112,7 @@ final class PhabricatorEdgeEditor extends Phobject {
         $src_phids = ipull($this->addEdges, 'src');
         foreach ($cycle_types as $cycle_type) {
           $key = 'edge.cycle:'.$cycle_type;
-          $locks[] = PhabricatorGlobalLock::newLock($key)->lock(15);
+          $locks[] = PhorgeGlobalLock::newLock($key)->lock(15);
         }
       }
 
@@ -176,7 +176,7 @@ final class PhabricatorEdgeEditor extends Phobject {
       'data'      => $data,
     );
 
-    $type_obj = PhabricatorEdgeType::getByConstant($type);
+    $type_obj = PhorgeEdgeType::getByConstant($type);
     $inverse = $type_obj->getInverseEdgeConstant();
     if ($inverse !== null) {
 
@@ -217,11 +217,11 @@ final class PhabricatorEdgeEditor extends Phobject {
 
     foreach ($writes as $write) {
       list($key, $src_type, $data) = $write;
-      $conn_w = PhabricatorEdgeConfig::establishConnection($src_type, 'w');
+      $conn_w = PhorgeEdgeConfig::establishConnection($src_type, 'w');
       queryfx(
         $conn_w,
         'INSERT INTO %T (data) VALUES (%s)',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGEDATA,
+        PhorgeEdgeConfig::TABLE_NAME_EDGEDATA,
         $data);
       $this->addEdges[$key]['data_id'] = $conn_w->getInsertID();
     }
@@ -254,7 +254,7 @@ final class PhabricatorEdgeEditor extends Phobject {
 
     $inserts = array();
     foreach ($adds as $src_type => $edges) {
-      $conn_w = PhabricatorEdgeConfig::establishConnection($src_type, 'w');
+      $conn_w = PhorgeEdgeConfig::establishConnection($src_type, 'w');
       $sql = array();
       foreach ($edges as $edge) {
         $sql[] = qsprintf(
@@ -275,12 +275,12 @@ final class PhabricatorEdgeEditor extends Phobject {
       $conn_w->openTransaction();
       $this->openTransactions[] = $conn_w;
 
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn_w,
           'INSERT INTO %T (src, type, dst, dateCreated, seq, dataID)
             VALUES %LQ ON DUPLICATE KEY UPDATE dataID = VALUES(dataID)',
-          PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+          PhorgeEdgeConfig::TABLE_NAME_EDGE,
           $chunk);
       }
     }
@@ -298,7 +298,7 @@ final class PhabricatorEdgeEditor extends Phobject {
 
     $deletes = array();
     foreach ($rems as $src_type => $edges) {
-      $conn_w = PhabricatorEdgeConfig::establishConnection($src_type, 'w');
+      $conn_w = PhorgeEdgeConfig::establishConnection($src_type, 'w');
       $sql = array();
       foreach ($edges as $edge) {
         $sql[] = qsprintf(
@@ -321,7 +321,7 @@ final class PhabricatorEdgeEditor extends Phobject {
         queryfx(
           $conn_w,
           'DELETE FROM %T WHERE %LO',
-          PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+          PhorgeEdgeConfig::TABLE_NAME_EDGE,
           $chunk);
       }
     }
@@ -364,7 +364,7 @@ final class PhabricatorEdgeEditor extends Phobject {
       $edge_types[$edge['type']] = true;
     }
     foreach ($edge_types as $type => $ignored) {
-      $type_obj = PhabricatorEdgeType::getByConstant($type);
+      $type_obj = PhorgeEdgeType::getByConstant($type);
       if (!$type_obj->shouldPreventCycles()) {
         unset($edge_types[$type]);
       }
@@ -375,7 +375,7 @@ final class PhabricatorEdgeEditor extends Phobject {
 
   /**
    * Detect graph cycles of a given edge type. If the edit introduces a cycle,
-   * a @{class:PhabricatorEdgeCycleException} is thrown with details.
+   * a @{class:PhorgeEdgeCycleException} is thrown with details.
    *
    * @return void
    * @task cycle
@@ -386,7 +386,7 @@ final class PhabricatorEdgeEditor extends Phobject {
     // edges from an imaginary '<seed>' node to the known edges.
 
 
-    $graph = id(new PhabricatorEdgeGraph())
+    $graph = id(new PhorgeEdgeGraph())
       ->setEdgeType($edge_type)
       ->addNodes(
         array(
@@ -397,7 +397,7 @@ final class PhabricatorEdgeEditor extends Phobject {
     foreach ($phids as $phid) {
       $cycle = $graph->detectCycles($phid);
       if ($cycle) {
-        throw new PhabricatorEdgeCycleException($edge_type, $cycle);
+        throw new PhorgeEdgeCycleException($edge_type, $cycle);
       }
     }
   }

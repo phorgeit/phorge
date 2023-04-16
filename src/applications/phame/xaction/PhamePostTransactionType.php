@@ -1,4 +1,4 @@
 <?php
 
 abstract class PhamePostTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

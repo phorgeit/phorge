@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorEditEngineController
-  extends PhabricatorApplicationTransactionController {
+abstract class PhorgeEditEngineController
+  extends PhorgeApplicationTransactionController {
 
   private $engineKey;
 
@@ -21,7 +21,7 @@ abstract class PhabricatorEditEngineController
 
     $engine_key = $this->getEngineKey();
     if ($engine_key !== null) {
-      $engine = PhabricatorEditEngine::getByKey(
+      $engine = PhorgeEditEngine::getByKey(
         $this->getViewer(),
         $engine_key);
       if ($engine) {
@@ -53,16 +53,16 @@ abstract class PhabricatorEditEngineController
 
     if ($need_edit) {
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
-        PhabricatorPolicyCapability::CAN_EDIT,
+        PhorgePolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_EDIT,
       );
     } else {
       $capabilities = array(
-        PhabricatorPolicyCapability::CAN_VIEW,
+        PhorgePolicyCapability::CAN_VIEW,
       );
     }
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))

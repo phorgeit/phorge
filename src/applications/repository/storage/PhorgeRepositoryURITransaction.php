@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryURITransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeRepositoryURITransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_REPOSITORY = 'diffusion.uri.repository';
   const TYPE_URI = 'diffusion.uri.uri';
@@ -15,7 +15,7 @@ final class PhabricatorRepositoryURITransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorRepositoryURIPHIDType::TYPECONST;
+    return PhorgeRepositoryURIPHIDType::TYPECONST;
   }
 
   public function getRequiredHandlePHIDs() {
@@ -52,7 +52,7 @@ final class PhabricatorRepositoryURITransaction
           $old,
           $new);
       case self::TYPE_IO:
-        $map = PhabricatorRepositoryURI::getIOTypeMap();
+        $map = PhorgeRepositoryURI::getIOTypeMap();
         $old_label = idx(idx($map, $old, array()), 'label', $old);
         $new_label = idx(idx($map, $new, array()), 'label', $new);
 
@@ -62,7 +62,7 @@ final class PhabricatorRepositoryURITransaction
           $old_label,
           $new_label);
       case self::TYPE_DISPLAY:
-        $map = PhabricatorRepositoryURI::getDisplayTypeMap();
+        $map = PhorgeRepositoryURI::getDisplayTypeMap();
         $old_label = idx(idx($map, $old, array()), 'label', $old);
         $new_label = idx(idx($map, $new, array()), 'label', $new);
 

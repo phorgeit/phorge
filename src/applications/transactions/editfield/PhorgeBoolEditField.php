@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBoolEditField
-  extends PhabricatorEditField {
+final class PhorgeBoolEditField
+  extends PhorgeEditField {
 
   private $options;
   private $asCheckbox;

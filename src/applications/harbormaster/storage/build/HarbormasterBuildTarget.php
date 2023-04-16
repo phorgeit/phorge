@@ -3,9 +3,9 @@
 final class HarbormasterBuildTarget
   extends HarbormasterDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $buildPHID;
@@ -133,7 +133,7 @@ final class HarbormasterBuildTarget
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildTargetPHIDType::TYPECONST);
   }
 
@@ -215,7 +215,7 @@ final class HarbormasterBuildTarget
   }
 
   public function createArtifact(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     $artifact_key,
     $artifact_type,
     array $artifact_data) {
@@ -249,7 +249,7 @@ final class HarbormasterBuildTarget
       $artifact_key);
 
     $artifact = id(new HarbormasterBuildArtifactQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withArtifactIndexes($indexes)
       ->executeOne();
     if ($artifact === null) {
@@ -276,9 +276,9 @@ final class HarbormasterBuildTarget
   }
 
   public function getFieldValue($key) {
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $this->getBuildStep(),
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
 
     $fields = $field_list->getFields();
     $full_key = "std:harbormaster:core:{$key}";
@@ -344,12 +344,12 @@ final class HarbormasterBuildTarget
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -357,7 +357,7 @@ final class HarbormasterBuildTarget
     return $this->getBuild()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuild()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -368,11 +368,11 @@ final class HarbormasterBuildTarget
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $viewer = $engine->getViewer();
 
     $this->openTransaction();
@@ -422,42 +422,42 @@ final class HarbormasterBuildTarget
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the build target.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildPHID')
         ->setType('phid')
         ->setDescription(pht('The build the target is associated with.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildStepPHID')
         ->setType('phid')
         ->setDescription(pht('The build step the target runs.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Status for the build target.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('epochStarted')
         ->setType('epoch?')
         ->setDescription(
           pht(
             'Epoch timestamp for target start, if the target '.
             'has started.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('epochCompleted')
         ->setType('epoch?')
         ->setDescription(
           pht(
             'Epoch timestamp for target completion, if the target '.
             'has completed.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildGeneration')
         ->setType('int')
         ->setDescription(

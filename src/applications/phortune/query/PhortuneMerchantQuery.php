@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneMerchantQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -33,7 +33,7 @@ final class PhortuneMerchantQuery
   }
 
   protected function willFilterPage(array $merchants) {
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(mpull($merchants, 'getPHID'))
       ->withEdgeTypes(array(PhortuneMerchantHasMemberEdgeType::EDGECONST));
     $query->execute();
@@ -49,7 +49,7 @@ final class PhortuneMerchantQuery
       $file_phids = mpull($merchants, 'getProfileImagePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($this->getViewer())
           ->withPHIDs($file_phids)
@@ -63,7 +63,7 @@ final class PhortuneMerchantQuery
         $file = idx($files, $merchant->getProfileImagePHID());
         if (!$file) {
           if (!$default) {
-            $default = PhabricatorFile::loadBuiltin(
+            $default = PhorgeFile::loadBuiltin(
               $this->getViewer(),
               'merchant.png');
           }
@@ -110,7 +110,7 @@ final class PhortuneMerchantQuery
       $joins[] = qsprintf(
         $conn,
         'LEFT JOIN %T e ON merchant.phid = e.src AND e.type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         PhortuneMerchantHasMemberEdgeType::EDGECONST);
     }
 
@@ -118,7 +118,7 @@ final class PhortuneMerchantQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function getPrimaryTableAlias() {
@@ -143,7 +143,7 @@ final class PhortuneMerchantQuery
     }
 
     $cache_key = 'phortune.merchant.can-edit';
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
 
     $cache_data = $cache->getKey($cache_key);
     if (!$cache_data) {
@@ -160,7 +160,7 @@ final class PhortuneMerchantQuery
     $did_write = false;
     foreach ($load_phids as $load_phid) {
       $merchants = id(new self())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withMemberPHIDs(array($load_phid))
         ->execute();
       foreach ($merchants as $merchant) {

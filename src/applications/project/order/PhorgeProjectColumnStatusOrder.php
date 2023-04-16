@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnStatusOrder
-  extends PhabricatorProjectColumnOrder {
+final class PhorgeProjectColumnStatusOrder
+  extends PhorgeProjectColumnOrder {
 
   const ORDERKEY = 'status';
 

@@ -18,7 +18,7 @@ final class DiffusionRepositoryAutomationManagementPanel
   }
 
   public function shouldEnableForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isGit();
   }
 
@@ -55,10 +55,10 @@ final class DiffusionRepositoryAutomationManagementPanel
     $viewer = $this->getViewer();
     $action_list = $this->newActionList();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $repository,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $can_test = $can_edit && $repository->canPerformAutomation();
 
@@ -66,7 +66,7 @@ final class DiffusionRepositoryAutomationManagementPanel
     $test_uri = $repository->getPathURI('edit/testautomation/');
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Automation'))
         ->setHref($automation_uri)
@@ -74,7 +74,7 @@ final class DiffusionRepositoryAutomationManagementPanel
         ->setWorkflow(!$can_edit));
 
     $action_list->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-gamepad')
         ->setName(pht('Test Configuration'))
         ->setWorkflow(true)

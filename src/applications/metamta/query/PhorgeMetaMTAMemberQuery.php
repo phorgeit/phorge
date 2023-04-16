@@ -4,12 +4,12 @@
  * Expands aggregate mail recipients into their component mailables. For
  * example, a project currently expands into all of its members.
  */
-final class PhabricatorMetaMTAMemberQuery extends PhabricatorQuery {
+final class PhorgeMetaMTAMemberQuery extends PhorgeQuery {
 
   private $phids = array();
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -39,13 +39,13 @@ final class PhabricatorMetaMTAMemberQuery extends PhabricatorQuery {
     // If we have packages, break them down into their constituent user and
     // project owners first. Then we'll resolve those and build the packages
     // back up from the pieces.
-    $package_type = PhabricatorOwnersPackagePHIDType::TYPECONST;
+    $package_type = PhorgeOwnersPackagePHIDType::TYPECONST;
     $package_phids = idx($type_map, $package_type, array());
     unset($type_map[$package_type]);
 
     $package_map = array();
     if ($package_phids) {
-      $packages = id(new PhabricatorOwnersPackageQuery())
+      $packages = id(new PhorgeOwnersPackageQuery())
         ->setViewer($viewer)
         ->withPHIDs($package_phids)
         ->execute();
@@ -75,19 +75,19 @@ final class PhabricatorMetaMTAMemberQuery extends PhabricatorQuery {
     $results = array();
     foreach ($type_map as $type => $phids) {
       switch ($type) {
-        case PhabricatorProjectProjectPHIDType::TYPECONST:
+        case PhorgeProjectProjectPHIDType::TYPECONST:
           // NOTE: We're loading the projects here in order to respect policies.
 
-          $projects = id(new PhabricatorProjectQuery())
+          $projects = id(new PhorgeProjectQuery())
             ->setViewer($viewer)
             ->withPHIDs($phids)
             ->needMembers(true)
             ->needWatchers(true)
             ->execute();
 
-          $edge_type = PhabricatorProjectSilencedEdgeType::EDGECONST;
+          $edge_type = PhorgeProjectSilencedEdgeType::EDGECONST;
 
-          $edge_query = id(new PhabricatorEdgeQuery())
+          $edge_query = id(new PhorgeEdgeQuery())
             ->withSourcePHIDs($phids)
             ->withEdgeTypes(
               array(

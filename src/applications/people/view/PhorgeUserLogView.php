@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorUserLogView extends AphrontView {
+final class PhorgeUserLogView extends AphrontView {
 
   private $logs;
   private $searchBaseURI;
@@ -11,7 +11,7 @@ final class PhabricatorUserLogView extends AphrontView {
   }
 
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorUserLog');
+    assert_instances_of($logs, 'PhorgeUserLog');
     $this->logs = $logs;
     return $this;
   }
@@ -27,7 +27,7 @@ final class PhabricatorUserLogView extends AphrontView {
     }
     $handles = $viewer->loadHandles($phids);
 
-    $types = PhabricatorUserLogType::getAllLogTypes();
+    $types = PhorgeUserLogType::getAllLogTypes();
     $types = mpull($types, 'getLogTypeName', 'getLogTypeKey');
 
     $base_uri = $this->searchBaseURI;

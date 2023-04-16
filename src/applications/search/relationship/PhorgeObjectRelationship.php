@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorObjectRelationship extends Phobject {
+abstract class PhorgeObjectRelationship extends Phobject {
 
   private $viewer;
   private $contentSource;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -14,7 +14,7 @@ abstract class PhabricatorObjectRelationship extends Phobject {
     return $this->viewer;
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -51,15 +51,15 @@ abstract class PhabricatorObjectRelationship extends Phobject {
   protected function isActionEnabled($object) {
     $viewer = $this->getViewer();
 
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $object,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   public function getRequiredRelationshipCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -83,7 +83,7 @@ abstract class PhabricatorObjectRelationship extends Phobject {
     $is_enabled = $this->isActionEnabled($object);
     $action_uri = $this->getActionURI($object);
 
-    return id(new PhabricatorActionView())
+    return id(new PhorgeActionView())
       ->setName($this->getActionName())
       ->setHref($action_uri)
       ->setIcon($this->getActionIcon())

@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
     return new PhrictionTransaction();

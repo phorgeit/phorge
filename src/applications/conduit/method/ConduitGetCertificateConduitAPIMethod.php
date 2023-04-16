@@ -40,8 +40,8 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $failed_attempts = PhabricatorUserLog::loadRecentEventsFromThisIP(
-      PhabricatorConduitCertificateFailureUserLogType::LOGTYPE,
+    $failed_attempts = PhorgeUserLog::loadRecentEventsFromThisIP(
+      PhorgeConduitCertificateFailureUserLogType::LOGTYPE,
       60 * 5);
 
     if (count($failed_attempts) > 5) {
@@ -50,7 +50,7 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
     }
 
     $token = $request->getValue('token');
-    $info = id(new PhabricatorConduitCertificateToken())->loadOneWhere(
+    $info = id(new PhorgeConduitCertificateToken())->loadOneWhere(
       'token = %s',
       trim($token));
 
@@ -58,14 +58,14 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
       $this->logFailure($request, $info);
       throw new ConduitException('ERR-BAD-TOKEN');
     } else {
-      $log = PhabricatorUserLog::initializeNewLog(
+      $log = PhorgeUserLog::initializeNewLog(
           $request->getUser(),
           $info->getUserPHID(),
-          PhabricatorConduitCertificateUserLogType::LOGTYPE)
+          PhorgeConduitCertificateUserLogType::LOGTYPE)
         ->save();
     }
 
-    $user = id(new PhabricatorUser())->loadOneWhere(
+    $user = id(new PhorgeUser())->loadOneWhere(
       'phid = %s',
       $info->getUserPHID());
     if (!$user) {
@@ -80,12 +80,12 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
 
   private function logFailure(
     ConduitAPIRequest $request,
-    PhabricatorConduitCertificateToken $info = null) {
+    PhorgeConduitCertificateToken $info = null) {
 
-    $log = PhabricatorUserLog::initializeNewLog(
+    $log = PhorgeUserLog::initializeNewLog(
         $request->getUser(),
         $info ? $info->getUserPHID() : '-',
-        PhabricatorConduitCertificateFailureUserLogType::LOGTYPE)
+        PhorgeConduitCertificateFailureUserLogType::LOGTYPE)
       ->save();
   }
 

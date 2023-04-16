@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionGraph
-  extends PhabricatorObjectGraph {
+  extends PhorgeObjectGraph {
 
   protected function getEdgeTypes() {
     return array(

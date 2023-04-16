@@ -19,7 +19,7 @@ final class DiffusionCommitPackageOwnerHeraldField
       return array();
     }
 
-    $owners = PhabricatorOwnersOwner::loadAllForPackages($packages);
+    $owners = PhorgeOwnersOwner::loadAllForPackages($packages);
 
     return mpull($owners, 'getUserPHID');
   }
@@ -29,7 +29,7 @@ final class DiffusionCommitPackageOwnerHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectOrUserDatasource();
+    return new PhorgeProjectOrUserDatasource();
   }
 
 }

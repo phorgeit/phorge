@@ -1,7 +1,7 @@
 <?php
 
 final class PhameBlogReplyHandler
-  extends PhabricatorApplicationTransactionReplyHandler {
+  extends PhorgeApplicationTransactionReplyHandler {
 
   public function validateMailReceiver($mail_receiver) {
     if (!($mail_receiver instanceof PhameBlog)) {
@@ -11,7 +11,7 @@ final class PhameBlogReplyHandler
   }
 
   public function getObjectPrefix() {
-    return PhabricatorPhameBlogPHIDType::TYPECONST;
+    return PhorgePhameBlogPHIDType::TYPECONST;
   }
 
   protected function shouldCreateCommentFromMailBody() {

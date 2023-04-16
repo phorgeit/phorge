@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthDisableController
-  extends PhabricatorAuthProviderConfigController {
+final class PhorgeAuthDisableController
+  extends PhorgeAuthProviderConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
@@ -11,12 +11,12 @@ final class PhabricatorAuthDisableController
     $config_id = $request->getURIData('id');
     $action = $request->getURIData('action');
 
-    $config = id(new PhabricatorAuthProviderConfigQuery())
+    $config = id(new PhorgeAuthProviderConfigQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($config_id))
       ->executeOne();
@@ -30,12 +30,12 @@ final class PhabricatorAuthDisableController
     if ($request->isDialogFormPost()) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorAuthProviderConfigTransaction())
+      $xactions[] = id(new PhorgeAuthProviderConfigTransaction())
         ->setTransactionType(
-          PhabricatorAuthProviderConfigTransaction::TYPE_ENABLE)
+          PhorgeAuthProviderConfigTransaction::TYPE_ENABLE)
         ->setNewValue((int)$is_enable);
 
-      $editor = id(new PhabricatorAuthProviderConfigEditor())
+      $editor = id(new PhorgeAuthProviderConfigEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

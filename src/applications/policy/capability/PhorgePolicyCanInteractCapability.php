@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyCanInteractCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePolicyCanInteractCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = self::CAN_INTERACT;
 

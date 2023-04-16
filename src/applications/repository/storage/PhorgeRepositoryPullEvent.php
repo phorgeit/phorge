@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorRepositoryPullEvent
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryPullEvent
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   protected $repositoryPHID;
   protected $epoch;
@@ -23,8 +23,8 @@ final class PhabricatorRepositoryPullEvent
   const PROTOCOL_HTTPS = 'https';
   const PROTOCOL_SSH = 'ssh';
 
-  public static function initializeNewEvent(PhabricatorUser $viewer) {
-    return id(new PhabricatorRepositoryPushEvent())
+  public static function initializeNewEvent(PhorgeUser $viewer) {
+    return id(new PhorgeRepositoryPushEvent())
       ->setPusherPHID($viewer->getPHID());
   }
 
@@ -55,11 +55,11 @@ final class PhabricatorRepositoryPullEvent
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryPullEventPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryPullEventPHIDType::TYPECONST);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(PhorgeRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -130,12 +130,12 @@ final class PhabricatorRepositoryPullEvent
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -144,10 +144,10 @@ final class PhabricatorRepositoryPullEvent
       return $this->getRepository()->getPolicy($capability);
     }
 
-    return PhabricatorPolicies::POLICY_ADMIN;
+    return PhorgePolicies::POLICY_ADMIN;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if (!$this->getRepository()) {
       return false;
     }

@@ -1,6 +1,6 @@
 <?php
 
-final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
+final class PassphraseCredentialPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CDTL';
 
@@ -13,11 +13,11 @@ final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPassphraseApplication';
+    return 'PhorgePassphraseApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PassphraseCredentialQuery())
@@ -25,7 +25,7 @@ final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -39,7 +39,7 @@ final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
       $handle->setURI("/K{$id}");
 
       if ($credential->getIsDestroyed()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -49,7 +49,7 @@ final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

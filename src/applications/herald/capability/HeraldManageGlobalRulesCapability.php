@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldManageGlobalRulesCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'herald.global';
 

@@ -1,14 +1,14 @@
 <?php
 
 final class CountdownSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'countdown.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorCountdownSearchEngine();
+    return new PhorgeCountdownSearchEngine();
   }
 
   public function getMethodSummary() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionEditEngine
-  extends PhabricatorPackagesEditEngine {
+final class PhorgePackagesVersionEditEngine
+  extends PhorgePackagesEditEngine {
 
   const ENGINECONST = 'packages.version';
 
@@ -19,11 +19,11 @@ final class PhabricatorPackagesVersionEditEngine
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorPackagesVersion::initializeNewVersion($viewer);
+    return PhorgePackagesVersion::initializeNewVersion($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorPackagesVersionQuery();
+    return new PhorgePackagesVersionQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -66,23 +66,23 @@ final class PhabricatorPackagesVersionEditEngine
     $fields = array();
 
     if ($this->getIsCreate()) {
-      $fields[] = id(new PhabricatorDatasourceEditField())
+      $fields[] = id(new PhorgeDatasourceEditField())
         ->setKey('package')
         ->setAliases(array('packagePHID'))
         ->setLabel(pht('Package'))
         ->setDescription(pht('Package for this version.'))
         ->setTransactionType(
-          PhabricatorPackagesVersionPackageTransaction::TRANSACTIONTYPE)
+          PhorgePackagesVersionPackageTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
-        ->setDatasource(new PhabricatorPackagesPackageDatasource())
+        ->setDatasource(new PhorgePackagesPackageDatasource())
         ->setSingleValue($object->getPackagePHID());
 
-      $fields[] = id(new PhabricatorTextEditField())
+      $fields[] = id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the version.'))
         ->setTransactionType(
-          PhabricatorPackagesVersionNameTransaction::TRANSACTIONTYPE)
+          PhorgePackagesVersionNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName());
     }

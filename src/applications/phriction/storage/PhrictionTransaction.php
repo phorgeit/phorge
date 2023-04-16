@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const MAILTAG_TITLE       = 'phriction-title';
   const MAILTAG_CONTENT     = 'phriction-content';
@@ -66,7 +66,7 @@ final class PhrictionTransaction
       case PhrictionDocumentDeleteTransaction::TRANSACTIONTYPE:
         $tags[] = self::MAILTAG_DELETE;
         break;
-      case PhabricatorTransactions::TYPE_SUBSCRIBERS:
+      case PhorgeTransactions::TYPE_SUBSCRIBERS:
         $tags[] = self::MAILTAG_SUBSCRIBERS;
         break;
       default:

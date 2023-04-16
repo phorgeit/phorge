@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartDataQuery
+final class PhorgeChartDataQuery
   extends Phobject {
 
   private $limit;

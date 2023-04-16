@@ -58,7 +58,7 @@ final class AlmanacNamespaceNameTransaction
       }
 
       $other = id(new AlmanacNamespaceQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withNames(array($name))
         ->executeOne();
       if ($other && ($other->getID() != $object->getID())) {

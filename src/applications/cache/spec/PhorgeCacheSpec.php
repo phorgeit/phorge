@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCacheSpec extends Phobject {
+abstract class PhorgeCacheSpec extends Phobject {
 
   private $name;
   private $isEnabled = false;
@@ -40,7 +40,7 @@ abstract class PhabricatorCacheSpec extends Phobject {
   }
 
   protected function newIssue($key) {
-    $issue = id(new PhabricatorSetupIssue())
+    $issue = id(new PhorgeSetupIssue())
       ->setIssueKey($key);
     $this->issues[$key] = $issue;
 

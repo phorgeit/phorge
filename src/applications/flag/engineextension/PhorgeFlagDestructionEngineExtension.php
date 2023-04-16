@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFlagDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+final class PhorgeFlagDestructionEngineExtension
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'flags';
 
@@ -10,13 +10,13 @@ final class PhabricatorFlagDestructionEngineExtension
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $object_phid = $object->getPHID();
 
-    if ($object instanceof PhabricatorFlaggableInterface) {
-      $flags = id(new PhabricatorFlag())->loadAllWhere(
+    if ($object instanceof PhorgeFlaggableInterface) {
+      $flags = id(new PhorgeFlag())->loadAllWhere(
         'objectPHID = %s',
         $object_phid);
       foreach ($flags as $flag) {
@@ -24,7 +24,7 @@ final class PhabricatorFlagDestructionEngineExtension
       }
     }
 
-    $flags = id(new PhabricatorFlag())->loadAllWhere(
+    $flags = id(new PhorgeFlag())->loadAllWhere(
       'ownerPHID = %s',
       $object_phid);
     foreach ($flags as $flag) {

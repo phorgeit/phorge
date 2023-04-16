@@ -5,7 +5,7 @@ final class BulkTokenizerParameterType
 
   private $datasource;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

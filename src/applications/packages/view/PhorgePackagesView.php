@@ -1,3 +1,3 @@
 <?php
 
-abstract class PhabricatorPackagesView extends AphrontView {}
+abstract class PhorgePackagesView extends AphrontView {}

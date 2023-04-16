@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConpherenceColumnVisibleSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeConpherenceColumnVisibleSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'conpherence-column';
 

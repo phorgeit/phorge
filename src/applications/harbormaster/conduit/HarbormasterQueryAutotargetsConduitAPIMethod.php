@@ -30,7 +30,7 @@ final class HarbormasterQueryAutotargetsConduitAPIMethod
     // NOTE: We use withNames() to let monograms like "D123" work, which makes
     // this a little easier to test. Real PHIDs will still work as expected.
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($phid))
       ->executeOne();

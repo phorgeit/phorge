@@ -1,6 +1,6 @@
 <?php
 
-abstract class LegalpadController extends PhabricatorController {
+abstract class LegalpadController extends PhorgeController {
 
   public function buildSideNav($for_app = false) {
     $user = $this->getRequest()->getUser();

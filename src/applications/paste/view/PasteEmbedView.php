@@ -7,12 +7,12 @@ final class PasteEmbedView extends AphrontView {
   private $highlights = array();
   private $lines = 24;
 
-  public function setPaste(PhabricatorPaste $paste) {
+  public function setPaste(PhorgePaste $paste) {
     $this->paste = $paste;
     return $this;
   }
 
-  public function setHandle(PhabricatorObjectHandle $handle) {
+  public function setHandle(PhorgeObjectHandle $handle) {
     $this->handle = $handle;
     return $this;
   }
@@ -57,7 +57,7 @@ final class PasteEmbedView extends AphrontView {
     $body = phutil_tag(
       'div',
       $body_attributes,
-      id(new PhabricatorSourceCodeView())
+      id(new PhorgeSourceCodeView())
       ->setLines($lines)
       ->setHighlights($this->highlights)
       ->disableHighlightOnClick());

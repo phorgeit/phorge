@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorEditor extends Phobject {
+abstract class PhorgeEditor extends Phobject {
 
   private $actor;
   private $excludeMailRecipientPHIDs = array();
 
-  final public function setActor(PhabricatorUser $actor) {
+  final public function setActor(PhorgeUser $actor) {
     $this->actor = $actor;
     return $this;
   }

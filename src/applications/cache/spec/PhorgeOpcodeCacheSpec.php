@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
+final class PhorgeOpcodeCacheSpec extends PhorgeCacheSpec {
 
   public static function getActiveCacheSpec() {
-    $spec = new PhabricatorOpcodeCacheSpec();
+    $spec = new PhorgeOpcodeCacheSpec();
 
     // NOTE: If APCu is installed, it reports that APC is installed.
     if (extension_loaded('apc') && !extension_loaded('apcu')) {
@@ -56,7 +56,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
           ->addPHPConfig('apc.slam_defense');
       }
 
-      $is_dev = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+      $is_dev = PhorgeEnv::getEnvConfig('phorge.developer-mode');
       $is_stat_enabled = ini_get('apc.stat');
       if ($is_stat_enabled && !$is_dev) {
         $summary = pht(
@@ -77,7 +77,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
           ->setSummary($summary)
           ->setMessage($message)
           ->addPHPConfig('apc.stat')
-          ->addPhabricatorConfig('phorge.developer-mode');
+          ->addPhorgeConfig('phorge.developer-mode');
       } else if (!$is_stat_enabled && $is_dev) {
         $summary = pht(
           '"%s" is currently disabled, but should probably be enabled.',
@@ -97,7 +97,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
           ->setSummary($summary)
           ->setMessage($message)
           ->addPHPConfig('apc.stat')
-          ->addPhabricatorConfig('phorge.developer-mode');
+          ->addPhorgeConfig('phorge.developer-mode');
       }
     } else {
       $this->setIsEnabled(false);
@@ -125,7 +125,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
       $this->setTotalMemory($mem_used + $mem_junk + $mem_free);
       $this->setEntryCount($status['opcache_statistics']['num_cached_keys']);
 
-      $is_dev = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+      $is_dev = PhorgeEnv::getEnvConfig('phorge.developer-mode');
 
       $validate = ini_get('opcache.validate_timestamps');
       $freq = ini_get('opcache.revalidate_freq');
@@ -148,7 +148,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
           ->setMessage($message)
           ->addPHPConfig('opcache.validate_timestamps')
           ->addPHPConfig('opcache.revalidate_freq')
-          ->addPhabricatorConfig('phorge.developer-mode');
+          ->addPhorgeConfig('phorge.developer-mode');
       } else if (!$is_dev && $validate) {
         $summary = pht('OPcache is not configured ideally for production.');
 
@@ -165,7 +165,7 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
           ->setSummary($summary)
           ->setMessage($message)
           ->addPHPConfig('opcache.validate_timestamps')
-          ->addPhabricatorConfig('phorge.developer-mode');
+          ->addPhorgeConfig('phorge.developer-mode');
       }
     } else {
       $this->setIsEnabled(false);

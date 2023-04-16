@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionInlineTransaction
-  extends PhabricatorModularTransactionType {
+  extends PhorgeModularTransactionType {
 
   // NOTE: This class is NOT an actual Differential modular transaction type!
   // It does not extend "DifferentialRevisionTransactionType". Some day it
@@ -40,8 +40,8 @@ final class DifferentialRevisionInlineTransaction
 
     $is_done = false;
     switch ($comment->getFixedState()) {
-      case PhabricatorInlineComment::STATE_DONE:
-      case PhabricatorInlineComment::STATE_UNDRAFT:
+      case PhorgeInlineComment::STATE_DONE:
+      case PhorgeInlineComment::STATE_UNDRAFT:
         $is_done = true;
         break;
     }

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFactDimension extends PhabricatorFactDAO {
+abstract class PhorgeFactDimension extends PhorgeFactDAO {
 
   abstract protected function getDimensionColumnName();
 
@@ -72,7 +72,7 @@ abstract class PhabricatorFactDimension extends PhabricatorFactDAO {
     }
 
     $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-      foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+      foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
         queryfx(
           $conn,
           'INSERT IGNORE INTO %T (%C) VALUES %LQ',

@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorProjectWatcherListView
-  extends PhabricatorProjectUserListView {
+final class PhorgeProjectWatcherListView
+  extends PhorgeProjectUserListView {
 
   protected function canEditList() {
     $viewer = $this->getViewer();
     $project = $this->getProject();
 
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   protected function getNoDataString() {

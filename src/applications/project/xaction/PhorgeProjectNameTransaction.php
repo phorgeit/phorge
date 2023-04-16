@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectNameTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectNameTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:name';
 
@@ -12,7 +12,7 @@ final class PhabricatorProjectNameTransaction
   public function applyInternalEffects($object, $value) {
     $object->setName($value);
     if (!$this->getEditor()->getIsMilestone()) {
-      $object->setPrimarySlug(PhabricatorSlug::normalizeProjectSlug($value));
+      $object->setPrimarySlug(PhorgeSlug::normalizeProjectSlug($value));
     }
   }
 
@@ -87,14 +87,14 @@ final class PhabricatorProjectNameTransaction
 
     $name = last($xactions)->getNewValue();
 
-    if (!PhabricatorSlug::isValidProjectSlug($name)) {
+    if (!PhorgeSlug::isValidProjectSlug($name)) {
       $errors[] = $this->newInvalidError(
         pht('Project names must contain at least one letter or number.'));
     }
 
-    $slug = PhabricatorSlug::normalizeProjectSlug($name);
+    $slug = PhorgeSlug::normalizeProjectSlug($name);
 
-    $slug_used_already = id(new PhabricatorProjectSlug())
+    $slug_used_already = id(new PhorgeProjectSlug())
       ->loadOneWhere('slug = %s', $slug);
     if ($slug_used_already &&
         $slug_used_already->getProjectPHID() != $object->getPHID()) {

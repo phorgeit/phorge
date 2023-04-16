@@ -1,7 +1,7 @@
 <?php
 
 final class DoorkeeperExternalObjectQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   protected $phids;
   protected $objectKeys;
@@ -41,7 +41,7 @@ final class DoorkeeperExternalObjectQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDoorkeeperApplication';
+    return 'PhorgeDoorkeeperApplication';
   }
 
 }

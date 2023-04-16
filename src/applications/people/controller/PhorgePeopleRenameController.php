@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleRenameController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleRenameController
+  extends PhorgePeopleController {
 
   public function shouldRequireAdmin() {
     return false;
@@ -12,7 +12,7 @@ final class PhabricatorPeopleRenameController
 
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -31,9 +31,9 @@ final class PhabricatorPeopleRenameController
             'administrator. Only administrators can change usernames.'))
         ->addCancelButton($done_uri, pht('Okay'));
 
-      $message_body = PhabricatorAuthMessage::loadMessageText(
+      $message_body = PhorgeAuthMessage::loadMessageText(
         $viewer,
-        PhabricatorAuthChangeUsernameMessageType::MESSAGEKEY);
+        PhorgeAuthChangeUsernameMessageType::MESSAGEKEY);
       if (strlen($message_body)) {
         $dialog->appendRemarkup($message_body);
       }
@@ -47,12 +47,12 @@ final class PhabricatorPeopleRenameController
       $username = $request->getStr('username');
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorUserTransaction())
+      $xactions[] = id(new PhorgeUserTransaction())
         ->setTransactionType(
-          PhabricatorUserUsernameTransaction::TRANSACTIONTYPE)
+          PhorgeUserUsernameTransaction::TRANSACTIONTYPE)
         ->setNewValue($username);
 
-      $editor = id(new PhabricatorUserTransactionEditor())
+      $editor = id(new PhorgeUserTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setCancelURI($done_uri)
@@ -61,7 +61,7 @@ final class PhabricatorPeopleRenameController
       try {
         $editor->applyTransactions($user, $xactions);
         return id(new AphrontRedirectResponse())->setURI($done_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
 

@@ -16,7 +16,7 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
    * This worker is enabled when a JIRA authentication provider is active.
    */
   public function isEnabled() {
-    return (bool)PhabricatorJIRAAuthProvider::getJIRAProvider();
+    return (bool)PhorgeJIRAAuthProvider::getJIRAProvider();
   }
 
 
@@ -30,9 +30,9 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
     $object = $this->getStoryObject();
     $publisher = $this->getPublisher();
 
-    $jira_issue_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+    $jira_issue_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
       $object->getPHID(),
-      PhabricatorJiraIssueHasObjectEdgeType::EDGECONST);
+      PhorgeJiraIssueHasObjectEdgeType::EDGECONST);
     if (!$jira_issue_phids) {
       $this->log(
         "%s\n",
@@ -71,7 +71,7 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
 
     $xobjs = mgroup($xobjs, 'getApplicationDomain');
     foreach ($xobjs as $domain => $xobj_list) {
-      $accounts = id(new PhabricatorExternalAccountQuery())
+      $accounts = id(new PhorgeExternalAccountQuery())
         ->setViewer($viewer)
         ->withUserPHIDs($try_users)
         ->withProviderConfigPHIDs(
@@ -80,8 +80,8 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
           ))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->execute();
 
@@ -126,14 +126,14 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
   /**
    * Get the active JIRA provider.
    *
-   * @return PhabricatorJIRAAuthProvider Active JIRA auth provider.
+   * @return PhorgeJIRAAuthProvider Active JIRA auth provider.
    * @task internal
    */
   private function getProvider() {
     if (!$this->provider) {
-      $provider = PhabricatorJIRAAuthProvider::getJIRAProvider();
+      $provider = PhorgeJIRAAuthProvider::getJIRAProvider();
       if (!$provider) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht('No JIRA provider configured.'));
       }
       $this->provider = $provider;

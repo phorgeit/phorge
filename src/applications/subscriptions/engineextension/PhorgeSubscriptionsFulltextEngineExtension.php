@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsFulltextEngineExtension
-  extends PhabricatorFulltextEngineExtension {
+final class PhorgeSubscriptionsFulltextEngineExtension
+  extends PhorgeFulltextEngineExtension {
 
   const EXTENSIONKEY = 'subscriptions';
 
@@ -10,28 +10,28 @@ final class PhabricatorSubscriptionsFulltextEngineExtension
   }
 
   public function shouldEnrichFulltextObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
-    $subscriber_phids = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $subscriber_phids = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $object->getPHID());
 
     if (!$subscriber_phids) {
       return;
     }
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($subscriber_phids)
       ->execute();
 
     foreach ($handles as $phid => $handle) {
       $document->addRelationship(
-        PhabricatorSearchRelationship::RELATIONSHIP_SUBSCRIBER,
+        PhorgeSearchRelationship::RELATIONSHIP_SUBSCRIBER,
         $phid,
         $handle->getType(),
         $document->getDocumentModified()); // Bogus timestamp.

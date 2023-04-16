@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorEditEngineSettingsPanel
-  extends PhabricatorSettingsPanel {
+abstract class PhorgeEditEngineSettingsPanel
+  extends PhorgeSettingsPanel {
 
   final public function processRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -19,7 +19,7 @@ abstract class PhabricatorEditEngineSettingsPanel
       $profile_uri = null;
     }
 
-    $engine = id(new PhabricatorSettingsEditEngine())
+    $engine = id(new PhorgeSettingsEditEngine())
       ->setController($this->getController())
       ->setNavigation($this->getNavigation())
       ->setSettingsPanel($this)
@@ -49,7 +49,7 @@ abstract class PhabricatorEditEngineSettingsPanel
     $label = $this->getPanelName();
     $panel_uri = $this->getPanelURI();
 
-    return id(new PhabricatorEditPage())
+    return id(new PhorgeEditPage())
       ->setKey($key)
       ->setLabel($label)
       ->setViewURI($panel_uri)
@@ -58,7 +58,7 @@ abstract class PhabricatorEditEngineSettingsPanel
 
   final public function getPanelSettingsKeys() {
     $viewer = $this->getViewer();
-    $settings = PhabricatorSetting::getAllEnabledSettings($viewer);
+    $settings = PhorgeSetting::getAllEnabledSettings($viewer);
 
     $this_key = $this->getPanelKey();
 
@@ -73,12 +73,12 @@ abstract class PhabricatorEditEngineSettingsPanel
   }
 
   public function newSettingsPanelEditFormHeadContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
     return null;
   }
 
   public function newSettingsPanelEditFormTailContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
     return null;
   }
 

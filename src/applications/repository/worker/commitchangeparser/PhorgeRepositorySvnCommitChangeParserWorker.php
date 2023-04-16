@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorRepositorySvnCommitChangeParserWorker
-  extends PhabricatorRepositoryCommitChangeParserWorker {
+final class PhorgeRepositorySvnCommitChangeParserWorker
+  extends PhorgeRepositoryCommitChangeParserWorker {
 
   protected function parseCommitChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     // PREAMBLE: This class is absurdly complicated because it is very difficult
     // to get the information we need out of SVN. The actual data we need is:
@@ -368,8 +368,8 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function buildChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit,
     array $effects,
     array $path_map,
     array $commit_map) {
@@ -388,7 +388,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
         $target_commit_id = $commit_map[$effect['rawTargetCommit']];
       }
 
-      $result = id(new PhabricatorRepositoryParsedChange())
+      $result = id(new PhorgeRepositoryParsedChange())
         ->setPathID($path_id)
         ->setTargetPathID($target_path_id)
         ->setTargetCommitID($target_commit_id)
@@ -404,8 +404,8 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function writeBrowse(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit,
     array $effects,
     array $path_map) {
 
@@ -454,7 +454,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
     queryfx(
       $conn_w,
       'DELETE FROM %T WHERE repositoryID = %d AND svnCommit = %d',
-      PhabricatorRepository::TABLE_FILESYSTEM,
+      PhorgeRepository::TABLE_FILESYSTEM,
       $repository->getID(),
       $commit->getCommitIdentifier());
 
@@ -464,21 +464,21 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
         'INSERT INTO %T
           (repositoryID, parentID, svnCommit, pathID, existed, fileType)
           VALUES %LQ',
-        PhabricatorRepository::TABLE_FILESYSTEM,
+        PhorgeRepository::TABLE_FILESYSTEM,
         $sql_chunk);
     }
 
   }
 
   private function lookupSvnCommits(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $commits) {
 
     if (!$commits) {
       return array();
     }
 
-    $commit_table = new PhabricatorRepositoryCommit();
+    $commit_table = new PhorgeRepositoryCommit();
     $commit_data = queryfx_all(
       $commit_table->establishConnection('w'),
       'SELECT id, commitIdentifier FROM %T
@@ -512,16 +512,16 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
       }
 
       foreach ($need as $foreign_commit) {
-        $commit = new PhabricatorRepositoryCommit();
+        $commit = new PhorgeRepositoryCommit();
         $commit->setRepositoryID($repository->getID());
         $commit->setCommitIdentifier($foreign_commit);
         $commit->setEpoch(0);
         // Mark this commit as imported so it doesn't prevent the repository
         // from transitioning into the "Imported" state.
-        $commit->setImportStatus(PhabricatorRepositoryCommit::IMPORTED_ALL);
+        $commit->setImportStatus(PhorgeRepositoryCommit::IMPORTED_ALL);
         $commit->save();
 
-        $data = new PhabricatorRepositoryCommitData();
+        $data = new PhorgeRepositoryCommitData();
         $data->setCommitID($commit->getID());
         $data->setAuthorName('');
         $data->setCommitMessage('');
@@ -542,7 +542,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function lookupPathFileType(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $path,
     array $path_info) {
 
@@ -556,7 +556,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function lookupPathFileTypes(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $paths) {
 
     $result_map = array();
@@ -637,7 +637,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function lookupRecursiveFileList(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $info) {
 
     $path = $info['rawPath'];
@@ -790,7 +790,7 @@ final class PhabricatorRepositorySvnCommitChangeParserWorker
   }
 
   private function getSVNLogXMLObject(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $uri,
     $revision) {
     list($xml) = $repository->execxRemoteCommand(

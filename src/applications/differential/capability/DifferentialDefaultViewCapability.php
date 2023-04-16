@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'differential.default.view';
 

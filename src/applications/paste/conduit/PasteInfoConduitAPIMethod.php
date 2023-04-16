@@ -36,7 +36,7 @@ final class PasteInfoConduitAPIMethod extends PasteConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $paste_id = $request->getValue('paste_id');
-    $paste = id(new PhabricatorPasteQuery())
+    $paste = id(new PhorgePasteQuery())
       ->setViewer($request->getUser())
       ->withIDs(array($paste_id))
       ->needRawContent(true)

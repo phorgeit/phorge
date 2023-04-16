@@ -365,7 +365,7 @@ final class DifferentialChangesetTwoUpRenderer
   }
 
   public function renderDocumentEngineBlocks(
-    PhabricatorDocumentEngineBlocks $block_list,
+    PhorgeDocumentEngineBlocks $block_list,
     $old_changeset_key,
     $new_changeset_key) {
 

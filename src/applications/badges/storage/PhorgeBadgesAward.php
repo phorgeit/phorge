@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
+final class PhorgeBadgesAward extends PhorgeBadgesDAO
   implements
-    PhabricatorDestructibleInterface,
-    PhabricatorPolicyInterface {
+    PhorgeDestructibleInterface,
+    PhorgePolicyInterface {
 
   protected $badgePHID;
   protected $recipientPHID;
@@ -12,8 +12,8 @@ final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
   private $badge = self::ATTACHABLE;
 
   public static function initializeNewBadgesAward(
-    PhabricatorUser $actor,
-    PhabricatorBadgesBadge $badge,
+    PhorgeUser $actor,
+    PhorgeBadgesBadge $badge,
     $recipient_phid) {
     return id(new self())
       ->setRecipientPHID($recipient_phid)
@@ -36,7 +36,7 @@ final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
     ) + parent::getConfiguration();
   }
 
-  public function attachBadge(PhabricatorBadgesBadge $badge) {
+  public function attachBadge(PhorgeBadgesBadge $badge) {
     $this->badge = $badge;
     return $this;
   }
@@ -46,11 +46,11 @@ final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
@@ -58,13 +58,13 @@ final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -72,7 +72,7 @@ final class PhabricatorBadgesAward extends PhabricatorBadgesDAO
     return $this->getBadge()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskPHIDResolver
-  extends PhabricatorPHIDResolver {
+  extends PhorgePHIDResolver {
 
   protected function getResolutionMap(array $names) {
     foreach ($names as $key => $name) {
@@ -10,7 +10,7 @@ final class ManiphestTaskPHIDResolver
       }
     }
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer());
 
     $tasks = id(new ManiphestTaskPHIDType())

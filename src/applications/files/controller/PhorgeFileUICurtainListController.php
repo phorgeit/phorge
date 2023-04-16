@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileUICurtainListController
-  extends PhabricatorFileController {
+final class PhorgeFileUICurtainListController
+  extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorFileUICurtainListController
 
     $object_phid = $request->getURIData('phid');
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->executeOne();
@@ -20,7 +20,7 @@ final class PhabricatorFileUICurtainListController
       return new Aphront404Response();
     }
 
-    $attachments = id(new PhabricatorFileAttachmentQuery())
+    $attachments = id(new PhorgeFileAttachmentQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
       ->needFiles(true)

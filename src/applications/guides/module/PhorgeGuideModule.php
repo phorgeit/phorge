@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorGuideModule extends Phobject {
+abstract class PhorgeGuideModule extends Phobject {
 
   abstract public function getModuleKey();
   abstract public function getModuleName();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorZipSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeZipSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;

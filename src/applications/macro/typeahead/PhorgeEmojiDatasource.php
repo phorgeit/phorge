@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEmojiDatasource extends PhabricatorTypeaheadDatasource {
+final class PhorgeEmojiDatasource extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type an emoji name...');
@@ -11,7 +11,7 @@ final class PhabricatorEmojiDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function loadResults() {
@@ -26,14 +26,14 @@ final class PhabricatorEmojiDatasource extends PhabricatorTypeaheadDatasource {
   private function buildResults() {
     $raw_query = $this->getRawQuery();
 
-    $data = id(new PhabricatorEmojiRemarkupRule())->markupEmojiJSON();
+    $data = id(new PhorgeEmojiRemarkupRule())->markupEmojiJSON();
     $emojis = phutil_json_decode($data);
 
     $results = array();
     foreach ($emojis as $shortname => $emoji) {
       $display_name = $emoji.' '.$shortname;
       $name = str_replace('_', ' ', $shortname);
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($shortname)
         ->setName($name)
         ->setDisplayname($display_name)

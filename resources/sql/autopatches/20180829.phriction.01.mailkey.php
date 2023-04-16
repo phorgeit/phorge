@@ -4,7 +4,7 @@ $document_table = new PhrictionDocument();
 $document_conn = $document_table->establishConnection('w');
 $document_name = $document_table->getTableName();
 
-$properties_table = new PhabricatorMetaMTAMailProperties();
+$properties_table = new PhorgeMetaMTAMailProperties();
 $conn = $properties_table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator($document_conn, $document_name);
@@ -21,6 +21,6 @@ foreach ($iterator as $row) {
       array(
         'mailKey' => $row['mailKey'],
       )),
-    PhabricatorTime::getNow(),
-    PhabricatorTime::getNow());
+    PhorgeTime::getNow(),
+    PhorgeTime::getNow());
 }

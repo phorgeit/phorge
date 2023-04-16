@@ -101,7 +101,7 @@ final class HarbormasterBuildMessageRestartTransaction
   }
 
   protected function newCanApplyMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isAutobuild()) {
@@ -155,7 +155,7 @@ final class HarbormasterBuildMessageRestartTransaction
   }
 
   protected function newCanSendMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isRestarting()) {

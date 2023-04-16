@@ -9,7 +9,7 @@ abstract class PhortuneCartImplementation extends Phobject {
    * identify which implementation corresponds to which cart.
    */
   abstract public function loadImplementationsForCarts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $carts);
 
   abstract public function getName(PhortuneCart $cart);
@@ -40,7 +40,7 @@ abstract class PhortuneCartImplementation extends Phobject {
   }
 
   abstract public function willCreateCart(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PhortuneCart $cart);
 
 }

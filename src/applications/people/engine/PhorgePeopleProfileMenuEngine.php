@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleProfileMenuEngine
-  extends PhabricatorProfileMenuEngine {
+final class PhorgePeopleProfileMenuEngine
+  extends PhorgeProfileMenuEngine {
 
   const ITEM_PROFILE = 'people.profile';
   const ITEM_MANAGE = 'people.manage';
@@ -29,52 +29,52 @@ final class PhabricatorPeopleProfileMenuEngine
 
     $items[] = $this->newItem()
       ->setBuiltinKey(self::ITEM_PICTURE)
-      ->setMenuItemKey(PhabricatorPeoplePictureProfileMenuItem::MENUITEMKEY);
+      ->setMenuItemKey(PhorgePeoplePictureProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
       ->setBuiltinKey(self::ITEM_PROFILE)
-      ->setMenuItemKey(PhabricatorPeopleDetailsProfileMenuItem::MENUITEMKEY);
+      ->setMenuItemKey(PhorgePeopleDetailsProfileMenuItem::MENUITEMKEY);
 
-    $have_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+    $have_badges = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeBadgesApplication',
       $viewer);
     if ($have_badges) {
       $items[] = $this->newItem()
         ->setBuiltinKey(self::ITEM_BADGES)
-        ->setMenuItemKey(PhabricatorPeopleBadgesProfileMenuItem::MENUITEMKEY);
+        ->setMenuItemKey(PhorgePeopleBadgesProfileMenuItem::MENUITEMKEY);
     }
 
-    $have_maniphest = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+    $have_maniphest = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeManiphestApplication',
       $viewer);
     if ($have_maniphest) {
       $items[] = $this->newItem()
         ->setBuiltinKey(self::ITEM_TASKS)
-        ->setMenuItemKey(PhabricatorPeopleTasksProfileMenuItem::MENUITEMKEY);
+        ->setMenuItemKey(PhorgePeopleTasksProfileMenuItem::MENUITEMKEY);
     }
 
-    $have_differential = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+    $have_differential = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDifferentialApplication',
       $viewer);
     if ($have_differential) {
       $items[] = $this->newItem()
         ->setBuiltinKey(self::ITEM_REVISIONS)
         ->setMenuItemKey(
-          PhabricatorPeopleRevisionsProfileMenuItem::MENUITEMKEY);
+          PhorgePeopleRevisionsProfileMenuItem::MENUITEMKEY);
     }
 
-    $have_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+    $have_diffusion = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDiffusionApplication',
       $viewer);
     if ($have_diffusion) {
       $items[] = $this->newItem()
         ->setBuiltinKey(self::ITEM_COMMITS)
-        ->setMenuItemKey(PhabricatorPeopleCommitsProfileMenuItem::MENUITEMKEY);
+        ->setMenuItemKey(PhorgePeopleCommitsProfileMenuItem::MENUITEMKEY);
     }
 
     $items[] = $this->newItem()
       ->setBuiltinKey(self::ITEM_MANAGE)
-      ->setMenuItemKey(PhabricatorPeopleManageProfileMenuItem::MENUITEMKEY);
+      ->setMenuItemKey(PhorgePeopleManageProfileMenuItem::MENUITEMKEY);
 
     return $items;
   }

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorPHIDListEditField
-  extends PhabricatorEditField {
+abstract class PhorgePHIDListEditField
+  extends PhorgeEditField {
 
   private $useEdgeTransactions;
   private $isSingleValue;
@@ -106,10 +106,10 @@ abstract class PhabricatorPHIDListEditField
 
   protected function newEditType() {
     if ($this->getUseEdgeTransactions()) {
-      return new PhabricatorEdgeEditType();
+      return new PhorgeEdgeEditType();
     }
 
-    return id(new PhabricatorDatasourceEditType())
+    return id(new PhorgeDatasourceEditType())
       ->setIsSingleValue($this->getIsSingleValue())
       ->setIsNullable($this->getIsNullable());
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardHomeInstallWorkflow
-  extends PhabricatorDashboardApplicationInstallWorkflow {
+final class PhorgeDashboardHomeInstallWorkflow
+  extends PhorgeDashboardApplicationInstallWorkflow {
 
   const WORKFLOWKEY = 'home';
 
@@ -19,11 +19,11 @@ final class PhabricatorDashboardHomeInstallWorkflow
   }
 
   protected function newProfileEngine() {
-    return new PhabricatorHomeProfileMenuEngine();
+    return new PhorgeHomeProfileMenuEngine();
   }
 
   protected function newApplication() {
-    return new PhabricatorHomeApplication();
+    return new PhorgeHomeApplication();
   }
 
   protected function newApplicationModeDialog() {

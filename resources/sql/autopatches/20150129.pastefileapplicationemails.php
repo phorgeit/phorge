@@ -7,13 +7,13 @@ echo pht(
   $key_files,
   $key_paste);
 
-$value_files = PhabricatorEnv::getEnvConfigIfExists($key_files);
-$files_app = new PhabricatorFilesApplication();
+$value_files = PhorgeEnv::getEnvConfigIfExists($key_files);
+$files_app = new PhorgeFilesApplication();
 
 if ($value_files) {
   try {
-    PhabricatorMetaMTAApplicationEmail::initializeNewAppEmail(
-      PhabricatorUser::getOmnipotentUser())
+    PhorgeMetaMTAApplicationEmail::initializeNewAppEmail(
+      PhorgeUser::getOmnipotentUser())
       ->setAddress($value_files)
       ->setApplicationPHID($files_app->getPHID())
       ->save();
@@ -22,13 +22,13 @@ if ($value_files) {
   }
 }
 
-$value_paste = PhabricatorEnv::getEnvConfigIfExists($key_paste);
-$paste_app = new PhabricatorPasteApplication();
+$value_paste = PhorgeEnv::getEnvConfigIfExists($key_paste);
+$paste_app = new PhorgePasteApplication();
 
 if ($value_paste) {
   try {
-    PhabricatorMetaMTAApplicationEmail::initializeNewAppEmail(
-      PhabricatorUser::getOmnipotentUser())
+    PhorgeMetaMTAApplicationEmail::initializeNewAppEmail(
+      PhorgeUser::getOmnipotentUser())
       ->setAddress($value_paste)
       ->setApplicationPHID($paste_app->getPHID())
       ->save();

@@ -29,7 +29,7 @@ final class PhortuneMerchantInvoiceCreateController
       $user_phid = $request->getStr('userPHID');
     }
     if ($user_phid) {
-      $target_user = id(new PhabricatorPeopleQuery())
+      $target_user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($user_phid))
         ->executeOne();
@@ -42,7 +42,7 @@ final class PhortuneMerchantInvoiceCreateController
         ->appendControl(
           id(new AphrontFormTokenizerControl())
             ->setLabel(pht('User'))
-            ->setDatasource(new PhabricatorPeopleDatasource())
+            ->setDatasource(new PhorgePeopleDatasource())
             ->setName('userPHID')
             ->setLimit(1));
 

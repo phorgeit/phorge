@@ -1,7 +1,7 @@
 <?php
 
 final class PonderModerateCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'ponder.moderate';
 

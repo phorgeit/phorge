@@ -11,7 +11,7 @@ final class HarbormasterTargetWorker extends HarbormasterWorker {
     return phutil_units('24 hours in seconds');
   }
 
-  public function renderForDisplay(PhabricatorUser $viewer) {
+  public function renderForDisplay(PhorgeUser $viewer) {
     try {
       $target = $this->loadBuildTarget();
     } catch (Exception $ex) {
@@ -32,7 +32,7 @@ final class HarbormasterTargetWorker extends HarbormasterWorker {
       ->executeOne();
 
     if (!$target) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Bad build target ID "%d".',
           $id));
@@ -51,7 +51,7 @@ final class HarbormasterTargetWorker extends HarbormasterWorker {
     // end up here again later, so we don't want to overwrite the start time if
     // we already have a value.
     if (!$target->getDateStarted()) {
-      $target->setDateStarted(PhabricatorTime::getNow());
+      $target->setDateStarted(PhorgeTime::getNow());
     }
 
     try {
@@ -77,23 +77,23 @@ final class HarbormasterTargetWorker extends HarbormasterWorker {
       $target->setTargetStatus($next_status);
 
       if ($target->isComplete()) {
-        $target->setDateCompleted(PhabricatorTime::getNow());
+        $target->setDateCompleted(PhorgeTime::getNow());
       }
 
       $target->save();
-    } catch (PhabricatorWorkerYieldException $ex) {
+    } catch (PhorgeWorkerYieldException $ex) {
       // If the target wants to yield, let that escape without further
       // processing. We'll resume after the task retries.
       throw $ex;
     } catch (HarbormasterBuildFailureException $ex) {
       // A build step wants to fail explicitly.
       $target->setTargetStatus(HarbormasterBuildTarget::STATUS_FAILED);
-      $target->setDateCompleted(PhabricatorTime::getNow());
+      $target->setDateCompleted(PhorgeTime::getNow());
       $target->save();
     } catch (HarbormasterBuildAbortedException $ex) {
       // A build step is aborting because the build has been restarted.
       $target->setTargetStatus(HarbormasterBuildTarget::STATUS_ABORTED);
-      $target->setDateCompleted(PhabricatorTime::getNow());
+      $target->setDateCompleted(PhorgeTime::getNow());
       $target->save();
     } catch (Exception $ex) {
       try {

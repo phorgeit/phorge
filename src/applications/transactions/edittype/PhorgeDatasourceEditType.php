@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorDatasourceEditType
-  extends PhabricatorPHIDListEditType {
+final class PhorgeDatasourceEditType
+  extends PhorgePHIDListEditType {
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $value = idx($spec, 'value');

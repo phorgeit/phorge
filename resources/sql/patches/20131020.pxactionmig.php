@@ -1,6 +1,6 @@
 <?php
 
-$project_table = new PhabricatorProject();
+$project_table = new PhorgeProject();
 $conn_w = $project_table->establishConnection('w');
 $conn_w->openTransaction();
 
@@ -9,8 +9,8 @@ $dst_table = 'project_transaction';
 
 echo pht('Migrating Project transactions to new format...')."\n";
 
-$content_source = PhabricatorContentSource::newForSource(
-  PhabricatorOldWorldContentSource::SOURCECONST)->serialize();
+$content_source = PhorgeContentSource::newForSource(
+  PhorgeOldWorldContentSource::SOURCECONST)->serialize();
 
 $rows = new LiskRawMigrationIterator($conn_w, $src_table);
 foreach ($rows as $row) {
@@ -32,12 +32,12 @@ foreach ($rows as $row) {
   $project_phid = $project_row['phid'];
 
   $type_map = array(
-    'name' => PhabricatorProjectNameTransaction::TRANSACTIONTYPE,
-    'members' => PhabricatorProjectTransaction::TYPE_MEMBERS,
-    'status' => PhabricatorProjectStatusTransaction::TRANSACTIONTYPE,
-    'canview' => PhabricatorTransactions::TYPE_VIEW_POLICY,
-    'canedit' => PhabricatorTransactions::TYPE_EDIT_POLICY,
-    'canjoin' => PhabricatorTransactions::TYPE_JOIN_POLICY,
+    'name' => PhorgeProjectNameTransaction::TRANSACTIONTYPE,
+    'members' => PhorgeProjectTransaction::TYPE_MEMBERS,
+    'status' => PhorgeProjectStatusTransaction::TRANSACTIONTYPE,
+    'canview' => PhorgeTransactions::TYPE_VIEW_POLICY,
+    'canedit' => PhorgeTransactions::TYPE_EDIT_POLICY,
+    'canjoin' => PhorgeTransactions::TYPE_JOIN_POLICY,
   );
 
   $new_type = idx($type_map, $row['transactionType']);
@@ -45,9 +45,9 @@ foreach ($rows as $row) {
     continue;
   }
 
-  $xaction_phid = PhabricatorPHID::generateNewPHID(
-    PhabricatorApplicationTransactionTransactionPHIDType::TYPECONST,
-    PhabricatorProjectProjectPHIDType::TYPECONST);
+  $xaction_phid = PhorgePHID::generateNewPHID(
+    PhorgeApplicationTransactionTransactionPHIDType::TYPECONST,
+    PhorgeProjectProjectPHIDType::TYPECONST);
 
   queryfx(
     $conn_w,

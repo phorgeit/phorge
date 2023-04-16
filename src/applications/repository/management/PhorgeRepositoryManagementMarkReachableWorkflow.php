@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementMarkReachableWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementMarkReachableWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   private $untouchedCount = 0;
 
@@ -47,7 +47,7 @@ final class PhabricatorRepositoryManagementMarkReachableWorkflow
     return 0;
   }
 
-  private function markReachable(PhabricatorRepository $repository) {
+  private function markReachable(PhorgeRepository $repository) {
     if (!$repository->isGit() && !$repository->isHg()) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -63,12 +63,12 @@ final class PhabricatorRepositoryManagementMarkReachableWorkflow
       ->withRepository($repository)
       ->execute();
 
-    $flag = PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE;
+    $flag = PhorgeRepositoryCommit::IMPORTED_UNREACHABLE;
 
     if ($repository->isGit()) {
-      $graph = new PhabricatorGitGraphStream($repository);
+      $graph = new PhorgeGitGraphStream($repository);
     } else if ($repository->isHg()) {
-      $graph = new PhabricatorMercurialGraphStream($repository);
+      $graph = new PhorgeMercurialGraphStream($repository);
     }
 
     foreach ($commits as $commit) {

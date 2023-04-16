@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorTypeaheadProxyDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+abstract class PhorgeTypeaheadProxyDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   private $datasource;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     $this->setParameters(
       array(
@@ -19,7 +19,7 @@ abstract class PhabricatorTypeaheadProxyDatasource
     if (!$this->datasource) {
       $class = $this->getParameter('class');
 
-      $parent = 'PhabricatorTypeaheadDatasource';
+      $parent = 'PhorgeTypeaheadDatasource';
       if (!is_subclass_of($class, $parent)) {
         throw new Exception(
           pht(

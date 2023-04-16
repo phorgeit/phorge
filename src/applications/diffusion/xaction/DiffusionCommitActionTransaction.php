@@ -7,7 +7,7 @@ abstract class DiffusionCommitActionTransaction
     return $this->getPhobjectClassConstant('ACTIONKEY', 32);
   }
 
-  public function isActionAvailable($object, PhabricatorUser $viewer) {
+  public function isActionAvailable($object, PhorgeUser $viewer) {
     try {
       $this->validateAction($object, $viewer);
       return true;
@@ -16,7 +16,7 @@ abstract class DiffusionCommitActionTransaction
     }
   }
 
-  abstract protected function validateAction($object, PhabricatorUser $viewer);
+  abstract protected function validateAction($object, PhorgeUser $viewer);
   abstract protected function getCommitActionLabel();
 
   public function getCommandKeyword() {
@@ -56,8 +56,8 @@ abstract class DiffusionCommitActionTransaction
   }
 
   protected function isViewerCommitAuthor(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
 
     if (!$viewer->getPHID()) {
       return false;
@@ -67,15 +67,15 @@ abstract class DiffusionCommitActionTransaction
   }
 
   public function newEditField(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $viewer) {
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $viewer) {
 
     // Actions in the "audit" group, like "Accept Commit", do not require
     // that the actor be able to edit the commit.
     $group_audit = DiffusionCommitEditEngine::ACTIONGROUP_AUDIT;
     $is_audit = ($this->getCommitActionGroupKey() == $group_audit);
 
-    $field = id(new PhabricatorApplyEditField())
+    $field = id(new PhorgeApplyEditField())
       ->setKey($this->getCommitActionKey())
       ->setTransactionType($this->getTransactionTypeConstant())
       ->setCanApplyWithoutEditCapability($is_audit)

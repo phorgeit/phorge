@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeDashboardQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorDashboardQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorDashboard();
+    return new PhorgeDashboard();
   }
 
   protected function didFilterPage(array $dashboards) {
@@ -43,10 +43,10 @@ final class PhabricatorDashboardQuery
     $phids = mpull($dashboards, 'getPHID');
 
     if ($this->canEdit) {
-      $dashboards = id(new PhabricatorPolicyFilter())
+      $dashboards = id(new PhorgePolicyFilter())
         ->setViewer($this->getViewer())
         ->requireCapabilities(array(
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
         ->apply($dashboards);
     }
@@ -89,7 +89,7 @@ final class PhabricatorDashboardQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function getPrimaryTableAlias() {

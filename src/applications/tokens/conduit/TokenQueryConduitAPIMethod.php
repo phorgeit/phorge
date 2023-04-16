@@ -19,7 +19,7 @@ final class TokenQueryConduitAPIMethod extends TokenConduitAPIMethod {
   }
 
   protected function execute(ConduitAPIRequest $request) {
-    $query = id(new PhabricatorTokenQuery())
+    $query = id(new PhorgeTokenQuery())
       ->setViewer($request->getUser());
 
     $tokens = $query->execute();

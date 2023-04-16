@@ -4,7 +4,7 @@
  * @task info Getting Collector Information
  * @task collect Collecting Garbage
  */
-abstract class PhabricatorGarbageCollector extends Phobject {
+abstract class PhorgeGarbageCollector extends Phobject {
 
 
 /* -(  Getting Collector Information  )-------------------------------------- */
@@ -60,7 +60,7 @@ abstract class PhabricatorGarbageCollector extends Phobject {
           'policy.'));
     }
 
-    $config = PhabricatorEnv::getEnvConfig('phd.garbage-collection');
+    $config = PhorgeEnv::getEnvConfig('phd.garbage-collection');
     $const = $this->getCollectorConstant();
 
     return idx($config, $const, $this->getDefaultRetentionPolicy());
@@ -103,7 +103,7 @@ abstract class PhabricatorGarbageCollector extends Phobject {
     $params = array(
       'collector' => $this->getCollectorConstant(),
     );
-    $lock = PhabricatorGlobalLock::newLock('gc', $params);
+    $lock = PhorgeGlobalLock::newLock('gc', $params);
 
     try {
       $lock->lock(5);
@@ -157,14 +157,14 @@ abstract class PhabricatorGarbageCollector extends Phobject {
           'retention policy.'));
     }
 
-    return (PhabricatorTime::getNow() - $ttl);
+    return (PhorgeTime::getNow() - $ttl);
   }
 
 
   /**
    * Load all of the available garbage collectors.
    *
-   * @return list<PhabricatorGarbageCollector> Garbage collectors.
+   * @return list<PhorgeGarbageCollector> Garbage collectors.
    * @task collect
    */
   final public static function getAllCollectors() {

@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorConduitListController
-  extends PhabricatorConduitController {
+final class PhorgeConduitListController
+  extends PhorgeConduitController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorConduitSearchEngine())
+      ->setSearchEngine(new PhorgeConduitSearchEngine())
       ->setNavigation($this->buildSideNavView());
     return $this->delegateToController($controller);
   }

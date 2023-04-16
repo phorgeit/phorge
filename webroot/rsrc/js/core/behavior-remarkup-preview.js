@@ -18,8 +18,8 @@ JX.behavior('remarkup-preview', function(config) {
 
   var callback = function(r) {
     // This currently accepts responses from two controllers:
-    // Old: PhabricatorMarkupPreviewController
-    // New: PhabricatorApplicationTransactionRemarkupPreviewController
+    // Old: PhorgeMarkupPreviewController
+    // New: PhorgeApplicationTransactionRemarkupPreviewController
     // TODO: Swap everything to just the new controller.
 
     JX.DOM.setContent(preview, JX.$H(r.content || r));
@@ -31,7 +31,7 @@ JX.behavior('remarkup-preview', function(config) {
     };
   };
 
-  var request = new JX.PhabricatorShapedRequest(config.uri, callback, getdata);
+  var request = new JX.PhorgeShapedRequest(config.uri, callback, getdata);
   var trigger = JX.bind(request, request.trigger);
 
   JX.DOM.listen(control, 'keydown', null, trigger);

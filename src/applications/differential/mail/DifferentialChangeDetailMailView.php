@@ -7,7 +7,7 @@ final class DifferentialChangeDetailMailView
   private $diff;
   private $patch;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -39,8 +39,8 @@ final class DifferentialChangeDetailMailView
 
     $diff = $this->getDiff();
 
-    $engine = new PhabricatorMarkupEngine();
-    $viewstate = new PhabricatorChangesetViewState();
+    $engine = new PhorgeMarkupEngine();
+    $viewstate = new PhorgeChangesetViewState();
 
     $out = array();
     foreach ($diff->getChangesets() as $changeset) {
@@ -71,7 +71,7 @@ final class DifferentialChangeDetailMailView
 
     $patch_text = $this->getPatch();
 
-    return id(new PhabricatorMetaMTAMailSection())
+    return id(new PhorgeMetaMTAMailSection())
       ->addPlaintextFragment($patch_text)
       ->addHTMLFragment($patch_html);
   }

@@ -1,5 +1,5 @@
 <?php
-final class PHUITimelineExample extends PhabricatorUIExample {
+final class PHUITimelineExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Timeline View');
@@ -15,7 +15,7 @@ final class PHUITimelineExample extends PhabricatorUIExample {
     $request = $this->getRequest();
     $user = $request->getUser();
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($user)
       ->withPHIDs(array($user->getPHID()))
       ->executeOne();
@@ -23,12 +23,12 @@ final class PHUITimelineExample extends PhabricatorUIExample {
     $designer = id(new PHUIBadgeMiniView())
       ->setIcon('fa-camera-retro')
       ->setHeader(pht('Designer'))
-      ->setQuality(PhabricatorBadgesQuality::EPIC);
+      ->setQuality(PhorgeBadgesQuality::EPIC);
 
     $admin = id(new PHUIBadgeMiniView())
       ->setIcon('fa-user')
       ->setHeader(pht('Administrator'))
-      ->setQuality(PhabricatorBadgesQuality::RARE);
+      ->setQuality(PhorgeBadgesQuality::RARE);
 
     $events = array();
 
@@ -59,26 +59,26 @@ final class PHUITimelineExample extends PhabricatorUIExample {
       ->setTitle(pht('Major Red Event'))
       ->setIcon('fa-heart-o')
       ->appendChild(pht('This event is red!'))
-      ->setColor(PhabricatorTransactions::COLOR_RED)
+      ->setColor(PhorgeTransactions::COLOR_RED)
       ->addBadge($designer);
 
     $events[] = id(new PHUITimelineEventView())
       ->setUserHandle($handle)
       ->setIcon('fa-female')
       ->setTitle(pht('Minor Red Event'))
-      ->setColor(PhabricatorTransactions::COLOR_RED);
+      ->setColor(PhorgeTransactions::COLOR_RED);
 
     $events[] = id(new PHUITimelineEventView())
       ->setIcon('fa-refresh')
       ->setUserHandle($handle)
       ->setTitle(pht('Minor Not-Red Event'))
-      ->setColor(PhabricatorTransactions::COLOR_GREEN);
+      ->setColor(PhorgeTransactions::COLOR_GREEN);
 
     $events[] = id(new PHUITimelineEventView())
       ->setUserHandle($handle)
       ->setIcon('fa-calendar-o')
       ->setTitle(pht('Minor Red Event'))
-      ->setColor(PhabricatorTransactions::COLOR_RED);
+      ->setColor(PhorgeTransactions::COLOR_RED);
 
     // Pinboard!!
     $pin1 = id(new PHUIPinboardItemView())
@@ -115,26 +115,26 @@ final class PHUITimelineExample extends PhabricatorUIExample {
       ->setIcon('fa-circle-o')
       ->setTitle(pht('Major Green Disagreement Action'))
       ->appendChild(pht('This event is green!'))
-      ->setColor(PhabricatorTransactions::COLOR_GREEN);
+      ->setColor(PhorgeTransactions::COLOR_GREEN);
 
     $events[] = id(new PHUITimelineEventView())
       ->setUserHandle($handle)
       ->setIcon('fa-tag')
       ->setTitle(str_repeat(pht('Long Text Title').' ', 64))
       ->appendChild(str_repeat(pht('Long Text Body').' ', 64))
-      ->setColor(PhabricatorTransactions::COLOR_ORANGE);
+      ->setColor(PhorgeTransactions::COLOR_ORANGE);
 
     $colors = array(
-      PhabricatorTransactions::COLOR_RED,
-      PhabricatorTransactions::COLOR_ORANGE,
-      PhabricatorTransactions::COLOR_YELLOW,
-      PhabricatorTransactions::COLOR_GREEN,
-      PhabricatorTransactions::COLOR_SKY,
-      PhabricatorTransactions::COLOR_BLUE,
-      PhabricatorTransactions::COLOR_INDIGO,
-      PhabricatorTransactions::COLOR_VIOLET,
-      PhabricatorTransactions::COLOR_GREY,
-      PhabricatorTransactions::COLOR_BLACK,
+      PhorgeTransactions::COLOR_RED,
+      PhorgeTransactions::COLOR_ORANGE,
+      PhorgeTransactions::COLOR_YELLOW,
+      PhorgeTransactions::COLOR_GREEN,
+      PhorgeTransactions::COLOR_SKY,
+      PhorgeTransactions::COLOR_BLUE,
+      PhorgeTransactions::COLOR_INDIGO,
+      PhorgeTransactions::COLOR_VIOLET,
+      PhorgeTransactions::COLOR_GREY,
+      PhorgeTransactions::COLOR_BLACK,
     );
 
     $events[] = id(new PHUITimelineEventView())

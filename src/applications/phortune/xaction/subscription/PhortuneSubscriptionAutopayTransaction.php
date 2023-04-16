@@ -34,7 +34,7 @@ final class PhortuneSubscriptionAutopayTransaction
 
   public function shouldTryMFA(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return true;
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorExportEngine
+final class PhorgeExportEngine
   extends Phobject {
 
   private $viewer;
@@ -10,7 +10,7 @@ final class PhabricatorExportEngine
   private $filename;
   private $title;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -20,7 +20,7 @@ final class PhabricatorExportEngine
   }
 
   public function setSearchEngine(
-    PhabricatorApplicationSearchEngine $search_engine) {
+    PhorgeApplicationSearchEngine $search_engine) {
     $this->searchEngine = $search_engine;
     return $this;
   }
@@ -29,7 +29,7 @@ final class PhabricatorExportEngine
     return $this->searchEngine;
   }
 
-  public function setSavedQuery(PhabricatorSavedQuery $saved_query) {
+  public function setSavedQuery(PhorgeSavedQuery $saved_query) {
     $this->savedQuery = $saved_query;
     return $this;
   }
@@ -39,7 +39,7 @@ final class PhabricatorExportEngine
   }
 
   public function setExportFormat(
-    PhabricatorExportFormat $export_format) {
+    PhorgeExportFormat $export_format) {
     $this->exportFormat = $export_format;
     return $this;
   }
@@ -80,9 +80,9 @@ final class PhabricatorExportEngine
       'filename' => $this->getFilename(),
     );
 
-    $job = PhabricatorWorkerBulkJob::initializeNewJob(
+    $job = PhorgeWorkerBulkJob::initializeNewJob(
       $viewer,
-      new PhabricatorExportEngineBulkJobType(),
+      new PhorgeExportEngineBulkJobType(),
       $params);
 
     // We queue these jobs directly into STATUS_WAITING without requiring
@@ -90,11 +90,11 @@ final class PhabricatorExportEngine
 
     $xactions = array();
 
-    $xactions[] = id(new PhabricatorWorkerBulkJobTransaction())
-      ->setTransactionType(PhabricatorWorkerBulkJobTransaction::TYPE_STATUS)
-      ->setNewValue(PhabricatorWorkerBulkJob::STATUS_WAITING);
+    $xactions[] = id(new PhorgeWorkerBulkJobTransaction())
+      ->setTransactionType(PhorgeWorkerBulkJobTransaction::TYPE_STATUS)
+      ->setNewValue(PhorgeWorkerBulkJob::STATUS_WAITING);
 
-    $editor = id(new PhabricatorWorkerBulkJobEditor())
+    $editor = id(new PhorgeWorkerBulkJobEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnMissingFields(true)
@@ -154,9 +154,9 @@ final class PhabricatorExportEngine
     // the chunk engine and store large files.
     $iterator = new ArrayIterator(array($export_result));
 
-    $source = id(new PhabricatorIteratorFileUploadSource())
+    $source = id(new PhorgeIteratorFileUploadSource())
       ->setName($filename)
-      ->setViewPolicy(PhabricatorPolicies::POLICY_NOONE)
+      ->setViewPolicy(PhorgePolicies::POLICY_NOONE)
       ->setMIMEType($mime_type)
       ->setRelativeTTL(phutil_units('60 minutes in seconds'))
       ->setAuthorPHID($viewer->getPHID())

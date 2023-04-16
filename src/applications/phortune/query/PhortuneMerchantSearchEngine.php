@@ -1,23 +1,23 @@
 <?php
 
 final class PhortuneMerchantSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phortune Merchants');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new PhortuneMerchantQuery())
       ->needProfileImage(true);
 
@@ -26,7 +26,7 @@ final class PhortuneMerchantSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {}
+    PhorgeSavedQuery $saved_query) {}
 
   protected function getURI($path) {
     return '/phortune/merchant/'.$path;
@@ -55,13 +55,13 @@ final class PhortuneMerchantSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $merchants,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return array();
   }
 
   protected function renderResultList(
     array $merchants,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($merchants, 'PhortuneMerchant');
 
@@ -80,7 +80,7 @@ final class PhortuneMerchantSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No merchants found.'));
 

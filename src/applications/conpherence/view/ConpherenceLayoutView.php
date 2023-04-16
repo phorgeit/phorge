@@ -95,10 +95,10 @@ final class ConpherenceLayoutView extends AphrontTagView {
       $selected_id = $this->thread->getPHID().'-nav-item';
       $selected_thread_id = $this->thread->getID();
       $selected_thread_phid = $this->thread->getPHID();
-      $can_edit_selected = PhabricatorPolicyFilter::hasCapability(
+      $can_edit_selected = PhorgePolicyFilter::hasCapability(
         $this->getUser(),
         $this->thread,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
     } else {
       $nux = $this->buildNUXView();
     }

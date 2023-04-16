@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailDeliverySettingsPanel
-  extends PhabricatorEditEngineSettingsPanel {
+final class PhorgeEmailDeliverySettingsPanel
+  extends PhorgeEditEngineSettingsPanel {
 
   const PANELKEY = 'emaildelivery';
 
@@ -14,7 +14,7 @@ final class PhabricatorEmailDeliverySettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsEmailPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsEmailPanelGroup::PANELGROUPKEY;
   }
 
   public function isManagementPanel() {

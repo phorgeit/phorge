@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserSinceField
-  extends PhabricatorUserCustomField {
+final class PhorgeUserSinceField
+  extends PhorgeUserCustomField {
 
   private $value;
 

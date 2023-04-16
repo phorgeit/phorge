@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTOTPAuthFactorTestCase extends PhabricatorTestCase {
+final class PhorgeTOTPAuthFactorTestCase extends PhorgeTestCase {
 
   public function testTOTPCodeGeneration() {
     $tests = array(
@@ -32,7 +32,7 @@ final class PhabricatorTOTPAuthFactorTestCase extends PhabricatorTestCase {
       list($key, $time, $code) = $test;
       $this->assertEqual(
         $code,
-        PhabricatorTOTPAuthFactor::getTOTPCode(
+        PhorgeTOTPAuthFactor::getTOTPCode(
           new PhutilOpaqueEnvelope($key),
           $time));
     }

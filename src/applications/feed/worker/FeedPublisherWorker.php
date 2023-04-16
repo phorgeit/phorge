@@ -5,7 +5,7 @@ final class FeedPublisherWorker extends FeedPushWorker {
   protected function doWork() {
     $story = $this->loadFeedStory();
 
-    $uris = PhabricatorEnv::getEnvConfig('feed.http-hooks');
+    $uris = PhorgeEnv::getEnvConfig('feed.http-hooks');
 
     if ($uris) {
       foreach ($uris as $uri) {

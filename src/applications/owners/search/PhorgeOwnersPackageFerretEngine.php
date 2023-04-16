@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageFerretEngine
-  extends PhabricatorFerretEngine {
+final class PhorgeOwnersPackageFerretEngine
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'owners';
@@ -12,7 +12,7 @@ final class PhabricatorOwnersPackageFerretEngine
   }
 
   public function newSearchEngine() {
-    return new PhabricatorOwnersPackageSearchEngine();
+    return new PhorgeOwnersPackageSearchEngine();
   }
 
 }

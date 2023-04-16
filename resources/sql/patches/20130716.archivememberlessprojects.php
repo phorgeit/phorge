@@ -2,13 +2,13 @@
 
 echo pht('Archiving projects with no members...')."\n";
 
-$table = new PhabricatorProject();
+$table = new PhorgeProject();
 $table->openTransaction();
 
 foreach (new LiskMigrationIterator($table) as $project) {
-  $members = PhabricatorEdgeQuery::loadDestinationPHIDs(
+  $members = PhorgeEdgeQuery::loadDestinationPHIDs(
     $project->getPHID(),
-    PhabricatorProjectProjectHasMemberEdgeType::EDGECONST);
+    PhorgeProjectProjectHasMemberEdgeType::EDGECONST);
 
   if (count($members)) {
     echo pht(
@@ -18,7 +18,7 @@ foreach (new LiskMigrationIterator($table) as $project) {
     continue;
   }
 
-  if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ARCHIVED) {
+  if ($project->getStatus() == PhorgeProjectStatus::STATUS_ARCHIVED) {
     echo pht(
       'Project "%s" already archived; skipping.',
       $project->getName()), "\n";
@@ -30,7 +30,7 @@ foreach (new LiskMigrationIterator($table) as $project) {
     $table->establishConnection('w'),
     'UPDATE %T SET status = %s WHERE id = %d',
     $table->getTableName(),
-    PhabricatorProjectStatus::STATUS_ARCHIVED,
+    PhorgeProjectStatus::STATUS_ARCHIVED,
     $project->getID());
 }
 

@@ -12,8 +12,8 @@ final class PassphraseCredentialEditController extends PassphraseController {
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$credential) {
@@ -116,7 +116,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
       $is_ssh = ($type instanceof PassphraseSSHPrivateKeyTextCredentialType);
 
       if ($is_ssh && $has_secret) {
-        $old_object = PhabricatorAuthSSHPrivateKey::newFromRawKey($env_secret);
+        $old_object = PhorgeAuthSSHPrivateKey::newFromRawKey($env_secret);
 
         if (strlen($v_password)) {
           $old_object->setPassphrase($env_password);
@@ -125,7 +125,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
         try {
           $new_object = $old_object->newBarePrivateKey();
           $v_decrypt = $new_object->getKeyBody()->openEnvelope();
-        } catch (PhabricatorAuthSSHPrivateKeyException $ex) {
+        } catch (PhorgeAuthSSHPrivateKeyException $ex) {
           $errors[] = $ex->getMessage();
 
           if ($ex->isFormatException()) {
@@ -151,9 +151,9 @@ final class PassphraseCredentialEditController extends PassphraseController {
         $type_is_locked =
           PassphraseCredentialLockTransaction::TRANSACTIONTYPE;
 
-        $type_view_policy = PhabricatorTransactions::TYPE_VIEW_POLICY;
-        $type_edit_policy = PhabricatorTransactions::TYPE_EDIT_POLICY;
-        $type_space = PhabricatorTransactions::TYPE_SPACE;
+        $type_view_policy = PhorgeTransactions::TYPE_VIEW_POLICY;
+        $type_edit_policy = PhorgeTransactions::TYPE_EDIT_POLICY;
+        $type_space = PhorgeTransactions::TYPE_SPACE;
 
         $xactions = array();
 
@@ -234,7 +234,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
             return id(new AphrontRedirectResponse())
               ->setURI('/K'.$credential->getID());
           }
-        } catch (PhabricatorApplicationTransactionValidationException $ex) {
+        } catch (PhorgeApplicationTransactionValidationException $ex) {
           $credential->killTransaction();
 
           $validation_exception = $ex;
@@ -248,7 +248,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
       }
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($credential)
       ->execute();
@@ -267,7 +267,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
           ->setValue($v_name)
           ->setError($e_name))
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setUser($viewer)
           ->setName('description')
           ->setLabel(pht('Description'))
@@ -279,13 +279,13 @@ final class PassphraseCredentialEditController extends PassphraseController {
           ->setName('viewPolicy')
           ->setPolicyObject($credential)
           ->setSpacePHID($v_space)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setPolicies($policies))
       ->appendControl(
         id(new AphrontFormPolicyControl())
           ->setName('editPolicy')
           ->setPolicyObject($credential)
-          ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
+          ->setCapability(PhorgePolicyCapability::CAN_EDIT)
           ->setPolicies($policies))
       ->appendChild(
         id(new AphrontFormDividerControl()));

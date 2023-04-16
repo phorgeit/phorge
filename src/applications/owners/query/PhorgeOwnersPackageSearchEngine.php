@@ -1,35 +1,35 @@
 <?php
 
-final class PhabricatorOwnersPackageSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeOwnersPackageSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Owners Packages');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorOwnersPackageQuery();
+    return new PhorgeOwnersPackageQuery();
   }
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Authority'))
         ->setKey('authorityPHIDs')
         ->setAliases(array('authority', 'authorities'))
         ->setConduitKey('owners')
         ->setDescription(
           pht('Search for packages with specific owners.'))
-        ->setDatasource(new PhabricatorProjectOrUserDatasource()),
-      id(new PhabricatorSearchTextField())
+        ->setDatasource(new PhorgeProjectOrUserDatasource()),
+      id(new PhorgeSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name')
         ->setDescription(pht('Search for packages by name substrings.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Repositories'))
         ->setKey('repositoryPHIDs')
         ->setConduitKey('repositories')
@@ -37,19 +37,19 @@ final class PhabricatorOwnersPackageSearchEngine
         ->setDescription(
           pht('Search for packages by included repositories.'))
         ->setDatasource(new DiffusionRepositoryDatasource()),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Paths'))
         ->setKey('paths')
         ->setAliases(array('path'))
         ->setDescription(
           pht('Search for packages affecting specific paths.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setDescription(
           pht('Search for active or archived packages.'))
         ->setOptions(
-          id(new PhabricatorOwnersPackage())
+          id(new PhorgeOwnersPackage())
             ->getStatusNameMap()),
     );
   }
@@ -110,7 +110,7 @@ final class PhabricatorOwnersPackageSearchEngine
         return $query->setParameter(
           'statuses',
           array(
-            PhabricatorOwnersPackage::STATUS_ACTIVE,
+            PhorgeOwnersPackage::STATUS_ACTIVE,
           ));
       case 'authority':
         return $query->setParameter(
@@ -123,9 +123,9 @@ final class PhabricatorOwnersPackageSearchEngine
 
   protected function renderResultList(
     array $packages,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($packages, 'PhorgeOwnersPackage');
 
     $viewer = $this->requireViewer();
 
@@ -147,7 +147,7 @@ final class PhabricatorOwnersPackageSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No packages found.'));
 

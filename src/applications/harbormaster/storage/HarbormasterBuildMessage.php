@@ -9,8 +9,8 @@
 final class HarbormasterBuildMessage
   extends HarbormasterDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $authorPHID;
   protected $receiverPHID;
@@ -19,10 +19,10 @@ final class HarbormasterBuildMessage
 
   private $receiver = self::ATTACHABLE;
 
-  public static function initializeNewMessage(PhabricatorUser $actor) {
+  public static function initializeNewMessage(PhorgeUser $actor) {
     $actor_phid = $actor->getPHID();
     if (!$actor_phid) {
-      $actor_phid = id(new PhabricatorHarbormasterApplication())->getPHID();
+      $actor_phid = id(new PhorgeHarbormasterApplication())->getPHID();
     }
 
     return id(new HarbormasterBuildMessage())
@@ -54,12 +54,12 @@ final class HarbormasterBuildMessage
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -67,7 +67,7 @@ final class HarbormasterBuildMessage
     return $this->getReceiver()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getReceiver()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -78,11 +78,11 @@ final class HarbormasterBuildMessage
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 

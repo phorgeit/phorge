@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPreambleTestCase
-  extends PhabricatorTestCase {
+final class PhorgePreambleTestCase
+  extends PhorgeTestCase {
 
   /**
    * @phutil-external-symbol function preamble_get_x_forwarded_for_address

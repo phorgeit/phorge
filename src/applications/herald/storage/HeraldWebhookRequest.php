@@ -3,8 +3,8 @@
 final class HeraldWebhookRequest
   extends HeraldDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface {
 
   protected $webhookPHID;
   protected $objectPHID;
@@ -180,7 +180,7 @@ final class HeraldWebhookRequest
   }
 
   public function queueCall() {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'HeraldWebhookWorker',
       array(
         'webhookRequestPHID' => $this->getPHID(),
@@ -241,33 +241,33 @@ final class HeraldWebhookRequest
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
-      array($this->getWebhook(), PhabricatorPolicyCapability::CAN_VIEW),
+      array($this->getWebhook(), PhorgePolicyCapability::CAN_VIEW),
     );
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PassphraseController extends PhabricatorController {
+abstract class PassphraseController extends PhorgeController {
 
   public function buildSideNavView($for_app = false) {
     $user = $this->getRequest()->getUser();

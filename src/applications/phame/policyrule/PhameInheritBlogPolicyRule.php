@@ -1,7 +1,7 @@
 <?php
 
 final class PhameInheritBlogPolicyRule
-  extends PhabricatorPolicyRule {
+  extends PhorgePolicyRule {
 
   public function getObjectPolicyKey() {
     return 'phame.blog';
@@ -23,14 +23,14 @@ final class PhameInheritBlogPolicyRule
     return 'fa-feed';
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
+  public function canApplyToObject(PhorgePolicyInterface $object) {
     return ($object instanceof PhamePost);
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     // TODO: This is incorrect in the general case, but: "PolicyRule" currently
     // does not know which capability it is evaluating (so we can't test for
@@ -38,10 +38,10 @@ final class PhameInheritBlogPolicyRule
     // and edit policies (so we can only arrive here when evaluating the
     // interact policy).
 
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $object->getBlog(),
-      PhabricatorPolicyCapability::CAN_INTERACT);
+      PhorgePolicyCapability::CAN_INTERACT);
   }
 
   public function getValueControlType() {

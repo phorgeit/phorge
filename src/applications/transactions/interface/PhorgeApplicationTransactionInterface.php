@@ -6,13 +6,13 @@
  * For example, implementing this interface allows Subscriptions to apply CC
  * transactions, and allows Harbormaster to apply build result notifications.
  */
-interface PhabricatorApplicationTransactionInterface {
+interface PhorgeApplicationTransactionInterface {
 
   /**
-   * Return a @{class:PhabricatorApplicationTransactionEditor} which can be
+   * Return a @{class:PhorgeApplicationTransactionEditor} which can be
    * used to apply transactions to this object.
    *
-   * @return PhabricatorApplicationTransactionEditor Editor for this object.
+   * @return PhorgeApplicationTransactionEditor Editor for this object.
    */
   public function getApplicationTransactionEditor();
 
@@ -20,7 +20,7 @@ interface PhabricatorApplicationTransactionInterface {
   /**
    * Return a template transaction for this object.
    *
-   * @return PhabricatorApplicationTransaction
+   * @return PhorgeApplicationTransaction
    */
   public function getApplicationTransactionTemplate();
 
@@ -29,7 +29,7 @@ interface PhabricatorApplicationTransactionInterface {
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 /*
 
   public function getApplicationTransactionEditor() {

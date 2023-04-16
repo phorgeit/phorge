@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFactAggregate extends PhabricatorFactDAO {
+final class PhorgeFactAggregate extends PhorgeFactDAO {
 
   protected $factType;
   protected $objectPHID;

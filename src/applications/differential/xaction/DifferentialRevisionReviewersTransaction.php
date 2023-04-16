@@ -326,7 +326,7 @@ final class DifferentialRevisionReviewersTransaction
 
     $author_phid = $object->getAuthorPHID();
     $config_self_accept_key = 'differential.allow-self-accept';
-    $allow_self_accept = PhabricatorEnv::getEnvConfig($config_self_accept_key);
+    $allow_self_accept = PhorgeEnv::getEnvConfig($config_self_accept_key);
 
     $old = $this->generateOldValue($object);
     foreach ($xactions as $xaction) {
@@ -337,7 +337,7 @@ final class DifferentialRevisionReviewersTransaction
         continue;
       }
 
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($actor)
         ->withPHIDs(array_keys($add))
         ->execute();
@@ -354,9 +354,9 @@ final class DifferentialRevisionReviewersTransaction
         }
 
         switch (phid_get_type($phid)) {
-          case PhabricatorPeopleUserPHIDType::TYPECONST:
-          case PhabricatorOwnersPackagePHIDType::TYPECONST:
-          case PhabricatorProjectProjectPHIDType::TYPECONST:
+          case PhorgePeopleUserPHIDType::TYPECONST:
+          case PhorgeOwnersPackagePHIDType::TYPECONST:
+          case PhorgeProjectProjectPHIDType::TYPECONST:
             break;
           default:
             $errors[] = $this->newInvalidError(

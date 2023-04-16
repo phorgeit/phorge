@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementRebuildWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementRebuildWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();
@@ -95,8 +95,8 @@ final class PhabricatorFilesManagementRebuildWorkflow
         }
 
         $metadata = $file->getMetadata();
-        $image_width = idx($metadata, PhabricatorFile::METADATA_IMAGE_WIDTH);
-        $image_height = idx($metadata, PhabricatorFile::METADATA_IMAGE_HEIGHT);
+        $image_width = idx($metadata, PhorgeFile::METADATA_IMAGE_WIDTH);
+        $image_height = idx($metadata, PhorgeFile::METADATA_IMAGE_HEIGHT);
         if ($image_width && $image_height) {
           $console->writeOut(
             "%s\n",

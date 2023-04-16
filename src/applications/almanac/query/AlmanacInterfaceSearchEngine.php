@@ -1,14 +1,14 @@
 <?php
 
 final class AlmanacInterfaceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Almanac Interfaces');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function newQuery() {
@@ -17,7 +17,7 @@ final class AlmanacInterfaceSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Devices'))
         ->setKey('devicePHIDs')
         ->setAliases(array('device', 'devicePHID', 'devices'))
@@ -61,7 +61,7 @@ final class AlmanacInterfaceSearchEngine
 
   protected function renderResultList(
     array $devices,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     // For now, this SearchEngine just supports API access via Conduit.

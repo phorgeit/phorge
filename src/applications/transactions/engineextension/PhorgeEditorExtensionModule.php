@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditorExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeEditorExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'editor';
@@ -14,7 +14,7 @@ final class PhabricatorEditorExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorEditorExtension::getAllExtensions();
+    $extensions = PhorgeEditorExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

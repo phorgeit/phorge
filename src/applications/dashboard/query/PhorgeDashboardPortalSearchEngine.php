@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorDashboardPortalSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeDashboardPortalSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Portals');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function newQuery() {
-    return new PhabricatorDashboardPortalQuery();
+    return new PhorgeDashboardPortalQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -51,10 +51,10 @@ final class PhabricatorDashboardPortalSearchEngine
 
   protected function renderResultList(
     array $portals,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($portals, 'PhabricatorDashboardPortal');
+    assert_instances_of($portals, 'PhorgeDashboardPortal');
 
     $viewer = $this->requireViewer();
 
@@ -70,7 +70,7 @@ final class PhabricatorDashboardPortalSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list)
       ->setNoDataString(pht('No portals found.'));
   }

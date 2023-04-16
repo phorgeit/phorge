@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDarkConsoleSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeDarkConsoleSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'dark_console';
 
@@ -13,15 +13,15 @@ final class PhabricatorDarkConsoleSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDeveloperPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDeveloperPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {
     return 100;
   }
 
-  protected function isEnabledForViewer(PhabricatorUser $viewer) {
-    return PhabricatorEnv::getEnvConfig('darkconsole.enabled');
+  protected function isEnabledForViewer(PhorgeUser $viewer) {
+    return PhorgeEnv::getEnvConfig('darkconsole.enabled');
   }
 
   protected function getControlInstructions() {
@@ -49,7 +49,7 @@ final class PhabricatorDarkConsoleSetting
       $xaction,
       $this->newSettingTransaction(
         $object,
-        PhabricatorDarkConsoleVisibleSetting::SETTINGKEY,
+        PhorgeDarkConsoleVisibleSetting::SETTINGKEY,
         1),
     );
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackageEditEngine
-  extends PhabricatorPackagesEditEngine {
+final class PhorgePackagesPackageEditEngine
+  extends PhorgePackagesEditEngine {
 
   const ENGINECONST = 'packages.package';
 
@@ -19,11 +19,11 @@ final class PhabricatorPackagesPackageEditEngine
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorPackagesPackage::initializeNewPackage($viewer);
+    return PhorgePackagesPackage::initializeNewPackage($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorPackagesPackageQuery();
+    return new PhorgePackagesPackageQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -66,34 +66,34 @@ final class PhabricatorPackagesPackageEditEngine
     $fields = array();
 
     if ($this->getIsCreate()) {
-      $fields[] = id(new PhabricatorDatasourceEditField())
+      $fields[] = id(new PhorgeDatasourceEditField())
         ->setKey('publisher')
         ->setAliases(array('publisherPHID'))
         ->setLabel(pht('Publisher'))
         ->setDescription(pht('Publisher for this package.'))
         ->setTransactionType(
-          PhabricatorPackagesPackagePublisherTransaction::TRANSACTIONTYPE)
+          PhorgePackagesPackagePublisherTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
-        ->setDatasource(new PhabricatorPackagesPublisherDatasource())
+        ->setDatasource(new PhorgePackagesPublisherDatasource())
         ->setSingleValue($object->getPublisherPHID());
     }
 
-    $fields[] = id(new PhabricatorTextEditField())
+    $fields[] = id(new PhorgeTextEditField())
       ->setKey('name')
       ->setLabel(pht('Name'))
       ->setDescription(pht('Name of the package.'))
       ->setTransactionType(
-        PhabricatorPackagesPackageNameTransaction::TRANSACTIONTYPE)
+        PhorgePackagesPackageNameTransaction::TRANSACTIONTYPE)
       ->setIsRequired(true)
       ->setValue($object->getName());
 
     if ($this->getIsCreate()) {
-      $fields[] = id(new PhabricatorTextEditField())
+      $fields[] = id(new PhorgeTextEditField())
         ->setKey('packageKey')
         ->setLabel(pht('Package Key'))
         ->setDescription(pht('Unique key to identify the package.'))
         ->setTransactionType(
-          PhabricatorPackagesPackageKeyTransaction::TRANSACTIONTYPE)
+          PhorgePackagesPackageKeyTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getPackageKey());
     }

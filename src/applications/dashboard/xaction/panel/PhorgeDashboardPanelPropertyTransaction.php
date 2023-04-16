@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDashboardPanelPropertyTransaction
-  extends PhabricatorDashboardPanelTransactionType {
+abstract class PhorgeDashboardPanelPropertyTransaction
+  extends PhorgeDashboardPanelTransactionType {
 
   abstract protected function getPropertyKey();
 

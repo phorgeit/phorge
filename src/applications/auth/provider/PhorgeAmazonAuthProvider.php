@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorAmazonAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeAmazonAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('Amazon');
   }
 
   protected function getProviderConfigurationHelp() {
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
-    $uri = new PhutilURI(PhabricatorEnv::getProductionURI('/'));
+    $uri = new PhutilURI(PhorgeEnv::getProductionURI('/'));
     $https_note = null;
     if ($uri->getProtocol() !== 'https') {
       $https_note = pht(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRecaptchaConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeRecaptchaConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Integration with Recaptcha');

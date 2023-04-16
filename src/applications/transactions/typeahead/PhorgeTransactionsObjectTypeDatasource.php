@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTransactionsObjectTypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeTransactionsObjectTypeDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Forms');
@@ -12,7 +12,7 @@ final class PhabricatorTransactionsObjectTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   protected function renderSpecialTokens(array $values) {
@@ -26,10 +26,10 @@ final class PhabricatorTransactionsObjectTypeDatasource
 
   private function buildResults() {
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+      ->setAncestorClass('PhorgeApplicationTransactionQuery')
       ->execute();
 
-    $phid_types = PhabricatorPHIDType::getAllTypes();
+    $phid_types = PhorgePHIDType::getAllTypes();
 
     $results = array();
     foreach ($queries as $query) {
@@ -46,7 +46,7 @@ final class PhabricatorTransactionsObjectTypeDatasource
         $icon = null;
       }
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($name)
         ->setPHID($query_type);
 

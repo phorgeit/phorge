@@ -64,10 +64,10 @@ final class PhortuneCartCheckoutController
 
       // Require CAN_EDIT on the cart to actually make purchases.
 
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $viewer,
         $cart,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
       $method_id = $request->getInt('paymentMethodID');
       $method = idx($methods, $method_id);

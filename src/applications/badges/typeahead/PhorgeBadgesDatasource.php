@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeBadgesDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Badges');
@@ -12,7 +12,7 @@ final class PhabricatorBadgesDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return 'PhorgeBadgesApplication';
   }
 
   public function loadResults() {
@@ -22,16 +22,16 @@ final class PhabricatorBadgesDatasource
     $params = $this->getParameters();
     $recipient_phid = $params['recipientPHID'];
 
-    $badges = id(new PhabricatorBadgesQuery())
+    $badges = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
-    $awards = id(new PhabricatorBadgesAwardQuery())
+    $awards = id(new PhorgeBadgesAwardQuery())
       ->setViewer($viewer)
       ->withAwarderPHIDs(array($viewer->getPHID()))
       ->withRecipientPHIDs(array($recipient_phid))
@@ -48,15 +48,15 @@ final class PhabricatorBadgesDatasource
       }
 
       $status = $badge->getStatus();
-      if ($status === PhabricatorBadgesBadge::STATUS_ARCHIVED) {
+      if ($status === PhorgeBadgesBadge::STATUS_ARCHIVED) {
         $closed = pht('Archived');
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setName($badge->getName())
         ->setIcon($badge->getIcon())
         ->setColor(
-          PhabricatorBadgesQuality::getQualityColor($badge->getQuality()))
+          PhorgeBadgesQuality::getQualityColor($badge->getQuality()))
         ->setClosed($closed)
         ->setPHID($badge->getPHID());
     }

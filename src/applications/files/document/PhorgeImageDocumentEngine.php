@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorImageDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeImageDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'image';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Image');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file-image-o';
   }
 
@@ -18,8 +18,8 @@ final class PhabricatorImageDocumentEngine
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    PhorgeDocumentRef $uref = null,
+    PhorgeDocumentRef $vref = null) {
 
     // For now, we can only render a rich image diff if the documents have
     // their data stored in Files already.
@@ -36,8 +36,8 @@ final class PhabricatorImageDocumentEngine
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    PhorgeDocumentRef $uref = null,
+    PhorgeDocumentRef $vref = null) {
 
     if ($uref) {
       $u_blocks = $this->newDiffBlocks($uref);
@@ -51,21 +51,21 @@ final class PhabricatorImageDocumentEngine
       $v_blocks = array();
     }
 
-    return id(new PhabricatorDocumentEngineBlocks())
+    return id(new PhorgeDocumentEngineBlocks())
       ->addBlockList($uref, $u_blocks)
       ->addBlockList($vref, $v_blocks);
   }
 
   public function newBlockDiffViews(
-    PhabricatorDocumentRef $uref,
-    PhabricatorDocumentEngineBlock $ublock,
-    PhabricatorDocumentRef $vref,
-    PhabricatorDocumentEngineBlock $vblock) {
+    PhorgeDocumentRef $uref,
+    PhorgeDocumentEngineBlock $ublock,
+    PhorgeDocumentRef $vref,
+    PhorgeDocumentEngineBlock $vblock) {
 
     $u_content = $this->newBlockContentView($uref, $ublock);
     $v_content = $this->newBlockContentView($vref, $vblock);
 
-    return id(new PhabricatorDocumentEngineBlockDiff())
+    return id(new PhorgeDocumentEngineBlockDiff())
       ->setOldContent($u_content)
       ->addOldClass('diff-image-cell')
       ->setNewContent($v_content)
@@ -73,7 +73,7 @@ final class PhabricatorImageDocumentEngine
   }
 
 
-  private function newDiffBlocks(PhabricatorDocumentRef $ref) {
+  private function newDiffBlocks(PhorgeDocumentRef $ref) {
     $blocks = array();
 
     $file = $ref->getFile();
@@ -92,7 +92,7 @@ final class PhabricatorImageDocumentEngine
 
     $hash = $file->getContentHash();
 
-    $blocks[] = id(new PhabricatorDocumentEngineBlock())
+    $blocks[] = id(new PhorgeDocumentEngineBlock())
       ->setBlockKey('1')
       ->setDifferenceHash($hash)
       ->setContent($image_view);
@@ -100,16 +100,16 @@ final class PhabricatorImageDocumentEngine
     return $blocks;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       return $file->isViewableImage();
     }
 
-    $viewable_types = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
+    $viewable_types = PhorgeEnv::getEnvConfig('files.viewable-mime-types');
     $viewable_types = array_keys($viewable_types);
 
-    $image_types = PhabricatorEnv::getEnvConfig('files.image-mime-types');
+    $image_types = PhorgeEnv::getEnvConfig('files.image-mime-types');
     $image_types = array_keys($image_types);
 
     return
@@ -117,7 +117,7 @@ final class PhabricatorImageDocumentEngine
       $ref->hasAnyMimeType($image_types);
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       $source_uri = $file->getViewURI();

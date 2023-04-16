@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhabricatorAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgePhorgeAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   const PROPERTY_PHORGE_NAME = 'oauth2:phorge:name';
   const PROPERTY_PHORGE_URI  = 'oauth2:phorge:uri';
@@ -25,7 +25,7 @@ final class PhabricatorPhabricatorAuthProvider
     $config = $this->getProviderConfig();
     $base_uri = rtrim(
       $config->getProperty(self::PROPERTY_PHORGE_URI), '/');
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "**Step 2 of 2 - Configure OAuth Server**\n\n".
@@ -46,9 +46,9 @@ final class PhabricatorPhabricatorAuthProvider
 
   protected function newOAuthAdapter() {
     $config = $this->getProviderConfig();
-    return id(new PhutilPhabricatorAuthAdapter())
+    return id(new PhutilPhorgeAuthAdapter())
       ->setAdapterDomain($config->getProviderDomain())
-      ->setPhabricatorBaseURI(
+      ->setPhorgeBaseURI(
         $config->getProperty(self::PROPERTY_PHORGE_URI));
   }
 
@@ -199,7 +199,7 @@ final class PhabricatorPhabricatorAuthProvider
     return true;
   }
 
-  public function getPhabricatorURI() {
+  public function getPhorgeURI() {
     $config = $this->getProviderConfig();
     return $config->getProperty(self::PROPERTY_PHORGE_URI);
   }

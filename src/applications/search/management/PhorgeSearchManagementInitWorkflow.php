@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchManagementInitWorkflow
-  extends PhabricatorSearchManagementWorkflow {
+final class PhorgeSearchManagementInitWorkflow
+  extends PhorgeSearchManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -14,7 +14,7 @@ final class PhabricatorSearchManagementInitWorkflow
     $this->validateClusterSearchConfig();
 
     $work_done = false;
-    foreach (PhabricatorSearchService::getAllServices() as $service) {
+    foreach (PhorgeSearchService::getAllServices() as $service) {
       echo tsprintf(
         "%s\n",
         pht(

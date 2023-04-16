@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldText
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldText
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'text';
@@ -19,15 +19,15 @@ final class PhabricatorStandardCustomFieldText
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
 
     return $request->getStr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
 
     if (strlen($value)) {
@@ -38,7 +38,7 @@ final class PhabricatorStandardCustomFieldText
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -77,7 +77,7 @@ final class PhabricatorStandardCustomFieldText
   }
 
   protected function newExportFieldType() {
-    return new PhabricatorStringExportField();
+    return new PhorgeStringExportField();
   }
 
 }

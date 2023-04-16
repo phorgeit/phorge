@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorOAuthClientTestController
-  extends PhabricatorOAuthClientController {
+final class PhorgeOAuthClientTestController
+  extends PhorgeOAuthClientController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $client = id(new PhabricatorOAuthServerClientQuery())
+    $client = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -18,12 +18,12 @@ final class PhabricatorOAuthClientTestController
     $done_uri = $client->getViewURI();
 
     if ($request->isFormPost()) {
-      $server = id(new PhabricatorOAuthServer())
+      $server = id(new PhorgeOAuthServer())
         ->setUser($viewer)
         ->setClient($client);
 
       // Create an authorization if we don't already have one.
-      $authorization = id(new PhabricatorOAuthClientAuthorizationQuery())
+      $authorization = id(new PhorgeOAuthClientAuthorizationQuery())
         ->setViewer($viewer)
         ->withUserPHIDs(array($viewer->getPHID()))
         ->withClientPHIDs(array($client->getPHID()))

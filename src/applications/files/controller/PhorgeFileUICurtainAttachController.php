@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileUICurtainAttachController
-  extends PhabricatorFileController {
+final class PhorgeFileUICurtainAttachController
+  extends PhorgeFileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -9,7 +9,7 @@ final class PhabricatorFileUICurtainAttachController
     $object_phid = $request->getURIData('objectPHID');
     $file_phid = $request->getURIData('filePHID');
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object_phid))
       ->executeOne();
@@ -17,7 +17,7 @@ final class PhabricatorFileUICurtainAttachController
       return new Aphront404Response();
     }
 
-    $attachment = id(new PhabricatorFileAttachmentQuery())
+    $attachment = id(new PhorgeFileAttachmentQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
       ->withFilePHIDs(array($file_phid))
@@ -96,13 +96,13 @@ final class PhabricatorFileUICurtainAttachController
       return $dialog;
     }
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       $dialog->appendParagraph(
         pht(
           'This object (of class "%s") does not implement the required '.
           'interface ("%s"), so files can not be manually attached to it.',
           get_class($object),
-          'PhabricatorApplicationTransactionInterface'));
+          'PhorgeApplicationTransactionInterface'));
 
       return $dialog;
     }
@@ -118,10 +118,10 @@ final class PhabricatorFileUICurtainAttachController
     $xactions = array();
 
     $xactions[] = id(clone $template)
-      ->setTransactionType(PhabricatorTransactions::TYPE_FILE)
+      ->setTransactionType(PhorgeTransactions::TYPE_FILE)
       ->setNewValue(
         array(
-          $file_phid => PhabricatorFileAttachment::MODE_ATTACH,
+          $file_phid => PhorgeFileAttachment::MODE_ATTACH,
         ));
 
     $editor->applyTransactions($object, $xactions);

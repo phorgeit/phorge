@@ -1,6 +1,6 @@
 <?php
 
-abstract class PonderController extends PhabricatorController {
+abstract class PonderController extends PhorgeController {
 
   protected function buildSideNavView($for_app = false) {
     $user = $this->getRequest()->getUser();

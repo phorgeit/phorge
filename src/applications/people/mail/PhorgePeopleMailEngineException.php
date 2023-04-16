@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPeopleMailEngineException
+final class PhorgePeopleMailEngineException
   extends Exception {
 
   private $title;

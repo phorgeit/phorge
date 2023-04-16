@@ -3,8 +3,8 @@
 final class DifferentialHunk
   extends DifferentialDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $changesetID;
   protected $oldOffset;
@@ -282,7 +282,7 @@ final class DifferentialHunk
   }
 
   private function formatDataForStorage($data) {
-    $deflated = PhabricatorCaches::maybeDeflateData($data);
+    $deflated = PhorgeCaches::maybeDeflateData($data);
     if ($deflated !== null) {
       return array(self::DATAFORMAT_DEFLATED, $deflated);
     }
@@ -332,12 +332,12 @@ final class DifferentialHunk
     list($format, $data) = $this->formatDataForStorage($raw_data);
     $this->setDataFormat($format);
 
-    $file = PhabricatorFile::newFromFileData(
+    $file = PhorgeFile::newFromFileData(
       $data,
       array(
         'name' => 'differential-hunk',
         'mime-type' => 'application/octet-stream',
-        'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+        'viewPolicy' => PhorgePolicies::POLICY_NOONE,
       ));
 
     $this->setDataType(self::DATATYPE_FILE);
@@ -378,7 +378,7 @@ final class DifferentialHunk
           $data = $data;
           break;
         case self::DATAFORMAT_DEFLATED:
-          $data = PhabricatorCaches::inflateData($data);
+          $data = PhorgeCaches::inflateData($data);
           break;
         default:
           throw new Exception(
@@ -413,10 +413,10 @@ final class DifferentialHunk
   }
 
   private function loadRawFile($file_phid) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
 
-    $files = id(new PhabricatorFileQuery())
+    $files = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->execute();
@@ -435,10 +435,10 @@ final class DifferentialHunk
   private function destroyData(
     $type,
     $data,
-    PhabricatorDestructionEngine $engine = null) {
+    PhorgeDestructionEngine $engine = null) {
 
     if (!$engine) {
-      $engine = new PhabricatorDestructionEngine();
+      $engine = new PhorgeDestructionEngine();
     }
 
     switch ($type) {
@@ -450,12 +450,12 @@ final class DifferentialHunk
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -463,16 +463,16 @@ final class DifferentialHunk
     return $this->getChangeset()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getChangeset()->hasAutomaticCapability($capability, $viewer);
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $type = $this->getDataType();
     $data = $this->getData();

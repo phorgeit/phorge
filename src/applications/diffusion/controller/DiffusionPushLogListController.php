@@ -4,7 +4,7 @@ final class DiffusionPushLogListController
   extends DiffusionLogController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorRepositoryPushLogSearchEngine())
+    return id(new PhorgeRepositoryPushLogSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

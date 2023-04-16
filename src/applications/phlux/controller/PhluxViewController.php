@@ -64,13 +64,13 @@ final class PhluxViewController extends PhluxController {
 
     $curtain = $this->newCurtainView($var);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $var,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Variable'))
         ->setHref($this->getApplicationURI('/edit/'.$var->getVariableKey().'/'))

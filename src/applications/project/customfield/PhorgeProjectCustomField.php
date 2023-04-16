@@ -1,18 +1,18 @@
 <?php
 
-abstract class PhabricatorProjectCustomField
-  extends PhabricatorCustomField {
+abstract class PhorgeProjectCustomField
+  extends PhorgeCustomField {
 
   public function newStorageObject() {
-    return new PhabricatorProjectCustomFieldStorage();
+    return new PhorgeProjectCustomFieldStorage();
   }
 
   protected function newStringIndexStorage() {
-    return new PhabricatorProjectCustomFieldStringIndex();
+    return new PhorgeProjectCustomFieldStringIndex();
   }
 
   protected function newNumericIndexStorage() {
-    return new PhabricatorProjectCustomFieldNumericIndex();
+    return new PhorgeProjectCustomFieldNumericIndex();
   }
 
 }

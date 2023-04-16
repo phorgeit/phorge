@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialTabReplacementTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testTabReplacement() {
     $tab1 = "<span data-copy-text=\"\t\"> </span>";

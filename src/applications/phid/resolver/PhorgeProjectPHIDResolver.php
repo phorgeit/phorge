@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectPHIDResolver
-  extends PhabricatorPHIDResolver {
+final class PhorgeProjectPHIDResolver
+  extends PhorgePHIDResolver {
 
   protected function getResolutionMap(array $names) {
     // This is a little awkward but we want to pick up the normalization
@@ -11,10 +11,10 @@ final class PhabricatorProjectPHIDResolver
       $names[$key] = '#'.$name;
     }
 
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer());
 
-    $projects = id(new PhabricatorProjectProjectPHIDType())
+    $projects = id(new PhorgeProjectProjectPHIDType())
       ->loadNamedObjects($query, $names);
 
     $results = array();

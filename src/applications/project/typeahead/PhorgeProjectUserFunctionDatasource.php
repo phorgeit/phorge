@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectUserFunctionDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectUserFunctionDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse User Projects');
@@ -12,12 +12,12 @@ final class PhabricatorProjectUserFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectLogicalUserDatasource(),
+      new PhorgeProjectLogicalUserDatasource(),
     );
   }
 
@@ -25,7 +25,7 @@ final class PhabricatorProjectUserFunctionDatasource
     $result = parent::evaluateFunction($function, $argv_list);
 
     foreach ($result as $k => $v) {
-      if ($v instanceof PhabricatorQueryConstraint) {
+      if ($v instanceof PhorgeQueryConstraint) {
         $result[$k] = $v->getValue();
       }
     }

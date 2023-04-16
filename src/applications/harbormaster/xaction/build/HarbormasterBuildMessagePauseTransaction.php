@@ -79,7 +79,7 @@ final class HarbormasterBuildMessagePauseTransaction
   }
 
   protected function newCanApplyMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isAutobuild()) {
@@ -102,7 +102,7 @@ final class HarbormasterBuildMessagePauseTransaction
   }
 
   protected function newCanSendMessageAssertion(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuild $build) {
 
     if ($build->isPausing()) {

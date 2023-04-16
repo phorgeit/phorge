@@ -1,13 +1,13 @@
 <?php
 
-$table = new PhabricatorRepositoryCommit();
+$table = new PhorgeRepositoryCommit();
 $conn = $table->establishConnection('w');
 
 $rows = queryfx_all(
   $conn,
   'SELECT fullCommitName FROM repository_badcommit');
 
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
 foreach ($rows as $row) {
   $identifier = $row['fullCommitName'];
@@ -24,11 +24,11 @@ foreach ($rows as $row) {
         'Skipped hint for "%s", this is not a valid commit.',
         $identifier));
   } else {
-    PhabricatorRepositoryCommitHint::updateHint(
+    PhorgeRepositoryCommitHint::updateHint(
       $commit->getRepository()->getPHID(),
       $commit->getCommitIdentifier(),
       null,
-      PhabricatorRepositoryCommitHint::HINT_UNREADABLE);
+      PhorgeRepositoryCommitHint::HINT_UNREADABLE);
 
     echo tsprintf(
       "%s\n",

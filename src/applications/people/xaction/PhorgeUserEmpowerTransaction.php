@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorUserEmpowerTransaction
-  extends PhabricatorUserTransactionType {
+final class PhorgeUserEmpowerTransaction
+  extends PhorgeUserTransactionType {
 
   const TRANSACTIONTYPE = 'user.admin';
 
@@ -79,7 +79,7 @@ final class PhabricatorUserEmpowerTransaction
 
   public function getRequiredCapabilities(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     // Unlike normal user edits, admin promotions require admin
     // permissions, which is enforced by validateTransactions().
@@ -89,7 +89,7 @@ final class PhabricatorUserEmpowerTransaction
 
   public function shouldTryMFA(
     $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     return true;
   }
 

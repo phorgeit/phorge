@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorGuidanceMessage
+final class PhorgeGuidanceMessage
   extends Phobject {
 
   private $key;

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorAuthSSHKeySearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeAuthSSHKeySearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   private $sshKeyObject;
 
-  public function setSSHKeyObject(PhabricatorSSHPublicKeyInterface $object) {
+  public function setSSHKeyObject(PhorgeSSHPublicKeyInterface $object) {
     $this->sshKeyObject = $object;
     return $this;
   }
@@ -23,14 +23,14 @@ final class PhabricatorAuthSSHKeySearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   public function newQuery() {
     $object = $this->getSSHKeyObject();
     $object_phid = $object->getPHID();
 
-    return id(new PhabricatorAuthSSHKeyQuery())
+    return id(new PhorgeAuthSSHKeyQuery())
       ->withObjectPHIDs(array($object_phid));
   }
 
@@ -75,9 +75,9 @@ final class PhabricatorAuthSSHKeySearchEngine
 
   protected function renderResultList(
     array $keys,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($keys, 'PhabricatorAuthSSHKey');
+    assert_instances_of($keys, 'PhorgeAuthSSHKey');
 
     $viewer = $this->requireViewer();
 
@@ -96,7 +96,7 @@ final class PhabricatorAuthSSHKeySearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No matching SSH keys.'));
 

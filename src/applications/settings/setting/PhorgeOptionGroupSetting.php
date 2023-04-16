@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorOptionGroupSetting
-  extends PhabricatorSetting {
+abstract class PhorgeOptionGroupSetting
+  extends PhorgeSetting {
 
   abstract protected function getSelectOptionGroups();
 
@@ -39,7 +39,7 @@ abstract class PhabricatorOptionGroupSetting
       $flat_options[$group['label']] = $group['options'];
     }
 
-    return $this->newEditField($object, new PhabricatorSelectEditField())
+    return $this->newEditField($object, new PhorgeSelectEditField())
       ->setOptions($flat_options);
   }
 

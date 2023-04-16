@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorConfigType extends Phobject {
+abstract class PhorgeConfigType extends Phobject {
 
   final public function getTypeKey() {
     return $this->getPhobjectClassConstant('TYPEKEY');
@@ -14,14 +14,14 @@ abstract class PhabricatorConfigType extends Phobject {
   }
 
   public function isValuePresentInRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
     $http_type = $this->newHTTPParameterType();
     return $http_type->getExists($request, 'value');
   }
 
   public function readValueFromRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
     $http_type = $this->newHTTPParameterType();
     return $http_type->getValue($request, 'value');
@@ -30,13 +30,13 @@ abstract class PhabricatorConfigType extends Phobject {
   abstract protected function newHTTPParameterType();
 
   public function newTransaction(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     $xaction_value = $this->newTransactionValue($option, $value);
 
-    return id(new PhabricatorConfigTransaction())
-      ->setTransactionType(PhabricatorConfigTransaction::TYPE_EDIT)
+    return id(new PhorgeConfigTransaction())
+      ->setTransactionType(PhorgeConfigTransaction::TYPE_EDIT)
       ->setNewValue(
         array(
           'deleted' => false,
@@ -45,19 +45,19 @@ abstract class PhabricatorConfigType extends Phobject {
   }
 
   protected function newTransactionValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $value;
   }
 
   public function newDisplayValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $value;
   }
 
   public function newControls(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value,
     $error) {
 
@@ -74,38 +74,38 @@ abstract class PhabricatorConfigType extends Phobject {
     );
   }
 
-  abstract protected function newControl(PhabricatorConfigOption $option);
+  abstract protected function newControl(PhorgeConfigOption $option);
 
   protected function newControlValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $value;
   }
 
   protected function newException($message) {
-    return new PhabricatorConfigValidationException($message);
+    return new PhorgeConfigValidationException($message);
   }
 
   public function newValueFromRequestValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $this->newCanonicalValue($option, $value);
   }
 
   public function newValueFromCommandLineValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $this->newCanonicalValue($option, $value);
   }
 
   protected function newCanonicalValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     return $value;
   }
 
   abstract public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value);
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerNameTransaction
-  extends PhabricatorProjectTriggerTransactionType {
+final class PhorgeProjectTriggerNameTransaction
+  extends PhorgeProjectTriggerTransactionType {
 
   const TRANSACTIONTYPE = 'name';
 

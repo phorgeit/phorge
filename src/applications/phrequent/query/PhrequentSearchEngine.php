@@ -1,21 +1,21 @@
 <?php
 
-final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
+final class PhrequentSearchEngine extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phrequent Time');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhrequentApplication';
+    return 'PhorgePhrequentApplication';
   }
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     return $saved->getParameter('limit', 1000);
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter(
       'userPHIDs',
@@ -28,7 +28,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
     $query = id(new PhrequentUserTimeQuery())
       ->needPreemptingEvents(true);
 
@@ -52,7 +52,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved_query) {
+    PhorgeSavedQuery $saved_query) {
 
     $user_phids = $saved_query->getParameter('userPHIDs', array());
     $ended = $saved_query->getParameter(
@@ -63,7 +63,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
     $form
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorPeopleDatasource())
+          ->setDatasource(new PhorgePeopleDatasource())
           ->setName('users')
           ->setLabel(pht('Users'))
           ->setValue($user_phids))
@@ -111,7 +111,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function getRequiredHandlePHIDsForResultList(
     array $usertimes,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
     return array_mergev(
       array(
         mpull($usertimes, 'getUserPHID'),
@@ -121,7 +121,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function renderResultList(
     array $usertimes,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($usertimes, 'PhrequentUserTime');
     $viewer = $this->requireViewer();
@@ -151,7 +151,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
       $block = new PhrequentTimeBlock(array($usertime));
       $time_spent = $block->getTimeSpentOnObject(
         $usertime->getObjectPHID(),
-        PhabricatorTime::getNow());
+        PhorgeTime::getNow());
 
       $time_spent = $time_spent == 0 ? 'none' :
         phutil_format_relative_time_detailed($time_spent);
@@ -189,7 +189,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
       $view->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($view);
 
     return $result;

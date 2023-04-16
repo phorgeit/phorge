@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacNamespaceEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'almanac.namespace.edit';

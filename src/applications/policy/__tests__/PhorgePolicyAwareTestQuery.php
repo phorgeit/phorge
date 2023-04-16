@@ -3,8 +3,8 @@
 /**
  * Configurable test query for implementing Policy unit tests.
  */
-final class PhabricatorPolicyAwareTestQuery
-  extends PhabricatorPolicyAwareQuery {
+final class PhorgePolicyAwareTestQuery
+  extends PhorgePolicyAwareQuery {
 
   private $results;
   private $offset = 0;

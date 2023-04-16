@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSetupIssue extends Phobject {
+final class PhorgeSetupIssue extends Phobject {
 
   private $issueKey;
   private $name;
@@ -14,7 +14,7 @@ final class PhabricatorSetupIssue extends Phobject {
   private $isIgnored = false;
   private $phpExtensions = array();
   private $phorgeConfig = array();
-  private $relatedPhabricatorConfig = array();
+  private $relatedPhorgeConfig = array();
   private $phpConfig = array();
   private $commands = array();
   private $mysqlConfig = array();
@@ -37,13 +37,13 @@ final class PhabricatorSetupIssue extends Phobject {
       ->setName(pht('Can Not Connect to MySQL'))
       ->setMessage($message)
       ->setIsFatal($is_fatal)
-      ->addRelatedPhabricatorConfig('mysql.host')
-      ->addRelatedPhabricatorConfig('mysql.port')
-      ->addRelatedPhabricatorConfig('mysql.user')
-      ->addRelatedPhabricatorConfig('mysql.pass');
+      ->addRelatedPhorgeConfig('mysql.host')
+      ->addRelatedPhorgeConfig('mysql.port')
+      ->addRelatedPhorgeConfig('mysql.user')
+      ->addRelatedPhorgeConfig('mysql.pass');
 
-    if (PhabricatorEnv::getEnvConfig('cluster.databases')) {
-      $issue->addRelatedPhabricatorConfig('cluster.databases');
+    if (PhorgeEnv::getEnvConfig('cluster.databases')) {
+      $issue->addRelatedPhorgeConfig('cluster.databases');
     }
 
     return $issue;
@@ -70,7 +70,7 @@ final class PhabricatorSetupIssue extends Phobject {
     return $this->shortName;
   }
 
-  public function setDatabaseRef(PhabricatorDatabaseRef $database_ref) {
+  public function setDatabaseRef(PhorgeDatabaseRef $database_ref) {
     $this->databaseRef = $database_ref;
     return $this;
   }
@@ -88,7 +88,7 @@ final class PhabricatorSetupIssue extends Phobject {
     if ($this->group) {
       return $this->group;
     } else {
-      return PhabricatorSetupCheck::GROUP_OTHER;
+      return PhorgeSetupCheck::GROUP_OTHER;
     }
   }
 
@@ -171,22 +171,22 @@ final class PhabricatorSetupIssue extends Phobject {
     return $this->mysqlConfig;
   }
 
-  public function addPhabricatorConfig($phorge_config) {
+  public function addPhorgeConfig($phorge_config) {
     $this->phorgeConfig[] = $phorge_config;
     return $this;
   }
 
-  public function getPhabricatorConfig() {
+  public function getPhorgeConfig() {
     return $this->phorgeConfig;
   }
 
-  public function addRelatedPhabricatorConfig($phorge_config) {
-    $this->relatedPhabricatorConfig[] = $phorge_config;
+  public function addRelatedPhorgeConfig($phorge_config) {
+    $this->relatedPhorgeConfig[] = $phorge_config;
     return $this;
   }
 
-  public function getRelatedPhabricatorConfig() {
-    return $this->relatedPhabricatorConfig;
+  public function getRelatedPhorgeConfig() {
+    return $this->relatedPhorgeConfig;
   }
 
   public function addPHPExtension($php_extension) {

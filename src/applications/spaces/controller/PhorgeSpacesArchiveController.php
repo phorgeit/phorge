@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorSpacesArchiveController
-  extends PhabricatorSpacesController {
+final class PhorgeSpacesArchiveController
+  extends PhorgeSpacesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $space = id(new PhabricatorSpacesNamespaceQuery())
+    $space = id(new PhorgeSpacesNamespaceQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$space) {
@@ -24,14 +24,14 @@ final class PhabricatorSpacesArchiveController
 
     if ($request->isFormPost()) {
       $type_archive =
-        PhabricatorSpacesNamespaceArchiveTransaction::TRANSACTIONTYPE;
+        PhorgeSpacesNamespaceArchiveTransaction::TRANSACTIONTYPE;
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+      $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
         ->setTransactionType($type_archive)
         ->setNewValue($is_archive ? 1 : 0);
 
-      $editor = id(new PhabricatorSpacesNamespaceEditor())
+      $editor = id(new PhorgeSpacesNamespaceEditor())
         ->setActor($viewer)
         ->setContinueOnNoEffect(true)
         ->setContinueOnMissingFields(true)

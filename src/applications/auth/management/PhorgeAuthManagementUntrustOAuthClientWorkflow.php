@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementUntrustOAuthClientWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementUntrustOAuthClientWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -31,7 +31,7 @@ final class PhabricatorAuthManagementUntrustOAuthClientWorkflow
           '--id'));
     }
 
-    $client = id(new PhabricatorOAuthServerClientQuery())
+    $client = id(new PhorgeOAuthServerClientQuery())
       ->setViewer($this->getViewer())
       ->withIDs(array($id))
       ->executeOne();

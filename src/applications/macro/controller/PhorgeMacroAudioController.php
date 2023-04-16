@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorMacroAudioController extends PhabricatorMacroController {
+final class PhorgeMacroAudioController extends PhorgeMacroController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
     $this->requireApplicationCapability(
-      PhabricatorMacroManageCapability::CAPABILITY);
+      PhorgeMacroManageCapability::CAPABILITY);
 
-    $macro = id(new PhabricatorMacroQuery())
+    $macro = id(new PhorgeMacroQuery())
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->withIDs(array($id))
       ->executeOne();
@@ -32,14 +32,14 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
       $xactions = array();
 
       if ($request->getBool('behaviorForm')) {
-        $xactions[] = id(new PhabricatorMacroTransaction())
+        $xactions[] = id(new PhorgeMacroTransaction())
           ->setTransactionType(
-            PhabricatorMacroAudioBehaviorTransaction::TRANSACTIONTYPE)
+            PhorgeMacroAudioBehaviorTransaction::TRANSACTIONTYPE)
           ->setNewValue($request->getStr('audioBehavior'));
       } else {
         $file = null;
         if ($request->getFileExists('file')) {
-          $file = PhabricatorFile::newFromPHPUpload(
+          $file = PhorgeFile::newFromPHPUpload(
             $_FILES['file'],
             array(
               'name' => $request->getStr('name'),
@@ -55,9 +55,9 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
               'a valid audio file.');
             $e_file = pht('Invalid');
           } else {
-            $xactions[] = id(new PhabricatorMacroTransaction())
+            $xactions[] = id(new PhorgeMacroTransaction())
               ->setTransactionType(
-                PhabricatorMacroAudioTransaction::TRANSACTIONTYPE)
+                PhorgeMacroAudioTransaction::TRANSACTIONTYPE)
               ->setNewValue($file->getPHID());
           }
         } else {
@@ -69,7 +69,7 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
       }
 
       if (!$errors) {
-        id(new PhabricatorMacroEditor())
+        id(new PhorgeMacroEditor())
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
           ->setContentSourceFromRequest($request)
@@ -89,20 +89,20 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
       ->setValue(
         nonempty(
           $macro->getAudioBehavior(),
-          PhabricatorFileImageMacro::AUDIO_BEHAVIOR_NONE));
+          PhorgeFileImageMacro::AUDIO_BEHAVIOR_NONE));
 
     $options->addButton(
-      PhabricatorFileImageMacro::AUDIO_BEHAVIOR_NONE,
+      PhorgeFileImageMacro::AUDIO_BEHAVIOR_NONE,
       pht('Do Not Play'),
       pht('Do not play audio.'));
 
     $options->addButton(
-      PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE,
+      PhorgeFileImageMacro::AUDIO_BEHAVIOR_ONCE,
       pht('Play Once'),
       pht('Play audio once, when the viewer looks at the macro.'));
 
     $options->addButton(
-      PhabricatorFileImageMacro::AUDIO_BEHAVIOR_LOOP,
+      PhorgeFileImageMacro::AUDIO_BEHAVIOR_LOOP,
       pht('Play Continuously'),
       pht(
         'Play audio continuously, treating the macro as an audio source. '.

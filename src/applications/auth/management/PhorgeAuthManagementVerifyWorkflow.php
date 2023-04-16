@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementVerifyWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementVerifyWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -32,7 +32,7 @@ final class PhabricatorAuthManagementVerifyWorkflow
     }
     $address = head($emails);
 
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'address = %s',
       $address);
     if (!$email) {
@@ -44,7 +44,7 @@ final class PhabricatorAuthManagementVerifyWorkflow
 
     $viewer = $this->getViewer();
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($email->getUserPHID()))
       ->executeOne();
@@ -52,7 +52,7 @@ final class PhabricatorAuthManagementVerifyWorkflow
       throw new Exception(pht('Email record has invalid user PHID!'));
     }
 
-    $editor = id(new PhabricatorUserEditor())
+    $editor = id(new PhorgeUserEditor())
       ->setActor($viewer)
       ->verifyEmail($user, $email);
 

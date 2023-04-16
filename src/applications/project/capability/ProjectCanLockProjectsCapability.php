@@ -1,7 +1,7 @@
 <?php
 
 final class ProjectCanLockProjectsCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'project.can.lock';
 

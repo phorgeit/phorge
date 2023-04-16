@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEdgeGraph extends AbstractDirectedGraph {
+final class PhorgeEdgeGraph extends AbstractDirectedGraph {
 
   private $edgeType;
 
@@ -14,7 +14,7 @@ final class PhabricatorEdgeGraph extends AbstractDirectedGraph {
       throw new Exception(pht('Set edge type before loading graph!'));
     }
 
-    $edges = id(new PhabricatorEdgeQuery())
+    $edges = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($nodes)
       ->withEdgeTypes(array($this->edgeType))
       ->execute();

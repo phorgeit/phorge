@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorApplicationTransactionValidationException
+final class PhorgeApplicationTransactionValidationException
   extends Exception {
 
   private $errors;
@@ -8,7 +8,7 @@ final class PhabricatorApplicationTransactionValidationException
   public function __construct(array $errors) {
     assert_instances_of(
       $errors,
-      'PhabricatorApplicationTransactionValidationError');
+      'PhorgeApplicationTransactionValidationError');
 
     $this->errors = $errors;
 

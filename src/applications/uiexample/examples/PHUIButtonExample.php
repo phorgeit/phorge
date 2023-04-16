@@ -1,6 +1,6 @@
 <?php
 
-final class PHUIButtonExample extends PhabricatorUIExample {
+final class PHUIButtonExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Buttons');

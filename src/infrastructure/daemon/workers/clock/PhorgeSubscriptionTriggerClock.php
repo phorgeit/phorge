@@ -16,8 +16,8 @@
  * (for example) having every subscription fail all at once on the 1st of the
  * month.
  */
-final class PhabricatorSubscriptionTriggerClock
-  extends PhabricatorTriggerClock {
+final class PhorgeSubscriptionTriggerClock
+  extends PhorgeTriggerClock {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(

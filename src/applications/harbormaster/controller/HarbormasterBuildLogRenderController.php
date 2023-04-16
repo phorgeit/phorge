@@ -409,7 +409,7 @@ final class HarbormasterBuildLogRenderController
     $table = javelin_tag(
       'table',
       array(
-        'class' => 'harbormaster-log-table PhabricatorMonospaced',
+        'class' => 'harbormaster-log-table PhorgeMonospaced',
         'sigil' => 'phorge-source',
         'meta' => array(
           'uri' => $log->getURI(),

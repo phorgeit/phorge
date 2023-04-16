@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorEdgeChangeRecord
+final class PhorgeEdgeChangeRecord
   extends Phobject {
 
   private $xaction;
 
   public static function newFromTransaction(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $record = new self();
     $record->xaction = $xaction;
     return $record;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
+final class PhorgeProjectProjectPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PROJ';
 
@@ -13,24 +13,24 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorProject();
+    return new PhorgeProject();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorProjectQuery())
+    return id(new PhorgeProjectQuery())
       ->withPHIDs($phids)
       ->needImages(true);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -60,7 +60,7 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
       $handle->setTagColor($project->getDisplayColor());
 
       if ($project->isArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -76,7 +76,7 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     // If the user types "#YoloSwag", we still want to match "#yoloswag", so
@@ -87,7 +87,7 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
       $map[$this->normalizeSlug(substr($slug, 1))][] = $slug;
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($query->getViewer())
       ->withSlugs(array_keys($map))
       ->needSlugs(true)
@@ -109,7 +109,7 @@ final class PhabricatorProjectProjectPHIDType extends PhabricatorPHIDType {
   }
 
   private function normalizeSlug($slug) {
-    // NOTE: We're using phutil_utf8_strtolower() (and not PhabricatorSlug's
+    // NOTE: We're using phutil_utf8_strtolower() (and not PhorgeSlug's
     // normalize() method) because this normalization should be only somewhat
     // liberal. We want "#YOLO" to match against "#yolo", but "#\\yo!!lo"
     // should not. normalize() strips out most punctuation and leads to

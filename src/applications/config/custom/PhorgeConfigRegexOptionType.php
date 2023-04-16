@@ -1,9 +1,9 @@
 <?php
 
-class PhabricatorConfigRegexOptionType
-  extends PhabricatorConfigJSONOptionType {
+class PhorgeConfigRegexOptionType
+  extends PhorgeConfigJSONOptionType {
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     foreach ($value as $pattern => $spec) {
       $ok = preg_match($pattern, '');
       if ($ok === false) {

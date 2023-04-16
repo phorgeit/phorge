@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartFunctionArgumentParser
+final class PhorgeChartFunctionArgumentParser
   extends Phobject {
 
   private $function;
@@ -13,7 +13,7 @@ final class PhabricatorChartFunctionArgumentParser
   private $argumentValues = array();
   private $repeatableArgument = null;
 
-  public function setFunction(PhabricatorChartFunction $function) {
+  public function setFunction(PhorgeChartFunction $function) {
     $this->function = $function;
     return $this;
   }
@@ -27,7 +27,7 @@ final class PhabricatorChartFunctionArgumentParser
     $this->unconsumedArguments = $arguments;
   }
 
-  public function addArgument(PhabricatorChartFunctionArgument $spec) {
+  public function addArgument(PhorgeChartFunctionArgument $spec) {
     $name = $spec->getName();
     if (!strlen($name)) {
       throw new Exception(
@@ -90,7 +90,7 @@ final class PhabricatorChartFunctionArgumentParser
   }
 
   public function parseArgument(
-    PhabricatorChartFunctionArgument $spec) {
+    PhorgeChartFunctionArgument $spec) {
     $this->addArgument($spec);
     return $this->parseArguments();
   }

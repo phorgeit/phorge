@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorRepositorySyncEvent
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositorySyncEvent
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   protected $repositoryPHID;
   protected $epoch;
@@ -52,10 +52,10 @@ final class PhabricatorRepositorySyncEvent
   }
 
   public function getPHIDType() {
-    return PhabricatorRepositorySyncEventPHIDType::TYPECONST;
+    return PhorgeRepositorySyncEventPHIDType::TYPECONST;
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -73,12 +73,12 @@ final class PhabricatorRepositorySyncEvent
     return idx($this->properties, $key, $default);
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -86,7 +86,7 @@ final class PhabricatorRepositorySyncEvent
     return $this->getRepository()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getRepository()->hasAutomaticCapability($capability, $viewer);
   }
 

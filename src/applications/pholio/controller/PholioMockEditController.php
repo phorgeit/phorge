@@ -12,8 +12,8 @@ final class PholioMockEditController extends PholioController {
         ->needImages(true)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->withIDs(array($id))
         ->executeOne();
@@ -41,9 +41,9 @@ final class PholioMockEditController extends PholioController {
     if ($is_new) {
       $v_projects = array();
     } else {
-      $v_projects = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $v_projects = PhorgeEdgeQuery::loadDestinationPHIDs(
         $mock->getPHID(),
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
       $v_projects = array_reverse($v_projects);
     }
 
@@ -56,7 +56,7 @@ final class PholioMockEditController extends PholioController {
     $v_desc = $mock->getDescription();
     $v_view = $mock->getViewPolicy();
     $v_edit = $mock->getEditPolicy();
-    $v_cc = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $v_cc = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $mock->getPHID());
     $v_space = $mock->getSpacePHID();
 
@@ -65,10 +65,10 @@ final class PholioMockEditController extends PholioController {
 
       $type_name = PholioMockNameTransaction::TRANSACTIONTYPE;
       $type_desc = PholioMockDescriptionTransaction::TRANSACTIONTYPE;
-      $type_view = PhabricatorTransactions::TYPE_VIEW_POLICY;
-      $type_edit = PhabricatorTransactions::TYPE_EDIT_POLICY;
-      $type_cc   = PhabricatorTransactions::TYPE_SUBSCRIBERS;
-      $type_space = PhabricatorTransactions::TYPE_SPACE;
+      $type_view = PhorgeTransactions::TYPE_VIEW_POLICY;
+      $type_edit = PhorgeTransactions::TYPE_EDIT_POLICY;
+      $type_cc   = PhorgeTransactions::TYPE_SUBSCRIBERS;
+      $type_space = PhorgeTransactions::TYPE_SPACE;
 
       $v_name = $request->getStr('name');
       $v_desc = $request->getStr('description');
@@ -88,7 +88,7 @@ final class PholioMockEditController extends PholioController {
 
       $file_phids = $request->getArr('file_phids');
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs($file_phids)
           ->execute();
@@ -200,9 +200,9 @@ final class PholioMockEditController extends PholioController {
       }
 
       if (!$errors) {
-        $proj_edge_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+        $proj_edge_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
         $xactions[] = id(new PholioTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+          ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
           ->setMetadataValue('edge:type', $proj_edge_type)
           ->setNewValue(array('=' => array_fuse($v_projects)));
 
@@ -228,7 +228,7 @@ final class PholioMockEditController extends PholioController {
         ->setValue(pht('Create'));
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($mock)
       ->execute();
@@ -305,7 +305,7 @@ final class PholioMockEditController extends PholioController {
         ->setLabel(pht('Name'))
         ->setError($e_name))
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
         ->setName('description')
         ->setValue($v_desc)
         ->setLabel(pht('Description'))
@@ -315,18 +315,18 @@ final class PholioMockEditController extends PholioController {
           ->setLabel(pht('Tags'))
           ->setName('projects')
           ->setValue($v_projects)
-          ->setDatasource(new PhabricatorProjectDatasource()))
+          ->setDatasource(new PhorgeProjectDatasource()))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Subscribers'))
           ->setName('cc')
           ->setValue($v_cc)
           ->setUser($viewer)
-          ->setDatasource(new PhabricatorMetaMTAMailableDatasource()))
+          ->setDatasource(new PhorgeMetaMTAMailableDatasource()))
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setUser($viewer)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setPolicyObject($mock)
           ->setPolicies($policies)
           ->setSpacePHID($v_space)
@@ -334,7 +334,7 @@ final class PholioMockEditController extends PholioController {
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setUser($viewer)
-          ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
+          ->setCapability(PhorgePolicyCapability::CAN_EDIT)
           ->setPolicyObject($mock)
           ->setPolicies($policies)
           ->setName('can_edit'))

@@ -3,7 +3,7 @@
 final class FeedPublisherHTTPWorker extends FeedPushWorker {
 
   protected function doWork() {
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       // Don't invoke hooks in silent mode.
       return;
     }
@@ -12,9 +12,9 @@ final class FeedPublisherHTTPWorker extends FeedPushWorker {
     $data = $story->getStoryData();
 
     $uri = idx($this->getTaskData(), 'uri');
-    $valid_uris = PhabricatorEnv::getEnvConfig('feed.http-hooks');
+    $valid_uris = PhorgeEnv::getEnvConfig('feed.http-hooks');
     if (!in_array($uri, $valid_uris)) {
-      throw new PhabricatorWorkerPermanentFailureException();
+      throw new PhorgeWorkerPermanentFailureException();
     }
 
     $post_data = array(
@@ -37,7 +37,7 @@ final class FeedPublisherHTTPWorker extends FeedPushWorker {
       ->resolvex();
   }
 
-  public function getWaitBeforeRetry(PhabricatorWorkerTask $task) {
+  public function getWaitBeforeRetry(PhorgeWorkerTask $task) {
     return max($task->getFailureCount(), 1) * 60;
   }
 

@@ -19,7 +19,7 @@ final class PHUIHandleView
   private $showHovercard;
   private $glyphLimit;
 
-  public function setHandleList(PhabricatorHandleList $list) {
+  public function setHandleList(PhorgeHandleList $list) {
     $this->handleList = $list;
     return $this;
   }

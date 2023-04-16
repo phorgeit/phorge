@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorBadgesRecipientsListView extends AphrontView {
+final class PhorgeBadgesRecipientsListView extends AphrontView {
 
   private $badge;
   private $awards;
   private $handles;
 
-  public function setBadge(PhabricatorBadgesBadge $badge) {
+  public function setBadge(PhorgeBadgesBadge $badge) {
     $this->badge = $badge;
     return $this;
   }
@@ -28,10 +28,10 @@ final class PhabricatorBadgesRecipientsListView extends AphrontView {
     $handles = $this->handles;
     $awards = mpull($this->awards, null, 'getRecipientPHID');
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $award_button = id(new PHUIButtonView())
       ->setTag('a')

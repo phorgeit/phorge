@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildInitiatorDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Build Initiators');
@@ -13,8 +13,8 @@ final class HarbormasterBuildInitiatorDatasource
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorApplicationDatasource(),
-      new PhabricatorPeopleUserFunctionDatasource(),
+      new PhorgeApplicationDatasource(),
+      new PhorgePeopleUserFunctionDatasource(),
       new HeraldRuleDatasource(),
     );
   }

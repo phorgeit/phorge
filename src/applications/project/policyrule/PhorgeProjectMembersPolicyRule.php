@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectMembersPolicyRule extends PhabricatorPolicyRule {
+final class PhorgeProjectMembersPolicyRule extends PhorgePolicyRule {
 
   private $memberships = array();
 
@@ -9,7 +9,7 @@ final class PhabricatorProjectMembersPolicyRule extends PhabricatorPolicyRule {
   }
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
 
@@ -40,12 +40,12 @@ final class PhabricatorProjectMembersPolicyRule extends PhabricatorPolicyRule {
     }
 
     $object_phids = mpull($objects, 'getPHID');
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($viewer_phid))
       ->withDestinationPHIDs($object_phids)
       ->withEdgeTypes(
         array(
-          PhabricatorProjectMemberOfProjectEdgeType::EDGECONST,
+          PhorgeProjectMemberOfProjectEdgeType::EDGECONST,
         ));
     $edge_query->execute();
 
@@ -58,9 +58,9 @@ final class PhabricatorProjectMembersPolicyRule extends PhabricatorPolicyRule {
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {
       return false;
@@ -74,8 +74,8 @@ final class PhabricatorProjectMembersPolicyRule extends PhabricatorPolicyRule {
     return self::CONTROL_TYPE_NONE;
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
-    return ($object instanceof PhabricatorProject);
+  public function canApplyToObject(PhorgePolicyInterface $object) {
+    return ($object instanceof PhorgeProject);
   }
 
   public function getObjectPolicyKey() {

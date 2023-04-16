@@ -2,12 +2,12 @@
 
 final class HeraldRule extends HeraldDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorIndexableInterface,
-    PhabricatorSubscribableInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeFlaggableInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeIndexableInterface,
+    PhorgeSubscribableInterface {
 
   const TABLE_RULE_APPLIED = 'herald_ruleapplied';
 
@@ -66,7 +66,7 @@ final class HeraldRule extends HeraldDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(HeraldRulePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(HeraldRulePHIDType::TYPECONST);
   }
 
   public function getRuleApplied($phid) {
@@ -189,7 +189,7 @@ final class HeraldRule extends HeraldDAO
     return $this->assertAttached($this->author);
   }
 
-  public function attachAuthor(PhabricatorUser $user) {
+  public function attachAuthor(PhorgeUser $user) {
     $this->author = $user;
     return $this;
   }
@@ -328,7 +328,7 @@ final class HeraldRule extends HeraldDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -340,24 +340,24 @@ final class HeraldRule extends HeraldDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
-      return PhabricatorPolicies::getMostOpenPolicy();
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
+      return PhorgePolicies::getMostOpenPolicy();
     }
 
     if ($this->isGlobalRule()) {
-      $app = 'PhabricatorHeraldApplication';
-      $herald = PhabricatorApplication::getByClass($app);
+      $app = 'PhorgeHeraldApplication';
+      $herald = PhorgeApplication::getByClass($app);
       $global = HeraldManageGlobalRulesCapability::CAPABILITY;
       return $herald->getPolicy($global);
     } else if ($this->isObjectRule()) {
@@ -367,12 +367,12 @@ final class HeraldRule extends HeraldDAO
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
   public function describeAutomaticCapability($capability) {
-    if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
+    if ($capability == PhorgePolicyCapability::CAN_VIEW) {
       return null;
     }
 
@@ -388,7 +388,7 @@ final class HeraldRule extends HeraldDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -396,11 +396,11 @@ final class HeraldRule extends HeraldDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();

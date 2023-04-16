@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarEventPHIDType extends PhabricatorPHIDType {
+final class PhorgeCalendarEventPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CEVT';
 
@@ -9,23 +9,23 @@ final class PhabricatorCalendarEventPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorCalendarEvent();
+    return new PhorgeCalendarEvent();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorCalendarEventQuery())
+    return id(new PhorgeCalendarEventQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -42,7 +42,7 @@ final class PhabricatorCalendarEventPHIDType extends PhabricatorPHIDType {
         ->setURI($uri);
 
       if ($event->getIsCancelled()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -52,7 +52,7 @@ final class PhabricatorCalendarEventPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -61,7 +61,7 @@ final class PhabricatorCalendarEventPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorCalendarEventQuery())
+    $objects = id(new PhorgeCalendarEventQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionValueController
-  extends PhabricatorApplicationTransactionController {
+final class PhorgeApplicationTransactionValueController
+  extends PhorgeApplicationTransactionController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorApplicationTransactionValueController
     $phid = $request->getURIData('phid');
     $type = $request->getURIData('value');
 
-    $xaction = id(new PhabricatorObjectQuery())
+    $xaction = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -23,17 +23,17 @@ final class PhabricatorApplicationTransactionValueController
     // For now, this pathway only supports policy transactions
     // to show the details of custom policies. If / when this pathway
     // supports more transaction types, rendering coding should be moved
-    // into PhabricatorTransactions e.g. feed rendering code.
+    // into PhorgeTransactions e.g. feed rendering code.
 
     // TODO: This should be some kind of "hey do you support this?" thing on
     // the transactions themselves.
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_VIEW_POLICY:
-      case PhabricatorTransactions::TYPE_EDIT_POLICY:
-      case PhabricatorTransactions::TYPE_JOIN_POLICY:
-      case PhabricatorRepositoryPushPolicyTransaction::TRANSACTIONTYPE:
-      case PhabricatorApplicationPolicyChangeTransaction::TRANSACTIONTYPE:
+      case PhorgeTransactions::TYPE_VIEW_POLICY:
+      case PhorgeTransactions::TYPE_EDIT_POLICY:
+      case PhorgeTransactions::TYPE_JOIN_POLICY:
+      case PhorgeRepositoryPushPolicyTransaction::TRANSACTIONTYPE:
+      case PhorgeApplicationPolicyChangeTransaction::TRANSACTIONTYPE:
         break;
       default:
         return new Aphront404Response();
@@ -46,7 +46,7 @@ final class PhabricatorApplicationTransactionValueController
       $value = $xaction->getNewValue();
     }
 
-    $policy = id(new PhabricatorPolicyQuery())
+    $policy = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($value))
       ->executeOne();
@@ -54,11 +54,11 @@ final class PhabricatorApplicationTransactionValueController
       return new Aphront404Response();
     }
 
-    if ($policy->getType() != PhabricatorPolicyType::TYPE_CUSTOM) {
+    if ($policy->getType() != PhorgePolicyType::TYPE_CUSTOM) {
       return new Aphront404Response();
     }
 
-    $rules_view = id(new PhabricatorPolicyRulesView())
+    $rules_view = id(new PhorgePolicyRulesView())
       ->setViewer($viewer)
       ->setPolicy($policy);
 

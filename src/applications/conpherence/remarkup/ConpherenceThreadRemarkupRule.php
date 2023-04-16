@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceThreadRemarkupRule
-  extends PhabricatorObjectRemarkupRule {
+  extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'Z';

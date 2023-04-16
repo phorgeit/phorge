@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialViewStateQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $viewerPHIDs;
@@ -54,7 +54,7 @@ final class DifferentialViewStateQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
 }

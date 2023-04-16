@@ -9,7 +9,7 @@
  *
  * To construct an order vector, use @{method:newFromVector}:
  *
- *   $vector = PhabricatorQueryOrderVector::newFromVector(array('name', 'id'));
+ *   $vector = PhorgeQueryOrderVector::newFromVector(array('name', 'id'));
  *
  * You can iterate over an order vector normally:
  *
@@ -17,12 +17,12 @@
  *     // ...
  *   }
  *
- * The items are objects of class @{class:PhabricatorQueryOrderItem}.
+ * The items are objects of class @{class:PhorgeQueryOrderItem}.
  *
  * This class is primarily internal to the query infrastructure, and most
  * application code should not need to interact with it directly.
  */
-final class PhabricatorQueryOrderVector
+final class PhorgeQueryOrderVector
   extends Phobject
   implements Iterator {
 
@@ -35,7 +35,7 @@ final class PhabricatorQueryOrderVector
   }
 
   public static function newFromVector($vector) {
-    if ($vector instanceof PhabricatorQueryOrderVector) {
+    if ($vector instanceof PhorgeQueryOrderVector) {
       return (clone $vector);
     }
 
@@ -63,7 +63,7 @@ final class PhabricatorQueryOrderVector
             gettype($scalar)));
       }
 
-      $item = PhabricatorQueryOrderItem::newFromScalar($scalar);
+      $item = PhorgeQueryOrderItem::newFromScalar($scalar);
 
       // Orderings like "id, id, id" or "id, -id" are meaningless and invalid.
       if (isset($items[$item->getOrderKey()])) {
@@ -78,7 +78,7 @@ final class PhabricatorQueryOrderVector
       $items[$item->getOrderKey()] = $item;
     }
 
-    $obj = new PhabricatorQueryOrderVector();
+    $obj = new PhorgeQueryOrderVector();
     $obj->items = $items;
     $obj->keys = array_keys($items);
     return $obj;

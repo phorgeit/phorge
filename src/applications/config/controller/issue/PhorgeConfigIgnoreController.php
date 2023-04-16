@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigIgnoreController
-  extends PhabricatorConfigController {
+final class PhorgeConfigIgnoreController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -42,7 +42,7 @@ final class PhabricatorConfigIgnoreController
 
   public function manageApplication($issue) {
     $key = 'config.ignore-issues';
-    $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+    $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
     $list = $config_entry->getValue();
 
     if (isset($list[$issue])) {
@@ -51,11 +51,11 @@ final class PhabricatorConfigIgnoreController
       $list[$issue] = true;
     }
 
-    PhabricatorConfigEditor::storeNewValue(
+    PhorgeConfigEditor::storeNewValue(
       $this->getRequest()->getUser(),
       $config_entry,
       $list,
-      PhabricatorContentSource::newFromRequest($this->getRequest()));
+      PhorgeContentSource::newFromRequest($this->getRequest()));
   }
 
 }

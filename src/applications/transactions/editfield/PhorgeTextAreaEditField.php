@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTextAreaEditField
-  extends PhabricatorEditField {
+final class PhorgeTextAreaEditField
+  extends PhorgeEditField {
 
   private $monospaced;
   private $height;
@@ -38,7 +38,7 @@ final class PhabricatorTextAreaEditField
     $control = new AphrontFormTextAreaControl();
 
     if ($this->getMonospaced()) {
-      $control->setCustomClass('PhabricatorMonospaced');
+      $control->setCustomClass('PhorgeMonospaced');
     }
 
     $height = $this->getHeight();

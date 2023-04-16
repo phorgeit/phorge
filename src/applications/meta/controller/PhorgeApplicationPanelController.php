@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationPanelController
-  extends PhabricatorApplicationsController {
+final class PhorgeApplicationPanelController
+  extends PhorgeApplicationsController {
 
   private $application;
 
@@ -11,13 +11,13 @@ final class PhabricatorApplicationPanelController
     $application = $request->getURIData('application');
     $panel_key = $request->getURIData('panel');
 
-    $selected = id(new PhabricatorApplicationQuery())
+    $selected = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$selected) {
@@ -25,7 +25,7 @@ final class PhabricatorApplicationPanelController
     }
 
     $panels =
-      PhabricatorApplicationConfigurationPanel::loadAllPanelsForApplication(
+      PhorgeApplicationConfigurationPanel::loadAllPanelsForApplication(
         $selected);
     if (empty($panels[$panel_key])) {
       return new Aphront404Response();
@@ -46,7 +46,7 @@ final class PhabricatorApplicationPanelController
   }
 
   public function buildPanelCrumbs(
-    PhabricatorApplicationConfigurationPanel $panel) {
+    PhorgeApplicationConfigurationPanel $panel) {
     $application = $this->application;
 
     $crumbs = $this->buildApplicationCrumbs();
@@ -58,7 +58,7 @@ final class PhabricatorApplicationPanelController
   }
 
   public function buildPanelPage(
-    PhabricatorApplicationConfigurationPanel $panel,
+    PhorgeApplicationConfigurationPanel $panel,
     $title,
     $crumbs,
     $content) {

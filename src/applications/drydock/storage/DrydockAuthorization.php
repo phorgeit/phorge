@@ -2,8 +2,8 @@
 
 final class DrydockAuthorization extends DrydockDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgePolicyInterface,
+    PhorgeConduitResultInterface {
 
   const OBJECTAUTH_ACTIVE = 'active';
   const OBJECTAUTH_INACTIVE = 'inactive';
@@ -43,7 +43,7 @@ final class DrydockAuthorization extends DrydockDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DrydockAuthorizationPHIDType::TYPECONST);
   }
 
@@ -103,14 +103,14 @@ final class DrydockAuthorization extends DrydockDAO
    * Apply external authorization effects after a user changes the value of a
    * blueprint selector control an object.
    *
-   * @param PhabricatorUser User applying the change.
+   * @param PhorgeUser User applying the change.
    * @param phid Object PHID change is being applied to.
    * @param list<phid> Old blueprint PHIDs.
    * @param list<phid> New blueprint PHIDs.
    * @return void
    */
   public static function applyAuthorizationChanges(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $object_phid,
     array $old,
     array $new) {
@@ -128,7 +128,7 @@ final class DrydockAuthorization extends DrydockDAO
     }
 
     $authorizations = id(new DrydockAuthorizationQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withObjectPHIDs(array($object_phid))
       ->withBlueprintPHIDs($altered_phids)
       ->execute();
@@ -180,13 +180,13 @@ final class DrydockAuthorization extends DrydockDAO
     }
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -194,7 +194,7 @@ final class DrydockAuthorization extends DrydockDAO
     return $this->getBlueprint()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBlueprint()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -205,26 +205,26 @@ final class DrydockAuthorization extends DrydockDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('blueprintPHID')
         ->setType('phid')
         ->setDescription(pht(
           'PHID of the blueprint this request was made for.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('blueprintAuthorizationState')
         ->setType('map<string, wild>')
         ->setDescription(pht('Authorization state of this request.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('objectPHID')
         ->setType('phid')
         ->setDescription(pht(
           'PHID of the object which requested authorization.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('objectAuthorizationState')
         ->setType('map<string, wild>')
         ->setDescription(pht('Authorization state of the requesting object.')),

@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorXHPASTViewPanelController
-  extends PhabricatorXHPASTViewController {
+abstract class PhorgeXHPASTViewPanelController
+  extends PhorgeXHPASTViewController {
 
   private $id;
   private $storageTree;
@@ -12,7 +12,7 @@ abstract class PhabricatorXHPASTViewPanelController
 
   public function willProcessRequest(array $data) {
     $this->id = $data['id'];
-    $this->storageTree = id(new PhabricatorXHPASTParseTree())
+    $this->storageTree = id(new PhorgeXHPASTParseTree())
       ->load($this->id);
 
     if (!$this->storageTree) {

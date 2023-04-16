@@ -1,14 +1,14 @@
 <?php
 
 final class HarbormasterBuildTargetSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Harbormaster Build Targets');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function newQuery() {
@@ -17,44 +17,44 @@ final class HarbormasterBuildTargetSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Builds'))
         ->setKey('buildPHIDs')
         ->setAliases(array('build', 'builds', 'buildPHID'))
         ->setDescription(
           pht('Search for targets of a given build.'))
         ->setDatasource(new HarbormasterBuildPlanDatasource()),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart')
         ->setDescription(
           pht('Search for targets created on or after a particular date.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd')
         ->setDescription(
           pht('Search for targets created on or before a particular date.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Started After'))
         ->setKey('startedStart')
         ->setDescription(
           pht('Search for targets started on or after a particular date.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Started Before'))
         ->setKey('startedEnd')
         ->setDescription(
           pht('Search for targets started on or before a particular date.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Completed After'))
         ->setKey('completedStart')
         ->setDescription(
           pht('Search for targets completed on or after a particular date.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Completed Before'))
         ->setKey('completedEnd')
         ->setDescription(
           pht('Search for targets completed on or before a particular date.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setAliases(array('status'))
@@ -119,7 +119,7 @@ final class HarbormasterBuildTargetSearchEngine
 
   protected function renderResultList(
     array $builds,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($builds, 'HarbormasterBuildTarget');
 

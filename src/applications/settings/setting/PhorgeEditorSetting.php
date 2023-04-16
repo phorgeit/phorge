@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditorSetting
-  extends PhabricatorStringSetting {
+final class PhorgeEditorSetting
+  extends PhorgeStringSetting {
 
   const SETTINGKEY = 'editor';
 
@@ -10,7 +10,7 @@ final class PhabricatorEditorSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorExternalEditorSettingsPanel::PANELKEY;
+    return PhorgeExternalEditorSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {
@@ -37,7 +37,7 @@ final class PhabricatorEditorSetting
       "\n\n".
       "See the tables below for a list of supported variables and protocols.",
       'txmt://open/?url=file:///Users/alincoln/editor_links/%n/%f&line=%l',
-      PhabricatorEnv::getDoclink('User Guide: Configuring an External Editor'),
+      PhorgeEnv::getDoclink('User Guide: Configuring an External Editor'),
       pht('User Guide: Configuring an External Editor'));
   }
 
@@ -46,7 +46,7 @@ final class PhabricatorEditorSetting
       return;
     }
 
-    id(new PhabricatorEditorURIEngine())
+    id(new PhorgeEditorURIEngine())
       ->setPattern($value)
       ->validatePattern();
   }

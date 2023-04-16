@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeDashboardDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Dashboards');
@@ -12,22 +12,22 @@ final class PhabricatorDashboardDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorDashboardQuery());
+    $query = id(new PhorgeDashboardQuery());
 
     $this->applyFerretConstraints(
       $query,
-      id(new PhabricatorDashboard())->newFerretEngine(),
+      id(new PhorgeDashboard())->newFerretEngine(),
       'title',
       $this->getRawQuery());
 
     $dashboards = $this->executeQuery($query);
     $results = array();
     foreach ($dashboards as $dashboard) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($dashboard->getName())
         ->setPHID($dashboard->getPHID())
         ->addAttribute(pht('Dashboard'));

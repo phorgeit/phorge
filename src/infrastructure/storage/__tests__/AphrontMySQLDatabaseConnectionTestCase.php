@@ -1,9 +1,9 @@
 <?php
 
 final class AphrontMySQLDatabaseConnectionTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       // We disable this here because we're testing live MySQL connections.
       self::PHORGE_TESTCONFIG_ISOLATE_LISK => false,

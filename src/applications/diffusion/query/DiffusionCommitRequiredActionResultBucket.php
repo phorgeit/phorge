@@ -12,7 +12,7 @@ final class DiffusionCommitRequiredActionResultBucket
   }
 
   protected function buildResultGroups(
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $objects) {
 
     $this->objects = $objects;
@@ -90,7 +90,7 @@ final class DiffusionCommitRequiredActionResultBucket
     $objects = $this->objects;
 
     $has_concern = array(
-      PhabricatorAuditRequestStatus::CONCERNED,
+      PhorgeAuditRequestStatus::CONCERNED,
     );
     $has_concern = array_fuse($has_concern);
 
@@ -119,8 +119,8 @@ final class DiffusionCommitRequiredActionResultBucket
     $objects = $this->objects;
 
     $should_audit = array(
-      PhabricatorAuditRequestStatus::AUDIT_REQUIRED,
-      PhabricatorAuditRequestStatus::AUDIT_REQUESTED,
+      PhorgeAuditRequestStatus::AUDIT_REQUIRED,
+      PhorgeAuditRequestStatus::AUDIT_REQUESTED,
     );
     $should_audit = array_fuse($should_audit);
 

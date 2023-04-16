@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorSimpleEditType extends PhabricatorEditType {
+final class PhorgeSimpleEditType extends PhorgeEditType {
 
   public function generateTransactions(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     array $spec) {
 
     $edit = $this->newTransaction($template)

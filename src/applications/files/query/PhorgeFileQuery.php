@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFileQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -140,7 +140,7 @@ final class PhabricatorFileQuery
 
   public function withNameNgrams($ngrams) {
     return $this->withNgramsConstraint(
-      id(new PhabricatorFileNameNgrams()),
+      id(new PhorgeFileNameNgrams()),
       $ngrams);
   }
 
@@ -160,7 +160,7 @@ final class PhabricatorFileQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorFile();
+    return new PhorgeFile();
   }
 
   protected function loadPage() {
@@ -236,12 +236,12 @@ final class PhabricatorFileQuery
     // If this file is a transform of another file, load that file too. If you
     // can see the original file, you can see the thumbnail.
 
-    // TODO: It might be nice to put this directly on PhabricatorFile and
-    // remove the PhabricatorTransformedFile table, which would be a little
+    // TODO: It might be nice to put this directly on PhorgeFile and
+    // remove the PhorgeTransformedFile table, which would be a little
     // simpler.
 
     if ($need_xforms) {
-      $xforms = id(new PhabricatorTransformedFile())->loadAllWhere(
+      $xforms = id(new PhorgeTransformedFile())->loadAllWhere(
         'transformedPHID IN (%Ls)',
         mpull($need_xforms, 'getPHID'));
       $xform_phids = mpull($xforms, 'getOriginalPHID', 'getTransformedPHID');
@@ -263,7 +263,7 @@ final class PhabricatorFileQuery
       // Without this explicit flag, we'll incorrectly throw unless you can
       // see ALL associated objects.
 
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setParentQuery($this)
         ->setViewer($this->getViewer())
         ->withPHIDs($object_phids)
@@ -279,7 +279,7 @@ final class PhabricatorFileQuery
 
     foreach ($files as $key => $file) {
       $original_phid = idx($xform_phids, $file->getPHID());
-      if ($original_phid == PhabricatorPHIDConstants::PHID_VOID) {
+      if ($original_phid == PhorgePHIDConstants::PHID_VOID) {
         // This is a special case for builtin files, which are handled
         // oddly.
         $original = null;
@@ -304,7 +304,7 @@ final class PhabricatorFileQuery
   private function newAttachmentsMap(array $files) {
     $file_phids = mpull($files, 'getPHID');
 
-    $attachments_table = new PhabricatorFileAttachment();
+    $attachments_table = new PhorgeFileAttachment();
     $attachments_conn = $attachments_table->establishConnection('r');
 
     $attachments = queryfx_all(
@@ -314,7 +314,7 @@ final class PhabricatorFileQuery
       $attachments_table,
       $file_phids,
       array(
-        PhabricatorFileAttachment::MODE_ATTACH,
+        PhorgeFileAttachment::MODE_ATTACH,
       ));
 
     $attachments_map = array_fill_keys($file_phids, array());
@@ -330,13 +330,13 @@ final class PhabricatorFileQuery
   protected function didFilterPage(array $files) {
     $xform_keys = $this->needTransforms;
     if ($xform_keys !== null) {
-      $xforms = id(new PhabricatorTransformedFile())->loadAllWhere(
+      $xforms = id(new PhorgeTransformedFile())->loadAllWhere(
         'originalPHID IN (%Ls) AND transform IN (%Ls)',
         mpull($files, 'getPHID'),
         $xform_keys);
 
       if ($xforms) {
-        $xfiles = id(new PhabricatorFile())->loadAllWhere(
+        $xfiles = id(new PhorgeFile())->loadAllWhere(
           'phid IN (%Ls)',
           mpull($xforms, 'getTransformedPHID'));
         $xfiles = mpull($xfiles, null, 'getPHID');
@@ -372,7 +372,7 @@ final class PhabricatorFileQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T t ON t.transformedPHID = f.phid',
-        id(new PhabricatorTransformedFile())->getTableName());
+        id(new PhorgeTransformedFile())->getTableName());
     }
 
     if ($this->shouldJoinAttachmentsTable()) {
@@ -380,9 +380,9 @@ final class PhabricatorFileQuery
         $conn,
         'JOIN %R attachments ON attachments.filePHID = f.phid
           AND attachmentMode IN (%Ls)',
-        new PhabricatorFileAttachment(),
+        new PhorgeFileAttachment(),
         array(
-          PhabricatorFileAttachment::MODE_ATTACH,
+          PhorgeFileAttachment::MODE_ATTACH,
         ));
     }
 
@@ -540,7 +540,7 @@ final class PhabricatorFileQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
 }

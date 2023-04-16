@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorDaemonBulkJobController
-  extends PhabricatorDaemonController {
+abstract class PhorgeDaemonBulkJobController
+  extends PhorgeDaemonController {
 
   public function shouldRequireAdmin() {
     return false;
@@ -13,7 +13,7 @@ abstract class PhabricatorDaemonBulkJobController
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorWorkerBulkJobSearchEngine());
+      ->setSearchEngine(new PhorgeWorkerBulkJobSearchEngine());
   }
 
   protected function buildApplicationCrumbs() {

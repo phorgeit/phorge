@@ -1,7 +1,7 @@
 <?php
 
 final class HeraldRuleTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   const TYPE_EDIT = 'herald:edit';
 

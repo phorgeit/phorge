@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorCalendarImportFrequencyLogType
-  extends PhabricatorCalendarImportLogType {
+final class PhorgeCalendarImportFrequencyLogType
+  extends PhorgeCalendarImportLogType {
 
   const LOGTYPE = 'frequency';
 
   public function getDisplayType(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return pht('Too Frequent');
   }
 
   public function getDisplayDescription(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
 
     $frequency = $log->getParameter('frequency');
 
@@ -24,14 +24,14 @@ final class PhabricatorCalendarImportFrequencyLogType
   }
 
   public function getDisplayIcon(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'fa-clock-o';
   }
 
   public function getDisplayColor(
-    PhabricatorUser $viewer,
-    PhabricatorCalendarImportLog $log) {
+    PhorgeUser $viewer,
+    PhorgeCalendarImportLog $log) {
     return 'red';
   }
 

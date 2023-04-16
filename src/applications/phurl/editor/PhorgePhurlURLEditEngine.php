@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgePhurlURLEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'phurl.url';
 
@@ -10,7 +10,7 @@ final class PhabricatorPhurlURLEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return 'PhorgePhurlApplication';
   }
 
   public function getSummaryHeader() {
@@ -26,11 +26,11 @@ final class PhabricatorPhurlURLEditEngine
   }
 
   protected function newEditableObject() {
-    return PhabricatorPhurlURL::initializeNewPhurlURL($this->getViewer());
+    return PhorgePhurlURL::initializeNewPhurlURL($this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorPhurlURLQuery();
+    return new PhorgePhurlURLQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -67,22 +67,22 @@ final class PhabricatorPhurlURLEditEngine
 
   protected function getCreateNewObjectPolicy() {
     return $this->getApplication()->getPolicy(
-      PhabricatorPhurlURLCreateCapability::CAPABILITY);
+      PhorgePhurlURLCreateCapability::CAPABILITY);
   }
 
   protected function buildCustomEditFields($object) {
 
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('URL name.'))
         ->setIsRequired(true)
         ->setConduitTypeDescription(pht('New URL name.'))
         ->setTransactionType(
-          PhabricatorPhurlURLNameTransaction::TRANSACTIONTYPE)
+          PhorgePhurlURLNameTransaction::TRANSACTIONTYPE)
         ->setValue($object->getName()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('url')
         ->setLabel(pht('URL'))
         ->setDescription(pht('The URL to shorten.'))
@@ -90,23 +90,23 @@ final class PhabricatorPhurlURLEditEngine
         ->setValue($object->getLongURL())
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorPhurlURLLongURLTransaction::TRANSACTIONTYPE),
-      id(new PhabricatorTextEditField())
+          PhorgePhurlURLLongURLTransaction::TRANSACTIONTYPE),
+      id(new PhorgeTextEditField())
         ->setKey('alias')
         ->setLabel(pht('Alias'))
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorPhurlURLAliasTransaction::TRANSACTIONTYPE)
+          PhorgePhurlURLAliasTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('The alias to give the URL.'))
         ->setConduitTypeDescription(pht('New alias.'))
         ->setValue($object->getAlias()),
-      id(new PhabricatorRemarkupEditField())
+      id(new PhorgeRemarkupEditField())
         ->setKey('description')
         ->setLabel(pht('Description'))
         ->setDescription(pht('URL long description.'))
         ->setConduitTypeDescription(pht('New URL description.'))
         ->setTransactionType(
-          PhabricatorPhurlURLDescriptionTransaction::TRANSACTIONTYPE)
+          PhorgePhurlURLDescriptionTransaction::TRANSACTIONTYPE)
         ->setValue($object->getDescription()),
     );
   }

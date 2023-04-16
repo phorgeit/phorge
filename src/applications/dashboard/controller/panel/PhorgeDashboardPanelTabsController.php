@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelTabsController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelTabsController
+  extends PhorgeDashboardController {
 
   private $contextObject;
 
@@ -17,20 +17,20 @@ final class PhabricatorDashboardPanelTabsController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $panel = id(new PhabricatorDashboardPanelQuery())
+    $panel = id(new PhorgeDashboardPanelQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$panel) {
       return new Aphront404Response();
     }
 
-    $tabs_type = id(new PhabricatorDashboardTabsPanelType())
+    $tabs_type = id(new PhorgeDashboardTabsPanelType())
       ->getPanelTypeKey();
 
     // This controller may only be used to edit tab panels.
@@ -104,7 +104,7 @@ final class PhabricatorDashboardPanelTabsController
     $context_phid = $request->getStr('contextPHID');
     $context = null;
     if (strlen($context_phid)) {
-      $context = id(new PhabricatorObjectQuery())
+      $context = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($context_phid))
         ->executeOne();
@@ -113,10 +113,10 @@ final class PhabricatorDashboardPanelTabsController
       }
 
       switch (phid_get_type($context_phid)) {
-        case PhabricatorDashboardDashboardPHIDType::TYPECONST:
+        case PhorgeDashboardDashboardPHIDType::TYPECONST:
           $cancel_uri = $context->getURI();
           break;
-        case PhabricatorDashboardPanelPHIDType::TYPECONST:
+        case PhorgeDashboardPanelPHIDType::TYPECONST:
           $cancel_uri = $context->getURI();
           break;
         default:
@@ -147,7 +147,7 @@ final class PhabricatorDashboardPanelTabsController
   }
 
   private function handleAddOperation(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     $after,
     $cancel_uri) {
     $request = $this->getRequest();
@@ -159,7 +159,7 @@ final class PhabricatorDashboardPanelTabsController
       $panel_phid = $request->getArr('panelPHID');
       $panel_phid = head($panel_phid);
 
-      $add_panel = id(new PhabricatorDashboardPanelQuery())
+      $add_panel = id(new PhorgeDashboardPanelQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($panel_phid))
         ->executeOne();
@@ -193,10 +193,10 @@ final class PhabricatorDashboardPanelTabsController
 
         $xactions[] = $panel->getApplicationTransactionTemplate()
           ->setTransactionType(
-            PhabricatorDashboardTabsPanelTabsTransaction::TRANSACTIONTYPE)
+            PhorgeDashboardTabsPanelTabsTransaction::TRANSACTIONTYPE)
           ->setNewValue($new_config);
 
-        $editor = id(new PhabricatorDashboardPanelTransactionEditor())
+        $editor = id(new PhorgeDashboardPanelTransactionEditor())
           ->setContentSourceFromRequest($request)
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
@@ -218,7 +218,7 @@ final class PhabricatorDashboardPanelTabsController
       ->setViewer($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
-          ->setDatasource(new PhabricatorDashboardPanelDatasource())
+          ->setDatasource(new PhorgeDashboardPanelDatasource())
           ->setLimit(1)
           ->setName('panelPHID')
           ->setLabel(pht('Panel'))
@@ -234,7 +234,7 @@ final class PhabricatorDashboardPanelTabsController
   }
 
   private function handleRemoveOperation(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     $target,
     $cancel_uri) {
     $request = $this->getRequest();
@@ -261,7 +261,7 @@ final class PhabricatorDashboardPanelTabsController
   }
 
   private function handleRenameOperation(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     $target,
     $cancel_uri) {
     $request = $this->getRequest();
@@ -299,7 +299,7 @@ final class PhabricatorDashboardPanelTabsController
   }
 
   private function handleMoveOperation(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     $target,
     $after,
     $cancel_uri) {
@@ -383,7 +383,7 @@ final class PhabricatorDashboardPanelTabsController
   }
 
   private function writePanelConfig(
-    PhabricatorDashboardPanel $panel,
+    PhorgeDashboardPanel $panel,
     array $config) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();
@@ -392,10 +392,10 @@ final class PhabricatorDashboardPanelTabsController
 
     $xactions[] = $panel->getApplicationTransactionTemplate()
       ->setTransactionType(
-        PhabricatorDashboardTabsPanelTabsTransaction::TRANSACTIONTYPE)
+        PhorgeDashboardTabsPanelTabsTransaction::TRANSACTIONTYPE)
       ->setNewValue($config);
 
-    $editor = id(new PhabricatorDashboardPanelTransactionEditor())
+    $editor = id(new PhorgeDashboardPanelTransactionEditor())
       ->setContentSourceFromRequest($request)
       ->setActor($viewer)
       ->setContinueOnNoEffect(true)

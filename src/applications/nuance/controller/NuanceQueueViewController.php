@@ -55,15 +55,15 @@ final class NuanceQueueViewController
     $viewer = $this->getViewer();
     $id = $queue->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $queue,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($queue);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Queue'))
         ->setIcon('fa-pencil')
         ->setHref($this->getApplicationURI("queue/edit/{$id}/"))
@@ -71,7 +71,7 @@ final class NuanceQueueViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Begin Work'))
         ->setIcon('fa-play-circle-o')
         ->setHref($this->getApplicationURI("queue/work/{$id}/"))

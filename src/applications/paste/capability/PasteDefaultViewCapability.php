@@ -1,6 +1,6 @@
 <?php
 
-final class PasteDefaultViewCapability extends PhabricatorPolicyCapability {
+final class PasteDefaultViewCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'paste.default.view';
 

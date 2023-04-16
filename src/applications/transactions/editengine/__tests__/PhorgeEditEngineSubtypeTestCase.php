@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineSubtypeTestCase
-  extends PhabricatorTestCase {
+final class PhorgeEditEngineSubtypeTestCase
+  extends PhorgeTestCase {
 
   public function testEditEngineSubtypeKeys() {
     $map = array(
@@ -26,7 +26,7 @@ final class PhabricatorEditEngineSubtypeTestCase
 
     foreach ($map as $input => $expect) {
       try {
-        PhabricatorEditEngineSubtype::validateSubtypeKey($input);
+        PhorgeEditEngineSubtype::validateSubtypeKey($input);
         $actual = true;
       } catch (Exception $ex) {
         $actual = false;

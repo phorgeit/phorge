@@ -18,7 +18,7 @@ final class DrydockAuthorizationQuery extends DrydockQuery {
     }
 
     $authorizations = id(new self())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withObjectPHIDs(array($object_phid))
       ->withBlueprintPHIDs($blueprint_phids)
       ->execute();
@@ -97,7 +97,7 @@ final class DrydockAuthorizationQuery extends DrydockQuery {
 
     $object_phids = mpull($authorizations, 'getObjectPHID');
     if ($object_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($object_phids)

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectMemberListView
-  extends PhabricatorProjectUserListView {
+final class PhorgeProjectMemberListView
+  extends PhorgeProjectUserListView {
 
   protected function canEditList() {
     $viewer = $this->getViewer();
@@ -11,10 +11,10 @@ final class PhabricatorProjectMemberListView
       return false;
     }
 
-    return PhabricatorPolicyFilter::hasCapability(
+    return PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
   }
 
   protected function getNoDataString() {
@@ -42,8 +42,8 @@ final class PhabricatorProjectMemberListView
 
     $note = null;
     if ($project->isUserMember($viewer_phid)) {
-      $edge_type = PhabricatorProjectSilencedEdgeType::EDGECONST;
-      $silenced = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $edge_type = PhorgeProjectSilencedEdgeType::EDGECONST;
+      $silenced = PhorgeEdgeQuery::loadDestinationPHIDs(
         $project->getPHID(),
         $edge_type);
       $silenced = array_fuse($silenced);

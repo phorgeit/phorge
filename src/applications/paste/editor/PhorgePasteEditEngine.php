@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPasteEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgePasteEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'paste.paste';
 
@@ -18,15 +18,15 @@ final class PhabricatorPasteEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return 'PhorgePasteApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorPaste::initializeNewPaste($this->getViewer());
+    return PhorgePaste::initializeNewPaste($this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return id(new PhabricatorPasteQuery())
+    return id(new PhorgePasteQuery())
       ->needRawContent(true);
   }
 
@@ -64,19 +64,19 @@ final class PhabricatorPasteEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('title')
         ->setLabel(pht('Title'))
-        ->setTransactionType(PhabricatorPasteTitleTransaction::TRANSACTIONTYPE)
+        ->setTransactionType(PhorgePasteTitleTransaction::TRANSACTIONTYPE)
         ->setDescription(pht('The title of the paste.'))
         ->setConduitDescription(pht('Retitle the paste.'))
         ->setConduitTypeDescription(pht('New paste title.'))
         ->setValue($object->getTitle()),
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey('language')
         ->setLabel(pht('Language'))
         ->setTransactionType(
-          PhabricatorPasteLanguageTransaction::TRANSACTIONTYPE)
+          PhorgePasteLanguageTransaction::TRANSACTIONTYPE)
         ->setAliases(array('lang'))
         ->setIsCopyable(true)
         ->setDatasource(new PasteLanguageSelectDatasource())
@@ -88,24 +88,24 @@ final class PhabricatorPasteEditEngine
           pht('Change language used for syntax highlighting.'))
         ->setConduitTypeDescription(pht('New highlighting language.'))
         ->setSingleValue($object->getLanguage()),
-      id(new PhabricatorTextAreaEditField())
+      id(new PhorgeTextAreaEditField())
         ->setKey('text')
         ->setLabel(pht('Text'))
         ->setTransactionType(
-          PhabricatorPasteContentTransaction::TRANSACTIONTYPE)
+          PhorgePasteContentTransaction::TRANSACTIONTYPE)
         ->setMonospaced(true)
         ->setHeight(AphrontFormTextAreaControl::HEIGHT_VERY_TALL)
         ->setDescription(pht('The main body text of the paste.'))
         ->setConduitDescription(pht('Change the paste content.'))
         ->setConduitTypeDescription(pht('New body content.'))
         ->setValue($object->getRawContent()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('status')
         ->setLabel(pht('Status'))
         ->setTransactionType(
-          PhabricatorPasteStatusTransaction::TRANSACTIONTYPE)
+          PhorgePasteStatusTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
-        ->setOptions(PhabricatorPaste::getStatusNameMap())
+        ->setOptions(PhorgePaste::getStatusNameMap())
         ->setDescription(pht('Active or archived status.'))
         ->setConduitDescription(pht('Active or archive the paste.'))
         ->setConduitTypeDescription(pht('New paste status constant.'))

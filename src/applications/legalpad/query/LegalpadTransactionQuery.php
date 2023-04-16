@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
     return new LegalpadTransaction();

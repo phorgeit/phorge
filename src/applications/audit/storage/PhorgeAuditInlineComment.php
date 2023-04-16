@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuditInlineComment
-  extends PhabricatorInlineComment {
+final class PhorgeAuditInlineComment
+  extends PhorgeInlineComment {
 
   protected function newStorageObject() {
-    return new PhabricatorAuditTransactionComment();
+    return new PhorgeAuditTransactionComment();
   }
 
   public function getControllerURI() {
@@ -22,8 +22,8 @@ final class PhabricatorAuditInlineComment
   }
 
   public function getTransactionCommentForSave() {
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorOldWorldContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeOldWorldContentSource::SOURCECONST);
 
     $this->getStorageObject()
       ->setViewPolicy('public')
@@ -35,9 +35,9 @@ final class PhabricatorAuditInlineComment
   }
 
   public static function newFromModernComment(
-    PhabricatorAuditTransactionComment $comment) {
+    PhorgeAuditTransactionComment $comment) {
 
-    $obj = new PhabricatorAuditInlineComment();
+    $obj = new PhorgeAuditInlineComment();
     $obj->setStorageObject($comment);
 
     return $obj;

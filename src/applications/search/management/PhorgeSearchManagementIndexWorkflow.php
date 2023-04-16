@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchManagementIndexWorkflow
-  extends PhabricatorSearchManagementWorkflow {
+final class PhorgeSearchManagementIndexWorkflow
+  extends PhorgeSearchManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -118,7 +118,7 @@ final class PhabricatorSearchManagementIndexWorkflow
     if ($args->getArg('background')) {
       $is_background = true;
     } else {
-      PhabricatorWorker::setRunAllTasksInProcess(true);
+      PhorgeWorker::setRunAllTasksInProcess(true);
       $is_background = false;
     }
 
@@ -224,7 +224,7 @@ final class PhabricatorSearchManagementIndexWorkflow
           $old_versions = $this->loadIndexVersions($phid);
         }
 
-        PhabricatorSearchWorker::queueDocumentForIndexing(
+        PhorgeSearchWorker::queueDocumentForIndexing(
           $phid,
           $parameters,
           $is_strict);
@@ -296,7 +296,7 @@ final class PhabricatorSearchManagementIndexWorkflow
   }
 
   private function loadPHIDsByNames(array $names) {
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withNames($names);
     $query->execute();
@@ -316,7 +316,7 @@ final class PhabricatorSearchManagementIndexWorkflow
 
   private function getIndexableObjectsByTypes(array $types) {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorIndexableInterface')
+      ->setAncestorClass('PhorgeIndexableInterface')
       ->execute();
 
     $type_map = array();
@@ -411,7 +411,7 @@ final class PhabricatorSearchManagementIndexWorkflow
   }
 
   private function loadIndexVersions($phid) {
-    $table = new PhabricatorSearchIndexVersion();
+    $table = new PhorgeSearchIndexVersion();
     $conn = $table->establishConnection('r');
 
     return queryfx_all(
@@ -427,7 +427,7 @@ final class PhabricatorSearchManagementIndexWorkflow
     $min_date,
     $max_date) {
 
-    $table = new PhabricatorSearchIndexVersion();
+    $table = new PhorgeSearchIndexVersion();
     $conn = $table->establishConnection('r');
 
     $where = array();

@@ -2,18 +2,18 @@
 
 final class PhrictionDocument extends PhrictionDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorFulltextInterface,
-    PhabricatorFerretInterface,
-    PhabricatorProjectInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorPolicyCodexInterface,
-    PhabricatorSpacesInterface {
+    PhorgePolicyInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeDestructibleInterface,
+    PhorgeFulltextInterface,
+    PhorgeFerretInterface,
+    PhorgeProjectInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeConduitResultInterface,
+    PhorgePolicyCodexInterface,
+    PhorgeSpacesInterface {
 
   protected $slug;
   protected $depth;
@@ -56,19 +56,19 @@ final class PhrictionDocument extends PhrictionDAO
     return PhrictionDocumentPHIDType::TYPECONST;
   }
 
-  public static function initializeNewDocument(PhabricatorUser $actor, $slug) {
+  public static function initializeNewDocument(PhorgeUser $actor, $slug) {
     $document = id(new self())
       ->setSlug($slug);
 
     $content = id(new PhrictionContent())
       ->setSlug($slug);
 
-    $default_title = PhabricatorSlug::getDefaultTitle($slug);
+    $default_title = PhorgeSlug::getDefaultTitle($slug);
     $content->setTitle($default_title);
     $document->attachContent($content);
 
     $parent_doc = null;
-    $ancestral_slugs = PhabricatorSlug::getAncestry($slug);
+    $ancestral_slugs = PhorgeSlug::getAncestry($slug);
     if ($ancestral_slugs) {
       $parent = end($ancestral_slugs);
       $parent_doc = id(new PhrictionDocumentQuery())
@@ -78,7 +78,7 @@ final class PhrictionDocument extends PhrictionDAO
     }
 
     if ($parent_doc) {
-      $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+      $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
         $parent_doc);
 
       $document
@@ -86,14 +86,14 @@ final class PhrictionDocument extends PhrictionDAO
         ->setEditPolicy($parent_doc->getEditPolicy())
         ->setSpacePHID($space_phid);
     } else {
-      $default_view_policy = PhabricatorPolicies::getMostOpenPolicy();
+      $default_view_policy = PhorgePolicies::getMostOpenPolicy();
       $document
         ->setViewPolicy($default_view_policy)
-        ->setEditPolicy(PhabricatorPolicies::POLICY_USER)
+        ->setEditPolicy(PhorgePolicies::POLICY_USER)
         ->setSpacePHID($actor->getDefaultSpacePHID());
     }
 
-    $document->setEditedEpoch(PhabricatorTime::getNow());
+    $document->setEditedEpoch(PhorgeTime::getNow());
     $document->setMaxVersion(0);
 
     return $document;
@@ -123,8 +123,8 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
   public function setSlug($slug) {
-    $this->slug   = PhabricatorSlug::normalize($slug);
-    $this->depth  = PhabricatorSlug::getDepth($slug);
+    $this->slug   = PhorgeSlug::normalize($slug);
+    $this->depth  = PhorgeSlug::getDepth($slug);
     return $this;
   }
 
@@ -178,31 +178,31 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return false;
   }
 
 
-/* -(  PhabricatorSpacesInterface  )----------------------------------------- */
+/* -(  PhorgeSpacesInterface  )----------------------------------------- */
 
 
   public function getSpacePHID() {
@@ -211,7 +211,7 @@ final class PhrictionDocument extends PhrictionDAO
 
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -219,7 +219,7 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -231,19 +231,19 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID($this->phid);
+    return PhorgeSubscribersQuery::loadSubscribersForPHID($this->phid);
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
 
@@ -261,7 +261,7 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorFulltextInterface  )--------------------------------------- */
+/* -(  PhorgeFulltextInterface  )--------------------------------------- */
 
 
   public function newFulltextEngine() {
@@ -269,7 +269,7 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorFerretInterface  )----------------------------------------- */
+/* -(  PhorgeFerretInterface  )----------------------------------------- */
 
 
   public function newFerretEngine() {
@@ -277,16 +277,16 @@ final class PhrictionDocument extends PhrictionDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('path')
         ->setType('string')
         ->setDescription(pht('The path to the document.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')
         ->setDescription(pht('Status information about the document.')),
@@ -312,7 +312,7 @@ final class PhrictionDocument extends PhrictionDAO
     );
   }
 
-/* -(  PhabricatorPolicyCodexInterface  )------------------------------------ */
+/* -(  PhorgePolicyCodexInterface  )------------------------------------ */
 
 
   public function newPolicyCodex() {

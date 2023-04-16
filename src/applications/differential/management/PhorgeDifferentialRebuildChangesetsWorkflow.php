@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDifferentialRebuildChangesetsWorkflow
-  extends PhabricatorDifferentialManagementWorkflow {
+final class PhorgeDifferentialRebuildChangesetsWorkflow
+  extends PhorgeDifferentialManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -27,7 +27,7 @@ final class PhabricatorDifferentialRebuildChangesetsWorkflow
         pht('Specify a revision to rebuild changesets for with "--revision".'));
     }
 
-    $revision = id(new PhabricatorObjectQuery())
+    $revision = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($revision_identifier))
       ->executeOne();

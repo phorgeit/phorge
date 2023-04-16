@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorEditEngineTokenizerCommentAction
-  extends PhabricatorEditEngineCommentAction {
+final class PhorgeEditEngineTokenizerCommentAction
+  extends PhorgeEditEngineCommentAction {
 
   private $datasource;
   private $limit;
 
-  public function setDatasource(PhabricatorTypeaheadDatasource $datasource) {
+  public function setDatasource(PhorgeTypeaheadDatasource $datasource) {
     $this->datasource = $datasource;
     return $this;
   }

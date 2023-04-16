@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorExternalAccountIdentifier
-  extends PhabricatorUserDAO
+final class PhorgeExternalAccountIdentifier
+  extends PhorgeUserDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface {
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface {
 
   protected $externalAccountPHID;
   protected $providerConfigPHID;
@@ -12,7 +12,7 @@ final class PhabricatorExternalAccountIdentifier
   protected $identifierRaw;
 
   public function getPHIDType() {
-    return PhabricatorPeopleExternalIdentifierPHIDType::TYPECONST;
+    return PhorgePeopleExternalIdentifierPHIDType::TYPECONST;
   }
 
   protected function getConfiguration() {
@@ -37,44 +37,44 @@ final class PhabricatorExternalAccountIdentifier
   public function save() {
     $identifier_raw = $this->getIdentifierRaw();
 
-    $identifier_hash = PhabricatorHash::digestForIndex($identifier_raw);
+    $identifier_hash = PhorgeHash::digestForIndex($identifier_raw);
     $this->setIdentifierHash($identifier_hash);
 
     return parent::save();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   // TODO: These permissions aren't very good. They should just be the same
   // as the associated ExternalAccount. See T13381.
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 

@@ -1,9 +1,9 @@
 <?php
 
-final class QueryFormattingTestCase extends PhabricatorTestCase {
+final class QueryFormattingTestCase extends PhorgeTestCase {
 
   public function testQueryFormatting() {
-    $conn = id(new PhabricatorUser())->establishConnection('r');
+    $conn = id(new PhorgeUser())->establishConnection('r');
 
     $this->assertEqual(
       'NULL',

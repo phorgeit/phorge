@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorKeyboardRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeKeyboardRemarkupRule extends PhutilRemarkupRule {
 
   public function getPriority() {
     return 200.0;

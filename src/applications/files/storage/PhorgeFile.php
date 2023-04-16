@@ -20,17 +20,17 @@
  *   | builtin | Optional filename, identifies this as a builtin.
  *
  */
-final class PhabricatorFile extends PhabricatorFileDAO
+final class PhorgeFile extends PhorgeFileDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorIndexableInterface,
-    PhabricatorNgramsInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgeSubscribableInterface,
+    PhorgeFlaggableInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeConduitResultInterface,
+    PhorgeIndexableInterface,
+    PhorgeNgramsInterface {
 
   const METADATA_IMAGE_WIDTH  = 'width';
   const METADATA_IMAGE_HEIGHT = 'height';
@@ -62,7 +62,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   protected $ttl;
   protected $isExplicitUpload = 1;
-  protected $viewPolicy = PhabricatorPolicies::POLICY_USER;
+  protected $viewPolicy = PhorgePolicies::POLICY_USER;
   protected $isPartial = 0;
   protected $isDeleted = 0;
 
@@ -72,15 +72,15 @@ final class PhabricatorFile extends PhabricatorFileDAO
   private $transforms = self::ATTACHABLE;
 
   public static function initializeNewFile() {
-    $app = id(new PhabricatorApplicationQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withClasses(array('PhabricatorFilesApplication'))
+    $app = id(new PhorgeApplicationQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
+      ->withClasses(array('PhorgeFilesApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
       FilesDefaultViewCapability::CAPABILITY);
 
-    return id(new PhabricatorFile())
+    return id(new PhorgeFile())
       ->setViewPolicy($view_policy)
       ->setIsPartial(0)
       ->attachOriginalFile(null)
@@ -144,8 +144,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorFileFilePHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeFileFilePHIDType::TYPECONST);
   }
 
   public function save() {
@@ -162,7 +162,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $this->save();
 
     if ($this->isIndexableFile()) {
-      PhabricatorSearchWorker::queueDocumentForIndexing($this->getPHID());
+      PhorgeSearchWorker::queueDocumentForIndexing($this->getPHID());
     }
 
     return $this;
@@ -191,7 +191,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     $err = idx($spec, 'error');
     if ($err) {
-      throw new PhabricatorFileUploadException($err);
+      throw new PhorgeFileUploadException($err);
     }
 
     $tmp_name = idx($spec, 'tmp_name');
@@ -242,7 +242,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
 
     // Check to see if a file with same hash already exists.
-    $file = id(new PhabricatorFile())->loadOneWhere(
+    $file = id(new PhorgeFile())->loadOneWhere(
       'contentHash = %s LIMIT 1',
       $hash);
     if (!$file) {
@@ -276,7 +276,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
   public static function newChunkedFile(
-    PhabricatorFileStorageEngine $engine,
+    PhorgeFileStorageEngine $engine,
     $length,
     array $params) {
 
@@ -301,20 +301,20 @@ final class PhabricatorFile extends PhabricatorFileDAO
     if ($chunked_hash) {
       $file->setContentHash($chunked_hash);
     } else {
-      // See PhabricatorChunkedFileStorageEngine::getChunkedHash() for some
+      // See PhorgeChunkedFileStorageEngine::getChunkedHash() for some
       // discussion of this.
       $seed = Filesystem::readRandomBytes(64);
-      $hash = PhabricatorChunkedFileStorageEngine::getChunkedHashForInput(
+      $hash = PhorgeChunkedFileStorageEngine::getChunkedHashForInput(
         $seed);
       $file->setContentHash($hash);
     }
 
     $file->setStorageEngine($engine->getEngineIdentifier());
-    $file->setStorageHandle(PhabricatorFileChunk::newChunkHandle());
+    $file->setStorageHandle(PhorgeFileChunk::newChunkHandle());
 
     // Chunked files are always stored raw because they do not actually store
     // data. The chunks do, and can be individually formatted.
-    $file->setStorageFormat(PhabricatorFileRawStorageFormat::FORMATKEY);
+    $file->setStorageFormat(PhorgeFileRawStorageFormat::FORMATKEY);
 
     $file->setIsPartial(1);
 
@@ -329,7 +329,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       $engines = $params['storageEngines'];
     } else {
       $size = strlen($data);
-      $engines = PhabricatorFileStorageEngine::loadStorageEngines($size);
+      $engines = PhorgeFileStorageEngine::loadStorageEngines($size);
 
       if (!$engines) {
         throw new Exception(
@@ -340,28 +340,28 @@ final class PhabricatorFile extends PhabricatorFileDAO
       }
     }
 
-    assert_instances_of($engines, 'PhabricatorFileStorageEngine');
+    assert_instances_of($engines, 'PhorgeFileStorageEngine');
     if (!$engines) {
       throw new Exception(pht('No valid storage engines are available!'));
     }
 
     $file = self::initializeNewFile();
 
-    $aes_type = PhabricatorFileAES256StorageFormat::FORMATKEY;
-    $has_aes = PhabricatorKeyring::getDefaultKeyName($aes_type);
+    $aes_type = PhorgeFileAES256StorageFormat::FORMATKEY;
+    $has_aes = PhorgeKeyring::getDefaultKeyName($aes_type);
     if ($has_aes !== null) {
-      $default_key = PhabricatorFileAES256StorageFormat::FORMATKEY;
+      $default_key = PhorgeFileAES256StorageFormat::FORMATKEY;
     } else {
-      $default_key = PhabricatorFileRawStorageFormat::FORMATKEY;
+      $default_key = PhorgeFileRawStorageFormat::FORMATKEY;
     }
     $key = idx($params, 'format', $default_key);
 
     // Callers can pass in an object explicitly instead of a key. This is
     // primarily useful for unit tests.
-    if ($key instanceof PhabricatorFileStorageFormat) {
+    if ($key instanceof PhorgeFileStorageFormat) {
       $format = clone $key;
     } else {
-      $format = clone PhabricatorFileStorageFormat::requireFormat($key);
+      $format = clone PhorgeFileStorageFormat::requireFormat($key);
     }
 
     $format->setFile($file);
@@ -387,7 +387,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         // We stored the file somewhere so stop trying to write it to other
         // places.
         break;
-      } catch (PhabricatorFileStorageConfigurationException $ex) {
+      } catch (PhorgeFileStorageConfigurationException $ex) {
         // If an engine is outright misconfigured (or misimplemented), raise
         // that immediately since it probably needs attention.
         throw $ex;
@@ -450,7 +450,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
   public function migrateToEngine(
-    PhabricatorFileStorageEngine $engine,
+    PhorgeFileStorageEngine $engine,
     $make_copy) {
 
     if (!$this->getID() || !$this->getStorageHandle()) {
@@ -487,7 +487,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this;
   }
 
-  public function migrateToStorageFormat(PhabricatorFileStorageFormat $format) {
+  public function migrateToStorageFormat(PhorgeFileStorageFormat $format) {
     if (!$this->getID() || !$this->getStorageHandle()) {
       throw new Exception(
         pht("You can not migrate a file which hasn't yet been saved."));
@@ -522,7 +522,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this;
   }
 
-  public function cycleMasterStorageKey(PhabricatorFileStorageFormat $format) {
+  public function cycleMasterStorageKey(PhorgeFileStorageFormat $format) {
     if (!$this->getID() || !$this->getStorageHandle()) {
       throw new Exception(
         pht("You can not cycle keys for a file which hasn't yet been saved."));
@@ -536,7 +536,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
   private function writeToEngine(
-    PhabricatorFileStorageEngine $engine,
+    PhorgeFileStorageEngine $engine,
     $data,
     array $params) {
 
@@ -554,7 +554,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     if (!$data_handle || strlen($data_handle) > 255) {
       // This indicates an improperly implemented storage engine.
-      throw new PhabricatorFileStorageConfigurationException(
+      throw new PhorgeFileStorageConfigurationException(
         pht(
           "Storage engine '%s' executed %s but did not return a valid ".
           "handle ('%s') to the data: it must be nonempty and no longer ".
@@ -566,7 +566,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     $engine_identifier = $engine->getEngineIdentifier();
     if (!$engine_identifier || strlen($engine_identifier) > 32) {
-      throw new PhabricatorFileStorageConfigurationException(
+      throw new PhorgeFileStorageConfigurationException(
         pht(
           "Storage engine '%s' returned an improper engine identifier '{%s}': ".
           "it must be nonempty and no longer than 32 characters.",
@@ -598,7 +598,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
             pht('Too many redirects trying to fetch remote URI.'));
         }
 
-        $resolved = PhabricatorEnv::requireValidRemoteURIForFetch(
+        $resolved = PhorgeEnv::requireValidRemoteURIForFetch(
           $current,
           array(
             'http',
@@ -718,8 +718,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // doesn't need to separately hunt down and delete a bunch of thumbnails and
     // resizes of it.
 
-    $outbound_xforms = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $outbound_xforms = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withTransforms(
         array(
           array(
@@ -733,7 +733,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       $outbound_xform->delete();
     }
 
-    $inbound_xforms = id(new PhabricatorTransformedFile())->loadAllWhere(
+    $inbound_xforms = id(new PhorgeTransformedFile())->loadAllWhere(
       'transformedPHID = %s',
       $this->getPHID());
 
@@ -758,12 +758,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * it.
    */
   public function deleteFileDataIfUnused(
-    PhabricatorFileStorageEngine $engine,
+    PhorgeFileStorageEngine $engine,
     $engine_identifier,
     $handle) {
 
     // Check to see if any files are using storage.
-    $usage = id(new PhabricatorFile())->loadAllWhere(
+    $usage = id(new PhorgeFile())->loadAllWhere(
       'storageEngine = %s AND storageHandle = %s LIMIT 1',
       $engine_identifier,
       $handle);
@@ -855,7 +855,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // request domain used by the CDN (as with AWS CloudFront). Embedding the
     // instance identity in the path allows us to distinguish between requests
     // originating from different instances but served through the same CDN.
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if (phutil_nonempty_string($instance)) {
       $parts[] = '@'.$instance;
     }
@@ -870,9 +870,9 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // local URI to make sure that Ajax works, since the page is inevitably
     // going to give us an error back.
     if ($this->getIsPartial()) {
-      return PhabricatorEnv::getURI($path);
+      return PhorgeEnv::getURI($path);
     } else {
-      return PhabricatorEnv::getCDNURI($path);
+      return PhorgeEnv::getCDNURI($path);
     }
   }
 
@@ -893,7 +893,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this->getCDNURI('download');
   }
 
-  public function getURIForTransform(PhabricatorFileTransform $transform) {
+  public function getURIForTransform(PhorgeFileTransform $transform) {
     return $this->getTransformedURI($transform->getTransformKey());
   }
 
@@ -902,7 +902,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $parts[] = 'file';
     $parts[] = 'xform';
 
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if (phutil_nonempty_string($instance)) {
       $parts[] = '@'.$instance;
     }
@@ -914,7 +914,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $path = implode('/', $parts);
     $path = $path.'/';
 
-    return PhabricatorEnv::getCDNURI($path);
+    return PhorgeEnv::getCDNURI($path);
   }
 
   public function isViewableInBrowser() {
@@ -926,7 +926,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       return false;
     }
 
-    $mime_map = PhabricatorEnv::getEnvConfig('files.image-mime-types');
+    $mime_map = PhorgeEnv::getEnvConfig('files.image-mime-types');
     $mime_type = $this->getMimeType();
     return idx($mime_map, $mime_type);
   }
@@ -936,7 +936,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       return false;
     }
 
-    $mime_map = PhabricatorEnv::getEnvConfig('files.audio-mime-types');
+    $mime_map = PhorgeEnv::getEnvConfig('files.audio-mime-types');
     $mime_type = $this->getMimeType();
     return idx($mime_map, $mime_type);
   }
@@ -946,7 +946,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       return false;
     }
 
-    $mime_map = PhabricatorEnv::getEnvConfig('files.video-mime-types');
+    $mime_map = PhorgeEnv::getEnvConfig('files.video-mime-types');
     $mime_type = $this->getMimeType();
     return idx($mime_map, $mime_type);
   }
@@ -1041,12 +1041,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   public static function buildAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFileStorageEngine')
+      ->setAncestorClass('PhorgeFileStorageEngine')
       ->execute();
   }
 
   public function getViewableMimeType() {
-    $mime_map = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
+    $mime_map = PhorgeEnv::getEnvConfig('files.viewable-mime-types');
 
     $mime_type = $this->getMimeType();
     $mime_parts = explode(';', $mime_type);
@@ -1056,7 +1056,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
   public function getDisplayIconForMimeType() {
-    $mime_map = PhabricatorEnv::getEnvConfig('files.icon-mime-types');
+    $mime_map = PhorgeEnv::getEnvConfig('files.icon-mime-types');
     $mime_type = $this->getMimeType();
     return idx($mime_map, $mime_type, 'fa-file-o');
   }
@@ -1130,7 +1130,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this;
   }
 
-  public function copyDimensions(PhabricatorFile $file) {
+  public function copyDimensions(PhorgeFile $file) {
     $metadata = $file->getMetadata();
     $width = idx($metadata, self::METADATA_IMAGE_WIDTH);
     if ($width) {
@@ -1146,7 +1146,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
 
   /**
-   * Load (or build) the {@class:PhabricatorFile} objects for builtin file
+   * Load (or build) the {@class:PhorgeFile} objects for builtin file
    * resources. The builtin mechanism allows files shipped with Phorge
    * to be treated like normal files so that APIs do not need to special case
    * things like default images or deleted files.
@@ -1154,17 +1154,17 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * Builtins are located in `resources/builtin/` and identified by their
    * name.
    *
-   * @param  PhabricatorUser Viewing user.
-   * @param  list<PhabricatorFilesBuiltinFile> List of builtin file specs.
-   * @return dict<string, PhabricatorFile> Dictionary of named builtins.
+   * @param  PhorgeUser Viewing user.
+   * @param  list<PhorgeFilesBuiltinFile> List of builtin file specs.
+   * @return dict<string, PhorgeFile> Dictionary of named builtins.
    */
-  public static function loadBuiltins(PhabricatorUser $user, array $builtins) {
+  public static function loadBuiltins(PhorgeUser $user, array $builtins) {
     $builtins = mpull($builtins, null, 'getBuiltinFileKey');
 
     // NOTE: Anyone is allowed to access builtin files.
 
-    $files = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $files = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withBuiltinKeys(array_keys($builtins))
       ->execute();
 
@@ -1194,8 +1194,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
         try {
           $file = self::newFromFileData($data, $params);
         } catch (AphrontDuplicateKeyQueryException $ex) {
-          $file = id(new PhabricatorFileQuery())
-            ->setViewer(PhabricatorUser::getOmnipotentUser())
+          $file = id(new PhorgeFileQuery())
+            ->setViewer(PhorgeUser::getOmnipotentUser())
             ->withBuiltinKeys(array($key))
             ->executeOne();
           if (!$file) {
@@ -1221,12 +1221,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
   /**
    * Convenience wrapper for @{method:loadBuiltins}.
    *
-   * @param PhabricatorUser   Viewing user.
+   * @param PhorgeUser   Viewing user.
    * @param string            Single builtin name to load.
-   * @return PhabricatorFile  Corresponding builtin file.
+   * @return PhorgeFile  Corresponding builtin file.
    */
-  public static function loadBuiltin(PhabricatorUser $user, $name) {
-    $builtin = id(new PhabricatorFilesOnDiskBuiltinFile())
+  public static function loadBuiltin(PhorgeUser $user, $name) {
+    $builtin = id(new PhorgeFilesOnDiskBuiltinFile())
       ->setName($name);
 
     $key = $builtin->getBuiltinFileKey();
@@ -1256,7 +1256,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this->assertAttached($this->originalFile);
   }
 
-  public function attachOriginalFile(PhabricatorFile $file = null) {
+  public function attachOriginalFile(PhorgeFile $file = null) {
     $this->originalFile = $file;
     return $this;
   }
@@ -1416,7 +1416,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * @return this
    */
   public function attachToObject($phid) {
-    $attachment_table = new PhabricatorFileAttachment();
+    $attachment_table = new PhorgeFileAttachment();
     $attachment_conn = $attachment_table->establishConnection('w');
 
     queryfx(
@@ -1431,10 +1431,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
       $attachment_table,
       $phid,
       $this->getPHID(),
-      PhabricatorFileAttachment::MODE_ATTACH,
+      PhorgeFileAttachment::MODE_ATTACH,
       null,
-      PhabricatorTime::getNow(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow(),
+      PhorgeTime::getNow());
 
     return $this;
   }
@@ -1446,7 +1446,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * This method is called both when creating a file from fresh data, and
    * when creating a new file which reuses existing storage.
    *
-   * @param map<string, wild>   Bag of parameters, see @{class:PhabricatorFile}
+   * @param map<string, wild>   Bag of parameters, see @{class:PhorgeFile}
    *  for documentation.
    * @return this
    */
@@ -1462,10 +1462,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
         'isExplicitUpload' => 'optional bool',
         'canCDN' => 'optional bool',
         'profile' => 'optional bool',
-        'format' => 'optional string|PhabricatorFileStorageFormat',
+        'format' => 'optional string|PhorgeFileStorageFormat',
         'mime-type' => 'optional string',
         'builtin' => 'optional string',
-        'storageEngines' => 'optional list<PhabricatorFileStorageEngine>',
+        'storageEngines' => 'optional list<PhorgeFileStorageEngine>',
         'chunk' => 'optional bool',
       ));
 
@@ -1482,7 +1482,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         pht(
           'Specify an absolute TTL or a relative TTL, but not both.'));
     } else if ($absolute_ttl !== null) {
-      if ($absolute_ttl < PhabricatorTime::getNow()) {
+      if ($absolute_ttl < PhorgeTime::getNow()) {
         throw new Exception(
           pht(
             'Absolute TTL must be in the present or future, but TTL "%s" '.
@@ -1510,7 +1510,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
             $relative_ttl));
       }
 
-      $absolute_ttl = PhabricatorTime::getNow() + $relative_ttl;
+      $absolute_ttl = PhorgeTime::getNow() + $relative_ttl;
 
       $this->setTtl($absolute_ttl);
     }
@@ -1592,7 +1592,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   public function newStorageFormat() {
     $key = $this->getStorageFormat();
-    $template = PhabricatorFileStorageFormat::requireFormat($key);
+    $template = PhorgeFileStorageFormat::requireFormat($key);
 
     $format = id(clone $template)
       ->setFile($this);
@@ -1601,44 +1601,44 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorFileEditor();
+    return new PhorgeFileEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorFileTransaction();
+    return new PhorgeFileTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface Implementation  )-------------------------- */
+/* -(  PhorgePolicyInterface Implementation  )-------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         if ($this->isBuiltin()) {
-          return PhabricatorPolicies::getMostOpenPolicy();
+          return PhorgePolicies::getMostOpenPolicy();
         }
         if ($this->getIsProfileImage()) {
-          return PhabricatorPolicies::getMostOpenPolicy();
+          return PhorgePolicies::getMostOpenPolicy();
         }
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_NOONE;
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_NOONE;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $viewer_phid = $viewer->getPHID();
     if ($viewer_phid) {
       if ($this->getAuthorPHID() == $viewer_phid) {
@@ -1647,7 +1647,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // If you can see the file this file is a transform of, you can see
         // this file.
         if ($this->getOriginalFile()) {
@@ -1666,7 +1666,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $out = array();
     $out[] = pht('The user who uploaded a file can always view and edit it.');
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         $out[] = pht(
           'Files attached to objects are visible to users who can view '.
           'those objects.');
@@ -1680,7 +1680,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorSubscribableInterface Implementation  )-------------------- */
+/* -(  PhorgeSubscribableInterface Implementation  )-------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -1688,7 +1688,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorTokenReceiverInterface  )---------------------------------- */
+/* -(  PhorgeTokenReceiverInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -1698,11 +1698,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $this->delete();
@@ -1710,24 +1710,24 @@ final class PhabricatorFile extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the file.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('uri')
         ->setType('uri')
         ->setDescription(pht('View URI for the file.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('dataURI')
         ->setType('uri')
         ->setDescription(pht('Download URI for the file data.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('size')
         ->setType('int')
         ->setDescription(pht('File size, in bytes.')),
@@ -1737,7 +1737,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   public function getFieldValuesForConduit() {
     return array(
       'name' => $this->getName(),
-      'uri' => PhabricatorEnv::getURI($this->getURI()),
+      'uri' => PhorgeEnv::getURI($this->getURI()),
       'dataURI' => $this->getCDNURI('data'),
       'size' => (int)$this->getByteSize(),
       'alt' => array(
@@ -1751,12 +1751,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return array();
   }
 
-/* -(  PhabricatorNgramInterface  )------------------------------------------ */
+/* -(  PhorgeNgramInterface  )------------------------------------------ */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorFileNameNgrams())
+      id(new PhorgeFileNameNgrams())
         ->setValue($this->getName()),
     );
   }

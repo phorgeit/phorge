@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorXHProfApplication extends PhabricatorApplication {
+final class PhorgeXHProfApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/xhprof/';
@@ -29,10 +29,10 @@ final class PhabricatorXHProfApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/xhprof/' => array(
-        '' => 'PhabricatorXHProfSampleListController',
-        'list/(?P<view>[^/]+)/' => 'PhabricatorXHProfSampleListController',
-        'profile/(?P<phid>[^/]+)/' => 'PhabricatorXHProfProfileController',
-        'import/drop/' => 'PhabricatorXHProfDropController',
+        '' => 'PhorgeXHProfSampleListController',
+        'list/(?P<view>[^/]+)/' => 'PhorgeXHProfSampleListController',
+        'profile/(?P<phid>[^/]+)/' => 'PhorgeXHProfProfileController',
+        'import/drop/' => 'PhorgeXHProfDropController',
       ),
     );
   }

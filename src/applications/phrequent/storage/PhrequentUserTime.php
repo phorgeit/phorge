@@ -1,7 +1,7 @@
 <?php
 
 final class PhrequentUserTime extends PhrequentDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $userPHID;
   protected $objectPHID;
@@ -24,26 +24,26 @@ final class PhrequentUserTime extends PhrequentDAO
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    $policy = PhabricatorPolicies::POLICY_NOONE;
+    $policy = PhorgePolicies::POLICY_NOONE;
 
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // Since it's impossible to perform any meaningful computations with
         // time if a user can't view some of it, visibility on tracked time is
         // unrestricted. If we eventually lock it down, it should be per-user.
         // (This doesn't mean that users can see tracked objects.)
-        return PhabricatorPolicies::getMostOpenPolicy();
+        return PhorgePolicies::getMostOpenPolicy();
     }
 
     return $policy;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() == $this->getUserPHID());
   }
 

@@ -1,19 +1,19 @@
 <?php
 
-abstract class PhabricatorPasteController extends PhabricatorController {
+abstract class PhorgePasteController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorPasteSearchEngine());
+      ->setSearchEngine(new PhorgePasteSearchEngine());
   }
 
   public function buildSourceCodeView(
-    PhabricatorPaste $paste,
+    PhorgePaste $paste,
     $highlights = array()) {
 
     $lines = phutil_split_lines($paste->getContent());
 
-    return id(new PhabricatorSourceCodeView())
+    return id(new PhorgeSourceCodeView())
       ->setLines($lines)
       ->setHighlights($highlights)
       ->setURI(new PhutilURI($paste->getURI()));

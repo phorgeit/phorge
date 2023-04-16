@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitTokensSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeConduitTokensSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function isManagementPanel() {
     if ($this->getUser()->getIsMailingList()) {
@@ -20,11 +20,11 @@ final class PhabricatorConduitTokensSettingsPanel
   }
 
   public function getPanelMenuIcon() {
-    return id(new PhabricatorConduitApplication())->getIcon();
+    return id(new PhorgeConduitApplication())->getIcon();
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsLogsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsLogsPanelGroup::PANELGROUPKEY;
   }
 
   public function isEnabled() {
@@ -35,14 +35,14 @@ final class PhabricatorConduitTokensSettingsPanel
     $viewer = $this->getViewer();
     $user = $this->getUser();
 
-    $tokens = id(new PhabricatorConduitTokenQuery())
+    $tokens = id(new PhorgeConduitTokenQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withExpired(false)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -56,7 +56,7 @@ final class PhabricatorConduitTokensSettingsPanel
             'sigil' => 'workflow',
           ),
           $token->getPublicTokenName()),
-        PhabricatorConduitToken::getTokenTypeName($token->getTokenType()),
+        PhorgeConduitToken::getTokenTypeName($token->getTokenType()),
         phorge_datetime($token->getDateCreated(), $viewer),
         ($token->getExpires()
           ? phorge_datetime($token->getExpires(), $viewer)

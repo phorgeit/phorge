@@ -13,7 +13,7 @@ final class PhrequentListController extends PhrequentController {
   }
 
   public function processRequest() {
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($this->queryKey)
       ->setSearchEngine(new PhrequentSearchEngine())
       ->setNavigation($this->buildSideNavView());

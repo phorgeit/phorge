@@ -1,11 +1,11 @@
 <?php
 
 final class PeopleMainMenuBarExtension
-  extends PhabricatorMainMenuBarExtension {
+  extends PhorgeMainMenuBarExtension {
 
   const MAINMENUBARKEY = 'user';
 
-  public function isExtensionEnabledForViewer(PhabricatorUser $viewer) {
+  public function isExtensionEnabledForViewer(PhorgeUser $viewer) {
     return $viewer->isLoggedIn();
   }
 
@@ -52,7 +52,7 @@ final class PeopleMainMenuBarExtension
   }
 
   private function newDropdown(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $application) {
 
     $person_to_show = id(new PHUIObjectItemView())
@@ -67,30 +67,30 @@ final class PeopleMainMenuBarExtension
       ->addItem($person_to_show)
       ->addClass('phorge-core-user-profile-object');
 
-    $view = id(new PhabricatorActionListView())
+    $view = id(new PhorgeActionListView())
       ->setViewer($viewer);
 
     if ($this->getIsFullSession()) {
       $view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->appendChild($user_view));
 
       $view->addAction(
-        id(new PhabricatorActionView())
-          ->setType(PhabricatorActionView::TYPE_DIVIDER));
+        id(new PhorgeActionView())
+          ->setType(PhorgeActionView::TYPE_DIVIDER));
 
       $view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Profile'))
           ->setHref('/p/'.$viewer->getUsername().'/'));
 
       $view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Settings'))
           ->setHref('/settings/user/'.$viewer->getUsername().'/'));
 
       $view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Manage'))
           ->setHref('/people/manage/'.$viewer->getID().'/'));
 
@@ -104,13 +104,13 @@ final class PeopleMainMenuBarExtension
       }
 
       $view->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->addSigil('logout-item')
-          ->setType(PhabricatorActionView::TYPE_DIVIDER));
+          ->setType(PhorgeActionView::TYPE_DIVIDER));
     }
 
     $view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Log Out %s', $viewer->getUsername()))
         ->addSigil('logout-item')
         ->setHref('/logout/')

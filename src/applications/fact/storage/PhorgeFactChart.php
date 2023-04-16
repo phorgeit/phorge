@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorFactChart
-  extends PhabricatorFactDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeFactChart
+  extends PhorgeFactDAO
+  implements PhorgePolicyInterface {
 
   protected $chartKey;
   protected $chartParameters = array();
@@ -37,7 +37,7 @@ final class PhabricatorFactChart
 
   public function newChartKey() {
     $digest = serialize($this->chartParameters);
-    $digest = PhabricatorHash::digestForIndex($digest);
+    $digest = PhorgeHash::digestForIndex($digest);
     return $digest;
   }
 
@@ -55,7 +55,7 @@ final class PhabricatorFactChart
   }
 
   public function attachDatasets(array $datasets) {
-    assert_instances_of($datasets, 'PhabricatorChartDataset');
+    assert_instances_of($datasets, 'PhorgeChartDataset');
     $this->datasets = $datasets;
     return $this;
   }
@@ -68,19 +68,19 @@ final class PhabricatorFactChart
     return urisprintf('/fact/chart/%s/', $this->getChartKey());
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    return PhorgePolicies::getMostOpenPolicy();
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

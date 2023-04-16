@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSavedQueryQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeSavedQueryQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $engineClassNames;
@@ -23,7 +23,7 @@ final class PhabricatorSavedQueryQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorSavedQuery();
+    $table = new PhorgeSavedQuery();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -67,7 +67,7 @@ final class PhabricatorSavedQueryQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return 'PhorgeSearchApplication';
   }
 
 }

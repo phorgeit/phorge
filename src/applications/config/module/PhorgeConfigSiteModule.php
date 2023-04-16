@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigSiteModule extends PhabricatorConfigModule {
+final class PhorgeConfigSiteModule extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'site';

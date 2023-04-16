@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeRepositoryEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,21 +14,21 @@ final class PhabricatorRepositoryEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
 
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
+    $errors[] = new PhorgeApplicationTransactionValidationError(
       null,
       pht('Invalid'),
       pht(
@@ -36,7 +36,7 @@ final class PhabricatorRepositoryEditor
         'use by another repository.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
   protected function supportsSearch() {
@@ -44,7 +44,7 @@ final class PhabricatorRepositoryEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // If the repository does not have a local path yet, assign it one based
@@ -53,7 +53,7 @@ final class PhabricatorRepositoryEditor
     if (!strlen($local_path)) {
       $local_key = 'repository.default-local-path';
 
-      $local_root = PhabricatorEnv::getEnvConfig($local_key);
+      $local_root = PhorgeEnv::getEnvConfig($local_key);
       $local_root = rtrim($local_root, '/');
 
       $id = $object->getID();
@@ -82,7 +82,7 @@ final class PhabricatorRepositoryEditor
     }
 
     $object->writeStatusMessage(
-      PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+      PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
       null);
 
     return $xactions;

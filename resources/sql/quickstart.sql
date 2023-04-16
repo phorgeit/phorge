@@ -10462,7 +10462,7 @@ CREATE TABLE `worker_activetask` (
   KEY `key_object` (`objectPHID`)
 ) ENGINE=InnoDB DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
 
-INSERT INTO `worker_activetask` VALUES (3,'PhabricatorRebuildIndexesWorker',NULL,NULL,0,1,NULL,3500,NULL,1556231702,1556231702),(4,'PhabricatorRebuildIndexesWorker',NULL,NULL,0,2,NULL,3500,NULL,1556231702,1556231702),(5,'PhabricatorRebuildIndexesWorker',NULL,NULL,0,3,NULL,3500,NULL,1556231702,1556231702);
+INSERT INTO `worker_activetask` VALUES (3,'PhorgeRebuildIndexesWorker',NULL,NULL,0,1,NULL,3500,NULL,1556231702,1556231702),(4,'PhorgeRebuildIndexesWorker',NULL,NULL,0,2,NULL,3500,NULL,1556231702,1556231702),(5,'PhorgeRebuildIndexesWorker',NULL,NULL,0,3,NULL,3500,NULL,1556231702,1556231702);
 
 USE `{$NAMESPACE}_worker`;
 
@@ -10570,7 +10570,7 @@ CREATE TABLE `worker_taskdata` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
 
-INSERT INTO `worker_taskdata` VALUES (1,'{\"queryClass\":\"PhabricatorDashboardQuery\"}'),(2,'{\"queryClass\":\"PhabricatorDashboardPanelQuery\"}'),(3,'{\"queryClass\":\"HeraldRuleQuery\"}');
+INSERT INTO `worker_taskdata` VALUES (1,'{\"queryClass\":\"PhorgeDashboardQuery\"}'),(2,'{\"queryClass\":\"PhorgeDashboardPanelQuery\"}'),(3,'{\"queryClass\":\"HeraldRuleQuery\"}');
 
 USE `{$NAMESPACE}_worker`;
 

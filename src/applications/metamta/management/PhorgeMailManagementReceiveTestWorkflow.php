@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementReceiveTestWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementReceiveTestWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -50,7 +50,7 @@ final class PhabricatorMailManagementReceiveTestWorkflow
           '--to'));
     }
 
-    $to_application_email = id(new PhabricatorMetaMTAApplicationEmailQuery())
+    $to_application_email = id(new PhorgeMetaMTAApplicationEmailQuery())
       ->setViewer($this->getViewer())
       ->withAddresses(array($to))
       ->executeOne();
@@ -58,9 +58,9 @@ final class PhabricatorMailManagementReceiveTestWorkflow
     $as = $args->getArg('as');
     if (!$as && $to_application_email) {
       $default_phid = $to_application_email->getConfigValue(
-        PhabricatorMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR);
+        PhorgeMetaMTAApplicationEmail::CONFIG_DEFAULT_AUTHOR);
       if ($default_phid) {
-        $default_user = id(new PhabricatorPeopleQuery())
+        $default_user = id(new PhorgePeopleQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs(array($default_phid))
           ->executeOne();
@@ -75,7 +75,7 @@ final class PhabricatorMailManagementReceiveTestWorkflow
         pht("Use '--as' to specify the acting user."));
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($this->getViewer())
       ->withUsernames(array($as))
       ->executeOne();
@@ -95,7 +95,7 @@ final class PhabricatorMailManagementReceiveTestWorkflow
     $console->writeErr("%s\n", pht('Reading message body from stdin...'));
     $body = file_get_contents('php://stdin');
 
-    $received = new PhabricatorMetaMTAReceivedMail();
+    $received = new PhorgeMetaMTAReceivedMail();
     $header_content = array(
       'Message-ID' => Filesystem::readRandomCharacters(12),
       'From'       => $from,
@@ -113,19 +113,19 @@ final class PhabricatorMailManagementReceiveTestWorkflow
       // In the general case, mail may be processed by multiple receivers,
       // but mail to objects only ever has one receiver today.
 
-      $pseudohash = PhabricatorObjectMailReceiver::computeMailHash('x', 'y');
+      $pseudohash = PhorgeObjectMailReceiver::computeMailHash('x', 'y');
 
       $raw_target = $to.'+1+'.$pseudohash;
       $target = new PhutilEmailAddress($raw_target.'@local.cli');
 
-      $pseudomail = id(new PhabricatorMetaMTAReceivedMail())
+      $pseudomail = id(new PhorgeMetaMTAReceivedMail())
         ->setHeaders(
           array(
             'to' => $raw_target,
           ));
 
       $receivers = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorMailReceiver')
+        ->setAncestorClass('PhorgeMailReceiver')
         ->setFilterMethod('isEnabled')
         ->execute();
 
@@ -147,12 +147,12 @@ final class PhabricatorMailManagementReceiveTestWorkflow
           pht("No configured mail receiver can accept mail to '%s'.", $to));
       }
 
-      if (!($receiver instanceof PhabricatorObjectMailReceiver)) {
+      if (!($receiver instanceof PhorgeObjectMailReceiver)) {
         $class = get_class($receiver);
         throw new Exception(
           pht(
             "Receiver '%s' accepts mail to '%s', but is not a ".
-            "subclass of PhabricatorObjectMailReceiver.",
+            "subclass of PhorgeObjectMailReceiver.",
             $class,
             $to));
       }
@@ -162,9 +162,9 @@ final class PhabricatorMailManagementReceiveTestWorkflow
         throw new Exception(pht("No such object '%s'!", $to));
       }
 
-      $mail_key = PhabricatorMetaMTAMailProperties::loadMailKey($object);
+      $mail_key = PhorgeMetaMTAMailProperties::loadMailKey($object);
 
-      $hash = PhabricatorObjectMailReceiver::computeMailHash(
+      $hash = PhorgeObjectMailReceiver::computeMailHash(
         $mail_key,
         $user->getPHID());
 

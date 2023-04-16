@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorStringConfigType
-  extends PhabricatorTextConfigType {
+final class PhorgeStringConfigType
+  extends PhorgeTextConfigType {
 
   const TYPEKEY = 'string';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     if (!is_string($value)) {

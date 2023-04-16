@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileAttachmentQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFileAttachmentQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $objectPHIDs;
   private $filePHIDs;
@@ -29,7 +29,7 @@ final class PhabricatorFileAttachmentQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorFileAttachment();
+    return new PhorgeFileAttachment();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -62,7 +62,7 @@ final class PhabricatorFileAttachmentQuery
     }
 
     if ($object_phids) {
-      $objects = id(new PhabricatorObjectQuery())
+      $objects = id(new PhorgeObjectQuery())
         ->setViewer($viewer)
         ->setParentQuery($this)
         ->withPHIDs($object_phids)
@@ -93,7 +93,7 @@ final class PhabricatorFileAttachmentQuery
       }
 
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->setParentQuery($this)
           ->withPHIDs($file_phids)
@@ -125,7 +125,7 @@ final class PhabricatorFileAttachmentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
 }

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorRepositoryCommitPublishWorker
-  extends PhabricatorRepositoryCommitParserWorker {
+final class PhorgeRepositoryCommitPublishWorker
+  extends PhorgeRepositoryCommitParserWorker {
 
   protected function getImportStepFlag() {
-    return PhabricatorRepositoryCommit::IMPORTED_PUBLISH;
+    return PhorgeRepositoryCommit::IMPORTED_PUBLISH;
   }
 
   public function getRequiredLeaseTime() {
@@ -13,8 +13,8 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   protected function parseCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     if (!$this->shouldSkipImportStep()) {
       $this->publishCommit($repository, $commit);
@@ -26,9 +26,9 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function publishCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commit_phid = $commit->getPHID();
 
@@ -42,7 +42,7 @@ final class PhabricatorRepositoryCommitPublishWorker
       ->needAuditRequests(true)
       ->executeOne();
     if (!$commit) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Failed to reload commit "%s".',
           $commit_phid));
@@ -81,9 +81,9 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function applyTransactions(
-    PhabricatorUser $actor,
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeUser $actor,
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     $xactions = array(
       $this->newAuditTransactions($commit),
@@ -124,7 +124,7 @@ final class PhabricatorRepositoryCommitPublishWorker
     $editor->applyTransactions($commit, $xactions);
   }
 
-  private function getPublishAsPHID(PhabricatorRepositoryCommit $commit) {
+  private function getPublishAsPHID(PhorgeRepositoryCommit $commit) {
     if ($commit->hasCommitterIdentity()) {
       return $commit->getCommitterIdentity()->getIdentityDisplayPHID();
     }
@@ -133,16 +133,16 @@ final class PhabricatorRepositoryCommitPublishWorker
       return $commit->getAuthorIdentity()->getIdentityDisplayPHID();
     }
 
-    return id(new PhabricatorDiffusionApplication())->getPHID();
+    return id(new PhorgeDiffusionApplication())->getPHID();
   }
 
-  private function newPublishTransactions(PhabricatorRepositoryCommit $commit) {
+  private function newPublishTransactions(PhorgeRepositoryCommit $commit) {
     $data = $commit->getCommitData();
 
     $xactions = array();
 
     $xactions[] = $commit->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorAuditTransaction::TYPE_COMMIT)
+      ->setTransactionType(PhorgeAuditTransaction::TYPE_COMMIT)
       ->setDateCreated($commit->getEpoch())
       ->setNewValue(
         array(
@@ -157,17 +157,17 @@ final class PhabricatorRepositoryCommitPublishWorker
     return $xactions;
   }
 
-  private function newAuditTransactions(PhabricatorRepositoryCommit $commit) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+  private function newAuditTransactions(PhorgeRepositoryCommit $commit) {
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $repository = $commit->getRepository();
 
-    $affected_paths = PhabricatorOwnerPathQuery::loadAffectedPaths(
+    $affected_paths = PhorgeOwnerPathQuery::loadAffectedPaths(
       $repository,
       $commit,
-      PhabricatorUser::getOmnipotentUser());
+      PhorgeUser::getOmnipotentUser());
 
-    $affected_packages = PhabricatorOwnersPackage::loadAffectedPackages(
+    $affected_packages = PhorgeOwnersPackage::loadAffectedPackages(
       $repository,
       $affected_paths);
 
@@ -227,8 +227,8 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function shouldTriggerAudit(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorOwnersPackage $package,
+    PhorgeRepositoryCommit $commit,
+    PhorgeOwnersPackage $package,
     $author_phid,
     $revision) {
 
@@ -237,17 +237,17 @@ final class PhabricatorRepositoryCommitPublishWorker
 
     $rule = $package->newAuditingRule();
     switch ($rule->getKey()) {
-      case PhabricatorOwnersAuditRule::AUDITING_NONE:
+      case PhorgeOwnersAuditRule::AUDITING_NONE:
         return false;
-      case PhabricatorOwnersAuditRule::AUDITING_ALL:
+      case PhorgeOwnersAuditRule::AUDITING_ALL:
         return true;
-      case PhabricatorOwnersAuditRule::AUDITING_NO_OWNER:
+      case PhorgeOwnersAuditRule::AUDITING_NO_OWNER:
         $audit_uninvolved = true;
         break;
-      case PhabricatorOwnersAuditRule::AUDITING_UNREVIEWED:
+      case PhorgeOwnersAuditRule::AUDITING_UNREVIEWED:
         $audit_unreviewed = true;
         break;
-      case PhabricatorOwnersAuditRule::AUDITING_NO_OWNER_AND_UNREVIEWED:
+      case PhorgeOwnersAuditRule::AUDITING_NO_OWNER_AND_UNREVIEWED:
         $audit_uninvolved = true;
         $audit_unreviewed = true;
         break;
@@ -298,12 +298,12 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function isOwnerInvolved(
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorOwnersPackage $package,
+    PhorgeRepositoryCommit $commit,
+    PhorgeOwnersPackage $package,
     $author_phid,
     $revision) {
 
-    $owner_phids = PhabricatorOwnersOwner::loadAffiliatedUserPHIDs(
+    $owner_phids = PhorgeOwnersOwner::loadAffiliatedUserPHIDs(
       array(
         $package->getID(),
       ));
@@ -362,9 +362,9 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function loadRawPatchText(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $identifier = $commit->getCommitIdentifier();
 
@@ -376,8 +376,8 @@ final class PhabricatorRepositoryCommitPublishWorker
 
     $time_key = 'metamta.diffusion.time-limit';
     $byte_key = 'metamta.diffusion.byte-limit';
-    $time_limit = PhabricatorEnv::getEnvConfig($time_key);
-    $byte_limit = PhabricatorEnv::getEnvConfig($byte_key);
+    $time_limit = PhorgeEnv::getEnvConfig($time_key);
+    $byte_limit = PhorgeEnv::getEnvConfig($byte_key);
 
     $diff_info = DiffusionQuery::callConduitWithDiffusionRequest(
       $viewer,
@@ -409,7 +409,7 @@ final class PhabricatorRepositoryCommitPublishWorker
     }
 
     $file_phid = $diff_info['filePHID'];
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();
@@ -425,11 +425,11 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function closeRevisions(
-    PhabricatorUser $actor,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeUser $actor,
+    PhorgeRepositoryCommit $commit) {
 
-    $differential = 'PhabricatorDifferentialApplication';
-    if (!PhabricatorApplication::isClassInstalled($differential)) {
+    $differential = 'PhorgeDifferentialApplication';
+    if (!PhorgeApplication::isClassInstalled($differential)) {
       return;
     }
 
@@ -479,11 +479,11 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function closeTasks(
-    PhabricatorUser $actor,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeUser $actor,
+    PhorgeRepositoryCommit $commit) {
 
-    $maniphest = 'PhabricatorManiphestApplication';
-    if (!PhabricatorApplication::isClassInstalled($maniphest)) {
+    $maniphest = 'PhorgeManiphestApplication';
+    if (!PhorgeApplication::isClassInstalled($maniphest)) {
       return;
     }
 
@@ -532,7 +532,7 @@ final class PhabricatorRepositoryCommitPublishWorker
   }
 
   private function queueObjectUpdate(
-    PhabricatorRepositoryCommit $commit,
+    PhorgeRepositoryCommit $commit,
     $object,
     array $properties) {
 
@@ -544,7 +544,7 @@ final class PhabricatorRepositoryCommitPublishWorker
         'properties' => $properties,
       ),
       array(
-        'priority' => PhabricatorWorker::PRIORITY_DEFAULT,
+        'priority' => PhorgeWorker::PRIORITY_DEFAULT,
       ));
   }
 

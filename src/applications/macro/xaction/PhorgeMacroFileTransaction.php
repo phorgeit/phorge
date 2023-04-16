@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroFileTransaction
-  extends PhabricatorMacroTransactionType {
+final class PhorgeMacroFileTransaction
+  extends PhorgeMacroTransactionType {
 
   const TRANSACTIONTYPE = 'macro:file';
 
@@ -49,7 +49,7 @@ final class PhabricatorMacroFileTransaction
 
       // Only validate if file was uploaded
       if ($file_phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($file_phid))
           ->executeOne();

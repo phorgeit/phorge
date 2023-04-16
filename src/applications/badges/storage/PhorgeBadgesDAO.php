@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorBadgesDAO extends PhabricatorLiskDAO {
+abstract class PhorgeBadgesDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'badges';

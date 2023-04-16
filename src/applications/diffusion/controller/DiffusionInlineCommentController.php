@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionInlineCommentController
-  extends PhabricatorInlineCommentController {
+  extends PhorgeInlineCommentController {
 
   protected function newInlineCommentQuery() {
     return new DiffusionDiffInlineCommentQuery();
@@ -36,15 +36,15 @@ final class DiffusionInlineCommentController
     // TODO: Write a real PathQuery object?
     $path_id = $this->getChangesetID();
     $path = queryfx_one(
-      id(new PhabricatorRepository())->establishConnection('r'),
+      id(new PhorgeRepository())->establishConnection('r'),
       'SELECT path FROM %T WHERE id = %d',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       $path_id);
     if (!$path) {
       throw new Exception(pht('Invalid path ID!'));
     }
 
-    return id(new PhabricatorAuditInlineComment())
+    return id(new PhorgeAuditInlineComment())
       ->setCommitPHID($commit->getPHID())
       ->setPathID($path_id);
   }
@@ -86,8 +86,8 @@ final class DiffusionInlineCommentController
   }
 
   protected function canEditInlineComment(
-    PhabricatorUser $viewer,
-    PhabricatorAuditInlineComment $inline) {
+    PhorgeUser $viewer,
+    PhorgeAuditInlineComment $inline) {
 
     // Only the author may edit a comment.
     if ($inline->getAuthorPHID() != $viewer->getPHID()) {
@@ -108,7 +108,7 @@ final class DiffusionInlineCommentController
   }
 
   protected function loadObjectOwnerPHID(
-    PhabricatorInlineComment $inline) {
+    PhorgeInlineComment $inline) {
     return $this->loadCommit()->getAuthorPHID();
   }
 

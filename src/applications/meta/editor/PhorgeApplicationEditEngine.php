@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorApplicationEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeApplicationEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'application.application';
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return 'PhorgeApplicationsApplication';
   }
 
   public function getEngineName() {
@@ -30,7 +30,7 @@ final class PhabricatorApplicationEditEngine
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorApplicationQuery();
+    return new PhorgeApplicationQuery();
   }
 
   protected function getObjectCreateTitleText($object) {

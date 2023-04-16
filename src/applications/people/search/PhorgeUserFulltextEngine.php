@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorUserFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeUserFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $user = $object;
@@ -13,10 +13,10 @@ final class PhabricatorUserFulltextEngine
 
     $document->addRelationship(
       $user->isUserActivated()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_OPEN
-        : PhabricatorSearchRelationship::RELATIONSHIP_CLOSED,
+        ? PhorgeSearchRelationship::RELATIONSHIP_OPEN
+        : PhorgeSearchRelationship::RELATIONSHIP_CLOSED,
       $user->getPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgePeopleUserPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 }

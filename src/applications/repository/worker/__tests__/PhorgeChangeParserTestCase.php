@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorChangeParserTestCase
-  extends PhabricatorWorkingCopyTestCase {
+final class PhorgeChangeParserTestCase
+  extends PhorgeWorkingCopyTestCase {
 
   public function testGitParser() {
     $repository = $this->buildDiscoveredRepository('CHA');
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commits = id(new DiffusionCommitQuery())
       ->setViewer($viewer)
@@ -206,7 +206,7 @@ final class PhabricatorChangeParserTestCase
     $this->requireBinaryForTest('hg');
 
     $repository = $this->buildDiscoveredRepository('CHB');
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commits = id(new DiffusionCommitQuery())
       ->setViewer($viewer)
@@ -399,7 +399,7 @@ final class PhabricatorChangeParserTestCase
     $this->requireBinaryForTest('svn');
 
     $repository = $this->buildDiscoveredRepository('CHC');
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commits = id(new DiffusionCommitQuery())
       ->setViewer($viewer)
@@ -962,15 +962,15 @@ final class PhabricatorChangeParserTestCase
     $repository = $this->buildBareRepository('CHD');
     $repository->setDetail('svn-subpath', 'trunk/');
 
-    id(new PhabricatorRepositoryPullEngine())
+    id(new PhorgeRepositoryPullEngine())
       ->setRepository($repository)
       ->pullRepository();
 
-    id(new PhabricatorRepositoryDiscoveryEngine())
+    id(new PhorgeRepositoryDiscoveryEngine())
       ->setRepository($repository)
       ->discoverCommits();
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commits = id(new DiffusionCommitQuery())
       ->setViewer($viewer)
@@ -1067,13 +1067,13 @@ final class PhabricatorChangeParserTestCase
 
     // First, automatically configure the root correctly.
     $repository = $this->buildBareRepository('CHD');
-    id(new PhabricatorRepositoryPullEngine())
+    id(new PhorgeRepositoryPullEngine())
       ->setRepository($repository)
       ->pullRepository();
 
     $caught = null;
     try {
-      id(new PhabricatorRepositoryDiscoveryEngine())
+      id(new PhorgeRepositoryDiscoveryEngine())
         ->setRepository($repository)
         ->discoverCommits();
     } catch (Exception $ex) {
@@ -1091,13 +1091,13 @@ final class PhabricatorChangeParserTestCase
       'remote-uri',
       $repository->getDetail('remote-uri').'trunk/');
 
-    id(new PhabricatorRepositoryPullEngine())
+    id(new PhorgeRepositoryPullEngine())
       ->setRepository($repository)
       ->pullRepository();
 
     $caught = null;
     try {
-      id(new PhabricatorRepositoryDiscoveryEngine())
+      id(new PhorgeRepositoryDiscoveryEngine())
         ->setRepository($repository)
         ->discoverCommits();
     } catch (Exception $ex) {
@@ -1115,15 +1115,15 @@ final class PhabricatorChangeParserTestCase
     $repository = $this->buildBareRepository('CHE');
     $repository->setDetail('svn-subpath', 'branch/');
 
-    id(new PhabricatorRepositoryPullEngine())
+    id(new PhorgeRepositoryPullEngine())
       ->setRepository($repository)
       ->pullRepository();
 
-    id(new PhabricatorRepositoryDiscoveryEngine())
+    id(new PhorgeRepositoryDiscoveryEngine())
       ->setRepository($repository)
       ->discoverCommits();
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $commits = id(new DiffusionCommitQuery())
       ->setViewer($viewer)
@@ -1152,23 +1152,23 @@ final class PhabricatorChangeParserTestCase
 
     $commit = $commits['2'];
     $this->assertEqual(
-      PhabricatorRepositoryCommit::IMPORTED_ALL,
+      PhorgeRepositoryCommit::IMPORTED_ALL,
       (int)$commit->getImportStatus());
   }
 
   private function parseCommit(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     switch ($repository->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        $parser = 'PhabricatorRepositoryGitCommitChangeParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_GIT:
+        $parser = 'PhorgeRepositoryGitCommitChangeParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-        $parser = 'PhabricatorRepositoryMercurialCommitChangeParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_MERCURIAL:
+        $parser = 'PhorgeRepositoryMercurialCommitChangeParserWorker';
         break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-        $parser = 'PhabricatorRepositorySvnCommitChangeParserWorker';
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
+        $parser = 'PhorgeRepositorySvnCommitChangeParserWorker';
         break;
       default:
         throw new Exception(pht('No support yet.'));
@@ -1179,7 +1179,7 @@ final class PhabricatorChangeParserTestCase
   }
 
   private function expectChanges(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     array $commits,
     array $expect) {
 
@@ -1207,7 +1207,7 @@ final class PhabricatorChangeParserTestCase
       $target_commits = array_filter(mpull($changes, 'getTargetCommitID'));
       if ($target_commits) {
         $commits = id(new DiffusionCommitQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withIDs($target_commits)
           ->execute();
         $target_commits = mpull($commits, 'getCommitIdentifier', 'getID');

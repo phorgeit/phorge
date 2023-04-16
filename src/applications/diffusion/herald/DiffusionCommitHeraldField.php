@@ -3,7 +3,7 @@
 abstract class DiffusionCommitHeraldField extends HeraldField {
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorRepositoryCommit);
+    return ($object instanceof PhorgeRepositoryCommit);
   }
 
   public function getFieldGroupKey() {

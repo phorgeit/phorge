@@ -33,8 +33,8 @@ abstract class AlmanacPropertyController extends AlmanacController {
       ->withPHIDs(array($object_phid))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->needProperties(true)
       ->executeOne();

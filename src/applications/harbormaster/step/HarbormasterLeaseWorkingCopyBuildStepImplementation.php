@@ -18,7 +18,7 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
   public function execute(
     HarbormasterBuild $build,
     HarbormasterBuildTarget $build_target) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
     $settings = $this->getSettings();
 
@@ -32,7 +32,7 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
         ->withPHIDs(array($lease_phid))
         ->executeOne();
       if (!$lease) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Lease "%s" could not be loaded.',
             $lease_phid));
@@ -83,12 +83,12 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
 
     if ($lease->isActivating()) {
       // TODO: Smart backoff?
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
 
     if (!$lease->isActive()) {
       // TODO: We could just forget about this lease and retry?
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Lease "%s" never activated.',
           $lease->getPHID()));
@@ -126,7 +126,7 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
   }
 
   private function buildRepositoryMap(HarbormasterBuildTarget $build_target) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
     $variables = $build_target->getVariables();
 
     $repository_phid = idx($variables, 'repository.phid');
@@ -145,7 +145,7 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
     $all_phids = $also_phids;
     $all_phids[] = $repository_phid;
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs($all_phids)
       ->execute();
@@ -153,7 +153,7 @@ final class HarbormasterLeaseWorkingCopyBuildStepImplementation
 
     foreach ($all_phids as $phid) {
       if (empty($repositories[$phid])) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Unable to load repository with PHID "%s".',
             $phid));

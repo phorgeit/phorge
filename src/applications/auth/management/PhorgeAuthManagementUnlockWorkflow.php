@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementUnlockWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementUnlockWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -18,7 +18,7 @@ final class PhabricatorAuthManagementUnlockWorkflow
     $console = PhutilConsole::getConsole();
 
     $key = 'auth.lock-config';
-    $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+    $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
     $config_entry->setValue(false);
 
     // If the entry has been deleted, resurrect it.

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationEmailCommandsController
-  extends PhabricatorApplicationsController {
+final class PhorgeApplicationEmailCommandsController
+  extends PhorgeApplicationsController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorApplicationEmailCommandsController
     $viewer = $this->getViewer();
     $application = $request->getURIData('application');
 
-    $selected = id(new PhabricatorApplicationQuery())
+    $selected = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application))
       ->executeOne();
@@ -57,7 +57,7 @@ final class PhabricatorApplicationEmailCommandsController
       "execute multiple commands at once:".
       "\n\n```\n!assign alincoln\n!close\n\nI just talked to @alincoln, ".
       "and he showed me that he fixed this.\n```\n",
-      PhabricatorEnv::getDoclink('Configuring Inbound Email'),
+      PhorgeEnv::getDoclink('Configuring Inbound Email'),
       PlatformSymbols::getPlatformServerName());
 
     $content[] = '= '.$spec['header'];
@@ -121,7 +121,7 @@ final class PhabricatorApplicationEmailCommandsController
     $content_box = new PHUIRemarkupView($viewer, $content);
 
     $info_view = null;
-    if (!PhabricatorEnv::getEnvConfig('metamta.reply-handler-domain')) {
+    if (!PhorgeEnv::getEnvConfig('metamta.reply-handler-domain')) {
       $error = pht(
         "This server is not currently configured to accept inbound mail. ".
         "You won't be able to interact with objects over email until ".

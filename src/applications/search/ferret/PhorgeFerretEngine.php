@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFerretEngine extends Phobject {
+abstract class PhorgeFerretEngine extends Phobject {
 
   private $fieldMap = array();
   private $ferretFunctions;

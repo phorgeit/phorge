@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExternalInviteePHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeCalendarExternalInviteePHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'CXNV';
 
@@ -10,23 +10,23 @@ final class PhabricatorCalendarExternalInviteePHIDType
   }
 
   public function newObject() {
-    return new PhabricatorCalendarExternalInvitee();
+    return new PhorgeCalendarExternalInvitee();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorCalendarExternalInviteeQuery())
+    return id(new PhorgeCalendarExternalInviteeQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

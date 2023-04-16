@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorApplicationTestCase extends PhabricatorTestCase {
+final class PhorgeApplicationTestCase extends PhorgeTestCase {
 
   public function testGetAllApplications() {
-    PhabricatorApplication::getAllApplications();
+    PhorgeApplication::getAllApplications();
     $this->assertTrue(true);
   }
 

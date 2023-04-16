@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryEnormousTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryEnormousTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:enormous';
 

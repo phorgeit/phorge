@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFeedTransactionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFeedTransactionQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $phids;
   private $authorPHIDs;
@@ -35,7 +35,7 @@ final class PhabricatorFeedTransactionQuery
     // return objects of any subclass of "ApplicationTransaction" when it is
     // executed, but we need to pick something concrete here to make some
     // integrations work (like automatic handling of PHIDs in data export).
-    return new PhabricatorUserTransaction();
+    return new PhorgeUserTransaction();
   }
 
   protected function loadPage() {
@@ -145,14 +145,14 @@ final class PhabricatorFeedTransactionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFeedApplication';
+    return 'PhorgeFeedApplication';
   }
 
   private function newTransactionQueries() {
     $viewer = $this->getViewer();
 
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+      ->setAncestorClass('PhorgeApplicationTransactionQuery')
       ->execute();
 
     $type_map = array();
@@ -207,7 +207,7 @@ final class PhabricatorFeedTransactionQuery
   }
 
   protected function applyExternalCursorConstraintsToQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $subquery,
+    PhorgeCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
     $subquery->withPHIDs(array($cursor));
   }

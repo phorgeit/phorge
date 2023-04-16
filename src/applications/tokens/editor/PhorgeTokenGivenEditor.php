@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorTokenGivenEditor
-  extends PhabricatorEditor {
+final class PhorgeTokenGivenEditor
+  extends PhorgeEditor {
 
   private $contentSource;
   private $request;
   private $cancelURI;
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -41,7 +41,7 @@ final class PhabricatorTokenGivenEditor
 
     $actor = $this->requireActor();
 
-    $token_given = id(new PhabricatorTokenGiven())
+    $token_given = id(new PhorgeTokenGiven())
       ->setAuthorPHID($actor->getPHID())
       ->setObjectPHID($object->getPHID())
       ->setTokenPHID($token->getPHID());
@@ -58,7 +58,7 @@ final class PhabricatorTokenGivenEditor
         $token_given->establishConnection('w'),
         'INSERT INTO %T (objectPHID, tokenCount) VALUES (%s, 1)
           ON DUPLICATE KEY UPDATE tokenCount = tokenCount + 1',
-        id(new PhabricatorTokenCount())->getTableName(),
+        id(new PhorgeTokenCount())->getTableName(),
         $object->getPHID());
 
       $current_token_phid = null;
@@ -83,14 +83,14 @@ final class PhabricatorTokenGivenEditor
       $related_phids = $subscribed_phids;
       $related_phids[] = $actor->getPHID();
 
-      $story_type = 'PhabricatorTokenGivenFeedStory';
+      $story_type = 'PhorgeTokenGivenFeedStory';
       $story_data = array(
         'authorPHID' => $actor->getPHID(),
         'tokenPHID' => $token->getPHID(),
         'objectPHID' => $object->getPHID(),
       );
 
-      id(new PhabricatorFeedStoryPublisher())
+      id(new PhorgeFeedStoryPublisher())
         ->setStoryType($story_type)
         ->setStoryData($story_data)
         ->setStoryTime(time())
@@ -128,8 +128,8 @@ final class PhabricatorTokenGivenEditor
   }
 
   private function executeDeleteToken(
-    PhabricatorTokenReceiverInterface $object,
-    PhabricatorTokenGiven $token_given) {
+    PhorgeTokenReceiverInterface $object,
+    PhorgeTokenGiven $token_given) {
 
     $token_given->openTransaction();
       $token_given->delete();
@@ -138,13 +138,13 @@ final class PhabricatorTokenGivenEditor
         $token_given->establishConnection('w'),
         'INSERT INTO %T (objectPHID, tokenCount) VALUES (%s, 0)
           ON DUPLICATE KEY UPDATE tokenCount = tokenCount - 1',
-        id(new PhabricatorTokenCount())->getTableName(),
+        id(new PhorgeTokenCount())->getTableName(),
         $object->getPHID());
     $token_given->saveTransaction();
   }
 
   private function validateToken($token_phid) {
-    $token = id(new PhabricatorTokenQuery())
+    $token = id(new PhorgeTokenQuery())
       ->setViewer($this->requireActor())
       ->withPHIDs(array($token_phid))
       ->executeOne();
@@ -157,7 +157,7 @@ final class PhabricatorTokenGivenEditor
   }
 
   private function validateObject($object_phid) {
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($this->requireActor())
       ->withPHIDs(array($object_phid))
       ->executeOne();
@@ -169,8 +169,8 @@ final class PhabricatorTokenGivenEditor
     return $object;
   }
 
-  private function loadCurrentToken(PhabricatorTokenReceiverInterface $object) {
-    return id(new PhabricatorTokenGiven())->loadOneWhere(
+  private function loadCurrentToken(PhorgeTokenReceiverInterface $object) {
+    return id(new PhorgeTokenGiven())->loadOneWhere(
       'authorPHID = %s AND objectPHID = %s',
       $this->requireActor()->getPHID(),
       $object->getPHID());
@@ -178,11 +178,11 @@ final class PhabricatorTokenGivenEditor
 
 
   private function publishTransaction(
-    PhabricatorTokenReceiverInterface $object,
+    PhorgeTokenReceiverInterface $object,
     $old_token_phid,
     $new_token_phid) {
 
-    if (!($object instanceof PhabricatorApplicationTransactionInterface)) {
+    if (!($object instanceof PhorgeApplicationTransactionInterface)) {
       return;
     }
 
@@ -190,7 +190,7 @@ final class PhabricatorTokenGivenEditor
 
     $xactions = array();
     $xactions[] = id($object->getApplicationTransactionTemplate())
-      ->setTransactionType(PhabricatorTransactions::TYPE_TOKEN)
+      ->setTransactionType(PhorgeTransactions::TYPE_TOKEN)
       ->setOldValue($old_token_phid)
       ->setNewValue($new_token_phid);
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryRefCursorQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryRefCursorQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -47,13 +47,13 @@ final class PhabricatorRepositoryRefCursorQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryRefCursor();
+    return new PhorgeRepositoryRefCursor();
   }
 
   protected function willFilterPage(array $refs) {
     $repository_phids = mpull($refs, 'getRepositoryPHID');
 
-    $repositories = id(new PhabricatorRepositoryQuery())
+    $repositories = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->setParentQuery($this)
       ->withPHIDs($repository_phids)
@@ -75,7 +75,7 @@ final class PhabricatorRepositoryRefCursorQuery
     }
 
     if ($this->needPositions) {
-      $positions = id(new PhabricatorRepositoryRefPosition())->loadAllWhere(
+      $positions = id(new PhorgeRepositoryRefPosition())->loadAllWhere(
         'cursorID IN (%Ld)',
         mpull($refs, 'getID'));
       $positions = mgroup($positions, 'getCursorID');
@@ -123,7 +123,7 @@ final class PhabricatorRepositoryRefCursorQuery
     if ($this->refNames !== null) {
       $name_hashes = array();
       foreach ($this->refNames as $name) {
-        $name_hashes[] = PhabricatorHash::digestForIndex($name);
+        $name_hashes[] = PhorgeHash::digestForIndex($name);
       }
 
       $where[] = qsprintf(
@@ -143,7 +143,7 @@ final class PhabricatorRepositoryRefCursorQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

@@ -59,16 +59,16 @@ final class PhortuneAccountDetailsController
   private function buildCurtainView(PhortuneAccount $account) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $account,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getApplicationURI('account/edit/'.$account->getID().'/');
 
     $curtain = $this->newCurtainView($account);
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Account'))
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)

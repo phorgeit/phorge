@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorFileDocumentRenderingEngine
-  extends PhabricatorDocumentRenderingEngine {
+final class PhorgeFileDocumentRenderingEngine
+  extends PhorgeDocumentRenderingEngine {
 
   protected function newRefViewURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine) {
 
     $file = $ref->getFile();
     $engine_key = $engine->getDocumentEngineKey();
@@ -17,8 +17,8 @@ final class PhabricatorFileDocumentRenderingEngine
   }
 
   protected function newRefRenderURI(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngine $engine) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngine $engine) {
     $file = $ref->getFile();
     if (!$file) {
       throw new PhutilMethodNotImplementedException();
@@ -35,7 +35,7 @@ final class PhabricatorFileDocumentRenderingEngine
 
   protected function addApplicationCrumbs(
     PHUICrumbsView $crumbs,
-    PhabricatorDocumentRef $ref = null) {
+    PhorgeDocumentRef $ref = null) {
 
     if ($ref) {
       $file = $ref->getFile();

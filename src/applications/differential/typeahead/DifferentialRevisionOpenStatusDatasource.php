@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialRevisionOpenStatusDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   const FUNCTION_TOKEN = 'open()';
 
@@ -14,7 +14,7 @@ final class DifferentialRevisionOpenStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -54,7 +54,7 @@ final class DifferentialRevisionOpenStatusDatasource
     $results = array();
 
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildOpenResult());
     }
 

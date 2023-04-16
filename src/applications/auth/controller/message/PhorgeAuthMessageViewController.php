@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMessageViewController
-  extends PhabricatorAuthMessageController {
+final class PhorgeAuthMessageViewController
+  extends PhorgeAuthMessageController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -19,7 +19,7 @@ final class PhabricatorAuthMessageViewController
 
     $id = $request->getURIData('id');
     if (ctype_digit($id)) {
-      $message = id(new PhabricatorAuthMessageQuery())
+      $message = id(new PhorgeAuthMessageQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->executeOne();
@@ -27,14 +27,14 @@ final class PhabricatorAuthMessageViewController
         return new Aphront404Response();
       }
     } else {
-      $types = PhabricatorAuthMessageType::getAllMessageTypes();
+      $types = PhorgeAuthMessageType::getAllMessageTypes();
       if (!isset($types[$id])) {
         return new Aphront404Response();
       }
 
       // If this message type already has a storage record, redirect to the
       // canonical page for the record.
-      $message = id(new PhabricatorAuthMessageQuery())
+      $message = id(new PhorgeAuthMessageQuery())
         ->setViewer($viewer)
         ->withMessageKeys(array($id))
         ->executeOne();
@@ -45,7 +45,7 @@ final class PhabricatorAuthMessageViewController
 
       // Otherwise, create an empty placeholder message object with the
       // appropriate message type.
-      $message = PhabricatorAuthMessage::initializeNewMessage($types[$id]);
+      $message = PhorgeAuthMessage::initializeNewMessage($types[$id]);
     }
 
     $crumbs = $this->buildApplicationCrumbs()
@@ -59,7 +59,7 @@ final class PhabricatorAuthMessageViewController
     if ($message->getID()) {
       $timeline = $this->buildTransactionTimeline(
         $message,
-        new PhabricatorAuthMessageTransactionQuery());
+        new PhorgeAuthMessageTransactionQuery());
       $timeline->setShouldTerminate(true);
     } else {
       $timeline = null;
@@ -84,7 +84,7 @@ final class PhabricatorAuthMessageViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorAuthMessage $message) {
+  private function buildHeaderView(PhorgeAuthMessage $message) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIHeaderView())
@@ -94,7 +94,7 @@ final class PhabricatorAuthMessageViewController
     return $view;
   }
 
-  private function buildPropertiesView(PhabricatorAuthMessage $message) {
+  private function buildPropertiesView(PhorgeAuthMessage $message) {
     $viewer = $this->getViewer();
 
     $message_type = $message->getMessageType();
@@ -131,14 +131,14 @@ final class PhabricatorAuthMessageViewController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorAuthMessage $message) {
+  private function buildCurtain(PhorgeAuthMessage $message) {
     $viewer = $this->getViewer();
     $id = $message->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $message,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if ($id) {
       $edit_uri = urisprintf('message/edit/%s/', $id);
@@ -157,7 +157,7 @@ final class PhabricatorAuthMessageViewController
     $curtain = $this->newCurtainView($message);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName($edit_name)
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)

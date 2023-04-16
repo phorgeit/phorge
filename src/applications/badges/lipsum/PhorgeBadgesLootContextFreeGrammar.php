@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBadgesLootContextFreeGrammar
+final class PhorgeBadgesLootContextFreeGrammar
   extends PhutilContextFreeGrammar {
 
   protected function getRules() {

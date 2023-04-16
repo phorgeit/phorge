@@ -1,13 +1,13 @@
 <?php
 
 final class DiffusionURIEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   private $repository;
   private $repositoryPHID;
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -17,32 +17,32 @@ final class DiffusionURIEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_REPOSITORY;
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_URI;
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_IO;
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_DISPLAY;
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL;
-    $types[] = PhabricatorRepositoryURITransaction::TYPE_DISABLE;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_REPOSITORY;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_URI;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_IO;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_DISPLAY;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_CREDENTIAL;
+    $types[] = PhorgeRepositoryURITransaction::TYPE_DISABLE;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorRepositoryURITransaction::TYPE_URI:
+      case PhorgeRepositoryURITransaction::TYPE_URI:
         return $object->getURI();
-      case PhabricatorRepositoryURITransaction::TYPE_IO:
+      case PhorgeRepositoryURITransaction::TYPE_IO:
         return $object->getIOType();
-      case PhabricatorRepositoryURITransaction::TYPE_DISPLAY:
+      case PhorgeRepositoryURITransaction::TYPE_DISPLAY:
         return $object->getDisplayType();
-      case PhabricatorRepositoryURITransaction::TYPE_REPOSITORY:
+      case PhorgeRepositoryURITransaction::TYPE_REPOSITORY:
         return $object->getRepositoryPHID();
-      case PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL:
+      case PhorgeRepositoryURITransaction::TYPE_CREDENTIAL:
         return $object->getCredentialPHID();
-      case PhabricatorRepositoryURITransaction::TYPE_DISABLE:
+      case PhorgeRepositoryURITransaction::TYPE_DISABLE:
         return (int)$object->getIsDisabled();
     }
 
@@ -50,17 +50,17 @@ final class DiffusionURIEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorRepositoryURITransaction::TYPE_URI:
-      case PhabricatorRepositoryURITransaction::TYPE_IO:
-      case PhabricatorRepositoryURITransaction::TYPE_DISPLAY:
-      case PhabricatorRepositoryURITransaction::TYPE_REPOSITORY:
-      case PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL:
+      case PhorgeRepositoryURITransaction::TYPE_URI:
+      case PhorgeRepositoryURITransaction::TYPE_IO:
+      case PhorgeRepositoryURITransaction::TYPE_DISPLAY:
+      case PhorgeRepositoryURITransaction::TYPE_REPOSITORY:
+      case PhorgeRepositoryURITransaction::TYPE_CREDENTIAL:
         return $xaction->getNewValue();
-      case PhabricatorRepositoryURITransaction::TYPE_DISABLE:
+      case PhorgeRepositoryURITransaction::TYPE_DISABLE:
         return (int)$xaction->getNewValue();
     }
 
@@ -68,11 +68,11 @@ final class DiffusionURIEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorRepositoryURITransaction::TYPE_URI:
+      case PhorgeRepositoryURITransaction::TYPE_URI:
         if (!$this->getIsNewObject()) {
           $old_uri = $object->getEffectiveURI();
         } else {
@@ -117,36 +117,36 @@ final class DiffusionURIEditor
           }
         }
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_IO:
+      case PhorgeRepositoryURITransaction::TYPE_IO:
         $object->setIOType($xaction->getNewValue());
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_DISPLAY:
+      case PhorgeRepositoryURITransaction::TYPE_DISPLAY:
         $object->setDisplayType($xaction->getNewValue());
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_REPOSITORY:
+      case PhorgeRepositoryURITransaction::TYPE_REPOSITORY:
         $object->setRepositoryPHID($xaction->getNewValue());
         $object->attachRepository($this->repository);
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL:
+      case PhorgeRepositoryURITransaction::TYPE_CREDENTIAL:
         $object->setCredentialPHID($xaction->getNewValue());
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_DISABLE:
+      case PhorgeRepositoryURITransaction::TYPE_DISABLE:
         $object->setIsDisabled($xaction->getNewValue());
         break;
     }
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorRepositoryURITransaction::TYPE_URI:
-      case PhabricatorRepositoryURITransaction::TYPE_IO:
-      case PhabricatorRepositoryURITransaction::TYPE_DISPLAY:
-      case PhabricatorRepositoryURITransaction::TYPE_REPOSITORY:
-      case PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL:
-      case PhabricatorRepositoryURITransaction::TYPE_DISABLE:
+      case PhorgeRepositoryURITransaction::TYPE_URI:
+      case PhorgeRepositoryURITransaction::TYPE_IO:
+      case PhorgeRepositoryURITransaction::TYPE_DISPLAY:
+      case PhorgeRepositoryURITransaction::TYPE_REPOSITORY:
+      case PhorgeRepositoryURITransaction::TYPE_CREDENTIAL:
+      case PhorgeRepositoryURITransaction::TYPE_DISABLE:
         return;
     }
 
@@ -154,14 +154,14 @@ final class DiffusionURIEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
     $errors = parent::validateTransaction($object, $type, $xactions);
 
     switch ($type) {
-      case PhabricatorRepositoryURITransaction::TYPE_REPOSITORY:
+      case PhorgeRepositoryURITransaction::TYPE_REPOSITORY:
         // Save this, since we need it to validate TYPE_IO transactions.
         $this->repositoryPHID = $object->getRepositoryPHID();
 
@@ -171,7 +171,7 @@ final class DiffusionURIEditor
         if ($missing) {
           // NOTE: This isn't being marked as a missing field error because
           // it's a fundamental, required property of the URI.
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht(
@@ -192,7 +192,7 @@ final class DiffusionURIEditor
           }
 
           if (!$this->getIsNewObject()) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -202,17 +202,17 @@ final class DiffusionURIEditor
             continue;
           }
 
-          $repository = id(new PhabricatorRepositoryQuery())
+          $repository = id(new PhorgeRepositoryQuery())
             ->setViewer($viewer)
             ->withPHIDs(array($repository_phid))
             ->requireCapabilities(
               array(
-                PhabricatorPolicyCapability::CAN_VIEW,
-                PhabricatorPolicyCapability::CAN_EDIT,
+                PhorgePolicyCapability::CAN_VIEW,
+                PhorgePolicyCapability::CAN_EDIT,
               ))
             ->executeOne();
           if (!$repository) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -227,7 +227,7 @@ final class DiffusionURIEditor
           $this->repositoryPHID = $repository_phid;
         }
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_CREDENTIAL:
+      case PhorgeRepositoryURITransaction::TYPE_CREDENTIAL:
         $viewer = $this->getActor();
         foreach ($xactions as $xaction) {
           $credential_phid = $xaction->getNewValue();
@@ -246,7 +246,7 @@ final class DiffusionURIEditor
             ->withPHIDs(array($credential_phid))
             ->executeOne();
           if (!$credential) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -258,13 +258,13 @@ final class DiffusionURIEditor
           }
         }
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_URI:
+      case PhorgeRepositoryURITransaction::TYPE_URI:
         $missing = $this->validateIsEmptyTextField(
           $object->getURI(),
           $xactions);
 
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('A repository URI must have a nonempty URI.'),
@@ -282,9 +282,9 @@ final class DiffusionURIEditor
           }
 
           try {
-            PhabricatorRepository::assertValidRemoteURI($new_uri);
+            PhorgeRepository::assertValidRemoteURI($new_uri);
           } catch (Exception $ex) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               $ex->getMessage(),
@@ -294,13 +294,13 @@ final class DiffusionURIEditor
         }
 
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_IO:
+      case PhorgeRepositoryURITransaction::TYPE_IO:
         $available = $object->getAvailableIOTypeOptions();
         foreach ($xactions as $xaction) {
           $new = $xaction->getNewValue();
 
           if (empty($available[$new])) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -321,18 +321,18 @@ final class DiffusionURIEditor
           $no_observers = false;
           $no_readwrite = false;
           switch ($new) {
-            case PhabricatorRepositoryURI::IO_OBSERVE:
+            case PhorgeRepositoryURI::IO_OBSERVE:
               $no_readwrite = true;
               $no_observers = true;
               break;
-            case PhabricatorRepositoryURI::IO_READWRITE:
+            case PhorgeRepositoryURI::IO_READWRITE:
               $no_observers = true;
               break;
           }
 
           if ($no_observers || $no_readwrite) {
-            $repository = id(new PhabricatorRepositoryQuery())
-              ->setViewer(PhabricatorUser::getOmnipotentUser())
+            $repository = id(new PhorgeRepositoryQuery())
+              ->setViewer(PhorgeUser::getOmnipotentUser())
               ->withPHIDs(array($this->repositoryPHID))
               ->needURIs(true)
               ->executeOne();
@@ -349,14 +349,14 @@ final class DiffusionURIEditor
 
               $io_type = $uri->getEffectiveIOType();
 
-              if ($io_type == PhabricatorRepositoryURI::IO_READWRITE) {
+              if ($io_type == PhorgeRepositoryURI::IO_READWRITE) {
                 if ($no_readwrite) {
                   $readwrite_conflict = $uri;
                   break;
                 }
               }
 
-              if ($io_type == PhabricatorRepositoryURI::IO_OBSERVE) {
+              if ($io_type == PhorgeRepositoryURI::IO_OBSERVE) {
                 if ($no_observers) {
                   $observe_conflict = $uri;
                   break;
@@ -365,7 +365,7 @@ final class DiffusionURIEditor
             }
 
             if ($observe_conflict) {
-              if ($new == PhabricatorRepositoryURI::IO_OBSERVE) {
+              if ($new == PhorgeRepositoryURI::IO_OBSERVE) {
                 $message = pht(
                   'You can not set this URI to use Observe IO because '.
                   'another URI for this repository is already configured '.
@@ -380,7 +380,7 @@ final class DiffusionURIEditor
                   'made writable. Turn off IO for the other URI first.');
               }
 
-              $errors[] = new PhabricatorApplicationTransactionValidationError(
+              $errors[] = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Invalid'),
                 $message,
@@ -396,7 +396,7 @@ final class DiffusionURIEditor
                 'be writable and observe a remote. Turn off IO for the '.
                 'other URI first.');
 
-              $errors[] = new PhabricatorApplicationTransactionValidationError(
+              $errors[] = new PhorgeApplicationTransactionValidationError(
                 $type,
                 pht('Invalid'),
                 $message,
@@ -407,13 +407,13 @@ final class DiffusionURIEditor
         }
 
         break;
-      case PhabricatorRepositoryURITransaction::TYPE_DISPLAY:
+      case PhorgeRepositoryURITransaction::TYPE_DISPLAY:
         $available = $object->getAvailableDisplayTypeOptions();
         foreach ($xactions as $xaction) {
           $new = $xaction->getNewValue();
 
           if (empty($available[$new])) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht(
@@ -425,7 +425,7 @@ final class DiffusionURIEditor
         }
         break;
 
-      case PhabricatorRepositoryURITransaction::TYPE_DISABLE:
+      case PhorgeRepositoryURITransaction::TYPE_DISABLE:
         $old = $object->getIsDisabled();
         foreach ($xactions as $xaction) {
           $new = $xaction->getNewValue();
@@ -438,7 +438,7 @@ final class DiffusionURIEditor
             continue;
           }
 
-          $errors[] = new PhabricatorApplicationTransactionValidationError(
+          $errors[] = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Invalid'),
             pht('You can not manually disable builtin URIs.'));
@@ -450,15 +450,15 @@ final class DiffusionURIEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     // Synchronize the repository state based on the presence of an "Observe"
     // URI.
     $repository = $object->getRepository();
 
-    $uris = id(new PhabricatorRepositoryURIQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $uris = id(new PhorgeRepositoryURIQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withRepositories(array($repository))
       ->execute();
 
@@ -469,7 +469,7 @@ final class DiffusionURIEditor
 
     $observe_uri = null;
     foreach ($uris as $uri) {
-      if ($uri->getIoType() != PhabricatorRepositoryURI::IO_OBSERVE) {
+      if ($uri->getIoType() != PhorgeRepositoryURI::IO_OBSERVE) {
         continue;
       }
 
@@ -508,7 +508,7 @@ final class DiffusionURIEditor
     }
 
     $repository->writeStatusMessage(
-      PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+      PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
       null);
 
     return $xactions;

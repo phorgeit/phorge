@@ -5,7 +5,7 @@ final class DiffusionSyncLogListView extends AphrontView {
   private $logs;
 
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositorySyncEvent');
+    assert_instances_of($logs, 'PhorgeRepositorySyncEvent');
     $this->logs = $logs;
     return $this;
   }

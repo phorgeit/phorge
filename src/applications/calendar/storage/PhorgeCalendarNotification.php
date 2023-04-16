@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarNotification
-  extends PhabricatorCalendarDAO {
+final class PhorgeCalendarNotification
+  extends PhorgeCalendarDAO {
 
   protected $eventPHID;
   protected $utcInitialEpoch;

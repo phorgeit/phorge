@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigConsoleController
-  extends PhabricatorConfigController {
+final class PhorgeConfigConsoleController
+  extends PhorgeConfigController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -136,7 +136,7 @@ final class PhabricatorConfigConsoleController
       ->appendChild($table_view);
   }
 
-  private function loadVersions(PhabricatorUser $viewer) {
+  private function loadVersions(PhorgeUser $viewer) {
     $specs = array(
       'phorge',
       'arcanist',

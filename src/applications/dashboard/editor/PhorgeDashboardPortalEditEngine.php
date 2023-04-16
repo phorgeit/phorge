@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeDashboardPortalEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'portal';
 
@@ -22,15 +22,15 @@ final class PhabricatorDashboardPortalEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorDashboardPortal::initializeNewPortal();
+    return PhorgeDashboardPortal::initializeNewPortal();
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorDashboardPortalQuery();
+    return new PhorgeDashboardPortalQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -71,14 +71,14 @@ final class PhabricatorDashboardPortalEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the portal.'))
         ->setConduitDescription(pht('Rename the portal.'))
         ->setConduitTypeDescription(pht('New portal name.'))
         ->setTransactionType(
-            PhabricatorDashboardPortalNameTransaction::TRANSACTIONTYPE)
+            PhorgeDashboardPortalNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
     );

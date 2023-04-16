@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthChallengeGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeAuthChallengeGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'auth.challenges';
 
@@ -14,7 +14,7 @@ final class PhabricatorAuthChallengeGarbageCollector
   }
 
   protected function collectGarbage() {
-    $challenge_table = new PhabricatorAuthChallenge();
+    $challenge_table = new PhorgeAuthChallenge();
     $conn = $challenge_table->establishConnection('w');
 
     queryfx(

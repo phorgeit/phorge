@@ -1,14 +1,14 @@
 <?php
 
 final class PhameBlogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phame Blogs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhameApplication';
+    return 'PhorgePhameApplication';
   }
 
   public function newQuery() {
@@ -26,7 +26,7 @@ final class PhameBlogSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchSelectField())
+      id(new PhorgeSearchSelectField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setOptions(array(
@@ -69,7 +69,7 @@ final class PhameBlogSearchEngine
   }
   protected function renderResultList(
     array $blogs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     assert_instances_of($blogs, 'PhameBlog');
@@ -105,7 +105,7 @@ final class PhameBlogSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No blogs found.'));
 

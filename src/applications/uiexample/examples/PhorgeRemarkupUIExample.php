@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRemarkupUIExample extends PhabricatorUIExample {
+final class PhorgeRemarkupUIExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Remarkup');

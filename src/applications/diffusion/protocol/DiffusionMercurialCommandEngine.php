@@ -4,7 +4,7 @@ final class DiffusionMercurialCommandEngine
   extends DiffusionCommandEngine {
 
   protected function canBuildForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isHg();
   }
 

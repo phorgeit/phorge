@@ -11,8 +11,8 @@ final class PhamePostMoveController extends PhamePostController {
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_EDIT,
-          PhabricatorPolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
         ))
       ->executeOne();
 
@@ -49,8 +49,8 @@ final class PhamePostMoveController extends PhamePostController {
       ->setViewer($viewer)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 

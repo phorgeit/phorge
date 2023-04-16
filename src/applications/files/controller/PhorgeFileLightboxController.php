@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileLightboxController
-  extends PhabricatorFileController {
+final class PhorgeFileLightboxController
+  extends PhorgeFileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -12,7 +12,7 @@ final class PhabricatorFileLightboxController
     $phid = $request->getURIData('phid');
     $comment = $request->getStr('comment');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -22,13 +22,13 @@ final class PhabricatorFileLightboxController
 
     if (strlen($comment)) {
       $xactions = array();
-      $xactions[] = id(new PhabricatorFileTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
+      $xactions[] = id(new PhorgeFileTransaction())
+        ->setTransactionType(PhorgeTransactions::TYPE_COMMENT)
         ->attachComment(
-          id(new PhabricatorFileTransactionComment())
+          id(new PhorgeFileTransactionComment())
             ->setContent($comment));
 
-      $editor = id(new PhabricatorFileEditor())
+      $editor = id(new PhorgeFileEditor())
         ->setActor($viewer)
         ->setContinueOnNoEffect(true)
         ->setContentSourceFromRequest($request);
@@ -36,8 +36,8 @@ final class PhabricatorFileLightboxController
       $editor->applyTransactions($file, $xactions);
     }
 
-    $transactions = id(new PhabricatorFileTransactionQuery())
-      ->withTransactionTypes(array(PhabricatorTransactions::TYPE_COMMENT));
+    $transactions = id(new PhorgeFileTransactionQuery())
+      ->withTransactionTypes(array(PhorgeTransactions::TYPE_COMMENT));
     $timeline = $this->buildTransactionTimeline($file, $transactions);
 
     $comment_form = $this->renderCommentForm($file);
@@ -65,7 +65,7 @@ final class PhabricatorFileLightboxController
       ->setContent($content);
   }
 
-  private function renderCommentForm(PhabricatorFile $file) {
+  private function renderCommentForm(PhorgeFile $file) {
     $viewer = $this->getViewer();
 
     if (!$viewer->isLoggedIn()) {
@@ -80,7 +80,7 @@ final class PhabricatorFileLightboxController
           ->setHref((string)$login_href));
     }
 
-    $draft = PhabricatorDraft::newFromUserAndKey(
+    $draft = PhorgeDraft::newFromUserAndKey(
       $viewer,
       $file->getPHID());
     $post_uri = $this->getApplicationURI('thread/'.$file->getPHID().'/');
@@ -92,7 +92,7 @@ final class PhabricatorFileLightboxController
       ->addClass('lightbox-comment-form')
       ->setWorkflow(true)
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
         ->setUser($viewer)
         ->setName('comment')
         ->setValue($draft->getDraft()))

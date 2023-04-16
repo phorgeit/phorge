@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorSearchHost
+abstract class PhorgeSearchHost
   extends Phobject {
 
   const KEY_REFS = 'cluster.search.refs';
@@ -17,7 +17,7 @@ abstract class PhabricatorSearchHost
   const STATUS_OKAY = 'okay';
   const STATUS_FAIL = 'fail';
 
-  public function __construct(PhabricatorFulltextStorageEngine $engine) {
+  public function __construct(PhorgeFulltextStorageEngine $engine) {
     $this->engine = $engine;
   }
 
@@ -31,7 +31,7 @@ abstract class PhabricatorSearchHost
   }
 
   /**
-   * @return PhabricatorFulltextStorageEngine
+   * @return PhorgeFulltextStorageEngine
    */
   public function getEngine() {
     return $this->engine;
@@ -94,11 +94,11 @@ abstract class PhabricatorSearchHost
   }
 
 /**
- * @return PhabricatorClusterServiceHealthRecord
+ * @return PhorgeClusterServiceHealthRecord
  */
   public function getHealthRecord() {
     if (!$this->healthRecord) {
-      $this->healthRecord = new PhabricatorClusterServiceHealthRecord(
+      $this->healthRecord = new PhorgeClusterServiceHealthRecord(
         $this->getHealthRecordCacheKey());
     }
     return $this->healthRecord;

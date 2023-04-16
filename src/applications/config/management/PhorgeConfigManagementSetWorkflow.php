@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManagementSetWorkflow
-  extends PhabricatorConfigManagementWorkflow {
+final class PhorgeConfigManagementSetWorkflow
+  extends PhorgeConfigManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -68,7 +68,7 @@ final class PhabricatorConfigManagementSetWorkflow
       $value = $argv[1];
     }
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     if (empty($options[$key])) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -86,7 +86,7 @@ final class PhabricatorConfigManagementSetWorkflow
           $option,
           $value);
         $type->validateStoredValue($option, $value);
-      } catch (PhabricatorConfigValidationException $ex) {
+      } catch (PhorgeConfigValidationException $ex) {
         throw new PhutilArgumentUsageException($ex->getMessage());
       }
     } else {
@@ -122,13 +122,13 @@ final class PhabricatorConfigManagementSetWorkflow
 
     try {
       $option->getGroup()->validateOption($option, $value);
-    } catch (PhabricatorConfigValidationException $validation) {
+    } catch (PhorgeConfigValidationException $validation) {
       // Convert this into a usage exception so we don't dump a stack trace.
       throw new PhutilArgumentUsageException($validation->getMessage());
     }
 
     if ($use_database) {
-      $config_entry = PhabricatorConfigEntry::loadConfigEntry($key);
+      $config_entry = PhorgeConfigEntry::loadConfigEntry($key);
       $config_entry->setValue($value);
 
       // If the entry has been deleted, resurrect it.
@@ -140,7 +140,7 @@ final class PhabricatorConfigManagementSetWorkflow
         'Wrote configuration key "%s" to database storage.',
         $key);
     } else {
-      $config_source = new PhabricatorConfigLocalSource();
+      $config_source = new PhorgeConfigLocalSource();
 
       $local_path = $config_source->getReadablePath();
 

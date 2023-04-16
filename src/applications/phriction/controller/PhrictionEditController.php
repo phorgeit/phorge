@@ -16,8 +16,8 @@ final class PhrictionEditController
         ->needContent(true)
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$document) {
@@ -45,7 +45,7 @@ final class PhrictionEditController
       }
     } else {
       $slug = $request->getStr('slug');
-      $slug = PhabricatorSlug::normalize($slug);
+      $slug = PhorgeSlug::normalize($slug);
       if (!$slug) {
         return new Aphront404Response();
       }
@@ -80,15 +80,15 @@ final class PhrictionEditController
     $notes = null;
     $title = $content->getTitle();
     $overwrite = false;
-    $v_cc = PhabricatorSubscribersQuery::loadSubscribersForPHID(
+    $v_cc = PhorgeSubscribersQuery::loadSubscribersForPHID(
       $document->getPHID());
 
     if ($is_new) {
       $v_projects = array();
     } else {
-      $v_projects = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $v_projects = PhorgeEdgeQuery::loadDestinationPHIDs(
         $document->getPHID(),
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST);
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST);
       $v_projects = array_reverse($v_projects);
     }
 
@@ -128,7 +128,7 @@ final class PhrictionEditController
 
       if ($is_new) {
         $xactions[] = id(new PhrictionTransaction())
-          ->setTransactionType(PhabricatorTransactions::TYPE_CREATE);
+          ->setTransactionType(PhorgeTransactions::TYPE_CREATE);
       }
 
       $xactions[] = id(new PhrictionTransaction())
@@ -138,24 +138,24 @@ final class PhrictionEditController
         ->setTransactionType($edit_type)
         ->setNewValue($content_text);
       $xactions[] = id(new PhrictionTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($v_view)
         ->setIsDefaultTransaction($is_new && ($v_view === $default_view));
       $xactions[] = id(new PhrictionTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDIT_POLICY)
         ->setNewValue($v_edit)
         ->setIsDefaultTransaction($is_new && ($v_edit === $default_edit));
       $xactions[] = id(new PhrictionTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_SPACE)
+        ->setTransactionType(PhorgeTransactions::TYPE_SPACE)
         ->setNewValue($v_space)
         ->setIsDefaultTransaction($is_new && ($v_space === $default_space));
       $xactions[] = id(new PhrictionTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+        ->setTransactionType(PhorgeTransactions::TYPE_SUBSCRIBERS)
         ->setNewValue(array('=' => $v_cc));
 
-      $proj_edge_type = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+      $proj_edge_type = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
       $xactions[] = id(new PhrictionTransaction())
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $proj_edge_type)
         ->setNewValue(array('=' => array_fuse($v_projects)));
 
@@ -180,7 +180,7 @@ final class PhrictionEditController
         }
 
         return id(new AphrontRedirectResponse())->setURI($uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
         $e_title = nonempty(
           $ex->getShortMessage(
@@ -217,16 +217,16 @@ final class PhrictionEditController
 
     $uri = $document->getSlug();
     $uri = PhrictionDocument::getSlugURI($uri);
-    $uri = PhabricatorEnv::getProductionURI($uri);
+    $uri = PhorgeEnv::getProductionURI($uri);
 
     $cancel_uri = PhrictionDocument::getSlugURI($document->getSlug());
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($document)
       ->execute();
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
-    $edit_capability = PhabricatorPolicyCapability::CAN_EDIT;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
+    $edit_capability = PhorgePolicyCapability::CAN_EDIT;
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)
@@ -244,7 +244,7 @@ final class PhrictionEditController
           ->setLabel(pht('URI'))
           ->setValue($uri))
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setLabel(pht('Content'))
           ->setValue($content_text)
           ->setError($e_content)
@@ -257,14 +257,14 @@ final class PhrictionEditController
           ->setLabel(pht('Tags'))
           ->setName('projects')
           ->setValue($v_projects)
-          ->setDatasource(new PhabricatorProjectDatasource()))
+          ->setDatasource(new PhorgeProjectDatasource()))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Subscribers'))
           ->setName('cc')
           ->setValue($v_cc)
           ->setUser($viewer)
-          ->setDatasource(new PhabricatorMetaMTAMailableDatasource()))
+          ->setDatasource(new PhorgeMetaMTAMailableDatasource()))
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setViewer($viewer)

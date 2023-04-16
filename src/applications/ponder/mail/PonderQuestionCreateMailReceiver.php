@@ -1,14 +1,14 @@
 <?php
 
 final class PonderQuestionCreateMailReceiver
-  extends PhabricatorApplicationMailReceiver {
+  extends PhorgeApplicationMailReceiver {
 
   protected function newApplication() {
-    return new PhabricatorPonderApplication();
+    return new PhorgePonderApplication();
   }
 
   protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
     $author = $this->getAuthor();
 

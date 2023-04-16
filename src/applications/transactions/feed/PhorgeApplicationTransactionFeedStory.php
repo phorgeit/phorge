@@ -3,8 +3,8 @@
 /**
  * @concrete-extensible
  */
-class PhabricatorApplicationTransactionFeedStory
-  extends PhabricatorFeedStory {
+class PhorgeApplicationTransactionFeedStory
+  extends PhorgeFeedStory {
 
   private $primaryTransactionPHID;
 
@@ -131,13 +131,13 @@ class PhabricatorApplicationTransactionFeedStory
     $view->setHref($handle->getURI());
 
     $type = phid_get_type($handle->getPHID());
-    $phid_types = PhabricatorPHIDType::getAllTypes();
+    $phid_types = PhorgePHIDType::getAllTypes();
     $icon = null;
     if (!empty($phid_types[$type])) {
       $phid_type = $phid_types[$type];
       $class = $phid_type->getPHIDTypeApplicationClass();
       if ($class) {
-        $application = PhabricatorApplication::getByClass($class);
+        $application = PhorgeApplication::getByClass($class);
         $icon = $application->getIcon();
       }
     }
@@ -177,7 +177,7 @@ class PhabricatorApplicationTransactionFeedStory
   public function renderText() {
     $xaction = $this->getPrimaryTransaction();
     $old_target = $xaction->getRenderingTarget();
-    $new_target = PhabricatorApplicationTransaction::TARGET_TEXT;
+    $new_target = PhorgeApplicationTransaction::TARGET_TEXT;
     $xaction->setRenderingTarget($new_target);
     $xaction->setHandles($this->getHandles());
     $text = $xaction->getTitleForFeed();
@@ -187,7 +187,7 @@ class PhabricatorApplicationTransactionFeedStory
 
   public function renderTextBody() {
     $all_bodies = '';
-    $new_target = PhabricatorApplicationTransaction::TARGET_TEXT;
+    $new_target = PhorgeApplicationTransaction::TARGET_TEXT;
     $xaction_phids = $this->getValue('transactionPHIDs');
     foreach ($xaction_phids as $xaction_phid) {
       $secondary_xaction = $this->getObject($xaction_phid);
@@ -211,7 +211,7 @@ class PhabricatorApplicationTransactionFeedStory
 
   public function getURI() {
     $handle = $this->getHandle($this->getPrimaryObjectPHID());
-    return PhabricatorEnv::getProductionURI($handle->getURI());
+    return PhorgeEnv::getProductionURI($handle->getURI());
   }
 
   public function renderAsTextForDoorkeeper(

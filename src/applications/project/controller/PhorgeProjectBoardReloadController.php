@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectBoardReloadController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardReloadController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -13,10 +13,10 @@ final class PhabricatorProjectBoardReloadController
 
     $order = $request->getStr('order');
     if (!strlen($order)) {
-      $order = PhabricatorProjectColumnNaturalOrder::ORDERKEY;
+      $order = PhorgeProjectColumnNaturalOrder::ORDERKEY;
     }
 
-    $ordering = PhabricatorProjectColumnOrder::getOrderByKey($order);
+    $ordering = PhorgeProjectColumnOrder::getOrderByKey($order);
     $ordering = id(clone $ordering)
       ->setViewer($viewer);
 
@@ -59,7 +59,7 @@ final class PhabricatorProjectBoardReloadController
     $update_phids = array_keys($update_objects);
     $visible_phids = array_keys($client_state);
 
-    $engine = id(new PhabricatorBoardResponseEngine())
+    $engine = id(new PhorgeBoardResponseEngine())
       ->setViewer($viewer)
       ->setBoardPHID($board_phid)
       ->setOrdering($ordering)

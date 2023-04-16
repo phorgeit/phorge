@@ -13,12 +13,12 @@ final class HeraldSubscribersField extends HeraldField {
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function getHeraldFieldValue($object) {
     $phid = $object->getPHID();
-    return PhabricatorSubscribersQuery::loadSubscribersForPHID($phid);
+    return PhorgeSubscribersQuery::loadSubscribersForPHID($phid);
   }
 
   protected function getHeraldFieldStandardType() {
@@ -26,7 +26,7 @@ final class HeraldSubscribersField extends HeraldField {
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectOrUserDatasource();
+    return new PhorgeProjectOrUserDatasource();
   }
 
 }

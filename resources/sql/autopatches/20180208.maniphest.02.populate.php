@@ -2,7 +2,7 @@
 
 $table = new ManiphestTask();
 $conn = $table->establishConnection('w');
-$viewer = PhabricatorUser::getOmnipotentUser();
+$viewer = PhorgeUser::getOmnipotentUser();
 
 foreach (new LiskMigrationIterator($table) as $task) {
   if ($task->getClosedEpoch()) {

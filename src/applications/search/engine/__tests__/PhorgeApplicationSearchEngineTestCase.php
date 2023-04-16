@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorApplicationSearchEngineTestCase
-  extends PhabricatorTestCase {
+final class PhorgeApplicationSearchEngineTestCase
+  extends PhorgeTestCase {
 
   public function testGetAllEngines() {
-    PhabricatorApplicationSearchEngine::getAllEngines();
+    PhorgeApplicationSearchEngine::getAllEngines();
     $this->assertTrue(true);
   }
 

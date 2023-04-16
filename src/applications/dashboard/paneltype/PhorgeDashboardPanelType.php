@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorDashboardPanelType extends Phobject {
+abstract class PhorgeDashboardPanelType extends Phobject {
 
   abstract public function getPanelTypeKey();
   abstract public function getPanelTypeName();
@@ -8,9 +8,9 @@ abstract class PhabricatorDashboardPanelType extends Phobject {
   abstract public function getIcon();
 
   abstract public function renderPanelContent(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine);
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine);
 
   /**
    * Should this panel pull content in over AJAX?
@@ -31,9 +31,9 @@ abstract class PhabricatorDashboardPanelType extends Phobject {
   }
 
   public function adjustPanelHeader(
-    PhabricatorUser $viewer,
-    PhabricatorDashboardPanel $panel,
-    PhabricatorDashboardPanelRenderingEngine $engine,
+    PhorgeUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeDashboardPanelRenderingEngine $engine,
     PHUIHeaderView $header) {
     return $header;
   }
@@ -45,20 +45,20 @@ abstract class PhabricatorDashboardPanelType extends Phobject {
       ->execute();
   }
 
-  final public function getEditEngineFields(PhabricatorDashboardPanel $panel) {
+  final public function getEditEngineFields(PhorgeDashboardPanel $panel) {
     return $this->newEditEngineFields($panel);
   }
 
   abstract protected function newEditEngineFields(
-    PhabricatorDashboardPanel $panel);
+    PhorgeDashboardPanel $panel);
 
-  public function getSubpanelPHIDs(PhabricatorDashboardPanel $panel) {
+  public function getSubpanelPHIDs(PhorgeDashboardPanel $panel) {
     return array();
   }
 
   public function newHeaderEditActions(
-    PhabricatorDashboardPanel $panel,
-    PhabricatorUser $viewer,
+    PhorgeDashboardPanel $panel,
+    PhorgeUser $viewer,
     $context_phid) {
     return array();
   }

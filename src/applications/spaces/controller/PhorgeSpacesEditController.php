@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesEditController
-  extends PhabricatorSpacesController {
+final class PhorgeSpacesEditController
+  extends PhorgeSpacesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
@@ -10,13 +10,13 @@ final class PhabricatorSpacesEditController
 
     $id = $request->getURIData('id');
     if ($id) {
-      $space = id(new PhabricatorSpacesNamespaceQuery())
+      $space = id(new PhorgeSpacesNamespaceQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$space) {
@@ -31,9 +31,9 @@ final class PhabricatorSpacesEditController
       $button_text = pht('Save Changes');
     } else {
       $this->requireApplicationCapability(
-        PhabricatorSpacesCapabilityCreateSpaces::CAPABILITY);
+        PhorgeSpacesCapabilityCreateSpaces::CAPABILITY);
 
-      $space = PhabricatorSpacesNamespace::initializeNewNamespace($viewer);
+      $space = PhorgeSpacesNamespace::initializeNewNamespace($viewer);
 
       $is_new = true;
       $cancel_uri = $this->getApplicationURI();
@@ -42,8 +42,8 @@ final class PhabricatorSpacesEditController
       $title = pht('Create Space');
       $button_text = pht('Create Space');
 
-      $default = id(new PhabricatorSpacesNamespaceQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $default = id(new PhorgeSpacesNamespaceQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withIsDefaultNamespace(true)
         ->execute();
       if (!$default) {
@@ -68,37 +68,37 @@ final class PhabricatorSpacesEditController
       $v_edit = $request->getStr('editPolicy');
 
       $type_name =
-        PhabricatorSpacesNamespaceNameTransaction::TRANSACTIONTYPE;
+        PhorgeSpacesNamespaceNameTransaction::TRANSACTIONTYPE;
       $type_desc =
-        PhabricatorSpacesNamespaceDescriptionTransaction::TRANSACTIONTYPE;
+        PhorgeSpacesNamespaceDescriptionTransaction::TRANSACTIONTYPE;
       $type_default =
-        PhabricatorSpacesNamespaceDefaultTransaction::TRANSACTIONTYPE;
-      $type_view = PhabricatorTransactions::TYPE_VIEW_POLICY;
-      $type_edit = PhabricatorTransactions::TYPE_EDIT_POLICY;
+        PhorgeSpacesNamespaceDefaultTransaction::TRANSACTIONTYPE;
+      $type_view = PhorgeTransactions::TYPE_VIEW_POLICY;
+      $type_edit = PhorgeTransactions::TYPE_EDIT_POLICY;
 
-      $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+      $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
         ->setTransactionType($type_name)
         ->setNewValue($v_name);
 
-      $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+      $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
         ->setTransactionType($type_desc)
         ->setNewValue($v_desc);
 
-      $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+      $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
         ->setTransactionType($type_view)
         ->setNewValue($v_view);
 
-      $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+      $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
         ->setTransactionType($type_edit)
         ->setNewValue($v_edit);
 
       if ($make_default) {
-        $xactions[] = id(new PhabricatorSpacesNamespaceTransaction())
+        $xactions[] = id(new PhorgeSpacesNamespaceTransaction())
           ->setTransactionType($type_default)
           ->setNewValue(1);
       }
 
-      $editor = id(new PhabricatorSpacesNamespaceEditor())
+      $editor = id(new PhorgeSpacesNamespaceEditor())
         ->setActor($viewer)
         ->setContinueOnNoEffect(true)
         ->setContentSourceFromRequest($request);
@@ -108,14 +108,14 @@ final class PhabricatorSpacesEditController
 
         return id(new AphrontRedirectResponse())
           ->setURI('/'.$space->getMonogram());
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
 
         $e_name = $ex->getShortMessage($type_name);
       }
     }
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($space)
       ->execute();
@@ -139,14 +139,14 @@ final class PhabricatorSpacesEditController
           ->setValue($v_name)
           ->setError($e_name))
       ->appendControl(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setLabel(pht('Description'))
           ->setName('description')
           ->setValue($v_desc))
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setUser($viewer)
-          ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
+          ->setCapability(PhorgePolicyCapability::CAN_VIEW)
           ->setPolicyObject($space)
           ->setPolicies($policies)
           ->setValue($v_view)
@@ -154,7 +154,7 @@ final class PhabricatorSpacesEditController
       ->appendChild(
         id(new AphrontFormPolicyControl())
           ->setUser($viewer)
-          ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
+          ->setCapability(PhorgePolicyCapability::CAN_EDIT)
           ->setPolicyObject($space)
           ->setPolicies($policies)
           ->setValue($v_edit)

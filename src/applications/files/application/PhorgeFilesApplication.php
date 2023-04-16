@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFilesApplication extends PhabricatorApplication {
+final class PhorgeFilesApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/file/';
@@ -36,8 +36,8 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorEmbedFileRemarkupRule(),
-      new PhabricatorImageRemarkupRule(),
+      new PhorgeEmbedFileRemarkupRule(),
+      new PhorgeImageRemarkupRule(),
     );
   }
 
@@ -61,8 +61,8 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
     return array(
       FilesDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for newly created files.'),
-        'template' => PhabricatorFileFilePHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeFileFilePHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
     );
   }
@@ -70,39 +70,39 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/F(?P<id>[1-9]\d*)(?:\$(?P<lines>\d+(?:-\d+)?))?'
-        => 'PhabricatorFileViewController',
+        => 'PhorgeFileViewController',
       '/file/' => array(
-        '(query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorFileListController',
+        '(query/(?P<queryKey>[^/]+)/)?' => 'PhorgeFileListController',
         'view/(?P<id>[1-9]\d*)/'.
           '(?:(?P<engineKey>[^/]+)/)?'.
           '(?:\$(?P<lines>\d+(?:-\d+)?))?'
-          => 'PhabricatorFileViewController',
-        'info/(?P<phid>[^/]+)/' => 'PhabricatorFileViewController',
-        'upload/' => 'PhabricatorFileUploadController',
-        'dropupload/' => 'PhabricatorFileDropUploadController',
-        'compose/' => 'PhabricatorFileComposeController',
-        'thread/(?P<phid>[^/]+)/' => 'PhabricatorFileLightboxController',
-        'delete/(?P<id>[1-9]\d*)/' => 'PhabricatorFileDeleteController',
+          => 'PhorgeFileViewController',
+        'info/(?P<phid>[^/]+)/' => 'PhorgeFileViewController',
+        'upload/' => 'PhorgeFileUploadController',
+        'dropupload/' => 'PhorgeFileDropUploadController',
+        'compose/' => 'PhorgeFileComposeController',
+        'thread/(?P<phid>[^/]+)/' => 'PhorgeFileLightboxController',
+        'delete/(?P<id>[1-9]\d*)/' => 'PhorgeFileDeleteController',
         $this->getEditRoutePattern('edit/')
-          => 'PhabricatorFileEditController',
-        'imageproxy/' => 'PhabricatorFileImageProxyController',
+          => 'PhorgeFileEditController',
+        'imageproxy/' => 'PhorgeFileImageProxyController',
         'transforms/(?P<id>[1-9]\d*)/' =>
-          'PhabricatorFileTransformListController',
+          'PhorgeFileTransformListController',
         'uploaddialog/(?P<single>single/)?'
-          => 'PhabricatorFileUploadDialogController',
+          => 'PhorgeFileUploadDialogController',
         'iconset/(?P<key>[^/]+)/' => array(
-          'select/' => 'PhabricatorFileIconSetSelectController',
+          'select/' => 'PhorgeFileIconSetSelectController',
         ),
         'document/(?P<engineKey>[^/]+)/(?P<phid>[^/]+)/'
-          => 'PhabricatorFileDocumentController',
+          => 'PhorgeFileDocumentController',
         'ui/' => array(
           'detach/(?P<objectPHID>[^/]+)/(?P<filePHID>[^/]+)/'
-            => 'PhabricatorFileDetachController',
+            => 'PhorgeFileDetachController',
           'curtain/' => array(
             'list/(?P<phid>[^/]+)/'
-              => 'PhabricatorFileUICurtainListController',
+              => 'PhorgeFileUICurtainListController',
             'attach/(?P<objectPHID>[^/]+)/(?P<filePHID>[^/]+)/'
-              => 'PhabricatorFileUICurtainAttachController',
+              => 'PhorgeFileUICurtainAttachController',
           ),
         ),
       ) + $this->getResourceSubroutes(),
@@ -123,13 +123,13 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
         '(?P<phid>[^/]+)/'.
         '(?:(?P<token>[^/]+)/)?'.
         '.*'
-        => 'PhabricatorFileDataController',
+        => 'PhorgeFileDataController',
       'xform/'.
         '(?:@(?P<instance>[^/]+)/)?'.
         '(?P<transform>[^/]+)/'.
         '(?P<phid>[^/]+)/'.
         '(?P<key>[^/]+)/'
-        => 'PhabricatorFileTransformController',
+        => 'PhorgeFileTransformController',
     );
   }
 
@@ -138,7 +138,7 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
       'file' => array(
         'name' => pht('Email Commands: Files'),
         'header' => pht('Interacting with Files'),
-        'object' => new PhabricatorFile(),
+        'object' => new PhorgeFile(),
         'summary' => pht(
           'This page documents the commands you can use to interact with '.
           'files.'),

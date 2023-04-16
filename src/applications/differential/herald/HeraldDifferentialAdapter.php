@@ -22,8 +22,8 @@ abstract class HeraldDifferentialAdapter extends HeraldAdapter {
       $repository_phid = $this->getObject()->getRepositoryPHID();
 
       if ($repository_phid) {
-        $repository = id(new PhabricatorRepositoryQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $repository = id(new PhorgeRepositoryQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withPHIDs(array($repository_phid))
           ->executeOne();
       } else {

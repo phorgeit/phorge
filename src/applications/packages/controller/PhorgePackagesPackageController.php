@@ -1,4 +1,4 @@
 <?php
 
-abstract class PhabricatorPackagesPackageController
-  extends PhabricatorPackagesController {}
+abstract class PhorgePackagesPackageController
+  extends PhorgePackagesController {}

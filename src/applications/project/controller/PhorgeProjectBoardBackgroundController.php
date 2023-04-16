@@ -1,20 +1,20 @@
 <?php
 
-final class PhabricatorProjectBoardBackgroundController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectBoardBackgroundController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
     $board_id = $request->getURIData('projectID');
 
-    $board = id(new PhabricatorProjectQuery())
+    $board = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withIDs(array($board_id))
       ->needImages(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$board) {
@@ -36,12 +36,12 @@ final class PhabricatorProjectBoardBackgroundController
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorProjectTransaction())
+      $xactions[] = id(new PhorgeProjectTransaction())
         ->setTransactionType(
-            PhabricatorProjectWorkboardBackgroundTransaction::TRANSACTIONTYPE)
+            PhorgeProjectWorkboardBackgroundTransaction::TRANSACTIONTYPE)
         ->setNewValue($background_key);
 
-      id(new PhabricatorProjectTransactionEditor())
+      id(new PhorgeProjectTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -54,7 +54,7 @@ final class PhabricatorProjectBoardBackgroundController
 
     $nav = $this->newNavigation(
       $board,
-      PhabricatorProject::ITEM_WORKBOARD);
+      PhorgeProject::ITEM_WORKBOARD);
 
     $crumbs = id($this->buildApplicationCrumbs())
       ->addTextCrumb(pht('Workboard'), $board->getWorkboardURI())
@@ -77,7 +77,7 @@ final class PhabricatorProjectBoardBackgroundController
     );
 
     $groups = array();
-    $options = PhabricatorProjectWorkboardBackgroundColor::getOptions();
+    $options = PhorgeProjectWorkboardBackgroundColor::getOptions();
     $option_groups = igroup($options, 'group');
 
     require_celerity_resource('people-profile-css');

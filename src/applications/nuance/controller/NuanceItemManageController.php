@@ -97,7 +97,7 @@ final class NuanceItemManageController extends NuanceController {
     $curtain = $this->newCurtainView($item);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('View Item'))
         ->setIcon('fa-eye')
         ->setHref($item->getURI()));

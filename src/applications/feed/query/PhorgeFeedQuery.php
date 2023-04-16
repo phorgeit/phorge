@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFeedQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeFeedQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $filterPHIDs;
   private $chronologicalKeys;
@@ -25,7 +25,7 @@ final class PhabricatorFeedQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorFeedStoryData();
+    return new PhorgeFeedStoryData();
   }
 
   protected function loadPage() {
@@ -34,7 +34,7 @@ final class PhabricatorFeedQuery
   }
 
   protected function willFilterPage(array $data) {
-    $stories = PhabricatorFeedStory::loadAllFromRows($data, $this->getViewer());
+    $stories = PhorgeFeedStory::loadAllFromRows($data, $this->getViewer());
 
     foreach ($stories as $key => $story) {
       if (!$story->isVisibleInFeed()) {
@@ -52,7 +52,7 @@ final class PhabricatorFeedQuery
     // PHIDs) to omit rows which have no story references. These story data
     // rows are notifications or realtime alerts.
 
-    $ref_table = new PhabricatorFeedStoryReference();
+    $ref_table = new PhorgeFeedStoryReference();
     $joins[] = qsprintf(
       $conn,
       'JOIN %T ref ON ref.chronologicalKey = story.chronologicalKey',
@@ -148,7 +148,7 @@ final class PhabricatorFeedQuery
   }
 
   protected function applyExternalCursorConstraintsToQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $subquery,
+    PhorgeCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
     $subquery->withChronologicalKeys(array($cursor));
   }
@@ -169,7 +169,7 @@ final class PhabricatorFeedQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFeedApplication';
+    return 'PhorgeFeedApplication';
   }
 
 }

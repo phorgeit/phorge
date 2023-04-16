@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPointsEditField
-  extends PhabricatorEditField {
+final class PhorgePointsEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
     return new AphrontFormTextControl();
@@ -12,7 +12,7 @@ final class PhabricatorPointsEditField
   }
 
   protected function newCommentAction() {
-    return id(new PhabricatorEditEnginePointsCommentAction());
+    return id(new PhorgeEditEnginePointsCommentAction());
   }
 
   protected function newBulkParameterType() {

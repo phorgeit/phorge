@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPHPASTApplication extends PhabricatorApplication {
+final class PhorgePHPASTApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('PHPAST');
@@ -29,17 +29,17 @@ final class PhabricatorPHPASTApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/xhpast/' => array(
-        '' => 'PhabricatorXHPASTViewRunController',
+        '' => 'PhorgeXHPASTViewRunController',
         'view/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorXHPASTViewFrameController',
+          => 'PhorgeXHPASTViewFrameController',
         'frameset/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorXHPASTViewFramesetController',
+          => 'PhorgeXHPASTViewFramesetController',
         'input/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorXHPASTViewInputController',
+          => 'PhorgeXHPASTViewInputController',
         'tree/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorXHPASTViewTreeController',
+          => 'PhorgeXHPASTViewTreeController',
         'stream/(?P<id>[1-9]\d*)/'
-          => 'PhabricatorXHPASTViewStreamController',
+          => 'PhorgeXHPASTViewStreamController',
       ),
     );
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementStripWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementStripWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -70,7 +70,7 @@ final class PhabricatorAuthManagementStripWorkflow
           'Use "--user <username>" to specify which user to strip factors '.
           'from, or "--all-users" to strip factors from all users.'));
     } else if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($usernames)
         ->execute();
@@ -110,7 +110,7 @@ final class PhabricatorAuthManagementStripWorkflow
           'or `bin/auth list-mfa-providers` to show available providers.'));
     }
 
-    $type_map = PhabricatorAuthFactor::getAllFactors();
+    $type_map = PhorgeAuthFactor::getAllFactors();
 
     if ($types) {
       foreach ($types as $type) {
@@ -124,7 +124,7 @@ final class PhabricatorAuthManagementStripWorkflow
       }
     }
 
-    $provider_query = id(new PhabricatorAuthFactorProviderQuery())
+    $provider_query = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer);
 
     if ($provider_phids) {
@@ -156,7 +156,7 @@ final class PhabricatorAuthManagementStripWorkflow
       }
     }
 
-    $factor_query = id(new PhabricatorAuthFactorConfigQuery())
+    $factor_query = id(new PhorgeAuthFactorConfigQuery())
       ->setViewer($viewer)
       ->withFactorProviderPHIDs(array_keys($providers));
 
@@ -171,7 +171,7 @@ final class PhabricatorAuthManagementStripWorkflow
         pht('There are no matching factors to strip.'));
     }
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs(mpull($factors, 'getUserPHID'))
       ->execute();
@@ -209,7 +209,7 @@ final class PhabricatorAuthManagementStripWorkflow
 
     $console->writeOut("%s\n", pht('Stripping authentication factors...'));
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
     foreach ($factors as $factor) {
       $engine->destroyObject($factor);
     }

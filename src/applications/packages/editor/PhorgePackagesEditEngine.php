@@ -1,14 +1,14 @@
 <?php
 
-abstract class PhabricatorPackagesEditEngine
-  extends PhabricatorEditEngine {
+abstract class PhorgePackagesEditEngine
+  extends PhorgeEditEngine {
 
   public function isEngineConfigurable() {
     return false;
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return 'PhorgePackagesApplication';
   }
 
 }

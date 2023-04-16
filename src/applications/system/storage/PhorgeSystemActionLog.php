@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSystemActionLog extends PhabricatorSystemDAO {
+final class PhorgeSystemActionLog extends PhorgeSystemDAO {
 
   protected $actorHash;
   protected $actorIdentity;
@@ -29,7 +29,7 @@ final class PhabricatorSystemActionLog extends PhabricatorSystemDAO {
   }
 
   public function setActorIdentity($identity) {
-    $this->setActorHash(PhabricatorHash::digestForIndex($identity));
+    $this->setActorHash(PhorgeHash::digestForIndex($identity));
     return parent::setActorIdentity($identity);
   }
 

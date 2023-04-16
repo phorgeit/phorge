@@ -7,7 +7,7 @@
  * @task config Configuring the Engine
  * @task diff Generating Diffs
  */
-final class PhabricatorDifferenceEngine extends Phobject {
+final class PhorgeDifferenceEngine extends Phobject {
 
 
   private $oldName;

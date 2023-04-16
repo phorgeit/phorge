@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroManageCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeMacroManageCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'macro.manage';
 

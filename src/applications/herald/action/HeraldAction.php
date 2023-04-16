@@ -94,7 +94,7 @@ abstract class HeraldAction extends Phobject {
     return $value;
   }
 
-  public function getEditorValue(PhabricatorUser $viewer, $target) {
+  public function getEditorValue(PhorgeUser $viewer, $target) {
     try {
       $type = $this->getHeraldActionStandardType();
     } catch (PhutilMethodNotImplementedException $ex) {
@@ -126,7 +126,7 @@ abstract class HeraldAction extends Phobject {
     return $this->adapter;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -234,7 +234,7 @@ abstract class HeraldAction extends Phobject {
     $invalid = array();
     foreach ($phids as $phid) {
       $type = phid_get_type($phid);
-      if ($type == PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+      if ($type == PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
         $invalid[] = $phid;
         unset($phids[$phid]);
         continue;
@@ -255,8 +255,8 @@ abstract class HeraldAction extends Phobject {
       return;
     }
 
-    $targets = id(new PhabricatorObjectQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $targets = id(new PhorgeObjectQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs($phids)
       ->execute();
     $targets = mpull($targets, null, 'getPHID');
@@ -280,17 +280,17 @@ abstract class HeraldAction extends Phobject {
     $adapter = $this->getAdapter();
     $object = $adapter->getObject();
 
-    if ($object instanceof PhabricatorPolicyInterface) {
+    if ($object instanceof PhorgePolicyInterface) {
       $no_permission = array();
       foreach ($targets as $phid => $target) {
-        if (!($target instanceof PhabricatorUser)) {
+        if (!($target instanceof PhorgeUser)) {
           continue;
         }
 
-        $can_view = PhabricatorPolicyFilter::hasCapability(
+        $can_view = PhorgePolicyFilter::hasCapability(
           $target,
           $object,
-          PhabricatorPolicyCapability::CAN_VIEW);
+          PhorgePolicyCapability::CAN_VIEW);
         if ($can_view) {
           continue;
         }

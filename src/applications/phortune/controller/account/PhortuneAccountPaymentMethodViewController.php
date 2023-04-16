@@ -62,10 +62,10 @@ final class PhortuneAccountPaymentMethodViewController
   private function buildCurtainView(PhortunePaymentMethod $method) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $method,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $edit_uri = $this->getApplicationURI(
       urisprintf(
@@ -80,7 +80,7 @@ final class PhortuneAccountPaymentMethodViewController
     $curtain = $this->newCurtainView($method);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Payment Method'))
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)
@@ -88,7 +88,7 @@ final class PhortuneAccountPaymentMethodViewController
         ->setWorkflow(!$can_edit));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Remove Payment Method'))
         ->setIcon('fa-times')
         ->setHref($remove_uri)

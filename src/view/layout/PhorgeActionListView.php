@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorActionListView extends AphrontTagView {
+final class PhorgeActionListView extends AphrontTagView {
 
   private $actions = array();
   private $object;
 
-  public function setObject(PhabricatorLiskDAO $object) {
+  public function setObject(PhorgeLiskDAO $object) {
     $this->object = $object;
     return $this;
   }
 
-  public function addAction(PhabricatorActionView $view) {
+  public function addAction(PhorgeActionView $view) {
     $this->actions[] = $view;
     return $this;
   }
@@ -34,8 +34,8 @@ final class PhabricatorActionListView extends AphrontTagView {
   protected function getTagContent() {
     $viewer = $this->getViewer();
 
-    $event = new PhabricatorEvent(
-      PhabricatorEventType::TYPE_UI_DIDRENDERACTIONS,
+    $event = new PhorgeEvent(
+      PhorgeEventType::TYPE_UI_DIDRENDERACTIONS,
       array(
         'object'  => $this->object,
         'actions' => $this->actions,

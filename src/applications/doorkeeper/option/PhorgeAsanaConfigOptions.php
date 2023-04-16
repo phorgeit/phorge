@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAsanaConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeAsanaConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Integration with Asana');
@@ -45,7 +45,7 @@ final class PhabricatorAsanaConfigOptions
   }
 
   public function renderContextualDescription(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     switch ($option->getKey()) {
@@ -59,12 +59,12 @@ final class PhabricatorAsanaConfigOptions
 
     $viewer = $request->getUser();
 
-    $provider = PhabricatorAsanaAuthProvider::getAsanaProvider();
+    $provider = PhorgeAsanaAuthProvider::getAsanaProvider();
     if (!$provider) {
       return null;
     }
 
-    $account = id(new PhabricatorExternalAccountQuery())
+    $account = id(new PhorgeExternalAccountQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->withProviderConfigPHIDs(
@@ -73,8 +73,8 @@ final class PhabricatorAsanaConfigOptions
         ))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$account) {
@@ -122,7 +122,7 @@ final class PhabricatorAsanaConfigOptions
   }
 
   private function renderContextualProjectDescription(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $viewer = $request->getUser();

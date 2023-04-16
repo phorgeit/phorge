@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockBlueprintEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'drydock.blueprint.edit';

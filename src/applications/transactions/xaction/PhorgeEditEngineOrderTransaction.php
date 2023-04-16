@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineOrderTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineOrderTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.order';
 
@@ -26,7 +26,7 @@ final class PhabricatorEditEngineOrderTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionJSONDiffDetailView())
+    return id(new PhorgeApplicationTransactionJSONDiffDetailView())
       ->setViewer($viewer)
       ->setOld($this->getOldValue())
       ->setNew($this->getNewValue());

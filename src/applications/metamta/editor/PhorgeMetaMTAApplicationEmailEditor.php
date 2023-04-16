@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeMetaMTAApplicationEmailEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return pht('PhabricatorMetaMTAApplication');
+    return pht('PhorgeMetaMTAApplication');
   }
 
   public function getEditorObjectsDescription() {
@@ -14,22 +14,22 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS;
-    $types[] = PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG;
+    $types[] = PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS;
+    $types[] = PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG;
 
     return $types;
   }
 
   protected function getCustomTransactionOldValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
         return $object->getAddress();
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
         $key = $xaction->getMetadataValue(
-          PhabricatorMetaMTAApplicationEmailTransaction::KEY_CONFIG);
+          PhorgeMetaMTAApplicationEmailTransaction::KEY_CONFIG);
         return $object->getConfigValue($key);
     }
 
@@ -37,12 +37,12 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   }
 
   protected function getCustomTransactionNewValue(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
         return $xaction->getNewValue();
     }
 
@@ -50,18 +50,18 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   }
 
   protected function applyCustomInternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     $new = $xaction->getNewValue();
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
         $object->setAddress($new);
         return;
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
         $key = $xaction->getMetadataValue(
-          PhabricatorMetaMTAApplicationEmailTransaction::KEY_CONFIG);
+          PhorgeMetaMTAApplicationEmailTransaction::KEY_CONFIG);
         $object->setConfigValue($key, $new);
         return;
     }
@@ -70,12 +70,12 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   }
 
   protected function applyCustomExternalTransaction(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_CONFIG:
         return;
     }
 
@@ -83,14 +83,14 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   }
 
   protected function validateTransaction(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     $type,
     array $xactions) {
 
     $errors = parent::validateTransaction($object, $type, $xactions);
 
     switch ($type) {
-      case PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
+      case PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS:
         foreach ($xactions as $xaction) {
           $email = $xaction->getNewValue();
           if (!strlen($email)) {
@@ -98,8 +98,8 @@ final class PhabricatorMetaMTAApplicationEmailEditor
             continue;
           }
 
-          if (!PhabricatorUserEmail::isValidAddress($email)) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+          if (!PhorgeUserEmail::isValidAddress($email)) {
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Invalid'),
               pht('Email address is not formatted properly.'));
@@ -107,8 +107,8 @@ final class PhabricatorMetaMTAApplicationEmailEditor
           }
 
           $address = new PhutilEmailAddress($email);
-          if (PhabricatorMailUtil::isReservedAddress($address)) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+          if (PhorgeMailUtil::isReservedAddress($address)) {
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('Reserved'),
               pht(
@@ -119,8 +119,8 @@ final class PhabricatorMetaMTAApplicationEmailEditor
 
           // See T13234. Prevent use of user email addresses as application
           // email addresses.
-          if (PhabricatorMailUtil::isUserAddress($address)) {
-            $errors[] = new PhabricatorApplicationTransactionValidationError(
+          if (PhorgeMailUtil::isUserAddress($address)) {
+            $errors[] = new PhorgeApplicationTransactionValidationError(
               $type,
               pht('In Use'),
               pht(
@@ -135,7 +135,7 @@ final class PhabricatorMetaMTAApplicationEmailEditor
           $xactions);
 
         if ($missing) {
-          $error = new PhabricatorApplicationTransactionValidationError(
+          $error = new PhorgeApplicationTransactionValidationError(
             $type,
             pht('Required'),
             pht('You must provide an email address.'),
@@ -151,18 +151,18 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorMetaMTAApplicationEmailTransaction::TYPE_ADDRESS,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgeMetaMTAApplicationEmailTransaction::TYPE_ADDRESS,
       pht('Duplicate'),
       pht('This email address is already in use.'),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 

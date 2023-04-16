@@ -11,7 +11,7 @@ final class AphrontFormRecaptchaControl extends AphrontFormControl {
   }
 
   public static function isRecaptchaEnabled() {
-    return PhabricatorEnv::getEnvConfig('recaptcha.enabled');
+    return PhorgeEnv::getEnvConfig('recaptcha.enabled');
   }
 
   public static function hasCaptchaResponse(AphrontRequest $request) {
@@ -25,7 +25,7 @@ final class AphrontFormRecaptchaControl extends AphrontFormControl {
 
     $uri = 'https://www.google.com/recaptcha/api/siteverify';
     $params = array(
-      'secret'   => PhabricatorEnv::getEnvConfig('recaptcha.private-key'),
+      'secret'   => PhorgeEnv::getEnvConfig('recaptcha.private-key'),
       'response' => $request->getStr('g-recaptcha-response'),
       'remoteip' => $request->getRemoteAddress(),
     );
@@ -40,7 +40,7 @@ final class AphrontFormRecaptchaControl extends AphrontFormControl {
 
   protected function renderInput() {
     $js = 'https://www.google.com/recaptcha/api.js';
-    $pubkey = PhabricatorEnv::getEnvConfig('recaptcha.public-key');
+    $pubkey = PhorgeEnv::getEnvConfig('recaptcha.public-key');
 
     CelerityAPI::getStaticResourceResponse()
       ->addContentSecurityPolicyURI('script-src', $js)

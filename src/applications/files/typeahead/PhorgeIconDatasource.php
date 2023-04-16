@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorIconDatasource extends PhabricatorTypeaheadDatasource {
+final class PhorgeIconDatasource extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type an icon name...');
@@ -11,7 +11,7 @@ final class PhabricatorIconDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return 'PhorgeFilesApplication';
   }
 
   public function loadResults() {
@@ -31,7 +31,7 @@ final class PhabricatorIconDatasource extends PhabricatorTypeaheadDatasource {
     $results = array();
     foreach ($icons as $icon) {
       $display_name = str_replace('fa-', '', $icon);
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setPHID($icon)
         ->setName($icon)
         ->setIcon($icon)

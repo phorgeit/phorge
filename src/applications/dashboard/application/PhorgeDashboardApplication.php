@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDashboardApplication extends PhabricatorApplication {
+final class PhorgeDashboardApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Dashboards');
@@ -22,7 +22,7 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
     return 'fa-dashboard';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
@@ -32,45 +32,45 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
 
   public function getRoutes() {
     $menu_rules = $this->getProfileMenuRouting(
-      'PhabricatorDashboardPortalViewController');
+      'PhorgeDashboardPortalViewController');
 
     return array(
-      '/W(?P<id>\d+)' => 'PhabricatorDashboardPanelViewController',
+      '/W(?P<id>\d+)' => 'PhorgeDashboardPanelViewController',
       '/dashboard/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorDashboardListController',
-        'view/(?P<id>\d+)/' => 'PhabricatorDashboardViewController',
-        'archive/(?P<id>\d+)/' => 'PhabricatorDashboardArchiveController',
+          => 'PhorgeDashboardListController',
+        'view/(?P<id>\d+)/' => 'PhorgeDashboardViewController',
+        'archive/(?P<id>\d+)/' => 'PhorgeDashboardArchiveController',
         $this->getEditRoutePattern('edit/') =>
-          'PhabricatorDashboardEditController',
+          'PhorgeDashboardEditController',
         'install/(?P<id>\d+)/'.
           '(?:(?P<workflowKey>[^/]+)/'.
           '(?:(?P<modeKey>[^/]+)/)?)?' =>
-          'PhabricatorDashboardInstallController',
-        'console/' => 'PhabricatorDashboardConsoleController',
+          'PhorgeDashboardInstallController',
+        'console/' => 'PhorgeDashboardConsoleController',
         'adjust/(?P<op>remove|add|move)/'
-          => 'PhabricatorDashboardAdjustController',
+          => 'PhorgeDashboardAdjustController',
         'panel/' => array(
           'install/(?P<engineKey>[^/]+)/(?:(?P<queryKey>[^/]+)/)?' =>
-            'PhabricatorDashboardQueryPanelInstallController',
+            'PhorgeDashboardQueryPanelInstallController',
           '(?:query/(?P<queryKey>[^/]+)/)?'
-            => 'PhabricatorDashboardPanelListController',
+            => 'PhorgeDashboardPanelListController',
           $this->getEditRoutePattern('edit/')
-            => 'PhabricatorDashboardPanelEditController',
-          'render/(?P<id>\d+)/' => 'PhabricatorDashboardPanelRenderController',
+            => 'PhorgeDashboardPanelEditController',
+          'render/(?P<id>\d+)/' => 'PhorgeDashboardPanelRenderController',
           'archive/(?P<id>\d+)/'
-            => 'PhabricatorDashboardPanelArchiveController',
+            => 'PhorgeDashboardPanelArchiveController',
           'tabs/(?P<id>\d+)/(?P<op>add|move|remove|rename)/'
-            => 'PhabricatorDashboardPanelTabsController',
+            => 'PhorgeDashboardPanelTabsController',
         ),
       ),
       '/portal/' => array(
         $this->getQueryRoutePattern() =>
-          'PhabricatorDashboardPortalListController',
+          'PhorgeDashboardPortalListController',
         $this->getEditRoutePattern('edit/') =>
-          'PhabricatorDashboardPortalEditController',
+          'PhorgeDashboardPortalEditController',
         'view/(?P<portalID>\d+)/' => array(
-            '' => 'PhabricatorDashboardPortalViewController',
+            '' => 'PhorgeDashboardPortalViewController',
           ) + $menu_rules,
 
       ),
@@ -79,7 +79,7 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
 
   public function getRemarkupRules() {
     return array(
-      new PhabricatorDashboardRemarkupRule(),
+      new PhorgeDashboardRemarkupRule(),
     );
   }
 

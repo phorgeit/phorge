@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneAccountEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'phortune.account';
 
@@ -10,7 +10,7 @@ final class PhortuneAccountEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   public function getSummaryHeader() {
@@ -79,7 +79,7 @@ final class PhortuneAccountEditEngine
     }
 
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Account name.'))
@@ -89,12 +89,12 @@ final class PhortuneAccountEditEngine
         ->setValue($object->getName())
         ->setIsRequired(true),
 
-      id(new PhabricatorUsersEditField())
+      id(new PhorgeUsersEditField())
         ->setKey('managers')
         ->setAliases(array('memberPHIDs', 'managerPHIDs'))
         ->setLabel(pht('Managers'))
         ->setUseEdgeTransactions(true)
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue(
           'edge:type',
           PhortuneAccountHasMemberEdgeType::EDGECONST)
@@ -104,7 +104,7 @@ final class PhortuneAccountEditEngine
         ->setInitialValue($object->getMemberPHIDs())
         ->setValue($member_phids),
 
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('billingName')
         ->setLabel(pht('Billing Name'))
         ->setDescription(pht('Account name for billing purposes.'))
@@ -113,7 +113,7 @@ final class PhortuneAccountEditEngine
           PhortuneAccountBillingNameTransaction::TRANSACTIONTYPE)
         ->setValue($object->getBillingName()),
 
-      id(new PhabricatorTextAreaEditField())
+      id(new PhorgeTextAreaEditField())
         ->setKey('billingAddress')
         ->setLabel(pht('Billing Address'))
         ->setDescription(pht('Account billing address.'))

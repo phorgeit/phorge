@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationReorderController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationReorderController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $engine_key = $request->getURIData('engineKey');
@@ -10,14 +10,14 @@ final class PhabricatorEditEngineConfigurationReorderController
     $key = $request->getURIData('key');
     $viewer = $this->getViewer();
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$config) {
@@ -31,12 +31,12 @@ final class PhabricatorEditEngineConfigurationReorderController
       $xactions = array();
       $key_order = $request->getStrList('keyOrder');
 
-      $type_order = PhabricatorEditEngineOrderTransaction::TRANSACTIONTYPE;
-      $xactions[] = id(new PhabricatorEditEngineConfigurationTransaction())
+      $type_order = PhorgeEditEngineOrderTransaction::TRANSACTIONTYPE;
+      $xactions[] = id(new PhorgeEditEngineConfigurationTransaction())
         ->setTransactionType($type_order)
         ->setNewValue($key_order);
 
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnMissingFields(true)

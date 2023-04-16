@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchWorker extends PhabricatorWorker {
+final class PhorgeSearchWorker extends PhorgeWorker {
 
   public static function queueDocumentForIndexing(
     $phid,
@@ -40,7 +40,7 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
 
     try {
       $object = $this->loadObjectForIndexing($object_phid);
-    } catch (PhabricatorWorkerPermanentFailureException $ex) {
+    } catch (PhorgeWorkerPermanentFailureException $ex) {
       if ($is_strict) {
         throw $ex;
       } else {
@@ -48,7 +48,7 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
       }
     }
 
-    $engine = id(new PhabricatorIndexEngine())
+    $engine = id(new PhorgeIndexEngine())
       ->setObject($object);
 
     $parameters = idx($data, 'parameters', array());
@@ -58,7 +58,7 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
       return;
     }
 
-    $lock = PhabricatorGlobalLock::newLock(
+    $lock = PhorgeGlobalLock::newLock(
       'index',
       array(
         'objectPHID' => $object_phid,
@@ -71,7 +71,7 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
       // contend on this lock occasionally if a large object receives many
       // updates in a short period of time, and it's appropriate to just retry
       // rebuilding the index later.
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
 
     $caught = null;
@@ -90,8 +90,8 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
     $lock->unlock();
 
     if ($caught) {
-      if (!($caught instanceof PhabricatorWorkerPermanentFailureException)) {
-        $caught = new PhabricatorWorkerPermanentFailureException(
+      if (!($caught instanceof PhorgeWorkerPermanentFailureException)) {
+        $caught = new PhorgeWorkerPermanentFailureException(
           pht(
             'Failed to update search index for document "%s": %s',
             $object_phid,
@@ -105,15 +105,15 @@ final class PhabricatorSearchWorker extends PhabricatorWorker {
   }
 
   private function loadObjectForIndexing($phid) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
 
     if (!$object) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to load object "%s" to rebuild indexes.',
           $phid));

@@ -32,7 +32,7 @@ final class DifferentialTestPlanField
   }
 
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     if (strlen($this->getValue())) {
       $document->addField('plan', $this->getValue());
     }
@@ -67,8 +67,8 @@ final class DifferentialTestPlanField
   }
 
   public function updateTransactionMailBody(
-    PhabricatorMetaMTAMailBody $body,
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeMetaMTAMailBody $body,
+    PhorgeApplicationTransactionEditor $editor,
     array $xactions) {
 
     if (!$editor->isFirstBroadcast()) {

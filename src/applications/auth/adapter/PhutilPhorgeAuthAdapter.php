@@ -3,17 +3,17 @@
 /**
  * Authentication adapter for Phorge OAuth2.
  */
-final class PhutilPhabricatorAuthAdapter extends PhutilOAuthAuthAdapter {
+final class PhutilPhorgeAuthAdapter extends PhutilOAuthAuthAdapter {
 
   private $phorgeBaseURI;
   private $adapterDomain;
 
-  public function setPhabricatorBaseURI($uri) {
+  public function setPhorgeBaseURI($uri) {
     $this->phorgeBaseURI = $uri;
     return $this;
   }
 
-  public function getPhabricatorBaseURI() {
+  public function getPhorgeBaseURI() {
     return $this->phorgeBaseURI;
   }
 
@@ -55,11 +55,11 @@ final class PhutilPhabricatorAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   protected function getAuthenticateBaseURI() {
-    return $this->getPhabricatorURI('oauthserver/auth/');
+    return $this->getPhorgeURI('oauthserver/auth/');
   }
 
   protected function getTokenBaseURI() {
-    return $this->getPhabricatorURI('oauthserver/token/');
+    return $this->getPhorgeURI('oauthserver/token/');
   }
 
   public function getScope() {
@@ -79,7 +79,7 @@ final class PhutilPhabricatorAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   protected function loadOAuthAccountData() {
-    $uri = id(new PhutilURI($this->getPhabricatorURI('api/user.whoami')))
+    $uri = id(new PhutilURI($this->getPhorgeURI('api/user.whoami')))
       ->replaceQueryParam('access_token', $this->getAccessToken());
     list($body) = id(new HTTPSFuture($uri))->resolvex();
 
@@ -94,7 +94,7 @@ final class PhutilPhabricatorAuthAdapter extends PhutilOAuthAuthAdapter {
     }
   }
 
-  private function getPhabricatorURI($path) {
+  private function getPhorgeURI($path) {
     return rtrim($this->phorgeBaseURI, '/').'/'.ltrim($path, '/');
   }
 

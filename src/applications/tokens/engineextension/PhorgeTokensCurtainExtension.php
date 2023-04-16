@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorTokensCurtainExtension
+final class PhorgeTokensCurtainExtension
   extends PHUICurtainExtension {
 
   const EXTENSIONKEY = 'tokens.tokens';
 
   public function shouldEnableForObject($object) {
-    return ($object instanceof PhabricatorTokenReceiverInterface);
+    return ($object instanceof PhorgeTokenReceiverInterface);
   }
 
   public function getExtensionApplication() {
-    return new PhabricatorTokensApplication();
+    return new PhorgeTokensApplication();
   }
 
   public function buildCurtainPanel($object) {
     $viewer = $this->getViewer();
 
-    $tokens_given = id(new PhabricatorTokenGivenQuery())
+    $tokens_given = id(new PhorgeTokenGivenQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()))
       ->execute();

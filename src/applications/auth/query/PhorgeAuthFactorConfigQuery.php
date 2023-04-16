@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthFactorConfigQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthFactorConfigQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorAuthFactorConfigQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorAuthFactorConfig();
+    return new PhorgeAuthFactorConfig();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -86,7 +86,7 @@ final class PhabricatorAuthFactorConfigQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %R provider ON config.factorProviderPHID = provider.phid',
-        new PhabricatorAuthFactorProvider());
+        new PhorgeAuthFactorProvider());
     }
 
     return $joins;
@@ -95,7 +95,7 @@ final class PhabricatorAuthFactorConfigQuery
   protected function willFilterPage(array $configs) {
     $provider_phids = mpull($configs, 'getFactorProviderPHID');
 
-    $providers = id(new PhabricatorAuthFactorProviderQuery())
+    $providers = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($this->getViewer())
       ->withPHIDs($provider_phids)
       ->execute();
@@ -121,7 +121,7 @@ final class PhabricatorAuthFactorConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
 }

@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorOwnersHovercardEngineExtension
-  extends PhabricatorHovercardEngineExtension {
+final class PhorgeOwnersHovercardEngineExtension
+  extends PhorgeHovercardEngineExtension {
 
   const EXTENSIONKEY = 'owners';
 
   public function isExtensionEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorOwnersApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeOwnersApplication');
   }
 
   public function getExtensionName() {
@@ -15,14 +15,14 @@ final class PhabricatorOwnersHovercardEngineExtension
   }
 
   public function canRenderObjectHovercard($object) {
-    return ($object instanceof PhabricatorOwnersPackage);
+    return ($object instanceof PhorgeOwnersPackage);
   }
 
   public function willRenderHovercards(array $objects) {
     $viewer = $this->getViewer();
     $phids = mpull($objects, 'getPHID');
 
-    $packages = id(new PhabricatorOwnersPackageQuery())
+    $packages = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();
@@ -35,7 +35,7 @@ final class PhabricatorOwnersHovercardEngineExtension
 
   public function renderHovercard(
     PHUIHovercardView $hovercard,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $object,
     $data) {
 
@@ -50,13 +50,13 @@ final class PhabricatorOwnersHovercardEngineExtension
     $hovercard->setTitle($title);
 
     $dominion = $package->getDominion();
-    $dominion_map = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $dominion_map = PhorgeOwnersPackage::getDominionOptionsMap();
     $spec = idx($dominion_map, $dominion, array());
     $name = idx($spec, 'short', $dominion);
     $hovercard->addField(pht('Dominion'), $name);
 
     $auto = $package->getAutoReview();
-    $autoreview_map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $autoreview_map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     $spec = idx($autoreview_map, $auto, array());
     $name = idx($spec, 'name', $auto);
     $hovercard->addField(pht('Auto Review'), $name);

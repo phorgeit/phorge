@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskPriorityDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Priorities');
@@ -12,7 +12,7 @@ final class ManiphestTaskPriorityDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return 'PhorgeManiphestApplication';
   }
 
   public function loadResults() {
@@ -29,7 +29,7 @@ final class ManiphestTaskPriorityDatasource
 
     $priority_map = ManiphestTaskPriority::getTaskPriorityMap();
     foreach ($priority_map as $value => $name) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon(ManiphestTaskPriority::getTaskPriorityIcon($value))
         ->setPHID($value)
         ->setName($name)

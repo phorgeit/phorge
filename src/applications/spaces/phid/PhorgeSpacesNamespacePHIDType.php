@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNamespacePHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeSpacesNamespacePHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'SPCE';
 
@@ -10,23 +10,23 @@ final class PhabricatorSpacesNamespacePHIDType
   }
 
   public function newObject() {
-    return new PhabricatorSpacesNamespace();
+    return new PhorgeSpacesNamespace();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return 'PhorgeSpacesApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorSpacesNamespaceQuery())
+    return id(new PhorgeSpacesNamespaceQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -43,7 +43,7 @@ final class PhabricatorSpacesNamespacePHIDType
         ->setMailStampName($monogram);
 
       if ($namespace->getIsArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -53,7 +53,7 @@ final class PhabricatorSpacesNamespacePHIDType
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -62,7 +62,7 @@ final class PhabricatorSpacesNamespacePHIDType
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorSpacesNamespaceQuery())
+    $objects = id(new PhorgeSpacesNamespaceQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

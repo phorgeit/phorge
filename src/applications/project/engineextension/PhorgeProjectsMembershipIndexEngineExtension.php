@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectsMembershipIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+final class PhorgeProjectsMembershipIndexEngineExtension
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'project.members';
 
@@ -10,7 +10,7 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    if (!($object instanceof PhabricatorProject)) {
+    if (!($object instanceof PhorgeProject)) {
       return false;
     }
 
@@ -18,13 +18,13 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     $this->rematerialize($object);
   }
 
-  public function rematerialize(PhabricatorProject $project) {
+  public function rematerialize(PhorgeProject $project) {
     $materialize = $project->getAncestorProjects();
     array_unshift($materialize, $project);
 
@@ -33,9 +33,9 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
     }
   }
 
-  private function materializeProject(PhabricatorProject $project) {
-    $material_type = PhabricatorProjectMaterializedMemberEdgeType::EDGECONST;
-    $member_type = PhabricatorProjectProjectHasMemberEdgeType::EDGECONST;
+  private function materializeProject(PhorgeProject $project) {
+    $material_type = PhorgeProjectMaterializedMemberEdgeType::EDGECONST;
+    $member_type = PhorgeProjectProjectHasMemberEdgeType::EDGECONST;
 
     $project_phid = $project->getPHID();
 
@@ -43,7 +43,7 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
       $source_phids = array($project->getParentProjectPHID());
       $has_subprojects = false;
     } else {
-      $descendants = id(new PhabricatorProjectQuery())
+      $descendants = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->withAncestorProjectPHIDs(array($project->getPHID()))
         ->withIsMilestone(false)
@@ -84,7 +84,7 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
         $conn_w,
         'SELECT dst FROM %T
           WHERE src = %s AND type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         $project_phid,
         $material_type);
 
@@ -92,7 +92,7 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
         $conn_w,
         'SELECT dst, dateCreated, seq FROM %T
           WHERE src IN (%Ls) AND type = %d',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhorgeEdgeConfig::TABLE_NAME_EDGE,
         $source_phids,
         $member_type);
 
@@ -129,12 +129,12 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
       // Remove materialized members who are no longer project members.
 
       if ($rem_sql) {
-        foreach (PhabricatorLiskDAO::chunkSQL($rem_sql) as $sql_chunk) {
+        foreach (PhorgeLiskDAO::chunkSQL($rem_sql) as $sql_chunk) {
           queryfx(
             $conn_w,
             'DELETE FROM %T
               WHERE src = %s AND type = %s AND dst IN (%LQ)',
-            PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+            PhorgeEdgeConfig::TABLE_NAME_EDGE,
             $project_phid,
             $material_type,
             $sql_chunk);
@@ -144,12 +144,12 @@ final class PhabricatorProjectsMembershipIndexEngineExtension
       // Add project members who are not yet materialized members.
 
       if ($add_sql) {
-        foreach (PhabricatorLiskDAO::chunkSQL($add_sql) as $sql_chunk) {
+        foreach (PhorgeLiskDAO::chunkSQL($add_sql) as $sql_chunk) {
           queryfx(
             $conn_w,
             'INSERT IGNORE INTO %T (src, type, dst, dateCreated, seq)
               VALUES %LQ',
-            PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+            PhorgeEdgeConfig::TABLE_NAME_EDGE,
             $sql_chunk);
         }
       }

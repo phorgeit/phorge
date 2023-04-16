@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSlowvoteApplication extends PhabricatorApplication {
+final class PhorgeSlowvoteApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/vote/';
@@ -22,11 +22,11 @@ final class PhabricatorSlowvoteApplication extends PhabricatorApplication {
     return "\xE2\x9C\x94";
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Slowvote User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Slowvote User Guide'),
+        'href' => PhorgeEnv::getDoclink('Slowvote User Guide'),
       ),
     );
   }
@@ -47,25 +47,25 @@ final class PhabricatorSlowvoteApplication extends PhabricatorApplication {
 
   public function getRoutes() {
     return array(
-      '/V(?P<id>[1-9]\d*)' => 'PhabricatorSlowvotePollController',
+      '/V(?P<id>[1-9]\d*)' => 'PhorgeSlowvotePollController',
       '/vote/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorSlowvoteListController',
-        'create/' => 'PhabricatorSlowvoteEditController',
-        'edit/(?P<id>[1-9]\d*)/' => 'PhabricatorSlowvoteEditController',
-        '(?P<id>[1-9]\d*)/' => 'PhabricatorSlowvoteVoteController',
-        'comment/(?P<id>[1-9]\d*)/' => 'PhabricatorSlowvoteCommentController',
-        'close/(?P<id>[1-9]\d*)/' => 'PhabricatorSlowvoteCloseController',
+          => 'PhorgeSlowvoteListController',
+        'create/' => 'PhorgeSlowvoteEditController',
+        'edit/(?P<id>[1-9]\d*)/' => 'PhorgeSlowvoteEditController',
+        '(?P<id>[1-9]\d*)/' => 'PhorgeSlowvoteVoteController',
+        'comment/(?P<id>[1-9]\d*)/' => 'PhorgeSlowvoteCommentController',
+        'close/(?P<id>[1-9]\d*)/' => 'PhorgeSlowvoteCloseController',
       ),
     );
   }
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorSlowvoteDefaultViewCapability::CAPABILITY => array(
+      PhorgeSlowvoteDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for new polls.'),
-        'template' => PhabricatorSlowvotePollPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeSlowvotePollPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
     );
   }

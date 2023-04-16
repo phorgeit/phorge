@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorTimelineEngine
+abstract class PhorgeTimelineEngine
   extends Phobject {
 
   private $viewer;
@@ -9,10 +9,10 @@ abstract class PhabricatorTimelineEngine
   private $viewData;
 
   final public static function newForObject($object) {
-    if ($object instanceof PhabricatorTimelineInterface) {
+    if ($object instanceof PhorgeTimelineInterface) {
       $engine = $object->newTimelineEngine();
     } else {
-      $engine = new PhabricatorStandardTimelineEngine();
+      $engine = new PhorgeStandardTimelineEngine();
     }
 
     $engine->setObject($object);
@@ -20,7 +20,7 @@ abstract class PhabricatorTimelineEngine
     return $engine;
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -39,7 +39,7 @@ abstract class PhabricatorTimelineEngine
   }
 
   final public function setTransactions(array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, 'PhorgeApplicationTransaction');
     $this->xactions = $xactions;
     return $this;
   }
@@ -69,12 +69,12 @@ abstract class PhabricatorTimelineEngine
   final public function buildTimelineView() {
     $view = $this->newTimelineView();
 
-    if (!($view instanceof PhabricatorApplicationTransactionView)) {
+    if (!($view instanceof PhorgeApplicationTransactionView)) {
       throw new Exception(
         pht(
           'Expected "newTimelineView()" to return an object of class "%s" '.
           '(in engine "%s").',
-          'PhabricatorApplicationTransactionView',
+          'PhorgeApplicationTransactionView',
           get_class($this)));
     }
 
@@ -90,7 +90,7 @@ abstract class PhabricatorTimelineEngine
   }
 
   protected function newTimelineView() {
-    return new PhabricatorApplicationTransactionView();
+    return new PhorgeApplicationTransactionView();
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthInviteQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeAuthInviteQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -35,7 +35,7 @@ final class PhabricatorAuthInviteQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorAuthInvite();
+    $table = new PhorgeAuthInvite();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -86,7 +86,7 @@ final class PhabricatorAuthInviteQuery
     if ($this->verificationCodes !== null) {
       $hashes = array();
       foreach ($this->verificationCodes as $code) {
-        $hashes[] = PhabricatorHash::digestForIndex($code);
+        $hashes[] = PhorgeHash::digestForIndex($code);
       }
 
       $where[] = qsprintf(

@@ -1,14 +1,14 @@
 <?php
 
 final class OwnersSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'owners.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorOwnersPackageSearchEngine();
+    return new PhorgeOwnersPackageSearchEngine();
   }
 
   public function getMethodSummary() {

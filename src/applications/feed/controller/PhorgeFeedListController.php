@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFeedListController
-  extends PhabricatorFeedController {
+final class PhorgeFeedListController
+  extends PhorgeFeedController {
 
   public function shouldAllowPublic() {
     return true;
@@ -18,7 +18,7 @@ final class PhabricatorFeedListController
       ->setName(pht('Transaction Logs'))
       ->setHref($this->getApplicationURI('transactions/'));
 
-    return id(new PhabricatorFeedSearchEngine())
+    return id(new PhorgeFeedSearchEngine())
       ->setController($this)
       ->setNavigationItems($navigation)
       ->buildResponse();

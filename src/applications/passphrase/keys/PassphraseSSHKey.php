@@ -4,7 +4,7 @@ final class PassphraseSSHKey extends PassphraseAbstractKey {
 
   private $keyFile;
 
-  public static function loadFromPHID($phid, PhabricatorUser $viewer) {
+  public static function loadFromPHID($phid, PhorgeUser $viewer) {
     $key = new PassphraseSSHKey();
     return $key->loadAndValidateFromPHID(
       $phid,

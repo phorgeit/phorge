@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersDefaultViewCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeOwnersDefaultViewCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'owners.default.view';
 

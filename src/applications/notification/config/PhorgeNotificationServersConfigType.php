@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorNotificationServersConfigType
-  extends PhabricatorJSONConfigType {
+final class PhorgeNotificationServersConfigType
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'cluster.notifications';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
 
     foreach ($value as $index => $spec) {

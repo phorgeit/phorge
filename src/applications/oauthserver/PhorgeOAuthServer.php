@@ -4,10 +4,10 @@
  * Implements core OAuth 2.0 Server logic.
  *
  * This class should be used behind business logic that parses input to
- * determine pertinent @{class:PhabricatorUser} $user,
- * @{class:PhabricatorOAuthServerClient} $client(s),
- * @{class:PhabricatorOAuthServerAuthorizationCode} $code(s), and.
- * @{class:PhabricatorOAuthServerAccessToken} $token(s).
+ * determine pertinent @{class:PhorgeUser} $user,
+ * @{class:PhorgeOAuthServerClient} $client(s),
+ * @{class:PhorgeOAuthServerAuthorizationCode} $code(s), and.
+ * @{class:PhorgeOAuthServerAccessToken} $token(s).
  *
  * For an OAuth 2.0 server, there are two main steps:
  *
@@ -20,13 +20,13 @@
  * access token. This access token can later be used to access Phorge
  * data on behalf of the user.
  *
- * @task auth Authorizing @{class:PhabricatorOAuthServerClient}s and
- *            generating @{class:PhabricatorOAuthServerAuthorizationCode}s
- * @task token Validating @{class:PhabricatorOAuthServerAuthorizationCode}s
- *             and generating @{class:PhabricatorOAuthServerAccessToken}s
+ * @task auth Authorizing @{class:PhorgeOAuthServerClient}s and
+ *            generating @{class:PhorgeOAuthServerAuthorizationCode}s
+ * @task token Validating @{class:PhorgeOAuthServerAuthorizationCode}s
+ *             and generating @{class:PhorgeOAuthServerAccessToken}s
  * @task internal Internals
  */
-final class PhabricatorOAuthServer extends Phobject {
+final class PhorgeOAuthServer extends Phobject {
 
   const AUTHORIZATION_CODE_TIMEOUT = 300;
 
@@ -40,7 +40,7 @@ final class PhabricatorOAuthServer extends Phobject {
     return $this->user;
   }
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -52,7 +52,7 @@ final class PhabricatorOAuthServer extends Phobject {
     return $this->client;
   }
 
-  public function setClient(PhabricatorOAuthServerClient $client) {
+  public function setClient(PhorgeOAuthServerClient $client) {
     $this->client = $client;
     return $this;
   }
@@ -63,7 +63,7 @@ final class PhabricatorOAuthServer extends Phobject {
    */
   public function userHasAuthorizedClient(array $scope) {
 
-    $authorization = id(new PhabricatorOAuthClientAuthorization())
+    $authorization = id(new PhorgeOAuthClientAuthorization())
       ->loadOneWhere(
         'userPHID = %s AND clientPHID = %s',
         $this->getUser()->getPHID(),
@@ -89,7 +89,7 @@ final class PhabricatorOAuthServer extends Phobject {
    * @task auth
    */
   public function authorizeClient(array $scope) {
-    $authorization = new PhabricatorOAuthClientAuthorization();
+    $authorization = new PhorgeOAuthClientAuthorization();
     $authorization->setUserPHID($this->getUser()->getPHID());
     $authorization->setClientPHID($this->getClient()->getPHID());
     $authorization->setScope($scope);
@@ -106,7 +106,7 @@ final class PhabricatorOAuthServer extends Phobject {
     $code   = Filesystem::readRandomCharacters(32);
     $client = $this->getClient();
 
-    $authorization_code = new PhabricatorOAuthServerAuthorizationCode();
+    $authorization_code = new PhorgeOAuthServerAuthorizationCode();
     $authorization_code->setCode($code);
     $authorization_code->setClientPHID($client->getPHID());
     $authorization_code->setClientSecret($client->getSecret());
@@ -124,7 +124,7 @@ final class PhabricatorOAuthServer extends Phobject {
 
     $token = Filesystem::readRandomCharacters(32);
 
-    $access_token = new PhabricatorOAuthServerAccessToken();
+    $access_token = new PhorgeOAuthServerAccessToken();
     $access_token->setToken($token);
     $access_token->setUserPHID($this->getUser()->getPHID());
     $access_token->setClientPHID($this->getClient()->getPHID());
@@ -137,8 +137,8 @@ final class PhabricatorOAuthServer extends Phobject {
    * @task token
    */
   public function validateAuthorizationCode(
-    PhabricatorOAuthServerAuthorizationCode $test_code,
-    PhabricatorOAuthServerAuthorizationCode $valid_code) {
+    PhorgeOAuthServerAuthorizationCode $test_code,
+    PhorgeOAuthServerAuthorizationCode $valid_code) {
 
     // check that all the meta data matches
     if ($test_code->getClientPHID() != $valid_code->getClientPHID()) {
@@ -158,13 +158,13 @@ final class PhabricatorOAuthServer extends Phobject {
    * @task token
    */
   public function authorizeToken(
-    PhabricatorOAuthServerAccessToken $token) {
+    PhorgeOAuthServerAccessToken $token) {
 
     $user_phid = $token->getUserPHID();
     $client_phid = $token->getClientPHID();
 
-    $authorization = id(new PhabricatorOAuthClientAuthorizationQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $authorization = id(new PhorgeOAuthClientAuthorizationQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUserPHIDs(array($user_phid))
       ->withClientPHIDs(array($client_phid))
       ->executeOne();
@@ -196,7 +196,7 @@ final class PhabricatorOAuthServer extends Phobject {
   public function assertValidRedirectURI($raw_uri) {
     // This covers basics like reasonable formatting and the existence of a
     // protocol.
-    PhabricatorEnv::requireValidRemoteURIForLink($raw_uri);
+    PhorgeEnv::requireValidRemoteURIForLink($raw_uri);
 
     $uri = new PhutilURI($raw_uri);
 

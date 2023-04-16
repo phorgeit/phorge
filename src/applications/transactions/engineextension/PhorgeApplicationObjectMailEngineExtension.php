@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationObjectMailEngineExtension
-  extends PhabricatorMailEngineExtension {
+final class PhorgeApplicationObjectMailEngineExtension
+  extends PhorgeMailEngineExtension {
 
   const EXTENSIONKEY = 'application/object';
 
@@ -11,13 +11,13 @@ final class PhabricatorApplicationObjectMailEngineExtension
 
   public function newMailStampTemplates($object) {
     $templates = array(
-      id(new PhabricatorStringMailStamp())
+      id(new PhorgeStringMailStamp())
         ->setKey('application')
         ->setLabel(pht('Application')),
     );
 
     if ($this->hasMonogram($object)) {
-      $templates[] = id(new PhabricatorStringMailStamp())
+      $templates[] = id(new PhorgeStringMailStamp())
         ->setKey('monogram')
         ->setLabel(pht('Object Monogram'));
     }
@@ -25,11 +25,11 @@ final class PhabricatorApplicationObjectMailEngineExtension
     if ($this->hasPHID($object)) {
       // This is a PHID, but we always want to render it as a raw string, so
       // use a string mail stamp.
-      $templates[] = id(new PhabricatorStringMailStamp())
+      $templates[] = id(new PhorgeStringMailStamp())
         ->setKey('phid')
         ->setLabel(pht('Object PHID'));
 
-      $templates[] = id(new PhabricatorStringMailStamp())
+      $templates[] = id(new PhorgeStringMailStamp())
         ->setKey('object-type')
         ->setLabel(pht('Object Type'));
     }
@@ -43,7 +43,7 @@ final class PhabricatorApplicationObjectMailEngineExtension
 
     $application = null;
     $class = $editor->getEditorApplicationClass();
-    if (PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    if (PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       $application = newv($class, array());
     }
 
@@ -66,7 +66,7 @@ final class PhabricatorApplicationObjectMailEngineExtension
         ->setValue($object_phid);
 
       $phid_type = phid_get_type($object_phid);
-      if ($phid_type != PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+      if ($phid_type != PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
         $this->getMailStamp('object-type')
           ->setValue($phid_type);
       }

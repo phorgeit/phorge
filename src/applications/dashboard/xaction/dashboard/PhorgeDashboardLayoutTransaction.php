@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardLayoutTransaction
-  extends PhabricatorDashboardTransactionType {
+final class PhorgeDashboardLayoutTransaction
+  extends PhorgeDashboardTransactionType {
 
   const TRANSACTIONTYPE = 'dashboard:layoutmode';
 
@@ -26,7 +26,7 @@ final class PhabricatorDashboardLayoutTransaction
   public function validateTransactions($object, array $xactions) {
     $errors = array();
 
-    $mode_map = PhabricatorDashboardLayoutMode::getLayoutModeMap();
+    $mode_map = PhorgeDashboardLayoutMode::getLayoutModeMap();
 
     $old_value = $object->getRawLayoutMode();
     foreach ($xactions as $xaction) {

@@ -4,16 +4,16 @@
  * Convenience class to perform operations on an entire field list, like reading
  * all values from storage.
  *
- *   $field_list = new PhabricatorCustomFieldList($fields);
+ *   $field_list = new PhorgeCustomFieldList($fields);
  *
  */
-final class PhabricatorCustomFieldList extends Phobject {
+final class PhorgeCustomFieldList extends Phobject {
 
   private $fields;
   private $viewer;
 
   public function __construct(array $fields) {
-    assert_instances_of($fields, 'PhabricatorCustomField');
+    assert_instances_of($fields, 'PhorgeCustomField');
     $this->fields = $fields;
   }
 
@@ -21,7 +21,7 @@ final class PhabricatorCustomFieldList extends Phobject {
     return $this->fields;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     foreach ($this->getFields() as $field) {
       $field->setViewer($viewer);
@@ -30,7 +30,7 @@ final class PhabricatorCustomFieldList extends Phobject {
   }
 
   public function readFieldsFromObject(
-    PhabricatorCustomFieldInterface $object) {
+    PhorgeCustomFieldInterface $object) {
 
     $fields = $this->getFields();
 
@@ -46,16 +46,16 @@ final class PhabricatorCustomFieldList extends Phobject {
   /**
    * Read stored values for all fields which support storage.
    *
-   * @param PhabricatorCustomFieldInterface Object to read field values for.
+   * @param PhorgeCustomFieldInterface Object to read field values for.
    * @return void
    */
   public function readFieldsFromStorage(
-    PhabricatorCustomFieldInterface $object) {
+    PhorgeCustomFieldInterface $object) {
 
     $this->readFieldsFromObject($object);
 
     $fields = $this->getFields();
-    id(new PhabricatorCustomFieldStorageQuery())
+    id(new PhorgeCustomFieldStorageQuery())
       ->addFields($fields)
       ->execute();
 
@@ -65,7 +65,7 @@ final class PhabricatorCustomFieldList extends Phobject {
   public function appendFieldsToForm(AphrontFormView $form) {
     $enabled = array();
     foreach ($this->fields as $field) {
-      if ($field->shouldEnableForRole(PhabricatorCustomField::ROLE_EDIT)) {
+      if ($field->shouldEnableForRole(PhorgeCustomField::ROLE_EDIT)) {
         $enabled[] = $field;
       }
     }
@@ -77,7 +77,7 @@ final class PhabricatorCustomFieldList extends Phobject {
 
     $all_phids = array_mergev($phids);
     if ($all_phids) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($this->viewer)
         ->withPHIDs($all_phids)
         ->execute();
@@ -98,8 +98,8 @@ final class PhabricatorCustomFieldList extends Phobject {
   }
 
   public function appendFieldsToPropertyList(
-    PhabricatorCustomFieldInterface $object,
-    PhabricatorUser $viewer,
+    PhorgeCustomFieldInterface $object,
+    PhorgeUser $viewer,
     PHUIPropertyListView $view) {
 
     $this->readFieldsFromStorage($object);
@@ -145,7 +145,7 @@ final class PhabricatorCustomFieldList extends Phobject {
 
     $all_phids = array_mergev($phids);
     if ($all_phids) {
-      $handles = id(new PhabricatorHandleQuery())
+      $handles = id(new PhorgeHandleQuery())
         ->setViewer($viewer)
         ->withPHIDs($all_phids)
         ->execute();
@@ -201,12 +201,12 @@ final class PhabricatorCustomFieldList extends Phobject {
   }
 
   public function buildFieldTransactionsFromRequest(
-    PhabricatorApplicationTransaction $template,
+    PhorgeApplicationTransaction $template,
     AphrontRequest $request) {
 
     $xactions = array();
 
-    $role = PhabricatorCustomField::ROLE_APPLICATIONTRANSACTIONS;
+    $role = PhorgeCustomField::ROLE_APPLICATIONTRANSACTIONS;
     foreach ($this->fields as $field) {
       if (!$field->shouldEnableForRole($role)) {
         continue;
@@ -216,7 +216,7 @@ final class PhabricatorCustomFieldList extends Phobject {
       $xaction = id(clone $template)
         ->setTransactionType($transaction_type);
 
-      if ($transaction_type == PhabricatorTransactions::TYPE_CUSTOMFIELD) {
+      if ($transaction_type == PhorgeTransactions::TYPE_CUSTOMFIELD) {
         // For TYPE_CUSTOMFIELD transactions only, we provide the old value
         // as an input.
         $old_value = $field->getOldValueForApplicationTransactions();
@@ -228,7 +228,7 @@ final class PhabricatorCustomFieldList extends Phobject {
       $xaction
         ->setNewValue($field->getNewValueForApplicationTransactions());
 
-      if ($transaction_type == PhabricatorTransactions::TYPE_CUSTOMFIELD) {
+      if ($transaction_type == PhorgeTransactions::TYPE_CUSTOMFIELD) {
         // For TYPE_CUSTOMFIELD transactions, add the field key in metadata.
         $xaction->setMetadataValue('customfield:key', $field->getFieldKey());
       }
@@ -251,13 +251,13 @@ final class PhabricatorCustomFieldList extends Phobject {
    *
    * @return void
    */
-  public function rebuildIndexes(PhabricatorCustomFieldInterface $object) {
+  public function rebuildIndexes(PhorgeCustomFieldInterface $object) {
     $indexes = array();
     $index_keys = array();
 
     $phid = $object->getPHID();
 
-    $role = PhabricatorCustomField::ROLE_APPLICATIONSEARCH;
+    $role = PhorgeCustomField::ROLE_APPLICATIONSEARCH;
     foreach ($this->fields as $field) {
       if (!$field->shouldEnableForRole($role)) {
         continue;
@@ -300,7 +300,7 @@ final class PhabricatorCustomFieldList extends Phobject {
           continue;
         }
 
-        foreach (PhabricatorLiskDAO::chunkSQL($sql_list) as $chunk) {
+        foreach (PhorgeLiskDAO::chunkSQL($sql_list) as $chunk) {
           queryfx(
             $conn_w,
             'INSERT INTO %T (objectPHID, indexKey, indexValue) VALUES %LQ',
@@ -313,9 +313,9 @@ final class PhabricatorCustomFieldList extends Phobject {
   }
 
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
-    $role = PhabricatorCustomField::ROLE_GLOBALSEARCH;
+    $role = PhorgeCustomField::ROLE_GLOBALSEARCH;
     foreach ($this->getFields() as $field) {
       if (!$field->shouldEnableForRole($role)) {
         continue;

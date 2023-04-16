@@ -84,7 +84,7 @@ if ($as_device) {
 }
 
 if ($credential_phid) {
-  $viewer = PhabricatorUser::getOmnipotentUser();
+  $viewer = PhorgeUser::getOmnipotentUser();
   $key = PassphraseSSHKey::loadFromPHID($credential_phid, $viewer);
 
   $pattern[] = '-l %P';

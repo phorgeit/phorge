@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailSelfActionsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailSelfActionsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'self-mail';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailSelfActionsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailDeliverySettingsPanel::PANELKEY;
+    return PhorgeEmailDeliverySettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

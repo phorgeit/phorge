@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventInviteeQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarEventInviteeQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $eventPHIDs;
@@ -35,7 +35,7 @@ final class PhabricatorCalendarEventInviteeQuery
   }
 
   protected function loadPage() {
-    $table = new PhabricatorCalendarEventInvitee();
+    $table = new PhorgeCalendarEventInvitee();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -93,7 +93,7 @@ final class PhabricatorCalendarEventInviteeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
 }

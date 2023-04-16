@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMacroDatasource extends PhabricatorTypeaheadDatasource {
+final class PhorgeMacroDatasource extends PhorgeTypeaheadDatasource {
 
   public function getPlaceholderText() {
     return pht('Type a macro name...');
@@ -11,13 +11,13 @@ final class PhabricatorMacroDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return 'PhorgeMacroApplication';
   }
 
   public function loadResults() {
     $raw_query = $this->getRawQuery();
 
-    $query = id(new PhabricatorMacroQuery())
+    $query = id(new PhorgeMacroQuery())
       ->setOrder('name')
       ->withNamePrefix($raw_query);
     $macros = $this->executeQuery($query);
@@ -29,7 +29,7 @@ final class PhabricatorMacroDatasource extends PhabricatorTypeaheadDatasource {
         $closed = pht('Disabled');
       }
 
-      $results[] = id(new PhabricatorTypeaheadResult())
+      $results[] = id(new PhorgeTypeaheadResult())
         ->setPHID($macro->getPHID())
         ->setClosed($closed)
         ->setName($macro->getName());

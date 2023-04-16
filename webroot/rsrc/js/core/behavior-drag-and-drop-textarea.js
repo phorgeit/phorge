@@ -32,8 +32,8 @@ JX.behavior('aphront-drag-and-drop-textarea', function(config) {
 
   write_metadata();
 
-  if (JX.PhabricatorDragAndDropFileUpload.isSupported()) {
-    var drop = new JX.PhabricatorDragAndDropFileUpload(target)
+  if (JX.PhorgeDragAndDropFileUpload.isSupported()) {
+    var drop = new JX.PhorgeDragAndDropFileUpload(target)
       .setURI(config.uri)
       .setChunkThreshold(config.chunkThreshold);
 

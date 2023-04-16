@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeAuthContactNumberEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'auth.contact';
 
@@ -22,16 +22,16 @@ final class PhabricatorAuthContactNumberEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorAuthContactNumber::initializeNewContactNumber($viewer);
+    return PhorgeAuthContactNumber::initializeNewContactNumber($viewer);
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorAuthContactNumberQuery();
+    return new PhorgeAuthContactNumberQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -72,10 +72,10 @@ final class PhabricatorAuthContactNumberEditEngine
 
   protected function buildCustomEditFields($object) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('contactNumber')
         ->setTransactionType(
-          PhabricatorAuthContactNumberNumberTransaction::TRANSACTIONTYPE)
+          PhorgeAuthContactNumberNumberTransaction::TRANSACTIONTYPE)
         ->setLabel(pht('Contact Number'))
         ->setDescription(pht('The contact number.'))
         ->setValue($object->getContactNumber())

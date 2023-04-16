@@ -1,7 +1,7 @@
 <?php
 
 final class ProjectDefaultJoinCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'project.default.join';
 

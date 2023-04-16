@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorAuthSSHKey();
+$table = new PhorgeAuthSSHKey();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Updating SSH public key indexes...')."\n";

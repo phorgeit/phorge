@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorMacroEditController extends PhameBlogController {
+final class PhorgeMacroEditController extends PhameBlogController {
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorMacroEditEngine())
+    return id(new PhorgeMacroEditEngine())
       ->setController($this)
       ->buildResponse();
   }

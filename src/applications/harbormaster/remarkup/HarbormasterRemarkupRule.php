@@ -1,6 +1,6 @@
 <?php
 
-final class HarbormasterRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class HarbormasterRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'B';

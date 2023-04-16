@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonLog extends PhabricatorDaemonDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeDaemonLog extends PhorgeDaemonDAO
+  implements PhorgePolicyInterface {
 
   const STATUS_UNKNOWN = 'unknown';
   const STATUS_RUNNING = 'run';
@@ -57,7 +57,7 @@ final class PhabricatorDaemonLog extends PhabricatorDaemonDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
   public function getPHID() {
     return null;
@@ -65,15 +65,15 @@ final class PhabricatorDaemonLog extends PhabricatorDaemonDAO
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_ADMIN;
+    return PhorgePolicies::POLICY_ADMIN;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

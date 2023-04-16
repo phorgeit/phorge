@@ -2,7 +2,7 @@
 
 echo pht('Populating files with mail keys...')."\n";
 
-$table = new PhabricatorFile();
+$table = new PhorgeFile();
 $table_name = $table->getTableName();
 
 $conn_w = $table->establishConnection('w');
@@ -22,7 +22,7 @@ foreach (new LiskRawMigrationIterator($conn_w, 'file') as $row) {
 }
 
 if ($sql) {
-  foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+  foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
     queryfx(
       $conn_w,
       'INSERT INTO %T

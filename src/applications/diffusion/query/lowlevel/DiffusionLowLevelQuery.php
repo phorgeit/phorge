@@ -6,7 +6,7 @@ abstract class DiffusionLowLevelQuery extends Phobject {
 
   abstract protected function executeQuery();
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }

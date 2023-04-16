@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Giving countdowns PHIDs');
-$table = new PhabricatorCountdown();
+$table = new PhorgeCountdown();
 $table->openTransaction();
 
 foreach (new LiskMigrationIterator($table) as $countdown) {

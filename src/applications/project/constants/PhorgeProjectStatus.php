@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectStatus extends Phobject {
+final class PhorgeProjectStatus extends Phobject {
 
   const STATUS_ACTIVE       = 0;
   const STATUS_ARCHIVED     = 100;

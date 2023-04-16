@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorKeyValueDatabaseCache
+final class PhorgeKeyValueDatabaseCache
   extends PhutilKeyValueCache {
 
   const CACHE_FORMAT_RAW        = 'raw';
   const CACHE_FORMAT_DEFLATE    = 'deflate';
 
   public function setKeys(array $keys, $ttl = null) {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
@@ -33,7 +33,7 @@ final class PhabricatorKeyValueDatabaseCache
       }
 
       $guard = AphrontWriteGuard::beginScopedUnguardedWrites();
-        foreach (PhabricatorLiskDAO::chunkSQL($sql) as $chunk) {
+        foreach (PhorgeLiskDAO::chunkSQL($sql) as $chunk) {
           queryfx(
             $conn_w,
             'INSERT INTO %T
@@ -119,7 +119,7 @@ final class PhabricatorKeyValueDatabaseCache
   public function establishConnection($mode) {
     // TODO: This is the only concrete table we have on the database right
     // now.
-    return id(new PhabricatorMarkupCache())->establishConnection($mode);
+    return id(new PhorgeMarkupCache())->establishConnection($mode);
   }
 
   public function getTableName() {
@@ -133,7 +133,7 @@ final class PhabricatorKeyValueDatabaseCache
   private function digestKeys(array $keys) {
     $map = array();
     foreach ($keys as $key) {
-      $map[$key] = PhabricatorHash::digestForIndex($key);
+      $map[$key] = PhorgeHash::digestForIndex($key);
     }
     return $map;
   }
@@ -149,7 +149,7 @@ final class PhabricatorKeyValueDatabaseCache
     }
 
     if ($can_deflate) {
-      $deflated = PhabricatorCaches::maybeDeflateData($value);
+      $deflated = PhorgeCaches::maybeDeflateData($value);
       if ($deflated !== null) {
         return array(self::CACHE_FORMAT_DEFLATE, $deflated);
       }
@@ -163,7 +163,7 @@ final class PhabricatorKeyValueDatabaseCache
       case self::CACHE_FORMAT_RAW:
         return $value;
       case self::CACHE_FORMAT_DEFLATE:
-        return PhabricatorCaches::inflateData($value);
+        return PhorgeCaches::inflateData($value);
       default:
         throw new Exception(pht('Unknown cache format.'));
     }

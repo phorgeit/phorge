@@ -23,7 +23,7 @@ final class HarbormasterString
   }
 
   public static function newIndex($string) {
-    $index = PhabricatorHash::digestForIndex($string);
+    $index = PhorgeHash::digestForIndex($string);
 
     $table = new self();
     $conn = $table->establishConnection('w');

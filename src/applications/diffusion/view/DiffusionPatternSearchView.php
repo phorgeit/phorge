@@ -79,7 +79,7 @@ final class DiffusionPatternSearchView extends DiffusionView {
 
       $string = phutil_tag(
         'pre',
-        array('class' => 'PhabricatorMonospaced phui-source-fragment'),
+        array('class' => 'PhorgeMonospaced phui-source-fragment'),
         $output);
 
       $href = $drequest->generateURI(array(

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerAuthorizationsSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeOAuthServerAuthorizationsSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'oauthorizations';
@@ -16,12 +16,12 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsLogsPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsLogsPanelGroup::PANELGROUPKEY;
   }
 
   public function isEnabled() {
-    return PhabricatorApplication::isClassInstalled(
-      'PhabricatorOAuthServerApplication');
+    return PhorgeApplication::isClassInstalled(
+      'PhorgeOAuthServerApplication');
   }
 
   public function processRequest(AphrontRequest $request) {
@@ -30,8 +30,8 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
     // TODO: It would be nice to simply disable this panel, but we can't do
     // viewer-based checks for enabled panels right now.
 
-    $app_class = 'PhabricatorOAuthServerApplication';
-    $installed = PhabricatorApplication::isClassInstalledForViewer(
+    $app_class = 'PhorgeOAuthServerApplication';
+    $installed = PhorgeApplication::isClassInstalledForViewer(
       $app_class,
       $viewer);
     if (!$installed) {
@@ -44,7 +44,7 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
       return id(new AphrontDialogResponse())->setDialog($dialog);
     }
 
-    $authorizations = id(new PhabricatorOAuthClientAuthorizationQuery())
+    $authorizations = id(new PhorgeOAuthClientAuthorizationQuery())
       ->setViewer($viewer)
       ->withUserPHIDs(array($viewer->getPHID()))
       ->execute();

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHandleRemarkupRule extends PhutilRemarkupRule {
+final class PhorgeHandleRemarkupRule extends PhutilRemarkupRule {
 
   const KEY_RULE_HANDLE = 'rule.handle';
   const KEY_RULE_HANDLE_ORIGINAL = 'rule.handle.original';
@@ -21,7 +21,7 @@ final class PhabricatorHandleRemarkupRule extends PhutilRemarkupRule {
     }
 
     $phid_type = phid_get_type($matches[1]);
-    if ($phid_type == PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+    if ($phid_type == PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
       return $matches[0];
     }
 
@@ -63,7 +63,7 @@ final class PhabricatorHandleRemarkupRule extends PhutilRemarkupRule {
 
     $phids = array_keys($metadata);
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($this->getEngine()->getConfig('viewer'))
       ->withPHIDs($phids)
       ->execute();
@@ -74,7 +74,7 @@ final class PhabricatorHandleRemarkupRule extends PhutilRemarkupRule {
       if ($handle->isComplete()) {
         if ($engine->isHTMLMailMode()) {
           $href = $handle->getURI();
-          $href = PhabricatorEnv::getProductionURI($href);
+          $href = PhorgeEnv::getProductionURI($href);
 
           $link = phutil_tag(
             'a',

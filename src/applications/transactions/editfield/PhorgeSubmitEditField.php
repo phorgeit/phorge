@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubmitEditField
-  extends PhabricatorEditField {
+final class PhorgeSubmitEditField
+  extends PhorgeEditField {
 
   protected function renderControl() {
     return id(new AphrontFormSubmitControl())

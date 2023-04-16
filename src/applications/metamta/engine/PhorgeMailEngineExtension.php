@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorMailEngineExtension
+abstract class PhorgeMailEngineExtension
   extends Phobject {
 
   private $viewer;
@@ -20,7 +20,7 @@ abstract class PhabricatorMailEngineExtension
   }
 
   final public function setEditor(
-    PhabricatorApplicationTransactionEditor $editor) {
+    PhorgeApplicationTransactionEditor $editor) {
     $this->editor = $editor;
     return $this;
   }

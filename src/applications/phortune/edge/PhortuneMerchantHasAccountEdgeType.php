@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneMerchantHasAccountEdgeType
-  extends PhabricatorEdgeType {
+  extends PhorgeEdgeType {
 
   const EDGECONST = 74;
 

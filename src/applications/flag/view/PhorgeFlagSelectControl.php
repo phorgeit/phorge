@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFlagSelectControl extends AphrontFormControl {
+final class PhorgeFlagSelectControl extends AphrontFormControl {
 
   protected function getCustomControlClass() {
     return 'phorge-flag-select-control';
@@ -9,19 +9,19 @@ final class PhabricatorFlagSelectControl extends AphrontFormControl {
   protected function renderInput() {
     require_celerity_resource('phorge-flag-css');
 
-    $colors = PhabricatorFlagColor::getColorNameMap();
+    $colors = PhorgeFlagColor::getColorNameMap();
 
     $value_map = array_fuse($this->getValue());
 
     $file_map = array(
-      PhabricatorFlagColor::COLOR_RED => 'red',
-      PhabricatorFlagColor::COLOR_ORANGE => 'orange',
-      PhabricatorFlagColor::COLOR_YELLOW => 'yellow',
-      PhabricatorFlagColor::COLOR_GREEN => 'green',
-      PhabricatorFlagColor::COLOR_BLUE => 'blue',
-      PhabricatorFlagColor::COLOR_PINK => 'pink',
-      PhabricatorFlagColor::COLOR_PURPLE => 'purple',
-      PhabricatorFlagColor::COLOR_CHECKERED => 'finish',
+      PhorgeFlagColor::COLOR_RED => 'red',
+      PhorgeFlagColor::COLOR_ORANGE => 'orange',
+      PhorgeFlagColor::COLOR_YELLOW => 'yellow',
+      PhorgeFlagColor::COLOR_GREEN => 'green',
+      PhorgeFlagColor::COLOR_BLUE => 'blue',
+      PhorgeFlagColor::COLOR_PINK => 'pink',
+      PhorgeFlagColor::COLOR_PURPLE => 'purple',
+      PhorgeFlagColor::COLOR_CHECKERED => 'finish',
     );
 
     $out = array();

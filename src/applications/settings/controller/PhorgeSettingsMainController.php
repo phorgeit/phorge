@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSettingsMainController
-  extends PhabricatorController {
+final class PhorgeSettingsMainController
+  extends PhorgeController {
 
   private $user;
   private $builtinKey;
@@ -51,28 +51,28 @@ final class PhabricatorSettingsMainController
     if ($builtin) {
       $this->builtinKey = $builtin;
 
-      $preferences = id(new PhabricatorUserPreferencesQuery())
+      $preferences = id(new PhorgeUserPreferencesQuery())
         ->setViewer($viewer)
         ->withBuiltinKeys(array($builtin))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$preferences) {
-        $preferences = id(new PhabricatorUserPreferences())
+        $preferences = id(new PhorgeUserPreferences())
           ->attachUser(null)
           ->setBuiltinKey($builtin);
       }
     } else {
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($username))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
 
@@ -80,7 +80,7 @@ final class PhabricatorSettingsMainController
         return new Aphront404Response();
       }
 
-      $preferences = PhabricatorUserPreferences::loadUserPreferences($user);
+      $preferences = PhorgeUserPreferences::loadUserPreferences($user);
       $this->user = $user;
     }
 
@@ -88,10 +88,10 @@ final class PhabricatorSettingsMainController
       return new Aphront404Response();
     }
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $viewer,
       $preferences,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $this->preferences = $preferences;
 
@@ -136,9 +136,9 @@ final class PhabricatorSettingsMainController
       ->appendChild($view);
   }
 
-  private function buildPanels(PhabricatorUserPreferences $preferences) {
+  private function buildPanels(PhorgeUserPreferences $preferences) {
     $viewer = $this->getViewer();
-    $panels = PhabricatorSettingsPanel::getAllDisplayPanels();
+    $panels = PhorgeSettingsPanel::getAllDisplayPanels();
 
     $result = array();
     foreach ($panels as $key => $panel) {

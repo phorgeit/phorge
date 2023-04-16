@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailMustEncryptHeraldAction
+final class PhorgeMailMustEncryptHeraldAction
   extends HeraldAction {
 
   const DO_MUST_ENCRYPT = 'do.must-encrypt';
@@ -16,7 +16,7 @@ final class PhabricatorMailMustEncryptHeraldAction
       'Require mail content be transmitted only over secure channels.');
   }
   public function supportsObject($object) {
-    return PhabricatorMetaMTAEmailHeraldAction::isMailGeneratingObject($object);
+    return PhorgeMetaMTAEmailHeraldAction::isMailGeneratingObject($object);
   }
 
   public function getActionGroupKey() {

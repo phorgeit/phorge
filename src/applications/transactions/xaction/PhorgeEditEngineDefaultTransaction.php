@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineDefaultTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEngineDefaultTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.default';
 
@@ -44,7 +44,7 @@ final class PhabricatorEditEngineDefaultTransaction
     $old = $this->renderDefaultValueAsFallbackText($this->getOldValue());
     $new = $this->renderDefaultValueAsFallbackText($this->getNewValue());
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($old)
       ->setNewText($new);

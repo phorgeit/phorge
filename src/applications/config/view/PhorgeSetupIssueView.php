@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSetupIssueView extends AphrontView {
+final class PhorgeSetupIssueView extends AphrontView {
 
   private $issue;
 
-  public function setIssue(PhabricatorSetupIssue $issue) {
+  public function setIssue(PhorgeSetupIssue $issue) {
     $this->issue = $issue;
     return $this;
   }
@@ -16,7 +16,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
   public function renderInFlight() {
     $issue = $this->getIssue();
 
-    return id(new PhabricatorInFlightErrorView())
+    return id(new PhorgeInFlightErrorView())
       ->setMessage($issue->getName())
       ->render();
   }
@@ -42,14 +42,14 @@ final class PhabricatorSetupIssueView extends AphrontView {
       $description[] = $this->renderMySQLConfig($configs);
     }
 
-    $configs = $issue->getPhabricatorConfig();
+    $configs = $issue->getPhorgeConfig();
     if ($configs) {
-      $description[] = $this->renderPhabricatorConfig($configs);
+      $description[] = $this->renderPhorgeConfig($configs);
     }
 
-    $related_configs = $issue->getRelatedPhabricatorConfig();
+    $related_configs = $issue->getRelatedPhorgeConfig();
     if ($related_configs) {
-      $description[] = $this->renderPhabricatorConfig($related_configs,
+      $description[] = $this->renderPhorgeConfig($related_configs,
         $related = true);
     }
 
@@ -242,7 +242,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
       ));
   }
 
-  private function renderPhabricatorConfig(array $configs, $related = false) {
+  private function renderPhorgeConfig(array $configs, $related = false) {
     $issue = $this->getIssue();
 
     $table_info = phutil_tag(
@@ -252,7 +252,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
         'The current configuration has these %d value(s):',
         count($configs)));
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     $hidden = array();
     foreach ($options as $key => $option) {
       if ($option->getHidden()) {
@@ -266,7 +266,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
       if (isset($hidden[$key])) {
         $dict[$key] = null;
       } else {
-        $dict[$key] = PhabricatorEnv::getUnrepairedEnvConfig($key);
+        $dict[$key] = PhorgeEnv::getUnrepairedEnvConfig($key);
       }
     }
 
@@ -496,7 +496,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
 
     $table = $this->renderValueTable($values);
 
-    $doc_href = PhabricatorEnv::getDoclink('User Guide: Amazon RDS');
+    $doc_href = PhorgeEnv::getDoclink('User Guide: Amazon RDS');
     $doc_link = phutil_tag(
       'a',
       array(
@@ -563,7 +563,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
     } else if ($value instanceof PhutilSafeHTML) {
       return $value;
     } else {
-      return PhabricatorConfigJSON::prettyPrintJSON($value);
+      return PhorgeConfigJSON::prettyPrintJSON($value);
     }
   }
 
@@ -601,7 +601,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
   }
 
   private function renderRestartLink() {
-    $doc_href = PhabricatorEnv::getDoclink('Restarting Phorge');
+    $doc_href = PhorgeEnv::getDoclink('Restarting Phorge');
     return phutil_tag(
       'a',
       array(

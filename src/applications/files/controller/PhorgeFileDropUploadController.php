@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileDropUploadController
-  extends PhabricatorFileController {
+final class PhorgeFileDropUploadController
+  extends PhorgeFileController {
 
   public function shouldAllowRestrictedParameter($parameter_name) {
     // Prevent false positives from file content when it is submitted via
@@ -10,7 +10,7 @@ final class PhabricatorFileDropUploadController
   }
 
   /**
-   * @phutil-external-symbol class PhabricatorStartup
+   * @phutil-external-symbol class PhorgeStartup
    */
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -64,7 +64,7 @@ final class PhabricatorFileDropUploadController
 
     // Read the raw request data. We're either doing a chunk upload or a
     // vanilla upload, so we need it.
-    $data = PhabricatorStartup::getRawInput();
+    $data = PhorgeStartup::getRawInput();
 
     $is_chunk_upload = $request->getBool('uploadchunk');
     if ($is_chunk_upload) {
@@ -90,7 +90,7 @@ final class PhabricatorFileDropUploadController
       return id(new AphrontAjaxResponse())->setContent($result);
     }
 
-    $file = PhabricatorFile::newFromXHRUpload(
+    $file = PhorgeFile::newFromXHRUpload(
       $data,
       array(
         'name' => $request->getStr('name'),
@@ -106,7 +106,7 @@ final class PhabricatorFileDropUploadController
   private function loadFile($file_phid) {
     $viewer = $this->getViewer();
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();

@@ -1,6 +1,6 @@
 <?php
 
-final class HeraldRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class HeraldRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'H';

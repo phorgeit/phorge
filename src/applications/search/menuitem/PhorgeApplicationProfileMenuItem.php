@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeApplicationProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'application';
 
@@ -20,7 +20,7 @@ final class PhabricatorApplicationProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $application = $this->getApplication($config);
     if (!$application) {
       return pht('(Restricted/Invalid Application)');
@@ -35,15 +35,15 @@ final class PhabricatorApplicationProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey(self::FIELD_APPLICATION)
         ->setLabel(pht('Application'))
-        ->setDatasource(new PhabricatorApplicationDatasource())
+        ->setDatasource(new PhorgeApplicationDatasource())
         ->setIsRequired(true)
         ->setSingleValue($config->getMenuItemProperty('application')),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setValue($this->getName($config)),
@@ -51,16 +51,16 @@ final class PhabricatorApplicationProfileMenuItem
   }
 
   private function getName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   private function getApplication(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
     $phid = $config->getMenuItemProperty('application');
 
-    $apps = id(new PhabricatorApplicationQuery())
+    $apps = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->execute();
@@ -69,14 +69,14 @@ final class PhabricatorApplicationProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $viewer = $this->getViewer();
     $app = $this->getApplication($config);
     if (!$app) {
       return array();
     }
 
-    $is_installed = PhabricatorApplication::isClassInstalledForViewer(
+    $is_installed = PhorgeApplication::isClassInstalledForViewer(
       get_class($app),
       $viewer);
     if (!$is_installed) {
@@ -100,7 +100,7 @@ final class PhabricatorApplicationProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -126,7 +126,7 @@ final class PhabricatorApplicationProfileMenuItem
           continue;
         }
 
-        $applications = id(new PhabricatorApplicationQuery())
+        $applications = id(new PhorgeApplicationQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($new))
           ->execute();

@@ -113,10 +113,10 @@ final class DifferentialRevisionOperationController
       ->addSubmitButton(pht('Land Revision'));
   }
 
-  private function newRefQuery(PhabricatorRepository $repository) {
+  private function newRefQuery(PhorgeRepository $repository) {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorRepositoryRefCursorQuery())
+    return id(new PhorgeRepositoryRefCursorQuery())
       ->setViewer($viewer)
       ->withRepositoryPHIDs(array($repository->getPHID()))
       ->withRefTypes($this->getTargetableRefTypes());
@@ -124,12 +124,12 @@ final class DifferentialRevisionOperationController
 
   private function getTargetableRefTypes() {
     return array(
-      PhabricatorRepositoryRefCursor::TYPE_BRANCH,
+      PhorgeRepositoryRefCursor::TYPE_BRANCH,
     );
   }
 
   private function loadDefaultRef(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     DifferentialDiff $diff) {
     $default_name = $this->getDefaultRefName($repository, $diff);
 
@@ -143,7 +143,7 @@ final class DifferentialRevisionOperationController
   }
 
   private function getDefaultRefName(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     DifferentialDiff $diff) {
 
     $onto = $diff->loadTargetBranch();

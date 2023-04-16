@@ -15,7 +15,7 @@ final class LegalpadDocumentRequireSignatureTransaction
 
   public function applyExternalEffects($object, $value) {
     if ($value) {
-      $session = new PhabricatorAuthSession();
+      $session = new PhorgeAuthSession();
       queryfx(
         $session->establishConnection('w'),
         'UPDATE %T SET signedLegalpadDocuments = 0',

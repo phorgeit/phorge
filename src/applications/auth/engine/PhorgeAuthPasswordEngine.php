@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthPasswordEngine
+final class PhorgeAuthPasswordEngine
   extends Phobject {
 
   private $viewer;
@@ -9,7 +9,7 @@ final class PhabricatorAuthPasswordEngine
   private $passwordType;
   private $upgradeHashers = true;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -18,7 +18,7 @@ final class PhabricatorAuthPasswordEngine
     return $this->viewer;
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -27,7 +27,7 @@ final class PhabricatorAuthPasswordEngine
     return $this->contentSource;
   }
 
-  public function setObject(PhabricatorAuthPasswordHashInterface $object) {
+  public function setObject(PhorgeAuthPasswordHashInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -63,21 +63,21 @@ final class PhabricatorAuthPasswordEngine
 
     if (!strlen($raw_password)) {
       if ($can_skip) {
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht('You must choose a password or skip this step.'),
           pht('Required'));
       } else {
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht('You must choose a password.'),
           pht('Required'));
       }
     }
 
-    $min_len = PhabricatorEnv::getEnvConfig('account.minimum-password-length');
+    $min_len = PhorgeEnv::getEnvConfig('account.minimum-password-length');
     $min_len = (int)$min_len;
     if ($min_len) {
       if (strlen($raw_password) < $min_len) {
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht(
             'The selected password is too short. Passwords must be a minimum '.
             'of %s characters long.',
@@ -89,21 +89,21 @@ final class PhabricatorAuthPasswordEngine
     $raw_confirm = $confirm->openEnvelope();
 
     if (!strlen($raw_confirm)) {
-      throw new PhabricatorAuthPasswordException(
+      throw new PhorgeAuthPasswordException(
         pht('You must confirm the selected password.'),
         null,
         pht('Required'));
     }
 
     if ($raw_password !== $raw_confirm) {
-      throw new PhabricatorAuthPasswordException(
+      throw new PhorgeAuthPasswordException(
         pht('The password and confirmation do not match.'),
         pht('Invalid'),
         pht('Invalid'));
     }
 
-    if (PhabricatorCommonPasswords::isCommonPassword($raw_password)) {
-      throw new PhabricatorAuthPasswordException(
+    if (PhorgeCommonPasswords::isCommonPassword($raw_password)) {
+      throw new PhorgeAuthPasswordException(
         pht(
           'The selected password is very weak: it is one of the most common '.
           'passwords in use. Choose a stronger password.'),
@@ -119,7 +119,7 @@ final class PhabricatorAuthPasswordEngine
 
     if ($object->getPHID()) {
       if ($this->isRevokedPassword($password)) {
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht(
             'The password you entered has been revoked. You can not reuse '.
             'a password which has been revoked. Choose a new password.'),
@@ -127,7 +127,7 @@ final class PhabricatorAuthPasswordEngine
       }
 
       if (!$this->isUniquePassword($password)) {
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht(
             'The password you entered is the same as another password '.
             'associated with your account. Each password must be unique.'),
@@ -146,7 +146,7 @@ final class PhabricatorAuthPasswordEngine
     $minimum_similarity = 4;
 
     // Add the domain name to the blocklist.
-    $base_uri = PhabricatorEnv::getAnyBaseURI();
+    $base_uri = PhorgeEnv::getAnyBaseURI();
     $base_uri = new PhutilURI($base_uri);
     $blocklist[] = $base_uri->getDomain();
 
@@ -192,7 +192,7 @@ final class PhabricatorAuthPasswordEngine
           continue;
         }
 
-        throw new PhabricatorAuthPasswordException(
+        throw new PhorgeAuthPasswordException(
           pht(
             'The password you entered is very similar to a nonsecret account '.
             'identifier (like a username or email address). Choose a more '.
@@ -296,7 +296,7 @@ final class PhabricatorAuthPasswordEngine
       return false;
     }
 
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       // Don't try to upgrade hashers if we're in read-only mode, since we
       // won't be able to write the new hash to the database.
       return false;
@@ -310,7 +310,7 @@ final class PhabricatorAuthPasswordEngine
     $object = $this->getObject();
     $password_type = $this->getPasswordType();
 
-    return id(new PhabricatorAuthPasswordQuery())
+    return id(new PhorgeAuthPasswordQuery())
       ->setViewer($viewer)
       ->withObjectPHIDs(array($object->getPHID()));
   }
@@ -325,7 +325,7 @@ final class PhabricatorAuthPasswordEngine
     foreach ($passwords as $password) {
       try {
         $is_match = $password->comparePassword($envelope, $object);
-      } catch (PhabricatorPasswordHasherUnavailableException $ex) {
+      } catch (PhorgePasswordHasherUnavailableException $ex) {
         $is_match = false;
       }
 
@@ -341,7 +341,7 @@ final class PhabricatorAuthPasswordEngine
     PhutilOpaqueEnvelope $envelope,
     array $passwords) {
 
-    assert_instances_of($passwords, 'PhabricatorAuthPassword');
+    assert_instances_of($passwords, 'PhorgeAuthPassword');
 
     $need_upgrade = array();
     foreach ($passwords as $password) {
@@ -355,7 +355,7 @@ final class PhabricatorAuthPasswordEngine
       return;
     }
 
-    $upgrade_type = PhabricatorAuthPasswordUpgradeTransaction::TRANSACTIONTYPE;
+    $upgrade_type = PhorgeAuthPasswordUpgradeTransaction::TRANSACTIONTYPE;
     $viewer = $this->getViewer();
     $content_source = $this->getContentSource();
 

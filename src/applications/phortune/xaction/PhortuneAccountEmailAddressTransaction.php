@@ -36,9 +36,9 @@ final class PhortuneAccountEmailAddressTransaction
         continue;
       }
 
-      if (!PhabricatorUserEmail::isValidAddress($new_value)) {
+      if (!PhorgeUserEmail::isValidAddress($new_value)) {
         $errors[] = $this->newInvalidError(
-          PhabricatorUserEmail::describeValidAddresses(),
+          PhorgeUserEmail::describeValidAddresses(),
           $xaction);
         continue;
       }

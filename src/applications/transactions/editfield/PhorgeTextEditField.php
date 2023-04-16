@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTextEditField
-  extends PhabricatorEditField {
+final class PhorgeTextEditField
+  extends PhorgeEditField {
 
   private $placeholder;
 

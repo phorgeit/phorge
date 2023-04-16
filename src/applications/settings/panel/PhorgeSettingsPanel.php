@@ -11,7 +11,7 @@
  * @task panel    Panel Implementation
  * @task internal Internals
  */
-abstract class PhabricatorSettingsPanel extends Phobject {
+abstract class PhorgeSettingsPanel extends Phobject {
 
   private $user;
   private $viewer;
@@ -20,7 +20,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   private $overrideURI;
   private $preferences;
 
-  public function setUser(PhabricatorUser $user) {
+  public function setUser(PhorgeUser $user) {
     $this->user = $user;
     return $this;
   }
@@ -29,7 +29,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this->user;
   }
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -43,7 +43,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
-  final public function setController(PhabricatorController $controller) {
+  final public function setController(PhorgeController $controller) {
     $this->controller = $controller;
     return $this;
   }
@@ -61,7 +61,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this->navigation;
   }
 
-  public function setPreferences(PhabricatorUserPreferences $preferences) {
+  public function setPreferences(PhorgeUserPreferences $preferences) {
     $this->preferences = $preferences;
     return $this;
   }
@@ -80,7 +80,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
 
   final public static function getAllDisplayPanels() {
     $panels = array();
-    $groups = PhabricatorSettingsPanelGroup::getAllPanelGroupsWithPanels();
+    $groups = PhorgeSettingsPanelGroup::getAllPanelGroupsWithPanels();
     foreach ($groups as $group) {
       foreach ($group->getPanels() as $key => $panel) {
         $panels[$key] = $panel;
@@ -93,7 +93,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   final public function getPanelGroup() {
     $group_key = $this->getPanelGroupKey();
 
-    $groups = PhabricatorSettingsPanelGroup::getAllPanelGroupsWithPanels();
+    $groups = PhorgeSettingsPanelGroup::getAllPanelGroupsWithPanels();
     $group = idx($groups, $group_key);
     if (!$group) {
       throw new Exception(
@@ -285,13 +285,13 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   }
 
   protected function writeSetting(
-    PhabricatorUserPreferences $preferences,
+    PhorgeUserPreferences $preferences,
     $key,
     $value) {
     $viewer = $this->getViewer();
     $request = $this->getController()->getRequest();
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($viewer)
       ->setContentSourceFromRequest($request)
       ->setContinueOnNoEffect(true)

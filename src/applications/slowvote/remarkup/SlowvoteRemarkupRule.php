@@ -1,6 +1,6 @@
 <?php
 
-final class SlowvoteRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class SlowvoteRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'V';
@@ -9,7 +9,7 @@ final class SlowvoteRemarkupRule extends PhabricatorObjectRemarkupRule {
   protected function loadObjects(array $ids) {
     $viewer = $this->getEngine()->getConfig('viewer');
 
-    return id(new PhabricatorSlowvoteQuery())
+    return id(new PhorgeSlowvoteQuery())
       ->setViewer($viewer)
       ->withIDs($ids)
       ->needOptions(true)
@@ -20,7 +20,7 @@ final class SlowvoteRemarkupRule extends PhabricatorObjectRemarkupRule {
 
   protected function renderObjectEmbed(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $options) {
 
     $viewer = $this->getEngine()->getConfig('viewer');

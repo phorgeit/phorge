@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchDocument extends PhabricatorSearchDAO {
+final class PhorgeSearchDocument extends PhorgeSearchDAO {
 
   protected $documentType;
   protected $documentTitle;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailTarget extends Phobject {
+final class PhorgeMailTarget extends Phobject {
 
   private $viewer;
   private $replyTo;
@@ -55,7 +55,7 @@ final class PhabricatorMailTarget extends Phobject {
     return $this->viewer;
   }
 
-  public function willSendMail(PhabricatorMetaMTAMail $mail) {
+  public function willSendMail(PhorgeMetaMTAMail $mail) {
     $viewer = $this->getViewer();
 
     $show_stamps = $mail->shouldRenderMailStampsInBody($viewer);
@@ -128,10 +128,10 @@ final class PhabricatorMailTarget extends Phobject {
   }
 
   private function getRecipientsSummary(
-    PhabricatorHandleList $to_handles,
-    PhabricatorHandleList $cc_handles) {
+    PhorgeHandleList $to_handles,
+    PhorgeHandleList $cc_handles) {
 
-    if (!PhabricatorEnv::getEnvConfig('metamta.recipients.show-hints')) {
+    if (!PhorgeEnv::getEnvConfig('metamta.recipients.show-hints')) {
       return '';
     }
 
@@ -154,10 +154,10 @@ final class PhabricatorMailTarget extends Phobject {
   }
 
   private function getRecipientsSummaryHTML(
-    PhabricatorHandleList $to_handles,
-    PhabricatorHandleList $cc_handles) {
+    PhorgeHandleList $to_handles,
+    PhorgeHandleList $cc_handles) {
 
-    if (!PhabricatorEnv::getEnvConfig('metamta.recipients.show-hints')) {
+    if (!PhorgeEnv::getEnvConfig('metamta.recipients.show-hints')) {
       return '';
     }
 

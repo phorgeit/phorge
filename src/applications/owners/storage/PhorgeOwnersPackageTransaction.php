@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorOwnersPackageTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeOwnersPackageTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'owners';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorOwnersPackagePHIDType::TYPECONST;
+    return PhorgeOwnersPackagePHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorOwnersPackageTransactionType';
+    return 'PhorgeOwnersPackageTransactionType';
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 abstract class HarbormasterBuildStepCustomField
-  extends PhabricatorCustomField {
+  extends PhorgeCustomField {
 
   abstract public function getBuildTargetFieldValue();
 

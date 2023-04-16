@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailRoutingRule extends Phobject {
+final class PhorgeMailRoutingRule extends Phobject {
 
   const ROUTE_AS_NOTIFICATION = 'route.notification';
   const ROUTE_AS_MAIL = 'route.mail';

@@ -4,7 +4,7 @@
 $root = dirname(dirname(dirname(dirname(__FILE__))));
 require_once $root.'/scripts/init/init-aphlict.php';
 
-PhabricatorAphlictManagementWorkflow::requireExtensions();
+PhorgeAphlictManagementWorkflow::requireExtensions();
 
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage Aphlict notification server'));
@@ -17,7 +17,7 @@ EOSYNOPSIS
 $args->parseStandardArguments();
 
 $workflows = id(new PhutilClassMapQuery())
-  ->setAncestorClass('PhabricatorAphlictManagementWorkflow')
+  ->setAncestorClass('PhorgeAphlictManagementWorkflow')
   ->execute();
 $workflows[] = new PhutilHelpArgumentWorkflow();
 $args->parseWorkflows($workflows);

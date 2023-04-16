@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDisabledUserController
-  extends PhabricatorAuthController {
+final class PhorgeDisabledUserController
+  extends PhorgeAuthController {
 
   public function shouldRequireEnabledUser() {
     return false;

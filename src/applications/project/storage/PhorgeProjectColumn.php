@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorProjectColumn
-  extends PhabricatorProjectDAO
+final class PhorgeProjectColumn
+  extends PhorgeProjectDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeDestructibleInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeConduitResultInterface {
 
   const STATUS_ACTIVE = 0;
   const STATUS_HIDDEN = 1;
@@ -24,8 +24,8 @@ final class PhabricatorProjectColumn
   private $proxy = self::ATTACHABLE;
   private $trigger = self::ATTACHABLE;
 
-  public static function initializeNewColumn(PhabricatorUser $user) {
-    return id(new PhabricatorProjectColumn())
+  public static function initializeNewColumn(PhorgeUser $user) {
+    return id(new PhorgeProjectColumn())
       ->setName('')
       ->setStatus(self::STATUS_ACTIVE)
       ->attachProxy(null);
@@ -63,11 +63,11 @@ final class PhabricatorProjectColumn
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorProjectColumnPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeProjectColumnPHIDType::TYPECONST);
   }
 
-  public function attachProject(PhabricatorProject $project) {
+  public function attachProject(PhorgeProject $project) {
     $this->project = $project;
     return $this;
   }
@@ -186,7 +186,7 @@ final class PhabricatorProjectColumn
     return sprintf('%s%012d', $group, $sequence);
   }
 
-  public function attachTrigger(PhabricatorProjectTrigger $trigger = null) {
+  public function attachTrigger(PhorgeProjectTrigger $trigger = null) {
     $this->trigger = $trigger;
     return $this;
   }
@@ -221,7 +221,7 @@ final class PhabricatorProjectColumn
 
     $proxy = $this->getProxy();
     if ($proxy && $proxy->isMilestone()) {
-      $effects[] = id(new PhabricatorProjectDropEffect())
+      $effects[] = id(new PhorgeProjectDropEffect())
         ->setIcon($proxy->getProxyColumnIcon())
         ->setColor('violet')
         ->setContent(
@@ -229,7 +229,7 @@ final class PhabricatorProjectColumn
             'Move to milestone %s.',
             phutil_tag('strong', array(), $this->getDisplayName())));
     } else {
-      $effects[] = id(new PhabricatorProjectDropEffect())
+      $effects[] = id(new PhorgeProjectDropEffect())
         ->setIcon('fa-columns')
         ->setColor('blue')
         ->setContent(
@@ -252,19 +252,19 @@ final class PhabricatorProjectColumn
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The display name of the column.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('project')
         ->setType('map<string, wild>')
         ->setDescription(pht('The project the column belongs to.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('proxyPHID')
         ->setType('phid?')
         ->setDescription(
@@ -295,25 +295,25 @@ final class PhabricatorProjectColumn
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorProjectColumnTransactionEditor();
+    return new PhorgeProjectColumnTransactionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorProjectColumnTransaction();
+    return new PhorgeProjectColumnTransaction();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -321,14 +321,14 @@ final class PhabricatorProjectColumn
     // NOTE: Column policies are enforced as an extended policy which makes
     // them the same as the project's policies.
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_USER;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getProject()->hasAutomaticCapability(
       $capability,
       $viewer);
@@ -339,20 +339,20 @@ final class PhabricatorProjectColumn
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
       array($this->getProject(), $capability),
     );
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
     $this->delete();

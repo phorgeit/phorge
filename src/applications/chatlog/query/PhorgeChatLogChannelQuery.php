@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChatLogChannelQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeChatLogChannelQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $channels;
   private $channelIDs;
@@ -17,7 +17,7 @@ final class PhabricatorChatLogChannelQuery
   }
 
   protected function loadPage() {
-    $table  = new PhabricatorChatLogChannel();
+    $table  = new PhorgeChatLogChannel();
     $conn_r = $table->establishConnection('r');
 
     $data = queryfx_all(
@@ -57,7 +57,7 @@ final class PhabricatorChatLogChannelQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorChatLogApplication';
+    return 'PhorgeChatLogApplication';
   }
 
 }

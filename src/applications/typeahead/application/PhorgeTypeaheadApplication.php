@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTypeaheadApplication extends PhabricatorApplication {
+final class PhorgeTypeaheadApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Typeahead');
@@ -10,9 +10,9 @@ final class PhabricatorTypeaheadApplication extends PhabricatorApplication {
     return array(
       '/typeahead/' => array(
         '(?P<action>browse|class)/(?:(?P<class>\w+)/)?'
-          => 'PhabricatorTypeaheadModularDatasourceController',
+          => 'PhorgeTypeaheadModularDatasourceController',
         'help/(?P<class>\w+)/'
-          => 'PhabricatorTypeaheadFunctionHelpController',
+          => 'PhorgeTypeaheadFunctionHelpController',
       ),
     );
   }

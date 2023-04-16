@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeProjectTriggerPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'WTRG';
 
@@ -14,23 +14,23 @@ final class PhabricatorProjectTriggerPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorProjectTrigger();
+    return new PhorgeProjectTrigger();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorProjectTriggerQuery())
+    return id(new PhorgeProjectTriggerQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

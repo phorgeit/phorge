@@ -80,7 +80,7 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this;
   }
 
-  public function setActionList(PhabricatorActionListView $list) {
+  public function setActionList(PhorgeActionListView $list) {
     $this->actionList = $list;
     return $this;
   }
@@ -90,7 +90,7 @@ final class PHUIHeaderView extends AphrontTagView {
     return $this;
   }
 
-  public function setPolicyObject(PhabricatorPolicyInterface $object) {
+  public function setPolicyObject(PhorgePolicyInterface $object) {
     $this->policyObject = $object;
     return $this;
   }
@@ -426,12 +426,12 @@ final class PHUIHeaderView extends AphrontTagView {
       $header_row);
   }
 
-  private function renderPolicyProperty(PhabricatorPolicyInterface $object) {
+  private function renderPolicyProperty(PhorgePolicyInterface $object) {
     $viewer = $this->getUser();
 
-    $policies = PhabricatorPolicyQuery::loadPolicies($viewer, $object);
+    $policies = PhorgePolicyQuery::loadPolicies($viewer, $object);
 
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
     $policy = idx($policies, $view_capability);
     if (!$policy) {
       return null;
@@ -445,14 +445,14 @@ final class PHUIHeaderView extends AphrontTagView {
     // show them information about the existence of spaces if they click
     // through.
     $use_space_policy = false;
-    if ($object instanceof PhabricatorSpacesInterface) {
-      $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+    if ($object instanceof PhorgeSpacesInterface) {
+      $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
         $object);
 
-      $spaces = PhabricatorSpacesNamespaceQuery::getViewerSpaces($viewer);
+      $spaces = PhorgeSpacesNamespaceQuery::getViewerSpaces($viewer);
       $space = idx($spaces, $space_phid);
       if ($space) {
-        $space_policies = PhabricatorPolicyQuery::loadPolicies(
+        $space_policies = PhorgePolicyQuery::loadPolicies(
           $viewer,
           $space);
         $space_policy = idx($space_policies, $view_capability);
@@ -472,8 +472,8 @@ final class PHUIHeaderView extends AphrontTagView {
     $policy_name = array($policy->getShortName());
     $policy_icon = $policy->getIcon().' bluegrey';
 
-    if ($object instanceof PhabricatorPolicyCodexInterface) {
-      $codex = PhabricatorPolicyCodex::newFromObject($object, $viewer);
+    if ($object instanceof PhorgePolicyCodexInterface) {
+      $codex = PhorgePolicyCodex::newFromObject($object, $viewer);
 
       $codex_name = $codex->getPolicyShortName($policy, $view_capability);
       if ($codex_name !== null) {

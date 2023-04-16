@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryPushLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryPushLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -61,12 +61,12 @@ final class PhabricatorRepositoryPushLogQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryPushLog();
+    return new PhorgeRepositoryPushLog();
   }
 
   protected function willFilterPage(array $logs) {
     $event_phids = mpull($logs, 'getPushEventPHID');
-    $events = id(new PhabricatorObjectQuery())
+    $events = id(new PhorgeObjectQuery())
       ->setParentQuery($this)
       ->setViewer($this->getViewer())
       ->withPHIDs($event_phids)
@@ -155,7 +155,7 @@ final class PhabricatorRepositoryPushLogQuery
       $where[] = qsprintf(
         $conn,
         '(event.rejectCode = %d AND event.rejectDetails IN (%Ls))',
-        PhabricatorRepositoryPushLog::REJECT_HERALD,
+        PhorgeRepositoryPushLog::REJECT_HERALD,
         $this->blockingHeraldRulePHIDs);
     }
 
@@ -169,7 +169,7 @@ final class PhabricatorRepositoryPushLogQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %T event ON event.phid = log.pushEventPHID',
-        id(new PhabricatorRepositoryPushEvent())->getTableName());
+        id(new PhorgeRepositoryPushEvent())->getTableName());
     }
 
     return $joins;
@@ -184,7 +184,7 @@ final class PhabricatorRepositoryPushLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function getPrimaryTableAlias() {

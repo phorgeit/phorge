@@ -1,14 +1,14 @@
 <?php
 
 final class ManiphestCreateMailReceiver
-  extends PhabricatorApplicationMailReceiver {
+  extends PhorgeApplicationMailReceiver {
 
   protected function newApplication() {
-    return new PhabricatorManiphestApplication();
+    return new PhorgeManiphestApplication();
   }
 
   protected function processReceivedMail(
-    PhabricatorMetaMTAReceivedMail $mail,
+    PhorgeMetaMTAReceivedMail $mail,
     PhutilEmailAddress $target) {
 
     $author = $this->getAuthor();

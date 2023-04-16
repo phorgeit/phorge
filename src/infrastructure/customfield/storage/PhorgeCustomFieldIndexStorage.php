@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorCustomFieldIndexStorage extends PhabricatorLiskDAO {
+abstract class PhorgeCustomFieldIndexStorage extends PhorgeLiskDAO {
 
   protected $objectPHID;
   protected $indexKey;

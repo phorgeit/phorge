@@ -6,8 +6,8 @@
  * This controller provides a stable URI for getting the current contents of
  * a paste, and slightly simplifies the view controller.
  */
-final class PhabricatorPasteRawController
-  extends PhabricatorPasteController {
+final class PhorgePasteRawController
+  extends PhorgePasteController {
 
   public function shouldAllowPublic() {
     return true;
@@ -17,7 +17,7 @@ final class PhabricatorPasteRawController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $paste = id(new PhabricatorPasteQuery())
+    $paste = id(new PhorgePasteQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -25,7 +25,7 @@ final class PhabricatorPasteRawController
       return new Aphront404Response();
     }
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($paste->getFilePHID()))
       ->executeOne();

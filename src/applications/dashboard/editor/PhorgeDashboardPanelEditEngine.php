@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeDashboardPanelEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'dashboard.panel';
 
@@ -57,12 +57,12 @@ final class PhabricatorDashboardPanelEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return 'PhorgeDashboardApplication';
   }
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    $panel = PhabricatorDashboardPanel::initializeNewPanel($viewer);
+    $panel = PhorgeDashboardPanel::initializeNewPanel($viewer);
 
     if ($this->panelType) {
       $panel->setPanelType($this->panelType);
@@ -74,7 +74,7 @@ final class PhabricatorDashboardPanelEditEngine
   protected function newEditableObjectForDocumentation() {
     $panel = parent::newEditableObjectForDocumentation();
 
-    $text_type = id(new PhabricatorDashboardTextPanelType())
+    $text_type = id(new PhorgeDashboardTextPanelType())
       ->getPanelTypeKey();
 
     $panel->setPanelType($text_type);
@@ -83,7 +83,7 @@ final class PhabricatorDashboardPanelEditEngine
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorDashboardPanelQuery();
+    return new PhorgeDashboardPanelQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -144,7 +144,7 @@ final class PhabricatorDashboardPanelEditEngine
   protected function didApplyTransactions($object, array $xactions) {
     $context = $this->getContextObject();
 
-    if ($context instanceof PhabricatorDashboard) {
+    if ($context instanceof PhorgeDashboard) {
       // Only add the panel to the dashboard when we're creating a new panel,
       // not if we're editing an existing panel.
       if (!$this->getIsCreate()) {
@@ -166,7 +166,7 @@ final class PhabricatorDashboardPanelEditEngine
 
       $xactions[] = $dashboard->getApplicationTransactionTemplate()
         ->setTransactionType(
-          PhabricatorDashboardPanelsTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardPanelsTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_panels);
 
       $editor = $dashboard->getApplicationTransactionEditor()
@@ -181,14 +181,14 @@ final class PhabricatorDashboardPanelEditEngine
 
   protected function buildCustomEditFields($object) {
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the panel.'))
         ->setConduitDescription(pht('Rename the panel.'))
         ->setConduitTypeDescription(pht('New panel name.'))
         ->setTransactionType(
-          PhabricatorDashboardPanelNameTransaction::TRANSACTIONTYPE)
+          PhorgeDashboardPanelNameTransaction::TRANSACTIONTYPE)
         ->setIsRequired(true)
         ->setValue($object->getName()),
     );

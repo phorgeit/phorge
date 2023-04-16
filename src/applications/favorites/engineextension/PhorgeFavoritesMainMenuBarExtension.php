@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorFavoritesMainMenuBarExtension
-  extends PhabricatorMainMenuBarExtension {
+final class PhorgeFavoritesMainMenuBarExtension
+  extends PhorgeMainMenuBarExtension {
 
   const MAINMENUBARKEY = 'favorites';
 
-  public function isExtensionEnabledForViewer(PhabricatorUser $viewer) {
-    return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorFavoritesApplication',
+  public function isExtensionEnabledForViewer(PhorgeUser $viewer) {
+    return PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeFavoritesApplication',
       $viewer);
   }
 
@@ -38,10 +38,10 @@ final class PhabricatorFavoritesMainMenuBarExtension
     );
   }
 
-  private function newDropdown(PhabricatorUser $viewer) {
-    $applications = id(new PhabricatorApplicationQuery())
+  private function newDropdown(PhorgeUser $viewer) {
+    $applications = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
-      ->withClasses(array('PhabricatorFavoritesApplication'))
+      ->withClasses(array('PhorgeFavoritesApplication'))
       ->withInstalled(true)
       ->execute();
     $favorites = head($applications);
@@ -49,7 +49,7 @@ final class PhabricatorFavoritesMainMenuBarExtension
       return null;
     }
 
-    $menu_engine = id(new PhabricatorFavoritesProfileMenuEngine())
+    $menu_engine = id(new PhorgeFavoritesProfileMenuEngine())
       ->setViewer($viewer)
       ->setProfileObject($favorites)
       ->setCustomPHID($viewer->getPHID());
@@ -65,10 +65,10 @@ final class PhabricatorFavoritesMainMenuBarExtension
     $menu_view = $filter_view->getMenu();
     $item_views = $menu_view->getItems();
 
-    $view = id(new PhabricatorActionListView())
+    $view = id(new PhorgeActionListView())
       ->setViewer($viewer);
     foreach ($item_views as $item) {
-      $action = id(new PhabricatorActionView())
+      $action = id(new PhorgeActionView())
         ->setName($item->getName())
         ->setHref($item->getHref())
         ->setIcon($item->getIcon())

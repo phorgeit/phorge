@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorDatasourceApplicationEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+final class PhorgeDatasourceApplicationEngineExtension
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array(
-      new PhabricatorApplicationDatasource(),
+      new PhorgeApplicationDatasource(),
     );
   }
 }

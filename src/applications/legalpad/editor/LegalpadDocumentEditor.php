@@ -1,10 +1,10 @@
 <?php
 
 final class LegalpadDocumentEditor
-  extends PhabricatorApplicationTransactionEditor {
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,9 +14,9 @@ final class LegalpadDocumentEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
@@ -30,7 +30,7 @@ final class LegalpadDocumentEditor
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $is_contribution = false;
@@ -59,13 +59,13 @@ final class LegalpadDocumentEditor
 
       $object->setDocumentBodyPHID($body->getPHID());
 
-      $type = PhabricatorContributedToObjectEdgeType::EDGECONST;
-      id(new PhabricatorEdgeEditor())
+      $type = PhorgeContributedToObjectEdgeType::EDGECONST;
+      id(new PhorgeEdgeEditor())
         ->addEdge($this->getActingAsPHID(), $type, $object->getPHID())
         ->save();
 
-      $type = PhabricatorObjectHasContributorEdgeType::EDGECONST;
-      $contributors = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $type = PhorgeObjectHasContributorEdgeType::EDGECONST;
+      $contributors = PhorgeEdgeQuery::loadDestinationPHIDs(
         $object->getPHID(),
         $type);
       $object->setRecentContributorPHIDs(array_slice($contributors, 0, 3));
@@ -77,7 +77,7 @@ final class LegalpadDocumentEditor
     return $xactions;
   }
 
-  protected function validateAllTransactions(PhabricatorLiskDAO $object,
+  protected function validateAllTransactions(PhorgeLiskDAO $object,
     array $xactions) {
     $errors = array();
 
@@ -97,7 +97,7 @@ final class LegalpadDocumentEditor
     }
 
     if ($is_required && ($document_type != $individual)) {
-      $errors[] = new PhabricatorApplicationTransactionValidationError(
+      $errors[] = new PhorgeApplicationTransactionValidationError(
         LegalpadDocumentRequireSignatureTransaction::TRANSACTIONTYPE,
         pht('Invalid'),
         pht('Only documents with signature type "individual" may '.
@@ -112,25 +112,25 @@ final class LegalpadDocumentEditor
 /* -(  Sending Mail  )------------------------------------------------------- */
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
     return id(new LegalpadReplyHandler())
       ->setMailReceiver($object);
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $id = $object->getID();
     $title = $object->getDocumentBody()->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("L{$id}: {$title}");
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getCreatorPHID(),
       $this->requireActor()->getPHID(),
@@ -138,8 +138,8 @@ final class LegalpadDocumentEditor
   }
 
   protected function shouldImplyCC(
-    PhabricatorLiskDAO $object,
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeLiskDAO $object,
+    PhorgeApplicationTransaction $xaction) {
 
     switch ($xaction->getTransactionType()) {
       case LegalpadDocumentTextTransaction::TRANSACTIONTYPE:
@@ -153,14 +153,14 @@ final class LegalpadDocumentEditor
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
 
     $body->addLinkSection(
       pht('DOCUMENT DETAIL'),
-      PhabricatorEnv::getProductionURI('/legalpad/view/'.$object->getID().'/'));
+      PhorgeEnv::getProductionURI('/legalpad/view/'.$object->getID().'/'));
 
     return $body;
   }
@@ -171,7 +171,7 @@ final class LegalpadDocumentEditor
 
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return false;
   }

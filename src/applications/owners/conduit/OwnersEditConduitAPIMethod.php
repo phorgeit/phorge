@@ -1,14 +1,14 @@
 <?php
 
 final class OwnersEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'owners.edit';
   }
 
   public function newEditEngine() {
-    return new PhabricatorOwnersPackageEditEngine();
+    return new PhorgeOwnersPackageEditEngine();
   }
 
   public function getMethodSummary() {

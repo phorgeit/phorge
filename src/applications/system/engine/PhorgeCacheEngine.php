@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorCacheEngine extends Phobject {
+final class PhorgeCacheEngine extends Phobject {
 
   public function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   public function updateObject($object) {
@@ -16,7 +16,7 @@ final class PhabricatorCacheEngine extends Phobject {
       $discovered_objects = array();
       $load = array();
 
-      $extensions = PhabricatorCacheEngineExtension::getAllExtensions();
+      $extensions = PhorgeCacheEngineExtension::getAllExtensions();
       foreach ($extensions as $key => $extension) {
         $discoveries = $extension->discoverLinkedObjects($this, $new_objects);
         if (!is_array($discoveries)) {
@@ -68,7 +68,7 @@ final class PhabricatorCacheEngine extends Phobject {
       }
 
       if ($load) {
-        $load_objects = id(new PhabricatorObjectQuery())
+        $load_objects = id(new PhorgeObjectQuery())
           ->setViewer($this->getViewer())
           ->withPHIDs($load)
           ->execute();

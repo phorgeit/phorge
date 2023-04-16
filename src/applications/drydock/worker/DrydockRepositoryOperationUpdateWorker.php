@@ -6,10 +6,10 @@ final class DrydockRepositoryOperationUpdateWorker
   protected function doWork() {
     $operation_phid = $this->getTaskDataValue('operationPHID');
 
-    $hash = PhabricatorHash::digestForIndex($operation_phid);
+    $hash = PhorgeHash::digestForIndex($operation_phid);
     $lock_key = 'drydock.operation:'.$hash;
 
-    $lock = PhabricatorGlobalLock::newLock($lock_key)
+    $lock = PhorgeGlobalLock::newLock($lock_key)
       ->lock(1);
 
     try {
@@ -65,7 +65,7 @@ final class DrydockRepositoryOperationUpdateWorker
 
       $operation->applyOperation($interface);
 
-    } catch (PhabricatorWorkerYieldException $ex) {
+    } catch (PhorgeWorkerYieldException $ex) {
       throw $ex;
     } catch (Exception $ex) {
       $operation
@@ -99,7 +99,7 @@ final class DrydockRepositoryOperationUpdateWorker
         ->withPHIDs(array($lease_phid))
         ->executeOne();
       if (!$lease) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht(
             'Lease "%s" could not be loaded.',
             $lease_phid));
@@ -133,7 +133,7 @@ final class DrydockRepositoryOperationUpdateWorker
     }
 
     if ($lease->isActivating()) {
-      throw new PhabricatorWorkerYieldException(15);
+      throw new PhorgeWorkerYieldException(15);
     }
 
     if (!$lease->isActive()) {
@@ -144,7 +144,7 @@ final class DrydockRepositoryOperationUpdateWorker
           ->save();
       }
 
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Lease "%s" never activated.',
           $lease->getPHID()));

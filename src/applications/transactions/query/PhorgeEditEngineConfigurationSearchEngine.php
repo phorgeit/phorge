@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeEditEngineConfigurationSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   private $engineKey;
 
@@ -23,11 +23,11 @@ final class PhabricatorEditEngineConfigurationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   public function newQuery() {
-    return id(new PhabricatorEditEngineConfigurationQuery())
+    return id(new PhorgeEditEngineConfigurationQuery())
       ->withEngineKeys(array($this->getEngineKey()));
   }
 
@@ -49,14 +49,14 @@ final class PhabricatorEditEngineConfigurationSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Create'))
         ->setKey('isCreate')
         ->setOptions(
           pht('Show All'),
           pht('Hide Create Forms'),
           pht('Show Only Create Forms')),
-      id(new PhabricatorSearchThreeStateField())
+      id(new PhorgeSearchThreeStateField())
         ->setLabel(pht('Edit'))
         ->setKey('isEdit')
         ->setOptions(
@@ -102,9 +102,9 @@ final class PhabricatorEditEngineConfigurationSearchEngine
 
   protected function renderResultList(
     array $configs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($configs, 'PhabricatorEditEngineConfiguration');
+    assert_instances_of($configs, 'PhorgeEditEngineConfiguration');
     $viewer = $this->requireViewer();
     $engine_key = $this->getEngineKey();
 
@@ -132,7 +132,7 @@ final class PhabricatorEditEngineConfigurationSearchEngine
       }
 
       $subtype_key = $config->getSubtype();
-      if ($subtype_key !== PhabricatorEditEngineSubtype::SUBTYPE_DEFAULT) {
+      if ($subtype_key !== PhorgeEditEngineSubtype::SUBTYPE_DEFAULT) {
         $engine = $config->getEngine();
         if ($engine->supportsSubtypes()) {
           $map = $engine->newSubtypeMap();
@@ -159,7 +159,7 @@ final class PhabricatorEditEngineConfigurationSearchEngine
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setObjectList($list);
   }
 }

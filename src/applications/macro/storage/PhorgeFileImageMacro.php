@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorFileImageMacro extends PhabricatorFileDAO
+final class PhorgeFileImageMacro extends PhorgeFileDAO
   implements
-    PhabricatorSubscribableInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorFlaggableInterface,
-    PhabricatorTokenReceiverInterface,
-    PhabricatorPolicyInterface {
+    PhorgeSubscribableInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeFlaggableInterface,
+    PhorgeTokenReceiverInterface,
+    PhorgePolicyInterface {
 
   protected $authorPHID;
   protected $filePHID;
@@ -23,7 +23,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
   const AUDIO_BEHAVIOR_ONCE   = 'audio:once';
   const AUDIO_BEHAVIOR_LOOP   = 'audio:loop';
 
-  public function attachFile(PhabricatorFile $file) {
+  public function attachFile(PhorgeFile $file) {
     $this->file = $file;
     return $this;
   }
@@ -32,7 +32,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
     return $this->assertAttached($this->file);
   }
 
-  public function attachAudio(PhabricatorFile $audio = null) {
+  public function attachAudio(PhorgeFile $audio = null) {
     $this->audio = $audio;
     return $this;
   }
@@ -41,7 +41,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
     return $this->assertAttached($this->audio);
   }
 
-  public static function initializeNewFileImageMacro(PhabricatorUser $actor) {
+  public static function initializeNewFileImageMacro(PhorgeUser $actor) {
     $macro = id(new self())
       ->setAuthorPHID($actor->getPHID());
     return $macro;
@@ -74,8 +74,8 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorMacroMacroPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeMacroMacroPHIDType::TYPECONST);
   }
 
 
@@ -91,19 +91,19 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorMacroEditor();
+    return new PhorgeMacroEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorMacroTransaction();
+    return new PhorgeMacroTransaction();
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -111,7 +111,7 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorTokenRecevierInterface  )---------------------------------- */
+/* -(  PhorgeTokenRecevierInterface  )---------------------------------- */
 
 
   public function getUsersToNotifyOfTokenGiven() {
@@ -121,28 +121,28 @@ final class PhabricatorFileImageMacro extends PhabricatorFileDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        $app = PhabricatorApplication::getByClass(
-          'PhabricatorMacroApplication');
-        return $app->getPolicy(PhabricatorMacroManageCapability::CAPABILITY);
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        $app = PhorgeApplication::getByClass(
+          'PhorgeMacroApplication');
+        return $app->getPolicy(PhorgeMacroManageCapability::CAPABILITY);
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

@@ -64,7 +64,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
 
     $phid_aid_map = $this->lookupAsanaUserIDs($all_phids);
     if (!$phid_aid_map) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No related users have linked Asana accounts.'));
     }
 
@@ -85,16 +85,16 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
     list($possessed_user, $possessed_asana_id, $oauth_token) = $access_info;
 
     if (!$oauth_token) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           'Unable to find any Asana user with valid credentials to '.
           'pull an OAuth token out of.'));
     }
 
-    $etype_main = PhabricatorObjectHasAsanaTaskEdgeType::EDGECONST;
-    $etype_sub = PhabricatorObjectHasAsanaSubtaskEdgeType::EDGECONST;
+    $etype_main = PhorgeObjectHasAsanaTaskEdgeType::EDGECONST;
+    $etype_sub = PhorgeObjectHasAsanaSubtaskEdgeType::EDGECONST;
 
-    $equery = id(new PhabricatorEdgeQuery())
+    $equery = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs(array($src_phid))
       ->withEdgeTypes(
         array(
@@ -124,7 +124,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
 
       $parent_ref = head($refs);
       if (!$parent_ref) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht('%s could not be loaded.', 'DoorkeeperExternalObject'));
       }
 
@@ -240,12 +240,12 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
       'data' => $edge_data,
     );
 
-    id(new PhabricatorEdgeEditor())
+    id(new PhorgeEdgeEditor())
       ->addEdge($src_phid, $etype_main, $dst_phid, $edge_options)
       ->save();
 
     if (!$parent_ref->getIsVisible()) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht(
           '%s has no visible object on the other side; this '.
           'likely indicates the Asana task has been deleted.',
@@ -254,7 +254,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
 
     // Now, handle the subtasks.
 
-    $sub_editor = new PhabricatorEdgeEditor();
+    $sub_editor = new PhorgeEdgeEditor();
 
     // First, find all the object references in Phorge for tasks that we
     // know about and import their objects from Asana.
@@ -450,14 +450,14 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
 /* -(  Internals  )---------------------------------------------------------- */
 
   private function getWorkspaceID() {
-    return PhabricatorEnv::getEnvConfig('asana.workspace-id');
+    return PhorgeEnv::getEnvConfig('asana.workspace-id');
   }
 
   private function getProvider() {
     if (!$this->provider) {
-      $provider = PhabricatorAsanaAuthProvider::getAsanaProvider();
+      $provider = PhorgeAsanaAuthProvider::getAsanaProvider();
       if (!$provider) {
-        throw new PhabricatorWorkerPermanentFailureException(
+        throw new PhorgeWorkerPermanentFailureException(
           pht('No Asana provider configured.'));
       }
       $this->provider = $provider;
@@ -546,8 +546,8 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
       return array();
     }
 
-    $accounts = id(new PhabricatorExternalAccountQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $accounts = id(new PhorgeExternalAccountQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withUserPHIDs($user_phids)
       ->withProviderConfigPHIDs(
         array(
@@ -556,8 +556,8 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
       ->needAccountIdentifiers(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->execute();
 
@@ -601,7 +601,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
         continue;
       }
 
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($account->getUserPHID()))
         ->executeOne();
@@ -682,7 +682,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
     $project_ids = array();
 
     $publisher = $this->getPublisher();
-    $config = PhabricatorEnv::getEnvConfig('asana.project-ids');
+    $config = PhorgeEnv::getEnvConfig('asana.project-ids');
     if (is_array($config)) {
       $ids = idx($config, get_class($publisher));
       if (is_array($ids)) {
@@ -711,7 +711,7 @@ final class DoorkeeperAsanaFeedWorker extends DoorkeeperFeedWorker {
     }
   }
 
-  private function getAsanaAccountID(PhabricatorExternalAccount $account) {
+  private function getAsanaAccountID(PhorgeExternalAccount $account) {
     $identifiers = $account->getAccountIdentifiers();
 
     if (count($identifiers) !== 1) {

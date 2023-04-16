@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerInvalidRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerInvalidRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'invalid';
 

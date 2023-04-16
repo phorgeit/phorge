@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildStatusDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Choose Build Statuses');
@@ -12,7 +12,7 @@ final class HarbormasterBuildStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   public function loadResults() {
@@ -29,7 +29,7 @@ final class HarbormasterBuildStatusDatasource
 
     $status_map = HarbormasterBuildStatus::getBuildStatusMap();
     foreach ($status_map as $value => $name) {
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon(HarbormasterBuildStatus::getBuildStatusIcon($value))
         ->setColor(HarbormasterBuildStatus::getBuildStatusColor($value))
         ->setPHID($value)

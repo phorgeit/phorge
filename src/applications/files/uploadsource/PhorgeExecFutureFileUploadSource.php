@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorExecFutureFileUploadSource
-  extends PhabricatorFileUploadSource {
+final class PhorgeExecFutureFileUploadSource
+  extends PhorgeFileUploadSource {
 
   private $future;
 

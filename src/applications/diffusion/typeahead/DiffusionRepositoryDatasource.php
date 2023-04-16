@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionRepositoryDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Repositories');
@@ -12,19 +12,19 @@ final class DiffusionRepositoryDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   public function loadResults() {
     $viewer = $this->getViewer();
     $raw_query = $this->getRawQuery();
 
-    $query = id(new PhabricatorRepositoryQuery())
+    $query = id(new PhorgeRepositoryQuery())
       ->setOrder('name')
       ->withDatasourceQuery($raw_query);
     $repos = $this->executeQuery($query);
 
-    $type_icon = id(new PhabricatorRepositoryRepositoryPHIDType())
+    $type_icon = id(new PhorgeRepositoryRepositoryPHIDType())
       ->getTypeIcon();
 
     $image_sprite =
@@ -57,9 +57,9 @@ final class DiffusionRepositoryDatasource
       $name = implode("\n", $parts);
 
       $vcs = $repository->getVersionControlSystem();
-      $vcs_type = PhabricatorRepositoryType::getNameForRepositoryType($vcs);
+      $vcs_type = PhorgeRepositoryType::getNameForRepositoryType($vcs);
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($name)
         ->setDisplayName($display_name)
         ->setURI($repository->getURI())

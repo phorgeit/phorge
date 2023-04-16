@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectImageTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectImageTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:image';
 
@@ -82,7 +82,7 @@ final class PhabricatorProjectImageTransaction
 
       // Only validate if file was uploaded
       if ($file_phid) {
-        $file = id(new PhabricatorFileQuery())
+        $file = id(new PhorgeFileQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($file_phid))
           ->executeOne();

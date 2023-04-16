@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildTransaction
-  extends PhabricatorModularTransaction {
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'harbormaster';

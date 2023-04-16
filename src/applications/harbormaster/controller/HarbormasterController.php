@@ -1,6 +1,6 @@
 <?php
 
-abstract class HarbormasterController extends PhabricatorController {
+abstract class HarbormasterController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()

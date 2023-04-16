@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialInlineComment
-  extends PhabricatorInlineComment {
+  extends PhorgeInlineComment {
 
   protected function newStorageObject() {
     return new DifferentialTransactionComment();
@@ -14,8 +14,8 @@ final class DifferentialInlineComment
   }
 
   public function getTransactionCommentForSave() {
-    $content_source = PhabricatorContentSource::newForSource(
-      PhabricatorOldWorldContentSource::SOURCECONST);
+    $content_source = PhorgeContentSource::newForSource(
+      PhorgeOldWorldContentSource::SOURCECONST);
 
     $this->getStorageObject()
       ->setViewPolicy('public')

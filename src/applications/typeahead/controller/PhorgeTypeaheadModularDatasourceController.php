@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTypeaheadModularDatasourceController
-  extends PhabricatorTypeaheadDatasourceController {
+final class PhorgeTypeaheadModularDatasourceController
+  extends PhorgeTypeaheadDatasourceController {
 
   public function shouldAllowPublic() {
     return true;
@@ -30,7 +30,7 @@ final class PhabricatorTypeaheadModularDatasourceController
     $class = nonempty($request->getURIData('class'), $request->getStr('class'));
 
     $sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTypeaheadDatasource')
+      ->setAncestorClass('PhorgeTypeaheadDatasource')
       ->execute();
 
     if (isset($sources[$class])) {
@@ -60,7 +60,7 @@ final class PhabricatorTypeaheadModularDatasourceController
       // NOTE: Wrapping the source in a Composite datasource ensures we perform
       // application visibility checks for the viewer, so we do not need to do
       // those separately.
-      $composite = new PhabricatorTypeaheadRuntimeCompositeDatasource();
+      $composite = new PhorgeTypeaheadRuntimeCompositeDatasource();
       $composite->addDatasource($source);
 
       $hard_limit = 1000;
@@ -311,7 +311,7 @@ final class PhabricatorTypeaheadModularDatasourceController
       // fatal if built like this without actually being configured with an
       // underlying datasource. This is a bit hacky but this is just a
       // debugging/development UI anyway.
-      if ($source instanceof PhabricatorTypeaheadProxyDatasource) {
+      if ($source instanceof PhorgeTypeaheadProxyDatasource) {
         unset($sources[$key]);
         continue;
       }
@@ -321,7 +321,7 @@ final class PhabricatorTypeaheadModularDatasourceController
         continue;
       }
 
-      if (!PhabricatorApplication::isClassInstalledForViewer(
+      if (!PhorgeApplication::isClassInstalledForViewer(
         $source->getDatasourceApplicationClass(),
         $viewer)) {
         unset($sources[$key]);
@@ -407,7 +407,7 @@ final class PhabricatorTypeaheadModularDatasourceController
   }
 
   private function renderBrowseResult(
-    PhabricatorTypeaheadResult $result,
+    PhorgeTypeaheadResult $result,
     $button) {
 
     $class = array();

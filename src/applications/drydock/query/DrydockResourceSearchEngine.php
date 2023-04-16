@@ -1,7 +1,7 @@
 <?php
 
 final class DrydockResourceSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   private $blueprint;
 
@@ -19,7 +19,7 @@ final class DrydockResourceSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return 'PhorgeDrydockApplication';
   }
 
   public function newQuery() {
@@ -49,11 +49,11 @@ final class DrydockResourceSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setOptions(DrydockResourceStatus::getStatusMap()),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setLabel(pht('Blueprints'))
         ->setKey('blueprintPHIDs')
         ->setAliases(array('blueprintPHID', 'blueprints', 'blueprint'))
@@ -100,14 +100,14 @@ final class DrydockResourceSearchEngine
 
   protected function renderResultList(
     array $resources,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
     $list = id(new DrydockResourceListView())
       ->setUser($this->requireViewer())
       ->setResources($resources);
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setTable($list);
 
     return $result;

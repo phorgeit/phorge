@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorStorageManagementAPI extends Phobject {
+final class PhorgeStorageManagementAPI extends Phobject {
 
   private $ref;
   private $host;
@@ -32,7 +32,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
 
   public function setNamespace($namespace) {
     $this->namespace = $namespace;
-    PhabricatorLiskDAO::pushStorageNamespace($namespace);
+    PhorgeLiskDAO::pushStorageNamespace($namespace);
     return $this;
   }
 
@@ -76,7 +76,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
     return $this->port;
   }
 
-  public function setRef(PhabricatorDatabaseRef $ref) {
+  public function setRef(PhorgeDatabaseRef $ref) {
     $this->ref = $ref;
     return $this;
   }
@@ -105,7 +105,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
   }
 
   public function getDatabaseList(array $patches, $only_living = false) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, 'PhorgeStoragePatch');
 
     $list = array();
 
@@ -125,7 +125,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
     $database = $this->getDatabaseName($fragment);
     $return = &$this->conns[$this->host][$this->user][$database];
     if (!$return) {
-      $return = PhabricatorDatabaseRef::newRawConnection(
+      $return = PhorgeDatabaseRef::newRawConnection(
         array(
           'user'      => $this->user,
           'pass'      => $this->password,
@@ -194,7 +194,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
   }
 
   public function getLegacyPatches(array $patches) {
-    assert_instances_of($patches, 'PhabricatorStoragePatch');
+    assert_instances_of($patches, 'PhorgeStoragePatch');
 
     try {
       $row = queryfx_one(
@@ -242,7 +242,7 @@ final class PhabricatorStorageManagementAPI extends Phobject {
     }
   }
 
-  public function applyPatch(PhabricatorStoragePatch $patch) {
+  public function applyPatch(PhorgeStoragePatch $patch) {
     $type = $patch->getType();
     $name = $patch->getName();
     switch ($type) {

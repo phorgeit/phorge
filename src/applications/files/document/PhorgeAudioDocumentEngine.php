@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorAudioDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeAudioDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'audio';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Audio');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-file-sound-o';
   }
 
@@ -17,16 +17,16 @@ final class PhabricatorAudioDocumentEngine
     return null;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       return $file->isAudio();
     }
 
-    $viewable_types = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
+    $viewable_types = PhorgeEnv::getEnvConfig('files.viewable-mime-types');
     $viewable_types = array_keys($viewable_types);
 
-    $audio_types = PhabricatorEnv::getEnvConfig('files.audio-mime-types');
+    $audio_types = PhorgeEnv::getEnvConfig('files.audio-mime-types');
     $audio_types = array_keys($audio_types);
 
     return
@@ -34,7 +34,7 @@ final class PhabricatorAudioDocumentEngine
       $ref->hasAnyMimeType($audio_types);
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $file = $ref->getFile();
     if ($file) {
       $source_uri = $file->getViewURI();

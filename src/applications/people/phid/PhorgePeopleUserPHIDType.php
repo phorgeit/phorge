@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
+final class PhorgePeopleUserPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'USER';
 
@@ -13,18 +13,18 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorUser();
+    return new PhorgeUser();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorPeopleQuery())
+    return id(new PhorgePeopleQuery())
       ->withPHIDs($phids)
       ->needProfile(true)
       ->needProfileImage(true)
@@ -32,7 +32,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -54,7 +54,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
       } else {
         $profile = $user->getUserProfile();
         $icon_key = $profile->getIcon();
-        $icon_icon = PhabricatorPeopleIconSet::getIconIcon($icon_key);
+        $icon_icon = PhorgePeopleIconSet::getIconIcon($icon_key);
         $subtitle = $profile->getDisplayTitle();
 
         $handle
@@ -65,17 +65,17 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
 
       $availability = null;
       if ($user->getIsDisabled()) {
-        $availability = PhabricatorObjectHandle::AVAILABILITY_DISABLED;
+        $availability = PhorgeObjectHandle::AVAILABILITY_DISABLED;
       } else if (!$user->isResponsive()) {
-        $availability = PhabricatorObjectHandle::AVAILABILITY_NOEMAIL;
+        $availability = PhorgeObjectHandle::AVAILABILITY_NOEMAIL;
       } else {
         $until = $user->getAwayUntil();
         if ($until) {
-          $away = PhabricatorCalendarEventInvitee::AVAILABILITY_AWAY;
+          $away = PhorgeCalendarEventInvitee::AVAILABILITY_AWAY;
           if ($user->getDisplayAvailability() == $away) {
-            $availability = PhabricatorObjectHandle::AVAILABILITY_NONE;
+            $availability = PhorgeObjectHandle::AVAILABILITY_NONE;
           } else {
-            $availability = PhabricatorObjectHandle::AVAILABILITY_PARTIAL;
+            $availability = PhorgeObjectHandle::AVAILABILITY_PARTIAL;
           }
         }
       }
@@ -91,7 +91,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -101,7 +101,7 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorPeopleQuery())
+    $objects = id(new PhorgePeopleQuery())
       ->setViewer($query->getViewer())
       ->withUsernames(array_keys($id_map))
       ->execute();

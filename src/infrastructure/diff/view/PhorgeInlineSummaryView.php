@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorInlineSummaryView extends AphrontView {
+final class PhorgeInlineSummaryView extends AphrontView {
 
   private $groups = array();
 

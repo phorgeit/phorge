@@ -49,7 +49,7 @@ final class AlmanacDeviceNameTransaction
       }
 
       $other = id(new AlmanacDeviceQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withNames(array($name))
         ->executeOne();
       if ($other && ($other->getID() != $object->getID())) {

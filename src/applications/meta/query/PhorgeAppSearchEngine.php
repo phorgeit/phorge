@@ -1,22 +1,22 @@
 <?php
 
-final class PhabricatorAppSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeAppSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Applications');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorApplicationsApplication';
+    return 'PhorgeApplicationsApplication';
   }
 
-  public function getPageSize(PhabricatorSavedQuery $saved) {
+  public function getPageSize(PhorgeSavedQuery $saved) {
     return INF;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
-    $saved = new PhabricatorSavedQuery();
+    $saved = new PhorgeSavedQuery();
 
     $saved->setParameter('name', $request->getStr('name'));
 
@@ -39,9 +39,9 @@ final class PhabricatorAppSearchEngine
     return $saved;
   }
 
-  public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
-    $query = id(new PhabricatorApplicationQuery())
-      ->setOrder(PhabricatorApplicationQuery::ORDER_NAME)
+  public function buildQueryFromSavedQuery(PhorgeSavedQuery $saved) {
+    $query = id(new PhorgeApplicationQuery())
+      ->setOrder(PhorgeApplicationQuery::ORDER_NAME)
       ->withUnlisted(false);
 
     $name = $saved->getParameter('name');
@@ -86,7 +86,7 @@ final class PhabricatorAppSearchEngine
 
   public function buildSearchForm(
     AphrontFormView $form,
-    PhabricatorSavedQuery $saved) {
+    PhorgeSavedQuery $saved) {
 
     $form
       ->appendChild(
@@ -180,9 +180,9 @@ final class PhabricatorAppSearchEngine
 
   protected function renderResultList(
     array $all_applications,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handle) {
-    assert_instances_of($all_applications, 'PhabricatorApplication');
+    assert_instances_of($all_applications, 'PhorgeApplication');
 
     $all_applications = msort($all_applications, 'getName');
 
@@ -192,7 +192,7 @@ final class PhabricatorAppSearchEngine
       $groups = array($all_applications);
     }
 
-    $group_names = PhabricatorApplication::getApplicationGroups();
+    $group_names = PhorgeApplication::getApplicationGroups();
     $groups = array_select_keys($groups, array_keys($group_names)) + $groups;
 
     $results = array();
@@ -267,7 +267,7 @@ final class PhabricatorAppSearchEngine
       $results[] = $list;
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($results);
 
     return $result;

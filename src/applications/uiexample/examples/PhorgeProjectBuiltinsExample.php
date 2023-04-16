@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorProjectBuiltinsExample extends PhabricatorUIExample {
+final class PhorgeProjectBuiltinsExample extends PhorgeUIExample {
 
   public function getName() {
     return pht('Project Builtin Images');
@@ -30,7 +30,7 @@ final class PhabricatorProjectBuiltinsExample extends PhabricatorUIExample {
 
     $images = array();
     foreach ($builtin_map as $image) {
-      $file = PhabricatorFile::loadBuiltin($viewer, 'projects/v3/'.$image);
+      $file = PhorgeFile::loadBuiltin($viewer, 'projects/v3/'.$image);
       $images[$file->getPHID()] = array(
         'uri' => $file->getBestURI(),
         'tip' => 'v3/'.$image,

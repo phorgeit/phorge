@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorPhurlURLSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+final class PhorgePhurlURLSearchConduitAPIMethod
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'phurls.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorPhurlURLSearchEngine();
+    return new PhorgePhurlURLSearchEngine();
   }
 
   public function getMethodSummary() {

@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeCountdownTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorCountdownTransaction();
+    return new PhorgeCountdownTransaction();
   }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -72,7 +72,7 @@ final class PhrictionDocumentQuery
       $ancestor_slugs = array();
       foreach ($documents as $key => $document) {
         $document_slug = $document->getSlug();
-        foreach (PhabricatorSlug::getAncestry($document_slug) as $ancestor) {
+        foreach (PhorgeSlug::getAncestry($document_slug) as $ancestor) {
           $ancestor_slugs[$ancestor][] = $key;
         }
       }
@@ -114,7 +114,7 @@ final class PhrictionDocumentQuery
 
     $filtered_map = $this->applyPolicyFilter(
       $document_map,
-      array(PhabricatorPolicyCapability::CAN_VIEW));
+      array(PhorgePolicyCapability::CAN_VIEW));
 
     // Filter all of the documents where a parent is not visible.
     foreach ($documents as $document_key => $document) {
@@ -261,13 +261,13 @@ final class PhrictionDocumentQuery
         }
 
         if (!$set_paths) {
-          throw new PhabricatorEmptyQueryException(
+          throw new PhorgeEmptyQueryException(
             pht('No parent/ancestor paths specified.'));
         }
 
         $is_parents = $set['parents'];
         foreach ($set_paths as $path) {
-          $path_normal = PhabricatorSlug::normalize($path);
+          $path_normal = PhorgeSlug::normalize($path);
           if ($path !== $path_normal) {
             throw new Exception(
               pht(
@@ -277,7 +277,7 @@ final class PhrictionDocumentQuery
                 $path_normal));
           }
 
-          $depth = PhabricatorSlug::getDepth($path_normal);
+          $depth = PhorgeSlug::getDepth($path_normal);
           if ($is_parents) {
             $min_depth = $depth + 1;
             $max_depth = $depth + 1;
@@ -369,7 +369,7 @@ final class PhrictionDocumentQuery
   }
 
   protected function newPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $document = $cursor->getObject();
@@ -392,7 +392,7 @@ final class PhrictionDocumentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
 }

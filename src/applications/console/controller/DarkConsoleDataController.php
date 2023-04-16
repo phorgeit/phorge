@@ -1,13 +1,13 @@
 <?php
 
-final class DarkConsoleDataController extends PhabricatorController {
+final class DarkConsoleDataController extends PhorgeController {
 
   public function shouldRequireLogin() {
-    return !PhabricatorEnv::getEnvConfig('darkconsole.always-on');
+    return !PhorgeEnv::getEnvConfig('darkconsole.always-on');
   }
 
   public function shouldRequireEnabledUser() {
-    return !PhabricatorEnv::getEnvConfig('darkconsole.always-on');
+    return !PhorgeEnv::getEnvConfig('darkconsole.always-on');
   }
 
   public function shouldAllowPartialSessions() {
@@ -18,7 +18,7 @@ final class DarkConsoleDataController extends PhabricatorController {
     $viewer = $request->getViewer();
     $key = $request->getURIData('key');
 
-    $cache = new PhabricatorKeyValueDatabaseCache();
+    $cache = new PhorgeKeyValueDatabaseCache();
     $cache = new PhutilKeyValueCacheProfiler($cache);
     $cache->setProfiler(PhutilServiceProfiler::getInstance());
 
@@ -55,7 +55,7 @@ final class DarkConsoleDataController extends PhabricatorController {
 
         // Because cookie names can now be prefixed, wipe out any cookie value
         // with the session cookie name anywhere in its name.
-        $pattern = '('.preg_quote(PhabricatorCookies::COOKIE_SESSION).')';
+        $pattern = '('.preg_quote(PhorgeCookies::COOKIE_SESSION).')';
         foreach ($_COOKIE as $cookie_name => $cookie_value) {
           if (preg_match($pattern, $cookie_name)) {
             $panel = PhutilSafeHTML::applyFunction(

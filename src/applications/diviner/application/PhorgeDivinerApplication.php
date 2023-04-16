@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDivinerApplication extends PhabricatorApplication {
+final class PhorgeDivinerApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/diviner/';
@@ -18,11 +18,11 @@ final class PhabricatorDivinerApplication extends PhabricatorApplication {
     return pht('Documentation');
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Diviner User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Diviner User Guide'),
+        'href' => PhorgeEnv::getDoclink('Diviner User Guide'),
       ),
     );
   }
@@ -57,12 +57,12 @@ final class PhabricatorDivinerApplication extends PhabricatorApplication {
     return array(
       DivinerDefaultViewCapability::CAPABILITY => array(
         'template' => DivinerBookPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       DivinerDefaultEditCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
         'template' => DivinerBookPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
     );
   }

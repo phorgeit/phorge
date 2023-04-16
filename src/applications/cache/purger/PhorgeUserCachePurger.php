@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorUserCachePurger
-  extends PhabricatorCachePurger {
+final class PhorgeUserCachePurger
+  extends PhorgeCachePurger {
 
   const PURGERKEY = 'user';
 
   public function purgeCache() {
-    $table = new PhabricatorUserCache();
+    $table = new PhorgeUserCache();
     $conn = $table->establishConnection('w');
 
     queryfx(

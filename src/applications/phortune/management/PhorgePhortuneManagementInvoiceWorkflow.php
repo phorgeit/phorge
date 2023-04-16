@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhortuneManagementInvoiceWorkflow
-  extends PhabricatorPhortuneManagementWorkflow {
+final class PhorgePhortuneManagementInvoiceWorkflow
+  extends PhorgePhortuneManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -73,16 +73,16 @@ final class PhabricatorPhortuneManagementInvoiceWorkflow
     $now = $args->getArg('now');
     $now = $this->parseTimeArgument($now);
     if (!$now) {
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
     }
 
-    $time_guard = PhabricatorTime::pushTime($now, date_default_timezone_get());
+    $time_guard = PhorgeTime::pushTime($now, date_default_timezone_get());
 
     $console->writeOut(
       "%s\n",
       pht(
         'Set current time to %s.',
-        phorge_datetime(PhabricatorTime::getNow(), $viewer)));
+        phorge_datetime(PhorgeTime::getNow(), $viewer)));
 
     $auto_range = $args->getArg('auto-range');
     $last_arg = $args->getArg('last');
@@ -138,7 +138,7 @@ final class PhabricatorPhortuneManagementInvoiceWorkflow
           : pht('subscription creation')),
         phorge_datetime($next_time, $viewer)));
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
 
     if (!$args->getArg('force')) {
       $console->writeOut(
@@ -157,7 +157,7 @@ final class PhabricatorPhortuneManagementInvoiceWorkflow
       }
     }
 
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'PhortuneSubscriptionWorker',
       array(
         'subscriptionPHID' => $subscription->getPHID(),

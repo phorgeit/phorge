@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialReviewersSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Differential Reviewers');

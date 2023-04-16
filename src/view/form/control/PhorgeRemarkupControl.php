@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRemarkupControl
+final class PhorgeRemarkupControl
   extends AphrontFormTextAreaControl {
 
   private $disableFullScreen = false;
@@ -93,22 +93,22 @@ final class PhabricatorRemarkupControl
           'remarkupMetadataValue' => $metadata_value,
           'activatedClass' => 'aphront-textarea-drag-and-drop',
           'uri' => '/file/dropupload/',
-          'chunkThreshold' => PhabricatorFileStorageEngine::getChunkThreshold(),
+          'chunkThreshold' => PhorgeFileStorageEngine::getChunkThreshold(),
         ));
     }
 
     $root_id = celerity_generate_unique_node_id();
 
-    $user_datasource = new PhabricatorPeopleDatasource();
-    $emoji_datasource = new PhabricatorEmojiDatasource();
-    $proj_datasource = id(new PhabricatorProjectDatasource())
+    $user_datasource = new PhorgePeopleDatasource();
+    $emoji_datasource = new PhorgeEmojiDatasource();
+    $proj_datasource = id(new PhorgeProjectDatasource())
       ->setParameters(
         array(
           'autocomplete' => 1,
         ));
 
     $phriction_datasource = new PhrictionDocumentDatasource();
-    $phurl_datasource = new PhabricatorPhurlURLDatasource();
+    $phurl_datasource = new PhorgePhurlURLDatasource();
 
     Javelin::initBehavior(
       'phorge-remarkup-assist',
@@ -231,8 +231,8 @@ final class PhabricatorRemarkupControl
     $can_use_macros = function_exists('imagettftext');
 
     if ($can_use_macros) {
-      $can_use_macros = PhabricatorApplication::isClassInstalledForViewer(
-        'PhabricatorMacroApplication',
+      $can_use_macros = PhorgeApplication::isClassInstalledForViewer(
+        'PhorgeMacroApplication',
         $viewer);
     }
 
@@ -253,7 +253,7 @@ final class PhabricatorRemarkupControl
     $actions['fa-book'] = array(
       'tip' => pht('Help'),
       'align' => 'right',
-      'href'  => PhabricatorEnv::getDoclink('Remarkup Reference'),
+      'href'  => PhorgeEnv::getDoclink('Remarkup Reference'),
     );
 
     $mode_actions = array();
@@ -364,11 +364,11 @@ final class PhabricatorRemarkupControl
       $buttons);
 
     $use_monospaced = $viewer->compareUserSetting(
-      PhabricatorMonospacedTextareasSetting::SETTINGKEY,
-      PhabricatorMonospacedTextareasSetting::VALUE_TEXT_MONOSPACED);
+      PhorgeMonospacedTextareasSetting::SETTINGKEY,
+      PhorgeMonospacedTextareasSetting::VALUE_TEXT_MONOSPACED);
 
     if ($use_monospaced) {
-      $monospaced_textareas_class = 'PhabricatorMonospaced';
+      $monospaced_textareas_class = 'PhorgeMonospaced';
     } else {
       $monospaced_textareas_class = null;
     }

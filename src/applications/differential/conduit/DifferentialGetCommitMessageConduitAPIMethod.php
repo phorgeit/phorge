@@ -140,12 +140,12 @@ final class DifferentialGetCommitMessageConduitAPIMethod
   }
 
   private function loadCustomFieldStorage(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialRevision $revision) {
 
-    $custom_field_list = PhabricatorCustomField::getObjectFields(
+    $custom_field_list = PhorgeCustomField::getObjectFields(
       $revision,
-      PhabricatorCustomField::ROLE_STORAGE);
+      PhorgeCustomField::ROLE_STORAGE);
 
     $custom_field_list
       ->setViewer($viewer)

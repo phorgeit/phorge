@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeQualityTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeQualityTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.quality';
 
@@ -52,7 +52,7 @@ final class PhabricatorBadgesBadgeQualityTransaction
         pht('Badge quality must be set.'));
     }
 
-    $map = PhabricatorBadgesQuality::getQualityMap();
+    $map = PhorgeBadgesQuality::getQualityMap();
     if (!$map[$object->getQuality()]) {
       $errors[] = $this->newRequiredError(
         pht('Badge quality is not valid.'));
@@ -62,7 +62,7 @@ final class PhabricatorBadgesBadgeQualityTransaction
   }
 
   private function getQualityLabel($quality) {
-    $map = PhabricatorBadgesQuality::getQualityMap();
+    $map = PhorgeBadgesQuality::getQualityMap();
     $name = $map[$quality]['name'];
     return $this->renderValue($name);
   }

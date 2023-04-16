@@ -1,6 +1,6 @@
 <?php
 
-final class FundInitiativePHIDType extends PhabricatorPHIDType {
+final class FundInitiativePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'FITV';
 
@@ -13,11 +13,11 @@ final class FundInitiativePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new FundInitiativeQuery())
@@ -25,7 +25,7 @@ final class FundInitiativePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -37,7 +37,7 @@ final class FundInitiativePHIDType extends PhabricatorPHIDType {
       $name = $initiative->getName();
 
       if ($initiative->isClosed()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
 
       $handle->setName($name);
@@ -51,7 +51,7 @@ final class FundInitiativePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlShortURLController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlShortURLController
+  extends PhorgePhurlController {
 
   public function shouldRequireLogin() {
     return false;
@@ -10,7 +10,7 @@ final class PhabricatorPhurlShortURLController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $append = $request->getURIData('append');
-    $main_domain_uri = PhabricatorEnv::getProductionURI('/u/'.$append);
+    $main_domain_uri = PhorgeEnv::getProductionURI('/u/'.$append);
 
     return id(new AphrontRedirectResponse())
       ->setIsExternal(true)

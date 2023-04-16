@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionContentSearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('Document Content');

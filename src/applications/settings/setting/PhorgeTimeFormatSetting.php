@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTimeFormatSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeTimeFormatSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'time-format';
 
@@ -13,7 +13,7 @@ final class PhabricatorTimeFormatSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDateTimeSettingsPanel::PANELKEY;
+    return PhorgeDateTimeSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

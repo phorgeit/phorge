@@ -141,13 +141,13 @@ final class AphrontFormDateControl extends AphrontFormControl {
 
   private function getTimeFormat() {
     $viewer = $this->getViewer();
-    $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
+    $time_key = PhorgeTimeFormatSetting::SETTINGKEY;
     return $viewer->getUserSetting($time_key);
   }
 
   private function getDateFormat() {
     $viewer = $this->getViewer();
-    $date_key = PhabricatorDateFormatSetting::SETTINGKEY;
+    $date_key = PhorgeDateFormatSetting::SETTINGKEY;
     return $viewer->getUserSetting($date_key);
   }
 
@@ -264,7 +264,7 @@ final class AphrontFormDateControl extends AphrontFormControl {
       $time_sel);
 
     $viewer = $this->getViewer();
-    $week_key = PhabricatorWeekStartDaySetting::SETTINGKEY;
+    $week_key = PhorgeWeekStartDaySetting::SETTINGKEY;
     $week_start = $viewer->getUserSetting($week_key);
 
     $date_pht = array(

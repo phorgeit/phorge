@@ -31,24 +31,24 @@ final class HarbormasterFileArtifact extends HarbormasterArtifact {
     );
   }
 
-  public function renderArtifactSummary(PhabricatorUser $viewer) {
+  public function renderArtifactSummary(PhorgeUser $viewer) {
     $artifact = $this->getBuildArtifact();
     $file_phid = $artifact->getProperty('filePHID');
     return $viewer->renderHandle($file_phid);
   }
 
-  public function willCreateArtifact(PhabricatorUser $actor) {
+  public function willCreateArtifact(PhorgeUser $actor) {
     // NOTE: This is primarily making sure the actor has permission to view the
     // file. We don't want to let you run builds using files you don't have
     // permission to see, since this could let you violate permissions.
     $this->loadArtifactFile($actor);
   }
 
-  public function loadArtifactFile(PhabricatorUser $viewer) {
+  public function loadArtifactFile(PhorgeUser $viewer) {
     $artifact = $this->getBuildArtifact();
     $file_phid = $artifact->getProperty('filePHID');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($file_phid))
       ->executeOne();

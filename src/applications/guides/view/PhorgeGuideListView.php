@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorGuideListView extends AphrontView {
+final class PhorgeGuideListView extends AphrontView {
 
   private $items = array();
 
-  public function addItem(PhabricatorGuideItemView $item) {
+  public function addItem(PhorgeGuideItemView $item) {
     $this->items[] = $item;
     return $this;
   }

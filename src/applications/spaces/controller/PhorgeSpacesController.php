@@ -1,3 +1,3 @@
 <?php
 
-abstract class PhabricatorSpacesController extends PhabricatorController {}
+abstract class PhorgeSpacesController extends PhorgeController {}

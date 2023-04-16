@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCustomFieldDependsOnParserTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testParser() {
     $map = array(

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhrequentController extends PhabricatorController {
+abstract class PhrequentController extends PhorgeController {
 
   protected function buildSideNavView() {
     $user = $this->getRequest()->getUser();

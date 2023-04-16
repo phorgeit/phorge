@@ -1,7 +1,7 @@
 <?php
 
 abstract class ManiphestCustomField
-  extends PhabricatorCustomField {
+  extends PhorgeCustomField {
 
   public function newStorageObject() {
     return new ManiphestCustomFieldStorage();

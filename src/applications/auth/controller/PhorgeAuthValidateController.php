@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthValidateController
-  extends PhabricatorAuthController {
+final class PhorgeAuthValidateController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -30,7 +30,7 @@ final class PhabricatorAuthValidateController
     }
 
     $expect_phusr = $request->getStr('expect');
-    $actual_phusr = $request->getCookie(PhabricatorCookies::COOKIE_USERNAME);
+    $actual_phusr = $request->getCookie(PhorgeCookies::COOKIE_USERNAME);
     if ($actual_phusr != $expect_phusr) {
       if ($actual_phusr) {
         $failures[] = pht(

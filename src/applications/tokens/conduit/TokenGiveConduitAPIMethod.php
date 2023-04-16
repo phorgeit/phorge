@@ -24,7 +24,7 @@ final class TokenGiveConduitAPIMethod extends TokenConduitAPIMethod {
   protected function execute(ConduitAPIRequest $request) {
     $content_source = $request->newContentSource();
 
-    $editor = id(new PhabricatorTokenGivenEditor())
+    $editor = id(new PhorgeTokenGivenEditor())
       ->setActor($request->getUser())
       ->setContentSource($content_source);
 

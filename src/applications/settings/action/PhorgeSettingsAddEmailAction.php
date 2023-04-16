@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSettingsAddEmailAction extends PhabricatorSystemAction {
+final class PhorgeSettingsAddEmailAction extends PhorgeSystemAction {
 
   const TYPECONST = 'email.add';
 

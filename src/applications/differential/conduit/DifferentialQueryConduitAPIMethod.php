@@ -156,7 +156,7 @@ final class DifferentialQueryConduitAPIMethod
       $revisions);
 
     if ($revisions) {
-      $ccs = id(new PhabricatorSubscribersQuery())
+      $ccs = id(new PhorgeSubscribersQuery())
         ->withObjectPHIDs(mpull($revisions, 'getPHID'))
         ->execute();
     } else {
@@ -177,7 +177,7 @@ final class DifferentialQueryConduitAPIMethod
         'id'                  => $id,
         'phid'                => $phid,
         'title'               => $revision->getTitle(),
-        'uri'                 => PhabricatorEnv::getProductionURI('/D'.$id),
+        'uri'                 => PhorgeEnv::getProductionURI('/D'.$id),
         'dateCreated'         => $revision->getDateCreated(),
         'dateModified'        => $revision->getDateModified(),
         'authorPHID'          => $revision->getAuthorPHID(),

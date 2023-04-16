@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeNameNgrams
-  extends PhabricatorSearchNgrams {
+final class PhorgeBadgesBadgeNameNgrams
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'badgename';

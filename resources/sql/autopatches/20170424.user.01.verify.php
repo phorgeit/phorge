@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorUser();
+$table = new PhorgeUser();
 $conn = $table->establishConnection('w');
 
 foreach (new LiskMigrationIterator($table) as $user) {

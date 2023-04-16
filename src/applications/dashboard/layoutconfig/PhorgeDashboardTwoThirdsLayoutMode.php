@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardTwoThirdsLayoutMode
-  extends PhabricatorDashboardLayoutMode {
+final class PhorgeDashboardTwoThirdsLayoutMode
+  extends PhorgeDashboardLayoutMode {
 
   const LAYOUTMODE = 'layout-mode-thirds-and-third';
 

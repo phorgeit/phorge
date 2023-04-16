@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
+final class PhorgeMetaMTAMailTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
@@ -14,21 +14,21 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
 
     // Normally, the send should succeed.
-    $mail = new PhabricatorMetaMTAMail();
+    $mail = new PhorgeMetaMTAMail();
     $mail->addTos(array($phid));
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mail->sendWithMailers(array($mailer));
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_SENT,
+      PhorgeMailOutboundStatus::STATUS_SENT,
       $mail->getStatus());
 
 
     // When the mailer fails temporarily, the mail should remain queued.
-    $mail = new PhabricatorMetaMTAMail();
+    $mail = new PhorgeMetaMTAMail();
     $mail->addTos(array($phid));
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mailer->setFailTemporarily(true);
     try {
       $mail->sendWithMailers(array($mailer));
@@ -36,15 +36,15 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
       // Ignore.
     }
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_QUEUE,
+      PhorgeMailOutboundStatus::STATUS_QUEUE,
       $mail->getStatus());
 
 
     // When the mailer fails permanently, the mail should be failed.
-    $mail = new PhabricatorMetaMTAMail();
+    $mail = new PhorgeMetaMTAMail();
     $mail->addTos(array($phid));
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mailer->setFailPermanently(true);
     try {
       $mail->sendWithMailers(array($mailer));
@@ -52,7 +52,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
       // Ignore.
     }
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_FAIL,
+      PhorgeMailOutboundStatus::STATUS_FAIL,
       $mail->getStatus());
   }
 
@@ -60,9 +60,9 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     $user = $this->generateNewTestUser();
     $phid = $user->getPHID();
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
 
-    $mail = new PhabricatorMetaMTAMail();
+    $mail = new PhorgeMetaMTAMail();
     $mail->addTos(array($phid));
 
     $this->assertTrue(
@@ -79,7 +79,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailSelfActionsSetting::SETTINGKEY,
+      PhorgeEmailSelfActionsSetting::SETTINGKEY,
       true);
 
     $this->assertFalse(
@@ -88,7 +88,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailSelfActionsSetting::SETTINGKEY,
+      PhorgeEmailSelfActionsSetting::SETTINGKEY,
       null);
 
     $this->assertTrue(
@@ -97,7 +97,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailNotificationsSetting::SETTINGKEY,
+      PhorgeEmailNotificationsSetting::SETTINGKEY,
       true);
 
     $this->assertFalse(
@@ -114,7 +114,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailNotificationsSetting::SETTINGKEY,
+      PhorgeEmailNotificationsSetting::SETTINGKEY,
       null);
 
     $this->assertTrue(
@@ -134,7 +134,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     // Test that mail tag preferences exclude recipients.
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailTagsSetting::SETTINGKEY,
+      PhorgeEmailTagsSetting::SETTINGKEY,
       array(
         'test-tag' => false,
       ));
@@ -147,14 +147,14 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     $user = $this->writeSetting(
       $user,
-      PhabricatorEmailTagsSetting::SETTINGKEY,
+      PhorgeEmailTagsSetting::SETTINGKEY,
       null);
 
     $this->assertTrue(
       in_array($phid, $mail->buildRecipientList()),
       'Recipients restored after tag preference removed.');
 
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'userPHID = %s AND isPrimary = 1',
       $phid);
 
@@ -185,13 +185,13 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     $user = $this->generateNewTestUser();
     $phid = $user->getPHID();
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
 
     $mailer->setSupportsMessageID($supports_message_id);
 
     $thread_id = 'somethread-12345';
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->setThreadID($thread_id, $is_first_mail)
       ->addTos(array($phid))
       ->sendWithMailers(array($mailer));
@@ -242,10 +242,10 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
         $case));
   }
 
-  private function writeSetting(PhabricatorUser $user, $key, $value) {
-    $preferences = PhabricatorUserPreferences::loadUserPreferences($user);
+  private function writeSetting(PhorgeUser $user, $key, $value) {
+    $preferences = PhorgeUserPreferences::loadUserPreferences($user);
 
-    $editor = id(new PhabricatorUserPreferencesEditor())
+    $editor = id(new PhorgeUserPreferencesEditor())
       ->setActor($user)
       ->setContentSource($this->newContentSource())
       ->setContinueOnNoEffect(true)
@@ -255,7 +255,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     $xactions[] = $preferences->newTransaction($key, $value);
     $editor->applyTransactions($preferences, $xactions);
 
-    return id(new PhabricatorPeopleQuery())
+    return id(new PhorgePeopleQuery())
       ->setViewer($user)
       ->withIDs(array($user->getID()))
       ->executeOne();
@@ -265,14 +265,14 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     $user = $this->generateNewTestUser();
     $phid = $user->getPHID();
 
-    $status_sent = PhabricatorMailOutboundStatus::STATUS_SENT;
-    $status_queue = PhabricatorMailOutboundStatus::STATUS_QUEUE;
-    $status_fail = PhabricatorMailOutboundStatus::STATUS_FAIL;
+    $status_sent = PhorgeMailOutboundStatus::STATUS_SENT;
+    $status_queue = PhorgeMailOutboundStatus::STATUS_QUEUE;
+    $status_fail = PhorgeMailOutboundStatus::STATUS_FAIL;
 
-    $mailer1 = id(new PhabricatorMailTestAdapter())
+    $mailer1 = id(new PhorgeMailTestAdapter())
       ->setKey('mailer1');
 
-    $mailer2 = id(new PhabricatorMailTestAdapter())
+    $mailer2 = id(new PhorgeMailTestAdapter())
       ->setKey('mailer2');
 
     $mailers = array(
@@ -281,7 +281,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     );
 
     // Send mail with both mailers active. The first mailer should be used.
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid))
       ->sendWithMailers($mailers);
     $this->assertEqual($status_sent, $mail->getStatus());
@@ -292,7 +292,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     // mailer. Since we transmitted the mail, this doesn't raise an exception.
     $mailer1->setFailTemporarily(true);
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid))
       ->sendWithMailers($mailers);
     $this->assertEqual($status_sent, $mail->getStatus());
@@ -302,7 +302,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     // If both mailers fail, the mail should remain in queue.
     $mailer2->setFailTemporarily(true);
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid));
 
     $caught = null;
@@ -324,7 +324,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
     // the second mailer isn't configured to fail.
     $mailer1->setFailPermanently(true);
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid));
 
     $caught = null;
@@ -340,7 +340,7 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
   }
 
   public function testMailSizeLimits() {
-    $env = PhabricatorEnv::beginScopedEnv();
+    $env = PhorgeEnv::beginScopedEnv();
     $env->overrideEnvConfig('metamta.email-body-limit', 1024 * 512);
 
     $user = $this->generateNewTestUser();
@@ -353,15 +353,15 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     // First, send a mail with a small text body and a small HTML body to make
     // sure the basics work properly.
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid))
       ->setBody($string_1kb)
       ->setHTMLBody($html_1kb);
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mail->sendWithMailers(array($mailer));
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_SENT,
+      PhorgeMailOutboundStatus::STATUS_SENT,
       $mail->getStatus());
 
     $text_body = $mailer->getBody();
@@ -373,15 +373,15 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     // Now, send a mail with a large text body and a large HTML body. We expect
     // the text body to be truncated and the HTML body to be dropped.
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid))
       ->setBody($string_1mb)
       ->setHTMLBody($html_1mb);
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mail->sendWithMailers(array($mailer));
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_SENT,
+      PhorgeMailOutboundStatus::STATUS_SENT,
       $mail->getStatus());
 
     $text_body = $mailer->getBody();
@@ -401,15 +401,15 @@ final class PhabricatorMetaMTAMailTestCase extends PhabricatorTestCase {
 
     // Next send a mail with a small text body and a large HTML body. We expect
     // the text body to be intact and the HTML body to be dropped.
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(array($phid))
       ->setBody($string_1kb)
       ->setHTMLBody($html_1mb);
 
-    $mailer = new PhabricatorMailTestAdapter();
+    $mailer = new PhorgeMailTestAdapter();
     $mail->sendWithMailers(array($mailer));
     $this->assertEqual(
-      PhabricatorMailOutboundStatus::STATUS_SENT,
+      PhorgeMailOutboundStatus::STATUS_SENT,
       $mail->getStatus());
 
     $text_body = $mailer->getBody();

@@ -6,7 +6,7 @@ final class FerretConfigurableSearchFunction
   private $ferretFunctionName;
   private $ferretFieldKey;
 
-  public function supportsObject(PhabricatorFerretInterface $object) {
+  public function supportsObject(PhorgeFerretInterface $object) {
     return true;
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConduitSearchFieldSpecification
+final class PhorgeConduitSearchFieldSpecification
   extends Phobject {
 
   private $key;

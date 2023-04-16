@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBulkContentSource
-  extends PhabricatorContentSource {
+final class PhorgeBulkContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'bulk';
 

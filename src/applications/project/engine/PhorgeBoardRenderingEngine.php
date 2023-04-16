@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorBoardRenderingEngine extends Phobject {
+final class PhorgeBoardRenderingEngine extends Phobject {
 
   private $viewer;
   private $objects;
@@ -11,7 +11,7 @@ final class PhabricatorBoardRenderingEngine extends Phobject {
   private $handles;
   private $coverFiles;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -122,7 +122,7 @@ final class PhabricatorBoardRenderingEngine extends Phobject {
     }
 
     if ($cover_phids) {
-      $cover_files = id(new PhabricatorFileQuery())
+      $cover_files = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs($cover_phids)
         ->execute();

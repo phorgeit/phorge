@@ -17,7 +17,7 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
   }
 
   public function setAuthorityPackages(array $authority_packages) {
-    assert_instances_of($authority_packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($authority_packages, 'PhorgeOwnersPackage');
     $this->authorityPackages = $authority_packages;
     return $this;
   }
@@ -268,7 +268,7 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
           true,
         ));
 
-    $anchor = id(new PhabricatorAnchorView())
+    $anchor = id(new PhorgeAnchorView())
       ->setAnchorName('toc')
       ->setNavigationMarker(true);
 

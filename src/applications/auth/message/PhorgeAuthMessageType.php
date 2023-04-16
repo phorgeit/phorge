@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuthMessageType
+abstract class PhorgeAuthMessageType
   extends Phobject {
 
   final public function getMessageTypeKey() {

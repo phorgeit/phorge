@@ -3,10 +3,10 @@
 /**
  * Streaming interface on top of "hg log" that gives us performant access to
  * the Mercurial commit graph with one nonblocking invocation of "hg". See
- * @{class:PhabricatorRepositoryPullLocalDaemon}.
+ * @{class:PhorgeRepositoryPullLocalDaemon}.
  */
-final class PhabricatorMercurialGraphStream
-  extends PhabricatorRepositoryGraphStream {
+final class PhorgeMercurialGraphStream
+  extends PhorgeRepositoryGraphStream {
 
   private $repository;
   private $iterator;
@@ -16,7 +16,7 @@ final class PhabricatorMercurialGraphStream
   private $local          = array();
   private $localParents   = array();
 
-  public function __construct(PhabricatorRepository $repository,
+  public function __construct(PhorgeRepository $repository,
     $start_commit = null) {
 
     $this->repository = $repository;

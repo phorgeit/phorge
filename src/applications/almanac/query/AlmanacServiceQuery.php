@@ -102,7 +102,7 @@ final class AlmanacServiceQuery
     if ($this->names !== null) {
       $hashes = array();
       foreach ($this->names as $name) {
-        $hashes[] = PhabricatorHash::digestForIndex($name);
+        $hashes[] = PhorgeHash::digestForIndex($name);
       }
 
       $where[] = qsprintf(

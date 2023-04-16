@@ -1,6 +1,6 @@
 <?php
 
-final class PassphraseRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class PassphraseRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'K';

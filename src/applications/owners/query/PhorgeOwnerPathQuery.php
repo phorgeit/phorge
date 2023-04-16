@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorOwnerPathQuery extends Phobject {
+final class PhorgeOwnerPathQuery extends Phobject {
 
   public static function loadAffectedPaths(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit,
-    PhabricatorUser $user) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit,
+    PhorgeUser $user) {
 
     $drequest = DiffusionRequest::newFromDictionary(
       array(

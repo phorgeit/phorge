@@ -1,11 +1,11 @@
 <?php
 
 final class PolicyLockOptionType
-  extends PhabricatorConfigJSONOptionType {
+  extends PhorgeConfigJSONOptionType {
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     $capabilities = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyCapability')
+      ->setAncestorClass('PhorgePolicyCapability')
       ->setUniqueMethod('getCapabilityKey')
       ->execute();
 
@@ -19,11 +19,11 @@ final class PolicyLockOptionType
             $capability_key));
       }
       if (phid_get_type($policy) !=
-          PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+          PhorgePHIDConstants::PHID_TYPE_UNKNOWN) {
         $policy_phids[$policy] = $policy;
       } else {
         try {
-          $policy_object = PhabricatorPolicyQuery::getGlobalPolicy($policy);
+          $policy_object = PhorgePolicyQuery::getGlobalPolicy($policy);
         // this exception is not helpful here as its about global policy;
         // throw a better exception
         } catch (Exception $ex) {
@@ -35,7 +35,7 @@ final class PolicyLockOptionType
         }
       }
 
-      if ($policy == PhabricatorPolicies::POLICY_PUBLIC) {
+      if ($policy == PhorgePolicies::POLICY_PUBLIC) {
         if (!$capability->shouldAllowPublicPolicySetting()) {
           throw new Exception(
             pht(
@@ -46,8 +46,8 @@ final class PolicyLockOptionType
     }
 
     if ($policy_phids) {
-      $handles = id(new PhabricatorHandleQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $handles = id(new PhorgeHandleQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withPhids($policy_phids)
         ->execute();
       $handles = mpull($handles, null, 'getPHID');

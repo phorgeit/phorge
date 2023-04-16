@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
+final class PhorgeFileStorageFormatTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testRot13Storage() {
-    $engine = new PhabricatorTestStorageEngine();
-    $rot13_format = PhabricatorFileROT13StorageFormat::FORMATKEY;
+    $engine = new PhorgeTestStorageEngine();
+    $rot13_format = PhorgeFileROT13StorageFormat::FORMATKEY;
 
     $data = 'The cow jumped over the full moon.';
     $expect = 'Gur pbj whzcrq bire gur shyy zbba.';
@@ -23,7 +23,7 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
       'format' => $rot13_format,
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
 
     // We should have a file stored as rot13, which reads back the input
     // data correctly.
@@ -49,19 +49,19 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
       $this->assertSkipped(pht('No OpenSSL extension available.'));
     }
 
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $key_name = 'test.abcd';
     $key_text = 'abcdefghijklmnopABCDEFGHIJKLMNOP';
 
-    PhabricatorKeyring::addKey(
+    PhorgeKeyring::addKey(
       array(
         'name' => $key_name,
         'type' => 'aes-256-cbc',
         'material.base64' => base64_encode($key_text),
       ));
 
-    $format = id(new PhabricatorFileAES256StorageFormat())
+    $format = id(new PhorgeFileAES256StorageFormat())
       ->selectMasterKey($key_name);
 
     $data = 'The cow jumped over the full moon.';
@@ -74,7 +74,7 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
       'format' => $format,
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
 
     // We should have a file stored as AES256.
     $format_key = $format->getStorageFormatKey();
@@ -106,7 +106,7 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
   }
 
   public function testStorageTampering() {
-    $engine = new PhabricatorTestStorageEngine();
+    $engine = new PhorgeTestStorageEngine();
 
     $good = 'The cow jumped over the full moon.';
     $evil = 'The cow slept quietly, honoring the glorious dictator.';
@@ -119,7 +119,7 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
     );
 
     // First, write the file normally.
-    $file = PhabricatorFile::newFromFileData($good, $params);
+    $file = PhorgeFile::newFromFileData($good, $params);
     $this->assertEqual($good, $file->loadFileData());
 
     // As an adversary, tamper with the file.
@@ -129,11 +129,11 @@ final class PhabricatorFileStorageFormatTestCase extends PhabricatorTestCase {
     $caught = null;
     try {
       $file->loadFileData();
-    } catch (PhabricatorFileIntegrityException $ex) {
+    } catch (PhorgeFileIntegrityException $ex) {
       $caught = $ex;
     }
 
-    $this->assertTrue($caught instanceof PhabricatorFileIntegrityException);
+    $this->assertTrue($caught instanceof PhorgeFileIntegrityException);
   }
 
 

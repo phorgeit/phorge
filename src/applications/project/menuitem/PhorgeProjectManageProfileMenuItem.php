@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectManageProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeProjectManageProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'project.manage';
 
@@ -18,17 +18,17 @@ final class PhabricatorProjectManageProfileMenuItem
   }
 
   public function canHideMenuItem(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return false;
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -39,9 +39,9 @@ final class PhabricatorProjectManageProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -50,7 +50,7 @@ final class PhabricatorProjectManageProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $project = $config->getProfileObject();
 

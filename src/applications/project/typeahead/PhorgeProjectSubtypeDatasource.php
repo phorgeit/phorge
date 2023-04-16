@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSubtypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeProjectSubtypeDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Subtypes');
@@ -12,7 +12,7 @@ final class PhabricatorProjectSubtypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function loadResults() {
@@ -27,10 +27,10 @@ final class PhabricatorProjectSubtypeDatasource
   private function buildResults() {
     $results = array();
 
-    $subtype_map = id(new PhabricatorProject())->newEditEngineSubtypeMap();
+    $subtype_map = id(new PhorgeProject())->newEditEngineSubtypeMap();
     foreach ($subtype_map->getSubtypes() as $key => $subtype) {
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setIcon($subtype->getIcon())
         ->setColor($subtype->getColor())
         ->setPHID($key)

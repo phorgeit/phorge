@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacPropertiesDestructionEngineExtension
-  extends PhabricatorDestructionEngineExtension {
+  extends PhorgeDestructionEngineExtension {
 
   const EXTENSIONKEY = 'almanac.properties';
 
@@ -10,13 +10,13 @@ final class AlmanacPropertiesDestructionEngineExtension
   }
 
   public function canDestroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
     return ($object instanceof AlmanacPropertyInterface);
   }
 
   public function destroyObject(
-    PhabricatorDestructionEngine $engine,
+    PhorgeDestructionEngine $engine,
     $object) {
 
     $table = new AlmanacProperty();

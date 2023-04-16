@@ -22,10 +22,10 @@ final class PassphraseSSHGeneratedKeyCredentialType
   }
 
   public function didInitializeNewCredential(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PassphraseCredential $credential) {
 
-    $pair = PhabricatorSSHKeyGenerator::generateKeypair();
+    $pair = PhorgeSSHKeyGenerator::generateKeypair();
     list($public_key, $private_key) = $pair;
 
     $credential->attachSecret(new PhutilOpaqueEnvelope($private_key));

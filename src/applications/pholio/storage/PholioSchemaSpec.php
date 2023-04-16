@@ -1,6 +1,6 @@
 <?php
 
-final class PholioSchemaSpec extends PhabricatorConfigSchemaSpec {
+final class PholioSchemaSpec extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(new PholioMock());

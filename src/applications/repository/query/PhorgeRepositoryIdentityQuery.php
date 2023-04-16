@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryIdentityQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryIdentityQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -59,7 +59,7 @@ final class PhabricatorRepositoryIdentityQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepositoryIdentity();
+    return new PhorgeRepositoryIdentity();
   }
 
   protected function getPrimaryTableAlias() {
@@ -112,7 +112,7 @@ final class PhabricatorRepositoryIdentityQuery
     if ($this->identityNames !== null) {
       $name_hashes = array();
       foreach ($this->identityNames as $name) {
-        $name_hashes[] = PhabricatorHash::digestForIndex($name);
+        $name_hashes[] = PhorgeHash::digestForIndex($name);
       }
 
       $where[] = qsprintf(
@@ -150,7 +150,7 @@ final class PhabricatorRepositoryIdentityQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
 }

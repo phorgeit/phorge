@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthEmailSetPasswordMessageType
-  extends PhabricatorAuthMessageType {
+final class PhorgeAuthEmailSetPasswordMessageType
+  extends PhorgeAuthMessageType {
 
   const MESSAGEKEY = 'mail.set-password';
 

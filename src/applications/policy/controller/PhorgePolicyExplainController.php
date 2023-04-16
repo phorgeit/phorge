@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyExplainController
-  extends PhabricatorPolicyController {
+final class PhorgePolicyExplainController
+  extends PhorgePolicyController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,7 +13,7 @@ final class PhabricatorPolicyExplainController
     $phid = $request->getURIData('phid');
     $capability = $request->getURIData('capability');
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -21,7 +21,7 @@ final class PhabricatorPolicyExplainController
       return new Aphront404Response();
     }
 
-    $policies = PhabricatorPolicyQuery::loadPolicies(
+    $policies = PhorgePolicyQuery::loadPolicies(
       $viewer,
       $object);
 
@@ -30,7 +30,7 @@ final class PhabricatorPolicyExplainController
       return new Aphront404Response();
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -76,35 +76,35 @@ final class PhabricatorPolicyExplainController
   }
 
   private function buildSpaceSection(
-    PhabricatorPolicyInterface $object,
-    PhabricatorPolicy $policy,
+    PhorgePolicyInterface $object,
+    PhorgePolicy $policy,
     $capability) {
     $viewer = $this->getViewer();
 
-    if (!($object instanceof PhabricatorSpacesInterface)) {
+    if (!($object instanceof PhorgeSpacesInterface)) {
       return null;
     }
 
-    if (!PhabricatorSpacesNamespaceQuery::getSpacesExist()) {
+    if (!PhorgeSpacesNamespaceQuery::getSpacesExist()) {
       return null;
     }
 
-    $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+    $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
       $object);
 
-    $spaces = PhabricatorSpacesNamespaceQuery::getViewerSpaces($viewer);
+    $spaces = PhorgeSpacesNamespaceQuery::getViewerSpaces($viewer);
     $space = idx($spaces, $space_phid);
     if (!$space) {
       return null;
     }
 
-    $space_policies = PhabricatorPolicyQuery::loadPolicies($viewer, $space);
-    $space_policy = idx($space_policies, PhabricatorPolicyCapability::CAN_VIEW);
+    $space_policies = PhorgePolicyQuery::loadPolicies($viewer, $space);
+    $space_policy = idx($space_policies, PhorgePolicyCapability::CAN_VIEW);
     if (!$space_policy) {
       return null;
     }
 
-    $doc_href = PhabricatorEnv::getDoclink('Spaces User Guide');
+    $doc_href = PhorgeEnv::getDoclink('Spaces User Guide');
     $capability_name = $this->getCapabilityName($capability);
 
     $space_section = id(new PHUIPolicySectionView())
@@ -131,7 +131,7 @@ final class PhabricatorPolicyExplainController
           'with access to view objects in the space.',
           $viewer->renderHandle($space_phid)));
 
-    $space_explanation = PhabricatorPolicy::getPolicyExplanation(
+    $space_explanation = PhorgePolicy::getPolicyExplanation(
       $viewer,
       $space_policy->getPHID());
     $items = array();
@@ -141,7 +141,7 @@ final class PhabricatorPolicyExplainController
       ->appendParagraph(pht('Users who can see objects in this space:'))
       ->appendList($items);
 
-    $view_capability = PhabricatorPolicyCapability::CAN_VIEW;
+    $view_capability = PhorgePolicyCapability::CAN_VIEW;
     if ($capability == $view_capability) {
       $stronger = $space_policy->isStrongerThan($policy);
       if ($stronger) {
@@ -165,7 +165,7 @@ final class PhabricatorPolicyExplainController
 
   private function getCapabilityName($capability) {
     $capability_name = $capability;
-    $capobj = PhabricatorPolicyCapability::getCapabilityByKey($capability);
+    $capobj = PhorgePolicyCapability::getCapabilityByKey($capability);
     if ($capobj) {
       $capability_name = $capobj->getCapabilityName();
     }
@@ -174,11 +174,11 @@ final class PhabricatorPolicyExplainController
   }
 
   private function buildExtendedSection(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability) {
     $viewer = $this->getViewer();
 
-    if (!($object instanceof PhabricatorExtendedPolicyInterface)) {
+    if (!($object instanceof PhorgeExtendedPolicyInterface)) {
       return null;
     }
 
@@ -217,11 +217,11 @@ final class PhabricatorPolicyExplainController
   }
 
   private function buildExceptionsSection(
-    PhabricatorPolicyInterface $object,
+    PhorgePolicyInterface $object,
     $capability) {
     $viewer = $this->getViewer();
 
-    $exceptions = PhabricatorPolicy::getSpecialRules(
+    $exceptions = PhorgePolicy::getSpecialRules(
       $object,
       $viewer,
       $capability,
@@ -243,10 +243,10 @@ final class PhabricatorPolicyExplainController
   }
 
   private function buildObjectSection(
-    PhabricatorPolicyInterface $object,
-    PhabricatorPolicy $policy,
+    PhorgePolicyInterface $object,
+    PhorgePolicy $policy,
     $capability,
-    PhabricatorObjectHandle $handle) {
+    PhorgeObjectHandle $handle) {
 
     $viewer = $this->getViewer();
     $capability_name = $this->getCapabilityName($capability);
@@ -269,13 +269,13 @@ final class PhabricatorPolicyExplainController
           'provided they pass all of the checks described above first:'))
       ->appendList(
         array(
-          PhabricatorPolicy::getPolicyExplanation(
+          PhorgePolicy::getPolicyExplanation(
             $viewer,
             $policy->getPHID()),
         ));
 
     if ($policy->isCustomPolicy()) {
-      $rules_view = id(new PhabricatorPolicyRulesView())
+      $rules_view = id(new PhorgePolicyRulesView())
         ->setViewer($viewer)
         ->setPolicy($policy);
       $object_section->appendRulesView($rules_view);

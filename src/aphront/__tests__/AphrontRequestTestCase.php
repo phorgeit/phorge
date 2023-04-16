@@ -1,6 +1,6 @@
 <?php
 
-final class AphrontRequestTestCase extends PhabricatorTestCase {
+final class AphrontRequestTestCase extends PhorgeTestCase {
 
   public function testRequestDataAccess() {
     $r = new AphrontRequest('example.com', '/');

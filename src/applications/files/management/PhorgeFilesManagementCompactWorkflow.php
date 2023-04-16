@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementCompactWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementCompactWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = $this->newIteratorArguments();
@@ -38,7 +38,7 @@ final class PhabricatorFilesManagementCompactWorkflow
 
       // Find other files with the same content hash. We're going to point
       // them at the data for this file.
-      $similar_files = id(new PhabricatorFile())->loadAllWhere(
+      $similar_files = id(new PhorgeFile())->loadAllWhere(
         'contentHash = %s AND id != %d AND
           (storageEngine != %s OR storageHandle != %s)',
         $hash,

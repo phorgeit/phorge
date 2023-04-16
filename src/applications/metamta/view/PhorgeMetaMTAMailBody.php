@@ -6,7 +6,7 @@
  * @task compose  Composition
  * @task render   Rendering
  */
-final class PhabricatorMetaMTAMailBody extends Phobject {
+final class PhorgeMetaMTAMailBody extends Phobject {
 
   private $sections = array();
   private $htmlSections = array();
@@ -106,7 +106,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
    * @task compose
    */
   public function addTextSection($header, $section) {
-    if ($section instanceof PhabricatorMetaMTAMailSection) {
+    if ($section instanceof PhorgeMetaMTAMailSection) {
       $plaintext = $section->getPlaintext();
       $html = $section->getHTML();
     } else {
@@ -155,11 +155,11 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
   /**
    * Add an attachment.
    *
-   * @param PhabricatorMailAttachment Attachment.
+   * @param PhorgeMailAttachment Attachment.
    * @return this
    * @task compose
    */
-  public function addAttachment(PhabricatorMailAttachment $attachment) {
+  public function addAttachment(PhorgeMailAttachment $attachment) {
     $this->attachments[] = $attachment;
     return $this;
   }
@@ -187,7 +187,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
   /**
    * Retrieve attachments.
    *
-   * @return list<PhabricatorMailAttachment> Attachments.
+   * @return list<PhorgeMailAttachment> Attachments.
    * @task render
    */
   public function getAttachments() {
@@ -208,9 +208,9 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
 
 
   private function newMarkupEngine() {
-    $engine = PhabricatorMarkupEngine::newMarkupEngine(array())
+    $engine = PhorgeMarkupEngine::newMarkupEngine(array())
       ->setConfig('viewer', $this->getViewer())
-      ->setConfig('uri.base', PhabricatorEnv::getProductionURI('/'));
+      ->setConfig('uri.base', PhorgeEnv::getProductionURI('/'));
 
     $context = $this->getContextObject();
     if ($context) {

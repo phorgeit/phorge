@@ -99,7 +99,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
 
     $load_map = array();
     foreach ($slugs as $key => $raw_slug) {
-      $lookup = PhabricatorSlug::normalize($raw_slug);
+      $lookup = PhorgeSlug::normalize($raw_slug);
       $load_map[$lookup][] = $key;
 
       // Also try to lookup the slug with URL decoding applied. The right
@@ -110,7 +110,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
 
       $lookup = phutil_unescape_uri_path_component($raw_slug);
       $lookup = phutil_utf8ize($lookup);
-      $lookup = PhabricatorSlug::normalize($lookup);
+      $lookup = PhorgeSlug::normalize($lookup);
       $load_map[$lookup][] = $key;
     }
 
@@ -163,7 +163,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
     // have permission to see.
     if ($load_map) {
       $existent_documents = id(new PhrictionDocumentQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withSlugs(array_keys($load_map))
         ->execute();
       $existent_documents = mpull($existent_documents, null, 'getSlug');
@@ -185,7 +185,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
 
     foreach ($metadata as $key => $spec) {
       $link = $spec['link'];
-      $slug = PhabricatorSlug::normalize($link);
+      $slug = PhorgeSlug::normalize($link);
       $name = $spec['explicitName'];
       $class = 'phriction-link';
 
@@ -222,7 +222,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
 
       $uri = new PhutilURI($link);
       $slug = $uri->getPath();
-      $slug = PhabricatorSlug::normalize($slug);
+      $slug = PhorgeSlug::normalize($slug);
       $slug = PhrictionDocument::getSlugURI($slug);
 
       $anchor = idx($spec, 'anchor');
@@ -234,7 +234,7 @@ final class PhrictionRemarkupRule extends PhutilRemarkupRule {
       if ($this->getEngine()->getState('toc')) {
         $text = $name;
       } else if ($text_mode || $mail_mode) {
-        $href = PhabricatorEnv::getProductionURI($href);
+        $href = PhorgeEnv::getProductionURI($href);
         if ($is_interesting_name) {
           $text = pht('"%s" <%s>', $name, $href);
         } else {

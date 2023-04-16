@@ -18,11 +18,11 @@ foreach ($revs as $rev) {
     continue;
   }
 
-  $editor = new PhabricatorEdgeEditor();
+  $editor = new PhorgeEdgeEditor();
   foreach ($unsubscribed as $user_phid => $_) {
     $editor->addEdge(
       $rev['phid'],
-      PhabricatorObjectHasUnsubscriberEdgeType::EDGECONST ,
+      PhorgeObjectHasUnsubscriberEdgeType::EDGECONST ,
       $user_phid);
   }
   $editor->save();

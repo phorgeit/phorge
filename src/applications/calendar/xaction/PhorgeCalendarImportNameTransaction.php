@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarImportNameTransaction
-  extends PhabricatorCalendarImportTransactionType {
+final class PhorgeCalendarImportNameTransaction
+  extends PhorgeCalendarImportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.import.name';
 

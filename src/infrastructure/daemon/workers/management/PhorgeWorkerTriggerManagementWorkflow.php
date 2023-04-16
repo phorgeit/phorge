@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorWorkerTriggerManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeWorkerTriggerManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function getTriggerSelectionArguments() {
     return array(
@@ -21,7 +21,7 @@ abstract class PhabricatorWorkerTriggerManagementWorkflow
         pht('Use %s to select triggers by ID.', '--id'));
     }
 
-    $triggers = id(new PhabricatorWorkerTriggerQuery())
+    $triggers = id(new PhorgeWorkerTriggerQuery())
       ->setViewer($this->getViewer())
       ->withIDs($ids)
       ->needEvents(true)
@@ -38,7 +38,7 @@ abstract class PhabricatorWorkerTriggerManagementWorkflow
     return $triggers;
   }
 
-  protected function describeTrigger(PhabricatorWorkerTrigger $trigger) {
+  protected function describeTrigger(PhorgeWorkerTrigger $trigger) {
     return pht('Trigger %d', $trigger->getID());
   }
 

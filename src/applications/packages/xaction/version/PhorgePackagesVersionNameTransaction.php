@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionNameTransaction
-  extends PhabricatorPackagesVersionTransactionType {
+final class PhorgePackagesVersionNameTransaction
+  extends PhorgePackagesVersionTransactionType {
 
   const TRANSACTIONTYPE = 'packages.version.name';
 
@@ -42,7 +42,7 @@ final class PhabricatorPackagesVersionNameTransaction
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
       try {
-        PhabricatorPackagesVersion::assertValidVersionName($value);
+        PhorgePackagesVersion::assertValidVersionName($value);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError($ex->getMessage(), $xaction);
       }

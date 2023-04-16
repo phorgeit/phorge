@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthProviderController
-  extends PhabricatorAuthController {
+abstract class PhorgeAuthProviderController
+  extends PhorgeAuthController {
 
   protected function newNavigation() {
     $viewer = $this->getViewer();

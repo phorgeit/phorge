@@ -20,10 +20,10 @@
  * be rare (major downtime or serious problems with the pipeline).
  *
  * The properties of this action map to the parameters of
- * @{method:PhabricatorWorker::scheduleTask}.
+ * @{method:PhorgeWorker::scheduleTask}.
  */
-final class PhabricatorScheduleTaskTriggerAction
-   extends PhabricatorTriggerAction {
+final class PhorgeScheduleTaskTriggerAction
+   extends PhorgeTriggerAction {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(
@@ -36,7 +36,7 @@ final class PhabricatorScheduleTaskTriggerAction
   }
 
   public function execute($last_epoch, $this_epoch) {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       $this->getProperty('class'),
       $this->getProperty('data') + array(
         'trigger.last-epoch' => $last_epoch,

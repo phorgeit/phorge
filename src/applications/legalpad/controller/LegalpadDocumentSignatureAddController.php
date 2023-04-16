@@ -11,8 +11,8 @@ final class LegalpadDocumentSignatureAddController extends LegalpadController {
       ->needDocumentBodies(true)
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->withIDs(array($request->getURIData('id')))
       ->executeOne();
@@ -43,7 +43,7 @@ final class LegalpadDocumentSignatureAddController extends LegalpadController {
           $e_user = pht('Required');
           $errors[] = pht('You must choose a user to exempt.');
         } else {
-          $user = id(new PhabricatorPeopleQuery())
+          $user = id(new PhorgePeopleQuery())
             ->setViewer($viewer)
             ->withPHIDs(array($user_phid))
             ->executeOne();
@@ -123,7 +123,7 @@ final class LegalpadDocumentSignatureAddController extends LegalpadController {
             ->setLabel(pht('Exempt User'))
             ->setName('users')
             ->setLimit(1)
-            ->setDatasource(new PhabricatorPeopleDatasource())
+            ->setDatasource(new PhorgePeopleDatasource())
             ->setValue($v_users)
             ->setError($e_user));
     } else {

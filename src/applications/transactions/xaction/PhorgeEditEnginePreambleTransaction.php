@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEnginePreambleTransaction
-  extends PhabricatorEditEngineTransactionType {
+final class PhorgeEditEnginePreambleTransaction
+  extends PhorgeEditEngineTransactionType {
 
   const TRANSACTIONTYPE = 'editengine.config.preamble';
 
@@ -26,7 +26,7 @@ final class PhabricatorEditEnginePreambleTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

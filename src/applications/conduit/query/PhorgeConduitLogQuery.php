@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitLogQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeConduitLogQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $callerPHIDs;
@@ -37,7 +37,7 @@ final class PhabricatorConduitLogQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorConduitMethodCallLog();
+    return new PhorgeConduitMethodCallLog();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -67,7 +67,7 @@ final class PhabricatorConduitLogQuery
     if ($this->methodStatuses !== null) {
       $statuses = array_fuse($this->methodStatuses);
 
-      $methods = id(new PhabricatorConduitMethodQuery())
+      $methods = id(new PhorgeConduitMethodQuery())
         ->setViewer($this->getViewer())
         ->execute();
 
@@ -80,7 +80,7 @@ final class PhabricatorConduitLogQuery
       }
 
       if (!$method_names) {
-        throw new PhabricatorEmptyQueryException();
+        throw new PhorgeEmptyQueryException();
       }
 
       $where[] = qsprintf(
@@ -107,7 +107,7 @@ final class PhabricatorConduitLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConduitApplication';
+    return 'PhorgeConduitApplication';
   }
 
 }

@@ -70,7 +70,7 @@ final class MultimeterControl extends Phobject {
       ->setEventType($type)
       ->setEventLabel($label)
       ->setResourceCost($cost)
-      ->setEpoch(PhabricatorTime::getNow());
+      ->setEpoch(PhorgeTime::getNow());
 
     $this->events[] = $event;
 
@@ -124,14 +124,14 @@ final class MultimeterControl extends Phobject {
   }
 
   private function writeEvents() {
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
     $events = $this->events;
 
     $random = Filesystem::readRandomBytes(32);
-    $request_key = PhabricatorHash::digestForIndex($random);
+    $request_key = PhorgeHash::digestForIndex($random);
 
     $host_id = $this->loadHostID(php_uname('n'));
     $context_id = $this->loadEventContextID($this->eventContext);
@@ -186,7 +186,7 @@ final class MultimeterControl extends Phobject {
   private function loadDimensionMap(MultimeterDimension $table, array $names) {
     $hashes = array();
     foreach ($names as $name) {
-      $hashes[] = PhabricatorHash::digestForIndex($name);
+      $hashes[] = PhorgeHash::digestForIndex($name);
     }
 
     $objects = $table->loadAllWhere('nameHash IN (%Ls)', $hashes);

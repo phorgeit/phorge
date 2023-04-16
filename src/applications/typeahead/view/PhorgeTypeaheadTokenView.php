@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTypeaheadTokenView
+final class PhorgeTypeaheadTokenView
   extends AphrontTagView {
 
   const TYPE_OBJECT = 'object';
@@ -17,9 +17,9 @@ final class PhabricatorTypeaheadTokenView
   private $availabilityColor;
 
   public static function newFromTypeaheadResult(
-    PhabricatorTypeaheadResult $result) {
+    PhorgeTypeaheadResult $result) {
 
-    return id(new PhabricatorTypeaheadTokenView())
+    return id(new PhorgeTypeaheadTokenView())
       ->setKey($result->getPHID())
       ->setIcon($result->getIcon())
       ->setColor($result->getColor())
@@ -28,15 +28,15 @@ final class PhabricatorTypeaheadTokenView
   }
 
   public static function newFromHandle(
-    PhabricatorObjectHandle $handle) {
+    PhorgeObjectHandle $handle) {
 
-    $token = id(new PhabricatorTypeaheadTokenView())
+    $token = id(new PhorgeTypeaheadTokenView())
       ->setKey($handle->getPHID())
       ->setValue($handle->getFullName())
       ->setIcon($handle->getTokenIcon());
 
     if ($handle->isDisabled() ||
-        $handle->getStatus() == PhabricatorObjectHandle::STATUS_CLOSED) {
+        $handle->getStatus() == PhorgeObjectHandle::STATUS_CLOSED) {
       $token->setTokenType(self::TYPE_DISABLED);
     } else {
       $token->setColor($handle->getTagColor());
@@ -45,10 +45,10 @@ final class PhabricatorTypeaheadTokenView
     $availability = $handle->getAvailability();
     $color = null;
     switch ($availability) {
-      case PhabricatorObjectHandle::AVAILABILITY_PARTIAL:
+      case PhorgeObjectHandle::AVAILABILITY_PARTIAL:
         $color = PHUITagView::COLOR_ORANGE;
         break;
-      case PhabricatorObjectHandle::AVAILABILITY_NONE:
+      case PhorgeObjectHandle::AVAILABILITY_NONE:
         $color = PHUITagView::COLOR_RED;
         break;
     }

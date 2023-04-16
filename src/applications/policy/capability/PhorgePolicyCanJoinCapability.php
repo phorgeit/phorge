@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyCanJoinCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgePolicyCanJoinCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = self::CAN_JOIN;
 

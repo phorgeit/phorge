@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeDescriptionTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeDescriptionTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.description';
 
@@ -37,7 +37,7 @@ final class PhabricatorBadgesBadgeDescriptionTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());

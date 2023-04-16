@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorChartAxis
+final class PhorgeChartAxis
   extends Phobject {
 
   private $minimumValue;

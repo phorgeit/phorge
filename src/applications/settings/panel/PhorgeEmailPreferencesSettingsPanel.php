@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailPreferencesSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeEmailPreferencesSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'emailpreferences';
@@ -16,7 +16,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsEmailPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsEmailPanelGroup::PANELGROUPKEY;
   }
 
   public function isManagementPanel() {
@@ -37,7 +37,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
 
     $preferences = $this->getPreferences();
 
-    $value_email = PhabricatorEmailTagsSetting::VALUE_EMAIL;
+    $value_email = PhorgeEmailTagsSetting::VALUE_EMAIL;
 
     $errors = array();
     if ($request->isFormPost()) {
@@ -51,7 +51,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
 
       $this->writeSetting(
         $preferences,
-        PhabricatorEmailTagsSetting::SETTINGKEY,
+        PhorgeEmailTagsSetting::SETTINGKEY,
         $mailtags);
 
       return id(new AphrontRedirectResponse())
@@ -59,7 +59,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
     }
 
     $mailtags = $preferences->getSettingValue(
-      PhabricatorEmailTagsSetting::SETTINGKEY);
+      PhorgeEmailTagsSetting::SETTINGKEY);
 
     $form = id(new AphrontFormView())
       ->setUser($viewer);
@@ -145,9 +145,9 @@ final class PhabricatorEmailPreferencesSettingsPanel
     return $form_box;
   }
 
-  private function getAllEditorsWithTags(PhabricatorUser $user = null) {
+  private function getAllEditorsWithTags(PhorgeUser $user = null) {
     $editors = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionEditor')
+      ->setAncestorClass('PhorgeApplicationTransactionEditor')
       ->setFilterMethod('getMailTagsMap')
       ->execute();
 
@@ -155,7 +155,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
       // Remove editors for applications which are not installed.
       $app = $editor->getEditorApplicationClass();
       if ($app !== null && $user !== null) {
-        if (!PhabricatorApplication::isClassInstalledForViewer($app, $user)) {
+        if (!PhorgeApplication::isClassInstalledForViewer($app, $user)) {
           unset($editors[$key]);
         }
       }
@@ -164,7 +164,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
     return $editors;
   }
 
-  private function getAllTags(PhabricatorUser $user = null) {
+  private function getAllTags(PhorgeUser $user = null) {
     $tags = array();
     foreach ($this->getAllEditorsWithTags($user) as $editor) {
       $tags += $editor->getMailTagsMap();
@@ -177,9 +177,9 @@ final class PhabricatorEmailPreferencesSettingsPanel
     array $tags,
     array $prefs) {
 
-    $value_email = PhabricatorEmailTagsSetting::VALUE_EMAIL;
-    $value_notify = PhabricatorEmailTagsSetting::VALUE_NOTIFY;
-    $value_ignore = PhabricatorEmailTagsSetting::VALUE_IGNORE;
+    $value_email = PhorgeEmailTagsSetting::VALUE_EMAIL;
+    $value_notify = PhorgeEmailTagsSetting::VALUE_NOTIFY;
+    $value_ignore = PhorgeEmailTagsSetting::VALUE_IGNORE;
 
     $content = array();
     foreach ($tags as $key => $label) {

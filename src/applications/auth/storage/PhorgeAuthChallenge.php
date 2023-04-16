@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorAuthChallenge
-  extends PhabricatorAuthDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeAuthChallenge
+  extends PhorgeAuthDAO
+  implements PhorgePolicyInterface {
 
   protected $userPHID;
   protected $factorPHID;
@@ -92,7 +92,7 @@ final class PhabricatorAuthChallenge
 
     $challenges = mpull($challenges, null, 'getPHID');
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     foreach ($challenges as $challenge_phid => $challenge) {
       // If the response window has expired, don't attach the token.
       if ($challenge->getResponseTTL() < $now) {
@@ -135,7 +135,7 @@ final class PhabricatorAuthChallenge
   }
 
   public function getPHIDType() {
-    return PhabricatorAuthChallengePHIDType::TYPECONST;
+    return PhorgeAuthChallengePHIDType::TYPECONST;
   }
 
   public function getIsReusedChallenge() {
@@ -201,7 +201,7 @@ final class PhabricatorAuthChallenge
           'tokens may not include spaces.'));
     }
 
-    $digest = PhabricatorHash::digestWithNamedKey(
+    $digest = PhorgeHash::digestWithNamedKey(
       $token->openEnvelope(),
       self::TOKEN_DIGEST_KEY);
 
@@ -252,20 +252,20 @@ final class PhabricatorAuthChallenge
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return ($viewer->getPHID() === $this->getUserPHID());
   }
 

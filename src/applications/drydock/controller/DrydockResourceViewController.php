@@ -116,16 +116,16 @@ final class DrydockResourceViewController extends DrydockResourceController {
       $can_release = false;
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $resource,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $uri = '/resource/'.$resource->getID().'/release/';
     $uri = $this->getApplicationURI($uri);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setHref($uri)
         ->setName(pht('Release Resource'))
         ->setIcon('fa-times')

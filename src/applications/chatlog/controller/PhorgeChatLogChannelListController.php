@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorChatLogChannelListController
-  extends PhabricatorChatLogController {
+final class PhorgeChatLogChannelListController
+  extends PhorgeChatLogController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorChatLogChannelListController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $channels = id(new PhabricatorChatLogChannelQuery())
+    $channels = id(new PhorgeChatLogChannelQuery())
       ->setViewer($viewer)
       ->execute();
 

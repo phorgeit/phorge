@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialChangesetSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'differential.changeset.search';

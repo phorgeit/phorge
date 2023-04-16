@@ -16,12 +16,12 @@ final class PHUIDiffInlineCommentDetailView
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
 
-  public function setMarkupEngine(PhabricatorMarkupEngine $engine) {
+  public function setMarkupEngine(PhorgeMarkupEngine $engine) {
     $this->markupEngine = $engine;
     return $this;
   }
@@ -265,19 +265,19 @@ final class PHUIDiffInlineCommentDetailView
     if (!$is_synthetic) {
       $draft_state = false;
       switch ($inline->getFixedState()) {
-        case PhabricatorInlineComment::STATE_DRAFT:
+        case PhorgeInlineComment::STATE_DRAFT:
           $is_done = $mark_done;
           $draft_state = true;
           break;
-        case PhabricatorInlineComment::STATE_UNDRAFT:
+        case PhorgeInlineComment::STATE_UNDRAFT:
           $is_done = !$mark_done;
           $draft_state = true;
           break;
-        case PhabricatorInlineComment::STATE_DONE:
+        case PhorgeInlineComment::STATE_DONE:
           $is_done = true;
           break;
         default:
-        case PhabricatorInlineComment::STATE_UNDONE:
+        case PhorgeInlineComment::STATE_UNDONE:
           $is_done = false;
           break;
       }
@@ -338,7 +338,7 @@ final class PHUIDiffInlineCommentDetailView
 
     $content = $this->markupEngine->getOutput(
       $inline,
-      PhabricatorInlineComment::MARKUP_FIELD_BODY);
+      PhorgeInlineComment::MARKUP_FIELD_BODY);
 
     if ($is_preview) {
       $anchor = null;
@@ -506,7 +506,7 @@ final class PHUIDiffInlineCommentDetailView
     return true;
   }
 
-  private function newSuggestionView(PhabricatorInlineComment $inline) {
+  private function newSuggestionView(PhorgeInlineComment $inline) {
     $content_state = $inline->getContentState();
     if (!$content_state->getContentHasSuggestion()) {
       return null;
@@ -542,12 +542,12 @@ final class PHUIDiffInlineCommentDetailView
 
     $viewer = $this->getViewer();
 
-    $changeset = id(new PhabricatorDifferenceEngine())
+    $changeset = id(new PhorgeDifferenceEngine())
       ->generateChangesetFromFileContent($old_lines, $new_lines);
 
     $changeset->setFilename($context->getFilename());
 
-    $viewstate = new PhabricatorChangesetViewState();
+    $viewstate = new PhorgeChangesetViewState();
 
     $parser = id(new DifferentialChangesetParser())
       ->setViewer($viewer)
@@ -559,7 +559,7 @@ final class PHUIDiffInlineCommentDetailView
       $cache_key = sprintf(
         '%s.suggestion-view(v1, %s)',
         $fragment,
-        PhabricatorHash::digestForIndex($new_lines));
+        PhorgeHash::digestForIndex($new_lines));
       $parser->setRenderCacheKey($cache_key);
     }
 
@@ -590,7 +590,7 @@ final class PHUIDiffInlineCommentDetailView
     $view = phutil_tag(
       'div',
       array(
-        'class' => 'inline-suggestion-view PhabricatorMonospaced',
+        'class' => 'inline-suggestion-view PhorgeMonospaced',
       ),
       $diff_view);
 

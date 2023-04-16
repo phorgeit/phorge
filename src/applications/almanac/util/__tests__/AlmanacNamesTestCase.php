@@ -1,6 +1,6 @@
 <?php
 
-final class AlmanacNamesTestCase extends PhabricatorTestCase {
+final class AlmanacNamesTestCase extends PhorgeTestCase {
 
   public function testServiceOrDeviceNames() {
     $map = array(

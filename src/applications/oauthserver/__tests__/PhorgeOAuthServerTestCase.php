@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerTestCase
-  extends PhabricatorTestCase {
+final class PhorgeOAuthServerTestCase
+  extends PhorgeTestCase {
 
   public function testValidateRedirectURI() {
     static $map = array(
@@ -11,7 +11,7 @@ final class PhabricatorOAuthServerTestCase
       'www.google.com'                     => false,
       'http://www.google.com/auth#invalid' => false,
     );
-    $server = new PhabricatorOAuthServer();
+    $server = new PhorgeOAuthServer();
     foreach ($map as $input => $expected) {
       $uri = new PhutilURI($input);
       $result = $server->validateRedirectURI($uri);
@@ -23,7 +23,7 @@ final class PhabricatorOAuthServerTestCase
   }
 
   public function testValidateSecondaryRedirectURI() {
-    $server      = new PhabricatorOAuthServer();
+    $server      = new PhorgeOAuthServer();
     $primary_uri = new PhutilURI('http://www.google.com/');
     static $test_domain_map = array(
       'http://www.google.com'               => false,

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorMetaMTASchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeMetaMTASchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     $this->buildEdgeSchemata(
-      new PhabricatorMetaMTAMail());
+      new PhorgeMetaMTAMail());
   }
 
 }

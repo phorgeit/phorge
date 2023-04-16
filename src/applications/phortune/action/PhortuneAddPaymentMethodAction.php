@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneAddPaymentMethodAction
-  extends PhabricatorSystemAction {
+  extends PhorgeSystemAction {
 
   const TYPECONST = 'phortune.payment-method.add';
 

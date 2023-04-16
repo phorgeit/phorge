@@ -3,14 +3,14 @@
 /**
  * Builds schemata definitions for core infrastructure.
  */
-final class PhabricatorConfigCoreSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeConfigCoreSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
     // Build all Lisk table schemata.
 
     $lisk_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorLiskDAO')
+      ->setAncestorClass('PhorgeLiskDAO')
       ->execute();
 
     $counters = array();
@@ -29,7 +29,7 @@ final class PhabricatorConfigCoreSchemaSpec
     foreach ($counters as $database => $ignored) {
       $this->buildRawSchema(
         $database,
-        PhabricatorLiskDAO::COUNTER_TABLE_NAME,
+        PhorgeLiskDAO::COUNTER_TABLE_NAME,
         array(
           'counterName' => 'text32',
           'counterValue' => 'id64',
@@ -43,7 +43,7 @@ final class PhabricatorConfigCoreSchemaSpec
     }
 
     $ferret_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass('PhorgeFerretInterface')
       ->execute();
 
     foreach ($ferret_objects as $ferret_object) {

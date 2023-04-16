@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorDisqusAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeDisqusAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('Disqus');
   }
 
   protected function getProviderConfigurationHelp() {
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure Disqus OAuth, create a new application here:".

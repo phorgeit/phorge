@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildStepImplementationTestCase
-  extends PhabricatorTestCase {
+  extends PhorgeTestCase {
 
   public function testGetImplementations() {
     HarbormasterBuildStepImplementation::getImplementations();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthContactNumberNumberTransaction
-  extends PhabricatorAuthContactNumberTransactionType {
+final class PhorgeAuthContactNumberNumberTransaction
+  extends PhorgeAuthContactNumberTransactionType {
 
   const TRANSACTIONTYPE = 'number';
 
@@ -10,7 +10,7 @@ final class PhabricatorAuthContactNumberNumberTransaction
   }
 
   public function generateNewValue($object, $value) {
-    $number = new PhabricatorPhoneNumber($value);
+    $number = new PhorgePhoneNumber($value);
     return $number->toE164();
   }
 
@@ -53,7 +53,7 @@ final class PhabricatorAuthContactNumberNumberTransaction
       }
 
       try {
-        new PhabricatorPhoneNumber($new_value);
+        new PhorgePhoneNumber($new_value);
       } catch (Exception $ex) {
         $errors[] = $this->newInvalidError(
           pht(
@@ -69,8 +69,8 @@ final class PhabricatorAuthContactNumberNumberTransaction
         ->setContactNumber($new_value)
         ->newUniqueKey();
 
-      $other = id(new PhabricatorAuthContactNumberQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $other = id(new PhorgeAuthContactNumberQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withUniqueKeys(array($unique_key))
         ->executeOne();
 

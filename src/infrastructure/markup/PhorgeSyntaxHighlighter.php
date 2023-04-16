@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorSyntaxHighlighter extends Phobject {
+final class PhorgeSyntaxHighlighter extends Phobject {
 
   public static function newEngine() {
-    $engine = PhabricatorEnv::newObjectFromConfig('syntax-highlighter.engine');
+    $engine = PhorgeEnv::newObjectFromConfig('syntax-highlighter.engine');
 
     $config = array(
-      'pygments.enabled' => PhabricatorEnv::getEnvConfig('pygments.enabled'),
-      'filename.map'     => PhabricatorEnv::getEnvConfig('syntax.filemap'),
+      'pygments.enabled' => PhorgeEnv::getEnvConfig('pygments.enabled'),
+      'filename.map'     => PhorgeEnv::getEnvConfig('syntax.filemap'),
     );
 
     foreach ($config as $key => $value) {

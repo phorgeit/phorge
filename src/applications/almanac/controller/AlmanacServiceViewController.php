@@ -89,10 +89,10 @@ final class AlmanacServiceViewController
   private function buildCurtain(AlmanacService $service) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $service,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $service->getID();
     $edit_uri = $this->getApplicationURI("service/edit/{$id}/");
@@ -100,7 +100,7 @@ final class AlmanacServiceViewController
     $curtain = $this->newCurtainView($service);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setIcon('fa-pencil')
         ->setName(pht('Edit Service'))
         ->setHref($edit_uri)
@@ -114,10 +114,10 @@ final class AlmanacServiceViewController
     $viewer = $this->getViewer();
     $id = $service->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $service,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $bindings = id(new AlmanacBindingQuery())
       ->setViewer($viewer)

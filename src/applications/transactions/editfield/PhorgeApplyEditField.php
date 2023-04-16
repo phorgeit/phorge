@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplyEditField
-  extends PhabricatorEditField {
+final class PhorgeApplyEditField
+  extends PhorgeEditField {
 
   private $actionDescription;
   private $actionConflictKey;
@@ -69,10 +69,10 @@ final class PhabricatorApplyEditField
   protected function newCommentAction() {
     $options = $this->getOptions();
     if ($options) {
-      $action = id(new PhabricatorEditEngineCheckboxesCommentAction())
+      $action = id(new PhorgeEditEngineCheckboxesCommentAction())
         ->setOptions($options);
     } else {
-      $action = id(new PhabricatorEditEngineStaticCommentAction())
+      $action = id(new PhorgeEditEngineStaticCommentAction())
         ->setDescription($this->getActionDescription());
     }
 

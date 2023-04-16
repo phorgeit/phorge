@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFileTemporaryGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeFileTemporaryGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'files.ttl';
 
@@ -14,11 +14,11 @@ final class PhabricatorFileTemporaryGarbageCollector
   }
 
   protected function collectGarbage() {
-    $files = id(new PhabricatorFile())->loadAllWhere(
+    $files = id(new PhorgeFile())->loadAllWhere(
       'ttl < %d LIMIT 100',
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow());
 
-    $engine = new PhabricatorDestructionEngine();
+    $engine = new PhorgeDestructionEngine();
 
     foreach ($files as $file) {
       $engine->destroyObject($file);

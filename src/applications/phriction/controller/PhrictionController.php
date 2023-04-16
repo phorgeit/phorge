@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhrictionController extends PhabricatorController {
+abstract class PhrictionController extends PhorgeController {
 
   private $showingWelcomeDocument = false;
 
@@ -59,7 +59,7 @@ abstract class PhrictionController extends PhabricatorController {
 
   public function renderBreadcrumbs($slug) {
     $ancestor_handles = array();
-    $ancestral_slugs = PhabricatorSlug::getAncestry($slug);
+    $ancestral_slugs = PhorgeSlug::getAncestry($slug);
     $ancestral_slugs[] = $slug;
     if ($ancestral_slugs) {
       $empty_slugs = array_fill_keys($ancestral_slugs, null);
@@ -80,8 +80,8 @@ abstract class PhrictionController extends PhabricatorController {
         if (isset($ancestors[$slug])) {
           $ancestor_handles[] = $handles[$ancestors[$slug]->getPHID()];
         } else {
-          $handle = new PhabricatorObjectHandle();
-          $handle->setName(PhabricatorSlug::getDefaultTitle($slug));
+          $handle = new PhorgeObjectHandle();
+          $handle->setName(PhorgeSlug::getDefaultTitle($slug));
           $handle->setURI(PhrictionDocument::getSlugURI($slug));
           $ancestor_handles[] = $handle;
         }

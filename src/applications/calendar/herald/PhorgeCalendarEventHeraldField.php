@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorCalendarEventHeraldField extends HeraldField {
+abstract class PhorgeCalendarEventHeraldField extends HeraldField {
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorCalendarEvent);
+    return ($object instanceof PhorgeCalendarEvent);
   }
 
   public function getFieldGroupKey() {
-    return PhabricatorCalendarEventHeraldFieldGroup::FIELDGROUPKEY;
+    return PhorgeCalendarEventHeraldFieldGroup::FIELDGROUPKEY;
   }
 
 }

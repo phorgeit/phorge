@@ -5,7 +5,7 @@ final class PhortuneAdHocProduct extends PhortuneProductImplementation {
   private $ref;
 
   public function loadImplementationsForRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $refs) {
 
     $results = array();

@@ -3,8 +3,8 @@
 final class NuanceItem
   extends NuanceDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   const STATUS_IMPORTING = 'importing';
   const STATUS_ROUTING = 'routing';
@@ -76,7 +76,7 @@ final class NuanceItem
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       NuanceItemPHIDType::TYPECONST);
   }
 
@@ -110,26 +110,26 @@ final class NuanceItem
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     // TODO - this should be based on the queues the item currently resides in
-    return PhabricatorPolicies::POLICY_USER;
+    return PhorgePolicies::POLICY_USER;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     // TODO - requestors should get auto access too!
     return $viewer->getPHID() == $this->ownerPHID;
   }
 
   public function describeAutomaticCapability($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return pht('Owners of an item can always view it.');
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return pht('Owners of an item can always edit it.');
     }
     return null;
@@ -140,7 +140,7 @@ final class NuanceItem
   }
 
   public function scheduleUpdate() {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'NuanceItemUpdateWorker',
       array(
         'itemPHID' => $this->getPHID(),
@@ -186,7 +186,7 @@ final class NuanceItem
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {

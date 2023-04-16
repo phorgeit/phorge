@@ -1,7 +1,7 @@
 <?php
 
 final class PhamePostEditConduitAPIMethod
-  extends PhabricatorEditEngineAPIMethod {
+  extends PhorgeEditEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'phame.post.edit';

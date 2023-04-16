@@ -1,6 +1,6 @@
 <?php
 
-final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhameBlogQuery extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -86,7 +86,7 @@ final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       $file_phids = mpull($blogs, 'getProfileImagePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($this->getViewer())
           ->withPHIDs($file_phids)
@@ -100,7 +100,7 @@ final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
         $file = idx($files, $blog->getProfileImagePHID());
         if (!$file) {
           if (!$default) {
-            $default = PhabricatorFile::loadBuiltin(
+            $default = PhorgeFile::loadBuiltin(
               $this->getViewer(),
               'blog.png');
           }
@@ -114,7 +114,7 @@ final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
       $file_phids = mpull($blogs, 'getHeaderImagePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($this->getViewer())
           ->withPHIDs($file_phids)

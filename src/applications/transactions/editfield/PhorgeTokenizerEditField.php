@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorTokenizerEditField
-  extends PhabricatorPHIDListEditField {
+abstract class PhorgeTokenizerEditField
+  extends PhorgePHIDListEditField {
 
   abstract protected function newDatasource();
 
@@ -41,7 +41,7 @@ abstract class PhabricatorTokenizerEditField
     $datasource = $this->newDatasource()
       ->setViewer($viewer);
 
-    $action = id(new PhabricatorEditEngineTokenizerCommentAction())
+    $action = id(new PhorgeEditEngineTokenizerCommentAction())
       ->setDatasource($datasource);
 
     if ($this->getIsSingleValue()) {

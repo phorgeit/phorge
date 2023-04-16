@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorConduitMethodCallLog
-  extends PhabricatorConduitDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeConduitMethodCallLog
+  extends PhorgeConduitDAO
+  implements PhorgePolicyInterface {
 
   protected $callerPHID;
   protected $connectionID;
@@ -35,20 +35,20 @@ final class PhabricatorConduitMethodCallLog
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_USER;
+    return PhorgePolicies::POLICY_USER;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

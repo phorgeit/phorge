@@ -11,12 +11,12 @@ final class EdgeSearchConduitAPIMethod
     return pht('Read edge relationships between objects.');
   }
 
-  protected function newDocumentationPages(PhabricatorUser $viewer) {
+  protected function newDocumentationPages(PhorgeUser $viewer) {
     $rows = array();
     foreach ($this->getConduitEdgeTypeMap() as $key => $type) {
       $inverse_constant = $type->getInverseEdgeConstant();
       if ($inverse_constant) {
-        $inverse_type = PhabricatorEdgeType::getByConstant($inverse_constant);
+        $inverse_type = PhorgeEdgeType::getByConstant($inverse_constant);
         $inverse = $inverse_type->getConduitKey();
       } else {
         $inverse = null;
@@ -77,7 +77,7 @@ final class EdgeSearchConduitAPIMethod
     $edge_types = $request->getValue('types', array());
     $destination_phids = $request->getValue('destinationPHIDs', array());
 
-    $object_query = id(new PhabricatorObjectQuery())
+    $object_query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($source_phids);
 
@@ -118,7 +118,7 @@ final class EdgeSearchConduitAPIMethod
       $constant_map[$constant] = $edge_type;
     }
 
-    $edge_query = id(new PhabricatorEdgeObjectQuery())
+    $edge_query = id(new PhorgeEdgeObjectQuery())
       ->setViewer($viewer)
       ->withSourcePHIDs($source_phids)
       ->withEdgeTypes($edge_constants);
@@ -146,7 +146,7 @@ final class EdgeSearchConduitAPIMethod
   }
 
   private function getConduitEdgeTypeMap() {
-    $types = PhabricatorEdgeType::getAllTypes();
+    $types = PhorgeEdgeType::getAllTypes();
 
     $map = array();
     foreach ($types as $type) {

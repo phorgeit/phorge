@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorConduitLogSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeConduitLogSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Conduit Logs');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConduitApplication';
+    return 'PhorgeConduitApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,7 +16,7 @@ final class PhabricatorConduitLogSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorConduitLogQuery();
+    return new PhorgeConduitLogQuery();
   }
 
   protected function buildQueryFromParameters(array $map) {
@@ -45,26 +45,26 @@ final class PhabricatorConduitLogSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('callerPHIDs')
         ->setLabel(pht('Callers'))
         ->setAliases(array('caller', 'callers'))
         ->setDescription(pht('Find calls by specific users.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('methods')
         ->setLabel(pht('Methods'))
         ->setDescription(pht('Find calls to specific methods.')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Method Status'))
         ->setAliases(array('status'))
         ->setDescription(
           pht('Find calls to stable, unstable, or deprecated methods.'))
         ->setOptions(ConduitAPIMethod::getMethodStatusMap()),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Called After'))
         ->setKey('epochMin'),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Called Before'))
         ->setKey('epochMax'),
     );
@@ -122,19 +122,19 @@ final class PhabricatorConduitLogSearchEngine
     $viewer = $this->requireViewer();
 
     return array(
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('callerPHID')
         ->setLabel(pht('Caller PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('caller')
         ->setLabel(pht('Caller')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('method')
         ->setLabel(pht('Method')),
-      id(new PhabricatorIntExportField())
+      id(new PhorgeIntExportField())
         ->setKey('duration')
         ->setLabel(pht('Call Duration (us)')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('error')
         ->setLabel(pht('Error')),
     );
@@ -176,12 +176,12 @@ final class PhabricatorConduitLogSearchEngine
 
   protected function renderResultList(
     array $logs,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
-    assert_instances_of($logs, 'PhabricatorConduitMethodCallLog');
+    assert_instances_of($logs, 'PhorgeConduitMethodCallLog');
     $viewer = $this->requireViewer();
 
-    $methods = id(new PhabricatorConduitMethodQuery())
+    $methods = id(new PhorgeConduitMethodQuery())
       ->setViewer($viewer)
       ->execute();
     $methods = mpull($methods, null, 'getAPIMethodName');
@@ -269,7 +269,7 @@ final class PhabricatorConduitLogSearchEngine
           null,
         ));
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setTable($table)
       ->setNoDataString(pht('No matching calls in log.'));
   }

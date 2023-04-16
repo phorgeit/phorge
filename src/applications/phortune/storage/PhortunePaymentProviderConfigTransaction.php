@@ -1,7 +1,7 @@
 <?php
 
 final class PhortunePaymentProviderConfigTransaction
-  extends PhabricatorApplicationTransaction {
+  extends PhorgeApplicationTransaction {
 
   const TYPE_CREATE = 'paymentprovider:create';
   const TYPE_PROPERTY = 'paymentprovider:property';

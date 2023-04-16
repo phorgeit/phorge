@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchRelationshipController
-  extends PhabricatorSearchBaseController {
+final class PhorgeSearchRelationshipController
+  extends PhorgeSearchBaseController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -23,7 +23,7 @@ final class PhabricatorSearchRelationshipController
     // it's a special relationship like a merge, we can't undo it, so we won't
     // prefill the current related objects.
     if ($relationship->canUndoRelationship()) {
-      $dst_phids = PhabricatorEdgeQuery::loadDestinationPHIDs(
+      $dst_phids = PhorgeEdgeQuery::loadDestinationPHIDs(
         $src_phid,
         $edge_type);
     } else {
@@ -68,7 +68,7 @@ final class PhabricatorSearchRelationshipController
       $capabilities = $relationship->getRequiredRelationshipCapabilities();
 
       if ($all_phids) {
-        $dst_objects = id(new PhabricatorObjectQuery())
+        $dst_objects = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withPHIDs($all_phids)
           ->setRaisePolicyExceptions(true)
@@ -112,7 +112,7 @@ final class PhabricatorSearchRelationshipController
         return $this->newUnrelatableObjectResponse($ex, $done_uri);
       }
 
-      $content_source = PhabricatorContentSource::newFromRequest($request);
+      $content_source = PhorgeContentSource::newFromRequest($request);
       $relationship->setContentSource($content_source);
 
       $editor = $object->getApplicationTransactionEditor()
@@ -123,7 +123,7 @@ final class PhabricatorSearchRelationshipController
 
       $xactions = array();
       $xactions[] = $object->getApplicationTransactionTemplate()
-        ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+        ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
         ->setMetadataValue('edge:type', $edge_type)
         ->setNewValue(array(
           '+' => array_fuse($add_phids),
@@ -154,7 +154,7 @@ final class PhabricatorSearchRelationshipController
         }
 
         return id(new AphrontRedirectResponse())->setURI($done_uri);
-      } catch (PhabricatorEdgeCycleException $ex) {
+      } catch (PhorgeEdgeCycleException $ex) {
         return $this->newGraphCycleResponse($ex, $done_uri);
       }
     }
@@ -174,7 +174,7 @@ final class PhabricatorSearchRelationshipController
     $filters = $source->getFilters();
     $selected_filter = $source->getSelectedFilter();
 
-    return id(new PhabricatorObjectSelectorDialog())
+    return id(new PhorgeObjectSelectorDialog())
       ->setUser($viewer)
       ->setInitialPHIDs($initial_phids)
       ->setHandles($handles)
@@ -192,7 +192,7 @@ final class PhabricatorSearchRelationshipController
   }
 
   private function newGraphCycleResponse(
-    PhabricatorEdgeCycleException $ex,
+    PhorgeEdgeCycleException $ex,
     $done_uri) {
 
     $viewer = $this->getViewer();

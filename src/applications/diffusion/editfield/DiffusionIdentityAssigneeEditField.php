@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionIdentityAssigneeEditField
-  extends PhabricatorTokenizerEditField {
+  extends PhorgeTokenizerEditField {
 
   protected function newDatasource() {
     return new DiffusionIdentityAssigneeDatasource();

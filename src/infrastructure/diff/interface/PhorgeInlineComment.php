@@ -1,9 +1,9 @@
 <?php
 
-abstract class PhabricatorInlineComment
+abstract class PhorgeInlineComment
   extends Phobject
   implements
-    PhabricatorMarkupInterface {
+    PhorgeMarkupInterface {
 
   const MARKUP_FIELD_BODY = 'markup:body';
 
@@ -22,7 +22,7 @@ abstract class PhabricatorInlineComment
   }
 
   final public static function loadAndAttachVersionedDrafts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $inlines) {
 
     $viewer_phid = $viewer->getPHID();
@@ -49,7 +49,7 @@ abstract class PhabricatorInlineComment
       return;
     }
 
-    $drafts = PhabricatorVersionedDraft::loadDrafts(
+    $drafts = PhorgeVersionedDraft::loadDrafts(
       array_keys($load),
       $viewer_phid);
 
@@ -109,7 +109,7 @@ abstract class PhabricatorInlineComment
     return $this->getStorageObject()->getTransactionPHID();
   }
 
-  public function isCompatible(PhabricatorInlineComment $comment) {
+  public function isCompatible(PhorgeInlineComment $comment) {
     return
       ($this->getAuthorPHID() === $comment->getAuthorPHID()) &&
       ($this->getSyntheticAuthor() === $comment->getSyntheticAuthor()) &&
@@ -282,8 +282,8 @@ abstract class PhabricatorInlineComment
   }
 
   public function attachVersionedDraftForViewer(
-    PhabricatorUser $viewer,
-    PhabricatorVersionedDraft $draft = null) {
+    PhorgeUser $viewer,
+    PhorgeVersionedDraft $draft = null) {
 
     $key = $viewer->getCacheFragment();
     $this->versionedDrafts[$key] = $draft;
@@ -291,12 +291,12 @@ abstract class PhabricatorInlineComment
     return $this;
   }
 
-  public function hasVersionedDraftForViewer(PhabricatorUser $viewer) {
+  public function hasVersionedDraftForViewer(PhorgeUser $viewer) {
     $key = $viewer->getCacheFragment();
     return array_key_exists($key, $this->versionedDrafts);
   }
 
-  public function getVersionedDraftForViewer(PhabricatorUser $viewer) {
+  public function getVersionedDraftForViewer(PhorgeUser $viewer) {
     $key = $viewer->getCacheFragment();
     if (!array_key_exists($key, $this->versionedDrafts)) {
       throw new Exception(
@@ -308,11 +308,11 @@ abstract class PhabricatorInlineComment
     return $this->versionedDrafts[$key];
   }
 
-  public function isVoidComment(PhabricatorUser $viewer) {
+  public function isVoidComment(PhorgeUser $viewer) {
     return $this->getContentStateForEdit($viewer)->isEmptyContentState();
   }
 
-  public function getContentStateForEdit(PhabricatorUser $viewer) {
+  public function getContentStateForEdit(PhorgeUser $viewer) {
     $state = $this->getContentState();
 
     if ($this->hasVersionedDraftForViewer($viewer)) {
@@ -329,7 +329,7 @@ abstract class PhabricatorInlineComment
   }
 
   protected function newContentState() {
-    return new PhabricatorDiffInlineCommentContentState();
+    return new PhorgeDiffInlineCommentContentState();
   }
 
   public function newContentStateFromRequest(AphrontRequest $request) {
@@ -341,7 +341,7 @@ abstract class PhabricatorInlineComment
   }
 
   public function setInitialContentState(
-    PhabricatorInlineCommentContentState $state) {
+    PhorgeInlineCommentContentState $state) {
     return $this->setNamedContentState('inline.state.initial', $state);
   }
 
@@ -350,7 +350,7 @@ abstract class PhabricatorInlineComment
   }
 
   public function setCommittedContentState(
-    PhabricatorInlineCommentContentState $state) {
+    PhorgeInlineCommentContentState $state) {
     return $this->setNamedContentState('inline.state.committed', $state);
   }
 
@@ -366,7 +366,7 @@ abstract class PhabricatorInlineComment
     return $state;
   }
 
-  public function setContentState(PhabricatorInlineCommentContentState $state) {
+  public function setContentState(PhorgeInlineCommentContentState $state) {
     $this->setContent($state->getContentText());
 
     return $this->setNamedContentState('inline.state', $state);
@@ -387,7 +387,7 @@ abstract class PhabricatorInlineComment
 
   private function setNamedContentState(
     $key,
-    PhabricatorInlineCommentContentState $state) {
+    PhorgeInlineCommentContentState $state) {
 
     $storage = $this->getStorageObject();
     $storage_map = $state->newStorageMap();
@@ -400,7 +400,7 @@ abstract class PhabricatorInlineComment
     return $this->getStorageObject()->getInlineContext();
   }
 
-  public function getContentStateMapForEdit(PhabricatorUser $viewer) {
+  public function getContentStateMapForEdit(PhorgeUser $viewer) {
     return $this->getWireContentStateMap(true, $viewer);
   }
 
@@ -410,7 +410,7 @@ abstract class PhabricatorInlineComment
 
   private function getWireContentStateMap(
     $is_edit,
-    PhabricatorUser $viewer = null) {
+    PhorgeUser $viewer = null) {
 
     $initial_state = $this->getInitialContentState();
     $committed_state = $this->getCommittedContentState();
@@ -450,16 +450,16 @@ abstract class PhabricatorInlineComment
   }
 
 
-/* -(  PhabricatorMarkupInterface Implementation  )-------------------------- */
+/* -(  PhorgeMarkupInterface Implementation  )-------------------------- */
 
 
   public function getMarkupFieldKey($field) {
     $content = $this->getMarkupText($field);
-    return PhabricatorMarkupEngine::digestRemarkupContent($this, $content);
+    return PhorgeMarkupEngine::digestRemarkupContent($this, $content);
   }
 
   public function newMarkupEngine($field) {
-    return PhabricatorMarkupEngine::newDifferentialMarkupEngine();
+    return PhorgeMarkupEngine::newDifferentialMarkupEngine();
   }
 
   public function getMarkupText($field) {

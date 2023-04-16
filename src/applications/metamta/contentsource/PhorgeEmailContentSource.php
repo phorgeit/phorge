@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailContentSource
-  extends PhabricatorContentSource {
+final class PhorgeEmailContentSource
+  extends PhorgeContentSource {
 
   const SOURCECONST = 'email';
 

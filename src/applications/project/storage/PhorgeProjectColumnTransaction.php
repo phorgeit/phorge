@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorProjectColumnTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeProjectColumnTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'project';
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorProjectColumnPHIDType::TYPECONST;
+    return PhorgeProjectColumnPHIDType::TYPECONST;
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorProjectColumnTransactionType';
+    return 'PhorgeProjectColumnTransactionType';
   }
 
 }

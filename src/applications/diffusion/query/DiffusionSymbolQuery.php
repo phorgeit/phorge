@@ -2,14 +2,14 @@
 
 /**
  * Query symbol information (class and function names and location), returning
- * a list of matching @{class:PhabricatorRepositorySymbol} objects and possibly
+ * a list of matching @{class:PhorgeRepositorySymbol} objects and possibly
  * attached data.
  *
  * @task config   Configuring the Query
  * @task exec     Executing the Query
  * @task internal Internals
  */
-final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
+final class DiffusionSymbolQuery extends PhorgeOffsetPagedQuery {
 
   private $viewer;
   private $context;
@@ -29,7 +29,7 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
   /**
    * @task config
    */
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -120,7 +120,7 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
       ->withRepositoryPHIDs(array($repository_phid))
       ->setLimit(1);
 
-    $symbol = new PhabricatorRepositorySymbol();
+    $symbol = new PhorgeRepositorySymbol();
     $conn_r = $symbol->establishConnection('r');
 
     $data = queryfx_all(
@@ -148,7 +148,7 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
         pht('You must set a name or a name prefix!'));
     }
 
-    $symbol = new PhabricatorRepositorySymbol();
+    $symbol = new PhorgeRepositorySymbol();
     $conn_r = $symbol->establishConnection('r');
 
     $data = queryfx_all(
@@ -245,11 +245,11 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
    * @task internal
    */
   private function loadPaths(array $symbols) {
-    assert_instances_of($symbols, 'PhabricatorRepositorySymbol');
+    assert_instances_of($symbols, 'PhorgeRepositorySymbol');
     $path_map = queryfx_all(
-      id(new PhabricatorRepository())->establishConnection('r'),
+      id(new PhorgeRepository())->establishConnection('r'),
       'SELECT * FROM %T WHERE id IN (%Ld)',
-      PhabricatorRepository::TABLE_PATH,
+      PhorgeRepository::TABLE_PATH,
       mpull($symbols, 'getPathID'));
     $path_map = ipull($path_map, 'path', 'id');
     foreach ($symbols as $symbol) {
@@ -262,9 +262,9 @@ final class DiffusionSymbolQuery extends PhabricatorOffsetPagedQuery {
    * @task internal
    */
   private function loadRepositories(array $symbols) {
-    assert_instances_of($symbols, 'PhabricatorRepositorySymbol');
+    assert_instances_of($symbols, 'PhorgeRepositorySymbol');
 
-    $repos = id(new PhabricatorRepositoryQuery())
+    $repos = id(new PhorgeRepositoryQuery())
       ->setViewer($this->viewer)
       ->withPHIDs(mpull($symbols, 'getRepositoryPHID'))
       ->execute();

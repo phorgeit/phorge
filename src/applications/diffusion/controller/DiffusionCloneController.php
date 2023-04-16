@@ -19,7 +19,7 @@ final class DiffusionCloneController extends DiffusionController {
     $view = id(new PHUIPropertyListView())
       ->setUser($viewer);
 
-    $display_never = PhabricatorRepositoryURI::DISPLAY_NEVER;
+    $display_never = PhorgeRepositoryURI::DISPLAY_NEVER;
     $warning = null;
 
     $uris = $repository->getURIs();
@@ -97,8 +97,8 @@ final class DiffusionCloneController extends DiffusionController {
   }
 
   private function renderCloneURI(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryURI $uri) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryURI $uri) {
 
     if ($repository->isSVN()) {
       $display = csprintf(

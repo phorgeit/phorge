@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalUserDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectLogicalUserDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse User Projects');
@@ -12,12 +12,12 @@ final class PhabricatorProjectLogicalUserDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorPeopleDatasource(),
+      new PhorgePeopleDatasource(),
     );
   }
 
@@ -42,7 +42,7 @@ final class PhabricatorProjectLogicalUserDatasource
     foreach ($results as $result) {
       $result
         ->setColor(null)
-        ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+        ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
         ->setIcon('fa-asterisk')
         ->setPHID('projects('.$result->getPHID().')')
         ->setDisplayName(pht("User's Projects: %s", $result->getDisplayName()))
@@ -60,15 +60,15 @@ final class PhabricatorProjectLogicalUserDatasource
 
     $phids = $this->resolvePHIDs($phids);
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($this->getViewer())
       ->withMemberPHIDs($phids)
       ->execute();
 
     $results = array();
     foreach ($projects as $project) {
-      $results[] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_OR,
+      $results[] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_OR,
         $project->getPHID());
     }
 
@@ -92,7 +92,7 @@ final class PhabricatorProjectLogicalUserDatasource
       } else {
         $token
           ->setIcon('fa-asterisk')
-          ->setTokenType(PhabricatorTypeaheadTokenView::TYPE_FUNCTION)
+          ->setTokenType(PhorgeTypeaheadTokenView::TYPE_FUNCTION)
           ->setKey('projects('.$token->getKey().')')
           ->setValue(pht("User's Projects: %s", $token->getValue()));
       }
@@ -113,13 +113,13 @@ final class PhabricatorProjectLogicalUserDatasource
 
     $usernames = array();
     foreach ($phids as $key => $phid) {
-      if (phid_get_type($phid) != PhabricatorPeopleUserPHIDType::TYPECONST) {
+      if (phid_get_type($phid) != PhorgePeopleUserPHIDType::TYPECONST) {
         $usernames[$key] = $phid;
       }
     }
 
     if ($usernames) {
-      $users = id(new PhabricatorPeopleQuery())
+      $users = id(new PhorgePeopleQuery())
         ->setViewer($this->getViewer())
         ->withUsernames($usernames)
         ->execute();

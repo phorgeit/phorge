@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDaemonEventListener extends PhabricatorEventListener {
+final class PhorgeDaemonEventListener extends PhorgeEventListener {
 
   private $daemons = array();
 
@@ -36,13 +36,13 @@ final class PhabricatorDaemonEventListener extends PhabricatorEventListener {
     $id = $event->getValue('id');
     $current_user = posix_getpwuid(posix_geteuid());
 
-    $daemon = id(new PhabricatorDaemonLog())
+    $daemon = id(new PhorgeDaemonLog())
       ->setDaemonID($id)
       ->setDaemon($event->getValue('daemonClass'))
       ->setHost(php_uname('n'))
       ->setPID(getmypid())
       ->setRunningAsUser($current_user['name'])
-      ->setStatus(PhabricatorDaemonLog::STATUS_RUNNING)
+      ->setStatus(PhorgeDaemonLog::STATUS_RUNNING)
       ->setArgv($event->getValue('argv'))
       ->setExplicitArgv($event->getValue('explicitArgv'))
       ->save();
@@ -75,7 +75,7 @@ final class PhabricatorDaemonEventListener extends PhabricatorEventListener {
 
     $message = phutil_utf8ize($message);
 
-    id(new PhabricatorDaemonLogEvent())
+    id(new PhorgeDaemonLogEvent())
       ->setLogID($daemon->getID())
       ->setLogType($type)
       ->setMessage((string)$message)
@@ -84,10 +84,10 @@ final class PhabricatorDaemonEventListener extends PhabricatorEventListener {
 
     switch ($type) {
       case 'WAIT':
-        $current_status = PhabricatorDaemonLog::STATUS_WAIT;
+        $current_status = PhorgeDaemonLog::STATUS_WAIT;
         break;
       default:
-        $current_status = PhabricatorDaemonLog::STATUS_RUNNING;
+        $current_status = PhorgeDaemonLog::STATUS_RUNNING;
         break;
     }
 
@@ -100,14 +100,14 @@ final class PhabricatorDaemonEventListener extends PhabricatorEventListener {
     $id = $event->getValue('id');
 
     $daemon = $this->getDaemon($id);
-    $daemon->setStatus(PhabricatorDaemonLog::STATUS_EXITING)->save();
+    $daemon->setStatus(PhorgeDaemonLog::STATUS_EXITING)->save();
   }
 
   private function handleExitEvent(PhutilEvent $event) {
     $id = $event->getValue('id');
 
     $daemon = $this->getDaemon($id);
-    $daemon->setStatus(PhabricatorDaemonLog::STATUS_EXITED)->save();
+    $daemon->setStatus(PhorgeDaemonLog::STATUS_EXITED)->save();
 
     unset($this->daemons[$id]);
   }

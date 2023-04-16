@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorMetaMTAMail();
+$table = new PhorgeMetaMTAMail();
 $conn_w = $table->establishConnection('w');
 
 echo pht('Assigning PHIDs to mails...')."\n";

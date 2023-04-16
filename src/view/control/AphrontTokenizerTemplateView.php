@@ -19,7 +19,7 @@ final class AphrontTokenizerTemplateView extends AphrontView {
   }
 
   public function setValue(array $value) {
-    assert_instances_of($value, 'PhabricatorTypeaheadTokenView');
+    assert_instances_of($value, 'PhorgeTypeaheadTokenView');
     $this->value = $value;
     return $this;
   }

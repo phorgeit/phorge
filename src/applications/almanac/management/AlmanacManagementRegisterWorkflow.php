@@ -82,7 +82,7 @@ final class AlmanacManagementRegisterWorkflow
 
     $raw_private_key = Filesystem::readFile($private_key_path);
 
-    $phd_user = PhabricatorEnv::getEnvConfig('phd.user');
+    $phd_user = PhorgeEnv::getEnvConfig('phd.user');
     if (!$phd_user) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -136,9 +136,9 @@ final class AlmanacManagementRegisterWorkflow
 
     list($raw_public_key) = execx('ssh-keygen -y -f %s', $tmp_private);
 
-    $key_object = PhabricatorAuthSSHPublicKey::newFromRawKey($raw_public_key);
+    $key_object = PhorgeAuthSSHPublicKey::newFromRawKey($raw_public_key);
 
-    $public_key = id(new PhabricatorAuthSSHKeyQuery())
+    $public_key = id(new PhorgeAuthSSHKeyQuery())
       ->setViewer($this->getViewer())
       ->withKeys(array($key_object))
       ->withIsActive(true)

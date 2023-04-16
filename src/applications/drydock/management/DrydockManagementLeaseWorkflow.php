@@ -99,7 +99,7 @@ final class DrydockManagementLeaseWorkflow
       $lease = id(new DrydockLease())
         ->setResourceType($resource_type);
 
-      $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+      $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
       $lease->setAuthorizingPHID($drydock_phid);
 
       if ($attributes) {
@@ -144,7 +144,7 @@ final class DrydockManagementLeaseWorkflow
 
       echo tsprintf(
         "        __%s__\n",
-        PhabricatorEnv::getProductionURI($lease->getURI()));
+        PhorgeEnv::getProductionURI($lease->getURI()));
     }
 
     echo tsprintf(

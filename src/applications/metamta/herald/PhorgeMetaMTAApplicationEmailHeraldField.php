@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAApplicationEmailHeraldField
+final class PhorgeMetaMTAApplicationEmailHeraldField
   extends HeraldField {
 
   const FIELDCONST = 'application-email';
@@ -33,7 +33,7 @@ final class PhabricatorMetaMTAApplicationEmailHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorMetaMTAApplicationEmailDatasource();
+    return new PhorgeMetaMTAApplicationEmailDatasource();
   }
 
 }

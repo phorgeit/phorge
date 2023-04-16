@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorProjectTriggerCorruptionException
+final class PhorgeProjectTriggerCorruptionException
   extends Exception {}

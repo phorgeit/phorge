@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDarkConsoleTabSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeDarkConsoleTabSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'darkconsole.tab';
 

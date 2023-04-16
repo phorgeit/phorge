@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectReportsProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeProjectReportsProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'project.reports';
 
@@ -18,24 +18,24 @@ final class PhabricatorProjectReportsProfileMenuItem
   }
 
   public function canMakeDefault(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return true;
   }
 
   public function shouldEnableForObject($object) {
     $viewer = $this->getViewer();
 
-    if (!PhabricatorEnv::getEnvConfig('phorge.show-prototypes')) {
+    if (!PhorgeEnv::getEnvConfig('phorge.show-prototypes')) {
       return false;
     }
 
-    $class = 'PhabricatorManiphestApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeManiphestApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }
 
-    $class = 'PhabricatorFactApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeFactApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }
 
@@ -43,7 +43,7 @@ final class PhabricatorProjectReportsProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
     if (strlen($name)) {
@@ -54,9 +54,9 @@ final class PhabricatorProjectReportsProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setPlaceholder($this->getDefaultName())
@@ -65,7 +65,7 @@ final class PhabricatorProjectReportsProfileMenuItem
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $project = $config->getProfileObject();
 
     $id = $project->getID();

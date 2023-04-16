@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorExportField
+abstract class PhorgeExportField
   extends Phobject {
 
   private $key;

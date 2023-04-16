@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorGoogleAuthProvider
-  extends PhabricatorOAuth2AuthProvider {
+final class PhorgeGoogleAuthProvider
+  extends PhorgeOAuth2AuthProvider {
 
   public function getProviderName() {
     return pht('Google');
   }
 
   protected function getProviderConfigurationHelp() {
-    $login_uri = PhabricatorEnv::getURI($this->getLoginURI());
+    $login_uri = PhorgeEnv::getURI($this->getLoginURI());
 
     return pht(
       "To configure Google OAuth, create a new 'API Project' here:".
@@ -41,7 +41,7 @@ final class PhabricatorGoogleAuthProvider
   }
 
   public function getLoginURI() {
-    // TODO: Clean this up. See PhabricatorAuthOldOAuthRedirectController.
+    // TODO: Clean this up. See PhorgeAuthOldOAuthRedirectController.
     return '/oauth/google/login/';
   }
 

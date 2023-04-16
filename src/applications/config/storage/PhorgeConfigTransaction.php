@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeConfigTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_EDIT = 'config:edit';
 
@@ -10,7 +10,7 @@ final class PhabricatorConfigTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorConfigConfigPHIDType::TYPECONST;
+    return PhorgeConfigConfigPHIDType::TYPECONST;
   }
 
   public function getTitle() {
@@ -107,20 +107,20 @@ final class PhabricatorConfigTransaction
     return parent::hasChangeDetails();
   }
 
-  public function renderChangeDetails(PhabricatorUser $viewer) {
+  public function renderChangeDetails(PhorgeUser $viewer) {
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
     if ($old['deleted']) {
       $old_text = '';
     } else {
-      $old_text = PhabricatorConfigJSON::prettyPrintJSON($old['value']);
+      $old_text = PhorgeConfigJSON::prettyPrintJSON($old['value']);
     }
 
     if ($new['deleted']) {
       $new_text = '';
     } else {
-      $new_text = PhabricatorConfigJSON::prettyPrintJSON($new['value']);
+      $new_text = PhorgeConfigJSON::prettyPrintJSON($new['value']);
     }
 
     return $this->renderTextCorpusChangeDetails(
@@ -139,11 +139,11 @@ final class PhabricatorConfigTransaction
         $new_del = idx($new, 'deleted');
 
         if ($old_del && !$new_del) {
-          return PhabricatorTransactions::COLOR_GREEN;
+          return PhorgeTransactions::COLOR_GREEN;
         } else if (!$old_del && $new_del) {
-          return PhabricatorTransactions::COLOR_RED;
+          return PhorgeTransactions::COLOR_RED;
         } else {
-          return PhabricatorTransactions::COLOR_BLUE;
+          return PhorgeTransactions::COLOR_BLUE;
         }
         break;
     }

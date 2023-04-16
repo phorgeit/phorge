@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCustomFieldStorage
-  extends PhabricatorCustomFieldStorage {
+  extends PhorgeCustomFieldStorage {
 
   public function getApplicationName() {
     return 'differential';

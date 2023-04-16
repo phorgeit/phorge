@@ -19,7 +19,7 @@ abstract class PhutilAuthAdapter extends Phobject {
 
   final public function getAccountIdentifiers() {
     $result = $this->newAccountIdentifiers();
-    assert_instances_of($result, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of($result, 'PhorgeExternalAccountIdentifier');
     return $result;
   }
 
@@ -35,7 +35,7 @@ abstract class PhutilAuthAdapter extends Phobject {
   }
 
   final protected function newAccountIdentifier($raw_identifier) {
-    return id(new PhabricatorExternalAccountIdentifier())
+    return id(new PhorgeExternalAccountIdentifier())
       ->setIdentifierRaw($raw_identifier);
   }
 

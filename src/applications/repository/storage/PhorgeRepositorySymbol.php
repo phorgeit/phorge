@@ -6,7 +6,7 @@
  *
  * Query symbols with @{class:DiffusionSymbolQuery}.
  */
-final class PhabricatorRepositorySymbol extends PhabricatorRepositoryDAO {
+final class PhorgeRepositorySymbol extends PhorgeRepositoryDAO {
 
   protected $repositoryPHID;
   protected $symbolContext;
@@ -50,7 +50,7 @@ final class PhabricatorRepositorySymbol extends PhabricatorRepositoryDAO {
 
     $request = DiffusionRequest::newFromDictionary(
       array(
-        'user' => PhabricatorUser::getOmnipotentUser(),
+        'user' => PhorgeUser::getOmnipotentUser(),
         'repository' => $this->getRepository(),
       ));
     return $request->generateURI(
@@ -74,7 +74,7 @@ final class PhabricatorRepositorySymbol extends PhabricatorRepositoryDAO {
     return $this->assertAttached($this->repository);
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }

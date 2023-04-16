@@ -38,7 +38,7 @@ final class DifferentialRevisionTestPlanTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText($this->getOldValue())
       ->setNewText($this->getNewValue());
@@ -60,7 +60,7 @@ final class DifferentialRevisionTestPlanTransaction
       $xactions,
       pht('Test Plan'));
 
-    $is_required = PhabricatorEnv::getEnvConfig(
+    $is_required = PhorgeEnv::getEnvConfig(
       'differential.require-test-plan-field');
 
     if ($is_required) {

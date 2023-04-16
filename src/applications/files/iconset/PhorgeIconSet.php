@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorIconSet
+abstract class PhorgeIconSet
   extends Phobject {
 
   final public function getIconSetKey() {
@@ -44,7 +44,7 @@ abstract class PhabricatorIconSet
     return $key;
   }
 
-  final public function renderIconForControl(PhabricatorIconSetIcon $icon) {
+  final public function renderIconForControl(PhorgeIconSetIcon $icon) {
     return phutil_tag(
       'span',
       array(),

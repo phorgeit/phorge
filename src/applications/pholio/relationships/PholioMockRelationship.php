@@ -1,13 +1,13 @@
 <?php
 
 abstract class PholioMockRelationship
-  extends PhabricatorObjectRelationship {
+  extends PhorgeObjectRelationship {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorPholioApplication',
+    $has_app = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgePholioApplication',
       $viewer);
     if (!$has_app) {
       return false;

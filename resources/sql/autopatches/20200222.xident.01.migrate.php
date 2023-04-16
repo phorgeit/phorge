@@ -1,7 +1,7 @@
 <?php
 
-$account_table = new PhabricatorExternalAccount();
-$identifier_table = new PhabricatorExternalAccountIdentifier();
+$account_table = new PhorgeExternalAccount();
+$identifier_table = new PhorgeExternalAccountIdentifier();
 
 $conn = $account_table->establishConnection('w');
 $table_name = $account_table->getTableName();
@@ -33,7 +33,7 @@ foreach ($iterator as $account_row) {
     $identifier_table->generatePHID(),
     $account_row['phid'],
     $account_row['providerConfigPHID'],
-    PhabricatorHash::digestForIndex($account_id),
+    PhorgeHash::digestForIndex($account_id),
     $account_id,
     $account_row['dateCreated'],
     $account_row['dateModified']);

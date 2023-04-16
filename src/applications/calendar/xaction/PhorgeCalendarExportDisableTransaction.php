@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportDisableTransaction
-  extends PhabricatorCalendarExportTransactionType {
+final class PhorgeCalendarExportDisableTransaction
+  extends PhorgeCalendarExportTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.export.disable';
 

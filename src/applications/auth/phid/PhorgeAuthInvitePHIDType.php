@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthInvitePHIDType extends PhabricatorPHIDType {
+final class PhorgeAuthInvitePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'AINV';
 
@@ -9,21 +9,21 @@ final class PhabricatorAuthInvitePHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorAuthInvite();
+    return new PhorgeAuthInvite();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return 'PhorgeAuthApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
     throw new PhutilMethodNotImplementedException();
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

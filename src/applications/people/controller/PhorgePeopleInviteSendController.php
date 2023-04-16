@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleInviteSendController
-  extends PhabricatorPeopleInviteController {
+final class PhorgePeopleInviteSendController
+  extends PhorgePeopleInviteController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -38,7 +38,7 @@ final class PhabricatorPeopleInviteSendController
       if (!$errors) {
         $is_confirm = true;
 
-        $actions = PhabricatorAuthInviteAction::newActionListFromAddresses(
+        $actions = PhorgeAuthInviteAction::newActionListFromAddresses(
           $viewer,
           $email_list);
 
@@ -137,7 +137,7 @@ final class PhabricatorPeopleInviteSendController
         $handles = $this->loadViewerHandles(mpull($actions, 'getUserPHID'));
       }
 
-      $invite_table = id(new PhabricatorAuthInviteActionTableView())
+      $invite_table = id(new PhorgeAuthInviteActionTableView())
         ->setUser($viewer)
         ->setInviteActions($actions)
         ->setHandles($handles);

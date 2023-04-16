@@ -1,26 +1,26 @@
 <?php
 
-final class PhabricatorOwnersPackageFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeOwnersPackageFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $package = $object;
     $document->setDocumentTitle($package->getName());
 
     // TODO: These are bogus, but not currently stored on packages.
-    $document->setDocumentCreated(PhabricatorTime::getNow());
-    $document->setDocumentModified(PhabricatorTime::getNow());
+    $document->setDocumentCreated(PhorgeTime::getNow());
+    $document->setDocumentModified(PhorgeTime::getNow());
 
     $document->addRelationship(
       $package->isArchived()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $package->getPHID(),
-      PhabricatorOwnersPackagePHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeOwnersPackagePHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 
 }

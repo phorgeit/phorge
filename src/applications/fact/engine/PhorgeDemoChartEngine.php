@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorDemoChartEngine
-  extends PhabricatorChartEngine {
+final class PhorgeDemoChartEngine
+  extends PhorgeChartEngine {
 
   const CHARTENGINEKEY = 'facts.demo';
 
-  protected function newChart(PhabricatorFactChart $chart, array $map) {
+  protected function newChart(PhorgeFactChart $chart, array $map) {
     $viewer = $this->getViewer();
 
     $functions = array();
@@ -37,7 +37,7 @@ final class PhabricatorDemoChartEngine
 
     $datasets = array();
 
-    $datasets[] = id(new PhabricatorChartStackedAreaDataset())
+    $datasets[] = id(new PhorgeChartStackedAreaDataset())
       ->setFunctions($functions);
 
     $chart->attachDatasets($datasets);

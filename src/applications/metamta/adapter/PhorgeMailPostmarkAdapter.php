@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorMailPostmarkAdapter
-  extends PhabricatorMailAdapter {
+final class PhorgeMailPostmarkAdapter
+  extends PhorgeMailAdapter {
 
   const ADAPTERTYPE = 'postmark';
 
   public function getSupportedMessageTypes() {
     return array(
-      PhabricatorMailEmailMessage::MESSAGETYPE,
+      PhorgeMailEmailMessage::MESSAGETYPE,
     );
   }
 
@@ -42,7 +42,7 @@ final class PhabricatorMailPostmarkAdapter
     );
   }
 
-  public function sendMessage(PhabricatorMailExternalMessage $message) {
+  public function sendMessage(PhorgeMailExternalMessage $message) {
     $access_token = $this->getOption('access-token');
 
     $parameters = array();

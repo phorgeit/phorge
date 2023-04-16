@@ -135,13 +135,13 @@ final class DivinerSymbolRemarkupRule extends PhutilRemarkupRule {
 
       if ($this->getEngine()->isTextMode()) {
         if ($href) {
-          $link = $title.' <'.PhabricatorEnv::getProductionURI($href).'>';
+          $link = $title.' <'.PhorgeEnv::getProductionURI($href).'>';
         } else {
           $link = $title;
         }
       } else if ($href) {
         if ($this->getEngine()->isHTMLMailMode()) {
-          $href = PhabricatorEnv::getProductionURI($href);
+          $href = PhorgeEnv::getProductionURI($href);
         }
 
         $link = $this->newTag(

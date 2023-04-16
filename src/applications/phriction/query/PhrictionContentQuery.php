@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionContentQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -118,7 +118,7 @@ final class PhrictionContentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
 }

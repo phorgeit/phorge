@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorMailAdapterTestCase
-  extends PhabricatorTestCase {
+final class PhorgeMailAdapterTestCase
+  extends PhorgeTestCase {
 
   public function testSupportsMessageID() {
     $cases = array(
       array(
         pht('Amazon SES'),
         false,
-        new PhabricatorMailAmazonSESAdapter(),
+        new PhorgeMailAmazonSESAdapter(),
         array(
           'access-key' => 'test',
           'secret-key' => 'test',
@@ -20,7 +20,7 @@ final class PhabricatorMailAdapterTestCase
       array(
         pht('Mailgun'),
         true,
-        new PhabricatorMailMailgunAdapter(),
+        new PhorgeMailMailgunAdapter(),
         array(
           'api-key' => 'test',
           'domain' => 'test',
@@ -31,14 +31,14 @@ final class PhabricatorMailAdapterTestCase
       array(
         pht('Sendmail'),
         true,
-        new PhabricatorMailSendmailAdapter(),
+        new PhorgeMailSendmailAdapter(),
         array(),
       ),
 
       array(
         pht('Sendmail (Explicit Config)'),
         false,
-        new PhabricatorMailSendmailAdapter(),
+        new PhorgeMailSendmailAdapter(),
         array(
           'message-id' => false,
         ),
@@ -47,14 +47,14 @@ final class PhabricatorMailAdapterTestCase
       array(
         pht('SMTP (Local)'),
         true,
-        new PhabricatorMailSMTPAdapter(),
+        new PhorgeMailSMTPAdapter(),
         array(),
       ),
 
       array(
         pht('SMTP (Local + Explicit)'),
         false,
-        new PhabricatorMailSMTPAdapter(),
+        new PhorgeMailSMTPAdapter(),
         array(
           'message-id' => false,
         ),
@@ -63,7 +63,7 @@ final class PhabricatorMailAdapterTestCase
       array(
         pht('SMTP (AWS)'),
         false,
-        new PhabricatorMailSMTPAdapter(),
+        new PhorgeMailSMTPAdapter(),
         array(
           'host' => 'test.amazonaws.com',
         ),
@@ -72,7 +72,7 @@ final class PhabricatorMailAdapterTestCase
       array(
         pht('SMTP (AWS + Explicit)'),
         true,
-        new PhabricatorMailSMTPAdapter(),
+        new PhorgeMailSMTPAdapter(),
         array(
           'host' => 'test.amazonaws.com',
           'message-id' => true,

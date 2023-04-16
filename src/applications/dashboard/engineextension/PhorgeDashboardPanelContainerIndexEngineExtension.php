@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelContainerIndexEngineExtension
-  extends PhabricatorEdgeIndexEngineExtension {
+final class PhorgeDashboardPanelContainerIndexEngineExtension
+  extends PhorgeEdgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'dashboard.panel.container';
 
@@ -10,7 +10,7 @@ final class PhabricatorDashboardPanelContainerIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    if (!($object instanceof PhabricatorDashboardPanelContainerInterface)) {
+    if (!($object instanceof PhorgeDashboardPanelContainerInterface)) {
       return false;
     }
 
@@ -18,7 +18,7 @@ final class PhabricatorDashboardPanelContainerIndexEngineExtension
   }
 
   protected function getIndexEdgeType() {
-    return PhabricatorObjectUsesDashboardPanelEdgeType::EDGECONST;
+    return PhorgeObjectUsesDashboardPanelEdgeType::EDGECONST;
   }
 
   protected function getIndexDestinationPHIDs($object) {

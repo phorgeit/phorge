@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorLogoutController
-  extends PhabricatorAuthController {
+final class PhorgeLogoutController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     // See T13310. We allow access to the "Logout" controller even if you are
@@ -50,19 +50,19 @@ final class PhabricatorLogoutController
       // Destroy the user's session in the database so logout works even if
       // their cookies have some issues. We'll detect cookie issues when they
       // try to login again and tell them to clear any junk.
-      $phsid = $request->getCookie(PhabricatorCookies::COOKIE_SESSION);
+      $phsid = $request->getCookie(PhorgeCookies::COOKIE_SESSION);
       if (strlen($phsid)) {
-        $session = id(new PhabricatorAuthSessionQuery())
+        $session = id(new PhorgeAuthSessionQuery())
           ->setViewer($viewer)
           ->withSessionKeys(array($phsid))
           ->executeOne();
 
         if ($session) {
-          $engine = new PhabricatorAuthSessionEngine();
+          $engine = new PhorgeAuthSessionEngine();
           $engine->logoutSession($viewer, $session);
         }
       }
-      $request->clearCookie(PhabricatorCookies::COOKIE_SESSION);
+      $request->clearCookie(PhorgeCookies::COOKIE_SESSION);
 
       return id(new AphrontRedirectResponse())
         ->setURI('/auth/loggedout/');
@@ -75,8 +75,8 @@ final class PhabricatorLogoutController
         ->appendParagraph(pht('Are you sure you want to log out?'))
         ->addCancelButton('/');
 
-      $configs = id(new PhabricatorAuthProviderConfigQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $configs = id(new PhorgeAuthProviderConfigQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->execute();
       if (!$configs) {
         $dialog

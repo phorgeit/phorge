@@ -113,7 +113,7 @@ final class DiffusionLastModifiedQueryConduitAPIMethod
     $commit_map = $commit_query->getIdentifierMap();
     $commit_map = mpull($commit_map, 'getID');
 
-    $graph_cache = new PhabricatorRepositoryGraphCache();
+    $graph_cache = new PhorgeRepositoryGraphCache();
 
     $results = array();
 

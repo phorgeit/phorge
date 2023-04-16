@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeRepositoryQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -72,7 +72,7 @@ final class PhabricatorRepositoryQuery
         continue;
       }
 
-      $repository_type = PhabricatorRepositoryRepositoryPHIDType::TYPECONST;
+      $repository_type = PhorgeRepositoryRepositoryPHIDType::TYPECONST;
       if (phid_get_type($identifier) === $repository_type) {
         $phids[$identifier] = $identifier;
         continue;
@@ -193,7 +193,7 @@ final class PhabricatorRepositoryQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorRepository();
+    return new PhorgeRepository();
   }
 
   protected function loadPage() {
@@ -234,9 +234,9 @@ final class PhabricatorRepositoryQuery
   }
 
   protected function willFilterPage(array $repositories) {
-    assert_instances_of($repositories, 'PhabricatorRepository');
+    assert_instances_of($repositories, 'PhorgeRepository');
 
-    // TODO: Denormalize repository status into the PhabricatorRepository
+    // TODO: Denormalize repository status into the PhorgeRepository
     // table so we can do this filtering in the database.
     foreach ($repositories as $key => $repo) {
       $status = $this->status;
@@ -346,9 +346,9 @@ final class PhabricatorRepositoryQuery
 
   protected function didFilterPage(array $repositories) {
     if ($this->needProjectPHIDs) {
-      $type_project = PhabricatorProjectObjectHasProjectEdgeType::EDGECONST;
+      $type_project = PhorgeProjectObjectHasProjectEdgeType::EDGECONST;
 
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($repositories, 'getPHID'))
         ->withEdgeTypes(array($type_project));
       $edge_query->execute();
@@ -365,7 +365,7 @@ final class PhabricatorRepositoryQuery
     $viewer = $this->getViewer();
 
     if ($this->needURIs) {
-      $uris = id(new PhabricatorRepositoryURIQuery())
+      $uris = id(new PhorgeRepositoryURIQuery())
         ->setViewer($viewer)
         ->withRepositories($repositories)
         ->execute();
@@ -382,7 +382,7 @@ final class PhabricatorRepositoryQuery
       $file_phids = mpull($repositories, 'getProfileImagePHID');
       $file_phids = array_filter($file_phids);
       if ($file_phids) {
-        $files = id(new PhabricatorFileQuery())
+        $files = id(new PhorgeFileQuery())
           ->setParentQuery($this)
           ->setViewer($this->getViewer())
           ->withPHIDs($file_phids)
@@ -396,7 +396,7 @@ final class PhabricatorRepositoryQuery
         $file = idx($files, $repository->getProfileImagePHID());
         if (!$file) {
           if (!$default) {
-            $default = PhabricatorFile::loadBuiltin(
+            $default = PhorgeFile::loadBuiltin(
               $this->getViewer(),
               'repo/code.png');
           }
@@ -445,7 +445,7 @@ final class PhabricatorRepositoryQuery
   }
 
   protected function newPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $repository = $cursor->getObject();
@@ -484,14 +484,14 @@ final class PhabricatorRepositoryQuery
       $joins[] = qsprintf(
         $conn,
         'LEFT JOIN %T s ON r.id = s.repositoryID',
-        PhabricatorRepository::TABLE_SUMMARY);
+        PhorgeRepository::TABLE_SUMMARY);
     }
 
     if ($this->shouldJoinURITable()) {
       $joins[] = qsprintf(
         $conn,
         'LEFT JOIN %R uri ON r.phid = uri.repositoryPHID',
-        new PhabricatorRepositoryURIIndex());
+        new PhorgeRepositoryURIIndex());
     }
 
     return $joins;
@@ -677,7 +677,7 @@ final class PhabricatorRepositoryQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   private function getNormalizedURIs() {
@@ -689,7 +689,7 @@ final class PhabricatorRepositoryQuery
     // or an `svn+ssh` URI, we could deduce how to normalize it. However, this
     // would be more complicated and it's not clear if it matters in practice.
 
-    $domain_map = PhabricatorRepositoryURI::getURINormalizerDomainMap();
+    $domain_map = PhorgeRepositoryURI::getURINormalizerDomainMap();
 
     $types = ArcanistRepositoryURINormalizer::getAllURITypes();
     foreach ($this->uris as $uri) {

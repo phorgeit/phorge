@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementListPathsWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementListPathsWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -13,7 +13,7 @@ final class PhabricatorRepositoryManagementListPathsWorkflow
   public function execute(PhutilArgumentParser $args) {
     $console = PhutilConsole::getConsole();
 
-    $repos = id(new PhabricatorRepositoryQuery())
+    $repos = id(new PhorgeRepositoryQuery())
       ->setViewer($this->getViewer())
       ->execute();
     if (!$repos) {

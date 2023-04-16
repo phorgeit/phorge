@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeAuthSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_IMPORTANT;
@@ -18,8 +18,8 @@ final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
     // long as they've created some kind of provider in the auth app before,
     // they know that it exists and don't need the hint to go check it out.
 
-    $configs = id(new PhabricatorAuthProviderConfigQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $configs = id(new PhorgeAuthProviderConfigQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->execute();
 
     $did_warn = false;
@@ -44,7 +44,7 @@ final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
     // show both this warning and the "No Auth Providers" warning.  Also,
     // show this as a reminder to go back and do a `bin/auth lock` after
     // they make their desired changes.
-    $is_locked = PhabricatorEnv::getEnvConfig('auth.lock-config');
+    $is_locked = PhorgeEnv::getEnvConfig('auth.lock-config');
     if (!$is_locked && !$did_warn) {
       $message = pht(
         'Your authentication provider configuration is unlocked. Once you '.
@@ -71,7 +71,7 @@ final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
             'Authentication configuration is currently unlocked. Once you '.
             'finish configuring authentication, you should lock it.'))
         ->setMessage($message)
-        ->addRelatedPhabricatorConfig('auth.lock-config')
+        ->addRelatedPhorgeConfig('auth.lock-config')
         ->addCommand(
           hsprintf(
             '<tt>phorge/ $</tt> ./bin/auth lock'));

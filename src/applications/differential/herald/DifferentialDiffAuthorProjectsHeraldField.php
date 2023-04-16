@@ -10,9 +10,9 @@ final class DifferentialDiffAuthorProjectsHeraldField
   }
 
   public function getHeraldFieldValue($object) {
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withMemberPHIDs(array($object->getAuthorPHID()))
       ->execute();
@@ -25,7 +25,7 @@ final class DifferentialDiffAuthorProjectsHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorProjectDatasource();
+    return new PhorgeProjectDatasource();
   }
 
 }

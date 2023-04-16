@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionCommentEditor
-  extends PhabricatorEditor {
+final class PhorgeApplicationTransactionCommentEditor
+  extends PhorgeEditor {
 
   private $contentSource;
   private $actingAsPHID;
@@ -21,7 +21,7 @@ final class PhabricatorApplicationTransactionCommentEditor
     return $this->getActor()->getPHID();
   }
 
-  public function setContentSource(PhabricatorContentSource $content_source) {
+  public function setContentSource(PhorgeContentSource $content_source) {
     $this->contentSource = $content_source;
     return $this;
   }
@@ -62,8 +62,8 @@ final class PhabricatorApplicationTransactionCommentEditor
    * update or delete to set the transaction's comment to the provided comment.
    */
   public function applyEdit(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorApplicationTransactionComment $comment) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeApplicationTransactionComment $comment) {
 
     $this->validateEdit($xaction, $comment);
 
@@ -75,7 +75,7 @@ final class PhabricatorApplicationTransactionCommentEditor
     $comment->setAuthorPHID($this->getActingAsPHID());
 
     // TODO: This needs to be more sophisticated once we have meta-policies.
-    $comment->setViewPolicy(PhabricatorPolicies::POLICY_PUBLIC);
+    $comment->setViewPolicy(PhorgePolicies::POLICY_PUBLIC);
     $comment->setEditPolicy($this->getActingAsPHID());
 
     $xaction->openTransaction();
@@ -103,12 +103,12 @@ final class PhabricatorApplicationTransactionCommentEditor
         // For comment edits, we need to make sure there are no automagical
         // transactions like adding mentions or projects.
         if ($new_version > 1) {
-          $object = id(new PhabricatorObjectQuery())
+          $object = id(new PhorgeObjectQuery())
             ->withPHIDs(array($xaction->getObjectPHID()))
             ->setViewer($this->getActor())
             ->executeOne();
           if ($object &&
-              $object instanceof PhabricatorApplicationTransactionInterface) {
+              $object instanceof PhorgeApplicationTransactionInterface) {
             $editor = $object->getApplicationTransactionEditor();
             $editor->setActor($this->getActor());
             $support_xactions = $editor->getExpandedSupportTransactions(
@@ -134,8 +134,8 @@ final class PhabricatorApplicationTransactionCommentEditor
    * perform it.
    */
   private function validateEdit(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorApplicationTransactionComment $comment) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeApplicationTransactionComment $comment) {
 
     if (!$xaction->getPHID()) {
       throw new Exception(
@@ -144,7 +144,7 @@ final class PhabricatorApplicationTransactionCommentEditor
           'applyEdit()'));
     }
 
-    $type_comment = PhabricatorTransactions::TYPE_COMMENT;
+    $type_comment = PhorgeTransactions::TYPE_COMMENT;
     if ($xaction->getTransactionType() == $type_comment) {
       if ($comment->getPHID()) {
         throw new Exception(
@@ -158,29 +158,29 @@ final class PhabricatorApplicationTransactionCommentEditor
 
     $actor = $this->requireActor();
 
-    PhabricatorPolicyFilter::requireCapability(
+    PhorgePolicyFilter::requireCapability(
       $actor,
       $xaction,
-      PhabricatorPolicyCapability::CAN_VIEW);
+      PhorgePolicyCapability::CAN_VIEW);
 
     if ($comment->getIsRemoved() && $actor->getIsAdmin()) {
       // NOTE: Administrators can remove comments by any user, and don't need
       // to pass the edit check.
     } else {
-      PhabricatorPolicyFilter::requireCapability(
+      PhorgePolicyFilter::requireCapability(
         $actor,
         $xaction,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
 
-      PhabricatorPolicyFilter::requireCanInteract(
+      PhorgePolicyFilter::requireCanInteract(
         $actor,
         $xaction->getObject());
     }
   }
 
   private function applyMFAChecks(
-    PhabricatorApplicationTransaction $xaction,
-    PhabricatorApplicationTransactionComment $comment) {
+    PhorgeApplicationTransaction $xaction,
+    PhorgeApplicationTransactionComment $comment) {
     $actor = $this->requireActor();
 
     // We don't do any MFA checks here when you're creating a comment for the
@@ -231,17 +231,17 @@ final class PhabricatorApplicationTransactionCommentEditor
     }
 
     if ($need_mfa) {
-      $factors = id(new PhabricatorAuthFactorConfigQuery())
+      $factors = id(new PhorgeAuthFactorConfigQuery())
         ->setViewer($actor)
         ->withUserPHIDs(array($this->getActingAsPHID()))
         ->withFactorProviderStatuses(
           array(
-            PhabricatorAuthFactorProviderStatus::STATUS_ACTIVE,
-            PhabricatorAuthFactorProviderStatus::STATUS_DEPRECATED,
+            PhorgeAuthFactorProviderStatus::STATUS_ACTIVE,
+            PhorgeAuthFactorProviderStatus::STATUS_DEPRECATED,
           ))
         ->execute();
       if (!$factors) {
-        $error = new PhabricatorApplicationTransactionValidationError(
+        $error = new PhorgeApplicationTransactionValidationError(
           $xaction->getTransactionType(),
           pht('No MFA'),
           pht(
@@ -251,7 +251,7 @@ final class PhabricatorApplicationTransactionCommentEditor
             'account in Settings.'),
           $xaction);
 
-        throw new PhabricatorApplicationTransactionValidationException(
+        throw new PhorgeApplicationTransactionValidationException(
           array(
             $error,
           ));
@@ -263,7 +263,7 @@ final class PhabricatorApplicationTransactionCommentEditor
       $xaction->getPHID(),
       $xaction->getComment()->getID());
 
-    $hisec_token = id(new PhabricatorAuthSessionEngine())
+    $hisec_token = id(new PhorgeAuthSessionEngine())
       ->setWorkflowKey($workflow_key)
       ->requireHighSecurityToken($actor, $request, $cancel_uri);
   }

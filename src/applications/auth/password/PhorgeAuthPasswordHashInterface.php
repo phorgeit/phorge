@@ -1,10 +1,10 @@
 <?php
 
-interface PhabricatorAuthPasswordHashInterface {
+interface PhorgeAuthPasswordHashInterface {
 
   public function newPasswordDigest(
     PhutilOpaqueEnvelope $envelope,
-    PhabricatorAuthPassword $password);
+    PhorgeAuthPassword $password);
 
   /**
    * Return a list of strings which passwords associated with this object may
@@ -14,14 +14,14 @@ interface PhabricatorAuthPasswordHashInterface {
    * as their password or picking other passwords which are trivially similar
    * to an account or object identifier.
    *
-   * @param PhabricatorUser The user selecting the password.
-   * @param PhabricatorAuthPasswordEngine The password engine updating a
+   * @param PhorgeUser The user selecting the password.
+   * @param PhorgeAuthPasswordEngine The password engine updating a
    *  password.
    * @return list<string> Blocklist of nonsecret identifiers which the password
    *  should not be similar to.
    */
   public function newPasswordBlocklist(
-    PhabricatorUser $viewer,
-    PhabricatorAuthPasswordEngine $engine);
+    PhorgeUser $viewer,
+    PhorgeAuthPasswordEngine $engine);
 
 }

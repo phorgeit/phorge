@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesBadgeRevokeTransaction
-  extends PhabricatorBadgesBadgeTransactionType {
+final class PhorgeBadgesBadgeRevokeTransaction
+  extends PhorgeBadgesBadgeTransactionType {
 
   const TRANSACTIONTYPE = 'badge.revoke';
 
@@ -10,7 +10,7 @@ final class PhabricatorBadgesBadgeRevokeTransaction
   }
 
   public function applyExternalEffects($object, $value) {
-    $awards = id(new PhabricatorBadgesAwardQuery())
+    $awards = id(new PhorgeBadgesAwardQuery())
       ->setViewer($this->getActor())
       ->withRecipientPHIDs($value)
       ->withBadgePHIDs(array($object->getPHID()))
@@ -66,7 +66,7 @@ final class PhabricatorBadgesBadgeRevokeTransaction
       }
 
       foreach ($award_phids as $award_phid) {
-        $award = id(new PhabricatorBadgesAwardQuery())
+        $award = id(new PhorgeBadgesAwardQuery())
           ->setViewer($this->getActor())
           ->withRecipientPHIDs(array($award_phid))
           ->withBadgePHIDs(array($object->getPHID()))

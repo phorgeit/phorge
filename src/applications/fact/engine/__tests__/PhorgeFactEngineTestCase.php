@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorFactEngineTestCase extends PhabricatorTestCase {
+final class PhorgeFactEngineTestCase extends PhorgeTestCase {
 
   public function testLoadAllEngines() {
-    PhabricatorFactEngine::loadAllEngines();
+    PhorgeFactEngine::loadAllEngines();
     $this->assertTrue(true);
   }
 

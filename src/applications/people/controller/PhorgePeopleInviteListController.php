@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorPeopleInviteListController
-  extends PhabricatorPeopleInviteController {
+final class PhorgePeopleInviteListController
+  extends PhorgePeopleInviteController {
 
   public function handleRequest(AphrontRequest $request) {
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorAuthInviteSearchEngine())
+      ->setSearchEngine(new PhorgeAuthInviteSearchEngine())
       ->setNavigation($this->buildSideNavView());
 
     return $this->delegateToController($controller);
@@ -18,7 +18,7 @@ final class PhabricatorPeopleInviteListController
 
     $viewer = $this->getRequest()->getUser();
 
-    id(new PhabricatorAuthInviteSearchEngine())
+    id(new PhorgeAuthInviteSearchEngine())
       ->setViewer($viewer)
       ->addNavigationItems($nav->getMenu());
 

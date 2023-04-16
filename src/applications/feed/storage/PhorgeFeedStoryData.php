@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorFeedStoryData
-  extends PhabricatorFeedDAO
-  implements PhabricatorDestructibleInterface {
+final class PhorgeFeedStoryData
+  extends PhorgeFeedDAO
+  implements PhorgeDestructibleInterface {
 
   protected $phid;
 
@@ -36,8 +36,8 @@ final class PhabricatorFeedStoryData
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPHIDConstants::PHID_TYPE_STRY);
+    return PhorgePHID::generateNewPHID(
+      PhorgePHIDConstants::PHID_TYPE_STRY);
   }
 
   public function getEpoch() {
@@ -49,7 +49,7 @@ final class PhabricatorFeedStoryData
       } else {
         // Do the math in MySQL. TODO: If we formalize a bc dependency, get
         // rid of this.
-        // See: PhabricatorFeedStoryPublisher::generateChronologicalKey()
+        // See: PhorgeFeedStoryPublisher::generateChronologicalKey()
         $conn_r = id($this->establishConnection('r'));
         $result = queryfx_one(
           $conn_r,
@@ -69,11 +69,11 @@ final class PhabricatorFeedStoryData
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     $this->openTransaction();
       $conn = $this->establishConnection('w');
@@ -81,13 +81,13 @@ final class PhabricatorFeedStoryData
       queryfx(
         $conn,
         'DELETE FROM %T WHERE chronologicalKey = %s',
-        id(new PhabricatorFeedStoryNotification())->getTableName(),
+        id(new PhorgeFeedStoryNotification())->getTableName(),
         $this->getChronologicalKey());
 
       queryfx(
         $conn,
         'DELETE FROM %T WHERE chronologicalKey = %s',
-        id(new PhabricatorFeedStoryReference())->getTableName(),
+        id(new PhorgeFeedStoryReference())->getTableName(),
         $this->getChronologicalKey());
 
       $this->delete();

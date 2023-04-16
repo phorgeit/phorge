@@ -1,4 +1,4 @@
 <?php
 
 abstract class PhortuneSubscriptionTransactionType
-  extends PhabricatorModularTransactionType {}
+  extends PhorgeModularTransactionType {}

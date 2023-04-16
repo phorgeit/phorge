@@ -7,13 +7,13 @@ final class DrydockTestRepositoryOperation
 
   public function getOperationDescription(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Test Configuration');
   }
 
   public function getOperationCurrentStatus(
     DrydockRepositoryOperation $operation,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $repository = $operation->getRepository();
     switch ($operation->getOperationState()) {

@@ -19,9 +19,9 @@ final class DifferentialAuditorsCommitMessageField
     return $this->parseObjectList(
       $value,
       array(
-        PhabricatorPeopleUserPHIDType::TYPECONST,
-        PhabricatorProjectProjectPHIDType::TYPECONST,
-        PhabricatorOwnersPackagePHIDType::TYPECONST,
+        PhorgePeopleUserPHIDType::TYPECONST,
+        PhorgeProjectProjectPHIDType::TYPECONST,
+        PhorgeOwnersPackagePHIDType::TYPECONST,
       ));
   }
 

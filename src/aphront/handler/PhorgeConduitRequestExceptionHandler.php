@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeConduitRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 100000;

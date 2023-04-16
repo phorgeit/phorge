@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDaemonTaskGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeDaemonTaskGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'worker.tasks';
 
@@ -14,11 +14,11 @@ final class PhabricatorDaemonTaskGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorWorkerArchiveTask();
-    $data_table = new PhabricatorWorkerTaskData();
+    $table = new PhorgeWorkerArchiveTask();
+    $data_table = new PhorgeWorkerTaskData();
     $conn_w = $table->establishConnection('w');
 
-    $tasks = id(new PhabricatorWorkerArchiveTaskQuery())
+    $tasks = id(new PhorgeWorkerArchiveTaskQuery())
       ->withDateCreatedBefore($this->getGarbageEpoch())
       ->setLimit(100)
       ->execute();

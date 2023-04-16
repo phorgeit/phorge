@@ -1,7 +1,7 @@
 <?php
 
 final class ManiphestTaskUnlockEngine
-  extends PhabricatorUnlockEngine {
+  extends PhorgeUnlockEngine {
 
   public function newUnlockOwnerTransactions($object, $user) {
     return array(

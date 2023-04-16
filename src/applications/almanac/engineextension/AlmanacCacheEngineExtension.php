@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacCacheEngineExtension
-  extends PhabricatorCacheEngineExtension {
+  extends PhorgeCacheEngineExtension {
 
   const EXTENSIONKEY = 'almanac';
 
@@ -10,7 +10,7 @@ final class AlmanacCacheEngineExtension
   }
 
   public function discoverLinkedObjects(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
     $viewer = $engine->getViewer();
 
@@ -53,7 +53,7 @@ final class AlmanacCacheEngineExtension
   }
 
   public function deleteCaches(
-    PhabricatorCacheEngine $engine,
+    PhorgeCacheEngine $engine,
     array $objects) {
     return;
   }

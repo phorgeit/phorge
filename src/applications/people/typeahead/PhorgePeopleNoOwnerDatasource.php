@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleNoOwnerDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgePeopleNoOwnerDatasource
+  extends PhorgeTypeaheadDatasource {
 
   const FUNCTION_TOKEN = 'none()';
 
@@ -14,7 +14,7 @@ final class PhabricatorPeopleNoOwnerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getDatasourceFunctions() {
@@ -56,7 +56,7 @@ final class PhabricatorPeopleNoOwnerDatasource
   public function renderFunctionTokens($function, array $argv_list) {
     $results = array();
     foreach ($argv_list as $argv) {
-      $results[] = PhabricatorTypeaheadTokenView::newFromTypeaheadResult(
+      $results[] = PhorgeTypeaheadTokenView::newFromTypeaheadResult(
         $this->buildNoOwnerResult());
     }
     return $results;

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositoryCommitData extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryCommitData extends PhorgeRepositoryDAO {
 
   protected $commitID;
   protected $authorName    = '';
@@ -33,7 +33,7 @@ final class PhabricatorRepositoryCommitData extends PhabricatorRepositoryDAO {
   }
 
   public static function summarizeCommitMessage($message) {
-    $max_bytes = id(new PhabricatorRepositoryCommit())
+    $max_bytes = id(new PhorgeRepositoryCommit())
       ->getColumnMaximumByteLength('summary');
 
     $summary = phutil_split_lines($message, $retain_endings = false);
@@ -65,7 +65,7 @@ final class PhabricatorRepositoryCommitData extends PhabricatorRepositoryDAO {
   }
 
   public static function newFromDictionary(array $dict) {
-    return id(new PhabricatorRepositoryCommitData())
+    return id(new PhorgeRepositoryCommitData())
       ->loadFromArray($dict);
   }
 
@@ -86,7 +86,7 @@ final class PhabricatorRepositoryCommitData extends PhabricatorRepositoryDAO {
     }
 
     foreach ($holds as $key => $reason) {
-      $holds[$key] = PhabricatorRepositoryPublisherHoldReason::newForHoldKey(
+      $holds[$key] = PhorgeRepositoryPublisherHoldReason::newForHoldKey(
         $reason);
     }
 

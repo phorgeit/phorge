@@ -3,10 +3,10 @@
 final class HeraldWebhook
   extends HeraldDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorProjectInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeProjectInterface {
 
   protected $name;
   protected $webhookURI;
@@ -40,10 +40,10 @@ final class HeraldWebhook
     return HeraldWebhookPHIDType::TYPECONST;
   }
 
-  public static function initializeNewWebhook(PhabricatorUser $viewer) {
+  public static function initializeNewWebhook(PhorgeUser $viewer) {
     return id(new self())
       ->setStatus(self::HOOKSTATUS_ENABLED)
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->setViewPolicy(PhorgePolicies::getMostOpenPolicy())
       ->setEditPolicy($viewer->getPHID())
       ->regenerateHMACKey();
   }
@@ -140,11 +140,11 @@ final class HeraldWebhook
     return 10;
   }
 
-  public function isInErrorBackoff(PhabricatorUser $viewer) {
+  public function isInErrorBackoff(PhorgeUser $viewer) {
     $backoff_window = $this->getErrorBackoffWindow();
     $backoff_threshold = $this->getErrorBackoffThreshold();
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
 
     $window_start = ($now - $backoff_window);
 
@@ -169,31 +169,31 @@ final class HeraldWebhook
     return $this->setHMACKey(Filesystem::readRandomCharacters(32));
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -205,11 +205,11 @@ final class HeraldWebhook
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     while (true) {
       $requests = id(new HeraldWebhookRequestQuery())

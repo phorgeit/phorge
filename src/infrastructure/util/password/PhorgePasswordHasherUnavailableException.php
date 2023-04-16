@@ -1,3 +1,3 @@
 <?php
 
-final class PhabricatorPasswordHasherUnavailableException extends Exception {}
+final class PhorgePasswordHasherUnavailableException extends Exception {}

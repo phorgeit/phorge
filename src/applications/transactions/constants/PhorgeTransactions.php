@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTransactions extends Phobject {
+final class PhorgeTransactions extends Phobject {
 
   const TYPE_COMMENT      = 'core:comment';
   const TYPE_SUBSCRIBERS  = 'core:subscribers';
@@ -34,10 +34,10 @@ final class PhabricatorTransactions extends Phobject {
 
   public static function getInlineStateMap() {
     return array(
-      PhabricatorInlineComment::STATE_DRAFT =>
-        PhabricatorInlineComment::STATE_DONE,
-      PhabricatorInlineComment::STATE_UNDRAFT =>
-        PhabricatorInlineComment::STATE_UNDONE,
+      PhorgeInlineComment::STATE_DRAFT =>
+        PhorgeInlineComment::STATE_DONE,
+      PhorgeInlineComment::STATE_UNDRAFT =>
+        PhorgeInlineComment::STATE_UNDONE,
     );
   }
 

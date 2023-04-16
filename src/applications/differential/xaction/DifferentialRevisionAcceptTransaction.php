@@ -8,13 +8,13 @@ final class DifferentialRevisionAcceptTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('Accept Revision');
   }
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     return pht('These changes will be approved.');
   }
 
@@ -36,7 +36,7 @@ final class DifferentialRevisionAcceptTransaction
 
   public function getCommandKeyword() {
     $accept_key = 'differential.enable-email-accept';
-    $allow_email_accept = PhabricatorEnv::getEnvConfig($accept_key);
+    $allow_email_accept = PhorgeEnv::getEnvConfig($accept_key);
     if (!$allow_email_accept) {
       return null;
     }
@@ -53,7 +53,7 @@ final class DifferentialRevisionAcceptTransaction
   }
 
   protected function getActionOptions(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     DifferentialRevision $revision,
     $include_accepted = false) {
 
@@ -157,7 +157,7 @@ final class DifferentialRevisionAcceptTransaction
     $this->applyReviewerEffect($object, $actor, $value, $status);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isClosed()) {
       throw new Exception(
         pht(
@@ -171,7 +171,7 @@ final class DifferentialRevisionAcceptTransaction
     }
 
     $config_key = 'differential.allow-self-accept';
-    if (!PhabricatorEnv::getEnvConfig($config_key)) {
+    if (!PhorgeEnv::getEnvConfig($config_key)) {
       if ($this->isViewerRevisionAuthor($object, $viewer)) {
         throw new Exception(
           pht(

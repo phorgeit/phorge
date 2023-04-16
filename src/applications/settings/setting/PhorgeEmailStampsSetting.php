@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailStampsSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeEmailStampsSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'stamps';
 
@@ -13,7 +13,7 @@ final class PhabricatorEmailStampsSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorEmailFormatSettingsPanel::PANELKEY;
+    return PhorgeEmailFormatSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgePolicyConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Policy');

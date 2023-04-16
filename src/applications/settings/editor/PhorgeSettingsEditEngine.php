@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSettingsEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeSettingsEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'settings.settings';
 
@@ -53,15 +53,15 @@ final class PhabricatorSettingsEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return 'PhorgeSettingsApplication';
   }
 
   protected function newEditableObject() {
-    return new PhabricatorUserPreferences();
+    return new PhorgeUserPreferences();
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorUserPreferencesQuery();
+    return new PhorgeUserPreferencesQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -135,7 +135,7 @@ final class PhabricatorSettingsEditEngine
   }
 
   protected function getCreateNewObjectPolicy() {
-    return PhabricatorPolicies::POLICY_ADMIN;
+    return PhorgePolicies::POLICY_ADMIN;
   }
 
   public function getEffectiveObjectEditCancelURI($object) {
@@ -158,10 +158,10 @@ final class PhabricatorSettingsEditEngine
     $viewer = $this->getViewer();
     $user = $object->getUser();
 
-    $panels = PhabricatorSettingsPanel::getAllDisplayPanels();
+    $panels = PhorgeSettingsPanel::getAllDisplayPanels();
 
     foreach ($panels as $key => $panel) {
-      if (!($panel instanceof PhabricatorEditEngineSettingsPanel)) {
+      if (!($panel instanceof PhorgeEditEngineSettingsPanel)) {
         unset($panels[$key]);
         continue;
       }
@@ -185,7 +185,7 @@ final class PhabricatorSettingsEditEngine
     }
 
     $more_pages = array(
-      id(new PhabricatorEditPage())
+      id(new PhorgeEditPage())
         ->setKey('extra')
         ->setLabel(pht('Extra Settings'))
         ->setIsDefault(true),
@@ -200,7 +200,7 @@ final class PhabricatorSettingsEditEngine
 
   protected function buildCustomEditFields($object) {
     $viewer = $this->getViewer();
-    $settings = PhabricatorSetting::getAllEnabledSettings($viewer);
+    $settings = PhorgeSetting::getAllEnabledSettings($viewer);
 
     foreach ($settings as $key => $setting) {
       $setting = clone $setting;
@@ -221,15 +221,15 @@ final class PhabricatorSettingsEditEngine
   }
 
   protected function getValidationExceptionShortMessage(
-    PhabricatorApplicationTransactionValidationException $ex,
-    PhabricatorEditField $field) {
+    PhorgeApplicationTransactionValidationException $ex,
+    PhorgeEditField $field) {
 
     // Settings fields all have the same transaction type so we need to make
     // sure the transaction is changing the same setting before matching an
     // error to a given field.
     $xaction_type = $field->getTransactionType();
-    if ($xaction_type == PhabricatorUserPreferencesTransaction::TYPE_SETTING) {
-      $property = PhabricatorUserPreferencesTransaction::PROPERTY_SETTING;
+    if ($xaction_type == PhorgeUserPreferencesTransaction::TYPE_SETTING) {
+      $property = PhorgeUserPreferencesTransaction::PROPERTY_SETTING;
 
       $field_setting = idx($field->getMetadata(), $property);
       foreach ($ex->getErrors() as $error) {
@@ -260,7 +260,7 @@ final class PhabricatorSettingsEditEngine
   }
 
   protected function newEditFormHeadContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
 
     $content = array();
 
@@ -277,7 +277,7 @@ final class PhabricatorSettingsEditEngine
   }
 
   protected function newEditFormTailContent(
-    PhabricatorEditEnginePageState $state) {
+    PhorgeEditEnginePageState $state) {
 
     $content = array();
 

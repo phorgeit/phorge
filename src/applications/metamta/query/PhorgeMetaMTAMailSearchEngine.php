@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorMetaMTAMailSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+final class PhorgeMetaMTAMailSearchEngine
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('MetaMTA Mails');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorMetaMTAApplication';
+    return 'PhorgeMetaMTAApplication';
   }
 
   public function canUseInPanelContext() {
@@ -16,7 +16,7 @@ final class PhabricatorMetaMTAMailSearchEngine
   }
 
   public function newQuery() {
-    return new PhabricatorMetaMTAMailQuery();
+    return new PhorgeMetaMTAMailQuery();
   }
 
   protected function shouldShowOrderField() {
@@ -25,11 +25,11 @@ final class PhabricatorMetaMTAMailSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
       ->setLabel(pht('Actors'))
       ->setKey('actorPHIDs')
       ->setAliases(array('actor', 'actors')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
       ->setLabel(pht('Recipients'))
       ->setKey('recipientPHIDs')
       ->setAliases(array('recipient', 'recipients')),
@@ -85,7 +85,7 @@ final class PhabricatorMetaMTAMailSearchEngine
 
   protected function getRequiredHandlePHIDsForResultList(
     array $objects,
-    PhabricatorSavedQuery $query) {
+    PhorgeSavedQuery $query) {
 
     $phids = array();
     foreach ($objects as $mail) {
@@ -96,10 +96,10 @@ final class PhabricatorMetaMTAMailSearchEngine
 
   protected function renderResultList(
     array $mails,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($mails, 'PhabricatorMetaMTAMail');
+    assert_instances_of($mails, 'PhorgeMetaMTAMail');
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
 
@@ -119,15 +119,15 @@ final class PhabricatorMetaMTAMailSearchEngine
         ->setHref($this->getURI('detail/'.$mail->getID().'/'));
 
       $status = $mail->getStatus();
-      $status_name = PhabricatorMailOutboundStatus::getStatusName($status);
-      $status_icon = PhabricatorMailOutboundStatus::getStatusIcon($status);
-      $status_color = PhabricatorMailOutboundStatus::getStatusColor($status);
+      $status_name = PhorgeMailOutboundStatus::getStatusName($status);
+      $status_icon = PhorgeMailOutboundStatus::getStatusIcon($status);
+      $status_color = PhorgeMailOutboundStatus::getStatusColor($status);
       $item->setStatusIcon($status_icon.' '.$status_color, $status_name);
 
       $list->addItem($item);
     }
 
-    return id(new PhabricatorApplicationSearchResultView())
+    return id(new PhorgeApplicationSearchResultView())
       ->setContent($list);
   }
 }

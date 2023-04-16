@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerViewController
-  extends PhabricatorProjectTriggerController {
+final class PhorgeProjectTriggerViewController
+  extends PhorgeProjectTriggerController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,7 +13,7 @@ final class PhabricatorProjectTriggerViewController
 
     $id = $request->getURIData('id');
 
-    $trigger = id(new PhabricatorProjectTriggerQuery())
+    $trigger = id(new PhorgeProjectTriggerQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -32,7 +32,7 @@ final class PhabricatorProjectTriggerViewController
 
     $timeline = $this->buildTransactionTimeline(
       $trigger,
-      new PhabricatorProjectTriggerTransactionQuery());
+      new PhorgeProjectTriggerTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $curtain = $this->newCurtain($trigger);
@@ -57,7 +57,7 @@ final class PhabricatorProjectTriggerViewController
       ->appendChild($column_view);
   }
 
-  private function newColumnsView(PhabricatorProjectTrigger $trigger) {
+  private function newColumnsView(PhorgeProjectTrigger $trigger) {
     $viewer = $this->getViewer();
 
     // NOTE: When showing columns which use this trigger, we want to represent
@@ -78,15 +78,15 @@ final class PhabricatorProjectTriggerViewController
     // impact, but is useful in assessing whether a trigger is really in use
     // or not.)
 
-    $omnipotent_viewer = PhabricatorUser::getOmnipotentUser();
-    $all_columns = id(new PhabricatorProjectColumnQuery())
+    $omnipotent_viewer = PhorgeUser::getOmnipotentUser();
+    $all_columns = id(new PhorgeProjectColumnQuery())
       ->setViewer($omnipotent_viewer)
       ->withTriggerPHIDs(array($trigger->getPHID()))
       ->execute();
     $column_map = mpull($all_columns, 'getStatus', 'getPHID');
 
     if ($column_map) {
-      $visible_columns = id(new PhabricatorProjectColumnQuery())
+      $visible_columns = id(new PhorgeProjectColumnQuery())
         ->setViewer($viewer)
         ->withPHIDs(array_keys($column_map))
         ->execute();
@@ -120,7 +120,7 @@ final class PhabricatorProjectTriggerViewController
         $column_name = phutil_tag('em', array(), pht('Restricted Column'));
       }
 
-      if ($column_status == PhabricatorProjectColumn::STATUS_ACTIVE) {
+      if ($column_status == PhorgeProjectColumn::STATUS_ACTIVE) {
         $status_icon = id(new PHUIIconView())
           ->setIcon('fa-columns', 'blue')
           ->setTooltip(pht('Active Column'));
@@ -161,7 +161,7 @@ final class PhabricatorProjectTriggerViewController
       ->setTable($table_view);
   }
 
-  private function newRulesView(PhabricatorProjectTrigger $trigger) {
+  private function newRulesView(PhorgeProjectTrigger $trigger) {
     $viewer = $this->getViewer();
     $rules = $trigger->getTriggerRules();
 
@@ -203,13 +203,13 @@ final class PhabricatorProjectTriggerViewController
       ->setHeader($header_view)
       ->setTable($table_view);
   }
-  private function newCurtain(PhabricatorProjectTrigger $trigger) {
+  private function newCurtain(PhorgeProjectTrigger $trigger) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $trigger,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($trigger);
 
@@ -219,7 +219,7 @@ final class PhabricatorProjectTriggerViewController
         $trigger->getID()));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Trigger'))
         ->setIcon('fa-pencil')
         ->setHref($edit_uri)

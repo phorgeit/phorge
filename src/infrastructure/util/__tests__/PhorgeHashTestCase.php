@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorHashTestCase extends PhabricatorTestCase {
+final class PhorgeHashTestCase extends PhorgeTestCase {
 
   public function testHashForIndex() {
     $map = array(
@@ -13,7 +13,7 @@ final class PhabricatorHashTestCase extends PhabricatorTestCase {
     foreach ($map as $input => $expect) {
       $this->assertEqual(
         $expect,
-        PhabricatorHash::digestForIndex($input),
+        PhorgeHash::digestForIndex($input),
         pht('Input: %s', $input));
     }
 
@@ -40,7 +40,7 @@ final class PhabricatorHashTestCase extends PhabricatorTestCase {
 
     $seen = array();
     foreach ($entropy as $input) {
-      $chars = preg_split('//', PhabricatorHash::digestForIndex($input));
+      $chars = preg_split('//', PhorgeHash::digestForIndex($input));
       foreach ($chars as $char) {
         $seen[$char] = true;
       }
@@ -85,12 +85,12 @@ final class PhabricatorHashTestCase extends PhabricatorTestCase {
 
       $this->assertEqual(
         $expect_index,
-        PhabricatorHash::digestForIndex($input),
+        PhorgeHash::digestForIndex($input),
         pht('Index digest of "%s".', $input));
 
       $this->assertEqual(
         $expect_anchor,
-        PhabricatorHash::digestForAnchor($input),
+        PhorgeHash::digestForAnchor($input),
         pht('Anchor digest of "%s".', $input));
     }
   }

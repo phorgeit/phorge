@@ -4,7 +4,7 @@
  * For detailed explanations of these events, see
  * @{article:Events User Guide: Installing Event Listeners}.
  */
-final class PhabricatorEventType extends PhutilEventType {
+final class PhorgeEventType extends PhutilEventType {
 
   const TYPE_DIFFERENTIAL_WILLMARKGENERATED = 'differential.willMarkGenerated';
 

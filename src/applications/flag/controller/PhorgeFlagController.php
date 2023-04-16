@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFlagController extends PhabricatorController {
+abstract class PhorgeFlagController extends PhorgeController {
 
   public function buildSideNavView() {
     $user = $this->getRequest()->getUser();
@@ -8,7 +8,7 @@ abstract class PhabricatorFlagController extends PhabricatorController {
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorFlagSearchEngine())
+    id(new PhorgeFlagSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

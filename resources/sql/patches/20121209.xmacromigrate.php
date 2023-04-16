@@ -1,7 +1,7 @@
 <?php
 
 echo pht('Giving image macros PHIDs');
-$table = new PhabricatorFileImageMacro();
+$table = new PhorgeFileImageMacro();
 $table->openTransaction();
 
 foreach (new LiskMigrationIterator($table) as $macro) {

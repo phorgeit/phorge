@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementSendTestWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementSendTestWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -75,10 +75,10 @@ final class PhabricatorMailManagementSendTestWorkflow
 
     $type = $args->getArg('type');
     if (!strlen($type)) {
-      $type = PhabricatorMailEmailMessage::MESSAGETYPE;
+      $type = PhorgeMailEmailMessage::MESSAGETYPE;
     }
 
-    $type_map = PhabricatorMailExternalMessage::getAllMessageTypes();
+    $type_map = PhorgeMailExternalMessage::getAllMessageTypes();
     if (!isset($type_map[$type])) {
       throw new PhutilArgumentUsageException(
         pht(
@@ -89,7 +89,7 @@ final class PhabricatorMailManagementSendTestWorkflow
 
     $from = $args->getArg('from');
     if ($from) {
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($from))
         ->executeOne();
@@ -111,7 +111,7 @@ final class PhabricatorMailManagementSendTestWorkflow
     }
 
     $names = array_merge($tos, $ccs);
-    $users = id(new PhabricatorPeopleQuery())
+    $users = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withUsernames($names)
       ->execute();
@@ -154,7 +154,7 @@ final class PhabricatorMailManagementSendTestWorkflow
     $console->writeErr("%s\n", pht('Reading message body from stdin...'));
     $body = file_get_contents('php://stdin');
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addCCs($ccs)
       ->setSubject($subject)
       ->setBody($body)
@@ -185,7 +185,7 @@ final class PhabricatorMailManagementSendTestWorkflow
       $mail->setFrom($from->getPHID());
     }
 
-    $mailers = PhabricatorMetaMTAMail::newMailers(
+    $mailers = PhorgeMetaMTAMail::newMailers(
       array(
         'media' => array($type),
         'outbound' => true,
@@ -218,13 +218,13 @@ final class PhabricatorMailManagementSendTestWorkflow
       $data = Filesystem::readFile($attachment);
       $name = basename($attachment);
       $mime = Filesystem::getMimeType($attachment);
-      $file = new PhabricatorMailAttachment($data, $name, $mime);
+      $file = new PhorgeMailAttachment($data, $name, $mime);
       $mail->addAttachment($file);
     }
 
     $mail->setMessageType($type);
 
-    PhabricatorWorker::setRunAllTasksInProcess(true);
+    PhorgeWorker::setRunAllTasksInProcess(true);
     $mail->save();
 
     $console->writeErr(

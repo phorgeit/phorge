@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOlderInlinesSetting
-  extends PhabricatorSelectSetting {
+final class PhorgeOlderInlinesSetting
+  extends PhorgeSelectSetting {
 
   const SETTINGKEY = 'diff-ghosts';
 
@@ -17,7 +17,7 @@ final class PhabricatorOlderInlinesSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorDiffPreferencesSettingsPanel::PANELKEY;
+    return PhorgeDiffPreferencesSettingsPanel::PANELKEY;
   }
 
   protected function getControlInstructions() {

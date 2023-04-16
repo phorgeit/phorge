@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleManagementEnableWorkflow
-  extends PhabricatorPeopleManagementWorkflow {
+final class PhorgePeopleManagementEnableWorkflow
+  extends PhorgePeopleManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = array_merge(
@@ -29,7 +29,7 @@ final class PhabricatorPeopleManagementEnableWorkflow
 
     $xactions = array();
     $xactions[] = $user->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorUserDisableTransaction::TRANSACTIONTYPE)
+      ->setTransactionType(PhorgeUserDisableTransaction::TRANSACTIONTYPE)
       ->setNewValue(false);
 
     $this->applyTransactions($user, $xactions);

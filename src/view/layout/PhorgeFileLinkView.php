@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorFileLinkView extends AphrontTagView {
+final class PhorgeFileLinkView extends AphrontTagView {
 
   private $fileName;
   private $fileDownloadURI;

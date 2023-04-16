@@ -5,7 +5,7 @@ final class PHUICurtainView extends AphrontTagView {
   private $actionList;
   private $panels = array();
 
-  public function addAction(PhabricatorActionView $action) {
+  public function addAction(PhorgeActionView $action) {
     $this->getActionList()->addAction($action);
     return $this;
   }
@@ -26,7 +26,7 @@ final class PHUICurtainView extends AphrontTagView {
     return $panel;
   }
 
-  public function setActionList(PhabricatorActionListView $action_list) {
+  public function setActionList(PhorgeActionListView $action_list) {
     $this->actionList = $action_list;
     return $this;
   }

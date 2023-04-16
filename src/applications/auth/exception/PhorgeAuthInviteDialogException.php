@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorAuthInviteDialogException
-  extends PhabricatorAuthInviteException {
+abstract class PhorgeAuthInviteDialogException
+  extends PhorgeAuthInviteException {
 
   private $title;
   private $body;

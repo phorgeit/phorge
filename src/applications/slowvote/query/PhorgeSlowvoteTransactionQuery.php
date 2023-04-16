@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorSlowvoteTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeSlowvoteTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorSlowvoteTransaction();
+    return new PhorgeSlowvoteTransaction();
   }
 
 }

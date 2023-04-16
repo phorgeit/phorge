@@ -1,6 +1,6 @@
 <?php
 
-abstract class NuanceDAO extends PhabricatorLiskDAO {
+abstract class NuanceDAO extends PhorgeLiskDAO {
 
   public function getApplicationName() {
     return 'nuance';

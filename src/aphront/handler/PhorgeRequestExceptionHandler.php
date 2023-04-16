@@ -1,15 +1,15 @@
 <?php
 
-abstract class PhabricatorRequestExceptionHandler
+abstract class PhorgeRequestExceptionHandler
   extends AphrontRequestExceptionHandler {
 
-  protected function isPhabricatorSite(AphrontRequest $request) {
+  protected function isPhorgeSite(AphrontRequest $request) {
     $site = $request->getSite();
     if (!$site) {
       return false;
     }
 
-    return ($site instanceof PhabricatorSite);
+    return ($site instanceof PhorgeSite);
   }
 
   protected function getViewer(AphrontRequest $request) {
@@ -20,7 +20,7 @@ abstract class PhabricatorRequestExceptionHandler
     }
 
     // If we hit an exception very early, we won't have a user yet.
-    return new PhabricatorUser();
+    return new PhorgeUser();
   }
 
 }

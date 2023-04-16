@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNotificationServerRef
+final class PhorgeNotificationServerRef
   extends Phobject {
 
   private $type;
@@ -67,7 +67,7 @@ final class PhabricatorNotificationServerRef
   }
 
   public static function getLiveServers() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
 
     $refs = $cache->getKey(self::KEY_REFS);
     if (!$refs) {
@@ -79,7 +79,7 @@ final class PhabricatorNotificationServerRef
   }
 
   public static function newRefs() {
-    $configs = PhabricatorEnv::getEnvConfig('notification.servers');
+    $configs = PhorgeEnv::getEnvConfig('notification.servers');
 
     $refs = array();
     foreach ($configs as $config) {
@@ -151,7 +151,7 @@ final class PhabricatorNotificationServerRef
       ->setPort($this->getPort())
       ->setPath($full_path);
 
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if (phutil_nonempty_string($instance)) {
       $uri->replaceQueryParam('instance', $instance);
     }
@@ -160,7 +160,7 @@ final class PhabricatorNotificationServerRef
   }
 
   public function getWebsocketURI($to_path = null) {
-    $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
+    $instance = PhorgeEnv::getEnvConfig('cluster.instance');
     if (strlen($instance)) {
       $to_path = $to_path.'~'.$instance.'/';
     }

@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorBadgesRemoveRecipientsController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesRemoveRecipientsController
+  extends PhorgeBadgesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$badge) {
@@ -25,12 +25,12 @@ final class PhabricatorBadgesRemoveRecipientsController
 
     if ($request->isFormPost()) {
       $xactions = array();
-      $xactions[] = id(new PhabricatorBadgesTransaction())
+      $xactions[] = id(new PhorgeBadgesTransaction())
         ->setTransactionType(
-          PhabricatorBadgesBadgeRevokeTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeRevokeTransaction::TRANSACTIONTYPE)
         ->setNewValue(array($remove_phid));
 
-      $editor = id(new PhabricatorBadgesEditor())
+      $editor = id(new PhorgeBadgesEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)
@@ -41,7 +41,7 @@ final class PhabricatorBadgesRemoveRecipientsController
         ->setURI($view_uri);
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($remove_phid))
       ->executeOne();

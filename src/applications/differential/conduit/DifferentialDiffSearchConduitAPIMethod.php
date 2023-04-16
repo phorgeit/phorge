@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialDiffSearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'differential.diff.search';

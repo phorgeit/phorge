@@ -1,26 +1,26 @@
 <?php
 
-final class PhabricatorConfigSettingsHistoryController
-  extends PhabricatorConfigSettingsController {
+final class PhorgeConfigSettingsHistoryController
+  extends PhorgeConfigSettingsController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $xactions = id(new PhabricatorConfigTransactionQuery())
+    $xactions = id(new PhorgeConfigTransactionQuery())
       ->setViewer($viewer)
       ->needComments(true)
       ->execute();
 
-    $object = new PhabricatorConfigEntry();
+    $object = new PhorgeConfigEntry();
 
     $xaction = $object->getApplicationTransactionTemplate();
 
-    $timeline = id(new PhabricatorApplicationTransactionView())
+    $timeline = id(new PhorgeApplicationTransactionView())
       ->setViewer($viewer)
       ->setTransactions($xactions)
       ->setRenderAsFeed(true)
-      ->setObjectPHID(PhabricatorPHIDConstants::PHID_VOID);
+      ->setObjectPHID(PhorgePHIDConstants::PHID_VOID);
 
     $timeline->setShouldTerminate(true);
 

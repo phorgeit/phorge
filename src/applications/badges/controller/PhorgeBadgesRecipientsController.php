@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorBadgesRecipientsController
-  extends PhabricatorBadgesProfileController {
+final class PhorgeBadgesRecipientsController
+  extends PhorgeBadgesProfileController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorBadgesRecipientsController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -20,7 +20,7 @@ final class PhabricatorBadgesRecipientsController
     }
     $this->setBadge($badge);
 
-    $awards = id(new PhabricatorBadgesAwardQuery())
+    $awards = id(new PhorgeBadgesAwardQuery())
       ->setViewer($viewer)
       ->withBadgePHIDs(array($badge->getPHID()))
       ->execute();
@@ -36,7 +36,7 @@ final class PhabricatorBadgesRecipientsController
 
     $header = $this->buildHeaderView();
 
-    $recipient_list = id(new PhabricatorBadgesRecipientsListView())
+    $recipient_list = id(new PhorgeBadgesRecipientsListView())
       ->setBadge($badge)
       ->setAwards($awards)
       ->setHandles($handles)

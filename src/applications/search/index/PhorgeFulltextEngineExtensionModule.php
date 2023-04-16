@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFulltextEngineExtensionModule
-  extends PhabricatorConfigModule {
+final class PhorgeFulltextEngineExtensionModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'fulltextengine';
@@ -14,7 +14,7 @@ final class PhabricatorFulltextEngineExtensionModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $extensions = PhabricatorFulltextEngineExtension::getAllExtensions();
+    $extensions = PhorgeFulltextEngineExtension::getAllExtensions();
 
     $rows = array();
     foreach ($extensions as $extension) {

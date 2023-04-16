@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerUnknownRule
-  extends PhabricatorProjectTriggerRule {
+final class PhorgeProjectTriggerUnknownRule
+  extends PhorgeProjectTriggerRule {
 
   const TRIGGERTYPE = 'unknown';
 

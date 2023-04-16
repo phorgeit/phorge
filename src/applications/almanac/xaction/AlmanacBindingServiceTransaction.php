@@ -45,10 +45,10 @@ final class AlmanacBindingServiceTransaction
       }
 
       $service = head($services);
-      $can_edit = PhabricatorPolicyFilter::hasCapability(
+      $can_edit = PhorgePolicyFilter::hasCapability(
         $this->getActor(),
         $service,
-        PhabricatorPolicyCapability::CAN_EDIT);
+        PhorgePolicyCapability::CAN_EDIT);
       if (!$can_edit) {
         $errors[] = $this->newInvalidError(
           pht(

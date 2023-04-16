@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEditEnginePageState
+final class PhorgeEditEnginePageState
   extends Phobject {
 
   private $isCreate;

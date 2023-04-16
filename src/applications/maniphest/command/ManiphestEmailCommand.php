@@ -4,7 +4,7 @@ abstract class ManiphestEmailCommand
   extends MetaMTAEmailTransactionCommand {
 
   public function isCommandSupportedForObject(
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeApplicationTransactionInterface $object) {
     return ($object instanceof ManiphestTask);
   }
 

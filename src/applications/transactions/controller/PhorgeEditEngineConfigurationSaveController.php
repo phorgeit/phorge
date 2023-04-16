@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationSaveController
-  extends PhabricatorEditEngineController {
+final class PhorgeEditEngineConfigurationSaveController
+  extends PhorgeEditEngineController {
 
   public function handleRequest(AphrontRequest $request) {
     $engine_key = $request->getURIData('engineKey');
@@ -10,7 +10,7 @@ final class PhabricatorEditEngineConfigurationSaveController
     $key = $request->getURIData('key');
     $viewer = $this->getViewer();
 
-    $config = id(new PhabricatorEditEngineConfigurationQuery())
+    $config = id(new PhorgeEditEngineConfigurationQuery())
       ->setViewer($viewer)
       ->withEngineKeys(array($engine_key))
       ->withIdentifiers(array($key))
@@ -30,7 +30,7 @@ final class PhabricatorEditEngineConfigurationSaveController
     }
 
     if ($request->isFormPost()) {
-      $editor = id(new PhabricatorEditEngineConfigurationEditor())
+      $editor = id(new PhorgeEditEngineConfigurationEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true);

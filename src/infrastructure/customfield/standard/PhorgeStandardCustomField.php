@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorStandardCustomField
-  extends PhabricatorCustomField {
+abstract class PhorgeStandardCustomField
+  extends PhorgeCustomField {
 
   private $rawKey;
   private $fieldKey;
@@ -23,7 +23,7 @@ abstract class PhabricatorStandardCustomField
   abstract public function getFieldType();
 
   public static function buildStandardFields(
-    PhabricatorCustomField $template,
+    PhorgeCustomField $template,
     array $config,
     $builtin = false) {
 
@@ -63,7 +63,7 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function setApplicationField(
-    PhabricatorStandardCustomFieldInterface $application_field) {
+    PhorgeStandardCustomFieldInterface $application_field) {
     $this->applicationField = $application_field;
     return $this;
   }
@@ -190,7 +190,7 @@ abstract class PhabricatorStandardCustomField
   }
 
 
-/* -(  PhabricatorCustomField  )--------------------------------------------- */
+/* -(  PhorgeCustomField  )--------------------------------------------- */
 
 
   public function setFieldKey($field_key) {
@@ -232,7 +232,7 @@ abstract class PhabricatorStandardCustomField
     try {
       $object = $this->newStorageObject();
       return true;
-    } catch (PhabricatorCustomFieldImplementationIncompleteException $ex) {
+    } catch (PhorgeCustomFieldImplementationIncompleteException $ex) {
       return false;
     }
   }
@@ -328,27 +328,27 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
     return;
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     return;
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
     return;
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -371,7 +371,7 @@ abstract class PhabricatorStandardCustomField
         }
       }
       if ($this->isValueEmpty($value)) {
-        $error = new PhabricatorApplicationTransactionValidationError(
+        $error = new PhorgeApplicationTransactionValidationError(
           $type,
           pht('Required'),
           pht('%s is required.', $this->getFieldName()),
@@ -393,7 +393,7 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
@@ -420,7 +420,7 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $author_phid = $xaction->getAuthorPHID();
     $object_phid = $xaction->getObjectPHID();
@@ -466,7 +466,7 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function updateAbstractDocument(
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
 
     $field_key = $this->getFieldConfigValue('fulltext');
 

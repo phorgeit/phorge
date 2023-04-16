@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorTokensApplication extends PhabricatorApplication {
+final class PhorgeTokensApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Tokens');
@@ -29,17 +29,17 @@ final class PhabricatorTokensApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/token/' => array(
-        '' => 'PhabricatorTokenGivenController',
-        'given/' => 'PhabricatorTokenGivenController',
-        'give/(?<phid>[^/]+)/' => 'PhabricatorTokenGiveController',
-        'leaders/' => 'PhabricatorTokenLeaderController',
+        '' => 'PhorgeTokenGivenController',
+        'given/' => 'PhorgeTokenGivenController',
+        'give/(?<phid>[^/]+)/' => 'PhorgeTokenGiveController',
+        'leaders/' => 'PhorgeTokenLeaderController',
       ),
     );
   }
 
   public function getEventListeners() {
     return array(
-      new PhabricatorTokenUIEventListener(),
+      new PhorgeTokenUIEventListener(),
     );
   }
 

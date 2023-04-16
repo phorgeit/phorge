@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorPDFFragment
+abstract class PhorgePDFFragment
   extends Phobject {
 
   private $rope;

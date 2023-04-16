@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorTranslationSetting
-  extends PhabricatorOptionGroupSetting {
+final class PhorgeTranslationSetting
+  extends PhorgeOptionGroupSetting {
 
   const SETTINGKEY = 'translation';
 
@@ -10,7 +10,7 @@ final class PhabricatorTranslationSetting
   }
 
   public function getSettingPanelKey() {
-    return PhabricatorLanguageSettingsPanel::PANELKEY;
+    return PhorgeLanguageSettingsPanel::PANELKEY;
   }
 
   protected function getSettingOrder() {
@@ -50,7 +50,7 @@ final class PhabricatorTranslationSetting
       // Get the locale's localized name if it's available. For example,
       // "Deutsch" instead of "German". This helps users who do not speak the
       // current language to find the correct setting.
-      $raw_scope = PhabricatorEnv::beginScopedLocale($code);
+      $raw_scope = PhorgeEnv::beginScopedLocale($code);
       $name = $locale->getLocaleName();
       unset($raw_scope);
 
@@ -85,14 +85,14 @@ final class PhabricatorTranslationSetting
     }
 
     // Omit silly locales on serious business installs.
-    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
+    $is_serious = PhorgeEnv::getEnvConfig('phorge.serious-business');
     if ($is_serious) {
       unset($groups['silly']);
     }
 
     // Omit limited and test translations if Phorge is not in developer
     // mode.
-    $is_dev = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
+    $is_dev = PhorgeEnv::getEnvConfig('phorge.developer-mode');
     if (!$is_dev) {
       unset($groups['limited']);
       unset($groups['test']);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAphlictManagementStopWorkflow
-  extends PhabricatorAphlictManagementWorkflow {
+final class PhorgeAphlictManagementStopWorkflow
+  extends PhorgeAphlictManagementWorkflow {
 
   protected function didConstruct() {
     $this

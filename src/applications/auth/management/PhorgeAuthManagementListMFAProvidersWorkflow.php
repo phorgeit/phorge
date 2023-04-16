@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementListMFAProvidersWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementListMFAProvidersWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -16,7 +16,7 @@ final class PhabricatorAuthManagementListMFAProvidersWorkflow
   public function execute(PhutilArgumentParser $args) {
     $viewer = $this->getViewer();
 
-    $providers = id(new PhabricatorAuthFactorProviderQuery())
+    $providers = id(new PhorgeAuthFactorProviderQuery())
       ->setViewer($viewer)
       ->execute();
 

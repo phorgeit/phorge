@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEpochExportField
-  extends PhabricatorExportField {
+final class PhorgeEpochExportField
+  extends PhorgeExportField {
 
   private $zone;
 

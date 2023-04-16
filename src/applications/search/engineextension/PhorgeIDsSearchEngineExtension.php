@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIDsSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+final class PhorgeIDsSearchEngineExtension
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'ids';
 
@@ -23,12 +23,12 @@ final class PhabricatorIDsSearchEngineExtension
 
   public function getSearchFields($object) {
     return array(
-      id(new PhabricatorIDsSearchField())
+      id(new PhorgeIDsSearchField())
         ->setKey('ids')
         ->setLabel(pht('IDs'))
         ->setDescription(
           pht('Search for objects with specific IDs.')),
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setKey('phids')
         ->setLabel(pht('PHIDs'))
         ->setDescription(
@@ -39,7 +39,7 @@ final class PhabricatorIDsSearchEngineExtension
   public function applyConstraintsToQuery(
     $object,
     $query,
-    PhabricatorSavedQuery $saved,
+    PhorgeSavedQuery $saved,
     array $map) {
 
     if ($map['ids']) {

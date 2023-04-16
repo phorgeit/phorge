@@ -1,13 +1,13 @@
 <?php
 
 abstract class DifferentialRevisionRelationship
-  extends PhabricatorObjectRelationship {
+  extends PhorgeObjectRelationship {
 
   public function isEnabledForObject($object) {
     $viewer = $this->getViewer();
 
-    $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+    $has_app = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeDifferentialApplication',
       $viewer);
     if (!$has_app) {
       return false;

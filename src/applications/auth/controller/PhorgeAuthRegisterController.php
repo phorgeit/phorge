@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthRegisterController
-  extends PhabricatorAuthController {
+final class PhorgeAuthRegisterController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -60,7 +60,7 @@ final class PhabricatorAuthRegisterController
 
     $errors = array();
 
-    $user = new PhabricatorUser();
+    $user = new PhorgeUser();
 
     if ($is_setup) {
       $default_username = null;
@@ -72,15 +72,15 @@ final class PhabricatorAuthRegisterController
       $default_email = $account->getEmail();
     }
 
-    $account_type = PhabricatorAuthPassword::PASSWORD_TYPE_ACCOUNT;
-    $content_source = PhabricatorContentSource::newFromRequest($request);
+    $account_type = PhorgeAuthPassword::PASSWORD_TYPE_ACCOUNT;
+    $content_source = PhorgeContentSource::newFromRequest($request);
 
     if ($invite) {
       $default_email = $invite->getEmailAddress();
     }
 
     if ($default_email !== null) {
-      if (!PhabricatorUserEmail::isValidAddress($default_email)) {
+      if (!PhorgeUserEmail::isValidAddress($default_email)) {
         $errors[] = pht(
           'The email address associated with this external account ("%s") is '.
           'not a valid email address and can not be used to register an '.
@@ -94,8 +94,8 @@ final class PhabricatorAuthRegisterController
       // We should bypass policy here because e.g. limiting an application use
       // to a subset of users should not allow the others to overwrite
       // configured application emails.
-      $application_email = id(new PhabricatorMetaMTAApplicationEmailQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $application_email = id(new PhorgeMetaMTAApplicationEmailQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withAddresses(array($default_email))
         ->executeOne();
       if ($application_email) {
@@ -115,7 +115,7 @@ final class PhabricatorAuthRegisterController
       // pick a valid email address instead, but this does not align well with
       // user expectation and it's not clear the cases it enables are valuable.
       // See discussion in T3472.
-      if (!PhabricatorUserEmail::isAllowedAddress($default_email)) {
+      if (!PhorgeUserEmail::isAllowedAddress($default_email)) {
         $debug_email = new PHUIInvisibleCharacterView($default_email);
         return $this->renderError(
           array(
@@ -126,14 +126,14 @@ final class PhabricatorAuthRegisterController
               $debug_email),
             phutil_tag('br'),
             phutil_tag('br'),
-            PhabricatorUserEmail::describeAllowedAddresses(),
+            PhorgeUserEmail::describeAllowedAddresses(),
           ));
       }
 
       // If the account source provided an email, but another account already
       // has that email, just pretend we didn't get an email.
       if ($default_email !== null) {
-        $same_email = id(new PhabricatorUserEmail())->loadOneWhere(
+        $same_email = id(new PhorgeUserEmail())->loadOneWhere(
           'address = %s',
           $default_email);
         if ($same_email) {
@@ -195,7 +195,7 @@ final class PhabricatorAuthRegisterController
       }
     }
 
-    $profile = id(new PhabricatorRegistrationProfile())
+    $profile = id(new PhorgeRegistrationProfile())
       ->setDefaultUsername($default_username)
       ->setDefaultEmail($default_email)
       ->setDefaultRealName($default_realname)
@@ -204,13 +204,13 @@ final class PhabricatorAuthRegisterController
       ->setCanEditRealName(true)
       ->setShouldVerifyEmail(false);
 
-    $event_type = PhabricatorEventType::TYPE_AUTH_WILLREGISTERUSER;
+    $event_type = PhorgeEventType::TYPE_AUTH_WILLREGISTERUSER;
     $event_data = array(
       'account' => $account,
       'profile' => $profile,
     );
 
-    $event = id(new PhabricatorEvent($event_type, $event_data))
+    $event = id(new PhorgeEvent($event_type, $event_data))
       ->setUser($user);
     PhutilEventEngine::dispatchEvent($event);
 
@@ -242,7 +242,7 @@ final class PhabricatorAuthRegisterController
     $value_email = $default_email;
     $value_password = null;
 
-    $require_real_name = PhabricatorEnv::getEnvConfig('user.require-real-name');
+    $require_real_name = PhorgeEnv::getEnvConfig('user.require-real-name');
 
     $e_username = strlen($value_username) ? null : true;
     $e_realname = $require_real_name ? true : null;
@@ -257,7 +257,7 @@ final class PhabricatorAuthRegisterController
       $skip_captcha = true;
     }
 
-    $min_len = PhabricatorEnv::getEnvConfig('account.minimum-password-length');
+    $min_len = PhorgeEnv::getEnvConfig('account.minimum-password-length');
     $min_len = (int)$min_len;
 
     $from_invite = $request->getStr('invite');
@@ -291,9 +291,9 @@ final class PhabricatorAuthRegisterController
         if (!strlen($value_username)) {
           $e_username = pht('Required');
           $errors[] = pht('Username is required.');
-        } else if (!PhabricatorUser::validateUsername($value_username)) {
+        } else if (!PhorgeUser::validateUsername($value_username)) {
           $e_username = pht('Invalid');
-          $errors[] = PhabricatorUser::describeValidUsername();
+          $errors[] = PhorgeUser::describeValidUsername();
         } else {
           $e_username = null;
         }
@@ -306,7 +306,7 @@ final class PhabricatorAuthRegisterController
         $password_envelope = new PhutilOpaqueEnvelope($value_password);
         $confirm_envelope = new PhutilOpaqueEnvelope($value_confirm);
 
-        $engine = id(new PhabricatorAuthPasswordEngine())
+        $engine = id(new PhorgeAuthPasswordEngine())
           ->setViewer($user)
           ->setContentSource($content_source)
           ->setPasswordType($account_type)
@@ -315,7 +315,7 @@ final class PhabricatorAuthRegisterController
         try {
           $engine->checkNewPassword($password_envelope, $confirm_envelope);
           $e_password = null;
-        } catch (PhabricatorAuthPasswordException $ex) {
+        } catch (PhorgeAuthPasswordException $ex) {
           $errors[] = $ex->getMessage();
           $e_password = $ex->getPasswordError();
         }
@@ -326,12 +326,12 @@ final class PhabricatorAuthRegisterController
         if (!strlen($value_email)) {
           $e_email = pht('Required');
           $errors[] = pht('Email is required.');
-        } else if (!PhabricatorUserEmail::isValidAddress($value_email)) {
+        } else if (!PhorgeUserEmail::isValidAddress($value_email)) {
           $e_email = pht('Invalid');
-          $errors[] = PhabricatorUserEmail::describeValidAddresses();
-        } else if (!PhabricatorUserEmail::isAllowedAddress($value_email)) {
+          $errors[] = PhorgeUserEmail::describeValidAddresses();
+        } else if (!PhorgeUserEmail::isAllowedAddress($value_email)) {
           $e_email = pht('Disallowed');
-          $errors[] = PhabricatorUserEmail::describeAllowedAddresses();
+          $errors[] = PhorgeUserEmail::describeAllowedAddresses();
         } else {
           $e_email = null;
         }
@@ -382,12 +382,12 @@ final class PhabricatorAuthRegisterController
           if ($invite) {
             // If we have a valid invite, this email may exist but be
             // nonprimary and unverified, so we'll reassign it.
-            $email_obj = id(new PhabricatorUserEmail())->loadOneWhere(
+            $email_obj = id(new PhorgeUserEmail())->loadOneWhere(
               'address = %s',
               $value_email);
           }
           if (!$email_obj) {
-            $email_obj = id(new PhabricatorUserEmail())
+            $email_obj = id(new PhorgeUserEmail())
               ->setAddress($value_email);
           }
 
@@ -401,7 +401,7 @@ final class PhabricatorAuthRegisterController
           } else if ($invite) {
             $must_approve = false;
           } else {
-            $must_approve = PhabricatorEnv::getEnvConfig(
+            $must_approve = PhorgeEnv::getEnvConfig(
               'auth.require-approval');
           }
 
@@ -419,12 +419,12 @@ final class PhabricatorAuthRegisterController
 
           $user->openTransaction();
 
-            $editor = id(new PhabricatorUserEditor())
+            $editor = id(new PhorgeUserEditor())
               ->setActor($user);
 
             $editor->createNewUser($user, $email_obj, $allow_reassign_email);
             if ($must_set_password) {
-              $password_object = PhabricatorAuthPassword::initializeNewPassword(
+              $password_object = PhorgeAuthPassword::initializeNewPassword(
                 $user,
                 $account_type);
 
@@ -435,19 +435,19 @@ final class PhabricatorAuthRegisterController
 
             if ($is_setup) {
               $xactions = array();
-              $xactions[] = id(new PhabricatorUserTransaction())
+              $xactions[] = id(new PhorgeUserTransaction())
                 ->setTransactionType(
-                  PhabricatorUserEmpowerTransaction::TRANSACTIONTYPE)
+                  PhorgeUserEmpowerTransaction::TRANSACTIONTYPE)
                 ->setNewValue(true);
 
-              $actor = PhabricatorUser::getOmnipotentUser();
-              $content_source = PhabricatorContentSource::newFromRequest(
+              $actor = PhorgeUser::getOmnipotentUser();
+              $content_source = PhorgeContentSource::newFromRequest(
                 $request);
 
-              $people_application_phid = id(new PhabricatorPeopleApplication())
+              $people_application_phid = id(new PhorgePeopleApplication())
                 ->getPHID();
 
-              $transaction_editor = id(new PhabricatorUserTransactionEditor())
+              $transaction_editor = id(new PhorgeUserTransactionEditor())
                 ->setActor($actor)
                 ->setActingAsPHID($people_application_phid)
                 ->setContentSource($content_source)
@@ -477,11 +477,11 @@ final class PhabricatorAuthRegisterController
 
           return $this->loginUser($user);
         } catch (AphrontDuplicateKeyQueryException $exception) {
-          $same_username = id(new PhabricatorUser())->loadOneWhere(
+          $same_username = id(new PhorgeUser())->loadOneWhere(
             'userName = %s',
             $user->getUserName());
 
-          $same_email = id(new PhabricatorUserEmail())->loadOneWhere(
+          $same_email = id(new PhorgeUserEmail())->loadOneWhere(
             'address = %s',
             $value_email);
 
@@ -514,7 +514,7 @@ final class PhabricatorAuthRegisterController
         id(new AphrontFormMarkupControl())
           ->setLabel(pht('External Account'))
           ->setValue(
-            id(new PhabricatorAuthAccountView())
+            id(new PhorgeAuthAccountView())
               ->setUser($request->getUser())
               ->setExternalAccount($account)
               ->setAuthProvider($provider)));
@@ -567,7 +567,7 @@ final class PhabricatorAuthRegisterController
           ->setLabel(pht('Email'))
           ->setName('email')
           ->setValue($value_email)
-          ->setCaption(PhabricatorUserEmail::describeAllowedAddresses())
+          ->setCaption(PhorgeUserEmail::describeAllowedAddresses())
           ->setError($e_email));
     }
 
@@ -649,7 +649,7 @@ final class PhabricatorAuthRegisterController
   }
 
   private function loadDefaultAccount($invite) {
-    $providers = PhabricatorAuthProvider::getAllEnabledProviders();
+    $providers = PhorgeAuthProvider::getAllEnabledProviders();
     $account = null;
     $provider = null;
     $response = null;
@@ -684,7 +684,7 @@ final class PhabricatorAuthRegisterController
     return array($account, $provider, $response);
   }
 
-  private function loadProfilePicture(PhabricatorExternalAccount $account) {
+  private function loadProfilePicture(PhorgeExternalAccount $account) {
     $phid = $account->getProfileImagePHID();
     if (!$phid) {
       return null;
@@ -696,16 +696,16 @@ final class PhabricatorAuthRegisterController
     // Reaching this means the user holds the account secret key and the
     // registration secret key, and thus has permission to view the image.
 
-    $file = id(new PhabricatorFileQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $file = id(new PhorgeFileQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withPHIDs(array($phid))
       ->executeOne();
     if (!$file) {
       return null;
     }
 
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PROFILE);
     return $xform->executeTransform($file);
   }
 
@@ -715,13 +715,13 @@ final class PhabricatorAuthRegisterController
       array($message));
   }
 
-  private function sendWaitingForApprovalEmail(PhabricatorUser $user) {
+  private function sendWaitingForApprovalEmail(PhorgeUser $user) {
     $title = pht(
       '[%s] New User "%s" Awaiting Approval',
       PlatformSymbols::getPlatformServerName(),
       $user->getUsername());
 
-    $body = new PhabricatorMetaMTAMailBody();
+    $body = new PhorgeMetaMTAMailBody();
 
     $body->addRawSection(
       pht(
@@ -731,16 +731,16 @@ final class PhabricatorAuthRegisterController
 
     $body->addLinkSection(
       pht('APPROVAL QUEUE'),
-      PhabricatorEnv::getProductionURI(
+      PhorgeEnv::getProductionURI(
         '/people/query/approval/'));
 
     $body->addLinkSection(
       pht('DISABLE APPROVAL QUEUE'),
-      PhabricatorEnv::getProductionURI(
+      PhorgeEnv::getProductionURI(
         '/config/edit/auth.require-approval/'));
 
-    $admins = id(new PhabricatorPeopleQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $admins = id(new PhorgePeopleQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withIsAdmin(true)
       ->execute();
 
@@ -748,7 +748,7 @@ final class PhabricatorAuthRegisterController
       return;
     }
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->addTos(mpull($admins, 'getPHID'))
       ->setSubject($title)
       ->setBody($body->render())

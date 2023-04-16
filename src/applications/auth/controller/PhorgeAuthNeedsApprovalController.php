@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthNeedsApprovalController
-  extends PhabricatorAuthController {
+final class PhorgeAuthNeedsApprovalController
+  extends PhorgeAuthController {
 
   public function shouldRequireLogin() {
     return false;
@@ -47,9 +47,9 @@ final class PhabricatorAuthNeedsApprovalController
   private function newCustomWaitForApprovalInstructions() {
     $viewer = $this->getViewer();
 
-    $text = PhabricatorAuthMessage::loadMessageText(
+    $text = PhorgeAuthMessage::loadMessageText(
       $viewer,
-      PhabricatorAuthWaitForApprovalMessageType::MESSAGEKEY);
+      PhorgeAuthWaitForApprovalMessageType::MESSAGEKEY);
 
     if (!strlen($text)) {
       return null;

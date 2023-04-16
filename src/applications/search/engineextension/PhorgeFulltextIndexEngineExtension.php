@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFulltextIndexEngineExtension
-  extends PhabricatorIndexEngineExtension {
+final class PhorgeFulltextIndexEngineExtension
+  extends PhorgeIndexEngineExtension {
 
   const EXTENSIONKEY = 'fulltext';
 
@@ -19,7 +19,7 @@ final class PhabricatorFulltextIndexEngineExtension
     // that every document may need to be reindexed.
     $version[] = $this->getConfigurationVersion();
 
-    if ($object instanceof PhabricatorApplicationTransactionInterface) {
+    if ($object instanceof PhorgeApplicationTransactionInterface) {
       // If this is a normal object with transactions, we only need to
       // reindex it if there are new transactions (or comment edits).
       $version[] = $this->getTransactionVersion($object);
@@ -34,11 +34,11 @@ final class PhabricatorFulltextIndexEngineExtension
   }
 
   public function shouldIndexObject($object) {
-    return ($object instanceof PhabricatorFulltextInterface);
+    return ($object instanceof PhorgeFulltextInterface);
   }
 
   public function indexObject(
-    PhabricatorIndexEngine $engine,
+    PhorgeIndexEngine $engine,
     $object) {
 
     $engine = $object->newFulltextEngine();
@@ -100,12 +100,12 @@ final class PhabricatorFulltextIndexEngineExtension
 
   private function newConfigurationVersion() {
     $raw = array(
-      'services' => PhabricatorEnv::getEnvConfig('cluster.search'),
+      'services' => PhorgeEnv::getEnvConfig('cluster.search'),
     );
 
     $json = phutil_json_encode($raw);
 
-    return PhabricatorHash::digestForIndex($json);
+    return PhorgeHash::digestForIndex($json);
   }
 
 

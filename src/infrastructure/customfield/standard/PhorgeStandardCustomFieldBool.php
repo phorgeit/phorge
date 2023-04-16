@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStandardCustomFieldBool
-  extends PhabricatorStandardCustomField {
+final class PhorgeStandardCustomFieldBool
+  extends PhorgeStandardCustomField {
 
   public function getFieldType() {
     return 'bool';
@@ -45,15 +45,15 @@ final class PhabricatorStandardCustomFieldBool
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
 
     return $request->getStr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     if ($value == 'require') {
       $query->withApplicationSearchContainsConstraint(
@@ -63,7 +63,7 @@ final class PhabricatorStandardCustomFieldBool
   }
 
   public function appendToApplicationSearchForm(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontFormView $form,
     $value) {
 
@@ -100,7 +100,7 @@ final class PhabricatorStandardCustomFieldBool
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();

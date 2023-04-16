@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConduitConsoleController
-  extends PhabricatorConduitController {
+final class PhorgeConduitConsoleController
+  extends PhorgeConduitController {
 
   public function shouldAllowPublic() {
     return true;
@@ -11,7 +11,7 @@ final class PhabricatorConduitConsoleController
     $viewer = $this->getViewer();
     $method_name = $request->getURIData('method');
 
-    $method = id(new PhabricatorConduitMethodQuery())
+    $method = id(new PhorgeConduitMethodQuery())
       ->setViewer($viewer)
       ->withMethods(array($method_name))
       ->executeOne();
@@ -98,19 +98,19 @@ final class PhabricatorConduitConsoleController
       ->setHeader($header)
       ->setFooter(array(
 
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName('overview'),
         $info_box,
 
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName('documentation'),
         $documentation_view,
 
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName('call'),
         $form_box,
 
-        id(new PhabricatorAnchorView())
+        id(new PhorgeAnchorView())
           ->setAnchorName('examples'),
         $this->renderExampleBox($method, null),
       ));

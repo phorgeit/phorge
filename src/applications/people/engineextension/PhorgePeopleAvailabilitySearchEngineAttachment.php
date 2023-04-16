@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleAvailabilitySearchEngineAttachment
-  extends PhabricatorSearchEngineAttachment {
+final class PhorgePeopleAvailabilitySearchEngineAttachment
+  extends PhorgeSearchEngineAttachment {
 
   public function getAttachmentName() {
     return pht('User Availability');
@@ -26,11 +26,11 @@ final class PhabricatorPeopleAvailabilitySearchEngineAttachment
 
     $value = $object->getDisplayAvailability();
     if ($value === null) {
-      $value = PhabricatorCalendarEventInvitee::AVAILABILITY_AVAILABLE;
+      $value = PhorgeCalendarEventInvitee::AVAILABILITY_AVAILABLE;
     }
 
-    $name = PhabricatorCalendarEventInvitee::getAvailabilityName($value);
-    $color = PhabricatorCalendarEventInvitee::getAvailabilityColor($value);
+    $name = PhorgeCalendarEventInvitee::getAvailabilityName($value);
+    $color = PhorgeCalendarEventInvitee::getAvailabilityColor($value);
 
     $event_phid = $object->getAvailabilityEventPHID();
 

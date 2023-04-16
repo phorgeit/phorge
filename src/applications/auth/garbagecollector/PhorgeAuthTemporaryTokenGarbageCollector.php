@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTemporaryTokenGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeAuthTemporaryTokenGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'auth.tokens';
 
@@ -14,7 +14,7 @@ final class PhabricatorAuthTemporaryTokenGarbageCollector
   }
 
   protected function collectGarbage() {
-    $session_table = new PhabricatorAuthTemporaryToken();
+    $session_table = new PhorgeAuthTemporaryToken();
     $conn_w = $session_table->establishConnection('w');
 
     queryfx(

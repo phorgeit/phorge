@@ -1,7 +1,7 @@
 <?php
 
 final class PhortuneSubscriptionQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -121,7 +121,7 @@ final class PhortuneSubscriptionQuery
 
     if ($this->needTriggers) {
       $trigger_phids = mpull($subscriptions, 'getTriggerPHID');
-      $triggers = id(new PhabricatorWorkerTriggerQuery())
+      $triggers = id(new PhorgeWorkerTriggerQuery())
         ->setViewer($this->getViewer())
         ->withPHIDs($trigger_phids)
         ->needEvents(true)
@@ -194,7 +194,7 @@ final class PhortuneSubscriptionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
 }

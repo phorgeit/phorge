@@ -13,10 +13,10 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
   protected function doWork() {
     $resource_phid = $this->getTaskDataValue('resourcePHID');
 
-    $hash = PhabricatorHash::digestForIndex($resource_phid);
+    $hash = PhorgeHash::digestForIndex($resource_phid);
     $lock_key = 'drydock.resource:'.$hash;
 
-    $lock = PhabricatorGlobalLock::newLock($lock_key)
+    $lock = PhorgeGlobalLock::newLock($lock_key)
       ->lock(1);
 
     try {
@@ -102,7 +102,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
         'duration' => $duration,
       ));
 
-    throw new PhabricatorWorkerYieldException($duration);
+    throw new PhorgeWorkerYieldException($duration);
   }
 
 
@@ -155,7 +155,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
     // after it executes, awaken them now.
     $awaken_ids = $command->getProperty('awakenTaskIDs');
     if (is_array($awaken_ids) && $awaken_ids) {
-      PhabricatorWorker::awakenTaskIDs($awaken_ids);
+      PhorgeWorker::awakenTaskIDs($awaken_ids);
     }
   }
 
@@ -173,7 +173,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
 
     $awaken_ids = $this->getTaskDataValue('awakenOnActivation');
     if (is_array($awaken_ids) && $awaken_ids) {
-      PhabricatorWorker::awakenTaskIDs($awaken_ids);
+      PhorgeWorker::awakenTaskIDs($awaken_ids);
     }
   }
 
@@ -221,7 +221,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
     }
 
     $viewer = $this->getViewer();
-    $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+    $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
 
     $resource
       ->setStatus(DrydockResourceStatus::STATUS_RELEASED)
@@ -286,7 +286,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
         'message' => $ex->getMessage(),
       ));
 
-    throw new PhabricatorWorkerPermanentFailureException(
+    throw new PhorgeWorkerPermanentFailureException(
       pht(
         'Permanent failure while activating resource ("%s"): %s',
         $resource->getPHID(),

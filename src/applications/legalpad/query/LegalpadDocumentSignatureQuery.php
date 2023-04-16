@@ -1,7 +1,7 @@
 <?php
 
 final class LegalpadDocumentSignatureQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -151,7 +151,7 @@ final class LegalpadDocumentSignatureQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return 'PhorgeLegalpadApplication';
   }
 
 }

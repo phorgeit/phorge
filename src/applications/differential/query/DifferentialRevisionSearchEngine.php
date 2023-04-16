@@ -1,14 +1,14 @@
 <?php
 
 final class DifferentialRevisionSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Differential Revisions');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDifferentialApplication';
+    return 'PhorgeDifferentialApplication';
   }
 
   protected function newResultBuckets() {
@@ -66,63 +66,63 @@ final class DifferentialRevisionSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Responsible Users'))
         ->setKey('responsiblePHIDs')
         ->setAliases(array('responsiblePHID', 'responsibles', 'responsible'))
         ->setDatasource(new DifferentialResponsibleDatasource())
         ->setDescription(
           pht('Find revisions that a given user is responsible for.')),
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors', 'authorPHID'))
         ->setDescription(
           pht('Find revisions with specific authors.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Reviewers'))
         ->setKey('reviewerPHIDs')
         ->setAliases(array('reviewer', 'reviewers', 'reviewerPHID'))
         ->setDatasource(new DifferentialReviewerFunctionDatasource())
         ->setDescription(
           pht('Find revisions with specific reviewers.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Repositories'))
         ->setKey('repositoryPHIDs')
         ->setAliases(array('repository', 'repositories', 'repositoryPHID'))
         ->setDatasource(new DiffusionRepositoryFunctionDatasource())
         ->setDescription(
           pht('Find revisions from specific repositories.')),
-      id(new PhabricatorSearchDatasourceField())
+      id(new PhorgeSearchDatasourceField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
         ->setAliases(array('status'))
         ->setDatasource(new DifferentialRevisionStatusFunctionDatasource())
         ->setDescription(
           pht('Find revisions with particular statuses.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created After'))
         ->setKey('createdStart')
         ->setDescription(
           pht('Find revisions created at or after a particular time.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Created Before'))
         ->setKey('createdEnd')
         ->setDescription(
           pht('Find revisions created at or before a particular time.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Modified After'))
         ->setKey('modifiedStart')
         ->setIsHidden(true)
         ->setDescription(
           pht('Find revisions modified at or after a particular time.')),
-      id(new PhabricatorSearchDateField())
+      id(new PhorgeSearchDateField())
         ->setLabel(pht('Modified Before'))
         ->setKey('modifiedEnd')
         ->setIsHidden(true)
         ->setDescription(
           pht('Find revisions modified at or before a particular time.')),
-      id(new PhabricatorSearchStringListField())
+      id(new PhorgeSearchStringListField())
         ->setKey('affectedPaths')
         ->setLabel(pht('Affected Paths'))
         ->setDescription(
@@ -186,7 +186,7 @@ final class DifferentialRevisionSearchEngine
 
   protected function renderResultList(
     array $revisions,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($revisions, 'DifferentialRevision');
 
@@ -241,7 +241,7 @@ final class DifferentialRevisionSearchEngine
       $list = $views;
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($list);
 
     return $result;
@@ -281,7 +281,7 @@ final class DifferentialRevisionSearchEngine
       return array();
     }
 
-    $query = id(new PhabricatorEdgeQuery())
+    $query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($phids)
       ->withEdgeTypes(
         array(
@@ -319,31 +319,31 @@ final class DifferentialRevisionSearchEngine
 
   protected function newExportFields() {
     $fields = array(
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('monogram')
         ->setLabel(pht('Monogram')),
-      id(new PhabricatorPHIDExportField())
+      id(new PhorgePHIDExportField())
         ->setKey('authorPHID')
         ->setLabel(pht('Author PHID')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('author')
         ->setLabel(pht('Author')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('status')
         ->setLabel(pht('Status')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('statusName')
         ->setLabel(pht('Status Name')),
-      id(new PhabricatorURIExportField())
+      id(new PhorgeURIExportField())
         ->setKey('uri')
         ->setLabel(pht('URI')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('title')
         ->setLabel(pht('Title')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('summary')
         ->setLabel(pht('Summary')),
-      id(new PhabricatorStringExportField())
+      id(new PhorgeStringExportField())
         ->setKey('testPlan')
         ->setLabel(pht('Test Plan')),
     );
@@ -380,7 +380,7 @@ final class DifferentialRevisionSearchEngine
         'author' => $author_name,
         'status' => $status_value,
         'statusName' => $status_name,
-        'uri' => PhabricatorEnv::getProductionURI($revision->getURI()),
+        'uri' => PhorgeEnv::getProductionURI($revision->getURI()),
         'title' => (string)$revision->getTitle(),
         'summary' => (string)$revision->getSummary(),
         'testPlan' => (string)$revision->getTestPlan(),

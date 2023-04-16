@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDocumentFerretEngine
-  extends PhabricatorFerretEngine {
+  extends PhorgeFerretEngine {
 
   public function getApplicationName() {
     return 'phriction';

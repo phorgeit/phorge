@@ -1,6 +1,6 @@
 <?php
 
-class PhabricatorElasticsearchQueryBuilder {
+class PhorgeElasticsearchQueryBuilder {
   protected $name;
   protected $clauses = array();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersDetailController
-  extends PhabricatorOwnersController {
+final class PhorgeOwnersDetailController
+  extends PhorgeOwnersController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorOwnersDetailController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $package = id(new PhabricatorOwnersPackageQuery())
+    $package = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->needPaths(true)
@@ -27,7 +27,7 @@ final class PhabricatorOwnersDetailController
     }
 
     if ($repository_phids) {
-      $repositories = id(new PhabricatorRepositoryQuery())
+      $repositories = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withPHIDs(array_keys($repository_phids))
         ->execute();
@@ -36,9 +36,9 @@ final class PhabricatorOwnersDetailController
       $repositories = array();
     }
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $package,
-      PhabricatorCustomField::ROLE_VIEW);
+      PhorgeCustomField::ROLE_VIEW);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($package);
@@ -154,7 +154,7 @@ final class PhabricatorOwnersDetailController
 
     $timeline = $this->buildTransactionTimeline(
       $package,
-      new PhabricatorOwnersPackageTransactionQuery());
+      new PhorgeOwnersPackageTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $view = id(new PHUITwoColumnView())
@@ -175,8 +175,8 @@ final class PhabricatorOwnersDetailController
   }
 
   private function buildPackageDetailView(
-    PhabricatorOwnersPackage $package,
-    PhabricatorCustomFieldList $field_list) {
+    PhorgeOwnersPackage $package,
+    PhorgeCustomFieldList $field_list) {
 
     $viewer = $this->getViewer();
     $view = id(new PHUIPropertyListView())
@@ -192,19 +192,19 @@ final class PhabricatorOwnersDetailController
 
 
     $dominion = $package->getDominion();
-    $dominion_map = PhabricatorOwnersPackage::getDominionOptionsMap();
+    $dominion_map = PhorgeOwnersPackage::getDominionOptionsMap();
     $spec = idx($dominion_map, $dominion, array());
     $name = idx($spec, 'short', $dominion);
     $view->addProperty(pht('Dominion'), $name);
 
     $authority_mode = $package->getAuthorityMode();
-    $authority_map = PhabricatorOwnersPackage::getAuthorityOptionsMap();
+    $authority_map = PhorgeOwnersPackage::getAuthorityOptionsMap();
     $spec = idx($authority_map, $authority_mode, array());
     $name = idx($spec, 'short', $authority_mode);
     $view->addProperty(pht('Authority'), $name);
 
     $auto = $package->getAutoReview();
-    $autoreview_map = PhabricatorOwnersPackage::getAutoreviewOptionsMap();
+    $autoreview_map = PhorgeOwnersPackage::getAutoreviewOptionsMap();
     $spec = idx($autoreview_map, $auto, array());
     $name = idx($spec, 'name', $auto);
     $view->addProperty(pht('Auto Review'), $name);
@@ -237,13 +237,13 @@ final class PhabricatorOwnersDetailController
     return $view;
   }
 
-  private function buildCurtain(PhabricatorOwnersPackage $package) {
+  private function buildCurtain(PhorgeOwnersPackage $package) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $package,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $package->getID();
     $edit_uri = $this->getApplicationURI("/edit/{$id}/");
@@ -252,7 +252,7 @@ final class PhabricatorOwnersDetailController
     $curtain = $this->newCurtainView($package);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Package'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -261,7 +261,7 @@ final class PhabricatorOwnersDetailController
 
     if ($package->isArchived()) {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Activate Package'))
           ->setIcon('fa-check')
           ->setDisabled(!$can_edit)
@@ -269,7 +269,7 @@ final class PhabricatorOwnersDetailController
           ->setHref($this->getApplicationURI("/archive/{$id}/")));
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Archive Package'))
           ->setIcon('fa-ban')
           ->setDisabled(!$can_edit)
@@ -278,7 +278,7 @@ final class PhabricatorOwnersDetailController
     }
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Paths'))
         ->setIcon('fa-folder-open')
         ->setDisabled(!$can_edit)
@@ -360,7 +360,7 @@ final class PhabricatorOwnersDetailController
     return $box;
   }
 
-  private function newRulesView(PhabricatorOwnersPackage $package) {
+  private function newRulesView(PhorgeOwnersPackage $package) {
     $viewer = $this->getViewer();
 
     $limit = 10;
@@ -402,7 +402,7 @@ final class PhabricatorOwnersDetailController
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Affected By Herald Rules'))
-      ->setHeaderIcon(id(new PhabricatorHeraldApplication())->getIcon())
+      ->setHeaderIcon(id(new PhorgeHeraldApplication())->getIcon())
       ->addActionLink($more_link);
 
     return id(new PHUIObjectBoxView())

@@ -1,6 +1,6 @@
 <?php
 
-final class FundInitiativeRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class FundInitiativeRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return 'I';

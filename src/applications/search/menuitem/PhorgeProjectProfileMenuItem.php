@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectProfileMenuItem
-  extends PhabricatorProfileMenuItem {
+final class PhorgeProjectProfileMenuItem
+  extends PhorgeProfileMenuItem {
 
   const MENUITEMKEY = 'project';
   const FIELD_PROJECT = 'project';
@@ -42,7 +42,7 @@ final class PhabricatorProjectProfileMenuItem
       $project_phids[] = $item->getMenuItemProperty('project');
     }
 
-    $projects = id(new PhabricatorProjectQuery())
+    $projects = id(new PhorgeProjectQuery())
       ->setViewer($viewer)
       ->withPHIDs($project_phids)
       ->needImages(true)
@@ -57,7 +57,7 @@ final class PhabricatorProjectProfileMenuItem
   }
 
   public function getDisplayName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     $project = $this->getProject();
     if (!$project) {
       return pht('(Restricted/Invalid Project)');
@@ -70,15 +70,15 @@ final class PhabricatorProjectProfileMenuItem
   }
 
   public function buildEditEngineFields(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return array(
-      id(new PhabricatorDatasourceEditField())
+      id(new PhorgeDatasourceEditField())
         ->setKey(self::FIELD_PROJECT)
         ->setLabel(pht('Project'))
         ->setIsRequired(true)
-        ->setDatasource(new PhabricatorProjectDatasource())
+        ->setDatasource(new PhorgeProjectDatasource())
         ->setSingleValue($config->getMenuItemProperty('project')),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setValue($this->getName($config)),
@@ -86,12 +86,12 @@ final class PhabricatorProjectProfileMenuItem
   }
 
   private function getName(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
     return $config->getMenuItemProperty('name');
   }
 
   protected function newMenuItemViewList(
-    PhabricatorProfileMenuItemConfiguration $config) {
+    PhorgeProfileMenuItemConfiguration $config) {
 
     $project = $this->getProject();
     if (!$project) {
@@ -113,7 +113,7 @@ final class PhabricatorProjectProfileMenuItem
   }
 
   public function validateTransactions(
-    PhabricatorProfileMenuItemConfiguration $config,
+    PhorgeProfileMenuItemConfiguration $config,
     $field_key,
     $value,
     array $xactions) {
@@ -139,7 +139,7 @@ final class PhabricatorProjectProfileMenuItem
           continue;
         }
 
-        $projects = id(new PhabricatorProjectQuery())
+        $projects = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($new))
           ->execute();

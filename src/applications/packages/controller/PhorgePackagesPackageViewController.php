@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesPackageViewController
-  extends PhabricatorPackagesPackageController {
+final class PhorgePackagesPackageViewController
+  extends PhorgePackagesPackageController {
 
   public function shouldAllowPublic() {
     return true;
@@ -14,7 +14,7 @@ final class PhabricatorPackagesPackageViewController
     $package_key = $request->getURIData('packageKey');
     $full_key = $publisher_key.'/'.$package_key;
 
-    $package = id(new PhabricatorPackagesPackageQuery())
+    $package = id(new PhorgePackagesPackageQuery())
       ->setViewer($viewer)
       ->withFullKeys(array($full_key))
       ->executeOne();
@@ -36,7 +36,7 @@ final class PhabricatorPackagesPackageViewController
 
     $timeline = $this->buildTransactionTimeline(
       $package,
-      new PhabricatorPackagesPackageTransactionQuery());
+      new PhorgePackagesPackageTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $package_view = id(new PHUITwoColumnView())
@@ -58,7 +58,7 @@ final class PhabricatorPackagesPackageViewController
   }
 
 
-  private function buildHeaderView(PhabricatorPackagesPackage $package) {
+  private function buildHeaderView(PhorgePackagesPackage $package) {
     $viewer = $this->getViewer();
     $name = $package->getName();
 
@@ -69,20 +69,20 @@ final class PhabricatorPackagesPackageViewController
       ->setHeaderIcon('fa-gift');
   }
 
-  private function buildCurtain(PhabricatorPackagesPackage $package) {
+  private function buildCurtain(PhorgePackagesPackage $package) {
     $viewer = $this->getViewer();
     $curtain = $this->newCurtainView($package);
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $package,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $id = $package->getID();
     $edit_uri = $this->getApplicationURI("package/edit/{$id}/");
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Package'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -91,16 +91,16 @@ final class PhabricatorPackagesPackageViewController
     return $curtain;
   }
 
-  private function buildVersionsView(PhabricatorPackagesPackage $package) {
+  private function buildVersionsView(PhorgePackagesPackage $package) {
     $viewer = $this->getViewer();
 
-    $versions = id(new PhabricatorPackagesVersionQuery())
+    $versions = id(new PhorgePackagesVersionQuery())
       ->setViewer($viewer)
       ->withPackagePHIDs(array($package->getPHID()))
       ->setLimit(25)
       ->execute();
 
-    $versions_list = id(new PhabricatorPackagesVersionListView())
+    $versions_list = id(new PhorgePackagesVersionListView())
       ->setViewer($viewer)
       ->setVersions($versions);
 

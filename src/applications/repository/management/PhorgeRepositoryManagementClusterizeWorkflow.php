@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementClusterizeWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementClusterizeWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -111,17 +111,17 @@ final class PhabricatorRepositoryManagementClusterizeWorkflow
     }
 
     $content_source = $this->newContentSource();
-    $diffusion_phid = id(new PhabricatorDiffusionApplication())->getPHID();
+    $diffusion_phid = id(new PhorgeDiffusionApplication())->getPHID();
 
     foreach ($repositories as $repository) {
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorRepositoryTransaction())
+      $xactions[] = id(new PhorgeRepositoryTransaction())
         ->setTransactionType(
-          PhabricatorRepositoryServiceTransaction::TRANSACTIONTYPE)
+          PhorgeRepositoryServiceTransaction::TRANSACTIONTYPE)
         ->setNewValue($service_phid);
 
-      id(new PhabricatorRepositoryEditor())
+      id(new PhorgeRepositoryEditor())
         ->setActor($viewer)
         ->setActingAsPHID($diffusion_phid)
         ->setContentSource($content_source)

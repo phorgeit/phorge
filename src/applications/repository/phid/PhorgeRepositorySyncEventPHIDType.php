@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorRepositorySyncEventPHIDType extends PhabricatorPHIDType {
+final class PhorgeRepositorySyncEventPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'SYNE';
 
@@ -9,23 +9,23 @@ final class PhabricatorRepositorySyncEventPHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorRepositorySyncEvent();
+    return new PhorgeRepositorySyncEvent();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return 'PhorgeDiffusionApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorRepositorySyncEventQuery())
+    return id(new PhorgeRepositorySyncEventQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectSubprojectWarningController
-  extends PhabricatorProjectController {
+final class PhorgeProjectSubprojectWarningController
+  extends PhorgeProjectController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -13,10 +13,10 @@ final class PhabricatorProjectSubprojectWarningController
 
     $project = $this->getProject();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     if (!$can_edit) {
       return new Aphront404Response();
@@ -31,7 +31,7 @@ final class PhabricatorProjectSubprojectWarningController
         ->setURI($done_uri);
     }
 
-    $doc_href = PhabricatorEnv::getDoclink('Projects User Guide');
+    $doc_href = PhorgeEnv::getDoclink('Projects User Guide');
 
     $conversion_help = pht(
       "Creating a project's first subproject **moves all ".

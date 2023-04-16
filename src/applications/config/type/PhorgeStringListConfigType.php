@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorStringListConfigType
-  extends PhabricatorTextListConfigType {
+final class PhorgeStringListConfigType
+  extends PhorgeTextListConfigType {
 
   const TYPEKEY = 'list<string>';
 

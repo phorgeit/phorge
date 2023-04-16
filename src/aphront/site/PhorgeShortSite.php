@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorShortSite extends PhabricatorSite {
+final class PhorgeShortSite extends PhorgeSite {
 
   public function getDescription() {
     return pht('Serves shortened URLs.');
@@ -13,26 +13,26 @@ final class PhabricatorShortSite extends PhabricatorSite {
   public function newSiteForRequest(AphrontRequest $request) {
     $host = $request->getHost();
 
-    $uri = PhabricatorEnv::getEnvConfig('phurl.short-uri');
+    $uri = PhorgeEnv::getEnvConfig('phurl.short-uri');
     if (!phutil_nonempty_string($uri)) {
       return null;
     }
 
-    $phurl_installed = PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhurlApplication');
+    $phurl_installed = PhorgeApplication::isClassInstalled(
+      'PhorgePhurlApplication');
     if (!$phurl_installed) {
       return false;
     }
 
     if ($this->isHostMatch($host, array($uri))) {
-      return new PhabricatorShortSite();
+      return new PhorgeShortSite();
     }
 
     return null;
   }
 
   public function getRoutingMaps() {
-    $app = PhabricatorApplication::getByClass('PhabricatorPhurlApplication');
+    $app = PhorgeApplication::getByClass('PhorgePhurlApplication');
 
     $maps = array();
     $maps[] = $this->newRoutingMap()

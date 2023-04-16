@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorCalendarEventNotificationView
+final class PhorgeCalendarEventNotificationView
   extends Phobject {
 
   private $viewer;
@@ -8,7 +8,7 @@ final class PhabricatorCalendarEventNotificationView
   private $epoch;
   private $dateTime;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -17,7 +17,7 @@ final class PhabricatorCalendarEventNotificationView
     return $this->viewer;
   }
 
-  public function setEvent(PhabricatorCalendarEvent $event) {
+  public function setEvent(PhorgeCalendarEvent $event) {
     $this->event = $event;
     return $this;
   }
@@ -46,7 +46,7 @@ final class PhabricatorCalendarEventNotificationView
 
   public function getDisplayMinutes() {
     $epoch = $this->getEpoch();
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $minutes = (int)ceil(($epoch - $now) / 60);
     return new PhutilNumber($minutes);
   }

@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorCalendarEventHeraldAdapter extends HeraldAdapter {
+final class PhorgeCalendarEventHeraldAdapter extends HeraldAdapter {
 
   private $object;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function getAdapterContentDescription() {
@@ -13,11 +13,11 @@ final class PhabricatorCalendarEventHeraldAdapter extends HeraldAdapter {
   }
 
   protected function newObject() {
-    return new PhabricatorCalendarEvent();
+    return new PhorgeCalendarEvent();
   }
 
   public function isTestAdapterForObject($object) {
-    return ($object instanceof PhabricatorCalendarEvent);
+    return ($object instanceof PhorgeCalendarEvent);
   }
 
   public function getAdapterTestDescription() {

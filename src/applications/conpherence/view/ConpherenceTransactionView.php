@@ -29,7 +29,7 @@ final class ConpherenceTransactionView extends AphrontView {
   }
 
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, 'PhorgeObjectHandle');
     $this->handles = $handles;
     return $this;
   }
@@ -38,7 +38,7 @@ final class ConpherenceTransactionView extends AphrontView {
     return $this->handles;
   }
 
-  public function setMarkupEngine(PhabricatorMarkupEngine $markup_engine) {
+  public function setMarkupEngine(PhorgeMarkupEngine $markup_engine) {
     $this->markupEngine = $markup_engine;
     return $this;
   }
@@ -131,7 +131,7 @@ final class ConpherenceTransactionView extends AphrontView {
     $width = 360;
 
     Javelin::initBehavior('phorge-watch-anchor');
-    $anchor = id(new PhabricatorAnchorView())
+    $anchor = id(new PhorgeAnchorView())
       ->setAnchorName($transaction->getID())
       ->render();
 
@@ -177,7 +177,7 @@ final class ConpherenceTransactionView extends AphrontView {
     $transaction = $this->getConpherenceTransaction();
 
     switch ($transaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $handles = $this->getHandles();
         $author = $handles[$transaction->getAuthorPHID()];
         $actions = array($author->renderLink());
@@ -194,7 +194,7 @@ final class ConpherenceTransactionView extends AphrontView {
     $image = null;
     $transaction = $this->getConpherenceTransaction();
     switch ($transaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $handles = $this->getHandles();
         $author = $handles[$transaction->getAuthorPHID()];
         $image_uri = $author->getImageURI();
@@ -216,13 +216,13 @@ final class ConpherenceTransactionView extends AphrontView {
     $content = null;
     $handles = $this->getHandles();
     switch ($transaction->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $this->addClass('conpherence-comment');
         $author = $handles[$transaction->getAuthorPHID()];
         $comment = $transaction->getComment();
         $content = $this->getMarkupEngine()->getOutput(
           $comment,
-          PhabricatorApplicationTransactionComment::MARKUP_FIELD_COMMENT);
+          PhorgeApplicationTransactionComment::MARKUP_FIELD_COMMENT);
         $content_class = 'conpherence-message';
         break;
       default:

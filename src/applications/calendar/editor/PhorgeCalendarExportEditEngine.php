@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarExportEditEngine
-  extends PhabricatorEditEngine {
+final class PhorgeCalendarExportEditEngine
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'calendar.export';
 
@@ -22,16 +22,16 @@ final class PhabricatorCalendarExportEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function newEditableObject() {
-    return PhabricatorCalendarExport::initializeNewCalendarExport(
+    return PhorgeCalendarExport::initializeNewCalendarExport(
       $this->getViewer());
   }
 
   protected function newObjectQuery() {
-    return new PhabricatorCalendarExportQuery();
+    return new PhorgeCalendarExportQuery();
   }
 
   protected function getObjectCreateTitleText($object) {
@@ -65,7 +65,7 @@ final class PhabricatorCalendarExportEditEngine
   protected function buildCustomEditFields($object) {
     $viewer = $this->getViewer();
 
-    $export_modes = PhabricatorCalendarExport::getAvailablePolicyModes();
+    $export_modes = PhorgeCalendarExport::getAvailablePolicyModes();
     $export_modes = array_fuse($export_modes);
 
     $current_mode = $object->getPolicyMode();
@@ -75,49 +75,49 @@ final class PhabricatorCalendarExportEditEngine
 
     $mode_options = array();
     foreach ($export_modes as $export_mode) {
-      $mode_name = PhabricatorCalendarExport::getPolicyModeName($export_mode);
-      $mode_summary = PhabricatorCalendarExport::getPolicyModeSummary(
+      $mode_name = PhorgeCalendarExport::getPolicyModeName($export_mode);
+      $mode_summary = PhorgeCalendarExport::getPolicyModeSummary(
         $export_mode);
       $mode_options[$export_mode] = pht('%s: %s', $mode_name, $mode_summary);
     }
 
     $fields = array(
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('name')
         ->setLabel(pht('Name'))
         ->setDescription(pht('Name of the export.'))
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorCalendarExportNameTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarExportNameTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Rename the export.'))
         ->setConduitTypeDescription(pht('New export name.'))
         ->setValue($object->getName()),
-      id(new PhabricatorBoolEditField())
+      id(new PhorgeBoolEditField())
         ->setKey('disabled')
         ->setOptions(pht('Active'), pht('Disabled'))
         ->setLabel(pht('Disabled'))
         ->setDescription(pht('Disable the export.'))
         ->setTransactionType(
-          PhabricatorCalendarExportDisableTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarExportDisableTransaction::TRANSACTIONTYPE)
         ->setIsFormField(false)
         ->setConduitDescription(pht('Disable or restore the export.'))
         ->setConduitTypeDescription(pht('True to cancel the export.'))
         ->setValue($object->getIsDisabled()),
-      id(new PhabricatorTextEditField())
+      id(new PhorgeTextEditField())
         ->setKey('queryKey')
         ->setLabel(pht('Query Key'))
         ->setDescription(pht('Query to execute.'))
         ->setIsRequired(true)
         ->setTransactionType(
-          PhabricatorCalendarExportQueryKeyTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarExportQueryKeyTransaction::TRANSACTIONTYPE)
         ->setConduitDescription(pht('Change the export query key.'))
         ->setConduitTypeDescription(pht('New export query key.'))
         ->setValue($object->getQueryKey()),
-      id(new PhabricatorSelectEditField())
+      id(new PhorgeSelectEditField())
         ->setKey('mode')
         ->setLabel(pht('Mode'))
         ->setTransactionType(
-          PhabricatorCalendarExportModeTransaction::TRANSACTIONTYPE)
+          PhorgeCalendarExportModeTransaction::TRANSACTIONTYPE)
         ->setOptions($mode_options)
         ->setDescription(pht('Change the policy mode for the export.'))
         ->setConduitDescription(pht('Adjust export mode.'))

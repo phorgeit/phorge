@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorProfileMenuItemConfiguration();
+$table = new PhorgeProfileMenuItemConfiguration();
 $conn_w = $table->establishConnection('w');
 
 queryfx(

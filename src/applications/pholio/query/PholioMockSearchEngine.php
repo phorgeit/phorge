@@ -1,13 +1,13 @@
 <?php
 
-final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
+final class PholioMockSearchEngine extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Pholio Mocks');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPholioApplication';
+    return 'PhorgePholioApplication';
   }
 
   public function newQuery() {
@@ -19,11 +19,11 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('authors'))
         ->setLabel(pht('Authors')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
         ->setOptions(
@@ -85,15 +85,15 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
 
   protected function renderResultList(
     array $mocks,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($mocks, 'PholioMock');
 
     $viewer = $this->requireViewer();
     $handles = $viewer->loadHandles(mpull($mocks, 'getAuthorPHID'));
 
-    $xform = PhabricatorFileTransform::getTransformByKey(
-      PhabricatorFileThumbnailTransform::TRANSFORM_PINBOARD);
+    $xform = PhorgeFileTransform::getTransformByKey(
+      PhorgeFileThumbnailTransform::TRANSFORM_PINBOARD);
 
     $board = new PHUIPinboardView();
     foreach ($mocks as $mock) {
@@ -124,7 +124,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
       $board->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setContent($board);
 
     return $result;

@@ -5,8 +5,8 @@
  *
  * This action is primarily useful for testing triggers.
  */
-final class PhabricatorLogTriggerAction
-   extends PhabricatorTriggerAction {
+final class PhorgeLogTriggerAction
+   extends PhorgeTriggerAction {
 
   public function validateProperties(array $properties) {
     PhutilTypeSpec::checkMap(
@@ -21,7 +21,7 @@ final class PhabricatorLogTriggerAction
       '(%s -> %s @ %s) %s',
       $last_epoch ? date('Y-m-d g:i:s A', $last_epoch) : 'null',
       date('Y-m-d g:i:s A', $this_epoch),
-      date('Y-m-d g:i:s A', PhabricatorTime::getNow()),
+      date('Y-m-d g:i:s A', PhorgeTime::getNow()),
       $this->getProperty('message'));
 
     phlog($message);

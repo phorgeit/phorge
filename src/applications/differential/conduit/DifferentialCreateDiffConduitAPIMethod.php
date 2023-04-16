@@ -71,7 +71,7 @@ final class DifferentialCreateDiffConduitAPIMethod
     $repository_uuid = $request->getValue('repositoryUUID');
     $repository_phid = $request->getValue('repositoryPHID');
     if ($repository_phid) {
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($repository_phid))
         ->executeOne();
@@ -152,7 +152,7 @@ final class DifferentialCreateDiffConduitAPIMethod
       ->applyTransactions($diff, $xactions);
 
     $path = '/differential/diff/'.$diff->getID().'/';
-    $uri = PhabricatorEnv::getURI($path);
+    $uri = PhorgeEnv::getURI($path);
 
     return array(
       'diffid' => $diff->getID(),

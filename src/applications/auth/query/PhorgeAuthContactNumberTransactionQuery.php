@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorAuthContactNumberTransactionQuery
-  extends PhabricatorApplicationTransactionQuery {
+final class PhorgeAuthContactNumberTransactionQuery
+  extends PhorgeApplicationTransactionQuery {
 
   public function getTemplateApplicationTransaction() {
-    return new PhabricatorAuthContactNumberTransaction();
+    return new PhorgeAuthContactNumberTransaction();
   }
 
 }

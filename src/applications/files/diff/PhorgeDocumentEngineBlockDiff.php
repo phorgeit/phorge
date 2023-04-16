@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDocumentEngineBlockDiff
+final class PhorgeDocumentEngineBlockDiff
   extends Phobject {
 
   private $oldContent;

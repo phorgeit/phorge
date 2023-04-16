@@ -18,7 +18,7 @@ final class DiffusionCommitCommitterHeraldField
   }
 
   protected function getDatasource() {
-    return new PhabricatorPeopleDatasource();
+    return new PhorgePeopleDatasource();
   }
 
 }

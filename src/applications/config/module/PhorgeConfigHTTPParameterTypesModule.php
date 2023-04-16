@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigHTTPParameterTypesModule
-  extends PhabricatorConfigModule {
+final class PhorgeConfigHTTPParameterTypesModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'httpparameter';
@@ -16,7 +16,7 @@ final class PhabricatorConfigHTTPParameterTypesModule
 
     $types = AphrontHTTPParameterType::getAllTypes();
 
-    return id(new PhabricatorHTTPParameterTypeTableView())
+    return id(new PhorgeHTTPParameterTypeTableView())
       ->setHTTPParameterTypes($types);
   }
 

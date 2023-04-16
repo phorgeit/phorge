@@ -29,7 +29,7 @@ final class PhortuneSubscriptionCart
   }
 
   public function willCreateCart(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PhortuneCart $cart) {
 
     $subscription = $this->getSubscription();
@@ -41,7 +41,7 @@ final class PhortuneSubscriptionCart
   }
 
   public function loadImplementationsForCarts(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $carts) {
 
     $phids = array();

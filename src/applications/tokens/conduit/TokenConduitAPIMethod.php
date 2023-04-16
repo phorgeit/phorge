@@ -3,7 +3,7 @@
 abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorTokensApplication');
+    return PhorgeApplication::getByClass('PhorgeTokensApplication');
   }
 
   public function getMethodStatus() {
@@ -11,7 +11,7 @@ abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
   }
 
   public function buildTokenDicts(array $tokens) {
-    assert_instances_of($tokens, 'PhabricatorToken');
+    assert_instances_of($tokens, 'PhorgeToken');
 
     $list = array();
     foreach ($tokens as $token) {
@@ -26,7 +26,7 @@ abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
   }
 
   public function buildTokenGivenDicts(array $tokens_given) {
-    assert_instances_of($tokens_given, 'PhabricatorTokenGiven');
+    assert_instances_of($tokens_given, 'PhorgeTokenGiven');
 
     $list = array();
     foreach ($tokens_given as $given) {

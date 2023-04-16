@@ -18,7 +18,7 @@ final class ManiphestTaskParentTransaction
     $parent_type = ManiphestTaskDependsOnTaskEdgeType::EDGECONST;
     $task_phid = $object->getPHID();
 
-    id(new PhabricatorEdgeEditor())
+    id(new PhorgeEdgeEditor())
       ->addEdge($parent_phid, $parent_type, $task_phid)
       ->save();
   }

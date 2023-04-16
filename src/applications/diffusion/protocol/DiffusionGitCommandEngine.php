@@ -4,7 +4,7 @@ final class DiffusionGitCommandEngine
   extends DiffusionCommandEngine {
 
   protected function canBuildForRepository(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
     return $repository->isGit();
   }
 
@@ -38,7 +38,7 @@ final class DiffusionGitCommandEngine
     // really silly, but seems like the least damaging approach to
     // mitigating the issue.
 
-    $env['HOME'] = PhabricatorEnv::getEmptyCWD();
+    $env['HOME'] = PhorgeEnv::getEmptyCWD();
 
     $env['GIT_SSH'] = $this->getSSHWrapper();
     $env['GIT_SSH_VARIANT'] = 'ssh';

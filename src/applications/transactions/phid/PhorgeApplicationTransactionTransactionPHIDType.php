@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionTransactionPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeApplicationTransactionTransactionPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'XACT';
 
@@ -17,23 +17,23 @@ final class PhabricatorApplicationTransactionTransactionPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $object_query,
+    PhorgeObjectQuery $object_query,
     array $phids) {
     throw new Exception();
   }
 
   public function loadObjects(
-    PhabricatorObjectQuery $object_query,
+    PhorgeObjectQuery $object_query,
     array $phids) {
 
     static $queries;
     if ($queries === null) {
       $objects = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+        ->setAncestorClass('PhorgeApplicationTransactionQuery')
         ->execute();
 
       $queries = array();
@@ -80,7 +80,7 @@ final class PhabricatorApplicationTransactionTransactionPHIDType
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

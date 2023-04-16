@@ -1,14 +1,14 @@
 <?php
 
 final class PhrictionContentSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Phriction Document Content');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhrictionApplication';
+    return 'PhorgePhrictionApplication';
   }
 
   public function newQuery() {
@@ -31,11 +31,11 @@ final class PhrictionContentSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorPHIDsSearchField())
+      id(new PhorgePHIDsSearchField())
         ->setKey('documentPHIDs')
         ->setAliases(array('document', 'documents', 'documentPHID'))
         ->setLabel(pht('Documents')),
-      id(new PhabricatorIDsSearchField())
+      id(new PhorgeIDsSearchField())
         ->setKey('versions')
         ->setAliases(array('version')),
     );
@@ -67,7 +67,7 @@ final class PhrictionContentSearchEngine
 
   protected function renderResultList(
     array $contents,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($contents, 'PhrictionContent');
     throw new PhutilMethodNotImplementedException();

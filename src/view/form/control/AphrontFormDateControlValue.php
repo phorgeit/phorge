@@ -89,7 +89,7 @@ final class AphrontFormDateControlValue extends Phobject {
     return $value;
   }
 
-  public static function newFromEpoch(PhabricatorUser $viewer, $epoch) {
+  public static function newFromEpoch(PhorgeUser $viewer, $epoch) {
     $value = new AphrontFormDateControlValue();
     $value->viewer = $viewer;
 
@@ -116,7 +116,7 @@ final class AphrontFormDateControlValue extends Phobject {
   }
 
   public static function newFromDictionary(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $dictionary) {
     $value = new AphrontFormDateControlValue();
     $value->viewer = $viewer;
@@ -137,7 +137,7 @@ final class AphrontFormDateControlValue extends Phobject {
     return $value;
   }
 
-  public static function newFromWild(PhabricatorUser $viewer, $wild) {
+  public static function newFromWild(PhorgeUser $viewer, $wild) {
     if (is_array($wild)) {
       return self::newFromDictionary($viewer, $wild);
     } else if (is_numeric($wild)) {
@@ -187,13 +187,13 @@ final class AphrontFormDateControlValue extends Phobject {
 
   private function getTimeFormat() {
     $viewer = $this->getViewer();
-    $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
+    $time_key = PhorgeTimeFormatSetting::SETTINGKEY;
     return $viewer->getUserSetting($time_key);
   }
 
   private function getDateFormat() {
     $viewer = $this->getViewer();
-    $date_key = PhabricatorDateFormatSetting::SETTINGKEY;
+    $date_key = PhorgeDateFormatSetting::SETTINGKEY;
     return $viewer->getUserSetting($date_key);
   }
 

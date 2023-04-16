@@ -37,8 +37,8 @@ final class ConpherenceParticipant extends ConpherenceDAO {
       $this->setSeenMessageCount($conpherence->getMessageCount());
       $this->save();
 
-      PhabricatorUserCache::clearCache(
-        PhabricatorUserMessageCountCacheType::KEY_COUNT,
+      PhorgeUserCache::clearCache(
+        PhorgeUserMessageCountCacheType::KEY_COUNT,
         $this->getParticipantPHID());
     }
 

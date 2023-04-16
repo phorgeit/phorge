@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSavedQuery extends PhabricatorSearchDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeSavedQuery extends PhorgeSearchDAO
+  implements PhorgePolicyInterface {
 
   protected $parameters = array();
   protected $queryKey;
@@ -45,7 +45,7 @@ final class PhabricatorSavedQuery extends PhabricatorSearchDAO
     $this->newEngine();
 
     $serial = $this->getEngineClassName().serialize($this->parameters);
-    $this->queryKey = PhabricatorHash::digestForIndex($serial);
+    $this->queryKey = PhorgeHash::digestForIndex($serial);
 
     return parent::save();
   }
@@ -71,20 +71,20 @@ final class PhabricatorSavedQuery extends PhabricatorSearchDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_PUBLIC;
+    return PhorgePolicies::POLICY_PUBLIC;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

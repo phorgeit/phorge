@@ -11,8 +11,8 @@ final class PonderAnswerEditController extends PonderController {
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$answer) {
@@ -76,7 +76,7 @@ final class PonderAnswerEditController extends PonderController {
             ->setValue($v_status)
             ->setOptions(PonderAnswerStatus::getAnswerStatusMap()))
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setUser($viewer)
           ->setLabel(pht('Answer'))
           ->setName('content')

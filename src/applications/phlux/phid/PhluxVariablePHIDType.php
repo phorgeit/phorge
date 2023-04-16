@@ -1,6 +1,6 @@
 <?php
 
-final class PhluxVariablePHIDType extends PhabricatorPHIDType {
+final class PhluxVariablePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'PVAR';
 
@@ -13,11 +13,11 @@ final class PhluxVariablePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhluxApplication';
+    return 'PhorgePhluxApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhluxVariableQuery())
@@ -25,7 +25,7 @@ final class PhluxVariablePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

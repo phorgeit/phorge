@@ -1,12 +1,12 @@
 <?php
 
 final class ManiphestPointsConfigType
-  extends PhabricatorJSONConfigType {
+  extends PhorgeJSONConfigType {
 
   const TYPEKEY = 'maniphest.points';
 
   public function validateStoredValue(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $value) {
     ManiphestTaskPoints::validateConfiguration($value);
   }

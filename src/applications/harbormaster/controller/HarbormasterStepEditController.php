@@ -13,8 +13,8 @@ final class HarbormasterStepEditController
         ->withIDs(array($id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$step) {
@@ -32,8 +32,8 @@ final class HarbormasterStepEditController
         ->withIDs(array($plan_id))
         ->requireCapabilities(
           array(
-            PhabricatorPolicyCapability::CAN_VIEW,
-            PhabricatorPolicyCapability::CAN_EDIT,
+            PhorgePolicyCapability::CAN_VIEW,
+            PhorgePolicyCapability::CAN_EDIT,
           ))
         ->executeOne();
       if (!$plan) {
@@ -67,9 +67,9 @@ final class HarbormasterStepEditController
 
     $implementation = $step->getStepImplementation();
 
-    $field_list = PhabricatorCustomField::getObjectFields(
+    $field_list = PhorgeCustomField::getObjectFields(
       $step,
-      PhabricatorCustomField::ROLE_EDIT);
+      PhorgeCustomField::ROLE_EDIT);
     $field_list
       ->setViewer($viewer)
       ->readFieldsFromStorage($step);
@@ -130,7 +130,7 @@ final class HarbormasterStepEditController
         $step_uri = $this->getApplicationURI('step/view/'.$step->getID().'/');
 
         return id(new AphrontRedirectResponse())->setURI($step_uri);
-      } catch (PhabricatorApplicationTransactionValidationException $ex) {
+      } catch (PhorgeApplicationTransactionValidationException $ex) {
         $validation_exception = $ex;
       }
     }
@@ -171,7 +171,7 @@ final class HarbormasterStepEditController
 
     $form
       ->appendChild(
-        id(new PhabricatorRemarkupControl())
+        id(new PhorgeRemarkupControl())
           ->setUser($viewer)
           ->setName('description')
           ->setLabel(pht('Description'))

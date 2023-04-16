@@ -1,6 +1,6 @@
 <?php
 
-abstract class DifferentialController extends PhabricatorController {
+abstract class DifferentialController extends PhorgeController {
 
   private $packageChangesetMap;
   private $pathPackageMap;
@@ -38,8 +38,8 @@ abstract class DifferentialController extends PhabricatorController {
 
     $viewer = $this->getViewer();
 
-    $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+    $have_owners = PhorgeApplication::isClassInstalledForViewer(
+      'PhorgeOwnersApplication',
       $viewer);
     if (!$have_owners) {
       return;
@@ -53,9 +53,9 @@ abstract class DifferentialController extends PhabricatorController {
     }
 
     if ($viewer->getPHID()) {
-      $packages = id(new PhabricatorOwnersPackageQuery())
+      $packages = id(new PhorgeOwnersPackageQuery())
         ->setViewer($viewer)
-        ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+        ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
         ->withAuthorityPHIDs(array($viewer->getPHID()))
         ->execute();
       $this->authorityPackages = $packages;
@@ -63,9 +63,9 @@ abstract class DifferentialController extends PhabricatorController {
 
     $paths = mpull($changesets, 'getOwnersFilename');
 
-    $control_query = id(new PhabricatorOwnersPackageQuery())
+    $control_query = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
-      ->withStatuses(array(PhabricatorOwnersPackage::STATUS_ACTIVE))
+      ->withStatuses(array(PhorgeOwnersPackage::STATUS_ACTIVE))
       ->withControl($repository_phid, $paths);
     $control_query->execute();
 

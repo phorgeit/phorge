@@ -1,6 +1,6 @@
 <?php
 
-final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
+final class ProjectRemarkupRule extends PhorgeObjectRemarkupRule {
 
   protected function getObjectNamePrefix() {
     return '#';
@@ -8,7 +8,7 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
 
   protected function renderObjectRef(
     $object,
-    PhabricatorObjectHandle $handle,
+    PhorgeObjectHandle $handle,
     $anchor,
     $id) {
 
@@ -30,7 +30,7 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
     // accept some false negatives -- like `#dot.` -- in order to avoid a bunch
     // of false positives on general use of the `#` character.
 
-    // In other contexts, the PhabricatorProjectProjectPHIDType pattern is
+    // In other contexts, the PhorgeProjectProjectPHIDType pattern is
     // controlling and these names should parse correctly.
 
     // These characters may never appear anywhere in a hashtag.
@@ -57,7 +57,7 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
     }
 
     // Issue a query by object name.
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($names);
 

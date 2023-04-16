@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOAuthServerTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeOAuthServerTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_NAME = 'oauthserver.name';
   const TYPE_REDIRECT_URI = 'oauthserver.redirect-uri';
@@ -16,7 +16,7 @@ final class PhabricatorOAuthServerTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorOAuthServerClientPHIDType::TYPECONST;
+    return PhorgeOAuthServerClientPHIDType::TYPECONST;
   }
 
   public function getTitle() {
@@ -25,7 +25,7 @@ final class PhabricatorOAuthServerTransaction
     $new = $this->getNewValue();
 
     switch ($this->getTransactionType()) {
-      case PhabricatorTransactions::TYPE_CREATE:
+      case PhorgeTransactions::TYPE_CREATE:
         return pht(
           '%s created this OAuth application.',
           $this->renderHandleLink($author_phid));

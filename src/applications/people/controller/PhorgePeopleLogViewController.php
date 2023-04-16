@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleLogViewController
-  extends PhabricatorPeopleController {
+final class PhorgePeopleLogViewController
+  extends PhorgePeopleController {
 
   public function shouldRequireAdmin() {
     return false;
@@ -11,7 +11,7 @@ final class PhabricatorPeopleLogViewController
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $log = id(new PhabricatorPeopleLogQuery())
+    $log = id(new PhorgePeopleLogQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->executeOne();
@@ -39,7 +39,7 @@ final class PhabricatorPeopleLogViewController
       ->appendChild($view);
   }
 
-  private function buildHeaderView(PhabricatorUserLog $log) {
+  private function buildHeaderView(PhorgeUserLog $log) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIHeaderView())
@@ -49,13 +49,13 @@ final class PhabricatorPeopleLogViewController
     return $view;
   }
 
-  private function buildPropertiesView(PhabricatorUserLog $log) {
+  private function buildPropertiesView(PhorgeUserLog $log) {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
       ->setViewer($viewer);
 
-    $type_map = PhabricatorUserLogType::getAllLogTypes();
+    $type_map = PhorgeUserLogType::getAllLogTypes();
     $type_map = mpull($type_map, 'getLogTypeName', 'getLogTypeKey');
 
     $action = $log->getAction();

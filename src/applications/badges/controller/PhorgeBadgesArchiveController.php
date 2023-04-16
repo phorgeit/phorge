@@ -1,19 +1,19 @@
 <?php
 
-final class PhabricatorBadgesArchiveController
-  extends PhabricatorBadgesController {
+final class PhorgeBadgesArchiveController
+  extends PhorgeBadgesController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $badge = id(new PhabricatorBadgesQuery())
+    $badge = id(new PhorgeBadgesQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$badge) {
@@ -24,19 +24,19 @@ final class PhabricatorBadgesArchiveController
 
     if ($request->isFormPost()) {
       if ($badge->isArchived()) {
-        $new_status = PhabricatorBadgesBadge::STATUS_ACTIVE;
+        $new_status = PhorgeBadgesBadge::STATUS_ACTIVE;
       } else {
-        $new_status = PhabricatorBadgesBadge::STATUS_ARCHIVED;
+        $new_status = PhorgeBadgesBadge::STATUS_ARCHIVED;
       }
 
       $xactions = array();
 
-      $xactions[] = id(new PhabricatorBadgesTransaction())
+      $xactions[] = id(new PhorgeBadgesTransaction())
         ->setTransactionType(
-          PhabricatorBadgesBadgeStatusTransaction::TRANSACTIONTYPE)
+          PhorgeBadgesBadgeStatusTransaction::TRANSACTIONTYPE)
         ->setNewValue($new_status);
 
-      id(new PhabricatorBadgesEditor())
+      id(new PhorgeBadgesEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

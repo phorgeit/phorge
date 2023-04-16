@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEditEngineConfigurationPHIDType
-  extends PhabricatorPHIDType {
+final class PhorgeEditEngineConfigurationPHIDType
+  extends PhorgePHIDType {
 
   const TYPECONST = 'FORM';
 
@@ -10,22 +10,22 @@ final class PhabricatorEditEngineConfigurationPHIDType
   }
 
   public function newObject() {
-    return new PhabricatorEditEngineConfiguration();
+    return new PhorgeEditEngineConfiguration();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return 'PhorgeTransactionsApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $object_query,
+    PhorgeObjectQuery $object_query,
     array $phids) {
-    return id(new PhabricatorEditEngineConfigurationQuery())
+    return id(new PhorgeEditEngineConfigurationQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

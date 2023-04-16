@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeCalendarEventQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -25,7 +25,7 @@ final class PhabricatorCalendarEventQuery
   private $generateGhosts = false;
 
   public function newResultObject() {
-    return new PhabricatorCalendarEvent();
+    return new PhorgeCalendarEvent();
   }
 
   public function setGenerateGhosts($generate_ghosts) {
@@ -351,8 +351,8 @@ final class PhabricatorCalendarEventQuery
         $conn_r,
         'JOIN %T invitee ON invitee.eventPHID = event.phid
           AND invitee.status != %s',
-        id(new PhabricatorCalendarEventInvitee())->getTableName(),
-        PhabricatorCalendarEventInvitee::STATUS_UNINVITED);
+        id(new PhorgeCalendarEventInvitee())->getTableName(),
+        PhorgeCalendarEventInvitee::STATUS_UNINVITED);
     }
 
     return $parts;
@@ -513,7 +513,7 @@ final class PhabricatorCalendarEventQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   protected function willFilterPage(array $events) {
@@ -532,7 +532,7 @@ final class PhabricatorCalendarEventQuery
     }
 
     if ($import_phids) {
-      $imports = id(new PhabricatorCalendarImportQuery())
+      $imports = id(new PhorgeCalendarImportQuery())
         ->setParentQuery($this)
         ->setViewer($viewer)
         ->withPHIDs($import_phids)
@@ -571,7 +571,7 @@ final class PhabricatorCalendarEventQuery
     }
 
     if (count($instance_of_event_phids) > 0) {
-      $recurring_events = id(new PhabricatorCalendarEventQuery())
+      $recurring_events = id(new PhorgeCalendarEventQuery())
         ->setViewer($viewer)
         ->withPHIDs($instance_of_event_phids)
         ->withEventsWithNoParent(true)
@@ -581,7 +581,7 @@ final class PhabricatorCalendarEventQuery
     }
 
     if ($events) {
-      $invitees = id(new PhabricatorCalendarEventInviteeQuery())
+      $invitees = id(new PhorgeCalendarEventInviteeQuery())
         ->setViewer($viewer)
         ->withEventPHIDs($phids)
         ->execute();
@@ -619,7 +619,7 @@ final class PhabricatorCalendarEventQuery
 
     if ($this->needRSVPs) {
       $rsvp_phids = $this->needRSVPs;
-      $project_type = PhabricatorProjectProjectPHIDType::TYPECONST;
+      $project_type = PhorgeProjectProjectPHIDType::TYPECONST;
 
       $project_phids = array();
       foreach ($events as $event) {
@@ -632,9 +632,9 @@ final class PhabricatorCalendarEventQuery
       }
 
       if ($project_phids) {
-        $member_type = PhabricatorProjectMaterializedMemberEdgeType::EDGECONST;
+        $member_type = PhorgeProjectMaterializedMemberEdgeType::EDGECONST;
 
-        $query = id(new PhabricatorEdgeQuery())
+        $query = id(new PhorgeEdgeQuery())
           ->withSourcePHIDs($project_phids)
           ->withEdgeTypes(array($member_type))
           ->withDestinationPHIDs($rsvp_phids);
@@ -705,7 +705,7 @@ final class PhabricatorCalendarEventQuery
   }
 
   private function getRecurrenceWindowStart(
-    PhabricatorCalendarEvent $event,
+    PhorgeCalendarEvent $event,
     $generate_from) {
 
     if (!$generate_from) {
@@ -716,7 +716,7 @@ final class PhabricatorCalendarEventQuery
   }
 
   private function getRecurrenceWindowEnd(
-    PhabricatorCalendarEvent $event,
+    PhorgeCalendarEvent $event,
     $generate_until) {
 
     $end_epochs = array();
@@ -737,7 +737,7 @@ final class PhabricatorCalendarEventQuery
   }
 
   private function getRecurrenceLimit(
-    PhabricatorCalendarEvent $event,
+    PhorgeCalendarEvent $event,
     $raw_limit) {
 
     $count = $event->getRecurrenceCount();

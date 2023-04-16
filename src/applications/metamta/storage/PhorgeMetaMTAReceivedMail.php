@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
+final class PhorgeMetaMTAReceivedMail extends PhorgeMetaMTADAO {
 
   protected $headers = array();
   protected $bodies = array();
@@ -49,7 +49,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
     foreach ($headers as $name => $value) {
       $name = $this->normalizeMailHeaderName($name);
       if ($name == 'message-id') {
-        $this->setMessageIDHash(PhabricatorHash::digestForIndex($value));
+        $this->setMessageIDHash(PhorgeHash::digestForIndex($value));
       }
       $normalized[$name] = $value;
     }
@@ -109,7 +109,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
     // See T13317. Don't allow reserved addresses (like "noreply@...") to
     // match user PHIDs.
     foreach ($addresses as $key => $address) {
-      if (PhabricatorMailUtil::isReservedAddress($address)) {
+      if (PhorgeMailUtil::isReservedAddress($address)) {
         unset($addresses[$key]);
       }
     }
@@ -133,7 +133,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
     // In the best case this is confusing; in the worst case it could
     // some day give her access to objects she can't see.
 
-    $recipients = id(new PhabricatorUserEmail())
+    $recipients = id(new PhorgeUserEmail())
       ->loadAllWhere(
         'address IN (%Ls) AND isVerified = 1',
         $address_strings);
@@ -148,7 +148,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
     $sender = null;
     try {
-      $this->dropMailFromPhabricator();
+      $this->dropMailFromPhorge();
       $this->dropMailAlreadyReceived();
       $this->dropEmptyMail();
 
@@ -163,7 +163,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
         $attachments = $this->getAttachments();
         if ($attachments) {
-          $files = id(new PhabricatorFileQuery())
+          $files = id(new PhorgeFileQuery())
             ->setViewer($viewer)
             ->withPHIDs($attachments)
             ->execute();
@@ -176,7 +176,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       }
 
       $receivers = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorMailReceiver')
+        ->setAncestorClass('PhorgeMailReceiver')
         ->setFilterMethod('isEnabled')
         ->execute();
 
@@ -186,7 +186,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
         // Never accept any reserved address as a mail target. This prevents
         // security issues around "hostmaster@" and bad behavior with
         // "noreply@".
-        if (PhabricatorMailUtil::isReservedAddress($target)) {
+        if (PhorgeMailUtil::isReservedAddress($target)) {
           if (!$reserved_recipient) {
             $reserved_recipient = $target;
           }
@@ -196,7 +196,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
         // See T13234. Don't process mail if a user has attached this address
         // to their account.
-        if (PhabricatorMailUtil::isUserAddress($target)) {
+        if (PhorgeMailUtil::isUserAddress($target)) {
           unset($targets[$key]);
           continue;
         }
@@ -248,7 +248,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
           // "From: noreply@phorge" in the receipient list, we just want
           // to drop the mail rather than send them an unhelpful bounce message.
 
-          throw new PhabricatorMetaMTAReceivedMailProcessingException(
+          throw new PhorgeMetaMTAReceivedMailProcessingException(
             MetaMTAReceivedMailStatus::STATUS_RESERVED,
             pht(
               'No application handled this mail. This mail was sent to a '.
@@ -259,7 +259,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
           // an unverified recipient). See T12237. These details are still
           // useful because they'll appear in the mail logs and Mail web UI.
 
-          throw new PhabricatorMetaMTAReceivedMailProcessingException(
+          throw new PhorgeMetaMTAReceivedMailProcessingException(
             MetaMTAReceivedMailStatus::STATUS_UNKNOWN_SENDER,
             pht(
               'This email was sent from an email address ("%s") that is not '.
@@ -267,7 +267,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
               'email, add this address to your account.',
               (string)$this->newFromAddress()));
         } else {
-          throw new PhabricatorMetaMTAReceivedMailProcessingException(
+          throw new PhorgeMetaMTAReceivedMailProcessingException(
             MetaMTAReceivedMailStatus::STATUS_NO_RECEIVERS,
             pht(
               'This mail can not be processed because no application '.
@@ -275,7 +275,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
               'is correct.'));
         }
       }
-    } catch (PhabricatorMetaMTAReceivedMailProcessingException $ex) {
+    } catch (PhorgeMetaMTAReceivedMailProcessingException $ex) {
       switch ($ex->getStatusCode()) {
         case MetaMTAReceivedMailStatus::STATUS_DUPLICATE:
         case MetaMTAReceivedMailStatus::STATUS_FROM_PHORGE:
@@ -315,13 +315,13 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
   public function getCleanTextBody() {
     $body = $this->getRawTextBody();
-    $parser = new PhabricatorMetaMTAEmailBodyParser();
+    $parser = new PhorgeMetaMTAEmailBodyParser();
     return $parser->stripTextBody($body);
   }
 
   public function parseBody() {
     $body = $this->getRawTextBody();
-    $parser = new PhabricatorMetaMTAEmailBodyParser();
+    $parser = new PhorgeMetaMTAEmailBodyParser();
     return $parser->parseBody($body);
   }
 
@@ -360,12 +360,12 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
    * loops where, e.g., the public bug address is also a user email address
    * and creating a bug sends them an email, which loops.
    */
-  private function dropMailFromPhabricator() {
+  private function dropMailFromPhorge() {
     if (!$this->getHeader('x-phorge-sent-this-message')) {
       return;
     }
 
-    throw new PhabricatorMetaMTAReceivedMailProcessingException(
+    throw new PhorgeMetaMTAReceivedMailProcessingException(
       MetaMTAReceivedMailStatus::STATUS_FROM_PHORGE,
       pht(
         "Ignoring email with '%s' header to avoid loops.",
@@ -408,7 +408,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       $message_id_hash,
       $messages_count);
 
-    throw new PhabricatorMetaMTAReceivedMailProcessingException(
+    throw new PhorgeMetaMTAReceivedMailProcessingException(
       MetaMTAReceivedMailStatus::STATUS_DUPLICATE,
       $message);
   }
@@ -433,7 +433,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       $status_code = MetaMTAReceivedMailStatus::STATUS_EMPTY_IGNORED;
     }
 
-    throw new PhabricatorMetaMTAReceivedMailProcessingException(
+    throw new PhorgeMetaMTAReceivedMailProcessingException(
       $status_code,
       pht(
         'Your message does not contain any body text or attachments, so '.
@@ -444,7 +444,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
   private function sendExceptionMail(
     Exception $ex,
-    PhabricatorUser $viewer = null) {
+    PhorgeUser $viewer = null) {
 
     // If we've failed to identify a legitimate sender, we don't send them
     // an error message back. We want to avoid sending mail to unverified
@@ -453,7 +453,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       return;
     }
 
-    if ($ex instanceof PhabricatorMetaMTAReceivedMailProcessingException) {
+    if ($ex instanceof PhorgeMetaMTAReceivedMailProcessingException) {
       $status_code = $ex->getStatusCode();
       $status_name = MetaMTAReceivedMailStatus::getHumanReadableName(
         $status_code);
@@ -505,7 +505,7 @@ EOBODY
       $this->getRawTextBody(),
       $headers);
 
-    $mail = id(new PhabricatorMetaMTAMail())
+    $mail = id(new PhorgeMetaMTAMail())
       ->setIsErrorEmail(true)
       ->setSubject($title)
       ->addTos(array($viewer->getPHID()))
@@ -514,8 +514,8 @@ EOBODY
   }
 
   public function newContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorEmailContentSource::SOURCECONST,
+    return PhorgeContentSource::newForSource(
+      PhorgeEmailContentSource::SOURCECONST,
       array(
         'id' => $this->getID(),
       ));
@@ -532,7 +532,7 @@ EOBODY
   }
 
   private function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   /**
@@ -548,7 +548,7 @@ EOBODY
     // Try to identify the user based on their "From" address.
     $from_address = $this->newFromAddress();
     if ($from_address) {
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($viewer)
         ->withEmails(array($from_address->getAddress()))
         ->executeOne();
@@ -560,7 +560,7 @@ EOBODY
     return null;
   }
 
-  private function validateSender(PhabricatorUser $sender) {
+  private function validateSender(PhorgeUser $sender) {
     $failure_reason = null;
     if ($sender->getIsDisabled()) {
       $failure_reason = pht(
@@ -573,7 +573,7 @@ EOBODY
           'Your account ("%s") has not been approved yet. You can not '.
           'interact over email until your account is approved.',
           $sender->getUsername());
-      } else if (PhabricatorUserEmail::isEmailVerificationRequired() &&
+      } else if (PhorgeUserEmail::isEmailVerificationRequired() &&
                !$sender->getIsEmailVerified()) {
         $failure_reason = pht(
           'You have not verified the email address for your account ("%s"). '.
@@ -584,7 +584,7 @@ EOBODY
     }
 
     if ($failure_reason) {
-      throw new PhabricatorMetaMTAReceivedMailProcessingException(
+      throw new PhorgeMetaMTAReceivedMailProcessingException(
         MetaMTAReceivedMailStatus::STATUS_DISABLED_SENDER,
         $failure_reason);
     }

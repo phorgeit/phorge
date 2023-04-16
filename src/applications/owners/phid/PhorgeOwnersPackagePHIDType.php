@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOwnersPackagePHIDType extends PhabricatorPHIDType {
+final class PhorgeOwnersPackagePHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'OPKG';
 
@@ -13,23 +13,23 @@ final class PhabricatorOwnersPackagePHIDType extends PhabricatorPHIDType {
   }
 
   public function newObject() {
-    return new PhabricatorOwnersPackage();
+    return new PhorgeOwnersPackage();
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return 'PhorgeOwnersApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
-    return id(new PhabricatorOwnersPackageQuery())
+    return id(new PhorgeOwnersPackageQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -49,7 +49,7 @@ final class PhabricatorOwnersPackagePHIDType extends PhabricatorPHIDType {
         ->setURI($uri);
 
       if ($package->isArchived()) {
-        $handle->setStatus(PhabricatorObjectHandle::STATUS_CLOSED);
+        $handle->setStatus(PhorgeObjectHandle::STATUS_CLOSED);
       }
     }
   }
@@ -59,7 +59,7 @@ final class PhabricatorOwnersPackagePHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();
@@ -68,7 +68,7 @@ final class PhabricatorOwnersPackagePHIDType extends PhabricatorPHIDType {
       $id_map[$id][] = $name;
     }
 
-    $objects = id(new PhabricatorOwnersPackageQuery())
+    $objects = id(new PhorgeOwnersPackageQuery())
       ->setViewer($query->getViewer())
       ->withIDs(array_keys($id_map))
       ->execute();

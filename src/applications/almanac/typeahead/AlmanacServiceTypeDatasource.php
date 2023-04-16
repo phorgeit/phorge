@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacServiceTypeDatasource
-  extends PhabricatorTypeaheadDatasource {
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Service Types');
@@ -12,7 +12,7 @@ final class AlmanacServiceTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return 'PhorgeAlmanacApplication';
   }
 
   public function loadResults() {
@@ -31,7 +31,7 @@ final class AlmanacServiceTypeDatasource
 
     $results = array();
     foreach ($types as $key => $type) {
-      $results[$key] = id(new PhabricatorTypeaheadResult())
+      $results[$key] = id(new PhorgeTypeaheadResult())
         ->setName($type->getServiceTypeName())
         ->setIcon($type->getServiceTypeIcon())
         ->setPHID($key);

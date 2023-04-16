@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryBlueprintsTransaction
-  extends PhabricatorRepositoryTransactionType {
+final class PhorgeRepositoryBlueprintsTransaction
+  extends PhorgeRepositoryTransactionType {
 
   const TRANSACTIONTYPE = 'repo:automation-blueprints';
 
@@ -62,7 +62,7 @@ final class PhabricatorRepositoryBlueprintsTransaction
 
       $add = array_diff($new, $old);
 
-      $invalid = PhabricatorObjectQuery::loadInvalidPHIDsForViewer(
+      $invalid = PhorgeObjectQuery::loadInvalidPHIDsForViewer(
         $this->getActor(),
         $add);
       if ($invalid) {

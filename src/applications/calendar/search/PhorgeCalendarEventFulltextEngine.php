@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarEventFulltextEngine
-  extends PhabricatorFulltextEngine {
+final class PhorgeCalendarEventFulltextEngine
+  extends PhorgeFulltextEngine {
 
   protected function buildAbstractDocument(
-    PhabricatorSearchAbstractDocument $document,
+    PhorgeSearchAbstractDocument $document,
     $object) {
 
     $event = $object;
@@ -12,28 +12,28 @@ final class PhabricatorCalendarEventFulltextEngine
     $document->setDocumentTitle($event->getName());
 
     $document->addField(
-      PhabricatorSearchDocumentFieldType::FIELD_BODY,
+      PhorgeSearchDocumentFieldType::FIELD_BODY,
       $event->getDescription());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_AUTHOR,
+      PhorgeSearchRelationship::RELATIONSHIP_AUTHOR,
       $event->getHostPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $event->getDateCreated());
 
     $document->addRelationship(
-      PhabricatorSearchRelationship::RELATIONSHIP_OWNER,
+      PhorgeSearchRelationship::RELATIONSHIP_OWNER,
       $event->getHostPHID(),
-      PhabricatorPeopleUserPHIDType::TYPECONST,
+      PhorgePeopleUserPHIDType::TYPECONST,
       $event->getDateCreated());
 
     $document->addRelationship(
       $event->getIsCancelled()
-        ? PhabricatorSearchRelationship::RELATIONSHIP_CLOSED
-        : PhabricatorSearchRelationship::RELATIONSHIP_OPEN,
+        ? PhorgeSearchRelationship::RELATIONSHIP_CLOSED
+        : PhorgeSearchRelationship::RELATIONSHIP_OPEN,
       $event->getPHID(),
-      PhabricatorCalendarEventPHIDType::TYPECONST,
-      PhabricatorTime::getNow());
+      PhorgeCalendarEventPHIDType::TYPECONST,
+      PhorgeTime::getNow());
   }
 
 }

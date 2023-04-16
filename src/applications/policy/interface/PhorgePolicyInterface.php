@@ -1,32 +1,32 @@
 <?php
 
-interface PhabricatorPolicyInterface extends PhabricatorPHIDInterface {
+interface PhorgePolicyInterface extends PhorgePHIDInterface {
 
   public function getCapabilities();
   public function getPolicy($capability);
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer);
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer);
 
 }
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 /*
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::POLICY_USER;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 

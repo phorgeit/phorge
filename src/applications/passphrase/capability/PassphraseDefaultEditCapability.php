@@ -1,7 +1,7 @@
 <?php
 
 final class PassphraseDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'passphrase.default.edit';
 

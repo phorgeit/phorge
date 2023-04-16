@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryManagementUpdateWorkflow
-  extends PhabricatorRepositoryManagementWorkflow {
+final class PhorgeRepositoryManagementUpdateWorkflow
+  extends PhorgeRepositoryManagementWorkflow {
 
   private $verbose;
 
@@ -53,7 +53,7 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     $repository = head($repos);
 
     try {
-      id(new PhabricatorRepositoryPullEngine())
+      id(new PhorgeRepositoryPullEngine())
         ->setRepository($repository)
         ->setVerbose($this->getVerbose())
         ->pullRepository();
@@ -68,7 +68,7 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
       // hosted repositories, too.
 
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
+        PhorgeRepositoryStatusMessage::TYPE_NEEDS_UPDATE,
         null);
 
       $this->discoverRepository($repository);
@@ -80,8 +80,8 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
       $this->mirrorRepository($repository);
 
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_FETCH,
-        PhabricatorRepositoryStatusMessage::CODE_OKAY);
+        PhorgeRepositoryStatusMessage::TYPE_FETCH,
+        PhorgeRepositoryStatusMessage::CODE_OKAY);
     } catch (DiffusionDaemonLockException $ex) {
       // If we miss a pull or discover because some other process is already
       // doing the work, just bail out.
@@ -91,8 +91,8 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
       return 0;
     } catch (Exception $ex) {
       $repository->writeStatusMessage(
-        PhabricatorRepositoryStatusMessage::TYPE_FETCH,
-        PhabricatorRepositoryStatusMessage::CODE_ERROR,
+        PhorgeRepositoryStatusMessage::TYPE_FETCH,
+        PhorgeRepositoryStatusMessage::CODE_ERROR,
         array(
           'message' => pht(
             'Error updating working copy: %s', $ex->getMessage()),
@@ -109,8 +109,8 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     return 0;
   }
 
-  private function discoverRepository(PhabricatorRepository $repository) {
-    $refs = id(new PhabricatorRepositoryDiscoveryEngine())
+  private function discoverRepository(PhorgeRepository $repository) {
+    $refs = id(new PhorgeRepositoryDiscoveryEngine())
       ->setRepository($repository)
       ->setVerbose($this->getVerbose())
       ->discoverCommits();
@@ -118,9 +118,9 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     return (bool)count($refs);
   }
 
-  private function mirrorRepository(PhabricatorRepository $repository) {
+  private function mirrorRepository(PhorgeRepository $repository) {
     try {
-      id(new PhabricatorRepositoryMirrorEngine())
+      id(new PhorgeRepositoryMirrorEngine())
         ->setRepository($repository)
         ->pushToMirrors();
     } catch (Exception $ex) {
@@ -135,14 +135,14 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     }
   }
 
-  private function updateRepositoryRefs(PhabricatorRepository $repository) {
-    id(new PhabricatorRepositoryRefEngine())
+  private function updateRepositoryRefs(PhorgeRepository $repository) {
+    id(new PhorgeRepositoryRefEngine())
       ->setRepository($repository)
       ->updateRefs();
   }
 
   private function checkIfRepositoryIsFullyImported(
-    PhabricatorRepository $repository) {
+    PhorgeRepository $repository) {
 
     // Check if the repository has the "Importing" flag set. We want to clear
     // the flag if we can.
@@ -159,12 +159,12 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
         AND (importStatus & %d) != %d
         AND (importStatus & %d) != %d
         LIMIT 1',
-      id(new PhabricatorRepositoryCommit())->getTableName(),
+      id(new PhorgeRepositoryCommit())->getTableName(),
       $repository->getID(),
-      PhabricatorRepositoryCommit::IMPORTED_ALL,
-      PhabricatorRepositoryCommit::IMPORTED_ALL,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE,
-      PhabricatorRepositoryCommit::IMPORTED_UNREACHABLE);
+      PhorgeRepositoryCommit::IMPORTED_ALL,
+      PhorgeRepositoryCommit::IMPORTED_ALL,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE,
+      PhorgeRepositoryCommit::IMPORTED_UNREACHABLE);
     if ($unparsed_commit) {
       // We found a commit which still needs to import, so we can't clear the
       // flag.

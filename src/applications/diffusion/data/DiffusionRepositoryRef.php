@@ -47,12 +47,12 @@ final class DiffusionRepositoryRef extends Phobject {
   }
 
   public function isBranch() {
-    $type_branch = PhabricatorRepositoryRefCursor::TYPE_BRANCH;
+    $type_branch = PhorgeRepositoryRefCursor::TYPE_BRANCH;
     return ($this->getRefType() === $type_branch);
   }
 
   public function isTag() {
-    $type_tag = PhabricatorRepositoryRefCursor::TYPE_TAG;
+    $type_tag = PhorgeRepositoryRefCursor::TYPE_TAG;
     return ($this->getRefType() === $type_tag);
   }
 

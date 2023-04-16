@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorRepositoryURIIndex
-  extends PhabricatorRepositoryDAO {
+final class PhorgeRepositoryURIIndex
+  extends PhorgeRepositoryDAO {
 
   protected $repositoryPHID;
   protected $repositoryURI;

@@ -13,8 +13,8 @@
  * @task edgelogic Working with Edge Logic
  * @task spaces Working with Spaces
  */
-abstract class PhabricatorCursorPagedPolicyAwareQuery
-  extends PhabricatorPolicyAwareQuery {
+abstract class PhorgeCursorPagedPolicyAwareQuery
+  extends PhorgePolicyAwareQuery {
 
   private $externalCursorString;
   private $internalCursorObject;
@@ -111,17 +111,17 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   final protected function throwCursorException($message) {
-    throw new PhabricatorInvalidQueryCursorException($message);
+    throw new PhorgeInvalidQueryCursorException($message);
   }
 
   protected function applyExternalCursorConstraintsToQuery(
-    PhabricatorCursorPagedPolicyAwareQuery $subquery,
+    PhorgeCursorPagedPolicyAwareQuery $subquery,
     $cursor) {
     $subquery->withIDs(array($cursor));
   }
 
   protected function newPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $object = $cursor->getObject();
@@ -173,7 +173,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   private function setInternalCursorObject(
-    PhabricatorQueryCursor $cursor) {
+    PhorgeQueryCursor $cursor) {
     $this->internalCursorObject = $cursor;
     return $this;
   }
@@ -183,11 +183,11 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $cursor_object = $this->newInternalCursorFromExternalCursor($cursor_string);
 
-    if (!($cursor_object instanceof PhabricatorQueryCursor)) {
+    if (!($cursor_object instanceof PhorgeQueryCursor)) {
       throw new Exception(
         pht(
           'Expected "newInternalCursorFromExternalCursor()" to return an '.
-          'object of class "PhabricatorQueryCursor", but got "%s" (in '.
+          'object of class "PhorgeQueryCursor", but got "%s" (in '.
           'class "%s").',
           phutil_describe_type($cursor_object),
           get_class($this)));
@@ -197,7 +197,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   private function getPagingMapFromCursorObject(
-    PhabricatorQueryCursor $cursor,
+    PhorgeQueryCursor $cursor,
     array $keys) {
 
     $map = $this->newPagingMapFromCursorObject($cursor, $keys);
@@ -243,7 +243,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       return;
     }
 
-    $cursor = id(new PhabricatorQueryCursor())
+    $cursor = id(new PhorgeQueryCursor())
       ->setObject(last($page));
 
     if ($this->rawCursorRow) {
@@ -268,12 +268,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   protected function loadPage() {
     $object = $this->newResultObject();
 
-    if (!$object instanceof PhabricatorLiskDAO) {
+    if (!$object instanceof PhorgeLiskDAO) {
       throw new Exception(
         pht(
           'Query class ("%s") did not return the correct type of object '.
           'from "newResultObject()" (expected a subclass of '.
-          '"PhabricatorLiskDAO", found "%s"). Return an object of the '.
+          '"PhorgeLiskDAO", found "%s"). Return an object of the '.
           'expected type (this is common), or implement a custom '.
           '"loadPage()" method (this is unusual in modern code).',
           get_class($this),
@@ -283,12 +283,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return $this->loadStandardPage($object);
   }
 
-  protected function loadStandardPage(PhabricatorLiskDAO $table) {
+  protected function loadStandardPage(PhorgeLiskDAO $table) {
     $rows = $this->loadStandardPageRows($table);
     return $table->loadAllFromArray($rows);
   }
 
-  protected function loadStandardPageRows(PhabricatorLiskDAO $table) {
+  protected function loadStandardPageRows(PhorgeLiskDAO $table) {
     $conn = $table->establishConnection('r');
     return $this->loadStandardPageRowsWithConnection(
       $conn,
@@ -339,7 +339,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       foreach ($rows as $row) {
         $phid = $row['phid'];
 
-        $metadata = id(new PhabricatorFerretMetadata())
+        $metadata = id(new PhorgeFerretMetadata())
           ->setPHID($phid)
           ->setEngine($this->ferretEngine)
           ->setRelevance(idx($row, self::FULLTEXT_RANK));
@@ -379,7 +379,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   final public function newIterator() {
-    return new PhabricatorQueryIterator($this);
+    return new PhorgeQueryIterator($this);
   }
 
   final public function executeWithCursorPager(AphrontCursorPagerView $pager) {
@@ -914,7 +914,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * This is a high-level method which works alongside @{method:setOrder}. For
    * lower-level control over order vectors, use @{method:setOrderVector}.
    *
-   * @param PhabricatorQueryOrderVector|list<string> List of order keys.
+   * @param PhorgeQueryOrderVector|list<string> List of order keys.
    * @return this
    * @task order
    */
@@ -962,10 +962,10 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     );
 
     $object = $this->newResultObject();
-    if ($object instanceof PhabricatorCustomFieldInterface) {
-      $list = PhabricatorCustomField::getObjectFields(
+    if ($object instanceof PhorgeCustomFieldInterface) {
+      $list = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_APPLICATIONSEARCH);
+        PhorgeCustomField::ROLE_APPLICATIONSEARCH);
       foreach ($list->getFields() as $field) {
         $index = $field->buildOrderIndex();
         if (!$index) {
@@ -1038,12 +1038,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * To set an order vector, specify a list of order keys as provided by
    * @{method:getOrderableColumns}.
    *
-   * @param PhabricatorQueryOrderVector|list<string> List of order keys.
+   * @param PhorgeQueryOrderVector|list<string> List of order keys.
    * @return this
    * @task order
    */
   public function setOrderVector($vector) {
-    $vector = PhabricatorQueryOrderVector::newFromVector($vector);
+    $vector = PhorgeQueryOrderVector::newFromVector($vector);
 
     $orderable = $this->getOrderableColumns();
 
@@ -1100,7 +1100,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   /**
    * Get the effective order vector.
    *
-   * @return PhabricatorQueryOrderVector Effective vector.
+   * @return PhorgeQueryOrderVector Effective vector.
    * @task order
    */
   protected function getOrderVector() {
@@ -1113,12 +1113,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       }
 
       if ($this->groupVector) {
-        $group = PhabricatorQueryOrderVector::newFromVector($this->groupVector);
+        $group = PhorgeQueryOrderVector::newFromVector($this->groupVector);
         $group->appendVector($vector);
         $vector = $group;
       }
 
-      $vector = PhabricatorQueryOrderVector::newFromVector($vector);
+      $vector = PhorgeQueryOrderVector::newFromVector($vector);
 
       // We call setOrderVector() here to apply checks to the default vector.
       // This catches any errors in the implementation.
@@ -1141,7 +1141,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @task order
    */
   public function getOrderableColumns() {
-    $cache = PhabricatorCaches::getRequestCache();
+    $cache = PhorgeCaches::getRequestCache();
     $class = get_class($this);
     $cache_key = 'query.orderablecolumns.'.$class;
 
@@ -1161,10 +1161,10 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     );
 
     $object = $this->newResultObject();
-    if ($object instanceof PhabricatorCustomFieldInterface) {
-      $list = PhabricatorCustomField::getObjectFields(
+    if ($object instanceof PhorgeCustomFieldInterface) {
+      $list = PhorgeCustomField::getObjectFields(
         $object,
-        PhabricatorCustomField::ROLE_APPLICATIONSEARCH);
+        PhorgeCustomField::ROLE_APPLICATIONSEARCH);
       foreach ($list->getFields() as $field) {
         $index = $field->buildOrderIndex();
         if (!$index) {
@@ -1261,7 +1261,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $keep[] = $order->getAsScalar();
     }
 
-    return PhabricatorQueryOrderVector::newFromVector($keep);
+    return PhorgeQueryOrderVector::newFromVector($keep);
   }
 
   /**
@@ -1350,13 +1350,13 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   - Find users with shirt sizes "X" or "XL".
    *   - Find shoes with size "13".
    *
-   * @param PhabricatorCustomFieldIndexStorage Table where the index is stored.
+   * @param PhorgeCustomFieldIndexStorage Table where the index is stored.
    * @param string|list<string> One or more values to filter by.
    * @return this
    * @task appsearch
    */
   public function withApplicationSearchContainsConstraint(
-    PhabricatorCustomFieldIndexStorage $index,
+    PhorgeCustomFieldIndexStorage $index,
     $value) {
 
     $values = (array)$value;
@@ -1364,7 +1364,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     $data_values = array();
     $constraint_values = array();
     foreach ($values as $value) {
-      if ($value instanceof PhabricatorQueryConstraint) {
+      if ($value instanceof PhorgeQueryConstraint) {
         $constraint_values[] = $value;
       } else {
         $data_values[] = $value;
@@ -1400,14 +1400,14 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * `5` will match fields with values `3`, `4`, or `5`. Providing `null` for
    * either end of the range will leave that end of the constraint open.
    *
-   * @param PhabricatorCustomFieldIndexStorage Table where the index is stored.
+   * @param PhorgeCustomFieldIndexStorage Table where the index is stored.
    * @param int|null Minimum permissible value, inclusive.
    * @param int|null Maximum permissible value, inclusive.
    * @return this
    * @task appsearch
    */
   public function withApplicationSearchRangeConstraint(
-    PhabricatorCustomFieldIndexStorage $index,
+    PhorgeCustomFieldIndexStorage $index,
     $min,
     $max) {
 
@@ -1549,7 +1549,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
           $join_type = qsprintf($conn, 'JOIN');
           foreach ($constraint['constraints'] as $query_constraint) {
             $op = $query_constraint->getOperator();
-            if ($op === PhabricatorQueryConstraint::OPERATOR_NULL) {
+            if ($op === PhorgeQueryConstraint::OPERATOR_NULL) {
               $join_type = qsprintf($conn, 'LEFT JOIN');
               break;
             }
@@ -1695,13 +1695,13 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
             foreach ($constraint_values as $value) {
               $op = $value->getOperator();
               switch ($op) {
-                case PhabricatorQueryConstraint::OPERATOR_NULL:
+                case PhorgeQueryConstraint::OPERATOR_NULL:
                   $constraint_parts[] = qsprintf(
                     $conn,
                     '%T.indexValue IS NULL',
                     $alias);
                   break;
-                case PhabricatorQueryConstraint::OPERATOR_ANY:
+                case PhorgeQueryConstraint::OPERATOR_ANY:
                   $constraint_parts[] = qsprintf(
                     $conn,
                     '%T.indexValue IS NOT NULL',
@@ -1736,12 +1736,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @task customfield
    */
   protected function getPagingValueMapForCustomFields(
-    PhabricatorCustomFieldInterface $object) {
+    PhorgeCustomFieldInterface $object) {
 
     // We have to get the current field values on the cursor object.
-    $fields = PhabricatorCustomField::getObjectFields(
+    $fields = PhorgeCustomField::getObjectFields(
       $object,
-      PhabricatorCustomField::ROLE_APPLICATIONSEARCH);
+      PhorgeCustomField::ROLE_APPLICATIONSEARCH);
     $fields->setViewer($this->getViewer());
     $fields->readFieldsFromStorage($object);
 
@@ -1768,12 +1768,12 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
   public function supportsFerretEngine() {
     $object = $this->newResultObject();
-    return ($object instanceof PhabricatorFerretInterface);
+    return ($object instanceof PhorgeFerretInterface);
   }
 
   public function withFerretQuery(
-    PhabricatorFerretEngine $engine,
-    PhabricatorSavedQuery $query) {
+    PhorgeFerretEngine $engine,
+    PhorgeSavedQuery $query) {
 
     if (!$this->supportsFerretEngine()) {
       throw new Exception(
@@ -1800,7 +1800,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   public function withFerretConstraint(
-    PhabricatorFerretEngine $engine,
+    PhorgeFerretEngine $engine,
     array $fulltext_tokens) {
 
     if (!$this->supportsFerretEngine()) {
@@ -2174,7 +2174,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     $functions = mpull($functions, null, 'getFerretFunctionName');
     foreach ($functions as $function) {
       if (!$function->supportsObject($object)) {
-        throw new PhabricatorEmptyQueryException(
+        throw new PhorgeEmptyQueryException(
           pht(
             'This query uses a fulltext function which this document '.
             'type does not support.'));
@@ -2380,7 +2380,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $with_any = $query->getParameter('withAnyOwner');
 
       if ($with_any && $with_unowned) {
-        throw new PhabricatorEmptyQueryException(
+        throw new PhorgeEmptyQueryException(
           pht(
             'This query matches only unowned documents owned by anyone, '.
             'which is impossible.'));
@@ -2411,7 +2411,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
           'ft_doc.ownerPHID IS NOT NULL');
       }
 
-      $rel_open = PhabricatorSearchRelationship::RELATIONSHIP_OPEN;
+      $rel_open = PhorgeSearchRelationship::RELATIONSHIP_OPEN;
 
       $statuses = $query->getParameter('statuses');
       $is_closed = null;
@@ -2446,7 +2446,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   protected function withNgramsConstraint(
-    PhabricatorSearchNgrams $index,
+    PhorgeSearchNgrams $index,
     $value) {
 
     if (strlen($value)) {
@@ -2566,7 +2566,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
   private function getNgramEngine() {
     if (!$this->ngramEngine) {
-      $this->ngramEngine = new PhabricatorSearchNgramEngine();
+      $this->ngramEngine = new PhorgeSearchNgramEngine();
     }
 
     return $this->ngramEngine;
@@ -2589,7 +2589,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   public function withEdgeLogicPHIDs($edge_type, $operator, array $phids) {
     $constraints = array();
     foreach ($phids as $phid) {
-      $constraints[] = new PhabricatorQueryConstraint($operator, $phid);
+      $constraints[] = new PhorgeQueryConstraint($operator, $phid);
     }
 
     return $this->withEdgeLogicConstraints($edge_type, $constraints);
@@ -2601,7 +2601,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @task edgelogic
    */
   public function withEdgeLogicConstraints($edge_type, array $constraints) {
-    assert_instances_of($constraints, 'PhabricatorQueryConstraint');
+    assert_instances_of($constraints, 'PhorgeQueryConstraint');
 
     $constraints = mgroup($constraints, 'getOperator');
     foreach ($constraints as $operator => $list) {
@@ -2628,7 +2628,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       foreach ($constraints as $operator => $list) {
         $alias = $this->getEdgeLogicTableAlias($operator, $type);
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_AND:
+          case PhorgeQueryConstraint::OPERATOR_AND:
             if (count($list) > 1) {
               $select[] = qsprintf(
                 $conn,
@@ -2637,7 +2637,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
                 $this->buildEdgeLogicTableAliasCount($alias));
             }
             break;
-          case PhabricatorQueryConstraint::OPERATOR_ANCESTOR:
+          case PhorgeQueryConstraint::OPERATOR_ANCESTOR:
             // This is tricky. We have a query which specifies multiple
             // projects, each of which may have an arbitrarily large number
             // of descendants.
@@ -2692,25 +2692,25 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @task edgelogic
    */
   public function buildEdgeLogicJoinClause(AphrontDatabaseConnection $conn) {
-    $edge_table = PhabricatorEdgeConfig::TABLE_NAME_EDGE;
+    $edge_table = PhorgeEdgeConfig::TABLE_NAME_EDGE;
     $phid_column = $this->getApplicationSearchObjectPHIDColumn($conn);
 
     $joins = array();
     foreach ($this->edgeLogicConstraints as $type => $constraints) {
 
-      $op_null = PhabricatorQueryConstraint::OPERATOR_NULL;
+      $op_null = PhorgeQueryConstraint::OPERATOR_NULL;
       $has_null = isset($constraints[$op_null]);
 
       // If we're going to process an only() operator, build a list of the
       // acceptable set of PHIDs first. We'll only match results which have
       // no edges to any other PHIDs.
       $all_phids = array();
-      if (isset($constraints[PhabricatorQueryConstraint::OPERATOR_ONLY])) {
+      if (isset($constraints[PhorgeQueryConstraint::OPERATOR_ONLY])) {
         foreach ($constraints as $operator => $list) {
           switch ($operator) {
-            case PhabricatorQueryConstraint::OPERATOR_ANCESTOR:
-            case PhabricatorQueryConstraint::OPERATOR_AND:
-            case PhabricatorQueryConstraint::OPERATOR_OR:
+            case PhorgeQueryConstraint::OPERATOR_ANCESTOR:
+            case PhorgeQueryConstraint::OPERATOR_AND:
+            case PhorgeQueryConstraint::OPERATOR_OR:
               foreach ($list as $constraint) {
                 $value = (array)$constraint->getValue();
                 foreach ($value as $v) {
@@ -2735,7 +2735,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
         $phids = array_keys($phids);
 
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_NOT:
+          case PhorgeQueryConstraint::OPERATOR_NOT:
             $joins[] = qsprintf(
               $conn,
               'LEFT JOIN %T %T ON %Q = %T.src AND %T.type = %d
@@ -2749,9 +2749,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
               $alias,
               $phids);
             break;
-          case PhabricatorQueryConstraint::OPERATOR_ANCESTOR:
-          case PhabricatorQueryConstraint::OPERATOR_AND:
-          case PhabricatorQueryConstraint::OPERATOR_OR:
+          case PhorgeQueryConstraint::OPERATOR_ANCESTOR:
+          case PhorgeQueryConstraint::OPERATOR_AND:
+          case PhorgeQueryConstraint::OPERATOR_OR:
             // If we're including results with no matches, we have to degrade
             // this to a LEFT join. We'll use WHERE to select matching rows
             // later.
@@ -2775,7 +2775,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
               $alias,
               $phids);
             break;
-          case PhabricatorQueryConstraint::OPERATOR_NULL:
+          case PhorgeQueryConstraint::OPERATOR_NULL:
             $joins[] = qsprintf(
               $conn,
               'LEFT JOIN %T %T ON %Q = %T.src AND %T.type = %d',
@@ -2786,7 +2786,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
               $alias,
               $type);
             break;
-          case PhabricatorQueryConstraint::OPERATOR_ONLY:
+          case PhorgeQueryConstraint::OPERATOR_ONLY:
             $joins[] = qsprintf(
               $conn,
               'LEFT JOIN %T %T ON %Q = %T.src AND %T.type = %d
@@ -2819,21 +2819,21 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $full = array();
       $null = array();
 
-      $op_null = PhabricatorQueryConstraint::OPERATOR_NULL;
+      $op_null = PhorgeQueryConstraint::OPERATOR_NULL;
       $has_null = isset($constraints[$op_null]);
 
       foreach ($constraints as $operator => $list) {
         $alias = $this->getEdgeLogicTableAlias($operator, $type);
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_NOT:
-          case PhabricatorQueryConstraint::OPERATOR_ONLY:
+          case PhorgeQueryConstraint::OPERATOR_NOT:
+          case PhorgeQueryConstraint::OPERATOR_ONLY:
             $full[] = qsprintf(
               $conn,
               '%T.dst IS NULL',
               $alias);
             break;
-          case PhabricatorQueryConstraint::OPERATOR_AND:
-          case PhabricatorQueryConstraint::OPERATOR_OR:
+          case PhorgeQueryConstraint::OPERATOR_AND:
+          case PhorgeQueryConstraint::OPERATOR_OR:
             if ($has_null) {
               $full[] = qsprintf(
                 $conn,
@@ -2841,7 +2841,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
                 $alias);
             }
             break;
-          case PhabricatorQueryConstraint::OPERATOR_NULL:
+          case PhorgeQueryConstraint::OPERATOR_NULL:
             $null[] = qsprintf(
               $conn,
               '%T.dst IS NULL',
@@ -2877,7 +2877,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       foreach ($constraints as $operator => $list) {
         $alias = $this->getEdgeLogicTableAlias($operator, $type);
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_AND:
+          case PhorgeQueryConstraint::OPERATOR_AND:
             if (count($list) > 1) {
               $having[] = qsprintf(
                 $conn,
@@ -2886,7 +2886,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
                 count($list));
             }
             break;
-          case PhabricatorQueryConstraint::OPERATOR_ANCESTOR:
+          case PhorgeQueryConstraint::OPERATOR_ANCESTOR:
             if (count($list) > 1) {
               $having[] = qsprintf(
                 $conn,
@@ -2910,21 +2910,21 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     foreach ($this->edgeLogicConstraints as $type => $constraints) {
       foreach ($constraints as $operator => $list) {
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_NOT:
-          case PhabricatorQueryConstraint::OPERATOR_AND:
-          case PhabricatorQueryConstraint::OPERATOR_OR:
+          case PhorgeQueryConstraint::OPERATOR_NOT:
+          case PhorgeQueryConstraint::OPERATOR_AND:
+          case PhorgeQueryConstraint::OPERATOR_OR:
             if (count($list) > 1) {
               return true;
             }
             break;
-          case PhabricatorQueryConstraint::OPERATOR_ANCESTOR:
+          case PhorgeQueryConstraint::OPERATOR_ANCESTOR:
             // NOTE: We must always group query results rows when using an
             // "ANCESTOR" operator because a single task may be related to
             // two different descendants of a particular ancestor. For
             // discussion, see T12753.
             return true;
-          case PhabricatorQueryConstraint::OPERATOR_NULL:
-          case PhabricatorQueryConstraint::OPERATOR_ONLY:
+          case PhorgeQueryConstraint::OPERATOR_NULL:
+          case PhorgeQueryConstraint::OPERATOR_ONLY:
             return true;
         }
       }
@@ -3005,8 +3005,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     foreach ($this->edgeLogicConstraints as $type => $constraints) {
       foreach ($constraints as $operator => $list) {
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_EMPTY:
-            throw new PhabricatorEmptyQueryException(
+          case PhorgeQueryConstraint::OPERATOR_EMPTY:
+            throw new PhorgeEmptyQueryException(
               pht('This query specifies an empty constraint.'));
         }
       }
@@ -3017,16 +3017,16 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $project_phids = $this->getEdgeLogicValues(
       array(
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
       ),
       array(
-        PhabricatorQueryConstraint::OPERATOR_AND,
-        PhabricatorQueryConstraint::OPERATOR_OR,
-        PhabricatorQueryConstraint::OPERATOR_NOT,
-        PhabricatorQueryConstraint::OPERATOR_ANCESTOR,
+        PhorgeQueryConstraint::OPERATOR_AND,
+        PhorgeQueryConstraint::OPERATOR_OR,
+        PhorgeQueryConstraint::OPERATOR_NOT,
+        PhorgeQueryConstraint::OPERATOR_ANCESTOR,
       ));
     if ($project_phids) {
-      $projects = id(new PhabricatorProjectQuery())
+      $projects = id(new PhorgeProjectQuery())
         ->setViewer($this->getViewer())
         ->setParentQuery($this)
         ->withPHIDs($project_phids)
@@ -3034,7 +3034,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $projects = mpull($projects, null, 'getPHID');
       foreach ($project_phids as $phid) {
         if (empty($projects[$phid])) {
-          throw new PhabricatorEmptyQueryException(
+          throw new PhorgeEmptyQueryException(
             pht(
               'This query is constrained by a project you do not have '.
               'permission to see.'));
@@ -3042,16 +3042,16 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       }
     }
 
-    $op_and = PhabricatorQueryConstraint::OPERATOR_AND;
-    $op_or = PhabricatorQueryConstraint::OPERATOR_OR;
-    $op_ancestor = PhabricatorQueryConstraint::OPERATOR_ANCESTOR;
+    $op_and = PhorgeQueryConstraint::OPERATOR_AND;
+    $op_or = PhorgeQueryConstraint::OPERATOR_OR;
+    $op_ancestor = PhorgeQueryConstraint::OPERATOR_ANCESTOR;
 
     foreach ($this->edgeLogicConstraints as $type => $constraints) {
       foreach ($constraints as $operator => $list) {
         switch ($operator) {
-          case PhabricatorQueryConstraint::OPERATOR_ONLY:
+          case PhorgeQueryConstraint::OPERATOR_ONLY:
             if (count($list) > 1) {
-              throw new PhabricatorEmptyQueryException(
+              throw new PhorgeEmptyQueryException(
                 pht(
                   'This query specifies only() more than once.'));
             }
@@ -3060,7 +3060,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
             $have_or = idx($constraints, $op_or);
             $have_ancestor = idx($constraints, $op_ancestor);
             if (!$have_and && !$have_or && !$have_ancestor) {
-              throw new PhabricatorEmptyQueryException(
+              throw new PhorgeEmptyQueryException(
                 pht(
                   'This query specifies only(), but no other constraints '.
                   'which it can apply to.'));
@@ -3102,7 +3102,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
           get_class($this)));
     }
 
-    if (!($object instanceof PhabricatorSpacesInterface)) {
+    if (!($object instanceof PhorgeSpacesInterface)) {
       throw new Exception(
         pht(
           'This query (of class "%s") returned an object of class "%s" from '.
@@ -3111,7 +3111,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
           'Spaces support.',
           get_class($this),
           get_class($object),
-          'PhabricatorSpacesInterface'));
+          'PhorgeSpacesInterface'));
     }
 
     $this->spacePHIDs = $space_phids;
@@ -3142,7 +3142,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       return null;
     }
 
-    if (!($object instanceof PhabricatorSpacesInterface)) {
+    if (!($object instanceof PhorgeSpacesInterface)) {
       return null;
     }
 
@@ -3168,7 +3168,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     $space_phids = array();
     $include_null = false;
 
-    $all = PhabricatorSpacesNamespaceQuery::getAllSpaces();
+    $all = PhorgeSpacesNamespaceQuery::getAllSpaces();
     if (!$all) {
       // If there are no spaces at all, implicitly give the viewer access to
       // the default space.
@@ -3176,7 +3176,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     } else {
       // Otherwise, give them access to the spaces they have permission to
       // see.
-      $viewer_spaces = PhabricatorSpacesNamespaceQuery::getViewerSpaces(
+      $viewer_spaces = PhorgeSpacesNamespaceQuery::getViewerSpaces(
         $viewer);
       foreach ($viewer_spaces as $viewer_space) {
         if ($this->spaceIsArchived !== null) {
@@ -3198,7 +3198,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
       $explicit_null = false;
       foreach ($this->spacePHIDs as $phid) {
         if ($phid === null) {
-          $space = PhabricatorSpacesNamespaceQuery::getDefaultSpace();
+          $space = PhorgeSpacesNamespaceQuery::getDefaultSpace();
         } else {
           $space = idx($all, $phid);
         }
@@ -3224,10 +3224,10 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     if (!$space_phids && !$include_null) {
       if ($this->spacePHIDs === null) {
-        throw new PhabricatorEmptyQueryException(
+        throw new PhorgeEmptyQueryException(
           pht('You do not have access to any spaces.'));
       } else {
-        throw new PhabricatorEmptyQueryException(
+        throw new PhorgeEmptyQueryException(
           pht(
             'You do not have access to any of the spaces this query '.
             'is constrained to.'));

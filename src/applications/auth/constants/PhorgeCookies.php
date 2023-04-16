@@ -7,7 +7,7 @@
  * @task clientid   Client ID Cookie
  * @task next       Next URI Cookie
  */
-final class PhabricatorCookies extends Phobject {
+final class PhorgeCookies extends Phobject {
 
   /**
    * Stores the login username for password authentication. This is just a

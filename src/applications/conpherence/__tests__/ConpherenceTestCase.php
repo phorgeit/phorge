@@ -1,9 +1,9 @@
 <?php
 
-abstract class ConpherenceTestCase extends PhabricatorTestCase {
+abstract class ConpherenceTestCase extends PhorgeTestCase {
 
   protected function addParticipants(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     ConpherenceThread $conpherence,
     array $participant_phids) {
 
@@ -21,7 +21,7 @@ abstract class ConpherenceTestCase extends PhabricatorTestCase {
   }
 
   protected function removeParticipants(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     ConpherenceThread $conpherence,
     array $participant_phids) {
 
@@ -38,7 +38,7 @@ abstract class ConpherenceTestCase extends PhabricatorTestCase {
   }
 
   protected function addMessageWithFile(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     ConpherenceThread $conpherence) {
 
     $file = $this->generateTestFile($actor);
@@ -57,8 +57,8 @@ abstract class ConpherenceTestCase extends PhabricatorTestCase {
     return $editor->applyTransactions($conpherence, $xactions);
   }
 
-  private function generateTestFile(PhabricatorUser $actor) {
-    $engine = new PhabricatorTestStorageEngine();
+  private function generateTestFile(PhorgeUser $actor) {
+    $engine = new PhorgeTestStorageEngine();
     $data = Filesystem::readRandomCharacters(64);
 
     $params = array(
@@ -70,7 +70,7 @@ abstract class ConpherenceTestCase extends PhabricatorTestCase {
       ),
     );
 
-    $file = PhabricatorFile::newFromFileData($data, $params);
+    $file = PhorgeFile::newFromFileData($data, $params);
     $file->save();
 
     return $file;

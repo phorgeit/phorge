@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchManagementQueryWorkflow
-  extends PhabricatorSearchManagementWorkflow {
+final class PhorgeSearchManagementQueryWorkflow
+  extends PhorgeSearchManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -26,7 +26,7 @@ final class PhabricatorSearchManagementQueryWorkflow
         pht('Specify a query with --query.'));
     }
 
-    $engine = id(new PhabricatorSearchApplicationSearchEngine())
+    $engine = id(new PhorgeSearchApplicationSearchEngine())
       ->setViewer($viewer);
 
     $saved = $engine->newSavedQuery();

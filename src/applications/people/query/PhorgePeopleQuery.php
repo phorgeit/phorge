@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPeopleQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgePeopleQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $usernames;
   private $realnames;
@@ -118,7 +118,7 @@ final class PhabricatorPeopleQuery
   }
 
   public function needProfileImage($need) {
-    $cache_key = PhabricatorUserProfileImageCacheType::KEY_URI;
+    $cache_key = PhorgeUserProfileImageCacheType::KEY_URI;
 
     if ($need) {
       $this->cacheKeys[$cache_key] = true;
@@ -135,7 +135,7 @@ final class PhabricatorPeopleQuery
   }
 
   public function needUserSettings($need) {
-    $cache_key = PhabricatorUserPreferencesCacheType::KEY_PREFERENCES;
+    $cache_key = PhorgeUserPreferencesCacheType::KEY_PREFERENCES;
 
     if ($need) {
       $this->cacheKeys[$cache_key] = true;
@@ -147,7 +147,7 @@ final class PhabricatorPeopleQuery
   }
 
   public function needBadgeAwards($need) {
-    $cache_key = PhabricatorUserBadgesCacheType::KEY_BADGES;
+    $cache_key = PhorgeUserBadgesCacheType::KEY_BADGES;
 
     if ($need) {
       $this->cacheKeys[$cache_key] = true;
@@ -159,13 +159,13 @@ final class PhabricatorPeopleQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorUser();
+    return new PhorgeUser();
   }
 
   protected function didFilterPage(array $users) {
     if ($this->needProfile) {
       $user_list = mpull($users, null, 'getPHID');
-      $profiles = new PhabricatorUserProfile();
+      $profiles = new PhorgeUserProfile();
       $profiles = $profiles->loadAllWhere(
         'userPHID IN (%Ls)',
         array_keys($user_list));
@@ -175,7 +175,7 @@ final class PhabricatorPeopleQuery
         $profile = idx($profiles, $user_phid);
 
         if (!$profile) {
-          $profile = PhabricatorUserProfile::initializeNewProfile($user);
+          $profile = PhorgeUserProfile::initializeNewProfile($user);
         }
 
         $user->attachUserProfile($profile);
@@ -215,7 +215,7 @@ final class PhabricatorPeopleQuery
     $joins = parent::buildJoinClauseParts($conn);
 
     if ($this->emails) {
-      $email_table = new PhabricatorUserEmail();
+      $email_table = new PhorgeUserEmail();
       $joins[] = qsprintf(
         $conn,
         'JOIN %T email ON email.userPHID = user.PHID',
@@ -228,7 +228,7 @@ final class PhabricatorPeopleQuery
         $joins[] = qsprintf(
           $conn,
           'JOIN %T %T ON %T.userID = user.id AND %T.token LIKE %>',
-          PhabricatorUser::NAMETOKEN_TABLE,
+          PhorgeUser::NAMETOKEN_TABLE,
           $token_table,
           $token_table,
           $token_table,
@@ -360,7 +360,7 @@ final class PhabricatorPeopleQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return 'PhorgePeopleApplication';
   }
 
   public function getOrderableColumns() {
@@ -388,15 +388,15 @@ final class PhabricatorPeopleQuery
     // Limit the window we look at because far-future events are largely
     // irrelevant and this makes the cache cheaper to build and allows it to
     // self-heal over time.
-    $min_range = PhabricatorTime::getNow();
+    $min_range = PhorgeTime::getNow();
     $max_range = $min_range + phutil_units('72 hours in seconds');
 
     // NOTE: We don't need to generate ghosts here, because we only care if
     // the user is attending, and you can't attend a ghost event: RSVP'ing
     // to it creates a real event.
 
-    $events = id(new PhabricatorCalendarEventQuery())
-      ->setViewer(PhabricatorUser::getOmnipotentUser())
+    $events = id(new PhorgeCalendarEventQuery())
+      ->setViewer(PhorgeUser::getOmnipotentUser())
       ->withInvitedPHIDs(array_keys($rebuild))
       ->withIsCancelled(false)
       ->withDateRange($min_range, $max_range)
@@ -521,15 +521,15 @@ final class PhabricatorPeopleQuery
 
     $hashes = array();
     foreach ($keys as $key) {
-      $hashes[] = PhabricatorHash::digestForIndex($key);
+      $hashes[] = PhorgeHash::digestForIndex($key);
     }
 
-    $types = PhabricatorUserCacheType::getAllCacheTypes();
+    $types = PhorgeUserCacheType::getAllCacheTypes();
 
     // First, pull any available caches. If we wanted to be particularly clever
     // we could do this with JOINs in the main query.
 
-    $cache_table = new PhabricatorUserCache();
+    $cache_table = new PhorgeUserCache();
     $cache_conn = $cache_table->establishConnection('r');
 
     $cache_data = queryfx_all(
@@ -598,7 +598,7 @@ final class PhabricatorPeopleQuery
 
     $writes = array();
     foreach ($need as $cache_key => $need_users) {
-      $type = PhabricatorUserCacheType::getCacheTypeForKey($cache_key);
+      $type = PhorgeUserCacheType::getCacheTypeForKey($cache_key);
       if (!$type) {
         continue;
       }
@@ -625,6 +625,6 @@ final class PhabricatorPeopleQuery
       }
     }
 
-    PhabricatorUserCache::writeCaches($writes);
+    PhorgeUserCache::writeCaches($writes);
   }
 }

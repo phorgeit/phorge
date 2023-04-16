@@ -12,7 +12,7 @@ final class DifferentialRevisionRequestReviewTransaction
 
   protected function getRevisionActionLabel(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     // See PHI1810. Allow non-authors to "Request Review" on draft revisions
     // to promote them out of the draft state. This smoothes over the workflow
@@ -30,7 +30,7 @@ final class DifferentialRevisionRequestReviewTransaction
 
   protected function getRevisionActionDescription(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     if ($revision->isDraft()) {
       if (!$this->isViewerRevisionAuthor($revision, $viewer)) {
         return pht(
@@ -47,7 +47,7 @@ final class DifferentialRevisionRequestReviewTransaction
 
   protected function getRevisionActionMetadata(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
     $map = array();
 
     if ($revision->isDraft()) {
@@ -62,7 +62,7 @@ final class DifferentialRevisionRequestReviewTransaction
 
   protected function getRevisionActionSubmitButtonText(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     // See PHI975. When the action stack will promote the revision out of
     // draft, change the button text from "Submit Quietly".
@@ -97,7 +97,7 @@ final class DifferentialRevisionRequestReviewTransaction
       ->setShouldBroadcast(true);
   }
 
-  protected function validateAction($object, PhabricatorUser $viewer) {
+  protected function validateAction($object, PhorgeUser $viewer) {
     if ($object->isNeedsReview()) {
       throw new Exception(
         pht(
@@ -167,7 +167,7 @@ final class DifferentialRevisionRequestReviewTransaction
 
   private function getActorSourceType(
     DifferentialRevision $revision,
-    PhabricatorUser $viewer) {
+    PhorgeUser $viewer) {
 
     $is_harbormaster = $viewer->isOmnipotent();
     $is_author = $this->isViewerRevisionAuthor($revision, $viewer);

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectProfileMenuEngine
-  extends PhabricatorProfileMenuEngine {
+final class PhorgeProjectProfileMenuEngine
+  extends PhorgeProfileMenuEngine {
 
   protected function isMenuEngineConfigurable() {
     return true;
@@ -21,38 +21,38 @@ final class PhabricatorProjectProfileMenuEngine
     $items = array();
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_PICTURE)
-      ->setMenuItemKey(PhabricatorProjectPictureProfileMenuItem::MENUITEMKEY)
+      ->setBuiltinKey(PhorgeProject::ITEM_PICTURE)
+      ->setMenuItemKey(PhorgeProjectPictureProfileMenuItem::MENUITEMKEY)
       ->setIsHeadItem(true);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_PROFILE)
-      ->setMenuItemKey(PhabricatorProjectDetailsProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeProject::ITEM_PROFILE)
+      ->setMenuItemKey(PhorgeProjectDetailsProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_POINTS)
-      ->setMenuItemKey(PhabricatorProjectPointsProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeProject::ITEM_POINTS)
+      ->setMenuItemKey(PhorgeProjectPointsProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_WORKBOARD)
-      ->setMenuItemKey(PhabricatorProjectWorkboardProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeProject::ITEM_WORKBOARD)
+      ->setMenuItemKey(PhorgeProjectWorkboardProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_REPORTS)
-      ->setMenuItemKey(PhabricatorProjectReportsProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeProject::ITEM_REPORTS)
+      ->setMenuItemKey(PhorgeProjectReportsProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_MEMBERS)
-      ->setMenuItemKey(PhabricatorProjectMembersProfileMenuItem::MENUITEMKEY);
+      ->setBuiltinKey(PhorgeProject::ITEM_MEMBERS)
+      ->setMenuItemKey(PhorgeProjectMembersProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_SUBPROJECTS)
+      ->setBuiltinKey(PhorgeProject::ITEM_SUBPROJECTS)
       ->setMenuItemKey(
-        PhabricatorProjectSubprojectsProfileMenuItem::MENUITEMKEY);
+        PhorgeProjectSubprojectsProfileMenuItem::MENUITEMKEY);
 
     $items[] = $this->newItem()
-      ->setBuiltinKey(PhabricatorProject::ITEM_MANAGE)
-      ->setMenuItemKey(PhabricatorProjectManageProfileMenuItem::MENUITEMKEY)
+      ->setBuiltinKey(PhorgeProject::ITEM_MANAGE)
+      ->setMenuItemKey(PhorgeProjectManageProfileMenuItem::MENUITEMKEY)
       ->setIsTailItem(true);
 
     return $items;

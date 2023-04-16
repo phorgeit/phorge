@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPanelListController
-  extends PhabricatorDashboardController {
+final class PhorgeDashboardPanelListController
+  extends PhorgeDashboardController {
 
   private $queryKey;
 
@@ -12,9 +12,9 @@ final class PhabricatorDashboardPanelListController
   public function handleRequest(AphrontRequest $request) {
     $query_key = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($query_key)
-      ->setSearchEngine(new PhabricatorDashboardPanelSearchEngine())
+      ->setSearchEngine(new PhorgeDashboardPanelSearchEngine())
       ->setNavigation($this->buildSideNavView());
     return $this->delegateToController($controller);
   }
@@ -25,7 +25,7 @@ final class PhabricatorDashboardPanelListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorDashboardPanelSearchEngine())
+    id(new PhorgeDashboardPanelSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

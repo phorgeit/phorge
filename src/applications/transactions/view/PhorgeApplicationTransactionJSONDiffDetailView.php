@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationTransactionJSONDiffDetailView
-  extends PhabricatorApplicationTransactionDetailView {
+final class PhorgeApplicationTransactionJSONDiffDetailView
+  extends PhorgeApplicationTransactionDetailView {
 
   public function setNew($new_object) {
     $json = new PhutilJSON();

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectTriggerQuery
-  extends PhabricatorCursorPagedPolicyAwareQuery {
+final class PhorgeProjectTriggerQuery
+  extends PhorgeCursorPagedPolicyAwareQuery {
 
   private $ids;
   private $phids;
@@ -32,7 +32,7 @@ final class PhabricatorProjectTriggerQuery
   }
 
   public function newResultObject() {
-    return new PhabricatorProjectTrigger();
+    return new PhorgeProjectTrigger();
   }
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
@@ -76,7 +76,7 @@ final class PhabricatorProjectTriggerQuery
       $joins[] = qsprintf(
         $conn,
         'JOIN %R trigger_usage ON trigger.phid = trigger_usage.triggerPHID',
-        new PhabricatorProjectTriggerUsage());
+        new PhorgeProjectTriggerUsage());
     }
 
     return $joins;
@@ -96,7 +96,7 @@ final class PhabricatorProjectTriggerQuery
 
   protected function didFilterPage(array $triggers) {
     if ($this->needUsage) {
-      $usage_map = id(new PhabricatorProjectTriggerUsage())->loadAllWhere(
+      $usage_map = id(new PhorgeProjectTriggerUsage())->loadAllWhere(
         'triggerPHID IN (%Ls)',
         mpull($triggers, 'getPHID'));
       $usage_map = mpull($usage_map, null, 'getTriggerPHID');
@@ -106,7 +106,7 @@ final class PhabricatorProjectTriggerQuery
 
         $usage = idx($usage_map, $trigger_phid);
         if (!$usage) {
-          $usage = id(new PhabricatorProjectTriggerUsage())
+          $usage = id(new PhorgeProjectTriggerUsage())
             ->setTriggerPHID($trigger_phid)
             ->setExamplePHID(null)
             ->setColumnCount(0)
@@ -121,7 +121,7 @@ final class PhabricatorProjectTriggerQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   protected function getPrimaryTableAlias() {

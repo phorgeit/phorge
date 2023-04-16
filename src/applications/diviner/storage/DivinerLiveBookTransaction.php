@@ -1,7 +1,7 @@
 <?php
 
 final class DivinerLiveBookTransaction
-  extends PhabricatorApplicationTransaction {
+  extends PhorgeApplicationTransaction {
 
   public function getApplicationName() {
     return 'diviner';

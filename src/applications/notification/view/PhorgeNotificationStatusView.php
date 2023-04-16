@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNotificationStatusView extends AphrontTagView {
+final class PhorgeNotificationStatusView extends AphrontTagView {
 
   protected function getTagAttributes() {
     if (!$this->getID()) {
@@ -38,7 +38,7 @@ final class PhabricatorNotificationStatusView extends AphrontTagView {
   }
 
   protected function getTagContent() {
-    $have = PhabricatorEnv::getEnvConfig('notification.servers');
+    $have = PhorgeEnv::getEnvConfig('notification.servers');
     if ($have) {
       $icon = id(new PHUIIconView())
         ->setIcon('fa-circle-o yellow');

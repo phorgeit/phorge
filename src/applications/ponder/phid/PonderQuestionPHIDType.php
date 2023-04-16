@@ -1,6 +1,6 @@
 <?php
 
-final class PonderQuestionPHIDType extends PhabricatorPHIDType {
+final class PonderQuestionPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'QUES';
 
@@ -13,11 +13,11 @@ final class PonderQuestionPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return 'PhorgePonderApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PonderQuestionQuery())
@@ -25,7 +25,7 @@ final class PonderQuestionPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -45,7 +45,7 @@ final class PonderQuestionPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

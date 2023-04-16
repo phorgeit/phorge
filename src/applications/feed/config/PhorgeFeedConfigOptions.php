@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFeedConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeFeedConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Feed');

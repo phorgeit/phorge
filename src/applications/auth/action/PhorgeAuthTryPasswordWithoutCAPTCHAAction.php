@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTryPasswordWithoutCAPTCHAAction
-  extends PhabricatorSystemAction {
+final class PhorgeAuthTryPasswordWithoutCAPTCHAAction
+  extends PhorgeSystemAction {
 
   const TYPECONST = 'auth.password-without-captcha';
 

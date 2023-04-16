@@ -6,7 +6,7 @@
  */
 final class DrydockRepositoryOperation extends DrydockDAO
   implements
-    PhabricatorPolicyInterface {
+    PhorgePolicyInterface {
 
   const STATE_WAIT = 'wait';
   const STATE_WORK = 'work';
@@ -66,11 +66,11 @@ final class DrydockRepositoryOperation extends DrydockDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DrydockRepositoryOperationPHIDType::TYPECONST);
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -145,14 +145,14 @@ final class DrydockRepositoryOperation extends DrydockDAO
   }
 
   public function scheduleUpdate() {
-    PhabricatorWorker::scheduleTask(
+    PhorgeWorker::scheduleTask(
       'DrydockRepositoryOperationUpdateWorker',
       array(
         'operationPHID' => $this->getPHID(),
       ),
       array(
         'objectPHID' => $this->getPHID(),
-        'priority' => PhabricatorWorker::PRIORITY_ALERTS,
+        'priority' => PhorgeWorker::PRIORITY_ALERTS,
       ));
   }
 
@@ -162,13 +162,13 @@ final class DrydockRepositoryOperation extends DrydockDAO
     return $impl->applyOperation($this, $interface);
   }
 
-  public function getOperationDescription(PhabricatorUser $viewer) {
+  public function getOperationDescription(PhorgeUser $viewer) {
     return $this->getImplementation()->getOperationDescription(
       $this,
       $viewer);
   }
 
-  public function getOperationCurrentStatus(PhabricatorUser $viewer) {
+  public function getOperationCurrentStatus(PhorgeUser $viewer) {
     return $this->getImplementation()->getOperationCurrentStatus(
       $this,
       $viewer);
@@ -219,7 +219,7 @@ final class DrydockRepositoryOperation extends DrydockDAO
 
   public function logEvent($type, array $data = array()) {
     $log = id(new DrydockLog())
-      ->setEpoch(PhabricatorTime::getNow())
+      ->setEpoch(PhorgeTime::getNow())
       ->setType($type)
       ->setData($data);
 
@@ -242,13 +242,13 @@ final class DrydockRepositoryOperation extends DrydockDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -259,7 +259,7 @@ final class DrydockRepositoryOperation extends DrydockDAO
       ->getPolicy($need_capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     $need_capability = $this->getRequiredRepositoryCapability($capability);
 
     return $this->getRepository()
@@ -277,7 +277,7 @@ final class DrydockRepositoryOperation extends DrydockDAO
     // to the repository.
 
     $map = array(
-      PhabricatorPolicyCapability::CAN_EDIT =>
+      PhorgePolicyCapability::CAN_EDIT =>
         DiffusionPushCapability::CAPABILITY,
     );
 

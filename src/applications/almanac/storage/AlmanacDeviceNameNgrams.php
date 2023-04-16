@@ -1,7 +1,7 @@
 <?php
 
 final class AlmanacDeviceNameNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'devicename';

@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildPlanNameNgrams
-  extends PhabricatorSearchNgrams {
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'buildplanname';

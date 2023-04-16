@@ -1,7 +1,7 @@
 <?php
 
 final class HarbormasterBuildStepEditEngine
-  extends PhabricatorEditEngine {
+  extends PhorgeEditEngine {
 
   const ENGINECONST = 'harbormaster.buildstep';
 
@@ -37,7 +37,7 @@ final class HarbormasterBuildStepEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return 'PhorgeHarbormasterApplication';
   }
 
   protected function newEditableObject() {

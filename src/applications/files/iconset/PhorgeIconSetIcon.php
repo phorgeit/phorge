@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorIconSetIcon
+final class PhorgeIconSetIcon
   extends Phobject {
 
   private $key;

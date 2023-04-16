@@ -2,10 +2,10 @@
 
 final class HarbormasterBuildStep extends HarbormasterDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeConduitResultInterface {
 
   protected $name;
   protected $description;
@@ -19,7 +19,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   private $customFields = self::ATTACHABLE;
   private $implementation;
 
-  public static function initializeNewStep(PhabricatorUser $actor) {
+  public static function initializeNewStep(PhorgeUser $actor) {
     return id(new HarbormasterBuildStep())
       ->setName('')
       ->setDescription('');
@@ -56,7 +56,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       HarbormasterBuildStepPHIDType::TYPECONST);
   }
 
@@ -102,7 +102,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   }
 
   public function willStartBuild(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     HarbormasterBuildable $buildable,
     HarbormasterBuild $build,
     HarbormasterBuildPlan $plan) {
@@ -115,7 +115,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -127,13 +127,13 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -141,7 +141,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
     return $this->getBuildPlan()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getBuildPlan()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -150,7 +150,7 @@ final class HarbormasterBuildStep extends HarbormasterDAO
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
@@ -165,25 +165,25 @@ final class HarbormasterBuildStep extends HarbormasterDAO
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the build step.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('description')
         ->setType('remarkup')
         ->setDescription(pht('The build step description.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('buildPlanPHID')
         ->setType('phid')
         ->setDescription(

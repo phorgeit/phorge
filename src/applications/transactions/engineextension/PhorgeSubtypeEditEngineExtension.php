@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubtypeEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgeSubtypeEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'editengine.subtype';
   const EDITKEY = 'subtype';
@@ -19,16 +19,16 @@ final class PhabricatorSubtypeEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorEditEngineSubtypeInterface);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgeEditEngineSubtypeInterface);
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
-    $subtype_type = PhabricatorTransactions::TYPE_SUBTYPE;
+    $subtype_type = PhorgeTransactions::TYPE_SUBTYPE;
     $subtype_value = $object->getEditEngineSubtype();
 
     $map = $object->newEditEngineSubtypeMap();
@@ -41,7 +41,7 @@ final class PhabricatorSubtypeEditEngineExtension
       $options = $map->getDisplayMap();
     }
 
-    $subtype_field = id(new PhabricatorSelectEditField())
+    $subtype_field = id(new PhorgeSelectEditField())
       ->setKey(self::EDITKEY)
       ->setLabel(pht('Subtype'))
       ->setIsFormField(false)

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorEmojiTranslation
+final class PhorgeEmojiTranslation
   extends PhutilTranslation {
 
   public function getLocaleCode() {

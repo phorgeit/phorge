@@ -1,10 +1,10 @@
 <?php
 
-$commit_table = new PhabricatorRepositoryCommit();
+$commit_table = new PhorgeRepositoryCommit();
 $commit_conn = $commit_table->establishConnection('w');
 $commit_name = $commit_table->getTableName();
 
-$properties_table = new PhabricatorMetaMTAMailProperties();
+$properties_table = new PhorgeMetaMTAMailProperties();
 $conn = $properties_table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator($commit_conn, $commit_name);
@@ -20,8 +20,8 @@ foreach ($chunks as $chunk) {
         array(
           'mailKey' => $commit['mailKey'],
         )),
-      PhabricatorTime::getNow(),
-      PhabricatorTime::getNow());
+      PhorgeTime::getNow(),
+      PhorgeTime::getNow());
   }
 
   queryfx(

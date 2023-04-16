@@ -1,6 +1,6 @@
 <?php
 
-$table = new PhabricatorRepositoryIdentity();
+$table = new PhorgeRepositoryIdentity();
 $conn = $table->establishConnection('w');
 
 $iterator = new LiskRawMigrationIterator($conn, $table->getTableName());

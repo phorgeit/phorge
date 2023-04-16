@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorWorkerBulkJobTransaction
-  extends PhabricatorApplicationTransaction {
+final class PhorgeWorkerBulkJobTransaction
+  extends PhorgeApplicationTransaction {
 
   const TYPE_STATUS = 'bulkjob.status';
 
@@ -10,7 +10,7 @@ final class PhabricatorWorkerBulkJobTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorWorkerBulkJobPHIDType::TYPECONST;
+    return PhorgeWorkerBulkJobPHIDType::TYPECONST;
   }
 
   public function getTitle() {
@@ -28,15 +28,15 @@ final class PhabricatorWorkerBulkJobTransaction
             $this->renderHandleLink($author_phid));
         } else {
           switch ($new) {
-            case PhabricatorWorkerBulkJob::STATUS_WAITING:
+            case PhorgeWorkerBulkJob::STATUS_WAITING:
               return pht(
                 '%s confirmed this job.',
                 $this->renderHandleLink($author_phid));
-            case PhabricatorWorkerBulkJob::STATUS_RUNNING:
+            case PhorgeWorkerBulkJob::STATUS_RUNNING:
               return pht(
                 '%s marked this job as running.',
                 $this->renderHandleLink($author_phid));
-            case PhabricatorWorkerBulkJob::STATUS_COMPLETE:
+            case PhorgeWorkerBulkJob::STATUS_COMPLETE:
               return pht(
                 '%s marked this job complete.',
                 $this->renderHandleLink($author_phid));

@@ -1,6 +1,6 @@
 /* For `grep`: */
 
-/* PhabricatorObjectHasSubscriberEdgeType::EDGECONST = 21 */
+/* PhorgeObjectHasSubscriberEdgeType::EDGECONST = 21 */
 
 INSERT IGNORE INTO {$NAMESPACE}_differential.edge (src, type, dst, seq)
   SELECT rev.phid, 21, rel.objectPHID, rel.sequence

@@ -101,20 +101,20 @@ final class DivinerBookController extends DivinerController {
   }
 
   private function buildActionView(
-    PhabricatorUser $user,
+    PhorgeUser $user,
     DivinerLiveBook $book) {
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $user,
       $book,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
-    $action_view = id(new PhabricatorActionListView())
+    $action_view = id(new PhorgeActionListView())
       ->setUser($user)
       ->setObject($book);
 
     $action_view->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Book'))
         ->setIcon('fa-pencil')
         ->setHref('/book/'.$book->getName().'/edit/')

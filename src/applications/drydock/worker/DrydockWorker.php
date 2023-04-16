@@ -1,9 +1,9 @@
 <?php
 
-abstract class DrydockWorker extends PhabricatorWorker {
+abstract class DrydockWorker extends PhorgeWorker {
 
   protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   protected function loadLease($lease_phid) {
@@ -14,7 +14,7 @@ abstract class DrydockWorker extends PhabricatorWorker {
       ->withPHIDs(array($lease_phid))
       ->executeOne();
     if (!$lease) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No such lease "%s"!', $lease_phid));
     }
 
@@ -29,7 +29,7 @@ abstract class DrydockWorker extends PhabricatorWorker {
       ->withPHIDs(array($resource_phid))
       ->executeOne();
     if (!$resource) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No such resource "%s"!', $resource_phid));
     }
 
@@ -44,7 +44,7 @@ abstract class DrydockWorker extends PhabricatorWorker {
       ->withPHIDs(array($operation_phid))
       ->executeOne();
     if (!$operation) {
-      throw new PhabricatorWorkerPermanentFailureException(
+      throw new PhorgeWorkerPermanentFailureException(
         pht('No such operation "%s"!', $operation_phid));
     }
 
@@ -85,13 +85,13 @@ abstract class DrydockWorker extends PhabricatorWorker {
       return;
     }
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     if ($expires > $now) {
       return;
     }
 
     $viewer = $this->getViewer();
-    $drydock_phid = id(new PhabricatorDrydockApplication())->getPHID();
+    $drydock_phid = id(new PhorgeDrydockApplication())->getPHID();
 
     $command = DrydockCommand::initializeNewCommand($viewer)
       ->setTargetPHID($object->getPHID())
@@ -125,12 +125,12 @@ abstract class DrydockWorker extends PhabricatorWorker {
       return;
     }
 
-    $now = PhabricatorTime::getNow();
-    throw new PhabricatorWorkerYieldException($expires - $now);
+    $now = PhorgeTime::getNow();
+    throw new PhorgeWorkerYieldException($expires - $now);
   }
 
   protected function isTemporaryException(Exception $ex) {
-    if ($ex instanceof PhabricatorWorkerYieldException) {
+    if ($ex instanceof PhorgeWorkerYieldException) {
       return true;
     }
 
@@ -159,7 +159,7 @@ abstract class DrydockWorker extends PhabricatorWorker {
   }
 
   protected function getYieldDurationFromException(Exception $ex) {
-    if ($ex instanceof PhabricatorWorkerYieldException) {
+    if ($ex instanceof PhorgeWorkerYieldException) {
       return $ex->getDuration();
     }
 
@@ -203,7 +203,7 @@ abstract class DrydockWorker extends PhabricatorWorker {
     // from one another forever without making progress, so make resources
     // immune to reclamation for a little while after they activate or update.
 
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $max_epoch = ($now - phutil_units('3 minutes in seconds'));
 
     // TODO: It would be nice to use a more narrow time here, like "last

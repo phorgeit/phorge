@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFactManagementAnalyzeWorkflow
-  extends PhabricatorFactManagementWorkflow {
+final class PhorgeFactManagementAnalyzeWorkflow
+  extends PhorgeFactManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -29,11 +29,11 @@ final class PhabricatorFactManagementAnalyzeWorkflow
   public function execute(PhutilArgumentParser $args) {
     $console = PhutilConsole::getConsole();
 
-    $daemon = new PhabricatorFactDaemon(array());
+    $daemon = new PhorgeFactDaemon(array());
     $daemon->setVerbose(true);
-    $daemon->setEngines(PhabricatorFactEngine::loadAllEngines());
+    $daemon->setEngines(PhorgeFactEngine::loadAllEngines());
 
-    $iterators = PhabricatorFactDaemon::getAllApplicationIterators();
+    $iterators = PhorgeFactDaemon::getAllApplicationIterators();
 
     $selected = $args->getArg('iterator');
     if ($selected) {

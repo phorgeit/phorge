@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroMemeDialogController
-  extends PhabricatorMacroController {
+final class PhorgeMacroMemeDialogController
+  extends PhorgeMacroController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -17,7 +17,7 @@ final class PhabricatorMacroMemeDialogController
         $e_macro = pht('Required');
         $errors[] = pht('Macro name is required.');
       } else {
-        $macro = id(new PhabricatorMacroQuery())
+        $macro = id(new PhorgeMacroQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($phid))
           ->executeOne();
@@ -50,7 +50,7 @@ final class PhabricatorMacroMemeDialogController
           ->setLabel(pht('Macro'))
           ->setName('macro')
           ->setLimit(1)
-          ->setDatasource(new PhabricatorMacroDatasource())
+          ->setDatasource(new PhorgeMacroDatasource())
           ->setError($e_macro))
       ->appendChild(
         id(new AphrontFormTextControl())

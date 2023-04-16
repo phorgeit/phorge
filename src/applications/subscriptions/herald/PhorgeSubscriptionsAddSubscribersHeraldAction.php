@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsAddSubscribersHeraldAction
-  extends PhabricatorSubscriptionsHeraldAction {
+final class PhorgeSubscriptionsAddSubscribersHeraldAction
+  extends PhorgeSubscriptionsHeraldAction {
 
   const ACTIONCONST = 'subscribers.add';
 
@@ -22,7 +22,7 @@ final class PhabricatorSubscriptionsAddSubscribersHeraldAction
   }
 
   protected function getDatasource() {
-    return new PhabricatorMetaMTAMailableDatasource();
+    return new PhorgeMetaMTAMailableDatasource();
   }
 
   public function renderActionDescription($value) {

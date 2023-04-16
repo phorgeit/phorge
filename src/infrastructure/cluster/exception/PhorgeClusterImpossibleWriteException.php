@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorClusterImpossibleWriteException
-  extends PhabricatorClusterException {
+final class PhorgeClusterImpossibleWriteException
+  extends PhorgeClusterException {
 
   public function getExceptionTitle() {
     return pht('Impossible Cluster Write');

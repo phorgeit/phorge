@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
+final class PhorgeWorkerActiveTask extends PhorgeWorkerTask {
 
   protected $failureTime;
 
@@ -60,7 +60,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
     }
 
     if ($is_new) {
-      $data = new PhabricatorWorkerTaskData();
+      $data = new PhorgeWorkerTaskData();
       $data->setData($this->getData());
       $data->save();
 
@@ -77,7 +77,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
       return;
     }
 
-    if ($owner == PhabricatorWorker::YIELD_OWNER) {
+    if ($owner == PhorgeWorker::YIELD_OWNER) {
       return;
     }
 
@@ -107,7 +107,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
 
     $this->checkLease();
 
-    $archive = id(new PhabricatorWorkerArchiveTask())
+    $archive = id(new PhorgeWorkerArchiveTask())
       ->setID($this->getID())
       ->setTaskClass($this->getTaskClass())
       ->setLeaseOwner($this->getLeaseOwner())
@@ -120,7 +120,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
       ->setResult($result)
       ->setDuration($duration)
       ->setDateCreated($this->getDateCreated())
-      ->setArchivedEpoch(PhabricatorTime::getNow());
+      ->setArchivedEpoch(PhorgeTime::getNow());
 
     // NOTE: This deletes the active task (this object)!
     $archive->save();
@@ -143,7 +143,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
       $maximum_failures = $worker->getMaximumRetryCount();
       if ($maximum_failures !== null) {
         if ($this->getFailureCount() > $maximum_failures) {
-          throw new PhabricatorWorkerPermanentFailureException(
+          throw new PhorgeWorkerPermanentFailureException(
             pht(
               'Task %d has exceeded the maximum number of failures (%d).',
               $this->getID(),
@@ -161,18 +161,18 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
       $duration = phutil_microseconds_since($t_start);
 
       $result = $this->archiveTask(
-        PhabricatorWorkerArchiveTask::RESULT_SUCCESS,
+        PhorgeWorkerArchiveTask::RESULT_SUCCESS,
         $duration);
       $did_succeed = true;
-    } catch (PhabricatorWorkerPermanentFailureException $ex) {
+    } catch (PhorgeWorkerPermanentFailureException $ex) {
       $result = $this->archiveTask(
-        PhabricatorWorkerArchiveTask::RESULT_FAILURE,
+        PhorgeWorkerArchiveTask::RESULT_FAILURE,
         0);
       $result->setExecutionException($ex);
-    } catch (PhabricatorWorkerYieldException $ex) {
+    } catch (PhorgeWorkerYieldException $ex) {
       $this->setExecutionException($ex);
 
-      $this->setLeaseOwner(PhabricatorWorker::YIELD_OWNER);
+      $this->setLeaseOwner(PhorgeWorker::YIELD_OWNER);
 
       $retry = $ex->getDuration();
       $retry = max($retry, 5);
@@ -199,7 +199,7 @@ final class PhabricatorWorkerActiveTask extends PhabricatorWorkerTask {
 
       $retry = coalesce(
         $retry,
-        PhabricatorWorkerLeaseQuery::getDefaultWaitBeforeRetry());
+        PhorgeWorkerLeaseQuery::getDefaultWaitBeforeRetry());
 
       // NOTE: As a side effect, this saves the object.
       $this->setLeaseDuration($retry);

@@ -1,4 +1,4 @@
 <?php
 
-final class PhabricatorTransactionRemarkupChange
-  extends PhabricatorTransactionChange {}
+final class PhorgeTransactionRemarkupChange
+  extends PhorgeTransactionChange {}

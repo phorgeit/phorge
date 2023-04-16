@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPolicyType extends PhabricatorPolicyConstants {
+final class PhorgePolicyType extends PhorgePolicyConstants {
 
   const TYPE_GLOBAL       = 'global';
   const TYPE_OBJECT       = 'object';

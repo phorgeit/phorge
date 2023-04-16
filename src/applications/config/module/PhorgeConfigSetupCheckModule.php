@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigSetupCheckModule
-  extends PhabricatorConfigModule {
+final class PhorgeConfigSetupCheckModule
+  extends PhorgeConfigModule {
 
   public function getModuleKey() {
     return 'setup';
@@ -14,7 +14,7 @@ final class PhabricatorConfigSetupCheckModule
   public function renderModuleStatus(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
-    $checks = PhabricatorSetupCheck::loadAllChecks();
+    $checks = PhorgeSetupCheck::loadAllChecks();
 
     $rows = array();
     foreach ($checks as $key => $check) {

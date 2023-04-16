@@ -57,9 +57,9 @@ final class PholioMockStatusTransaction
     $new = $this->getNewValue();
 
     if ($new == PholioMock::STATUS_CLOSED) {
-      return PhabricatorTransactions::COLOR_INDIGO;
+      return PhorgeTransactions::COLOR_INDIGO;
     } else {
-      return PhabricatorTransactions::COLOR_GREEN;
+      return PhorgeTransactions::COLOR_GREEN;
     }
   }
 

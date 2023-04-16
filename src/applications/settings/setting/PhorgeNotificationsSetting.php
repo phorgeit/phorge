@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNotificationsSetting
-  extends PhabricatorInternalSetting {
+final class PhorgeNotificationsSetting
+  extends PhorgeInternalSetting {
 
   const SETTINGKEY = 'desktop-notifications';
 

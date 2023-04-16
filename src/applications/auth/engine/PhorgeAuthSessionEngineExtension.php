@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorAuthSessionEngineExtension
+abstract class PhorgeAuthSessionEngineExtension
   extends Phobject {
 
   final public function getExtensionKey() {
@@ -16,15 +16,15 @@ abstract class PhabricatorAuthSessionEngineExtension
 
   abstract public function getExtensionName();
 
-  public function didEstablishSession(PhabricatorAuthSessionInfo $info) {
+  public function didEstablishSession(PhorgeAuthSessionInfo $info) {
     return;
   }
 
-  public function willServeRequestForUser(PhabricatorUser $user) {
+  public function willServeRequestForUser(PhorgeUser $user) {
     return;
   }
 
-  public function didLogout(PhabricatorUser $user, array $sessions) {
+  public function didLogout(PhorgeUser $user, array $sessions) {
     return;
   }
 

@@ -1,6 +1,6 @@
 <?php
 
-final class ManiphestTaskHasCommitEdgeType extends PhabricatorEdgeType {
+final class ManiphestTaskHasCommitEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 1;
 

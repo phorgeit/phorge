@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthMessageListController
-  extends PhabricatorAuthProviderController {
+final class PhorgeAuthMessageListController
+  extends PhorgeAuthProviderController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,9 +9,9 @@ final class PhabricatorAuthMessageListController
     $can_manage = $this->hasApplicationCapability(
       AuthManageProvidersCapability::CAPABILITY);
 
-    $types = PhabricatorAuthMessageType::getAllMessageTypes();
+    $types = PhorgeAuthMessageType::getAllMessageTypes();
 
-    $messages = id(new PhabricatorAuthMessageQuery())
+    $messages = id(new PhorgeAuthMessageQuery())
       ->setViewer($viewer)
       ->execute();
     $messages = mpull($messages, null, 'getMessageKey');

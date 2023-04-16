@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorEditEngineExtension extends Phobject {
+abstract class PhorgeEditEngineExtension extends Phobject {
 
   private $viewer;
 
@@ -25,14 +25,14 @@ abstract class PhabricatorEditEngineExtension extends Phobject {
   abstract public function getExtensionName();
 
   abstract public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object);
 
   abstract public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object);
 
-  public function newBulkEditGroups(PhabricatorEditEngine $engine) {
+  public function newBulkEditGroups(PhorgeEditEngine $engine) {
     return array();
   }
 

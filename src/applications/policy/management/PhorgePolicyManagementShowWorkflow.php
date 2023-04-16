@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyManagementShowWorkflow
-  extends PhabricatorPolicyManagementWorkflow {
+final class PhorgePolicyManagementShowWorkflow
+  extends PhorgePolicyManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -32,7 +32,7 @@ final class PhabricatorPolicyManagementShowWorkflow
           'for.'));
     }
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames($obj_names)
       ->executeOne();
@@ -45,12 +45,12 @@ final class PhabricatorPolicyManagementShowWorkflow
           $name));
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object->getPHID()))
       ->executeOne();
 
-    $policies = PhabricatorPolicyQuery::loadPolicies(
+    $policies = PhorgePolicyQuery::loadPolicies(
       $viewer,
       $object);
 
@@ -65,12 +65,12 @@ final class PhabricatorPolicyManagementShowWorkflow
       $console->writeOut("  **%s**\n", $capability);
       $console->writeOut("    %s\n", $ref->getPolicyDisplayName());
       $console->writeOut("    %s\n",
-        PhabricatorPolicy::getPolicyExplanation($viewer, $policy->getPHID()));
+        PhorgePolicy::getPolicyExplanation($viewer, $policy->getPHID()));
       $console->writeOut("\n");
     }
 
-    if ($object instanceof PhabricatorPolicyCodexInterface) {
-      $codex = PhabricatorPolicyCodex::newFromObject($object, $viewer);
+    if ($object instanceof PhorgePolicyCodexInterface) {
+      $codex = PhorgePolicyCodex::newFromObject($object, $viewer);
 
       $rules = $codex->getPolicySpecialRuleDescriptions();
       foreach ($rules as $rule) {

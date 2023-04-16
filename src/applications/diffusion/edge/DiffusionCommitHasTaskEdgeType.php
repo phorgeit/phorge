@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionCommitHasTaskEdgeType extends PhabricatorEdgeType {
+final class DiffusionCommitHasTaskEdgeType extends PhorgeEdgeType {
 
   const EDGECONST = 2;
 

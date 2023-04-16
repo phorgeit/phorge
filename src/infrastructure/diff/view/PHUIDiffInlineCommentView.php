@@ -6,7 +6,7 @@ abstract class PHUIDiffInlineCommentView extends AphrontView {
   private $renderer;
   private $inlineComment;
 
-  public function setInlineComment(PhabricatorInlineComment $comment) {
+  public function setInlineComment(PhorgeInlineComment $comment) {
     $this->inlineComment = $comment;
     return $this;
   }
@@ -61,16 +61,16 @@ abstract class PHUIDiffInlineCommentView extends AphrontView {
 
     $is_fixed = false;
     switch ($inline->getFixedState()) {
-      case PhabricatorInlineComment::STATE_DONE:
-      case PhabricatorInlineComment::STATE_DRAFT:
+      case PhorgeInlineComment::STATE_DONE:
+      case PhorgeInlineComment::STATE_DRAFT:
         $is_fixed = true;
         break;
     }
 
     $is_draft_done = false;
     switch ($inline->getFixedState()) {
-      case PhabricatorInlineComment::STATE_DRAFT:
-      case PhabricatorInlineComment::STATE_UNDRAFT:
+      case PhorgeInlineComment::STATE_DRAFT:
+      case PhorgeInlineComment::STATE_UNDRAFT:
         $is_draft_done = true;
         break;
     }

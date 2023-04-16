@@ -3,7 +3,7 @@
 abstract class DiffusionPreCommitContentHeraldField extends HeraldField {
 
   public function supportsObject($object) {
-    if (!($object instanceof PhabricatorRepositoryPushLog)) {
+    if (!($object instanceof PhorgeRepositoryPushLog)) {
       return false;
     }
 

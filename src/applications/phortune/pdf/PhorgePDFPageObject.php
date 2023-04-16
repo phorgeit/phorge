@@ -1,23 +1,23 @@
 <?php
 
-final class PhabricatorPDFPageObject
-  extends PhabricatorPDFObject {
+final class PhorgePDFPageObject
+  extends PhorgePDFObject {
 
   private $pagesObject;
   private $contentsObject;
   private $resourcesObject;
 
-  public function setPagesObject(PhabricatorPDFPagesObject $pages) {
+  public function setPagesObject(PhorgePDFPagesObject $pages) {
     $this->pagesObject = $pages;
     return $this;
   }
 
-  public function setContentsObject(PhabricatorPDFContentsObject $contents) {
+  public function setContentsObject(PhorgePDFContentsObject $contents) {
     $this->contentsObject = $this->newChildObject($contents);
     return $this;
   }
 
-  public function setResourcesObject(PhabricatorPDFResourcesObject $resources) {
+  public function setResourcesObject(PhorgePDFResourcesObject $resources) {
     $this->resourcesObject = $this->newChildObject($resources);
     return $this;
   }

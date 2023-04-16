@@ -1,11 +1,11 @@
 <?php
 
-abstract class PhabricatorFact extends Phobject {
+abstract class PhorgeFact extends Phobject {
 
   private $key;
 
   public static function getAllFacts() {
-    $engines = PhabricatorFactEngine::loadAllEngines();
+    $engines = PhorgeFactEngine::loadAllEngines();
 
     $map = array();
     foreach ($engines as $engine) {
@@ -43,13 +43,13 @@ abstract class PhabricatorFact extends Phobject {
     $argv = array();
 
     if (preg_match('/\.project\z/', $key)) {
-      $argv[] = id(new PhabricatorChartFunctionArgument())
+      $argv[] = id(new PhorgeChartFunctionArgument())
         ->setName('phid')
         ->setType('phid');
     }
 
     if (preg_match('/\.owner\z/', $key)) {
-      $argv[] = id(new PhabricatorChartFunctionArgument())
+      $argv[] = id(new PhorgeChartFunctionArgument())
         ->setName('phid')
         ->setType('phid');
     }
@@ -59,7 +59,7 @@ abstract class PhabricatorFact extends Phobject {
 
   final public function buildWhereClauseParts(
     AphrontDatabaseConnection $conn,
-    PhabricatorChartFunctionArgumentParser $arguments) {
+    PhorgeChartFunctionArgumentParser $arguments) {
     $where = array();
 
     $has_phid = $this->getFunctionArguments();
@@ -67,7 +67,7 @@ abstract class PhabricatorFact extends Phobject {
     if ($has_phid) {
       $phid = $arguments->getArgumentValue('phid');
 
-      $dimension_id = id(new PhabricatorFactObjectDimension())
+      $dimension_id = id(new PhorgeFactObjectDimension())
         ->newDimensionID($phid);
 
       $where[] = qsprintf(

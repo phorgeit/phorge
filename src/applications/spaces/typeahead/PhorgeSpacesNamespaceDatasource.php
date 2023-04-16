@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSpacesNamespaceDatasource
-  extends PhabricatorTypeaheadDatasource {
+final class PhorgeSpacesNamespaceDatasource
+  extends PhorgeTypeaheadDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Spaces');
@@ -12,11 +12,11 @@ final class PhabricatorSpacesNamespaceDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return 'PhorgeSpacesApplication';
   }
 
   public function loadResults() {
-    $query = id(new PhabricatorSpacesNamespaceQuery());
+    $query = id(new PhorgeSpacesNamespaceQuery());
 
     $spaces = $this->executeQuery($query);
     $results = array();
@@ -26,7 +26,7 @@ final class PhabricatorSpacesNamespaceDatasource
         $space->getMonogram(),
         $space->getNamespaceName());
 
-      $result = id(new PhabricatorTypeaheadResult())
+      $result = id(new PhorgeTypeaheadResult())
         ->setName($full_name)
         ->setPHID($space->getPHID());
 

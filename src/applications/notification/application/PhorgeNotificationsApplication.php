@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorNotificationsApplication extends PhabricatorApplication {
+final class PhorgeNotificationsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Notifications');
@@ -22,11 +22,11 @@ final class PhabricatorNotificationsApplication extends PhabricatorApplication {
     return array(
       '/notification/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorNotificationListController',
-        'panel/' => 'PhabricatorNotificationPanelController',
-        'individual/' => 'PhabricatorNotificationIndividualController',
-        'clear/' => 'PhabricatorNotificationClearController',
-        'test/' => 'PhabricatorNotificationTestController',
+          => 'PhorgeNotificationListController',
+        'panel/' => 'PhorgeNotificationPanelController',
+        'individual/' => 'PhorgeNotificationIndividualController',
+        'clear/' => 'PhorgeNotificationClearController',
+        'test/' => 'PhorgeNotificationTestController',
       ),
     );
   }

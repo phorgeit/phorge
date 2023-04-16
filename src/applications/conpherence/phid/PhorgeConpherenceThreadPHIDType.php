@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConpherenceThreadPHIDType extends PhabricatorPHIDType {
+final class PhorgeConpherenceThreadPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CONP';
 
@@ -13,18 +13,18 @@ final class PhabricatorConpherenceThreadPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return 'PhorgeConpherenceApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
     return id(new ConpherenceThreadQuery())
       ->withPHIDs($phids);
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 
@@ -45,7 +45,7 @@ final class PhabricatorConpherenceThreadPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadNamedObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $names) {
 
     $id_map = array();

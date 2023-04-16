@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorEmailAddressesSettingsPanel
-  extends PhabricatorSettingsPanel {
+final class PhorgeEmailAddressesSettingsPanel
+  extends PhorgeSettingsPanel {
 
   public function getPanelKey() {
     return 'email';
@@ -16,7 +16,7 @@ final class PhabricatorEmailAddressesSettingsPanel
   }
 
   public function getPanelGroupKey() {
-    return PhabricatorSettingsEmailPanelGroup::PANELGROUPKEY;
+    return PhorgeSettingsEmailPanelGroup::PANELGROUPKEY;
   }
 
   public function isEditableByAdministrators() {
@@ -29,7 +29,7 @@ final class PhabricatorEmailAddressesSettingsPanel
 
   public function processRequest(AphrontRequest $request) {
     $user = $this->getUser();
-    $editable = PhabricatorEnv::getEnvConfig('account.editable');
+    $editable = PhorgeEnv::getEnvConfig('account.editable');
 
     $uri = new PhutilURI($request->getPath());
 
@@ -55,7 +55,7 @@ final class PhabricatorEmailAddressesSettingsPanel
       return $this->returnPrimaryAddressResponse($request, $uri, $primary);
     }
 
-    $emails = id(new PhabricatorUserEmail())->loadAllWhere(
+    $emails = id(new PhorgeUserEmail())->loadAllWhere(
       'userPHID = %s ORDER BY address',
       $user->getPHID());
 
@@ -163,7 +163,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $user = $this->getUser();
     $viewer = $this->getViewer();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $this->getPanelURI());
@@ -179,24 +179,24 @@ final class PhabricatorEmailAddressesSettingsPanel
         return id(new AphrontReloadResponse())->setURI($uri);
       }
 
-      PhabricatorSystemActionEngine::willTakeAction(
+      PhorgeSystemActionEngine::willTakeAction(
         array($viewer->getPHID()),
-        new PhabricatorSettingsAddEmailAction(),
+        new PhorgeSettingsAddEmailAction(),
         1);
 
       if (!strlen($email)) {
         $e_email = pht('Required');
         $errors[] = pht('Email is required.');
-      } else if (!PhabricatorUserEmail::isValidAddress($email)) {
+      } else if (!PhorgeUserEmail::isValidAddress($email)) {
         $e_email = pht('Invalid');
-        $errors[] = PhabricatorUserEmail::describeValidAddresses();
-      } else if (!PhabricatorUserEmail::isAllowedAddress($email)) {
+        $errors[] = PhorgeUserEmail::describeValidAddresses();
+      } else if (!PhorgeUserEmail::isAllowedAddress($email)) {
         $e_email = pht('Disallowed');
-        $errors[] = PhabricatorUserEmail::describeAllowedAddresses();
+        $errors[] = PhorgeUserEmail::describeAllowedAddresses();
       }
       if ($e_email === true) {
-        $application_email = id(new PhabricatorMetaMTAApplicationEmailQuery())
-          ->setViewer(PhabricatorUser::getOmnipotentUser())
+        $application_email = id(new PhorgeMetaMTAApplicationEmailQuery())
+          ->setViewer(PhorgeUser::getOmnipotentUser())
           ->withAddresses(array($email))
           ->executeOne();
         if ($application_email) {
@@ -206,7 +206,7 @@ final class PhabricatorEmailAddressesSettingsPanel
       }
 
       if (!$errors) {
-        $object = id(new PhabricatorUserEmail())
+        $object = id(new PhorgeUserEmail())
           ->setAddress($email)
           ->setIsVerified(0);
 
@@ -219,7 +219,7 @@ final class PhabricatorEmailAddressesSettingsPanel
         }
 
         try {
-          id(new PhabricatorUserEditor())
+          id(new PhorgeUserEditor())
             ->setActor($viewer)
             ->addEmail($user, $object);
 
@@ -258,7 +258,7 @@ final class PhabricatorEmailAddressesSettingsPanel
           ->setLabel(pht('Email'))
           ->setName('email')
           ->setValue($email)
-          ->setCaption(PhabricatorUserEmail::describeAllowedAddresses())
+          ->setCaption(PhorgeUserEmail::describeAllowedAddresses())
           ->setError($e_email));
 
     $dialog = $this->newDialog()
@@ -279,14 +279,14 @@ final class PhabricatorEmailAddressesSettingsPanel
     $user = $this->getUser();
     $viewer = $this->getViewer();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $this->getPanelURI());
 
     // NOTE: You can only delete your own email addresses, and you can not
     // delete your primary address.
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'id = %d AND userPHID = %s AND isPrimary = 0',
       $email_id,
       $user->getPHID());
@@ -296,7 +296,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     }
 
     if ($request->isFormPost()) {
-      id(new PhabricatorUserEditor())
+      id(new PhorgeUserEditor())
         ->setActor($viewer)
         ->removeEmail($user, $email);
 
@@ -331,7 +331,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $viewer = $this->getViewer();
 
     // NOTE: You can only send more email for your unverified addresses.
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'id = %d AND userPHID = %s AND isVerified = 0',
       $email_id,
       $user->getPHID());
@@ -367,13 +367,13 @@ final class PhabricatorEmailAddressesSettingsPanel
     $user = $this->getUser();
     $viewer = $this->getViewer();
 
-    $token = id(new PhabricatorAuthSessionEngine())->requireHighSecuritySession(
+    $token = id(new PhorgeAuthSessionEngine())->requireHighSecuritySession(
       $viewer,
       $request,
       $this->getPanelURI());
 
     // NOTE: You can only make your own verified addresses primary.
-    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+    $email = id(new PhorgeUserEmail())->loadOneWhere(
       'id = %d AND userPHID = %s AND isVerified = 1 AND isPrimary = 0',
       $email_id,
       $user->getPHID());
@@ -383,7 +383,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     }
 
     if ($request->isFormPost()) {
-      id(new PhabricatorUserEditor())
+      id(new PhorgeUserEditor())
         ->setActor($viewer)
         ->changePrimaryEmail($user, $email);
 

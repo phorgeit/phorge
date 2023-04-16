@@ -126,7 +126,7 @@ final class DiffusionCommitRef extends Phobject {
   }
 
   public function getSummary() {
-    return PhabricatorRepositoryCommitData::summarizeCommitMessage(
+    return PhorgeRepositoryCommitData::summarizeCommitMessage(
       $this->getMessage());
   }
 

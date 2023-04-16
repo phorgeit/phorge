@@ -77,7 +77,7 @@ final class HeraldRuleManagementWorkflow
           'rule (for example, use "--disable" to disable a rule).'));
     }
 
-    $herald_phid = id(new PhabricatorHeraldApplication())->getPHID();
+    $herald_phid = id(new PhorgeHeraldApplication())->getPHID();
 
     $editor = $rule->getApplicationTransactionEditor()
       ->setActor($viewer)

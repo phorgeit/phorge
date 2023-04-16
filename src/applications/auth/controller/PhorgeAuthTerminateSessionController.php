@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthTerminateSessionController
-  extends PhabricatorAuthController {
+final class PhorgeAuthTerminateSessionController
+  extends PhorgeAuthController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -9,16 +9,16 @@ final class PhabricatorAuthTerminateSessionController
 
     $is_all = ($id === 'all');
 
-    $query = id(new PhabricatorAuthSessionQuery())
+    $query = id(new PhorgeAuthSessionQuery())
       ->setViewer($viewer)
       ->withIdentityPHIDs(array($viewer->getPHID()));
     if (!$is_all) {
       $query->withIDs(array($id));
     }
 
-    $current_key = PhabricatorAuthSession::newSessionDigest(
+    $current_key = PhorgeAuthSession::newSessionDigest(
       new PhutilOpaqueEnvelope(
-        $request->getCookie(PhabricatorCookies::COOKIE_SESSION)));
+        $request->getCookie(PhorgeCookies::COOKIE_SESSION)));
 
     $sessions = $query->execute();
     foreach ($sessions as $key => $session) {

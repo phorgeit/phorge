@@ -61,7 +61,7 @@ final class DifferentialGetRevisionConduitAPIMethod
 
     $commit_dicts = array();
     $commit_phids = $revision->getCommitPHIDs();
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($request->getUser())
       ->withPHIDs($commit_phids)
       ->execute();
@@ -81,7 +81,7 @@ final class DifferentialGetRevisionConduitAPIMethod
       'id' => $revision->getID(),
       'phid' => $revision->getPHID(),
       'authorPHID' => $revision->getAuthorPHID(),
-      'uri' => PhabricatorEnv::getURI('/D'.$revision->getID()),
+      'uri' => PhorgeEnv::getURI('/D'.$revision->getID()),
       'title' => $revision->getTitle(),
       'status' => $revision->getLegacyRevisionStatus(),
       'statusName'  => $revision->getStatusDisplayName(),

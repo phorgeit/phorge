@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorHighSecurityRequestExceptionHandler
-  extends PhabricatorRequestExceptionHandler {
+final class PhorgeHighSecurityRequestExceptionHandler
+  extends PhorgeRequestExceptionHandler {
 
   public function getRequestExceptionHandlerPriority() {
     return 310000;
@@ -17,11 +17,11 @@ final class PhabricatorHighSecurityRequestExceptionHandler
     AphrontRequest $request,
     $throwable) {
 
-    if (!$this->isPhabricatorSite($request)) {
+    if (!$this->isPhorgeSite($request)) {
       return false;
     }
 
-    return ($throwable instanceof PhabricatorAuthHighSecurityRequiredException);
+    return ($throwable instanceof PhorgeAuthHighSecurityRequiredException);
   }
 
   public function handleRequestThrowable(
@@ -31,7 +31,7 @@ final class PhabricatorHighSecurityRequestExceptionHandler
     $viewer = $this->getViewer($request);
     $results = $throwable->getFactorValidationResults();
 
-    $form = id(new PhabricatorAuthSessionEngine())->renderHighSecurityForm(
+    $form = id(new PhorgeAuthSessionEngine())->renderHighSecurityForm(
       $throwable->getFactors(),
       $results,
       $viewer,

@@ -1,6 +1,6 @@
 <?php
 
-final class DiffusionDefaultPushCapability extends PhabricatorPolicyCapability {
+final class DiffusionDefaultPushCapability extends PhorgePolicyCapability {
 
   const CAPABILITY = 'diffusion.default.push';
 

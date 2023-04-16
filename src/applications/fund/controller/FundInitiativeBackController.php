@@ -35,7 +35,7 @@ final class FundInitiativeBackController
 
     $accounts = PhortuneAccountQuery::loadAccountsForUser(
       $viewer,
-      PhabricatorContentSource::newFromRequest($request));
+      PhorgeContentSource::newFromRequest($request));
 
     $v_amount = null;
     $e_amount = true;

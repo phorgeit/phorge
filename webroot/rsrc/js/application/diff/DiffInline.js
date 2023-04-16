@@ -1064,7 +1064,7 @@ JX.install('DiffInline', {
       var draft = JX.bind(this, this._getDraftState);
 
       var uri = this._getInlineURI();
-      var request = new JX.PhabricatorShapedRequest(uri, onresponse, draft);
+      var request = new JX.PhorgeShapedRequest(uri, onresponse, draft);
 
       // The main transaction code uses a 500ms delay on desktop and a
       // 10s delay on mobile. Perhaps this should be standardized.

@@ -70,7 +70,7 @@ final class DiffusionInternalGitRawDiffQueryConduitAPIMethod
   }
 
   private function getRawDiff(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $commit,
     $use_log,
     $try_harder) {

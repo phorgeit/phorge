@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorConfigApplication extends PhabricatorApplication {
+final class PhorgeConfigApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/config/';
@@ -10,7 +10,7 @@ final class PhabricatorConfigApplication extends PhabricatorApplication {
     return 'fa-sliders';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return $viewer->getIsAdmin();
   }
 
@@ -37,40 +37,40 @@ final class PhabricatorConfigApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/config/' => array(
-        '' => 'PhabricatorConfigConsoleController',
-        'edit/(?P<key>[\w\.\-]+)/' => 'PhabricatorConfigEditController',
+        '' => 'PhorgeConfigConsoleController',
+        'edit/(?P<key>[\w\.\-]+)/' => 'PhorgeConfigEditController',
         'database/'.
           '(?:(?P<ref>[^/]+)/'.
           '(?:(?P<database>[^/]+)/'.
           '(?:(?P<table>[^/]+)/'.
           '(?:(?:col/(?P<column>[^/]+)|key/(?P<key>[^/]+))/)?)?)?)?'
-          => 'PhabricatorConfigDatabaseStatusController',
-        'dbissue/' => 'PhabricatorConfigDatabaseIssueController',
+          => 'PhorgeConfigDatabaseStatusController',
+        'dbissue/' => 'PhorgeConfigDatabaseIssueController',
         '(?P<verb>ignore|unignore)/(?P<key>[^/]+)/'
-          => 'PhabricatorConfigIgnoreController',
+          => 'PhorgeConfigIgnoreController',
         'issue/' => array(
-          '' => 'PhabricatorConfigIssueListController',
-          'panel/' => 'PhabricatorConfigIssuePanelController',
-          '(?P<key>[^/]+)/' => 'PhabricatorConfigIssueViewController',
+          '' => 'PhorgeConfigIssueListController',
+          'panel/' => 'PhorgeConfigIssuePanelController',
+          '(?P<key>[^/]+)/' => 'PhorgeConfigIssueViewController',
         ),
         'cache/' => array(
-          '' => 'PhabricatorConfigCacheController',
-          'purge/' => 'PhabricatorConfigPurgeCacheController',
+          '' => 'PhorgeConfigCacheController',
+          'purge/' => 'PhorgeConfigPurgeCacheController',
         ),
         'module/' => array(
-          '(?:(?P<module>[^/]+)/)?' => 'PhabricatorConfigModuleController',
+          '(?:(?P<module>[^/]+)/)?' => 'PhorgeConfigModuleController',
         ),
         'cluster/' => array(
-          'databases/' => 'PhabricatorConfigClusterDatabasesController',
-          'notifications/' => 'PhabricatorConfigClusterNotificationsController',
-          'repositories/' => 'PhabricatorConfigClusterRepositoriesController',
-          'search/' => 'PhabricatorConfigClusterSearchController',
+          'databases/' => 'PhorgeConfigClusterDatabasesController',
+          'notifications/' => 'PhorgeConfigClusterNotificationsController',
+          'repositories/' => 'PhorgeConfigClusterRepositoriesController',
+          'search/' => 'PhorgeConfigClusterSearchController',
         ),
         'settings/' => array(
-          '' => 'PhabricatorConfigSettingsListController',
+          '' => 'PhorgeConfigSettingsListController',
           '(?P<filter>advanced|all)/'
-            => 'PhabricatorConfigSettingsListController',
-          'history/' => 'PhabricatorConfigSettingsHistoryController',
+            => 'PhorgeConfigSettingsListController',
+          'history/' => 'PhorgeConfigSettingsHistoryController',
         ),
       ),
     );

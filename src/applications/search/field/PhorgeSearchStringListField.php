@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchStringListField
-  extends PhabricatorSearchField {
+final class PhorgeSearchStringListField
+  extends PhorgeSearchField {
 
   private $placeholder;
 

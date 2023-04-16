@@ -20,7 +20,7 @@ foreach (new LiskMigrationIterator($table) as $xaction) {
 
   // This is an old ManiphestTransaction::TYPE_PROJECT_COLUMN. It moved
   // tasks between board columns; we're going to replace it with a modern
-  // PhabricatorTransactions::TYPE_COLUMNS transaction.
+  // PhorgeTransactions::TYPE_COLUMNS transaction.
   if ($type == 'projectcolumn') {
     try {
       $new = $xaction->getNewValue();
@@ -71,7 +71,7 @@ foreach (new LiskMigrationIterator($table) as $xaction) {
         'UPDATE %T SET transactionType = %s, oldValue = %s, newValue = %s
           WHERE id = %d',
         $table->getTableName(),
-        PhabricatorTransactions::TYPE_COLUMNS,
+        PhorgeTransactions::TYPE_COLUMNS,
         'null',
         phutil_json_encode(array($replacement)),
         $id);

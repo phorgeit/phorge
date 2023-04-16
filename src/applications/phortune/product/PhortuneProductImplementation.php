@@ -3,7 +3,7 @@
 abstract class PhortuneProductImplementation extends Phobject {
 
   abstract public function loadImplementationsForRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $refs);
 
   abstract public function getRef();
@@ -11,8 +11,8 @@ abstract class PhortuneProductImplementation extends Phobject {
   abstract public function getPriceAsCurrency(PhortuneProduct $product);
 
   protected function getContentSource() {
-    return PhabricatorContentSource::newForSource(
-      PhabricatorPhortuneContentSource::SOURCECONST);
+    return PhorgeContentSource::newForSource(
+      PhorgePhortuneContentSource::SOURCECONST);
   }
 
   public function getPurchaseName(

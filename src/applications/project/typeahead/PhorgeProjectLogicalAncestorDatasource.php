@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectLogicalAncestorDatasource
-  extends PhabricatorTypeaheadCompositeDatasource {
+final class PhorgeProjectLogicalAncestorDatasource
+  extends PhorgeTypeaheadCompositeDatasource {
 
   public function getBrowseTitle() {
     return pht('Browse Projects');
@@ -12,12 +12,12 @@ final class PhabricatorProjectLogicalAncestorDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return 'PhorgeProjectApplication';
   }
 
   public function getComponentDatasources() {
     return array(
-      new PhabricatorProjectDatasource(),
+      new PhorgeProjectDatasource(),
     );
   }
 
@@ -37,7 +37,7 @@ final class PhabricatorProjectLogicalAncestorDatasource
       $phids = array_fuse($phids);
       $viewer = $this->getViewer();
 
-      $all_projects = id(new PhabricatorProjectQuery())
+      $all_projects = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withAncestorProjectPHIDs($phids)
         ->execute();
@@ -84,8 +84,8 @@ final class PhabricatorProjectLogicalAncestorDatasource
       // If we have duplicates, don't apply the second constraint.
       $skip[$result] = true;
 
-      $results[$key] = new PhabricatorQueryConstraint(
-        PhabricatorQueryConstraint::OPERATOR_ANCESTOR,
+      $results[$key] = new PhorgeQueryConstraint(
+        PhorgeQueryConstraint::OPERATOR_ANCESTOR,
         $map[$result]);
     }
 

@@ -1,14 +1,14 @@
 <?php
 
 final class FundInitiativeSearchEngine
-  extends PhabricatorApplicationSearchEngine {
+  extends PhorgeApplicationSearchEngine {
 
   public function getResultTypeDescription() {
     return pht('Fund Initiatives');
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFundApplication';
+    return 'PhorgeFundApplication';
   }
 
   public function newQuery() {
@@ -17,11 +17,11 @@ final class FundInitiativeSearchEngine
 
   protected function buildCustomSearchFields() {
     return array(
-      id(new PhabricatorUsersSearchField())
+      id(new PhorgeUsersSearchField())
         ->setKey('ownerPHIDs')
         ->setAliases(array('owner', 'ownerPHID', 'owners'))
         ->setLabel(pht('Owners')),
-      id(new PhabricatorSearchCheckboxesField())
+      id(new PhorgeSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Statuses'))
         ->setOptions(FundInitiative::getStatusNameMap()),
@@ -84,7 +84,7 @@ final class FundInitiativeSearchEngine
 
   protected function renderResultList(
     array $initiatives,
-    PhabricatorSavedQuery $query,
+    PhorgeSavedQuery $query,
     array $handles) {
     assert_instances_of($initiatives, 'FundInitiative');
 
@@ -96,11 +96,11 @@ final class FundInitiativeSearchEngine
     }
 
     if ($initiatives) {
-      $edge_query = id(new PhabricatorEdgeQuery())
+      $edge_query = id(new PhorgeEdgeQuery())
         ->withSourcePHIDs(mpull($initiatives, 'getPHID'))
         ->withEdgeTypes(
           array(
-            PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+            PhorgeProjectObjectHasProjectEdgeType::EDGECONST,
           ));
 
       $edge_query->execute();
@@ -144,7 +144,7 @@ final class FundInitiativeSearchEngine
       $list->addItem($item);
     }
 
-    $result = new PhabricatorApplicationSearchResultView();
+    $result = new PhorgeApplicationSearchResultView();
     $result->setObjectList($list);
     $result->setNoDataString(pht('No initiatives found.'));
 

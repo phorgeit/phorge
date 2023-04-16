@@ -2,7 +2,7 @@
 
 final class AlmanacProperty
   extends AlmanacDAO
-  implements PhabricatorPolicyInterface {
+  implements PhorgePolicyInterface {
 
   protected $objectPHID;
   protected $fieldIndex;
@@ -34,7 +34,7 @@ final class AlmanacProperty
     return $this->assertAttached($this->object);
   }
 
-  public function attachObject(PhabricatorLiskDAO $object) {
+  public function attachObject(PhorgeLiskDAO $object) {
     $this->object = $object;
     return $this;
   }
@@ -80,20 +80,20 @@ final class AlmanacProperty
   }
 
   public function save() {
-    $hash = PhabricatorHash::digestForIndex($this->getFieldName());
+    $hash = PhorgeHash::digestForIndex($this->getFieldName());
     $this->setFieldIndex($hash);
 
     return parent::save();
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -101,7 +101,7 @@ final class AlmanacProperty
     return $this->getObject()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getObject()->hasAutomaticCapability($capability, $viewer);
   }
 

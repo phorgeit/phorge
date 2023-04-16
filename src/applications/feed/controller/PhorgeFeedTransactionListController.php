@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorFeedTransactionListController
-  extends PhabricatorFeedController {
+final class PhorgeFeedTransactionListController
+  extends PhorgeFeedController {
 
   public function shouldAllowPublic() {
     return true;
   }
 
   public function handleRequest(AphrontRequest $request) {
-    return id(new PhabricatorFeedTransactionSearchEngine())
+    return id(new PhorgeFeedTransactionSearchEngine())
       ->setController($this)
       ->buildResponse();
   }

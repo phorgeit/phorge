@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCalendarImportEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeCalendarImportEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return 'PhorgeCalendarApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -18,14 +18,14 @@ final class PhabricatorCalendarImportEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
 
     return $types;
   }
 
   protected function applyFinalEffects(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     $actor = $this->getActor();
 
@@ -40,13 +40,13 @@ final class PhabricatorCalendarImportEditor
     foreach ($xactions as $xaction) {
       $xaction_type = $xaction->getTransactionType();
       switch ($xaction_type) {
-        case PhabricatorCalendarImportReloadTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarImportReloadTransaction::TRANSACTIONTYPE:
           $should_reload = true;
           break;
-        case PhabricatorCalendarImportFrequencyTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarImportFrequencyTransaction::TRANSACTIONTYPE:
           $should_trigger = true;
           break;
-        case PhabricatorCalendarImportDisableTransaction::TRANSACTIONTYPE:
+        case PhorgeCalendarImportDisableTransaction::TRANSACTIONTYPE:
           $should_trigger = true;
           break;
       }
@@ -60,31 +60,31 @@ final class PhabricatorCalendarImportEditor
     if ($should_trigger) {
       $trigger_phid = $object->getTriggerPHID();
       if ($trigger_phid) {
-        $trigger = id(new PhabricatorWorkerTriggerQuery())
+        $trigger = id(new PhorgeWorkerTriggerQuery())
           ->setViewer($actor)
           ->withPHIDs(array($trigger_phid))
           ->executeOne();
 
         if ($trigger) {
-          $engine = new PhabricatorDestructionEngine();
+          $engine = new PhorgeDestructionEngine();
           $engine->destroyObject($trigger);
         }
       }
 
       $frequency = $object->getTriggerFrequency();
-      $now = PhabricatorTime::getNow();
+      $now = PhorgeTime::getNow();
       switch ($frequency) {
-        case PhabricatorCalendarImport::FREQUENCY_ONCE:
+        case PhorgeCalendarImport::FREQUENCY_ONCE:
           $clock = null;
           break;
-        case PhabricatorCalendarImport::FREQUENCY_HOURLY:
-          $clock = new PhabricatorMetronomicTriggerClock(
+        case PhorgeCalendarImport::FREQUENCY_HOURLY:
+          $clock = new PhorgeMetronomicTriggerClock(
             array(
               'period' => phutil_units('1 hour in seconds'),
             ));
           break;
-        case PhabricatorCalendarImport::FREQUENCY_DAILY:
-          $clock = new PhabricatorDailyRoutineTriggerClock(
+        case PhorgeCalendarImport::FREQUENCY_DAILY:
+          $clock = new PhorgeDailyRoutineTriggerClock(
             array(
               'start' => $now,
             ));
@@ -102,27 +102,27 @@ final class PhabricatorCalendarImportEditor
       }
 
       if ($clock) {
-        $trigger_action = new PhabricatorScheduleTaskTriggerAction(
+        $trigger_action = new PhorgeScheduleTaskTriggerAction(
           array(
-            'class' => 'PhabricatorCalendarImportReloadWorker',
+            'class' => 'PhorgeCalendarImportReloadWorker',
             'data' => array(
               'importPHID' => $object->getPHID(),
-              'via' => PhabricatorCalendarImportReloadWorker::VIA_TRIGGER,
+              'via' => PhorgeCalendarImportReloadWorker::VIA_TRIGGER,
             ),
             'options' => array(
               'objectPHID' => $object->getPHID(),
-              'priority' => PhabricatorWorker::PRIORITY_BULK,
+              'priority' => PhorgeWorker::PRIORITY_BULK,
             ),
           ));
 
-        $trigger_phid = PhabricatorPHID::generateNewPHID(
-          PhabricatorWorkerTriggerPHIDType::TYPECONST);
+        $trigger_phid = PhorgePHID::generateNewPHID(
+          PhorgeWorkerTriggerPHIDType::TYPECONST);
 
         $object
           ->setTriggerPHID($trigger_phid)
           ->save();
 
-        $trigger = id(new PhabricatorWorkerTrigger())
+        $trigger = id(new PhorgeWorkerTrigger())
           ->setClock($clock)
           ->setAction($trigger_action)
           ->setPHID($trigger_phid)

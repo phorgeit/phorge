@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorAuthTryFactorAction extends PhabricatorSystemAction {
+final class PhorgeAuthTryFactorAction extends PhorgeSystemAction {
 
   const TYPECONST = 'auth.factor';
 

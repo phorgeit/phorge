@@ -5,7 +5,7 @@ final class DiffusionPushLogListView extends AphrontView {
   private $logs;
 
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($logs, 'PhorgeRepositoryPushLog');
     $this->logs = $logs;
     return $this;
   }
@@ -14,7 +14,7 @@ final class DiffusionPushLogListView extends AphrontView {
     $logs = $this->logs;
     $viewer = $this->getViewer();
 
-    $reject_herald = PhabricatorRepositoryPushLog::REJECT_HERALD;
+    $reject_herald = PhorgeRepositoryPushLog::REJECT_HERALD;
 
     $handle_phids = array();
     foreach ($logs as $log) {
@@ -34,8 +34,8 @@ final class DiffusionPushLogListView extends AphrontView {
     // Only administrators can view remote addresses.
     $remotes_visible = $viewer->getIsAdmin();
 
-    $flag_map = PhabricatorRepositoryPushLog::getFlagDisplayNames();
-    $reject_map = PhabricatorRepositoryPushLog::getRejectCodeDisplayNames();
+    $flag_map = PhorgeRepositoryPushLog::getFlagDisplayNames();
+    $reject_map = PhorgeRepositoryPushLog::getRejectCodeDisplayNames();
 
     $rows = array();
     $any_host = false;

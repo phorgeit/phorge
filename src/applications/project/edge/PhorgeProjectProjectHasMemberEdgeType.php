@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorProjectProjectHasMemberEdgeType
-  extends PhabricatorEdgeType {
+final class PhorgeProjectProjectHasMemberEdgeType
+  extends PhorgeEdgeType {
 
   const EDGECONST = 13;
 
   public function getInverseEdgeConstant() {
-    return PhabricatorProjectMemberOfProjectEdgeType::EDGECONST;
+    return PhorgeProjectMemberOfProjectEdgeType::EDGECONST;
   }
 
   public function shouldWriteInverseTransactions() {

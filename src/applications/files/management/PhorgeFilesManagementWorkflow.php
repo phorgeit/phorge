@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorFilesManagementWorkflow
-  extends PhabricatorManagementWorkflow {
+abstract class PhorgeFilesManagementWorkflow
+  extends PhorgeManagementWorkflow {
 
   protected function newIteratorArguments() {
     return array(
@@ -54,7 +54,7 @@ abstract class PhabricatorFilesManagementWorkflow
       $ids = mpull($files, 'getID');
     }
 
-    $query = id(new PhabricatorFileQuery())
+    $query = id(new PhorgeFileQuery())
       ->setViewer($viewer);
 
     if ($ids) {
@@ -65,14 +65,14 @@ abstract class PhabricatorFilesManagementWorkflow
       $query->withStorageEngines(array($from_engine));
     }
 
-    return new PhabricatorQueryIterator($query);
+    return new PhorgeQueryIterator($query);
   }
 
   protected function loadFilesWithNames(array $names) {
-    $query = id(new PhabricatorObjectQuery())
+    $query = id(new PhorgeObjectQuery())
       ->setViewer($this->getViewer())
       ->withNames($names)
-      ->withTypes(array(PhabricatorFileFilePHIDType::TYPECONST));
+      ->withTypes(array(PhorgeFileFilePHIDType::TYPECONST));
 
     $query->execute();
     $files = $query->getNamedResults();

@@ -2,7 +2,7 @@
 
 /**
  * Allows an object to define a more complex policy than it can with
- * @{interface:PhabricatorPolicyInterface} alone.
+ * @{interface:PhorgePolicyInterface} alone.
  *
  * Some objects have complex policies which depend on the policies of other
  * objects. For example, users can generally only see a Revision in
@@ -22,7 +22,7 @@
  * implies a large performance cost. Instead, extended policies make it
  * efficient to check policies against an object for multiple viewers.
  */
-interface PhabricatorExtendedPolicyInterface {
+interface PhorgeExtendedPolicyInterface {
 
   /**
    * Get the extended policy for an object.
@@ -36,7 +36,7 @@ interface PhabricatorExtendedPolicyInterface {
    * object in order to see this one, you could return:
    *
    *   return array(
-   *     array($other_object, PhabricatorPolicyCapability::CAN_VIEW),
+   *     array($other_object, PhorgePolicyCapability::CAN_VIEW),
    *     // ...
    *   );
    *
@@ -44,7 +44,7 @@ interface PhabricatorExtendedPolicyInterface {
    * PHID instead:
    *
    *   return array(
-   *     array($other_phid, PhabricatorPolicyCapability::CAN_VIEW),
+   *     array($other_phid, PhorgePolicyCapability::CAN_VIEW),
    *     // ...
    *   );
    *
@@ -55,30 +55,30 @@ interface PhabricatorExtendedPolicyInterface {
    *     array(
    *       $other_object,
    *       array(
-   *         PhabricatorPolicyCapability::CAN_VIEW,
-   *         PhabricatorPolicyCapability::CAN_EDIT,
+   *         PhorgePolicyCapability::CAN_VIEW,
+   *         PhorgePolicyCapability::CAN_EDIT,
    *       ),
    *     ),
    *     // ...
    *   );
    *
    * @param const Capability being tested.
-   * @param PhabricatorUser Viewer whose capabilities are being tested.
+   * @param PhorgeUser Viewer whose capabilities are being tested.
    * @return list<pair<wild, wild>> List of extended policies.
    */
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer);
+  public function getExtendedPolicy($capability, PhorgeUser $viewer);
 
 }
 
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 /*
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     $extended = array();
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         // ...
         break;
     }

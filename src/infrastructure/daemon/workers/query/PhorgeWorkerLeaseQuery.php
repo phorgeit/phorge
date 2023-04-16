@@ -3,7 +3,7 @@
 /**
  * Select and lease tasks from the worker task queue.
  */
-final class PhabricatorWorkerLeaseQuery extends PhabricatorQuery {
+final class PhorgeWorkerLeaseQuery extends PhorgeQuery {
 
   const PHASE_LEASED = 'leased';
   const PHASE_UNLEASED = 'unleased';
@@ -89,8 +89,8 @@ final class PhabricatorWorkerLeaseQuery extends PhabricatorQuery {
       }
     }
 
-    $task_table = new PhabricatorWorkerActiveTask();
-    $taskdata_table = new PhabricatorWorkerTaskData();
+    $task_table = new PhorgeWorkerActiveTask();
+    $taskdata_table = new PhorgeWorkerTaskData();
     $lease_ownership_name = $this->getLeaseOwnershipName();
 
     $conn_w = $task_table->establishConnection('w');

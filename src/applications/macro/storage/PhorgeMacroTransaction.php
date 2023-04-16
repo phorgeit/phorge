@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMacroTransaction
-  extends PhabricatorModularTransaction {
+final class PhorgeMacroTransaction
+  extends PhorgeModularTransaction {
 
   public function getApplicationName() {
     return 'file';
@@ -12,15 +12,15 @@ final class PhabricatorMacroTransaction
   }
 
   public function getApplicationTransactionType() {
-    return PhabricatorMacroMacroPHIDType::TYPECONST;
+    return PhorgeMacroMacroPHIDType::TYPECONST;
   }
 
   public function getApplicationTransactionCommentObject() {
-    return new PhabricatorMacroTransactionComment();
+    return new PhorgeMacroTransactionComment();
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorMacroTransactionType';
+    return 'PhorgeMacroTransactionType';
   }
 
 

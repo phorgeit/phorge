@@ -59,7 +59,7 @@ abstract class PassphraseCredentialType extends Phobject {
 
 
   public function didInitializeNewCredential(
-    PhabricatorUser $actor,
+    PhorgeUser $actor,
     PassphraseCredential $credential) {
     return $credential;
   }
@@ -69,7 +69,7 @@ abstract class PassphraseCredentialType extends Phobject {
   }
 
   public function getPublicKey(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PassphraseCredential $credential) {
     return null;
   }

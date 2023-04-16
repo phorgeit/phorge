@@ -1,7 +1,7 @@
 <?php
 
 final class PhrictionDatasourceEngineExtension
-  extends PhabricatorDatasourceEngineExtension {
+  extends PhorgeDatasourceEngineExtension {
 
   public function newQuickSearchDatasources() {
     return array(
@@ -32,7 +32,7 @@ final class PhrictionDatasourceEngineExtension
 
       $fulltext_tokens = array();
       foreach ($raw_tokens as $raw_token) {
-        $fulltext_token = id(new PhabricatorFulltextToken())
+        $fulltext_token = id(new PhorgeFulltextToken())
           ->setToken($raw_token);
         $fulltext_tokens[] = $fulltext_token;
       }

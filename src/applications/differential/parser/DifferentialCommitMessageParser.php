@@ -30,7 +30,7 @@ final class DifferentialCommitMessageParser extends Phobject {
   private $raiseMissingFieldErrors = true;
   private $xactions;
 
-  public static function newStandardParser(PhabricatorUser $viewer) {
+  public static function newStandardParser(PhorgeUser $viewer) {
     $key_title = DifferentialTitleCommitMessageField::FIELDKEY;
     $key_summary = DifferentialSummaryCommitMessageField::FIELDKEY;
 
@@ -50,7 +50,7 @@ final class DifferentialCommitMessageParser extends Phobject {
   /**
    * @task config
    */
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

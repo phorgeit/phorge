@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPackagesVersionEditor
-  extends PhabricatorPackagesEditor {
+final class PhorgePackagesVersionEditor
+  extends PhorgePackagesEditor {
 
   public function getEditorObjectsDescription() {
     return pht('Package Versions');
@@ -15,18 +15,18 @@ final class PhabricatorPackagesVersionEditor
     return pht('%s created %s.', $author, $object);
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array();
   }
 
   protected function didCatchDuplicateKeyException(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions,
     Exception $ex) {
 
     $errors = array();
-    $errors[] = new PhabricatorApplicationTransactionValidationError(
-      PhabricatorPackagesVersionNameTransaction::TRANSACTIONTYPE,
+    $errors[] = new PhorgeApplicationTransactionValidationError(
+      PhorgePackagesVersionNameTransaction::TRANSACTIONTYPE,
       pht('Duplicate'),
       pht(
         'The version "%s" already exists for this package. Each version '.
@@ -34,7 +34,7 @@ final class PhabricatorPackagesVersionEditor
         $object->getName()),
       null);
 
-    throw new PhabricatorApplicationTransactionValidationException($errors);
+    throw new PhorgeApplicationTransactionValidationException($errors);
   }
 
 }

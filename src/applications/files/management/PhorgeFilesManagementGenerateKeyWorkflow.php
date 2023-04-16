@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorFilesManagementGenerateKeyWorkflow
-  extends PhabricatorFilesManagementWorkflow {
+final class PhorgeFilesManagementGenerateKeyWorkflow
+  extends PhorgeFilesManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -26,7 +26,7 @@ final class PhabricatorFilesManagementGenerateKeyWorkflow
           'Specify the type of key to generate with --type.'));
     }
 
-    $format = PhabricatorFileStorageFormat::getFormat($type);
+    $format = PhorgeFileStorageFormat::getFormat($type);
     if (!$format) {
       throw new PhutilArgumentUsageException(
         pht(

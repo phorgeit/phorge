@@ -1,7 +1,7 @@
 <?php
 
 final class ConpherenceFulltextQuery
-  extends PhabricatorOffsetPagedQuery {
+  extends PhorgeOffsetPagedQuery {
 
   private $threadPHIDs;
   private $previousTransactionPHIDs;
@@ -56,7 +56,7 @@ final class ConpherenceFulltextQuery
     }
 
     if (strlen($this->fulltext)) {
-      $compiler = PhabricatorSearchDocument::newQueryCompiler();
+      $compiler = PhorgeSearchDocument::newQueryCompiler();
       $tokens = $compiler->newTokens($this->fulltext);
       $compiled_query = $compiler->compileQuery($tokens);
 

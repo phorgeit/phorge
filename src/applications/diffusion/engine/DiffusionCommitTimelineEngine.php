@@ -1,7 +1,7 @@
 <?php
 
 final class DiffusionCommitTimelineEngine
-  extends PhabricatorTimelineEngine {
+  extends PhorgeTimelineEngine {
 
   protected function newTimelineView() {
     $xactions = $this->getTransactions();
@@ -24,7 +24,7 @@ final class DiffusionCommitTimelineEngine
       $path_map = ipull($path_map, 'path', 'id');
     }
 
-    return id(new PhabricatorAuditTransactionView())
+    return id(new PhorgeAuditTransactionView())
       ->setPathMap($path_map);
   }
 }

@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
+final class PhorgeMetaMTAReceivedMailTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testDropSelfMail() {
-    $mail = new PhabricatorMetaMTAReceivedMail();
+    $mail = new PhorgeMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
         'X-Phorge-Sent-This-Message' => 'yes',
@@ -25,14 +25,14 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
 
 
   public function testDropDuplicateMail() {
-    $mail_a = new PhabricatorMetaMTAReceivedMail();
+    $mail_a = new PhorgeMetaMTAReceivedMail();
     $mail_a->setHeaders(
       array(
         'Message-ID' => 'test@example.com',
       ));
     $mail_a->save();
 
-    $mail_b = new PhabricatorMetaMTAReceivedMail();
+    $mail_b = new PhorgeMetaMTAReceivedMail();
     $mail_b->setHeaders(
       array(
         'Message-ID' => 'test@example.com',
@@ -51,7 +51,7 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
     $user = $this->generateNewTestUser()
       ->save();
 
-    $mail = new PhabricatorMetaMTAReceivedMail();
+    $mail = new PhorgeMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
         'Message-ID' => 'test@example.com',
@@ -74,7 +74,7 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
   public function testDropUnknownSenderMail() {
     $this->setManiphestCreateEmail();
 
-    $mail = new PhabricatorMetaMTAReceivedMail();
+    $mail = new PhorgeMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
         'Message-ID' => 'test@example.com',
@@ -102,7 +102,7 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
       ->setIsDisabled(true)
       ->save();
 
-    $mail = new PhabricatorMetaMTAReceivedMail();
+    $mail = new PhorgeMetaMTAReceivedMail();
     $mail->setHeaders(
       array(
         'Message-ID'  => 'test@example.com',
@@ -123,9 +123,9 @@ final class PhabricatorMetaMTAReceivedMailTestCase extends PhabricatorTestCase {
   }
 
   private function setManiphestCreateEmail() {
-    $maniphest_app = new PhabricatorManiphestApplication();
+    $maniphest_app = new PhorgeManiphestApplication();
     try {
-      id(new PhabricatorMetaMTAApplicationEmail())
+      id(new PhorgeMetaMTAApplicationEmail())
         ->setApplicationPHID($maniphest_app->getPHID())
         ->setAddress('bugs@example.com')
         ->setConfigData(array())

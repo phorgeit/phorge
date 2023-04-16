@@ -54,15 +54,15 @@ final class NuanceItemViewController extends NuanceController {
     $viewer = $this->getViewer();
     $id = $item->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $item,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($item);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Manage Item'))
         ->setIcon('fa-cogs')
         ->setHref($this->getApplicationURI("item/manage/{$id}/")));

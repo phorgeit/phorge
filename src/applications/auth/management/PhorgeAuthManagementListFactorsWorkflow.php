@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorAuthManagementListFactorsWorkflow
-  extends PhabricatorAuthManagementWorkflow {
+final class PhorgeAuthManagementListFactorsWorkflow
+  extends PhorgeAuthManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -12,7 +12,7 @@ final class PhabricatorAuthManagementListFactorsWorkflow
   }
 
   public function execute(PhutilArgumentParser $args) {
-    $factors = PhabricatorAuthFactor::getAllFactors();
+    $factors = PhorgeAuthFactor::getAllFactors();
 
     foreach ($factors as $factor) {
       echo tsprintf(

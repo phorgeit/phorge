@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCommentEditField
-  extends PhabricatorEditField {
+final class PhorgeCommentEditField
+  extends PhorgeEditField {
 
   private $isWebOnly;
 
@@ -15,11 +15,11 @@ final class PhabricatorCommentEditField
   }
 
   protected function newControl() {
-    return new PhabricatorRemarkupControl();
+    return new PhorgeRemarkupControl();
   }
 
   protected function newEditType() {
-    return new PhabricatorCommentEditType();
+    return new PhorgeCommentEditType();
   }
 
   protected function newConduitParameterType() {

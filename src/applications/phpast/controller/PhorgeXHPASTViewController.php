@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorXHPASTViewController extends PhabricatorController {
+abstract class PhorgeXHPASTViewController extends PhorgeController {
 
   public function buildStandardPageResponse($view, array $data) {
     $page = $this->buildStandardPageView();

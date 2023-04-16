@@ -9,7 +9,7 @@ final class PHUIApplicationMenuView extends Phobject {
 
   private $items = array();
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -48,7 +48,7 @@ final class PHUIApplicationMenuView extends Phobject {
     return $this;
   }
 
-  public function setSearchEngine(PhabricatorApplicationSearchEngine $engine) {
+  public function setSearchEngine(PhorgeApplicationSearchEngine $engine) {
     $this->searchEngine = $engine;
     return $this;
   }

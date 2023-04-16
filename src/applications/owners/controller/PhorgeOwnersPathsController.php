@@ -1,18 +1,18 @@
 <?php
 
-final class PhabricatorOwnersPathsController
-  extends PhabricatorOwnersController {
+final class PhorgeOwnersPathsController
+  extends PhorgeOwnersController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
-    $package = id(new PhabricatorOwnersPackageQuery())
+    $package = id(new PhorgeOwnersPackageQuery())
       ->setViewer($viewer)
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->needPaths(true)
       ->executeOne();
@@ -48,14 +48,14 @@ final class PhabricatorOwnersPathsController
         );
       }
 
-      $type_paths = PhabricatorOwnersPackagePathsTransaction::TRANSACTIONTYPE;
+      $type_paths = PhorgeOwnersPackagePathsTransaction::TRANSACTIONTYPE;
 
       $xactions = array();
-      $xactions[] = id(new PhabricatorOwnersPackageTransaction())
+      $xactions[] = id(new PhorgeOwnersPackageTransaction())
         ->setTransactionType($type_paths)
         ->setNewValue($path_refs);
 
-      $editor = id(new PhabricatorOwnersPackageTransactionEditor())
+      $editor = id(new PhorgeOwnersPackageTransactionEditor())
         ->setActor($viewer)
         ->setContentSourceFromRequest($request)
         ->setContinueOnNoEffect(true)

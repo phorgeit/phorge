@@ -41,8 +41,8 @@ final class PholioImageDescriptionTransaction
 
   public function mergeTransactions(
     $object,
-    PhabricatorApplicationTransaction $u,
-    PhabricatorApplicationTransaction $v) {
+    PhorgeApplicationTransaction $u,
+    PhorgeApplicationTransaction $v) {
 
     $raw_new_value_u = $u->getNewValue();
     $raw_new_value_v = $v->getNewValue();
@@ -67,7 +67,7 @@ final class PholioImageDescriptionTransaction
   public function newChangeDetailView() {
     $viewer = $this->getViewer();
 
-    return id(new PhabricatorApplicationTransactionTextDiffDetailView())
+    return id(new PhorgeApplicationTransactionTextDiffDetailView())
       ->setViewer($viewer)
       ->setOldText(head($this->getOldValue()))
       ->setNewText(head($this->getNewValue()));

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMetaMTAConfigOptions
-  extends PhabricatorApplicationConfigOptions {
+final class PhorgeMetaMTAConfigOptions
+  extends PhorgeApplicationConfigOptions {
 
   public function getName() {
     return pht('Mail');
@@ -183,7 +183,7 @@ Define one or more mail transmission services. For help with configuring
 mailers, see **[[ %s | %s ]]** in the documentation.
 EODOC
       ,
-      PhabricatorEnv::getDoclink('Configuring Outbound Email'),
+      PhorgeEnv::getDoclink('Configuring Outbound Email'),
       pht('Configuring Outbound Email')));
 
     $default_description = $this->deformat(pht(<<<EODOC
@@ -202,7 +202,7 @@ real user mailbox, that user will get a lot of mail they don't want.
 For further guidance, see **[[ %s | %s ]]** in the documentation.
 EODOC
       ,
-      PhabricatorEnv::getDoclink('Configuring Outbound Email'),
+      PhorgeEnv::getDoclink('Configuring Outbound Email'),
       pht('Configuring Outbound Email')));
 
     return array(

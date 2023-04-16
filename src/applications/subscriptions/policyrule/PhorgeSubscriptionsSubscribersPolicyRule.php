@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSubscriptionsSubscribersPolicyRule
-  extends PhabricatorPolicyRule {
+final class PhorgeSubscriptionsSubscribersPolicyRule
+  extends PhorgePolicyRule {
 
   private $subscribed = array();
   private $sourcePHIDs = array();
@@ -22,12 +22,12 @@ final class PhabricatorSubscriptionsSubscribersPolicyRule
     return pht('subscribers');
   }
 
-  public function canApplyToObject(PhabricatorPolicyInterface $object) {
-    return ($object instanceof PhabricatorSubscribableInterface);
+  public function canApplyToObject(PhorgePolicyInterface $object) {
+    return ($object instanceof PhorgeSubscribableInterface);
   }
 
   public function willApplyRules(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $values,
     array $objects) {
 
@@ -50,8 +50,8 @@ final class PhabricatorSubscriptionsSubscribersPolicyRule
     // policies and we don't want to get stuck in an infinite stack of
     // recursive policy checks. See T13106.
     if (!isset($this->sourcePHIDs[$viewer_phid])) {
-      $projects = id(new PhabricatorProjectQuery())
-        ->setViewer(PhabricatorUser::getOmnipotentUser())
+      $projects = id(new PhorgeProjectQuery())
+        ->setViewer(PhorgeUser::getOmnipotentUser())
         ->withMemberPHIDs(array($viewer_phid))
         ->execute();
 
@@ -85,11 +85,11 @@ final class PhabricatorSubscriptionsSubscribersPolicyRule
       return;
     }
 
-    $edge_query = id(new PhabricatorEdgeQuery())
+    $edge_query = id(new PhorgeEdgeQuery())
       ->withSourcePHIDs($this->sourcePHIDs[$viewer_phid])
       ->withEdgeTypes(
         array(
-          PhabricatorSubscribedToObjectEdgeType::EDGECONST,
+          PhorgeSubscribedToObjectEdgeType::EDGECONST,
         ))
       ->withDestinationPHIDs($phids);
 
@@ -104,9 +104,9 @@ final class PhabricatorSubscriptionsSubscribersPolicyRule
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     $viewer_phid = $viewer->getPHID();
     if (!$viewer_phid) {

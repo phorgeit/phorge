@@ -3,8 +3,8 @@
 /**
  * Common code for standard field types which store lists of PHIDs.
  */
-abstract class PhabricatorStandardCustomFieldPHIDs
-  extends PhabricatorStandardCustomField {
+abstract class PhorgeStandardCustomFieldPHIDs
+  extends PhorgeStandardCustomField {
 
   public function buildFieldIndexes() {
     $indexes = array();
@@ -53,14 +53,14 @@ abstract class PhabricatorStandardCustomFieldPHIDs
   }
 
   public function readApplicationSearchValueFromRequest(
-    PhabricatorApplicationSearchEngine $engine,
+    PhorgeApplicationSearchEngine $engine,
     AphrontRequest $request) {
     return $request->getArr($this->getFieldKey());
   }
 
   public function applyApplicationSearchConstraintToQuery(
-    PhabricatorApplicationSearchEngine $engine,
-    PhabricatorCursorPagedPolicyAwareQuery $query,
+    PhorgeApplicationSearchEngine $engine,
+    PhorgeCursorPagedPolicyAwareQuery $query,
     $value) {
     if ($value) {
       $query->withApplicationSearchContainsConstraint(
@@ -98,7 +98,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
   }
 
   public function getApplicationTransactionRequiredHandlePHIDs(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
 
     $old = $this->decodeValue($xaction->getOldValue());
     $new = $this->decodeValue($xaction->getNewValue());
@@ -110,7 +110,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
   }
 
   public function getApplicationTransactionTitle(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
 
     $old = $this->decodeValue($xaction->getOldValue());
@@ -146,7 +146,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
   }
 
   public function getApplicationTransactionTitleForFeed(
-    PhabricatorApplicationTransaction $xaction) {
+    PhorgeApplicationTransaction $xaction) {
     $author_phid = $xaction->getAuthorPHID();
     $object_phid = $xaction->getObjectPHID();
 
@@ -186,7 +186,7 @@ abstract class PhabricatorStandardCustomFieldPHIDs
   }
 
   public function validateApplicationTransactions(
-    PhabricatorApplicationTransactionEditor $editor,
+    PhorgeApplicationTransactionEditor $editor,
     $type,
     array $xactions) {
 
@@ -205,12 +205,12 @@ abstract class PhabricatorStandardCustomFieldPHIDs
 
       $add = array_diff($new, $old);
 
-      $invalid = PhabricatorObjectQuery::loadInvalidPHIDsForViewer(
+      $invalid = PhorgeObjectQuery::loadInvalidPHIDsForViewer(
         $editor->getActor(),
         $add);
 
       if ($invalid) {
-        $error = new PhabricatorApplicationTransactionValidationError(
+        $error = new PhorgeApplicationTransactionValidationError(
           $type,
           pht('Invalid'),
           pht(

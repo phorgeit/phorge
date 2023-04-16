@@ -1,89 +1,89 @@
 <?php
 
-final class PhabricatorManiphestTaskFactEngine
-  extends PhabricatorTransactionFactEngine {
+final class PhorgeManiphestTaskFactEngine
+  extends PhorgeTransactionFactEngine {
 
   public function newFacts() {
     return array(
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.count.create'),
 
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.create'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.status'),
 
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.count.create.project'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.count.assign.project'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.create.project'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.status.project'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.assign.project'),
 
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.count.create.owner'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.count.assign.owner'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.create.owner'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.status.owner'),
-      id(new PhabricatorCountFact())
+      id(new PhorgeCountFact())
         ->setKey('tasks.open-count.assign.owner'),
 
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.create'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.score'),
 
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.create'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.status'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.score'),
 
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.create.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.assign.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.score.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.create.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.status.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.score.project'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.assign.project'),
 
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.create.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.assign.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.points.score.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.create.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.status.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.score.owner'),
-      id(new PhabricatorPointsFact())
+      id(new PhorgePointsFact())
         ->setKey('tasks.open-points.assign.owner'),
     );
   }
 
-  public function supportsDatapointsForObject(PhabricatorLiskDAO $object) {
+  public function supportsDatapointsForObject(PhorgeLiskDAO $object) {
     return ($object instanceof ManiphestTask);
   }
 
-  public function newDatapointsForObject(PhabricatorLiskDAO $object) {
+  public function newDatapointsForObject(PhorgeLiskDAO $object) {
     $xaction_groups = $this->newTransactionGroupsForObject($object);
 
     $old_open = false;
@@ -128,11 +128,11 @@ final class PhabricatorManiphestTaskFactEngine
           case ManiphestTaskOwnerTransaction::TRANSACTIONTYPE:
             $new_owner = $xaction->getNewValue();
             break;
-          case PhabricatorTransactions::TYPE_EDGE:
+          case PhorgeTransactions::TYPE_EDGE:
             $edge_type = $xaction->getMetadataValue('edge:type');
             switch ($edge_type) {
-              case PhabricatorProjectObjectHasProjectEdgeType::EDGECONST:
-                $record = PhabricatorEdgeChangeRecord::newFromTransaction(
+              case PhorgeProjectObjectHasProjectEdgeType::EDGECONST:
+                $record = PhorgeEdgeChangeRecord::newFromTransaction(
                   $xaction);
                 $add_projects += array_fuse($record->getAddedPHIDs());
                 $rem_projects += array_fuse($record->getRemovedPHIDs());

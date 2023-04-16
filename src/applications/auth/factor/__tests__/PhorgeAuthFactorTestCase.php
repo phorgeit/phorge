@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorAuthFactorTestCase extends PhabricatorTestCase {
+final class PhorgeAuthFactorTestCase extends PhorgeTestCase {
 
   public function testGetAllFactors() {
-    PhabricatorAuthFactor::getAllFactors();
+    PhorgeAuthFactor::getAllFactors();
     $this->assertTrue(true);
   }
 

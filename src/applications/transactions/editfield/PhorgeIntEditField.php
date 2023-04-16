@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorIntEditField
-  extends PhabricatorEditField {
+final class PhorgeIntEditField
+  extends PhorgeEditField {
 
   protected function newControl() {
     return new AphrontFormTextControl();

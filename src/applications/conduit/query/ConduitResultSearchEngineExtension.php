@@ -1,7 +1,7 @@
 <?php
 
 final class ConduitResultSearchEngineExtension
-  extends PhabricatorSearchEngineExtension {
+  extends PhorgeSearchEngineExtension {
 
   const EXTENSIONKEY = 'conduit';
 
@@ -18,7 +18,7 @@ final class ConduitResultSearchEngineExtension
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorConduitResultInterface);
+    return ($object instanceof PhorgeConduitResultInterface);
   }
 
   public function getFieldSpecificationsForConduit($object) {

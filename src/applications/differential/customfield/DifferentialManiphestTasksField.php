@@ -32,7 +32,7 @@ final class DifferentialManiphestTasksField
       return array();
     }
 
-    return PhabricatorEdgeQuery::loadDestinationPHIDs(
+    return PhorgeEdgeQuery::loadDestinationPHIDs(
       $revision->getPHID(),
       DifferentialRevisionHasTaskEdgeType::EDGECONST);
   }

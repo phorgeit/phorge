@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorApplicationTransactionStructureException
+final class PhorgeApplicationTransactionStructureException
   extends Exception {
 
   public function __construct(
-    PhabricatorApplicationTransaction $xaction,
+    PhorgeApplicationTransaction $xaction,
     $message) {
 
     $full_message = pht(

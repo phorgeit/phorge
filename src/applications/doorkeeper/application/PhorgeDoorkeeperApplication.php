@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDoorkeeperApplication extends PhabricatorApplication {
+final class PhorgeDoorkeeperApplication extends PhorgeApplication {
 
   public function canUninstall() {
     return false;

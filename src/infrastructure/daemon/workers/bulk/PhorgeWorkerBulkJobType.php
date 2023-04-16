@@ -1,20 +1,20 @@
 <?php
 
-abstract class PhabricatorWorkerBulkJobType extends Phobject {
+abstract class PhorgeWorkerBulkJobType extends Phobject {
 
-  abstract public function getJobName(PhabricatorWorkerBulkJob $job);
+  abstract public function getJobName(PhorgeWorkerBulkJob $job);
   abstract public function getBulkJobTypeKey();
-  abstract public function getJobSize(PhabricatorWorkerBulkJob $job);
+  abstract public function getJobSize(PhorgeWorkerBulkJob $job);
   abstract public function getDescriptionForConfirm(
-    PhabricatorWorkerBulkJob $job);
+    PhorgeWorkerBulkJob $job);
 
-  abstract public function createTasks(PhabricatorWorkerBulkJob $job);
+  abstract public function createTasks(PhorgeWorkerBulkJob $job);
   abstract public function runTask(
-    PhabricatorUser $actor,
-    PhabricatorWorkerBulkJob $job,
-    PhabricatorWorkerBulkTask $task);
+    PhorgeUser $actor,
+    PhorgeWorkerBulkJob $job,
+    PhorgeWorkerBulkTask $task);
 
-  public function getDoneURI(PhabricatorWorkerBulkJob $job) {
+  public function getDoneURI(PhorgeWorkerBulkJob $job) {
     return $job->getManageURI();
   }
 
@@ -26,8 +26,8 @@ abstract class PhabricatorWorkerBulkJobType extends Phobject {
   }
 
   public function getCurtainActions(
-    PhabricatorUser $viewer,
-    PhabricatorWorkerBulkJob $job) {
+    PhorgeUser $viewer,
+    PhorgeWorkerBulkJob $job) {
 
     if ($job->isConfirming()) {
       $continue_uri = $job->getMonitorURI();
@@ -35,7 +35,7 @@ abstract class PhabricatorWorkerBulkJobType extends Phobject {
       $continue_uri = $job->getDoneURI();
     }
 
-    $continue = id(new PhabricatorActionView())
+    $continue = id(new PhorgeActionView())
       ->setHref($continue_uri)
       ->setIcon('fa-arrow-circle-o-right')
       ->setName(pht('Continue'));

@@ -1,9 +1,9 @@
 <?php
 
-final class PhabricatorKeyringConfigOptionType
-  extends PhabricatorConfigJSONOptionType {
+final class PhorgeKeyringConfigOptionType
+  extends PhorgeConfigJSONOptionType {
 
-  public function validateOption(PhabricatorConfigOption $option, $value) {
+  public function validateOption(PhorgeConfigOption $option, $value) {
     if (!is_array($value)) {
       throw new Exception(
         pht(

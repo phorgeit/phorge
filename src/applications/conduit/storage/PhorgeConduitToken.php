@@ -1,8 +1,8 @@
 <?php
 
-final class PhabricatorConduitToken
-  extends PhabricatorConduitDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeConduitToken
+  extends PhorgeConduitDAO
+  implements PhorgePolicyInterface {
 
   protected $objectPHID;
   protected $tokenType;
@@ -37,7 +37,7 @@ final class PhabricatorConduitToken
     ) + parent::getConfiguration();
   }
 
-  public static function loadClusterTokenForUser(PhabricatorUser $user) {
+  public static function loadClusterTokenForUser(PhorgeUser $user) {
     if (!$user->isLoggedIn()) {
       return null;
     }
@@ -46,7 +46,7 @@ final class PhabricatorConduitToken
       return $user->getConduitClusterToken();
     }
 
-    $tokens = id(new PhabricatorConduitTokenQuery())
+    $tokens = id(new PhorgeConduitTokenQuery())
       ->setViewer($user)
       ->withObjectPHIDs(array($user->getPHID()))
       ->withTokenTypes(array(self::TYPE_CLUSTER))
@@ -56,7 +56,7 @@ final class PhabricatorConduitToken
     // Only return a token if it has at least 5 minutes left before
     // expiration. Cluster tokens cycle regularly, so we don't want to use
     // one that's going to expire momentarily.
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     $must_expire_after = $now + phutil_units('5 minutes in seconds');
 
     $valid_token = null;
@@ -84,7 +84,7 @@ final class PhabricatorConduitToken
   }
 
   public static function initializeNewToken($object_phid, $token_type) {
-    $token = new PhabricatorConduitToken();
+    $token = new PhorgeConduitToken();
     $token->objectPHID = $object_phid;
     $token->tokenType = $token_type;
     $token->expires = $token->getTokenExpires($token_type);
@@ -115,7 +115,7 @@ final class PhabricatorConduitToken
   }
 
   private function getTokenExpires($token_type) {
-    $now = PhabricatorTime::getNow();
+    $now = PhorgeTime::getNow();
     switch ($token_type) {
       case self::TYPE_STANDARD:
         return null;
@@ -142,19 +142,19 @@ final class PhabricatorConduitToken
     return $this->assertAttached($this->object);
   }
 
-  public function attachObject(PhabricatorUser $object) {
+  public function attachObject(PhorgeUser $object) {
     $this->object = $object;
     return $this;
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -162,7 +162,7 @@ final class PhabricatorConduitToken
     return $this->getObject()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getObject()->hasAutomaticCapability($capability, $viewer);
   }
 

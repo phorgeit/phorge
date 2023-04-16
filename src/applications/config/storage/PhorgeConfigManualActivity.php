@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorConfigManualActivity
-  extends PhabricatorConfigEntryDAO {
+final class PhorgeConfigManualActivity
+  extends PhorgeConfigEntryDAO {
 
   protected $activityType;
   protected $parameters = array();

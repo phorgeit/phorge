@@ -1,13 +1,13 @@
 <?php
 
-final class PhabricatorPeopleProfileCommitsController
-  extends PhabricatorPeopleProfileController {
+final class PhorgePeopleProfileCommitsController
+  extends PhorgePeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $id = $request->getURIData('id');
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withIDs(array($id))
       ->needProfile(true)
@@ -18,8 +18,8 @@ final class PhabricatorPeopleProfileCommitsController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorDiffusionApplication';
-    if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
+    $class = 'PhorgeDiffusionApplication';
+    if (!PhorgeApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
 
@@ -34,7 +34,7 @@ final class PhabricatorPeopleProfileCommitsController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_COMMITS);
+      PhorgePeopleProfileMenuEngine::ITEM_COMMITS);
 
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)
@@ -51,7 +51,7 @@ final class PhabricatorPeopleProfileCommitsController
       ->appendChild($view);
   }
 
-  private function buildCommitsView(PhabricatorUser $user) {
+  private function buildCommitsView(PhorgeUser $user) {
     $viewer = $this->getViewer();
 
     $commits = id(new DiffusionCommitQuery())

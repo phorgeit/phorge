@@ -17,7 +17,7 @@ final class DiffusionRepositoryEditDeleteController
       ->setRepository($repository)
       ->getPanelURI();
 
-    $doc_uri = PhabricatorEnv::getDoclink(
+    $doc_uri = PhorgeEnv::getDoclink(
       'Permanently Destroying Data');
 
     return $this->newDialog()

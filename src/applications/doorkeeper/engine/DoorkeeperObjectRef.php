@@ -18,7 +18,7 @@ final class DoorkeeperObjectRef extends Phobject {
       ->setApplicationDomain($this->getApplicationDomain())
       ->setObjectType($this->getObjectType())
       ->setObjectID($this->getObjectID())
-      ->setViewPolicy(PhabricatorPolicies::POLICY_USER);
+      ->setViewPolicy(PhorgePolicies::POLICY_USER);
   }
 
   public function attachExternalObject(
@@ -116,7 +116,7 @@ final class DoorkeeperObjectRef extends Phobject {
 
   public function getObjectKey() {
     if (!$this->objectKey) {
-      $this->objectKey = PhabricatorHash::digestForIndex(
+      $this->objectKey = PhorgeHash::digestForIndex(
         implode(
           ':',
           array(

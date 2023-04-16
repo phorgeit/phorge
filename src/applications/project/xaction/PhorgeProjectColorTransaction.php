@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColorTransaction
-  extends PhabricatorProjectTransactionType {
+final class PhorgeProjectColorTransaction
+  extends PhorgeProjectTransactionType {
 
   const TRANSACTIONTYPE = 'project:color';
 

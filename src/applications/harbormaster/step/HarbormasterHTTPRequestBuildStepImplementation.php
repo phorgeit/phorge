@@ -42,9 +42,9 @@ final class HarbormasterHTTPRequestBuildStepImplementation
     HarbormasterBuild $build,
     HarbormasterBuildTarget $build_target) {
 
-    $viewer = PhabricatorUser::getOmnipotentUser();
+    $viewer = PhorgeUser::getOmnipotentUser();
 
-    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
+    if (PhorgeEnv::getEnvConfig('phorge.silent')) {
       $this->logSilencedCall($build, $build_target, pht('HTTP Request'));
       throw new HarbormasterBuildFailureException();
     }

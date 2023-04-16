@@ -5,7 +5,7 @@
  * descriptions and explanations for the policy system to help users
  * understand complex policies.
  */
-abstract class PhabricatorPolicyCodex
+abstract class PhorgePolicyCodex
   extends Phobject {
 
   private $viewer;
@@ -34,17 +34,17 @@ abstract class PhabricatorPolicyCodex
   }
 
   public function getDefaultPolicy() {
-    return PhabricatorPolicyQuery::getDefaultPolicyForObject(
+    return PhorgePolicyQuery::getDefaultPolicyForObject(
       $this->viewer,
       $this->object,
       $this->capability);
   }
 
   final protected function newRule() {
-    return new PhabricatorPolicyCodexRuleDescription();
+    return new PhorgePolicyCodexRuleDescription();
   }
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -53,7 +53,7 @@ abstract class PhabricatorPolicyCodex
     return $this->viewer;
   }
 
-  final public function setObject(PhabricatorPolicyCodexInterface $object) {
+  final public function setObject(PhorgePolicyCodexInterface $object) {
     $this->object = $object;
     return $this;
   }
@@ -71,7 +71,7 @@ abstract class PhabricatorPolicyCodex
     return $this->capability;
   }
 
-  final public function setPolicy(PhabricatorPolicy $policy) {
+  final public function setPolicy(PhorgePolicy $policy) {
     $this->policy = $policy;
     return $this;
   }
@@ -81,28 +81,28 @@ abstract class PhabricatorPolicyCodex
   }
 
   final public static function newFromObject(
-    PhabricatorPolicyCodexInterface $object,
-    PhabricatorUser $viewer) {
+    PhorgePolicyCodexInterface $object,
+    PhorgeUser $viewer) {
 
-    if (!($object instanceof PhabricatorPolicyInterface)) {
+    if (!($object instanceof PhorgePolicyInterface)) {
       throw new Exception(
         pht(
           'Object (of class "%s") implements interface "%s", but must also '.
           'implement interface "%s".',
           get_class($object),
-          'PhabricatorPolicyCodexInterface',
-          'PhabricatorPolicyInterface'));
+          'PhorgePolicyCodexInterface',
+          'PhorgePolicyInterface'));
     }
 
     $codex = $object->newPolicyCodex();
-    if (!($codex instanceof PhabricatorPolicyCodex)) {
+    if (!($codex instanceof PhorgePolicyCodex)) {
       throw new Exception(
         pht(
           'Object (of class "%s") implements interface "%s", but defines '.
           'method "%s" incorrectly: this method must return an object of '.
           'class "%s".',
           get_class($object),
-          'PhabricatorPolicyCodexInterface',
+          'PhorgePolicyCodexInterface',
           'newPolicyCodex()',
           __CLASS__));
     }

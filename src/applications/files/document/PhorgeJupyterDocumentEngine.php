@@ -1,27 +1,27 @@
 <?php
 
-final class PhabricatorJupyterDocumentEngine
-  extends PhabricatorDocumentEngine {
+final class PhorgeJupyterDocumentEngine
+  extends PhorgeDocumentEngine {
 
   const ENGINEKEY = 'jupyter';
 
-  public function getViewAsLabel(PhabricatorDocumentRef $ref) {
+  public function getViewAsLabel(PhorgeDocumentRef $ref) {
     return pht('View as Jupyter Notebook');
   }
 
-  protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
+  protected function getDocumentIconIcon(PhorgeDocumentRef $ref) {
     return 'fa-sun-o';
   }
 
-  protected function getDocumentRenderingText(PhabricatorDocumentRef $ref) {
+  protected function getDocumentRenderingText(PhorgeDocumentRef $ref) {
     return pht('Rendering Jupyter Notebook...');
   }
 
-  public function shouldRenderAsync(PhabricatorDocumentRef $ref) {
+  public function shouldRenderAsync(PhorgeDocumentRef $ref) {
     return true;
   }
 
-  protected function getContentScore(PhabricatorDocumentRef $ref) {
+  protected function getContentScore(PhorgeDocumentRef $ref) {
     $name = $ref->getName();
 
     if (preg_match('/\\.ipynb\z/i', $name)) {
@@ -31,21 +31,21 @@ final class PhabricatorJupyterDocumentEngine
     return 500;
   }
 
-  protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
+  protected function canRenderDocumentType(PhorgeDocumentRef $ref) {
     return $ref->isProbablyJSON();
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    PhorgeDocumentRef $uref = null,
+    PhorgeDocumentRef $vref = null) {
     return true;
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    PhorgeDocumentRef $uref = null,
+    PhorgeDocumentRef $vref = null) {
 
-    $blocks = new PhabricatorDocumentEngineBlocks();
+    $blocks = new PhorgeDocumentEngineBlocks();
 
     try {
       if ($uref) {
@@ -71,10 +71,10 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   public function newBlockDiffViews(
-    PhabricatorDocumentRef $uref,
-    PhabricatorDocumentEngineBlock $ublock,
-    PhabricatorDocumentRef $vref,
-    PhabricatorDocumentEngineBlock $vblock) {
+    PhorgeDocumentRef $uref,
+    PhorgeDocumentEngineBlock $ublock,
+    PhorgeDocumentRef $vref,
+    PhorgeDocumentEngineBlock $vblock) {
 
     $ucell = $ublock->getContent();
     $vcell = $vblock->getContent();
@@ -100,7 +100,7 @@ final class PhabricatorJupyterDocumentEngine
           $u_content = $this->newCellContainer($u_content);
           $v_content = $this->newCellContainer($v_content);
 
-          return id(new PhabricatorDocumentEngineBlockDiff())
+          return id(new PhorgeDocumentEngineBlockDiff())
             ->setOldContent($u_content)
             ->addOldClass('old')
             ->setNewContent($v_content)
@@ -125,11 +125,11 @@ final class PhabricatorJupyterDocumentEngine
             $v_segments[] = $v_segment;
           }
 
-          $usource = PhabricatorDifferenceEngine::applyIntralineDiff(
+          $usource = PhorgeDifferenceEngine::applyIntralineDiff(
             $udisplay,
             $u_segments);
 
-          $vsource = PhabricatorDifferenceEngine::applyIntralineDiff(
+          $vsource = PhorgeDifferenceEngine::applyIntralineDiff(
             $vdisplay,
             $v_segments);
 
@@ -146,7 +146,7 @@ final class PhabricatorJupyterDocumentEngine
           $u_content = $this->newCellContainer($u_content);
           $v_content = $this->newCellContainer($v_content);
 
-          return id(new PhabricatorDocumentEngineBlockDiff())
+          return id(new PhorgeDocumentEngineBlockDiff())
             ->setOldContent($u_content)
             ->addOldClass('old')
             ->setNewContent($v_content)
@@ -158,8 +158,8 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   public function newBlockContentView(
-    PhabricatorDocumentRef $ref,
-    PhabricatorDocumentEngineBlock $block) {
+    PhorgeDocumentRef $ref,
+    PhorgeDocumentEngineBlock $block) {
 
     $viewer = $this->getViewer();
     $cell = $block->getContent();
@@ -233,7 +233,7 @@ final class PhabricatorJupyterDocumentEngine
     );
   }
 
-  private function newDiffBlocks(PhabricatorDocumentRef $ref) {
+  private function newDiffBlocks(PhorgeDocumentRef $ref) {
     $viewer = $this->getViewer();
     $content = $ref->loadData();
 
@@ -257,11 +257,11 @@ final class PhabricatorJupyterDocumentEngine
           break;
       }
 
-      $hash = PhabricatorHash::digestWithNamedKey(
+      $hash = PhorgeHash::digestWithNamedKey(
         $hash_input,
         'document-engine.content-digest');
 
-      $blocks[] = id(new PhabricatorDocumentEngineBlock())
+      $blocks[] = id(new PhorgeDocumentEngineBlock())
         ->setBlockKey($idx)
         ->setDifferenceHash($hash)
         ->setContent($cell);
@@ -272,7 +272,7 @@ final class PhabricatorJupyterDocumentEngine
     return $blocks;
   }
 
-  protected function newDocumentContent(PhabricatorDocumentRef $ref) {
+  protected function newDocumentContent(PhorgeDocumentRef $ref) {
     $viewer = $this->getViewer();
     $content = $ref->loadData();
 
@@ -429,7 +429,7 @@ final class PhabricatorJupyterDocumentEngine
 
 
   private function renderJupyterCell(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $cell) {
 
     list($label, $content) = $this->renderJupyterCellContent($viewer, $cell);
@@ -472,7 +472,7 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   private function renderJupyterCellContent(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $cell) {
 
     $cell_type = idx($cell, 'cell_type');
@@ -499,7 +499,7 @@ final class PhabricatorJupyterDocumentEngine
       phutil_tag(
         'div',
         array(
-          'class' => 'jupyter-cell-raw PhabricatorMonospaced',
+          'class' => 'jupyter-cell-raw PhorgeMonospaced',
         ),
         $content),
     );
@@ -545,7 +545,7 @@ final class PhabricatorJupyterDocumentEngine
           array(
             'class' =>
               'jupyter-cell-code jupyter-cell-code-block '.
-              'PhabricatorMonospaced remarkup-code',
+              'PhorgeMonospaced remarkup-code',
           ),
           array(
             $content,
@@ -557,7 +557,7 @@ final class PhabricatorJupyterDocumentEngine
 
   private function newCodeLineCell(array $cell, $content = null) {
     $classes = array();
-    $classes[] = 'PhabricatorMonospaced';
+    $classes[] = 'PhorgeMonospaced';
     $classes[] = 'remarkup-code';
     $classes[] = 'jupyter-cell-code';
     $classes[] = 'jupyter-cell-code-line';
@@ -605,7 +605,7 @@ final class PhabricatorJupyterDocumentEngine
 
     $classes = array(
       'jupyter-output',
-      'PhabricatorMonospaced',
+      'PhorgeMonospaced',
     );
 
     $output_name = idx($output, 'name');
@@ -703,7 +703,7 @@ final class PhabricatorJupyterDocumentEngine
       $lang = $force_language;
     }
 
-    $content = PhabricatorSyntaxHighlighter::highlightWithLanguage(
+    $content = PhorgeSyntaxHighlighter::highlightWithLanguage(
       $lang,
       implode('', $lines));
     $content = phutil_split_lines($content);
@@ -722,7 +722,7 @@ final class PhabricatorJupyterDocumentEngine
     return $content;
   }
 
-  public function shouldSuggestEngine(PhabricatorDocumentRef $ref) {
+  public function shouldSuggestEngine(PhorgeDocumentRef $ref) {
     return true;
   }
 

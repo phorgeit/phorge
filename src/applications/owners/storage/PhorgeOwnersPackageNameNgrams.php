@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersPackageNameNgrams
-  extends PhabricatorSearchNgrams {
+final class PhorgeOwnersPackageNameNgrams
+  extends PhorgeSearchNgrams {
 
   public function getNgramKey() {
     return 'name';

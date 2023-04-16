@@ -13,7 +13,7 @@ final class PhrictionHistoryController
 
     $document = id(new PhrictionDocumentQuery())
       ->setViewer($viewer)
-      ->withSlugs(array(PhabricatorSlug::normalize($slug)))
+      ->withSlugs(array(PhorgeSlug::normalize($slug)))
       ->needContent(true)
       ->executeOne();
     if (!$document) {

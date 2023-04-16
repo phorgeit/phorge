@@ -1,23 +1,23 @@
 <?php
 
-final class PhabricatorPackagesVersion
-  extends PhabricatorPackagesDAO
+final class PhorgePackagesVersion
+  extends PhorgePackagesDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorExtendedPolicyInterface,
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorDestructibleInterface,
-    PhabricatorSubscribableInterface,
-    PhabricatorProjectInterface,
-    PhabricatorConduitResultInterface,
-    PhabricatorNgramsInterface {
+    PhorgePolicyInterface,
+    PhorgeExtendedPolicyInterface,
+    PhorgeApplicationTransactionInterface,
+    PhorgeDestructibleInterface,
+    PhorgeSubscribableInterface,
+    PhorgeProjectInterface,
+    PhorgeConduitResultInterface,
+    PhorgeNgramsInterface {
 
   protected $name;
   protected $packagePHID;
 
   private $package;
 
-  public static function initializeNewVersion(PhabricatorUser $actor) {
+  public static function initializeNewVersion(PhorgeUser $actor) {
     return id(new self());
   }
 
@@ -37,8 +37,8 @@ final class PhabricatorPackagesVersion
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorPackagesVersionPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgePackagesVersionPHIDType::TYPECONST);
   }
 
   public function getURI() {
@@ -49,7 +49,7 @@ final class PhabricatorPackagesVersion
     return "/package/{$full_key}/{$name}/";
   }
 
-  public function attachPackage(PhabricatorPackagesPackage $package) {
+  public function attachPackage(PhorgePackagesPackage $package) {
     $this->package = $package;
     return $this;
   }
@@ -95,7 +95,7 @@ final class PhabricatorPackagesVersion
   }
 
 
-/* -(  PhabricatorSubscribableInterface  )----------------------------------- */
+/* -(  PhorgeSubscribableInterface  )----------------------------------- */
 
 
   public function isAutomaticallySubscribed($phid) {
@@ -108,29 +108,29 @@ final class PhabricatorPackagesVersion
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
-        return PhabricatorPolicies::getMostOpenPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
-        return PhabricatorPolicies::POLICY_USER;
+      case PhorgePolicyCapability::CAN_VIEW:
+        return PhorgePolicies::getMostOpenPolicy();
+      case PhorgePolicyCapability::CAN_EDIT:
+        return PhorgePolicies::POLICY_USER;
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $user) {
+  public function hasAutomaticCapability($capability, PhorgeUser $user) {
     return false;
   }
 
 
-/* -(  PhabricatorExtendedPolicyInterface  )--------------------------------- */
+/* -(  PhorgeExtendedPolicyInterface  )--------------------------------- */
 
 
-  public function getExtendedPolicy($capability, PhabricatorUser $viewer) {
+  public function getExtendedPolicy($capability, PhorgeUser $viewer) {
     return array(
       array(
         $this->getPackage(),
@@ -140,44 +140,44 @@ final class PhabricatorPackagesVersion
   }
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
     $this->delete();
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
-    return new PhabricatorPackagesVersionEditor();
+    return new PhorgePackagesVersionEditor();
   }
 
   public function getApplicationTransactionTemplate() {
-    return new PhabricatorPackagesVersionTransaction();
+    return new PhorgePackagesVersionTransaction();
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
     return array(
-      id(new PhabricatorPackagesVersionNameNgrams())
+      id(new PhorgePackagesVersionNameNgrams())
         ->setValue($this->getName()),
     );
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of the version.')),

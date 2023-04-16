@@ -1,9 +1,9 @@
 <?php
 
-abstract class PhabricatorCountdownController extends PhabricatorController {
+abstract class PhorgeCountdownController extends PhorgeController {
 
   public function buildApplicationMenu() {
     return $this->newApplicationMenu()
-      ->setSearchEngine(new PhabricatorCountdownSearchEngine());
+      ->setSearchEngine(new PhorgeCountdownSearchEngine());
   }
 }

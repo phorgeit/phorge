@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorElasticsearchSetupCheck extends PhabricatorSetupCheck {
+final class PhorgeElasticsearchSetupCheck extends PhorgeSetupCheck {
 
   public function getDefaultGroup() {
     return self::GROUP_OTHER;
@@ -9,20 +9,20 @@ final class PhabricatorElasticsearchSetupCheck extends PhabricatorSetupCheck {
   protected function executeChecks() {
     // TODO: Avoid fataling if we don't have a master database configured
     // but have the MySQL search index configured. See T12965.
-    if (PhabricatorEnv::isReadOnly()) {
+    if (PhorgeEnv::isReadOnly()) {
       return;
     }
 
-    $services = PhabricatorSearchService::getAllServices();
+    $services = PhorgeSearchService::getAllServices();
 
     foreach ($services as $service) {
       try {
         $host = $service->getAnyHostForRole('read');
-      } catch (PhabricatorClusterNoHostForRoleException $e) {
+      } catch (PhorgeClusterNoHostForRoleException $e) {
         // ignore the error
         continue;
       }
-      if ($host instanceof PhabricatorElasticsearchHost) {
+      if ($host instanceof PhorgeElasticsearchHost) {
         $index_exists = null;
         $index_sane = null;
         try {
@@ -45,7 +45,7 @@ final class PhabricatorElasticsearchSetupCheck extends PhabricatorSetupCheck {
             ->setName(pht('Elasticsearch Misconfigured'))
             ->setSummary($summary)
             ->setMessage($message)
-            ->addRelatedPhabricatorConfig('cluster.search');
+            ->addRelatedPhorgeConfig('cluster.search');
           return;
         }
 

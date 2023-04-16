@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorFlagHeraldAction
+abstract class PhorgeFlagHeraldAction
   extends HeraldAction {
 
   public function getActionGroupKey() {
@@ -8,7 +8,7 @@ abstract class PhabricatorFlagHeraldAction
   }
 
   public function supportsObject($object) {
-    return ($object instanceof PhabricatorFlaggableInterface);
+    return ($object instanceof PhorgeFlaggableInterface);
   }
 
   public function supportsRuleType($rule_type) {

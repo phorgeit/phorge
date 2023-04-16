@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchDateField
-  extends PhabricatorSearchField {
+final class PhorgeSearchDateField
+  extends PhorgeSearchField {
 
   protected function newControl() {
     return id(new AphrontFormTextControl())
@@ -44,7 +44,7 @@ final class PhabricatorSearchDateField
       }
     }
 
-    return PhabricatorTime::parseLocalTime($value, $this->getViewer());
+    return PhorgeTime::parseLocalTime($value, $this->getViewer());
   }
 
   protected function newConduitParameterType() {

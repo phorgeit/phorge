@@ -48,7 +48,7 @@ final class AlmanacAddress extends Phobject {
   }
 
   public function toHash() {
-    return PhabricatorHash::digestForIndex(json_encode($this->toDictionary()));
+    return PhorgeHash::digestForIndex(json_encode($this->toDictionary()));
   }
 
 }

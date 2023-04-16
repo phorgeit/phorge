@@ -32,7 +32,7 @@ final class DiffusionGetLintMessagesConduitAPIMethod
     $viewer = $request->getUser();
 
     $repository_phid = $request->getValue('repositoryPHID');
-    $repository = id(new PhabricatorRepositoryQuery())
+    $repository = id(new PhorgeRepositoryQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($repository_phid))
       ->executeOne();
@@ -44,14 +44,14 @@ final class DiffusionGetLintMessagesConduitAPIMethod
 
     $branch_name = $request->getValue('branch');
     if ($branch_name == '') {
-      $repository = id(new PhabricatorRepositoryQuery())
+      $repository = id(new PhorgeRepositoryQuery())
         ->setViewer($request->getUser())
         ->withIDs(array($repository->getID()))
         ->executeOne();
       $branch_name = $repository->getDefaultArcanistBranch();
     }
 
-    $branch = id(new PhabricatorRepositoryBranch())->loadOneWhere(
+    $branch = id(new PhorgeRepositoryBranch())->loadOneWhere(
       'repositoryID = %d AND name = %s',
       $repository->getID(),
       $branch_name);
@@ -62,7 +62,7 @@ final class DiffusionGetLintMessagesConduitAPIMethod
     $lint_messages = queryfx_all(
       $branch->establishConnection('r'),
       'SELECT path, line, code FROM %T WHERE branchID = %d AND path IN (%Ls)',
-      PhabricatorRepository::TABLE_LINTMESSAGE,
+      PhorgeRepository::TABLE_LINTMESSAGE,
       $branch->getID(),
       $request->getValue('files'));
 

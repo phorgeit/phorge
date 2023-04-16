@@ -14,7 +14,7 @@ abstract class PassphraseSSHPrivateKeyCredentialType
   }
 
   public function getPublicKey(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     PassphraseCredential $credential) {
 
     $key = PassphraseSSHKey::loadFromPHID($credential->getPHID(), $viewer);

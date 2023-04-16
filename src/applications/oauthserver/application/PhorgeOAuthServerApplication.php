@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorOAuthServerApplication extends PhabricatorApplication {
+final class PhorgeOAuthServerApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('OAuth Server');
@@ -36,11 +36,11 @@ final class PhabricatorOAuthServerApplication extends PhabricatorApplication {
     return true;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Using the Phorge OAuth Server'),
-        'href' => PhabricatorEnv::getDoclink(
+        'href' => PhorgeEnv::getDoclink(
           'Using the Phorge OAuth Server'),
       ),
     );
@@ -50,16 +50,16 @@ final class PhabricatorOAuthServerApplication extends PhabricatorApplication {
     return array(
       '/oauthserver/' => array(
         '(?:query/(?P<queryKey>[^/]+)/)?'
-          => 'PhabricatorOAuthClientListController',
-        'auth/' => 'PhabricatorOAuthServerAuthController',
-        'token/' => 'PhabricatorOAuthServerTokenController',
+          => 'PhorgeOAuthClientListController',
+        'auth/' => 'PhorgeOAuthServerAuthController',
+        'token/' => 'PhorgeOAuthServerTokenController',
         $this->getEditRoutePattern('edit/') =>
-          'PhabricatorOAuthClientEditController',
+          'PhorgeOAuthClientEditController',
           'client/' => array(
-          'disable/(?P<id>\d+)/' => 'PhabricatorOAuthClientDisableController',
-          'view/(?P<id>\d+)/' => 'PhabricatorOAuthClientViewController',
-          'secret/(?P<id>\d+)/' => 'PhabricatorOAuthClientSecretController',
-          'test/(?P<id>\d+)/' => 'PhabricatorOAuthClientTestController',
+          'disable/(?P<id>\d+)/' => 'PhorgeOAuthClientDisableController',
+          'view/(?P<id>\d+)/' => 'PhorgeOAuthClientViewController',
+          'secret/(?P<id>\d+)/' => 'PhorgeOAuthClientSecretController',
+          'test/(?P<id>\d+)/' => 'PhorgeOAuthClientTestController',
         ),
       ),
     );
@@ -67,8 +67,8 @@ final class PhabricatorOAuthServerApplication extends PhabricatorApplication {
 
   protected function getCustomCapabilities() {
     return array(
-      PhabricatorOAuthServerCreateClientsCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+      PhorgeOAuthServerCreateClientsCapability::CAPABILITY => array(
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }

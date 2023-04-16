@@ -1,14 +1,14 @@
 <?php
 
-final class PhabricatorSearchSchemaSpec
-  extends PhabricatorConfigSchemaSpec {
+final class PhorgeSearchSchemaSpec
+  extends PhorgeConfigSchemaSpec {
 
   public function buildSchemata() {
-    $this->buildEdgeSchemata(new PhabricatorProfileMenuItemConfiguration());
+    $this->buildEdgeSchemata(new PhorgeProfileMenuItemConfiguration());
 
     $this->buildRawSchema(
       'search',
-      PhabricatorSearchDocument::STOPWORDS_TABLE,
+      PhorgeSearchDocument::STOPWORDS_TABLE,
       array(
         'value' => 'sort32',
       ),

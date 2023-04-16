@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorProjectColumnBulkMoveController
-  extends PhabricatorProjectBoardController {
+final class PhorgeProjectColumnBulkMoveController
+  extends PhorgeProjectBoardController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
@@ -40,9 +40,9 @@ final class PhabricatorProjectColumnBulkMoveController
 
     $move_tasks = array_select_keys($tasks, $move_task_phids);
 
-    $move_tasks = id(new PhabricatorPolicyFilter())
+    $move_tasks = id(new PhorgePolicyFilter())
       ->setViewer($viewer)
-      ->requireCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT))
+      ->requireCapabilities(array(PhorgePolicyCapability::CAN_EDIT))
       ->apply($move_tasks);
 
     if (!$move_tasks) {
@@ -82,7 +82,7 @@ final class PhabricatorProjectColumnBulkMoveController
       if (!$dst_project_phid) {
         $errors[] = pht('Choose a project to move tasks to.');
       } else {
-        $dst_project = id(new PhabricatorProjectQuery())
+        $dst_project = id(new PhorgeProjectQuery())
           ->setViewer($viewer)
           ->withPHIDs(array($dst_project_phid))
           ->executeOne();
@@ -100,7 +100,7 @@ final class PhabricatorProjectColumnBulkMoveController
     if ($dst_project) {
       $same_project = ($src_project->getID() === $dst_project->getID());
 
-      $layout_engine = id(new PhabricatorBoardLayoutEngine())
+      $layout_engine = id(new PhorgeBoardLayoutEngine())
         ->setViewer($viewer)
         ->setBoardPHIDs(array($dst_project->getPHID()))
         ->setFetchAllBoards(true)
@@ -159,10 +159,10 @@ final class PhabricatorProjectColumnBulkMoveController
           // and move to the new project.
           if (!$same_project) {
             $xactions[] = id(new ManiphestTransaction())
-              ->setTransactionType(PhabricatorTransactions::TYPE_EDGE)
+              ->setTransactionType(PhorgeTransactions::TYPE_EDGE)
               ->setMetadataValue(
                 'edge:type',
-                PhabricatorProjectObjectHasProjectEdgeType::EDGECONST)
+                PhorgeProjectObjectHasProjectEdgeType::EDGECONST)
               ->setNewValue(
                 array(
                   '-' => array(
@@ -175,7 +175,7 @@ final class PhabricatorProjectColumnBulkMoveController
           }
 
           $xactions[] = id(new ManiphestTransaction())
-            ->setTransactionType(PhabricatorTransactions::TYPE_COLUMNS)
+            ->setTransactionType(PhorgeTransactions::TYPE_COLUMNS)
             ->setNewValue(
               array(
                 array(
@@ -276,7 +276,7 @@ final class PhabricatorProjectColumnBulkMoveController
             ->setLimit(1)
             ->setLabel(pht('Move to Project'))
             ->setValue($dst_project_phid_value)
-            ->setDatasource(new PhabricatorProjectDatasource()));
+            ->setDatasource(new PhorgeProjectDatasource()));
 
       $submit = pht('Continue');
 

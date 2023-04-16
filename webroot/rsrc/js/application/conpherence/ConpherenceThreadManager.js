@@ -498,7 +498,7 @@ JX.install('ConpherenceThreadManager', {
       var data = e.getNodeData('tag:form');
 
       if (!data.preview) {
-        data.preview = new JX.PhabricatorShapedRequest(
+        data.preview = new JX.PhorgeShapedRequest(
           this._getUpdateURI(),
           JX.bag,
           JX.bind(this, function () {

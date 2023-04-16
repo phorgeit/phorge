@@ -1,8 +1,8 @@
 <?php
 
 
-final class PhabricatorPeopleManagementApproveWorkflow
-  extends PhabricatorPeopleManagementWorkflow {
+final class PhorgePeopleManagementApproveWorkflow
+  extends PhorgePeopleManagementWorkflow {
 
   protected function didConstruct() {
     $arguments = array_merge(
@@ -30,7 +30,7 @@ final class PhabricatorPeopleManagementApproveWorkflow
 
     $xactions = array();
     $xactions[] = $user->getApplicationTransactionTemplate()
-      ->setTransactionType(PhabricatorUserApproveTransaction::TRANSACTIONTYPE)
+      ->setTransactionType(PhorgeUserApproveTransaction::TRANSACTIONTYPE)
       ->setNewValue(true);
 
     $this->applyTransactions($user, $xactions);

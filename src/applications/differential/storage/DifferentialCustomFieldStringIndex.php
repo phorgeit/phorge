@@ -1,7 +1,7 @@
 <?php
 
 final class DifferentialCustomFieldStringIndex
-  extends PhabricatorCustomFieldStringIndexStorage {
+  extends PhorgeCustomFieldStringIndexStorage {
 
   public function getApplicationName() {
     return 'differential';

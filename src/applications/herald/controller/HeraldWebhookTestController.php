@@ -11,8 +11,8 @@ final class HeraldWebhookTestController
       ->withIDs(array($request->getURIData('id')))
       ->requireCapabilities(
         array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
+          PhorgePolicyCapability::CAN_VIEW,
+          PhorgePolicyCapability::CAN_EDIT,
         ))
       ->executeOne();
     if (!$hook) {
@@ -28,7 +28,7 @@ final class HeraldWebhookTestController
       if (!strlen($v_object)) {
         $object = $hook;
       } else {
-        $objects = id(new PhabricatorObjectQuery())
+        $objects = id(new PhorgeObjectQuery())
           ->setViewer($viewer)
           ->withNames(array($v_object))
           ->execute();
@@ -42,7 +42,7 @@ final class HeraldWebhookTestController
 
       if (!$errors) {
         $xaction_query =
-          PhabricatorApplicationTransactionQuery::newQueryForObject($object);
+          PhorgeApplicationTransactionQuery::newQueryForObject($object);
 
         $xactions = $xaction_query
           ->withObjectPHIDs(array($object->getPHID()))

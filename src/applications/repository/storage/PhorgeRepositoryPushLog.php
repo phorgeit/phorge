@@ -9,9 +9,9 @@
  * This log is written by commit hooks installed into hosted repositories.
  * See @{class:DiffusionCommitHookEngine}.
  */
-final class PhabricatorRepositoryPushLog
-  extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeRepositoryPushLog
+  extends PhorgeRepositoryDAO
+  implements PhorgePolicyInterface {
 
   const REFTYPE_BRANCH = 'branch';
   const REFTYPE_TAG = 'tag';
@@ -57,8 +57,8 @@ final class PhabricatorRepositoryPushLog
   private $pushEvent = self::ATTACHABLE;
   private $repository = self::ATTACHABLE;
 
-  public static function initializeNewLog(PhabricatorUser $viewer) {
-    return id(new PhabricatorRepositoryPushLog())
+  public static function initializeNewLog(PhorgeUser $viewer) {
+    return id(new PhorgeRepositoryPushLog())
       ->setPusherPHID($viewer->getPHID());
   }
 
@@ -144,11 +144,11 @@ final class PhabricatorRepositoryPushLog
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
-      PhabricatorRepositoryPushLogPHIDType::TYPECONST);
+    return PhorgePHID::generateNewPHID(
+      PhorgeRepositoryPushLogPHIDType::TYPECONST);
   }
 
-  public function attachPushEvent(PhabricatorRepositoryPushEvent $push_event) {
+  public function attachPushEvent(PhorgeRepositoryPushEvent $push_event) {
     $this->pushEvent = $push_event;
     return $this;
   }
@@ -165,7 +165,7 @@ final class PhabricatorRepositoryPushLog
 
   public function setRefName($ref_raw) {
     $this->setRefNameRaw($ref_raw);
-    $this->setRefNameHash(PhabricatorHash::digestForIndex($ref_raw));
+    $this->setRefNameHash(PhorgeHash::digestForIndex($ref_raw));
     $this->setRefNameEncoding($this->detectEncodingForStorage($ref_raw));
 
     return $this;
@@ -198,7 +198,7 @@ final class PhabricatorRepositoryPushLog
     return $this->assertAttached($this->dangerousChangeDescription);
   }
 
-  public function attachRepository(PhabricatorRepository $repository) {
+  public function attachRepository(PhorgeRepository $repository) {
     // NOTE: Some gymnastics around this because of object construction order
     // in the hook engine. Particularly, web build the logs before we build
     // their push event.
@@ -214,12 +214,12 @@ final class PhabricatorRepositoryPushLog
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_VIEW,
     );
   }
 
@@ -230,7 +230,7 @@ final class PhabricatorRepositoryPushLog
     return $this->getRepository()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getRepository()->hasAutomaticCapability($capability, $viewer);
   }
 

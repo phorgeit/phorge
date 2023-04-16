@@ -1,6 +1,6 @@
 <?php
 
-abstract class DiffusionController extends PhabricatorController {
+abstract class DiffusionController extends PhorgeController {
 
   private $diffusionRequest;
 
@@ -258,7 +258,7 @@ abstract class DiffusionController extends PhabricatorController {
   }
 
   protected function getRepositoryControllerURI(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $path) {
     return $repository->getPathURI($path);
   }
@@ -389,10 +389,10 @@ abstract class DiffusionController extends PhabricatorController {
     $repository_phid = $repository->getPHID();
     $stable_commit = $drequest->getStableCommit();
 
-    $stable_commit_hash = PhabricatorHash::digestForIndex($stable_commit);
-    $readme_path_hash = PhabricatorHash::digestForIndex($readme_path);
+    $stable_commit_hash = PhorgeHash::digestForIndex($stable_commit);
+    $readme_path_hash = PhorgeHash::digestForIndex($readme_path);
 
-    $cache = PhabricatorCaches::getMutableStructureCache();
+    $cache = PhorgeCaches::getMutableStructureCache();
     $cache_key = "diffusion".
       ".repository({$repository_phid})".
       ".commit({$stable_commit_hash})".
@@ -416,7 +416,7 @@ abstract class DiffusionController extends PhabricatorController {
         return null;
       }
 
-      $file = id(new PhabricatorFileQuery())
+      $file = id(new PhorgeFileQuery())
         ->setViewer($viewer)
         ->withPHIDs(array($file_phid))
         ->executeOne();
@@ -448,7 +448,7 @@ abstract class DiffusionController extends PhabricatorController {
     $drequest = $this->getDiffusionRequest();
     $viewer = $this->getViewer();
     switch ($drequest->getRepository()->getVersionControlSystem()) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
+      case PhorgeRepositoryType::REPOSITORY_TYPE_SVN:
         return null;
     }
 

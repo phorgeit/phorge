@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorSearchFerretNgramGarbageCollector
-  extends PhabricatorGarbageCollector {
+final class PhorgeSearchFerretNgramGarbageCollector
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'search.ferret.ngram';
 
@@ -15,7 +15,7 @@ final class PhabricatorSearchFerretNgramGarbageCollector
 
   protected function collectGarbage() {
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass('PhorgeFerretInterface')
       ->execute();
 
     $did_collect = false;

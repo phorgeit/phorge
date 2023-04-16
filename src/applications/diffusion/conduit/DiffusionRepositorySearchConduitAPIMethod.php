@@ -1,14 +1,14 @@
 <?php
 
 final class DiffusionRepositorySearchConduitAPIMethod
-  extends PhabricatorSearchEngineAPIMethod {
+  extends PhorgeSearchEngineAPIMethod {
 
   public function getAPIMethodName() {
     return 'diffusion.repository.search';
   }
 
   public function newSearchEngine() {
-    return new PhabricatorRepositorySearchEngine();
+    return new PhorgeRepositorySearchEngine();
   }
 
   public function getMethodSummary() {

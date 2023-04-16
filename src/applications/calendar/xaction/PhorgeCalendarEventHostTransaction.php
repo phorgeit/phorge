@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorCalendarEventHostTransaction
-  extends PhabricatorCalendarEventTransactionType {
+final class PhorgeCalendarEventHostTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   const TRANSACTIONTYPE = 'calendar.host';
 
@@ -41,7 +41,7 @@ final class PhabricatorCalendarEventHostTransaction
         continue;
       }
 
-      $user = id(new PhabricatorPeopleQuery())
+      $user = id(new PhorgePeopleQuery())
         ->setViewer($this->getActor())
         ->withPHIDs(array($host_phid))
         ->executeOne();

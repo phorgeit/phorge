@@ -4,8 +4,8 @@
 // allow DifferentialTransaction to extend this class without converting
 // fully to ModularTransactions.
 
-abstract class PhabricatorModularTransaction
-  extends PhabricatorApplicationTransaction {
+abstract class PhorgeModularTransaction
+  extends PhorgeApplicationTransaction {
 
   private $implementation;
 
@@ -33,7 +33,7 @@ abstract class PhabricatorModularTransaction
 
     // Add core transaction types.
     $types += id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorCoreTransactionType')
+      ->setAncestorClass('PhorgeCoreTransactionType')
       ->setUniqueMethod('getTransactionTypeConstant')
       ->execute();
 
@@ -57,7 +57,7 @@ abstract class PhabricatorModularTransaction
   }
 
   protected function newFallbackModularTransactionType() {
-    return new PhabricatorCoreVoidTransaction();
+    return new PhorgeCoreVoidTransaction();
   }
 
   final public function generateOldValue($object) {
@@ -168,7 +168,7 @@ abstract class PhabricatorModularTransaction
     return parent::getColor();
   }
 
-  public function attachViewer(PhabricatorUser $viewer) {
+  public function attachViewer(PhorgeUser $viewer) {
     $this->getTransactionImplementation()->setViewer($viewer);
     return parent::attachViewer($viewer);
   }
@@ -181,7 +181,7 @@ abstract class PhabricatorModularTransaction
     return parent::hasChangeDetails();
   }
 
-  final public function renderChangeDetails(PhabricatorUser $viewer) {
+  final public function renderChangeDetails(PhorgeUser $viewer) {
     $impl = $this->getTransactionImplementation();
     $impl->setViewer($viewer);
     $view = $impl->newChangeDetailView();

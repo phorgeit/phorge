@@ -1,7 +1,7 @@
 <?php
 
 final class NuanceItemTransactionComment
-  extends PhabricatorApplicationTransactionComment {
+  extends PhorgeApplicationTransactionComment {
 
   public function getApplicationTransactionObject() {
     return new NuanceItemTransaction();

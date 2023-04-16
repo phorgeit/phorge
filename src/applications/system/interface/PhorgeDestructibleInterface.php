@@ -1,9 +1,9 @@
 <?php
 
-interface PhabricatorDestructibleInterface {
+interface PhorgeDestructibleInterface {
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine);
+    PhorgeDestructionEngine $engine);
 
 }
 
@@ -11,11 +11,11 @@ interface PhabricatorDestructibleInterface {
 // TEMPLATE IMPLEMENTATION /////////////////////////////////////////////////////
 
 
-/* -(  PhabricatorDestructibleInterface  )----------------------------------- */
+/* -(  PhorgeDestructibleInterface  )----------------------------------- */
 /*
 
   public function destroyObjectPermanently(
-    PhabricatorDestructionEngine $engine) {
+    PhorgeDestructionEngine $engine) {
 
     <<<$this->nuke();>>>
 

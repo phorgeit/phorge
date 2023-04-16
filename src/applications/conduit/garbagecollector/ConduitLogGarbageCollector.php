@@ -1,7 +1,7 @@
 <?php
 
 final class ConduitLogGarbageCollector
-  extends PhabricatorGarbageCollector {
+  extends PhorgeGarbageCollector {
 
   const COLLECTORCONST = 'conduit.logs';
 
@@ -14,7 +14,7 @@ final class ConduitLogGarbageCollector
   }
 
   protected function collectGarbage() {
-    $table = new PhabricatorConduitMethodCallLog();
+    $table = new PhorgeConduitMethodCallLog();
     $conn_w = $table->establishConnection('w');
 
     queryfx(

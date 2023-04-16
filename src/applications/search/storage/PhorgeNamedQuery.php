@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorNamedQuery extends PhabricatorSearchDAO
-  implements PhabricatorPolicyInterface {
+final class PhorgeNamedQuery extends PhorgeSearchDAO
+  implements PhorgePolicyInterface {
 
   protected $queryKey;
   protected $queryName;
@@ -58,30 +58,30 @@ final class PhabricatorNamedQuery extends PhabricatorSearchDAO
       ->addInt($this->getID());
   }
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::POLICY_NOONE;
+    return PhorgePolicies::POLICY_NOONE;
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     if ($viewer->getPHID() == $this->getUserPHID()) {
       return true;
     }
 
     if ($this->isGlobal()) {
       switch ($capability) {
-        case PhabricatorPolicyCapability::CAN_VIEW:
+        case PhorgePolicyCapability::CAN_VIEW:
           return true;
-        case PhabricatorPolicyCapability::CAN_EDIT:
+        case PhorgePolicyCapability::CAN_EDIT:
           return $viewer->getIsAdmin();
       }
     }

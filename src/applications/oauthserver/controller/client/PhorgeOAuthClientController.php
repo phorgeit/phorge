@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorOAuthClientController
-  extends PhabricatorOAuthServerController {
+abstract class PhorgeOAuthClientController
+  extends PhorgeOAuthServerController {
 
   private $clientPHID;
 
@@ -28,7 +28,7 @@ abstract class PhabricatorOAuthClientController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorOAuthServerClientSearchEngine())
+    id(new PhorgeOAuthServerClientSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

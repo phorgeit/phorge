@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorDiffusionApplication extends PhabricatorApplication {
+final class PhorgeDiffusionApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Diffusion');
@@ -18,19 +18,19 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
     return 'fa-code';
   }
 
-  public function isPinnedByDefault(PhabricatorUser $viewer) {
+  public function isPinnedByDefault(PhorgeUser $viewer) {
     return true;
   }
 
-  public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
+  public function getHelpDocumentationArticles(PhorgeUser $viewer) {
     return array(
       array(
         'name' => pht('Diffusion User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Diffusion User Guide'),
+        'href' => PhorgeEnv::getDoclink('Diffusion User Guide'),
       ),
       array(
         'name' => pht('Audit User Guide'),
-        'href' => PhabricatorEnv::getDoclink('Audit User Guide'),
+        'href' => PhorgeEnv::getDoclink('Audit User Guide'),
       ),
     );
   }
@@ -169,19 +169,19 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
   protected function getCustomCapabilities() {
     return array(
       DiffusionDefaultViewCapability::CAPABILITY => array(
-        'template' => PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'template' => PhorgeRepositoryRepositoryPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
       ),
       DiffusionDefaultEditCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
-        'template' => PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'default' => PhorgePolicies::POLICY_ADMIN,
+        'template' => PhorgeRepositoryRepositoryPHIDType::TYPECONST,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
       ),
       DiffusionDefaultPushCapability::CAPABILITY => array(
-        'template' => PhabricatorRepositoryRepositoryPHIDType::TYPECONST,
+        'template' => PhorgeRepositoryRepositoryPHIDType::TYPECONST,
       ),
       DiffusionCreateRepositoriesCapability::CAPABILITY => array(
-        'default' => PhabricatorPolicies::POLICY_ADMIN,
+        'default' => PhorgePolicies::POLICY_ADMIN,
       ),
     );
   }
@@ -191,7 +191,7 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
       'commit' => array(
         'name' => pht('Email Commands: Commits'),
         'header' => pht('Interacting with Commits'),
-        'object' => new PhabricatorRepositoryCommit(),
+        'object' => new PhorgeRepositoryCommit(),
         'summary' => pht(
           'This page documents the commands you can use to interact with '.
           'commits and audits in Diffusion.'),
@@ -201,7 +201,7 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
 
   public function getApplicationSearchDocumentTypes() {
     return array(
-      PhabricatorRepositoryCommitPHIDType::TYPECONST,
+      PhorgeRepositoryCommitPHIDType::TYPECONST,
     );
   }
 

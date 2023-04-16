@@ -99,15 +99,15 @@ final class PhortuneMerchantDetailsController
     $viewer = $this->getRequest()->getUser();
     $id = $merchant->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $merchant,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $curtain = $this->newCurtainView($merchant);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Merchant'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -115,7 +115,7 @@ final class PhortuneMerchantDetailsController
         ->setHref($this->getApplicationURI("merchant/edit/{$id}/")));
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Logo'))
         ->setIcon('fa-picture-o')
         ->setDisabled(!$can_edit)

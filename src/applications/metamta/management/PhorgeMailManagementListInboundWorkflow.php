@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorMailManagementListInboundWorkflow
-  extends PhabricatorMailManagementWorkflow {
+final class PhorgeMailManagementListInboundWorkflow
+  extends PhorgeMailManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -25,7 +25,7 @@ final class PhabricatorMailManagementListInboundWorkflow
     $console = PhutilConsole::getConsole();
     $viewer = $this->getViewer();
 
-    $mails = id(new PhabricatorMetaMTAReceivedMail())->loadAllWhere(
+    $mails = id(new PhorgeMetaMTAReceivedMail())->loadAllWhere(
       '1 = 1 ORDER BY id DESC LIMIT %d',
       $args->getArg('limit'));
 
@@ -37,7 +37,7 @@ final class PhabricatorMailManagementListInboundWorkflow
     $phids = array_merge(
       mpull($mails, 'getRelatedPHID'),
       mpull($mails, 'getAuthorPHID'));
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($phids)
       ->execute();

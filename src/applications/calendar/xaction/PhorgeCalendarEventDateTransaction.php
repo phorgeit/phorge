@@ -1,7 +1,7 @@
 <?php
 
-abstract class PhabricatorCalendarEventDateTransaction
-  extends PhabricatorCalendarEventTransactionType {
+abstract class PhorgeCalendarEventDateTransaction
+  extends PhorgeCalendarEventTransactionType {
 
   abstract protected function getInvalidDateMessage();
 

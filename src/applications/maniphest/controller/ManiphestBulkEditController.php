@@ -15,7 +15,7 @@ final class ManiphestBulkEditController extends ManiphestController {
 
     $board_id = $request->getInt('board');
     if ($board_id) {
-      $project = id(new PhabricatorProjectQuery())
+      $project = id(new PhorgeProjectQuery())
         ->setViewer($viewer)
         ->withIDs(array($board_id))
         ->executeOne();

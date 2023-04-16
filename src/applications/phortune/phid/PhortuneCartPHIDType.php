@@ -1,6 +1,6 @@
 <?php
 
-final class PhortuneCartPHIDType extends PhabricatorPHIDType {
+final class PhortuneCartPHIDType extends PhorgePHIDType {
 
   const TYPECONST = 'CART';
 
@@ -13,11 +13,11 @@ final class PhortuneCartPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return 'PhorgePhortuneApplication';
   }
 
   protected function buildQueryForObjects(
-    PhabricatorObjectQuery $query,
+    PhorgeObjectQuery $query,
     array $phids) {
 
     return id(new PhortuneCartQuery())
@@ -25,7 +25,7 @@ final class PhortuneCartPHIDType extends PhabricatorPHIDType {
   }
 
   public function loadHandles(
-    PhabricatorHandleQuery $query,
+    PhorgeHandleQuery $query,
     array $handles,
     array $objects) {
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorDashboardPortalNameTransaction
-  extends PhabricatorDashboardPortalTransactionType {
+final class PhorgeDashboardPortalNameTransaction
+  extends PhorgeDashboardPortalTransactionType {
 
   const TRANSACTIONTYPE = 'name';
 

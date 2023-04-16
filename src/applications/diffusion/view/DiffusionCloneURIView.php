@@ -7,7 +7,7 @@ final class DiffusionCloneURIView extends AphrontView {
   private $repositoryURI;
   private $displayURI;
 
-  public function setRepository(PhabricatorRepository $repository) {
+  public function setRepository(PhorgeRepository $repository) {
     $this->repository = $repository;
     return $this;
   }
@@ -16,7 +16,7 @@ final class DiffusionCloneURIView extends AphrontView {
     return $this->repository;
   }
 
-  public function setRepositoryURI(PhabricatorRepositoryURI $repository_uri) {
+  public function setRepositoryURI(PhorgeRepositoryURI $repository_uri) {
     $this->repositoryURI = $repository_uri;
     return $this;
   }
@@ -57,11 +57,11 @@ final class DiffusionCloneURIView extends AphrontView {
 
     $uri = $this->getRepositoryURI();
     switch ($uri->getEffectiveIOType()) {
-      case PhabricatorRepositoryURI::IO_READ:
+      case PhorgeRepositoryURI::IO_READ:
         $io_icon = 'fa-eye';
         $io_tip = pht('Read-Only');
         break;
-      case PhabricatorRepositoryURI::IO_READWRITE:
+      case PhorgeRepositoryURI::IO_READWRITE:
         $io_icon = 'fa-download';
         $io_tip = pht('Read / Write');
         break;
@@ -85,11 +85,11 @@ final class DiffusionCloneURIView extends AphrontView {
         ));
 
     switch ($uri->getEffectiveIOType()) {
-      case PhabricatorRepositoryURI::IO_READ:
-      case PhabricatorRepositoryURI::IO_READWRITE:
+      case PhorgeRepositoryURI::IO_READ:
+      case PhorgeRepositoryURI::IO_READWRITE:
         switch ($uri->getBuiltinProtocol()) {
-          case PhabricatorRepositoryURI::BUILTIN_PROTOCOL_SSH:
-            $auth_uri = id(new PhabricatorSSHKeysSettingsPanel())
+          case PhorgeRepositoryURI::BUILTIN_PROTOCOL_SSH:
+            $auth_uri = id(new PhorgeSSHKeysSettingsPanel())
               ->setViewer($viewer)
               ->setUser($viewer)
               ->getPanelURI();

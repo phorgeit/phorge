@@ -64,7 +64,7 @@ final class PhamePostListView extends AphrontTagView {
     foreach ($posts as $post) {
       $blogger_name = $handles[$post->getBloggerPHID()]->getName();
       $blogger_uri = $handles[$post->getBloggerPHID()]->getURI();
-      $blogger_uri = PhabricatorEnv::getURI($blogger_uri);
+      $blogger_uri = PhorgeEnv::getURI($blogger_uri);
 
       // Render a link manually to make sure we point at the correct domain.
       $blogger = phutil_tag(
@@ -79,7 +79,7 @@ final class PhamePostListView extends AphrontTagView {
 
       $phame_post = null;
       if ($post->getBody()) {
-        $phame_post = PhabricatorMarkupEngine::summarize($post->getBody());
+        $phame_post = PhorgeMarkupEngine::summarize($post->getBody());
         $phame_post = new PHUIRemarkupView($viewer, $phame_post);
       } else {
         $phame_post = phutil_tag('em', array(), pht('(Empty Post)'));

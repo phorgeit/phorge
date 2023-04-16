@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorMetaMTAMailListController
-  extends PhabricatorMetaMTAController {
+final class PhorgeMetaMTAMailListController
+  extends PhorgeMetaMTAController {
 
   public function handleRequest(AphrontRequest $request) {
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($request->getURIData('queryKey'))
-      ->setSearchEngine(new PhabricatorMetaMTAMailSearchEngine())
+      ->setSearchEngine(new PhorgeMetaMTAMailSearchEngine())
       ->setNavigation($this->buildSideNav());
 
     return $this->delegateToController($controller);
@@ -18,7 +18,7 @@ final class PhabricatorMetaMTAMailListController
     $nav = new AphrontSideNavFilterView();
     $nav->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
-    id(new PhabricatorMetaMTAMailSearchEngine())
+    id(new PhorgeMetaMTAMailSearchEngine())
       ->setViewer($user)
       ->addNavigationItems($nav->getMenu());
 

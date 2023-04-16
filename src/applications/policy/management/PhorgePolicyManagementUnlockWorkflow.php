@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyManagementUnlockWorkflow
-  extends PhabricatorPolicyManagementWorkflow {
+final class PhorgePolicyManagementUnlockWorkflow
+  extends PhorgePolicyManagementWorkflow {
 
   protected function didConstruct() {
     $this
@@ -61,7 +61,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
 
     $object_name = head($object_names);
 
-    $object = id(new PhabricatorObjectQuery())
+    $object = id(new PhorgeObjectQuery())
       ->setViewer($viewer)
       ->withNames(array($object_name))
       ->executeOne();
@@ -83,7 +83,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
           'or "--owner".'));
     }
 
-    $handle = id(new PhabricatorHandleQuery())
+    $handle = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($object->getPHID()))
       ->executeOne();
@@ -93,7 +93,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
       pht('UNLOCKING'),
       pht('Unlocking: %s', $handle->getFullName()));
 
-    $engine = PhabricatorUnlockEngine::newUnlockEngineForObject($object);
+    $engine = PhorgeUnlockEngine::newUnlockEngineForObject($object);
 
     $xactions = array();
     if ($view_user) {
@@ -107,7 +107,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
     }
     $xactions = array_mergev($xactions);
 
-    $policy_application = new PhabricatorPolicyApplication();
+    $policy_application = new PhorgePolicyApplication();
     $content_source = $this->newContentSource();
 
     $editor = $object->getApplicationTransactionEditor()
@@ -129,7 +129,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
       echo tsprintf(
         "\n        **%s**: __%s__\n\n",
         pht('Object URI'),
-        PhabricatorEnv::getURI($uri));
+        PhorgeEnv::getURI($uri));
     }
 
     return 0;
@@ -142,7 +142,7 @@ final class PhabricatorPolicyManagementUnlockWorkflow
       return null;
     }
 
-    $user = id(new PhabricatorPeopleQuery())
+    $user = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withUsernames(array($username))
       ->executeOne();

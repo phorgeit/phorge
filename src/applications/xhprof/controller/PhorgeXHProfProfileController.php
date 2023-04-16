@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorXHProfProfileController
-  extends PhabricatorXHProfController {
+final class PhorgeXHProfProfileController
+  extends PhorgeXHProfController {
 
   public function shouldAllowPublic() {
     return true;
@@ -10,7 +10,7 @@ final class PhabricatorXHProfProfileController
   public function handleRequest(AphrontRequest $request) {
     $phid = $request->getURIData('phid');
 
-    $file = id(new PhabricatorFileQuery())
+    $file = id(new PhorgeFileQuery())
       ->setViewer($request->getUser())
       ->withPHIDs(array($phid))
       ->executeOne();
@@ -32,10 +32,10 @@ final class PhabricatorXHProfProfileController
     $is_framed = $request->getBool('frame');
 
     if ($symbol) {
-      $view = new PhabricatorXHProfProfileSymbolView();
+      $view = new PhorgeXHProfProfileSymbolView();
       $view->setSymbol($symbol);
     } else {
-      $view = new PhabricatorXHProfProfileTopLevelView();
+      $view = new PhorgeXHProfProfileTopLevelView();
       $view->setFile($file);
       $view->setLimit(100);
     }

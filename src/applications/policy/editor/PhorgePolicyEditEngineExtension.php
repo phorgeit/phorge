@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPolicyEditEngineExtension
-  extends PhabricatorEditEngineExtension {
+final class PhorgePolicyEditEngineExtension
+  extends PhorgeEditEngineExtension {
 
   const EXTENSIONKEY = 'policy.policy';
 
@@ -18,14 +18,14 @@ final class PhabricatorPolicyEditEngineExtension
   }
 
   public function supportsObject(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
-    return ($object instanceof PhabricatorPolicyInterface);
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
+    return ($object instanceof PhorgePolicyInterface);
   }
 
   public function buildCustomEditFields(
-    PhabricatorEditEngine $engine,
-    PhabricatorApplicationTransactionInterface $object) {
+    PhorgeEditEngine $engine,
+    PhorgeApplicationTransactionInterface $object) {
 
     $viewer = $engine->getViewer();
 
@@ -33,43 +33,43 @@ final class PhabricatorPolicyEditEngineExtension
     $types = $editor->getTransactionTypesForObject($object);
     $types = array_fuse($types);
 
-    $policies = id(new PhabricatorPolicyQuery())
+    $policies = id(new PhorgePolicyQuery())
       ->setViewer($viewer)
       ->setObject($object)
       ->execute();
 
     $map = array(
-      PhabricatorTransactions::TYPE_VIEW_POLICY => array(
+      PhorgeTransactions::TYPE_VIEW_POLICY => array(
         'key' => 'policy.view',
         'aliases' => array('view'),
-        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+        'capability' => PhorgePolicyCapability::CAN_VIEW,
         'label' => pht('View Policy'),
         'description' => pht('Controls who can view the object.'),
         'description.conduit' => pht('Change the view policy of the object.'),
         'edit' => 'view',
       ),
-      PhabricatorTransactions::TYPE_EDIT_POLICY => array(
+      PhorgeTransactions::TYPE_EDIT_POLICY => array(
         'key' => 'policy.edit',
         'aliases' => array('edit'),
-        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+        'capability' => PhorgePolicyCapability::CAN_EDIT,
         'label' => pht('Edit Policy'),
         'description' => pht('Controls who can edit the object.'),
         'description.conduit' => pht('Change the edit policy of the object.'),
         'edit' => 'edit',
       ),
-      PhabricatorTransactions::TYPE_JOIN_POLICY => array(
+      PhorgeTransactions::TYPE_JOIN_POLICY => array(
         'key' => 'policy.join',
         'aliases' => array('join'),
-        'capability' => PhabricatorPolicyCapability::CAN_JOIN,
+        'capability' => PhorgePolicyCapability::CAN_JOIN,
         'label' => pht('Join Policy'),
         'description' => pht('Controls who can join the object.'),
         'description.conduit' => pht('Change the join policy of the object.'),
         'edit' => 'join',
       ),
-      PhabricatorTransactions::TYPE_INTERACT_POLICY => array(
+      PhorgeTransactions::TYPE_INTERACT_POLICY => array(
         'key' => 'policy.interact',
         'aliases' => array('interact'),
-        'capability' => PhabricatorPolicyCapability::CAN_INTERACT,
+        'capability' => PhorgePolicyCapability::CAN_INTERACT,
         'label' => pht('Interact Policy'),
         'description' => pht('Controls who can interact with the object.'),
         'description.conduit'
@@ -78,8 +78,8 @@ final class PhabricatorPolicyEditEngineExtension
       ),
     );
 
-    if ($object instanceof PhabricatorPolicyCodexInterface) {
-      $codex = PhabricatorPolicyCodex::newFromObject(
+    if ($object instanceof PhorgePolicyCodexInterface) {
+      $codex = PhorgePolicyCodex::newFromObject(
         $object,
         $viewer);
     } else {
@@ -112,7 +112,7 @@ final class PhabricatorPolicyEditEngineExtension
         $policy_value = $object->getPolicy($capability);
       }
 
-      $policy_field = id(new PhabricatorPolicyEditField())
+      $policy_field = id(new PhorgePolicyEditField())
         ->setKey($key)
         ->setLabel($label)
         ->setAliases($aliases)
@@ -127,14 +127,14 @@ final class PhabricatorPolicyEditEngineExtension
         ->setValue($policy_value);
       $fields[] = $policy_field;
 
-      if ($object instanceof PhabricatorSpacesInterface) {
-        if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
-          $type_space = PhabricatorTransactions::TYPE_SPACE;
+      if ($object instanceof PhorgeSpacesInterface) {
+        if ($capability == PhorgePolicyCapability::CAN_VIEW) {
+          $type_space = PhorgeTransactions::TYPE_SPACE;
           if (isset($types[$type_space])) {
-            $space_phid = PhabricatorSpacesNamespaceQuery::getObjectSpacePHID(
+            $space_phid = PhorgeSpacesNamespaceQuery::getObjectSpacePHID(
               $object);
 
-            $space_field = id(new PhabricatorSpaceEditField())
+            $space_field = id(new PhorgeSpaceEditField())
               ->setKey('spacePHID')
               ->setLabel(pht('Space'))
               ->setEditTypeKey('space')

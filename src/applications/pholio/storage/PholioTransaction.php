@@ -1,6 +1,6 @@
 <?php
 
-final class PholioTransaction extends PhabricatorModularTransaction {
+final class PholioTransaction extends PhorgeModularTransaction {
 
   const MAILTAG_STATUS            = 'pholio-status';
   const MAILTAG_COMMENT           = 'pholio-comment';
@@ -27,7 +27,7 @@ final class PholioTransaction extends PhabricatorModularTransaction {
     $tags = array();
     switch ($this->getTransactionType()) {
       case PholioMockInlineTransaction::TRANSACTIONTYPE:
-      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhorgeTransactions::TYPE_COMMENT:
         $tags[] = self::MAILTAG_COMMENT;
         break;
       case PholioMockStatusTransaction::TRANSACTIONTYPE:

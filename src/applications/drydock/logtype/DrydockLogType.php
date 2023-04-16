@@ -10,7 +10,7 @@ abstract class DrydockLogType extends Phobject {
   abstract public function getLogTypeIcon(array $data);
   abstract public function renderLog(array $data);
 
-  final public function setViewer(PhabricatorUser $viewer) {
+  final public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }

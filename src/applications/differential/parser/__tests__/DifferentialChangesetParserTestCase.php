@@ -1,6 +1,6 @@
 <?php
 
-final class DifferentialChangesetParserTestCase extends PhabricatorTestCase {
+final class DifferentialChangesetParserTestCase extends PhorgeTestCase {
 
   public function testDiffChangesets() {
     $hunk = new DifferentialHunk();

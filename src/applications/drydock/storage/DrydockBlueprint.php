@@ -6,12 +6,12 @@
  */
 final class DrydockBlueprint extends DrydockDAO
   implements
-    PhabricatorApplicationTransactionInterface,
-    PhabricatorPolicyInterface,
-    PhabricatorCustomFieldInterface,
-    PhabricatorNgramsInterface,
-    PhabricatorProjectInterface,
-    PhabricatorConduitResultInterface {
+    PhorgeApplicationTransactionInterface,
+    PhorgePolicyInterface,
+    PhorgeCustomFieldInterface,
+    PhorgeNgramsInterface,
+    PhorgeProjectInterface,
+    PhorgeConduitResultInterface {
 
   protected $className;
   protected $blueprintName;
@@ -24,10 +24,10 @@ final class DrydockBlueprint extends DrydockDAO
   private $customFields = self::ATTACHABLE;
   private $fields = null;
 
-  public static function initializeNewBlueprint(PhabricatorUser $actor) {
-    $app = id(new PhabricatorApplicationQuery())
+  public static function initializeNewBlueprint(PhorgeUser $actor) {
+    $app = id(new PhorgeApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDrydockApplication'))
+      ->withClasses(array('PhorgeDrydockApplication'))
       ->executeOne();
 
     $view_policy = $app->getPolicy(
@@ -57,7 +57,7 @@ final class DrydockBlueprint extends DrydockDAO
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       DrydockBlueprintPHIDType::TYPECONST);
   }
 
@@ -100,9 +100,9 @@ final class DrydockBlueprint extends DrydockDAO
 
   private function loadCustomFields() {
     if ($this->fields === null) {
-      $field_list = PhabricatorCustomField::getObjectFields(
+      $field_list = PhorgeCustomField::getObjectFields(
         $this,
-        PhabricatorCustomField::ROLE_VIEW);
+        PhorgeCustomField::ROLE_VIEW);
       $field_list->readFieldsFromStorage($this);
 
       $this->fields = $field_list->getFields();
@@ -112,7 +112,7 @@ final class DrydockBlueprint extends DrydockDAO
 
   public function logEvent($type, array $data = array()) {
     $log = id(new DrydockLog())
-      ->setEpoch(PhabricatorTime::getNow())
+      ->setEpoch(PhorgeTime::getNow())
       ->setType($type)
       ->setData($data);
 
@@ -288,7 +288,7 @@ final class DrydockBlueprint extends DrydockDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {
@@ -300,31 +300,31 @@ final class DrydockBlueprint extends DrydockDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
   public function getPolicy($capability) {
     switch ($capability) {
-      case PhabricatorPolicyCapability::CAN_VIEW:
+      case PhorgePolicyCapability::CAN_VIEW:
         return $this->getViewPolicy();
-      case PhabricatorPolicyCapability::CAN_EDIT:
+      case PhorgePolicyCapability::CAN_EDIT:
         return $this->getEditPolicy();
     }
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return false;
   }
 
 
-/* -(  PhabricatorCustomFieldInterface  )------------------------------------ */
+/* -(  PhorgeCustomFieldInterface  )------------------------------------ */
 
 
   public function getCustomFieldSpecificationForRole($role) {
@@ -339,13 +339,13 @@ final class DrydockBlueprint extends DrydockDAO
     return $this->assertAttached($this->customFields);
   }
 
-  public function attachCustomFields(PhabricatorCustomFieldAttachment $fields) {
+  public function attachCustomFields(PhorgeCustomFieldAttachment $fields) {
     $this->customFields = $fields;
     return $this;
   }
 
 
-/* -(  PhabricatorNgramsInterface  )----------------------------------------- */
+/* -(  PhorgeNgramsInterface  )----------------------------------------- */
 
 
   public function newNgrams() {
@@ -356,16 +356,16 @@ final class DrydockBlueprint extends DrydockDAO
   }
 
 
-/* -(  PhabricatorConduitResultInterface  )---------------------------------- */
+/* -(  PhorgeConduitResultInterface  )---------------------------------- */
 
 
   public function getFieldSpecificationsForConduit() {
     return array(
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('name')
         ->setType('string')
         ->setDescription(pht('The name of this blueprint.')),
-      id(new PhabricatorConduitSearchFieldSpecification())
+      id(new PhorgeConduitSearchFieldSpecification())
         ->setKey('type')
         ->setType('string')
         ->setDescription(pht('The type of resource this blueprint provides.')),

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorClientRateLimit
-  extends PhabricatorClientLimit {
+final class PhorgeClientRateLimit
+  extends PhorgeClientLimit {
 
   protected function getBucketDuration() {
     return 60;

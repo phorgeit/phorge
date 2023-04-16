@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorMailOutboundStatus
+final class PhorgeMailOutboundStatus
   extends Phobject {
 
   const STATUS_QUEUE = 'queued';

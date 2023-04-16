@@ -26,7 +26,7 @@ final class DrydockResourceListController extends DrydockResourceController {
 
     $querykey = $request->getURIData('queryKey');
 
-    $controller = id(new PhabricatorApplicationSearchController())
+    $controller = id(new PhorgeApplicationSearchController())
       ->setQueryKey($querykey)
       ->setSearchEngine($engine)
       ->setNavigation($this->buildSideNavView());

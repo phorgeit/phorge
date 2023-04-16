@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorUsersPolicyRule extends PhabricatorPolicyRule {
+final class PhorgeUsersPolicyRule extends PhorgePolicyRule {
 
   public function getRuleDescription() {
     return pht('users');
   }
 
   public function applyRule(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     $value,
-    PhabricatorPolicyInterface $object) {
+    PhorgePolicyInterface $object) {
 
     foreach ($value as $phid) {
       if ($phid == $viewer->getPHID()) {
@@ -25,7 +25,7 @@ final class PhabricatorUsersPolicyRule extends PhabricatorPolicyRule {
   }
 
   public function getValueControlTemplate() {
-    return $this->getDatasourceTemplate(new PhabricatorPeopleDatasource());
+    return $this->getDatasourceTemplate(new PhorgePeopleDatasource());
   }
 
   public function getRuleOrder() {
@@ -37,12 +37,12 @@ final class PhabricatorUsersPolicyRule extends PhabricatorPolicyRule {
     return array_values($value);
   }
 
-  public function getValueForDisplay(PhabricatorUser $viewer, $value) {
+  public function getValueForDisplay(PhorgeUser $viewer, $value) {
     if (!$value) {
       return array();
     }
 
-    $handles = id(new PhabricatorHandleQuery())
+    $handles = id(new PhorgeHandleQuery())
       ->setViewer($viewer)
       ->withPHIDs($value)
       ->execute();

@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorInfrastructureTestCase extends PhabricatorTestCase {
+final class PhorgeInfrastructureTestCase extends PhorgeTestCase {
 
-  protected function getPhabricatorTestCaseConfiguration() {
+  protected function getPhorgeTestCaseConfiguration() {
     return array(
       self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 
   public function testApplicationsInstalled() {
-    $all = PhabricatorApplication::getAllApplications();
-    $installed = PhabricatorApplication::getAllInstalledApplications();
+    $all = PhorgeApplication::getAllApplications();
+    $installed = PhorgeApplication::getAllInstalledApplications();
 
     $this->assertEqual(
       count($all),

@@ -6,7 +6,7 @@ final class FundBackerProduct extends PhortuneProductImplementation {
   private $initiative;
   private $viewer;
 
-  public function setViewer(PhabricatorUser $viewer) {
+  public function setViewer(PhorgeUser $viewer) {
     $this->viewer = $viewer;
     return $this;
   }
@@ -55,7 +55,7 @@ final class FundBackerProduct extends PhortuneProductImplementation {
   }
 
   public function loadImplementationsForRefs(
-    PhabricatorUser $viewer,
+    PhorgeUser $viewer,
     array $refs) {
 
     $initiatives = id(new FundInitiativeQuery())
@@ -98,7 +98,7 @@ final class FundBackerProduct extends PhortuneProductImplementation {
     // product purchase is completing from a background worker or a merchant
     // action.
 
-    $actor = id(new PhabricatorPeopleQuery())
+    $actor = id(new PhorgePeopleQuery())
       ->setViewer($viewer)
       ->withPHIDs(array($backer->getBackerPHID()))
       ->executeOne();

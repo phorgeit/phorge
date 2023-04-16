@@ -2,8 +2,8 @@
 
 final class PhortunePaymentProviderConfig extends PhortuneDAO
   implements
-    PhabricatorPolicyInterface,
-    PhabricatorApplicationTransactionInterface {
+    PhorgePolicyInterface,
+    PhorgeApplicationTransactionInterface {
 
   protected $merchantPHID;
   protected $providerClassKey;
@@ -42,14 +42,14 @@ final class PhortunePaymentProviderConfig extends PhortuneDAO
   }
 
   public function save() {
-    $this->providerClassKey = PhabricatorHash::digestForIndex(
+    $this->providerClassKey = PhorgeHash::digestForIndex(
       $this->providerClass);
 
     return parent::save();
   }
 
   public function generatePHID() {
-    return PhabricatorPHID::generateNewPHID(
+    return PhorgePHID::generateNewPHID(
       PhortunePaymentProviderPHIDType::TYPECONST);
   }
 
@@ -88,13 +88,13 @@ final class PhortunePaymentProviderConfig extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorPolicyInterface  )----------------------------------------- */
+/* -(  PhorgePolicyInterface  )----------------------------------------- */
 
 
   public function getCapabilities() {
     return array(
-      PhabricatorPolicyCapability::CAN_VIEW,
-      PhabricatorPolicyCapability::CAN_EDIT,
+      PhorgePolicyCapability::CAN_VIEW,
+      PhorgePolicyCapability::CAN_EDIT,
     );
   }
 
@@ -102,7 +102,7 @@ final class PhortunePaymentProviderConfig extends PhortuneDAO
     return $this->getMerchant()->getPolicy($capability);
   }
 
-  public function hasAutomaticCapability($capability, PhabricatorUser $viewer) {
+  public function hasAutomaticCapability($capability, PhorgeUser $viewer) {
     return $this->getMerchant()->hasAutomaticCapability($capability, $viewer);
   }
 
@@ -111,7 +111,7 @@ final class PhortunePaymentProviderConfig extends PhortuneDAO
   }
 
 
-/* -(  PhabricatorApplicationTransactionInterface  )------------------------- */
+/* -(  PhorgeApplicationTransactionInterface  )------------------------- */
 
 
   public function getApplicationTransactionEditor() {

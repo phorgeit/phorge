@@ -1,10 +1,10 @@
 <?php
 
-final class PhabricatorCountdownEditor
-  extends PhabricatorApplicationTransactionEditor {
+final class PhorgeCountdownEditor
+  extends PhorgeApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return 'PhorgeCountdownApplication';
   }
 
   public function getEditorObjectsDescription() {
@@ -14,42 +14,42 @@ final class PhabricatorCountdownEditor
   public function getTransactionTypes() {
     $types = parent::getTransactionTypes();
 
-    $types[] = PhabricatorTransactions::TYPE_EDGE;
-    $types[] = PhabricatorTransactions::TYPE_SPACE;
-    $types[] = PhabricatorTransactions::TYPE_VIEW_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_EDIT_POLICY;
-    $types[] = PhabricatorTransactions::TYPE_COMMENT;
+    $types[] = PhorgeTransactions::TYPE_EDGE;
+    $types[] = PhorgeTransactions::TYPE_SPACE;
+    $types[] = PhorgeTransactions::TYPE_VIEW_POLICY;
+    $types[] = PhorgeTransactions::TYPE_EDIT_POLICY;
+    $types[] = PhorgeTransactions::TYPE_COMMENT;
 
     return $types;
   }
 
   protected function shouldSendMail(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }
 
   public function getMailTagsMap() {
     return array(
-      PhabricatorCountdownTransaction::MAILTAG_DETAILS =>
+      PhorgeCountdownTransaction::MAILTAG_DETAILS =>
         pht('Someone changes the countdown details.'),
-      PhabricatorCountdownTransaction::MAILTAG_COMMENT =>
+      PhorgeCountdownTransaction::MAILTAG_COMMENT =>
         pht('Someone comments on a countdown.'),
-      PhabricatorCountdownTransaction::MAILTAG_OTHER =>
+      PhorgeCountdownTransaction::MAILTAG_OTHER =>
         pht('Other countdown activity not listed above occurs.'),
     );
   }
 
-  protected function buildMailTemplate(PhabricatorLiskDAO $object) {
+  protected function buildMailTemplate(PhorgeLiskDAO $object) {
     $monogram = $object->getMonogram();
     $name = $object->getTitle();
 
-    return id(new PhabricatorMetaMTAMail())
+    return id(new PhorgeMetaMTAMail())
       ->setSubject("{$monogram}: {$name}");
   }
 
   protected function buildMailBody(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
 
     $body = parent::buildMailBody($object, $xactions);
@@ -63,12 +63,12 @@ final class PhabricatorCountdownEditor
 
     $body->addLinkSection(
       pht('COUNTDOWN DETAIL'),
-      PhabricatorEnv::getProductionURI('/'.$object->getMonogram()));
+      PhorgeEnv::getProductionURI('/'.$object->getMonogram()));
 
     return $body;
   }
 
-  protected function getMailTo(PhabricatorLiskDAO $object) {
+  protected function getMailTo(PhorgeLiskDAO $object) {
     return array(
       $object->getAuthorPHID(),
       $this->requireActor()->getPHID(),
@@ -78,13 +78,13 @@ final class PhabricatorCountdownEditor
     return '[Countdown]';
   }
 
-  protected function buildReplyHandler(PhabricatorLiskDAO $object) {
-    return id(new PhabricatorCountdownReplyHandler())
+  protected function buildReplyHandler(PhorgeLiskDAO $object) {
+    return id(new PhorgeCountdownReplyHandler())
       ->setMailReceiver($object);
   }
 
   protected function shouldPublishFeedStory(
-    PhabricatorLiskDAO $object,
+    PhorgeLiskDAO $object,
     array $xactions) {
     return true;
   }

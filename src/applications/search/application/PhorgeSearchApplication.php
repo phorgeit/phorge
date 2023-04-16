@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchApplication extends PhabricatorApplication {
+final class PhorgeSearchApplication extends PhorgeApplication {
 
   public function getBaseURI() {
     return '/search/';
@@ -29,28 +29,28 @@ final class PhabricatorSearchApplication extends PhabricatorApplication {
   public function getRoutes() {
     return array(
       '/search/' => array(
-        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhabricatorSearchController',
+        '(?:query/(?P<queryKey>[^/]+)/)?' => 'PhorgeSearchController',
         'hovercard/'
-          => 'PhabricatorSearchHovercardController',
+          => 'PhorgeSearchHovercardController',
         'handle/(?P<phid>[^/]+)/'
-          => 'PhabricatorSearchHandleController',
+          => 'PhorgeSearchHandleController',
         'edit/' => array(
-          'key/(?P<queryKey>[^/]+)/' => 'PhabricatorSearchEditController',
-          'id/(?P<id>[^/]+)/' => 'PhabricatorSearchEditController',
+          'key/(?P<queryKey>[^/]+)/' => 'PhorgeSearchEditController',
+          'id/(?P<id>[^/]+)/' => 'PhorgeSearchEditController',
         ),
         'default/(?P<queryKey>[^/]+)/(?P<engine>[^/]+)/'
-          => 'PhabricatorSearchDefaultController',
+          => 'PhorgeSearchDefaultController',
         'delete/' => array(
           'key/(?P<queryKey>[^/]+)/(?P<engine>[^/]+)/'
-            => 'PhabricatorSearchDeleteController',
+            => 'PhorgeSearchDeleteController',
           'id/(?P<id>[^/]+)/'
-            => 'PhabricatorSearchDeleteController',
+            => 'PhorgeSearchDeleteController',
         ),
-        'order/(?P<engine>[^/]+)/' => 'PhabricatorSearchOrderController',
+        'order/(?P<engine>[^/]+)/' => 'PhorgeSearchOrderController',
         'rel/(?P<relationshipKey>[^/]+)/(?P<sourcePHID>[^/]+)/'
-          => 'PhabricatorSearchRelationshipController',
+          => 'PhorgeSearchRelationshipController',
         'source/(?P<relationshipKey>[^/]+)/(?P<sourcePHID>[^/]+)/'
-          => 'PhabricatorSearchRelationshipSourceController',
+          => 'PhorgeSearchRelationshipSourceController',
       ),
     );
   }

@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSubscriptionsApplication extends PhabricatorApplication {
+final class PhorgeSubscriptionsApplication extends PhorgeApplication {
 
   public function getName() {
     return pht('Subscriptions');
@@ -16,7 +16,7 @@ final class PhabricatorSubscriptionsApplication extends PhabricatorApplication {
 
   public function getEventListeners() {
     return array(
-      new PhabricatorSubscriptionsUIEventListener(),
+      new PhorgeSubscriptionsUIEventListener(),
     );
   }
 
@@ -24,13 +24,13 @@ final class PhabricatorSubscriptionsApplication extends PhabricatorApplication {
     return array(
       '/subscriptions/' => array(
         '(?P<action>add|delete)/'.
-          '(?P<phid>[^/]+)/' => 'PhabricatorSubscriptionsEditController',
+          '(?P<phid>[^/]+)/' => 'PhorgeSubscriptionsEditController',
         'mute/' => array(
-          '(?P<phid>[^/]+)/' => 'PhabricatorSubscriptionsMuteController',
+          '(?P<phid>[^/]+)/' => 'PhorgeSubscriptionsMuteController',
         ),
-        'list/(?P<phid>[^/]+)/' => 'PhabricatorSubscriptionsListController',
+        'list/(?P<phid>[^/]+)/' => 'PhorgeSubscriptionsListController',
         'transaction/(?P<type>add|rem)/(?<phid>[^/]+)/'
-          => 'PhabricatorSubscriptionsTransactionController',
+          => 'PhorgeSubscriptionsTransactionController',
       ),
     );
   }

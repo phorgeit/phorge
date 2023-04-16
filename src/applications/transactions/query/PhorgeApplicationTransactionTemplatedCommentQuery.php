@@ -1,12 +1,12 @@
 <?php
 
-final class PhabricatorApplicationTransactionTemplatedCommentQuery
-  extends PhabricatorApplicationTransactionCommentQuery {
+final class PhorgeApplicationTransactionTemplatedCommentQuery
+  extends PhorgeApplicationTransactionCommentQuery {
 
   private $template;
 
   public function setTemplate(
-    PhabricatorApplicationTransactionComment $template) {
+    PhorgeApplicationTransactionComment $template) {
     $this->template = $template;
     return $this;
   }

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorPhurlURLAccessController
-  extends PhabricatorPhurlController {
+final class PhorgePhurlURLAccessController
+  extends PhorgePhurlController {
 
   public function shouldAllowPublic() {
     return true;
@@ -13,12 +13,12 @@ final class PhabricatorPhurlURLAccessController
     $alias = $request->getURIData('alias');
 
     if ($id) {
-      $url = id(new PhabricatorPhurlURLQuery())
+      $url = id(new PhorgePhurlURLQuery())
         ->setViewer($viewer)
         ->withIDs(array($id))
         ->executeOne();
     } else if ($alias) {
-      $url = id(new PhabricatorPhurlURLQuery())
+      $url = id(new PhorgePhurlURLQuery())
         ->setViewer($viewer)
         ->withAliases(array($alias))
         ->executeOne();

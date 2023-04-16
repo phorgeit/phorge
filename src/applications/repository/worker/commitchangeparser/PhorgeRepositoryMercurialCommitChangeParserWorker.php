@@ -1,11 +1,11 @@
 <?php
 
-final class PhabricatorRepositoryMercurialCommitChangeParserWorker
-  extends PhabricatorRepositoryCommitChangeParserWorker {
+final class PhorgeRepositoryMercurialCommitChangeParserWorker
+  extends PhorgeRepositoryCommitChangeParserWorker {
 
   protected function parseCommitChanges(
-    PhabricatorRepository $repository,
-    PhabricatorRepositoryCommit $commit) {
+    PhorgeRepository $repository,
+    PhorgeRepositoryCommit $commit) {
 
     list($stdout) = $repository->execxLocalCommand(
       'status -C --change %s',
@@ -265,7 +265,7 @@ final class PhabricatorRepositoryMercurialCommitChangeParserWorker
 
     $results = array();
     foreach ($changes as $change) {
-      $result = id(new PhabricatorRepositoryParsedChange())
+      $result = id(new PhorgeRepositoryParsedChange())
         ->setPathID($change['pathID'])
         ->setTargetPathID($change['targetPathID'])
         ->setTargetCommitID($change['targetCommitID'])
@@ -281,7 +281,7 @@ final class PhabricatorRepositoryMercurialCommitChangeParserWorker
   }
 
   private function mercurialPathExists(
-    PhabricatorRepository $repository,
+    PhorgeRepository $repository,
     $path,
     $rev) {
 

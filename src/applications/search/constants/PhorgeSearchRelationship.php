@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorSearchRelationship extends Phobject {
+final class PhorgeSearchRelationship extends Phobject {
 
   const RELATIONSHIP_AUTHOR     = 'auth';
   const RELATIONSHIP_BOOK       = 'book';

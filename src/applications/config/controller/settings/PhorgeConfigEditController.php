@@ -1,15 +1,15 @@
 <?php
 
-final class PhabricatorConfigEditController
-  extends PhabricatorConfigSettingsController {
+final class PhorgeConfigEditController
+  extends PhorgeConfigSettingsController {
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $key = $request->getURIData('key');
 
-    $options = PhabricatorApplicationConfigOptions::loadAllOptions();
+    $options = PhorgeApplicationConfigOptions::loadAllOptions();
     if (empty($options[$key])) {
-      $ancient = PhabricatorExtraConfigSetupCheck::getAncientConfig();
+      $ancient = PhorgeExtraConfigSetupCheck::getAncientConfig();
       if (isset($ancient[$key])) {
         $desc = pht(
           "This configuration has been removed. You can safely delete ".
@@ -24,7 +24,7 @@ final class PhabricatorConfigEditController
       // This may be a dead config entry, which existed in the past but no
       // longer exists. Allow it to be edited so it can be reviewed and
       // deleted.
-      $option = id(new PhabricatorConfigOption())
+      $option = id(new PhorgeConfigOption())
         ->setKey($key)
         ->setType('wild')
         ->setDefault(null)
@@ -45,13 +45,13 @@ final class PhabricatorConfigEditController
 
     // Check if the config key is already stored in the database.
     // Grab the value if it is.
-    $config_entry = id(new PhabricatorConfigEntry())
+    $config_entry = id(new PhorgeConfigEntry())
       ->loadOneWhere(
         'configKey = %s AND namespace = %s',
         $key,
         'default');
     if (!$config_entry) {
-      $config_entry = id(new PhabricatorConfigEntry())
+      $config_entry = id(new PhorgeConfigEntry())
         ->setConfigKey($key)
         ->setNamespace('default')
         ->setIsDeleted(true);
@@ -71,7 +71,7 @@ final class PhabricatorConfigEditController
 
       if (!$errors) {
 
-        $editor = id(new PhabricatorConfigEditor())
+        $editor = id(new PhorgeConfigEditor())
           ->setActor($viewer)
           ->setContinueOnNoEffect(true)
           ->setContentSourceFromRequest($request);
@@ -79,7 +79,7 @@ final class PhabricatorConfigEditController
         try {
           $editor->applyTransactions($config_entry, array($xaction));
           return id(new AphrontRedirectResponse())->setURI($done_uri);
-        } catch (PhabricatorConfigValidationException $ex) {
+        } catch (PhorgeConfigValidationException $ex) {
           $e_value = pht('Invalid');
           $errors[] = $ex->getMessage();
         }
@@ -105,7 +105,7 @@ final class PhabricatorConfigEditController
         ->setErrors($errors);
     }
 
-    $doc_href = PhabricatorEnv::getDoclink(
+    $doc_href = PhorgeEnv::getDoclink(
         'Configuration Guide: Locked and Hidden Configuration');
 
     $doc_link = phutil_tag(
@@ -212,7 +212,7 @@ final class PhabricatorConfigEditController
 
     $timeline = $this->buildTransactionTimeline(
       $config_entry,
-      new PhabricatorConfigTransactionQuery());
+      new PhorgeConfigTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $header = $this->buildHeaderView($title);
@@ -235,7 +235,7 @@ final class PhabricatorConfigEditController
   }
 
   private function readRequest(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     AphrontRequest $request) {
 
     $type = $option->newOptionType();
@@ -251,7 +251,7 @@ final class PhabricatorConfigEditController
             $value);
           $type->validateStoredValue($option, $canonical_value);
           $xaction = $type->newTransaction($option, $canonical_value);
-        } catch (PhabricatorConfigValidationException $ex) {
+        } catch (PhorgeConfigValidationException $ex) {
           $errors[] = $ex->getMessage();
           $xaction = null;
         } catch (Exception $ex) {
@@ -268,8 +268,8 @@ final class PhabricatorConfigEditController
           $xaction,
         );
       } else {
-        $delete_xaction = id(new PhabricatorConfigTransaction())
-          ->setTransactionType(PhabricatorConfigTransaction::TYPE_EDIT)
+        $delete_xaction = id(new PhorgeConfigTransaction())
+          ->setTransactionType(PhorgeConfigTransaction::TYPE_EDIT)
           ->setNewValue(
             array(
               'deleted' => true,
@@ -285,11 +285,11 @@ final class PhabricatorConfigEditController
       }
     }
 
-    // TODO: If we missed on the new `PhabricatorConfigType` map, fall back
+    // TODO: If we missed on the new `PhorgeConfigType` map, fall back
     // to the old semi-modular, semi-hacky way of doing things.
 
-    $xaction = new PhabricatorConfigTransaction();
-    $xaction->setTransactionType(PhabricatorConfigTransaction::TYPE_EDIT);
+    $xaction = new PhorgeConfigTransaction();
+    $xaction->setTransactionType(PhorgeConfigTransaction::TYPE_EDIT);
 
     $e_value = null;
     $errors = array();
@@ -318,8 +318,8 @@ final class PhabricatorConfigEditController
   }
 
   private function getDisplayValue(
-    PhabricatorConfigOption $option,
-    PhabricatorConfigEntry $entry,
+    PhorgeConfigOption $option,
+    PhorgeConfigEntry $entry,
     $value) {
 
     $type = $option->newOptionType();
@@ -341,7 +341,7 @@ final class PhabricatorConfigEditController
   }
 
   private function renderControls(
-    PhabricatorConfigOption $option,
+    PhorgeConfigOption $option,
     $display_value,
     $e_value) {
 
@@ -368,7 +368,7 @@ final class PhabricatorConfigEditController
     return $controls;
   }
 
-  private function renderExamples(PhabricatorConfigOption $option) {
+  private function renderExamples(PhorgeConfigOption $option) {
     $examples = $option->getExamples();
     if (!$examples) {
       return null;
@@ -409,10 +409,10 @@ final class PhabricatorConfigEditController
   }
 
   private function renderDefaults(
-    PhabricatorConfigOption $option,
-    PhabricatorConfigEntry $entry) {
+    PhorgeConfigOption $option,
+    PhorgeConfigEntry $entry) {
 
-    $stack = PhabricatorEnv::getConfigSourceStack();
+    $stack = PhorgeEnv::getConfigSourceStack();
     $stack = $stack->getStack();
 
     $table = array();

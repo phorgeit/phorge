@@ -3,11 +3,11 @@
 abstract class PHIDConduitAPIMethod extends ConduitAPIMethod {
 
   protected function buildHandleInformationDictionary(
-    PhabricatorObjectHandle $handle) {
+    PhorgeObjectHandle $handle) {
 
     return array(
       'phid'      => $handle->getPHID(),
-      'uri'       => PhabricatorEnv::getProductionURI($handle->getURI()),
+      'uri'       => PhorgeEnv::getProductionURI($handle->getURI()),
 
       'typeName'  => $handle->getTypeName(),
       'type'      => $handle->getType(),

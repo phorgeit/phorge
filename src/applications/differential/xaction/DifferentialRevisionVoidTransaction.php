@@ -26,7 +26,7 @@ final class DifferentialRevisionVoidTransaction
     $must_downgrade = $this->getMetadataValue('void.force', array());
     $must_downgrade = array_fuse($must_downgrade);
 
-    $default = PhabricatorEnv::getEnvConfig('differential.sticky-accept');
+    $default = PhorgeEnv::getEnvConfig('differential.sticky-accept');
     foreach ($reviewers as $key => $reviewer) {
       $status = $reviewer->getReviewerStatus();
 

@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorOwnersDefaultEditCapability
-  extends PhabricatorPolicyCapability {
+final class PhorgeOwnersDefaultEditCapability
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'owners.default.edit';
 

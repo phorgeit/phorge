@@ -1,7 +1,7 @@
 <?php
 
 final class PeopleCreateUsersCapability
-  extends PhabricatorPolicyCapability {
+  extends PhorgePolicyCapability {
 
   const CAPABILITY = 'people.create.users';
 

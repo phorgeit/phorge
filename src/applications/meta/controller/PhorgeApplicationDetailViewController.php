@@ -1,7 +1,7 @@
 <?php
 
-final class PhabricatorApplicationDetailViewController
-  extends PhabricatorApplicationsController {
+final class PhorgeApplicationDetailViewController
+  extends PhorgeApplicationsController {
 
 
   public function shouldAllowPublic() {
@@ -12,7 +12,7 @@ final class PhabricatorApplicationDetailViewController
     $viewer = $this->getViewer();
     $application = $request->getURIData('application');
 
-    $selected = id(new PhabricatorApplicationQuery())
+    $selected = id(new PhorgeApplicationQuery())
       ->setViewer($viewer)
       ->withClasses(array($application))
       ->executeOne();
@@ -40,7 +40,7 @@ final class PhabricatorApplicationDetailViewController
 
     $timeline = $this->buildTransactionTimeline(
       $selected,
-      new PhabricatorApplicationApplicationTransactionQuery());
+      new PhorgeApplicationApplicationTransactionQuery());
     $timeline->setShouldTerminate(true);
 
     $curtain = $this->buildCurtain($selected);
@@ -48,7 +48,7 @@ final class PhabricatorApplicationDetailViewController
     $policies = $this->buildPolicyView($selected);
 
     $configs =
-      PhabricatorApplicationConfigurationPanel::loadAllPanelsForApplication(
+      PhorgeApplicationConfigurationPanel::loadAllPanelsForApplication(
         $selected);
 
     $panels = array();
@@ -80,7 +80,7 @@ final class PhabricatorApplicationDetailViewController
   }
 
   private function buildPropertySectionView(
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
 
     $viewer = $this->getViewer();
     $properties = id(new PHUIPropertyListView());
@@ -96,7 +96,7 @@ final class PhabricatorApplicationDetailViewController
     }
 
     if ($application->isPrototype()) {
-      $proto_href = PhabricatorEnv::getDoclink(
+      $proto_href = PhorgeEnv::getDoclink(
         'User Guide: Prototype Applications');
       $learn_more = phutil_tag(
         'a',
@@ -125,7 +125,7 @@ final class PhabricatorApplicationDetailViewController
   }
 
   private function buildPolicyView(
-    PhabricatorApplication $application) {
+    PhorgeApplication $application) {
 
     $viewer = $this->getViewer();
     $properties = id(new PHUIPropertyListView());
@@ -133,7 +133,7 @@ final class PhabricatorApplicationDetailViewController
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Policies'));
 
-    $descriptions = PhabricatorPolicyQuery::renderPolicyDescriptions(
+    $descriptions = PhorgePolicyQuery::renderPolicyDescriptions(
       $viewer,
       $application);
 
@@ -150,13 +150,13 @@ final class PhabricatorApplicationDetailViewController
 
   }
 
-  private function buildCurtain(PhabricatorApplication $application) {
+  private function buildCurtain(PhorgeApplication $application) {
     $viewer = $this->getViewer();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
+    $can_edit = PhorgePolicyFilter::hasCapability(
       $viewer,
       $application,
-      PhabricatorPolicyCapability::CAN_EDIT);
+      PhorgePolicyCapability::CAN_EDIT);
 
     $key = get_class($application);
     $edit_uri = $this->getApplicationURI("edit/{$key}/");
@@ -166,7 +166,7 @@ final class PhabricatorApplicationDetailViewController
     $curtain = $this->newCurtainView($application);
 
     $curtain->addAction(
-      id(new PhabricatorActionView())
+      id(new PhorgeActionView())
         ->setName(pht('Edit Policies'))
         ->setIcon('fa-pencil')
         ->setDisabled(!$can_edit)
@@ -176,21 +176,21 @@ final class PhabricatorApplicationDetailViewController
     if ($application->canUninstall()) {
       if ($application->isInstalled()) {
         $curtain->addAction(
-          id(new PhabricatorActionView())
+          id(new PhorgeActionView())
             ->setName(pht('Uninstall'))
             ->setIcon('fa-times')
             ->setDisabled(!$can_edit)
             ->setWorkflow(true)
             ->setHref($uninstall_uri));
       } else {
-        $action = id(new PhabricatorActionView())
+        $action = id(new PhorgeActionView())
           ->setName(pht('Install'))
           ->setIcon('fa-plus')
           ->setDisabled(!$can_edit)
           ->setWorkflow(true)
           ->setHref($install_uri);
 
-        $prototypes_enabled = PhabricatorEnv::getEnvConfig(
+        $prototypes_enabled = PhorgeEnv::getEnvConfig(
           'phorge.show-prototypes');
         if ($application->isPrototype() && !$prototypes_enabled) {
           $action->setDisabled(true);
@@ -200,7 +200,7 @@ final class PhabricatorApplicationDetailViewController
       }
     } else {
       $curtain->addAction(
-        id(new PhabricatorActionView())
+        id(new PhorgeActionView())
           ->setName(pht('Uninstall'))
           ->setIcon('fa-times')
           ->setWorkflow(true)

@@ -1,13 +1,13 @@
 <?php
 
-abstract class PhabricatorFulltextEngineExtension extends Phobject {
+abstract class PhorgeFulltextEngineExtension extends Phobject {
 
   final public function getExtensionKey() {
     return $this->getPhobjectClassConstant('EXTENSIONKEY');
   }
 
   final protected function getViewer() {
-    return PhabricatorUser::getOmnipotentUser();
+    return PhorgeUser::getOmnipotentUser();
   }
 
   abstract public function getExtensionName();
@@ -18,7 +18,7 @@ abstract class PhabricatorFulltextEngineExtension extends Phobject {
 
   public function enrichFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     return;
   }
 
@@ -28,7 +28,7 @@ abstract class PhabricatorFulltextEngineExtension extends Phobject {
 
   public function indexFulltextObject(
     $object,
-    PhabricatorSearchAbstractDocument $document) {
+    PhorgeSearchAbstractDocument $document) {
     return;
   }
 

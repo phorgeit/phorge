@@ -1,6 +1,6 @@
 <?php
 
-abstract class PhabricatorProjectUserListView
+abstract class PhorgeProjectUserListView
   extends AphrontView {
 
   private $project;
@@ -9,7 +9,7 @@ abstract class PhabricatorProjectUserListView
   private $background;
   private $showNote;
 
-  public function setProject(PhabricatorProject $project) {
+  public function setProject(PhorgeProject $project) {
     $this->project = $project;
     return $this;
   }
