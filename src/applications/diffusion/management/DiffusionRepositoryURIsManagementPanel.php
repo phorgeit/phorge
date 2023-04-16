@@ -52,7 +52,7 @@ final class DiffusionRepositoryURIsManagementPanel
     $viewer = $this->getViewer();
     $uris = $repository->getURIs();
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
     $rows = array();
     foreach ($uris as $uri) {
 

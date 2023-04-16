@@ -6,7 +6,7 @@
  *           javelin-dom
  *           phuix-form-control-view
  *           phuix-icon-view
- *           javelin-behavior-phabricator-gesture
+ *           javelin-behavior-phorge-gesture
  */
 
 JX.behavior('comment-actions', function(config) {
@@ -281,7 +281,7 @@ JX.behavior('comment-actions', function(config) {
 
     ondevicechange();
 
-    JX.Stratcom.listen('phabricator-device-change', null, ondevicechange);
+    JX.Stratcom.listen('phorge-device-change', null, ondevicechange);
   }
 
   restore_draft_actions(config.drafts || []);

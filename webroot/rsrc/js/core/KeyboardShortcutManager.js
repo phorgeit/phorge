@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-keyboard-shortcut-manager
+ * @provides phorge-keyboard-shortcut-manager
  * @requires javelin-install
  *           javelin-util
  *           javelin-stratcom

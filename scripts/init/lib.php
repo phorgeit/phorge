@@ -1,6 +1,6 @@
 <?php
 
-function init_phabricator_script(array $options) {
+function init_phorge_script(array $options) {
   error_reporting(E_ALL | E_STRICT);
   ini_set('display_errors', 1);
 
@@ -13,7 +13,7 @@ function init_phabricator_script(array $options) {
   if (!$ok) {
     echo
       'FATAL ERROR: Unable to load the "Arcanist" library. '.
-      'Put "arcanist/" next to "phabricator/" on disk.';
+      'Put "arcanist/" next to "phorge/" on disk.';
     echo "\n";
 
     exit(1);

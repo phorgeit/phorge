@@ -364,7 +364,7 @@ final class HarbormasterBuildLogRenderController
           if (($display_line >= $highlight_range[0]) &&
               ($display_line <= $highlight_range[1])) {
             $row_attr = array(
-              'class' => 'phabricator-source-highlight',
+              'class' => 'phorge-source-highlight',
             );
           }
         }
@@ -410,7 +410,7 @@ final class HarbormasterBuildLogRenderController
       'table',
       array(
         'class' => 'harbormaster-log-table PhabricatorMonospaced',
-        'sigil' => 'phabricator-source',
+        'sigil' => 'phorge-source',
         'meta' => array(
           'uri' => $log->getURI(),
         ),

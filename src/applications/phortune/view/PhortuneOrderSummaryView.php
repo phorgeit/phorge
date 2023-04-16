@@ -192,10 +192,10 @@ final class PhortuneOrderSummaryView
       PhortuneCart::getNameForStatus($order->getStatus()));
     $view->addProperty(
       pht('Created'),
-      phabricator_datetime($order->getDateCreated(), $viewer));
+      phorge_datetime($order->getDateCreated(), $viewer));
     $view->addProperty(
       pht('Updated'),
-      phabricator_datetime($order->getDateModified(), $viewer));
+      phorge_datetime($order->getDateModified(), $viewer));
 
     return id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Details'))

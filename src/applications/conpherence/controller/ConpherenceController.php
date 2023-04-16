@@ -152,7 +152,7 @@ abstract class ConpherenceController extends PhabricatorController {
             'value' => ConpherenceUpdateActions::JOIN_ROOM,
           ));
 
-        $form = phabricator_form(
+        $form = phorge_form(
           $viewer,
           array(
             'method' => 'POST',
@@ -186,7 +186,7 @@ abstract class ConpherenceController extends PhabricatorController {
       ));
 
     $id = $conpherence->getID();
-    $form = phabricator_form(
+    $form = phorge_form(
       $viewer,
       array(
         'method' => 'POST',

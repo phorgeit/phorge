@@ -73,7 +73,7 @@ final class PHUITimelineView extends AphrontView {
         $this->id = celerity_generate_unique_node_id();
       }
       Javelin::initBehavior(
-        'phabricator-show-older-transactions',
+        'phorge-show-older-transactions',
         array(
           'timelineID' => $this->id,
           'viewData' => $this->getViewData(),

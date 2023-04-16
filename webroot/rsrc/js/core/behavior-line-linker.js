@@ -1,5 +1,5 @@
 /**
- * @provides javelin-behavior-phabricator-line-linker
+ * @provides javelin-behavior-phorge-line-linker
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
@@ -7,7 +7,7 @@
  *           javelin-external-editor-link-engine
  */
 
-JX.behavior('phabricator-line-linker', function() {
+JX.behavior('phorge-line-linker', function() {
   var origin = null;
   var target = null;
   var root = null;
@@ -35,7 +35,7 @@ JX.behavior('phabricator-line-linker', function() {
 
   JX.Stratcom.listen(
     ['click', 'mousedown'],
-    ['phabricator-source', 'tag:th', 'tag:a'],
+    ['phorge-source', 'tag:th', 'tag:a'],
     function(e) {
       if (!e.isNormalMouseEvent()) {
         return;
@@ -44,10 +44,10 @@ JX.behavior('phabricator-line-linker', function() {
       // Make sure the link we clicked is actually a line number in a source
       // table, not some kind of link in some element embedded inside the
       // table. The row's immediate ancestor table needs to be the table with
-      // the "phabricator-source" sigil.
+      // the "phorge-source" sigil.
 
       var cell = e.getNode('tag:th');
-      var table = e.getNode('phabricator-source');
+      var table = e.getNode('phorge-source');
       if (JX.DOM.findAbove(cell, 'table') !== table) {
         return;
       }
@@ -76,7 +76,7 @@ JX.behavior('phabricator-line-linker', function() {
       return;
     }
 
-    if (e.getNode('phabricator-source') !== root) {
+    if (e.getNode('phorge-source') !== root) {
       return;
     }
     target = e.getNode('tag:th');
@@ -109,7 +109,7 @@ JX.behavior('phabricator-line-linker', function() {
 
     // Unhighlight any existing highlighted rows.
     for (ii = 0; ii < highlighted.length; ii++) {
-      JX.DOM.alterClass(highlighted[ii], 'phabricator-source-highlight', false);
+      JX.DOM.alterClass(highlighted[ii], 'phorge-source-highlight', false);
     }
     highlighted = [];
 
@@ -119,7 +119,7 @@ JX.behavior('phabricator-line-linker', function() {
 
     var cursor = min;
     while (true) {
-      JX.DOM.alterClass(cursor, 'phabricator-source-highlight', true);
+      JX.DOM.alterClass(cursor, 'phorge-source-highlight', true);
       highlighted.push(cursor);
 
       if (cursor === max) {
@@ -130,7 +130,7 @@ JX.behavior('phabricator-line-linker', function() {
     }
   };
 
-  JX.Stratcom.listen('mouseover', 'phabricator-source', highlight);
+  JX.Stratcom.listen('mouseover', 'phorge-source', highlight);
 
   JX.Stratcom.listen(
     'mouseup',
@@ -192,7 +192,7 @@ JX.behavior('phabricator-line-linker', function() {
   // in the URI.
   if (!window.location.hash.length) {
     try {
-      var anchor = JX.$('phabricator-line-linker-anchor');
+      var anchor = JX.$('phorge-line-linker-anchor');
       JX.DOM.scrollToPosition(0, JX.$V(anchor).y - 60);
     } catch (ex) {
       // If we didn't hit an element on the page, just move on.

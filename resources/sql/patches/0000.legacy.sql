@@ -410,10 +410,10 @@ USE `{$NAMESPACE}_user`;
 
 
 
-DROP TABLE IF EXISTS `phabricator_session`;
+DROP TABLE IF EXISTS `phorge_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `phabricator_session` (
+CREATE TABLE `phorge_session` (
   `userPHID` varchar(64) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `type` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `sessionKey` varchar(40) NOT NULL,

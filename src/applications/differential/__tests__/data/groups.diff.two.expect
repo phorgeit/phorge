@@ -3,8 +3,8 @@ style
 style
 -
 X <MISSING-CONTEXT>
-O 57 . .dashboard-panel div.phabricator-feed-frame {\n~
-N 57 . .dashboard-panel div.phabricator-feed-frame {\n~
+O 57 . .dashboard-panel div.phorge-feed-frame {\n~
+N 57 . .dashboard-panel div.phorge-feed-frame {\n~
 O 58 .   background: #fff;\n~
 N 58 .   background: #fff;\n~
 O 59 .   margin: 0;\n~

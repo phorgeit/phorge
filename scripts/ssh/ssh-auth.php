@@ -61,7 +61,7 @@ if ($authstruct === null) {
     $key_argv = array();
     $object = $ssh_key->getObject();
     if ($object instanceof PhabricatorUser) {
-      $key_argv[] = '--phabricator-ssh-user';
+      $key_argv[] = '--phorge-ssh-user';
       $key_argv[] = $object->getUsername();
     } else if ($object instanceof AlmanacDevice) {
       if (!$ssh_key->getIsTrusted()) {
@@ -69,14 +69,14 @@ if ($authstruct === null) {
         // authentication.
         continue;
       }
-      $key_argv[] = '--phabricator-ssh-device';
+      $key_argv[] = '--phorge-ssh-device';
       $key_argv[] = $object->getName();
     } else {
       // We don't know what sort of key this is; don't permit SSH auth.
       continue;
     }
 
-    $key_argv[] = '--phabricator-ssh-key';
+    $key_argv[] = '--phorge-ssh-key';
     $key_argv[] = $ssh_key->getID();
 
     // Strip out newlines and other nonsense from the key type and key body.
@@ -136,7 +136,7 @@ foreach ($authstruct['keys'] as $key_struct) {
   $cmd = csprintf('%s %Ls', $bin, $key_argv);
 
   if (phutil_nonempty_string($instance)) {
-    $cmd = csprintf('PHABRICATOR_INSTANCE=%s %C', $instance, $cmd);
+    $cmd = csprintf('PHORGE_INSTANCE=%s %C', $instance, $cmd);
   }
 
   // This is additional escaping for the SSH 'command="..."' string.

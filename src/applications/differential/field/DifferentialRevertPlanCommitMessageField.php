@@ -10,7 +10,7 @@ final class DifferentialRevertPlanCommitMessageField
   }
 
   public function getCustomFieldKey() {
-    return 'phabricator:revert-plan';
+    return 'phorge:revert-plan';
   }
 
 }

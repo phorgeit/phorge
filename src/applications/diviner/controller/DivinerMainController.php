@@ -50,7 +50,7 @@ final class DivinerMainController extends DivinerController {
       $text = pht(
         "(NOTE) **Looking for documentation?** ".
         "If you're looking for help and information about %s, ".
-        "you can [[https://secure.phabricator.com/diviner/ | ".
+        "you can [[https://secure.phorge.com/diviner/ | ".
         "browse the public %s documentation]] on the live site.\n\n".
         "Diviner is the documentation generator used to build this ".
         "documentation.\n\n".

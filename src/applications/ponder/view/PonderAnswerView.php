@@ -95,7 +95,7 @@ final class PonderAnswerView extends AphrontTagView {
     $content = phutil_tag(
       'div',
       array(
-        'class' => 'phabricator-remarkup',
+        'class' => 'phorge-remarkup',
       ),
       PhabricatorMarkupEngine::renderOneObject(
         $answer,

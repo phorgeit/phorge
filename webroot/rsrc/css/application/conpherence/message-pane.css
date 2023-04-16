@@ -332,7 +332,7 @@
 
 .conpherence-transaction-view .conpherence-transaction-info,
 .conpherence-transaction-view .transaction-date,
-.conpherence-transaction-view .phabricator-content-source-view {
+.conpherence-transaction-view .phorge-content-source-view {
   color: {$lightgreytext};
   line-height: 16px;
   font-size: {$smallerfontsize};
@@ -380,7 +380,7 @@ body .conpherence-message-pane .aphront-form-control {
   width: 100%;
 }
 
-.conpherence-message .phabricator-remarkup .remarkup-code-block pre {
+.conpherence-message .phorge-remarkup .remarkup-code-block pre {
   max-height: 200px;
 }
 
@@ -396,7 +396,7 @@ body .conpherence-message-pane .aphront-form-control {
 }
 
 /* this causes scrolling issues on iDevices */
-.device .conpherence-layout + .phabricator-standard-page-footer {
+.device .conpherence-layout + .phorge-standard-page-footer {
   display: none;
 }
 

@@ -291,7 +291,7 @@ final class PHUIListItemView extends AphrontTagView {
 
     if ($this->name) {
       if ($this->getRenderNameAsTooltip()) {
-        Javelin::initBehavior('phabricator-tooltips');
+        Javelin::initBehavior('phorge-tooltips');
         $sigil[] = 'has-tooltip';
         $meta = array(
           'tip' => $this->name,
@@ -299,7 +299,7 @@ final class PHUIListItemView extends AphrontTagView {
         );
       } else {
         if ($this->tooltip) {
-          Javelin::initBehavior('phabricator-tooltips');
+          Javelin::initBehavior('phorge-tooltips');
           $sigil[] = 'has-tooltip';
           $meta = array(
             'tip' => $this->tooltip,

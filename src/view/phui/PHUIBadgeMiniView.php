@@ -43,7 +43,7 @@ final class PHUIBadgeMiniView extends AphrontTagView {
 
   protected function getTagAttributes() {
     require_celerity_resource('phui-badge-view-css');
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $classes = array();
     $classes[] = 'phui-badge-mini';

@@ -86,7 +86,7 @@ foreach ($applications as $application) {
 
 /* -(  Phabricator configuration  )------------------------------------------ */
 
-$config_key = 'phabricator.uninstalled-applications';
+$config_key = 'phorge.uninstalled-applications';
 echo pht('Migrating `%s` config...', $config_key)."\n";
 
 $config = PhabricatorConfigEntry::loadConfigEntry($config_key);
@@ -105,9 +105,9 @@ if ($old_config) {
 }
 
 
-/* -(  phabricator.application-settings  )----------------------------------- */
+/* -(  phorge.application-settings  )----------------------------------- */
 
-$config_key = 'phabricator.application-settings';
+$config_key = 'phorge.application-settings';
 echo pht('Migrating `%s` config...', $config_key)."\n";
 
 $config = PhabricatorConfigEntry::loadConfigEntry($config_key);

@@ -3,7 +3,7 @@
  *           javelin-util
  *           javelin-dom
  *           javelin-vector
- * @provides phabricator-tooltip
+ * @provides phorge-tooltip
  * @javelin
  */
 

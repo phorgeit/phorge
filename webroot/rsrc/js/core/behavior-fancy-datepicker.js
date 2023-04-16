@@ -65,7 +65,7 @@ JX.behavior('fancy-datepicker', function(config, statics) {
     // without writing the change.
 
     if (picker) {
-      if (root == e.getNode('phabricator-date-control')) {
+      if (root == e.getNode('phorge-date-control')) {
         // If the user clicked the same control, just close it.
         onclose(e);
         return;
@@ -77,13 +77,13 @@ JX.behavior('fancy-datepicker', function(config, statics) {
     }
 
 
-    root = e.getNode('phabricator-date-control');
+    root = e.getNode('phorge-date-control');
 
     picker = JX.$N(
       'div',
       {
         className: 'fancy-datepicker',
-        sigil: 'phabricator-datepicker'
+        sigil: 'phorge-datepicker'
       },
       JX.$N(
         'div',
@@ -121,7 +121,7 @@ JX.behavior('fancy-datepicker', function(config, statics) {
 
   var ontoggle = function(e) {
     var box = e.getTarget();
-    root = e.getNode('phabricator-date-control');
+    root = e.getNode('phorge-date-control');
     JX.Stratcom.getData(root).disabled = !box.checked;
     redraw_inputs();
   };
@@ -399,7 +399,7 @@ JX.behavior('fancy-datepicker', function(config, statics) {
 
   JX.Stratcom.listen(
     'click',
-    ['phabricator-datepicker', 'tag:td'],
+    ['phorge-datepicker', 'tag:td'],
     function(e) {
       e.kill();
 
@@ -452,7 +452,7 @@ JX.behavior('fancy-datepicker', function(config, statics) {
     });
 
   JX.Stratcom.listen('click', null, function(e){
-    if (e.getNode('phabricator-datepicker-core')) {
+    if (e.getNode('phorge-datepicker-core')) {
       return;
     }
     onclose();

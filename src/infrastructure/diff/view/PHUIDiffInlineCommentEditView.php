@@ -14,7 +14,7 @@ final class PHUIDiffInlineCommentEditView
     $viewer = $this->getViewer();
     $inline = $this->getInlineComment();
 
-    $content = phabricator_form(
+    $content = phorge_form(
       $viewer,
       array(
         'action' => $inline->getControllerURI(),

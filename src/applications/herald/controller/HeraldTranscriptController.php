@@ -540,7 +540,7 @@ final class HeraldTranscriptController extends HeraldController {
       $xaction_display = null;
       if ($xaction) {
         $xaction_identifier = $xaction->getID();
-        $xaction_date = phabricator_datetime(
+        $xaction_date = phorge_datetime(
           $xaction->getDateCreated(),
           $viewer);
 

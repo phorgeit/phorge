@@ -8,11 +8,11 @@
   background: #fff;
 }
 
-.phortune-invoice-view .phabricator-main-menu {
+.phortune-invoice-view .phorge-main-menu {
   display: none;
 }
 
-.phortune-invoice-view .phabricator-standard-page-footer {
+.phortune-invoice-view .phorge-standard-page-footer {
   display: none;
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-function phabricator_read_config_file($original_config) {
+function phorge_read_config_file($original_config) {
   $root = dirname(dirname(__FILE__));
 
   // Accept either "myconfig" (preferred) or "myconfig.conf.php".
@@ -19,7 +19,7 @@ function phabricator_read_config_file($original_config) {
         return array();
       case 'development':
         return array(
-          'phabricator.developer-mode'      => true,
+          'phorge.developer-mode'      => true,
           'darkconsole.enabled'             => true,
         );
     }

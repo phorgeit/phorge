@@ -6,7 +6,7 @@ final class AphrontMySQLDatabaseConnectionTestCase
   protected function getPhabricatorTestCaseConfiguration() {
     return array(
       // We disable this here because we're testing live MySQL connections.
-      self::PHABRICATOR_TESTCONFIG_ISOLATE_LISK => false,
+      self::PHORGE_TESTCONFIG_ISOLATE_LISK => false,
     );
   }
 

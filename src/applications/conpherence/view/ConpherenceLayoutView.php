@@ -126,7 +126,7 @@ final class ConpherenceLayoutView extends AphrontTagView {
           'div',
           array(
             'id' => 'conpherence-menu-pane',
-            'class' => 'conpherence-menu-pane phabricator-side-menu',
+            'class' => 'conpherence-menu-pane phorge-side-menu',
             'sigil' => 'conpherence-menu-pane',
           ),
           $this->threadView),

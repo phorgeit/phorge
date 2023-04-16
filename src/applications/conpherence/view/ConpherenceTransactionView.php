@@ -83,7 +83,7 @@ final class ConpherenceTransactionView extends AphrontView {
               array(
                 'class' => 'date',
               ),
-              phabricator_format_local_time(
+              phorge_format_local_time(
                 $transaction->getDateCreated(),
                 $viewer,
               'M jS, Y')),
@@ -125,12 +125,12 @@ final class ConpherenceTransactionView extends AphrontView {
     $transaction = $this->getConpherenceTransaction();
     $info = array();
 
-    Javelin::initBehavior('phabricator-tooltips');
-    $tip = phabricator_datetime($transaction->getDateCreated(), $viewer);
-    $label = phabricator_time($transaction->getDateCreated(), $viewer);
+    Javelin::initBehavior('phorge-tooltips');
+    $tip = phorge_datetime($transaction->getDateCreated(), $viewer);
+    $label = phorge_time($transaction->getDateCreated(), $viewer);
     $width = 360;
 
-    Javelin::initBehavior('phabricator-watch-anchor');
+    Javelin::initBehavior('phorge-watch-anchor');
     $anchor = id(new PhabricatorAnchorView())
       ->setAnchorName($transaction->getID())
       ->render();

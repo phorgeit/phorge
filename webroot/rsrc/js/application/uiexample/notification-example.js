@@ -1,11 +1,11 @@
 /**
- * @requires phabricator-notification
+ * @requires phorge-notification
  *           javelin-stratcom
  *           javelin-behavior
- * @provides javelin-behavior-phabricator-notification-example
+ * @provides javelin-behavior-phorge-notification-example
  */
 
-JX.behavior('phabricator-notification-example', function() {
+JX.behavior('phorge-notification-example', function() {
 
   var sequence = 0;
 

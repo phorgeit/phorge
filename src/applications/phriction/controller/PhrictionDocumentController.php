@@ -91,7 +91,7 @@ final class PhrictionDocumentController
           $version_note = pht(
             'You are viewing an older version of this document, as it '.
             'appeared on %s.',
-            phabricator_datetime($content->getDateCreated(), $viewer));
+            phorge_datetime($content->getDateCreated(), $viewer));
         } else if ($view_version > $published_version) {
           $is_draft = true;
           $version_note = pht(
@@ -401,7 +401,7 @@ final class PhrictionDocumentController
 
     $view->addProperty(
       pht('Last Edited'),
-      phabricator_dual_datetime($content->getDateCreated(), $viewer));
+      phorge_dual_datetime($content->getDateCreated(), $viewer));
 
     return $view;
   }
@@ -624,7 +624,7 @@ final class PhrictionDocumentController
       ->appendChild(phutil_tag(
         'div',
         array(
-          'class' => 'phabricator-remarkup mlt mlb',
+          'class' => 'phorge-remarkup mlt mlb',
         ),
         phutil_tag(
           'ul',

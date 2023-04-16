@@ -197,7 +197,7 @@ set names:
 
 | Variable | Meaning | Notes |
 |---|---|---|
-| `{$NAMESPACE}` | Storage Namespace | Defaults to `phabricator` |
+| `{$NAMESPACE}` | Storage Namespace | Defaults to `phorge` |
 | `{$CHARSET}` | Default Charset | Mostly used to specify table charset |
 | `{$COLLATE_TEXT}` | Text Collation | For most text (case-sensitive) |
 | `{$COLLATE_SORT}` | Sort Collation | For sortable text (case-insensitive) |

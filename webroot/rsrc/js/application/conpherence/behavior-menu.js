@@ -9,8 +9,8 @@
  *           javelin-history
  *           javelin-vector
  *           javelin-scrollbar
- *           phabricator-title
- *           phabricator-shaped-request
+ *           phorge-title
+ *           phorge-shaped-request
  *           conpherence-thread-manager
  */
 
@@ -392,7 +392,7 @@ JX.behavior('conpherence-menu', function(config) {
       JX.DOM.alterClass(root, 'conpherence-role-thread', true);
     }
   }
-  JX.Stratcom.listen('phabricator-device-change', null, onDeviceChange);
+  JX.Stratcom.listen('phorge-device-change', null, onDeviceChange);
 
   function loadThreads() {
     markThreadsLoading(true);

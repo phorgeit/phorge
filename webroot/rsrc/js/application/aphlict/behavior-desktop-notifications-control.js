@@ -4,7 +4,7 @@
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-uri
- *           phabricator-notification
+ *           phorge-notification
  */
 
 JX.behavior('desktop-notifications-control', function(config, statics) {

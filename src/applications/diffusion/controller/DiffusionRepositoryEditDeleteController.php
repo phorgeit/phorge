@@ -28,7 +28,7 @@ final class DiffusionRepositoryEditDeleteController
           'the command line:'))
       ->appendCommand(
         csprintf(
-          'phabricator/ $ ./bin/remove destroy %R',
+          'phorge/ $ ./bin/remove destroy %R',
           $repository->getMonogram()))
       ->appendParagraph(
         pht(

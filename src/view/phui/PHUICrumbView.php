@@ -112,7 +112,7 @@ final class PHUICrumbView extends AphrontView {
         ->addClass('phui-crumb-divider')
         ->addClass('phui-crumb-view');
     } else {
-      $classes[] = 'phabricator-last-crumb';
+      $classes[] = 'phorge-last-crumb';
     }
 
     if ($this->getAlwaysVisible()) {

@@ -144,7 +144,7 @@ There are three ways to do this:
 
 With staging areas, `arc` pushes a copy of the local changes somewhere as a
 side effect of running `arc diff`. In Git, it pushes changes to a tag like
-`phabricator/diff/123` in a designated remote.
+`phorge/diff/123` in a designated remote.
 
 The build system can then interact with this copy using normal VCS commands.
 This is simpler to configure, use, troubleshoot and work with than `arc patch`.
@@ -174,7 +174,7 @@ Manual staging areas work like this:
 Configure a staging area by navigating to {nav Diffusion >
 (Choose a Repository) > Edit Repository > Edit Staging}. You'll enter the
 remote URI of a repository to use as a staging area, and `arc diff` will push
-changes to tags like `phabricator/diff/123`.
+changes to tags like `phorge/diff/123`.
 
 There are several ways to select a staging area:
 

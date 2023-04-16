@@ -12,7 +12,7 @@ final class PhortuneMonthYearExpiryControl extends AphrontFormControl {
     return $this->monthValue;
   }
   private function getCurrentMonth() {
-    return phabricator_format_local_time(
+    return phorge_format_local_time(
       time(),
       $this->getUser(),
       'm');
@@ -26,7 +26,7 @@ final class PhortuneMonthYearExpiryControl extends AphrontFormControl {
     return $this->yearValue;
   }
   private function getCurrentYear() {
-    return phabricator_format_local_time(
+    return phorge_format_local_time(
       time(),
       $this->getUser(),
       'Y');

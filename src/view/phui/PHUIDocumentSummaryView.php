@@ -48,7 +48,7 @@ final class PHUIDocumentSummaryView extends AphrontTagView {
   protected function getTagAttributes() {
     $classes = array();
     $classes[] = 'phui-document-summary-view';
-    $classes[] = 'phabricator-remarkup';
+    $classes[] = 'phorge-remarkup';
 
     if ($this->draft) {
       $classes[] = 'is-draft';

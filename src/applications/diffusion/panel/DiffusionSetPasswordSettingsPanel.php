@@ -156,7 +156,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
 
     if (!$vcspassword->getID()) {
       $is_serious = PhabricatorEnv::getEnvConfig(
-        'phabricator.serious-business');
+        'phorge.serious-business');
 
       $suggest = Filesystem::readRandomBytes(128);
       $suggest = preg_replace('([^A-Za-z0-9/!().,;{}^&*%~])', '', $suggest);

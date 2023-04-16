@@ -3,7 +3,7 @@ style
 style
 -
 X <MISSING-CONTEXT>
-N 57 . .dashboard-panel div.phabricator-feed-frame {\n~
+N 57 . .dashboard-panel div.phorge-feed-frame {\n~
 N 58 .   background: #fff;\n~
 N 59 .   margin: 0;\n~
 O 60 -   border-{(left)}: 1px solid {$lightblueborder};\n~

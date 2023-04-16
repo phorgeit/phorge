@@ -167,9 +167,9 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
     // efficiently. See T11404 for discussion.
 
     $legacy_edge_map = array(
-      'phabricator:projects' =>
+      'phorge:projects' =>
         PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-      'phabricator:depends-on' =>
+      'phorge:depends-on' =>
         DifferentialRevisionDependsOnRevisionEdgeType::EDGECONST,
     );
 

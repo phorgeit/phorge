@@ -55,7 +55,7 @@ final class DiffusionGitUploadPackSSHWorkflow
       $log->didStartSession($command);
     }
 
-    if (PhabricatorEnv::getEnvConfig('phabricator.show-prototypes')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.show-prototypes')) {
       $protocol = new DiffusionGitUploadPackWireProtocol();
       if ($log) {
         $protocol->setProtocolLog($log);

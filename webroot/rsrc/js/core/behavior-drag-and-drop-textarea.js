@@ -3,8 +3,8 @@
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-json
- *           phabricator-drag-and-drop-file-upload
- *           phabricator-textareautils
+ *           phorge-drag-and-drop-file-upload
+ *           phorge-textareautils
  */
 
 JX.behavior('aphront-drag-and-drop-textarea', function(config) {

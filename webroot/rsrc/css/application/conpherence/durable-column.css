@@ -42,7 +42,7 @@
   z-index: 1;
 }
 
-.conpherence-durable-column-header  .phabricator-application-menu
+.conpherence-durable-column-header  .phorge-application-menu
   .phui-list-item-name {
     display: none;
 }
@@ -65,7 +65,7 @@
     font-size: 10px;
 }
 
-.device-desktop .conpherence-durable-column-header .phabricator-application-menu
+.device-desktop .conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-view {
     margin: 0;
     width: 28px;
@@ -73,7 +73,7 @@
     min-width: 28px;
 }
 
-.device-desktop .conpherence-durable-column-header .phabricator-application-menu
+.device-desktop .conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-href {
     background: transparent;
     border: none;
@@ -91,12 +91,12 @@
   background-color: #5f6572;
 }
 
-.conpherence-durable-column-header .phabricator-application-menu {
+.conpherence-durable-column-header .phorge-application-menu {
   margin-right: 8px;
 }
 
 .conpherence-durable-column-header
-  .phabricator-main-menu-dropdown.phui-list-sidenav {
+  .phorge-main-menu-dropdown.phui-list-sidenav {
     top: 30px;
 }
 
@@ -111,7 +111,7 @@
   text-shadow: 1px 1px 0 rgba(0,0,0,.6);
 }
 
-.conpherence-durable-column-header .phabricator-application-menu
+.conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-icon.phui-font-fa {
     font-size: 15px;
     margin: 0;
@@ -293,24 +293,24 @@ img {
 }
 
 .minimize-column .conpherence-durable-column
-  .conpherence-durable-column-header .phabricator-application-menu
+  .conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-icon.phui-font-fa {
     color: {$bluetext};
 }
 
 .minimize-column .conpherence-durable-column
-  .conpherence-durable-column-header .phabricator-application-menu
+  .conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-view:hover .phui-list-item-icon.phui-font-fa {
     color: {$darkbluetext};
 }
 
 .minimize-column .conpherence-durable-column
-  .conpherence-durable-column-header .phabricator-application-menu
+  .conpherence-durable-column-header .phorge-application-menu
   .phui-list-item-icon.phui-font-fa:before {
     content: "\f151";
 }
 
-.minimize-column .conpherence-durable-column .phabricator-application-menu
+.minimize-column .conpherence-durable-column .phorge-application-menu
   .fa-gear {
     display: none;
 }

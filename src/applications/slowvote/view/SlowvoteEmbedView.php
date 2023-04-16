@@ -38,7 +38,7 @@ final class SlowvoteEmbedView extends AphrontView {
       shuffle($options);
     }
 
-    require_celerity_resource('phabricator-slowvote-css');
+    require_celerity_resource('phorge-slowvote-css');
 
     $user_choices = $poll->getViewerChoices($this->getUser());
     $user_choices = mpull($user_choices, 'getOptionID', 'getOptionID');
@@ -118,7 +118,7 @@ final class SlowvoteEmbedView extends AphrontView {
           )));
     }
 
-    $body = phabricator_form(
+    $body = phorge_form(
       $this->getUser(),
       array(
         'action'  => '/vote/'.$poll->getID().'/',

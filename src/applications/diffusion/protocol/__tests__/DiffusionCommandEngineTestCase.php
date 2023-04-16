@@ -7,7 +7,7 @@ final class DiffusionCommandEngineTestCase extends PhabricatorTestCase {
     $type_hg = PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL;
     $type_svn = PhabricatorRepositoryType::REPOSITORY_TYPE_SVN;
 
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     $ssh_wrapper = $root.'/bin/ssh-connect';
     $home = $root.'/support/empty/';
 

@@ -11,7 +11,7 @@
  *           javelin-workflow
  *           javelin-mask
  *           javelin-behavior-device
- *           phabricator-keyboard-shortcut
+ *           phorge-keyboard-shortcut
  */
 JX.behavior('pholio-mock-view', function(config, statics) {
   var is_dragging = false;

@@ -4,27 +4,27 @@
 
 /*--- Header Colors ----------------------------------------------------------*/
 
-.phui-theme-blindigo .phabricator-main-menu-background {
+.phui-theme-blindigo .phorge-main-menu-background {
   background: #4a5f88;
 }
 
-.phui-theme-dark .phabricator-main-menu-background {
+.phui-theme-dark .phorge-main-menu-background {
   background: #171c20;
 }
 
-.phui-theme-indigo .phabricator-main-menu-background {
+.phui-theme-indigo .phorge-main-menu-background {
   background: #2C1D4A;
 }
 
-.phui-theme-red .phabricator-main-menu-background {
+.phui-theme-red .phorge-main-menu-background {
   background: #650404;
 }
 
-.phui-theme-blue .phabricator-main-menu-background {
+.phui-theme-blue .phorge-main-menu-background {
   background: #003965;
 }
 
-.phui-theme-green .phabricator-main-menu-background {
+.phui-theme-green .phorge-main-menu-background {
   background: #124A1B;
 }
 

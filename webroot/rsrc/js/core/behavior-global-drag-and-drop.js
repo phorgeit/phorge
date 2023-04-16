@@ -4,7 +4,7 @@
  *           javelin-dom
  *           javelin-uri
  *           javelin-mask
- *           phabricator-drag-and-drop-file-upload
+ *           phorge-drag-and-drop-file-upload
  */
 
 JX.behavior('global-drag-and-drop', function(config, statics) {
@@ -22,7 +22,7 @@ JX.behavior('global-drag-and-drop', function(config, statics) {
       JX.$(config.ifSupported).style.display = '';
     }
 
-    var page = JX.$('phabricator-standard-page');
+    var page = JX.$('phorge-standard-page');
     statics.drop = new JX.PhabricatorDragAndDropFileUpload(page)
       .setURI(config.uploadURI)
       .setViewPolicy(config.viewPolicy)

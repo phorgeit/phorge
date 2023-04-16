@@ -4,7 +4,7 @@
  *           javelin-stratcom
  *           javelin-workflow
  *           javelin-util
- *           phabricator-notification
+ *           phorge-notification
  *           conpherence-thread-manager
  * @provides javelin-behavior-conpherence-participant-pane
  */

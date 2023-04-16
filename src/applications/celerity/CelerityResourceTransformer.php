@@ -103,7 +103,7 @@ final class CelerityResourceTransformer extends Phobject {
 
         // If `jsxmin` is not available, use `JsShrink`, which doesn't compress
         // quite as well but is always available.
-        $root = dirname(phutil_get_library_root('phabricator'));
+        $root = dirname(phutil_get_library_root('phorge'));
         require_once $root.'/externals/JsShrink/jsShrink.php';
         $data = jsShrink($data);
 

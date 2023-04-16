@@ -210,7 +210,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
       $submit,
       $hidden);
 
-    $editor = phabricator_form(
+    $editor = phorge_form(
       $user,
       array(
         'method' => 'POST',

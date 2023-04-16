@@ -84,7 +84,7 @@ EOTEXT
     HarbormasterBuildTarget $build_target) {
     $viewer = PhabricatorUser::getOmnipotentUser();
 
-    if (PhabricatorEnv::getEnvConfig('phabricator.silent')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
       $this->logSilencedCall($build, $build_target, pht('CircleCI'));
       throw new HarbormasterBuildFailureException();
     }

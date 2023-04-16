@@ -70,7 +70,7 @@ function javelin_tag(
   return phutil_tag($tag, $attributes, $content);
 }
 
-function phabricator_form(PhabricatorUser $user, $attributes, $content) {
+function phorge_form(PhabricatorUser $user, $attributes, $content) {
   $body = array();
 
   $http_method = idx($attributes, 'method');

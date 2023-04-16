@@ -175,7 +175,7 @@ abstract class AphrontView extends Phobject
   }
 
   public function getDefaultResourceSource() {
-    return 'phabricator';
+    return 'phorge';
   }
 
   public function requireResource($symbol) {

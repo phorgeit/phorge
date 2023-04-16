@@ -16,7 +16,7 @@ final class DifferentialBlameRevisionCommitMessageField
   }
 
   public function getCustomFieldKey() {
-    return 'phabricator:blame-revision';
+    return 'phorge:blame-revision';
   }
 
 }

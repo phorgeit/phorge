@@ -1,7 +1,7 @@
 /**
- * @provides phabricator-diff-inline
+ * @provides phorge-diff-inline
  * @requires javelin-dom
- *           phabricator-diff-inline-content-state
+ *           phorge-diff-inline-content-state
  * @javelin
  */
 

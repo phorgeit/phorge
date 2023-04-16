@@ -19,7 +19,7 @@ for your Phorge install. A simple, valid file looks something like this:
 
   name=.arcconfig
   {
-    "phabricator.uri" : "https://phorge.example.com/"
+    "phorge.uri" : "https://phorge.example.com/"
   }
 
 For details on available options, see below.
@@ -31,7 +31,7 @@ configuration, not user configuration.
 
 Common options are:
 
-  - **phabricator.uri**: the URI for the Phorge install that `arc` should
+  - **phorge.uri**: the URI for the Phorge install that `arc` should
     connect to when run in this project. This option was previously called
     `conduit_uri`.
   - **repository.callsign**: The callsign of this repository in Diffusion.

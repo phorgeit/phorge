@@ -221,7 +221,7 @@ final class PHUIButtonView extends AphrontTagView {
     $sigil = null;
     $meta = null;
     if ($this->tooltip) {
-      Javelin::initBehavior('phabricator-tooltips');
+      Javelin::initBehavior('phorge-tooltips');
       require_celerity_resource('aphront-tooltip-css');
       $sigil = 'has-tooltip';
       $meta = array(

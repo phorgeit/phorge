@@ -146,7 +146,7 @@ $ php -r 'echo sys_get_temp_dir()."\n";'
 ```
 
 On most systems, this is `/tmp`. The trace should appear in that directory with
-a name like `phabricator_backtrace_<pid>`. Examining this trace may provide
+a name like `phorge_backtrace_<pid>`. Examining this trace may provide
 a key to understanding the problem.
 
 **Command-Line Performance**: If you have general performance issues with

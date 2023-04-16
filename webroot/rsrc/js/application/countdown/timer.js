@@ -12,7 +12,7 @@ JX.behavior('countdown-timer', function(config) {
   }
 
   function setComponent(which, content) {
-    var component = JX.DOM.find(container, '*', 'phabricator-timer-' + which);
+    var component = JX.DOM.find(container, '*', 'phorge-timer-' + which);
     JX.DOM.setContent(component, content);
   }
 

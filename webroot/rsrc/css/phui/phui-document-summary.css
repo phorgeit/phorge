@@ -25,7 +25,7 @@ body .phui-document-view .phui-document-summary-view h2.remarkup-header {
   text-decoration: none;
 }
 
-.phui-document-view .phui-document-summary-body div.phabricator-remarkup {
+.phui-document-view .phui-document-summary-body div.phorge-remarkup {
   padding-bottom: 4px;
 }
 

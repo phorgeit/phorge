@@ -59,7 +59,7 @@ final class PHUICurtainObjectRefView
 
     $epoch = $this->epoch;
     if ($epoch !== null) {
-      $epoch_view = phabricator_dual_datetime($epoch, $viewer);
+      $epoch_view = phorge_dual_datetime($epoch, $viewer);
 
       $epoch_cells = array();
 

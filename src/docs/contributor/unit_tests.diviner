@@ -81,6 +81,6 @@ in a number of ways. From best to worst:
     test. This will disable isolation for one test. NOT RECOMMENDED.
   - Disable isolation for your entire test case by overriding
     `getPhabricatorTestCaseConfiguration()` and providing
-    `self::PHABRICATOR_TESTCONFIG_ISOLATE_LISK => false` in the configuration
+    `self::PHORGE_TESTCONFIG_ISOLATE_LISK => false` in the configuration
     dictionary you return. This will disable isolation entirely. STRONGLY NOT
     RECOMMENDED.

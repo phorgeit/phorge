@@ -40,7 +40,7 @@ final class DiffusionSyncLogListView extends AphrontView {
         $event->getFromDeviceVersion(),
         $event->getResultType(),
         $event->getResultCode(),
-        phabricator_datetime($event->getEpoch(), $viewer),
+        phorge_datetime($event->getEpoch(), $viewer),
         $sync_wait,
       );
     }

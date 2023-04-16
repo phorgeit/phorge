@@ -5,9 +5,9 @@
  *           javelin-dom
  *           javelin-workflow
  *           javelin-quicksand
- *           phabricator-phtize
- *           phabricator-drag-and-drop-file-upload
- *           phabricator-draggable-list
+ *           phorge-phtize
+ *           phorge-drag-and-drop-file-upload
+ *           phorge-draggable-list
  */
 JX.behavior('pholio-mock-edit', function(config, statics) {
   var pht = JX.phtize(config.pht);

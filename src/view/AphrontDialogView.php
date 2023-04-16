@@ -363,7 +363,7 @@ final class AphrontDialogView
 
     if (!$this->renderAsForm) {
       $buttons = array(
-        phabricator_form(
+        phorge_form(
           $this->getViewer(),
           $form_attributes,
           array_merge($hidden_inputs, $buttons)),
@@ -446,7 +446,7 @@ final class AphrontDialogView
     );
 
     if ($this->renderAsForm) {
-      return phabricator_form(
+      return phorge_form(
         $this->getViewer(),
         $form_attributes + $attributes,
         array($hidden_inputs, $content));

@@ -51,11 +51,11 @@ final class HeraldWebhookViewController
       ->execute();
 
     $warnings = array();
-    if (PhabricatorEnv::getEnvConfig('phabricator.silent')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
       $message = pht(
         'This server is running in silent mode, so it will not '.
         'publish webhooks. To adjust this setting, see '.
-        '@{config:phabricator.silent} in Config.');
+        '@{config:phorge.silent} in Config.');
 
       $warnings[] = id(new PHUIInfoView())
         ->setTitle(pht('Silent Mode'))

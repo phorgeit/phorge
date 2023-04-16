@@ -77,7 +77,7 @@ final class DarkConsoleRequestPlugin extends DarkConsolePlugin {
 
     $mask = array(
       'HTTP_COOKIE' => true,
-      'HTTP_X_PHABRICATOR_CSRF' => true,
+      'HTTP_X_PHORGE_CSRF' => true,
     );
 
     $maps = array(

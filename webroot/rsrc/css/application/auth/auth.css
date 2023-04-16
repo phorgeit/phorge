@@ -2,24 +2,24 @@
  * @provides auth-css
  */
 
-.phabricator-login-buttons {
+.phorge-login-buttons {
   max-width: 508px;
   margin: 16px auto;
 }
 
-.phabricator-login-buttons .phabricator-login-button .button {
+.phorge-login-buttons .phorge-login-button .button {
   width: 246px;
 }
 
-.device-desktop .phabricator-login-buttons .aphront-multi-column-column-last {
+.device-desktop .phorge-login-buttons .aphront-multi-column-column-last {
   text-align: right;
 }
 
-.device .phabricator-login-buttons {
+.device .phorge-login-buttons {
   text-align: center;
 }
 
-.phabricator-link-button {
+.phorge-link-button {
   text-align: center;
 }
 

@@ -5,7 +5,7 @@
  *           javelin-util
  *           javelin-stratcom
  *           javelin-workflow
- *           phabricator-draggable-list
+ *           phorge-draggable-list
  */
 
 JX.behavior('dashboard-move-panels', function(config) {

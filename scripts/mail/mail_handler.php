@@ -6,7 +6,7 @@
 if ($argc > 1) {
   foreach (array_slice($argv, 1) as $arg) {
     if (!preg_match('/^-/', $arg)) {
-      $_SERVER['PHABRICATOR_ENV'] = $arg;
+      $_SERVER['PHORGE_ENV'] = $arg;
       break;
     }
   }

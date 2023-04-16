@@ -4,7 +4,7 @@
  *           multirow-row-manager
  *           javelin-dom
  *           javelin-util
- *           phabricator-prefab
+ *           phorge-prefab
  *           javelin-json
  */
 JX.behavior('policy-rule-editor', function(config) {

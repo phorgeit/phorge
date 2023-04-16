@@ -58,7 +58,7 @@
   background: {$page.content};
 }
 
-.phui-document-content .phabricator-remarkup {
+.phui-document-content .phorge-remarkup {
   padding: 16px;
   font-size: 14px;
 }
@@ -68,11 +68,11 @@
   display: block;
 }
 
-.device-phone .phui-document-content .phabricator-remarkup {
+.device-phone .phui-document-content .phorge-remarkup {
   padding: 8px;
 }
 
-.phui-document-content .phabricator-remarkup .remarkup-code-block {
+.phui-document-content .phorge-remarkup .remarkup-code-block {
   clear: both;
   margin: 16px 0;
 }
@@ -91,12 +91,12 @@
 }
 
 .phui-document-view .PhabricatorMonospaced,
-.phui-document-view .phabricator-remarkup .remarkup-code-block .remarkup-code {
+.phui-document-view .phorge-remarkup .remarkup-code-block .remarkup-code {
   font: 12px/18px "Menlo", "Consolas", "Monaco", monospace;
 }
 
 .platform-windows .phui-document-view .PhabricatorMonospaced,
-.platform-windows .phui-document-view .phabricator-remarkup .remarkup-code-block
+.platform-windows .phui-document-view .phorge-remarkup .remarkup-code-block
   .remarkup-code {
   font: 13px/18px "Menlo", "Consolas", "Monaco", monospace;
 }

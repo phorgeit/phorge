@@ -6,7 +6,7 @@
  *           javelin-behavior-device
  *           javelin-scrollbar
  *           javelin-quicksand
- *           phabricator-keyboard-shortcut
+ *           phorge-keyboard-shortcut
  *           conpherence-thread-manager
  */
 
@@ -32,7 +32,7 @@ JX.behavior('durable-column', function(config, statics) {
 
   var margin = JX.Scrollbar.getScrollbarControlMargin();
 
-  var quick = JX.$('phabricator-standard-page-body');
+  var quick = JX.$('phorge-standard-page-body');
 
   function _getColumnNode() {
     return JX.$('conpherence-durable-column');

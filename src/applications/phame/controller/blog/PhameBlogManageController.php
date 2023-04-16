@@ -103,7 +103,7 @@ final class PhameBlogManageController extends PhameBlogController {
     $viewer = $this->getViewer();
 
     require_celerity_resource('aphront-tooltip-css');
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $properties = id(new PHUIPropertyListView())
       ->setUser($viewer);
@@ -229,7 +229,7 @@ final class PhameBlogManageController extends PhameBlogController {
           'img',
           array(
             'src'     => $blog->getHeaderImageURI(),
-            'class'   => 'phabricator-image-macro-hero',
+            'class'   => 'phorge-image-macro-hero',
           )));
       return $view;
     }

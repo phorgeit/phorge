@@ -40,10 +40,10 @@ Create a `.arcconfig` file in your project's working copy:
   yourproject/ $ $EDITOR .arcconfig
   yourproject/ $ cat .arcconfig
   {
-    "phabricator.uri" : "https://phorge.example.com/"
+    "phorge.uri" : "https://phorge.example.com/"
   }
 
-Set `phabricator.uri` to the URI for your Phorge install (where `arc`
+Set `phorge.uri` to the URI for your Phorge install (where `arc`
 should send changes to).
 
 NOTE: You should **commit this file** to the repository.

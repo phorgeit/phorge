@@ -12,7 +12,7 @@ final class PHUIHomeView
   }
 
   protected function getTagContent() {
-    require_celerity_resource('phabricator-dashboard-css');
+    require_celerity_resource('phorge-dashboard-css');
     $viewer = $this->getViewer();
 
     $has_maniphest = PhabricatorApplication::isClassInstalledForViewer(

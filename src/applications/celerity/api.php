@@ -13,7 +13,7 @@
  *               annotated as "@provides" in the file.
  * @return void
  */
-function require_celerity_resource($symbol, $source_name = 'phabricator') {
+function require_celerity_resource($symbol, $source_name = 'phorge') {
   $response = CelerityAPI::getStaticResourceResponse();
   $response->requireResource($symbol, $source_name);
 }
@@ -43,7 +43,7 @@ function celerity_generate_unique_node_id() {
  * @param   string  Path to the raw image.
  * @return  string  Versioned path to the image, if one is available.
  */
-function celerity_get_resource_uri($resource, $source = 'phabricator') {
+function celerity_get_resource_uri($resource, $source = 'phorge') {
   $resource = ltrim($resource, '/');
 
   $map = CelerityResourceMap::getNamedInstance($source);

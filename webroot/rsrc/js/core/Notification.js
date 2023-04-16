@@ -3,8 +3,8 @@
  *           javelin-dom
  *           javelin-stratcom
  *           javelin-util
- *           phabricator-notification-css
- * @provides phabricator-notification
+ *           phorge-notification-css
+ * @provides phorge-notification
  * @javelin
  */
 

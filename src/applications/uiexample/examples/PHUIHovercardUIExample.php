@@ -31,7 +31,7 @@ final class PHUIHovercardUIExample extends PhabricatorUIExample {
     $panel->appendChild(id(new PHUIHovercardView())
       ->setObjectHandle($diff_handle)
       ->addField(pht('Author'), $user->getUsername())
-      ->addField(pht('Updated'), phabricator_datetime(time(), $user))
+      ->addField(pht('Updated'), phorge_datetime(time(), $user))
       ->addAction(pht('Subscribe'), '/dev/random')
       ->setUser($user));
     $elements[] = $panel;

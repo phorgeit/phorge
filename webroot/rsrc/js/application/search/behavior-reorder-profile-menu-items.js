@@ -4,7 +4,7 @@
  *           javelin-stratcom
  *           javelin-workflow
  *           javelin-dom
- *           phabricator-draggable-list
+ *           phorge-draggable-list
  */
 
 JX.behavior('reorder-profile-menu-items', function(config) {

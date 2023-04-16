@@ -100,7 +100,7 @@ body .diviner-view .diviner-section-content .phui-header-shell {
   margin-right: 0;
 }
 
-.phui-document-content .phabricator-remarkup.diviner-remarkup-section {
+.phui-document-content .phorge-remarkup.diviner-remarkup-section {
   padding: 16px 0 32px 0;
 }
 
@@ -147,7 +147,7 @@ body .diviner-view .diviner-section-content .phui-header-shell {
  * Fix excessive padding between method headers and method documentation for
  * methods with no inherited context.
  */
-.diviner-document-section .phui-header-shell + .phabricator-remarkup {
+.diviner-document-section .phui-header-shell + .phorge-remarkup {
   padding-top: 0;
 }
 

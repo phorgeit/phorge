@@ -46,7 +46,7 @@ final class HeraldWebhookRequestListView
 
       $last_epoch = $request->getLastRequestEpoch();
       if ($request->getLastRequestEpoch()) {
-        $last_request = phabricator_datetime($last_epoch, $viewer);
+        $last_request = phorge_datetime($last_epoch, $viewer);
       } else {
         $last_request = null;
       }

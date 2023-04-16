@@ -366,7 +366,7 @@ $ sudo chmod 755 /path/to/somewhere/phorge-ssh-hook.sh
 If you don't do this, `sshd` will refuse to execute the hook.
 
 **Create `sshd_config` for Phorge**: Copy the template in
-`phorge/resources/sshd/sshd_config.phabricator.example` to somewhere like
+`phorge/resources/sshd/sshd_config.phorge.example` to somewhere like
 `/etc/ssh/sshd_config.phorge`.
 
 Open the file and edit the `AuthorizedKeysCommand`,
@@ -614,7 +614,7 @@ Sometimes users encounter this problem because they skip this whole document
 assuming they don't need to configure anything. This will not work, and you
 MUST configure things as described above for hosted repositories to work.
 
-The technical reason this error occurs is that the `PHABRICATOR_USER` variable
+The technical reason this error occurs is that the `PHORGE_USER` variable
 is not defined in the environment when commit hooks run. This variable is set
 by Phorge when a request passes through the authentication layer that this
 document provides instructions for configuring. Its absence indicates that the

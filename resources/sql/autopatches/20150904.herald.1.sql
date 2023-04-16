@@ -9,7 +9,7 @@ UPDATE {$NAMESPACE}_herald.herald_action a
   WHERE a.action = 'differential.reviewers.add'
   AND r.dateModified <=
     (SELECT applied FROM {$NAMESPACE}_meta_data.patch_status
-      WHERE patch = 'phabricator:20150730.herald.5.sql');
+      WHERE patch = 'phorge:20150730.herald.5.sql');
 
 UPDATE {$NAMESPACE}_herald.herald_action a
   JOIN {$NAMESPACE}_herald.herald_rule r
@@ -18,7 +18,7 @@ UPDATE {$NAMESPACE}_herald.herald_action a
   WHERE a.action = 'differential.reviewers.blocking'
   AND r.dateModified <=
     (SELECT applied FROM {$NAMESPACE}_meta_data.patch_status
-      WHERE patch = 'phabricator:20150730.herald.5.sql');
+      WHERE patch = 'phorge:20150730.herald.5.sql');
 
 UPDATE {$NAMESPACE}_herald.herald_action a
   JOIN {$NAMESPACE}_herald.herald_rule r
@@ -34,7 +34,7 @@ UPDATE {$NAMESPACE}_herald.herald_action a
   WHERE a.action = 'differential.reviewers.self.add'
   AND r.dateModified <=
     (SELECT applied FROM {$NAMESPACE}_meta_data.patch_status
-      WHERE patch = 'phabricator:20150730.herald.5.sql');
+      WHERE patch = 'phorge:20150730.herald.5.sql');
 
 UPDATE {$NAMESPACE}_herald.herald_action a
   JOIN {$NAMESPACE}_herald.herald_rule r
@@ -43,7 +43,7 @@ UPDATE {$NAMESPACE}_herald.herald_action a
   WHERE a.action = 'differential.reviewers.self.blocking'
   AND r.dateModified <=
     (SELECT applied FROM {$NAMESPACE}_meta_data.patch_status
-      WHERE patch = 'phabricator:20150730.herald.5.sql');
+      WHERE patch = 'phorge:20150730.herald.5.sql');
 
 UPDATE {$NAMESPACE}_herald.herald_action a
   JOIN {$NAMESPACE}_herald.herald_rule r

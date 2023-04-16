@@ -57,7 +57,7 @@ final class HarbormasterBuildLogView extends AphrontView {
       ->setHeader($header);
 
     if ($this->enableHighlighter) {
-      Javelin::initBehavior('phabricator-line-linker');
+      Javelin::initBehavior('phorge-line-linker');
     }
 
     $has_linemap = $log->getLineMap();

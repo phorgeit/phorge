@@ -3,7 +3,7 @@
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-util
- *           phabricator-shaped-request
+ *           phorge-shaped-request
  */
 
 JX.behavior('audit-preview', function(config) {

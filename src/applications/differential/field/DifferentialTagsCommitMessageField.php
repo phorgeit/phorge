@@ -3,7 +3,7 @@
 final class DifferentialTagsCommitMessageField
   extends DifferentialCommitMessageField {
 
-  const FIELDKEY = 'phabricator:projects';
+  const FIELDKEY = 'phorge:projects';
 
   public function getFieldName() {
     return pht('Tags');

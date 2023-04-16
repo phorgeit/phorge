@@ -17,7 +17,7 @@ final class DifferentialJIRAIssuesCommitMessageField
   }
 
   public function getCustomFieldKey() {
-    return 'phabricator:jira-issues';
+    return 'phorge:jira-issues';
   }
 
   public function parseFieldValue($value) {

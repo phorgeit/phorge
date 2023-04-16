@@ -3,7 +3,7 @@ index a5fc249..18edce4 100644
 --- a/style
 +++ b/style
 @@ -57,8 +57,8 @@
- .dashboard-panel div.phabricator-feed-frame {
+ .dashboard-panel div.phorge-feed-frame {
    background: #fff;
    margin: 0;
 -  border-left: 1px solid {$lightblueborder};

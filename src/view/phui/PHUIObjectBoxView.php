@@ -195,7 +195,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
         $header = id(new PHUIHeaderView());
       }
 
-      Javelin::initBehavior('phabricator-reveal-content');
+      Javelin::initBehavior('phorge-reveal-content');
 
       $hide_action_id = celerity_generate_unique_node_id();
       $show_action_id = celerity_generate_unique_node_id();
@@ -253,7 +253,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
         ->setIcon('fa-bars');
       $meta = array(
         'map' => array(
-          $this->actionListID => 'phabricator-action-list-toggle',
+          $this->actionListID => 'phorge-action-list-toggle',
           $icon_id => 'phuix-dropdown-open',
         ),
       );

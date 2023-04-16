@@ -160,7 +160,7 @@ final class DrydockLeaseViewController extends DrydockLeaseController {
 
     $until = $lease->getUntil();
     if ($until) {
-      $until_display = phabricator_datetime($until, $viewer);
+      $until_display = phorge_datetime($until, $viewer);
     } else {
       $until_display = phutil_tag('em', array(), pht('Never'));
     }
@@ -170,7 +170,7 @@ final class DrydockLeaseViewController extends DrydockLeaseController {
     $activated_epoch = $lease->getActivatedEpoch();
 
     if ($acquired_epoch) {
-      $acquired_display = phabricator_datetime($acquired_epoch, $viewer);
+      $acquired_display = phorge_datetime($acquired_epoch, $viewer);
     } else {
       if ($activated_epoch) {
         $acquired_display = phutil_tag(
@@ -184,7 +184,7 @@ final class DrydockLeaseViewController extends DrydockLeaseController {
     $view->addProperty(pht('Acquired'), $acquired_display);
 
     if ($activated_epoch) {
-      $activated_display = phabricator_datetime($activated_epoch, $viewer);
+      $activated_display = phorge_datetime($activated_epoch, $viewer);
     } else {
       $activated_display = phutil_tag('em', array(), pht('Not Activated'));
     }

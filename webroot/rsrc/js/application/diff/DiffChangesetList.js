@@ -1,8 +1,8 @@
 /**
- * @provides phabricator-diff-changeset-list
+ * @provides phorge-diff-changeset-list
  * @requires javelin-install
  *           phuix-button-view
- *           phabricator-diff-tree-view
+ *           phorge-diff-tree-view
  * @javelin
  */
 

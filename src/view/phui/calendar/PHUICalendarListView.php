@@ -54,7 +54,7 @@ final class PHUICalendarListView extends AphrontTagView {
       return '';
     }
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $singletons = array();
     foreach ($this->events as $event) {
@@ -63,7 +63,7 @@ final class PHUICalendarListView extends AphrontTagView {
       if ($event->getIsAllDay()) {
         $timelabel = pht('All Day');
       } else {
-        $timelabel = phabricator_time(
+        $timelabel = phorge_time(
           $event->getEpochStart(),
           $this->getUser());
       }

@@ -1,12 +1,12 @@
 /**
- * @provides javelin-behavior-phabricator-clipboard-copy
+ * @provides javelin-behavior-phorge-clipboard-copy
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
  * @javelin
  */
 
-JX.behavior('phabricator-clipboard-copy', function() {
+JX.behavior('phorge-clipboard-copy', function() {
 
   if (!document.queryCommandSupported) {
     return;

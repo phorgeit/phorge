@@ -1,5 +1,5 @@
 {
-  "phabricator.uri": "https://we.phorge.it/",
+  "phorge.uri": "https://we.phorge.it/",
   "load": ["src/"],
   "history.immutable": false
 }

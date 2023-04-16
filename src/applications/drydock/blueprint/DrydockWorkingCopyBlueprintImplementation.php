@@ -524,7 +524,7 @@ final class DrydockWorkingCopyBlueprintImplementation
     $real_command = csprintf(
       'git -c user.name=%s -c user.email=%s merge --no-stat --squash -- %R',
       'drydock',
-      'drydock@phabricator',
+      'drydock@phorge',
       $src_ref);
 
     try {

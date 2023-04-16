@@ -59,7 +59,7 @@ JX.install('Device', {
       JX.DOM.alterClass(e, 'device-desktop', (device == 'desktop'));
       JX.DOM.alterClass(e, 'device', (device != 'desktop'));
 
-      JX.Stratcom.invoke('phabricator-device-change', null, device);
+      JX.Stratcom.invoke('phorge-device-change', null, device);
     },
 
     isDesktop: function() {

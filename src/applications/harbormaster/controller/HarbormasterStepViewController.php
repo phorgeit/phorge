@@ -91,7 +91,7 @@ final class HarbormasterStepViewController
 
     $view->addProperty(
       pht('Created'),
-      phabricator_datetime($step->getDateCreated(), $viewer));
+      phorge_datetime($step->getDateCreated(), $viewer));
 
     $field_list->appendFieldsToPropertyList(
       $step,

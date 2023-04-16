@@ -50,7 +50,7 @@ final class PhortuneCreditCardForm extends Phobject {
     require_celerity_resource('phortune-credit-card-form');
 
     require_celerity_resource('aphront-tooltip-css');
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $form = new AphrontFormView();
 

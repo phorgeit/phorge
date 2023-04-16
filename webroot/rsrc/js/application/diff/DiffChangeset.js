@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-diff-changeset
+ * @provides phorge-diff-changeset
  * @requires javelin-dom
  *           javelin-util
  *           javelin-stratcom
@@ -8,8 +8,8 @@
  *           javelin-router
  *           javelin-behavior-device
  *           javelin-vector
- *           phabricator-diff-inline
- *           phabricator-diff-path-view
+ *           phorge-diff-inline
+ *           phorge-diff-path-view
  *           phuix-button-view
  *           javelin-external-editor-link-engine
  * @javelin

@@ -2,7 +2,7 @@
  * @provides global-drag-and-drop-css
  */
 
-.phabricator-global-upload-instructions {
+.phorge-global-upload-instructions {
   text-align: center;
   position: fixed;
   font-size: 36px;

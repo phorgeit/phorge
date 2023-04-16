@@ -96,7 +96,7 @@ final class PhrictionHistoryController
 
       $item->addIcon(
         null,
-        phabricator_datetime($content->getDateCreated(), $viewer));
+        phorge_datetime($content->getDateCreated(), $viewer));
 
       $author_phid = $content->getAuthorPHID();
       $item->addByline($viewer->renderHandle($author_phid));

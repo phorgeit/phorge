@@ -29,7 +29,7 @@ final class PonderFooterView extends AphrontTagView {
 
   protected function getTagContent() {
     require_celerity_resource('ponder-view-css');
-    Javelin::initBehavior('phabricator-reveal-content');
+    Javelin::initBehavior('phorge-reveal-content');
 
     $hide_action_id = celerity_generate_unique_node_id();
     $show_action_id = celerity_generate_unique_node_id();

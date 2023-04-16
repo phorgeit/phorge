@@ -219,7 +219,7 @@ final class ManiphestReportController extends ManiphestController {
         continue;
       }
 
-      $day_bucket = phabricator_format_local_time(
+      $day_bucket = phorge_format_local_time(
         $row['dateCreated'],
         $viewer,
         'Yz');
@@ -253,14 +253,14 @@ final class ManiphestReportController extends ManiphestController {
     foreach ($stats as $bucket => $info) {
       $epoch = $day_buckets[$bucket];
 
-      $week_bucket = phabricator_format_local_time(
+      $week_bucket = phorge_format_local_time(
         $epoch,
         $viewer,
         'YW');
       if ($week_bucket != $last_week) {
         if ($week) {
           $rows[] = $this->formatBurnRow(
-            pht('Week of %s', phabricator_date($last_week_epoch, $viewer)),
+            pht('Week of %s', phorge_date($last_week_epoch, $viewer)),
             $week);
           $rowc[] = 'week';
         }
@@ -269,14 +269,14 @@ final class ManiphestReportController extends ManiphestController {
         $last_week_epoch = $epoch;
       }
 
-      $month_bucket = phabricator_format_local_time(
+      $month_bucket = phorge_format_local_time(
         $epoch,
         $viewer,
         'Ym');
       if ($month_bucket != $last_month) {
         if ($month) {
           $rows[] = $this->formatBurnRow(
-            phabricator_format_local_time($last_month_epoch, $viewer, 'F, Y'),
+            phorge_format_local_time($last_month_epoch, $viewer, 'F, Y'),
             $month);
           $rowc[] = 'month';
         }
@@ -285,7 +285,7 @@ final class ManiphestReportController extends ManiphestController {
         $last_month_epoch = $epoch;
       }
 
-      $rows[] = $this->formatBurnRow(phabricator_date($epoch, $viewer), $info);
+      $rows[] = $this->formatBurnRow(phorge_date($epoch, $viewer), $info);
       $rowc[] = null;
       $week['open'] += $info['open'];
       $week['close'] += $info['close'];
@@ -516,7 +516,7 @@ final class ManiphestReportController extends ManiphestController {
 
     $recently_closed = $this->loadRecentlyClosedTasks();
 
-    $date = phabricator_date(time(), $viewer);
+    $date = phorge_date(time(), $viewer);
 
     switch ($this->view) {
       case 'user':
@@ -575,7 +575,7 @@ final class ManiphestReportController extends ManiphestController {
     list($order, $reverse) = AphrontTableView::parseSort($order);
 
     require_celerity_resource('aphront-tooltip-css');
-    Javelin::initBehavior('phabricator-tooltips', array());
+    Javelin::initBehavior('phorge-tooltips', array());
 
     $rows = array();
     $pri_total = array();
@@ -711,7 +711,7 @@ final class ManiphestReportController extends ManiphestController {
     $cclass[] = 'n';
 
     list($ignored, $window_epoch) = $this->getWindow();
-    $edate = phabricator_datetime($window_epoch, $viewer);
+    $edate = phorge_datetime($window_epoch, $viewer);
     $cname[] = javelin_tag(
       'span',
       array(

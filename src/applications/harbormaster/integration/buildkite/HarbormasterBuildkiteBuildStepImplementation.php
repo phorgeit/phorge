@@ -72,7 +72,7 @@ EOTEXT
     HarbormasterBuildTarget $build_target) {
     $viewer = PhabricatorUser::getOmnipotentUser();
 
-    if (PhabricatorEnv::getEnvConfig('phabricator.silent')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
       $this->logSilencedCall($build, $build_target, pht('Buildkite'));
       throw new HarbormasterBuildFailureException();
     }
@@ -108,11 +108,11 @@ EOTEXT
         'buildTargetPHID' => $build_target->getPHID(),
 
         // See PHI611. These are undocumented secret magic.
-        'phabricator:build:id' => (int)$build->getID(),
-        'phabricator:build:url' =>
+        'phorge:build:id' => (int)$build->getID(),
+        'phorge:build:url' =>
           PhabricatorEnv::getProductionURI($build->getURI()),
-        'phabricator:buildable:id' => (int)$buildable->getID(),
-        'phabricator:buildable:url' =>
+        'phorge:buildable:id' => (int)$buildable->getID(),
+        'phorge:buildable:url' =>
           PhabricatorEnv::getProductionURI($buildable->getURI()),
       ),
     );

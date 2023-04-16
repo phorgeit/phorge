@@ -20,7 +20,7 @@ $args->parse(
     ),
   ));
 
-$root = dirname(phutil_get_library_root('phabricator'));
+$root = dirname(phutil_get_library_root('phorge'));
 // move this to an argument?
 $path = $root.'/emoji_strategy.json';
 $export_path = $root.'/resources/emoji/manifest.json';

@@ -1,25 +1,25 @@
 /**
- * @provides phabricator-feed-css
+ * @provides phorge-feed-css
  */
 
-.phabricator-feed-newer-link {
+.phorge-feed-newer-link {
   float: left;
   font-weight: bold;
 }
 
-.phabricator-feed-older-link {
+.phorge-feed-older-link {
   float: right;
   font-weight: bold;
 }
 
-.phabricator-public-feed-frame .phui-feed-story-foot {
+.phorge-public-feed-frame .phui-feed-story-foot {
   background: none;
 }
 
-.phabricator-public-feed-frame .phui-feed-story {
+.phorge-public-feed-frame .phui-feed-story {
   box-shadow: none;
 }
 
-.phabricator-public-feed-frame .phui-feed-wrap {
+.phorge-public-feed-frame .phui-feed-wrap {
   border: none;
 }

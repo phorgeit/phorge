@@ -217,7 +217,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
           $data['title'],
         ));
       $image = $data['image'];
-      Javelin::initBehavior('phabricator-tooltips');
+      Javelin::initBehavior('phorge-tooltips');
       $icons[] =
         javelin_tag(
           'a',
@@ -268,9 +268,9 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       'div',
       array(
         'id' => $dropdown_id,
-        'class' => 'phabricator-main-menu-dropdown phui-list-sidenav '.
+        'class' => 'phorge-main-menu-dropdown phui-list-sidenav '.
         'conpherence-settings-dropdown',
-        'sigil' => 'phabricator-notification-menu',
+        'sigil' => 'phorge-notification-menu',
         'style' => 'display: none',
       ),
       $settings_list);
@@ -308,7 +308,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     $settings_button = id(new PHUIListView())
       ->addMenuItem($bars)
       ->addMenuItem($minimize)
-      ->addClass('phabricator-application-menu');
+      ->addClass('phorge-application-menu');
 
     if ($conpherence) {
       $data = $conpherence->getDisplayData($this->getUser());
@@ -453,7 +453,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
         'uri'             => '/file/dropupload/',
       ));
     $id = $conpherence->getID();
-    return phabricator_form(
+    return phorge_form(
       $this->getUser(),
       array(
         'method' => 'POST',

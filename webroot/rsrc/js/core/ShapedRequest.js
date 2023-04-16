@@ -3,7 +3,7 @@
  *           javelin-util
  *           javelin-request
  *           javelin-router
- * @provides phabricator-shaped-request
+ * @provides phorge-shaped-request
  * @javelin
  */
 

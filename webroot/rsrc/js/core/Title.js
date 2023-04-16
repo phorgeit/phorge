@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-title
+ * @provides phorge-title
  * @requires javelin-install
  */
 

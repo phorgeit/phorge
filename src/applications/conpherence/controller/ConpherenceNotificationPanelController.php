@@ -33,12 +33,12 @@ final class ConpherenceNotificationPanelController
         $p_data = $participant_data[$conpherence->getPHID()];
         $d_data = $conpherence->getDisplayData($user);
         $classes = array(
-          'phabricator-notification',
+          'phorge-notification',
           'conpherence-notification',
         );
 
         if (!$p_data->isUpToDate($conpherence)) {
-          $classes[] = 'phabricator-notification-unread';
+          $classes[] = 'phorge-notification-unread';
         }
         $uri = $this->getApplicationURI($conpherence->getID().'/');
         $title = $d_data['title'];
@@ -78,11 +78,11 @@ final class ConpherenceNotificationPanelController
         pht('You have joined no rooms.'));
 
       $content = phutil_tag_div(
-        'phabricator-notification no-notifications', $rooms_uri);
+        'phorge-notification no-notifications', $rooms_uri);
     }
 
     $content = hsprintf(
-      '<div class="phabricator-notification-header grouped">%s%s</div>'.
+      '<div class="phorge-notification-header grouped">%s%s</div>'.
       '%s',
       phutil_tag(
         'a',

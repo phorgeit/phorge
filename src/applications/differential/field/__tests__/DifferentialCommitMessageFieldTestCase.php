@@ -17,7 +17,7 @@ final class DifferentialCommitMessageFieldTestCase
     );
 
     $env = PhabricatorEnv::beginScopedEnv();
-    $env->overrideEnvConfig('phabricator.base-uri', $base_uri);
+    $env->overrideEnvConfig('phorge.base-uri', $base_uri);
 
     foreach ($tests as $input => $expect) {
       $actual = id(new DifferentialRevisionIDCommitMessageField())

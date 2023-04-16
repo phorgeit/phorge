@@ -14,7 +14,7 @@
     "url": "https://api.github.com/repos/epriestley/poems"
   },
   "payload": {
-    "ref": "phabricator/diff/400",
+    "ref": "phorge/diff/400",
     "ref_type": "tag",
     "master_branch": "master",
     "description": "Poems (Mirror)",
@@ -32,7 +32,7 @@
   "issue.number": null,
   "pull.number": null,
   "id": 3784548642,
-  "uri": "https://github.com/epriestley/poems/commits/phabricator/diff/400",
-  "title.full": "GitHub epriestley/poems Tag phabricator/diff/400 (Created)",
+  "uri": "https://github.com/epriestley/poems/commits/phorge/diff/400",
+  "title.full": "GitHub epriestley/poems Tag phorge/diff/400 (Created)",
   "actor.id": 102631
 }

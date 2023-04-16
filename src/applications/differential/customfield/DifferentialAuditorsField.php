@@ -4,7 +4,7 @@ final class DifferentialAuditorsField
   extends DifferentialStoredCustomField {
 
   public function getFieldKey() {
-    return 'phabricator:auditors';
+    return 'phorge:auditors';
   }
 
   public function getFieldName() {

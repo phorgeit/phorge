@@ -4,7 +4,7 @@ final class DifferentialRevertPlanField
   extends DifferentialStoredCustomField {
 
   public function getFieldKey() {
-    return 'phabricator:revert-plan';
+    return 'phorge:revert-plan';
   }
 
   public function getFieldKeyForConduit() {

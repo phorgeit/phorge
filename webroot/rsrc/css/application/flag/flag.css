@@ -1,62 +1,62 @@
 /**
- * @provides phabricator-flag-css
+ * @provides phorge-flag-css
  */
 
-.phabricator-flag-icon {
+.phorge-flag-icon {
   padding: 8px;
   background: transparent 0 0 no-repeat;
 }
 
-.phui-oi .phabricator-flag-icon {
+.phui-oi .phorge-flag-icon {
   float: left;
   margin: 2px;
   margin-right: 8px;
   margin-bottom: 0;
 }
 
-.phabricator-flag-radio {
+.phorge-flag-radio {
   padding-left: 18px;
   margin: 1px;
   background: transparent 0 0 no-repeat;
 }
 
-.phabricator-flag-color-0 {
+.phorge-flag-color-0 {
   background-image: url(/rsrc/image/icon/fatcow/flag_red.png);
 }
 
-.phabricator-flag-color-1 {
+.phorge-flag-color-1 {
   background-image: url(/rsrc/image/icon/fatcow/flag_orange.png);
 }
 
-.phabricator-flag-color-2 {
+.phorge-flag-color-2 {
   background-image: url(/rsrc/image/icon/fatcow/flag_yellow.png);
 }
 
-.phabricator-flag-color-3 {
+.phorge-flag-color-3 {
   background-image: url(/rsrc/image/icon/fatcow/flag_green.png);
 }
 
-.phabricator-flag-color-4 {
+.phorge-flag-color-4 {
   background-image: url(/rsrc/image/icon/fatcow/flag_blue.png);
 }
 
-.phabricator-flag-color-5 {
+.phorge-flag-color-5 {
   background-image: url(/rsrc/image/icon/fatcow/flag_pink.png);
 }
 
-.phabricator-flag-color-6 {
+.phorge-flag-color-6 {
   background-image: url(/rsrc/image/icon/fatcow/flag_purple.png);
 }
 
-.phabricator-flag-color-7 {
+.phorge-flag-color-7 {
   background-image: url(/rsrc/image/icon/fatcow/flag_finish.png);
 }
 
-.phabricator-flag-ghost {
+.phorge-flag-ghost {
   background-image: url(/rsrc/image/icon/fatcow/flag_ghost.png);
 }
 
-.phabricator-flag-select-control .phabricator-flag-select-label {
+.phorge-flag-select-control .phorge-flag-select-label {
   border: 1px solid #aaaaaa;
   width: 48px;
   height: 24px;
@@ -67,14 +67,14 @@
   margin: 0 4px 4px 0;
 }
 
-.phabricator-flag-select-control .phabricator-flag-select-checkbox {
+.phorge-flag-select-control .phorge-flag-select-checkbox {
   position: absolute;
   top: 2px;
   left: 4px;
   width: auto;
 }
 
-.phabricator-flag-select-control .phui-icon-view {
+.phorge-flag-select-control .phui-icon-view {
   position: absolute;
   width: 16px;
   height: 16px;

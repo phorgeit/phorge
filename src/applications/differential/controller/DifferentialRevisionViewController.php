@@ -704,7 +704,7 @@ final class DifferentialRevisionViewController
     $author_phid = $revision->getAuthorPHID();
 
     $author = $viewer->renderHandle($author_phid)->render();
-    $date = phabricator_datetime($revision->getDateCreated(), $viewer);
+    $date = phorge_datetime($revision->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $handles = $viewer->loadHandles(array($author_phid));

@@ -1,12 +1,12 @@
 /**
- * @provides javelin-behavior-phabricator-show-older-transactions
+ * @provides javelin-behavior-phorge-show-older-transactions
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
- *           phabricator-busy
+ *           phorge-busy
  */
 
-JX.behavior('phabricator-show-older-transactions', function(config) {
+JX.behavior('phorge-show-older-transactions', function(config) {
 
   function get_hash() {
     return window.location.hash.replace(/^#/, '');

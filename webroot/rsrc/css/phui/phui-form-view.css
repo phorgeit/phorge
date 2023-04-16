@@ -489,7 +489,7 @@ properly, and submit values. */
   display: none;
 }
 
-.phabricator-standard-custom-field-header {
+.phorge-standard-custom-field-header {
   font-size: 16px;
   color: {$bluetext};
   border-bottom: 1px solid {$lightbluetext};

@@ -1,12 +1,12 @@
 /**
- * @provides javelin-behavior-phabricator-object-selector
+ * @provides javelin-behavior-phorge-object-selector
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-request
  *           javelin-util
  */
 
-JX.behavior('phabricator-object-selector', function(config) {
+JX.behavior('phorge-object-selector', function(config) {
   var n = 0;
 
   var phids = {};
@@ -122,7 +122,7 @@ JX.behavior('phabricator-object-selector', function(config) {
     var some_icon = JX.$N(
       'span',
       {className: 'phui-icon-view phui-font-fa ' +
-        'fa-external-link phabricator-object-selector-popicon'},
+        'fa-external-link phorge-object-selector-popicon'},
       '');
 
     var view_object_link = JX.$N(
@@ -150,13 +150,13 @@ JX.behavior('phabricator-object-selector', function(config) {
 
     var table = JX.$N(
       'table',
-      {className: 'phabricator-object-selector-handle'});
+      {className: 'phorge-object-selector-handle'});
 
     table.appendChild(
       JX.$N(
         'tr',
         {sigil: 'object-attach-row',
-          className: 'phabricator-object-selector-row',
+          className: 'phorge-object-selector-row',
           meta: {handle: h, table:table}},
         cells));
 

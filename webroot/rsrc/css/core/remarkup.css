@@ -1,32 +1,32 @@
 /**
- * @provides phabricator-remarkup-css
+ * @provides phorge-remarkup-css
  */
 
-.phabricator-remarkup {
+.phorge-remarkup {
   line-height: 1.7em;
   word-break: break-word;
 }
 
-.phabricator-remarkup p {
+.phorge-remarkup p {
   margin: 0 0 12px;
 }
 
 .PhabricatorMonospaced,
-.phabricator-remarkup .remarkup-code-block .remarkup-code {
+.phorge-remarkup .remarkup-code-block .remarkup-code {
   font: 11px/15px "Menlo", "Consolas", "Monaco", monospace;
 }
 
 .platform-windows .PhabricatorMonospaced,
-.platform-windows .phabricator-remarkup .remarkup-code-block .remarkup-code {
+.platform-windows .phorge-remarkup .remarkup-code-block .remarkup-code {
   font: 12px/15px "Menlo", "Consolas", "Monaco", monospace;
 }
 
-.phabricator-remarkup .remarkup-code-block {
+.phorge-remarkup .remarkup-code-block {
   margin: 12px 0;
   white-space: pre;
 }
 
-.phabricator-remarkup .remarkup-code-header {
+.phorge-remarkup .remarkup-code-header {
   padding: 6px 12px;
   font-size: 13px;
   font-weight: bold;
@@ -37,15 +37,15 @@
   overflow: hidden;
 }
 
-.phabricator-remarkup .code-block-counterexample .remarkup-code-header {
+.phorge-remarkup .code-block-counterexample .remarkup-code-header {
   background-color: {$sh-redbackground};
 }
 
-.phabricator-remarkup .remarkup-code-block .remarkup-code-header + pre {
+.phorge-remarkup .remarkup-code-block .remarkup-code-header + pre {
   border-top-left-radius: 0;
 }
 
-.phabricator-remarkup .remarkup-code-block pre {
+.phorge-remarkup .remarkup-code-block pre {
   background: rgba({$alphablue},0.08);
   display: block;
   color: {$blacktext};
@@ -55,7 +55,7 @@
   white-space: pre-wrap;
 }
 
-.phabricator-remarkup kbd {
+.phorge-remarkup kbd {
   display: inline-block;
   min-width: 1em;
   padding: 4px 5px 5px;
@@ -71,16 +71,16 @@
   border: 1px solid {$lightgreyborder};
 }
 
-.phabricator-remarkup .kbd-join {
+.phorge-remarkup .kbd-join {
   padding: 0 4px;
   color: {$lightgreytext};
 }
 
-.phabricator-remarkup pre.remarkup-counterexample {
+.phorge-remarkup pre.remarkup-counterexample {
   background-color: {$sh-redbackground};
 }
 
-.phabricator-remarkup tt.remarkup-monospaced {
+.phorge-remarkup tt.remarkup-monospaced {
   color: {$blacktext};
   background: rgba({$alphablue},0.1);
   padding: 1px 4px;
@@ -90,50 +90,50 @@
 
 /* NOTE: You can currently produce this with [[link | `name`]]. Restore the
    link color. */
-.phabricator-remarkup a tt.remarkup-monospaced {
+.phorge-remarkup a tt.remarkup-monospaced {
   color: {$anchor};
 }
 
-.phabricator-remarkup .remarkup-header tt.remarkup-monospaced {
+.phorge-remarkup .remarkup-header tt.remarkup-monospaced {
   font-weight: normal;
 }
 
-.phabricator-remarkup ul.remarkup-list {
+.phorge-remarkup ul.remarkup-list {
   list-style: disc;
   margin: 12px 0 12px 30px;
 }
 
-.phabricator-remarkup ol.remarkup-list {
+.phorge-remarkup ol.remarkup-list {
   list-style: decimal;
   margin: 12px 0 12px 30px;
 }
 
-.phabricator-remarkup ol ol.remarkup-list {
+.phorge-remarkup ol ol.remarkup-list {
   list-style: upper-alpha;
 }
 
-.phabricator-remarkup ol ol ol.remarkup-list {
+.phorge-remarkup ol ol ol.remarkup-list {
   list-style: lower-alpha;
 }
 
-.phabricator-remarkup ol ol ol ol.remarkup-list {
+.phorge-remarkup ol ol ol ol.remarkup-list {
   list-style: lower-roman;
 }
 
-.phabricator-remarkup .remarkup-list-with-checkmarks .remarkup-checked-item,
-.phabricator-remarkup .remarkup-list-with-checkmarks .remarkup-unchecked-item {
+.phorge-remarkup .remarkup-list-with-checkmarks .remarkup-checked-item,
+.phorge-remarkup .remarkup-list-with-checkmarks .remarkup-unchecked-item {
   list-style: none;
   margin-left: -20px;
   position: relative;
   padding-left: 22px;
 }
 
-.phabricator-remarkup .remarkup-list-with-checkmarks input {
+.phorge-remarkup .remarkup-list-with-checkmarks input {
   visibility: hidden;
   width: 0;
 }
 
-.phabricator-remarkup .remarkup-list-with-checkmarks
+.phorge-remarkup .remarkup-list-with-checkmarks
   .remarkup-list-item::before {
     height: 16px;
     width: 16px;
@@ -153,52 +153,52 @@
   background-image: url(rsrc/image/controls/checkbox-unchecked.png);
 }
 
-.phabricator-remarkup .remarkup-list-with-checkmarks .remarkup-checked-item {
+.phorge-remarkup .remarkup-list-with-checkmarks .remarkup-checked-item {
   color: {$lightgreytext};
 }
 
-.phabricator-remarkup ul.remarkup-list ol.remarkup-list,
-.phabricator-remarkup ul.remarkup-list ul.remarkup-list,
-.phabricator-remarkup ol.remarkup-list ol.remarkup-list,
-.phabricator-remarkup ol.remarkup-list ul.remarkup-list {
+.phorge-remarkup ul.remarkup-list ol.remarkup-list,
+.phorge-remarkup ul.remarkup-list ul.remarkup-list,
+.phorge-remarkup ol.remarkup-list ol.remarkup-list,
+.phorge-remarkup ol.remarkup-list ul.remarkup-list {
   margin: 4px 0 4px 24px;
 }
 
-.phabricator-remarkup .remarkup-list-item {
+.phorge-remarkup .remarkup-list-item {
   line-height: 1.7em;
 }
 
-.phabricator-remarkup li.phantom-item,
-.phabricator-remarkup li.phantom-item {
+.phorge-remarkup li.phantom-item,
+.phorge-remarkup li.phantom-item {
   list-style-type: none;
 }
 
-.phabricator-remarkup h2.remarkup-header {
+.phorge-remarkup h2.remarkup-header {
   font-size: 28px;
   margin: 1em 0 0.75em;
 }
 
-.phabricator-remarkup h3.remarkup-header {
+.phorge-remarkup h3.remarkup-header {
   font-size: 24px;
   margin: 1em 0 0.75em;
 }
 
-.phabricator-remarkup h4.remarkup-header {
+.phorge-remarkup h4.remarkup-header {
   font-size: 22px;
   margin: 1em 0 0.75em;
 }
 
-.phabricator-remarkup h5.remarkup-header {
+.phorge-remarkup h5.remarkup-header {
   font-size: 18px;
   margin: 1em 0 0.75em;
 }
 
-.phabricator-remarkup h6.remarkup-header {
+.phorge-remarkup h6.remarkup-header {
   font-size: 16px;
   margin: 1em 0 0.75em;
 }
 
-.phabricator-remarkup blockquote {
+.phorge-remarkup blockquote {
   border-left: 3px solid {$sh-blueborder};
   color: {$darkbluetext};
   font-style:  italic;
@@ -207,32 +207,32 @@
   background-color: {$lightbluebackground};
 }
 
-.phabricator-remarkup blockquote *:last-child {
+.phorge-remarkup blockquote *:last-child {
   margin-bottom: 0;
 }
 
-.phabricator-remarkup blockquote blockquote {
+.phorge-remarkup blockquote blockquote {
   background-color: rgba(175,175,175, .1);
 }
 
-.phabricator-remarkup blockquote em {
+.phorge-remarkup blockquote em {
   /* In blockquote bodies, default text is italic so emphasized text should
      be normal. */
   font-style: normal;
 }
 
-.phabricator-remarkup blockquote div.remarkup-reply-head {
+.phorge-remarkup blockquote div.remarkup-reply-head {
   font-style: normal;
   padding-bottom: 4px;
 }
 
-.phabricator-remarkup blockquote div.remarkup-reply-head em {
+.phorge-remarkup blockquote div.remarkup-reply-head em {
   /* In blockquote headers, default text is normal so emphasized text should
      be italic. See T10686. */
   font-style: italic;
 }
 
-.phabricator-remarkup blockquote div.remarkup-reply-head
+.phorge-remarkup blockquote div.remarkup-reply-head
   .phui-tag-core {
   background-color: transparent;
   border: none;
@@ -240,90 +240,90 @@
   color: {$darkbluetext};
 }
 
-.phabricator-remarkup img.remarkup-proxy-image {
+.phorge-remarkup img.remarkup-proxy-image {
   max-width: 640px;
   max-height: 640px;
 }
 
-.phabricator-remarkup audio {
+.phorge-remarkup audio {
   display: block;
   margin: 16px auto;
   min-width: 240px;
   width: 50%;
 }
 
-video.phabricator-media {
+video.phorge-media {
   background: {$greybackground};
 }
 
-.phabricator-remarkup video {
+.phorge-remarkup video {
   display: block;
   margin: 0 auto;
   max-width: 95%;
 }
 
-.phabricator-remarkup-mention-exists {
+.phorge-remarkup-mention-exists {
   font-weight: bold;
   background: #e6f3ff;
 }
 
-.phabricator-remarkup-mention-disabled {
+.phorge-remarkup-mention-disabled {
   font-weight: bold;
   background: #dddddd;
 }
 
-.phui-remarkup-preview .phabricator-remarkup-mention-unknown,
-.aphront-panel-preview .phabricator-remarkup-mention-unknown {
+.phui-remarkup-preview .phorge-remarkup-mention-unknown,
+.aphront-panel-preview .phorge-remarkup-mention-unknown {
   font-weight: bold;
   background: #ffaaaa;
 }
 
-.phabricator-remarkup .phriction-link {
+.phorge-remarkup .phriction-link {
   font-weight: bold;
 }
 
-.phabricator-remarkup .phriction-link-missing {
+.phorge-remarkup .phriction-link-missing {
   color: {$red};
   text-decoration: underline;
 }
 
-.phabricator-remarkup .phriction-link-lock {
+.phorge-remarkup .phriction-link-lock {
   color: {$greytext};
 }
 
-.phabricator-remarkup .remarkup-note {
+.phorge-remarkup .remarkup-note {
   margin: 16px 0;
   padding: 12px;
   border-left: 3px solid {$blue};
   background: {$lightblue};
 }
 
-.phabricator-remarkup .remarkup-warning {
+.phorge-remarkup .remarkup-warning {
   margin: 16px 0;
   padding: 12px;
   border-left: 3px solid {$yellow};
   background: {$lightyellow};
 }
 
-.phabricator-remarkup .remarkup-important {
+.phorge-remarkup .remarkup-important {
   margin: 16px 0;
   padding: 12px;
   border-left: 3px solid {$red};
   background: {$lightred};
 }
 
-.phabricator-remarkup .remarkup-note .remarkup-monospaced,
-.phabricator-remarkup .remarkup-important .remarkup-monospaced,
-.phabricator-remarkup .remarkup-warning .remarkup-monospaced {
+.phorge-remarkup .remarkup-note .remarkup-monospaced,
+.phorge-remarkup .remarkup-important .remarkup-monospaced,
+.phorge-remarkup .remarkup-warning .remarkup-monospaced {
   background-color: rgba(150,150,150,.2);
 }
 
-.phabricator-remarkup .remarkup-note-word {
+.phorge-remarkup .remarkup-note-word {
   font-weight: bold;
   color: {$darkbluetext};
 }
 
-.phabricator-remarkup-toc {
+.phorge-remarkup-toc {
   float: right;
   border-left: 1px solid {$lightblueborder};
   background: {$page.content};
@@ -332,7 +332,7 @@ video.phabricator-media {
   margin: 0 0 4px 8px;
 }
 
-.phabricator-remarkup-toc-header {
+.phorge-remarkup-toc-header {
   font-size: 13px;
   line-height: 13px;
   color: {$darkbluetext};
@@ -340,18 +340,18 @@ video.phabricator-media {
   margin-bottom: 4px;
 }
 
-.phabricator-remarkup-toc ul {
+.phorge-remarkup-toc ul {
   padding: 0;
   margin: 0;
   list-style: none;
   overflow: hidden;
 }
 
-.phabricator-remarkup-toc ul ul {
+.phorge-remarkup-toc ul ul {
   margin: 0 0 0 8px;
 }
 
-.phabricator-remarkup-toc ul li {
+.phorge-remarkup-toc ul li {
   padding: 0;
   margin: 0;
   font-size: 12px;
@@ -360,24 +360,24 @@ video.phabricator-media {
   white-space: nowrap;
 }
 
-.phabricator-remarkup-embed-layout-right {
+.phorge-remarkup-embed-layout-right {
   text-align: right;
 }
 
-.phabricator-remarkup-embed-layout-center {
+.phorge-remarkup-embed-layout-center {
   text-align: center;
 }
 
-.phabricator-remarkup-embed-layout-inline {
+.phorge-remarkup-embed-layout-inline {
   display: inline;
 }
 
-.phabricator-remarkup-embed-float-right {
+.phorge-remarkup-embed-float-right {
   float: right;
   margin: .5em 1em 0;
 }
 
-.phabricator-remarkup-embed-layout-link {
+.phorge-remarkup-embed-layout-link {
   padding: 6px 6px 6px 42px;
   border-radius: 3px;
   margin: 0 0 4px;
@@ -394,35 +394,35 @@ video.phabricator-media {
   min-height: 38px;
 }
 
-.phabricator-remarkup-embed-layout-icon {
+.phorge-remarkup-embed-layout-icon {
   font-size: 28px;
   position: absolute;
   top: 10px;
   left: 10px;
 }
 
-.phabricator-remarkup-embed-layout-info {
+.phorge-remarkup-embed-layout-info {
   color: {$lightgreytext};
   font-size: {$smallerfontsize};
   font-weight: normal;
   margin-left: 8px;
 }
 
-.phabricator-remarkup-embed-layout-link:hover {
+.phorge-remarkup-embed-layout-link:hover {
   border-color: {$violet};
   cursor: pointer;
 }
 
-.device-desktop .phabricator-remarkup-embed-layout-link:hover {
+.device-desktop .phorge-remarkup-embed-layout-link:hover {
   text-decoration: none;
 }
 
-.phabricator-remarkup-embed-layout-link:hover
-  .phabricator-remarkup-embed-layout-icon {
+.phorge-remarkup-embed-layout-link:hover
+  .phorge-remarkup-embed-layout-icon {
     color: {$violet};
 }
 
-.phabricator-remarkup-embed-layout-info-block {
+.phorge-remarkup-embed-layout-info-block {
   display: block;
 }
 
@@ -432,8 +432,8 @@ video.phabricator-media {
   margin: 0;
 }
 
-.phabricator-remarkup-embed-layout-link
-  .phabricator-remarkup-embed-layout-download {
+.phorge-remarkup-embed-layout-link
+  .phorge-remarkup-embed-layout-download {
     color: {$lightgreytext};
     border: none;
     background: rgba(0, 0, 0, 0);
@@ -450,50 +450,50 @@ video.phabricator-media {
     font-weight: normal !important;
 }
 
-.phabricator-remarkup-embed-layout-download:hover {
+.phorge-remarkup-embed-layout-download:hover {
   color: {$anchor};
   text-decoration: underline;
 }
 
-.phabricator-remarkup-embed-float-left {
+.phorge-remarkup-embed-float-left {
   float: left;
   margin: .5em 1em 0;
 }
 
-.phabricator-remarkup-image-error {
+.phorge-remarkup-image-error {
   border: 1px solid {$redborder};
   background: {$sh-redbackground};
   padding: 8px 12px;
   color: {$darkgreytext};
 }
 
-.phabricator-remarkup-embed-image {
+.phorge-remarkup-embed-image {
   display: inline-block;
   border: 3px solid white;
   box-shadow: 1px 1px 2px rgba({$alphablack}, 0.20);
 }
 
-.phabricator-remarkup-embed-image-full,
-.phabricator-remarkup-embed-image-wide {
+.phorge-remarkup-embed-image-full,
+.phorge-remarkup-embed-image-wide {
   display: inline-block;
   max-width: 100%;
 }
 
-.phabricator-remarkup-embed-image-full img,
-.phabricator-remarkup-embed-image-wide img {
+.phorge-remarkup-embed-image-full img,
+.phorge-remarkup-embed-image-wide img {
   height: auto;
   max-width: 100%;
 }
 
-.phabricator-remarkup .remarkup-table-wrap {
+.phorge-remarkup .remarkup-table-wrap {
   overflow-x: auto;
 }
 
-!print .phabricator-remarkup .remarkup-table-wrap {
+!print .phorge-remarkup .remarkup-table-wrap {
   overflow-x: hidden;
 }
 
-.phabricator-remarkup table.remarkup-table {
+.phorge-remarkup table.remarkup-table {
   border-collapse: separate;
   border-spacing: 1px;
   background: {$lightblueborder};
@@ -501,18 +501,18 @@ video.phabricator-media {
   word-break: normal;
 }
 
-.phabricator-remarkup table.remarkup-table th {
+.phorge-remarkup table.remarkup-table th {
   font-weight: bold;
   padding: 4px 6px;
   background: {$lightbluebackground};
 }
 
-.phabricator-remarkup table.remarkup-table td {
+.phorge-remarkup table.remarkup-table td {
   background: {$page.content};
   padding: 3px 6px;
 }
 
-!print .phabricator-remarkup table.remarkup-table td {
+!print .phorge-remarkup table.remarkup-table td {
   /* See T13564. This is a narrow control for PDF printing behavior in
      Chrome. */
 
@@ -520,18 +520,18 @@ video.phabricator-media {
   overflow-wrap: anywhere;
 }
 
-body div.phabricator-remarkup.remarkup-has-toc
-  .phabricator-remarkup-toc + .remarkup-header {
+body div.phorge-remarkup.remarkup-has-toc
+  .phorge-remarkup-toc + .remarkup-header {
   margin-top: 0;
   padding-top: 0;
 }
 
-body .phabricator-standard-page div.phabricator-remarkup *:first-child,
-body .phabricator-standard-page div.phabricator-remarkup .remarkup-header + * {
+body .phorge-standard-page div.phorge-remarkup *:first-child,
+body .phorge-standard-page div.phorge-remarkup .remarkup-header + * {
   margin-top: 0;
 }
 
-body div.phabricator-remarkup > *:last-child {
+body div.phorge-remarkup > *:last-child {
   margin-bottom: 0;
 }
 
@@ -651,12 +651,12 @@ var.remarkup-assist-textarea {
   opacity: 1.0;
 }
 
-.phabricator-image-macro-hero {
+.phorge-image-macro-hero {
   margin: auto;
   max-width: 95%;
 }
 
-.phabricator-remarkup-macro {
+.phorge-remarkup-macro {
   height: auto;
   max-width: 100%;
 }
@@ -665,13 +665,13 @@ var.remarkup-assist-textarea {
   color: {$lightgreytext};
 }
 
-.phabricator-remarkup hr {
+.phorge-remarkup hr {
   background: {$thinblueborder};
   margin: 24px 0;
   clear: both;
 }
 
-.phabricator-remarkup .remarkup-highlight {
+.phorge-remarkup .remarkup-highlight {
   background-color: {$lightviolet};
   padding: 0 4px;
 }

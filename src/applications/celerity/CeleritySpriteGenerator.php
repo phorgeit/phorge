@@ -67,7 +67,7 @@ final class CeleritySpriteGenerator extends Phobject {
   }
 
   private function getPath($to_path = null) {
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     return $root.'/resources/sprite/'.$to_path;
   }
 

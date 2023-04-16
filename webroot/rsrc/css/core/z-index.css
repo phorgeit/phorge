@@ -1,10 +1,10 @@
 /**
- * @provides phabricator-zindex-css
+ * @provides phorge-zindex-css
  */
 
-.device .phabricator-action-list-view.phabricator-action-list-toggle,
+.device .phorge-action-list-view.phorge-action-list-toggle,
 .device-desktop .phui-document-content
-  .phabricator-action-list-view.phabricator-action-list-toggle {
+  .phorge-action-list-view.phorge-action-list-toggle {
   z-index: 1;
 }
 
@@ -44,7 +44,7 @@ div.phui-calendar-day-event {
   z-index: 3;
 }
 
-.phabricator-nav-local {
+.phorge-nav-local {
   z-index: 4;
 }
 
@@ -72,7 +72,7 @@ div.phui-calendar-day-event {
   z-index: 5;
 }
 
-.phabricator-main-menu {
+.phorge-main-menu {
   z-index: 6;
 }
 
@@ -106,7 +106,7 @@ div.phui-calendar-day-event {
   z-index: 8;
 }
 
-.device-desktop .phabricator-notification-menu {
+.device-desktop .phorge-notification-menu {
   z-index: 9;
 }
 
@@ -118,7 +118,7 @@ div.phui-calendar-day-event {
   z-index: 11;
 }
 
-.phabricator-global-upload-instructions {
+.phorge-global-upload-instructions {
   z-index: 11;
 }
 

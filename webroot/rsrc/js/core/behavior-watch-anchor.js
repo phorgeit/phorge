@@ -1,12 +1,12 @@
 /**
- * @provides javelin-behavior-phabricator-watch-anchor
+ * @provides javelin-behavior-phorge-watch-anchor
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-vector
  */
 
-JX.behavior('phabricator-watch-anchor', function() {
+JX.behavior('phorge-watch-anchor', function() {
 
   // When the user loads a page with an "#anchor" or changes the "#anchor" on
   // an existing page, we try to scroll the page to the relevant location.

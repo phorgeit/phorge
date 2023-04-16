@@ -180,8 +180,8 @@ abstract class DiffusionCommandEngine extends Phobject {
       // so we can parse the output of some commands, error messages, etc.
     $env['LANG'] = 'en_US.UTF-8';
 
-      // Propagate PHABRICATOR_ENV explicitly. For discussion, see T4155.
-    $env['PHABRICATOR_ENV'] = PhabricatorEnv::getSelectedEnvironmentName();
+      // Propagate PHORGE_ENV explicitly. For discussion, see T4155.
+    $env['PHORGE_ENV'] = PhabricatorEnv::getSelectedEnvironmentName();
 
     $as_device = $this->getConnectAsDevice();
     $credential_phid = $this->getCredentialPHID();
@@ -215,10 +215,10 @@ abstract class DiffusionCommandEngine extends Phobject {
 
     if ($this->isAnySSHProtocol()) {
       if ($credential_phid) {
-        $env['PHABRICATOR_CREDENTIAL'] = $credential_phid;
+        $env['PHORGE_CREDENTIAL'] = $credential_phid;
       }
       if ($as_device) {
-        $env['PHABRICATOR_AS_DEVICE'] = 1;
+        $env['PHORGE_AS_DEVICE'] = 1;
       }
     }
 
@@ -304,7 +304,7 @@ abstract class DiffusionCommandEngine extends Phobject {
   }
 
   protected function getSSHWrapper() {
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     return $root.'/bin/ssh-connect';
   }
 

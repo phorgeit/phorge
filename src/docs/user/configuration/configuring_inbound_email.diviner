@@ -272,7 +272,7 @@ Now, you can actually configure sendmail to deliver to Phorge. In
 
   phorge: "| /path/to/phorge/scripts/mail/mail_handler.php"
 
-If you use the `PHABRICATOR_ENV` environmental variable to select a
+If you use the `PHORGE_ENV` environmental variable to select a
 configuration, you can pass the value to the script as an argument:
 
   .../path/to/mail_handler.php <ENV>

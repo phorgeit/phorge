@@ -4,7 +4,7 @@
  *           javelin-stratcom
  *           javelin-dom
  *           javelin-json
- *           phabricator-draggable-list
+ *           phorge-draggable-list
  */
 
 JX.behavior('config-reorder-fields', function(config) {

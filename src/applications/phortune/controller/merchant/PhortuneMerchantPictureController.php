@@ -115,7 +115,7 @@ final class PhortuneMerchantPictureController
     );
 
     require_celerity_resource('people-profile-css');
-    Javelin::initBehavior('phabricator-tooltips', array());
+    Javelin::initBehavior('phorge-tooltips', array());
 
     $buttons = array();
     foreach ($images as $phid => $spec) {
@@ -148,7 +148,7 @@ final class PhortuneMerchantPictureController
         $button,
       );
 
-      $button = phabricator_form(
+      $button = phorge_form(
         $viewer,
         array(
           'class' => 'profile-image-form',

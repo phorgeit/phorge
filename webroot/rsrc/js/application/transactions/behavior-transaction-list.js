@@ -1,14 +1,14 @@
 /**
- * @provides javelin-behavior-phabricator-transaction-list
+ * @provides javelin-behavior-phorge-transaction-list
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-workflow
  *           javelin-dom
  *           javelin-uri
- *           phabricator-textareautils
+ *           phorge-textareautils
  */
 
-JX.behavior('phabricator-transaction-list', function() {
+JX.behavior('phorge-transaction-list', function() {
 
   JX.Stratcom.listen(
     'click',

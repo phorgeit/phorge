@@ -14,7 +14,7 @@ input[type="submit"] {
   user-select: none;
 }
 
-button.phabricator-action-view-item {
+button.phorge-action-view-item {
   -webkit-font-smoothing: auto;
 }
 

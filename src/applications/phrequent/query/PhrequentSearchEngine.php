@@ -145,7 +145,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
           'Tracked: %s',
           $handles[$usertime->getUserPHID()]->renderLink()));
 
-      $started_date = phabricator_date($usertime->getDateStarted(), $viewer);
+      $started_date = phorge_date($usertime->getDateStarted(), $viewer);
       $item->addIcon('none', $started_date);
 
       $block = new PhrequentTimeBlock(array($usertime));
@@ -164,7 +164,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
         $item->addAttribute(
           pht(
             'Ended on %s',
-            phabricator_datetime($usertime->getDateEnded(), $viewer)));
+            phorge_datetime($usertime->getDateEnded(), $viewer)));
       } else {
         $item->addAttribute(
           pht(

@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-diff-tree-view
+ * @provides phorge-diff-tree-view
  * @requires javelin-dom
  * @javelin
  */

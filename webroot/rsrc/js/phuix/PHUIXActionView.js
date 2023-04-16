@@ -28,7 +28,7 @@ JX.install('PHUIXActionView', {
       this._disabled = disabled;
       JX.DOM.alterClass(
         this.getNode(),
-        'phabricator-action-view-disabled',
+        'phorge-action-view-disabled',
         disabled);
 
       this._buildIconNode(true);
@@ -50,7 +50,7 @@ JX.install('PHUIXActionView', {
       this._label = label;
       JX.DOM.alterClass(
         this.getNode(),
-        'phabricator-action-view-label',
+        'phorge-action-view-label',
         label);
       return this;
     },
@@ -59,7 +59,7 @@ JX.install('PHUIXActionView', {
       this._divider = divider;
       JX.DOM.alterClass(
         this.getNode(),
-        'phabricator-action-view-type-divider',
+        'phorge-action-view-type-divider',
         divider);
       return this;
     },
@@ -68,7 +68,7 @@ JX.install('PHUIXActionView', {
       this._selected = selected;
       JX.DOM.alterClass(
         this.getNode(),
-        'phabricator-action-view-selected',
+        'phorge-action-view-selected',
         selected);
 
       return this;
@@ -120,7 +120,7 @@ JX.install('PHUIXActionView', {
 
     getNode: function() {
       if (!this._node) {
-        var classes = ['phabricator-action-view'];
+        var classes = ['phorge-action-view'];
 
         if (this._icon) {
           classes.push('action-has-icon');
@@ -149,7 +149,7 @@ JX.install('PHUIXActionView', {
       var node = this.getNode();
 
       var is_href = !!(this._href || this._handler);
-      JX.DOM.alterClass(node, 'phabricator-action-view-href', is_href);
+      JX.DOM.alterClass(node, 'phorge-action-view-href', is_href);
     },
 
     _buildIconNode: function(dirty) {
@@ -157,7 +157,7 @@ JX.install('PHUIXActionView', {
         var attr = {
           className: [
             'phui-icon-view',
-            'phabricator-action-view-icon',
+            'phorge-action-view-icon',
             'phui-font-fa'
           ].join(' ')
         };
@@ -197,7 +197,7 @@ JX.install('PHUIXActionView', {
     _buildNameNode: function(dirty) {
       if (!this._nameNode || dirty) {
         var attr = {
-          className: 'phabricator-action-view-item'
+          className: 'phorge-action-view-item'
         };
 
         var href = this._href;

@@ -2,7 +2,7 @@
  * @requires javelin-install
  *           javelin-dom
  *           javelin-vector
- * @provides phabricator-textareautils
+ * @provides phorge-textareautils
  * @javelin
  */
 

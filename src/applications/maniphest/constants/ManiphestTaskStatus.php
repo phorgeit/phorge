@@ -26,7 +26,7 @@ final class ManiphestTaskStatus extends ManiphestConstants {
   private static function getEnabledStatusMap() {
     $spec = self::getStatusConfig();
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phabricator.serious-business');
+    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
     foreach ($spec as $const => $status) {
       if ($is_serious && !empty($status['silly'])) {
         unset($spec[$const]);

@@ -1,13 +1,13 @@
 /**
- * @provides javelin-behavior-phabricator-tooltips
+ * @provides javelin-behavior-phorge-tooltips
  * @requires javelin-behavior
  *           javelin-behavior-device
  *           javelin-stratcom
- *           phabricator-tooltip
+ *           phorge-tooltip
  * @javelin
  */
 
-JX.behavior('phabricator-tooltips', function() {
+JX.behavior('phorge-tooltips', function() {
 
   JX.Stratcom.listen(
     ['mouseover', 'mouseout'],

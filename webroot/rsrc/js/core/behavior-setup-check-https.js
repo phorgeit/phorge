@@ -2,7 +2,7 @@
  * @provides javelin-behavior-setup-check-https
  * @requires javelin-behavior
  *           javelin-uri
- *           phabricator-notification
+ *           phorge-notification
  */
 
 JX.behavior('setup-check-https', function(config) {

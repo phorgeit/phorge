@@ -41,7 +41,7 @@ abstract class CelerityResourceController extends PhabricatorController {
       throw new Exception(pht('Only static resources may be served.'));
     }
 
-    $dev_mode = PhabricatorEnv::getEnvConfig('phabricator.developer-mode');
+    $dev_mode = PhabricatorEnv::getEnvConfig('phorge.developer-mode');
 
     $map = $this->getCelerityResourceMap();
     $expect_hash = $map->getHashForName($path);

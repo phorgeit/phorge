@@ -4,7 +4,7 @@ final class ConpherenceRoomTestCase extends ConpherenceTestCase {
 
   protected function getPhabricatorTestCaseConfiguration() {
     return array(
-      self::PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
+      self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 

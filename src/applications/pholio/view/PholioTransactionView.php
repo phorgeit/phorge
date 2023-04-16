@@ -78,7 +78,7 @@ final class PholioTransactionView
       $header = phutil_tag(
         'div',
         array(
-          'class' => 'phabricator-transaction-subheader',
+          'class' => 'phorge-transaction-subheader',
         ),
         array($icon, pht('Inline Comments')));
 

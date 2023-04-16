@@ -41,7 +41,7 @@ final class PeopleMainMenuBarExtension
       ->setTag('a')
       ->setHref('/p/'.$viewer->getUsername().'/')
       ->setIcon($profile_image)
-      ->addClass('phabricator-core-user-menu')
+      ->addClass('phorge-core-user-menu')
       ->setHasCaret(true)
       ->setNoCSS(true)
       ->setAuralLabel(pht('Account Menu'));
@@ -65,7 +65,7 @@ final class PeopleMainMenuBarExtension
       ->setFlush(true)
       ->setSimple(true)
       ->addItem($person_to_show)
-      ->addClass('phabricator-core-user-profile-object');
+      ->addClass('phorge-core-user-profile-object');
 
     $view = id(new PhabricatorActionListView())
       ->setViewer($viewer);

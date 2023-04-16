@@ -170,7 +170,7 @@
 
 /* Property / Action List */
 
-.phui-two-column-properties .phabricator-action-list-view {
+.phui-two-column-properties .phorge-action-list-view {
   padding-top: 4px;
   padding-bottom: 12px;
 }
@@ -261,7 +261,7 @@
 
 /* Navigation */
 
-.phui-two-column-view .side-has-nav .phabricator-nav-local {
+.phui-two-column-view .side-has-nav .phorge-nav-local {
   width: auto;
   position: static;
   margin: 0;
@@ -307,28 +307,28 @@
 }
 
 .phui-two-column-fixed.phui-two-column-view .phui-basic-nav
-  .phabricator-side-menu {
+  .phorge-side-menu {
     background: transparent;
 }
 
 .phui-two-column-fixed.phui-two-column-view
-  .phui-basic-nav .phabricator-side-menu .phui-list-item-selected {
+  .phui-basic-nav .phorge-side-menu .phui-list-item-selected {
     border-radius: 3px;
     background-color: {$sky};
 }
 
 .phui-two-column-fixed.phui-two-column-view .phui-basic-nav
-  .phabricator-side-menu .phui-list-item-href {
+  .phorge-side-menu .phui-list-item-href {
     border-radius: 3px;
 }
 
 .phui-two-column-fixed.phui-two-column-view .phui-basic-nav
-  .phabricator-side-menu .phui-list-item-selected a {
+  .phorge-side-menu .phui-list-item-selected a {
     color: #fff;
 }
 
 .phui-two-column-fixed.phui-two-column-view .phui-basic-nav
-  .phabricator-side-menu .phui-list-item-selected a .phui-icon-view {
+  .phorge-side-menu .phui-list-item-selected a .phui-icon-view {
     color: #fff;
 }
 
@@ -337,6 +337,6 @@
     display: block;
 }
 
-!print .phabricator-side-menu {
+!print .phorge-side-menu {
   display: none !important;
 }

@@ -6,7 +6,7 @@
   background-color: {$lightblue};
 }
 
-.conpherence-theme-blue .phui-basic-nav .phabricator-side-menu
+.conpherence-theme-blue .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     border-left-color: {$blue};
 }
@@ -15,7 +15,7 @@
   background-color: {$lightindigo};
 }
 
-.conpherence-theme-indigo .phui-basic-nav .phabricator-side-menu
+.conpherence-theme-indigo .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     border-left-color: {$indigo};
 }
@@ -24,7 +24,7 @@
   background-color: {$lightred};
 }
 
-.conpherence-theme-peach .phui-basic-nav .phabricator-side-menu
+.conpherence-theme-peach .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     border-left-color: rgba(0,0,0,.25);
 }
@@ -33,7 +33,7 @@
   background-color: {$lightgreen};
 }
 
-.conpherence-theme-green .phui-basic-nav .phabricator-side-menu
+.conpherence-theme-green .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     border-left-color: {$green};
 }
@@ -42,7 +42,7 @@
   background-color: {$lightpink};
 }
 
-.conpherence-theme-pink .phui-basic-nav .phabricator-side-menu
+.conpherence-theme-pink .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     border-left-color: {$pink};
 }

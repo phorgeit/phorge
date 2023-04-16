@@ -192,7 +192,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   public function setEpoch($epoch) {
-    $date = phabricator_dual_datetime($epoch, $this->getUser());
+    $date = phorge_dual_datetime($epoch, $this->getUser());
     $this->addIcon('none', $date);
     return $this;
   }
@@ -791,7 +791,7 @@ final class PHUIObjectItemView extends AphrontTagView {
 
     $actions = array();
     if ($this->actions) {
-      Javelin::initBehavior('phabricator-tooltips');
+      Javelin::initBehavior('phorge-tooltips');
 
       foreach (array_reverse($this->actions) as $action) {
         $action->setRenderNameAsTooltip(true);
@@ -864,7 +864,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   private function renderStatusIcon($icon, $label) {
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $icon = id(new PHUIIconView())
       ->setIcon($icon);
@@ -883,7 +883,7 @@ final class PHUIObjectItemView extends AphrontTagView {
 
 
   private function renderHandleIcon(PhabricatorObjectHandle $handle, $label) {
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $options = array(
       'class' => 'phui-oi-handle-icon',

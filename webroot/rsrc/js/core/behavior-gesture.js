@@ -1,5 +1,5 @@
 /**
- * @provides javelin-behavior-phabricator-gesture
+ * @provides javelin-behavior-phorge-gesture
  * @requires javelin-behavior
  *           javelin-behavior-device
  *           javelin-stratcom
@@ -12,7 +12,7 @@
 /**
  * Basic gesture recognition. Unstable. Only supports swipes.
  */
-JX.behavior('phabricator-gesture', function() {
+JX.behavior('phorge-gesture', function() {
 
   var target = null;
   var swiping = false;

@@ -645,7 +645,7 @@ final class DiffusionRepositoryBasicsManagementPanel
               ->setNote(
                 pht(
                   'Last updated %s (%s ago).',
-                  phabricator_datetime($message->getEpoch(), $viewer),
+                  phorge_datetime($message->getEpoch(), $viewer),
                   phutil_format_relative_time_detailed($ago))));
           break;
       }

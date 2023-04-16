@@ -591,12 +591,12 @@ final class PHUITimelineEventView extends AphrontView {
       }
 
       if ($date_created) {
-        $date = phabricator_dual_datetime(
+        $date = phorge_dual_datetime(
           $date_created,
           $this->getUser());
         if ($this->anchor) {
-          Javelin::initBehavior('phabricator-watch-anchor');
-          Javelin::initBehavior('phabricator-tooltips');
+          Javelin::initBehavior('phorge-watch-anchor');
+          Javelin::initBehavior('phorge-tooltips');
 
           $date = array(
             javelin_tag(

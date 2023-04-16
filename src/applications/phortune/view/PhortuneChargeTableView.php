@@ -49,7 +49,7 @@ final class PhortuneChargeTableView extends AphrontView {
         $handles[$charge->getMerchantPHID()]->renderLink(),
         $charge->getAmountAsCurrency()->formatForDisplay(),
         $charge->getStatusForDisplay(),
-        phabricator_datetime($charge->getDateCreated(), $viewer),
+        phorge_datetime($charge->getDateCreated(), $viewer),
       );
     }
 

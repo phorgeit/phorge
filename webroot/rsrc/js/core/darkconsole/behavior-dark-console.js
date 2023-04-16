@@ -5,9 +5,9 @@
  *           javelin-util
  *           javelin-dom
  *           javelin-request
- *           phabricator-keyboard-shortcut
- *           phabricator-darklog
- *           phabricator-darkmessage
+ *           phorge-keyboard-shortcut
+ *           phorge-darklog
+ *           phorge-darkmessage
  */
 
 JX.behavior('dark-console', function(config, statics) {
@@ -54,7 +54,7 @@ JX.behavior('dark-console', function(config, statics) {
             'div',
             { id : 'darkconsole', class : 'dark-console' });
           JX.DOM.prependContent(
-            JX.$('phabricator-standard-page-body'),
+            JX.$('phorge-standard-page-body'),
             new_console);
         }
         JX.DOM.replace(new_console, statics.root);

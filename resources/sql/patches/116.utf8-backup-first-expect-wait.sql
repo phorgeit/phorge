@@ -986,11 +986,11 @@ ALTER TABLE `{$NAMESPACE}_timeline`.`timeline_eventdata`
 
 ALTER DATABASE `{$NAMESPACE}_user` COLLATE utf8_general_ci;
 
-ALTER TABLE `{$NAMESPACE}_user`.`phabricator_session`
+ALTER TABLE `{$NAMESPACE}_user`.`phorge_session`
   MODIFY `userPHID` varchar(64) CHARACTER SET binary,
   MODIFY `type` varchar(32) CHARACTER SET binary,
   MODIFY `sessionKey` varchar(40) CHARACTER SET binary;
-ALTER TABLE `{$NAMESPACE}_user`.`phabricator_session`
+ALTER TABLE `{$NAMESPACE}_user`.`phorge_session`
   COLLATE utf8_general_ci,
   MODIFY `userPHID` varchar(64) COLLATE utf8_bin NOT NULL,
   MODIFY `type` varchar(32) COLLATE utf8_bin NOT NULL,

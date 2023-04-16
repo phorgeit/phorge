@@ -1,8 +1,8 @@
 /**
- * @provides phabricator-keyboard-shortcut
+ * @provides phorge-keyboard-shortcut
  * @requires javelin-install
  *           javelin-util
- *           phabricator-keyboard-shortcut-manager
+ *           phorge-keyboard-shortcut-manager
  * @javelin
  */
 

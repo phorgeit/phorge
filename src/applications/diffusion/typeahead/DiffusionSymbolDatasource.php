@@ -49,7 +49,7 @@ final class DiffusionSymbolDatasource
           ->setDisplayType(strtoupper($lang).' '.ucwords($type).' ('.$repo.')')
           ->setPriorityType('symb')
           ->setImageSprite(
-            'phabricator-search-icon phui-font-fa phui-icon-view fa-code '.
+            'phorge-search-icon phui-font-fa phui-icon-view fa-code '.
             'lightgreytext');
       }
     }

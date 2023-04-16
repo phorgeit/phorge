@@ -182,7 +182,7 @@ final class PonderQuestionViewController extends PonderController {
     $viewer = $this->getViewer();
 
     $asker = $viewer->renderHandle($question->getAuthorPHID())->render();
-    $date = phabricator_datetime($question->getDateCreated(), $viewer);
+    $date = phorge_datetime($question->getDateCreated(), $viewer);
     $asker = phutil_tag('strong', array(), $asker);
 
     $author = id(new PhabricatorPeopleQuery())
@@ -219,7 +219,7 @@ final class PonderQuestionViewController extends PonderController {
     }
 
     $question_details = phutil_tag_div(
-      'phabricator-remarkup ml', $question_details);
+      'phorge-remarkup ml', $question_details);
 
     return $question_details;
   }

@@ -432,7 +432,7 @@ final class PHUIDiffInlineCommentDetailView
     $inline_content = phutil_tag(
       'div',
       array(
-        'class' => 'phabricator-remarkup',
+        'class' => 'phorge-remarkup',
       ),
       $content);
 

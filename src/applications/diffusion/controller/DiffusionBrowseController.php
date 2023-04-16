@@ -413,7 +413,7 @@ final class DiffusionBrowseController extends DiffusionController {
 
   private function renderGrepResults(array $results, $pattern) {
     $drequest = $this->getDiffusionRequest();
-    require_celerity_resource('phabricator-search-results-css');
+    require_celerity_resource('phorge-search-results-css');
 
     if (!$results) {
       return id(new PHUIInfoView())
@@ -790,7 +790,7 @@ final class DiffusionBrowseController extends DiffusionController {
     $text = phutil_tag(
       'div',
       array(
-        'class' => 'phabricator-remarkup',
+        'class' => 'phorge-remarkup',
       ),
       $text);
 

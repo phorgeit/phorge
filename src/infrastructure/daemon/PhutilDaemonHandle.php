@@ -292,7 +292,7 @@ final class PhutilDaemonHandle extends Phobject {
   }
 
   private function getDaemonCWD() {
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     return $root.'/scripts/daemon/exec/';
   }
 

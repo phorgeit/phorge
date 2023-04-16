@@ -186,7 +186,7 @@ satisfied:
   - `diffusion.allow-http-auth` must be enabled or the repository view policy
     must be "Public".
   - The repository must be a Git or Mercurial repository.
-  - The `phabricator.base-uri` protocol must be `https://`.
+  - The `phorge.base-uri` protocol must be `https://`.
 
 **SSH**: The `ssh://` or `svn+ssh://` clone URI will be available if these
 conditions are satisfied:

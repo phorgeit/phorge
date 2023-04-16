@@ -420,7 +420,7 @@ JX.behavior('document-engine', function(config, statics) {
     if (coverage_row) {
       JX.DOM.alterClass(
         coverage_row,
-        'phabricator-source-coverage-highlight',
+        'phorge-source-coverage-highlight',
         false);
       coverage_row = null;
     }
@@ -445,7 +445,7 @@ JX.behavior('document-engine', function(config, statics) {
         coverage_row = JX.DOM.findAbove(node, 'tr');
         JX.DOM.alterClass(
           coverage_row,
-          'phabricator-source-coverage-highlight',
+          'phorge-source-coverage-highlight',
           true);
       }
     }

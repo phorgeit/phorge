@@ -146,7 +146,7 @@ final class AphrontFormView extends AphrontView {
       $sigils[] = 'workflow';
     }
 
-    return phabricator_form(
+    return phorge_form(
       $this->getViewer(),
       array(
         'class'   => implode(' ', $this->classes),

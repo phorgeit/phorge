@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-favicon
+ * @provides phorge-favicon
  * @requires javelin-install
  *           javelin-dom
  */

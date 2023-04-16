@@ -6,7 +6,7 @@
  *           javelin-vector
  *           javelin-stratcom
  *           javelin-workflow
- *           phabricator-drag-and-drop-file-upload
+ *           phorge-drag-and-drop-file-upload
  *           javelin-workboard-board
  * @javelin
  */

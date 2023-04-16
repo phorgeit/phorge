@@ -138,12 +138,12 @@ div.phui-property-list-stacked .phui-property-list-properties
 /* In the common case where we immediately follow a header, move back up 30px
    so we snuggle next to the header. */
 .device-desktop .phui-header-view
-  + .phabricator-action-list-view {
+  + .phorge-action-list-view {
   margin-top: -30px;
 }
 
 .device-desktop .phui-header-view
-  + .phabricator-action-list-view
+  + .phorge-action-list-view
   + .phui-property-list-view {
   margin-top: 0px;
 }
@@ -255,11 +255,11 @@ div.phui-property-list-stacked .phui-property-list-properties
   text-align: center;
 }
 
-.document-engine-pdf .phabricator-remarkup-embed-layout-link {
+.document-engine-pdf .phorge-remarkup-embed-layout-link {
   text-align: left;
 }
 
-.document-engine-text .phabricator-source-code-container {
+.document-engine-text .phorge-source-code-container {
   border: none;
 }
 

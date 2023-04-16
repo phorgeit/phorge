@@ -24,8 +24,8 @@ hooks, but with a few differences.
 With hosted repositories, you can install hooks by dropping them into the
 relevant directory of the repository on disk:
 
-  - **SVN** Put hooks in `hooks/pre-commit-phabricator.d/`.
-  - **Git** Put hooks in `hooks/pre-receive-phabricator.d/`.
+  - **SVN** Put hooks in `hooks/pre-commit-phorge.d/`.
+  - **Git** Put hooks in `hooks/pre-receive-phorge.d/`.
   - **Mercurial** Phorge does not currently support custom hooks in
     Mercurial.
 
@@ -42,11 +42,11 @@ These hooks act like normal `pre-commit` or `pre-receive` hooks:
 These additional variables will be available in the environment, in addition
 to the variables the VCS normally provides:
 
-  - `PHABRICATOR_REPOSITORY` The PHID of the repository the hook is
+  - `PHORGE_REPOSITORY` The PHID of the repository the hook is
     executing for.
-  - `PHABRICATOR_USER` The Phorge username that the session is
+  - `PHORGE_USER` The Phorge username that the session is
     authenticated under.
-  - `PHABRICATOR_REMOTE_ADDRESS` The connection's remote address (that is,
+  - `PHORGE_REMOTE_ADDRESS` The connection's remote address (that is,
     the IP address of whoever is pushing or committing).
-  - `PHABRICATOR_REMOTE_PROTOCOL` The protocol the connection is using (for
+  - `PHORGE_REMOTE_PROTOCOL` The protocol the connection is using (for
     example, "ssh" or "http").

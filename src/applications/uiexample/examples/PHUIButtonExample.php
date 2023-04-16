@@ -108,7 +108,7 @@ final class PHUIButtonExample extends PhabricatorUIExample {
 
       $copy = idx($spec, 'copy');
       if ($copy !== null) {
-        Javelin::initBehavior('phabricator-clipboard-copy');
+        Javelin::initBehavior('phorge-clipboard-copy');
 
         $button->addClass('clipboard-copy');
         $button->addSigil('clipboard-copy');

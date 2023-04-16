@@ -1,11 +1,11 @@
 /**
- * @provides javelin-behavior-phabricator-keyboard-pager
+ * @provides javelin-behavior-phorge-keyboard-pager
  * @requires javelin-behavior
  *           javelin-uri
- *           phabricator-keyboard-shortcut
+ *           phorge-keyboard-shortcut
  */
 
-JX.behavior('phabricator-keyboard-pager', function(config) {
+JX.behavior('phorge-keyboard-pager', function(config) {
 
   new JX.KeyboardShortcut('[', 'Prev Page')
     .setHandler(function() {

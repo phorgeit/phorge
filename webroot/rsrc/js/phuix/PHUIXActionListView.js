@@ -23,7 +23,7 @@ JX.install('PHUIXActionListView', {
     getNode: function() {
       if (!this._node) {
         var attrs = {
-          className: 'phabricator-action-list-view'
+          className: 'phorge-action-list-view'
         };
 
         this._node = JX.$N('ul', attrs);

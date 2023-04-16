@@ -4,7 +4,7 @@
  *           javelin-stratcom
  *           javelin-workflow
  *           javelin-dom
- *           phabricator-draggable-list
+ *           phorge-draggable-list
  */
 
 JX.behavior('editengine-reorder-configs', function(config) {

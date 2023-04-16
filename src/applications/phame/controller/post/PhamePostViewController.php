@@ -83,7 +83,7 @@ final class PhamePostViewController
       phutil_tag(
          'div',
         array(
-          'class' => 'phabricator-remarkup',
+          'class' => 'phorge-remarkup',
         ),
         $engine->getOutput($post, PhamePost::MARKUP_FIELD_BODY)));
 
@@ -105,7 +105,7 @@ final class PhamePostViewController
       ),
       $blogger->getUsername());
 
-    $date = phabricator_datetime($post->getDatePublished(), $viewer);
+    $date = phorge_datetime($post->getDatePublished(), $viewer);
     if ($post->isDraft()) {
       $subtitle = pht('Unpublished draft by %s.', $author);
     } else if ($post->isArchived()) {

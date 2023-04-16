@@ -132,7 +132,7 @@ final class PHUIIconView extends AphrontTagView {
     $sigil = null;
     $meta = array();
     if ($this->tooltip) {
-      Javelin::initBehavior('phabricator-tooltips');
+      Javelin::initBehavior('phorge-tooltips');
       require_celerity_resource('aphront-tooltip-css');
       $sigil = 'has-tooltip';
       $meta = array(
@@ -151,7 +151,7 @@ final class PHUIIconView extends AphrontTagView {
   }
 
   public static function getSheetManifest($sheet) {
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     $path = $root.'/resources/sprite/manifest/'.$sheet.'.json';
     $data = Filesystem::readFile($path);
     return idx(phutil_json_decode($data), 'sprites');

@@ -198,7 +198,7 @@ final class DiffusionCommitController extends DiffusionController {
         phutil_tag(
           'div',
           array(
-            'class' => 'diffusion-commit-message phabricator-remarkup',
+            'class' => 'diffusion-commit-message phorge-remarkup',
           ),
           $message));
 
@@ -623,7 +623,7 @@ final class DiffusionCommitController extends DiffusionController {
     $author_view = $commit->newCommitAuthorView($viewer);
     if ($author_view) {
       $author_date = $data->getAuthorEpoch();
-      $author_date = phabricator_datetime($author_date, $viewer);
+      $author_date = phorge_datetime($author_date, $viewer);
 
       $provenance_list->addItem(
         id(new PHUIStatusItemView())
@@ -635,7 +635,7 @@ final class DiffusionCommitController extends DiffusionController {
       $committer_view = $commit->newCommitCommitterView($viewer);
       if ($committer_view) {
         $committer_date = $commit->getEpoch();
-        $committer_date = phabricator_datetime($committer_date, $viewer);
+        $committer_date = phorge_datetime($committer_date, $viewer);
 
         $provenance_list->addItem(
           id(new PHUIStatusItemView())
@@ -649,7 +649,7 @@ final class DiffusionCommitController extends DiffusionController {
 
       foreach ($push_logs as $push_log) {
         $pusher_date = $push_log->getEpoch();
-        $pusher_date = phabricator_datetime($pusher_date, $viewer);
+        $pusher_date = phorge_datetime($pusher_date, $viewer);
 
         $pusher_view = $handles[$push_log->getPusherPHID()]->renderLink();
 

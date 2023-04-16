@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-draggable-list
+ * @provides phorge-draggable-list
  * @requires javelin-install
  *           javelin-dom
  *           javelin-stratcom

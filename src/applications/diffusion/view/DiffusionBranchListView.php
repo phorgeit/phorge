@@ -30,7 +30,7 @@ final class DiffusionBranchListView extends DiffusionView {
 
     $can_close_branches = ($repository->isHg());
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $list = id(new PHUIObjectItemListView())
       ->addClass('diffusion-history-list')
@@ -44,7 +44,7 @@ final class DiffusionBranchListView extends DiffusionView {
       $commit = idx($commits, $branch->getCommitIdentifier());
       if ($commit) {
         $details = $commit->getSummary();
-        $datetime = phabricator_datetime($commit->getEpoch(), $viewer);
+        $datetime = phorge_datetime($commit->getEpoch(), $viewer);
 
         $buildable = idx($buildables, $commit->getPHID());
         if ($buildable) {

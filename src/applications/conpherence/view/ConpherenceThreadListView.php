@@ -49,7 +49,7 @@ final class ConpherenceThreadListView extends AphrontView {
       $menu->addMenuItem($room);
     }
 
-    $menu = phutil_tag_div('phabricator-side-menu', $menu);
+    $menu = phutil_tag_div('phorge-side-menu', $menu);
     $menu = phutil_tag_div('phui-basic-nav', $menu);
 
     return $menu;

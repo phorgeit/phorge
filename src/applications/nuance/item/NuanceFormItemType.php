@@ -33,7 +33,7 @@ final class NuanceFormItemType
         phutil_tag(
           'div',
           array(
-            'class' => 'phabricator-remarkup',
+            'class' => 'phorge-remarkup',
           ),
           $content_view));
 

@@ -1,12 +1,12 @@
 /**
- * @provides javelin-behavior-phabricator-reveal-content
+ * @provides javelin-behavior-phorge-reveal-content
  * @requires javelin-behavior
  *           javelin-stratcom
  *           javelin-dom
  * @javelin
  */
 
-JX.behavior('phabricator-reveal-content', function() {
+JX.behavior('phorge-reveal-content', function() {
   JX.Stratcom.listen(
     'click',
     'reveal-content',

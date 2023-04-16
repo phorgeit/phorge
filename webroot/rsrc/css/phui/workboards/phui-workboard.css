@@ -65,7 +65,7 @@
 
 /* Fullscreen */
 
-.device-desktop .phui-workboard-fullscreen .phabricator-main-menu {
+.device-desktop .phui-workboard-fullscreen .phorge-main-menu {
   display: none;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .device-desktop .phui-workboard-fullscreen .phui-profile-menu
-  .phabricator-nav-local {
+  .phorge-nav-local {
     display: none;
 }
 

@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-darklog
+ * @provides phorge-darklog
  * @javelin
  */
 

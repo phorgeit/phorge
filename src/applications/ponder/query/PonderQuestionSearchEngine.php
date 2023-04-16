@@ -150,7 +150,7 @@ final class PonderQuestionSearchEngine
         $proj_handles,
         $question->getProjectPHIDs());
 
-      $created_date = phabricator_date($question->getDateCreated(), $viewer);
+      $created_date = phorge_date($question->getDateCreated(), $viewer);
       $item->addIcon('none', $created_date);
       $item->addByline(
         pht(

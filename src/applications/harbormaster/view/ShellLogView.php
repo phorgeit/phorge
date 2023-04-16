@@ -28,10 +28,10 @@ final class ShellLogView extends AphrontView {
   }
 
   public function render() {
-    require_celerity_resource('phabricator-source-code-view-css');
+    require_celerity_resource('phorge-source-code-view-css');
     require_celerity_resource('syntax-highlighting-css');
 
-    Javelin::initBehavior('phabricator-oncopy', array());
+    Javelin::initBehavior('phorge-oncopy', array());
 
     $line_number = $this->start;
 
@@ -56,7 +56,7 @@ final class ShellLogView extends AphrontView {
 
       $row_attributes = array();
       if (isset($this->highlights[$line_number])) {
-        $row_attributes['class'] = 'phabricator-source-highlight';
+        $row_attributes['class'] = 'phorge-source-highlight';
       }
 
       // TODO: Provide nice links.
@@ -64,13 +64,13 @@ final class ShellLogView extends AphrontView {
       $th = phutil_tag(
         'th',
         array(
-          'class' => 'phabricator-source-line',
+          'class' => 'phorge-source-line',
         ),
         $content_number);
 
       $td = phutil_tag(
         'td',
-        array('class' => 'phabricator-source-code'),
+        array('class' => 'phorge-source-code'),
         $content_line);
 
       $rows[] = phutil_tag(
@@ -86,14 +86,14 @@ final class ShellLogView extends AphrontView {
     }
 
     $classes = array();
-    $classes[] = 'phabricator-source-code-view';
+    $classes[] = 'phorge-source-code-view';
     $classes[] = 'remarkup-code';
     $classes[] = 'PhabricatorMonospaced';
 
     return phutil_tag(
       'div',
       array(
-        'class' => 'phabricator-source-code-container',
+        'class' => 'phorge-source-code-container',
       ),
       phutil_tag(
         'table',

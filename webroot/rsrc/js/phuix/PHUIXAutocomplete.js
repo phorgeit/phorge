@@ -3,7 +3,7 @@
  * @requires javelin-install
  *           javelin-dom
  *           phuix-icon-view
- *           phabricator-prefab
+ *           phorge-prefab
  */
 
 JX.install('PHUIXAutocomplete', {
@@ -63,7 +63,7 @@ JX.install('PHUIXAutocomplete', {
       JX.DOM.listen(this._getNode(), 'mousedown', 'typeahead-result', select);
 
       var device = JX.bind(this, this._ondevice);
-      JX.Stratcom.listen('phabricator-device-change', null, device);
+      JX.Stratcom.listen('phorge-device-change', null, device);
 
       // When the user clicks away from the textarea, deactivate.
       var deactivate = JX.bind(this, this._deactivate);

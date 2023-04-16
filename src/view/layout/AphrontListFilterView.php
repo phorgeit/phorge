@@ -35,7 +35,7 @@ final class AphrontListFilterView extends AphrontView {
     if ($this->showAction !== null) {
       $classes[] = 'aphront-list-filter-view-collapsible';
 
-      Javelin::initBehavior('phabricator-reveal-content');
+      Javelin::initBehavior('phorge-reveal-content');
 
       $hide_action_id = celerity_generate_unique_node_id();
       $show_action_id = celerity_generate_unique_node_id();

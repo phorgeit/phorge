@@ -15,9 +15,9 @@ Configuration
 
 To adjust Phorge for development:
 
-  - Enable `phabricator.developer-mode` to enable some options and show
+  - Enable `phorge.developer-mode` to enable some options and show
     more debugging information.
-  - Enable `phabricator.show-prototypes` to show all the incomplete
+  - Enable `phorge.show-prototypes` to show all the incomplete
     applications.
   - See @{article: Using DarkConsole} for instructions on enabling the
     debugging console.

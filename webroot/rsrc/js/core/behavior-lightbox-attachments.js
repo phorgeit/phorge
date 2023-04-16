@@ -6,7 +6,7 @@
  *           javelin-mask
  *           javelin-util
  *           phuix-icon-view
- *           phabricator-busy
+ *           phorge-busy
  */
 
 JX.behavior('lightbox-attachments', function() {

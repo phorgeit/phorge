@@ -25,7 +25,7 @@ to lowest priority:
     running `bin/config`.
   - **Config Files**: Values are stored in a config file in `conf/`. The file
     to use is selected by writing to `conf/local/ENVIRONMENT`, or setting the
-    `PHABRICATOR_ENV` configuration variable. See below for more information.
+    `PHORGE_ENV` configuration variable. See below for more information.
   - **Defaults**: Defaults hard-coded in the Phorge source, which can not
     be edited. They have the lowest priority, and all other settings override
     them.
@@ -86,24 +86,24 @@ select `phorge/conf/custom/exampleconfig.conf.php`, you would write
   custom/exampleconfig
   phorge/ $
 
-You can also set the environmental variable `PHABRICATOR_ENV`. This is more
+You can also set the environmental variable `PHORGE_ENV`. This is more
 involved but may be easier in some deployment environments. Note that this needs
 to be set in your webserver environment, and also in your shell whenever you
 run a script:
 
 ```
 # Shell
-export PHABRICATOR_ENV=custom/exampleconfig
+export PHORGE_ENV=custom/exampleconfig
 
 # Apache
-SetEnv PHABRICATOR_ENV custom/exampleconfig
+SetEnv PHORGE_ENV custom/exampleconfig
 
 # nginx
-fastcgi_param PHABRICATOR_ENV "custom/exampleconfig";
+fastcgi_param PHORGE_ENV "custom/exampleconfig";
 
 # lighttpd
 setenv.add-environment = (
-   "PHABRICATOR_ENV" => "custom/exampleconfig",
+   "PHORGE_ENV" => "custom/exampleconfig",
 )
 ```
 

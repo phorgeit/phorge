@@ -45,7 +45,7 @@ final class PHUIHandleTagListView extends AphrontTagView {
 
   protected function getTagAttributes() {
     return array(
-      'class' => 'phabricator-handle-tag-list',
+      'class' => 'phorge-handle-tag-list',
     );
   }
 
@@ -93,7 +93,7 @@ final class PHUIHandleTagListView extends AphrontTagView {
     if ($over_limit) {
       $tip_text = implode(', ', mpull($handles, 'getName'));
 
-      Javelin::initBehavior('phabricator-tooltips');
+      Javelin::initBehavior('phorge-tooltips');
 
       $more = $this->newPlaceholderTag()
         ->setName("\xE2\x80\xA6")
@@ -114,7 +114,7 @@ final class PHUIHandleTagListView extends AphrontTagView {
     return phutil_tag(
       'li',
       array(
-        'class' => 'phabricator-handle-tag-list-item',
+        'class' => 'phorge-handle-tag-list-item',
       ),
       $content);
   }

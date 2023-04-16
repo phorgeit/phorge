@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-diff-inline-content-state
+ * @provides phorge-diff-inline-content-state
  * @requires javelin-dom
  * @javelin
  */

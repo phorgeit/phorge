@@ -85,7 +85,7 @@ final class PHUIRemarkupPreviewPanel extends AphrontTagView {
       'div',
       array(
         'id' => $preview_id,
-        'class' => 'phabricator-remarkup phui-preview-body',
+        'class' => 'phorge-remarkup phui-preview-body',
       ),
       $loading);
 

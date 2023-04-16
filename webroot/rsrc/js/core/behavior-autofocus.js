@@ -1,8 +1,8 @@
 /**
- * @provides javelin-behavior-phabricator-autofocus
+ * @provides javelin-behavior-phorge-autofocus
  * @requires javelin-behavior javelin-dom
  */
 
-JX.behavior('phabricator-autofocus', function(config) {
+JX.behavior('phorge-autofocus', function(config) {
   try { JX.$(config.id).focus(); } catch (x) { }
 });

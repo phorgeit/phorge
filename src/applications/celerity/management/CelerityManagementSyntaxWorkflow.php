@@ -15,7 +15,7 @@ final class CelerityManagementSyntaxWorkflow
   public function execute(PhutilArgumentParser $args) {
     $styles = PhabricatorSyntaxStyle::getAllStyles();
 
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     $root = $root.'/webroot/rsrc/css/syntax/';
 
     foreach ($styles as $key => $style) {

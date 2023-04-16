@@ -1,10 +1,10 @@
 /**
- * @provides javelin-behavior-phabricator-oncopy
+ * @provides javelin-behavior-phorge-oncopy
  * @requires javelin-behavior
  *           javelin-dom
  */
 
-JX.behavior('phabricator-oncopy', function() {
+JX.behavior('phorge-oncopy', function() {
   var copy_root;
   var copy_mode;
 

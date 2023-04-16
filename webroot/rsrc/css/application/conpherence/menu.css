@@ -21,11 +21,11 @@
   background-color: {$page.sidenav};
 }
 
-.conpherence-menu-pane .phui-basic-nav .phabricator-side-menu {
+.conpherence-menu-pane .phui-basic-nav .phorge-side-menu {
   background-color: transparent;
 }
 
-.conpherence-menu-pane.phabricator-side-menu .room-list-href {
+.conpherence-menu-pane.phorge-side-menu .room-list-href {
   padding: 10px 0 9px 8px;
   display: inline-block;
   text-transform: uppercase;
@@ -35,7 +35,7 @@
   float: left;
 }
 
-.conpherence-menu-pane.phabricator-side-menu .room-list-icons {
+.conpherence-menu-pane.phorge-side-menu .room-list-icons {
   display: inline-block;
   float: right;
   padding: 8px 0 5px;
@@ -163,7 +163,7 @@
   display: none;
 }
 
-.phui-basic-nav .phabricator-side-menu .conpherence-menu
+.phui-basic-nav .phorge-side-menu .conpherence-menu
   .phui-list-item-icon.phuihead-small {
     display: block;
     float: left;

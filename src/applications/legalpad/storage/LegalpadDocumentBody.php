@@ -61,11 +61,11 @@ final class LegalpadDocumentBody extends LegalpadDAO
   }
 
   public function didMarkupText($field, $output, PhutilMarkupEngine $engine) {
-    require_celerity_resource('phabricator-remarkup-css');
+    require_celerity_resource('phorge-remarkup-css');
     return phutil_tag(
       'div',
       array(
-        'class' => 'phabricator-remarkup',
+        'class' => 'phorge-remarkup',
       ),
       $output);
   }

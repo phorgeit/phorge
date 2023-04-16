@@ -130,7 +130,7 @@ final class PhrequentTrackController
       $start_time = $current_timer->getDateStarted();
       $start_string = pht(
         '%s (%s ago)',
-        phabricator_datetime($start_time, $viewer),
+        phorge_datetime($start_time, $viewer),
         phutil_format_relative_time(PhabricatorTime::getNow() - $start_time));
 
       $form->appendChild(

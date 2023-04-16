@@ -1,16 +1,16 @@
 /**
- * @provides javelin-behavior-phabricator-keyboard-shortcuts
+ * @provides javelin-behavior-phorge-keyboard-shortcuts
  * @requires javelin-behavior
  *           javelin-workflow
  *           javelin-json
  *           javelin-dom
- *           phabricator-keyboard-shortcut
+ *           phorge-keyboard-shortcut
  */
 
 /**
  * Define global keyboard shortcuts.
  */
-JX.behavior('phabricator-keyboard-shortcuts', function(config) {
+JX.behavior('phorge-keyboard-shortcuts', function(config) {
   var pht = JX.phtize(config.pht);
   var workflow = null;
 

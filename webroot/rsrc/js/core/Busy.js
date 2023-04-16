@@ -2,7 +2,7 @@
  * @requires javelin-install
  *           javelin-dom
  *           javelin-fx
- * @provides phabricator-busy
+ * @provides phorge-busy
  * @javelin
  */
 
@@ -30,7 +30,7 @@ JX.install('Busy', {
           {className: 'phui-icon-view phui-font-fa fa-gear ph-spin'});
         self._indicator = JX.$N('div', {className: 'busy'}, icon);
         self._indicator.style.opacity = 0;
-        JX.$('phabricator-standard-page').appendChild(self._indicator);
+        JX.$('phorge-standard-page').appendChild(self._indicator);
 
         // Don't actually show the indicator for a little while, to prevent
         // it from flashing briefly for every Ajax request.

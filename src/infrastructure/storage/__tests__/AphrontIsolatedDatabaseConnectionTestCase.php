@@ -8,7 +8,7 @@ final class AphrontIsolatedDatabaseConnectionTestCase
       // We disable this here because this test is unique (it is testing that
       // isolation actually occurs) and must establish a live connection to the
       // database to verify that.
-      self::PHABRICATOR_TESTCONFIG_ISOLATE_LISK => false,
+      self::PHORGE_TESTCONFIG_ISOLATE_LISK => false,
     );
   }
 

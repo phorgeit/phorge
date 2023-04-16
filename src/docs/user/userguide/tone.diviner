@@ -21,7 +21,7 @@ Removing Flavor
 Although almost all feedback about project tone that we receive is positive, a
 few users don't like the tone very much (possibly including you if you've been
 linked to this document). If you prefer a more straightforward tone, you can
-disable most of the flavor by turning on the `phabricator.serious-business`
+disable most of the flavor by turning on the `phorge.serious-business`
 setting in the {nav Config} application.
 
 (Not everything is covered by this setting. For example, it won't change the

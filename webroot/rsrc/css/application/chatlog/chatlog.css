@@ -1,69 +1,69 @@
 /**
- * @provides phabricator-chatlog-css
+ * @provides phorge-chatlog-css
  */
 
-.device-phone .phabricator-chat-log-wrap {
+.device-phone .phorge-chat-log-wrap {
   padding: 0;
 }
 
-.phabricator-chat-log-pager-bottom {
+.phorge-chat-log-pager-bottom {
   padding: 8px 4px 16px;
   font-weight: bold;
   float: right;
 }
 
-.phabricator-chat-log-pager-bottom a {
+.phorge-chat-log-pager-bottom a {
   padding: 2px 3px;
 }
 
-.phabricator-chat-log-panel {
+.phorge-chat-log-panel {
   clear: both;
 }
 
-.phabricator-chat-log {
+.phorge-chat-log {
   width: 100%;
 }
 
-.phabricator-chat-log td {
+.phorge-chat-log td {
   padding: 8px;
   line-height: 18px;
 }
 
-.phabricator-chat-log tr {
+.phorge-chat-log tr {
   background: #fff;
 }
 
-.phabricator-chat-log tr td.author {
+.phorge-chat-log tr td.author {
   background: {$greybackground};
 }
 
-.phabricator-chat-log tr.alternate {
+.phorge-chat-log tr.alternate {
   border-top: 1px solid {$thinblueborder};
   border-bottom: 1px solid {$thinblueborder};
 }
 
-.phabricator-chat-log tr.alternate td.author {
+.phorge-chat-log tr.alternate td.author {
   background: {$lightgreybackground};
 }
 
-.phabricator-chat-log tr.highlight td {
+.phorge-chat-log tr.highlight td {
   background: {$lightyellow};
 }
 
-.phabricator-chat-log td.timestamp {
+.phorge-chat-log td.timestamp {
   white-space: nowrap;
   text-align: right;
   width: 12em;
 }
 
-.phabricator-chat-log td.message .timestamp {
+.phorge-chat-log td.message .timestamp {
   color: {$bluetext};
   font-size: {$smallestfontsize};
   float: right;
   margin-left: 5px;
 }
 
-.phabricator-chat-log td.author {
+.phorge-chat-log td.author {
   white-space: nowrap;
   text-align: right;
   font-weight: bold;
@@ -71,11 +71,11 @@
   color: {$darkbluetext};
 }
 
-.device-phone .phabricator-chat-log td.author {
+.device-phone .phorge-chat-log td.author {
   width: 80px;
 }
 
-.phabricator-chat-log td.message {
+.phorge-chat-log td.message {
   white-space: pre-wrap;
   word-break: break-word;
 }

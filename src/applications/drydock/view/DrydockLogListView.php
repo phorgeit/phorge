@@ -123,7 +123,7 @@ final class DrydockLogListView extends AphrontView {
         id(new PHUIIconView())->setIcon($icon),
         $type,
         $data,
-        phabricator_datetime($log->getEpoch(), $viewer),
+        phorge_datetime($log->getEpoch(), $viewer),
       );
     }
 

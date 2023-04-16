@@ -4,7 +4,7 @@ final class HarbormasterAutotargetsTestCase extends PhabricatorTestCase {
 
   protected function getPhabricatorTestCaseConfiguration() {
     return array(
-      self::PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
+      self::PHORGE_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
     );
   }
 

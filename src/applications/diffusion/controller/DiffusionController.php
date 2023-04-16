@@ -473,7 +473,7 @@ abstract class DiffusionController extends PhabricatorController {
         'value' => $search_term,
       ));
 
-    $form = phabricator_form(
+    $form = phorge_form(
       $viewer,
       array(
         'method' => 'GET',

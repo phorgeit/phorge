@@ -143,7 +143,7 @@ final class DrydockResourceViewController extends DrydockResourceController {
 
     $until = $resource->getUntil();
     if ($until) {
-      $until_display = phabricator_datetime($until, $viewer);
+      $until_display = phorge_datetime($until, $viewer);
     } else {
       $until_display = phutil_tag('em', array(), pht('Never'));
     }

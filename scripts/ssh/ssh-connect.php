@@ -61,8 +61,8 @@ $pattern[] = 'StrictHostKeyChecking=no';
 $pattern[] = '-o';
 $pattern[] = 'UserKnownHostsFile=/dev/null';
 
-$as_device = getenv('PHABRICATOR_AS_DEVICE');
-$credential_phid = getenv('PHABRICATOR_CREDENTIAL');
+$as_device = getenv('PHORGE_AS_DEVICE');
+$credential_phid = getenv('PHORGE_CREDENTIAL');
 
 if ($as_device) {
   $device = AlmanacKeys::getLiveDevice();

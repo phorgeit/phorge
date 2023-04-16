@@ -17,7 +17,7 @@
 }
 
 .device-desktop .phui-curtain-panel + .phui-curtain-panel,
-.device-desktop .phabricator-action-list-view + .phui-curtain-panel {
+.device-desktop .phorge-action-list-view + .phui-curtain-panel {
   border-top: 1px solid {$greybackground};
 }
 
@@ -26,7 +26,7 @@
   border-top: none;
 }
 
-!print .device-desktop .phabricator-action-list-view + .phui-curtain-panel {
+!print .device-desktop .phorge-action-list-view + .phui-curtain-panel {
   padding: 8px 0;
   border-top: none;
 }
@@ -36,7 +36,7 @@
   border-top: none;
 }
 
-!print .phabricator-action-list-view + .phui-curtain-panel {
+!print .phorge-action-list-view + .phui-curtain-panel {
   padding: 8px 0;
   border-top: none;
 }
@@ -63,7 +63,7 @@
 
 /* Project tags */
 
-.phui-curtain-panel-body .phabricator-handle-tag-list-item {
+.phui-curtain-panel-body .phorge-handle-tag-list-item {
   line-height: 21px;
 }
 

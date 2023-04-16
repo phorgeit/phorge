@@ -3,9 +3,9 @@
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
- *           phabricator-tooltip
- *           phabricator-diff-changeset-list
- *           phabricator-diff-changeset
+ *           phorge-tooltip
+ *           phorge-diff-changeset-list
+ *           phorge-diff-changeset
  *           phuix-formation-view
  * @javelin
  */

@@ -149,15 +149,15 @@ a.phui-tag-view:hover
   border-color: {$greyborder};
 }
 
-.phabricator-handle-tag-list-item + .phabricator-handle-tag-list-item {
+.phorge-handle-tag-list-item + .phorge-handle-tag-list-item {
   margin-top: 4px;
 }
 
-.phui-oi .phabricator-handle-tag-list {
+.phui-oi .phorge-handle-tag-list {
   display: inline;
 }
 
-.phui-oi .phabricator-handle-tag-list-item {
+.phui-oi .phorge-handle-tag-list-item {
   display: inline-block;
   margin: 0 4px 2px 0;
 }

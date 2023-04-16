@@ -8,7 +8,7 @@
   border-radius: 3px;
 }
 
-.paste-embed .phabricator-source-code-container {
+.paste-embed .phorge-source-code-container {
   border: none;
 }
 
@@ -27,7 +27,7 @@
   overflow-y: auto;
 }
 
-.paste-embed-body .phabricator-source-code-container {
+.paste-embed-body .phorge-source-code-container {
   border-top-right-radius: 0;
   border-top-left-radius: 0;
 }

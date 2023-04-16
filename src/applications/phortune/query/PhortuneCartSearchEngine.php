@@ -175,7 +175,7 @@ final class PhortuneCartSearchEngine
         $handles[$cart->getAuthorPHID()]->renderLink(),
         $cart->getTotalPriceAsCurrency()->formatForDisplay(),
         PhortuneCart::getNameForStatus($cart->getStatus()),
-        phabricator_datetime($cart->getDateModified(), $viewer),
+        phorge_datetime($cart->getDateModified(), $viewer),
       );
     }
 

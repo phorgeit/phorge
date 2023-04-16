@@ -2,11 +2,11 @@
  * @provides conpherence-notification-css
  */
 
-.phabricator-notification.conpherence-notification {
+.phorge-notification.conpherence-notification {
   padding: 0;
 }
 
-.phabricator-notification .conpherence-menu-item-view {
+.phorge-notification .conpherence-menu-item-view {
   display: block;
   height: 48px;
   overflow: hidden;
@@ -17,7 +17,7 @@
   border-left: 0;
 }
 
-.phabricator-notification .conpherence-menu-item-view
+.phorge-notification .conpherence-menu-item-view
 .conpherence-menu-item-image {
   top: 8px;
   left: 8px;
@@ -29,7 +29,7 @@
   border-radius: 3px;
 }
 
-.phabricator-notification .conpherence-menu-item-view
+.phorge-notification .conpherence-menu-item-view
 .conpherence-menu-item-title {
   display: block;
   margin-top: 8px;
@@ -44,7 +44,7 @@
   overflow: hidden;
 }
 
-.phabricator-notification .conpherence-menu-item-view
+.phorge-notification .conpherence-menu-item-view
 .conpherence-menu-item-subtitle {
   display: block;
   color: {$lightgreytext};
@@ -56,7 +56,7 @@
   overflow: hidden;
 }
 
-.phabricator-notification .conpherence-menu-item-view
+.phorge-notification .conpherence-menu-item-view
 .conpherence-menu-item-unread-count {
   position: absolute;
   right: 8px;
@@ -69,17 +69,17 @@
   font-size: {$smallestfontsize};
 }
 
-.phabricator-notification .no-room-notification {
+.phorge-notification .no-room-notification {
   color: {$lightgreytext};
   display: block;
 }
 
-.phabricator-notification-header .persistent-option {
+.phorge-notification-header .persistent-option {
   white-space: nowrap;
   float: right;
 }
 
-.phabricator-notification-header .persistent-option span {
+.phorge-notification-header .persistent-option span {
   margin-left: 4px;
   font-weight: normal;
   color: {$greytext};

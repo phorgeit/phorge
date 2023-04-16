@@ -1,7 +1,7 @@
 /**
- * @provides phabricator-content-source-view-css
+ * @provides phorge-content-source-view-css
  */
 
-.phabricator-content-source-view {
+.phorge-content-source-view {
   color: {$lightgreytext};
 }

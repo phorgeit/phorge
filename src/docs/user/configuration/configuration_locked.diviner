@@ -67,7 +67,7 @@ in the bootstrapping process, before Phorge connects to the database.
 
 
 **Errors could not be fixed from the web UI**: Some options, like
-`phabricator.base-uri`, can effectively disable the web UI if they are
+`phorge.base-uri`, can effectively disable the web UI if they are
 configured incorrectly.
 
 If these options could be configured from the web UI, you could not fix them if

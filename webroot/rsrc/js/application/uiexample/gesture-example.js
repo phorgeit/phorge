@@ -3,10 +3,10 @@
  *           javelin-behavior
  *           javelin-vector
  *           javelin-dom
- * @provides javelin-behavior-phabricator-gesture-example
+ * @provides javelin-behavior-phorge-gesture-example
  */
 
-JX.behavior('phabricator-gesture-example', function(config) {
+JX.behavior('phorge-gesture-example', function(config) {
 
   var strokes = [];
   var current = [];

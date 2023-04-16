@@ -198,7 +198,7 @@ final class PHUIPagerView extends AphrontView {
           $pager_links[$key] = phutil_string_cast($uri);
         }
       }
-      Javelin::initBehavior('phabricator-keyboard-pager', $pager_links);
+      Javelin::initBehavior('phorge-keyboard-pager', $pager_links);
     }
 
     // Convert tuples into rendered nodes.

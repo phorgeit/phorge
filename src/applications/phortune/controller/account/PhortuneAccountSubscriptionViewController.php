@@ -48,7 +48,7 @@ final class PhortuneAccountSubscriptionViewController
     $next_invoice = $subscription->getTrigger()->getNextEventPrediction();
     $properties->addProperty(
       pht('Next Invoice'),
-      phabricator_datetime($next_invoice, $viewer));
+      phorge_datetime($next_invoice, $viewer));
 
     $autopay = $this->newAutopayView($subscription);
 

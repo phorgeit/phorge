@@ -75,7 +75,7 @@ final class PHUIDocumentView extends AphrontTagView {
   protected function getTagContent() {
     require_celerity_resource('phui-document-view-css');
     require_celerity_resource('phui-document-view-pro-css');
-    Javelin::initBehavior('phabricator-reveal-content');
+    Javelin::initBehavior('phorge-reveal-content');
 
     $classes = array();
     $classes[] = 'phui-document-view';

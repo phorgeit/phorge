@@ -383,7 +383,7 @@ final class PhortuneStripePaymentProvider extends PhortunePaymentProvider {
   }
 
   private function loadStripeAPILibraries() {
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     require_once $root.'/externals/stripe-php/lib/Stripe.php';
   }
 

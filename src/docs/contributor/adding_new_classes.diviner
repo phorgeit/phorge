@@ -18,7 +18,7 @@ Fundamentals
 Phorge primarily discovers functionality by looking at concrete subclasses
 of some base class. For example, Phorge determines which applications are
 available by looking at all of the subclasses of
-@{class@phabricator:PhabricatorApplication}. It
+@{class@phorge:PhabricatorApplication}. It
 discovers available workflows in `arc` by looking at all of the subclasses of
 @{class@arcanist:ArcanistWorkflow}. It discovers available locales
 by looking at all of the subclasses of @{class@arcanist:PhutilLocale}.

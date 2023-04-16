@@ -324,7 +324,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
       ->newLog($label, 'silenced')
       ->append(
         pht(
-          'Declining to make service call because `phabricator.silent` is '.
+          'Declining to make service call because `phorge.silent` is '.
           'enabled in configuration.'));
   }
 

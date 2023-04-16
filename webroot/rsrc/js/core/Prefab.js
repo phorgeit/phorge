@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-prefab
+ * @provides phorge-prefab
  * @requires javelin-install
  *           javelin-util
  *           javelin-dom

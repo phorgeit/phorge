@@ -1,8 +1,8 @@
 /**
  * @requires javelin-install
  *           javelin-dom
- *           phabricator-notification
- * @provides phabricator-file-upload
+ *           phorge-notification
+ * @provides phorge-file-upload
  * @javelin
  */
 

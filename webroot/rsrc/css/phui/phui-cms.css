@@ -21,13 +21,13 @@
   margin-bottom: 20px;
 }
 
-.phui-cms-view .phui-basic-nav.phui-navigation-shell .phabricator-nav-local {
+.phui-cms-view .phui-basic-nav.phui-navigation-shell .phorge-nav-local {
   background-color: {$page.background};
   width: 240px;
   border-right: 1px solid {$thinblueborder};
 }
 
-.phui-cms-view .phabricator-nav-content {
+.phui-cms-view .phorge-nav-content {
   padding: 0;
 }
 

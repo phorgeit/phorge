@@ -14,7 +14,7 @@ final class HarbormasterPrototypeBuildStepGroup
   }
 
   public function isEnabled() {
-    return PhabricatorEnv::getEnvConfig('phabricator.show-prototypes');
+    return PhabricatorEnv::getEnvConfig('phorge.show-prototypes');
   }
 
   public function shouldShowIfEmpty() {

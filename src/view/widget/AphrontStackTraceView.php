@@ -15,11 +15,11 @@ final class AphrontStackTraceView extends AphrontView {
     $libraries = PhutilBootloader::getInstance()->getAllLibraries();
 
     // TODO: Make this configurable?
-    $path = 'https://secure.phabricator.com/diffusion/%s/browse/master/src/';
+    $path = 'https://secure.phorge.com/diffusion/%s/browse/master/src/';
 
     $callsigns = array(
       'arcanist' => 'ARC',
-      'phabricator' => 'P',
+      'phorge' => 'P',
     );
 
     $rows = array();

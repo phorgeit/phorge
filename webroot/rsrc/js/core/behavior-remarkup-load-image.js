@@ -32,7 +32,7 @@ JX.behavior('remarkup-load-image', function(config) {
     var error = JX.$N(
       'div',
       {
-        className: 'phabricator-remarkup-image-error'
+        className: 'phorge-remarkup-image-error'
       },
       r.info);
 

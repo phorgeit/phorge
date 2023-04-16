@@ -140,11 +140,11 @@ final class PHUIFeedStoryView extends AphrontView {
 
   public function renderNotification($user) {
     $classes = array(
-      'phabricator-notification',
+      'phorge-notification',
     );
 
     if (!$this->viewed) {
-      $classes[] = 'phabricator-notification-unread';
+      $classes[] = 'phorge-notification-unread';
     }
 
     if ($this->getShowTimestamp()) {
@@ -152,18 +152,18 @@ final class PHUIFeedStoryView extends AphrontView {
         if ($user) {
           $marker = id(new PHUIIconView())
             ->setIcon('fa-circle')
-            ->addClass('phabricator-notification-status');
-          $date = phabricator_datetime($this->epoch, $user);
+            ->addClass('phorge-notification-status');
+          $date = phorge_datetime($this->epoch, $user);
           $foot = phutil_tag(
             'span',
             array(
-              'class' => 'phabricator-notification-date',
+              'class' => 'phorge-notification-date',
             ),
             $date);
             $foot = phutil_tag(
               'div',
               array(
-                'class' => 'phabricator-notification-foot',
+                'class' => 'phorge-notification-foot',
               ),
               array(
                 $marker,
@@ -220,7 +220,7 @@ final class PHUIFeedStoryView extends AphrontView {
       // TODO: This is really bad; when rendering through Conduit and via
       // renderText() we don't have a user.
       if ($this->hasViewer()) {
-        $foot = phabricator_datetime($this->epoch, $this->getViewer());
+        $foot = phorge_datetime($this->epoch, $this->getViewer());
       } else {
         $foot = null;
       }
@@ -288,7 +288,7 @@ final class PHUIFeedStoryView extends AphrontView {
       $body = phutil_tag(
         'div',
         array(
-          'class' => 'phui-feed-story-body phabricator-remarkup',
+          'class' => 'phui-feed-story-body phorge-remarkup',
         ),
         $body_content);
     }

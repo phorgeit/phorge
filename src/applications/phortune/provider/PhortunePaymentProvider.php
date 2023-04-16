@@ -251,7 +251,7 @@ abstract class PhortunePaymentProvider extends Phobject {
       ),
       $local = true);
 
-    return phabricator_form(
+    return phorge_form(
       $user,
       array(
         'action' => $uri,

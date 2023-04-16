@@ -20,7 +20,7 @@ final class AphrontApplicationConfiguration
     $data += $_POST;
     $data += $parser->parseQueryString(idx($_SERVER, 'QUERY_STRING', ''));
 
-    $cookie_prefix = PhabricatorEnv::getEnvConfig('phabricator.cookie-prefix');
+    $cookie_prefix = PhabricatorEnv::getEnvConfig('phorge.cookie-prefix');
 
     $request = new AphrontRequest($this->getHost(), $this->getPath());
     $request->setRequestData($data);
@@ -118,7 +118,7 @@ final class AphrontApplicationConfiguration
 
     // If we're in developer mode, set a flag so that top-level exception
     // handlers can add more information.
-    if (PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
       $sink->setShowStackTraces(true);
     }
 
@@ -186,7 +186,7 @@ final class AphrontApplicationConfiguration
     $write_guard = new AphrontWriteGuard(array($request, 'validateCSRF'));
 
     // Build the server URI implied by the request headers. If an administrator
-    // has not configured "phabricator.base-uri" yet, we'll use this to generate
+    // has not configured "phorge.base-uri" yet, we'll use this to generate
     // links.
 
     $request_protocol = ($request->isHTTPS() ? 'https' : 'http');

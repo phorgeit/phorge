@@ -190,10 +190,10 @@ final class AphrontSideNavFilterView extends AphrontView {
   }
 
   private function renderFlexNav() {
-    require_celerity_resource('phabricator-nav-view-css');
+    require_celerity_resource('phorge-nav-view-css');
 
     $nav_classes = array();
-    $nav_classes[] = 'phabricator-nav';
+    $nav_classes[] = 'phorge-nav';
 
     $nav_id = null;
     $drag_id = null;
@@ -213,7 +213,7 @@ final class AphrontSideNavFilterView extends AphrontView {
       $local_menu = phutil_tag(
         'div',
         array(
-          'class' => 'phabricator-nav-local phabricator-side-menu',
+          'class' => 'phorge-nav-local phorge-side-menu',
           'id' => $local_id,
         ),
         $this->menu->setID($this->getMenuID()));
@@ -238,7 +238,7 @@ final class AphrontSideNavFilterView extends AphrontView {
         phutil_tag(
           'div',
           array(
-            'class' => 'phabricator-nav-content plb',
+            'class' => 'phorge-nav-content plb',
             'id' => $content_id,
           ),
           array(

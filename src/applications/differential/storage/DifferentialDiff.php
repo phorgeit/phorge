@@ -659,7 +659,7 @@ final class DifferentialDiff
     // TODO: We're just hoping to get lucky. Instead, `arc` should store
     // where it sent changes and we should only provide staging details
     // if we reasonably believe they are accurate.
-    return 'refs/tags/phabricator/diff/'.$this->getID();
+    return 'refs/tags/phorge/diff/'.$this->getID();
   }
 
   public function loadTargetBranch() {

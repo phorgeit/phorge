@@ -4,8 +4,8 @@
  *           javelin-request
  *           javelin-dom
  *           javelin-uri
- *           phabricator-file-upload
- * @provides phabricator-drag-and-drop-file-upload
+ *           phorge-file-upload
+ * @provides phorge-drag-and-drop-file-upload
  * @javelin
  */
 

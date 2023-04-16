@@ -52,7 +52,7 @@ body .phui-header-shell.phui-bleed-header
   color: {$darkbluetext};
 }
 
-.phui-header-shell + .phabricator-form-view {
+.phui-header-shell + .phorge-form-view {
   border-top-width: 0;
 }
 

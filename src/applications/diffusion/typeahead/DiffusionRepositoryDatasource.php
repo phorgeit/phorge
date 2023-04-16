@@ -28,7 +28,7 @@ final class DiffusionRepositoryDatasource
       ->getTypeIcon();
 
     $image_sprite =
-      "phabricator-search-icon phui-font-fa phui-icon-view {$type_icon}";
+      "phorge-search-icon phui-font-fa phui-icon-view {$type_icon}";
 
     $results = array();
     foreach ($repos as $repository) {

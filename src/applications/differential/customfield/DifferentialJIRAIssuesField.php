@@ -6,7 +6,7 @@ final class DifferentialJIRAIssuesField
   private $error;
 
   public function getFieldKey() {
-    return 'phabricator:jira-issues';
+    return 'phorge:jira-issues';
   }
 
   public function getFieldKeyForConduit() {

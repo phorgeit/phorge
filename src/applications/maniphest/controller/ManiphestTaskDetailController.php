@@ -417,7 +417,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
         phutil_tag(
           'div',
           array(
-            'class' => 'phabricator-remarkup',
+            'class' => 'phorge-remarkup',
           ),
           id(new PHUIRemarkupView($viewer, $description))
             ->setContextObject($task)));

@@ -121,8 +121,8 @@ final class PhortuneOrderTableView extends AphrontView {
           array(),
           $cart->getTotalPriceAsCurrency()->formatForDisplay()),
         PhortuneCart::getNameForStatus($cart->getStatus()),
-        phabricator_datetime($cart->getDateModified(), $viewer),
-        phabricator_datetime($cart->getDateCreated(), $viewer),
+        phorge_datetime($cart->getDateModified(), $viewer),
+        phorge_datetime($cart->getDateCreated(), $viewer),
         id(new PHUIButtonView())
           ->setTag('a')
           ->setColor('green')

@@ -156,7 +156,7 @@ final class AphrontFormDateControl extends AphrontFormControl {
   }
 
   private function formatTime($epoch, $fmt) {
-    return phabricator_format_local_time(
+    return phorge_format_local_time(
       $epoch,
       $this->getViewer(),
       $fmt);
@@ -301,7 +301,7 @@ final class AphrontFormDateControl extends AphrontFormControl {
       'div',
       array(
         'class' => implode(' ', $classes),
-        'sigil' => 'phabricator-date-control',
+        'sigil' => 'phorge-date-control',
         'meta'  => array(
           'disabled' => (bool)$disabled,
         ),

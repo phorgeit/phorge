@@ -201,7 +201,7 @@ final class PholioMockViewController extends PholioController {
     $author = $viewer->renderHandle($author_phid)->render();
 
     $content = phutil_tag('strong', array(), $author);
-    $date = phabricator_date($mock->getDateCreated(), $viewer);
+    $date = phorge_date($mock->getDateCreated(), $viewer);
     $content = pht('%s, %s', $content, $date);
     $authored_by = id(new PHUIHeadThingView())
       ->setImage($author_uri)
@@ -216,7 +216,7 @@ final class PholioMockViewController extends PholioController {
 
     $draft = PhabricatorDraft::newFromUserAndKey($viewer, $mock->getPHID());
 
-    $is_serious = PhabricatorEnv::getEnvConfig('phabricator.serious-business');
+    $is_serious = PhabricatorEnv::getEnvConfig('phorge.serious-business');
     $title = $is_serious
       ? pht('Add Comment')
       : pht('History Beckons');

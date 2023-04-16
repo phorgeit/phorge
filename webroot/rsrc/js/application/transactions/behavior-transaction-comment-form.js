@@ -1,13 +1,13 @@
 /**
- * @provides javelin-behavior-phabricator-transaction-comment-form
+ * @provides javelin-behavior-phorge-transaction-comment-form
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-util
  *           javelin-request
- *           phabricator-shaped-request
+ *           phorge-shaped-request
  */
 
-JX.behavior('phabricator-transaction-comment-form', function(config) {
+JX.behavior('phorge-transaction-comment-form', function(config) {
 
   var form = JX.$(config.formID);
 

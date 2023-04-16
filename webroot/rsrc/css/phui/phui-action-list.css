@@ -1,27 +1,27 @@
 /**
- * @provides phabricator-action-list-view-css
+ * @provides phorge-action-list-view-css
  */
 
-.device .phabricator-action-list-view {
+.device .phorge-action-list-view {
   padding: 4px 0;
   display: none;
 }
 
-!print .phabricator-action-list-view {
+!print .phorge-action-list-view {
   padding: 4px 0;
   display: none;
 }
 
-.device .phuix-dropdown-menu .phabricator-action-list-view {
+.device .phuix-dropdown-menu .phorge-action-list-view {
   /* When an action list view appears inside a dropdown menu, don't hide it
      by default. */
   display: block;
   padding: 0;
 }
 
-.device .phabricator-action-list-view.phabricator-action-list-toggle,
+.device .phorge-action-list-view.phorge-action-list-toggle,
 .device-desktop .phui-document-content
-  .phabricator-action-list-view.phabricator-action-list-toggle {
+  .phorge-action-list-view.phorge-action-list-toggle {
   display: block;
   width: 200px;
   border: 1px solid {$lightgreyborder};
@@ -34,16 +34,16 @@
   padding: 4px 0;
 }
 
-.device-phone .phabricator-action-list-view.phabricator-action-list-toggle {
+.device-phone .phorge-action-list-view.phorge-action-list-toggle {
   right: 8px;
   top: 38px;
 }
 
-.phabricator-action-view {
+.phorge-action-view {
   position: relative;
 }
 
-.phabricator-action-view button.phabricator-action-view-item {
+.phorge-action-view button.phorge-action-view-item {
   border: none;
   background: transparent;
   box-shadow: none;
@@ -62,12 +62,12 @@
   min-width: 0;
 }
 
-.phabricator-action-view button.phabricator-action-view-item .phui-icon-view {
+.phorge-action-view button.phorge-action-view-item .phui-icon-view {
   color: {$darkbluetext};
 }
 
-.phabricator-action-view button.phabricator-action-view-item,
-.phabricator-action-view-item {
+.phorge-action-view button.phorge-action-view-item,
+.phorge-action-view-item {
   padding: 4px 8px 6px 8px;
   display: block;
   text-decoration: none;
@@ -77,59 +77,59 @@
   white-space: nowrap;
 }
 
-.action-has-icon button.phabricator-action-view-item,
-.action-has-icon .phabricator-action-view-item {
+.action-has-icon button.phorge-action-view-item,
+.action-has-icon .phorge-action-view-item {
   padding: 4px 4px 4px 28px;
 }
 
-.device-desktop .phabricator-action-view-href:hover
-  .phabricator-action-view-item {
+.device-desktop .phorge-action-view-href:hover
+  .phorge-action-view-item {
     text-decoration: none;
     background: rgba({$alphablue}, .08);
     color: {$sky};
     border-radius: 3px;
 }
 
-.device-desktop .phabricator-action-view-href:hover
-  .phabricator-action-view-icon {
+.device-desktop .phorge-action-view-href:hover
+  .phorge-action-view-icon {
     color: {$sky};
 }
 
-.phabricator-action-view.action-item-red {
+.phorge-action-view.action-item-red {
   background-color: {$sh-redbackground};
 }
 
-.phabricator-action-view.action-item-green {
+.phorge-action-view.action-item-green {
   background-color: {$sh-greenbackground};
 }
 
-.phabricator-action-view.action-item-red .phabricator-action-view-item,
-.phabricator-action-view.action-item-red .phabricator-action-view-icon {
+.phorge-action-view.action-item-red .phorge-action-view-item,
+.phorge-action-view.action-item-red .phorge-action-view-icon {
   color: {$sh-redtext};
 }
 
-.phabricator-action-view.action-item-green .phabricator-action-view-item,
-.phabricator-action-view.action-item-green .phabricator-action-view-icon {
+.phorge-action-view.action-item-green .phorge-action-view-item,
+.phorge-action-view.action-item-green .phorge-action-view-icon {
   color: {$sh-greentext};
 }
 
-.device-desktop .phabricator-action-view.action-item-red:hover
-  .phabricator-action-view-item,
-.device-desktop .phabricator-action-view.action-item-red:hover
-  .phabricator-action-view-icon {
+.device-desktop .phorge-action-view.action-item-red:hover
+  .phorge-action-view-item,
+.device-desktop .phorge-action-view.action-item-red:hover
+  .phorge-action-view-icon {
   color: {$red};
 }
 
-.device-desktop .phabricator-action-view.action-item-green:hover
-  .phabricator-action-view-item,
-.device-desktop .phabricator-action-view.action-item-green:hover
-  .phabricator-action-view-icon {
+.device-desktop .phorge-action-view.action-item-green:hover
+  .phorge-action-view-item,
+.device-desktop .phorge-action-view.action-item-green:hover
+  .phorge-action-view-icon {
   color: {$green};
 }
 
 
-.phabricator-action-view-label .phabricator-action-view-item,
-.phabricator-action-view-type-label .phabricator-action-view-item {
+.phorge-action-view-label .phorge-action-view-item,
+.phorge-action-view-type-label .phorge-action-view-item {
   font-size: {$smallerfontsize};
   font-weight: bold;
   color: {$bluetext};
@@ -139,11 +139,11 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.phabricator-action-view + .phabricator-action-view-label {
+.phorge-action-view + .phorge-action-view-label {
   padding-top: 8px;
 }
 
-.phabricator-action-view-icon {
+.phorge-action-view-icon {
   width: 14px;
   height: 14px;
   position: absolute;
@@ -152,65 +152,65 @@
   text-align: center;
 }
 
-.phabricator-action-view-disabled .phabricator-action-view-item,
-.phabricator-action-view-disabled button.phabricator-action-view-item {
+.phorge-action-view-disabled .phorge-action-view-item,
+.phorge-action-view-disabled button.phorge-action-view-item {
   color: {$lightgreytext};
 }
 
-.phabricator-action-view-selected {
+.phorge-action-view-selected {
   background: {$sh-violetbackground};
   border-radius: 3px;
 }
 
-.phabricator-action-view-selected:hover a {
+.phorge-action-view-selected:hover a {
   text-decoration: none;
 }
 
-.phabricator-action-view button[disabled] {
+.phorge-action-view button[disabled] {
   opacity: 1.0;
 }
 
-.device-desktop .phabricator-action-view-disabled:hover
-  .phabricator-action-view-item,
-.device-desktop .phabricator-action-view-disabled:hover
-  button.phabricator-action-view-item,
-.device-desktop .phabricator-action-view-disabled:hover
-  .phabricator-action-view-icon,
-.device-desktop .phabricator-action-view-disabled:hover
-  button.phabricator-action-view-icon {
+.device-desktop .phorge-action-view-disabled:hover
+  .phorge-action-view-item,
+.device-desktop .phorge-action-view-disabled:hover
+  button.phorge-action-view-item,
+.device-desktop .phorge-action-view-disabled:hover
+  .phorge-action-view-icon,
+.device-desktop .phorge-action-view-disabled:hover
+  button.phorge-action-view-icon {
   color: {$lightgreytext};
 }
 
-.phabricator-action-view-type-divider {
+.phorge-action-view-type-divider {
   margin-top: 8px;
   border-top: 1px solid {$thinblueborder};
 }
 
 /******* Sub Menu *************************************************************/
 
-.phabricator-action-view-submenu .caret-right {
+.phorge-action-view-submenu .caret-right {
   position: absolute;
   top: 8px;
   right: 8px;
   border-left-color: {$alphablue};
 }
 
-.phabricator-action-view-submenu .caret {
+.phorge-action-view-submenu .caret {
   position: absolute;
   top: 10px;
   right: 8px;
   border-top: 7px solid {$lightgreytext};
 }
 
-.phabricator-action-list-view .phabricator-action-view-submenu.phui-submenu-open
-  .phabricator-action-view-item {
+.phorge-action-list-view .phorge-action-view-submenu.phui-submenu-open
+  .phorge-action-view-item {
   background-color: rgba({$alphablue}, 0.07);
   color: {$sky};
   border-radius: 3px;
 }
 
-.phabricator-action-list-view .phabricator-action-view-submenu.phui-submenu-open
-  .phabricator-action-view-item .phui-icon-view {
+.phorge-action-list-view .phorge-action-view-submenu.phui-submenu-open
+  .phorge-action-view-item .phui-icon-view {
     color: {$sky};
 }
 
@@ -243,11 +243,11 @@
   margin-left: 12px;
 }
 
-.phabricator-action-view .keyboard-shortcut-key {
+.phorge-action-view .keyboard-shortcut-key {
   display: none;
 }
 
-.phabricator-action-view.has-key-command .keyboard-shortcut-key {
+.phorge-action-view.has-key-command .keyboard-shortcut-key {
   display: block;
   position: absolute;
   width: 12px;
@@ -261,6 +261,6 @@
   border: none;
 }
 
-.phabricator-action-view.has-key-command .phabricator-action-view-item {
+.phorge-action-view.has-key-command .phorge-action-view-item {
   padding-right: 24px;
 }

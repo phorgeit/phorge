@@ -8,7 +8,7 @@
 final class AphrontRequest extends Phobject {
 
   // NOTE: These magic request-type parameters are automatically included in
-  // certain requests (e.g., by phabricator_form(), JX.Request,
+  // certain requests (e.g., by phorge_form(), JX.Request,
   // JX.Workflow, and ConduitClient) and help us figure out what sort of
   // response the client expects.
 
@@ -372,7 +372,7 @@ final class AphrontRequest extends Phobject {
 
       // Give a more detailed explanation of how to avoid the exception
       // in developer mode.
-      if (PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
+      if (PhabricatorEnv::getEnvConfig('phorge.developer-mode')) {
         // TODO: Clean this up, see T1921.
         $info[] = pht(
           "To avoid this error, use %s to construct forms. If you are already ".
@@ -386,8 +386,8 @@ final class AphrontRequest extends Phobject {
           "mechanisms.\n\n".
           "Some UI elements (like %s) also have methods which will allow you ".
           "to render links as forms (like %s).",
-          'phabricator_form()',
-          'phabricator_form()',
+          'phorge_form()',
+          'phorge_form()',
           '/',
           'AphrontWriteGuard::beginScopedUnguardedWrites()',
           'PhabricatorActionListView',
@@ -498,12 +498,12 @@ final class AphrontRequest extends Phobject {
     // If there's no base domain configured, just use whatever the request
     // domain is. This makes setup easier, and we'll tell administrators to
     // configure a base domain during the setup process.
-    $base_uri = PhabricatorEnv::getEnvConfig('phabricator.base-uri');
+    $base_uri = PhabricatorEnv::getEnvConfig('phorge.base-uri');
     if (!phutil_nonempty_string($base_uri)) {
       return new PhutilURI('http://'.$host.'/');
     }
 
-    $alternates = PhabricatorEnv::getEnvConfig('phabricator.allowed-uris');
+    $alternates = PhabricatorEnv::getEnvConfig('phorge.allowed-uris');
     $allowed_uris = array_merge(
       array($base_uri),
       $alternates);
@@ -581,7 +581,7 @@ final class AphrontRequest extends Phobject {
 
     $base_domain_uri = $this->getCookieDomainURI();
     if (!$base_domain_uri) {
-      $configured_as = PhabricatorEnv::getEnvConfig('phabricator.base-uri');
+      $configured_as = PhabricatorEnv::getEnvConfig('phorge.base-uri');
       $accessed_as = $this->getHost();
 
       throw new AphrontMalformedRequestException(

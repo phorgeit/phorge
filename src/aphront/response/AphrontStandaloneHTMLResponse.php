@@ -46,7 +46,7 @@ EOTEMPLATE
   private function buildResources() {
     $paths = $this->getResources();
 
-    $webroot = dirname(phutil_get_library_root('phabricator')).'/webroot/';
+    $webroot = dirname(phutil_get_library_root('phorge')).'/webroot/';
 
     $resources = array();
     foreach ($paths as $path) {

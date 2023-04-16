@@ -6,6 +6,6 @@
   color: {$blacktext};
 }
 
-.phui-document-view .phabricator-remarkup .remarkup-header strong {
+.phui-document-view .phorge-remarkup .remarkup-header strong {
   color: #586BE9;
 }

@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-notification-css
+ * @provides phorge-notification-css
  */
 
 .jx-notification-container {
@@ -57,6 +57,6 @@
   border: 1px solid {$darkgreyborder};
 }
 
-.jx-notification-container .phabricator-notification {
+.jx-notification-container .phorge-notification {
   padding: 0;
 }

@@ -2,32 +2,32 @@
  * @provides inline-comment-summary-css
  */
 
-.transaction-comment + .phabricator-inline-summary-table {
+.transaction-comment + .phorge-inline-summary-table {
   margin-top: 8px;
 }
 
-.phabricator-inline-summary-table {
+.phorge-inline-summary-table {
   border-collapse: collapse;
   border-style: hidden;
   width: 100%;
   margin-top: -16px;
 }
 
-.phabricator-inline-summary-table .inline-comment-summary-table-header {
+.phorge-inline-summary-table .inline-comment-summary-table-header {
   font-weight: bold;
   padding: 16px 1px 8px;
   color: {$blacktext};
   border-bottom: 1px solid {$thinblueborder};
 }
 
-.phabricator-inline-summary-table .inline-table-dolumn  {
+.phorge-inline-summary-table .inline-table-dolumn  {
   padding: 4px 8px;
   white-space: nowrap;
   color: {$darkbluetext};
   background: {$page.content};
 }
 
-.phabricator-inline-summary-table td.inline-line-number {
+.phorge-inline-summary-table td.inline-line-number {
   padding: 0;
   width: 100px;
   white-space: nowrap;
@@ -38,12 +38,12 @@
   border-right: 1px solid {$thinblueborder};
 }
 
-.phabricator-inline-summary-table td.inline-which-diff {
+.phorge-inline-summary-table td.inline-which-diff {
   color: {$greytext};
   width: 120px;
 }
 
-.phabricator-inline-summary-table td.inline-summary-content {
+.phorge-inline-summary-table td.inline-summary-content {
   vertical-align: top;
   white-space: normal;
 }
@@ -52,19 +52,19 @@
    (by letting you click the entire cell) and a visual indicator that you're on
    target (by highlighting the entire cell). */
 
-.phabricator-inline-summary-table td.inline-line-number a.num {
+.phorge-inline-summary-table td.inline-line-number a.num {
   padding: 4px 8px;
   display: block;
   color: {$bluetext};
 }
 
-.phabricator-inline-summary-table td.inline-line-number:hover a.num {
+.phorge-inline-summary-table td.inline-line-number:hover a.num {
   background: rgba(150,150,150,.1);
   text-decoration: none;
   color: {$darkbluetext};
 }
 
-.phui-timeline-core-content .phabricator-inline-summary:first-child {
+.phui-timeline-core-content .phorge-inline-summary:first-child {
   border: none;
   margin-top: 0;
   padding-top: 0;

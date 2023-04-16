@@ -65,7 +65,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($credential->getAuthorPHID())->render();
-    $date = phabricator_datetime($credential->getDateCreated(), $viewer);
+    $date = phorge_datetime($credential->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $person = id(new PhabricatorPeopleQuery())

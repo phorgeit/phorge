@@ -1,15 +1,15 @@
 /**
- * @provides phabricator-ui-example-css
+ * @provides phorge-ui-example-css
  */
 
-.phabricator-ui-example-note {
+.phorge-ui-example-note {
   padding: .5em;
   margin: 2em 1em 0.5em;
   background: #ffffdd;
   border: 1px solid #f5e178;
 }
 
-.phabricator-ui-example-note tt {
+.phorge-ui-example-note tt {
   font-weight: bold;
 }
 

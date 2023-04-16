@@ -63,7 +63,7 @@ abstract class DiffusionView extends AphrontView {
     array $details = array(),
     $button = false) {
     require_celerity_resource('diffusion-icons-css');
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $file_type = idx($details, 'type');
     unset($details['type']);
@@ -172,7 +172,7 @@ abstract class DiffusionView extends AphrontView {
   final public static function renderName($name) {
     $email = new PhutilEmailAddress($name);
     if ($email->getDisplayName() && $email->getDomainName()) {
-      Javelin::initBehavior('phabricator-tooltips', array());
+      Javelin::initBehavior('phorge-tooltips', array());
       require_celerity_resource('aphront-tooltip-css');
       return javelin_tag(
         'span',
@@ -192,7 +192,7 @@ abstract class DiffusionView extends AphrontView {
   final protected function renderBuildable(
     HarbormasterBuildable $buildable,
     $type = null) {
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $icon = $buildable->getStatusIcon();
     $color = $buildable->getStatusColor();

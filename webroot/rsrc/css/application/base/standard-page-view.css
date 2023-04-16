@@ -1,19 +1,19 @@
 /**
- * @provides phabricator-standard-page-view
+ * @provides phorge-standard-page-view
  */
 
-.phabricator-anchor-view,
-.phabricator-anchor-navigation-marker {
+.phorge-anchor-view,
+.phorge-anchor-navigation-marker {
   position: absolute;
   margin-top: -15px;
 }
 
-.phabricator-chromeless-page .phabricator-standard-page {
+.phorge-chromeless-page .phorge-standard-page {
   background: transparent;
   border-width: 0px;
 }
 
-.phabricator-standard-page-body {
+.phorge-standard-page-body {
   clear: both;
 }
 
@@ -21,7 +21,7 @@ body.white-background {
   background: {$page.content};
 }
 
-.phabricator-standard-page-footer {
+.phorge-standard-page-footer {
   text-align: right;
   margin: 44px 16px 16px;
   padding: 12px 0;
@@ -29,23 +29,23 @@ body.white-background {
   color: {$greytext};
 }
 
-.with-durable-column .phabricator-standard-page-footer {
+.with-durable-column .phorge-standard-page-footer {
   margin: 36px 16px 28px;
 }
 
-.device .phabricator-standard-page-footer {
+.device .phorge-standard-page-footer {
   margin: 24px 8px 16px;
 }
 
-!print .phabricator-standard-page-footer {
+!print .phorge-standard-page-footer {
   display: none;
 }
 
-.device-desktop .has-local-nav + .phabricator-standard-page-footer {
+.device-desktop .has-local-nav + .phorge-standard-page-footer {
   margin-left: 221px;
 }
 
-.device .phabricator-side-menu-home + .phabricator-standard-page-footer {
+.device .phorge-side-menu-home + .phorge-standard-page-footer {
   display: none;
 }
 
@@ -200,28 +200,28 @@ a.handle-status-closed:hover {
   left: -50px;
 }
 
-.phabricator-standard-page-tabs {
+.phorge-standard-page-tabs {
   padding: 0 32px;
   margin-bottom: 32px;
   background: {$page.content};
   box-shadow: 0 0 3px 0 rgba(0,0,0,0.2);
 }
 
-.device .phabricator-standard-page-tabs {
+.device .phorge-standard-page-tabs {
   margin-bottom: 20px;
   padding: 0 12px;
 }
 
-.device-phone .phabricator-standard-page-tabs {
+.device-phone .phorge-standard-page-tabs {
   text-align: center;
 }
 
 .device-phone
-  .phabricator-standard-page-tabs.phui-list-view.phui-list-tabbar > li {
+  .phorge-standard-page-tabs.phui-list-view.phui-list-tabbar > li {
     display: inline-block;
     float: none;
 }
 
-.phabricator-standard-page-tabs.phui-list-tabbar .phui-list-item-href {
+.phorge-standard-page-tabs.phui-list-tabbar .phui-list-item-href {
   padding: 12px 24px;
 }

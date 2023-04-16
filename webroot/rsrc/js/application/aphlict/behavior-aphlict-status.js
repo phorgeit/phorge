@@ -2,7 +2,7 @@
  * @provides javelin-behavior-aphlict-status
  * @requires javelin-behavior
  *           javelin-aphlict
- *           phabricator-phtize
+ *           phorge-phtize
  *           javelin-dom
  * @javelin
  */

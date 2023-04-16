@@ -5,7 +5,7 @@
  *           javelin-dom
  *           javelin-stratcom
  *           javelin-json
- *           phabricator-prefab
+ *           phorge-prefab
  * @provides herald-rule-editor
  * @javelin
  */

@@ -5,7 +5,7 @@ final class Javelin extends Phobject {
   public static function initBehavior(
     $behavior,
     array $config = array(),
-    $source_name = 'phabricator') {
+    $source_name = 'phorge') {
 
     $response = CelerityAPI::getStaticResourceResponse();
 

@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-main-menu-view
+ * @provides phorge-main-menu-view
  * @requires phui-theme-css
  */
 
@@ -11,20 +11,20 @@
 
 */
 
-.phabricator-main-menu {
+.phorge-main-menu {
   position: relative;
 }
 
-.phabricator-main-menu-background {
+.phorge-main-menu-background {
   min-height: 44px;
 }
 
-.device-desktop .phabricator-main-menu {
+.device-desktop .phorge-main-menu {
   height: 44px;
   padding-right: 4px;
 }
 
-.phabricator-main-menu a:hover {
+.phorge-main-menu a:hover {
   text-decoration: none;
 }
 
@@ -36,18 +36,18 @@
 
 */
 
-.device-desktop .phabricator-main-menu-group-logo {
+.device-desktop .phorge-main-menu-group-logo {
   float: left;
 }
 
-.phabricator-main-menu-brand {
+.phorge-main-menu-brand {
   height: 44px;
   float: left;
   margin-right: 6px;
   padding-left: 6px;
 }
 
-.phabricator-main-menu-project-logo {
+.phorge-main-menu-project-logo {
   margin: 2px 0;
   width: 40px;
   height: 40px;
@@ -57,16 +57,16 @@
   background-size: 40px 40px;
 }
 
-.device-desktop .phabricator-main-menu-brand:hover {
+.device-desktop .phorge-main-menu-brand:hover {
   background-color: rgba({$alphagrey},.2);
   cursor: hand;
 }
 
-.device-phone .phabricator-wordmark {
+.device-phone .phorge-wordmark {
   display: none;
 }
 
-.phabricator-wordmark {
+.phorge-wordmark {
   float: left;
   color: #fff;
   font-size: 18px;
@@ -84,14 +84,14 @@
 
 */
 
-.phabricator-menu-button-icon {
+.phorge-menu-button-icon {
   width: 20px;
   height: 32px;
   float: left;
   margin: 10px 8px 0 8px;
 }
 
-.phabricator-menu-button-icon.phui-icon-view {
+.phorge-menu-button-icon.phui-icon-view {
   font-size: 20px;
   height: 20px;
   width: 20px;
@@ -101,13 +101,13 @@
   line-height: 24px;
 }
 
-.phabricator-expand-application-menu,
-.phabricator-expand-search-menu {
+.phorge-expand-application-menu,
+.phorge-expand-search-menu {
   float: right;
 }
 
-.device-desktop .phabricator-main-menu-search-button,
-.device-desktop .phabricator-main-menu-expand-button {
+.device-desktop .phorge-main-menu-search-button,
+.device-desktop .phorge-main-menu-expand-button {
   display: none;
 }
 
@@ -118,41 +118,41 @@
 
 */
 
-.device-desktop .phabricator-main-menu-search {
+.device-desktop .phorge-main-menu-search {
   width: 298px;
 }
 
-.device .phabricator-main-menu-search {
+.device .phorge-main-menu-search {
   height: 40px;
 }
 
-.phabricator-main-menu-search-container {
+.phorge-main-menu-search-container {
   padding: 8px 0;
   position: relative;
   height: 24px;
   margin: 0 8px 0 0;
 }
 
-.phabricator-main-menu-search-target {
+.phorge-main-menu-search-target {
   position: absolute;
   top: 42px;
 }
 
-.device-desktop .phabricator-main-menu-search-target {
+.device-desktop .phorge-main-menu-search-target {
   width: 360px;
 }
 
-.device .phabricator-main-menu-search-target {
+.device .phorge-main-menu-search-target {
   width: 100%;
   margin-left: -25px;
 }
 
-.device .phabricator-main-menu-search-container {
+.device .phorge-main-menu-search-container {
   padding: 4px 0;
   margin: 0 4px;
 }
 
-.phabricator-main-menu .phabricator-main-menu-search input {
+.phorge-main-menu .phorge-main-menu-search input {
   outline: 0;
   margin: 0;
   box-shadow: none;
@@ -171,7 +171,7 @@
   width: 280px;
 }
 
-.device .phabricator-main-menu-search input {
+.device .phorge-main-menu-search input {
   height: 32px;
   font-size: {$biggestfontsize};
   width: 100%;
@@ -179,18 +179,18 @@
   border: 1px solid {$lightblueborder};
 }
 
-.phabricator-main-menu .phabricator-main-menu-search input:focus {
+.phorge-main-menu .phorge-main-menu-search input:focus {
   background: {$page.content};
   opacity: 1;
   color: {$darkbluetext};
   box-shadow: none;
 }
 
-.phabricator-main-menu-search input.jx-typeahead-placeholder {
+.phorge-main-menu-search input.jx-typeahead-placeholder {
   color: {$bluetext};
 }
 
-.phabricator-main-menu-search button {
+.phorge-main-menu-search button {
   color: {$bluetext};
   position: absolute;
   background: transparent;
@@ -208,7 +208,7 @@
   border-radius: 0;
 }
 
-.phabricator-main-menu-search button.phabricator-main-menu-search-dropdown {
+.phorge-main-menu-search button.phorge-main-menu-search-dropdown {
   position: absolute;
   right: auto;
   left: 12px;
@@ -217,31 +217,31 @@
   z-index: 1;
 }
 
-.device-desktop .phabricator-main-menu-search
-  button.phabricator-main-menu-search-dropdown {
+.device-desktop .phorge-main-menu-search
+  button.phorge-main-menu-search-dropdown {
     height: 24px;
     top: 10px;
     border-radius: 3px;
   }
 
-.device-desktop .phabricator-main-menu-search
-  button.phabricator-main-menu-search-dropdown:hover .phui-icon-view {
+.device-desktop .phorge-main-menu-search
+  button.phorge-main-menu-search-dropdown:hover .phui-icon-view {
     color: {$sky};
 }
 
-.device .phabricator-main-menu-search
-  button.phabricator-main-menu-search-dropdown {
+.device .phorge-main-menu-search
+  button.phorge-main-menu-search-dropdown {
     left: 2px;
     background: {$greybackground};
 }
 
-button.phabricator-main-menu-search-dropdown .caret:before,
-a.phabricator-core-user-menu .caret:before {
+button.phorge-main-menu-search-dropdown .caret:before,
+a.phorge-core-user-menu .caret:before {
   content: "\f107";
   font-family: FontAwesome;
 }
 
-.phabricator-main-menu-search button.phabricator-main-menu-search-dropdown
+.phorge-main-menu-search button.phorge-main-menu-search-dropdown
   .phui-icon-view {
   color: {$bluetext};
   font-size: 15px;
@@ -250,7 +250,7 @@ a.phabricator-core-user-menu .caret:before {
   position: absolute;
 }
 
-.phabricator-main-menu-search-dropdown .caret {
+.phorge-main-menu-search-dropdown .caret {
   position: absolute;
   right: 20px;
   top: 2px;
@@ -258,18 +258,18 @@ a.phabricator-core-user-menu .caret:before {
   margin-top: 1px;
 }
 
-.phabricator-main-menu-search button:hover {
+.phorge-main-menu-search button:hover {
   color: {$sky};
 }
 
-.device .phabricator-main-menu-search button {
+.device .phorge-main-menu-search button {
   top: 6px;
   border-radius: 0;
   height: 28px;
   right: -6px;
 }
 
-.phabricator-main-menu-search-target div.jx-typeahead-results {
+.phorge-main-menu-search-target div.jx-typeahead-results {
   background: {$page.content};
   word-wrap: break-word;
   overflow-y: auto;
@@ -279,11 +279,11 @@ a.phabricator-core-user-menu .caret:before {
   margin-left: -64px;
 }
 
-.device .phabricator-main-menu-search-target div.jx-typeahead-results {
+.device .phorge-main-menu-search-target div.jx-typeahead-results {
   margin-left: 28px;
 }
 
-.phabricator-main-search-typeahead-result .phabricator-search-icon {
+.phorge-main-search-typeahead-result .phorge-search-icon {
   width: 28px;
   height: 28px;
   position: absolute;
@@ -294,7 +294,7 @@ a.phabricator-core-user-menu .caret:before {
   vertical-align: bottom;
 }
 
-.phabricator-main-search-typeahead-result {
+.phorge-main-search-typeahead-result {
   display: block;
   padding: 6px 8px 8px 44px;
   background-position: 8px;
@@ -303,45 +303,45 @@ a.phabricator-core-user-menu .caret:before {
   position: relative;
 }
 
-.phabricator-main-search-typeahead-result .result-name {
+.phorge-main-search-typeahead-result .result-name {
   display: block;
   font-size: {$normalfontsize};
   font-weight: bold;
   color: {$darkgreytext};
 }
 
-.phabricator-main-search-typeahead-result.result-closed {
+.phorge-main-search-typeahead-result.result-closed {
   opacity: .8;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
 
-.phabricator-main-search-typeahead-result.result-closed
+.phorge-main-search-typeahead-result.result-closed
   .result-name {
   text-decoration: line-through;
   color: {$lightgreytext};
 }
 
-.phabricator-main-search-typeahead-result.has-image {
+.phorge-main-search-typeahead-result.has-image {
   padding-left: 48px;
 }
 
-.phabricator-main-search-typeahead-result .result-type {
+.phorge-main-search-typeahead-result .result-type {
   color: {$lightgreytext};
   font-size: {$smallestfontsize};
   font-weight: normal;
 }
 
-.device .phabricator-application-menu-expanded.phabricator-search-menu-expanded
- .phabricator-search-menu {
+.device .phorge-application-menu-expanded.phorge-search-menu-expanded
+ .phorge-search-menu {
   padding: 0;
 }
 
-.device-phone .phabricator-main-search-typeahead-result .result-name {
+.device-phone .phorge-main-search-typeahead-result .result-name {
   font-size: {$biggestfontsize};
 }
 
-.device-phone .phabricator-main-search-typeahead-result .result-type {
+.device-phone .phorge-main-search-typeahead-result .result-type {
   font-size: {$normalfontsize};
 }
 
@@ -352,7 +352,7 @@ a.phabricator-core-user-menu .caret:before {
 
 */
 
-.phabricator-main-menu-alerts {
+.phorge-main-menu-alerts {
   display: inline-block;
   float: left;
   padding: 4px 0;
@@ -379,9 +379,9 @@ a.phabricator-core-user-menu .caret:before {
   color: #fff;
 }
 
-.phabricator-main-menu-alert-icon,
-.phabricator-main-menu-message-icon,
-.phabricator-main-menu-setup-icon {
+.phorge-main-menu-alert-icon,
+.phorge-main-menu-message-icon,
+.phorge-main-menu-setup-icon {
   width: 18px;
   height: 18px;
   float: left;
@@ -396,19 +396,19 @@ a.phabricator-core-user-menu .caret:before {
   color: #fff;
 }
 
-.phabricator-main-menu-alert-icon {
+.phorge-main-menu-alert-icon {
   font-size: 16px;
   margin-top: 2px;
 }
 
-.setup-unread .phui-icon-view.phabricator-main-menu-setup-icon {
+.setup-unread .phui-icon-view.phorge-main-menu-setup-icon {
   color: #ecf36c;
   font-size: 16px;
   margin-top: 2px;
   width: 15px;
 }
 
-.setup-unread .phabricator-main-menu-setup-count {
+.setup-unread .phorge-main-menu-setup-count {
   color: #ecf36c;
   margin-top: 10px;
 }
@@ -417,9 +417,9 @@ a.phabricator-core-user-menu .caret:before {
   color: #ecf36c;
 }
 
-.phabricator-main-menu-alert-count,
-.phabricator-main-menu-message-count,
-.phabricator-main-menu-setup-count {
+.phorge-main-menu-alert-count,
+.phorge-main-menu-message-count,
+.phorge-main-menu-setup-count {
   color: #fff;
   text-align: center;
   display: none;
@@ -428,21 +428,21 @@ a.phabricator-core-user-menu .caret:before {
   font-size: {$smallerfontsize};
 }
 
-.device-phone .alert-unread .phabricator-main-menu-alert-count,
-.device-phone .message-unread .phabricator-main-menu-message-count,
-.device-phone .setup-unread .phabricator-main-menu-setup-count {
+.device-phone .alert-unread .phorge-main-menu-alert-count,
+.device-phone .message-unread .phorge-main-menu-message-count,
+.device-phone .setup-unread .phorge-main-menu-setup-count {
   display: none;
 }
 
-.alert-unread .phabricator-main-menu-alert-icon,
-.message-unread .phabricator-main-menu-message-icon,
-.setup-unread .phabricator-main-menu-setup-icon {
+.alert-unread .phorge-main-menu-alert-icon,
+.message-unread .phorge-main-menu-message-icon,
+.setup-unread .phorge-main-menu-setup-icon {
   color: #fff;
 }
 
-.alert-unread .phabricator-main-menu-alert-count,
-.message-unread .phabricator-main-menu-message-count,
-.setup-unread .phabricator-main-menu-setup-count {
+.alert-unread .phorge-main-menu-alert-count,
+.message-unread .phorge-main-menu-message-count,
+.setup-unread .phorge-main-menu-setup-count {
   display: block;
 }
 
@@ -453,15 +453,15 @@ a.phabricator-core-user-menu .caret:before {
 
 */
 
-.device .phabricator-search-menu {
+.device .phorge-search-menu {
   display: none;
 }
 
-.device-desktop .phabricator-search-menu {
+.device-desktop .phorge-search-menu {
   float: right;
 }
 
-.device .phabricator-search-menu-expanded .phabricator-search-menu {
+.device .phorge-search-menu-expanded .phorge-search-menu {
   display: block;
   position: absolute;
   top: 38px;
@@ -473,20 +473,20 @@ a.phabricator-core-user-menu .caret:before {
   background: {$page.background};
 }
 
-.device-desktop .phabricator-application-menu {
+.device-desktop .phorge-application-menu {
   float: right;
 }
 
-.device-desktop .phabricator-application-menu .phui-list-item-view,
-.device-desktop .phabricator-application-menu .phui-list-item-name  {
+.device-desktop .phorge-application-menu .phui-list-item-view,
+.device-desktop .phorge-application-menu .phui-list-item-name  {
   display: none;
 }
 
-.phabricator-application-menu .phui-list-item-href {
+.phorge-application-menu .phui-list-item-href {
   display: block;
 }
 
-.phabricator-application-menu .phui-list-item-icon.phui-font-fa {
+.phorge-application-menu .phui-list-item-icon.phui-font-fa {
   font-size: 20px;
   height: 20px;
   width: 20px;
@@ -496,26 +496,26 @@ a.phabricator-core-user-menu .caret:before {
   vertical-align: middle;
 }
 
-.device .phabricator-application-menu .phui-list-item-icon.phui-font-fa {
+.device .phorge-application-menu .phui-list-item-icon.phui-font-fa {
   margin: 4px 12px 4px 0;
 }
 
-.phabricator-application-menu .phui-list-item-icon.fa-plus {
+.phorge-application-menu .phui-list-item-icon.fa-plus {
   line-height: 22px;
 }
 
-.device-desktop .phabricator-application-menu
+.device-desktop .phorge-application-menu
   .core-menu-item.phui-list-item-view:hover
   .phui-list-item-icon.phui-font-fa {
     color: #fff;
   }
 
-.device-desktop .phabricator-application-menu
+.device-desktop .phorge-application-menu
   .phui-list-item-view.core-menu-item {
   display: block;
 }
 
-.device-desktop .phabricator-application-menu .phui-list-item-view {
+.device-desktop .phorge-application-menu .phui-list-item-view {
   float: left;
   position: relative;
   min-width: 36px;
@@ -523,12 +523,12 @@ a.phabricator-core-user-menu .caret:before {
   margin-top: 4px;
 }
 
-.device-desktop .phabricator-core-menu-icon {
+.device-desktop .phorge-core-menu-icon {
   top: 4px;
   left: 4px;
 }
 
-.device .phabricator-core-menu-icon {
+.device .phorge-core-menu-icon {
   left: 16px;
   height: 24px;
   width: 24px;
@@ -536,14 +536,14 @@ a.phabricator-core-user-menu .caret:before {
   margin: 2px;
 }
 
-.phabricator-core-menu-icon {
+.phorge-core-menu-icon {
   position: absolute;
   display: block;
   width: 28px;
   height: 28px;
 }
 
-.phabricator-main-menu-dropdown.phui-list-sidenav {
+.phorge-main-menu-dropdown.phui-list-sidenav {
   position: absolute;
   background: #fff;
   top: 42px;
@@ -554,13 +554,13 @@ a.phabricator-core-user-menu .caret:before {
   border-radius: 3px;
 }
 
-.phabricator-main-menu-dropdown.phui-list-sidenav .phui-list-item-has-icon
+.phorge-main-menu-dropdown.phui-list-sidenav .phui-list-item-has-icon
   .phui-list-item-href {
     padding: 4px 40px 4px 12px;
     white-space: nowrap;
 }
 
-.phabricator-main-menu-dropdown.phui-list-sidenav .phui-list-item-type-label
+.phorge-main-menu-dropdown.phui-list-sidenav .phui-list-item-type-label
   .phui-list-item-name {
     padding-left: 12px;
 }
@@ -571,7 +571,7 @@ a.phabricator-core-user-menu .caret:before {
 
 */
 
-.phabricator-core-user-menu {
+.phorge-core-user-menu {
   float: right;
   display: inline-block;
   padding: 9px 24px 0 8px;
@@ -579,11 +579,11 @@ a.phabricator-core-user-menu .caret:before {
   position: relative;
 }
 
-.phabricator-core-user-mobile-menu {
+.phorge-core-user-mobile-menu {
   display: none;
 }
 
-.phabricator-core-user-menu span.phui-icon-view.phuihead-small {
+.phorge-core-user-menu span.phui-icon-view.phuihead-small {
   height: 24px;
   width: 24px;
   background-size: 24px;
@@ -592,13 +592,13 @@ a.phabricator-core-user-menu .caret:before {
   margin: 1px 0 0 0;
 }
 
-.phabricator-core-user-menu .phui-icon-view {
+.phorge-core-user-menu .phui-icon-view {
   color: {$hoverwhite};
   font-size: 18px;
   margin: 4px 0 0 0;
 }
 
-.phabricator-core-user-menu .caret {
+.phorge-core-user-menu .caret {
   position: absolute;
   right: 17px;
   top: 13px;
@@ -607,7 +607,7 @@ a.phabricator-core-user-menu .caret:before {
   color: {$hoverwhite};
 }
 
-.phabricator-core-login-button {
+.phorge-core-login-button {
   float: right;
   display: inline-block;
   padding: 4px 12px;
@@ -617,52 +617,52 @@ a.phabricator-core-user-menu .caret:before {
   color: {$hoverwhite};
 }
 
-.device-desktop .phabricator-core-login-button:hover {
+.device-desktop .phorge-core-login-button:hover {
   border: 1px solid #fff;
   color: #fff;
 }
 
-.device-desktop .phabricator-core-user-menu:hover .caret,
-.device-desktop .phabricator-core-user-menu:hover .phui-icon-view {
+.device-desktop .phorge-core-user-menu:hover .caret,
+.device-desktop .phorge-core-user-menu:hover .phui-icon-view {
   color: #fff;
 }
 
-.device .phabricator-core-user-menu .caret {
+.device .phorge-core-user-menu .caret {
   display: none;
 }
 
-.device .phabricator-core-user-mobile-menu {
+.device .phorge-core-user-mobile-menu {
   display: block;
 }
 
-.device .phabricator-core-user-menu {
+.device .phorge-core-user-menu {
   padding: 9px 8px 0 8px;
 }
 
-.device .phabricator-core-user-menu .phui-icon-view {
+.device .phorge-core-user-menu .phui-icon-view {
   font-size: 20px;
   margin: 3px 0 0 0;
 }
 
-ul.phabricator-core-user-profile-object .phui-oi-objname {
+ul.phorge-core-user-profile-object .phui-oi-objname {
   font-size: {$biggestfontsize};
 }
 
-ul.phabricator-core-user-profile-object li.phui-oi,
-ul.phabricator-core-user-profile-object .phui-oi-name,
-ul.phabricator-core-user-profile-object .phui-oi-content,
-ul.phabricator-core-user-profile-object .phui-oi-subhead {
+ul.phorge-core-user-profile-object li.phui-oi,
+ul.phorge-core-user-profile-object .phui-oi-name,
+ul.phorge-core-user-profile-object .phui-oi-content,
+ul.phorge-core-user-profile-object .phui-oi-subhead {
   padding: 0;
   margin: 0;
   background: transparent;
 }
 
-ul.phabricator-core-user-profile-object.phui-oi-list-simple .phui-oi-image {
+ul.phorge-core-user-profile-object.phui-oi-list-simple .phui-oi-image {
   height: 36px;
   width: 36px;
 }
 
-ul.phabricator-core-user-profile-object.phui-oi-list-simple
+ul.phorge-core-user-profile-object.phui-oi-list-simple
   .phui-oi-content-box {
     margin-left: 44px;
 }
@@ -672,6 +672,6 @@ ul.phabricator-core-user-profile-object.phui-oi-list-simple
 /* - Print ---------------------------------------------------------------------
 */
 
-!print .phabricator-main-menu {
+!print .phorge-main-menu {
   display: none;
 }

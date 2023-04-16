@@ -50,7 +50,7 @@ final class DifferentialRevisionListView extends AphrontView {
   public function render() {
     $viewer = $this->getViewer();
 
-    $this->initBehavior('phabricator-tooltips', array());
+    $this->initBehavior('phorge-tooltips', array());
     $this->requireResource('aphront-tooltip-css');
 
     $reviewer_limit = 7;
@@ -104,7 +104,7 @@ final class DifferentialRevisionListView extends AphrontView {
         $icons['flag'] = phutil_tag(
           'div',
           array(
-            'class' => 'phabricator-flag-icon '.$flag_class,
+            'class' => 'phorge-flag-icon '.$flag_class,
           ),
           '');
       }

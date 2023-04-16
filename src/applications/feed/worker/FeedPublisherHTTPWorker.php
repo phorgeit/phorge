@@ -3,7 +3,7 @@
 final class FeedPublisherHTTPWorker extends FeedPushWorker {
 
   protected function doWork() {
-    if (PhabricatorEnv::getEnvConfig('phabricator.silent')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
       // Don't invoke hooks in silent mode.
       return;
     }

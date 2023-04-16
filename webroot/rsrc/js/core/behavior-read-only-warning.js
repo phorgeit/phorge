@@ -2,7 +2,7 @@
  * @provides javelin-behavior-read-only-warning
  * @requires javelin-behavior
  *           javelin-uri
- *           phabricator-notification
+ *           phorge-notification
  */
 
 JX.behavior('read-only-warning', function(config) {

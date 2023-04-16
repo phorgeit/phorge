@@ -157,7 +157,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
    * @{method:publishFeedStory}.
    */
   final protected function doWork() {
-    if (PhabricatorEnv::getEnvConfig('phabricator.silent')) {
+    if (PhabricatorEnv::getEnvConfig('phorge.silent')) {
       $this->log("%s\n", pht('This software is running in silent mode.'));
       return;
     }

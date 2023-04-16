@@ -265,7 +265,7 @@
 }
 
 .phui-timeline-extra,
-.phui-timeline-extra .phabricator-content-source-view {
+.phui-timeline-extra .phorge-content-source-view {
   font-size: {$smallerfontsize};
   font-weight: normal;
   color: {$lightgreytext};

@@ -380,7 +380,7 @@ final class PHUIHeaderView extends AphrontTagView {
         $property_list);
     }
 
-    // We here at @phabricator
+    // We here at @phorge
     $header_image = null;
     if ($image) {
     $header_image = phutil_tag(

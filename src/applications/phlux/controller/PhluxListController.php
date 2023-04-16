@@ -22,7 +22,7 @@ final class PhluxListController extends PhluxController {
       $item->setHref($this->getApplicationURI('/view/'.$key.'/'));
       $item->addIcon(
         'none',
-        phabricator_datetime($var->getDateModified(), $viewer));
+        phorge_datetime($var->getDateModified(), $viewer));
 
       $view->addItem($item);
     }

@@ -1,7 +1,7 @@
 /**
  * @provides javelin-behavior-aphront-basic-tokenizer
  * @requires javelin-behavior
- *           phabricator-prefab
+ *           phorge-prefab
  */
 
 JX.behavior('aphront-basic-tokenizer', function(config) {

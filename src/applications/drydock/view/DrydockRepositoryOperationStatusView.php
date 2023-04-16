@@ -171,7 +171,7 @@ final class DrydockRepositoryOperationStatusView
     $hide_id = celerity_generate_unique_node_id();
     $info_id = celerity_generate_unique_node_id();
 
-    Javelin::initBehavior('phabricator-reveal-content');
+    Javelin::initBehavior('phorge-reveal-content');
 
     $show_details = javelin_tag(
       'a',

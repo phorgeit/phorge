@@ -224,7 +224,7 @@ final class LegalpadDocumentSignatureSearchEngine
 
     $viewer = $this->requireViewer();
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $sig_good = $this->renderIcon(
       'fa-check',
@@ -303,7 +303,7 @@ final class LegalpadDocumentSignatureSearchEngine
             'href' => 'mailto:'.$email,
           ),
           $email),
-        phabricator_datetime($signature->getDateCreated(), $viewer),
+        phorge_datetime($signature->getDateCreated(), $viewer),
       );
     }
 
@@ -365,7 +365,7 @@ final class LegalpadDocumentSignatureSearchEngine
   }
 
   private function renderIcon($icon, $color, $title) {
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     return array(
       id(new PHUIIconView())

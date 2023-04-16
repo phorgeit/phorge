@@ -1,5 +1,5 @@
 /**
- * @provides javelin-behavior-phabricator-search-typeahead
+ * @provides javelin-behavior-phorge-search-typeahead
  * @requires javelin-behavior
  *           javelin-typeahead-ondemand-source
  *           javelin-typeahead
@@ -7,11 +7,11 @@
  *           javelin-uri
  *           javelin-util
  *           javelin-stratcom
- *           phabricator-prefab
+ *           phorge-prefab
  *           phuix-icon-view
  */
 
-JX.behavior('phabricator-search-typeahead', function(config) {
+JX.behavior('phorge-search-typeahead', function(config) {
 
   var datasource = new JX.TypeaheadOnDemandSource(config.src);
 
@@ -19,7 +19,7 @@ JX.behavior('phabricator-search-typeahead', function(config) {
     object = JX.Prefab.transformDatasourceResults(object);
 
     var attr = {
-      className: 'phabricator-main-search-typeahead-result'
+      className: 'phorge-main-search-typeahead-result'
     };
 
     if (object.imageURI) {

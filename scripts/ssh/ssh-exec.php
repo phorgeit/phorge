@@ -22,8 +22,8 @@ $ssh_log->setData(
 $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('execute SSH requests'));
 $args->setSynopsis(<<<EOSYNOPSIS
-**ssh-exec** --phabricator-ssh-user __user__ [--ssh-command __commmand__]
-**ssh-exec** --phabricator-ssh-device __device__ [--ssh-command __commmand__]
+**ssh-exec** --phorge-ssh-user __user__ [--ssh-command __commmand__]
+**ssh-exec** --phorge-ssh-device __device__ [--ssh-command __commmand__]
     Execute authenticated SSH requests. This script is normally invoked
     via SSHD, but can be invoked manually for testing.
 
@@ -34,21 +34,21 @@ $args->parseStandardArguments();
 $args->parse(
   array(
     array(
-      'name'  => 'phabricator-ssh-user',
+      'name'  => 'phorge-ssh-user',
       'param' => 'username',
       'help' => pht(
         'If the request authenticated with a user key, the name of the '.
         'user.'),
     ),
     array(
-      'name' => 'phabricator-ssh-device',
+      'name' => 'phorge-ssh-device',
       'param' => 'name',
       'help' => pht(
         'If the request authenticated with a device key, the name of the '.
         'device.'),
     ),
     array(
-      'name' => 'phabricator-ssh-key',
+      'name' => 'phorge-ssh-key',
       'param' => 'id',
       'help' => pht(
         'The ID of the SSH key which authenticated this request. This is '.
@@ -78,7 +78,7 @@ try {
       ));
   }
 
-  $key_id = $args->getArg('phabricator-ssh-key');
+  $key_id = $args->getArg('phorge-ssh-key');
   if ($key_id) {
     $ssh_log->setData(
       array(
@@ -86,8 +86,8 @@ try {
       ));
   }
 
-  $user_name = $args->getArg('phabricator-ssh-user');
-  $device_name = $args->getArg('phabricator-ssh-device');
+  $user_name = $args->getArg('phorge-ssh-user');
+  $device_name = $args->getArg('phorge-ssh-device');
 
   $user = null;
   $device = null;
@@ -99,8 +99,8 @@ try {
         'The %s and %s flags are mutually exclusive. You can not '.
         'authenticate as both a user ("%s") and a device ("%s"). '.
         'Specify one or the other, but not both.',
-        '--phabricator-ssh-user',
-        '--phabricator-ssh-device',
+        '--phorge-ssh-user',
+        '--phorge-ssh-device',
         $user_name,
         $device_name));
   } else if (phutil_nonempty_string($user_name)) {
@@ -161,8 +161,8 @@ try {
     throw new Exception(
       pht(
         'This script must be invoked with either the %s or %s flag.',
-        '--phabricator-ssh-user',
-        '--phabricator-ssh-device'));
+        '--phorge-ssh-user',
+        '--phorge-ssh-device'));
   }
 
   if ($args->getArg('ssh-command')) {
@@ -265,7 +265,7 @@ try {
   $command = head($original_argv);
 
   $parseable_argv = $original_argv;
-  array_unshift($parseable_argv, 'phabricator-ssh-exec');
+  array_unshift($parseable_argv, 'phorge-ssh-exec');
 
   $parsed_args = new PhutilArgumentParser($parseable_argv);
 
@@ -336,7 +336,7 @@ try {
     throw $rethrow;
   }
 } catch (Exception $ex) {
-  fwrite(STDERR, "phabricator-ssh-exec: ".$ex->getMessage()."\n");
+  fwrite(STDERR, "phorge-ssh-exec: ".$ex->getMessage()."\n");
   $err = 1;
 }
 

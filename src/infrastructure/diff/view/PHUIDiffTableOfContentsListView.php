@@ -54,7 +54,7 @@ final class PHUIDiffTableOfContentsListView extends AphrontView {
     $this->requireResource('differential-core-view-css');
     $this->requireResource('differential-table-of-contents-css');
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     if ($this->getAuthorityPackages()) {
       $authority = mpull($this->getAuthorityPackages(), null, 'getPHID');

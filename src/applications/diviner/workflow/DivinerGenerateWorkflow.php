@@ -348,7 +348,7 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
       $atomizers[$atomizer][] = $file;
     }
 
-    $root = dirname(phutil_get_library_root('phabricator'));
+    $root = dirname(phutil_get_library_root('phorge'));
     $config_root = $this->getConfig('root');
 
     $bar = id(new PhutilConsoleProgressBar())

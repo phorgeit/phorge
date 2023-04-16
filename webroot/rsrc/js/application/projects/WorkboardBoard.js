@@ -5,7 +5,7 @@
  *           javelin-util
  *           javelin-stratcom
  *           javelin-workflow
- *           phabricator-draggable-list
+ *           phorge-draggable-list
  *           javelin-workboard-column
  *           javelin-workboard-header-template
  *           javelin-workboard-card-template

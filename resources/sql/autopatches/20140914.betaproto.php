@@ -1,7 +1,7 @@
 <?php
 
-$old_key = 'phabricator.show-beta-applications';
-$new_key = 'phabricator.show-prototypes';
+$old_key = 'phorge.show-beta-applications';
+$new_key = 'phorge.show-prototypes';
 
 echo pht("Migrating '%s' to '%s'...", $old_key, $new_key)."\n";
 

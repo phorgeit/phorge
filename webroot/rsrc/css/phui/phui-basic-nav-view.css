@@ -3,19 +3,19 @@
  */
 
 .device-desktop .phui-navigation-shell,
-.phabricator-home.device .phui-navigation-shell {
+.phorge-home.device .phui-navigation-shell {
   display: table;
   width: 100%;
   height: calc(100vh - {$menu.main.height});
 }
 
-.device-desktop .phui-navigation-shell .phabricator-nav,
-.phabricator-home.device .phui-navigation-shell .phabricator-nav {
+.device-desktop .phui-navigation-shell .phorge-nav,
+.phorge-home.device .phui-navigation-shell .phorge-nav {
   display: table-row;
 }
 
-.device-desktop .phui-navigation-shell .phabricator-nav-local,
-.phabricator-home.device .phui-navigation-shell .phabricator-nav-local {
+.device-desktop .phui-navigation-shell .phorge-nav-local,
+.phorge-home.device .phui-navigation-shell .phorge-nav-local {
   display: table-cell;
   position: relative;
   vertical-align: top;
@@ -23,18 +23,18 @@
   overflow: hidden;
 }
 
-.phabricator-home.device-phone .phui-navigation-shell .phabricator-nav-local {
+.phorge-home.device-phone .phui-navigation-shell .phorge-nav-local {
   display: none;
 }
 
-.device-phone.phabricator-home .phui-basic-nav .phabricator-side-menu
+.device-phone.phorge-home .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected {
     background-color: transparent;
     border-left-color: transparent;
     font-weight: normal;
 }
 
-.phui-basic-nav.phui-navigation-shell .phabricator-nav-local {
+.phui-basic-nav.phui-navigation-shell .phorge-nav-local {
   width: 205px;
   max-width: 205px;
   padding-top: 12px;
@@ -42,27 +42,27 @@
 }
 
 .phui-two-column-view .phui-basic-nav.phui-navigation-shell
-  .phabricator-nav-local {
+  .phorge-nav-local {
     padding-right: 0;
     padding-top: 0;
 }
 
-.phui-two-column-view .phui-basic-nav .phabricator-side-menu {
+.phui-two-column-view .phui-basic-nav .phorge-side-menu {
   background-color: {$page.content};
 }
 
-.phui-basic-nav .phabricator-side-menu {
+.phui-basic-nav .phorge-side-menu {
   background-color: {$page.sidenav};
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-view {
+.phui-basic-nav .phorge-side-menu .phui-list-item-view {
   display: block;
   white-space: nowrap;
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-href {
+.phui-basic-nav .phorge-side-menu .phui-list-item-href {
   display: block;
   padding: 6px 8px 6px 12px;
   color: {$darkbluetext};
@@ -72,19 +72,19 @@
   text-overflow: ellipsis
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-icon {
+.phui-basic-nav .phorge-side-menu .phui-list-item-icon {
   margin-left: -8px;
   text-align: center;
   width: 30px;
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-divider {
+.phui-basic-nav .phorge-side-menu .phui-divider {
   border-bottom: 1px solid rgba({$alphablack},.08);
   margin: 0 0 8px 8px;
   padding: 8px 0 0 0;
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-icon.phuihead-small {
+.phui-basic-nav .phorge-side-menu .phui-list-item-icon.phuihead-small {
   display: inline-block;
   height: 16px;
   width: 16px;
@@ -93,20 +93,20 @@
   margin: -2px 7px -2px 3px;
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-selected {
+.phui-basic-nav .phorge-side-menu .phui-list-item-selected {
   background-color: rgba({$alphablack},.05);
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   font-weight: bold;
 }
 
-.device-desktop .phui-basic-nav .phabricator-side-menu
+.device-desktop .phui-basic-nav .phorge-side-menu
   .phui-list-item-selected
   a.phui-list-item-href:hover {
     background-color: rgba({$alphablack},.05);
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-type-label {
+.phui-basic-nav .phorge-side-menu .phui-list-item-type-label {
   padding: 6px 8px 4px 12px;
   color: {$darkbluetext};
   text-transform: uppercase;
@@ -116,13 +116,13 @@
   letter-spacing: 0.02em;
 }
 
-.device-desktop .phui-basic-nav .phabricator-side-menu
+.device-desktop .phui-basic-nav .phorge-side-menu
   a.phui-list-item-href:hover {
   text-decoration: none;
   background-color: rgba({$alphablack},.07);
 }
 
-.phui-basic-nav .phabricator-side-menu .phui-list-item-type-link +
+.phui-basic-nav .phorge-side-menu .phui-list-item-type-link +
  .phui-list-item-type-label {
    margin-top: 12px;
 }

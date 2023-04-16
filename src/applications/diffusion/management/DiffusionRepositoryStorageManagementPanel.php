@@ -100,7 +100,7 @@ final class DiffusionRepositoryStorageManagementPanel
       $service = null;
     }
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $rows = array();
     if ($service) {
@@ -201,7 +201,7 @@ final class DiffusionRepositoryStorageManagementPanel
 
           $writer_epoch = idx($write_properties, 'epoch');
           if ($writer_epoch) {
-            $writer_epoch = phabricator_datetime($writer_epoch, $viewer);
+            $writer_epoch = phorge_datetime($writer_epoch, $viewer);
           }
         }
 

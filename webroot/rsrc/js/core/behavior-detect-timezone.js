@@ -2,7 +2,7 @@
  * @provides javelin-behavior-detect-timezone
  * @requires javelin-behavior
  *           javelin-uri
- *           phabricator-notification
+ *           phorge-notification
  */
 
 JX.behavior('detect-timezone', function(config) {

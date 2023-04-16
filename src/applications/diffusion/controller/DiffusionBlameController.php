@@ -50,7 +50,7 @@ final class DiffusionBlameController extends DiffusionController {
     $skip_icon = id(new PHUIIconView())
       ->setIcon('fa-backward');
 
-    Javelin::initBehavior('phabricator-tooltips');
+    Javelin::initBehavior('phorge-tooltips');
 
     $handle_phids = array();
     foreach ($commits as $commit) {
@@ -131,7 +131,7 @@ final class DiffusionBlameController extends DiffusionController {
       $author_link = javelin_tag(
         $author_href ? 'a' : 'span',
         array(
-          'class' => 'phabricator-source-blame-author',
+          'class' => 'phorge-source-blame-author',
           'style' => $author_style,
           'href' => $author_href,
           'sigil' => $author_sigil,
@@ -236,7 +236,7 @@ final class DiffusionBlameController extends DiffusionController {
     $handles) {
     $viewer = $this->getViewer();
 
-    $date = phabricator_date($revision->getDateModified(), $viewer);
+    $date = phorge_date($revision->getDateModified(), $viewer);
     $monogram = $revision->getMonogram();
     $title = $revision->getTitle();
     $header = "{$monogram} {$title}";
@@ -252,7 +252,7 @@ final class DiffusionBlameController extends DiffusionController {
 
     $viewer = $this->getViewer();
 
-    $date = phabricator_date($commit->getEpoch(), $viewer);
+    $date = phorge_date($commit->getEpoch(), $viewer);
     $summary = trim($commit->getSummary());
 
     $author_phid = $commit->getAuthorPHID();

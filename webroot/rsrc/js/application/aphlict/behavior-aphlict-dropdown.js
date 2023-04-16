@@ -7,8 +7,8 @@
  *           javelin-dom
  *           javelin-uri
  *           javelin-behavior-device
- *           phabricator-title
- *           phabricator-favicon
+ *           phorge-title
+ *           phorge-favicon
  */
 
 JX.behavior('aphlict-dropdown', function(config, statics) {
@@ -63,7 +63,7 @@ JX.behavior('aphlict-dropdown', function(config, statics) {
       JX.DOM.setContent(dropdown, config.loadingText);
       JX.DOM.alterClass(
         dropdown,
-        'phabricator-notification-menu-loading',
+        'phorge-notification-menu-loading',
         true);
     }
 
@@ -78,7 +78,7 @@ JX.behavior('aphlict-dropdown', function(config, statics) {
       dirty = false;
       JX.DOM.alterClass(
         dropdown,
-        'phabricator-notification-menu-loading',
+        'phorge-notification-menu-loading',
         false);
       JX.DOM.setContent(dropdown, JX.$H(response.content));
       request = null;
@@ -143,7 +143,7 @@ JX.behavior('aphlict-dropdown', function(config, statics) {
     'click',
     null,
     function(e) {
-      if (!e.getNode('phabricator-notification-menu')) {
+      if (!e.getNode('phorge-notification-menu')) {
         // Click outside the dropdown; hide it.
         set_visible(null);
         return;

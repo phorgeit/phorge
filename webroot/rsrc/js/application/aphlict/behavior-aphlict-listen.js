@@ -11,7 +11,7 @@
  *           javelin-util
  *           javelin-leader
  *           javelin-sound
- *           phabricator-notification
+ *           phorge-notification
  */
 
 JX.behavior('aphlict-listen', function(config) {

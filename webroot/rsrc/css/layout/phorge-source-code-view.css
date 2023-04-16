@@ -1,0 +1,136 @@
+/**
+ * @provides phorge-source-code-view-css
+ */
+
+.phorge-source-code-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid {$paste.border};
+}
+
+.phui-oi .phorge-source-code-container {
+  margin-left: 8px;
+}
+
+.phorge-source-code {
+  white-space: pre-wrap;
+  padding: 2px 8px 1px;
+  width: 100%;
+  background: #ffffff;
+}
+
+.phorge-source-line {
+  background-color: {$paste.highlight};
+  text-align: right;
+  border-right: 1px solid {$paste.border};
+  color: {$sh-yellowtext};
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.phorge-source-line > a::before {
+  /* Render the line numbers as a pseudo-element so they don't get copied. */
+  content: attr(data-n);
+}
+
+th.phorge-source-line a,
+th.phorge-source-line span {
+  display: block;
+  padding: 2px 6px 1px 12px;
+}
+
+th.phorge-source-line a {
+  color: {$darkbluetext};
+}
+
+th.phorge-source-line a:hover {
+  background: {$paste.border};
+  text-decoration: none;
+}
+
+.phorge-source-coverage-highlight .phorge-source-code,
+.phorge-source-highlight .phorge-source-code {
+  background: {$paste.highlight};
+}
+
+.phorge-source-coverage-highlight .phorge-source-line,
+.phorge-source-highlight .phorge-source-line {
+  background: {$paste.border};
+}
+
+.phorge-source-code-summary {
+  padding-bottom: 8px;
+}
+
+/* If a Paste has enormously long lines, truncate them in the summary on the
+   list page. They'll be fully visible on the Paste itself. */
+.phorge-source-code-summary .phorge-source-code-container {
+  overflow-x: hidden;
+}
+
+.phorge-source-code-summary .phorge-source-code {
+  white-space: nowrap;
+}
+
+
+.phorge-source-blame-skip,
+.phorge-source-blame-info {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.phorge-source-blame-skip {
+  min-width: 28px;
+  border-right: 1px solid {$thinblueborder};
+}
+
+.phorge-source-blame-info {
+  white-space: nowrap;
+  min-width: 130px;
+  border-right: 1px solid {$paste.border};
+  padding-right: 8px;
+
+  vertical-align: middle;
+  color: #ffffff;
+}
+
+.phorge-source-blame-info a {
+  color: {$darkbluetext};
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.phorge-source-blame-skip a {
+  /* Give the user a larger click target. */
+  display: block;
+  padding: 2px 8px;
+}
+
+.phorge-source-blame-skip a .phui-icon-view {
+  color: {$darkbluetext};
+}
+
+.device-desktop .phorge-source-blame-skip a:hover {
+  background: {$bluebackground};
+}
+
+.phorge-source-blame-author {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0;
+  margin: 0 6px 0 8px;
+  width: 16px;
+  height: 16px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+th.phorge-source-coverage {
+  padding: 0 8px;
+  border-left: 1px solid {$thinblueborder};
+  background: {$lightgreybackground};
+  cursor: w-resize;
+}

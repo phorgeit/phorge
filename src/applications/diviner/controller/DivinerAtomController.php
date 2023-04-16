@@ -626,7 +626,7 @@ final class DivinerAtomController extends DivinerController {
       $content = phutil_tag(
         'div',
         array(
-          'class' => 'phabricator-remarkup diviner-remarkup-section',
+          'class' => 'phorge-remarkup diviner-remarkup-section',
         ),
         $content);
     } else {

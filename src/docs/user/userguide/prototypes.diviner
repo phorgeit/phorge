@@ -29,4 +29,4 @@ challenging than we thought. We may lower the priority of a project or put it
 on hold indefinitely if we're less excited about it after we begin building it.
 
 If you're interested in previewing upcoming applications, you can use the
-`phabricator.show-prototypes` configuration setting to enable prototypes.
+`phorge.show-prototypes` configuration setting to enable prototypes.

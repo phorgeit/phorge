@@ -56,7 +56,7 @@ final class PhrictionDocumentDatasource
         $mid_dot,
         $slug);
 
-      $sprite = 'phabricator-search-icon phui-font-fa phui-icon-view fa-book';
+      $sprite = 'phorge-search-icon phui-font-fa phui-icon-view fa-book';
       $autocomplete = '[[ '.$slug.' ]]';
 
       $result = id(new PhabricatorTypeaheadResult())

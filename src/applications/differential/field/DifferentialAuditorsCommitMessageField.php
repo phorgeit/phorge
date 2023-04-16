@@ -3,7 +3,7 @@
 final class DifferentialAuditorsCommitMessageField
   extends DifferentialCommitMessageCustomField {
 
-  const FIELDKEY = 'phabricator:auditors';
+  const FIELDKEY = 'phorge:auditors';
 
   public function getFieldName() {
     return pht('Auditors');
@@ -26,7 +26,7 @@ final class DifferentialAuditorsCommitMessageField
   }
 
   public function getCustomFieldKey() {
-    return 'phabricator:auditors';
+    return 'phorge:auditors';
   }
 
   public function isFieldEditable() {

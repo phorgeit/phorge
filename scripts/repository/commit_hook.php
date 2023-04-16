@@ -25,8 +25,8 @@ if ($argc > 1) {
   $argv[1] = $context[0];
 
   if (count($context) > 1) {
-    $_ENV['PHABRICATOR_INSTANCE'] = $context[1];
-    putenv('PHABRICATOR_INSTANCE='.$context[1]);
+    $_ENV['PHORGE_INSTANCE'] = $context[1];
+    putenv('PHORGE_INSTANCE='.$context[1]);
   }
 }
 
@@ -208,7 +208,7 @@ try {
 } catch (DiffusionCommitHookRejectException $ex) {
   $console = PhutilConsole::getConsole();
 
-  if (PhabricatorEnv::getEnvConfig('phabricator.serious-business')) {
+  if (PhabricatorEnv::getEnvConfig('phorge.serious-business')) {
     $preamble = pht('*** PUSH REJECTED BY COMMIT HOOK ***');
   } else {
     $preamble = pht(<<<EOTXT

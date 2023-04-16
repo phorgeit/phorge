@@ -4,7 +4,7 @@ final class DifferentialBlameRevisionField
   extends DifferentialStoredCustomField {
 
   public function getFieldKey() {
-    return 'phabricator:blame-revision';
+    return 'phorge:blame-revision';
   }
 
   public function getFieldKeyForConduit() {

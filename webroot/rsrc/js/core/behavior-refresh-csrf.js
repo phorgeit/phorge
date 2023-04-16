@@ -5,7 +5,7 @@
  *           javelin-dom
  *           javelin-router
  *           javelin-util
- *           phabricator-busy
+ *           phorge-busy
  */
 
 /**

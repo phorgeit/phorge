@@ -10,7 +10,7 @@ abstract class AlmanacController
     $properties = $object->getAlmanacProperties();
 
     $this->requireResource('almanac-css');
-    Javelin::initBehavior('phabricator-tooltips', array());
+    Javelin::initBehavior('phorge-tooltips', array());
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

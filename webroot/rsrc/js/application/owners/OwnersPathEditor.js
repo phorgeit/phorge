@@ -4,7 +4,7 @@
  *           path-typeahead
  *           javelin-dom
  *           javelin-util
- *           phabricator-prefab
+ *           phorge-prefab
  *           phuix-form-control-view
  * @provides owners-path-editor
  * @javelin

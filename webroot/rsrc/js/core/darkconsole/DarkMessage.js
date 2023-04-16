@@ -1,5 +1,5 @@
 /**
- * @provides phabricator-darkmessage
+ * @provides phorge-darkmessage
  * @javelin
  */
 
