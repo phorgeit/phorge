@@ -5,6 +5,7 @@
  *           javelin-dom
  *           phabricator-phtize
  *           phabricator-textareautils
+ *           phabricator-remarkup-metadata
  *           javelin-workflow
  *           javelin-vector
  *           phuix-autocomplete
@@ -255,6 +256,12 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
                 .setURI(file.uri);
 
               JX.TextAreaUtils.insertFileReference(area, upload);
+
+              var metadata = new JX.RemarkupMetadata(
+                config.remarkupMetadataValue, config.remarkupMetadataID);
+              var phids = metadata.getMetadata('attachedFilePHIDs', []);
+              phids.push(file.phid);
+              metadata.setMetadata('attachedFilePHIDs', phids);
             }
           })
           .start();

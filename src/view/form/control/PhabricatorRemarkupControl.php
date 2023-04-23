@@ -128,6 +128,8 @@ final class PhabricatorRemarkupControl
         'disabled' => $this->getDisabled(),
         'sendOnEnter' => $this->getSendOnEnter(),
         'rootID' => $root_id,
+        'remarkupMetadataID' => $metadata_id,
+        'remarkupMetadataValue' => $metadata_value,
         'autocompleteMap' => (object)array(
           64 => array( // "@"
             'datasourceURI' => $user_datasource->getDatasourceURI(),
