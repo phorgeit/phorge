@@ -50,6 +50,10 @@ final class PhabricatorCountdownApplication extends PhabricatorApplication {
 
   protected function getCustomCapabilities() {
     return array(
+      PhabricatorCountdownCreateCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
+        'caption' => pht('Default create policy for countdowns.'),
+      ),
       PhabricatorCountdownDefaultViewCapability::CAPABILITY => array(
         'caption' => pht('Default view policy for new countdowns.'),
         'template' => PhabricatorCountdownCountdownPHIDType::TYPECONST,
