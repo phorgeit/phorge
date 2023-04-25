@@ -448,7 +448,7 @@ final class AphrontRequest extends Phobject {
   }
 
   private function getPrefixedCookieName($name) {
-    if (strlen($this->cookiePrefix)) {
+    if (phutil_nonempty_string($this->cookiePrefix)) {
       return $this->cookiePrefix.'_'.$name;
     } else {
       return $name;
