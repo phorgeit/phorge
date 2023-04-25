@@ -693,10 +693,19 @@ final class PhabricatorProjectBoardViewController
       ->newCreateActionSpecifications(array());
 
     foreach ($specs as $spec) {
+
+      // Prefill tags= when you open the Column menu
+      // https://we.phorge.it/T15147
+      $spec_href = new PhutilURI($spec['uri']);
+      $spec_slug = $project->getPrimarySlug();
+      if ($spec_slug !== null) {
+        $spec_href->replaceQueryParam('tags', $spec_slug);
+      }
+
       $column_items[] = id(new PhabricatorActionView())
         ->setIcon($spec['icon'])
         ->setName($spec['name'])
-        ->setHref($spec['uri'])
+        ->setHref($spec_href)
         ->setDisabled($spec['disabled'])
         ->addSigil('column-add-task')
         ->setMetadata(

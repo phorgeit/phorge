@@ -16,7 +16,7 @@ final class PhabricatorSystemReadOnlyController
       case PhabricatorEnv::READONLY_CONFIG:
         $title = pht('Administrative Read-Only Mode');
         $body[] = pht(
-          'An administrator has placed this server into read-only mode.');
+          'An Administrator has placed this server into read-only mode.');
         $body[] = pht(
           'This mode may be used to perform temporary maintenance, test '.
           'configuration, or archive an installation permanently.');
@@ -26,7 +26,7 @@ final class PhabricatorSystemReadOnlyController
           'has been turned on by rolling your chair away from your desk and '.
           'yelling "Hey! Why is %s in read-only mode??!" using '.
           'your very loudest outside voice.',
-          PlatformSymbols::getPlatformServerSymbol());
+          PlatformSymbols::getPlatformServerName());
         $body[] = pht(
           'This mode is active because it is enabled in the configuration '.
           'option "%s".',
@@ -110,7 +110,7 @@ final class PhabricatorSystemReadOnlyController
 
     if ($viewer->getIsAdmin()) {
       $body[] = pht(
-        'As an administrator, you can review status information from the '.
+        'As an Administrator, you can review status information from the '.
         '%s control panel. This may provide more information about the '.
         'current state of affairs.',
         phutil_tag(

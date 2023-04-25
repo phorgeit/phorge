@@ -14,7 +14,7 @@ final class PhutilTwitchAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   public function getAccountID() {
-    return $this->getOAuthAccountData('_id');
+    return $this->getOAuthAccountData('id');
   }
 
   public function getAccountEmail() {
@@ -22,11 +22,11 @@ final class PhutilTwitchAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   public function getAccountName() {
-    return $this->getOAuthAccountData('name');
+    return $this->getOAuthAccountData('login');
   }
 
   public function getAccountImageURI() {
-    return $this->getOAuthAccountData('logo');
+    return $this->getOAuthAccountData('profile_image_url');
   }
 
   public function getAccountURI() {
@@ -42,11 +42,11 @@ final class PhutilTwitchAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   protected function getAuthenticateBaseURI() {
-    return 'https://api.twitch.tv/kraken/oauth2/authorize';
+    return 'https://id.twitch.tv/oauth2/authorize';
   }
 
   protected function getTokenBaseURI() {
-    return 'https://api.twitch.tv/kraken/oauth2/token';
+    return 'https://id.twitch.tv/oauth2/token';
   }
 
   public function getScope() {
@@ -69,7 +69,7 @@ final class PhutilTwitchAuthAdapter extends PhutilOAuthAuthAdapter {
     return id(new PhutilTwitchFuture())
       ->setClientID($this->getClientID())
       ->setAccessToken($this->getAccessToken())
-      ->setRawTwitchQuery('user')
+      ->setRawTwitchQuery('users')
       ->resolve();
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "phorge",
-  "title": "Phorge User Documentation",
+  "title": "Phorge Administrator and User Documentation",
   "short": "User Docs",
   "preface": "Instructions for installing, configuring, and using Phorge.",
   "root": "../../../",

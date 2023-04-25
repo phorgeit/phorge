@@ -178,6 +178,7 @@ final class PhabricatorConfigConsoleController
       '('.
       implode('|', array(
         'we\.phorge\.it/',
+        'github\.com/phorgeit/',
         'github\.com/phacility/',
         'secure\.phabricator\.com/',
       )).

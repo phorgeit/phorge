@@ -256,7 +256,7 @@ echo $obj->flavor;      // Outputs 'coconut'.
 echo get_class($obj);   // Outputs 'stdClass'.
 ```
 
-This is occasionally useful, mostly to force an object to become a Javascript
+This is occasionally useful, mostly to force an object to become a JavaScript
 dictionary (vs a list) when passed to `json_encode()`.
 
 = Invoking `new` With an Argument Vector is Really Hard =

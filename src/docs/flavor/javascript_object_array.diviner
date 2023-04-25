@@ -1,13 +1,13 @@
-@title Javascript Object and Array
+@title JavaScript Object and Array
 @group javascript
 
-This document describes the behaviors of Object and Array in Javascript, and
+This document describes the behaviors of Object and Array in JavaScript, and
 a specific approach to their use which produces basically reasonable language
 behavior.
 
 = Primitives =
 
-Javascript has two native datatype primitives, Object and Array. Both are
+JavaScript has two native datatype primitives, Object and Array. Both are
 classes, so you can use `new` to instantiate new objects and arrays:
 
   COUNTEREXAMPLE
@@ -43,11 +43,11 @@ and Array are both classes, but "object" is also a primitive type. Object is
 = Objects are Maps, Arrays are Lists =
 
 PHP has a single `array` datatype which behaves like as both map and a list,
-and a common mistake is to treat Javascript arrays (or objects) in the same way.
+and a common mistake is to treat JavaScript arrays (or objects) in the same way.
 **Don't do this.** It sort of works until it doesn't. Instead, learn how
-Javascript's native datatypes work and use them properly.
+JavaScript's native datatypes work and use them properly.
 
-In Javascript, you should think of Objects as maps ("dictionaries") and Arrays
+In JavaScript, you should think of Objects as maps ("dictionaries") and Arrays
 as lists ("vectors").
 
 You store keys-value pairs in a map, and store ordered values in a list. So,
@@ -58,7 +58,13 @@ store key-value pairs in Objects.
     species: 'zebra'
   };
 
- console.log(o.name);
+  o.paws = 4;
+
+  o['numberOfEars'] = 2;
+
+  console.log(o.name);
+  console.log(o.paws);
+  console.log(o.numberOfEars);
 
 ...and store ordered values in Arrays.
 
@@ -71,8 +77,14 @@ Don't store key-value pairs in Arrays and don't expect Objects to be ordered.
   var a = [];
   a['name'] = 'Hubert';   //  No! Don't do this!
 
-This technically works because Arrays are Objects and you think everything is
-fine and dandy, but it won't do what you want and will burn you.
+Technically, both work because Arrays //are// Objects and you think everything
+is fine and dandy, but it won't do what you want and will burn you. For example,
+using `.length` will play tricks on you.
+
+In short, trust me:
+
+* use `[]` only to create a stack of consecutive elements numerically indexed
+* use `{}` to create associative maps ("associative arrays")
 
 = Iterating over Maps and Lists =
 
@@ -140,7 +152,7 @@ The correct way to deal with this is:
      continue;
    }
    f(list[ii]);
- }
+  }
 
 Avoid sparse arrays if possible.
 

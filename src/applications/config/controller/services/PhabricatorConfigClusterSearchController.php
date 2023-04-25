@@ -60,8 +60,20 @@ final class PhabricatorConfigClusterSearchController
 
     foreach ($service->getHosts() as $host) {
       try {
+        // Default status icon
+        //
+        // At the moment the default status is shown also when
+        // you just use MySQL as search server. So, on MySQL it
+        // shows "Unknown" even if probably it should says "Active".
+        // If you have time, please improve the MySQL getConnectionStatus()
+        // to return something more useful than this default.
+        $default_status = array(
+          'icon'  => 'fa-question-circle',
+          'color' => 'blue',
+          'label' => pht('Unknown'),
+        );
         $status = $host->getConnectionStatus();
-        $status = idx($status_map, $status, array());
+        $status = idx($status_map, $status, $default_status);
       } catch (Exception $ex) {
         $status['icon'] = 'fa-times';
         $status['label'] = pht('Connection Error');

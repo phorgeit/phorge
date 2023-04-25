@@ -403,6 +403,20 @@ JX.install('Workflow', {
           JX.$E('Response to workflow request went unhandled.');
         }
       }
+
+      // Only when the response is a Dialog, check if the user
+      // is quitting with pending changes
+      if (this._root) {
+        var form = JX.DOM.scry(this._root, 'form', 'jx-dialog');
+        if (form.length) {
+          JX.DOM.listen(form[0], 'keydown', null, function(e) {
+            if (e.getSpecialKey()) {
+              return;
+            }
+            JX.Stratcom.addSigil(form[0], 'dialog-keydown');
+          });
+        }
+      }
     },
     _push : function() {
       if (!this._pushed) {
@@ -534,6 +548,22 @@ JX.install('Workflow', {
       if (!cancel) {
         // No 'Cancel' button.
         return;
+      }
+
+      // Only when the response is a Dialog, check if the user
+      // is quitting with pending changes
+      if (active._root) {
+        var form = JX.DOM.scry(active._root, 'form', 'jx-dialog');
+        var confirmMsg =
+          'Form data may have changed. ' +
+          'Are you sure you want to close this dialog?';
+        if (
+          form.length &&
+          JX.Stratcom.hasSigil(form[0], 'dialog-keydown') &&
+          !window.confirm(confirmMsg)
+        ) {
+          return;
+        }
       }
 
       JX.Workflow._pop();

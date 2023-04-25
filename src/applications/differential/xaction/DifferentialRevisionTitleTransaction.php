@@ -23,6 +23,17 @@ final class DifferentialRevisionTitleTransaction
   }
 
   public function getTitleForFeed() {
+    $obj = $this->getObject();
+
+    // To avoid verbose messages we mention the current title just once
+    if ($obj && $obj->getTitle() === $this->getNewValue()) {
+      return pht(
+        '%s retitled %s from %s',
+        $this->renderAuthor(),
+        $this->renderObject(),
+        $this->renderOldValue());
+    }
+
     return pht(
       '%s retitled %s from %s to %s.',
       $this->renderAuthor(),

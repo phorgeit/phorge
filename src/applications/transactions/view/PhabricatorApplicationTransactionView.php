@@ -493,6 +493,11 @@ class PhabricatorApplicationTransactionView extends AphrontView {
         $xaction->getComment() &&
         $xaction->getComment()->getIsRemoved();
 
+      // Make designers happy to make CSS customizations
+      if ($has_removed_comment) {
+        $event->addClass('phui-timeline-shell-removed');
+      }
+
       if ($xaction->getCommentVersion() > 1 && !$has_removed_comment) {
         $event->setIsEdited(true);
       }

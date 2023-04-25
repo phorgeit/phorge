@@ -36,7 +36,7 @@ $authstruct_raw = $cache->getKey($authstruct_key);
 
 $authstruct = null;
 
-if (strlen($authstruct_raw)) {
+if (phutil_nonempty_string($authstruct_raw)) {
   try {
     $authstruct = phutil_json_decode($authstruct_raw);
   } catch (Exception $ex) {
@@ -82,13 +82,13 @@ if ($authstruct === null) {
     // Strip out newlines and other nonsense from the key type and key body.
     $type = $ssh_key->getKeyType();
     $type = preg_replace('@[\x00-\x20]+@', '', $type);
-    if (!strlen($type)) {
+    if (!phutil_nonempty_string($type)) {
       continue;
     }
 
     $key = $ssh_key->getKeyBody();
     $key = preg_replace('@[\x00-\x20]+@', '', $key);
-    if (!strlen($key)) {
+    if (!phutil_nonempty_string($key)) {
       continue;
     }
 
@@ -135,7 +135,7 @@ foreach ($authstruct['keys'] as $key_struct) {
 
   $cmd = csprintf('%s %Ls', $bin, $key_argv);
 
-  if (strlen($instance)) {
+  if (phutil_nonempty_string($instance)) {
     $cmd = csprintf('PHABRICATOR_INSTANCE=%s %C', $instance, $cmd);
   }
 

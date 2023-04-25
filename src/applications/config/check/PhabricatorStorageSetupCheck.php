@@ -151,19 +151,19 @@ final class PhabricatorStorageSetupCheck extends PhabricatorSetupCheck {
 
     $how_many = 0;
 
-    if (strlen($access_key)) {
+    if (phutil_nonempty_string($access_key)) {
       $how_many++;
     }
 
-    if (strlen($secret_key)) {
+    if (phutil_nonempty_string($secret_key)) {
       $how_many++;
     }
 
-    if (strlen($region)) {
+    if (phutil_nonempty_string($region)) {
       $how_many++;
     }
 
-    if (strlen($endpoint)) {
+    if (phutil_nonempty_string($endpoint)) {
       $how_many++;
     }
 

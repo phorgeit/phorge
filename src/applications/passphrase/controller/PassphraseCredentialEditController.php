@@ -45,6 +45,12 @@ final class PassphraseCredentialEditController extends PassphraseController {
       // Prefill username if provided.
       $credential->setUsername((string)$request->getStr('username'));
 
+      // Prefill name if provided.
+      $credential->setName((string)$request->getStr('name'));
+
+      // Prefill description if provided.
+      $credential->setDescription((string)$request->getStr('description'));
+
       if (!$request->getStr('isInitialized')) {
         $type->didInitializeNewCredential($viewer, $credential);
       }

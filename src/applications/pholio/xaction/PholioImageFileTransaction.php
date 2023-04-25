@@ -110,9 +110,11 @@ final class PholioImageFileTransaction
     $new_phids = $value;
 
     $file_phids = array();
-    foreach ($new_phids as $phid) {
-      $file_phids[] = $editor->loadPholioImage($object, $phid)
-        ->getFilePHID();
+    foreach ($new_phids as $phids) {
+      foreach ($phids as $phid) {
+        $file_phids[] = $editor->loadPholioImage($object, $phid)
+          ->getFilePHID();
+      }
     }
 
     return $file_phids;

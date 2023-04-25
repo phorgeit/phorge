@@ -222,12 +222,16 @@ final class PhabricatorCalendarEventQuery
 
       $limit = $this->getRecurrenceLimit($event, $raw_limit);
 
+      // note that this can be NULL for some imported events
       $set = $event->newRecurrenceSet();
 
-      $recurrences = $set->getEventsBetween(
-        $start_date,
-        $end_date,
-        $limit + 1);
+      $recurrences = array();
+      if ($set) {
+          $recurrences = $set->getEventsBetween(
+            $start_date,
+            $end_date,
+            $limit + 1);
+      }
 
       // We're generating events from the beginning and then filtering them
       // here (instead of only generating events starting at the start date)

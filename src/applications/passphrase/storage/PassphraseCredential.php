@@ -5,6 +5,7 @@ final class PassphraseCredential extends PassphraseDAO
     PhabricatorApplicationTransactionInterface,
     PhabricatorPolicyInterface,
     PhabricatorFlaggableInterface,
+    PhabricatorMentionableInterface,
     PhabricatorSubscribableInterface,
     PhabricatorDestructibleInterface,
     PhabricatorSpacesInterface,

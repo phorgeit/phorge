@@ -11,6 +11,7 @@ If you haven't, see @{article:Installation Guide}.
 The next steps are:
 
   - Configure your webserver (Apache, nginx, or lighttpd).
+  - Configure the databases.
   - Access Phorge with your browser.
   - Follow the instructions to complete setup.
 

@@ -8,7 +8,22 @@ final class PhabricatorCalendarImportEditController
       ->setController($this);
 
     $id = $request->getURIData('id');
-    if (!$id) {
+    if ($id) {
+
+      // edit a specific entry
+
+      $calendar_import = self::queryImportByID($request, $id);
+      if (!$calendar_import) {
+        return new Aphront404Response();
+      }
+
+      // pass the correct import engine to build the response
+      $engine->setImportEngine($calendar_import->getEngine());
+
+    } else {
+
+      // create an entry
+
       $list_uri = $this->getApplicationURI('import/');
 
       $import_type = $request->getStr('importType');
@@ -25,6 +40,18 @@ final class PhabricatorCalendarImportEditController
     }
 
     return $engine->buildResponse();
+  }
+
+  private static function queryImportByID(AphrontRequest $request, int $id) {
+      return id(new PhabricatorCalendarImportQuery())
+        ->setViewer($request->getViewer())
+        ->withIDs(array($id))
+        ->requireCapabilities(
+          array(
+            PhabricatorPolicyCapability::CAN_VIEW,
+            PhabricatorPolicyCapability::CAN_EDIT,
+          ))
+        ->executeOne();
   }
 
   private function buildEngineTypeResponse($cancel_uri) {

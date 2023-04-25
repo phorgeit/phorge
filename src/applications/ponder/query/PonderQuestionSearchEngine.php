@@ -157,6 +157,9 @@ final class PonderQuestionSearchEngine
           'Asked by %s',
           $handles[$question->getAuthorPHID()]->renderLink()));
 
+      // Render Closed Questions as striked in query results
+      $item->setDisabled($question->isStatusClosed());
+
       $item->addAttribute(
         pht(
           '%s Answer(s)',

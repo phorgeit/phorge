@@ -48,7 +48,7 @@ final class PhabricatorSearchApplicationStorageEnginePanel
     }
 
     $instructions = pht(
-      'To configure the search engines, edit [[ %s | `%s` ]] configuration. '.
+      'To configure the search engines, edit [[ %s | %s ]] configuration. '.
       'See **[[ %s | %s ]]** for documentation.',
       '/config/edit/cluster.search/',
       'cluster.search',

@@ -27,7 +27,7 @@ $data = array();
 $futures = array();
 
 foreach (explode("\n", trim($input)) as $file) {
-  if (!strlen($file)) {
+  if (!phutil_nonempty_string($file)) {
     continue;
   }
 

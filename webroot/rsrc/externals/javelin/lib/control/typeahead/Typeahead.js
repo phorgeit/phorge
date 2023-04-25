@@ -84,8 +84,19 @@ JX.install('Typeahead', {
       'mousedown',
       'tag:a',
       JX.bind(this, function(e) {
-        if (!e.isRightButton()) {
+        if (e.isNormalMouseEvent()) {
           this._choose(e.getNode('tag:a'));
+        } else {
+          // fix the middle-click and any non-normal mouse event
+          // in order to have an "open in a new tab" that just works natively
+          // or any other browser action that is supposed to be there.
+          //
+          // Probably this is one of the specific cases where kill() has
+          // sense instead of just stop(), since there are not much chances
+          // that another event listener had anything else to do
+          // during non-normal mousedown/click events.
+          // https://we.phorge.it/T15149
+          e.kill();
         }
       }));
 

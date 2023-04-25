@@ -152,7 +152,7 @@ final class PhabricatorNotificationServerRef
       ->setPath($full_path);
 
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       $uri->replaceQueryParam('instance', $instance);
     }
 

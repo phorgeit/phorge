@@ -14,7 +14,7 @@ final class PhabricatorPlatformSite extends PhabricatorSite {
     // If no base URI has been configured yet, match this site so the user
     // can follow setup instructions.
     $base_uri = PhabricatorEnv::getEnvConfig('phabricator.base-uri');
-    if (!strlen($base_uri)) {
+    if (!phutil_nonempty_string($base_uri)) {
       return new PhabricatorPlatformSite();
     }
 

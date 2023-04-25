@@ -34,7 +34,7 @@ it also gained a lot of performance problems, usability issues, and bugs.
 Through 2007 and 2008 Evan worked mostly on frontend and support infrastructure;
 among other things, he wrote a static resource management system called Haste.
 In 2009 Evan worked on the Facebook Lite site, where he built the Javelin
-Javascript library and an MVC-flavored framework called Alite.
+JavaScript library and an MVC-flavored framework called Alite.
 
 But by early 2010, Diffcamp was in pretty bad shape. Two years of having random
 features grafted onto it without real direction had left it slow and difficult
