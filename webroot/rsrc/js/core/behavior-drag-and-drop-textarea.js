@@ -27,11 +27,15 @@ JX.behavior('aphront-drag-and-drop-textarea', function(config) {
     drop.listen('didUpload', function(file) {
       JX.TextAreaUtils.insertFileReference(target, file);
 
-      var metadata = new JX.RemarkupMetadata(config.remarkupMetadataValue,
-        config.remarkupMetadataID);
-      var phids = metadata.getMetadata('attachedFilePHIDs', []);
-      phids.push(file.getPHID());
-      metadata.setMetadata('attachedFilePHIDs', phids);
+      if(config.remarkupMetadataID) {
+        // Try to auto-attach files by default
+        // https://we.phorge.it/T15106
+        var metadata = new JX.RemarkupMetadata(config.remarkupMetadataValue,
+          config.remarkupMetadataID);
+        var phids = metadata.getMetadata('attachedFilePHIDs', []);
+        phids.push(file.getPHID());
+        metadata.setMetadata('attachedFilePHIDs', phids);
+      }
     });
 
     drop.start();
