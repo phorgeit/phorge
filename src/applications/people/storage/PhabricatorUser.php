@@ -1159,7 +1159,7 @@ final class PhabricatorUser
   }
 
   public function getSSHKeyDefaultName() {
-    return 'id_rsa_phabricator';
+    return 'id_rsa_phorge';
   }
 
   public function getSSHKeyNotifyPHIDs() {
