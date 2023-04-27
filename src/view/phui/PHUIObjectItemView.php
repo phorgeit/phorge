@@ -659,7 +659,8 @@ final class PHUIObjectItemView extends AphrontTagView {
         $this->getImageIcon());
     }
 
-    if ($image && (strlen($this->href) || strlen($this->imageHref))) {
+    if ($image && (phutil_nonempty_string($this->href) ||
+        phutil_nonempty_string($this->imageHref))) {
       $image_href = ($this->imageHref) ? $this->imageHref : $this->href;
       $image = phutil_tag(
         'a',

@@ -333,7 +333,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
 
     $wordmark_text = PhabricatorCustomLogoConfigType::getLogoWordmark();
-    if (!strlen($wordmark_text)) {
+    if (!phutil_nonempty_string($wordmark_text)) {
       $wordmark_text = PlatformSymbols::getPlatformServerName();
     }
 

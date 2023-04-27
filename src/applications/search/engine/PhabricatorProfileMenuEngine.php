@@ -1308,7 +1308,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     // render the default view instead.
 
     $selected_view = null;
-    if (strlen($item_id)) {
+    if (phutil_nonempty_string($item_id)) {
       $item_views = $view_list->getViewsWithItemIdentifier($item_id);
       if ($item_views) {
         $selected_view = head($item_views);

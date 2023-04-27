@@ -120,7 +120,7 @@ final class PHUIObjectItemListView extends AphrontTagView {
     require_celerity_resource('phui-oi-color-css');
 
     $header = null;
-    if (strlen($this->header)) {
+    if (phutil_nonempty_string($this->header)) {
       $header = phutil_tag(
         'h1',
         array(
