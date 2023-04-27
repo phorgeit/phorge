@@ -113,7 +113,7 @@ abstract class CelerityResourceController extends PhabricatorController {
 
     $range = AphrontRequest::getHTTPHeader('Range');
 
-    if (strlen($range)) {
+    if (phutil_nonempty_string($range)) {
       $response->setContentLength(strlen($data));
 
       list($range_begin, $range_end) = $response->parseHTTPRange($range);
