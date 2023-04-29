@@ -29,7 +29,7 @@ final class PhabricatorProjectSubprojectsProfileMenuItem
     PhabricatorProfileMenuItemConfiguration $config) {
     $name = $config->getMenuItemProperty('name');
 
-    if (strlen($name)) {
+    if (phutil_nonempty_string($name)) {
       return $name;
     }
 
