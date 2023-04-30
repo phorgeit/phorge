@@ -874,7 +874,7 @@ final class PHUIObjectItemView extends AphrontTagView {
       'class' => 'phui-oi-status-icon',
     );
 
-    if (strlen($label)) {
+    if (phutil_nonempty_string($label)) {
       $options['sigil'] = 'has-tooltip';
       $options['meta']  = array('tip' => $label, 'size' => 300);
     }
