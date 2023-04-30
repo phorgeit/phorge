@@ -941,7 +941,7 @@ abstract class PhabricatorEditEngine
       }
     } else {
       $form_key = $request->getURIData('formKey');
-      if (strlen($form_key)) {
+      if (phutil_nonempty_string($form_key)) {
         $config = $this->loadEditEngineConfigurationWithIdentifier($form_key);
 
         if (!$config) {
