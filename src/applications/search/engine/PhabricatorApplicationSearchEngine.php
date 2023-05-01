@@ -179,7 +179,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $order = $saved->getParameter('order');
     $builtin = $query->getBuiltinOrderAliasMap();
-    if (strlen($order) && isset($builtin[$order])) {
+    if (phutil_nonempty_string($order) && isset($builtin[$order])) {
       $query->setOrder($order);
     } else {
       // If the order is invalid or not available, we choose the first

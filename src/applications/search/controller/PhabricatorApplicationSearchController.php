@@ -775,7 +775,7 @@ final class PhabricatorApplicationSearchController
     $force_nux) {
 
     // Don't render NUX if the user has clicked away from the default page.
-    if (strlen($this->getQueryKey())) {
+    if (phutil_nonempty_string($this->getQueryKey())) {
       return null;
     }
 
