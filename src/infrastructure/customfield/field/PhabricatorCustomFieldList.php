@@ -89,7 +89,7 @@ final class PhabricatorCustomFieldList extends Phobject {
       $field_handles = array_select_keys($handles, $phids[$field_key]);
 
       $instructions = $field->getInstructionsForEdit();
-      if (strlen($instructions)) {
+      if (phutil_nonempty_string($instructions)) {
         $form->appendRemarkupInstructions($instructions);
       }
 
