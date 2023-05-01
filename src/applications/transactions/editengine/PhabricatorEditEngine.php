@@ -971,14 +971,14 @@ abstract class PhabricatorEditEngine
     }
 
     $page_key = $request->getURIData('pageKey');
-    if (!strlen($page_key)) {
+    if (!phutil_nonempty_string($page_key)) {
       $pages = $this->getPages($object);
       if ($pages) {
         $page_key = head_key($pages);
       }
     }
 
-    if (strlen($page_key)) {
+    if (phutil_nonempty_string($page_key)) {
       $page = $this->selectPage($object, $page_key);
       if (!$page) {
         return new Aphront404Response();
@@ -1169,7 +1169,7 @@ abstract class PhabricatorEditEngine
       if ($this->getIsCreate()) {
         $template = $request->getStr('template');
 
-        if (strlen($template)) {
+        if (phutil_nonempty_string($template)) {
           $template_object = $this->newObjectFromIdentifier(
             $template,
             array(
