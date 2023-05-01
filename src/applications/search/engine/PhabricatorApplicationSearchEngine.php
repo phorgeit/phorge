@@ -872,7 +872,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   protected function readBoolFromRequest(
     AphrontRequest $request,
     $key) {
-    if (!strlen($request->getStr($key))) {
+    if (!phutil_nonempty_string($request->getStr($key))) {
       return null;
     }
     return $request->getBool($key);
