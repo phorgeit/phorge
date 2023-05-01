@@ -115,7 +115,7 @@ final class PhabricatorApplicationSearchController
     if ($this->queryKey == 'advanced') {
       $run_query = false;
       $query_key = $request->getStr('query');
-    } else if (!strlen($this->queryKey)) {
+    } else if (!phutil_nonempty_string($this->queryKey)) {
       $found_query_data = false;
 
       if ($request->isHTTPGet() || $request->isQuicksand()) {
