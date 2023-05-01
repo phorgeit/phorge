@@ -41,7 +41,7 @@ final class PhabricatorWorkboardViewState
       $this->requestState['filter'] = $request->getStr('filter');
     }
 
-    if (strlen($request->getURIData('queryKey'))) {
+    if (phutil_nonempty_string($request->getURIData('queryKey'))) {
       $this->requestState['filter'] = $request->getURIData('queryKey');
     }
 
@@ -169,7 +169,7 @@ final class PhabricatorWorkboardViewState
 
   public function getQueryKey() {
     $request_query = idx($this->requestState, 'filter');
-    if (strlen($request_query)) {
+    if (phutil_nonempty_string($request_query)) {
       return $request_query;
     }
 
@@ -203,7 +203,7 @@ final class PhabricatorWorkboardViewState
 
     $default_query = $project->getDefaultWorkboardFilter();
 
-    if (strlen($default_query)) {
+    if (phutil_nonempty_string($default_query)) {
       return $default_query;
     }
 
