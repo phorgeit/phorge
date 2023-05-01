@@ -29,7 +29,7 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
     $request_kind = $request->getURIData('kind');
     $is_download = ($request_kind === 'download');
 
-    if (!strlen($alt) || $main_domain == $alt_domain) {
+    if (!phutil_nonempty_string($alt) || $main_domain == $alt_domain) {
       // No alternate domain.
       $should_redirect = false;
       $is_alternate_domain = false;
