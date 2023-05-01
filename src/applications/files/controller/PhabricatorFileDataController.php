@@ -69,7 +69,7 @@ final class PhabricatorFileDataController extends PhabricatorFileController {
     // an initial request for bytes 0-1 of the audio file, and things go south
     // if we can't respond with a 206 Partial Content.
     $range = $request->getHTTPHeader('range');
-    if (strlen($range)) {
+    if (phutil_nonempty_string($range)) {
       list($begin, $end) = $response->parseHTTPRange($range);
     }
 
