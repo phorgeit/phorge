@@ -43,11 +43,27 @@ final class PhabricatorEditEngineSubtype
     return $this->icon;
   }
 
+  /**
+   * Set the text of the tag
+   *
+   * This is usually the 'name' key of your subtype map.
+   * Sometime this is an uppercase text like 'BUG' for a 'bug' subtype name.
+   *
+   * @param string|null $text
+   * @return self
+   */
   public function setTagText($text) {
     $this->tagText = $text;
     return $this;
   }
 
+  /**
+   * Get the text of the tag
+   *
+   * @see PhabricatorEditEngineSubtype::setTagText()
+   *
+   * @return string|null
+   */
   public function getTagText() {
     return $this->tagText;
   }
@@ -89,7 +105,7 @@ final class PhabricatorEditEngineSubtype
   }
 
   public function hasTagView() {
-    return (bool)strlen($this->getTagText());
+    return phutil_nonempty_string($this->getTagText());
   }
 
   public function newTagView() {
