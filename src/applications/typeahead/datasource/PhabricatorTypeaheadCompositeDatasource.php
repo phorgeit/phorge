@@ -207,7 +207,11 @@ abstract class PhabricatorTypeaheadCompositeDatasource
   }
 
   protected function sliceResults(array $results) {
-    $offset = $this->getOffset();
+    if ($this->getOffset()) {
+      $offset = $this->getOffset();
+    } else {
+      $offset = 0;
+    }
     $limit = $this->getLimit();
 
     if ($offset || $limit) {
