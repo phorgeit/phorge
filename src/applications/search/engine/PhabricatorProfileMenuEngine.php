@@ -135,7 +135,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     if ($is_view) {
       $selected_item = $this->selectViewItem($view_list, $item_id);
     } else {
-      if (!strlen($item_id)) {
+      if (!phutil_nonempty_scalar($item_id)) {
         $item_id = self::ITEM_MANAGE;
       }
       $selected_item = $this->selectEditItem($view_list, $item_id);
