@@ -81,6 +81,13 @@ abstract class PhabricatorContentSource extends Phobject {
       ));
   }
 
+  /**
+   * Get the internal source name
+   *
+   * This is usually coming from a SOURCECONST constant.
+   *
+   * @return string|null
+   */
   final public function getSource() {
     return $this->source;
   }
