@@ -17,16 +17,16 @@ abstract class PhabricatorDashboardObjectInstallWorkflow
       $target_identifier = head($target_tokens);
     }
 
-    if (!strlen($target_identifier)) {
+    if (!phutil_nonempty_string($target_identifier)) {
       $target_identifier = $request->getStr('target');
     }
 
-    if (!strlen($target_identifier)) {
+    if (!phutil_nonempty_string($target_identifier)) {
       $target_identifier = $this->getMode();
     }
 
     $target = null;
-    if (strlen($target_identifier)) {
+    if (phutil_nonempty_string($target_identifier)) {
       $targets = array();
 
       if (ctype_digit($target_identifier)) {
@@ -74,7 +74,7 @@ abstract class PhabricatorDashboardObjectInstallWorkflow
     }
 
     $errors = array();
-    if (strlen($target_identifier)) {
+    if (phutil_nonempty_string($target_identifier)) {
       if (!$target) {
         $errors[] = pht('Choose a valid object.');
       } else if (!$can_edit) {
