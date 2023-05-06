@@ -1278,7 +1278,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   public function getAltText() {
     $alt = $this->getCustomAltText();
 
-    if (strlen($alt)) {
+    if (phutil_nonempty_string($alt)) {
       return $alt;
     }
 
