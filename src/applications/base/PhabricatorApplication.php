@@ -235,6 +235,11 @@ abstract class PhabricatorApplication
     return array();
   }
 
+  /**
+   * Get the Application Overview in raw Remarkup
+   *
+   * @return string|null
+   */
   public function getOverview() {
     return null;
   }
