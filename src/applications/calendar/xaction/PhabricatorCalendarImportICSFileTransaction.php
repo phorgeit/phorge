@@ -53,7 +53,7 @@ final class PhabricatorCalendarImportICSFileTransaction
     $new_value = $object->getParameter(self::PARAMKEY_FILE);
     foreach ($xactions as $xaction) {
       $new_value = $xaction->getNewValue();
-      if (!strlen($new_value)) {
+      if (!phutil_nonempty_string($new_value)) {
         continue;
       }
 
