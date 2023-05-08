@@ -339,7 +339,7 @@ abstract class PhabricatorModularTransactionType
       $value = $xaction->getNewValue();
     }
 
-    return !strlen($value);
+    return !phutil_nonempty_string($value);
   }
 
   /**
