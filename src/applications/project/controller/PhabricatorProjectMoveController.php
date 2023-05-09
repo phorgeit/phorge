@@ -24,9 +24,11 @@ final class PhabricatorProjectMoveController
     $ordering = id(clone $ordering)
       ->setViewer($viewer);
 
+    // When the Workboard view is "Group By <something>" the header provides
+    // that context in JSON form
     $edit_header = null;
     $raw_header = $request->getStr('header');
-    if (strlen($raw_header)) {
+    if (phutil_nonempty_string($raw_header)) {
       $edit_header = phutil_json_decode($raw_header);
     } else {
       $edit_header = array();
