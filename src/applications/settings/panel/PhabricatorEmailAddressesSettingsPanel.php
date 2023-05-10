@@ -184,7 +184,7 @@ final class PhabricatorEmailAddressesSettingsPanel
         new PhabricatorSettingsAddEmailAction(),
         1);
 
-      if (!strlen($email)) {
+      if (!phutil_nonempty_string($email)) {
         $e_email = pht('Required');
         $errors[] = pht('Email is required.');
       } else if (!PhabricatorUserEmail::isValidAddress($email)) {
