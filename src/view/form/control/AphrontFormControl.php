@@ -56,11 +56,22 @@ abstract class AphrontFormControl extends AphrontView {
     return $this->label;
   }
 
+  /**
+   * Set the Caption
+   * The Caption shows a tip usually nearby the related input field.
+   * @param string|PhutilSafeHTML|null
+   * @return self
+   */
   public function setCaption($caption) {
     $this->caption = $caption;
     return $this;
   }
 
+  /**
+   * Get the Caption
+   * The Caption shows a tip usually nearby the related input field.
+   * @return string|PhutilSafeHTML|null
+   */
   public function getCaption() {
     return $this->caption;
   }
@@ -203,7 +214,11 @@ abstract class AphrontFormControl extends AphrontView {
       $custom_class .= ' aphront-form-control-nolabel';
     }
 
-    if (phutil_nonempty_string($this->getCaption())) {
+    // The Caption can be stuff like PhutilSafeHTML and other objects that
+    // can be casted to a string. After this cast we have never null.
+    $has_caption = phutil_string_cast($this->getCaption()) !== '';
+
+    if ($has_caption) {
       $caption = phutil_tag(
         'div',
         array('class' => 'aphront-form-caption'),
