@@ -127,12 +127,12 @@ final class LegalpadDocumentSignatureSearchEngine
     }
 
     $name_contains = $saved->getParameter('nameContains');
-    if (strlen($name_contains)) {
+    if (phutil_nonempty_string($name_contains)) {
       $query->withNameContains($name_contains);
     }
 
     $email_contains = $saved->getParameter('emailContains');
-    if (strlen($email_contains)) {
+    if (phutil_nonempty_string($email_contains)) {
       $query->withEmailContains($email_contains);
     }
 
