@@ -421,7 +421,7 @@ final class PhabricatorMetaMTAMailViewController
     $properties->addProperty(pht('Message PHID'), $mail->getPHID());
 
     $details = $mail->getMessage();
-    if (!strlen($details)) {
+    if (!phutil_nonempty_string($details)) {
       $details = phutil_tag('em', array(), pht('None'));
     }
     $properties->addProperty(pht('Status Details'), $details);
