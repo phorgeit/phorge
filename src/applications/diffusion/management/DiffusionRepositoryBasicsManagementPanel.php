@@ -219,7 +219,7 @@ final class DiffusionRepositoryBasicsManagementPanel
     $view->addProperty(pht('Type'), $type);
 
     $callsign = $repository->getCallsign();
-    if (!strlen($callsign)) {
+    if (!phutil_nonempty_string($callsign)) {
       $callsign = phutil_tag('em', array(), pht('No Callsign'));
     }
     $view->addProperty(pht('Callsign'), $callsign);
