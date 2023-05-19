@@ -99,10 +99,10 @@ final class PhabricatorAuthEditController
 
       if (!$errors) {
         if ($is_new) {
-          if (!strlen($config->getProviderType())) {
+          if (!phutil_nonempty_string($config->getProviderType())) {
             $config->setProviderType($provider->getProviderType());
           }
-          if (!strlen($config->getProviderDomain())) {
+          if (!phutil_nonempty_string($config->getProviderDomain())) {
             $config->setProviderDomain($provider->getProviderDomain());
           }
         }
