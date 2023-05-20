@@ -169,7 +169,7 @@ final class PhabricatorPhabricatorAuthProvider
             phutil_tag(
               'tt',
               array(),
-              '`example.oauthserver`'))));
+              'example.oauthserver'))));
     } else {
       $form
         ->appendChild(
