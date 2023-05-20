@@ -231,7 +231,7 @@ class Text_Figlet
                     $i = hexdec(substr($i, 2));
                 } else {
                     // If octal
-                    if ($i{0} === '0' && $i !== '0' || substr($i, 0, 2) == '-0') {
+                    if ($i[0] === '0' && $i !== '0' || substr($i, 0, 2) == '-0') {
                         $i = octdec($i);
                     }
                 }
@@ -274,7 +274,7 @@ class Text_Figlet
                 $lt = hexdec(substr($str, $i+2, 4));
                 $i += 5;
             } else {
-                $lt = ord($str{$i});
+                $lt = ord($str[$i]);
             }
 
             $hb = preg_quote($this->hardblank, '/');
