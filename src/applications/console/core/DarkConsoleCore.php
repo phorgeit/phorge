@@ -124,6 +124,9 @@ final class DarkConsoleCore extends Phobject {
     } else if (is_resource($data)) {
       return '<resource>';
     } else {
+      // This is very probably not a string in strict sense
+      $data = phutil_string_cast($data);
+
       // Truncate huge strings. Since the data doesn't really matter much,
       // just truncate bytes to avoid PhutilUTF8StringTruncator overhead.
       $length = strlen($data);
