@@ -172,7 +172,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $email   = null;
     $errors  = array();
     if ($request->isDialogFormPost()) {
-      $email = trim($request->getStr('email'));
+      $email = trim($request->getStr('email', ''));
 
       if ($new == 'verify') {
         // The user clicked "Done" from the "an email has been sent" dialog.
