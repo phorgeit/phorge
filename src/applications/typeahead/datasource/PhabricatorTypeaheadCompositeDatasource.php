@@ -28,7 +28,7 @@ abstract class PhabricatorTypeaheadCompositeDatasource
 
     // We only need to do a prefix phase query if there's an actual query
     // string. If the user didn't type anything, nothing can possibly match it.
-    if (strlen($this->getRawQuery())) {
+    if (phutil_nonempty_string($this->getRawQuery())) {
       $phases[] = self::PHASE_PREFIX;
     }
 
