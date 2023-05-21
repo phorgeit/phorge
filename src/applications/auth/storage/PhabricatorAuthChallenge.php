@@ -56,7 +56,7 @@ final class PhabricatorAuthChallenge
     AphrontRequest $request) {
     assert_instances_of($challenges, __CLASS__);
 
-    $token_list = $request->getStr(self::HTTPKEY);
+    $token_list = $request->getStr(self::HTTPKEY, '');
     $token_list = explode(' ', $token_list);
 
     $token_map = array();
