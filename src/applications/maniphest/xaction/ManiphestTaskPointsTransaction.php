@@ -97,8 +97,17 @@ final class ManiphestTaskPointsTransaction
     return 'fa-calculator';
   }
 
+  /**
+   * Normalize your Story Points from generic stuff to double or null.
+   * @param  mixed $value Your raw Story Points
+   * @return double|null
+   */
   private function getValueForPoints($value) {
-    if (!strlen($value)) {
+    // The Point can be various types also thanks to Conduit API
+    // like integers, floats, null, and strings of course.
+    // Everything meaningful must be printable as a string.
+    $is_empty = phutil_string_cast($value) === '';
+    if ($is_empty) {
       $value = null;
     }
     if ($value !== null) {
