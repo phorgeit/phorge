@@ -186,7 +186,10 @@ final class ManiphestReportController extends ManiphestController {
       switch ($row['transactionType']) {
         case ManiphestTaskStatusTransaction::TRANSACTIONTYPE:
           // NOTE: Hack to avoid json_decode().
-          $oldv = trim($row['oldValue'], '"');
+          $oldv = $row['oldValue'];
+          if ($oldv !== null) {
+            $oldv = trim($oldv, '"');
+          }
           $newv = trim($row['newValue'], '"');
           break;
         case ManiphestTaskMergedIntoTransaction::TRANSACTIONTYPE:
