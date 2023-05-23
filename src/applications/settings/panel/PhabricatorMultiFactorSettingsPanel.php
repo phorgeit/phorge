@@ -257,7 +257,7 @@ final class PhabricatorMultiFactorSettingsPanel
     // example, with SMS).
     if (!$request->isFormPost() || !$request->getBool('mfa.start')) {
       $enroll = $selected_provider->getEnrollMessage();
-      if (!strlen($enroll)) {
+      if (!phutil_nonempty_string($enroll)) {
         $enroll = $selected_provider->getEnrollDescription($viewer);
       }
 
