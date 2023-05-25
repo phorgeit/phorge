@@ -1137,7 +1137,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $viewer = $this->requireViewer();
 
     $query_key = $request->getValue('queryKey');
-    if (!strlen($query_key)) {
+    $is_empty_query_key = phutil_string_cast($query_key) === '';
+    if ($is_empty_query_key) {
       $saved_query = new PhabricatorSavedQuery();
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);
