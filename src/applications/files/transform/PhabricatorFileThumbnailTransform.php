@@ -58,7 +58,7 @@ final class PhabricatorFileThumbnailTransform
   public function generateTransforms() {
     return array(
       id(new PhabricatorFileThumbnailTransform())
-        ->setName(pht("Profile (400px \xC3\x97 400px)"))
+        ->setName(pht("Profile (400px \xC3\x97 400px) (Image will be Public)"))
         ->setKey(self::TRANSFORM_PROFILE)
         ->setDimensions(400, 400)
         ->setScaleUp(true),

@@ -137,8 +137,12 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   protected function newFileFromData($data) {
     if ($this->file) {
       $name = $this->file->getName();
+      $inherit_properties = array(
+        'viewPolicy' => $this->file->getViewPolicy(),
+      );
     } else {
       $name = 'default.png';
+      $inherit_properties = array();
     }
 
     $defaults = array(
@@ -146,7 +150,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
       'name' => $this->getTransformKey().'-'.$name,
     );
 
-    $properties = $this->getFileProperties() + $defaults;
+    $properties = $this->getFileProperties() + $inherit_properties + $defaults;
 
     return PhabricatorFile::newFromFileData($data, $properties);
   }
