@@ -49,18 +49,7 @@ If a value is not truthy, it is "falsey". These values are falsey in PHP:
   false     // boolean
   array()   // empty array
 
-Disregarding some bizarre edge cases, all other values are truthy. Note that
-because "0" is falsey, this sort of thing (intended to prevent users from making
-empty comments) is wrong in PHP:
-
-  COUNTEREXAMPLE
-  if ($comment_text) {
-    make_comment($comment_text);
-  }
-
-This is wrong because it prevents users from making the comment "0". //THIS
-COMMENT IS TOTALLY AWESOME AND I MAKE IT ALL THE TIME SO YOU HAD BETTER NOT
-BREAK IT!!!// A better test is probably `strlen()`.
+Disregarding some bizarre edge cases, all other values are truthy.
 
 In addition to truth tests with `if`, PHP has two special truthiness operators
 which look like functions but aren't: `empty()` and `isset()`. These operators
@@ -92,16 +81,16 @@ variables.
 `empty()` evaluates truthiness exactly opposite of `if()`. `isset()` returns
 `true` for everything except `null`. This is the truth table:
 
-| Value | `if()` | `empty()` | `isset()` |
-|-------|--------|-----------|-----------|
-| `null` | `false` | `true` | `false` |
-| `0` | `false` | `true` | `true` |
-| `0.0` | `false` | `true` | `true` |
-| `"0"` | `false` | `true` | `true` |
-| `""` | `false` | `true` | `true` |
-| `false` | `false` | `true` | `true` |
-| `array()` | `false` | `true` | `true` |
-| Everything else | `true` | `false` | `true` |
+| Value         | `if()` | `empty()` | `isset()` |
+|---------------|--------|-----------|-----------|
+| `null`        | `false`| `true`    | `false`   |
+| `0`           | `false`| `true`    | `true`    |
+| `0.0`         | `false`| `true`    | `true`    |
+| `"0"`         | `false`| `true`    | `true`    |
+| `""`          | `false`| `true`    | `true`    |
+|`false`        | `false`| `true`    | `true`    |
+|`array()`      | `false`| `true`    | `true`    |
+|Everything else| `true` | `false`   | `true`    |
 
 The value of these operators is that they accept undeclared variables and do
 not issue a warning. Specifically, if you try to do this you get a warning:
@@ -137,6 +126,64 @@ So, `isset()` really means
 Put another way, use `isset()` if you want to type `if ($value !== null)` but
 are testing something that may not be declared. Use `empty()` if you want to
 type `if (!$value)` but you are testing something that may not be declared.
+
+= Check for non-empty strings =
+
+As already mentioned, note that you cannot just use an `if` or `empty()` to
+check for a non-empty string, mostly because "0" is falsey, so you cannot rely
+on this sort of thing to prevent users from making empty comments:
+
+  COUNTEREXAMPLE
+  if ($comment_text) {
+    make_comment($comment_text);
+  }
+
+This is wrong because it prevents users from making the comment "0".
+
+//THE COMMENT "0" IS TOTALLY AWESOME AND I MAKE IT ALL THE TIME SO YOU HAD
+BETTER NOT BREAK IT!!!//
+
+Another way //was// also `strlen()`:
+
+  COUNTEREXAMPLE
+  if (strlen($comment_text)) {
+    make_comment($comment_text);
+  }
+
+But using `strlen(null)` causes a deprecation warning since PHP 8.1. Also,
+using `strlen()` uses too many CPU cycles to just check of a non-empty.
+
+In short, outside Phorge, this is a general way to check for non-empty strings
+for most wild input types:
+
+```lang=php
+  $value_str = (string) $value;
+  if ($value_str !== '') {
+    // do something
+  }
+```
+
+To do the same thing in Phorge, use this better and safer approach:
+
+```lang=php
+  $value_str = phutil_string_cast($value);
+  if ($value_str !== '') {
+    // do something
+  }
+```
+
+And, if you are 100% sure that you are __only__ working with string and
+null, evaluate this instead:
+
+```lang=php
+  if (phutil_nonempty_string($value)) {
+    // do something
+  }
+```
+
+WARNING: The function `phutil_nonempty_string()` is designed to throw a nice
+exception if it receives `true`, `false`, an array, an object or anything
+alien that is not a string and not null. Do your evaluations.
 
 = usort(), uksort(), and uasort() are Slow =
 
