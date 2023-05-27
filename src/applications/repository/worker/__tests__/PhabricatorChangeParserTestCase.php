@@ -517,7 +517,7 @@ final class PhabricatorChangeParserTestCase
             '/dir',
             null,
             null,
-            // TODO: This might reasonbly be considered a bug in the parser; it
+            // TODO: This might reasonably be considered a bug in the parser; it
             // should probably be COPY_AWAY.
             DifferentialChangeType::TYPE_CHILD,
             DifferentialChangeType::FILE_DIRECTORY,

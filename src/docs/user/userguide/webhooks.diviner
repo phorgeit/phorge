@@ -178,7 +178,7 @@ Retries and Rate Limiting
 Test requests are never retried: they execute exactly once.
 
 Live requests are automatically retried. If your endpoint does not return a
-HTTP 2XX response, the request will be retried regularly until it suceeds.
+HTTP 2XX response, the request will be retried regularly until it succeeds.
 
 Retries will continue until the request succeeds or is garbage collected. By
 default, this is after 7 days.

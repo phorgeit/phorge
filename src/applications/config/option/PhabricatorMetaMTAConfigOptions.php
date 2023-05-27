@@ -74,7 +74,7 @@ of each approach are:
     - If you use mailing lists, recipients may sometimes get duplicate
       mail.
     - Getting threading to work properly is easier, and threading settings
-      can be customzied by each user.
+      can be customized by each user.
     - "Reply All" will never send extra mail to other users involved in the
       thread.
     - Required if private reply-to addresses are configured.

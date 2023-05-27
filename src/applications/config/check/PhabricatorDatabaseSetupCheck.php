@@ -106,7 +106,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
         'The "InnoDB" engine is not available in MySQL (on host "%s"). '.
         'Enable InnoDB in your MySQL configuration.'.
         "\n\n".
-        '(If you aleady created tables, MySQL incorrectly used some other '.
+        '(If you already created tables, MySQL incorrectly used some other '.
         'engine to create them. You need to convert them or drop and '.
         'reinitialize them.)',
         $ref_key);

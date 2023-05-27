@@ -391,7 +391,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $new = $this->getTransactionNewValue($object, $xaction);
     $xaction->setNewValue($new);
 
-    // Apply an optional transformation to convert "external" tranaction
+    // Apply an optional transformation to convert "external" transaction
     // values (provided by APIs) into "internal" values.
 
     $old = $xaction->getOldValue();

@@ -142,7 +142,7 @@ example.
 = Documentation, Comments and Formatting =
 
   - Prefer to remove code by deleting it over removing it by commenting it out.
-    It shall live forever in source control, and can be retrieved therefrom if
+    It shall live forever in source control, and can be retrieved there from if
     it is ever again called upon.
   - In source code, use only ASCII printable characters plus space and linefeed.
     Do not use UTF-8 or other multibyte encodings.

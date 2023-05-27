@@ -392,7 +392,7 @@ final class AphrontTableView extends AphrontView {
     // white-space: pre to prevent wrapping. We need to append a character
     // (&nbsp; -- nonbreaking space) afterward to give the bounds div height
     // (alternatively, we could hard-code the line height). This is gross but
-    // it's not clear that there's a better appraoch.
+    // it's not clear that there's a better approach.
 
     return phutil_tag(
       'div',

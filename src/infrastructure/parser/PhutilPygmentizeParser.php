@@ -32,7 +32,7 @@ final class PhutilPygmentizeParser extends Phobject {
       $c = $block[$ii];
       switch ($mode) {
         case 'text':
-          // We're in general text between tags, and just passing characers
+          // We're in general text between tags, and just passing characters
           // through unmodified.
           if ($c == '<') {
             $mode = 'tag';

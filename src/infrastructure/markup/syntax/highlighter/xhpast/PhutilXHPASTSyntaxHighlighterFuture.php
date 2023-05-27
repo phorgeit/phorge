@@ -32,7 +32,7 @@ final class PhutilXHPASTSyntaxHighlighterFuture extends FutureProxy {
 
     // We perform two passes here: one using the AST to find symbols we care
     // about -- particularly, class names and function names. These are used
-    // in the crossreference stuff to link into Diffusion. After we've done our
+    // in the cross-reference stuff to link into Diffusion. After we've done our
     // AST pass, we do a followup pass on the token stream to catch all the
     // simple stuff like strings and comments.
 

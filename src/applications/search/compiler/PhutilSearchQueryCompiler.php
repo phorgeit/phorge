@@ -297,7 +297,7 @@ final class PhutilSearchQueryCompiler
               $use_substring = true;
             } else if (phutil_preg_match('/^_/', $value)) {
               // See T13632. Assume users searching for any term that begins
-              // with an undescore intend to perform substring search if they
+              // with an underscore intend to perform substring search if they
               // don't provide an explicit search function.
               $use_substring = true;
             }
