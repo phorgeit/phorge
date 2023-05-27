@@ -76,10 +76,7 @@ th.phabricator-source-line a:hover {
 
 .phabricator-source-blame-skip,
 .phabricator-source-blame-info {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
   -webkit-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 

@@ -432,37 +432,27 @@ unselectable. */
 
 .differential-diff.copy-l > tbody > tr > td,
 .differential-diff.copy-r > tbody > tr > td {
-  -moz-user-select: none;
-  -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
 .differential-diff.copy-l > tbody > tr > td:nth-child(2) {
-  -moz-user-select: auto;
-  -ms-user-select: auto;
   -webkit-user-select: auto;
   user-select: auto;
 }
 
 .differential-diff.copy-l > tbody > tr > td.show-more:nth-child(2) {
-  -moz-user-select: none;
-  -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
 
 .differential-diff.copy-r > tbody > tr > td:nth-child(5) {
-  -moz-user-select: auto;
-  -ms-user-select: auto;
   -webkit-user-select: auto;
   user-select: auto;
 }
 
 .differential-diff.copy-l > tbody > tr.inline > td,
 .differential-diff.copy-r > tbody > tr.inline > td {
-  -moz-user-select: none;
-  -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }

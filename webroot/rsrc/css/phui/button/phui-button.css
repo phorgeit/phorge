@@ -9,8 +9,6 @@ input[type="submit"] {
   font: {$basefont};
   -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 

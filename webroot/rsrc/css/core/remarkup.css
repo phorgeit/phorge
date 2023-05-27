@@ -66,6 +66,7 @@
   line-height: 0.6rem;
   border-radius: 3px;
   box-shadow: inset 0 -1px 0 rgba({$alphablue},0.08);
+  -webkit-user-select: none;
   user-select: none;
   background: {$lightgreybackground};
   border: 1px solid {$lightgreyborder};
