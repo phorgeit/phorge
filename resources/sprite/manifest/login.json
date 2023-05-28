@@ -71,6 +71,11 @@
       "rule": ".login-Phabricator",
       "hash": "54f5ddae4b9d138c438ec00ed42544d2"
     },
+    "login-Phorge": {
+      "name": "login-Phorge",
+      "rule": ".login-Phorge",
+      "hash": "0cc36ea8b7b98c57c23e547400b955f1"
+    },
     "login-Slack": {
       "name": "login-Slack",
       "rule": ".login-Slack",
