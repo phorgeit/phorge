@@ -169,11 +169,20 @@ abstract class PhabricatorEditField extends Phobject {
     return $this->conduitDescription;
   }
 
+  /**
+   * Set the Conduit documentation in raw Remarkup.
+   * @param  string|null $conduit_documentation
+   * @return self
+   */
   public function setConduitDocumentation($conduit_documentation) {
     $this->conduitDocumentation = $conduit_documentation;
     return $this;
   }
 
+  /**
+   * Get the Conduit documentation in raw Remarkup.
+   * @return string|null
+   */
   public function getConduitDocumentation() {
     return $this->conduitDocumentation;
   }
