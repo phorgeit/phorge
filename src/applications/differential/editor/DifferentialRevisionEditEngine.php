@@ -307,7 +307,7 @@ final class DifferentialRevisionEditEngine
         pht('Hold as Draft'))
       ->setTransactionType(
         DifferentialRevisionHoldDraftTransaction::TRANSACTIONTYPE)
-      ->setDescription(pht('Hold revision as as draft.'))
+      ->setDescription(pht('Hold revision as draft.'))
       ->setConduitDescription(
         pht(
           'Change autosubmission from draft state after builds finish.'))
