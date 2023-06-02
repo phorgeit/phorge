@@ -42,6 +42,11 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     return $this;
   }
 
+  /**
+   * Get the Coverage, expressed as a string, each letter with this meaning:
+   * N: Not Executable, C: Covered, U: Uncovered.
+   * @return string|null
+   */
   public function getCoverage() {
     return $this->coverage;
   }
@@ -139,7 +144,7 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     $not_applicable = '-';
 
     $coverage = $this->getCoverage();
-    if (!strlen($coverage)) {
+    if (!phutil_nonempty_string($coverage)) {
       return $not_applicable;
     }
 
@@ -157,7 +162,7 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     $not_applicable = '-';
 
     $coverage = $this->getCoverage();
-    if (!strlen($coverage)) {
+    if (!phutil_nonempty_string($coverage)) {
       return $not_applicable;
     }
 
