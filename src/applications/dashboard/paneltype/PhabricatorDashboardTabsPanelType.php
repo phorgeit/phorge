@@ -111,9 +111,11 @@ final class PhabricatorDashboardTabsPanelType
         $name = pht('Unnamed Tab');
       }
 
+      $is_selected = (string)$idx === (string)$selected;
+
       $tab_view = id(new PHUIListItemView())
         ->setHref('#')
-        ->setSelected((string)$idx === (string)$selected)
+        ->setSelected($is_selected)
         ->addSigil('dashboard-tab-panel-tab')
         ->setMetadata(array('panelKey' => $idx))
         ->setName($name);
@@ -286,7 +288,7 @@ final class PhabricatorDashboardTabsPanelType
         'div',
         array(
           'id' => $content_id,
-          'style' => ($idx == $selected) ? null : 'display: none',
+          'style' => $is_selected ? null : 'display: none',
         ),
         $panel_content);
 
