@@ -26,7 +26,7 @@ final class DiffusionBranchTableController extends DiffusionController {
     );
 
     $contains = $drequest->getSymbolicCommit();
-    if (strlen($contains)) {
+    if (phutil_nonempty_string($contains)) {
       $params['contains'] = $contains;
     }
 
