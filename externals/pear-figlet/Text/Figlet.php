@@ -140,20 +140,23 @@ class Text_Figlet
         if (!$compressed) {
             /* ZIPed font */
             if (fread($fp, 2) == 'PK') {
-                if (!function_exists('zip_open')) {
-                    return self::raiseError('Cannot load ZIP compressed fonts since'
-                                            . ' ZIP PHP extension is not available.',
-                                            5);
-                }
-
                 fclose($fp);
 
-                if (!($fp = zip_open($filename))) {
-                    return self::raiseError('Cannot open figlet font file ' . $filename, 2);
+                $zip = new ZipArchive();
+
+                $zip_flags = 0;
+                if(defined('ZipArchive::RDONLY')) {
+                    $zip_flags = ZipArchive::RDONLY; // Flag available since PHP 7.4, unnecessary before
                 }
 
-                $name = zip_entry_name(zip_read($fp));
-                zip_close($fp);
+                $open_result = $zip->open($filename, $zip_flags);
+                if ($open_result !== true) {
+                    return self::raiseError('Cannot open figlet font file ' .
+                        $filename . ', got error: ' . $open_result, 2);
+                }
+
+                $name = $zip->getNameIndex(0);
+                $zip->close();
 
                 if (!($fp = fopen('zip://' . realpath($filename) . '#' . $name, 'rb'))) {
                     return self::raiseError('Cannot open figlet font file ' . $filename, 2);
