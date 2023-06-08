@@ -17,12 +17,12 @@ final class PhabricatorRepositoryDefaultBranchTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (!strlen($new)) {
+    if (!phutil_nonempty_string($new)) {
       return pht(
         '%s removed %s as the default branch.',
         $this->renderAuthor(),
         $this->renderOldValue());
-    } else if (!strlen($old)) {
+    } else if (!phutil_nonempty_string($old)) {
       return pht(
         '%s set the default branch to %s.',
         $this->renderAuthor(),
