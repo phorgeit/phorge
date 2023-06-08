@@ -17,12 +17,12 @@ final class PhabricatorRepositorySVNSubpathTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (!strlen($new)) {
+    if ($new === null || !strlen($new)) {
       return pht(
         '%s removed %s as the "Import Only" path.',
         $this->renderAuthor(),
         $this->renderOldValue());
-    } else if (!strlen($old)) {
+    } else if ($old === null || !$old) {
       return pht(
         '%s set the repository "Import Only" path to %s.',
         $this->renderAuthor(),
