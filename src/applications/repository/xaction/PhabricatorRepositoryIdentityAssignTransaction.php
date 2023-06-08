@@ -52,7 +52,7 @@ final class PhabricatorRepositoryIdentityAssignTransaction
     foreach ($xactions as $xaction) {
       $old = $xaction->getOldValue();
       $new = $xaction->getNewValue();
-      if (!strlen($new)) {
+      if ($new === null || !strlen($new)) {
         continue;
       }
 
