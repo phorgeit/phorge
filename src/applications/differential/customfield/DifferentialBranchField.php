@@ -36,8 +36,8 @@ final class DifferentialBranchField
   }
 
   private function getBranchDescription(DifferentialDiff $diff) {
-    $branch = $diff->getBranch();
-    $bookmark = $diff->getBookmark();
+    $branch = coalesce($diff->getBranch(), '');
+    $bookmark = coalesce($diff->getBookmark(), '');
 
     if (strlen($branch) && strlen($bookmark)) {
       return pht('%s (bookmark) on %s (branch)', $bookmark, $branch);
