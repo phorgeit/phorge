@@ -80,7 +80,7 @@ final class DiffusionBranchQueryConduitAPIMethod
       ->setRepository($repository);
 
     $contains = $request->getValue('contains');
-    if (strlen($contains)) {
+    if (phutil_nonempty_string($contains)) {
       $query->withContainsCommit($contains);
     }
 
