@@ -84,3 +84,8 @@
   font-weight: normal;
   color: {$greytext};
 }
+
+/* On small devices the Persistent Chat is already hidden, and so its option */
+.device .phabricator-notification-header .persistent-option {
+  display: none;
+}
