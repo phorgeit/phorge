@@ -675,8 +675,8 @@ ul.phui-oi-list-view .phui-oi-selected
 
 .phui-oi-selectable {
   cursor: pointer;
-  user-select: none;
   -webkit-user-select: none;
+  user-select: none;
 }
 
 /* When the list selection state can be toggled on the client (as in the bulk

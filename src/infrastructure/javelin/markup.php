@@ -77,7 +77,28 @@ function phabricator_form(PhabricatorUser $user, $attributes, $content) {
   $is_post = (strcasecmp($http_method, 'POST') === 0);
 
   $http_action = idx($attributes, 'action');
-  $is_absolute_uri = preg_match('#^(https?:|//)#', $http_action);
+
+  if ($http_action === null) {
+    // Not sure what this is.
+    $is_absolute_uri = false;
+
+  } else if ($http_action instanceof PhutilURI) {
+    // This is the happy path, I think
+
+    // For now, this is close enough - I suspect we'll stay with "https" schema
+    // for the rest of eternity.
+    $protocol = $http_action->getProtocol();
+    $is_absolute_uri = ($protocol == 'http' || $protocol == 'https');
+
+  } else if (is_string($http_action)) {
+    // Also good path?
+    $is_absolute_uri = preg_match('#^(https?:|//)#', $http_action);
+  } else {
+    throw new Exception(
+      pht(
+        'Unexpected object type provided as `action` - %s',
+        gettype($http_action)));
+  }
 
   if ($is_post) {
 

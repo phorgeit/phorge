@@ -135,7 +135,8 @@ final class ConpherenceThreadQuery
   }
 
   protected function buildGroupClause(AphrontDatabaseConnection $conn_r) {
-    if ($this->participantPHIDs !== null || strlen($this->fulltext)) {
+    if ($this->participantPHIDs !== null ||
+        phutil_nonempty_string($this->fulltext)) {
       return qsprintf($conn_r, 'GROUP BY thread.id');
     } else {
       return $this->buildApplicationSearchGroupClause($conn_r);
@@ -152,7 +153,7 @@ final class ConpherenceThreadQuery
         id(new ConpherenceParticipant())->getTableName());
     }
 
-    if (strlen($this->fulltext)) {
+    if (phutil_nonempty_string($this->fulltext)) {
       $joins[] = qsprintf(
         $conn,
         'JOIN %T idx ON idx.threadPHID = thread.phid',
@@ -234,7 +235,7 @@ final class ConpherenceThreadQuery
         $this->participantPHIDs);
     }
 
-    if (strlen($this->fulltext)) {
+    if (phutil_nonempty_string($this->fulltext)) {
       $where[] = qsprintf(
         $conn,
         'MATCH(idx.corpus) AGAINST (%s IN BOOLEAN MODE)',

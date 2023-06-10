@@ -85,14 +85,14 @@ final class PhabricatorConfigConsoleController
     $rows = array();
     foreach ($versions as $name => $info) {
       $branchpoint = $info['branchpoint'];
-      if (strlen($branchpoint)) {
+      if (phutil_nonempty_string($branchpoint)) {
         $branchpoint = substr($branchpoint, 0, 12);
       } else {
         $branchpoint = null;
       }
 
       $version = $info['hash'];
-      if (strlen($version)) {
+      if (phutil_nonempty_string($version)) {
         $version = substr($version, 0, 12);
       } else {
         $version = pht('Unknown');

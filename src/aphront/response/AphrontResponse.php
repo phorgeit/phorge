@@ -327,7 +327,7 @@ abstract class AphrontResponse extends Phobject {
     }
 
     if ($value instanceof PhutilSafeHTML) {
-      // TODO: Javelin supports implicity conversion of '__html' objects to
+      // TODO: Javelin supports implicit conversion of '__html' objects to
       // JX.HTML, but only for Ajax responses, not behaviors. Just leave things
       // as they are for now (where behaviors treat responses as HTML or plain
       // text at their discretion).

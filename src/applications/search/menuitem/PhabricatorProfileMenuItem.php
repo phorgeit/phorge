@@ -126,7 +126,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
       $result = $xaction['new'];
     }
 
-    return !strlen($result);
+    return !phutil_nonempty_string($result);
   }
 
   final protected function newError($title, $message, $xaction = null) {

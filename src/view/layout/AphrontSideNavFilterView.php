@@ -92,12 +92,21 @@ final class AphrontSideNavFilterView extends AphrontView {
     return $this->getMenuView()->getItem($key);
   }
 
+  /**
+   * Add a thing in the menu
+   *
+   * @param string $key Internal name
+   * @param string $name Human name
+   * @param mixed $uri Destination URI. For example as string or as PhutilURI.
+   * @param string $type Item type. For example see PHUIListItemView constants.
+   * @param string $icon Icon name
+   */
   private function addThing($key, $name, $uri, $type, $icon = null) {
     $item = id(new PHUIListItemView())
       ->setName($name)
       ->setType($type);
 
-    if (strlen($icon)) {
+    if (phutil_nonempty_string($icon)) {
       $item->setIcon($icon);
     }
 
@@ -145,7 +154,7 @@ final class AphrontSideNavFilterView extends AphrontView {
 
   public function selectFilter($key, $default = null) {
     $this->selectedFilter = $default;
-    if ($this->menu->getItem($key) && strlen($key)) {
+    if ($this->menu->getItem($key) && phutil_nonempty_string($key)) {
       $this->selectedFilter = $key;
     }
     return $this->selectedFilter;

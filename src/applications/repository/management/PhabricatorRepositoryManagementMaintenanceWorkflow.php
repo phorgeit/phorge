@@ -23,7 +23,7 @@ final class PhabricatorRepositoryManagementMaintenanceWorkflow
             'name' => 'stop',
             'help' => pht(
               'Take repositories out of maintenance mode, returning them '.
-              'to normal serice.'),
+              'to normal service.'),
           ),
           array(
             'name' => 'repositories',

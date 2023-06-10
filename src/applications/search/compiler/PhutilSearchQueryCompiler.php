@@ -103,7 +103,9 @@ final class PhutilSearchQueryCompiler
 
   private function tokenizeQuery($query) {
     $maximum_bytes = 1024;
-
+    if ($query === null) {
+      $query = '';
+    }
     $query_bytes = strlen($query);
     if ($query_bytes > $maximum_bytes) {
       throw new PhutilSearchQueryCompilerSyntaxException(
@@ -295,7 +297,7 @@ final class PhutilSearchQueryCompiler
               $use_substring = true;
             } else if (phutil_preg_match('/^_/', $value)) {
               // See T13632. Assume users searching for any term that begins
-              // with an undescore intend to perform substring search if they
+              // with an underscore intend to perform substring search if they
               // don't provide an explicit search function.
               $use_substring = true;
             }

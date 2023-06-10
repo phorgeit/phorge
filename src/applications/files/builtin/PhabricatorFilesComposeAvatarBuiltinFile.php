@@ -183,12 +183,21 @@ final class PhabricatorFilesComposeAvatarBuiltinFile
       'image/png');
   }
 
+  /**
+   * Convert a color from RGBA to a value usable in PHP-GD.
+   * Each RGB color should be expressed as an integer from 0 to 255.
+   * The Alpha Channel should be expressed as a float from 0 to 1.
+   * @param array $rgba array( int Red, int Green, int Blue, float Alpha )
+   * @return int
+   */
   private static function rgba2gd($rgba) {
+    // When working with a truecolor image, we can use bitwise operations
+    // https://www.php.net/manual/en/function.imagecolorallocate.php#49168
     $r = $rgba[0];
     $g = $rgba[1];
     $b = $rgba[2];
     $a = $rgba[3];
-    $a = (1 - $a) * 255;
+    $a = round(((1 - $a) * 255), 0);
     return ($a << 24) | ($r << 16) | ($g << 8) | $b;
   }
 

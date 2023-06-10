@@ -157,7 +157,7 @@ final class PhortuneMerchant extends PhortuneDAO
   }
 
   public function describeAutomaticCapability($capability) {
-    return pht("A merchant's members an always view and edit it.");
+    return pht("A merchant's members can always view and edit it.");
   }
 
 }

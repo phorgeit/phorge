@@ -132,7 +132,7 @@ final class PhabricatorRepositoryRefCursorQuery
         $name_hashes);
     }
 
-    if (strlen($this->datasourceQuery)) {
+    if (phutil_nonempty_string($this->datasourceQuery)) {
       $where[] = qsprintf(
         $conn,
         'refNameRaw LIKE %>',

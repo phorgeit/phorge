@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-.phabricator-home.device-phone .phabricator-nav-content {
+.phabricator-home.device-phone .phui-navigation-shell .phabricator-nav-local {
   display: none;
 }
 

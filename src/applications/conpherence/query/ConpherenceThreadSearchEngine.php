@@ -106,7 +106,7 @@ final class ConpherenceThreadSearchEngine
     $engines = array();
 
     $fulltext = $query->getParameter('fulltext');
-    if (strlen($fulltext) && $conpherences) {
+    if (phutil_nonempty_string($fulltext) && $conpherences) {
       $context = $this->loadContextMessages($conpherences, $fulltext);
 
       $author_phids = array();

@@ -51,6 +51,15 @@ final class AphrontDialogView
     return $this->isStandalone;
   }
 
+  /**
+   * Set the URI associated to the Submit Button
+   *
+   * If you want a normal link and not any form submission,
+   * see also: setDisableWorkflowOnSubmit(false).
+   *
+   * @param string $uri
+   * @return self
+   */
   public function setSubmitURI($uri) {
     $this->submitURI = $uri;
     return $this;
@@ -92,6 +101,15 @@ final class AphrontDialogView
     return $this->resizeX;
   }
 
+  /**
+   * Add a Submit Button and specify its text
+   *
+   * If you want to associate an URI for this Button,
+   * see also: setSubmitURI().
+   *
+   * @param string $text Text shown for that button
+   * @return self
+   */
   public function addSubmitButton($text = null) {
     if (!$text) {
       $text = pht('Okay');
@@ -228,6 +246,14 @@ final class AphrontDialogView
     return $this->appendChild($form->buildLayoutView());
   }
 
+  /**
+   * Enable or Disable a Workflow on Submit
+   *
+   * For example, if your Submit Button should be a normal link,
+   * without activating any Workflow, you can set false.
+   * @param bool $disable_workflow_on_submit
+   * @return self
+   */
   public function setDisableWorkflowOnSubmit($disable_workflow_on_submit) {
     $this->disableWorkflowOnSubmit = $disable_workflow_on_submit;
     return $this;

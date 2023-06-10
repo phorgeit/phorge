@@ -24,7 +24,13 @@ abstract class PhabricatorApplicationConfigurationPanel
     return $this->application;
   }
 
-  public function getPanelURI($path = null) {
+  /**
+   * Get the URI for this application configuration panel.
+   *
+   * @param string? Optional path to append.
+   * @return string Relative URI for the panel.
+   */
+  public function getPanelURI($path = '') {
     $app_key = get_class($this->getApplication());
     $panel_key = $this->getPanelKey();
     $base = "/applications/panel/{$app_key}/{$panel_key}/";

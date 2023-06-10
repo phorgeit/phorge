@@ -21,7 +21,7 @@ basis for essentially all edits and comments. Reviewing the transaction
 record allows you to see who edited an object, when, and how their edit changed
 things.
 
-One common reason to call this method is that you're implmenting a webhook and
+One common reason to call this method is that you're implementing a webhook and
 just received a notification that an object has changed. See the Webhooks
 documentation for more detailed discussion of this use case.
 

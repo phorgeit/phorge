@@ -27,9 +27,14 @@ final class PhabricatorProjectMembersAddController
       $copy = pht('Parent projects and milestones do not support adding '.
         'members. You can add members directly to any non-parent subproject.');
 
+      $subprojects_uri = "/project/subprojects/{$id}/";
+
       return $this->newDialog()
         ->setTitle(pht('Unsupported Project'))
         ->appendParagraph($copy)
+        ->setSubmitURI($subprojects_uri)
+        ->addSubmitButton(pht('See Subprojects'))
+        ->setDisableWorkflowOnSubmit(true)
         ->addCancelButton($done_uri);
     }
 

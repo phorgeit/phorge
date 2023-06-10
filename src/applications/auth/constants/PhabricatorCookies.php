@@ -89,7 +89,7 @@ final class PhabricatorCookies extends Phobject {
     // temporary and clearing it when users log out.
 
     $value = $request->getCookie(self::COOKIE_CLIENTID);
-    if (!strlen($value)) {
+    if (!phutil_nonempty_string($value)) {
       $request->setTemporaryCookie(
         self::COOKIE_CLIENTID,
         Filesystem::readRandomCharacters(16));
@@ -164,7 +164,7 @@ final class PhabricatorCookies extends Phobject {
     // Old cookies look like: /uri
     // New cookies look like: timestamp,/uri
 
-    if (!strlen($cookie)) {
+    if (!phutil_nonempty_string($cookie)) {
       return null;
     }
 

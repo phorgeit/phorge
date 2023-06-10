@@ -43,8 +43,8 @@ final class DiffusionServeController extends DiffusionController {
       return null;
     }
 
-    $content_type = $request->getHTTPHeader('Content-Type');
-    $user_agent = idx($_SERVER, 'HTTP_USER_AGENT');
+    $content_type = $request->getHTTPHeader('Content-Type', '');
+    $user_agent = idx($_SERVER, 'HTTP_USER_AGENT', '');
     $request_type = $request->getHTTPHeader('X-Phabricator-Request-Type');
 
     // This may have a "charset" suffix, so only match the prefix.

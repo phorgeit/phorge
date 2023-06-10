@@ -1679,7 +1679,7 @@ abstract class PhabricatorCustomField extends Phobject {
     foreach ($map as $field_key => $field) {
       // For now, only support overriding standard custom fields. In the
       // future there's no technical or product reason we couldn't let you
-      // override (some properites of) other fields like "Title", but they
+      // override (some properties of) other fields like "Title", but they
       // don't usually support appropriate "setX()" methods today.
       if (!($field instanceof PhabricatorStandardCustomField)) {
         // For fields that are proxies on top of StandardCustomField, which

@@ -7,7 +7,7 @@ final class PhabricatorConfigSettingsListController
     $viewer = $request->getViewer();
 
     $filter = $request->getURIData('filter');
-    if (!strlen($filter)) {
+    if (!phutil_nonempty_string($filter)) {
       $filter = 'settings';
     }
 

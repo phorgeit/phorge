@@ -334,12 +334,28 @@ abstract class PhabricatorModularTransactionType
     return $this->getEditor()->getIsNewObject();
   }
 
+  /**
+   * Check whenever a new transaction's value is considered an "empty text"
+   * @param mixed $value    A string, null, an integer...
+   * @param array $xactions Transactions
+   */
   final protected function isEmptyTextTransaction($value, array $xactions) {
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
     }
 
-    return !strlen($value);
+    // The $value can be a lot of stuff, null, string, integer and maybe more.
+    // We cast to string to answer the question "Is this string empty?".
+    // Note: Don't use phutil_nonempty_stringlike() since it was not designed
+    //       for integers.
+    // Note: Don't use phutil_nonempty_scalar() since very probably we could
+    //       receive a boolean, causing exceptions.
+    //       https://we.phorge.it/T15239
+    $value_clean = phutil_string_cast($value);
+
+    // We made our lives easier and we don't need strlen(something)
+    // and we should not.
+    return $value_clean === '';
   }
 
   /**

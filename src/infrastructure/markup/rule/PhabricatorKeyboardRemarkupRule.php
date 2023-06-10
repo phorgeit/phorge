@@ -212,6 +212,7 @@ final class PhabricatorKeyboardRemarkupRule extends PhutilRemarkupRule {
         'line-height: 0.6rem;',
         'border-radius: 3px;',
         'box-shadow: inset 0 -1px 0 rgba(71, 87, 120, 0.08);',
+        '-webkit-user-select: none;',
         'user-select: none;',
         'background: #f7f7f7;',
         'border: 1px solid #C7CCD9;',

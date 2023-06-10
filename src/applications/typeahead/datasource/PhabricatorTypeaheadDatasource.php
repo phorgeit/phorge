@@ -464,7 +464,11 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     // We're looking for a "(" so that a string like "members(q" is identified
     // and parsed as a function call. This allows us to start generating
     // results immediately, before the user fully types out "members(quack)".
-    return (strpos($token, '(') !== false);
+    if ($token) {
+      return (strpos($token, '(') !== false);
+    } else {
+      return false;
+    }
   }
 
 

@@ -188,7 +188,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       }
     }
 
-    if (strlen($prefix)) {
+    if (phutil_nonempty_string($prefix)) {
       $title = $prefix.' '.$title;
     }
 

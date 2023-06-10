@@ -13,12 +13,12 @@ final class PhabricatorDashboardQueryPanelInstallController
     $e_name = true;
 
     $v_engine = $request->getStr('engine');
-    if (!strlen($v_engine)) {
+    if (!phutil_nonempty_string($v_engine)) {
       $v_engine = $request->getURIData('engineKey');
     }
 
     $v_query = $request->getStr('query');
-    if (!strlen($v_query)) {
+    if (!phutil_nonempty_string($v_query)) {
       $v_query = $request->getURIData('queryKey');
     }
 

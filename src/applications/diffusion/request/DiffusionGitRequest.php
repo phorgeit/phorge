@@ -3,6 +3,9 @@
 final class DiffusionGitRequest extends DiffusionRequest {
 
   protected function isStableCommit($symbol) {
+    if ($symbol === null) {
+      return false;
+    }
     return preg_match('/^[a-f0-9]{40}\z/', $symbol);
   }
 

@@ -56,7 +56,7 @@ final class PhabricatorCalendarICSFileImportEngine
   public function getDisplayName(PhabricatorCalendarImport $import) {
     $filename_key = PhabricatorCalendarImportICSFileTransaction::PARAMKEY_NAME;
     $filename = $import->getParameter($filename_key);
-    if (strlen($filename)) {
+    if (phutil_nonempty_string($filename)) {
       return pht('ICS File "%s"', $filename);
     } else {
       return pht('ICS File');

@@ -134,7 +134,7 @@ Providers may be in these states:
   - **Active**: Users may add new factors. Users will be prompted to respond
     to challenges from these providers when they take a sensitive action.
   - **Deprecated**: Users may not add new factors, but they will still be
-    asked to respond to challenges from exising factors.
+    asked to respond to challenges from existing factors.
   - **Disabled**: Users may not add new factors, and existing factors will
     not be used. If MFA is required and a user only has disabled factors,
     they will be forced to add a new factor.

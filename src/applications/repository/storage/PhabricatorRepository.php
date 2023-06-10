@@ -217,7 +217,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     $monograms[] = 'R'.$this->getID();
 
     $callsign = $this->getCallsign();
-    if (strlen($callsign)) {
+    if (phutil_nonempty_string($callsign)) {
       $monograms[] = 'r'.$callsign;
     }
 

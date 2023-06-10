@@ -73,20 +73,22 @@ final class PhabricatorSetupIssueView extends AphrontView {
         'Install these %d PHP extension(s):', count($extensions));
 
       $install_info = pht(
-        'You can usually install a PHP extension using %s or %s. Common '.
-        'package names are %s or %s. Try commands like these:',
+        'You can usually install a PHP extension using %s, %s, or %s. A '.
+        'common package name is %s. Try commands like these:',
         phutil_tag('tt', array(), 'apt-get'),
+        phutil_tag('tt', array(), 'dnf'),
         phutil_tag('tt', array(), 'yum'),
-        hsprintf('<tt>php-<em>%s</em></tt>', pht('extname')),
-        hsprintf('<tt>php5-<em>%s</em></tt>', pht('extname')));
+        hsprintf('<tt>php-<em>%s</em></tt>', pht('extname')));
 
       // TODO: We should do a better job of detecting how to install extensions
       // on the current system.
       $install_commands = hsprintf(
-        "\$ sudo apt-get install php5-<em>extname</em>  ".
+        "\$ sudo apt-get install php-<em>extname</em>  ".
         "# Debian / Ubuntu\n".
-        "\$ sudo yum install php-<em>extname</em>       ".
-        "# Red Hat / Derivatives");
+        "\$ sudo dnf install php-<em>extname</em>      ".
+        "# Red Hat / Derivatives\n".
+        "\$ sudo yum install php-<em>extname</em>      ".
+        "# Older Red Hat versions");
 
       $fallback_info = pht(
         "If those commands don't work, try Google. The process of installing ".

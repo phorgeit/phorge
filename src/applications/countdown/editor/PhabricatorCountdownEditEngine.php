@@ -70,6 +70,11 @@ final class PhabricatorCountdownEditEngine
     return $object->getURI();
   }
 
+  protected function getCreateNewObjectPolicy() {
+    return $this->getApplication()->getPolicy(
+      PhabricatorCountdownCreateCapability::CAPABILITY);
+  }
+
   protected function buildCustomEditFields($object) {
     $epoch_value = $object->getEpoch();
     if ($epoch_value === null) {

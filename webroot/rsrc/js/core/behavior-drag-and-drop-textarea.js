@@ -2,35 +2,14 @@
  * @provides javelin-behavior-aphront-drag-and-drop-textarea
  * @requires javelin-behavior
  *           javelin-dom
- *           javelin-json
  *           phabricator-drag-and-drop-file-upload
  *           phabricator-textareautils
+ *           phabricator-remarkup-metadata
  */
 
 JX.behavior('aphront-drag-and-drop-textarea', function(config) {
 
   var target = JX.$(config.target);
-
-  var metadata_node = JX.$(config.remarkupMetadataID);
-  var metadata_value = config.remarkupMetadataValue;
-
-  function set_metadata(key, value) {
-    metadata_value[key] = value;
-    write_metadata();
-  }
-
-  function get_metadata(key, default_value) {
-    if (metadata_value.hasOwnProperty(key)) {
-      return metadata_value[key];
-    }
-    return default_value;
-  }
-
-  function write_metadata() {
-    metadata_node.value = JX.JSON.stringify(metadata_value);
-  }
-
-  write_metadata();
 
   if (JX.PhabricatorDragAndDropFileUpload.isSupported()) {
     var drop = new JX.PhabricatorDragAndDropFileUpload(target)
@@ -48,9 +27,15 @@ JX.behavior('aphront-drag-and-drop-textarea', function(config) {
     drop.listen('didUpload', function(file) {
       JX.TextAreaUtils.insertFileReference(target, file);
 
-      var phids = get_metadata('attachedFilePHIDs', []);
-      phids.push(file.getPHID());
-      set_metadata('attachedFilePHIDs', phids);
+      if(config.remarkupMetadataID) {
+        // Try to auto-attach files by default
+        // https://we.phorge.it/T15106
+        var metadata = new JX.RemarkupMetadata(config.remarkupMetadataValue,
+          config.remarkupMetadataID);
+        var phids = metadata.getMetadata('attachedFilePHIDs', []);
+        phids.push(file.getPHID());
+        metadata.setMetadata('attachedFilePHIDs', phids);
+      }
     });
 
     drop.start();

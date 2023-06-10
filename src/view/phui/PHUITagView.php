@@ -100,7 +100,24 @@ final class PHUITagView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Set the href attribute
+   *
+   * @param string|null $href
+   * @return self
+   */
   public function setHref($href) {
+
+    // We have not a very clear idea about what this method should receive
+    // We suspect that PhutilURI should be allowed... but let's log everything!
+    // https://we.phorge.it/T15316
+    if (is_object($href)) {
+        phlog(sprintf(
+          'Received unexpected type for href: %s. '.
+          'Please paste this log as comment in https://we.phorge.it/T15316',
+          get_class($href)));
+    }
+
     $this->href = $href;
     return $this;
   }
@@ -126,7 +143,7 @@ final class PHUITagView extends AphrontTagView {
   }
 
   protected function getTagName() {
-    return strlen($this->href) ? 'a' : 'span';
+    return phutil_nonempty_stringlike($this->href) ? 'a' : 'span';
   }
 
   public function setContextObject($context_object) {

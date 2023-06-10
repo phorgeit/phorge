@@ -7,7 +7,7 @@ final class PhutilRemarkupLiteralBlockRule extends PhutilRemarkupBlockRule {
   }
 
   public function getMatchingLineCount(array $lines, $cursor) {
-    // NOTE: We're consuming all continguous blocks of %%% literals, so this:
+    // NOTE: We're consuming all contiguous blocks of %%% literals, so this:
     //
     //    %%%a%%%
     //    %%%b%%%

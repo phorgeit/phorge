@@ -144,7 +144,13 @@ to file a report.
 
 It is **particularly critical** that you include reproduction steps.
 
-You can file a report [[ https://we.phorge.it/maniphest/task/edit/form/2/ | on this instance]].
+Community Members - that is, members of #community - can
+[[ https://we.phorge.it/maniphest/task/edit/form/2/ | file a report directly
+on this instance]].
+
+Potential members - i.e., everyone else - please use Ponder to
+[[ https://we.phorge.it/ponder/question/create/ | Ask for support ]] from the
+Community Members.
 
 
 Next Steps

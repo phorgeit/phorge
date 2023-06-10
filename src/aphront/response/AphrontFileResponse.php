@@ -8,7 +8,16 @@ final class AphrontFileResponse extends AphrontResponse {
   private $compressResponse;
 
   private $mimeType;
+
+  /**
+   * Download filename
+   *
+   * This is NULL as default or a string.
+   *
+   * @var string|null
+   */
   private $download;
+
   private $rangeMin;
   private $rangeMax;
   private $allowOrigins = array();
@@ -18,14 +27,30 @@ final class AphrontFileResponse extends AphrontResponse {
     return $this;
   }
 
+  /**
+   * Set a download filename
+   *
+   * @param $download string
+   * @return self
+   */
   public function setDownload($download) {
+
+    // Make sure we have a populated string
     if (!phutil_nonempty_string($download)) {
       $download = 'untitled';
     }
+
     $this->download = $download;
     return $this;
   }
 
+  /**
+   * Get the download filename
+   *
+   * If this was never set, NULL is given.
+   *
+   * @return string|null
+   */
   public function getDownload() {
     return $this->download;
   }
@@ -113,7 +138,7 @@ final class AphrontFileResponse extends AphrontResponse {
       $headers[] = array('Content-Length', $content_len);
     }
 
-    if (strlen($this->getDownload())) {
+    if (phutil_nonempty_string($this->getDownload())) {
       $headers[] = array('X-Download-Options', 'noopen');
 
       $filename = $this->getDownload();

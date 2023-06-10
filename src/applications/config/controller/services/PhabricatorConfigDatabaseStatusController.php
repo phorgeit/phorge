@@ -837,7 +837,7 @@ final class PhabricatorConfigDatabaseStatusController
 
     $parts = array();
     foreach ($properties as $key => $property) {
-      if (!strlen($property)) {
+      if (!phutil_nonempty_string($property)) {
         continue;
       }
 

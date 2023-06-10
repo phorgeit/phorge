@@ -99,7 +99,7 @@ final class HarbormasterBuildMessageResumeTransaction
       throw new HarbormasterMessageException(
         pht('Unable to Resume Build'),
         pht(
-          'You can not resume this build beacuse it is already resuming.'));
+          'You can not resume this build because it is already resuming.'));
     }
 
     if ($build->isRestarting()) {

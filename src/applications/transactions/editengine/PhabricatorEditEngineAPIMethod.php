@@ -95,7 +95,7 @@ abstract class PhabricatorEditEngineAPIMethod
       $section[] = $type->getConduitDescription();
 
       $type_documentation = $type->getConduitDocumentation();
-      if (strlen($type_documentation)) {
+      if (phutil_nonempty_string($type_documentation)) {
         $section[] = $type_documentation;
       }
 

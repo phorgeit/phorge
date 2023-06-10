@@ -200,6 +200,7 @@ final class PhabricatorPeopleSearchEngine
   protected function getBuiltinQueryNames() {
     $names = array(
       'active' => pht('Active'),
+      'admin' => pht('Administrators'),
       'all' => pht('All'),
     );
 
@@ -221,6 +222,9 @@ final class PhabricatorPeopleSearchEngine
       case 'active':
         return $query
           ->setParameter('isDisabled', false);
+      case 'admin':
+        return $query
+          ->setParameter('isAdmin', true);
       case 'approval':
         return $query
           ->setParameter('needsApproval', true)

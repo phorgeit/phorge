@@ -36,3 +36,11 @@ this directory.
 -- Tony Monroe (tony@nog.net)
 
 $Id: README,v 1.3 2000/05/28 06:24:46 tony Exp $
+
+----
+
+In September 2015, Phabricator imported the Perl version of cowsay
+in the core, to use its nice template files. Anyway, the logic now
+is not in Perl. It was re-implemented in PHP, here:
+
+src/infrastructure/markup/interpreter/PhabricatorRemarkupCowsayBlockInterpreter.php

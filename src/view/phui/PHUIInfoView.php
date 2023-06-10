@@ -19,6 +19,12 @@ final class PHUIInfoView extends AphrontTagView {
   private $flush;
   private $icon;
 
+  /**
+   * Set a title
+   *
+   * @param string|null $title
+   * @return self
+   */
   public function setTitle($title) {
     $this->title = $title;
     return $this;
@@ -147,7 +153,7 @@ final class PHUIInfoView extends AphrontTagView {
     }
 
     $title = $this->title;
-    if ($title || strlen($title)) {
+    if ($title || phutil_nonempty_string($title)) {
       $title = phutil_tag(
         'h1',
         array(

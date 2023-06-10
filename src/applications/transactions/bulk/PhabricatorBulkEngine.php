@@ -153,7 +153,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
       ->setViewer($viewer);
 
     $query_key = $request->getURIData('queryKey');
-    if (strlen($query_key)) {
+    if (phutil_nonempty_string($query_key)) {
       if ($search_engine->isBuiltinQuery($query_key)) {
         $saved = $search_engine->buildSavedQueryFromBuiltin($query_key);
       } else {

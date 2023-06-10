@@ -134,7 +134,7 @@ eventually, but there isn't a strong case for them at the present time.
 PHIDs
 =====
 
-Each globally referencable object in Phorge has an associated PHID
+Each globally referenceable object in Phorge has an associated PHID
 ("Phorge ID") which serves as a global identifier, similar to a GUID.
 We use PHIDs for referencing data in different databases.
 

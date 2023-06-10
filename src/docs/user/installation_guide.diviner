@@ -79,8 +79,11 @@ You will also need:
 
   - **MySQL**: You need MySQL. We strongly recommend MySQL 5.5 or newer.
     You will need a server with multiple databases.
-  - **PHP**: You need PHP 5.5 or newer. Note that PHP 8.1 and above are not
-    fully supported.
+  - **PHP**: You need a PHP engine:
+    - PHP 5 - 5.5 or newer.
+    - PHP 7 - 7.1 or newer.
+    - PHP 8 - **Not yet supported**. We're working on it as fast as we can,
+    and expect to support PHP 8 Real Soon Now.
   - **git**: You need git 2.5.0 or newer on the server.
     No particular version is needed on your clients.
 
@@ -121,7 +124,7 @@ Here's a general description of what you need to install:
   - PHP (usually "php")
   - Required PHP extensions: mbstring, iconv, mysql (or mysqli), curl, pcntl
     (these might be something like "php-mysql" or "php5-mysqlnd")
-  - Optional PHP extensions: gd
+  - Optional PHP extensions: gd, zip
 
 If you already have LAMP setup, you've probably already got everything you need.
 It may also be helpful to refer to the install scripts above, even if they don't

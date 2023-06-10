@@ -15,7 +15,7 @@ final class PhabricatorSpacesNamespaceNameTransaction
 
   public function getTitle() {
     $old = $this->getOldValue();
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s created this space.',
         $this->renderAuthor());

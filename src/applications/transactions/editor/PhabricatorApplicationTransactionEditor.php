@@ -391,7 +391,7 @@ abstract class PhabricatorApplicationTransactionEditor
     $new = $this->getTransactionNewValue($object, $xaction);
     $xaction->setNewValue($new);
 
-    // Apply an optional transformation to convert "external" tranaction
+    // Apply an optional transformation to convert "external" transaction
     // values (provided by APIs) into "internal" values.
 
     $old = $xaction->getOldValue();
@@ -617,7 +617,7 @@ abstract class PhabricatorApplicationTransactionEditor
         return true;
       case PhabricatorTransactions::TYPE_SPACE:
         $space_phid = $xaction->getNewValue();
-        if (!strlen($space_phid)) {
+        if (!phutil_nonempty_string($space_phid)) {
           // If an install has no Spaces or the Spaces controls are not visible
           // to the viewer, we might end up with the empty string here instead
           // of a strict `null`, because some controller just used `getStr()`

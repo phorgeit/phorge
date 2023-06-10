@@ -37,7 +37,7 @@ final class PhabricatorConduitAPIController
       // TODO: The relationship between ConduitAPIRequest and ConduitCall is a
       // little odd here and could probably be improved. Specifically, the
       // APIRequest is a sub-object of the Call, which does not parallel the
-      // role of AphrontRequest (which is an indepenent object).
+      // role of AphrontRequest (which is an independent object).
       // In particular, the setUser() and getUser() existing independently on
       // the Call and APIRequest is very awkward.
 

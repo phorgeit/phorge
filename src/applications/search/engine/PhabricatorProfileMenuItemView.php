@@ -140,7 +140,7 @@ final class PhabricatorProfileMenuItemView
       ->setName($this->getName());
 
     $uri = $this->getURI();
-    if (strlen($uri)) {
+    if (phutil_nonempty_string($uri)) {
       if ($this->getIsExternalLink()) {
         if (!PhabricatorEnv::isValidURIForLink($uri)) {
           $uri = '#';
@@ -176,7 +176,7 @@ final class PhabricatorProfileMenuItemView
     }
 
     $tooltip = $this->getTooltip();
-    if (strlen($tooltip)) {
+    if (phutil_nonempty_string($tooltip)) {
       $view->setTooltip($tooltip);
     }
 

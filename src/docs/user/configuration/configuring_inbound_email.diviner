@@ -60,7 +60,7 @@ as the "From" address when it sends mail. The exact address it uses can be
 configured with `metamta.default-address`.
 
 When a user takes an action that generates mail, Phorge sets the
-"Reply-To" addresss for the mail to that user's name and address. This means
+"Reply-To" address for the mail to that user's name and address. This means
 that users can reply to email to discuss changes, but: the conversation won't
 be recorded in Phorge; and users will not be able to use email commands
 to take actions or make edits.

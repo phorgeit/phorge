@@ -74,6 +74,7 @@ body.white-background {
   text-decoration: none;
   border-radius: 3px;
   box-shadow: inset 0 -1px 0 rgba({$alphablue}, 0.08);
+  -webkit-user-select: none;
   user-select: none;
   color: {$darkgreytext};
   background: {$lightgreybackground};

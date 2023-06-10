@@ -197,7 +197,7 @@ final class PhabricatorEmbedFileRemarkupRule
       $alt = $options['alt'];
     }
 
-    if (!strlen($alt)) {
+    if (!phutil_nonempty_string($alt)) {
       $alt = $file->getAltText();
     }
 
@@ -346,10 +346,11 @@ final class PhabricatorEmbedFileRemarkupRule
   }
 
   private function parseDimension($string) {
-    $string = trim($string);
-
-    if (preg_match('/^(?:\d*\\.)?\d+%?$/', $string)) {
-      return $string;
+    if ($string !== null) {
+      $string = trim($string);
+      if (preg_match('/^(?:\d*\\.)?\d+%?$/', $string)) {
+        return $string;
+      }
     }
 
     return null;

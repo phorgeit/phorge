@@ -91,6 +91,9 @@ final class PhabricatorUserProfileImageCacheType
   }
 
   public function isRawCacheDataValid(PhabricatorUser $user, $key, $data) {
+    if ($data === null) {
+      return false;
+    }
     $parts = explode(',', $data, 2);
     $version = reset($parts);
     return ($version === $this->getCacheVersion($user));

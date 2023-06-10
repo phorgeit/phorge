@@ -86,7 +86,7 @@ final class DifferentialRevisionPlanChangesTransaction
     if ($object->isClosed()) {
       throw new Exception(
         pht(
-          'You can not plan changes to this this revision because it has '.
+          'You can not plan changes to this revision because it has '.
           'already been closed.'));
     }
 

@@ -179,7 +179,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $order = $saved->getParameter('order');
     $builtin = $query->getBuiltinOrderAliasMap();
-    if (strlen($order) && isset($builtin[$order])) {
+    if (phutil_nonempty_string($order) && isset($builtin[$order])) {
       $query->setOrder($order);
     } else {
       // If the order is invalid or not available, we choose the first
@@ -872,7 +872,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   protected function readBoolFromRequest(
     AphrontRequest $request,
     $key) {
-    if (!strlen($request->getStr($key))) {
+    if (!phutil_nonempty_string($request->getStr($key))) {
       return null;
     }
     return $request->getBool($key);
@@ -1137,7 +1137,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     $viewer = $this->requireViewer();
 
     $query_key = $request->getValue('queryKey');
-    if (!strlen($query_key)) {
+    $is_empty_query_key = phutil_string_cast($query_key) === '';
+    if ($is_empty_query_key) {
       $saved_query = new PhabricatorSavedQuery();
     } else if ($this->isBuiltinQuery($query_key)) {
       $saved_query = $this->buildSavedQueryFromBuiltin($query_key);

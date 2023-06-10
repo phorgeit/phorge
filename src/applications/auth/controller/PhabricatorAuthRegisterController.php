@@ -18,7 +18,7 @@ final class PhabricatorAuthRegisterController
     $invite = $this->loadInvite();
 
     $is_setup = false;
-    if (strlen($account_key)) {
+    if (phutil_nonempty_string($account_key)) {
       $result = $this->loadAccountForRegistrationOrLinking($account_key);
       list($account, $provider, $response) = $result;
       $is_default = false;
@@ -244,9 +244,9 @@ final class PhabricatorAuthRegisterController
 
     $require_real_name = PhabricatorEnv::getEnvConfig('user.require-real-name');
 
-    $e_username = strlen($value_username) ? null : true;
+    $e_username = phutil_nonempty_string($value_username) ? null : true;
     $e_realname = $require_real_name ? true : null;
-    $e_email = strlen($value_email) ? null : true;
+    $e_email = phutil_nonempty_string($value_email) ? null : true;
     $e_password = true;
     $e_captcha = true;
 

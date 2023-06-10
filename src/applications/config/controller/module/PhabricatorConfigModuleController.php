@@ -9,7 +9,7 @@ final class PhabricatorConfigModuleController
 
     $all_modules = PhabricatorConfigModule::getAllModules();
 
-    if (!strlen($key)) {
+    if (!phutil_nonempty_string($key)) {
       $key = head_key($all_modules);
     }
 
