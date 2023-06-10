@@ -389,7 +389,7 @@ abstract class PhabricatorStandardCustomField
     if (is_array($value)) {
       return empty($value);
     }
-    return !strlen($value);
+    return $value === null || !strlen($value);
   }
 
   public function getApplicationTransactionTitle(
