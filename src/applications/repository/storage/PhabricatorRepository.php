@@ -1160,7 +1160,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    */
   public function getRemoteURIObject() {
     $raw_uri = $this->getDetail('remote-uri');
-    if (!strlen($raw_uri)) {
+    if (!phutil_nonempty_string($raw_uri)) {
       return new PhutilURI('');
     }
 
