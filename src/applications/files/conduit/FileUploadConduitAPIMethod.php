@@ -31,8 +31,10 @@ final class FileUploadConduitAPIMethod extends FileConduitAPIMethod {
     $view_policy = $request->getValue('viewPolicy');
 
     $data = $request->getValue('data_base64');
+    if (!phutil_nonempty_string($data)) {
+      throw new Exception(pht('Field "data_base64" must be non-empty.'));
+    }
     $data = $this->decodeBase64($data);
-
     $params = array(
       'authorPHID' => $viewer->getPHID(),
       'canCDN' => $can_cdn,
