@@ -922,7 +922,7 @@ final class DiffusionCommitController extends DiffusionController {
 
   private function linkBugtraq($corpus) {
     $url = PhabricatorEnv::getEnvConfig('bugtraq.url');
-    if (!strlen($url)) {
+    if (!phutil_nonempty_string($url)) {
       return $corpus;
     }
 
