@@ -17,12 +17,12 @@ final class PhabricatorRepositoryEncodingTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (strlen($old) && !strlen($new)) {
+    if ($old !== null && $new === null) {
       return pht(
         '%s removed the %s encoding configured for this repository.',
         $this->renderAuthor(),
         $this->renderOldValue());
-    } else if (strlen($new) && !strlen($old)) {
+    } else if ($new !== null && $old === null) {
       return pht(
         '%s set the encoding for this repository to %s.',
         $this->renderAuthor(),
