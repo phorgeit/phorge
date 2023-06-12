@@ -717,8 +717,8 @@ final class HeraldTranscriptController extends HeraldController {
       ->setName(pht('Field Values'))
       ->setIcon('fa-file-text-o');
 
-    $xaction_phids = $this->getTranscriptTransactionPHIDs($xscript);
-    $has_xactions = (bool)$xaction_phids;
+    $has_xactions = $xscript->getObjectTranscript()
+      && $this->getTranscriptTransactionPHIDs($xscript);
 
     $nav->newLink('xactions')
       ->setName(pht('Transactions'))
