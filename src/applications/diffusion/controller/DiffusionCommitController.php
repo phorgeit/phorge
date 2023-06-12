@@ -27,8 +27,9 @@ final class DiffusionCommitController extends DiffusionController {
 
     // If this page is being accessed via "/source/xyz/commit/...", redirect
     // to the canonical URI.
-    $has_callsign = strlen($request->getURIData('repositoryCallsign'));
-    $has_id = strlen($request->getURIData('repositoryID'));
+    $has_callsign =
+      phutil_nonempty_string($request->getURIData('repositoryCallsign'));
+    $has_id = phutil_nonempty_string($request->getURIData('repositoryID'));
     if (!$has_callsign && !$has_id) {
       $canonical_uri = $repository->getCommitURI($commit_identifier);
       return id(new AphrontRedirectResponse())
