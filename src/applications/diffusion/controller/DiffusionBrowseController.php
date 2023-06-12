@@ -22,7 +22,7 @@ final class DiffusionBrowseController extends DiffusionController {
     // list.
 
     $grep = $request->getStr('grep');
-    if (strlen($grep)) {
+    if (phutil_nonempty_string($grep)) {
       return $this->browseSearch();
     }
 
