@@ -25,12 +25,12 @@ final class PhabricatorRepositoryCallsignTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (!strlen($old)) {
+    if ($old === null) {
       return pht(
         '%s set the callsign for this repository to %s.',
         $this->renderAuthor(),
         $this->renderNewValue());
-    } else if (!strlen($new)) {
+    } else if ($new === null) {
       return pht(
         '%s removed the callsign (%s) for this repository.',
         $this->renderAuthor(),
