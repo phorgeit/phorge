@@ -1033,12 +1033,22 @@ abstract class PhabricatorApplicationTransaction
             count($rem),
             $this->renderSubscriberList($rem, 'rem'));
         } else if ($add) {
+          if ($this->isSelfSubscription()) {
+            return pht(
+              '%s subscribed.',
+              $this->renderHandleLink($author_phid));
+          }
           return pht(
             '%s added %d subscriber(s): %s.',
             $this->renderHandleLink($author_phid),
             count($add),
             $this->renderSubscriberList($add, 'add'));
         } else if ($rem) {
+          if ($this->isSelfSubscription()) {
+            return pht(
+              '%s unsubscribed.',
+              $this->renderHandleLink($author_phid));
+          }
           return pht(
             '%s removed %d subscriber(s): %s.',
             $this->renderHandleLink($author_phid),
