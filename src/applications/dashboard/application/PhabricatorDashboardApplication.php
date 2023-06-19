@@ -83,4 +83,12 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
     );
   }
 
+  protected function getCustomCapabilities() {
+    return array(
+      PhabricatorDashboardCreateCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
+        'caption' => pht('Default create policy for Dashboards.'),
+      ),
+    );
+  }
 }

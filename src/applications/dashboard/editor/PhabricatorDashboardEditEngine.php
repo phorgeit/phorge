@@ -66,6 +66,11 @@ final class PhabricatorDashboardEditEngine
     return $object->getURI();
   }
 
+  protected function getCreateNewObjectPolicy() {
+    return $this->getApplication()->getPolicy(
+      PhabricatorDashboardCreateCapability::CAPABILITY);
+  }
+
   protected function buildCustomEditFields($object) {
     $layout_options = PhabricatorDashboardLayoutMode::getLayoutModeMap();
 
