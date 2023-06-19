@@ -102,6 +102,7 @@ final class PholioInlineController extends PholioController {
         ->addCancelButton($mock_uri, pht('Close'));
     }
 
+    $error = null;
     if ($request->isFormPost()) {
       $v_content = $request->getStr('content');
 
@@ -112,9 +113,13 @@ final class PholioInlineController extends PholioController {
       } else if ($inline->getID()) {
         $inline->delete();
         $dictionary = array();
+      } else {
+        $error = pht('Comment cannot be empty.');
       }
 
-      return id(new AphrontAjaxResponse())->setContent($dictionary);
+      if ($error === null) {
+        return id(new AphrontAjaxResponse())->setContent($dictionary);
+      }
     }
 
     switch ($mode) {
@@ -151,6 +156,7 @@ final class PholioInlineController extends PholioController {
           ->setUser($viewer)
           ->setName('content')
           ->setLabel(pht('Comment'))
+          ->setError($error)
           ->setValue($v_content));
 
     return $this->newDialog()
