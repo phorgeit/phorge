@@ -115,3 +115,24 @@
 .hovercard-task-view .phui-oi-disabled.phui-workcard {
   background-color: #fff;
 }
+
+.phui-hovercard-object-type  {
+  font-size: 12px;
+}
+
+.phui-hovercard-object-type .phui-icon-view {
+  margin-right: 6px;
+}
+
+.phui-hovercard-object-type .phui-crumb-divider {
+  margin: 0px 6px;
+}
+
+.phui-hovercard-object-type .phabricator-handle-tag-list {
+  margin-top: 10px;
+}
+
+.phui-hovercard-object-type .phabricator-handle-tag-list-item {
+  display: inline-block;
+  margin: 0 4px 2px 0;
+}
