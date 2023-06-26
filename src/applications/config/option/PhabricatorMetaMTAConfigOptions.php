@@ -227,7 +227,7 @@ EODOC
           pht(
             'Controls whether email for multiple recipients is sent by '.
             'creating one message with everyone in the "To:" line, or '.
-            'multiple messages that each have a single recipeint in the '.
+            'multiple messages that each have a single recipient in the '.
             '"To:" line.'))
         ->setDescription($one_mail_per_recipient_desc),
       $this->newOption('metamta.can-send-as-user', 'bool', false)
