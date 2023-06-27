@@ -282,6 +282,8 @@ final class PhabricatorDashboardTabsPanelType
         $panel_content = pht('(Invalid Panel)');
       }
 
+      $is_selected = (string)$idx === (string)$selected;
+
       $content_id = celerity_generate_unique_node_id();
 
       $content[] = phutil_tag(
