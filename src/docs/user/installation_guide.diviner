@@ -137,6 +137,12 @@ dependencies:
   somewhere/ $ git clone https://we.phorge.it/source/arcanist.git
   somewhere/ $ git clone https://we.phorge.it/source/phorge.git
 
+After cloning, flag them as safe (to avoid the error //"fatal:
+detected dubious ownership in repository at ..."//):
+
+  $ sudo git config --system --add safe.directory somewhere/arcanist
+  $ sudo git config --system --add safe.directory somewhere/phorge
+
 Next Steps
 ==========
 
