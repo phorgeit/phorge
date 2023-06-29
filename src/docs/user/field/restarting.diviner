@@ -112,5 +112,5 @@ like one of these on your system, or a different command:
 
 ```
 $ sudo /etc/init.d/php-fpm restart
-$ sudo service php5-fpm reload
+$ sudo service php-fpm reload
 ```

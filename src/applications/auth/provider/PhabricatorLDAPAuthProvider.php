@@ -264,7 +264,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
           'talk to LDAP. Usually you can install it with '.
           '`%s`, `%s`, or a similar package manager command.',
           'yum install php-ldap',
-          'apt-get install php5-ldap'));
+          'apt-get install php-ldap'));
     }
   }
 

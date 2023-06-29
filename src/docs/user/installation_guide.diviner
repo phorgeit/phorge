@@ -123,7 +123,7 @@ Here's a general description of what you need to install:
   - MySQL Server (usually "mysqld" or "mysql-server" or "mariadb-server")
   - PHP (usually "php")
   - Required PHP extensions: mbstring, iconv, mysql (or mysqli), curl, pcntl
-    (these might be something like "php-mysql" or "php5-mysqlnd")
+    (these might be something like "php-mysql" or "php-mysqlnd")
   - Optional PHP extensions: gd, zip
 
 If you already have LAMP setup, you've probably already got everything you need.
