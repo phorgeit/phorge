@@ -65,7 +65,7 @@ final class PhabricatorMailManagementShowOutboundWorkflow
     foreach ($messages as $message_key => $message) {
       if ($args->getArg('dump-html')) {
         $html_body = $message->getHTMLBody();
-        if (strlen($html_body)) {
+        if (phutil_nonempty_string($html_body)) {
           $template =
             "<!doctype html><html><body>{$html_body}</body></html>";
           $console->writeOut("%s\n", $html_body);
@@ -188,7 +188,7 @@ final class PhabricatorMailManagementShowOutboundWorkflow
 
       $info[] = null;
       $info[] = $this->newSectionHeader(pht('TEXT BODY'));
-      if (strlen($message->getBody())) {
+      if (phutil_nonempty_string($message->getBody())) {
         $info[] = tsprintf('%B', $message->getBody());
       } else {
         $info[] = pht('(This message has no text body.)');
@@ -203,7 +203,7 @@ final class PhabricatorMailManagementShowOutboundWorkflow
 
       $info[] = null;
       $info[] = $this->newSectionHeader(pht('HTML BODY'));
-      if (strlen($message->getHTMLBody())) {
+      if (phutil_nonempty_string($message->getHTMLBody())) {
         $info[] = $message->getHTMLBody();
         $info[] = null;
       } else {
