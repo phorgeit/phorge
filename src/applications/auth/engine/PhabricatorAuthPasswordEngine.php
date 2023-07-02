@@ -150,6 +150,8 @@ final class PhabricatorAuthPasswordEngine
     $base_uri = new PhutilURI($base_uri);
     $blocklist[] = $base_uri->getDomain();
 
+    $blocklist = array_filter($blocklist);
+
     // Generate additional subterms by splitting the raw blocklist on
     // characters like "@", " " (space), and "." to break up email addresses,
     // readable names, and domain names into components.
