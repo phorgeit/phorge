@@ -3,6 +3,12 @@
 final class PhabricatorEditorURIEngineTestCase
   extends PhabricatorTestCase {
 
+  protected function getPhabricatorTestCaseConfiguration() {
+    return array(
+      self::PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
+    );
+  }
+
   public function testPatternParsing() {
     $map = array(
       '' => array(),
@@ -126,6 +132,17 @@ final class PhabricatorEditorURIEngineTestCase
         pht(
           'Allowed editor "xyz://" template: %s.',
           $input));
+    }
+  }
+
+  public function testNewForViewer() {
+    $phabricator_user = $this->generateNewTestUser();
+    try {
+      $engine = PhabricatorEditorURIEngine::newForViewer($phabricator_user);
+      $this->assertTrue(true, 'newForViewer did not throw an error');
+    } catch (Throwable $ex) {
+      $this->assertTrue(false,
+        'newForViewer threw an exception:'.$ex->getMessage());
     }
   }
 
