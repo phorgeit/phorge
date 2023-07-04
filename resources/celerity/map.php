@@ -387,7 +387,7 @@ return array(
     'rsrc/js/application/diff/DiffTreeView.js' => '5d83623b',
     'rsrc/js/application/differential/behavior-diff-radios.js' => '925fe8cd',
     'rsrc/js/application/differential/behavior-populate.js' => 'b86ef6c2',
-    'rsrc/js/application/diffusion/DiffusionLocateFileSource.js' => '94243d89',
+    'rsrc/js/application/diffusion/DiffusionLocateFileSource.js' => '6c798a10',
     'rsrc/js/application/diffusion/ExternalEditorLinkEngine.js' => '48a8641f',
     'rsrc/js/application/diffusion/behavior-audit-preview.js' => 'b7b73831',
     'rsrc/js/application/diffusion/behavior-commit-branches.js' => '4b671572',
@@ -707,7 +707,7 @@ return array(
     'javelin-chart-function-label' => '81de1dab',
     'javelin-color' => '78f811c9',
     'javelin-cookie' => '05d290ef',
-    'javelin-diffusion-locate-file-source' => '94243d89',
+    'javelin-diffusion-locate-file-source' => '6c798a10',
     'javelin-dom' => 'e4c7622a',
     'javelin-dynval' => '202a2e85',
     'javelin-event' => 'c03f2fb4',
@@ -1555,6 +1555,12 @@ return array(
       'phabricator-textareautils',
       'phabricator-remarkup-metadata',
     ),
+    '6c798a10' => array(
+      'javelin-install',
+      'javelin-dom',
+      'javelin-typeahead-preloaded-source',
+      'javelin-util',
+    ),
     '6cfa0008' => array(
       'javelin-dom',
       'javelin-dynval',
@@ -1761,12 +1767,6 @@ return array(
       'javelin-util',
       'phabricator-prefab',
       'javelin-json',
-    ),
-    '94243d89' => array(
-      'javelin-install',
-      'javelin-dom',
-      'javelin-typeahead-preloaded-source',
-      'javelin-util',
     ),
     '9623adc1' => array(
       'javelin-behavior',
