@@ -44,7 +44,18 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
   }
 
   public function markupText($text, $children) {
-    if (preg_match('/^\s*```/', $text)) {
+    // Header/footer eventually useful to be nice with "flavored markdown".
+    // When it starts with ```stuff    the header is 'stuff' (->language)
+    // When it ends with      stuff``` the footer is 'stuff' (->garbage)
+    $header_line = null;
+    $footer_line = null;
+
+    $matches = null;
+    if (preg_match('/^\s*```(.*)/', $text, $matches)) {
+      if (isset($matches[1])) {
+        $header_line = $matches[1];
+      }
+
       // If this is a ```-style block, trim off the backticks and any leading
       // blank line.
       $text = preg_replace('/^\s*```(\s*\n)?/', '', $text);
@@ -52,6 +63,13 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
     }
 
     $lines = explode("\n", $text);
+
+    // If we have a flavored header, it has sense to look for the footer.
+    if ($header_line !== null && $lines) {
+      $footer_line = $lines[last_key($lines)];
+    }
+
+    // Strip final empty lines
     while ($lines && !strlen(last($lines))) {
       unset($lines[last_key($lines)]);
     }
@@ -65,17 +83,36 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
 
     $parser = new PhutilSimpleOptions();
     $custom = $parser->parse(head($lines));
+    $valid_options = null;
     if ($custom) {
-      $valid = true;
+      $valid_options = true;
       foreach ($custom as $key => $value) {
         if (!array_key_exists($key, $options)) {
-          $valid = false;
+          $valid_options = false;
           break;
         }
       }
-      if ($valid) {
+      if ($valid_options) {
         array_shift($lines);
         $options = $custom + $options;
+      }
+    }
+
+    // Parse flavored markdown strictly to don't eat legitimate Remarkup.
+    // Proceed only if we tried to parse options and we failed
+    // (no options also mean no language).
+    // For example this is not a valid option: ```php
+    // Proceed only if the footer exists and it is not: blabla```
+    // Accept only 2 lines or more. First line: header; then content.
+    if (
+      $valid_options === false &&
+      $header_line !== null &&
+      $footer_line === '' &&
+      count($lines) > 1
+    ) {
+      if (self::isKnownLanguageCode($header_line)) {
+        array_shift($lines);
+        $options['lang'] = $header_line;
       }
     }
 
@@ -247,6 +284,63 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
       PhutilSafeHTML::applyFunction(
         'rtrim',
         $engine->highlightSource($options['lang'], $text)));
+  }
+
+  /**
+   * Check if a language code can be used in a generic flavored markdown.
+   * @param  string $lang Language code
+   * @return bool
+   */
+  private static function isKnownLanguageCode($lang) {
+    $languages = self::knownLanguageCodes();
+    return isset($languages[$lang]);
+  }
+
+  /**
+   * Get the available languages for a generic flavored markdown.
+   * @return array Languages as array keys. Ignore the value.
+   */
+  private static function knownLanguageCodes() {
+    // This is a friendly subset from https://pygments.org/languages/
+    static $map = array(
+      'arduino' => 1,
+      'assembly' => 1,
+      'awk' => 1,
+      'bash' => 1,
+      'bat' => 1,
+      'c' => 1,
+      'cmake' => 1,
+      'cobol' => 1,
+      'cpp' => 1,
+      'css' => 1,
+      'csharp' => 1,
+      'dart' => 1,
+      'delphi' => 1,
+      'fortran' => 1,
+      'go' => 1,
+      'groovy' => 1,
+      'haskell' => 1,
+      'java' => 1,
+      'javascript' => 1,
+      'kotlin' => 1,
+      'lisp' => 1,
+      'lua' => 1,
+      'matlab' => 1,
+      'make' => 1,
+      'perl' => 1,
+      'php' => 1,
+      'powershell' => 1,
+      'python' => 1,
+      'r' => 1,
+      'ruby' => 1,
+      'rust' => 1,
+      'scala' => 1,
+      'sh' => 1,
+      'sql' => 1,
+      'typescript' => 1,
+      'vba' => 1,
+    );
+    return $map;
   }
 
 }
