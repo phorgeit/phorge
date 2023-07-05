@@ -25,11 +25,14 @@ final class PhabricatorRepositoryMaintenanceTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (strlen($old) && !strlen($new)) {
+    $old_nonempty = phutil_nonempty_string($old);
+    $new_nonempty = phutil_nonempty_string($new);
+
+    if ($old_nonempty && !$new_nonempty) {
       return pht(
         '%s took this repository out of maintenance mode.',
         $this->renderAuthor());
-    } else if (!strlen($old) && strlen($new)) {
+    } else if (!$old_nonempty && $new_nonempty) {
       return pht(
         '%s put this repository into maintenance mode.',
         $this->renderAuthor());
