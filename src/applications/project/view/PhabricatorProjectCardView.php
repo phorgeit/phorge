@@ -68,6 +68,28 @@ final class PhabricatorProjectCardView extends AphrontTagView {
 
     $description = null;
 
+    // This getProxy() feels hacky - see also PhabricatorProjectDatasource:67
+    $description_field = PhabricatorCustomField::getObjectField(
+      $project,
+      PhabricatorCustomField::ROLE_VIEW,
+      'std:project:internal:description');
+
+    if ($description_field !== null) {
+      $description_field = $description_field->getProxy();
+
+      $description = $description_field->getFieldValue();
+      if (phutil_nonempty_string($description)) {
+        $description = PhabricatorMarkupEngine::summarizeSentence($description);
+        $description = id(new PHUIRemarkupView($viewer, $description))
+          ->setContextObject($project);
+
+        $description = phutil_tag(
+          'div',
+          array('class' => 'project-card-body phui-header-shell'),
+          $description);
+      }
+    }
+
     $card = phutil_tag(
       'div',
       array(

@@ -28,6 +28,26 @@ final class PhabricatorProjectHovercardEngineExtension
       ->execute();
     $projects = mpull($projects, null, 'getPHID');
 
+    $custom_fields = array();
+    foreach ($projects as $project) {
+      $field = PhabricatorCustomField::getObjectField(
+        $project,
+        PhabricatorCustomField::ROLE_VIEW,
+        'std:project:internal:description');
+      if ($field === null) {
+        // This means the field is disabled, it would always be null.
+        break;
+      }
+      $field
+        ->setViewer($viewer)
+        ->readValueFromObject($project);
+      $custom_fields[] = $field;
+    }
+
+    id(new PhabricatorCustomFieldStorageQuery())
+      ->addFields($custom_fields)
+      ->execute();
+
     return array(
       'projects' => $projects,
     );
