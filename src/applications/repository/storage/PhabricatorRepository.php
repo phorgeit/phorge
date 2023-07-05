@@ -779,15 +779,15 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
         break;
       case 'compare':
         $uri = $this->getPathURI("/{$action}/");
-        if (strlen($head)) {
+        if (phutil_nonempty_scalar($head)) {
           $query['head'] = $head;
-        } else if (strlen($raw_commit)) {
+        } else if (phutil_nonempty_scalar($raw_commit)) {
           $query['commit'] = $raw_commit;
-        } else if (strlen($raw_branch)) {
+        } else if (phutil_nonempty_scalar($raw_branch)) {
           $query['head'] = $raw_branch;
         }
 
-        if (strlen($against)) {
+        if (phutil_nonempty_scalar($against)) {
           $query['against'] = $against;
         }
         break;
