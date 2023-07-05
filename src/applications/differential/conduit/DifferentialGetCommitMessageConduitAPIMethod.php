@@ -115,7 +115,7 @@ final class DifferentialGetCommitMessageConduitAPIMethod
 
       $is_title = ($field_key == $key_title);
 
-      if (!strlen($value)) {
+      if ($value === null || $value === '') {
         if ($is_template) {
           $commit_message[] = $label.': ';
         }
