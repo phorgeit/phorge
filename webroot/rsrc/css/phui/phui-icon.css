@@ -41,8 +41,8 @@ a.phui-icon-view:hover {
 
 img.phui-image-disabled {
   opacity: .8;
-  -webkit-filter: grayscale(100%);
-  filter: grayscale(100%);
+  -webkit-filter: blur(4px) grayscale(100%) sepia(25%);
+  filter: blur(4px) grayscale(100%) sepia(25%);
 }
 
 .phui-icon-view.bluetext {
