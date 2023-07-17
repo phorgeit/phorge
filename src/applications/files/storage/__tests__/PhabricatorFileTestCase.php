@@ -532,4 +532,11 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
     $this->assertEqual(array(), $alternate_c);
   }
 
+  public function testNewChunkedFile() {
+    $engine = new PhabricatorTestStorageEngine();
+    $file = PhabricatorFile::newChunkedFile($engine, 10, []);
+    $this->assertTrue($file instanceof PhabricatorFile,
+      pht('newChunkedFile returns a PhabricatorFile'));
+  }
+
 }
