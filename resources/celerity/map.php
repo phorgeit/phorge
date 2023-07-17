@@ -9,7 +9,7 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => '76ed87e3',
     'conpherence.pkg.js' => '020aebcf',
-    'core.pkg.css' => '0ef1e5d9',
+    'core.pkg.css' => 'e51a98e2',
     'core.pkg.js' => '2eeda9e0',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '525f9a1d',
@@ -134,7 +134,7 @@ return array(
     'rsrc/css/phui/object-item/phui-oi-drag-ui.css' => 'da15d3dc',
     'rsrc/css/phui/object-item/phui-oi-flush-ui.css' => '490e2e2e',
     'rsrc/css/phui/object-item/phui-oi-list-view.css' => '9275ff55',
-    'rsrc/css/phui/object-item/phui-oi-simple-ui.css' => '6a30fa46',
+    'rsrc/css/phui/object-item/phui-oi-simple-ui.css' => '9b03a61f',
     'rsrc/css/phui/phui-action-list.css' => '1b0085b2',
     'rsrc/css/phui/phui-action-panel.css' => '6c386cbf',
     'rsrc/css/phui/phui-badge.css' => '666e25ad',
@@ -871,7 +871,7 @@ return array(
     'phui-oi-drag-ui-css' => 'da15d3dc',
     'phui-oi-flush-ui-css' => '490e2e2e',
     'phui-oi-list-view-css' => '9275ff55',
-    'phui-oi-simple-ui-css' => '6a30fa46',
+    'phui-oi-simple-ui-css' => '9b03a61f',
     'phui-pager-css' => 'd022c7ad',
     'phui-pinboard-view-css' => '1f08f5d8',
     'phui-policy-section-view-css' => '139fdc64',
@@ -1538,9 +1538,6 @@ return array(
     '6a18c42e' => array(
       'javelin-install',
     ),
-    '6a30fa46' => array(
-      'phui-oi-list-view-css',
-    ),
     '6a85bc5a' => array(
       'javelin-behavior',
       'javelin-dom',
@@ -1790,6 +1787,9 @@ return array(
     '9aae2b66' => array(
       'javelin-install',
       'javelin-util',
+    ),
+    '9b03a61f' => array(
+      'phui-oi-list-view-css',
     ),
     '9c01e364' => array(
       'javelin-behavior',
