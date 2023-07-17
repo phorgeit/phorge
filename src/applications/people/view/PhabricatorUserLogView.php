@@ -36,7 +36,7 @@ final class PhabricatorUserLogView extends AphrontView {
 
     $rows = array();
     foreach ($logs as $log) {
-      $session = substr($log->getSession(), 0, 6);
+      $session = substr(coalesce($log->getSession(), ''), 0, 6);
 
       $actor_phid = $log->getActorPHID();
       $user_phid = $log->getUserPHID();
