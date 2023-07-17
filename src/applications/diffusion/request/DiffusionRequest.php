@@ -254,7 +254,7 @@ abstract class DiffusionRequest extends Phobject {
   }
 
   public function getPath() {
-    return $this->path;
+    return coalesce($this->path, '');
   }
 
   public function getLine() {
