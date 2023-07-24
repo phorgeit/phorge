@@ -90,11 +90,7 @@ final class PHUIObjectItemView extends AphrontTagView {
    * @return self
    */
   public function setHref($href) {
-
-    // We have not a very clear idea about what this method should receive
-    // So, let's log alien stuff for some time
-    // https://we.phorge.it/T15316
-    self::requireValidHref($href, 'href');
+    PhutilURI::checkHrefType($href);
 
     $this->href = $href;
     return $this;
@@ -161,11 +157,7 @@ final class PHUIObjectItemView extends AphrontTagView {
    * @return self
    */
   public function setImageHref($image_href) {
-
-    // We have not a very clear idea about what this method should receive
-    // So, let's log alien stuff for some time
-    // https://we.phorge.it/T15316
-    self::requireValidHref($image_href, 'image_href');
+    PhutilURI::checkHrefType($image_href);
 
     $this->imageHref = $image_href;
     return $this;
@@ -927,32 +919,6 @@ final class PHUIObjectItemView extends AphrontTagView {
     }
 
     return javelin_tag('span', $options, '');
-  }
-
-
-  /**
-   * Receive a href attribute and check if it has expected values
-   *
-   * TODO: Feel free to remove after 2023, if no more new reports arrive.
-   *
-   * https://we.phorge.it/T15316
-   *
-   * @param mixed  $href Value to be checked
-   * @param string $variable_name Human reference
-   */
-  private static function requireValidHref($href, $variable_name) {
-
-    // We have not a very clear idea about what a "href" should be
-    if (is_object($href) && !($href instanceof PhutilURI)) {
-
-      // We log stuff with a kind stack trace
-      phlog(new Exception(pht(
-        'The variable %s received an unexpected type: %s. '.
-        'Please share this stack trace as comment in Task %s',
-        $variable_name,
-        get_class($href),
-        'https://we.phorge.it/T15316')));
-    }
   }
 
 }
