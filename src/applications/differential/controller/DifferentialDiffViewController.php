@@ -197,7 +197,6 @@ final class DifferentialDiffViewController extends DifferentialController {
       if (empty($revisions[$selected_id])) {
         $selected = id(new DifferentialRevisionQuery())
           ->setViewer($viewer)
-          ->withAuthors(array($viewer->getPHID()))
           ->withIDs(array($selected_id))
           ->requireCapabilities(
             array(
