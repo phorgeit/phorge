@@ -41,12 +41,12 @@ final class PhabricatorDashboardPanelTabsController
 
     $op = $request->getURIData('op');
     $after = $request->getStr('after');
-    if (!strlen($after)) {
+    if ($after === '') {
       $after = null;
     }
 
     $target = $request->getStr('target');
-    if (!strlen($target)) {
+    if ($target === '') {
       $target = null;
     }
 

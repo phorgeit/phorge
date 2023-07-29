@@ -155,6 +155,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
 
       return $this->renderNormalPanel();
     } catch (Exception $ex) {
+      phlog($ex);
       return $this->renderErrorPanel(
         $panel->getName(),
         pht(

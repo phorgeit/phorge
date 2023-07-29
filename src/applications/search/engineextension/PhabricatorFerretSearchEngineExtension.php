@@ -27,7 +27,7 @@ final class PhabricatorFerretSearchEngineExtension
     PhabricatorSavedQuery $saved,
     array $map) {
 
-    if (!strlen($map['query'])) {
+    if (!(isset($map['query']) && strlen($map['query']))) {
       return;
     }
 
