@@ -289,7 +289,7 @@ final class PhabricatorConduitAPIController
       );
     }
 
-    $token_string = idx($metadata, 'token');
+    $token_string = idx($metadata, 'token', '');
     if (strlen($token_string)) {
 
       if (strlen($token_string) != 32) {
