@@ -273,6 +273,11 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
       ->addClass('dashboard-box')
       ->addSigil('dashboard-panel');
 
+    // Allow to style Archived Panels differently.
+    if ($panel && $panel->getIsArchived()) {
+      $box->addClass('dashboard-panel-disabled');
+    }
+
     if ($this->getMovable()) {
       $box->addSigil('panel-movable');
     }
@@ -302,6 +307,16 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
         $header = id(new PHUIHeaderView())
           ->setHeader($header_text);
         $header = $this->addPanelHeaderActions($header);
+
+        // If the Panel is Archived, show in edit mode as such.
+        if ($panel && $panel->getIsArchived()) {
+          $header->setSubheader(
+            id(new PHUITagView())
+              ->setType(PHUITagView::TYPE_SHADE)
+              ->setColor(PHUITagView::COLOR_RED)
+              ->setIcon('fa-ban')
+              ->setName(pht('Archived')));
+        }
         break;
       case self::HEADER_MODE_NORMAL:
       default:

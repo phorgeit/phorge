@@ -71,6 +71,13 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
       foreach ($column->getPanelRefs() as $panel_ref) {
         $panel_phid = $panel_ref->getPanelPHID();
 
+        $panel = idx($panels, $panel_phid);
+
+        // Do not render Archived panels in view mode.
+        if ($panel && $panel->getIsArchived() && !$is_editable) {
+          continue;
+        }
+
         $panel_engine = id(new PhabricatorDashboardPanelRenderingEngine())
           ->setViewer($viewer)
           ->setEnableAsyncRendering(true)
@@ -83,7 +90,6 @@ final class PhabricatorDashboardRenderingEngine extends Phobject {
           ->setMovable(true)
           ->setPanelHandle($handles[$panel_phid]);
 
-        $panel = idx($panels, $panel_phid);
         if ($panel) {
           $panel_engine->setPanel($panel);
         }
