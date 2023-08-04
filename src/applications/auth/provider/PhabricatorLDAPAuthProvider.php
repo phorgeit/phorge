@@ -427,7 +427,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
       }
 
       $instruction_text = idx($instructions, $key);
-      if (strlen($instruction_text)) {
+      if (phutil_nonempty_string($instruction_text)) {
         $form->appendRemarkupInstructions($instruction_text);
       }
 
