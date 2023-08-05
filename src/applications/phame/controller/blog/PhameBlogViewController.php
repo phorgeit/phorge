@@ -117,6 +117,15 @@ final class PhameBlogViewController extends PhameLiveController {
           $about,
       ));
 
+    $page->addHeadItem(phutil_tag(
+        'link',
+        array(
+          'rel' => 'alternate',
+          'type' => 'application/atom+xml',
+          'href' => $blog->getFeedURI(),
+          'title' => $blog->getName(),
+        )));
+
     return $page;
   }
 

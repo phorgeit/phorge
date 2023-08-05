@@ -23,6 +23,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   private $crumbs;
   private $navigation;
   private $footer;
+  private $headItems = array();
 
   public function setShowFooter($show_footer) {
     $this->showFooter = $show_footer;
@@ -375,6 +376,18 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   }
 
 
+  /**
+   * Insert a HTML element into <head> of the page to render.
+   * Used by PhameBlogViewController.
+   *
+   * @param PhutilSafeHTML HTML header to add
+   */
+  public function addHeadItem($html) {
+    if ($html instanceof PhutilSafeHTML) {
+      $this->headItems[] = $html;
+    }
+  }
+
   protected function getHead() {
     $monospaced = null;
 
@@ -407,9 +420,10 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     }
 
     return hsprintf(
-      '%s%s%s',
+      '%s%s%s%s',
       parent::getHead(),
       $font_css,
+      phutil_implode_html('', $this->headItems),
       $response->renderSingleResource('javelin-magical-init', 'phabricator'));
   }
 

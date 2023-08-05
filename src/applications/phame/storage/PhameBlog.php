@@ -200,6 +200,15 @@ final class PhameBlog extends PhameDAO
     return '/phame/blog/manage/'.$this->getID().'/';
   }
 
+  /**
+   * Get relative URI of Phame blog feed.
+   *
+   * @return string Relative URI of Phame blog feed
+   */
+  public function getFeedURI() {
+    return '/phame/blog/feed/'.$this->getID().'/';
+  }
+
   public function getProfileImageURI() {
     return $this->getProfileImageFile()->getBestURI();
   }
