@@ -29,7 +29,7 @@ final class DifferentialCommitMessageFieldTestCase
   }
 
   public function testRenderFieldValue() {
-    $test_object = new DifferentialTestCommitMessageField();
+    $test_object = new DifferentialRevertPlanCommitMessageField();
     $this->assertEqual('foo', $test_object->renderFieldValue('foo'),
       'Normal strings should be rendered unaltered');
 
