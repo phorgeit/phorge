@@ -103,7 +103,7 @@ final class HarbormasterBuildPlanEditEngine
         $key);
       $behavior_option = $object->getPlanProperty($storage_key);
 
-      if (!strlen($behavior_option)) {
+      if (!phutil_nonempty_string($behavior_option)) {
         $behavior_option = $behavior->getPlanOption($object)->getKey();
       }
 
