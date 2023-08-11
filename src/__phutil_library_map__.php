@@ -6565,7 +6565,7 @@ phutil_register_library_map(array(
     'DifferentialDiffRepositoryProjectsHeraldField' => 'DifferentialDiffHeraldField',
     'DifferentialDiffSearchConduitAPIMethod' => 'PhabricatorSearchEngineAPIMethod',
     'DifferentialDiffSearchEngine' => 'PhabricatorApplicationSearchEngine',
-    'DifferentialDiffTestCase' => 'PhutilTestCase',
+    'DifferentialDiffTestCase' => 'PhabricatorTestCase',
     'DifferentialDiffTransaction' => 'PhabricatorApplicationTransaction',
     'DifferentialDiffTransactionQuery' => 'PhabricatorApplicationTransactionQuery',
     'DifferentialDiffViewController' => 'DifferentialController',
