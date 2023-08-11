@@ -346,7 +346,7 @@ final class DivinerAtom extends Phobject {
       ->setContext(idx($dictionary, 'context'))
       ->setLanguage(idx($dictionary, 'language'))
       ->setParentHash(idx($dictionary, 'parentHash'))
-      ->setDocblockRaw(idx($dictionary, 'docblockRaw'))
+      ->setDocblockRaw(coalesce(idx($dictionary, 'docblockRaw'), ''))
       ->setProperties(idx($dictionary, 'properties'));
 
     foreach (idx($dictionary, 'warnings', array()) as $warning) {
