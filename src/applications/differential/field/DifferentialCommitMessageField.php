@@ -60,7 +60,7 @@ abstract class DifferentialCommitMessageField
   }
 
   public function renderFieldValue($value) {
-    if (!strlen($value)) {
+    if (!phutil_nonempty_string($value)) {
       return null;
     }
 
