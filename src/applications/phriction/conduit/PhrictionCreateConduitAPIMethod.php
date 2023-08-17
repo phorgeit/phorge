@@ -25,7 +25,7 @@ final class PhrictionCreateConduitAPIMethod extends PhrictionConduitAPIMethod {
 
   protected function execute(ConduitAPIRequest $request) {
     $slug = $request->getValue('slug');
-    if (!strlen($slug)) {
+    if (!phutil_nonempty_string($slug)) {
       throw new Exception(pht('No such document.'));
     }
     $doc = id(new PhrictionDocumentQuery())
