@@ -183,6 +183,7 @@ should always have a boring grey background. */
   cursor: pointer;
   border-right: 1px solid {$thinblueborder};
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .differential-diff td + td.n {
