@@ -161,9 +161,9 @@ final class PhabricatorNotificationServerRef
     return $uri;
   }
 
-  public function getWebsocketURI($to_path = null) {
+  public function getWebsocketURI($to_path = '') {
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       $to_path = $to_path.'~'.$instance.'/';
     }
 
