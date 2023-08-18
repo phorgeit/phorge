@@ -62,6 +62,10 @@ final class PhabricatorRepositoryQuery
     $slugs = array();
 
     foreach ($identifiers as $identifier) {
+      if ($identifier === null) {
+        continue;
+      }
+
       if (ctype_digit((string)$identifier)) {
         $ids[$identifier] = $identifier;
         continue;
