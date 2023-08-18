@@ -447,7 +447,7 @@ abstract class PhabricatorCalendarImportEngine
   private function getParentNodeUID(PhutilCalendarEventNode $node) {
     $recurrence_id = $node->getRecurrenceID();
 
-    if (!strlen($recurrence_id)) {
+    if (!phutil_nonempty_string($recurrence_id)) {
       return null;
     }
 
@@ -456,7 +456,7 @@ abstract class PhabricatorCalendarImportEngine
 
   private function getNodeInstanceEpoch(PhutilCalendarEventNode $node) {
     $instance_iso = $node->getRecurrenceID();
-    if (strlen($instance_iso)) {
+    if (phutil_nonempty_string($instance_iso)) {
       $instance_datetime = PhutilCalendarAbsoluteDateTime::newFromISO8601(
         $instance_iso);
       $instance_epoch = $instance_datetime->getEpoch();
