@@ -198,6 +198,10 @@ final class DiffusionBlameController extends DiffusionController {
       $map[$identifier] = $data;
     }
 
+    if (empty($epochs)) {
+      $epochs[] = 0;
+    }
+
     $epoch_min = min($epochs);
     $epoch_max = max($epochs);
 
