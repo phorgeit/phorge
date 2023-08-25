@@ -271,6 +271,19 @@ final class PhabricatorProjectColumn
           pht(
             'For columns that proxy another object (like a subproject or '.
             'milestone), the PHID of the object they proxy.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('isHidden')
+        ->setType('bool')
+        ->setDescription(pht('True if this column is hidden.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('isDefaultColumn')
+        ->setType('bool')
+        ->setDescription(pht('True if this is the default column.')),
+      id(new PhabricatorConduitSearchFieldSpecification())
+        ->setKey('sequence')
+        ->setType('int')
+        ->setDescription(
+          pht('The sequence in which this column appears on the workboard.')),
     );
   }
 
@@ -279,6 +292,9 @@ final class PhabricatorProjectColumn
       'name' => $this->getDisplayName(),
       'proxyPHID' => $this->getProxyPHID(),
       'project' => $this->getProject()->getRefForConduit(),
+      'isHidden' => $this->isHidden(),
+      'isDefaultColumn' => $this->isDefaultColumn(),
+      'sequence' => (int)$this->getSequence(),
     );
   }
 

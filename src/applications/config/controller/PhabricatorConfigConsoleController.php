@@ -189,9 +189,10 @@ final class PhabricatorConfigConsoleController
     foreach ($specs as $lib) {
       $remote_future = $remote_futures[$lib];
 
-      list($err, $stdout) = $remote_future->resolve();
-      if ($err) {
-        // If this fails for whatever reason, just move on.
+      try {
+        list($stdout, $err) = $remote_future->resolvex();
+      } catch (CommandException $e) {
+        $this->logGitErrorWithPotentialTips($e, $lib);
         continue;
       }
 
@@ -258,13 +259,14 @@ final class PhabricatorConfigConsoleController
 
     $results = array();
     foreach ($log_futures as $lib => $future) {
-      list($err, $stdout) = $future->resolve();
-      if (!$err) {
+      try {
+        list($stdout, $err) = $future->resolvex();
         list($hash, $epoch) = explode(' ', $stdout);
-      } else {
+      } catch (CommandException $e) {
         $hash = null;
         $epoch = null;
-      }
+        $this->logGitErrorWithPotentialTips($e, $lib);
+     }
 
       $result = array(
         'hash' => $hash,
@@ -275,7 +277,7 @@ final class PhabricatorConfigConsoleController
 
       $upstream_future = idx($upstream_futures, $lib);
       if ($upstream_future) {
-        list($err, $stdout) = $upstream_future->resolve();
+        list($stdout, $err) = $upstream_future->resolvex();
         if (!$err) {
           $branchpoint = trim($stdout);
           if (strlen($branchpoint)) {
@@ -340,5 +342,36 @@ final class PhabricatorConfigConsoleController
       ->appendChild($table_view);
   }
 
+  /**
+   * Help in better troubleshooting git errors.
+   * @param CommandException $e   Exception
+   * @param string           $lib Library name involved
+   */
+  private function logGitErrorWithPotentialTips($e, $lib) {
+
+    // First, detect this specific error message related to [safe] stuff.
+    $expected_error_msg_part = 'detected dubious ownership in repository';
+    $stderr = $e->getStderr();
+    if (strpos($stderr, $expected_error_msg_part) !== false) {
+
+      // Found! Let's show a nice resolution tip.
+
+      // Complete path of the problematic repository.
+      $lib_root = dirname(phutil_get_library_root($lib));
+
+      phlog(pht(
+        "Cannot identify the version of the %s repository because ".
+        "the webserver does not trust it (more info on Task %s).\n".
+        "Try this system resolution:\n".
+        "sudo git config --system --add safe.directory %s",
+        $lib,
+        'https://we.phorge.it/T15282',
+        $lib_root));
+    } else {
+
+      // Otherwise show a generic error message
+      phlog($e);
+    }
+  }
 
 }

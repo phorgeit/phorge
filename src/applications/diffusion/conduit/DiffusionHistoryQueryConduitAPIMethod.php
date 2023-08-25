@@ -47,14 +47,14 @@ final class DiffusionHistoryQueryConduitAPIMethod
     $against_hash = $request->getValue('against');
 
     $path = $request->getValue('path');
-    if (!strlen($path)) {
+    if (!phutil_nonempty_string($path)) {
       $path = null;
     }
 
     $offset = $request->getValue('offset');
     $limit = $request->getValue('limit');
 
-    if (strlen($against_hash)) {
+    if (phutil_nonempty_string($against_hash)) {
       $commit_range = "{$against_hash}..{$commit_hash}";
     } else {
       $commit_range = $commit_hash;

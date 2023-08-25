@@ -45,7 +45,7 @@ final class DifferentialBranchField
       return pht('%s (bookmark)', $bookmark);
     } else if (strlen($branch)) {
       $onto = $diff->loadTargetBranch();
-      if (strlen($onto) && ($onto !== $branch)) {
+      if (phutil_nonempty_string($onto) && ($onto !== $branch)) {
         return pht(
           '%s (branched from %s)',
           $branch,

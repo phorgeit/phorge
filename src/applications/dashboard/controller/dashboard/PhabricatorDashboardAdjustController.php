@@ -42,7 +42,7 @@ final class PhabricatorDashboardAdjustController
     }
 
     $column_key = $request->getStr('columnKey');
-    if (strlen($column_key)) {
+    if (phutil_nonempty_string($column_key)) {
       $columns = $ref_list->getColumns();
       if (!isset($columns[$column_key])) {
         return new Aphront404Response();
@@ -52,7 +52,7 @@ final class PhabricatorDashboardAdjustController
 
     $after_ref = null;
     $after_key = $request->getStr('afterKey');
-    if (strlen($after_key)) {
+    if (phutil_nonempty_string($after_key)) {
       $after_ref = $ref_list->getPanelRef($after_key);
       if (!$after_ref) {
         return new Aphront404Response();

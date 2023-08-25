@@ -17,12 +17,12 @@ final class PhabricatorRepositoryStagingURITransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (!strlen($old)) {
+    if ($old === null || !strlen($old)) {
       return pht(
         '%s set %s as the staging area for this repository.',
         $this->renderAuthor(),
         $this->renderNewValue());
-    } else if (!strlen($new)) {
+    } else if ($new === null || !strlen($new)) {
       return pht(
         '%s removed %s as the staging area for this repository.',
         $this->renderAuthor(),

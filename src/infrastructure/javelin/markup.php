@@ -74,7 +74,7 @@ function phabricator_form(PhabricatorUser $user, $attributes, $content) {
   $body = array();
 
   $http_method = idx($attributes, 'method');
-  $is_post = (strcasecmp($http_method, 'POST') === 0);
+  $is_post = $http_method && (strcasecmp($http_method, 'POST') === 0);
 
   $http_action = idx($attributes, 'action');
 

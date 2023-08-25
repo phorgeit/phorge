@@ -28,4 +28,21 @@ final class DifferentialCommitMessageFieldTestCase
     unset($env);
   }
 
+  public function testRenderFieldValue() {
+    $test_object = new DifferentialRevertPlanCommitMessageField();
+    $this->assertEqual('foo', $test_object->renderFieldValue('foo'),
+      'Normal strings should be rendered unaltered');
+
+    $this->assertEqual(null, $test_object->renderFieldValue(''),
+      'Empty strings should be returned as null');
+
+    $this->assertEqual(null, $test_object->renderFieldValue(null),
+      'null values strings should be returned as null');
+
+    $test_object = new DifferentialRevisionIDCommitMessageField();
+    $expected = 'http://phabricator.example.com/D123';
+    $this->assertEqual($expected, $test_object->renderFieldValue('123'));
+    $this->assertEqual(null, $test_object->renderFieldValue(null));
+  }
+
 }

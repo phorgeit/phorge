@@ -287,6 +287,10 @@
   border-bottom: 1px solid {$thinblueborder};
 }
 
+.dashboard-panel-disabled {
+  color: {$lightgreytext};
+}
+
 /* - Info Stack ------------------------------------------------------------ */
 
 .phui-info-view + .phui-list-view {

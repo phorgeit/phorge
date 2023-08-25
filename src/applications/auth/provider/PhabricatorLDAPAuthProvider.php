@@ -264,7 +264,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
           'talk to LDAP. Usually you can install it with '.
           '`%s`, `%s`, or a similar package manager command.',
           'yum install php-ldap',
-          'apt-get install php5-ldap'));
+          'apt-get install php-ldap'));
     }
   }
 
@@ -427,7 +427,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
       }
 
       $instruction_text = idx($instructions, $key);
-      if (strlen($instruction_text)) {
+      if (phutil_nonempty_string($instruction_text)) {
         $form->appendRemarkupInstructions($instruction_text);
       }
 

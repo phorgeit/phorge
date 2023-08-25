@@ -56,9 +56,15 @@ final class PhabricatorUserEmpowerTransaction
         '%s empowered this user as an administrator.',
         $this->renderAuthor());
     } else {
-      return pht(
-        '%s defrocked this user.',
-        $this->renderAuthor());
+      if (PhabricatorEnv::getEnvConfig('phabricator.serious-business')) {
+        return pht(
+          '%s removed the administrator role from this user.',
+          $this->renderAuthor());
+      } else {
+        return pht(
+          '%s defrocked this user.',
+          $this->renderAuthor());
+      }
     }
   }
 
@@ -70,10 +76,17 @@ final class PhabricatorUserEmpowerTransaction
         $this->renderAuthor(),
         $this->renderObject());
     } else {
-      return pht(
-        '%s defrocked %s.',
-        $this->renderAuthor(),
-        $this->renderObject());
+      if (PhabricatorEnv::getEnvConfig('phabricator.serious-business')) {
+        return pht(
+          '%s removed the administrator role from %s.',
+          $this->renderAuthor(),
+          $this->renderObject());
+      } else {
+        return pht(
+          '%s defrocked %s.',
+          $this->renderAuthor(),
+          $this->renderObject());
+      }
     }
   }
 

@@ -30,16 +30,16 @@ abstract class PhabricatorAphlictManagementWorkflow
       $full_path = Filesystem::resolvePath($config_file);
       $show_path = $full_path;
     } else {
-      $root = dirname(dirname(phutil_get_library_root('phabricator')));
+      $root = dirname(phutil_get_library_root('phorge'));
 
       $try = array(
-        'phabricator/conf/aphlict/aphlict.custom.json',
-        'phabricator/conf/aphlict/aphlict.default.json',
+        'conf/aphlict/aphlict.custom.json',
+        'conf/aphlict/aphlict.default.json',
       );
 
       foreach ($try as $config) {
         $full_path = $root.'/'.$config;
-        $show_path = $config;
+        $show_path = '<phorge>/'.$config;
         if (Filesystem::pathExists($full_path)) {
           break;
         }

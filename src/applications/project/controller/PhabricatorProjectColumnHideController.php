@@ -136,7 +136,6 @@ final class PhabricatorProjectColumnHideController
       ->setWidth(AphrontDialogView::WIDTH_FORM)
       ->setTitle($title)
       ->appendChild($body)
-      ->setDisableWorkflowOnCancel(true)
       ->addCancelButton($view_uri)
       ->addSubmitButton($button);
 

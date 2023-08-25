@@ -99,6 +99,10 @@ JX.install('DiffusionLocateFileSource', {
         return [];
       }
 
+      // Be nice with terminal users that may have "./" or "/" prefixes.
+      // Otherwise, not a single result is returned.
+      search = search.replace(/^\.?\//, '');
+
       // We know that the results for "abc" are always a subset of the results
       // for "a" and "ab" -- and there's a good chance we already computed
       // those result sets. Find the longest cached result which is a prefix

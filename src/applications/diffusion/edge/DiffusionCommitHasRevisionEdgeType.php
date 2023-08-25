@@ -25,4 +25,45 @@ final class DiffusionCommitHasRevisionEdgeType extends PhabricatorEdgeType {
       'The source commit is associated with the destination revision.');
   }
 
+  public function getTransactionAddString(
+    $actor,
+    $add_count,
+    $add_edges) {
+
+    return pht(
+      '%s added %s revision(s): %s.',
+      $actor,
+      $add_count,
+      $add_edges);
+  }
+
+  public function getTransactionRemoveString(
+    $actor,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s removed %s revision(s): %s.',
+      $actor,
+      $rem_count,
+      $rem_edges);
+  }
+
+  public function getTransactionEditString(
+    $actor,
+    $total_count,
+    $add_count,
+    $add_edges,
+    $rem_count,
+    $rem_edges) {
+
+    return pht(
+      '%s edited revision(s), added %s: %s; removed %s: %s.',
+      $actor,
+      $add_count,
+      $add_edges,
+      $rem_count,
+      $rem_edges);
+  }
+
 }

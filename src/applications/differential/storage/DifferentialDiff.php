@@ -780,7 +780,7 @@ final class DifferentialDiff
     $refs = array();
 
     $branch = $this->getBranch();
-    if (strlen($branch)) {
+    if (phutil_nonempty_string($branch)) {
       $refs[] = array(
         'type' => 'branch',
         'name' => $branch,
@@ -788,7 +788,7 @@ final class DifferentialDiff
     }
 
     $onto = $this->loadTargetBranch();
-    if (strlen($onto)) {
+    if (phutil_nonempty_string($onto)) {
       $refs[] = array(
         'type' => 'onto',
         'name' => $onto,
@@ -796,7 +796,7 @@ final class DifferentialDiff
     }
 
     $base = $this->getSourceControlBaseRevision();
-    if (strlen($base)) {
+    if ($base !== null && strlen($base)) {
       $refs[] = array(
         'type' => 'base',
         'identifier' => $base,
@@ -804,7 +804,7 @@ final class DifferentialDiff
     }
 
     $bookmark = $this->getBookmark();
-    if (strlen($bookmark)) {
+    if (phutil_nonempty_string($bookmark)) {
       $refs[] = array(
         'type' => 'bookmark',
         'name' => $bookmark,

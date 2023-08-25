@@ -182,7 +182,8 @@ final class PhabricatorMemeEngine extends Phobject {
     // changes to the image.
     $above_text = $this->getAboveText();
     $below_text = $this->getBelowText();
-    if (!strlen(trim($above_text)) && !strlen(trim($below_text))) {
+    if (($above_text === null || !phutil_nonempty_string(trim($above_text))) &&
+        ($below_text === null || !phutil_nonempty_string(trim($below_text)))) {
       return $template_data;
     }
 

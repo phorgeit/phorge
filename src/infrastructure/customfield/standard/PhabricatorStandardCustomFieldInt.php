@@ -33,7 +33,7 @@ final class PhabricatorStandardCustomFieldInt
   }
 
   public function setValueFromStorage($value) {
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $value = (int)$value;
     } else {
       $value = null;

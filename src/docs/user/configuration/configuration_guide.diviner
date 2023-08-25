@@ -139,7 +139,7 @@ server.modules list:
 
 Finally, you should run the following commands to enable php support:
 
-  $ sudo apt-get install php5-cgi  # for Ubuntu; other distros should be similar
+  $ sudo apt-get install php-cgi  # for Ubuntu; other distros should be similar
   $ sudo lighty-enable-mod fastcgi-php
 
 Restart lighttpd after making your edits, then continue below.

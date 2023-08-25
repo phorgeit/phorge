@@ -40,34 +40,41 @@ final class PhabricatorNotificationStatusView extends AphrontTagView {
   protected function getTagContent() {
     $have = PhabricatorEnv::getEnvConfig('notification.servers');
     if ($have) {
-      $icon = id(new PHUIIconView())
-        ->setIcon('fa-circle-o yellow');
-      $text = pht('Connecting...');
-      return phutil_tag(
-        'span',
-        array(
-          'class' => 'connection-status-text '.
-            'aphlict-connection-status-connecting',
-        ),
-        array(
-          $icon,
-          $text,
-        ));
+      return $this->buildMessageView(
+        'aphlict-connection-status-connecting',
+        'fa-circle-o yellow',
+        pht('Connecting...'));
     } else {
-      $text = pht('Notification server not enabled');
-      $icon = id(new PHUIIconView())
-        ->setIcon('fa-circle-o grey');
-      return phutil_tag(
-        'span',
-        array(
-          'class' => 'connection-status-text '.
-            'aphlict-connection-status-notenabled',
-        ),
-        array(
-          $icon,
-          $text,
-        ));
+      return $this->buildMessageView(
+        'aphlict-connection-status-notenabled',
+        'fa-circle-o grey',
+        pht('Notification server not enabled'));
     }
+  }
+
+  /**
+   * Create an icon and a message.
+   *
+   * @param  string $class_name Raw CSS class name(s) space separated
+   * @param  string $icon_name  Icon name
+   * @param  string $text       Text to be shown
+   * @return array
+   */
+  private function buildMessageView($class_name, $icon_name, $text) {
+    $icon = id(new PHUIIconView())
+      ->setIcon($icon_name);
+
+    $message = phutil_tag(
+      'span',
+      array(
+        'class' => 'connection-status-text '.$class_name,
+      ),
+      $text);
+
+    return array(
+      $icon,
+      $message,
+    );
   }
 
 }

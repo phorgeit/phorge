@@ -19,6 +19,13 @@ final class PhabricatorDashboardPanelQuery
     return $this;
   }
 
+  /**
+   * Whether to get only the Archived (`true`), only the not
+   * Archived (`false`) or all (`null`). Default to `null` (no filter).
+   *
+   * @param  null|bool $archived
+   * @return self
+   */
   public function withArchived($archived) {
     $this->archived = $archived;
     return $this;

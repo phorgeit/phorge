@@ -301,10 +301,14 @@ abstract class PhabricatorStandardCustomField
   }
 
   public function renderPropertyViewValue(array $handles) {
-    if (!strlen($this->getFieldValue())) {
-      return null;
+    // If your field needs to render anything more complicated then a string,
+    // then you should override this method.
+    $value_str = phutil_string_cast($this->getFieldValue());
+
+    if (phutil_nonempty_string($value_str)) {
+      return $value_str;
     }
-    return $this->getFieldValue();
+    return null;
   }
 
   public function shouldAppearInApplicationSearch() {
@@ -389,7 +393,7 @@ abstract class PhabricatorStandardCustomField
     if (is_array($value)) {
       return empty($value);
     }
-    return !strlen($value);
+    return $value === null || !strlen($value);
   }
 
   public function getApplicationTransactionTitle(

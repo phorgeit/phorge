@@ -1,6 +1,12 @@
 <?php
 
-final class DifferentialDiffTestCase extends PhutilTestCase {
+final class DifferentialDiffTestCase extends PhabricatorTestCase {
+
+  protected function getPhabricatorTestCaseConfiguration() {
+    return array(
+      self::PHABRICATOR_TESTCONFIG_BUILD_STORAGE_FIXTURES => true,
+    );
+  }
 
   public function testDetectCopiedCode() {
     $copies = $this->detectCopiesIn('lint_engine.diff');
@@ -73,5 +79,35 @@ EODIFF;
     $this->assertTrue(true);
   }
 
+  public function testGetFieldValuesForConduit() {
+
+    $parser = new ArcanistDiffParser();
+    $raw_diff = <<<EODIFF
+diff --git a/src b/src
+index 123457..bb216b1 100644
+--- a/src
++++ b/src
+@@ -1,5 +1,5 @@
+ Line a
+-Line b
++Line 2
+ Line c
+ Line d
+ Line e
+EODIFF;
+
+    $diff = DifferentialDiff::newFromRawChanges(
+      PhabricatorUser::getOmnipotentUser(),
+      $parser->parseDiff($raw_diff));
+    $this->assertTrue(true);
+
+    $field_values = $diff->getFieldValuesForConduit();
+    $this->assertTrue(is_array($field_values));
+    foreach (['revisionPHID', 'authorPHID', 'repositoryPHID', 'refs']
+      as $key) {
+      $this->assertTrue(array_key_exists($key, $field_values));
+    }
+
+  }
 
 }

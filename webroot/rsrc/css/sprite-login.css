@@ -56,22 +56,26 @@ only screen and (min-resolution: 1.5dppx) {
 }
 
 .login-Jira {
-  background-position: 0px -58px;
+  background-position: -116px -29px;
 }
 
 .login-LDAP {
-  background-position: -29px -58px;
+  background-position: 0px -58px;
 }
 
 .login-MediaWiki {
-  background-position: -58px -58px;
+  background-position: -29px -58px;
 }
 
 .login-PayPal {
-  background-position: -87px -58px;
+  background-position: -58px -58px;
 }
 
 .login-Phabricator {
+  background-position: -87px -58px;
+}
+
+.login-Phorge {
   background-position: 0px -87px;
 }
 

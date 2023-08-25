@@ -44,8 +44,15 @@
   margin-top: 16px;
 }
 
+/* Indent comments so that are more related to the answer */
 .device-desktop .ponder-answer-view .phui-timeline-view {
   margin-left: 32px;
+}
+
+/* Indent input box so that it's more related to answer's comments */
+.device-desktop .ponder-answer-view
+.phui-comment-form-view:not(.remarkup-assist-pinned) {
+  margin-left: 94px;
 }
 
 .ponder-answer-view .phui-header-subheader {

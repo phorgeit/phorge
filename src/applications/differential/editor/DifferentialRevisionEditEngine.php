@@ -189,7 +189,7 @@ final class DifferentialRevisionEditEngine
 
     // Don't show the "Author" field when creating a revision using the web
     // workflow, since it adds more noise than signal to this workflow.
-    if ($this->getIsCreate()) {
+    if ($is_create) {
       $author_field->setIsHidden(true);
     }
 
@@ -239,6 +239,12 @@ final class DifferentialRevisionEditEngine
       ->setConduitTypeDescription(pht('New reviewers.'))
       ->setValue($object->getReviewerPHIDsForEdit());
 
+    // Prefill Repository for example when coming from "Attach To".
+    $repository_phid = $object->getRepositoryPHID();
+    if ($is_create && !$repository_phid && $diff) {
+      $repository_phid = $diff->getRepositoryPHID();
+    }
+
     $fields[] = id(new PhabricatorDatasourceEditField())
       ->setKey('repositoryPHID')
       ->setLabel(pht('Repository'))
@@ -248,7 +254,7 @@ final class DifferentialRevisionEditEngine
       ->setDescription(pht('The repository the revision belongs to.'))
       ->setConduitDescription(pht('Change the repository for this revision.'))
       ->setConduitTypeDescription(pht('New repository.'))
-      ->setSingleValue($object->getRepositoryPHID());
+      ->setSingleValue($repository_phid);
 
     // This is a little flimsy, but allows "Maniphest Tasks: ..." to continue
     // working properly in commit messages until we fully sort out T5873.

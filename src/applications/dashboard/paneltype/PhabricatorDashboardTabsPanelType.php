@@ -181,7 +181,7 @@ final class PhabricatorDashboardTabsPanelType
             ->setIcon('fa-chevron-left')
             ->setHref($prev_uri)
             ->setWorkflow(true)
-            ->setDisabled(($prev_key === null) || !$can_edit));
+            ->setDisabled($prev_key === null));
 
         $dropdown_menu->addAction(
           id(new PhabricatorActionView())
@@ -189,7 +189,7 @@ final class PhabricatorDashboardTabsPanelType
             ->setIcon('fa-chevron-right')
             ->setHref($next_uri)
             ->setWorkflow(true)
-            ->setDisabled(($next_key === null) || !$can_edit));
+            ->setDisabled($next_key === null));
 
         $dropdown_menu->addAction(
           id(new PhabricatorActionView())
@@ -281,6 +281,8 @@ final class PhabricatorDashboardTabsPanelType
       } else {
         $panel_content = pht('(Invalid Panel)');
       }
+
+      $is_selected = (string)$idx === (string)$selected;
 
       $content_id = celerity_generate_unique_node_id();
 

@@ -63,6 +63,11 @@
   color:{$greytext} !important;
 }
 
+.aphront-form-input > input[type="file"] {
+  max-width: stretch;
+  max-width: -moz-available;
+  max-width: -webkit-fill-available;
+}
 
 .aphront-form-error {
   width: 18%;

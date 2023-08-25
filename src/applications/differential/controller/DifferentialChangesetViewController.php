@@ -451,10 +451,9 @@ final class DifferentialChangesetViewController extends DifferentialController {
         continue;
       }
       $coverage_data = idx($test_coverage, $changeset->getFileName());
-      if (!strlen($coverage_data)) {
-        continue;
+      if (phutil_nonempty_string($coverage_data)) {
+        $coverage[] = $coverage_data;
       }
-      $coverage[] = $coverage_data;
     }
 
     if (!$coverage) {

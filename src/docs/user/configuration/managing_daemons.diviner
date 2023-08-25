@@ -46,6 +46,62 @@ If you want finer-grained control, you can use:
 NOTE: When you upgrade Phorge or change configuration, you should restart
 the daemons by running `phd restart`.
 
+Automatically start phd
+=======================
+
+NOTE: If you are opinionated against systemd, cover the eyes of your children
+right now!1!
+
+Computers are good in automatically starting stuff, thanks to the invention
+of the "init system".
+
+Phorge virtually supports any init system. Which one is yours? Don't worry.
+If you don't know, it's systemd.
+
+We propose a minimal systemd configuration file, following some assumptions:
+
+- your lovely Phorge is installed `/somewhere`
+- you have a database service called `mariadb`
+- you have a dedicated Unix user called `daemon-user` - coming from
+  @{article:Diffusion User Guide}
+
+With the above assumptions, create this configuration file as super-user:
+
+```lang=ini,name=/etc/systemd/system/phorge-phd.service
+[Unit]
+Description=Phorge Daemons
+Documentation=https://we.phorge.it/book/phorge/article/managing_daemons/
+After=syslog.target network.target mariadb.service
+
+[Service]
+Type=forking
+User=daemon-user
+Group=daemon-user
+ExecStart=/somewhere/phorge/bin/phd start
+ExecStop=/somewhere/phorge/bin/phd stop
+
+[Install]
+WantedBy=multi-user.target
+```
+
+To install this new systemd configuration, execute these commands as
+super-user:
+
+```
+systemctl daemon-reload
+systemctl enable --now phorge-phd
+```
+
+Now the process has started and will survive after any reboot.
+
+To check if everything is OK:
+
+```
+systemctl status phorge-phd
+```
+
+Anything else can be explored in depth by reading the systemd documentation.
+
 = Daemon Console =
 
 You can view status and debugging information for daemons in the Daemon Console

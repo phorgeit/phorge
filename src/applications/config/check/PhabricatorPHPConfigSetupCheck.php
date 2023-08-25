@@ -83,7 +83,7 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
 
         // NOTE: We're intentionally telling you to install "mysqlnd" here; on
         // Ubuntu, there's no separate "mysqli" package.
-        phutil_tag('tt', array(), 'sudo apt-get install php5-mysqlnd'));
+        phutil_tag('tt', array(), 'sudo apt-get install php-mysqlnd'));
 
       $this->newIssue('php.mysqli')
         ->setName(pht('MySQLi Extension Not Available'))
@@ -103,7 +103,7 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
         'native driver is recommended.'.
         "\n\n".
         'You may be able to install the native driver with a command like: %s',
-        phutil_tag('tt', array(), 'sudo apt-get install php5-mysqlnd'));
+        phutil_tag('tt', array(), 'sudo apt-get install php-mysqlnd'));
 
 
       $this->newIssue('php.myqlnd')

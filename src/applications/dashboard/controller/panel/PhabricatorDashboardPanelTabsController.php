@@ -327,7 +327,7 @@ final class PhabricatorDashboardPanelTabsController
             'This is already the last tab. It can not move any farther to '.
             'the right.'))
         ->addCancelButton($cancel_uri);
-    } else if ((string)head_key($old_config) === $target) {
+    } else if (!$is_next && (string)head_key($old_config) === $target) {
       return $this->newDialog()
         ->setTitle(pht('Impossible!'))
         ->appendParagraph(

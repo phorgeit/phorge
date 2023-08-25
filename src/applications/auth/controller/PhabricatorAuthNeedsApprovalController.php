@@ -51,7 +51,7 @@ final class PhabricatorAuthNeedsApprovalController
       $viewer,
       PhabricatorAuthWaitForApprovalMessageType::MESSAGEKEY);
 
-    if (!strlen($text)) {
+    if (!phutil_nonempty_string($text)) {
       return null;
     }
 
