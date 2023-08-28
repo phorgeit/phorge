@@ -77,7 +77,7 @@
 }
 
 .ponder-answer-view .ponder-answer-content {
-  background-color: #fff;
+  background-color: {$page.content};
   padding: 16px 16px 0 16px;
 }
 
