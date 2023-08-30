@@ -4,6 +4,7 @@
 # Diviner
 /docs/
 /.divinercache/
+/webroot/rsrc/externals/javelin/docs/.divinercache/
 /src/.cache/
 
 # libphutil
