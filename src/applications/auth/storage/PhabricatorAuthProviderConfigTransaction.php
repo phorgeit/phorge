@@ -150,7 +150,7 @@ final class PhabricatorAuthProviderConfigTransaction
         $provider = $this->getProvider();
         if ($provider) {
           $title = $provider->renderConfigPropertyTransactionTitle($this);
-          if (strlen($title)) {
+          if (phutil_nonempty_string($title)) {
             return $title;
           }
         }
