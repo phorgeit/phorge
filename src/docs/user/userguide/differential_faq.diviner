@@ -41,8 +41,9 @@ always "request review" of an accepted revision, with a comment like:
 
 If authors are being jerks about this (making sweeping changes as soon as they
 get an accept), solve the problem socially by telling them to stop being jerks.
-Unless you've configured additional layers of enforcement, there's nothing
-stopping them from silently changing the code before pushing it, anyway.
+Unless you've configured additional layers of enforcement (by
+using @{article:Herald}), there's nothing stopping them from silently changing
+the code before pushing it, anyway.
 
 
 = How can I enable syntax highlighting? =
@@ -50,6 +51,10 @@ stopping them from silently changing the code before pushing it, anyway.
 You need to install and configure **Pygments** to highlight anything else than
 PHP. See the `pygments.enabled` configuration setting.
 
+= What formatting can be used in comments? =
+
+Phorge implements a markup language similar to other markup languages like
+Markdown and Wiki markup. See @{article:Remarkup Reference}.
 
 = What do the very light green and red backgrounds mean? =
 

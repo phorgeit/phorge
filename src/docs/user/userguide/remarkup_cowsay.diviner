@@ -1,0 +1,61 @@
+@title Remarkup Reference: Cowsay
+@group userguide
+
+Overview
+--------
+
+Cowsay is an application by Tony Monroe which has been ported over to
+Phabricator/Phorge to allow your comments to be voiced by
+a cow.
+
+Basic Usage
+-----------
+
+A basic example of using cowsay would be to add a comment
+  cowsay{{{Great work!}}}
+which generates:
+```
+ _____________
+< Great work! >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```
+
+Other Cowsay Templates
+----------------------
+Other templates are available in externals/cowsay/cows/, and you can specify
+one by calling cowsay with the 'cow' parameter. eg:
+  cowsay(cow='tux'){{{Great work!}}}
+generates
+```
+ _____________
+< Great work! >
+ -------------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
+```
+
+Other Parameters
+----------------
+* think (set to 1 for thinking bubbles)
+* eyes (default 'oo')
+* tongue (default '  ', try 'P')
+
+See Also
+========
+* @{article:Remarkup Reference}
+* Have you tried figlet:
+```
+figlet{{{figlet generates big text!}}}
+```
