@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldDate
     $indexes = array();
 
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $indexes[] = $this->newNumericIndex((int)$value);
     }
 
