@@ -57,7 +57,7 @@ final class PhabricatorRepositoryURITransaction
         $new_label = idx(idx($map, $new, array()), 'label', $new);
 
         return pht(
-          '%s changed the display type for this URI from "%s" to "%s".',
+          '%s changed the I/O type for this URI from "%s" to "%s".',
           $this->renderHandleLink($author_phid),
           $old_label,
           $new_label);
