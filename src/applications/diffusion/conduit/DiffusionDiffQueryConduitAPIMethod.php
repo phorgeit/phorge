@@ -153,7 +153,7 @@ final class DiffusionDiffQueryConduitAPIMethod
     $arcanist_changes = DiffusionPathChange::convertToArcanistChanges(
       $path_changes);
 
-    $parser = $this->getDefaultParser();
+    $parser = $this->getDefaultParser($request);
     $parser->setChanges($arcanist_changes);
     $parser->forcePath($path->getPath());
     $changes = $parser->parseDiff($raw_diff);
