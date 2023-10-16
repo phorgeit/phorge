@@ -85,9 +85,11 @@ final class PhabricatorDashboardTabsPanelType
     $rename_uri = id(new PhutilURI($rename_uri))
       ->replaceQueryParam('contextPHID', $context_phid);
 
-    $selected = 0;
-
     $key_list = array_keys($config);
+
+    // In the future we may persist which panel was selected.
+    // At the moment we have always selected the first one.
+    $selected = (string)head($key_list);
 
     $next_keys = array();
     $prev_keys = array();
@@ -111,7 +113,8 @@ final class PhabricatorDashboardTabsPanelType
         $name = pht('Unnamed Tab');
       }
 
-      $is_selected = (string)$idx === (string)$selected;
+      // The $idx can be something like "0", "1" or "asdasd98".
+      $is_selected = (string)$idx === $selected;
 
       $tab_view = id(new PHUIListItemView())
         ->setHref('#')
@@ -282,7 +285,8 @@ final class PhabricatorDashboardTabsPanelType
         $panel_content = pht('(Invalid Panel)');
       }
 
-      $is_selected = (string)$idx === (string)$selected;
+      // Note that $idx can be something like "0", "1" or "asdasd98".
+      $is_selected = (string)$idx === $selected;
 
       $content_id = celerity_generate_unique_node_id();
 
