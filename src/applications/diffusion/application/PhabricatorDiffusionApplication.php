@@ -183,6 +183,9 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
       DiffusionCreateRepositoriesCapability::CAPABILITY => array(
         'default' => PhabricatorPolicies::POLICY_ADMIN,
       ),
+      PhabricatorRepositoryIdentityEditViewCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
+      ),
     );
   }
 

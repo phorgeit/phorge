@@ -142,7 +142,10 @@ final class PhabricatorRepositoryIdentity
   }
 
   public function getPolicy($capability) {
-    return PhabricatorPolicies::getMostOpenPolicy();
+    $app = PhabricatorApplication::getByClass(
+      'PhabricatorDiffusionApplication');
+    return $app->getPolicy(
+      PhabricatorRepositoryIdentityEditViewCapability::CAPABILITY);
   }
 
   public function hasAutomaticCapability(

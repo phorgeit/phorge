@@ -70,7 +70,8 @@ final class PhabricatorRepositoryIdentityEditEngine
   }
 
   protected function getCreateNewObjectPolicy() {
-    return PhabricatorPolicies::POLICY_USER;
+    return $this->getApplication()->getPolicy(
+      PhabricatorRepositoryIdentityEditViewCapability::CAPABILITY);
   }
 
   protected function buildCustomEditFields($object) {
