@@ -345,12 +345,12 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
     // Make some reasonable effort to produce reasonable default directory
     // names from repository names.
-    if (!strlen($name)) {
+    if (!phutil_nonempty_string($name)) {
       $name = $this->getName();
       $name = phutil_utf8_strtolower($name);
       $name = preg_replace('@[ -/:->]+@', '-', $name);
       $name = trim($name, '-');
-      if (!strlen($name)) {
+      if (!phutil_nonempty_string($name)) {
         $name = $this->getCallsign();
       }
     }
