@@ -31,11 +31,12 @@ final class PhabricatorSettingsTimezoneController
     $did_calibrate = false;
     if ($request->isFormPost()) {
       $timezone = $request->getStr('timezone');
+      $ignore_conflict_checkbox = $request->getInt('ignoreConflict');
 
       $pref_ignore = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
       $pref_timezone = PhabricatorTimezoneSetting::SETTINGKEY;
 
-      if ($timezone == 'ignore') {
+      if ($timezone === 'ignore' || $ignore_conflict_checkbox) {
         $this->writeSettings(
           array(
             $pref_ignore => $client_offset,
@@ -83,20 +84,29 @@ final class PhabricatorSettingsTimezoneController
       $guess = 'ignore';
     }
 
-    $current_zone = $viewer->getTimezoneIdentifier();
-    $current_zone = phutil_tag('strong', array(), $current_zone);
+    $current_zone_identifier = $viewer->getTimezoneIdentifier();
+    $current_zone_formatted = phutil_tag(
+      'strong',
+      array(),
+      $current_zone_identifier);
 
     $form = id(new AphrontFormView())
       ->appendChild(
         id(new AphrontFormMarkupControl())
           ->setLabel(pht('Current Setting'))
-          ->setValue($current_zone))
+          ->setValue($current_zone_formatted))
       ->appendChild(
         id(new AphrontFormSelectControl())
           ->setName('timezone')
           ->setLabel(pht('New Setting'))
           ->setOptions($options)
-          ->setValue($guess));
+          ->setValue($guess))
+      ->appendChild(id(new AphrontFormCheckboxControl())
+          ->addCheckbox(
+              'ignoreConflict',
+              1,
+              pht('Ignore New Setting and Keep %s', $current_zone_identifier)));
+
 
     return $this->newDialog()
       ->setTitle(pht('Adjust Timezone'))
@@ -110,7 +120,7 @@ final class PhabricatorSettingsTimezoneController
           $this->formatOffset($server_offset)))
       ->appendForm($form)
       ->addCancelButton(pht('Cancel'))
-      ->addSubmitButton(pht('Change Timezone'));
+      ->addSubmitButton(pht('Confirm'));
   }
 
   private function formatOffset($offset) {
