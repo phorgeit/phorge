@@ -603,14 +603,14 @@ final class PhabricatorSetupIssueView extends AphrontView {
   }
 
   private function renderRestartLink() {
-    $doc_href = PhabricatorEnv::getDoclink('Restarting Phabricator');
+    $doc_href = PhabricatorEnv::getDoclink('Restarting Phorge');
     return phutil_tag(
       'a',
       array(
         'href' => $doc_href,
         'target' => '_blank',
       ),
-      pht('Restarting Phabricator'));
+      pht('Restarting'));
   }
 
 }
