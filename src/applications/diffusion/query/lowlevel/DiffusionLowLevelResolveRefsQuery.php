@@ -140,8 +140,9 @@ final class DiffusionLowLevelResolveRefsQuery
     if (count($lines) !== count($unresolved)) {
       throw new Exception(
         pht(
-          'Unexpected line count from `%s`!',
-          'git cat-file'));
+          'Unexpected line count from `%s` in %s!',
+          'git cat-file',
+          $repository->getMonogram()));
     }
 
     $hits = array();
@@ -153,8 +154,9 @@ final class DiffusionLowLevelResolveRefsQuery
       if (count($parts) < 2) {
         throw new Exception(
           pht(
-            'Failed to parse `%s` output: %s',
+            'Failed to parse `%s` output in %s: %s',
             'git cat-file',
+            $repository->getMonogram(),
             $line));
       }
       list($identifier, $type) = $parts;
@@ -177,8 +179,9 @@ final class DiffusionLowLevelResolveRefsQuery
         default:
           throw new Exception(
             pht(
-              'Unexpected object type from `%s`: %s',
+              'Unexpected object type from `%s` in %s: %s',
               'git cat-file',
+              $repository->getMonogram(),
               $line));
       }
 
