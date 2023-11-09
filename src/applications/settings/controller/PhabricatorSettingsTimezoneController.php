@@ -114,8 +114,8 @@ final class PhabricatorSettingsTimezoneController
       ->appendParagraph(
         pht(
           'Your browser timezone (%s) differs from your profile timezone '.
-          '(%s). You can ignore this conflict or adjust your profile setting '.
-          'to match your client.',
+          '(%s). You can adjust your profile setting to match your browser, '.
+          'or ignore this conflict to keep your current profile setting.',
           $this->formatOffset($client_offset),
           $this->formatOffset($server_offset)))
       ->appendForm($form)
