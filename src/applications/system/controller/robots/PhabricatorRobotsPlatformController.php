@@ -19,6 +19,13 @@ final class PhabricatorRobotsPlatformController
     $out[] = 'Disallow: /diffusion/';
     $out[] = 'Disallow: /source/';
 
+    // See T15662. Prevent indexing line anchor links in Pastes. Per RFC 9309
+    // section 2.2.3, percentage-encode "$" to avoid interpretation as end of
+    // match pattern. However, crawlers may not abide by it but follow the
+    // original standard at https://www.robotstxt.org/orig.html with no mention
+    // how to interpret characters like "$" and thus entirely ignore this rule.
+    $out[] = 'Disallow: /P*%24*';
+
     // Add a small crawl delay (number of seconds between requests) for spiders
     // which respect it. The intent here is to prevent spiders from affecting
     // performance for users. The possible cost is slower indexing, but that
