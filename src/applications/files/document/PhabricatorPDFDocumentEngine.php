@@ -14,14 +14,16 @@ final class PhabricatorPDFDocumentEngine
   }
 
   protected function canRenderDocumentType(PhabricatorDocumentRef $ref) {
-    // Since we just render a link to the document anyway, we don't need to
-    // check anything fancy in config to see if the MIME type is actually
-    // viewable.
+    $viewable_types = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
+    $viewable_types = array_keys($viewable_types);
 
-    return $ref->hasAnyMimeType(
-      array(
-        'application/pdf',
-      ));
+    $pdf_types = array(
+      'application/pdf',
+    );
+
+    return
+      $ref->hasAnyMimeType($viewable_types) &&
+      $ref->hasAnyMimeType($pdf_types);
   }
 
   protected function newDocumentContent(PhabricatorDocumentRef $ref) {

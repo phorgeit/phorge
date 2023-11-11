@@ -134,9 +134,11 @@ final class PhabricatorFilesConfigOptions
         ->setDescription(
           pht(
             "Configure which uploaded file types may be viewed directly ".
-            "in the browser. Other file types will be downloaded instead ".
-            "of displayed. This is mainly a usability consideration, since ".
-            "browsers tend to freak out when viewing very large binary files.".
+            "in the browser. Other types will be downloaded instead of ".
+            "displayed. This is a usability and security consideration, ".
+            "since browsers tend to freak out when viewing very large ".
+            "binary files, and some types may be vulnerable to XSS attacks ".
+            "when viewed in a browser.".
             "\n\n".
             "The keys in this map are viewable MIME types; the values are ".
             "the MIME types they are delivered as when they are viewed in ".
