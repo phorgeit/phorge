@@ -261,10 +261,11 @@ final class PhabricatorStartup {
   public static function setDebugTimeLimit($limit) {
     self::$debugTimeLimit = $limit;
 
-    static $initialized;
+    static $initialized = false;
     if (!$initialized) {
       declare(ticks=1);
       register_tick_function(array(__CLASS__, 'onDebugTick'));
+      $initialized = true;
     }
   }
 
