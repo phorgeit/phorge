@@ -461,7 +461,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     // checks make it difficult to create cycles normally, so just do a
     // simple check here to limit damage.
 
-    static $depth;
+    static $depth = 0;
 
     $depth++;
 
