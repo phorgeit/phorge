@@ -6,11 +6,14 @@ final class PhabricatorAuthContactNumberViewController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
 
-    $number = id(new PhabricatorAuthContactNumberQuery())
-      ->setViewer($viewer)
-      ->withIDs(array($request->getURIData('id')))
-      ->executeOne();
-    if (!$number) {
+    $sms_auth_factor = new PhabricatorSMSAuthFactor();
+    if ($sms_auth_factor->isSMSMailerConfigured()) {
+      $number = id(new PhabricatorAuthContactNumberQuery())
+        ->setViewer($viewer)
+        ->withIDs(array($request->getURIData('id')))
+        ->executeOne();
+    }
+    if (!isset($number) || !$number) {
       return new Aphront404Response();
     }
 

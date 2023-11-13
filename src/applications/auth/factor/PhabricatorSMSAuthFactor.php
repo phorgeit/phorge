@@ -334,7 +334,7 @@ final class PhabricatorSMSAuthFactor
     return $value;
   }
 
-  private function isSMSMailerConfigured() {
+  public function isSMSMailerConfigured() {
     $mailers = PhabricatorMetaMTAMail::newMailers(
       array(
         'outbound' => true,
