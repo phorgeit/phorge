@@ -338,7 +338,17 @@ final class PhabricatorAuditTransaction
           $author = null;
         }
 
-        if ($author) {
+        // Show both Author and Committer only if they are different.
+        $show_both = $author && $committer;
+        if ($show_both) {
+          if ($new['authorPHID']) {
+            $show_both = $new['authorPHID'] !== $new['committerPHID'];
+          } else if (phutil_nonempty_string($new['authorName'])) {
+            $show_both = $new['authorName'] !== $new['committerName'];
+          }
+        }
+
+        if ($show_both) {
           $title = pht(
             '%s committed %s (authored by %s).',
             $committer,
