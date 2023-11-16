@@ -31,8 +31,8 @@ final class PholioImageNameTransaction
       '%s renamed an image (%s) from %s to %s.',
       $this->renderAuthor(),
       $this->renderHandle(key($new)),
-      $this->renderValue($old),
-      $this->renderValue($new));
+      $this->renderValue((string)head($old)),
+      $this->renderValue((string)head($new)));
   }
 
   public function getTitleForFeed() {
