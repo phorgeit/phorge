@@ -18,6 +18,8 @@ final class PhabricatorRobotsPlatformController
     $out[] = 'User-Agent: *';
     $out[] = 'Disallow: /diffusion/';
     $out[] = 'Disallow: /source/';
+    // See T15670. Also prevent directly accessing commits in Diffusion.
+    $out[] = 'Disallow: /r*';
 
     // See T15662. Prevent indexing line anchor links in Pastes. Per RFC 9309
     // section 2.2.3, percentage-encode "$" to avoid interpretation as end of
