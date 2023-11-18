@@ -13,7 +13,7 @@ function init_phabricator_script(array $options) {
   if (!$ok) {
     echo
       'FATAL ERROR: Unable to load the "Arcanist" library. '.
-      'Put "arcanist/" next to "phabricator/" on disk.';
+      'Put "arcanist/" next to "phorge/" on disk.';
     echo "\n";
 
     exit(1);

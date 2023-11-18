@@ -27,9 +27,12 @@ final class PhabricatorPeopleDeleteController
           'To permanently destroy this user, run this command from the '.
           'command line:'))
       ->appendCommand(
-        csprintf(
-          'phabricator/ $ ./bin/remove destroy %R',
-          $user->getMonogram()))
+        hsprintf(
+          '<tt>%s $</tt> %s',
+          PlatformSymbols::getPlatformServerPath(),
+          csprintf(
+            './bin/remove destroy %R',
+            $user->getMonogram())))
       ->appendParagraph(
         pht(
           'Unless you have a very good reason to delete this user, consider '.

@@ -31,9 +31,9 @@ final class PhabricatorEditEngineBulkJobType
       $parts[] = pht('To silence this edit, run this command:');
 
       $command = csprintf(
-        'phabricator/ $ ./bin/bulk make-silent --id %R',
+        '%s $ ./bin/bulk make-silent --id %R',
+        PlatformSymbols::getPlatformServerPath(),
         $job->getID());
-      $command = (string)$command;
 
       $parts[] = phutil_tag('tt', array(), $command);
 

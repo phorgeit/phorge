@@ -8,7 +8,7 @@ be read by default.
 
 To specify a path when starting Aphlict, use the `--config` flag:
 
-  phabricator/ $ ./bin/aphlict start --config path/to/config.json
+  phorge/ $ ./bin/aphlict start --config path/to/config.json
 
 Specifying a configuration file explicitly overrides default configuration.
 
