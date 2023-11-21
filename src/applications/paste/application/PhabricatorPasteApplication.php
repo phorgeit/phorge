@@ -32,6 +32,10 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('P');
+  }
+
   public function getRoutes() {
     return array(
       '/P(?P<id>[1-9]\d*)(?:\$(?P<lines>\d+(?:-\d+)?))?'

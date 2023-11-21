@@ -37,6 +37,10 @@ final class PhabricatorPhurlApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('U');
+  }
+
   public function getRoutes() {
     return array(
       '/U(?P<id>[1-9]\d*)/?' => 'PhabricatorPhurlURLViewController',

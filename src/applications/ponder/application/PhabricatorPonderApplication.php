@@ -47,6 +47,10 @@ final class PhabricatorPonderApplication extends PhabricatorApplication {
         pht('Learn More')));
   }
 
+  public function getMonograms() {
+    return array('Q');
+  }
+
   public function getRoutes() {
     return array(
       '/Q(?P<id>[1-9]\d*)'

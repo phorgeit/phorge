@@ -49,6 +49,10 @@ final class PhabricatorSpacesApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('S');
+  }
+
   public function getRoutes() {
     return array(
       '/S(?P<id>[1-9]\d*)' => 'PhabricatorSpacesViewController',

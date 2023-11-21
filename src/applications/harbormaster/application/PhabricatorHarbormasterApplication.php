@@ -51,6 +51,10 @@ final class PhabricatorHarbormasterApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('B');
+  }
+
   public function getRoutes() {
     return array(
       '/B(?P<id>[1-9]\d*)' => 'HarbormasterBuildableViewController',

@@ -67,6 +67,10 @@ final class PhabricatorFilesApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('F');
+  }
+
   public function getRoutes() {
     return array(
       '/F(?P<id>[1-9]\d*)(?:\$(?P<lines>\d+(?:-\d+)?))?'

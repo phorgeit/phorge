@@ -38,6 +38,30 @@ final class PhabricatorApplicationDetailViewController
       $header->setStatus('fa-ban', 'dark', pht('Uninstalled'));
     }
 
+    if (!$selected->isFirstParty()) {
+      $header->addTag(id(new PHUITagView())
+        ->setName('Extension')
+        ->setIcon('fa-plug')
+        ->setColor(PHUITagView::COLOR_INDIGO)
+        ->setType(PHUITagView::TYPE_SHADE));
+    }
+
+    if ($selected->isPrototype()) {
+      $header->addTag(id(new PHUITagView())
+        ->setName('Prototype')
+        ->setIcon('fa-exclamation-circle')
+        ->setColor(PHUITagView::COLOR_ORANGE)
+        ->setType(PHUITagView::TYPE_SHADE));
+    }
+
+    if ($selected->isDeprecated()) {
+      $header->addTag(id(new PHUITagView())
+        ->setName('Deprecated')
+        ->setIcon('fa-exclamation-triangle')
+        ->setColor(PHUITagView::COLOR_RED)
+        ->setType(PHUITagView::TYPE_SHADE));
+    }
+
     $timeline = $this->buildTransactionTimeline(
       $selected,
       new PhabricatorApplicationApplicationTransactionQuery());
@@ -93,6 +117,27 @@ final class PhabricatorApplicationDetailViewController
       $properties->addProperty(
         null,
         phutil_tag('em', array(), $application->getFlavorText()));
+    }
+
+    $phids = PhabricatorPHIDType::getAllTypesForApplication(
+      get_class($application));
+
+    $user_friendly_phids = array();
+    foreach ($phids as $phid => $type) {
+      $user_friendly_phids[] = "PHID-{$phid} ({$type->getTypeName()})";
+    }
+
+    if ($user_friendly_phids) {
+      $properties->addProperty(
+        'PHIDs',
+        phutil_implode_html(phutil_tag('br'), $user_friendly_phids));
+    }
+
+    $monograms = $application->getMonograms();
+    if ($monograms) {
+      $properties->addProperty(
+        'Monograms',
+         phutil_implode_html(', ', $monograms));
     }
 
     if ($application->isPrototype()) {

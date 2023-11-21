@@ -28,6 +28,10 @@ final class PhabricatorCalendarApplication extends PhabricatorApplication {
     return "\xE2\x8C\xA8";
   }
 
+  public function getMonograms() {
+    return array('E');
+  }
+
   public function getApplicationGroup() {
     return self::GROUP_UTILITIES;
   }

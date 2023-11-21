@@ -49,6 +49,10 @@ final class PhabricatorHeraldApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('H');
+  }
+
   public function getRoutes() {
     return array(
       '/H(?P<id>[1-9]\d*)' => 'HeraldRuleViewController',

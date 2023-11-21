@@ -48,6 +48,10 @@ final class PhabricatorLegalpadApplication extends PhabricatorApplication {
       'open source projects keep track of Contributor License Agreements.');
   }
 
+  public function getMonograms() {
+    return array('L');
+  }
+
   public function getRoutes() {
     return array(
       '/L(?P<id>\d+)' => 'LegalpadDocumentSignController',

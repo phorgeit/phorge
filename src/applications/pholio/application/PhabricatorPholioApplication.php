@@ -32,6 +32,10 @@ final class PhabricatorPholioApplication extends PhabricatorApplication {
     );
   }
 
+    public function getMonograms() {
+        return array('M');
+    }
+
   public function getRoutes() {
     return array(
       '/M(?P<id>[1-9]\d*)(?:/(?P<imageID>\d+)/)?' => 'PholioMockViewController',

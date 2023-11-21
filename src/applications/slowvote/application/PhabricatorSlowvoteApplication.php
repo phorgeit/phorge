@@ -45,6 +45,10 @@ final class PhabricatorSlowvoteApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('V');
+  }
+
   public function getRoutes() {
     return array(
       '/V(?P<id>[1-9]\d*)' => 'PhabricatorSlowvotePollController',

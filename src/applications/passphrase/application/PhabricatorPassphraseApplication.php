@@ -34,6 +34,10 @@ final class PhabricatorPassphraseApplication extends PhabricatorApplication {
     return false;
   }
 
+  public function getMonograms() {
+    return array('K');
+  }
+
   public function getRoutes() {
     return array(
       '/K(?P<id>\d+)' => 'PassphraseCredentialViewController',

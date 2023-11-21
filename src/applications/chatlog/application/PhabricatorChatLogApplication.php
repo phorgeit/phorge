@@ -11,7 +11,7 @@ final class PhabricatorChatLogApplication extends PhabricatorApplication {
   }
 
   public function getShortDescription() {
-    return pht('(Deprecated)');
+    return pht('IRC Logs');
   }
 
   public function getIcon() {
@@ -19,6 +19,10 @@ final class PhabricatorChatLogApplication extends PhabricatorApplication {
   }
 
   public function isPrototype() {
+    return true;
+  }
+
+  public function isDeprecated() {
     return true;
   }
 
@@ -30,7 +34,7 @@ final class PhabricatorChatLogApplication extends PhabricatorApplication {
     return self::GROUP_UTILITIES;
   }
 
- public function getRoutes() {
+  public function getRoutes() {
     return array(
       '/chatlog/' => array(
        '' => 'PhabricatorChatLogChannelListController',
