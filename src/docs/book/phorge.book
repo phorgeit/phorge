@@ -57,10 +57,6 @@
       "name": "Celerity",
       "include": "(^src/applications/celerity/)"
     },
-    "chatlog": {
-      "name": "Chatlog",
-      "include": "(^src/applications/chatlog/)"
-    },
     "conduit": {
       "name": "Conduit",
       "include": "(^src/applications/conduit/)"

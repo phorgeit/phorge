@@ -4,7 +4,6 @@ $applications = array(
   'Audit',
   'Auth',
   'Calendar',
-  'ChatLog',
   'Conduit',
   'Config',
   'Conpherence',

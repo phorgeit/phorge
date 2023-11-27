@@ -16,24 +16,6 @@ ALTER TABLE `{$NAMESPACE}_audit`.`audit_comment`
 
 
 
-ALTER DATABASE `{$NAMESPACE}_chatlog` COLLATE utf8_general_ci;
-
-ALTER TABLE `{$NAMESPACE}_chatlog`.`chatlog_event`
-  MODIFY `channel` varchar(64) CHARACTER SET binary,
-  MODIFY `author` varchar(64) CHARACTER SET binary,
-  MODIFY `type` varchar(4) CHARACTER SET binary,
-  MODIFY `message` longtext CHARACTER SET binary,
-  MODIFY `loggedByPHID` varchar(64) CHARACTER SET binary;
-ALTER TABLE `{$NAMESPACE}_chatlog`.`chatlog_event`
-  COLLATE utf8_general_ci,
-  MODIFY `channel` varchar(64) COLLATE utf8_bin NOT NULL,
-  MODIFY `author` varchar(64) COLLATE utf8_bin NOT NULL,
-  MODIFY `type` varchar(4) COLLATE utf8_general_ci NOT NULL,
-  MODIFY `message` longtext COLLATE utf8_bin NOT NULL,
-  MODIFY `loggedByPHID` varchar(64) COLLATE utf8_bin NOT NULL;
-
-
-
 ALTER DATABASE `{$NAMESPACE}_conduit` COLLATE utf8_general_ci;
 
 ALTER TABLE `{$NAMESPACE}_conduit`.`conduit_certificatetoken`
