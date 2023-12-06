@@ -9,7 +9,7 @@
   position: fixed;
   left: 240px;
   right: 240px;
-  top: 106px;
+  top: 115px;
   bottom: 0px;
   min-width: 300px;
   width: auto;
@@ -55,8 +55,8 @@
   position: fixed;
   left: 240px;
   right: 240px;
-  top: 106px;
-  bottom: 142px;
+  top: 115px;
+  bottom: 88px;
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -95,7 +95,7 @@
 
 .conpherence-message-pane .phui-form-view {
   border-width: 0;
-  height: 130px;
+  height: 76px;
   padding: 0 20px 12px;
   position: fixed;
   bottom: 0;
@@ -347,7 +347,7 @@ body .conpherence-message-pane .aphront-form-control {
 }
 
 .conpherence-message-pane .remarkup-assist-textarea {
-  height: 88px;
+  height: 34px;
   padding: 8px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -360,7 +360,6 @@ body .conpherence-message-pane .aphront-form-control {
   margin: 0;
   padding: 7px 8px 6px 38px;
   width: 100%;
-  height: 34px;
   resize: none;
   border-color: {$greyborder};
   border-top-left-radius: 3px;
