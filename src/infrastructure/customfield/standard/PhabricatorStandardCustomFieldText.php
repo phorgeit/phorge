@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldText
     $indexes = array();
 
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (phutil_nonempty_string($value)) {
       $indexes[] = $this->newStringIndex($value);
     }
 
@@ -30,7 +30,7 @@ final class PhabricatorStandardCustomFieldText
     PhabricatorCursorPagedPolicyAwareQuery $query,
     $value) {
 
-    if (strlen($value)) {
+    if (phutil_nonempty_string($value)) {
       $query->withApplicationSearchContainsConstraint(
         $this->newStringIndex(null),
         $value);
