@@ -35,11 +35,13 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
         ->addPhabricatorConfig('mysql.port')
         ->addCommand(
           hsprintf(
-            '<tt>$</tt> ./bin/config set mysql.host %s',
+            '<tt>%s $</tt>./bin/config set mysql.host %s',
+            PlatformSymbols::getPlatformServerPath(),
             $host))
         ->addCommand(
           hsprintf(
-            '<tt>$</tt> ./bin/config set mysql.port %s',
+            '<tt>%s $</tt>./bin/config set mysql.port %s',
+            PlatformSymbols::getPlatformServerPath(),
             $port));
     }
 
@@ -134,7 +136,10 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('Setup MySQL Schema'))
         ->setMessage($message)
         ->setIsFatal(true)
-        ->addCommand(hsprintf('<tt>$</tt> ./bin/storage upgrade'));
+        ->addCommand(
+          hsprintf(
+            '<tt>%s $</tt>./bin/storage upgrade',
+            PlatformSymbols::getPlatformServerPath()));
 
       return true;
     }
@@ -160,7 +165,9 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
         ->setIsFatal(true)
         ->setMessage($message)
         ->addCommand(
-          hsprintf('<tt>$</tt> ./bin/storage upgrade'));
+          hsprintf(
+            '<tt>%s $</tt>./bin/storage upgrade',
+            PlatformSymbols::getPlatformServerPath()));
 
       return true;
     }

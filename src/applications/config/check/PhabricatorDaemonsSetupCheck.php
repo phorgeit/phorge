@@ -49,7 +49,10 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('Daemons Are Not Running'))
         ->setSummary($summary)
         ->setMessage($message)
-        ->addCommand('$ ./bin/phd start');
+        ->addCommand(
+          hsprintf(
+            '<tt>%s $</tt>./bin/phd start',
+            PlatformSymbols::getPlatformServerPath()));
     }
 
     $expect_user = PhabricatorEnv::getEnvConfig('phd.user');
@@ -90,7 +93,10 @@ final class PhabricatorDaemonsSetupCheck extends PhabricatorSetupCheck {
           ->setSummary($summary)
           ->setMessage($message)
           ->addPhabricatorConfig('phd.user')
-          ->addCommand('$ ./bin/phd restart');
+          ->addCommand(
+            hsprintf(
+              '<tt>%s $</tt>./bin/phd restart',
+              PlatformSymbols::getPlatformServerPath()));
 
         break;
       }

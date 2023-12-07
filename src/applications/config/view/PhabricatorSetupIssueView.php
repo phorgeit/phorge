@@ -83,11 +83,11 @@ final class PhabricatorSetupIssueView extends AphrontView {
       // TODO: We should do a better job of detecting how to install extensions
       // on the current system.
       $install_commands = hsprintf(
-        "\$ sudo apt-get install php-<em>extname</em>  ".
+        "<tt>$</tt>sudo apt-get install php-<em>extname</em>  ".
         "# Debian / Ubuntu\n".
-        "\$ sudo dnf install php-<em>extname</em>      ".
+        "<tt>$</tt>sudo dnf install php-<em>extname</em>      ".
         "# Red Hat / Derivatives\n".
-        "\$ sudo yum install php-<em>extname</em>      ".
+        "<tt>$</tt>sudo yum install php-<em>extname</em>      ".
         "# Older Red Hat versions");
 
       $fallback_info = pht(
@@ -286,7 +286,8 @@ final class PhabricatorSetupIssueView extends AphrontView {
       $update = array();
       foreach ($configs as $key) {
         $update[] = hsprintf(
-          '<tt>$</tt> ./bin/config set %s <em>value</em>',
+          '<tt>%s $</tt>./bin/config set %s <em>value</em>',
+          PlatformSymbols::getPlatformServerPath(),
           $key);
       }
       $update = phutil_tag('pre', array(), phutil_implode_html("\n", $update));

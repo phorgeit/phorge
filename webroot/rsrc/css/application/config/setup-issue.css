@@ -122,6 +122,11 @@
   padding: 12px 0;
 }
 
+.setup-issue-config > pre > tt {
+  user-select: none;
+  margin-right: 0.5em;
+}
+
 .setup-issue-config + .setup-issue-config {
   padding-top: 0;
 }
