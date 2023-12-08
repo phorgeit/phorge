@@ -17,6 +17,7 @@ final class PhabricatorSystemApplication extends PhabricatorApplication {
   public function getEventListeners() {
     return array(
       new PhabricatorSystemDebugUIEventListener(),
+      new PhorgeSystemDeprecationWarningListener(),
     );
   }
 

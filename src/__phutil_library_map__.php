@@ -5387,6 +5387,8 @@ phutil_register_library_map(array(
     'PholioTransactionType' => 'applications/pholio/xaction/PholioTransactionType.php',
     'PholioTransactionView' => 'applications/pholio/view/PholioTransactionView.php',
     'PholioUploadedImageView' => 'applications/pholio/view/PholioUploadedImageView.php',
+    'PhorgeCodeWarningSetupCheck' => 'applications/config/check/PhorgeCodeWarningSetupCheck.php',
+    'PhorgeSystemDeprecationWarningListener' => 'applications/system/events/PhorgeSystemDeprecationWarningListener.php',
     'PhortuneAccount' => 'applications/phortune/storage/PhortuneAccount.php',
     'PhortuneAccountAddManagerController' => 'applications/phortune/controller/account/PhortuneAccountAddManagerController.php',
     'PhortuneAccountBillingAddressTransaction' => 'applications/phortune/xaction/PhortuneAccountBillingAddressTransaction.php',
@@ -12208,6 +12210,8 @@ phutil_register_library_map(array(
     'PholioTransactionType' => 'PhabricatorModularTransactionType',
     'PholioTransactionView' => 'PhabricatorApplicationTransactionView',
     'PholioUploadedImageView' => 'AphrontView',
+    'PhorgeCodeWarningSetupCheck' => 'PhabricatorSetupCheck',
+    'PhorgeSystemDeprecationWarningListener' => 'PhabricatorEventListener',
     'PhortuneAccount' => array(
       'PhortuneDAO',
       'PhabricatorApplicationTransactionInterface',
