@@ -48,6 +48,7 @@ final class DiffusionDiffController extends DiffusionController {
       array(
         'commit' => $drequest->getCommit(),
         'path' => $drequest->getPath(),
+        'encoding' => $request->getStr('encoding'),
       ));
     $drequest->updateSymbolicCommit($data['effectiveCommit']);
     $raw_changes = ArcanistDiffChange::newFromConduit($data['changes']);

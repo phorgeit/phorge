@@ -205,4 +205,28 @@ abstract class PhabricatorPHIDType extends Phobject {
     return $installed_types;
   }
 
+
+  /**
+   * Get all PHID types of applications installed for a given viewer.
+   *
+   * @param PhabricatorUser Viewing user.
+   * @return dict<string, PhabricatorPHIDType> Map of constants to installed
+   *  types.
+   */
+  public static function getAllTypesForApplication(
+    string $application) {
+    $all_types = self::getAllTypes();
+
+    $application_types = array();
+
+    foreach ($all_types as $key => $type) {
+      if ($type->getPHIDTypeApplicationClass() != $application) {
+        continue;
+      }
+
+      $application_types[$key] = $type;
+    }
+
+    return $application_types;
+  }
 }

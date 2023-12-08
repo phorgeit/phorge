@@ -53,9 +53,8 @@ final class PhabricatorAuthProvidersGuidanceEngineExtension
         ->setMessage($message);
     } else {
       $message = pht(
-        'Anyone who can browse to this this server will be able to '.
-        'register an account. To add email domain restrictions, configure '.
-        '%s.',
+        'Anyone who can browse to this server will be able to register '.
+        'an account. To add email domain restrictions, configure %s.',
         $domains_link);
 
       $results[] = $this->newGuidance('core.auth.email-domains.off')

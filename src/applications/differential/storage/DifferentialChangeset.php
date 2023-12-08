@@ -325,14 +325,16 @@ final class DifferentialChangeset
 
   public function getOldStatePathVector() {
     $path = $this->getOldFile();
-    if (!strlen($path)) {
+    if (!phutil_nonempty_string($path)) {
       $path = $this->getFilename();
     }
 
-    $path = trim($path, '/');
-    $path = explode('/', $path);
+    if (!phutil_nonempty_string($path)) {
+      return null;
+    }
 
-    return $path;
+    $path = trim($path, '/');
+    return explode('/', $path);
   }
 
   public function getNewStatePathVector() {

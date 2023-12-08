@@ -60,7 +60,10 @@ final class PhabricatorElasticsearchSetupCheck extends PhabricatorSetupCheck {
           $this
             ->newIssue('elastic.missing-index')
             ->setName(pht('Elasticsearch Index Not Found'))
-            ->addCommand('./bin/search init')
+            ->addCommand(
+              hsprintf(
+                '<tt>%s $</tt>./bin/search init',
+                PlatformSymbols::getPlatformServerPath()))
             ->setSummary($summary)
             ->setMessage($message);
 
@@ -76,7 +79,10 @@ final class PhabricatorElasticsearchSetupCheck extends PhabricatorSetupCheck {
           $this
             ->newIssue('elastic.broken-index')
             ->setName(pht('Elasticsearch Index Schema Mismatch'))
-            ->addCommand('./bin/search init')
+            ->addCommand(
+              hsprintf(
+                '<tt>%s $</tt>./bin/search init',
+                PlatformSymbols::getPlatformServerPath()))
             ->setSummary($summary)
             ->setMessage($message);
         }

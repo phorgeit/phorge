@@ -72,6 +72,11 @@ final class PhameBlogFeedController extends PhameBlogController {
         $bloggers[$post->getBloggerPHID()]->getFullName());
 
       $content[] = phutil_tag(
+        'published',
+        array(),
+        date('c', $post->getDatePublished()));
+
+      $content[] = phutil_tag(
         'updated',
         array(),
         date('c', $post->getDateModified()));

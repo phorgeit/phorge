@@ -1,2 +1,1 @@
-ALTER TABLE `{$NAMESPACE}_chatlog`.`chatlog_event`
-  ADD `channelID` INT UNSIGNED NOT NULL;
+/* This file is intentionally left empty, see T15126 */

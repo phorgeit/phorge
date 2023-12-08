@@ -47,7 +47,10 @@ final class PhabricatorAuthCSRFEngine extends Phobject {
     // We expect a BREACH-mitigating token. See T3684.
     $breach_prefix = $this->getBREACHPrefix();
     $breach_prelen = strlen($breach_prefix);
-    if (strncmp($token, $breach_prefix, $breach_prelen) !== 0) {
+    if (
+      $token === null ||
+      strncmp($token, $breach_prefix, $breach_prelen) !== 0
+    ) {
       return false;
     }
 

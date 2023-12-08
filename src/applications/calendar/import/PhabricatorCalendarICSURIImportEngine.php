@@ -58,16 +58,19 @@ final class PhabricatorCalendarICSURIImportEngine
     PhabricatorCalendarImport $import) {
     $fields = array();
 
-    if ($engine->getIsCreate()) {
-      $fields[] = id(new PhabricatorTextEditField())
-        ->setKey('uri')
-        ->setLabel(pht('URI'))
-        ->setDescription(pht('URI to import.'))
-        ->setTransactionType(
-          PhabricatorCalendarImportICSURITransaction::TRANSACTIONTYPE)
-        ->setConduitDescription(pht('URI to import.'))
-        ->setConduitTypeDescription(pht('New URI.'));
-    }
+    // If you are here, you already have the "can edit" capability.
+    // So you are supposed to be able to edit again your Calendar import URI.
+    $uri_key = PhabricatorCalendarImportICSURITransaction::PARAMKEY_URI;
+    $uri = $import->getParameter($uri_key);
+    $fields[] = id(new PhabricatorTextEditField())
+      ->setKey('uri')
+      ->setLabel(pht('URI'))
+      ->setDescription(pht('URI to import.'))
+      ->setTransactionType(
+        PhabricatorCalendarImportICSURITransaction::TRANSACTIONTYPE)
+      ->setConduitDescription(pht('URI to import.'))
+      ->setConduitTypeDescription(pht('New URI.'))
+      ->setValue($uri);
 
     return $fields;
   }

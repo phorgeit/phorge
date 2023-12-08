@@ -45,9 +45,10 @@ final class PhabricatorMetaMTAWorker
   public function renderForDisplay(PhabricatorUser $viewer) {
     return phutil_tag(
       'pre',
-      array(
-      ),
-      'phabricator/ $ ./bin/mail show-outbound --id '.$this->getTaskData());
+      array(),
+      PlatformSymbols::getPlatformServerPath().
+      ' $ ./bin/mail show-outbound --id '.
+      $this->getTaskData());
   }
 
 }

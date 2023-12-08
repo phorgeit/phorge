@@ -27,7 +27,7 @@ final class DiffusionLowLevelGitRefQuery extends DiffusionLowLevelQuery {
 
     $with_branches = isset($ref_types[$type_branch]);
     $with_tags = isset($ref_types[$type_tag]);
-    $with_refs = isset($refs_types[$type_ref]);
+    $with_refs = isset($ref_types[$type_ref]);
 
     $repository = $this->getRepository();
 

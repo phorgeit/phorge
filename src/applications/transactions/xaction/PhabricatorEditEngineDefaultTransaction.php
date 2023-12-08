@@ -65,7 +65,7 @@ final class PhabricatorEditEngineDefaultTransaction
       return id(new PhutilJSON())->encodeAsList($default_value);
     }
 
-    return id(new PhutilJSON())->encodeAsObject($default_value);
+    return id(new PhutilJSON())->encodeFormatted($default_value);
   }
 
 }

@@ -413,8 +413,9 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $font_css = hsprintf(
         '<style type="text/css">'.
         '.PhabricatorMonospaced, '.
-        '.phabricator-remarkup .remarkup-code-block '.
-          '.remarkup-code { font: %s !important; } '.
+        '.phabricator-remarkup .remarkup-code-block .remarkup-code, '.
+        '.phabricator-remarkup .remarkup-monospaced '.
+        '{ font: %s !important; } '.
         '</style>',
         $monospaced);
     }

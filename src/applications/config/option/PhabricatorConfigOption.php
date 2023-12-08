@@ -77,7 +77,7 @@ final class PhabricatorConfigOption
       'This configuration is locked and can not be edited from the web '.
       'interface. Use %s in %s to edit it.',
       phutil_tag('tt', array(), './bin/config'),
-      phutil_tag('tt', array(), 'phabricator/'));
+      phutil_tag('tt', array(), PlatformSymbols::getPlatformServerPath()));
   }
 
   public function addExample($value, $description) {

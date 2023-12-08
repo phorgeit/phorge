@@ -44,6 +44,7 @@ final class DarkConsoleErrorLogPluginAPI extends Phobject {
           'trace'     => $metadata['trace'],
         );
         break;
+      case PhutilErrorHandler::DEPRECATED:
       case PhutilErrorHandler::ERROR:
         // $value is a simple string
         self::$errors[] = array(

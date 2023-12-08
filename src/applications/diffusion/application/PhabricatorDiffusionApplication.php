@@ -44,6 +44,11 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    // This is a special case, as r and R mean different things.
+    return array('r', 'R');
+  }
+
   public function getRoutes() {
     $repository_routes = array(
       '/' => array(
@@ -182,6 +187,9 @@ final class PhabricatorDiffusionApplication extends PhabricatorApplication {
       ),
       DiffusionCreateRepositoriesCapability::CAPABILITY => array(
         'default' => PhabricatorPolicies::POLICY_ADMIN,
+      ),
+      PhabricatorRepositoryIdentityEditViewCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
       ),
     );
   }

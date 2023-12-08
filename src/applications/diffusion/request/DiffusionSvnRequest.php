@@ -3,6 +3,9 @@
 final class DiffusionSvnRequest extends DiffusionRequest {
 
   protected function isStableCommit($symbol) {
+    if ($symbol === null) {
+      return false;
+    }
     return preg_match('/^[1-9]\d*\z/', $symbol);
   }
 

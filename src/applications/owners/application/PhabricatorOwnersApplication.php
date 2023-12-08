@@ -45,6 +45,10 @@ final class PhabricatorOwnersApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('O');
+  }
+
   public function getRoutes() {
     return array(
       '/owners/' => array(

@@ -42,6 +42,10 @@ final class PhabricatorManiphestApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('T');
+  }
+
   public function getRoutes() {
     return array(
       '/T(?P<id>[1-9]\d*)' => 'ManiphestTaskDetailController',

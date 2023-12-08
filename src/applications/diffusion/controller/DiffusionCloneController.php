@@ -49,8 +49,6 @@ final class DiffusionCloneController extends DiffusionController {
         ->appendChild(pht('Repository has no URIs set.'));
     }
 
-    $info = null;
-
     // Try to load alternatives. This may fail for repositories which have not
     // cloned yet. If it does, just ignore it and continue.
     try {

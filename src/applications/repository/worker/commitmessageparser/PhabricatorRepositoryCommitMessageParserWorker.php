@@ -36,7 +36,7 @@ abstract class PhabricatorRepositoryCommitMessageParserWorker
 
     $author = $ref->getAuthor();
     $committer = $ref->getCommitter();
-    $has_committer = (bool)strlen($committer);
+    $has_committer = phutil_nonempty_string($committer);
 
     $identity_engine = id(new DiffusionRepositoryIdentityEngine())
       ->setViewer($viewer)

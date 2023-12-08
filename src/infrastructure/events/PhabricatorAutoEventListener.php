@@ -10,6 +10,6 @@
  *
  * All concrete subclasses of this class are automatically registered at
  * startup. This allows it to be used with custom one-offs that can be dropped
- * into `phabricator/src/extensions/`.
+ * into `phorge/src/extensions/`.
  */
 abstract class PhabricatorAutoEventListener extends PhabricatorEventListener {}

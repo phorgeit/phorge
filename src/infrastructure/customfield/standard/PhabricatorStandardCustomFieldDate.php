@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldDate
     $indexes = array();
 
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $indexes[] = $this->newNumericIndex((int)$value);
     }
 
@@ -24,7 +24,7 @@ final class PhabricatorStandardCustomFieldDate
 
   public function getValueForStorage() {
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       return (int)$value;
     } else {
       return null;
@@ -32,7 +32,7 @@ final class PhabricatorStandardCustomFieldDate
   }
 
   public function setValueFromStorage($value) {
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $value = (int)$value;
     } else {
       $value = null;
@@ -74,7 +74,8 @@ final class PhabricatorStandardCustomFieldDate
     // specify as a string. Parse the string into an epoch.
 
     $value = $this->getFieldValue();
-    if (!ctype_digit($value)) {
+    if ($value !== null && gettype($value) !== 'integer' &&
+        !ctype_digit($value)) {
       $value = PhabricatorTime::parseLocalTime($value, $this->getViewer());
     }
 

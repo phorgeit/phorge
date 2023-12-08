@@ -54,12 +54,12 @@ Phorge from any operating system with a web browser. However, the server
 software does not run on Windows. It does run on most other operating systems,
 so choose one of these instead:
 
-  - **Linux**: Most installs use Linux.
-  - **Mac OS X**: Mac OS X is an acceptable flavor of Linux.
-  - **FreeBSD**: While FreeBSD is certainly not a flavor of Linux, it is a fine
+  - **GNU/Linux**: Most installs use Linux.
+  - **Mac OS X**: Mac OS X is an acceptable non-flavor of Linux.
+  - **BSD**: While BSD is certainly not a flavor of Linux, it is a fine
     operating system possessed of many desirable qualities, and Phorge will
-    install and run properly on FreeBSD.
-  - **Solaris, etc.**: Other systems which look like Linux and quack like Linux
+    install and run properly on BSD.
+  - **Solaris, etc.**: Other systems which look like *nix and quack like *nix
     will generally work fine, although we may suffer a reduced ability to
     support and resolve issues on unusual operating systems.
 

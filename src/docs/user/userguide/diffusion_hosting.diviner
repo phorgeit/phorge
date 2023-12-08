@@ -360,13 +360,13 @@ be owned by `root`, and the script must have `755` permissions:
 ```
 $ sudo chown root /path/to/somewhere/
 $ sudo chown root /path/to/somewhere/phorge-ssh-hook.sh
-$ sudo chmod 755 /path/to/somewhere/phorge-ssh-hook.sh
+$ sudo chmod 755  /path/to/somewhere/phorge-ssh-hook.sh
 ```
 
 If you don't do this, `sshd` will refuse to execute the hook.
 
 **Create `sshd_config` for Phorge**: Copy the template in
-`phorge/resources/sshd/sshd_config.phabricator.example` to somewhere like
+`phorge/resources/sshd/sshd_config.phorge.example` to somewhere like
 `/etc/ssh/sshd_config.phorge`.
 
 Open the file and edit the `AuthorizedKeysCommand`,

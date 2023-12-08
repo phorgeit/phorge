@@ -131,6 +131,8 @@ final class DiffusionCommitRef extends Phobject {
   }
 
   private function formatUser($name, $email) {
+    $name = coalesce($name, '');
+    $email = coalesce($email, '');
     if (strlen($name) && strlen($email)) {
       return "{$name} <{$email}>";
     } else if (strlen($email)) {

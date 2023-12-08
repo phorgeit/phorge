@@ -36,6 +36,10 @@ final class PhabricatorCountdownApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('C');
+  }
+
   public function getRoutes() {
     return array(
       '/C(?P<id>[1-9]\d*)' => 'PhabricatorCountdownViewController',

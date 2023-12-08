@@ -67,7 +67,7 @@ abstract class PhabricatorOAuth1AuthProvider
     }
 
     $denied = $request->getStr('denied');
-    if (strlen($denied)) {
+    if ($denied) {
       // Twitter indicates that the user cancelled the login attempt by
       // returning "denied" as a parameter.
       throw new PhutilAuthUserAbortedException();

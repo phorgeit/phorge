@@ -31,6 +31,10 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('J');
+  }
+
   public function getRoutes() {
     return array(
       '/J(?P<id>[1-9]\d*)' => 'PhamePostViewController',

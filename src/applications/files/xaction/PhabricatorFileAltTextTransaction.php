@@ -50,13 +50,13 @@ final class PhabricatorFileAltTextTransaction
     $old_value = $this->getOldValue();
     $new_value = $this->getNewValue();
 
-    if (!strlen($old_value)) {
+    if (!phutil_nonempty_string($old_value)) {
       return pht(
         '%s set the alternate text for %s to %s.',
         $this->renderAuthor(),
         $this->renderObject(),
         $this->renderNewValue());
-    } else if (!strlen($new_value)) {
+    } else if (!phutil_nonempty_string($new_value)) {
       return pht(
         '%s removed the alternate text for %s (was %s).',
         $this->renderAuthor(),

@@ -76,7 +76,10 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
       $issue->setMessage($message);
 
       if ($found_local) {
-        $command = csprintf('$ ./bin/config delete %s', $key);
+        $command = hsprintf(
+          '<tt>%s $</tt>./bin/config delete %s',
+          PlatformSymbols::getPlatformServerPath(),
+          $key);
         $issue->addCommand($command);
       }
 
@@ -166,9 +169,12 @@ final class PhabricatorExtraConfigSetupCheck extends PhabricatorSetupCheck {
             'target' => '_blank',
           ),
           $doc_name));
-      $command = csprintf(
-        '$ ./bin/config delete --database %R',
-        $key);
+      $command = hsprintf(
+        '<tt>%s $</tt>%s',
+        PlatformSymbols::getPlatformServerPath(),
+        csprintf(
+          './bin/config delete --database %R',
+          $key));
 
       $this->newIssue('config.locked.'.$key)
         ->setShortName(pht('Deprecated Config Source'))

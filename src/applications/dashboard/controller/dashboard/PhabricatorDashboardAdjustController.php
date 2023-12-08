@@ -32,7 +32,7 @@ final class PhabricatorDashboardAdjustController
 
     $panel_ref = null;
     $panel_key = $request->getStr('panelKey');
-    if (strlen($panel_key)) {
+    if ($panel_key !== null && strlen($panel_key)) {
       $panel_ref = $ref_list->getPanelRef($panel_key);
       if (!$panel_ref) {
         return new Aphront404Response();

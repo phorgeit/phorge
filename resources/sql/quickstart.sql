@@ -1477,45 +1477,6 @@ CREATE TABLE `edgedata` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `{$NAMESPACE}_chatlog` /*!40100 DEFAULT CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} */;
-
-USE `{$NAMESPACE}_chatlog`;
-
- SET NAMES utf8 ;
-
- SET character_set_client = {$CHARSET} ;
-
-CREATE TABLE `chatlog_channel` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `serviceName` varchar(64) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `serviceType` varchar(32) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `channelName` varchar(64) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `viewPolicy` varbinary(64) NOT NULL,
-  `editPolicy` varbinary(64) NOT NULL,
-  `dateCreated` int(10) unsigned NOT NULL,
-  `dateModified` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `key_channel` (`channelName`,`serviceType`,`serviceName`)
-) ENGINE=InnoDB DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
-
-USE `{$NAMESPACE}_chatlog`;
-
- SET NAMES utf8 ;
-
- SET character_set_client = {$CHARSET} ;
-
-CREATE TABLE `chatlog_event` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `epoch` int(10) unsigned NOT NULL,
-  `author` varchar(64) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `type` varchar(4) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `message` longtext CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `loggedByPHID` varbinary(64) NOT NULL,
-  `channelID` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `channel` (`epoch`)
-) ENGINE=InnoDB DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
-
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `{$NAMESPACE}_conduit` /*!40100 DEFAULT CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} */;
 
 USE `{$NAMESPACE}_conduit`;

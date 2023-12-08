@@ -143,8 +143,10 @@ final class PhabricatorNotificationServerRef
     return ($this->type == 'admin');
   }
 
-  public function getURI($to_path = null) {
-    $full_path = rtrim($this->getPath(), '/').'/'.ltrim($to_path, '/');
+  public function getURI($to_path = '') {
+    $path = coalesce($this->path, '');
+    $to_path = coalesce($to_path, '');
+    $full_path = rtrim($path, '/').'/'.ltrim($to_path, '/');
 
     $uri = id(new PhutilURI('http://'.$this->getHost()))
       ->setProtocol($this->getProtocol())
@@ -159,9 +161,9 @@ final class PhabricatorNotificationServerRef
     return $uri;
   }
 
-  public function getWebsocketURI($to_path = null) {
+  public function getWebsocketURI($to_path = '') {
     $instance = PhabricatorEnv::getEnvConfig('cluster.instance');
-    if (strlen($instance)) {
+    if (phutil_nonempty_string($instance)) {
       $to_path = $to_path.'~'.$instance.'/';
     }
 

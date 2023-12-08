@@ -3,9 +3,15 @@
 final class PhabricatorTokenGivenQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
+  private $ids;
   private $authorPHIDs;
   private $objectPHIDs;
   private $tokenPHIDs;
+
+  public function withIDs(array $ids) {
+    $this->ids = $ids;
+    return $this;
+  }
 
   public function withTokenPHIDs(array $token_phids) {
     $this->tokenPHIDs = $token_phids;
@@ -28,6 +34,13 @@ final class PhabricatorTokenGivenQuery
 
   protected function buildWhereClauseParts(AphrontDatabaseConnection $conn) {
     $where = parent::buildWhereClauseParts($conn);
+
+    if ($this->ids !== null) {
+      $where[] = qsprintf(
+        $conn,
+        'id IN (%Ld)',
+        $this->ids);
+    }
 
     if ($this->authorPHIDs !== null) {
       $where[] = qsprintf(

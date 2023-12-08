@@ -74,7 +74,8 @@ final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
         ->addRelatedPhabricatorConfig('auth.lock-config')
         ->addCommand(
           hsprintf(
-            '<tt>phabricator/ $</tt> ./bin/auth lock'));
+            '<tt>%s $</tt>./bin/auth lock',
+            PlatformSymbols::getPlatformServerPath()));
     }
   }
 }

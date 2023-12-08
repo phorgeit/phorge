@@ -84,7 +84,7 @@ h2 {
 }
 
 a {
-  -moz-outline-style: none;
+  outline-style: none;
   text-decoration: none;
   color: {$anchor};
   cursor: pointer;

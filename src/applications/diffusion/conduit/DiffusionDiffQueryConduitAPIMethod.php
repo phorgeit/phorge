@@ -23,6 +23,7 @@ final class DiffusionDiffQueryConduitAPIMethod
     return array(
       'path' => 'required string',
       'commit' => 'optional string',
+      'encoding' => 'optional string',
     );
   }
 
@@ -152,7 +153,7 @@ final class DiffusionDiffQueryConduitAPIMethod
     $arcanist_changes = DiffusionPathChange::convertToArcanistChanges(
       $path_changes);
 
-    $parser = $this->getDefaultParser();
+    $parser = $this->getDefaultParser($request);
     $parser->setChanges($arcanist_changes);
     $parser->forcePath($path->getPath());
     $changes = $parser->parseDiff($raw_diff);
@@ -212,18 +213,20 @@ final class DiffusionDiffQueryConduitAPIMethod
       return $this->getEmptyResult();
     }
 
-    $parser = $this->getDefaultParser();
+    $parser = $this->getDefaultParser($request);
     $changes = $parser->parseDiff($raw_diff);
 
     return $changes;
   }
 
-  private function getDefaultParser() {
+  private function getDefaultParser(ConduitAPIRequest $request) {
     $drequest = $this->getDiffusionRequest();
     $repository = $drequest->getRepository();
 
     $parser = new ArcanistDiffParser();
-    $try_encoding = $repository->getDetail('encoding');
+    $try_encoding = coalesce(
+      $request->getValue('encoding'),
+      $repository->getDetail('encoding'));
     if ($try_encoding) {
       $parser->setTryEncoding($try_encoding);
     }

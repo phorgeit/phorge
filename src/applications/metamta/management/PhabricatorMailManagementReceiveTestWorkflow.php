@@ -181,8 +181,9 @@ final class PhabricatorMailManagementReceiveTestWorkflow
     $received->processReceivedMail();
 
     $console->writeErr(
-      "%s\n\n    phabricator/ $ ./bin/mail show-inbound --id %d\n\n",
+      "%s\n\n    %s $ ./bin/mail show-inbound --id %d\n\n",
       pht('Mail received! You can view details by running this command:'),
+      PlatformSymbols::getPlatformServerPath(),
       $received->getID());
   }
 

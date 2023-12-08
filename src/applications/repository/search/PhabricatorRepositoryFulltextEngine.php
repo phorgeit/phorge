@@ -7,10 +7,21 @@ final class PhabricatorRepositoryFulltextEngine
     PhabricatorSearchAbstractDocument $document,
     $object) {
     $repo = $object;
-    $document->setDocumentTitle($repo->getName());
+
+    $title_fields = array(
+      $repo->getName(),
+      $repo->getRepositorySlug(),
+    );
+    $callsign = $repo->getCallsign();
+    if ($callsign) {
+      $title_fields[] = $callsign;
+      $title_fields[] = 'r'.$callsign;
+    }
+
+    $document->setDocumentTitle(implode("\n", $title_fields));
     $document->addField(
       PhabricatorSearchDocumentFieldType::FIELD_BODY,
-      $repo->getRepositorySlug()."\n".$repo->getDetail('description'));
+      $repo->getDetail('description'));
 
     $document->setDocumentCreated($repo->getDateCreated());
     $document->setDocumentModified($repo->getDateModified());

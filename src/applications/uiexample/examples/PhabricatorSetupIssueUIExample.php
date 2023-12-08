@@ -24,8 +24,12 @@ final class PhabricatorSetupIssueUIExample extends PhabricatorUIExample {
       ->setSummary(pht('Summary'))
       ->setMessage(pht('Message'))
       ->setIssueKey('example.key')
-      ->addCommand('$ # Add Command')
-      ->addCommand(hsprintf('<tt>$</tt> %s', '$ ls -1 > /dev/null'))
+      ->addCommand(hsprintf(
+        '<tt>%s $</tt># Add Command',
+        PlatformSymbols::getPlatformServerPath()))
+      ->addCommand(hsprintf(
+        '<tt>%s $</tt>ls -1 > /dev/null',
+        PlatformSymbols::getPlatformServerPath()))
       ->addPHPConfig('php.config.example')
       ->addPhabricatorConfig('test.value')
       ->addPHPExtension('libexample');

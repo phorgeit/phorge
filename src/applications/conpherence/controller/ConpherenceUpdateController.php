@@ -328,7 +328,12 @@ final class ConpherenceUpdateController
       ->executeOne();
 
     $non_update = false;
-    $participant = $conpherence->getParticipant($user->getPHID());
+
+    // The User is always available. The Participant may not. See:
+    // User:        it's you, lurking the Chat (maybe it's a public chat).
+    // Participant: it's you, if you are a Chat Member.
+    // https://we.phorge.it/T15497
+    $participant = $conpherence->getParticipantIfExists($user->getPHID());
 
     if ($need_transactions && $conpherence->getTransactions()) {
       $data = ConpherenceTransactionRenderer::renderTransactions(
@@ -336,7 +341,7 @@ final class ConpherenceUpdateController
         $conpherence);
       $key = PhabricatorConpherenceColumnMinimizeSetting::SETTINGKEY;
       $minimized = $user->getUserSetting($key);
-      if (!$minimized) {
+      if (!$minimized && $participant) {
         $participant->markUpToDate($conpherence);
       }
     } else if ($need_transactions) {

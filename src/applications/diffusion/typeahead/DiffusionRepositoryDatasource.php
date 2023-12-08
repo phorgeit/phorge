@@ -16,13 +16,16 @@ final class DiffusionRepositoryDatasource
   }
 
   public function loadResults() {
-    $viewer = $this->getViewer();
-    $raw_query = $this->getRawQuery();
-
     $query = id(new PhabricatorRepositoryQuery())
-      ->setOrder('name')
-      ->withDatasourceQuery($raw_query);
-    $repos = $this->executeQuery($query);
+      ->setViewer($this->getViewer());
+
+    $this->applyFerretConstraints(
+      $query,
+      id(new PhabricatorRepository())->newFerretEngine(),
+      'title',
+      $this->getRawQuery());
+
+    $repos = $query->execute();
 
     $type_icon = id(new PhabricatorRepositoryRepositoryPHIDType())
       ->getTypeIcon();

@@ -50,7 +50,6 @@ final class PhabricatorBuiltinPatchList extends PhabricatorSQLPatchList {
         'after' => array( /* First Patch */ ),
       ),
       'db.calendar' => array(),
-      'db.chatlog' => array(),
       'db.conduit' => array(),
       'db.countdown' => array(),
       'db.daemon' => array(),

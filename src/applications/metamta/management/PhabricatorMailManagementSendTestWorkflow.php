@@ -225,8 +225,9 @@ final class PhabricatorMailManagementSendTestWorkflow
     $mail->save();
 
     $console->writeErr(
-      "%s\n\n    phabricator/ $ ./bin/mail show-outbound --id %d\n\n",
+      "%s\n\n    %s $ ./bin/mail show-outbound --id %d\n\n",
       pht('Mail sent! You can view details by running this command:'),
+      PlatformSymbols::getPlatformServerPath(),
       $mail->getID());
   }
 

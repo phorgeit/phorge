@@ -28,6 +28,10 @@ final class PhabricatorConpherenceApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('Z');
+  }
+
   public function getRoutes() {
     return array(
       '/Z(?P<id>[1-9]\d*)'

@@ -42,6 +42,10 @@ final class PhabricatorDifferentialApplication
       'engineers to review, discuss and approve changes to software.');
   }
 
+  public function getMonograms() {
+    return array('D');
+  }
+
   public function getRoutes() {
     return array(
       '/D(?P<id>[1-9]\d*)' => array(

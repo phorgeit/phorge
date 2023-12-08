@@ -9,7 +9,6 @@ final class PhabricatorRepositoryQuery
   private $types;
   private $uuids;
   private $uris;
-  private $datasourceQuery;
   private $slugs;
   private $almanacServicePHIDs;
 
@@ -62,6 +61,10 @@ final class PhabricatorRepositoryQuery
     $slugs = array();
 
     foreach ($identifiers as $identifier) {
+      if ($identifier === null) {
+        continue;
+      }
+
       if (ctype_digit((string)$identifier)) {
         $ids[$identifier] = $identifier;
         continue;
@@ -117,11 +120,6 @@ final class PhabricatorRepositoryQuery
 
   public function withURIs(array $uris) {
     $this->uris = $uris;
-    return $this;
-  }
-
-  public function withDatasourceQuery($query) {
-    $this->datasourceQuery = $query;
     return $this;
   }
 
@@ -631,22 +629,6 @@ final class PhabricatorRepositoryQuery
         $conn,
         'r.uuid IN (%Ls)',
         $this->uuids);
-    }
-
-    if (phutil_nonempty_string($this->datasourceQuery)) {
-      // This handles having "rP" match callsigns starting with "P...".
-      $query = trim($this->datasourceQuery);
-      if (preg_match('/^r/', $query)) {
-        $callsign = substr($query, 1);
-      } else {
-        $callsign = $query;
-      }
-      $where[] = qsprintf(
-        $conn,
-        'r.name LIKE %> OR r.callsign LIKE %> OR r.repositorySlug LIKE %>',
-        $query,
-        $callsign,
-        $query);
     }
 
     if ($this->slugs !== null) {

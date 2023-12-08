@@ -19,6 +19,18 @@ final class PhabricatorContactNumbersSettingsPanel
     return PhabricatorSettingsAuthenticationPanelGroup::PANELGROUPKEY;
   }
 
+  /**
+   * Whether to display "Contact Numbers" panel in users' Personal
+   * Settings by checking if global SMS support is configured
+   */
+  public function isUserPanel() {
+    $sms_auth_factor = new PhabricatorSMSAuthFactor();
+    if ($sms_auth_factor->isSMSMailerConfigured()) {
+      return true;
+    }
+    return false;
+  }
+
   public function isMultiFactorEnrollmentPanel() {
     return true;
   }

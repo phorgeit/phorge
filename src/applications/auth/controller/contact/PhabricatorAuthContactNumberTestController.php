@@ -7,16 +7,19 @@ final class PhabricatorAuthContactNumberTestController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
 
-    $number = id(new PhabricatorAuthContactNumberQuery())
-      ->setViewer($viewer)
-      ->withIDs(array($id))
-      ->requireCapabilities(
-        array(
-          PhabricatorPolicyCapability::CAN_VIEW,
-          PhabricatorPolicyCapability::CAN_EDIT,
-        ))
-      ->executeOne();
-    if (!$number) {
+    $sms_auth_factor = new PhabricatorSMSAuthFactor();
+    if ($sms_auth_factor->isSMSMailerConfigured()) {
+      $number = id(new PhabricatorAuthContactNumberQuery())
+        ->setViewer($viewer)
+        ->withIDs(array($id))
+        ->requireCapabilities(
+          array(
+            PhabricatorPolicyCapability::CAN_VIEW,
+            PhabricatorPolicyCapability::CAN_EDIT,
+          ))
+        ->executeOne();
+    }
+    if (!isset($number) || !$number) {
       return new Aphront404Response();
     }
 

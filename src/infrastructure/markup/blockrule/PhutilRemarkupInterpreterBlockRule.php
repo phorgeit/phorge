@@ -2,13 +2,35 @@
 
 final class PhutilRemarkupInterpreterBlockRule extends PhutilRemarkupBlockRule {
 
-  const START_BLOCK_PATTERN = '/^([\w]+)\s*(?:\(([^)]+)\)\s*)?{{{/';
+  /**
+   * Second part of the regex to find stuff like:
+   *     interpreterName {{{ stuff }}}
+   *     interpreterName (options) {{{ stuff }}}
+   * You have found the kernel of cowsay and figlet.
+   */
   const END_BLOCK_PATTERN   = '/}}}\s*$/';
+
+  /**
+   * Constructs the first part of the regex to find stuff like:
+   *     interpreterName {{{ stuff }}}
+   *     interpreterName (options) {{{ stuff }}}
+   * The exact regex is constructed from the available interpreters.
+   * @return string First part of interpreters regex
+   */
+  private function getStartBlockPattern() {
+    $interpreters = id(new PhutilClassMapQuery())
+      ->setAncestorClass('PhutilRemarkupBlockInterpreter')
+      ->execute();
+    $interpreters_regex = mpull($interpreters, 'getInterpreterName');
+    $interpreters_regex = array_map('preg_quote', $interpreters_regex);
+    $interpreters_regex = implode('|', $interpreters_regex);
+    return "/^($interpreters_regex)\s*(?:\(([^)]+)\)\s*)?{{{/";
+  }
 
   public function getMatchingLineCount(array $lines, $cursor) {
     $num_lines = 0;
 
-    if (preg_match(self::START_BLOCK_PATTERN, $lines[$cursor])) {
+    if (preg_match(self::getStartBlockPattern(), $lines[$cursor])) {
       $num_lines++;
 
       while (isset($lines[$cursor])) {
@@ -33,7 +55,7 @@ final class PhutilRemarkupInterpreterBlockRule extends PhutilRemarkupBlockRule {
     }
     $matches = null;
 
-    preg_match(self::START_BLOCK_PATTERN, head($lines), $matches);
+    preg_match(self::getStartBlockPattern(), head($lines), $matches);
 
     $argv = array();
     if (isset($matches[2])) {
@@ -49,7 +71,7 @@ final class PhutilRemarkupInterpreterBlockRule extends PhutilRemarkupBlockRule {
     }
 
     $lines[$first_key] = preg_replace(
-      self::START_BLOCK_PATTERN,
+      self::getStartBlockPattern(),
       '',
       $lines[$first_key]);
     $lines[$last_key] = preg_replace(

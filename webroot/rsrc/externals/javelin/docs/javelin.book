@@ -1,0 +1,16 @@
+{
+  "name" : "javelin",
+  "title" : "Javelin Documentation",
+  "short" : "Javelin Docs",
+  "preface" : "Documentation for developers using Javelin.",
+  "uri.source":
+    "https://we.phorge.it/diffusion/P/browse/master/%f$%l",
+  "rules": {
+    "(\\.diviner$)": "DivinerArticleAtomizer"
+  },
+  "groups": {
+    "concepts": {
+      "name": "Concepts"
+    }
+  }
+}

@@ -508,7 +508,7 @@ final class DiffusionRepositoryController extends DiffusionController {
 
     $repository_name = $repository->getName();
     $branch_name = $drequest->getBranch();
-    if (strlen($branch_name)) {
+    if (phutil_nonempty_string($branch_name)) {
       $repository_name .= ' ('.$branch_name.')';
     }
 

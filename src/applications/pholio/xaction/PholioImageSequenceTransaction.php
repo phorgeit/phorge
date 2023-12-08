@@ -29,7 +29,7 @@ final class PholioImageSequenceTransaction
     return pht(
       '%s updated an image\'s (%s) sequence.',
       $this->renderAuthor(),
-      $this->renderHandleLink(key($new)));
+      $this->renderHandle(head_key($new)));
   }
 
   public function getTitleForFeed() {

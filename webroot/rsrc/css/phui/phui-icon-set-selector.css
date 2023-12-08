@@ -3,8 +3,8 @@
  */
 
 button.icon-button {
-  background-color: #F7F7F9;
-  background-image: linear-gradient(to bottom, #ffffff, #f1f0f1);
+  background-image: linear-gradient(to bottom,
+    {$lightgreybackground}, {$greybackground});
   border: 1px solid rgba({$alphablue},.2);
   color: {$darkgreytext};
   position: relative;

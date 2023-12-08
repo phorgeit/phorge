@@ -36,6 +36,10 @@ final class PhabricatorFundApplication extends PhabricatorApplication {
     );
   }
 
+  public function getMonograms() {
+    return array('I');
+  }
+
   public function getRoutes() {
     return array(
       '/I(?P<id>[1-9]\d*)' => 'FundInitiativeViewController',

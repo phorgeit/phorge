@@ -295,6 +295,12 @@ final class PhabricatorProjectTransactionEditor
   }
 
   public function removeSlugs(PhabricatorProject $project, array $slugs) {
+    // Do not allow removing the project's primary slug which the edit form
+    // may allow through a series of renames/moves. See T15636
+    if (($key = array_search($project->getPrimarySlug(), $slugs)) !== false) {
+      unset($slugs[$key]);
+    }
+
     if (!$slugs) {
       return;
     }
