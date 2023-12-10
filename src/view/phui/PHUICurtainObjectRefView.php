@@ -7,6 +7,7 @@ final class PHUICurtainObjectRefView
   private $epoch;
   private $highlighted;
   private $exiled;
+  private $hovercarded = true;
   private $exileNote = false;
 
   public function setHandle(PhabricatorObjectHandle $handle) {
@@ -27,6 +28,11 @@ final class PHUICurtainObjectRefView
   public function setExiled($is_exiled, $note = false) {
     $this->exiled = $is_exiled;
     $this->exileNote = $note;
+    return $this;
+  }
+
+  public function setHovercarded($hovercarded) {
+    $this->hovercarded = $hovercarded;
     return $this;
   }
 
@@ -155,7 +161,11 @@ final class PHUICurtainObjectRefView
     $handle = $this->handle;
 
     if ($handle) {
-      $title_view = $handle->renderLink();
+      if ($this->hovercarded) {
+        $title_view = $handle->renderHovercardLink();
+      } else {
+        $title_view = $handle->renderLink();
+      }
     }
 
     return $title_view;
