@@ -70,10 +70,16 @@ abstract class PhabricatorTextDocumentEngine
     $encoding = $this->getEncodingConfiguration();
     if ($encoding !== null) {
       if (function_exists('mb_convert_encoding')) {
-        $content = mb_convert_encoding($content, 'UTF-8', $encoding);
-        $this->encodingMessage = pht(
-          'This document was converted from %s to UTF8 for display.',
-          $encoding);
+        try {
+          $content = mb_convert_encoding($content, 'UTF-8', $encoding);
+          $this->encodingMessage = pht(
+            'This document was converted from %s to UTF8 for display.',
+            $encoding);
+        } catch (Throwable $ex) {
+          $this->encodingMessage = pht(
+            'Unable to convert from requested encoding %s to UTF8.',
+            $encoding);
+        }
       } else {
         $this->encodingMessage = pht(
           'Unable to perform text encoding conversion: mbstring extension '.
