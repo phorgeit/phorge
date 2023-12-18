@@ -80,6 +80,10 @@ abstract class PhabricatorCustomFieldStorage
       $object_phid = $row['objectPHID'];
       $value = $row['fieldValue'];
 
+      if (!isset($map[$index]) || !isset($map[$index][$object_phid])) {
+       continue;
+      }
+
       $key = $map[$index][$object_phid];
       $result[$key] = $value;
     }
