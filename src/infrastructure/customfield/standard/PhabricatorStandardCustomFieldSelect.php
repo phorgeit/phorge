@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldSelect
     $indexes = array();
 
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (($value !== null) && (strlen($value))) {
       $indexes[] = $this->newStringIndex($value);
     }
 
