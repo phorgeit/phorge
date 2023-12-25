@@ -7,4 +7,8 @@ final class PhortunePaymentProviderConfigTransactionQuery
     return new PhortunePaymentProviderConfigTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhortuneApplication::class;
+  }
+
 }

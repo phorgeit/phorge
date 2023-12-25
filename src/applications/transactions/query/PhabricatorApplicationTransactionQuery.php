@@ -292,8 +292,14 @@ abstract class PhabricatorApplicationTransactionQuery
     return parent::shouldGroupQueryResultRows();
   }
 
+  /**
+   * Get name of class of application queried by the query.
+   *
+   * To be overwritten by child classes when applicable.
+   *
+   * @return  string|null Application class name
+   */
   public function getQueryApplicationClass() {
-    // TODO: Sort this out?
     return null;
   }
 

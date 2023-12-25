@@ -7,4 +7,8 @@ final class PonderQuestionTransactionQuery
     return new PonderQuestionTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPonderApplication::class;
+  }
+
 }

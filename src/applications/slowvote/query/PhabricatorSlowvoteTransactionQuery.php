@@ -7,4 +7,8 @@ final class PhabricatorSlowvoteTransactionQuery
     return new PhabricatorSlowvoteTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorSlowvoteApplication::class;
+  }
+
 }

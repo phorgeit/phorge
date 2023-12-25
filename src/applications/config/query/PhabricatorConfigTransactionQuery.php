@@ -7,4 +7,8 @@ final class PhabricatorConfigTransactionQuery
     return new PhabricatorConfigTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorConfigApplication::class;
+  }
+
 }

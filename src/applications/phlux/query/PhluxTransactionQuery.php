@@ -7,4 +7,8 @@ final class PhluxTransactionQuery
     return new PhluxTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhluxApplication::class;
+  }
+
 }

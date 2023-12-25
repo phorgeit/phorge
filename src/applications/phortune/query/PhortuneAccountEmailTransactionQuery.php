@@ -7,4 +7,8 @@ final class PhortuneAccountEmailTransactionQuery
     return new PhortuneAccountEmailTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhortuneApplication::class;
+  }
+
 }

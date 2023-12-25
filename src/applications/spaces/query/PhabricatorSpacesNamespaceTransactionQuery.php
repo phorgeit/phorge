@@ -7,4 +7,8 @@ final class PhabricatorSpacesNamespaceTransactionQuery
     return new PhabricatorSpacesNamespaceTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorSpacesApplication::class;
+  }
+
 }

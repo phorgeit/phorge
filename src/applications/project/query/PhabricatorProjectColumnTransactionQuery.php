@@ -7,4 +7,8 @@ final class PhabricatorProjectColumnTransactionQuery
     return new PhabricatorProjectColumnTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorProjectApplication::class;
+  }
+
 }

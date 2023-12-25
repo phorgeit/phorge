@@ -7,4 +7,8 @@ final class FundInitiativeTransactionQuery
     return new FundInitiativeTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorFundApplication::class;
+  }
+
 }

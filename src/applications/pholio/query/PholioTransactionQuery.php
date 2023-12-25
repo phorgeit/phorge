@@ -7,4 +7,8 @@ final class PholioTransactionQuery
     return new PholioTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPholioApplication::class;
+  }
+
 }

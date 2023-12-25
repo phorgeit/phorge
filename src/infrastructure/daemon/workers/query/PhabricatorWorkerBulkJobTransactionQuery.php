@@ -7,4 +7,8 @@ final class PhabricatorWorkerBulkJobTransactionQuery
     return new PhabricatorWorkerBulkJobTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDaemonsApplication::class;
+  }
+
 }

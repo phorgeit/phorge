@@ -7,4 +7,8 @@ final class PhabricatorCalendarImportTransactionQuery
     return new PhabricatorCalendarImportTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorCalendarApplication::class;
+  }
+
 }

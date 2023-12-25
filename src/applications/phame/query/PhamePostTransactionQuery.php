@@ -7,4 +7,8 @@ final class PhamePostTransactionQuery
     return new PhamePostTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhameApplication::class;
+  }
+
 }

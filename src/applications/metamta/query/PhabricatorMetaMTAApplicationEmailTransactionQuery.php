@@ -7,4 +7,8 @@ final class PhabricatorMetaMTAApplicationEmailTransactionQuery
     return new PhabricatorMetaMTAApplicationEmailTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorMetaMTAApplication::class;
+  }
+
 }

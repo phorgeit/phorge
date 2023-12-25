@@ -7,4 +7,8 @@ final class PhabricatorCountdownTransactionQuery
     return new PhabricatorCountdownTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorCountdownApplication::class;
+  }
+
 }

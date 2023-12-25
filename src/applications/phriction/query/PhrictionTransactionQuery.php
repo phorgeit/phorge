@@ -7,4 +7,8 @@ final class PhrictionTransactionQuery
     return new PhrictionTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhrictionApplication::class;
+  }
+
 }

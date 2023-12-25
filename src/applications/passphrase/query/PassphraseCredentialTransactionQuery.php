@@ -7,4 +7,8 @@ final class PassphraseCredentialTransactionQuery
     return new PassphraseCredentialTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPassphraseApplication::class;
+  }
+
 }

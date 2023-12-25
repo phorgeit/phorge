@@ -7,4 +7,8 @@ final class PhabricatorBadgesTransactionQuery
     return new PhabricatorBadgesTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorBadgesApplication::class;
+  }
+
 }

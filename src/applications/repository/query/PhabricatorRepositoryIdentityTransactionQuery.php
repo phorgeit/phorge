@@ -7,4 +7,8 @@ final class PhabricatorRepositoryIdentityTransactionQuery
     return new PhabricatorRepositoryIdentityTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDiffusionApplication::class;
+  }
+
 }

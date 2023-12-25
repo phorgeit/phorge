@@ -7,4 +7,8 @@ final class AlmanacBindingTransactionQuery
     return new AlmanacBindingTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAlmanacApplication::class;
+  }
+
 }

@@ -7,4 +7,8 @@ final class PhabricatorProjectTransactionQuery
     return new PhabricatorProjectTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorProjectApplication::class;
+  }
+
 }

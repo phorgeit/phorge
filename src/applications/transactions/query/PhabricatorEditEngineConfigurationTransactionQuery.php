@@ -7,4 +7,8 @@ final class PhabricatorEditEngineConfigurationTransactionQuery
     return new PhabricatorEditEngineConfigurationTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorTransactionsApplication::class;
+  }
+
 }

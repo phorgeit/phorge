@@ -7,4 +7,8 @@ final class ConpherenceTransactionQuery
     return new ConpherenceTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorConpherenceApplication::class;
+  }
+
 }

@@ -7,4 +7,8 @@ final class PhabricatorOwnersPackageTransactionQuery
     return new PhabricatorOwnersPackageTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorOwnersApplication::class;
+  }
+
 }

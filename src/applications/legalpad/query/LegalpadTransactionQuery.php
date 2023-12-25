@@ -7,4 +7,8 @@ final class LegalpadTransactionQuery
     return new LegalpadTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorLegalpadApplication::class;
+  }
+
 }

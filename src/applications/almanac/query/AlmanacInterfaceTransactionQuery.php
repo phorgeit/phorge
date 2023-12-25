@@ -7,4 +7,8 @@ final class AlmanacInterfaceTransactionQuery
     return new AlmanacInterfaceTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAlmanacApplication::class;
+  }
+
 }

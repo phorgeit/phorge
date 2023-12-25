@@ -7,4 +7,8 @@ final class PhabricatorUserPreferencesTransactionQuery
     return new PhabricatorUserPreferencesTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorSettingsApplication::class;
+  }
+
 }

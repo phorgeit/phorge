@@ -7,4 +7,8 @@ final class PhabricatorPhurlURLTransactionQuery
     return new PhabricatorPhurlURLTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhurlApplication::class;
+  }
+
 }
