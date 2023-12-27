@@ -51,12 +51,14 @@ final class PhabricatorFilesComposeIconBuiltinFile
     $map = array();
     $list = Filesystem::listDirectory($root, $include_hidden = false);
     foreach ($list as $file) {
-      $short = preg_replace('/\.png$/', '', $file);
-
-      $map[$short] = array(
-        'path' => $root.$file,
-        'quip' => idx($quips, $short, $short),
-      );
+      $count = 0;
+      $short = preg_replace('/\.png$/', '', $file, -1, $count);
+      if ($count === 1) {
+        $map[$short] = array(
+         'path' => $root.$file,
+         'quip' => idx($quips, $short, $short),
+        );
+      }
     }
 
     return $map;
