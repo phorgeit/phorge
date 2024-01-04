@@ -735,6 +735,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
         array(
           'table' => 'optional string|null',
           'column' => 'string',
+          'customfield' => 'optional bool',
+          'customfield.index.key' => 'optional string',
+          'customfield.index.table' => 'optional string',
           'value' => 'wild',
           'type' => 'string',
           'reverse' => 'optional bool',
@@ -1747,7 +1750,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
     $map = array();
     foreach ($fields->getFields() as $field) {
-      $map['custom:'.$field->getFieldKey()] = $field->getValueForStorage();
+      $map[$field->getModernFieldKey()] = $field->getValueForStorage();
     }
 
     return $map;
@@ -1758,7 +1761,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @task customfield
    */
   protected function isCustomFieldOrderKey($key) {
-    $prefix = 'custom:';
+    $prefix = 'custom.';
     return !strncmp($key, $prefix, strlen($prefix));
   }
 
