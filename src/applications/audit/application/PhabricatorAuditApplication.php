@@ -19,9 +19,7 @@ final class PhabricatorAuditApplication extends PhabricatorApplication {
   }
 
   public function canUninstall() {
-    // Audit was once a separate application, but has largely merged with
-    // Diffusion.
-    return false;
+    return true;
   }
 
   public function isPinnedByDefault(PhabricatorUser $viewer) {
