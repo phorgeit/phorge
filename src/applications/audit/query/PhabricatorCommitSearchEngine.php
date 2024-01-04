@@ -70,6 +70,8 @@ final class PhabricatorCommitSearchEngine
   }
 
   protected function buildCustomSearchFields() {
+    $show_packages = PhabricatorApplication::isClassInstalled(
+      'PhabricatorPackagesApplication');
     return array(
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Responsible Users'))
@@ -118,6 +120,7 @@ final class PhabricatorCommitSearchEngine
         ->setConduitKey('packages')
         ->setAliases(array('package', 'packages', 'packagePHID'))
         ->setDatasource(new PhabricatorOwnersPackageDatasource())
+        ->setIsHidden(!$show_packages)
         ->setDescription(
           pht('Find commits which affect given packages.')),
       id(new PhabricatorSearchThreeStateField())
