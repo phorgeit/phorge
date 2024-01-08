@@ -55,11 +55,15 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
 
     list($type, $body, $comment) = $parts;
 
+    // The only goal is to prevent user error by nonsense input.
+    // This is just a meaningful subset from 'ssh -Q key'.
     $recognized_keys = array(
       'ssh-dsa',
       'ssh-dss',
       'ssh-rsa',
       'ssh-ed25519',
+      'sk-ssh-ed25519@openssh.com',
+      'sk-ecdsa-sha2-nistp256@openssh.com',
       'ecdsa-sha2-nistp256',
       'ecdsa-sha2-nistp384',
       'ecdsa-sha2-nistp521',
