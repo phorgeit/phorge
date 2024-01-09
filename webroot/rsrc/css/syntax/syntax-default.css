@@ -3,148 +3,243 @@
  * @generated
  */
 
-.remarkup-code .bp,
-.remarkup-code .cp,
-.remarkup-code .kp,
-.remarkup-code .kr,
-.remarkup-code .nb {
-  color: #304a96
+.remarkup-code .bp {
+  color: {$syntax.builtin-pseudo}
 }
 
-.remarkup-code .c,
-.remarkup-code .c1,
+.remarkup-code .c {
+  color: {$syntax.comment}
+}
+
+.remarkup-code .c1 {
+  color: {$syntax.comment-single}
+}
+
 .remarkup-code .cm,
+.remarkup-code .dc {
+  color: {$syntax.comment-multiline}
+}
+
+.remarkup-code .cp {
+  color: {$syntax.comment-preproc}
+}
+
 .remarkup-code .cs {
-  color: #74777d
+  color: {$syntax.comment-special}
 }
 
 .remarkup-code .gd {
-  color: #a00000
+  color: {$syntax.generic-deleted}
 }
 
-.remarkup-code .gh,
-.remarkup-code .gp {
-  color: #000080
+.remarkup-code .gh {
+  color: {$syntax.generic-heading}
 }
 
 .remarkup-code .gi {
-  color: #00a000
+  color: {$syntax.generic-inserted}
 }
 
 .remarkup-code .go {
-  color: #808080
+  color: {$syntax.generic-output}
+}
+
+.remarkup-code .gp {
+  color: {$syntax.generic-prompt}
 }
 
 .remarkup-code .gr {
-  color: #ff0000
+  color: {$syntax.generic-red}
 }
 
 .remarkup-code .gt {
-  color: #0040d0
+  color: {$syntax.generic-traceback}
 }
 
 .remarkup-code .gu {
-  color: #800080
+  color: {$syntax.generic-underline}
 }
 
 .remarkup-code .hll {
-  color: #ffffcc
+  color: {$syntax.highlighted-line}
 }
 
-.remarkup-code .il,
-.remarkup-code .m,
-.remarkup-code .mf,
-.remarkup-code .mh,
-.remarkup-code .mi,
-.remarkup-code .mo {
-  color: #601200
+.remarkup-code .il {
+  color: {$syntax.literal-number-integer-long}
 }
 
-.remarkup-code .k,
-.remarkup-code .kd,
-.remarkup-code .kn,
+.remarkup-code .k {
+  color: {$syntax.keyword}
+}
+
+.remarkup-code .kc {
+  color: {$syntax.keyword-constant}
+}
+
+.remarkup-code .kd {
+  color: {$syntax.keyword-declaration}
+}
+
+.remarkup-code .kn {
+  color: {$syntax.keyword-namespace}
+}
+
+.remarkup-code .kp {
+  color: {$syntax.keyword-preproc}
+}
+
+.remarkup-code .kr {
+  color: {$syntax.keyword-reserved}
+}
+
 .remarkup-code .kt {
-  color: #aa4000
+  color: {$syntax.keyword-type}
 }
 
-.remarkup-code .kc,
-.remarkup-code .no {
-  color: #000a65
+.remarkup-code .m {
+  color: {$syntax.literal-number}
+}
+
+.remarkup-code .mf {
+  color: {$syntax.literal-number-float}
+}
+
+.remarkup-code .mh {
+  color: {$syntax.literal-number-hex}
+}
+
+.remarkup-code .mi {
+  color: {$syntax.literal-number-integer}
+}
+
+.remarkup-code .mo {
+  color: {$syntax.literal-number-octal}
 }
 
 .remarkup-code .na {
-  color: #354bb3
+  color: {$syntax.name-attribute}
 }
 
-.remarkup-code .nc,
-.remarkup-code .nt,
-.remarkup-code .vc {
-  color: #00702a
+.remarkup-code .nb {
+  color: {$syntax.name-builtin}
 }
 
-.remarkup-code .nd,
-.remarkup-code .ow {
-  color: #aa22ff
+.remarkup-code .nc {
+  color: {$syntax.name-class}
+}
+
+.remarkup-code .nd {
+  color: {$syntax.name-decorator}
 }
 
 .remarkup-code .ne {
-  color: #d2413a
+  color: {$syntax.name-entity}
 }
 
-.remarkup-code .nf,
-.remarkup-code .nx {
-  color: #004012
+.remarkup-code .nf {
+  color: {$syntax.name-function}
 }
 
 .remarkup-code .ni {
-  color: #92969d
+  color: {$syntax.name-identifier}
 }
 
 .remarkup-code .nl {
-  color: #a0a000
+  color: {$syntax.name-label}
 }
 
 .remarkup-code .nn {
-  color: #0000ff
+  color: {$syntax.name-namespace}
 }
 
-.remarkup-code .nv,
-.remarkup-code .vg,
-.remarkup-code .vi {
-  color: #001294
+.remarkup-code .no {
+  color: {$syntax.name-operator}
 }
 
-.remarkup-code .o,
-.remarkup-code .ss {
-  color: #aa2211
+.remarkup-code .nt {
+  color: {$syntax.name-tag}
 }
 
-.remarkup-code .s,
-.remarkup-code .s1,
-.remarkup-code .s2,
-.remarkup-code .sb,
-.remarkup-code .sc,
-.remarkup-code .sx {
-  color: #766510
+.remarkup-code .nv {
+  color: {$syntax.name-variable}
 }
 
-.remarkup-code .sd,
-.remarkup-code .sh {
-  color: #000000
+.remarkup-code .nx {
+  color: {$syntax.name-exception}
+}
+
+.remarkup-code .o {
+  color: {$syntax.operator}
+}
+
+.remarkup-code .ow {
+  color: {$syntax.operator-word}
+}
+
+.remarkup-code .p {
+  color: {$syntax.punctuation}
+}
+
+.remarkup-code .s {
+  color: {$syntax.string}
+}
+
+.remarkup-code .s1 {
+  color: {$syntax.string-single}
+}
+
+.remarkup-code .s2 {
+  color: {$syntax.string-double}
+}
+
+.remarkup-code .sb {
+  color: {$syntax.string-backtick}
+}
+
+.remarkup-code .sc {
+  color: {$syntax.literal-string-char}
+}
+
+.remarkup-code .sd {
+  color: {$syntax.string-doc}
 }
 
 .remarkup-code .se {
-  color: #bb6622
+  color: {$syntax.literal-string-escape}
+}
+
+.remarkup-code .sh {
+  color: {$syntax.string-heredoc}
 }
 
 .remarkup-code .si {
-  color: #bb66bb
+  color: {$syntax.literal-string-interpol}
 }
 
 .remarkup-code .sr {
-  color: #bb6688
+  color: {$syntax.string-regex}
+}
+
+.remarkup-code .ss {
+  color: {$syntax.literal-string-symbol}
+}
+
+.remarkup-code .sx {
+  color: {$syntax.string-other}
+}
+
+.remarkup-code .vc {
+  color: {$syntax.name-variable-class}
+}
+
+.remarkup-code .vg {
+  color: {$syntax.variable-global}
+}
+
+.remarkup-code .vi {
+  color: {$syntax.variable-instance}
 }
 
 .remarkup-code .w {
-  color: #bbbbbb
+  color: {$syntax.text-whitespace}
 }
