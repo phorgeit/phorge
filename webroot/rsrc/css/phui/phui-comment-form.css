@@ -158,6 +158,9 @@ body.device .phui-box.phui-object-box.phui-comment-form-view {
   height: 28px;
   line-height: 28px;
   padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .phui-comment-form-view .aphront-form-error .phui-icon-view {
