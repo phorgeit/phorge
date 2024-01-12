@@ -39,14 +39,9 @@ abstract class PhabricatorStandardCustomFieldPHIDs
     // should hold until this can get cleaned up more thoroughly.
     // TODO: Clean this up.
 
-    $result = array();
-    if (!is_array($value) && phutil_nonempty_string($value)) {
+    if (is_string($value) && phutil_nonempty_string($value)) {
       $value = json_decode($value, true);
-      if (is_array($value)) {
-        $result = array_values($value);
-      }
     }
-
     $this->setFieldValue($value);
 
     return $this;
