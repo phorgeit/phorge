@@ -110,7 +110,7 @@ final class PhabricatorAuthSSHKeyViewController
     $properties = id(new PHUIPropertyListView())
       ->setUser($viewer);
 
-    $properties->addProperty(pht('SSH Key Type'), $ssh_key->getKeyType());
+    $properties->addProperty(pht('Public Key'), $ssh_key->getEntireKey());
     $properties->addProperty(
       pht('Created'),
       phabricator_datetime($ssh_key->getDateCreated(), $viewer));
