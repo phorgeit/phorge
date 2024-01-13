@@ -98,6 +98,14 @@ final class PhabricatorFilesComposeIconBuiltinFile
   }
 
   private function composeImage($color, $icon) {
+    // If we don't have the GD extension installed, just return a static
+    // default project image rather than trying to compose one.
+    if (!function_exists('imagecreatefromstring')) {
+      $root = dirname(phutil_get_library_root('phabricator'));
+      $default_path = $root.'/resources/builtin/profile.png';
+      return Filesystem::readFile($default_path);
+    }
+
     $color_map = self::getAllColors();
     $color = idx($color_map, $color);
     if (!$color) {
