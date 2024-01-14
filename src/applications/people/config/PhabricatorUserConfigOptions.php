@@ -39,12 +39,22 @@ final class PhabricatorUserConfigOptions
 
     $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
 
+    $fields_description = $this->deformat(pht(<<<EOTEXT
+List of custom fields for user profiles.
+
+For details on adding new fields, see [[ %s | %s ]] in the
+documentation.
+EOTEXT
+      ,
+      PhabricatorEnv::getDoclink('Configuring Custom Fields'),
+      pht('Configuring Custom Fields')));
+
     return array(
       $this->newOption('user.fields', $custom_field_type, $default)
         ->setCustomData(id(new PhabricatorUser())->getCustomFieldBaseClass())
         ->setDescription(pht('Select and reorder user profile fields.')),
       $this->newOption('user.custom-field-definitions', 'wild', array())
-        ->setDescription(pht('Add new simple fields to user profiles.')),
+        ->setDescription($fields_description),
       $this->newOption('user.require-real-name', 'bool', true)
         ->setDescription(pht('Always require real name for user profiles.'))
         ->setBoolOptions(
