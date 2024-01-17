@@ -971,10 +971,13 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // warns you if you don't have complete support.
 
     $matches = null;
-    $ok = preg_match(
-      '@^image/(gif|png|jpe?g)@',
-      $this->getViewableMimeType(),
-      $matches);
+    $ok = false;
+    if ($this->getViewableMimeType() !== null) {
+      $ok = preg_match(
+        '@^image/(gif|png|jpe?g)@',
+        $this->getViewableMimeType(),
+        $matches);
+    }
     if (!$ok) {
       return false;
     }
