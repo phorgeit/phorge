@@ -433,43 +433,6 @@ final class DiffusionRepositoryController extends DiffusionController {
     return $button;
   }
 
-  private function buildLocateFile() {
-    $request = $this->getRequest();
-    $viewer = $request->getUser();
-    $drequest = $this->getDiffusionRequest();
-    $repository = $drequest->getRepository();
-
-    $form_box = null;
-    if ($repository->canUsePathTree()) {
-      Javelin::initBehavior(
-        'diffusion-locate-file',
-        array(
-          'controlID' => 'locate-control',
-          'inputID' => 'locate-input',
-          'browseBaseURI' => (string)$drequest->generateURI(
-            array(
-              'action' => 'browse',
-            )),
-          'uri' => (string)$drequest->generateURI(
-            array(
-              'action' => 'pathtree',
-            )),
-        ));
-
-      $form = id(new AphrontFormView())
-        ->setUser($viewer)
-        ->appendChild(
-          id(new AphrontFormTypeaheadControl())
-            ->setHardpointID('locate-control')
-            ->setID('locate-input')
-            ->setPlaceholder(pht('Locate File')));
-      $form_box = id(new PHUIBoxView())
-        ->appendChild($form->buildLayoutView())
-        ->addClass('diffusion-profile-locate');
-    }
-    return $form_box;
-  }
-
   private function buildBrowseTable(
     $browse_results,
     $browse_paths,

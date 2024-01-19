@@ -17,7 +17,11 @@ JX.behavior('diffusion-locate-file', function(config) {
   typeahead.setDatasource(datasource);
 
   typeahead.listen('choose', function(r) {
-    JX.$U(config.browseBaseURI + r.ref).go();
+    var browseURI = config.browseBaseURI + r.ref;
+    if (config.symbolicCommit) {
+      browseURI += ';' + config.symbolicCommit;
+    }
+    JX.$U(browseURI).go();
   });
 
   var started = false;

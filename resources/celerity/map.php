@@ -391,7 +391,7 @@ return array(
     'rsrc/js/application/diffusion/behavior-audit-preview.js' => 'b7b73831',
     'rsrc/js/application/diffusion/behavior-commit-branches.js' => '4b671572',
     'rsrc/js/application/diffusion/behavior-commit-graph.js' => 'ac10c917',
-    'rsrc/js/application/diffusion/behavior-locate-file.js' => '87428eb2',
+    'rsrc/js/application/diffusion/behavior-locate-file.js' => '4c77f259',
     'rsrc/js/application/diffusion/behavior-pull-lastmodified.js' => 'c715c123',
     'rsrc/js/application/doorkeeper/behavior-doorkeeper-tag.js' => '6a85bc5a',
     'rsrc/js/application/drydock/drydock-live-operation-status.js' => '47a0728b',
@@ -619,7 +619,7 @@ return array(
     'javelin-behavior-differential-populate' => 'b86ef6c2',
     'javelin-behavior-diffusion-commit-branches' => '4b671572',
     'javelin-behavior-diffusion-commit-graph' => 'ac10c917',
-    'javelin-behavior-diffusion-locate-file' => '87428eb2',
+    'javelin-behavior-diffusion-locate-file' => '4c77f259',
     'javelin-behavior-diffusion-pull-lastmodified' => 'c715c123',
     'javelin-behavior-document-engine' => '243d6c22',
     'javelin-behavior-doorkeeper-tag' => '6a85bc5a',
@@ -1375,6 +1375,13 @@ return array(
       'javelin-install',
       'javelin-dom',
     ),
+    '4c77f259' => array(
+      'javelin-behavior',
+      'javelin-diffusion-locate-file-source',
+      'javelin-dom',
+      'javelin-typeahead',
+      'javelin-uri',
+    ),
     '4dffaeb2' => array(
       'javelin-behavior',
       'javelin-stratcom',
@@ -1671,13 +1678,6 @@ return array(
     ),
     '84f82dad' => array(
       'javelin-install',
-    ),
-    '87428eb2' => array(
-      'javelin-behavior',
-      'javelin-diffusion-locate-file-source',
-      'javelin-dom',
-      'javelin-typeahead',
-      'javelin-uri',
     ),
     '876506b6' => array(
       'javelin-view',
