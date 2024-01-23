@@ -13,7 +13,7 @@ final class PhabricatorCalendarExportPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   protected function buildQueryForObjects(

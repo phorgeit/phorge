@@ -22,7 +22,7 @@ final class PhabricatorRepositoryIdentityEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function newEditableObject() {

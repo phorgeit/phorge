@@ -25,7 +25,7 @@ final class PhamePostEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   protected function newEditableObject() {

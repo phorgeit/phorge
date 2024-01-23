@@ -12,7 +12,7 @@ final class PhrictionDocumentDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   public function loadResults() {

@@ -8,7 +8,7 @@ final class PhabricatorProjectSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function newQuery() {

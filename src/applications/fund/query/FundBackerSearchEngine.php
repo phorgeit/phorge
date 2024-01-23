@@ -19,7 +19,7 @@ final class FundBackerSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {

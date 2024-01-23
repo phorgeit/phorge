@@ -14,7 +14,7 @@ final class PhabricatorPeopleAnyOwnerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   public function getDatasourceFunctions() {

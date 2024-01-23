@@ -112,7 +112,7 @@ final class FundBackerQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
 }

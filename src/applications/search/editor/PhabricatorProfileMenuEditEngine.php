@@ -74,7 +74,7 @@ final class PhabricatorProfileMenuEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   protected function newEditableObject() {

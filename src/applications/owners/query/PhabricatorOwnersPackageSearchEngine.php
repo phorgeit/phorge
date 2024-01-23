@@ -8,7 +8,7 @@ final class PhabricatorOwnersPackageSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorOwnersApplication';
+    return PhabricatorOwnersApplication::class;
   }
 
   public function newQuery() {

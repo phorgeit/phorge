@@ -13,7 +13,7 @@ final class ManiphestTaskPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   protected function buildQueryForObjects(

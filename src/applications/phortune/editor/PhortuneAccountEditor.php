@@ -4,7 +4,7 @@ final class PhortuneAccountEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   public function getEditorObjectsDescription() {

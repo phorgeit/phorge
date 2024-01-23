@@ -4,7 +4,7 @@ final class PhabricatorProjectColumnTransactionEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getEditorObjectsDescription() {

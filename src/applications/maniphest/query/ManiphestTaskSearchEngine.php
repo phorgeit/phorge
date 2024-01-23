@@ -35,7 +35,7 @@ final class ManiphestTaskSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function newQuery() {

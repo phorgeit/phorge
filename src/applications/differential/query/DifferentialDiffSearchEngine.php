@@ -8,7 +8,7 @@ final class DifferentialDiffSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function newQuery() {

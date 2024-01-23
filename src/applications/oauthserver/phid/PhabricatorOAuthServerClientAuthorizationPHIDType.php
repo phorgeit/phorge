@@ -14,7 +14,7 @@ final class PhabricatorOAuthServerClientAuthorizationPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
   protected function buildQueryForObjects(

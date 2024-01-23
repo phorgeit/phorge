@@ -13,7 +13,7 @@ final class PhabricatorRepositoryCommitPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function buildQueryForObjects(

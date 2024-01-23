@@ -12,7 +12,7 @@ final class PhabricatorSearchDocumentTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   public function loadResults() {

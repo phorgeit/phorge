@@ -4,7 +4,7 @@ final class PhabricatorProjectTriggerEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getEditorObjectsDescription() {

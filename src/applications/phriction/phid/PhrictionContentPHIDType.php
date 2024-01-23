@@ -14,7 +14,7 @@ final class PhrictionContentPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   protected function buildQueryForObjects(

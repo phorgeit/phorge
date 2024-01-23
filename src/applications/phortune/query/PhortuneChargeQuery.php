@@ -138,7 +138,7 @@ final class PhortuneChargeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
 }

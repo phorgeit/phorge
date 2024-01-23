@@ -8,7 +8,7 @@ final class PhabricatorNotificationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorNotificationsApplication';
+    return PhabricatorNotificationsApplication::class;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {

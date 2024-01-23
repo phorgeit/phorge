@@ -4,7 +4,7 @@ final class PhabricatorSpacesNamespaceSearchEngine
   extends PhabricatorApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorSpacesApplication';
+    return PhabricatorSpacesApplication::class;
   }
 
   public function getResultTypeDescription() {

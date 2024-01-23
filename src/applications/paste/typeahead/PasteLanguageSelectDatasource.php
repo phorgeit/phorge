@@ -12,7 +12,7 @@ final class PasteLanguageSelectDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return PhabricatorPasteApplication::class;
   }
 
   public function loadResults() {

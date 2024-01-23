@@ -8,7 +8,7 @@ final class PhabricatorWorkerBulkJobSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDaemonsApplication';
+    return PhabricatorDaemonsApplication::class;
   }
 
   public function newQuery() {

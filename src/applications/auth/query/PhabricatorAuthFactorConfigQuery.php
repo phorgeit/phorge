@@ -121,7 +121,7 @@ final class PhabricatorAuthFactorConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
 }

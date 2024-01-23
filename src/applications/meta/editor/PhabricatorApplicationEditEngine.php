@@ -6,7 +6,7 @@ final class PhabricatorApplicationEditEngine
   const ENGINECONST = 'application.application';
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return PhabricatorApplicationsApplication::class;
   }
 
   public function getEngineName() {

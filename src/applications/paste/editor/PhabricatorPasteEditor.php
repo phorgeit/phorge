@@ -10,7 +10,7 @@ final class PhabricatorPasteEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return PhabricatorPasteApplication::class;
   }
 
   public function getEditorObjectsDescription() {

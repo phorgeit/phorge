@@ -4,7 +4,7 @@ final class FundBackerEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   public function getEditorObjectsDescription() {

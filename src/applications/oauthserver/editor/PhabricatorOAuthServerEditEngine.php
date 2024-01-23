@@ -22,7 +22,7 @@ final class PhabricatorOAuthServerEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
   protected function newEditableObject() {

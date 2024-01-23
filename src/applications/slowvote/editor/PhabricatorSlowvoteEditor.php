@@ -4,7 +4,7 @@ final class PhabricatorSlowvoteEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return PhabricatorSlowvoteApplication::class;
   }
 
   public function getEditorObjectsDescription() {

@@ -67,7 +67,7 @@ final class PhabricatorSavedQueryQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
 }

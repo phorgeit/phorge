@@ -4,7 +4,7 @@ final class PhabricatorWorkerBulkJobEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return PhabricatorDaemonsApplication::class;
   }
 
   public function getEditorObjectsDescription() {

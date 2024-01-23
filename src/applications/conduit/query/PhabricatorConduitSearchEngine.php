@@ -8,7 +8,7 @@ final class PhabricatorConduitSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConduitApplication';
+    return PhabricatorConduitApplication::class;
   }
 
   public function canUseInPanelContext() {

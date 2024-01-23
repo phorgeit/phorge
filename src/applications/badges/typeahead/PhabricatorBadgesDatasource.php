@@ -12,7 +12,7 @@ final class PhabricatorBadgesDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
   public function loadResults() {

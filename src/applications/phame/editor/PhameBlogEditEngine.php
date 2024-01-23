@@ -10,7 +10,7 @@ final class PhameBlogEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   public function getSummaryHeader() {

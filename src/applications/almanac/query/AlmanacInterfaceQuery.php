@@ -169,7 +169,7 @@ final class AlmanacInterfaceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return PhabricatorAlmanacApplication::class;
   }
 
   public function getBuiltinOrders() {

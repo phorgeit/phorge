@@ -9,7 +9,7 @@ final class PhabricatorMacroMacroPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return PhabricatorMacroApplication::class;
   }
 
   public function getTypeIcon() {

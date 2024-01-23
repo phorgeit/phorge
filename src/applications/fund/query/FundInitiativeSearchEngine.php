@@ -8,7 +8,7 @@ final class FundInitiativeSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   public function newQuery() {

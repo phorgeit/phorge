@@ -327,7 +327,7 @@ final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

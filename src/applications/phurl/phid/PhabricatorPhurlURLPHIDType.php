@@ -13,7 +13,7 @@ final class PhabricatorPhurlURLPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return PhabricatorPhurlApplication::class;
   }
 
   protected function buildQueryForObjects(

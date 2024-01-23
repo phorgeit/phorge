@@ -84,7 +84,7 @@ final class PhabricatorExternalAccountIdentifierQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
 }

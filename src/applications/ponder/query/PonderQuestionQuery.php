@@ -144,7 +144,7 @@ final class PonderQuestionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
 }

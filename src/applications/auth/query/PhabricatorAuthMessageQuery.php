@@ -73,7 +73,7 @@ final class PhabricatorAuthMessageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
 }

@@ -90,7 +90,7 @@ final class PhrictionTransactionEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   public function getEditorObjectsDescription() {

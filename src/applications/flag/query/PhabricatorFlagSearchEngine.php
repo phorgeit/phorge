@@ -8,7 +8,7 @@ final class PhabricatorFlagSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFlagsApplication';
+    return PhabricatorFlagsApplication::class;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {

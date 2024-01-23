@@ -13,7 +13,7 @@ final class FundInitiativePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   protected function buildQueryForObjects(

@@ -152,7 +152,7 @@ final class PhabricatorConduitMethodQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConduitApplication';
+    return PhabricatorConduitApplication::class;
   }
 
 }

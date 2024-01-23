@@ -12,7 +12,7 @@ final class PhabricatorApplicationDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return PhabricatorApplicationsApplication::class;
   }
 
   public function loadResults() {

@@ -13,7 +13,7 @@ final class NuanceQueuePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   protected function buildQueryForObjects(

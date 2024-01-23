@@ -13,7 +13,7 @@ final class DrydockAuthorizationPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   protected function buildQueryForObjects(

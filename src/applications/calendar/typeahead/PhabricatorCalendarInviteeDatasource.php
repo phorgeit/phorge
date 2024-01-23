@@ -12,7 +12,7 @@ final class PhabricatorCalendarInviteeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function getComponentDatasources() {

@@ -116,7 +116,7 @@ final class HeraldWebhookRequestQuery
 
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
 }

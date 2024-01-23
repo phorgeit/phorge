@@ -34,7 +34,7 @@ final class PhortuneSubscriptionSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {

@@ -22,7 +22,7 @@ final class NuanceQueueEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   protected function newEditableObject() {

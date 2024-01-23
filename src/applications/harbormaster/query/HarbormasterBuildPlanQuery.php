@@ -116,7 +116,7 @@ final class HarbormasterBuildPlanQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
   public function getOrderableColumns() {

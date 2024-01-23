@@ -79,7 +79,7 @@ final class PhabricatorOAuthClientAuthorizationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
 }

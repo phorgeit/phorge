@@ -13,7 +13,7 @@ final class PhabricatorSlowvotePollPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return PhabricatorSlowvoteApplication::class;
   }
 
   protected function buildQueryForObjects(

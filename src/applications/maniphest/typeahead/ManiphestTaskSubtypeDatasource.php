@@ -12,7 +12,7 @@ final class ManiphestTaskSubtypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function loadResults() {

@@ -14,7 +14,7 @@ final class PhabricatorPeopleExternalIdentifierPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   protected function buildQueryForObjects(

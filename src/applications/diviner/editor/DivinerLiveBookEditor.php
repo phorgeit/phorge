@@ -4,7 +4,7 @@ final class DivinerLiveBookEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return PhabricatorDivinerApplication::class;
   }
 
   public function getEditorObjectsDescription() {

@@ -23,7 +23,7 @@ final class PhabricatorAuthSSHKeySearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   public function newQuery() {

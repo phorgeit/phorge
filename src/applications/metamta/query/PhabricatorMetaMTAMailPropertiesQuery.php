@@ -41,7 +41,7 @@ final class PhabricatorMetaMTAMailPropertiesQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
 }

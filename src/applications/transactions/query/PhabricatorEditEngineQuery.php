@@ -43,7 +43,7 @@ final class PhabricatorEditEngineQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return PhabricatorTransactionsApplication::class;
   }
 
 }

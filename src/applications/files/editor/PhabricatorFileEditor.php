@@ -4,7 +4,7 @@ final class PhabricatorFileEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
   public function getEditorObjectsDescription() {

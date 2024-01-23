@@ -12,7 +12,7 @@ final class AlmanacServiceDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return PhabricatorAlmanacApplication::class;
   }
 
   public function loadResults() {

@@ -8,7 +8,7 @@ final class PhabricatorFileSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
   public function canUseInPanelContext() {

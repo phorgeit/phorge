@@ -8,7 +8,7 @@ final class PhabricatorMetaMTAMailSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   public function canUseInPanelContext() {

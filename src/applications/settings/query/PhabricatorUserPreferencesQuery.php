@@ -190,7 +190,7 @@ final class PhabricatorUserPreferencesQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
 }

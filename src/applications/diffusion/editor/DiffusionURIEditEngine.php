@@ -33,7 +33,7 @@ final class DiffusionURIEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function newEditableObject() {

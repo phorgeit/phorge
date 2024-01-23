@@ -34,7 +34,7 @@ final class NuanceSourceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   protected function newEditableObject() {

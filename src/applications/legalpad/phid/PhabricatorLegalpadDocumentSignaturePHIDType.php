@@ -18,7 +18,7 @@ final class PhabricatorLegalpadDocumentSignaturePHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
   protected function buildQueryForObjects(

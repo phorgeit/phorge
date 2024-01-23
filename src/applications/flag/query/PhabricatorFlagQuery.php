@@ -173,7 +173,7 @@ final class PhabricatorFlagQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFlagsApplication';
+    return PhabricatorFlagsApplication::class;
   }
 
 }

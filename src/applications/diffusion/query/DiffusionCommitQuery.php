@@ -931,7 +931,7 @@ final class DiffusionCommitQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   public function getOrderableColumns() {

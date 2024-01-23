@@ -8,7 +8,7 @@ final class PhabricatorProjectColumnSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function canUseInPanelContext() {

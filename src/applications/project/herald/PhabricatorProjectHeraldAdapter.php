@@ -9,7 +9,7 @@ final class PhabricatorProjectHeraldAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getAdapterContentDescription() {

@@ -13,7 +13,7 @@ final class PhabricatorUserPreferencesPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
   protected function buildQueryForObjects(

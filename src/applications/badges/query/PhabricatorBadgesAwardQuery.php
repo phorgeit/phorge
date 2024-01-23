@@ -115,7 +115,7 @@ final class PhabricatorBadgesAwardQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
 }

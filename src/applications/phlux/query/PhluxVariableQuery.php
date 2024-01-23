@@ -89,7 +89,7 @@ final class PhluxVariableQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhluxApplication';
+    return PhabricatorPhluxApplication::class;
   }
 
 }

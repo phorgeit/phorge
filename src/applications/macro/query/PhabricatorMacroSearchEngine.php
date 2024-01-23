@@ -8,7 +8,7 @@ final class PhabricatorMacroSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorMacroApplication';
+    return PhabricatorMacroApplication::class;
   }
 
   public function newQuery() {

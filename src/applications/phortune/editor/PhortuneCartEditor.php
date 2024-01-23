@@ -19,7 +19,7 @@ final class PhortuneCartEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   public function getEditorObjectsDescription() {

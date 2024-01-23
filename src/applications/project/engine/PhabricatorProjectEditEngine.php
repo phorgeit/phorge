@@ -47,7 +47,7 @@ final class PhabricatorProjectEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   protected function newEditableObject() {

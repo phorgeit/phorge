@@ -11,7 +11,7 @@ final class PhabricatorIconDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
   public function loadResults() {

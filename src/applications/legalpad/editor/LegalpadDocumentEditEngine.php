@@ -10,7 +10,7 @@ final class LegalpadDocumentEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
   public function getSummaryHeader() {

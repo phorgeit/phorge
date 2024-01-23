@@ -4,7 +4,7 @@ final class PhabricatorOAuthServerEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
   public function getEditorObjectsDescription() {

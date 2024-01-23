@@ -112,7 +112,7 @@ final class PhabricatorMetaMTAMailQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   protected function shouldGroupQueryResultRows() {

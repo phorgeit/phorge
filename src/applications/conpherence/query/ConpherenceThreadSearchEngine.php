@@ -8,7 +8,7 @@ final class ConpherenceThreadSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   public function newQuery() {

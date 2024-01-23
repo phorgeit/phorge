@@ -85,7 +85,7 @@ final class HarbormasterBuildUnitMessageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
 }

@@ -17,7 +17,7 @@ final class PhabricatorApplicationTransactionTransactionPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return PhabricatorTransactionsApplication::class;
   }
 
   protected function buildQueryForObjects(

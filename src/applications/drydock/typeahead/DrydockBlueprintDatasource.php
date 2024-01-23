@@ -12,7 +12,7 @@ final class DrydockBlueprintDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function loadResults() {

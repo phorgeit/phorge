@@ -4,7 +4,7 @@ final class PhabricatorPhurlURLEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return PhabricatorPhurlApplication::class;
   }
 
   public function getEditorObjectsDescription() {

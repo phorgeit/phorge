@@ -12,7 +12,7 @@ final class PhabricatorSpacesNamespaceDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return PhabricatorSpacesApplication::class;
   }
 
   public function loadResults() {

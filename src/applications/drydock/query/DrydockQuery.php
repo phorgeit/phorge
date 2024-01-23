@@ -3,7 +3,7 @@
 abstract class DrydockQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
 }

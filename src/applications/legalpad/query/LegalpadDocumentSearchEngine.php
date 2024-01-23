@@ -8,7 +8,7 @@ final class LegalpadDocumentSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
   public function newQuery() {

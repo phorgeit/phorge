@@ -107,7 +107,7 @@ final class PhabricatorConduitLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConduitApplication';
+    return PhabricatorConduitApplication::class;
   }
 
 }

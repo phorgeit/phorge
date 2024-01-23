@@ -22,7 +22,7 @@ final class AlmanacNamespaceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return PhabricatorAlmanacApplication::class;
   }
 
   protected function newEditableObject() {

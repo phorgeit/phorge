@@ -4,7 +4,7 @@ final class PhabricatorMacroEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return PhabricatorMacroApplication::class;
   }
 
   public function getEditorObjectsDescription() {

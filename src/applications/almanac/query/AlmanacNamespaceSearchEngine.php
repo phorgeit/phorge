@@ -8,7 +8,7 @@ final class AlmanacNamespaceSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorAlmanacApplication';
+    return PhabricatorAlmanacApplication::class;
   }
 
   public function newQuery() {

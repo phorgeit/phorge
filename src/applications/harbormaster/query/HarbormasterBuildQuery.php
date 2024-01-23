@@ -219,7 +219,7 @@ final class HarbormasterBuildQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

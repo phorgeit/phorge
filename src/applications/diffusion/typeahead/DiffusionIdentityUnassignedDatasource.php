@@ -14,7 +14,7 @@ final class DiffusionIdentityUnassignedDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   public function getDatasourceFunctions() {

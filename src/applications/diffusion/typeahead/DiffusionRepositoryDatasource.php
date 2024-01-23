@@ -12,7 +12,7 @@ final class DiffusionRepositoryDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   public function loadResults() {

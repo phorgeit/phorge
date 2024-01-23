@@ -128,7 +128,7 @@ final class PhabricatorAuthSSHKeyQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
 }

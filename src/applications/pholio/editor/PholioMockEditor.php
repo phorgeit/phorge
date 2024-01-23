@@ -5,7 +5,7 @@ final class PholioMockEditor extends PhabricatorApplicationTransactionEditor {
   private $images = array();
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return PhabricatorPholioApplication::class;
   }
 
   public function getEditorObjectsDescription() {

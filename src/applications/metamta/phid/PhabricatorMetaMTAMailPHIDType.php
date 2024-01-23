@@ -13,7 +13,7 @@ final class PhabricatorMetaMTAMailPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   protected function buildQueryForObjects(

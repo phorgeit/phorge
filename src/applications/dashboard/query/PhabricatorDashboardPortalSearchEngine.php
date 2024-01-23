@@ -8,7 +8,7 @@ final class PhabricatorDashboardPortalSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   public function newQuery() {

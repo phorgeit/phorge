@@ -128,7 +128,7 @@ final class PhabricatorFileChunkQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
 }

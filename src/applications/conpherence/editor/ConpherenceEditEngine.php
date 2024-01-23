@@ -10,7 +10,7 @@ final class ConpherenceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   public function getSummaryHeader() {

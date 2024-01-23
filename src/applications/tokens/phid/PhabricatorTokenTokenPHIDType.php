@@ -13,7 +13,7 @@ final class PhabricatorTokenTokenPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return PhabricatorTokensApplication::class;
   }
 
   protected function buildQueryForObjects(

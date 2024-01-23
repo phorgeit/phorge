@@ -24,7 +24,7 @@ final class PhabricatorAuthMessageEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   public function setMessageType(PhabricatorAuthMessageType $type) {

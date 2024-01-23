@@ -5,7 +5,7 @@ final class HeraldPholioMockAdapter extends HeraldAdapter {
   private $mock;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return PhabricatorPholioApplication::class;
   }
 
   public function getAdapterContentDescription() {

@@ -18,7 +18,7 @@ final class PhabricatorApplicationApplicationPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorApplicationsApplication';
+    return PhabricatorApplicationsApplication::class;
   }
 
   protected function buildQueryForObjects(

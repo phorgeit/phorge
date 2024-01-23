@@ -8,7 +8,7 @@ final class DrydockLeaseDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function loadResults() {

@@ -14,7 +14,7 @@ final class PhabricatorCalendarExternalInviteePHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   protected function buildQueryForObjects(

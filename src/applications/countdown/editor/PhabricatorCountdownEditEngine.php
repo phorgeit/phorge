@@ -22,7 +22,7 @@ final class PhabricatorCountdownEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return PhabricatorCountdownApplication::class;
   }
 
   protected function newEditableObject() {

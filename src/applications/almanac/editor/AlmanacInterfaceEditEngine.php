@@ -36,7 +36,7 @@ final class AlmanacInterfaceEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAlmanacApplication';
+    return PhabricatorAlmanacApplication::class;
   }
 
   protected function newEditableObject() {

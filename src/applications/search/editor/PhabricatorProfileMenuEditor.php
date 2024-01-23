@@ -4,7 +4,7 @@ final class PhabricatorProfileMenuEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   public function getEditorObjectsDescription() {

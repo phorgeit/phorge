@@ -14,7 +14,7 @@ final class DifferentialRevisionClosedStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function getDatasourceFunctions() {

@@ -20,7 +20,7 @@ final class DiffusionRepositoryIdentityEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
 }

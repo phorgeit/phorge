@@ -7,7 +7,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPholioApplication';
+    return PhabricatorPholioApplication::class;
   }
 
   public function newQuery() {

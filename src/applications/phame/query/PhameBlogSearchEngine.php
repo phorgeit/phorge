@@ -8,7 +8,7 @@ final class PhameBlogSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   public function newQuery() {

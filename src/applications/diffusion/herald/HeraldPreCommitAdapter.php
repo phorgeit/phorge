@@ -22,7 +22,7 @@ abstract class HeraldPreCommitAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   public function isTestAdapterForObject($object) {

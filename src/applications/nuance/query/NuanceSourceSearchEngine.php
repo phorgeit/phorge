@@ -4,7 +4,7 @@ final class NuanceSourceSearchEngine
   extends PhabricatorApplicationSearchEngine {
 
   public function getApplicationClassName() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   public function getResultTypeDescription() {

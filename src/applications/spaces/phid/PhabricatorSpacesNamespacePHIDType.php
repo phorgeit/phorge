@@ -14,7 +14,7 @@ final class PhabricatorSpacesNamespacePHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return PhabricatorSpacesApplication::class;
   }
 
   protected function buildQueryForObjects(

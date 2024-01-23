@@ -360,7 +360,7 @@ final class PhabricatorPeopleQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   public function getOrderableColumns() {

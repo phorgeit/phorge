@@ -15,7 +15,7 @@ final class DifferentialTransactionEditor
   private $ownersChangesets;
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function getEditorObjectsDescription() {

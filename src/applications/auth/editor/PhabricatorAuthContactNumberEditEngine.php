@@ -22,7 +22,7 @@ final class PhabricatorAuthContactNumberEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   protected function newEditableObject() {

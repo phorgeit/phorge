@@ -6,7 +6,7 @@ final class ConpherenceEditor extends PhabricatorApplicationTransactionEditor {
   const ERROR_EMPTY_MESSAGE = 'error-empty-message';
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   public function getEditorObjectsDescription() {

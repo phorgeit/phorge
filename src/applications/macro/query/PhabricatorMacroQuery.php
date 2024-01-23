@@ -230,7 +230,7 @@ final class PhabricatorMacroQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return PhabricatorMacroApplication::class;
   }
 
   public function getOrderableColumns() {

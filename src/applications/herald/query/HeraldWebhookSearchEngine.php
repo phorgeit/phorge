@@ -8,7 +8,7 @@ final class HeraldWebhookSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function newQuery() {

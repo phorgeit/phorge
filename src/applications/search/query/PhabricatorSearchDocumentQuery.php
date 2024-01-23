@@ -99,7 +99,7 @@ final class PhabricatorSearchDocumentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   protected function nextPage(array $page) {

@@ -78,7 +78,7 @@ final class PonderAnswerQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
 }

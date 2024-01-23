@@ -22,7 +22,7 @@ final class HeraldWebhookEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   protected function newEditableObject() {

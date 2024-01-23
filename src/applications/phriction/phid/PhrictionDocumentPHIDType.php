@@ -13,7 +13,7 @@ final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   protected function buildQueryForObjects(

@@ -4,7 +4,7 @@ abstract class PhabricatorPackagesEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return PhabricatorPackagesApplication::class;
   }
 
   protected function supportsSearch() {

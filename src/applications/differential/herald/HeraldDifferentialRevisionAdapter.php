@@ -13,7 +13,7 @@ final class HeraldDifferentialRevisionAdapter
   private $buildRequests = array();
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   protected function newObject() {

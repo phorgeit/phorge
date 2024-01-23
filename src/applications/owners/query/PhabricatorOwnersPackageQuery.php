@@ -284,7 +284,7 @@ final class PhabricatorOwnersPackageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return PhabricatorOwnersApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

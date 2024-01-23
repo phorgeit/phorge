@@ -513,7 +513,7 @@ final class PhabricatorCalendarEventQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   protected function willFilterPage(array $events) {

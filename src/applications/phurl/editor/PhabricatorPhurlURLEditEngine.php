@@ -10,7 +10,7 @@ final class PhabricatorPhurlURLEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return PhabricatorPhurlApplication::class;
   }
 
   public function getSummaryHeader() {

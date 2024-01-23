@@ -7,7 +7,7 @@ final class ManiphestTransactionEditor
   private $moreValidationErrors = array();
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function getEditorObjectsDescription() {

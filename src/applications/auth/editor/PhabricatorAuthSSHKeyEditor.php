@@ -15,7 +15,7 @@ final class PhabricatorAuthSSHKeyEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   public function getEditorObjectsDescription() {

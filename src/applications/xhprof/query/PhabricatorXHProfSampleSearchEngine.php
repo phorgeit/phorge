@@ -8,7 +8,7 @@ final class PhabricatorXHProfSampleSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorXHProfApplication';
+    return PhabricatorXHProfApplication::class;
   }
 
   public function newQuery() {

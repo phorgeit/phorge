@@ -149,7 +149,7 @@ final class PhabricatorProfileMenuItemConfigurationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

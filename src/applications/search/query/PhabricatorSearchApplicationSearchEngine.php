@@ -10,7 +10,7 @@ final class PhabricatorSearchApplicationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   public function buildSavedQueryFromRequest(AphrontRequest $request) {

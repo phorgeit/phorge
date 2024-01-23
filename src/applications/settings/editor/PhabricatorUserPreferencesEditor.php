@@ -4,7 +4,7 @@ final class PhabricatorUserPreferencesEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
   public function getEditorObjectsDescription() {

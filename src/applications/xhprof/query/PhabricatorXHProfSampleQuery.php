@@ -41,7 +41,7 @@ final class PhabricatorXHProfSampleQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorXHProfApplication';
+    return PhabricatorXHProfApplication::class;
   }
 
 }

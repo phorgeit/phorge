@@ -7,7 +7,7 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function newQuery() {

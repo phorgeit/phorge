@@ -12,7 +12,7 @@ final class PhabricatorProjectLogicalViewerDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getDatasourceFunctions() {

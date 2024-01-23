@@ -67,7 +67,7 @@ final class FundInitiativeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

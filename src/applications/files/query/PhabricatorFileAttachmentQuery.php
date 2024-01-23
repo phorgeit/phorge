@@ -125,7 +125,7 @@ final class PhabricatorFileAttachmentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
 }

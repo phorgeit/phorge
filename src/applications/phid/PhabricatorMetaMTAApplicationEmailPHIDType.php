@@ -18,7 +18,7 @@ final class PhabricatorMetaMTAApplicationEmailPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   protected function buildQueryForObjects(

@@ -8,7 +8,7 @@ final class PonderQuestionSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
   public function newQuery() {

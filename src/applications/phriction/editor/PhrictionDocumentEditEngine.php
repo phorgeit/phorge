@@ -22,7 +22,7 @@ final class PhrictionDocumentEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   protected function newEditableObject() {

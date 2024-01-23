@@ -21,7 +21,7 @@ final class PhortuneAccountEmailEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   public function getSummaryHeader() {

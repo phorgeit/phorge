@@ -8,7 +8,7 @@ final class PassphraseCredentialSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPassphraseApplication';
+    return PhabricatorPassphraseApplication::class;
   }
 
   public function newQuery() {

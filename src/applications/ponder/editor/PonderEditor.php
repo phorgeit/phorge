@@ -4,7 +4,7 @@ abstract class PonderEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
    protected function getMailSubjectPrefix() {

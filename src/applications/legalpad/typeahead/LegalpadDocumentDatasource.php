@@ -16,7 +16,7 @@ final class LegalpadDocumentDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
   public function loadResults() {
