@@ -9,11 +9,7 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => '2f25eb4f',
     'conpherence.pkg.js' => '020aebcf',
-<<<<<<< HEAD
-    'core.pkg.css' => 'c753df75',
-=======
-    'core.pkg.css' => '77d64402',
->>>>>>> 67b4f957d1 (Revert "Added cross-platform default fonts")
+    'core.pkg.css' => '7f47b2ac',
     'core.pkg.js' => '2eeda9e0',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '6d3700f0',
@@ -112,13 +108,8 @@ return array(
     'rsrc/css/application/slowvote/slowvote.css' => '1694baed',
     'rsrc/css/application/tokens/tokens.css' => 'ce5a50bd',
     'rsrc/css/application/uiexample/example.css' => 'b4795059',
-<<<<<<< HEAD
-    'rsrc/css/core/core.css' => 'b3a5928e',
-    'rsrc/css/core/remarkup.css' => 'd91c2ee8',
-=======
     'rsrc/css/core/core.css' => '531ad849',
-    'rsrc/css/core/remarkup.css' => 'b251d2e7',
->>>>>>> 67b4f957d1 (Revert "Added cross-platform default fonts")
+    'rsrc/css/core/remarkup.css' => 'd91c2ee8',
     'rsrc/css/core/syntax.css' => '548567f6',
     'rsrc/css/core/z-index.css' => 'ac3bfcd4',
     'rsrc/css/diviner/diviner-shared.css' => '4bd263b0',
