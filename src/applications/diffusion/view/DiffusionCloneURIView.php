@@ -40,6 +40,7 @@ final class DiffusionCloneURIView extends AphrontView {
     require_celerity_resource('diffusion-icons-css');
 
     Javelin::initBehavior('select-content');
+    Javelin::initBehavior('phabricator-clipboard-copy');
 
     $uri_id = celerity_generate_unique_node_id();
 
@@ -53,6 +54,11 @@ final class DiffusionCloneURIView extends AphrontView {
         'value' => $display,
         'class' => 'diffusion-clone-uri',
         'readonly' => 'true',
+        'sigil' => 'select-content',
+        'meta' => array(
+          'selectID' => $uri_id,
+          'once' => true,
+        ),
       ));
 
     $uri = $this->getRepositoryURI();
@@ -71,17 +77,30 @@ final class DiffusionCloneURIView extends AphrontView {
         break;
     }
 
-    $io = id(new PHUIButtonView())
+    $io = javelin_tag(
+      'span',
+      array(
+        'class' => 'diffusion-clone-uri-io',
+        'sigil' => 'has-tooltip',
+        'meta' => array(
+          'tip' => $io_tip,
+        ),
+      ),
+      id(new PHUIIconView())->setIcon($io_icon));
+
+    $copy = id(new PHUIButtonView())
       ->setTag('a')
       ->setColor(PHUIButtonView::GREY)
-      ->setIcon($io_icon)
+      ->setIcon('fa-clipboard')
       ->setHref('#')
-      ->addSigil('select-content')
+      ->addSigil('clipboard-copy')
       ->addSigil('has-tooltip')
       ->setMetadata(
         array(
-          'tip' => $io_tip,
-          'selectID' => $uri_id,
+          'tip' => pht('Copy repository URI'),
+          'text' => $display,
+          'successMessage' => pht('Repository URI copied.'),
+          'errorMessage' => pht('Copy of Repository URI failed.'),
         ));
 
     switch ($uri->getEffectiveIOType()) {
@@ -121,19 +140,18 @@ final class DiffusionCloneURIView extends AphrontView {
       ->setHref($auth_uri)
       ->setDisabled($auth_disabled);
 
-    $cells = array();
-    $cells[] = phutil_tag('td', array(), $input);
-    $cells[] = phutil_tag('th', array(), $io);
-    $cells[] = phutil_tag('th', array(), $credentials);
-
-    $row = phutil_tag('tr', array(), $cells);
+    $elements = array();
+    $elements[] = $io;
+    $elements[] = $input;
+    $elements[] = $copy;
+    $elements[] = $credentials;
 
     return phutil_tag(
-      'table',
+      'div',
       array(
-        'class' => 'diffusion-clone-uri-table',
+        'class' => 'diffusion-clone-uri-wrapper',
       ),
-      $row);
+      $elements);
   }
 
 }

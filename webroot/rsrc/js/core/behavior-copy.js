@@ -3,41 +3,81 @@
  * @requires javelin-behavior
  *           javelin-dom
  *           javelin-stratcom
+ *           phabricator-notification
  * @javelin
  */
 
 JX.behavior('phabricator-clipboard-copy', function() {
 
-  if (!document.queryCommandSupported) {
-    return;
-  }
+  var fallback_working = document.queryCommandSupported &&
+    document.queryCommandSupported('copy');
 
-  if (!document.queryCommandSupported('copy')) {
+  if (!navigator.clipboard && !fallback_working) {
     return;
   }
 
   JX.DOM.alterClass(document.body, 'supports-clipboard', true);
 
-  JX.Stratcom.listen('click', 'clipboard-copy', function(e) {
-    e.kill();
-
-    var data = e.getNodeData('clipboard-copy');
+  var copy_fallback = function(text) {
     var attr = {
-      value: data.text || '',
+      value: text || '',
       className: 'clipboard-buffer'
     };
 
     var node = JX.$N('textarea', attr);
     document.body.appendChild(node);
 
-    try {
-      node.select();
-      document.execCommand('copy');
-    } catch (ignored) {
-      // Ignore any errors we hit.
-    }
+    node.select();
+    document.execCommand('copy');
 
-   JX.DOM.remove(node);
+    JX.DOM.remove(node);
+  };
+
+  var show_success_message = function(message) {
+    if (!message) {
+      return;
+    }
+    new JX.Notification()
+      .setContent(message)
+      .alterClassName('jx-notification-done', true)
+      .setDuration(8000)
+      .show();
+  };
+
+  var show_error_message = function(message) {
+    if (!message) {
+      return;
+    }
+    new JX.Notification()
+      .setContent(message)
+      .alterClassName('jx-notification-error', true)
+      .setDuration(8000)
+      .show();
+  };
+
+  JX.Stratcom.listen('click', 'clipboard-copy', function(e) {
+    var data = e.getNodeData('clipboard-copy');
+    var text = data.text || '';
+
+    var copy = async function( // jshint ignore:line
+      text,
+      successMessage,
+      errorMessage
+    ) {
+      try {
+        if (navigator.clipboard) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          copy_fallback(text);
+        }
+        show_success_message(successMessage);
+      } catch (ex) {
+        show_error_message(errorMessage);
+      }
+    };
+
+    e.kill();
+    copy(text, data.successMessage, data.errorMessage);
   });
 
 });
