@@ -1,0 +1,5 @@
+some red, grey and white for you: {#ff0000} {#999999} {#ffffff} Also green: {#0F0} but not this: {#0000000} or this: {#0000}
+~~~~~~~~~~
+<p>some red, grey and white for you: <tt class="remarkup-monospaced" style="color: white; background-color: #ff0000;">#ff0000</tt> <tt class="remarkup-monospaced" style="color: white; background-color: #999999;">#999999</tt> <tt class="remarkup-monospaced" style="color: black; background-color: #ffffff;">#ffffff</tt> Also green: <tt class="remarkup-monospaced" style="color: white; background-color: #0F0;">#0F0</tt> but not this: {#0000000} or this: {#0000}</p>
+~~~~~~~~~~
+some red, grey and white for you: #ff0000 #999999 #ffffff Also green: #0F0 but not this: {#0000000} or this: {#0000}

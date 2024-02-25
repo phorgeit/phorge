@@ -91,6 +91,7 @@ final class PhutilRemarkupEngineTestCase extends PhutilTestCase {
     $rules = array();
     $rules[] = new PhutilRemarkupEscapeRemarkupRule();
     $rules[] = new PhutilRemarkupMonospaceRule();
+    $rules[] = new PhutilRemarkupHexColorCodeRule();
     $rules[] = new PhutilRemarkupDocumentLinkRule();
     $rules[] = new PhutilRemarkupHyperlinkRule();
     $rules[] = new PhutilRemarkupBoldRule();
