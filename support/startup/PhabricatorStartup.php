@@ -577,7 +577,7 @@ final class PhabricatorStartup {
       self::didFatal(
         'This HTTP request included a "Proxy:" header, poisoning the '.
         'environment (CVE-2016-5385 / httpoxy). Declining to process this '.
-        'request. For details, see: https://phurl.io/u/httpoxy');
+        'request. For details, see: https://secure.phabricator.com/T11359');
     }
   }
 

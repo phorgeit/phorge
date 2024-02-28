@@ -184,8 +184,8 @@ like this:
   - Configure a mailer in `cluster.mailers` with your Mailgun API key.
 
 Use of Mailgun is discouraged because of concerns that they may not be a
-trustworthy custodian of sensitive data. See <https://phurl.io/u/mailgun> for
-discussion and context.
+trustworthy custodian of sensitive data.
+See <https://secure.phabricator.com/T13669> for discussion and context.
 
 Postmark Setup
 ==============

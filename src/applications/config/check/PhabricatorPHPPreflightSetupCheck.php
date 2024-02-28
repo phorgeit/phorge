@@ -18,7 +18,7 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
         'You are running PHP version %s. PHP versions between 7.0 and 7.1 '.
         'are not supported'.
         "\n\n".
-        'PHP removed reqiured signal handling features in '.
+        'PHP removed required signal handling features in '.
         'PHP 7.0, and did not restore an equivalent mechanism until PHP 7.1.'.
         "\n\n".
         'Upgrade to PHP 7.1 or newer (recommended) or downgrade to an older '.
@@ -30,7 +30,7 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
         ->setName(pht('PHP 7.0-7.1 Not Supported'))
         ->setMessage($message)
         ->addLink(
-          'https://phurl.io/u/php7',
+          'https://secure.phabricator.com/T12101',
           pht('PHP 7 Compatibility Information'));
 
       return;
