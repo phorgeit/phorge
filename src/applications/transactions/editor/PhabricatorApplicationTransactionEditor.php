@@ -2320,6 +2320,7 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $xaction = $object->getApplicationTransactionTemplate()
+      ->setIgnoreOnNoEffect(true)
       ->setTransactionType(PhabricatorTransactions::TYPE_FILE)
       ->setMetadataValue('attach.implicit', true)
       ->setNewValue($new_map);
