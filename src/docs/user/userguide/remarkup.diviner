@@ -196,6 +196,9 @@ When rendered, this produces:
   - [X] Preheat oven to 450 degrees.
   - [ ] Zest 35 lemons.
 
+Code Blocks
+===========
+
 Make **code blocks** by indenting two spaces:
 
   f(x, y);
@@ -210,6 +213,9 @@ You can specify a language for syntax highlighting with `lang=xxx`:
   lang=text
   lang=html
   <a href="#">...</a>
+
+When using fenced code blocks (triple backticks) you can simply append the
+language right after the backticks, like this: ##```html##
 
 This will highlight the block using a highlighter for that language, if one is
 available (in most cases, this means you need to configure Pygments):
