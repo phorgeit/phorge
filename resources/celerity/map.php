@@ -20,6 +20,7 @@ return array(
     'maniphest.pkg.js' => 'c9308721',
     'rsrc/audio/basic/alert.mp3' => '17889334',
     'rsrc/audio/basic/bing.mp3' => 'a817a0c3',
+    'rsrc/audio/basic/coin.mp3' => '44ef365f',
     'rsrc/audio/basic/pock.mp3' => '0fa843d0',
     'rsrc/audio/basic/tap.mp3' => '02d16994',
     'rsrc/audio/basic/ting.mp3' => 'a6b6540e',

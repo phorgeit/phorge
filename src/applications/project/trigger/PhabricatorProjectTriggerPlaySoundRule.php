@@ -99,6 +99,10 @@ final class PhabricatorProjectTriggerPlaySoundRule
         'name' => pht('Bing'),
         'uri' => celerity_get_resource_uri('/rsrc/audio/basic/bing.mp3'),
       ),
+      'coin' => array(
+        'name' => pht('Coin'),
+        'uri' => celerity_get_resource_uri('/rsrc/audio/basic/coin.mp3'),
+      ),
       'glass' => array(
         'name' => pht('Glass'),
         'uri' => celerity_get_resource_uri('/rsrc/audio/basic/ting.mp3'),
