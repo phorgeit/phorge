@@ -243,6 +243,12 @@ final class PhabricatorEnvTestCase extends PhabricatorTestCase {
       'https://old.example.com/path/to/resource.png' => true,
 
       'https://other.example.com/' => false,
+
+      '/' => true,
+      '/self' => true,
+      '#self' => true,
+      '/#self' => true,
+      '/self/#self' => true,
     );
 
     foreach ($map as $input => $expect) {

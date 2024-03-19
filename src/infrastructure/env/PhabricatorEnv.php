@@ -433,7 +433,7 @@ final class PhabricatorEnv extends Phobject {
 
     $host = $uri->getDomain();
     if (!phutil_nonempty_string($host)) {
-      return false;
+      return true;
     }
 
     $host = phutil_utf8_strtolower($host);
