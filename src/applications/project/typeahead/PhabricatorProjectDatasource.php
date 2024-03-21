@@ -96,7 +96,7 @@ final class PhabricatorProjectDatasource
 
       // If we're building results for the autocompleter and this project
       // doesn't have any usable slugs, don't return it as a result.
-      if ($for_autocomplete && !strlen($slug)) {
+      if ($for_autocomplete && !phutil_nonempty_string($slug)) {
         continue;
       }
 
