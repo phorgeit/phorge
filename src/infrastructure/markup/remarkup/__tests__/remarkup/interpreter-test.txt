@@ -30,9 +30,7 @@ Argv: ()
 Content: (content)
 Argv: (x=y)
 
-
-
-<div class="remarkup-interpreter-error">No interpreter found: phutil_fake_test_block_interpreter</div>
+<p>phutil_fake_test_block_interpreter {{{ content }}}</p>
 ~~~~~~~~~~
 Content: (content)
 Argv: (foo=bar)
@@ -53,6 +51,4 @@ Argv: ()
 Content: (content)
 Argv: (x=y)
 
-
-
-(No interpreter found: phutil_fake_test_block_interpreter)
+phutil_fake_test_block_interpreter {{{ content }}}
