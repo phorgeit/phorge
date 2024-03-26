@@ -1,0 +1,7 @@
+  name=/etc/phpmyadmin/config.txt
+  $lol = 1;
+~~~~~~~~~~
+<div class="remarkup-code-block" data-code-lang="txt" data-sigil="remarkup-code-block"><div class="remarkup-code-header">/etc/phpmyadmin/config.txt</div><pre class="remarkup-code">$lol = 1;</pre></div>
+~~~~~~~~~~
+name=/etc/phpmyadmin/config.txt
+  $lol = 1;
