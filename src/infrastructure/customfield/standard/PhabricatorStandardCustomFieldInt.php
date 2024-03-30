@@ -48,15 +48,28 @@ final class PhabricatorStandardCustomFieldInt
     return $request->getStr($this->getFieldKey());
   }
 
+  /**
+   * Apply an application search constraint to a query.
+   * If you have a field of type integer, and a value (or an array of values),
+   * the result set will be limited to the rows with these values.
+   * @param PhabricatorApplicationSearchEngine $engine
+   * @param PhabricatorCursorPagedPolicyAwareQuery $query
+   * @param mixed $value Single value or array of values (IN query).
+   */
   public function applyApplicationSearchConstraintToQuery(
     PhabricatorApplicationSearchEngine $engine,
     PhabricatorCursorPagedPolicyAwareQuery $query,
     $value) {
 
-    if (phutil_nonempty_scalar($value)) {
-      $query->withApplicationSearchContainsConstraint(
-        $this->newNumericIndex(null),
-        $value);
+    // The basic use case is with a single value.
+    // The backend really works with an array. So also array allowed.
+    if (is_array($value) || phutil_nonempty_scalar($value)) {
+      $value = (array)$value;
+      if ($value) {
+        $query->withApplicationSearchContainsConstraint(
+          $this->newNumericIndex(null),
+          $value);
+      }
     }
   }
 
