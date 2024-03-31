@@ -524,7 +524,7 @@ EOBODY
   public function newFromAddress() {
     $raw_from = $this->getHeader('From');
 
-    if (strlen($raw_from)) {
+    if (phutil_nonempty_string($raw_from)) {
       return new PhutilEmailAddress($raw_from);
     }
 
