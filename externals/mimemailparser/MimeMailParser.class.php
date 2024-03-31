@@ -32,6 +32,11 @@ class MimeMailParser {
 	public $attachment_streams;
 
 	/**
+	 * Parts of an email
+	 */
+	private $parts = array();
+
+	/**
 	 * Inialize some stuff
 	 * @return
 	 */
