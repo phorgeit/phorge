@@ -109,7 +109,7 @@ final class DiffusionRepositoryController extends DiffusionController {
         ->setErrors(array($empty_message));
     }
 
-    $tabs = $this->buildTabsView('code');
+    $tabs = $this->buildTabsView('home');
 
     $clone_uri = $drequest->generateURI(
       array(
@@ -243,15 +243,15 @@ final class DiffusionRepositoryController extends DiffusionController {
       $readme = null;
     }
 
+    if ($readme) {
+      $content[] = $readme;
+    }
+
     $content[] = $this->buildBrowseTable(
       $browse_results,
       $browse_paths,
       $browse_exception,
       $browse_pager);
-
-    if ($readme) {
-      $content[] = $readme;
-    }
 
     try {
       $branch_button = $this->buildBranchList($drequest);
@@ -396,7 +396,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     foreach ($branches as $branch) {
       $branch_uri = $drequest->generateURI(
         array(
-          'action' => 'browse',
+          'action' => 'branch',
           'branch' => $branch->getShortname(),
         ));
       $actions->addAction(

@@ -211,7 +211,7 @@ abstract class DiffusionController extends PhabricatorController {
         $view_name = pht('History');
         break;
       case 'browse':
-        $view_name = pht('Browse');
+        $view_name = pht('Code');
         break;
       case 'lint':
         $view_name = pht('Lint');
@@ -501,6 +501,18 @@ abstract class DiffusionController extends PhabricatorController {
     $repository = $drequest->getRepository();
 
     $view = new PHUIListView();
+
+    $view->addMenuItem(
+      id(new PHUIListItemView())
+        ->setKey('home')
+        ->setName(pht('Home'))
+        ->setIcon('fa-home')
+        ->setHref($drequest->generateURI(
+          array(
+            'action' => 'branch',
+            'path' => '',
+          )))
+        ->setSelected($key == 'home'));
 
     $view->addMenuItem(
       id(new PHUIListItemView())
