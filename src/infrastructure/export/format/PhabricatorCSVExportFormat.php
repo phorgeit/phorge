@@ -48,11 +48,11 @@ final class PhabricatorCSVExportFormat
       // like it might be too tempting for Excel to ignore, mangle the value
       // to dissuade remote code execution. See T12800.
 
-      if (preg_match('/^\s*[+=@-]/', $value)) {
+      if ($value && preg_match('/^\s*[+=@-]/', $value)) {
         $value = '(!) '.$value;
       }
 
-      if (preg_match('/\s|,|\"/', $value)) {
+      if ($value && preg_match('/\s|,|\"/', $value)) {
         $value = str_replace('"', '""', $value);
         $value = '"'.$value.'"';
       }
