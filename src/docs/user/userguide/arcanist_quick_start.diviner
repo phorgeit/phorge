@@ -20,7 +20,7 @@ First, install dependencies:
 
 Then install Arcanist itself:
 
-  somewhere/ $ git clone https://github.com/phacility/arcanist.git
+  somewhere/ $ git clone https://github.com/phorgeit/arcanist.git
 
 Add `arc` to your path:
 
