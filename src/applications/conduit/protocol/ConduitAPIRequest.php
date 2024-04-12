@@ -17,6 +17,13 @@ final class ConduitAPIRequest extends Phobject {
     return coalesce(idx($this->params, $key), $default);
   }
 
+  public function getIntValue($key, $default = 'undefined_magic_text') {
+    if ($default === 'undefined_magic_text' && !$this->getValueExists($key)) {
+      throw new Exception(pht('Required int param not provided: %s', $key));
+    }
+    return (int)$this->getValue($key, $default);
+  }
+
   public function getValueExists($key) {
     return array_key_exists($key, $this->params);
   }

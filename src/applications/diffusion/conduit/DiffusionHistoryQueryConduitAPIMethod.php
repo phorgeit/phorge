@@ -51,8 +51,8 @@ final class DiffusionHistoryQueryConduitAPIMethod
       $path = null;
     }
 
-    $offset = $request->getValue('offset');
-    $limit = $request->getValue('limit');
+    $offset = $request->getIntValue('offset');
+    $limit = $request->getIntValue('limit', 100);
 
     if (phutil_nonempty_string($against_hash)) {
       $commit_range = "{$against_hash}..{$commit_hash}";
