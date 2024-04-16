@@ -5,7 +5,7 @@ abstract class NuanceManagementWorkflow
 
   protected function loadSource(PhutilArgumentParser $argv, $key) {
     $source = $argv->getArg($key);
-    if (!strlen($source)) {
+    if (!phutil_nonempty_string($source)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify a source with %s.',
