@@ -21,7 +21,7 @@ final class PhabricatorSearchManagementQueryWorkflow
   public function execute(PhutilArgumentParser $args) {
     $viewer = $this->getViewer();
     $raw_query = $args->getArg('query');
-    if (!strlen($raw_query)) {
+    if (!phutil_nonempty_string($raw_query)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a query with --query.'));
     }
