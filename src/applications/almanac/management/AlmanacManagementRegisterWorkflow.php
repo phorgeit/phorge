@@ -38,7 +38,7 @@ final class AlmanacManagementRegisterWorkflow
     $viewer = $this->getViewer();
 
     $device_name = $args->getArg('device');
-    if (!strlen($device_name)) {
+    if (!phutil_nonempty_string($device_name)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a device with --device.'));
     }
@@ -55,7 +55,7 @@ final class AlmanacManagementRegisterWorkflow
     $identify_as = $args->getArg('identify-as');
 
     $raw_device = $device_name;
-    if (strlen($identify_as)) {
+    if (phutil_nonempty_string($identify_as)) {
       $raw_device = $identify_as;
     }
 
@@ -70,7 +70,7 @@ final class AlmanacManagementRegisterWorkflow
     }
 
     $private_key_path = $args->getArg('private-key');
-    if (!strlen($private_key_path)) {
+    if (!phutil_nonempty_string($private_key_path)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a private key with --private-key.'));
     }
