@@ -30,7 +30,7 @@ final class HeraldTestManagementWorkflow
     $viewer = $this->getViewer();
 
     $object_name = $args->getArg('object');
-    if (!strlen($object_name)) {
+    if (!phutil_nonempty_string($object_name)) {
       throw new PhutilArgumentUsageException(
         pht('Specify an object to test rules for with "--object".'));
     }
@@ -69,7 +69,7 @@ final class HeraldTestManagementWorkflow
 
 
     $content_type = $args->getArg('type');
-    if (!strlen($content_type)) {
+    if (!phutil_nonempty_string($content_type)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify a content type to run rules for. For this object, valid '.
