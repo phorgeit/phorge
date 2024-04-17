@@ -51,7 +51,7 @@ final class PhabricatorBulkManagementExportWorkflow
     list($engine, $queries) = $this->newQueries($args);
 
     $format_key = $args->getArg('format');
-    if (!strlen($format_key)) {
+    if (!phutil_nonempty_string($format_key)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify an export format with "--format".'));
@@ -77,7 +77,7 @@ final class PhabricatorBulkManagementExportWorkflow
     $is_overwrite = $args->getArg('overwrite');
     $output_path = $args->getArg('output');
 
-    if (!strlen($output_path)) {
+    if (!phutil_nonempty_string($output_path)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Use "--output <path>" to specify an output file, or "--output -" '.
@@ -164,7 +164,7 @@ final class PhabricatorBulkManagementExportWorkflow
       ->execute();
 
     $class = $args->getArg('class');
-    if (strlen($class)) {
+    if (phutil_nonempty_string($class)) {
 
       $class_list = array();
       foreach ($engine_classes as $class_name => $engine_object) {
