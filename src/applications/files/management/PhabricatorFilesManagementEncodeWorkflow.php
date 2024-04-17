@@ -42,7 +42,7 @@ final class PhabricatorFilesManagementEncodeWorkflow
     $format_list = implode(', ', $format_list);
 
     $format_key = $args->getArg('as');
-    if (!strlen($format_key)) {
+    if (!phutil_nonempty_string($format_key)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Use --as <format> to select a target encoding format. Available '.
