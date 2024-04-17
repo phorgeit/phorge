@@ -59,7 +59,7 @@ final class PhabricatorStorageManagementRenamespaceWorkflow
 
     $input = $args->getArg('input');
     $is_live = $args->getArg('live');
-    if (!strlen($input) && !$is_live) {
+    if (!phutil_nonempty_string($input) && !$is_live) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify the dumpfile to read with "--input", or use "--live" to '.
@@ -67,7 +67,7 @@ final class PhabricatorStorageManagementRenamespaceWorkflow
     }
 
     $from = $args->getArg('from');
-    if (!strlen($from)) {
+    if (!phutil_nonempty_string($from)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify namespace to rename from with %s.',
@@ -75,7 +75,7 @@ final class PhabricatorStorageManagementRenamespaceWorkflow
     }
 
     $to = $args->getArg('to');
-    if (!strlen($to)) {
+    if (!phutil_nonempty_string($to)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify namespace to rename to with %s.',
