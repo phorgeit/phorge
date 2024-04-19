@@ -110,14 +110,14 @@ final class PhabricatorStandardCustomFieldDate
     }
 
     $min_str = idx($value, 'min', '');
-    if (strlen($min_str)) {
+    if (phutil_nonempty_string($min_str)) {
       $min = PhabricatorTime::parseLocalTime($min_str, $viewer);
     } else {
       $min = null;
     }
 
     $max_str = idx($value, 'max', '');
-    if (strlen($max_str)) {
+    if (phutil_nonempty_string($max_str)) {
       $max = PhabricatorTime::parseLocalTime($max_str, $viewer);
     } else {
       $max = null;
