@@ -77,6 +77,12 @@ final class PhabricatorDashboardQueryPanelType
     }
 
     if (!$saved) {
+      if (!$viewer->isLoggedIn()) {
+      // If user is not logged in, authored/assigned/etc queries are empty.
+        return id(new PHUIObjectItemListView())
+          ->setUser($viewer)
+          ->setNoDataString(pht('You must log in to access this panel.'));
+      }
       throw new Exception(
         pht(
           'Query "%s" is unknown to application search engine "%s"!',
