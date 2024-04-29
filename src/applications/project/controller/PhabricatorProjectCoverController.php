@@ -35,6 +35,7 @@ final class PhabricatorProjectCoverController
 
     $xactions = array();
 
+    // Set the new Cover Image.
     $xactions[] = id(new ManiphestTransaction())
       ->setTransactionType(ManiphestTaskCoverImageTransaction::TRANSACTIONTYPE)
       ->setNewValue($file->getPHID());
