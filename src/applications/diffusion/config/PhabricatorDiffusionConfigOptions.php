@@ -96,7 +96,7 @@ final class PhabricatorDiffusionConfigOptions
         ->setDescription(
           pht(
             'Regular expression to link external bug tracker. See '.
-            'http://tortoisesvn.net/docs/release/TortoiseSVN_en/'.
+            'https://tortoisesvn.net/docs/release/TortoiseSVN_en/'.
             'tsvn-dug-bugtracker.html for further explanation.')),
       $this->newOption('diffusion.allow-http-auth', 'bool', false)
         ->setBoolOptions(
