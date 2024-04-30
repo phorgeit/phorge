@@ -18,11 +18,6 @@ final class PhabricatorProjectReportsController
     $project = $this->getProject();
     $id = $project->getID();
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $project,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
     $nav = $this->newNavigation(
       $project,
       PhabricatorProject::ITEM_REPORTS);
