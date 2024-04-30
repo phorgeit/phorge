@@ -3,6 +3,10 @@
 final class PhabricatorFactChartController
   extends PhabricatorFactController {
 
+  public function shouldAllowPublic() {
+    return true;
+  }
+
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
 
