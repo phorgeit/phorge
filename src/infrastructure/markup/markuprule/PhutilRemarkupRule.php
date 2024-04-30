@@ -18,6 +18,12 @@ abstract class PhutilRemarkupRule extends Phobject {
     return 500.0;
   }
 
+  /**
+   * Check input whether to apply RemarkupRule. If true, apply formatting.
+   * @param  string|PhutilSafeHTML String to check and potentially format.
+   * @return string|PhutilSafeHTML Unchanged input if no match, or input after
+   * matching the formatting rule and applying the formatting.
+   */
   abstract public function apply($text);
 
   public function getPostprocessKey() {

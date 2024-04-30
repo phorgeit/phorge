@@ -9,10 +9,13 @@ final class PhutilRemarkupHexColorCodeRule
 
   public function apply($text) {
     // Match {#FFFFFF}
-    return preg_replace_callback(
-      '@\B\{(#([0-9a-fA-F]{3}){1,2})\}@',
-      array($this, 'markupHexColorCodedText'),
-      $text);
+    if (is_string($text)) {
+      return preg_replace_callback(
+        '@\B\{(#([0-9a-fA-F]{3}){1,2})\}@',
+        array($this, 'markupHexColorCodedText'),
+        $text);
+    }
+    return $text;
   }
 
   protected function contrastingColor($color_code) {
