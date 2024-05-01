@@ -24,6 +24,9 @@ final class PhabricatorSubscriptionsExportEngineExtension
     $viewer = $this->getViewer();
 
     $object_phids = mpull($objects, 'getPHID');
+    if (!$object_phids) {
+      return array();
+    }
 
     $projects_query = id(new PhabricatorEdgeQuery())
       ->withSourcePHIDs($object_phids)
