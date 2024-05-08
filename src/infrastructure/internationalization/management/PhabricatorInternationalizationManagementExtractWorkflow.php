@@ -277,6 +277,7 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
       ->withType('f')
       ->withSuffix('php')
       ->excludePath('*/.*')
+      ->excludePath('*/__tests__/*')
       ->setGenerateChecksums(true)
       ->find();
 
