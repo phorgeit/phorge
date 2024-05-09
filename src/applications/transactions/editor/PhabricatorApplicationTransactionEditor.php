@@ -1307,6 +1307,7 @@ abstract class PhabricatorApplicationTransactionEditor
       foreach ($xactions as $xaction) {
         if ($xaction->getTransactionType() == $create_type) {
           $mark_as_create = true;
+          break;
         }
       }
 
