@@ -194,9 +194,15 @@ JX.install('Chart', {
             var d_y = dd.getFullYear();
 
             // NOTE: Javascript months are zero-based. See PHI1017.
-            var d_m = dd.getMonth() + 1;
+            var d_m = (dd.getMonth() + 1).toString();
+            if (d_m.length == 1) {
+              d_m = '0' + d_m;
+            }
 
-            var d_d = dd.getDate();
+            var d_d = dd.getDate().toString();
+            if (d_d.length == 1) {
+              d_d = '0' + d_d;
+            }
 
             var y = parseInt(d.y1);
 
