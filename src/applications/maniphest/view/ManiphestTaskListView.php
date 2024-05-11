@@ -4,6 +4,7 @@ final class ManiphestTaskListView extends ManiphestView {
 
   private $tasks;
   private $handles;
+  private $customFieldLists = array();
   private $showBatchControls;
   private $noDataString;
 
@@ -16,6 +17,11 @@ final class ManiphestTaskListView extends ManiphestView {
   public function setHandles(array $handles) {
     assert_instances_of($handles, 'PhabricatorObjectHandle');
     $this->handles = $handles;
+    return $this;
+  }
+
+  public function setCustomFieldLists(array $lists) {
+    $this->customFieldLists = $lists;
     return $this;
   }
 
@@ -132,12 +138,21 @@ final class ManiphestTaskListView extends ManiphestView {
             ->setHref($href));
       }
 
+
+      $field_list = idx($this->customFieldLists, $task->getPHID());
+      if ($field_list) {
+        $field_list
+          ->addFieldsToListViewItem($task, $this->getViewer(), $item);
+      }
+
       $list->addItem($item);
     }
 
     return $list;
   }
 
+  // This method should be removed, and all call-sites switch
+  // to use ManiphestSearchEngine
   public static function loadTaskHandles(
     PhabricatorUser $viewer,
     array $tasks) {

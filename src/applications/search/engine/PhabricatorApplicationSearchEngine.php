@@ -13,6 +13,7 @@
  * @task read       Reading Utilities
  * @task exec       Paging and Executing Queries
  * @task render     Rendering Results
+ * @task custom     Custom Fields
  */
 abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
@@ -1071,7 +1072,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     if ($phids) {
       $handles = id(new PhabricatorHandleQuery())
         ->setViewer($this->requireViewer())
-        ->witHPHIDs($phids)
+        ->withPHIDs($phids)
         ->execute();
     } else {
       $handles = array();
@@ -1624,6 +1625,35 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     return $supported;
+  }
+
+  /**
+   * Load from object and from storage, and updates Custom Fields instances
+   * that are attached to each object.
+   *
+   * @return map<phid->PhabricatorCustomFieldList> of loaded fields.
+   * @task custom
+   */
+  protected function loadCustomFields(array $objects, $role) {
+    assert_instances_of($objects, 'PhabricatorCustomFieldInterface');
+
+    $query = new PhabricatorCustomFieldStorageQuery();
+    $lists = array();
+
+    foreach ($objects as $object) {
+      $field_list = PhabricatorCustomField::getObjectFields($object, $role);
+      $field_list->readFieldsFromObject($object);
+      foreach ($field_list->getFields() as $field) {
+        // TODO move $viewer into PhabricatorCustomFieldStorageQuery
+        $field->setViewer($this->viewer);
+      }
+      $lists[$object->getPHID()] = $field_list;
+      $query->addFields($field_list->getFields());
+    }
+    // This updates the field_list objects.
+    $query->execute();
+
+    return $lists;
   }
 
 }

@@ -3,6 +3,8 @@
 final class ManiphestTaskResultListView extends ManiphestView {
 
   private $tasks;
+  private $handles;
+  private $customFieldLists = array();
   private $savedQuery;
   private $canBatchEdit;
   private $showBatchControls;
@@ -14,6 +16,16 @@ final class ManiphestTaskResultListView extends ManiphestView {
 
   public function setTasks(array $tasks) {
     $this->tasks = $tasks;
+    return $this;
+  }
+
+  public function setHandles(array $handles) {
+    $this->handles = $handles;
+    return $this;
+  }
+
+  public function setCustomFieldLists(array $lists) {
+    $this->customFieldLists = $lists;
     return $this;
   }
 
@@ -42,11 +54,10 @@ final class ManiphestTaskResultListView extends ManiphestView {
     $group_parameter = nonempty($query->getParameter('group'), 'priority');
     $order_parameter = nonempty($query->getParameter('order'), 'priority');
 
-    $handles = ManiphestTaskListView::loadTaskHandles($viewer, $tasks);
     $groups = $this->groupTasks(
       $tasks,
       $group_parameter,
-      $handles);
+      $this->handles);
 
     $result = array();
 
@@ -56,7 +67,8 @@ final class ManiphestTaskResultListView extends ManiphestView {
       $task_list->setShowBatchControls($this->showBatchControls);
       $task_list->setUser($viewer);
       $task_list->setTasks($list);
-      $task_list->setHandles($handles);
+      $task_list->setHandles($this->handles);
+      $task_list->setCustomFieldLists($this->customFieldLists);
 
       $header = id(new PHUIHeaderView())
         ->addSigil('task-group')

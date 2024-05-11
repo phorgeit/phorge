@@ -200,6 +200,19 @@ final class PhabricatorCustomFieldList extends Phobject {
     }
   }
 
+  public function addFieldsToListViewItem(
+    PhabricatorCustomFieldInterface $object,
+    PhabricatorUser $viewer,
+    PHUIObjectItemView $view) {
+
+    foreach ($this->fields as $field) {
+      if ($field->shouldAppearInListView()) {
+        $field->setViewer($viewer);
+        $field->renderOnListItem($view);
+      }
+    }
+  }
+
   public function buildFieldTransactionsFromRequest(
     PhabricatorApplicationTransaction $template,
     AphrontRequest $request) {

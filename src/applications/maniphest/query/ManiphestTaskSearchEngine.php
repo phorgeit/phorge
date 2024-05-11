@@ -374,17 +374,41 @@ final class ManiphestTaskSearchEngine
         ManiphestBulkEditCapability::CAPABILITY);
     }
 
+    $custom_field_lists = $this->loadCustomFields(
+      $tasks,
+      PhabricatorCustomField::ROLE_LIST);
+
     $list = id(new ManiphestTaskResultListView())
       ->setUser($viewer)
       ->setTasks($tasks)
+      ->setHandles($handles)
       ->setSavedQuery($saved)
       ->setCanBatchEdit($can_bulk_edit)
+      ->setCustomFieldLists($custom_field_lists)
       ->setShowBatchControls($this->showBatchControls);
 
     $result = new PhabricatorApplicationSearchResultView();
     $result->setContent($list);
 
     return $result;
+  }
+
+  protected function getRequiredHandlePHIDsForResultList(
+    array $objects,
+    PhabricatorSavedQuery $query) {
+
+    $phids = array();
+    foreach ($objects as $task) {
+      $assigned_phid = $task->getOwnerPHID();
+      if ($assigned_phid) {
+        $phids[] = $assigned_phid;
+      }
+      foreach ($task->getProjectPHIDs() as $project_phid) {
+        $phids[] = $project_phid;
+      }
+    }
+
+    return $phids;
   }
 
   protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {

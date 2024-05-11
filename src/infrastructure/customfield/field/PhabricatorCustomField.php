@@ -384,6 +384,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomField Field implementation.
    * @return this
+   * @task proxy
    */
   final public function setProxy(PhabricatorCustomField $proxy) {
     if (!$this->canSetProxy()) {
@@ -400,12 +401,20 @@ abstract class PhabricatorCustomField extends Phobject {
    * @{method:canSetProxy}.
    *
    * @return PhabricatorCustomField|null  Proxy field, if one is set.
+   * @task proxy
    */
   final public function getProxy() {
     return $this->proxy;
   }
 
-
+  /**
+   * @task proxy
+   */
+  public function __clone() {
+    if ($this->proxy) {
+      $this->proxy = clone $this->proxy;
+    }
+  }
 /* -(  Contextual Data  )---------------------------------------------------- */
 
 
@@ -827,7 +836,7 @@ abstract class PhabricatorCustomField extends Phobject {
 
 
   /**
-   * Appearing in ApplicationTrasactions allows a field to be edited using
+   * Appearing in ApplicationTransactions allows a field to be edited using
    * standard workflows.
    *
    * @return bool True to appear in ApplicationTransactions.
