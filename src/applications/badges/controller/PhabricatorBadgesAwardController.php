@@ -6,6 +6,8 @@ final class PhabricatorBadgesAwardController
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
+    $errors = array();
+    $e_badge = true;
 
     $user = id(new PhabricatorPeopleQuery())
       ->setViewer($viewer)
@@ -19,37 +21,41 @@ final class PhabricatorBadgesAwardController
 
     if ($request->isFormPost()) {
       $badge_phids = $request->getArr('badgePHIDs');
-      $badges = id(new PhabricatorBadgesQuery())
-        ->setViewer($viewer)
-        ->withPHIDs($badge_phids)
-        ->requireCapabilities(
-          array(
-            PhabricatorPolicyCapability::CAN_EDIT,
-            PhabricatorPolicyCapability::CAN_VIEW,
-          ))
-        ->execute();
-      if (!$badges) {
-        return new Aphront404Response();
+
+      if (empty($badge_phids)) {
+        $errors[] = pht('Badge name is required.');
+        $e_badge = pht('Required');
       }
-      $award_phids = array($user->getPHID());
+      if (!$errors) {
+        $badges = id(new PhabricatorBadgesQuery())
+          ->setViewer($viewer)
+          ->withPHIDs($badge_phids)
+          ->requireCapabilities(
+            array(
+              PhabricatorPolicyCapability::CAN_EDIT,
+              PhabricatorPolicyCapability::CAN_VIEW,
+            ))
+          ->execute();
+        $award_phids = array($user->getPHID());
 
-      foreach ($badges as $badge) {
-        $xactions = array();
-        $xactions[] = id(new PhabricatorBadgesTransaction())
-          ->setTransactionType(
-            PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
-          ->setNewValue($award_phids);
+        foreach ($badges as $badge) {
+          $xactions = array();
+          $xactions[] = id(new PhabricatorBadgesTransaction())
+            ->setTransactionType(
+              PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
+            ->setNewValue($award_phids);
 
-        $editor = id(new PhabricatorBadgesEditor())
-          ->setActor($viewer)
-          ->setContentSourceFromRequest($request)
-          ->setContinueOnNoEffect(true)
-          ->setContinueOnMissingFields(true)
-          ->applyTransactions($badge, $xactions);
+          $editor = id(new PhabricatorBadgesEditor())
+            ->setActor($viewer)
+            ->setContentSourceFromRequest($request)
+            ->setContinueOnNoEffect(true)
+            ->setContinueOnMissingFields(true)
+            ->applyTransactions($badge, $xactions);
+        }
+
+        return id(new AphrontRedirectResponse())
+          ->setURI($view_uri);
       }
-
-      return id(new AphrontRedirectResponse())
-        ->setURI($view_uri);
     }
 
     $form = id(new AphrontFormView())
@@ -58,6 +64,7 @@ final class PhabricatorBadgesAwardController
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Badge'))
           ->setName('badgePHIDs')
+          ->setError($e_badge)
           ->setDatasource(
             id(new PhabricatorBadgesDatasource())
               ->setParameters(
