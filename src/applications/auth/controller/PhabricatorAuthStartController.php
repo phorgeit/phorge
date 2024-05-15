@@ -31,7 +31,7 @@ final class PhabricatorAuthStartController
     $session_token = $request->getCookie(PhabricatorCookies::COOKIE_SESSION);
     $did_clear = $request->getStr('cleared');
 
-    if (strlen($session_token)) {
+    if (phutil_nonempty_string($session_token)) {
       $kind = PhabricatorAuthSessionEngine::getSessionKindFromToken(
         $session_token);
       switch ($kind) {
