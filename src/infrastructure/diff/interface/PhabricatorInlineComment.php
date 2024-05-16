@@ -101,6 +101,11 @@ abstract class PhabricatorInlineComment
   abstract public function supportsHiding();
   abstract public function isHidden();
 
+  /**
+   * @return Phobject
+   */
+  abstract public function getTransactionCommentForSave();
+
   public function isDraft() {
     return !$this->getTransactionPHID();
   }
