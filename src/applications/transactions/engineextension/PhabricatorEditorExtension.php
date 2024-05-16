@@ -66,18 +66,4 @@ abstract class PhabricatorEditorExtension
       $xaction);
   }
 
-  final protected function newRequiredTransasctionError(
-    PhabricatorApplicationTransaction $xaction,
-    $message) {
-    return $this->newError($xaction, pht('Required'), $message)
-      ->setIsMissingFieldError(true);
-  }
-
-  final protected function newInvalidTransactionError(
-    PhabricatorApplicationTransaction $xaction,
-    $message) {
-    return $this->newTransactionError($xaction, pht('Invalid'), $message);
-  }
-
-
 }
