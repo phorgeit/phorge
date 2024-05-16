@@ -59,6 +59,7 @@ abstract class CelerityResourceController extends PhabricatorController {
     }
 
     $cache = null;
+    $cache_key = null;
     $data = null;
     if ($is_cacheable && $is_locally_cacheable && !$dev_mode) {
       $cache = PhabricatorCaches::getImmutableCache();
@@ -98,7 +99,7 @@ abstract class CelerityResourceController extends PhabricatorController {
         $data = $xformer->transformResource($path, $data);
       }
 
-      if ($cache) {
+      if ($cache && $cache_key !== null) {
         $cache->setKey($cache_key, $data);
       }
     }
