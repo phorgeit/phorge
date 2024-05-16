@@ -32,11 +32,6 @@ final class PhabricatorUserCache extends PhabricatorUserDAO {
     ) + parent::getConfiguration();
   }
 
-  public function save() {
-    $this->cacheIndex = Filesystem::digestForIndex($this->getCacheKey());
-    return parent::save();
-  }
-
   public static function writeCache(
     PhabricatorUserCacheType $type,
     $key,
