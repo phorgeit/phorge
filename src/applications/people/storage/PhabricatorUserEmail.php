@@ -231,7 +231,6 @@ final class PhabricatorUserEmail
    *
    * @param PhabricatorUser The user sending the notification.
    * @param PhabricatorUserEmail New primary email address.
-   * @return this
    * @task email
    */
   public function sendOldPrimaryEmail(

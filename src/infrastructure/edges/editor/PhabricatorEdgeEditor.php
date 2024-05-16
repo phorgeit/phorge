@@ -90,7 +90,6 @@ final class PhabricatorEdgeEditor extends Phobject {
    * (e.g., adds followed by removals) if their outcomes are not dependent,
    * since transactions will not be held open as long.
    *
-   * @return this
    * @task edit
    */
   public function save() {

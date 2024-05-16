@@ -268,6 +268,7 @@ final class PhamePost extends PhameDAO
       case self::MARKUP_FIELD_BODY:
         return $this->getBody();
     }
+    return null;
   }
 
   public function didMarkupText(

@@ -262,7 +262,6 @@ abstract class PhabricatorWorker extends Phobject {
    * you are using queues to improve locking behavior).
    *
    * @param map<string, wild> Optional default options.
-   * @return this
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {

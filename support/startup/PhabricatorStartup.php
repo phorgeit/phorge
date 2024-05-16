@@ -317,7 +317,6 @@ final class PhabricatorStartup {
    * @param   Throwable The exception itself.
    * @param   bool      True if it's okay to show the exception's stack trace
    *                    to the user. The trace will always be logged.
-   * @return  exit      This method **does not return**.
    *
    * @task apocalypse
    */

@@ -523,6 +523,7 @@ final class AphrontApplicationConfiguration
         return array($result->getController(), $result->getURIData());
       }
     }
+    return null;
   }
 
   private function buildSiteForRequest(AphrontRequest $request) {
