@@ -22,7 +22,8 @@ abstract class PhabricatorObjectMailReceiver extends PhabricatorMailReceiver {
    * @param   string          A string matched by @{method:getObjectPattern}
    *                          fragment.
    * @param   PhabricatorUser The viewing user.
-   * @return  void
+   * @return  object|null     The object to receive mail, or null if no such
+   *                          object exists.
    */
   abstract protected function loadObject($pattern, PhabricatorUser $viewer);
 
