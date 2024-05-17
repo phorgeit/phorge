@@ -586,7 +586,7 @@ final class DiffusionRepositoryClusterEngine extends Phobject {
           'for %s seconds(s). This repository will be frozen.',
           $this->clusterWriteOwner,
           $device->getName(),
-          $this->getDisplayName(),
+          $repository->getDisplayName(),
           new PhutilNumber($duration)));
     }
 
