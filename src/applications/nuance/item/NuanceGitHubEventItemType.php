@@ -20,6 +20,10 @@ final class NuanceGitHubEventItemType
     return $this->newRawEvent($item)->getEventFullTitle();
   }
 
+  protected function newWorkCommands(NuanceItem $item) {
+    return array();
+  }
+
   public function canUpdateItems() {
     return true;
   }

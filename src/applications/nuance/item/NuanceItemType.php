@@ -6,6 +6,8 @@ abstract class NuanceItemType
   private $viewer;
   private $controller;
 
+  abstract protected function newWorkCommands(NuanceItem $item);
+
   public function setViewer(PhabricatorUser $viewer) {
     $this->viewer = $viewer;
     return $this;
