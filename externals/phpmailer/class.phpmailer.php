@@ -1619,7 +1619,7 @@ class PHPMailer {
     $eol = "\r\n";
     $escape = '=';
     $output = '';
-    while( list(, $line) = each($lines) ) {
+    foreach ($lines as $line) {
       $linlen = strlen($line);
       $newline = '';
       for($i = 0; $i < $linlen; $i++) {
@@ -1650,7 +1650,7 @@ class PHPMailer {
         $newline .= $c;
       } // end of for
       $output .= $newline.$eol;
-    } // end of while
+    } // end of foreach
     return $output;
   }
 
