@@ -1443,11 +1443,6 @@ class PHPMailer {
       if (!is_readable($path)) {
         throw new phpmailerException($this->Lang('file_open') . $path, self::STOP_CONTINUE);
       }
-      if (function_exists('get_magic_quotes')) {
-        function get_magic_quotes() {
-          return false;
-        }
-      }
       if (PHP_VERSION < 6) {
         $magic_quotes = get_magic_quotes_runtime();
         set_magic_quotes_runtime(0);
