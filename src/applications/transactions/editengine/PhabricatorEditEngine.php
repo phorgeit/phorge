@@ -1676,6 +1676,7 @@ abstract class PhabricatorEditEngine
       ->setUser($viewer)
       ->setHeaderText($header_text)
       ->setAction($comment_uri)
+      ->setRequestURI(new PhutilURI($this->getObjectViewURI($object)))
       ->setRequiresMFA($requires_mfa)
       ->setObject($object)
       ->setEditEngine($this)
