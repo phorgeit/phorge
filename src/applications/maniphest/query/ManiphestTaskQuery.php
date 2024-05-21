@@ -358,6 +358,10 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     $where[] = $this->buildOwnerWhereClause($conn);
 
     if ($this->taskIDs !== null) {
+      if (!ctype_digit(implode('', $this->taskIDs))) {
+        throw new PhutilSearchQueryCompilerSyntaxException(
+          pht('Task IDs must be integer numbers.'));
+      }
       $where[] = qsprintf(
         $conn,
         'task.id in (%Ld)',
