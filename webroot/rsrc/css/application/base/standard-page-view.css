@@ -45,10 +45,6 @@ body.white-background {
   margin-left: 221px;
 }
 
-.device .phabricator-side-menu-home + .phabricator-standard-page-footer {
-  display: none;
-}
-
 .keyboard-shortcut-help {
   margin: 4px 12px;
 }
