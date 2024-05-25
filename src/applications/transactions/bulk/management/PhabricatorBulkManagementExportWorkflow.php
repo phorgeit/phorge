@@ -8,7 +8,7 @@ final class PhabricatorBulkManagementExportWorkflow
       ->setName('export')
       ->setExamples('**export** [options]')
       ->setSynopsis(
-        pht('Export data to a flat file (JSON, CSV, Excel, etc).'))
+        pht('Export data to a flat file (JSON, CSV, Excel, etc.).'))
       ->setArguments(
         array(
           array(
