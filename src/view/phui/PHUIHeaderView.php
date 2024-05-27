@@ -24,6 +24,7 @@ final class PHUIHeaderView extends AphrontTagView {
   private $href;
   private $actionList;
   private $actionListID;
+  private $collapsible;
 
   public function setHeader($header) {
     $this->header = $header;
@@ -87,6 +88,17 @@ final class PHUIHeaderView extends AphrontTagView {
 
   public function setActionListID($action_list_id) {
     $this->actionListID = $action_list_id;
+    return $this;
+  }
+
+  /**
+   * Render PHUIHeaderView as a <summary> instead of a <div> HTML tag.
+   * To be used for collapse/expand in combination with PHUIBoxView.
+   *
+   * @param bool True to wrap in <summary> instead of <div> HTML tag.
+   */
+  public function setCollapsible($collapsible) {
+    $this->collapsible = $collapsible;
     return $this;
   }
 
@@ -156,6 +168,9 @@ final class PHUIHeaderView extends AphrontTagView {
   }
 
   protected function getTagName() {
+    if ($this->collapsible) {
+      return 'summary';
+    }
     return 'div';
   }
 
