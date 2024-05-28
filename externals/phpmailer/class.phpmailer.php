@@ -2186,7 +2186,6 @@ class PHPMailer {
    * @param string $key_pass Password for private key
    */
   public function DKIM_QP($txt) {
-    $tmp="";
     $line="";
     for ($i=0;$i<strlen($txt);$i++) {
       $ord=ord($txt[$i]);
