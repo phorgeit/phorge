@@ -339,7 +339,17 @@ abstract class PhabricatorEditEngine
     return null;
   }
 
-
+  /**
+   * Set default placeholder plain text in the comment textarea of the engine.
+   * To be overwritten by conditions defined in the child EditEngine class.
+   *
+   * @param  object Object in which the comment textarea is displayed.
+   * @return string Placeholder text to display in the comment textarea.
+   * @task text
+   */
+  public function getCommentFieldPlaceholderText($object) {
+    return '';
+  }
 
   /**
    * Return a human-readable header describing what this engine is used to do,
@@ -1664,10 +1674,11 @@ abstract class PhabricatorEditEngine
 
     $view = id(new PhabricatorApplicationTransactionCommentView())
       ->setUser($viewer)
-      ->setObjectPHID($object_phid)
       ->setHeaderText($header_text)
       ->setAction($comment_uri)
       ->setRequiresMFA($requires_mfa)
+      ->setObject($object)
+      ->setEditEngine($this)
       ->setSubmitButtonName($button_text);
 
     $draft = PhabricatorVersionedDraft::loadDraft(

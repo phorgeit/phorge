@@ -154,7 +154,7 @@ final class PhabricatorSlowvotePollController
 
     return id(new PhabricatorApplicationTransactionCommentView())
       ->setUser($viewer)
-      ->setObjectPHID($poll->getPHID())
+      ->setObject($poll)
       ->setDraft($draft)
       ->setHeaderText($add_comment_header)
       ->setAction($this->getApplicationURI('/comment/'.$poll->getID().'/'))
