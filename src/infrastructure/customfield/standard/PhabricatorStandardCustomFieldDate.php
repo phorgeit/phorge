@@ -177,6 +177,12 @@ final class PhabricatorStandardCustomFieldDate
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
         $new_date);
+    } else if (!$new && $old) {
+      return pht(
+        '%s removed %s which was set to %s.',
+        $xaction->renderHandleLink($author_phid),
+        $this->getFieldName(),
+        $old_date);
     } else if (!$new) {
       return pht(
         '%s removed %s.',
