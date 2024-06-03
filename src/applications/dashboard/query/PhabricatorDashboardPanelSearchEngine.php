@@ -147,4 +147,22 @@ final class PhabricatorDashboardPanelSearchEngine
     return $result;
   }
 
+  protected function getNewUserBody() {
+    $create_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('Create a Panel'))
+      ->setHref('/dashboard/panel/edit/')
+      ->setColor(PHUIButtonView::GREEN);
+
+    $app_name = pht('Panels');
+    $view = id(new PHUIBigInfoView())
+      ->setIcon('fa-line-chart')
+      ->setTitle(pht('Welcome to %s', $app_name))
+      ->setDescription(
+        pht('Build individual panels to display on your homepage dashboard.'))
+      ->addAction($create_button);
+
+      return $view;
+  }
+
 }
