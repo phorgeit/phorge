@@ -366,6 +366,19 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Check if this datasource requires a logged-in viewer.
+   * @task functions
+   * @param string $function Function name.
+   * @return bool
+   */
+  protected function isFunctionWithLoginRequired($function) {
+    // This is just a default.
+    // Make sure to override this method to require login.
+    return false;
+  }
+
+
+  /**
    * @task functions
    */
   protected function canEvaluateFunction($function) {
@@ -498,6 +511,18 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
     if (!$this->canEvaluateFunction($function)) {
       if (!$allow_partial) {
+
+        if ($this->isFunctionWithLoginRequired($function)) {
+          if (!$this->getViewer() || !$this->getViewer()->isLoggedIn()) {
+            throw new PhabricatorTypeaheadLoginRequiredException(
+              pht(
+                'This datasource ("%s") requires to be logged-in to use the '.
+                'function "%s(...)".',
+                get_class($this),
+                $function));
+          }
+        }
+
         throw new PhabricatorTypeaheadInvalidTokenException(
           pht(
             'This datasource ("%s") can not evaluate the function "%s(...)".',

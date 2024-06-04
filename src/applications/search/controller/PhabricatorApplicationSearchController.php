@@ -346,6 +346,15 @@ final class PhabricatorApplicationSearchController
             $body[] = $pager_box;
           }
         }
+      } catch (PhabricatorTypeaheadLoginRequiredException $ex) {
+
+        // A specific token requires login. Show login page.
+        $auth_class = PhabricatorAuthApplication::class;
+        $auth_application = PhabricatorApplication::getByClass($auth_class);
+        $login_controller = new PhabricatorAuthStartController();
+        $this->setCurrentApplication($auth_application);
+        return $this->delegateToController($login_controller);
+
       } catch (PhabricatorTypeaheadInvalidTokenException $ex) {
         $exec_errors[] = pht(
           'This query specifies an invalid parameter. Review the '.
