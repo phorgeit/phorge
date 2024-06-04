@@ -3,7 +3,6 @@
 final class HeraldEngine extends Phobject {
 
   protected $rules = array();
-  protected $activeRule;
   protected $transcript;
 
   private $fieldCache = array();
