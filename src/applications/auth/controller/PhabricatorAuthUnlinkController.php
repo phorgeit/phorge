@@ -102,7 +102,7 @@ final class PhabricatorAuthUnlinkController
       ->addHiddenInput('confirmations', implode(',', $confirmations))
       ->appendParagraph(
         pht(
-          'This is the only external login account linked to your Phabicator '.
+          'This is the only external login account linked to your '.
           'account. If you remove it, you may no longer be able to log in.'))
       ->appendParagraph(
         pht(
