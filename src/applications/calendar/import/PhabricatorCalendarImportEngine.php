@@ -235,14 +235,14 @@ abstract class PhabricatorCalendarImportEngine
         // We avoid disclosing email addresses to be consistent with the rest
         // of the product.
         $name = $attendee->getName();
-        if (preg_match('/@/', $name)) {
+        if (phutil_nonempty_string($name) && preg_match('/@/', $name)) {
           $name = new PhutilEmailAddress($name);
           $name = $name->getDisplayName();
         }
 
         // If we don't have a name or the name still looks like it's an
         // email address, give them a dummy placeholder name.
-        if (!strlen($name) || preg_match('/@/', $name)) {
+        if (!phutil_nonempty_string($name) || preg_match('/@/', $name)) {
           $name = pht('Private User %d', $private_index);
           $private_index++;
         }
