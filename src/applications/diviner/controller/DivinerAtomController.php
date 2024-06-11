@@ -446,7 +446,11 @@ final class DivinerAtomController extends DivinerController {
 
     if ($tasks) {
       foreach ($tasks as $task) {
-        list($name, $title) = explode(' ', $task, 2);
+        if (strpos($task, ' ') !== false) {
+          list($name, $title) = explode(' ', $task, 2);
+        } else {
+          list($name, $title) = array($task, '');
+        }
         $name = trim($name);
         $title = trim($title);
 
