@@ -62,7 +62,7 @@ final class PhabricatorMailSMTPAdapter
     $smtp->Host = $this->getOption('host');
     $smtp->Port = $this->getOption('port');
     $user = $this->getOption('user');
-    if (strlen($user)) {
+    if (phutil_nonempty_string($user)) {
       $smtp->SMTPAuth = true;
       $smtp->Username = $user;
       $smtp->Password = $this->getOption('password');
