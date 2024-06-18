@@ -87,6 +87,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   abstract public function getItemURI($path);
   abstract protected function isMenuEngineConfigurable();
 
+  /**
+   * @return array of PhabricatorProfileMenuItemConfiguration objects
+   */
   abstract protected function getBuiltinProfileItems($object);
 
   protected function getBuiltinCustomProfileItems(
