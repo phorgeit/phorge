@@ -119,6 +119,12 @@ When defining custom fields using a configuration option like
     above the control when rendered on the edit view.
   - **placeholder**: A placeholder text that appears on text boxes. Only
     supported in text, int and remarkup fields (optional).
+  - **list**: If set to `icon`, `attribute` or `byline`, the value of the field
+    will be shown in list-view.
+    - **list.icon**: If `list` is set to `icon`, use this icon. These are the
+      same icons that can be used in the `{icon}` syntax for Remarkup.
+    - **list.label**: When rendering value in a list, use this label (instead of
+      `name`).
   - **copy**: If true, this field's value will be copied when an object is
     created using another object as a template.
   - **limit**: For control types which use a tokenizer control to let the user

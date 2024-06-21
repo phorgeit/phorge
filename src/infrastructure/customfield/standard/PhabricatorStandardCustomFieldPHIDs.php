@@ -72,15 +72,14 @@ abstract class PhabricatorStandardCustomFieldPHIDs
     return array();
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
     if (!$value) {
       return null;
     }
 
-    $handles = mpull($handles, 'renderHovercardLink');
-    $handles = phutil_implode_html(', ', $handles);
-    return $handles;
+    return $this->getViewer()->renderHandleList($value)
+      ->setAsInline(true);
   }
 
   public function getRequiredHandlePHIDsForEdit() {
