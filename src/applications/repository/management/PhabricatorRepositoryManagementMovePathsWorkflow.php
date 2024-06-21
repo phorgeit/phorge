@@ -38,14 +38,14 @@ final class PhabricatorRepositoryManagementMovePathsWorkflow
     }
 
     $from = $args->getArg('from');
-    if (!strlen($from)) {
+    if (!phutil_nonempty_string($from)) {
       throw new Exception(
         pht(
           'You must specify a path prefix to move from with --from.'));
     }
 
     $to = $args->getArg('to');
-    if (!strlen($to)) {
+    if (!phutil_nonempty_string($to)) {
       throw new Exception(
         pht(
           'You must specify a path prefix to move to with --to.'));

@@ -200,7 +200,7 @@ EOREMARKUP
             '$PATH'))
         ->setDescription(
           pht(
-            "Thhi software sometimes executes other binaries on the ".
+            "This software sometimes executes other binaries on the ".
             "server. An example of this is the `%s` command, used to ".
             "syntax-highlight code written in languages other than PHP. By ".
             "default, it is assumed that these binaries are in the %s of the ".

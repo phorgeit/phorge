@@ -13,7 +13,7 @@ final class PhabricatorBadgesPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
   protected function buildQueryForObjects(

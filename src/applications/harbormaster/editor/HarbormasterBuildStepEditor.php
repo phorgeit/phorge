@@ -4,7 +4,7 @@ final class HarbormasterBuildStepEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
   public function getEditorObjectsDescription() {

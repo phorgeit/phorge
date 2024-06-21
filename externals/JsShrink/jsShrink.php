@@ -35,7 +35,7 @@ function jsShrinkCallback($match) {
 	list(, $context, $regexp, $result, $word, $operator) = $match;
 	if ($word != '') {
 		$result = ($last == 'word' ? "\n" : ($last == 'return' ? " " : "")) . $result;
-		$last = ($word == 'return' || $word == 'throw' || $word == 'break' ? 'return' : 'word');
+		$last = ($word == 'return' || $word == 'throw' || $word == 'break' || $word == 'async' ? 'return' : 'word');
 	} elseif ($operator) {
 		$result = ($last == $operator[0] ? "\n" : "") . $result;
 		$last = $operator[0];

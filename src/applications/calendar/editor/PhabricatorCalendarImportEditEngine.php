@@ -33,7 +33,7 @@ final class PhabricatorCalendarImportEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   protected function newEditableObject() {

@@ -71,7 +71,7 @@ final class PhabricatorPeopleUserEmailQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
 }

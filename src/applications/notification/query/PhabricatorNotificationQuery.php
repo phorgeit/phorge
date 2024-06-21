@@ -190,7 +190,7 @@ final class PhabricatorNotificationQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorNotificationsApplication';
+    return PhabricatorNotificationsApplication::class;
   }
 
 }

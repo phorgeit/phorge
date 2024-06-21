@@ -8,7 +8,7 @@ final class PhabricatorCalendarImportSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function canUseInPanelContext() {

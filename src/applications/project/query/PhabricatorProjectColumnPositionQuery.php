@@ -67,7 +67,7 @@ final class PhabricatorProjectColumnPositionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
 }

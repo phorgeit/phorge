@@ -14,6 +14,12 @@ final class PhortuneMerchantPictureController
     $uri = $merchant->getDetailsURI();
 
     $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    if ($supported_formats) {
+      $supported_formats_message = pht('Supported image formats: %s.',
+              implode(', ', $supported_formats));
+    } else {
+      $supported_formats_message = pht('Server supports no image formats.');
+    }
     $e_file = true;
     $errors = array();
 
@@ -46,9 +52,7 @@ final class PhortuneMerchantPictureController
       if (!$errors && !$is_default) {
         if (!$file->isTransformableImage()) {
           $e_file = pht('Not Supported');
-          $errors[] = pht(
-            'This server only supports these image formats: %s.',
-            implode(', ', $supported_formats));
+          $errors[] = $supported_formats_message;
         } else {
           $xform = PhabricatorFileTransform::getTransformByKey(
             PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
@@ -185,8 +189,7 @@ final class PhortuneMerchantPictureController
           ->setName('picture')
           ->setLabel(pht('Upload Logo'))
           ->setError($e_file)
-          ->setCaption(
-            pht('Supported formats: %s', implode(', ', $supported_formats))))
+          ->setCaption($supported_formats_message))
       ->appendChild(
         id(new AphrontFormSubmitControl())
           ->addCancelButton($uri)

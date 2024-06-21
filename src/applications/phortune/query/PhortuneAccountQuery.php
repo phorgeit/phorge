@@ -124,7 +124,7 @@ final class PhortuneAccountQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

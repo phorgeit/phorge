@@ -7,4 +7,8 @@ final class NuanceSourceTransactionQuery
     return new NuanceSourceTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorNuanceApplication::class;
+  }
+
 }

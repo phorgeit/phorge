@@ -54,7 +54,7 @@ final class DifferentialViewStateQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
 }

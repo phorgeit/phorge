@@ -225,7 +225,7 @@ final class PhabricatorProjectColumnQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
 }

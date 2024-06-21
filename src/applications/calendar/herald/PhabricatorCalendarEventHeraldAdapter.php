@@ -5,7 +5,7 @@ final class PhabricatorCalendarEventHeraldAdapter extends HeraldAdapter {
   private $object;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function getAdapterContentDescription() {

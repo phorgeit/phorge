@@ -54,7 +54,7 @@ final class PhabricatorDashboardPortalQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

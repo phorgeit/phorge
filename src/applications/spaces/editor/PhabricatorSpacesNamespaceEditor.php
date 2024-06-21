@@ -4,7 +4,7 @@ final class PhabricatorSpacesNamespaceEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return pht('PhabricatorSpacesApplication');
+    return PhabricatorSpacesApplication::class;
   }
 
   public function getEditorObjectsDescription() {

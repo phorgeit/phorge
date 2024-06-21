@@ -7,4 +7,8 @@ final class PhabricatorProfileMenuItemConfigurationTransactionQuery
     return new PhabricatorProfileMenuItemConfigurationTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorSearchApplication::class;
+  }
+
 }

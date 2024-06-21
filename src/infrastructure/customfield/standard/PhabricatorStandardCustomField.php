@@ -481,7 +481,7 @@ abstract class PhabricatorStandardCustomField
     }
 
     $field_value = $this->getFieldValue();
-    if (strlen($field_value)) {
+    if (($field_value !== null) && (strlen($field_value))) {
       $document->addField($field_key, $field_value);
     }
   }

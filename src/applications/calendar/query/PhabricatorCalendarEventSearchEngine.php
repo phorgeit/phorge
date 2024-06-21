@@ -12,7 +12,7 @@ final class PhabricatorCalendarEventSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function newQuery() {

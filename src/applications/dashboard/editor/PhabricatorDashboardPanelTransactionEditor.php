@@ -4,7 +4,7 @@ final class PhabricatorDashboardPanelTransactionEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   public function getEditorObjectsDescription() {

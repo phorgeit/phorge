@@ -35,7 +35,7 @@ final class ManiphestTaskSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function newQuery() {
@@ -141,7 +141,7 @@ final class ManiphestTaskSearchEngine
         ->setKey('closerPHIDs')
         ->setAliases(array('closer', 'closerPHID', 'closers'))
         ->setDescription(pht('Search for tasks closed by certain users.')),
-      id(new PhabricatorSearchTextField())
+      id(new PhabricatorSearchIntField())
         ->setLabel(pht('Page Size'))
         ->setKey('limit'),
     );

@@ -8,7 +8,7 @@ final class DifferentialRevisionSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   protected function newResultBuckets() {

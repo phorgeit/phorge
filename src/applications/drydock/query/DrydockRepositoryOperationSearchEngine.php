@@ -8,7 +8,7 @@ final class DrydockRepositoryOperationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function newQuery() {

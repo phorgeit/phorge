@@ -89,7 +89,7 @@ final class PhortunePaymentProviderConfigQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
 }

@@ -15,13 +15,13 @@ final class CelerityDarkModePostprocessor
     return array(
 
       // Fonts
-      'basefont' => "13px -apple-system, system-ui, BlinkMacSystemFont, ".
-        "'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lato', ".
-        "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      'basefont' => "13px 'Segoe UI', 'Segoe UI Emoji', ".
+        "'Segoe UI Symbol', 'Lato', 'Helvetica Neue', ".
+        "Helvetica, Arial, sans-serif",
 
-      'fontfamily' => "-apple-system, system-ui, BlinkMacSystemFont, ".
-        "'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lato', ".
-        "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      'fontfamily' => "'Segoe UI', 'Segoe UI Emoji', ".
+        "'Segoe UI Symbol', 'Lato', 'Helvetica Neue', ".
+        "Helvetica, Arial, sans-serif",
 
       // Drop Shadow
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
@@ -218,6 +218,67 @@ final class CelerityDarkModePostprocessor
       'grey.button.gradient' => 'linear-gradient(to bottom, #223246, #223246)',
       'grey.button.hover' => 'linear-gradient(to bottom, #1c293b, #1c293b)',
 
+      // Codeblock syntax highlighting
+      'syntax.highlighted-line' => '#fa8',
+      'syntax.comment' => '#6d6',
+      'syntax.comment-multiline' => '#6d6',
+      'syntax.comment-single' => '#6d6',
+      'syntax.comment-special' => '#6d6',
+      'syntax.string-doc' => '#fff',
+      'syntax.string-heredoc' => '#fff',
+      'syntax.string' => '#f88',
+      'syntax.string-backtick' => '#f88',
+      'syntax.literal-string-char' => '#f88',
+      'syntax.string-double' => '#f88',
+      'syntax.string-single' => '#f88',
+      'syntax.string-other' => '#f88',
+      'syntax.string-regex' => '#f88',
+      'syntax.name-variable' => '#8ff',
+      'syntax.variable-instance' => '#8ff',
+      'syntax.variable-global' => '#8ff',
+      'syntax.name-attribute' => '#4cf',
+      'syntax.keyword-constant' => '#0cf',
+      'syntax.name-operator' => '#0cf',
+      'syntax.keyword' => '#e8e',
+      'syntax.keyword-declaration' => '#e8e',
+      'syntax.keyword-namespace' => '#e8e',
+      'syntax.keyword-type' => '#e8e',
+      'syntax.comment-preproc' => '#08f',
+      'syntax.keyword-preproc' => '#08f',
+      'syntax.keyword-reserved' => '#08f',
+      'syntax.name-builtin' => '#08f',
+      'syntax.builtin-pseudo' => '#08f',
+      'syntax.name-class' => '#4ff',
+      'syntax.name-tag' => '#dc0',
+      'syntax.name-variable-class' => '#4ff',
+      'syntax.name-function' => '#8af',
+      'syntax.name-exception' => '#ed8',
+      'syntax.operator' => '#aaa',
+      'syntax.punctuation' => '#aaa',
+      'syntax.literal-string-symbol' => '#aaa',
+      'syntax.literal-number' => '#fa4',
+      'syntax.literal-number-float' => '#fa4',
+      'syntax.literal-number-hex' => '#fa4',
+      'syntax.literal-number-integer' => '#fa4',
+      'syntax.literal-number-octal' => '#fa4',
+      'syntax.literal-number-integer-long' => '#fa4',
+      'syntax.generic-deleted' => '#f55',
+      'syntax.generic-red' => '#f52',
+      'syntax.generic-heading' => '#fff',
+      'syntax.generic-inserted' => '#4f4',
+      'syntax.generic-output' => '#ccc',
+      'syntax.generic-prompt' => '#fff',
+      'syntax.generic-underline' => '#f4f',
+      'syntax.generic-traceback' => '#07f',
+      'syntax.name-decorator' => '#c7f',
+      'syntax.name-identifier' => '#92969d',
+      'syntax.name-entity' => '#f44',
+      'syntax.name-label' => '#aa0',
+      'syntax.name-namespace' => '#48f',
+      'syntax.operator-word' => '#c7f',
+      'syntax.text-whitespace' => '#bbb',
+      'syntax.literal-string-escape' => '#d84',
+      'syntax.literal-string-interpol' => '#b6b',
     );
   }
 

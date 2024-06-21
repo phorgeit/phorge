@@ -18,7 +18,7 @@ final class PhabricatorMacroEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorMacroApplication';
+    return PhabricatorMacroApplication::class;
   }
 
   public function isEngineConfigurable() {

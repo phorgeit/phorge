@@ -4,7 +4,7 @@ final class PhabricatorMetaMTAApplicationEmailEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return pht('PhabricatorMetaMTAApplication');
+    return PhabricatorMetaMTAApplication::class;
   }
 
   public function getEditorObjectsDescription() {

@@ -222,8 +222,8 @@ Mailer: Mailgun
 |---------|
 
 Use of Mailgun is discouraged because of concerns that they may not be a
-trustworthy custodian of sensitive data. See <https://phurl.io/u/mailgun> for
-discussion and context.
+trustworthy custodian of sensitive data.
+See <https://secure.phabricator.com/T13669> for discussion and context.
 
 Mailgun is a third-party email delivery service. You can learn more at
 <https://www.mailgun.com>. Mailgun is easy to configure and works well.

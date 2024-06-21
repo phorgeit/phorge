@@ -11,7 +11,7 @@ final class DivinerBookDatasource extends PhabricatorTypeaheadDatasource {
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return PhabricatorDivinerApplication::class;
   }
 
   public function loadResults() {

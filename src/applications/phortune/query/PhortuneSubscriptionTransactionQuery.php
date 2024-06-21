@@ -7,4 +7,8 @@ final class PhortuneSubscriptionTransactionQuery
     return new PhortuneSubscriptionTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhortuneApplication::class;
+  }
+
 }

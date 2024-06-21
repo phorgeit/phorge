@@ -184,7 +184,7 @@ final class PhabricatorRepositoryPushLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

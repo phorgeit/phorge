@@ -13,7 +13,7 @@ final class PassphraseCredentialPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPassphraseApplication';
+    return PhabricatorPassphraseApplication::class;
   }
 
   protected function buildQueryForObjects(

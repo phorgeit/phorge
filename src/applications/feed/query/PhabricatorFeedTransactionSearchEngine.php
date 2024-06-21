@@ -8,7 +8,7 @@ final class PhabricatorFeedTransactionSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorFeedApplication';
+    return PhabricatorFeedApplication::class;
   }
 
   public function newQuery() {

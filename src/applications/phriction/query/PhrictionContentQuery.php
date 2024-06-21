@@ -118,7 +118,7 @@ final class PhrictionContentQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
 }

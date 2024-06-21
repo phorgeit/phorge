@@ -4,7 +4,7 @@ final class PhabricatorCountdownEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return PhabricatorCountdownApplication::class;
   }
 
   public function getEditorObjectsDescription() {

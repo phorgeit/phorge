@@ -4,7 +4,7 @@ final class PhabricatorCalendarImportEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function getEditorObjectsDescription() {

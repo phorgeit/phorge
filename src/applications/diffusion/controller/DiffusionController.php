@@ -211,7 +211,7 @@ abstract class DiffusionController extends PhabricatorController {
         $view_name = pht('History');
         break;
       case 'browse':
-        $view_name = pht('Browse');
+        $view_name = pht('Code');
         break;
       case 'lint':
         $view_name = pht('Lint');
@@ -504,6 +504,18 @@ abstract class DiffusionController extends PhabricatorController {
 
     $view->addMenuItem(
       id(new PHUIListItemView())
+        ->setKey('home')
+        ->setName(pht('Home'))
+        ->setIcon('fa-home')
+        ->setHref($drequest->generateURI(
+          array(
+            'action' => 'branch',
+            'path' => '',
+          )))
+        ->setSelected($key == 'home'));
+
+    $view->addMenuItem(
+      id(new PHUIListItemView())
         ->setKey('code')
         ->setName(pht('Code'))
         ->setIcon('fa-code')
@@ -552,6 +564,49 @@ abstract class DiffusionController extends PhabricatorController {
 
     return $view;
 
+  }
+
+  /**
+   * @return PHUIBoxView|null
+   */
+  protected function buildLocateFile() {
+    $request = $this->getRequest();
+    $viewer = $request->getUser();
+    $drequest = $this->getDiffusionRequest();
+    $repository = $drequest->getRepository();
+
+    $form_box = null;
+    if ($repository->canUsePathTree()) {
+      Javelin::initBehavior(
+        'diffusion-locate-file',
+        array(
+          'controlID' => 'locate-control',
+          'inputID' => 'locate-input',
+          'symbolicCommit' => $drequest->getSymbolicCommit(),
+          'browseBaseURI' => (string)$drequest->generateURI(
+            array(
+              'action' => 'browse',
+              'commit' => '',
+              'path' => '',
+            )),
+          'uri' => (string)$drequest->generateURI(
+            array(
+              'action' => 'pathtree',
+            )),
+        ));
+
+      $form = id(new AphrontFormView())
+        ->setUser($viewer)
+        ->appendChild(
+          id(new AphrontFormTypeaheadControl())
+            ->setHardpointID('locate-control')
+            ->setID('locate-input')
+            ->setPlaceholder(pht('Locate File')));
+      $form_box = id(new PHUIBoxView())
+        ->appendChild($form->buildLayoutView())
+        ->addClass('diffusion-profile-locate');
+    }
+    return $form_box;
   }
 
 }

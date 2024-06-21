@@ -11,7 +11,7 @@ final class PhabricatorStandardCustomFieldInt
     $indexes = array();
 
     $value = $this->getFieldValue();
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $indexes[] = $this->newNumericIndex((int)$value);
     }
 
@@ -48,15 +48,28 @@ final class PhabricatorStandardCustomFieldInt
     return $request->getStr($this->getFieldKey());
   }
 
+  /**
+   * Apply an application search constraint to a query.
+   * If you have a field of type integer, and a value (or an array of values),
+   * the result set will be limited to the rows with these values.
+   * @param PhabricatorApplicationSearchEngine $engine
+   * @param PhabricatorCursorPagedPolicyAwareQuery $query
+   * @param mixed $value Single value or array of values (IN query).
+   */
   public function applyApplicationSearchConstraintToQuery(
     PhabricatorApplicationSearchEngine $engine,
     PhabricatorCursorPagedPolicyAwareQuery $query,
     $value) {
 
-    if (strlen($value)) {
-      $query->withApplicationSearchContainsConstraint(
-        $this->newNumericIndex(null),
-        $value);
+    // The basic use case is with a single value.
+    // The backend really works with an array. So also array allowed.
+    if (is_array($value) || phutil_nonempty_scalar($value)) {
+      $value = (array)$value;
+      if ($value) {
+        $query->withApplicationSearchContainsConstraint(
+          $this->newNumericIndex(null),
+          $value);
+      }
     }
   }
 
@@ -84,7 +97,7 @@ final class PhabricatorStandardCustomFieldInt
 
     foreach ($xactions as $xaction) {
       $value = $xaction->getNewValue();
-      if (strlen($value)) {
+      if (phutil_nonempty_scalar($value)) {
         if (!preg_match('/^-?\d+/', $value)) {
           $errors[] = new PhabricatorApplicationTransactionValidationError(
             $type,
@@ -104,9 +117,9 @@ final class PhabricatorStandardCustomFieldInt
 
     $old = $xaction->getOldValue();
     $new = $xaction->getNewValue();
-    if (!strlen($old) && strlen($new)) {
+    if (!phutil_nonempty_scalar($old) && phutil_nonempty_scalar($new)) {
       return true;
-    } else if (strlen($old) && !strlen($new)) {
+    } else if (phutil_nonempty_scalar($old) && !phutil_nonempty_scalar($new)) {
       return true;
     } else {
       return ((int)$old !== (int)$new);

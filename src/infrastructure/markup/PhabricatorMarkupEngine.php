@@ -526,7 +526,7 @@ final class PhabricatorMarkupEngine extends Phobject {
     $rules[] = new PhutilRemarkupEscapeRemarkupRule();
     $rules[] = new PhutilRemarkupEvalRule();
     $rules[] = new PhutilRemarkupMonospaceRule();
-
+    $rules[] = new PhutilRemarkupHexColorCodeRule();
 
     $rules[] = new PhutilRemarkupDocumentLinkRule();
     $rules[] = new PhabricatorNavigationRemarkupRule();

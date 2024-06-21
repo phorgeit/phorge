@@ -8,7 +8,7 @@ final class PhabricatorAppSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorApplicationsApplication';
+    return PhabricatorApplicationsApplication::class;
   }
 
   public function getPageSize(PhabricatorSavedQuery $saved) {

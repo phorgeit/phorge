@@ -11,6 +11,15 @@ final class PhabricatorSearchTextField
     return $request->getStr($key);
   }
 
+  protected function validateControlValue($value) {
+    if (!is_array($value)) {
+      return;
+    }
+    $this->addError(
+      pht('Invalid'),
+      pht('Text value for "%s" can not be parsed.', $this->getLabel()));
+  }
+
   protected function newControl() {
     return new AphrontFormTextControl();
   }

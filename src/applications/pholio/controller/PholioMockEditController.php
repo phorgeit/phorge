@@ -108,6 +108,7 @@ final class PholioMockEditController extends PholioController {
       foreach ($mock_xactions as $type => $value) {
         $xactions[$type] = id(new PholioTransaction())
           ->setTransactionType($type)
+          ->setIsCreateTransaction($is_new)
           ->setNewValue($value);
       }
 

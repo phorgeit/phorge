@@ -8,7 +8,7 @@ final class PhabricatorBadgesSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
   public function newQuery() {

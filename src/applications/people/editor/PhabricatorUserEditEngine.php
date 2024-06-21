@@ -22,7 +22,7 @@ final class PhabricatorUserEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   protected function newEditableObject() {

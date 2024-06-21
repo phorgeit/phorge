@@ -8,7 +8,7 @@ final class PhabricatorOAuthServerClientSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
   public function canUseInPanelContext() {

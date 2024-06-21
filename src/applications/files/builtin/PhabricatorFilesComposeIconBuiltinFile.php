@@ -51,12 +51,14 @@ final class PhabricatorFilesComposeIconBuiltinFile
     $map = array();
     $list = Filesystem::listDirectory($root, $include_hidden = false);
     foreach ($list as $file) {
-      $short = preg_replace('/\.png$/', '', $file);
-
-      $map[$short] = array(
-        'path' => $root.$file,
-        'quip' => idx($quips, $short, $short),
-      );
+      $count = 0;
+      $short = preg_replace('/\.png$/', '', $file, -1, $count);
+      if ($count === 1) {
+        $map[$short] = array(
+         'path' => $root.$file,
+         'quip' => idx($quips, $short, $short),
+        );
+      }
     }
 
     return $map;
@@ -96,6 +98,14 @@ final class PhabricatorFilesComposeIconBuiltinFile
   }
 
   private function composeImage($color, $icon) {
+    // If we don't have the GD extension installed, just return a static
+    // default project image rather than trying to compose one.
+    if (!function_exists('imagecreatefromstring')) {
+      $root = dirname(phutil_get_library_root('phabricator'));
+      $default_path = $root.'/resources/builtin/profile.png';
+      return Filesystem::readFile($default_path);
+    }
+
     $color_map = self::getAllColors();
     $color = idx($color_map, $color);
     if (!$color) {

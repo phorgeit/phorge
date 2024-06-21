@@ -7,7 +7,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDivinerApplication';
+    return PhabricatorDivinerApplication::class;
   }
 
   public function canUseInPanelContext() {

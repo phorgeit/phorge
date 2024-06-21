@@ -12,7 +12,7 @@ final class HeraldRuleTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function loadResults() {

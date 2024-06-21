@@ -14,7 +14,7 @@ final class DoorkeeperExternalObjectPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDoorkeeperApplication';
+    return PhabricatorDoorkeeperApplication::class;
   }
 
   protected function buildQueryForObjects(

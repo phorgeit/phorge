@@ -41,19 +41,19 @@ final class PhabricatorConduitCallManagementWorkflow
     $viewer = $this->getViewer();
 
     $method = $args->getArg('method');
-    if (!strlen($method)) {
+    if (!phutil_nonempty_string($method)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a method to call with "--method".'));
     }
 
     $input = $args->getArg('input');
-    if (!strlen($input)) {
+    if (!phutil_nonempty_string($input)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a file to read parameters from with "--input".'));
     }
 
     $as = $args->getArg('as');
-    if (strlen($as)) {
+    if (phutil_nonempty_string($as)) {
       $actor = id(new PhabricatorPeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($as))

@@ -22,7 +22,7 @@ final class HarbormasterBuildableEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
   protected function newEditableObject() {

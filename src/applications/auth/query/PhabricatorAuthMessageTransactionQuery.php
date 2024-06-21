@@ -7,4 +7,8 @@ final class PhabricatorAuthMessageTransactionQuery
     return new PhabricatorAuthMessageTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAuthApplication::class;
+  }
+
 }

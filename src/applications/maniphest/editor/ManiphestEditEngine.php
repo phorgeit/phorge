@@ -18,7 +18,7 @@ final class ManiphestEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function isDefaultQuickCreateEngine() {

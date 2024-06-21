@@ -13,7 +13,7 @@ final class PhabricatorPhamePostPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   protected function buildQueryForObjects(

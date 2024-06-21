@@ -326,9 +326,11 @@ final class DiffusionBrowseController extends DiffusionController {
       ));
 
     $crumbs->setBorder(true);
+    $locate_file = $this->buildLocateFile();
     $tabs = $this->buildTabsView('code');
     $owners_list = $this->buildOwnersList($drequest);
     $bar = id(new PHUILeftRightView())
+      ->setLeft($locate_file)
       ->setRight($this->corpusButtons)
       ->addClass('diffusion-action-bar');
 

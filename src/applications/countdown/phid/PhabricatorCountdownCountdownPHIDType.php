@@ -13,7 +13,7 @@ final class PhabricatorCountdownCountdownPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return PhabricatorCountdownApplication::class;
   }
 
   protected function buildQueryForObjects(

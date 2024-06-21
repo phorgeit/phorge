@@ -4,7 +4,7 @@ final class LegalpadDocumentEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
   public function getEditorObjectsDescription() {

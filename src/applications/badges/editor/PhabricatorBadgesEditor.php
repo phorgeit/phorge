@@ -4,7 +4,7 @@ final class PhabricatorBadgesEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
   public function getEditorObjectsDescription() {

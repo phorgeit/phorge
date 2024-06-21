@@ -13,7 +13,7 @@ final class PhortuneProductPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   protected function buildQueryForObjects(

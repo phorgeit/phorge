@@ -27,7 +27,7 @@ final class PhabricatorAuthManagementUnlimitWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $username = $args->getArg('user');
-    if (!strlen($username)) {
+    if (!phutil_nonempty_string($username)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Use %s to choose a user to reset actions for.', '--user'));

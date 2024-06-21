@@ -118,7 +118,7 @@ final class PhortuneMerchantQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhortuneApplication';
+    return PhabricatorPhortuneApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

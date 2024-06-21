@@ -7,4 +7,8 @@ final class PhabricatorRepositoryURITransactionQuery
     return new PhabricatorRepositoryURITransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDiffusionApplication::class;
+  }
+
 }

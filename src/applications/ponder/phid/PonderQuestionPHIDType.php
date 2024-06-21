@@ -13,7 +13,7 @@ final class PonderQuestionPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
   protected function buildQueryForObjects(

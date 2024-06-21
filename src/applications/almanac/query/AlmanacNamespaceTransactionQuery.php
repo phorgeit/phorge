@@ -7,4 +7,8 @@ final class AlmanacNamespaceTransactionQuery
     return new AlmanacNamespaceTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAlmanacApplication::class;
+  }
+
 }

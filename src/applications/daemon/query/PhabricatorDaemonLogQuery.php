@@ -189,7 +189,7 @@ final class PhabricatorDaemonLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return PhabricatorDaemonsApplication::class;
   }
 
 }

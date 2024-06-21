@@ -41,7 +41,7 @@ final class DoorkeeperExternalObjectQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDoorkeeperApplication';
+    return PhabricatorDoorkeeperApplication::class;
   }
 
 }

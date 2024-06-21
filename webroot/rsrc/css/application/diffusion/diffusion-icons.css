@@ -2,11 +2,6 @@
  * @provides diffusion-icons-css
  */
 
-input.diffusion-clone-uri {
-  display: block;
-  width: 100%;
-}
-
 .diffusion-clone-extras {
   font-size: 11px;
   text-align: right;
@@ -35,21 +30,35 @@ input.diffusion-clone-uri {
   padding: 0;
 }
 
-.diffusion-clone-uri-table {
-  width: 100%;
+.diffusion-clone-uri-wrapper {
+  display: flex;
 }
 
-.diffusion-clone-uri-table th {
-  width: 24px;
-  padding: 0 0 0 4px;
+.diffusion-clone-uri-wrapper .diffusion-clone-uri-io {
+  align-items: center;
+  justify-content: center;
+  border: 1px solid {$greyborder};
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: flex;
+  width: 38px;
 }
 
-.diffusion-clone-uri-table th a.button {
+.diffusion-clone-uri-wrapper a.button {
   width: 12px;
   height: 19px;
+  margin-left: 4px;
 }
 
-.diffusion-clone-uri-table th a.button .phui-icon-view {
+.diffusion-clone-uri-wrapper a.button .phui-icon-view {
   left: 15px;
   top: 7px;
+}
+
+.diffusion-clone-uri-wrapper  input.diffusion-clone-uri {
+  border-left: none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  display: block;
+  width: 100%;
 }

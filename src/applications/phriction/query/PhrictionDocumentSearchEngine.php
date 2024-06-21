@@ -8,7 +8,7 @@ final class PhrictionDocumentSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhrictionApplication';
+    return PhabricatorPhrictionApplication::class;
   }
 
   public function newQuery() {

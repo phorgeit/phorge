@@ -41,7 +41,7 @@ final class PhabricatorEditEngineConfigurationEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return PhabricatorTransactionsApplication::class;
   }
 
   protected function newEditableObject() {

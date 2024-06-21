@@ -25,7 +25,7 @@ final class DiffusionCommitEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function newEditableObject() {
@@ -100,19 +100,22 @@ final class DiffusionCommitEditEngine
     $data = $object->getCommitData();
 
     $fields = array();
-
-    $fields[] = id(new PhabricatorDatasourceEditField())
-      ->setKey('auditors')
-      ->setLabel(pht('Auditors'))
-      ->setDatasource(new DiffusionAuditorDatasource())
-      ->setUseEdgeTransactions(true)
-      ->setTransactionType(
-        DiffusionCommitAuditorsTransaction::TRANSACTIONTYPE)
-      ->setCommentActionLabel(pht('Change Auditors'))
-      ->setDescription(pht('Auditors for this commit.'))
-      ->setConduitDescription(pht('Change the auditors for this commit.'))
-      ->setConduitTypeDescription(pht('New auditors.'))
-      ->setValue($object->getAuditorPHIDsForEdit());
+    // remove "Change Auditors" from "Add Action" dropdown etc
+    // if Audit is not installed
+    if (id(new PhabricatorAuditApplication())->isInstalled()) {
+      $fields[] = id(new PhabricatorDatasourceEditField())
+        ->setKey('auditors')
+        ->setLabel(pht('Auditors'))
+          ->setDatasource(new DiffusionAuditorDatasource())
+        ->setUseEdgeTransactions(true)
+        ->setTransactionType(
+          DiffusionCommitAuditorsTransaction::TRANSACTIONTYPE)
+        ->setCommentActionLabel(pht('Change Auditors'))
+        ->setDescription(pht('Auditors for this commit.'))
+        ->setConduitDescription(pht('Change the auditors for this commit.'))
+        ->setConduitTypeDescription(pht('New auditors.'))
+        ->setValue($object->getAuditorPHIDsForEdit());
+    }
 
     $actions = DiffusionCommitActionTransaction::loadAllActions();
     $actions = msortv($actions, 'getCommitActionOrderVector');

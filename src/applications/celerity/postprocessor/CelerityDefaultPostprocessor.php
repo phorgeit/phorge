@@ -20,13 +20,13 @@ final class CelerityDefaultPostprocessor
   public function buildVariables() {
     return array(
       // Fonts
-      'basefont' => "13px -apple-system, system-ui, BlinkMacSystemFont, ".
-        "'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lato', ".
-        "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      'basefont' => "13px 'Segoe UI', 'Segoe UI Emoji', ".
+        "'Segoe UI Symbol', 'Lato', 'Helvetica Neue', ".
+        "Helvetica, Arial, sans-serif",
 
-      'fontfamily' => "-apple-system, system-ui, BlinkMacSystemFont, ".
-        "'Segoe UI', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lato', ".
-        "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      'fontfamily' => "'Segoe UI', 'Segoe UI Emoji', ".
+        "'Segoe UI Symbol', 'Lato', 'Helvetica Neue', ".
+        "Helvetica, Arial, sans-serif",
 
       // Drop Shadow
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
@@ -247,6 +247,67 @@ final class CelerityDefaultPostprocessor
       'delete-color' => '#c0392b',
       'create-color' => '#139543',
 
+      // Codeblock syntax highlighting
+      'syntax.highlighted-line' => '#ffffcc',
+      'syntax.comment' => '#74777d',
+      'syntax.comment-multiline' => '#74777d',
+      'syntax.comment-single' => '#74777d',
+      'syntax.comment-special' => '#74777d',
+      'syntax.string-doc' => '#000000',
+      'syntax.string-heredoc' => '#000000',
+      'syntax.string' => '#766510',
+      'syntax.string-backtick' => '#766510',
+      'syntax.literal-string-char' => '#766510',
+      'syntax.string-double' => '#766510',
+      'syntax.string-single' => '#766510',
+      'syntax.string-other' => '#766510',
+      'syntax.string-regex' => '#bb6688',
+      'syntax.name-variable' => '#001294',
+      'syntax.variable-instance' => '#001294',
+      'syntax.variable-global' => '#001294',
+      'syntax.name-attribute' => '#354bb3',
+      'syntax.keyword-constant' => '#000a65',
+      'syntax.name-operator' => '#000a65',
+      'syntax.keyword' => '#aa4000',
+      'syntax.keyword-declaration' => '#aa4000',
+      'syntax.keyword-namespace' => '#aa4000',
+      'syntax.keyword-type' => '#aa4000',
+      'syntax.comment-preproc' => '#304a96',
+      'syntax.keyword-preproc' => '#304a96',
+      'syntax.keyword-reserved' => '#304a96',
+      'syntax.name-builtin' => '#304a96',
+      'syntax.builtin-pseudo' => '#304a96',
+      'syntax.name-class' => '#00702a',
+      'syntax.name-tag' => '#00702a',
+      'syntax.name-variable-class' => '#00702a',
+      'syntax.name-function' => '#004012',
+      'syntax.name-exception' => '#004012',
+      'syntax.operator' => '#aa2211',
+      'syntax.punctuation' => '#000000',
+      'syntax.literal-string-symbol' => '#aa2211',
+      'syntax.literal-number' => '#601200',
+      'syntax.literal-number-float' => '#601200',
+      'syntax.literal-number-hex' => '#601200',
+      'syntax.literal-number-integer' => '#601200',
+      'syntax.literal-number-octal' => '#601200',
+      'syntax.literal-number-integer-long' => '#601200',
+      'syntax.generic-deleted' => '#a00000',
+      'syntax.generic-red' => '#ff0000',
+      'syntax.generic-heading' => '#000080',
+      'syntax.generic-inserted' => '#00a000',
+      'syntax.generic-output' => '#808080',
+      'syntax.generic-prompt' => '#000080',
+      'syntax.generic-underline' => '#800080',
+      'syntax.generic-traceback' => '#0040d0',
+      'syntax.name-decorator' => '#aa22ff',
+      'syntax.name-identifier' => '#92969d',
+      'syntax.name-entity' => '#d2413a',
+      'syntax.name-label' => '#a0a000',
+      'syntax.name-namespace' => '#0000ff',
+      'syntax.operator-word' => '#aa22ff',
+      'syntax.text-whitespace' => '#bbbbbb',
+      'syntax.literal-string-escape' => '#bb6622',
+      'syntax.literal-string-interpol' => '#bb66bb',
     );
   }
 

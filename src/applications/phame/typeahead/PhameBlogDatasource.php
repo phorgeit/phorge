@@ -12,7 +12,7 @@ final class PhameBlogDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   public function loadResults() {

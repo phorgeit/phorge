@@ -18,7 +18,7 @@ final class PhabricatorPasteEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return PhabricatorPasteApplication::class;
   }
 
   protected function newEditableObject() {

@@ -32,6 +32,11 @@ class MimeMailParser {
 	public $attachment_streams;
 
 	/**
+	 * Parts of an email
+	 */
+	private $parts = array();
+
+	/**
 	 * Inialize some stuff
 	 * @return
 	 */
@@ -303,10 +308,10 @@ class MimeMailParser {
 	 * @param $part Array
 	 */
 	private function getPartHeaders($part) {
-		if (isset($part['headers'])) {
+		if (isset($part['headers']) && $part['headers']) {
 			return $part['headers'];
 		}
-		return false;
+		throw new Exception('MimeMailParser::getHeaders() could not parse any email headers.');
 	}
 
 	/**

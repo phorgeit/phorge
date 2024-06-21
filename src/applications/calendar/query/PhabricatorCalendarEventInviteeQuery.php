@@ -93,7 +93,7 @@ final class PhabricatorCalendarEventInviteeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
 }

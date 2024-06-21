@@ -7,4 +7,8 @@ final class PhabricatorPackagesVersionTransactionQuery
     return new PhabricatorPackagesVersionTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPackagesApplication::class;
+  }
+
 }

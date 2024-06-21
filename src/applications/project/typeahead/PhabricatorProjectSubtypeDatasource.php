@@ -12,7 +12,7 @@ final class PhabricatorProjectSubtypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function loadResults() {

@@ -9,8 +9,13 @@ final class DiffusionAuditorsAddSelfHeraldAction
     return pht('Add me as an auditor');
   }
 
+  // hide "Add me as an auditor" Herald action if Audit not installed
   public function supportsRuleType($rule_type) {
-    return ($rule_type == HeraldRuleTypeConfig::RULE_TYPE_PERSONAL);
+    if (id(new PhabricatorAuditApplication())->isInstalled()) {
+      return ($rule_type == HeraldRuleTypeConfig::RULE_TYPE_PERSONAL);
+    } else {
+      return false;
+    }
   }
 
   public function applyEffect($object, HeraldEffect $effect) {

@@ -7,4 +7,8 @@ final class PhabricatorAuthSSHKeyTransactionQuery
     return new PhabricatorAuthSSHKeyTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAuthApplication::class;
+  }
+
 }

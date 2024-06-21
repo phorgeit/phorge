@@ -4,7 +4,7 @@ final class PassphraseCredentialTransactionEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPassphraseApplication';
+    return PhabricatorPassphraseApplication::class;
   }
 
   public function getEditorObjectsDescription() {

@@ -8,7 +8,7 @@ final class ConpherenceThreadSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   public function newQuery() {
@@ -151,7 +151,7 @@ final class ConpherenceThreadSearchEngine
       $icon = id(new PHUIIconView())
         ->setIcon($icon_name);
 
-      if (!strlen($fulltext)) {
+      if (!phutil_nonempty_string($fulltext)) {
         $item = id(new PHUIObjectItemView())
           ->setObjectName($conpherence->getMonogram())
           ->setHeader($title)

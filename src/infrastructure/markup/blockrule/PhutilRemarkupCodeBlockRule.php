@@ -153,6 +153,11 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
       return implode("\n", $out);
     }
 
+    // The name is usually a sufficient source of information for file ext.
+    if (empty($options['lang']) && isset($options['name'])) {
+      $options['lang'] = $this->guessFilenameExtension($options['name']);
+    }
+
     if (empty($options['lang'])) {
       // If the user hasn't specified "lang=..." explicitly, try to guess the
       // language. If we fail, fall back to configured defaults.
@@ -341,6 +346,20 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
       'vba' => 1,
     );
     return $map;
+  }
+
+  /**
+   * Get the extension from a filename.
+   * @param  string "/path/to/something.name"
+   * @return null|string ".name"
+   */
+  private function guessFilenameExtension($name) {
+    $name = basename($name);
+    $pos = strrpos($name, '.');
+    if ($pos !== false) {
+      return substr($name, $pos + 1);
+    }
+    return null;
   }
 
 }

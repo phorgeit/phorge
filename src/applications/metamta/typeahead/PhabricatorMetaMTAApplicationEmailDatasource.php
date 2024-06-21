@@ -17,7 +17,7 @@ final class PhabricatorMetaMTAApplicationEmailDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   public function loadResults() {

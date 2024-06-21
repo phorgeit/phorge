@@ -62,7 +62,7 @@ final class PhabricatorFilesManagementMigrateWorkflow
     // it as though it is configured to use the specified location.
 
     $local_disk_source = $args->getArg('local-disk-source');
-    if (strlen($local_disk_source)) {
+    if (phutil_nonempty_string($local_disk_source)) {
       $path = Filesystem::resolvePath($local_disk_source);
       try {
         Filesystem::assertIsDirectory($path);

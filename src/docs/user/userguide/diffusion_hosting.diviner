@@ -585,6 +585,32 @@ Very carefully, restart `sshd`. Verify that you can connect on the new port:
 Now you can move the Phorge `sshd` to port 22, then adjust the value
 for `diffusion.ssh-port` in your Phorge configuration.
 
+You can set up and enable this systemd unit to start the second sshd
+daemon on every reboot:
+
+```
+name=/etc/systemd/system/phorge-ssh.service,lang=ini
+[Unit]
+Description=Phorge sshd
+Documentation=https://we.phorge.it/book/phorge/article/diffusion_hosting/#sshd-setup
+After=network.target auditd.service
+
+[Service]
+ExecStartPre=/usr/sbin/sshd -t -f /path/to/config_file.edited
+ExecStart=/usr/sbin/sshd -f /path/to/config_file.edited
+ExecReload=/usr/sbin/sshd -t -f /path/to/config_file.edited
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=phorge-sshd.service
+```
 
 No Direct Pushes
 ================

@@ -13,7 +13,7 @@ final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
   protected function buildQueryForObjects(

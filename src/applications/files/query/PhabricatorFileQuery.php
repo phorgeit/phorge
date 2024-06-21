@@ -540,7 +540,7 @@ final class PhabricatorFileQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFilesApplication';
+    return PhabricatorFilesApplication::class;
   }
 
 }

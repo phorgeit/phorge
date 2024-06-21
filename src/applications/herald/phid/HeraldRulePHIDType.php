@@ -13,7 +13,7 @@ final class HeraldRulePHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   protected function buildQueryForObjects(

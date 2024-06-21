@@ -165,7 +165,7 @@ final class PhabricatorSlowvoteQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSlowvoteApplication';
+    return PhabricatorSlowvoteApplication::class;
   }
 
 }

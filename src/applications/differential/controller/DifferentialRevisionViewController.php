@@ -1090,20 +1090,13 @@ final class DifferentialRevisionViewController
 
     $request_uri = $this->getRequest()->getRequestURI();
 
-    // this ends up being something like
-    //   D123.diff
-    // or the verbose
-    //   D123.vs123.id123.highlightjs.diff
-    // lame but nice to include these options
-    $file_name = ltrim($request_uri->getPath(), '/').'.';
-    foreach ($request_uri->getQueryParamsAsPairList() as $pair) {
-      list($key, $value) = $pair;
-      if ($key == 'download') {
-        continue;
-      }
-      $file_name .= $key.$value.'.';
-    }
-    $file_name .= 'diff';
+    // Filename ends up being something like D123.1692295858.diff
+    // This discards some options in the query string that may affect the diff
+    // response, but is intentional to avoid spammy titles from bot requests.
+    $timestamp =
+      PhabricatorTime::getNow() +
+      phutil_units('24 hours in seconds');
+    $file_name = ltrim($request_uri->getPath(), '/').'.'.$timestamp.'.diff';
 
     $iterator = new ArrayIterator(array($raw_diff));
 

@@ -7,4 +7,8 @@ final class DifferentialDiffTransactionQuery
     return new DifferentialDiffTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDifferentialApplication::class;
+  }
+
 }

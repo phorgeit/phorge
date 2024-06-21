@@ -7,4 +7,8 @@ final class PhabricatorOAuthServerTransactionQuery
     return new PhabricatorOAuthServerTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorOAuthServerApplication::class;
+  }
+
 }

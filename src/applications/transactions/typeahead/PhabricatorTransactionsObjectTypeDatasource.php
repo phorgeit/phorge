@@ -12,7 +12,7 @@ final class PhabricatorTransactionsObjectTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorTransactionsApplication';
+    return PhabricatorTransactionsApplication::class;
   }
 
   protected function renderSpecialTokens(array $values) {

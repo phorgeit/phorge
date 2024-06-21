@@ -103,6 +103,6 @@ final class PhabricatorPhurlURLQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhurlApplication';
+    return PhabricatorPhurlApplication::class;
   }
 }

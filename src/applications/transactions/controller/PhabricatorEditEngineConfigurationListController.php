@@ -13,12 +13,11 @@ final class PhabricatorEditEngineConfigurationListController
     $engine_key = $request->getURIData('engineKey');
     $this->setEngineKey($engine_key);
 
-    $engine = PhabricatorEditEngine::getByKey($viewer, $engine_key)
-      ->setViewer($viewer);
-
-    if (!$engine->isEngineConfigurable()) {
+    $engine = PhabricatorEditEngine::getByKey($viewer, $engine_key);
+    if (!$engine || !$engine->isEngineConfigurable()) {
       return new Aphront404Response();
     }
+    $engine->setViewer($viewer);
 
     $items = array();
     $items[] = id(new PHUIListItemView())

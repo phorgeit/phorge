@@ -203,16 +203,13 @@ div.phui-property-list-stacked .phui-property-list-properties
   border-bottom: 1px solid {$blueborder};
 }
 
-
-.document-engine-image img,
-.phabricator-remarkup-embed-image img {
+.document-engine-image img {
   margin: 20px auto;
   background: url('/rsrc/image/checker_light.png');
   max-width: 100%;
 }
 
-.device-desktop .document-engine-image img:hover,
-.device-desktop .phabricator-remarkup-embed-image img:hover {
+.device-desktop .document-engine-image img:hover {
   background: url('/rsrc/image/checker_dark.png');
 }
 

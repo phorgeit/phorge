@@ -93,7 +93,7 @@ final class PhabricatorAuthContactNumberQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
 }

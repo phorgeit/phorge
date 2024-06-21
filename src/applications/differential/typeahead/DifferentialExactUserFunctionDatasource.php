@@ -12,7 +12,7 @@ final class DifferentialExactUserFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   public function getComponentDatasources() {

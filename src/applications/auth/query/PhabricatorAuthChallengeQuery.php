@@ -89,7 +89,7 @@ final class PhabricatorAuthChallengeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
 }

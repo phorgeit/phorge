@@ -7,4 +7,8 @@ final class PhabricatorPasteTransactionQuery
     return new PhabricatorPasteTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPasteApplication::class;
+  }
+
 }

@@ -275,16 +275,18 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
         ->setOptions($orders);
     }
 
-    $buckets = $this->newResultBuckets();
-    if ($query && $buckets) {
-      $bucket_options = array(
-        self::BUCKET_NONE => pht('No Bucketing'),
-      ) + mpull($buckets, 'getResultBucketName');
+    if (id(new PhabricatorAuditApplication())->isInstalled()) {
+      $buckets = $this->newResultBuckets();
+      if ($query && $buckets) {
+        $bucket_options = array(
+          self::BUCKET_NONE => pht('No Bucketing'),
+        ) + mpull($buckets, 'getResultBucketName');
 
-      $fields[] = id(new PhabricatorSearchSelectField())
-        ->setLabel(pht('Bucket'))
-        ->setKey('bucket')
-        ->setOptions($bucket_options);
+        $fields[] = id(new PhabricatorSearchSelectField())
+          ->setLabel(pht('Bucket'))
+          ->setKey('bucket')
+          ->setOptions($bucket_options);
+      }
     }
 
     $field_map = array();

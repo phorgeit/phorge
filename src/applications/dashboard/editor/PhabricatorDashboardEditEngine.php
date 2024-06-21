@@ -22,7 +22,7 @@ final class PhabricatorDashboardEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   protected function newEditableObject() {

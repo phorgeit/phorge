@@ -7,4 +7,8 @@ final class HarbormasterBuildStepTransactionQuery
     return new HarbormasterBuildStepTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorHarbormasterApplication::class;
+  }
+
 }

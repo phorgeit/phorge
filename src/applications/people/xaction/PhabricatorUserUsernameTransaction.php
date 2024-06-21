@@ -78,6 +78,10 @@ final class PhabricatorUserUsernameTransaction
         $errors[] = $this->newInvalidError(
           PhabricatorUser::describeValidUsername(),
           $xaction);
+      } else if ($this->generateOldValue($object) === $new) {
+        $errors[] = $this->newInvalidError(
+          pht('New username cannot be the old username.'),
+          $xaction);
       }
 
       $user = id(new PhabricatorPeopleQuery())

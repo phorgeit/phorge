@@ -53,7 +53,7 @@ final class PhabricatorSettingsEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorSettingsApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
   protected function newEditableObject() {

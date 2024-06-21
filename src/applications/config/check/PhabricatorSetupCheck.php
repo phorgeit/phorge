@@ -122,7 +122,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
     $db_cache = new PhabricatorKeyValueDatabaseCache();
     try {
       $value = $db_cache->getKey('phabricator.setup.issue-keys');
-      if (!strlen($value)) {
+      if (!phutil_nonempty_string($value)) {
         return null;
       }
       return phutil_json_decode($value);

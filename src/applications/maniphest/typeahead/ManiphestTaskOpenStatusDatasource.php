@@ -14,7 +14,7 @@ final class ManiphestTaskOpenStatusDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function getDatasourceFunctions() {

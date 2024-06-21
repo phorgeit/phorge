@@ -21,7 +21,7 @@ final class PhabricatorStandardCustomFieldLink
   public function renderPropertyViewValue(array $handles) {
     $value = $this->getFieldValue();
 
-    if (!strlen($value)) {
+    if (!phutil_nonempty_string($value)) {
       return null;
     }
 

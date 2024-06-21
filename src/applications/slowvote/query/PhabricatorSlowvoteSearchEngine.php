@@ -8,7 +8,7 @@ final class PhabricatorSlowvoteSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSlowvoteApplication';
+    return PhabricatorSlowvoteApplication::class;
   }
 
   public function newQuery() {

@@ -7,4 +7,8 @@ final class PhabricatorDashboardPortalTransactionQuery
     return new PhabricatorDashboardPortalTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDashboardApplication::class;
+  }
+
 }

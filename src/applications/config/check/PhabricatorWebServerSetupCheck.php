@@ -58,6 +58,7 @@ final class PhabricatorWebServerSetupCheck extends PhabricatorSetupCheck {
       $gzip_future = id(new HTTPSFuture($base_uri))
         ->addHeader('X-Setup-SelfCheck', 1)
         ->addHeader('Content-Encoding', 'gzip')
+        ->setMethod('POST')
         ->setTimeout(5)
         ->setData($gzip_compressed);
 

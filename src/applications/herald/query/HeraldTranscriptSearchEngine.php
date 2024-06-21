@@ -8,7 +8,7 @@ final class HeraldTranscriptSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function canUseInPanelContext() {

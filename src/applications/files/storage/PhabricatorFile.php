@@ -971,10 +971,13 @@ final class PhabricatorFile extends PhabricatorFileDAO
     // warns you if you don't have complete support.
 
     $matches = null;
-    $ok = preg_match(
-      '@^image/(gif|png|jpe?g)@',
-      $this->getViewableMimeType(),
-      $matches);
+    $ok = false;
+    if ($this->getViewableMimeType() !== null) {
+      $ok = preg_match(
+        '@^image/(gif|png|jpe?g)@',
+        $this->getViewableMimeType(),
+        $matches);
+    }
     if (!$ok) {
       return false;
     }
@@ -1411,11 +1414,33 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   /**
    * Write the policy edge between this file and some object.
+   * This method is successful even if the file is already attached.
    *
    * @param phid Object PHID to attach to.
    * @return this
    */
   public function attachToObject($phid) {
+    self::attachFileToObject($this->getPHID(), $phid);
+    return $this;
+  }
+
+  /**
+   * Write the policy edge between a file and some object.
+   * This method is successful even if the file is already attached.
+   * NOTE: Please avoid to use this static method directly.
+   *       Instead, use PhabricatorFile#attachToObject(phid).
+   *
+   * @param phid File PHID to attach from.
+   * @param phid Object PHID to attach to.
+   * @return void
+   */
+  public static function attachFileToObject($file_phid, $object_phid) {
+
+    // It can be easy to confuse the two arguments. Be strict.
+    if (phid_get_type($file_phid) !== PhabricatorFileFilePHIDType::TYPECONST) {
+      throw new Exception(pht('The first argument must be a phid of a file.'));
+    }
+
     $attachment_table = new PhabricatorFileAttachment();
     $attachment_conn = $attachment_table->establishConnection('w');
 
@@ -1429,14 +1454,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
           attacherPHID = VALUES(attacherPHID),
           dateModified = VALUES(dateModified)',
       $attachment_table,
-      $phid,
-      $this->getPHID(),
+      $object_phid,
+      $file_phid,
       PhabricatorFileAttachment::MODE_ATTACH,
       null,
       PhabricatorTime::getNow(),
       PhabricatorTime::getNow());
-
-    return $this;
   }
 
 

@@ -16,8 +16,16 @@ JX.behavior('select-content', function() {
       var node = e.getNode('select-content');
       var data = JX.Stratcom.getData(node);
 
+      if (data.once && data.selected) {
+        return;
+      }
+
       var target = JX.$(data.selectID);
       JX.DOM.focus(target);
       target.select();
+
+      if (data.once) {
+        JX.Stratcom.addData(node, {selected: true});
+      }
     });
 });

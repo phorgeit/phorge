@@ -7,4 +7,8 @@ final class DrydockBlueprintTransactionQuery
     return new DrydockBlueprintTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDrydockApplication::class;
+  }
+
 }

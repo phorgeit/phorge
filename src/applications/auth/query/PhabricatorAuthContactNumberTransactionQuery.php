@@ -7,4 +7,8 @@ final class PhabricatorAuthContactNumberTransactionQuery
     return new PhabricatorAuthContactNumberTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAuthApplication::class;
+  }
+
 }

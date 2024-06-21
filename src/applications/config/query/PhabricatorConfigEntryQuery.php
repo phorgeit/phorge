@@ -54,7 +54,7 @@ final class PhabricatorConfigEntryQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorConfigApplication';
+    return PhabricatorConfigApplication::class;
   }
 
 }

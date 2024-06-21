@@ -30,6 +30,10 @@ final class PhabricatorPhortuneApplication extends PhabricatorApplication {
     return true;
   }
 
+  public function isDeprecated() {
+    return true;
+  }
+
   public function getRoutes() {
     return array(
       '/phortune/' => array(

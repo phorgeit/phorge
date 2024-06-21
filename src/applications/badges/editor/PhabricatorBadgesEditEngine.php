@@ -10,7 +10,7 @@ final class PhabricatorBadgesEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorBadgesApplication';
+    return PhabricatorBadgesApplication::class;
   }
 
   public function getSummaryHeader() {

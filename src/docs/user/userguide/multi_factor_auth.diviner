@@ -106,7 +106,7 @@ When you're asked to confirm your identity in the future, you'll be texted
 an authorization code to enter into the prompt.
 
 (WARNING) SMS is a very weak factor and can be compromised or intercepted. For
-details, see: <https://phurl.io/u/sms>.
+details, see: <https://secure.phabricator.com/T13241>.
 
 
 Factor: Duo

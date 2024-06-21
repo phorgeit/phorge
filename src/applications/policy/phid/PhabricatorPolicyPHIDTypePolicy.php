@@ -13,7 +13,7 @@ final class PhabricatorPolicyPHIDTypePolicy extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorPolicyApplication';
+    return PhabricatorPolicyApplication::class;
   }
 
   protected function buildQueryForObjects(

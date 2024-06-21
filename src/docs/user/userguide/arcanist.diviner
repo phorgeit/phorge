@@ -90,7 +90,7 @@ have PHP installed, you can download it from <http://www.php.net/>.
 
 To install Arcanist, pick an install directory and clone the code from GitHub:
 
-  some_install_path/ $ git clone https://github.com/phacility/arcanist.git
+  some_install_path/ $ git clone https://github.com/phorgeit/arcanist.git
 
 Now add `some_install_path/arcanist/bin/` to your PATH environment variable.
 When you type "arc", you should see something like this:

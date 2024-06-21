@@ -7,4 +7,8 @@ final class HarbormasterBuildPlanTransactionQuery
     return new HarbormasterBuildPlanTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorHarbormasterApplication::class;
+  }
+
 }

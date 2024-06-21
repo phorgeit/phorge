@@ -169,7 +169,7 @@ final class PhabricatorFeedQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFeedApplication';
+    return PhabricatorFeedApplication::class;
   }
 
 }

@@ -42,7 +42,9 @@ final class PhabricatorTextExportFormat
   private function addRow(array $values) {
     $row = array();
     foreach ($values as $value) {
-      $row[] = addcslashes($value, "\0..\37\\\177..\377");
+      if (phutil_nonempty_string($value)) {
+        $row[] = addcslashes($value, "\0..\37\\\177..\377");
+      }
     }
 
     $this->rows[] = implode("\t", $row);

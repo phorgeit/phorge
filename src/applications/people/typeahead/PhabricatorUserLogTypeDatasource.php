@@ -12,7 +12,7 @@ final class PhabricatorUserLogTypeDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorPeopleApplication';
+    return PhabricatorPeopleApplication::class;
   }
 
   public function loadResults() {

@@ -4,7 +4,7 @@ final class NuanceSourceEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   public function getEditorObjectsDescription() {

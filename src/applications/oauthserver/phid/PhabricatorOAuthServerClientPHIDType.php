@@ -13,7 +13,7 @@ final class PhabricatorOAuthServerClientPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorOAuthServerApplication';
+    return PhabricatorOAuthServerApplication::class;
   }
 
   protected function buildQueryForObjects(

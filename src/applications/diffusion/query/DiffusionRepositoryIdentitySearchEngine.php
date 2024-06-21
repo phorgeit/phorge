@@ -8,7 +8,7 @@ final class DiffusionRepositoryIdentitySearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   public function newQuery() {

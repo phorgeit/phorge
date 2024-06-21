@@ -81,7 +81,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $graph_menu = null;
 
     $graph_limit = 200;
-    $overflow_message = null;
+    $graph_error_message = null;
     $task_graph = id(new ManiphestTaskGraph())
       ->setViewer($viewer)
       ->setSeedPHID($task->getPHID())
@@ -102,8 +102,9 @@ final class ManiphestTaskDetailController extends ManiphestController {
       // the search button to browse tasks with the search UI instead.
       $direct_count = count($parent_list) + count($subtask_list);
 
+      $graph_table = null;
       if ($direct_count > $graph_limit) {
-        $overflow_message = pht(
+        $graph_error_message = pht(
           'This task is directly connected to more than %s other tasks. '.
           'Use %s to browse parents or subtasks, or %s to show more of the '.
           'graph.',
@@ -111,14 +112,13 @@ final class ManiphestTaskDetailController extends ManiphestController {
           phutil_tag('strong', array(), pht('Search...')),
           phutil_tag('strong', array(), pht('View Standalone Graph')));
 
-        $graph_table = null;
       } else {
         // If there aren't too many direct tasks, but there are too many total
         // tasks, we'll only render directly connected tasks.
         if ($task_graph->isOverLimit()) {
           $task_graph->setRenderOnlyAdjacentNodes(true);
 
-          $overflow_message = pht(
+          $graph_error_message = pht(
             'This task is connected to more than %s other tasks. '.
             'Only direct parents and subtasks are shown here. Use '.
             '%s to show more of the graph.',
@@ -126,13 +126,22 @@ final class ManiphestTaskDetailController extends ManiphestController {
             phutil_tag('strong', array(), pht('View Standalone Graph')));
         }
 
-        $graph_table = $task_graph->newGraphTable();
+        try {
+          $graph_table = $task_graph->newGraphTable();
+        } catch (Throwable $ex) {
+          phlog($ex);
+          $graph_error_message = pht(
+            'There was an unexpected error displaying the task graph. '.
+            'Use %s to browse parents or subtasks, or %s to show the graph.',
+            phutil_tag('strong', array(), pht('Search...')),
+            phutil_tag('strong', array(), pht('View Standalone Graph')));
+        }
       }
 
-      if ($overflow_message) {
+      if ($graph_error_message) {
         $overflow_view = $this->newTaskGraphOverflowView(
           $task,
-          $overflow_message,
+          $graph_error_message,
           true);
 
         $graph_table = array(

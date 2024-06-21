@@ -24,7 +24,7 @@ final class DrydockBlueprintEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function setBlueprintImplementation(

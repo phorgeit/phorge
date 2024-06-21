@@ -24,7 +24,7 @@ final class PhabricatorAuthFactorProviderEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   public function setProviderFactor(PhabricatorAuthFactor $factor) {

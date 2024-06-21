@@ -7,7 +7,7 @@ final class PhabricatorCalendarEventEditor
   private $newIsAllDay;
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
   public function getEditorObjectsDescription() {

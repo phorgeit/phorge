@@ -23,7 +23,7 @@ final class PhabricatorEditEngineConfigurationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorTransactionsApplication';
+    return PhabricatorTransactionsApplication::class;
   }
 
   public function newQuery() {

@@ -7,4 +7,8 @@ final class HeraldWebhookTransactionQuery
     return new HeraldWebhookTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorHeraldApplication::class;
+  }
+
 }

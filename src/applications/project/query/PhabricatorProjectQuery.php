@@ -705,7 +705,7 @@ final class PhabricatorProjectQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

@@ -4,7 +4,7 @@ final class PhluxVariableEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhluxApplication';
+    return PhabricatorPhluxApplication::class;
   }
 
   public function getEditorObjectsDescription() {

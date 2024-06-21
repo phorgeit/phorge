@@ -7,4 +7,8 @@ final class DivinerLiveBookTransactionQuery
     return new DivinerLiveBookTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDivinerApplication::class;
+  }
+
 }

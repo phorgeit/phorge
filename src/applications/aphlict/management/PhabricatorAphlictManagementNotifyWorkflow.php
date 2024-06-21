@@ -26,7 +26,7 @@ final class PhabricatorAphlictManagementNotifyWorkflow
     $viewer = $this->getViewer();
 
     $username = $args->getArg('user');
-    if (!strlen($username)) {
+    if (!phutil_nonempty_string($username)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify a user to notify with "--user".'));
@@ -45,7 +45,7 @@ final class PhabricatorAphlictManagementNotifyWorkflow
     }
 
     $message = $args->getArg('message');
-    if (!strlen($message)) {
+    if (!phutil_nonempty_string($message)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify a message to send with "--message".'));

@@ -67,7 +67,7 @@ final class PhabricatorCountdownQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCountdownApplication';
+    return PhabricatorCountdownApplication::class;
   }
 
   public function getBuiltinOrders() {

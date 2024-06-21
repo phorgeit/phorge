@@ -7,4 +7,8 @@ final class PhabricatorCalendarEventTransactionQuery
     return new PhabricatorCalendarEventTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorCalendarApplication::class;
+  }
+
 }

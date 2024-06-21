@@ -137,7 +137,7 @@ abstract class PhabricatorOAuth2AuthProvider
 
     switch ($key) {
       case self::PROPERTY_APP_ID:
-        if (strlen($old)) {
+        if (phutil_nonempty_string($old)) {
           return pht(
             '%s updated the OAuth application ID for this provider from '.
             '"%s" to "%s".',
@@ -152,7 +152,7 @@ abstract class PhabricatorOAuth2AuthProvider
             $new);
         }
       case self::PROPERTY_APP_SECRET:
-        if (strlen($old)) {
+        if (phutil_nonempty_string($old)) {
           return pht(
             '%s updated the OAuth application secret for this provider.',
             $xaction->renderHandleLink($author_phid));
@@ -162,7 +162,7 @@ abstract class PhabricatorOAuth2AuthProvider
             $xaction->renderHandleLink($author_phid));
         }
       case self::PROPERTY_NOTE:
-        if (strlen($old)) {
+        if (phutil_nonempty_string($old)) {
           return pht(
             '%s updated the OAuth application notes for this provider.',
             $xaction->renderHandleLink($author_phid));

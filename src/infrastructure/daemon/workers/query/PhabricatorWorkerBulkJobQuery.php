@@ -96,7 +96,7 @@ final class PhabricatorWorkerBulkJobQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDaemonsApplication';
+    return PhabricatorDaemonsApplication::class;
   }
 
 }

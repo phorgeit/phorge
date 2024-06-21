@@ -10,7 +10,7 @@ final class PonderQuestionEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPonderApplication';
+    return PhabricatorPonderApplication::class;
   }
 
   public function getSummaryHeader() {

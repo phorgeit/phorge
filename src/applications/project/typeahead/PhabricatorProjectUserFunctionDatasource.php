@@ -12,7 +12,7 @@ final class PhabricatorProjectUserFunctionDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getComponentDatasources() {

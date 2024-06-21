@@ -14,7 +14,7 @@ final class PhabricatorAuthSessionPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorAuthApplication';
+    return PhabricatorAuthApplication::class;
   }
 
   protected function buildQueryForObjects(

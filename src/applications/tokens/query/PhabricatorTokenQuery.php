@@ -71,7 +71,7 @@ final class PhabricatorTokenQuery
 
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorTokensApplication';
+    return PhabricatorTokensApplication::class;
   }
 
 }

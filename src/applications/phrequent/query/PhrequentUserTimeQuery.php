@@ -326,7 +326,7 @@ final class PhrequentUserTimeQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPhrequentApplication';
+    return PhabricatorPhrequentApplication::class;
   }
 
 }

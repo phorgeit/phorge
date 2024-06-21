@@ -7,4 +7,8 @@ final class HeraldTransactionQuery
     return new HeraldRuleTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorHeraldApplication::class;
+  }
+
 }

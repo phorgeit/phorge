@@ -7,4 +7,8 @@ final class ManiphestTransactionQuery
     return new ManiphestTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorManiphestApplication::class;
+  }
+
 }

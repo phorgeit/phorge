@@ -7,4 +7,8 @@ final class PhabricatorDashboardPanelTransactionQuery
     return new PhabricatorDashboardPanelTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorDashboardApplication::class;
+  }
+
 }

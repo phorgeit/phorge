@@ -34,7 +34,7 @@ final class PhabricatorAuthManagementRefreshWorkflow
         ));
 
     $username = $args->getArg('user');
-    if (strlen($username)) {
+    if (phutil_nonempty_string($username)) {
       $user = id(new PhabricatorPeopleQuery())
         ->setViewer($viewer)
         ->withUsernames(array($username))

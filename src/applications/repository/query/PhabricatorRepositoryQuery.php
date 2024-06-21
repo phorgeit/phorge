@@ -659,7 +659,7 @@ final class PhabricatorRepositoryQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   private function getNormalizedURIs() {

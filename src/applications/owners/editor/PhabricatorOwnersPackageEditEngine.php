@@ -18,7 +18,7 @@ final class PhabricatorOwnersPackageEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorOwnersApplication';
+    return PhabricatorOwnersApplication::class;
   }
 
   protected function newEditableObject() {

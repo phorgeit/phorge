@@ -4,7 +4,7 @@ final class PhameBlogEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   public function getEditorObjectsDescription() {

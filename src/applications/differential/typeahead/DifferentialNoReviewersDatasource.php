@@ -14,7 +14,7 @@ final class DifferentialNoReviewersDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function getDatasourceFunctions() {

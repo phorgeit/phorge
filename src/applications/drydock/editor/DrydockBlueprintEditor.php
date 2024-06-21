@@ -4,7 +4,7 @@ final class DrydockBlueprintEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function getEditorObjectsDescription() {

@@ -24,6 +24,12 @@ final class PhamePostHeaderPictureController
     $post_uri = '/phame/post/view/'.$id;
 
     $supported_formats = PhabricatorFile::getTransformableImageFormats();
+    if ($supported_formats) {
+      $supported_formats_message = pht('Supported image formats: %s.',
+              implode(', ', $supported_formats));
+    } else {
+      $supported_formats_message = pht('Server supports no image formats.');
+    }
     $e_file = true;
     $errors = array();
     $delete_header = ($request->getInt('delete') == 1);
@@ -45,9 +51,7 @@ final class PhamePostHeaderPictureController
       if (!$errors && !$delete_header) {
         if (!$file->isTransformableImage()) {
           $e_file = pht('Not Supported');
-          $errors[] = pht(
-            'This server only supports these image formats: %s.',
-            implode(', ', $supported_formats));
+          $errors[] = $supported_formats_message;
         }
       }
 
@@ -86,8 +90,7 @@ final class PhamePostHeaderPictureController
           ->setName('header')
           ->setLabel(pht('Upload Header'))
           ->setError($e_file)
-          ->setCaption(
-            pht('Supported formats: %s', implode(', ', $supported_formats))))
+          ->setCaption($supported_formats_message))
       ->appendChild(
         id(new AphrontFormCheckboxControl())
           ->setName('delete')

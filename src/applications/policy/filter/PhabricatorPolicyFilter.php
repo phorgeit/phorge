@@ -699,7 +699,7 @@ final class PhabricatorPolicyFilter extends Phobject {
     $text_details = array_filter(array_merge($head, $exceptions));
     $text_details = implode(' ', $text_details);
 
-    $html_details = array($head, $more, $exceptions);
+    $html_details = array($head, $more, phutil_implode_html(' ', $exceptions));
 
     $access_denied = $this->renderAccessDenied($object);
 

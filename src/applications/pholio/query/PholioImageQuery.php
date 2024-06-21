@@ -152,7 +152,7 @@ final class PholioImageQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPholioApplication';
+    return PhabricatorPholioApplication::class;
   }
 
 }

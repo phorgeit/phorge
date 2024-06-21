@@ -143,7 +143,7 @@ final class PhabricatorRepositoryRefCursorQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
 }

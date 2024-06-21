@@ -286,7 +286,7 @@ final class PhabricatorPolicyQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPolicyApplication';
+    return PhabricatorPolicyApplication::class;
   }
 
   public static function isSpecialPolicy($identifier) {

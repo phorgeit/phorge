@@ -8,7 +8,7 @@ final class HarbormasterBuildPlanSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorHarbormasterApplication';
+    return PhabricatorHarbormasterApplication::class;
   }
 
   public function newQuery() {

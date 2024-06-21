@@ -4,7 +4,7 @@ final class HeraldWebhookEditor
   extends PhabricatorApplicationTransactionEditor {
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function getEditorObjectsDescription() {

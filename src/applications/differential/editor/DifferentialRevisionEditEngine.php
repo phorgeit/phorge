@@ -24,7 +24,7 @@ final class DifferentialRevisionEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function isEngineConfigurable() {

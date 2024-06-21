@@ -12,7 +12,7 @@ final class PhabricatorMetaMTAMailableDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   public function getComponentDatasources() {

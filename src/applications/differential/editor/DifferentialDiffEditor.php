@@ -12,7 +12,7 @@ final class DifferentialDiffEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   public function getEditorObjectsDescription() {

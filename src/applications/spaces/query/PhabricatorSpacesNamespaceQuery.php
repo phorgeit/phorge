@@ -33,7 +33,7 @@ final class PhabricatorSpacesNamespaceQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorSpacesApplication';
+    return PhabricatorSpacesApplication::class;
   }
 
   public function newResultObject() {

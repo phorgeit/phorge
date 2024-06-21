@@ -151,7 +151,7 @@ final class LegalpadDocumentSignatureQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorLegalpadApplication';
+    return PhabricatorLegalpadApplication::class;
   }
 
 }

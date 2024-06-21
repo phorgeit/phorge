@@ -12,7 +12,7 @@ final class PhabricatorDashboardPortalDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   public function loadResults() {

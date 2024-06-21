@@ -55,7 +55,9 @@ foreach (array('text', 'html') as $part) {
 }
 
 $headers = $parser->getHeaders();
-$headers['subject'] = phutil_decode_mime_header($headers['subject']);
+if (array_key_exists('subject', $headers)) {
+  $headers['subject'] = phutil_decode_mime_header($headers['subject']);
+}
 $headers['from'] = phutil_decode_mime_header($headers['from']);
 
 if ($args->getArg('process-duplicates')) {

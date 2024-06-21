@@ -18,7 +18,7 @@ final class PhabricatorRepositoryRefCursorPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function buildQueryForObjects(

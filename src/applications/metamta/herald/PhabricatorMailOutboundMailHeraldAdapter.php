@@ -6,7 +6,7 @@ final class PhabricatorMailOutboundMailHeraldAdapter
   private $mail;
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorMetaMTAApplication';
+    return PhabricatorMetaMTAApplication::class;
   }
 
   public function getAdapterContentDescription() {

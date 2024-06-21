@@ -145,7 +145,7 @@ final class PhabricatorFeedTransactionQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorFeedApplication';
+    return PhabricatorFeedApplication::class;
   }
 
   private function newTransactionQueries() {

@@ -12,7 +12,7 @@ final class NuanceQueueDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorNuanceApplication';
+    return PhabricatorNuanceApplication::class;
   }
 
   public function loadResults() {

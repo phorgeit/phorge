@@ -8,7 +8,7 @@ abstract class PhabricatorPackagesEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorPackagesApplication';
+    return PhabricatorPackagesApplication::class;
   }
 
 }

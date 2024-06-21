@@ -390,7 +390,7 @@ final class PhabricatorPasteQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPasteApplication';
+    return PhabricatorPasteApplication::class;
   }
 
 }

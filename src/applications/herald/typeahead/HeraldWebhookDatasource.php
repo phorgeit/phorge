@@ -12,7 +12,7 @@ final class HeraldWebhookDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorHeraldApplication';
+    return PhabricatorHeraldApplication::class;
   }
 
   public function loadResults() {

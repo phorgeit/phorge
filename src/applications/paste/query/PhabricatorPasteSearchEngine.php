@@ -8,7 +8,7 @@ final class PhabricatorPasteSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPasteApplication';
+    return PhabricatorPasteApplication::class;
   }
 
   public function newQuery() {

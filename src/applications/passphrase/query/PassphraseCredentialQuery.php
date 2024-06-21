@@ -155,7 +155,7 @@ final class PassphraseCredentialQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorPassphraseApplication';
+    return PhabricatorPassphraseApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

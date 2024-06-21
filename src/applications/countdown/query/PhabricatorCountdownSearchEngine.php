@@ -8,7 +8,7 @@ final class PhabricatorCountdownSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorCountdownApplication';
+    return PhabricatorCountdownApplication::class;
   }
 
   public function newQuery() {

@@ -18,7 +18,7 @@ final class HeraldCommitAdapter
   private $buildRequests = array();
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
   protected function newObject() {

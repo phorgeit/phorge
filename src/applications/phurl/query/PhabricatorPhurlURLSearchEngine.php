@@ -8,7 +8,7 @@ final class PhabricatorPhurlURLSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhurlApplication';
+    return PhabricatorPhurlApplication::class;
   }
 
   public function newQuery() {

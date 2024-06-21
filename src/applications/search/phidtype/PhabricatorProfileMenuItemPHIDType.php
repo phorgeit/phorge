@@ -14,7 +14,7 @@ final class PhabricatorProfileMenuItemPHIDType
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorSearchApplication';
+    return PhabricatorSearchApplication::class;
   }
 
   protected function buildQueryForObjects(

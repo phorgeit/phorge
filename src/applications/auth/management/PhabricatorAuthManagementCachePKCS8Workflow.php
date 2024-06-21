@@ -32,7 +32,7 @@ final class PhabricatorAuthManagementCachePKCS8Workflow
     $console = PhutilConsole::getConsole();
 
     $public_keyfile = $args->getArg('public');
-    if (!strlen($public_keyfile)) {
+    if (!phutil_nonempty_string($public_keyfile)) {
       throw new PhutilArgumentUsageException(
         pht(
           'You must specify the path to a public keyfile with %s.',
@@ -49,7 +49,7 @@ final class PhabricatorAuthManagementCachePKCS8Workflow
     $public_key = Filesystem::readFile($public_keyfile);
 
     $pkcs8_keyfile = $args->getArg('pkcs8');
-    if (!strlen($pkcs8_keyfile)) {
+    if (!phutil_nonempty_string($pkcs8_keyfile)) {
       throw new PhutilArgumentUsageException(
         pht(
           'You must specify the path to a pkcs8 keyfile with %s.',

@@ -109,7 +109,7 @@ final class DiffusionRepositoryController extends DiffusionController {
         ->setErrors(array($empty_message));
     }
 
-    $tabs = $this->buildTabsView('code');
+    $tabs = $this->buildTabsView('home');
 
     $clone_uri = $drequest->generateURI(
       array(
@@ -243,15 +243,15 @@ final class DiffusionRepositoryController extends DiffusionController {
       $readme = null;
     }
 
+    if ($readme) {
+      $content[] = $readme;
+    }
+
     $content[] = $this->buildBrowseTable(
       $browse_results,
       $browse_paths,
       $browse_exception,
       $browse_pager);
-
-    if ($readme) {
-      $content[] = $readme;
-    }
 
     try {
       $branch_button = $this->buildBranchList($drequest);
@@ -396,7 +396,7 @@ final class DiffusionRepositoryController extends DiffusionController {
     foreach ($branches as $branch) {
       $branch_uri = $drequest->generateURI(
         array(
-          'action' => 'browse',
+          'action' => 'branch',
           'branch' => $branch->getShortname(),
         ));
       $actions->addAction(
@@ -431,43 +431,6 @@ final class DiffusionRepositoryController extends DiffusionController {
       ->setDropdownMenu($actions);
 
     return $button;
-  }
-
-  private function buildLocateFile() {
-    $request = $this->getRequest();
-    $viewer = $request->getUser();
-    $drequest = $this->getDiffusionRequest();
-    $repository = $drequest->getRepository();
-
-    $form_box = null;
-    if ($repository->canUsePathTree()) {
-      Javelin::initBehavior(
-        'diffusion-locate-file',
-        array(
-          'controlID' => 'locate-control',
-          'inputID' => 'locate-input',
-          'browseBaseURI' => (string)$drequest->generateURI(
-            array(
-              'action' => 'browse',
-            )),
-          'uri' => (string)$drequest->generateURI(
-            array(
-              'action' => 'pathtree',
-            )),
-        ));
-
-      $form = id(new AphrontFormView())
-        ->setUser($viewer)
-        ->appendChild(
-          id(new AphrontFormTypeaheadControl())
-            ->setHardpointID('locate-control')
-            ->setID('locate-input')
-            ->setPlaceholder(pht('Locate File')));
-      $form_box = id(new PHUIBoxView())
-        ->appendChild($form->buildLayoutView())
-        ->addClass('diffusion-profile-locate');
-    }
-    return $form_box;
   }
 
   private function buildBrowseTable(

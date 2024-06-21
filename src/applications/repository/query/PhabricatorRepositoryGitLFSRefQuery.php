@@ -54,7 +54,7 @@ final class PhabricatorRepositoryGitLFSRefQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDiffusionApplication';
+    return PhabricatorDiffusionApplication::class;
   }
 
 }

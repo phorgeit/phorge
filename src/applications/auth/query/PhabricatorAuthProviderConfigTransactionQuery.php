@@ -7,4 +7,8 @@ final class PhabricatorAuthProviderConfigTransactionQuery
     return new PhabricatorAuthProviderConfigTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorAuthApplication::class;
+  }
+
 }

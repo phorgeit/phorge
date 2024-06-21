@@ -7,7 +7,7 @@ final class ManiphestTransactionEditor
   private $moreValidationErrors = array();
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorManiphestApplication';
+    return PhabricatorManiphestApplication::class;
   }
 
   public function getEditorObjectsDescription() {
@@ -327,11 +327,11 @@ final class ManiphestTransactionEditor
 
     $is_unassigned = ($object->getOwnerPHID() === null);
 
-    $any_assign = false;
+    $any_xassign = null;
     foreach ($xactions as $xaction) {
       if ($xaction->getTransactionType() ==
         ManiphestTaskOwnerTransaction::TRANSACTIONTYPE) {
-        $any_assign = true;
+        $any_xassign = $xaction;
         break;
       }
     }
@@ -355,15 +355,22 @@ final class ManiphestTransactionEditor
 
     // If the task is not assigned, not being assigned, currently open, and
     // being closed, try to assign the actor as the owner.
-    if ($is_unassigned && !$any_assign && $is_open && $is_closing) {
-      $is_claim = ManiphestTaskStatus::isClaimStatus($new_status);
-
-      // Don't assign the actor if they aren't a real user.
-      // Don't claim the task if the status is configured to not claim.
-      if ($actor_phid && $is_claim) {
-        $results[] = id(new ManiphestTransaction())
-          ->setTransactionType(ManiphestTaskOwnerTransaction::TRANSACTIONTYPE)
-          ->setNewValue($actor_phid);
+    // Don't assign the actor if they aren't a real user.
+    if ($is_unassigned && $is_open && $is_closing && $actor_phid) {
+      $is_autoclaim = ManiphestTaskStatus::isClaimStatus($new_status);
+      if ($is_autoclaim) {
+        if ($any_xassign === null) {
+          $results[] = id(new ManiphestTransaction())
+            ->setTransactionType(ManiphestTaskOwnerTransaction::TRANSACTIONTYPE)
+            ->setNewValue($actor_phid);
+        } else if ($any_xassign->getNewValue() === null) {
+          // We have an explicit "Assign / Claim" = nothing in the frontend.
+          // The user is trying to "undo" the above automatic auto-claim.
+          // When saving, this would cause the "no effect" warning.
+          // So we suppress that confusing warning.
+          // https://we.phorge.it/T15164
+          $any_xassign->setIgnoreOnNoEffect(true);
+        }
       }
     }
 

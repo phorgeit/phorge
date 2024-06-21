@@ -33,7 +33,7 @@ final class HeraldRuleManagementWorkflow
     $viewer = $this->getViewer();
 
     $rule_name = $args->getArg('rule');
-    if (!strlen($rule_name)) {
+    if (!phutil_nonempty_string($rule_name)) {
       throw new PhutilArgumentUsageException(
         pht('Specify a rule to edit with "--rule <id|monogram>".'));
     }

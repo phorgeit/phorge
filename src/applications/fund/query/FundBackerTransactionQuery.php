@@ -7,4 +7,8 @@ final class FundBackerTransactionQuery
     return new FundBackerTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorFundApplication::class;
+  }
+
 }

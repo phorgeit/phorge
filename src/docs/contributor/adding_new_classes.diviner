@@ -43,7 +43,7 @@ Extensions Directory
 ====================
 
 The easiest way to extend Phorge by adding new classes is to drop them
-into the extensions directory, at `pohrge/src/extensions/`.
+into the extensions directory, at `phorge/src/extensions/`.
 
 This is intended as a quick way to add small pieces of functionality, test new
 features, or get started on a larger project. Extending Phorge like this

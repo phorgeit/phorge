@@ -302,6 +302,8 @@ a.phabricator-core-user-menu .caret:before {
   background-size: 30px 30px;
   background-repeat: no-repeat;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .phabricator-main-search-typeahead-result .result-name {
@@ -309,6 +311,7 @@ a.phabricator-core-user-menu .caret:before {
   font-size: {$normalfontsize};
   font-weight: bold;
   color: {$darkgreytext};
+  white-space: normal;
 }
 
 .phabricator-main-search-typeahead-result.result-closed {

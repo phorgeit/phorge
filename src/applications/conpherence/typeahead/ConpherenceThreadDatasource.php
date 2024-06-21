@@ -12,7 +12,7 @@ final class ConpherenceThreadDatasource
   }
 
   public function getDatasourceApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   public function loadResults() {

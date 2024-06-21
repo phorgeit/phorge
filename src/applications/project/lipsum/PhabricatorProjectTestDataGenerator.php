@@ -19,6 +19,12 @@ final class PhabricatorProjectTestDataGenerator
       PhabricatorProjectNameTransaction::TRANSACTIONTYPE,
       $this->newProjectTitle());
 
+    $xactions[] = id(new PhabricatorProjectTransaction())
+      ->setTransactionType(PhabricatorTransactions::TYPE_CUSTOMFIELD)
+      ->setOldValue('')
+      ->setMetadataValue('customfield:key', 'std:project:internal:description')
+      ->setNewValue($this->newProjectTitle());
+
     $xactions[] = $this->newTransaction(
       PhabricatorProjectStatusTransaction::TRANSACTIONTYPE,
       $this->newProjectStatus());

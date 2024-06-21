@@ -20,7 +20,7 @@ final class PhabricatorFilesManagementGenerateKeyWorkflow
 
   public function execute(PhutilArgumentParser $args) {
     $type = $args->getArg('type');
-    if (!strlen($type)) {
+    if (!phutil_nonempty_string($type)) {
       throw new PhutilArgumentUsageException(
         pht(
           'Specify the type of key to generate with --type.'));

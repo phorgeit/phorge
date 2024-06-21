@@ -59,10 +59,10 @@ final class PhabricatorManualActivitySetupCheck
       phutil_tag(
         'a',
         array(
-          'href' => 'https://phurl.io/u/reindex',
+          'href' => 'https://secure.phabricator.com/T11932',
           'target' => '_blank',
         ),
-        'https://phurl.io/u/reindex'));
+        'https://secure.phabricator.com/T11932'));
 
     $message[] = pht(
       'After rebuilding the index, run this command to clear this setup '.
@@ -128,10 +128,10 @@ final class PhabricatorManualActivitySetupCheck
       phutil_tag(
         'a',
         array(
-          'href' => 'https://phurl.io/u/repoIdentities',
+          'href' => 'https://secure.phabricator.com/T12164',
           'target' => '_blank',
         ),
-        'https://phurl.io/u/repoIdentities'));
+        'https://secure.phabricator.com/T12164'));
 
     $message[] = pht(
       'After rebuilding repository identities, run this command to clear '.

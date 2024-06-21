@@ -277,6 +277,70 @@ final class PhabricatorFileTestCase extends PhabricatorTestCase {
       pht('Attached Thumbnail Visibility'));
   }
 
+  public function testFileVisibilityManually() {
+    $author = $this->generateNewTestUser();
+    $viewer = $this->generateNewTestUser();
+    $author_and_viewer = array($author, $viewer);
+
+    $engine = new PhabricatorTestStorageEngine();
+    $params = array(
+      'name' => 'test.dat',
+      'viewPolicy' => PhabricatorPolicies::POLICY_NOONE,
+      'authorPHID' => $author->getPHID(),
+      'storageEngines' => array(
+        $engine,
+      ),
+    );
+
+    $data = Filesystem::readRandomCharacters(64);
+    $file = PhabricatorFile::newFromFileData($data, $params);
+
+    // Create an object.
+    $object = ManiphestTask::initializeNewTask($author)
+      ->setTitle(pht('Test Task'))
+      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
+      ->save();
+
+    // Test file's visibility before attachment.
+    $this->assertEqual(
+      array(
+        true,
+        false,
+      ),
+      $this->canViewFile($author_and_viewer, $file),
+      pht('File Visibility Before Being Attached'));
+
+    // Manually attach.
+    $file->attachToObject($object->getPHID());
+
+    // Test the referenced file's visibility.
+    $this->assertEqual(
+      array(
+        true,
+        true,
+      ),
+      $this->canViewFile($author_and_viewer, $file),
+      pht('File Visibility After Being Attached'));
+
+    // Try again. This should not explode.
+    $file->attachToObject($object->getPHID());
+
+    // Try again with this low-level. Again, this should not explode.
+    PhabricatorFile::attachFileToObject($file->getPHID(), $object->getPHID());
+
+    // Try again but using the wrong low-level usage.
+    $is_wrong_usage = false;
+    try {
+      PhabricatorFile::attachFileToObject($object->getPHID(), $file->getPHID());
+    } catch (Throwable $e) {
+      $is_wrong_usage = true;
+    }
+    $this->assertEqual(
+      true,
+      $is_wrong_usage,
+      pht('Check Attach Low-Level Validation'));
+  }
+
   private function canViewFile(array $users, PhabricatorFile $file) {
     $results = array();
     foreach ($users as $user) {

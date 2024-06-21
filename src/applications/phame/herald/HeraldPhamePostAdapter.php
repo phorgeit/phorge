@@ -9,7 +9,7 @@ final class HeraldPhamePostAdapter extends HeraldAdapter {
   }
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorPhameApplication';
+    return PhabricatorPhameApplication::class;
   }
 
   public function getAdapterContentDescription() {

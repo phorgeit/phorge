@@ -71,12 +71,14 @@ final class DifferentialCreateRawDiffConduitAPIMethod
     $xactions = array(
       id(new DifferentialDiffTransaction())
         ->setTransactionType(DifferentialDiffTransaction::TYPE_DIFF_CREATE)
+        ->setIsCreateTransaction(true)
         ->setNewValue($diff_data_dict),
     );
 
     if ($request->getValue('viewPolicy')) {
       $xactions[] = id(new DifferentialDiffTransaction())
         ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
+        ->setIsCreateTransaction(true)
         ->setNewValue($request->getValue('viewPolicy'));
     }
 

@@ -115,6 +115,8 @@ final class PHUIButtonExample extends PhabricatorUIExample {
         $button->setMetadata(
           array(
             'text' => $copy,
+            'successMessage' => pht('Text copied into clipboard.'),
+            'errorMessage' => pht('Failed to copy text into clipboard.'),
           ));
       }
 

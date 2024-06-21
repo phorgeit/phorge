@@ -89,7 +89,7 @@ final class PhabricatorDashboardQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorDashboardApplication';
+    return PhabricatorDashboardApplication::class;
   }
 
   protected function getPrimaryTableAlias() {

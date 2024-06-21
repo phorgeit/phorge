@@ -17,7 +17,7 @@ final class PhabricatorProjectColumnPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   protected function buildQueryForObjects(

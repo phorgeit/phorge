@@ -101,7 +101,7 @@ final class PhabricatorCalendarImportLogQuery
   }
 
   public function getQueryApplicationClass() {
-    return 'PhabricatorCalendarApplication';
+    return PhabricatorCalendarApplication::class;
   }
 
 }

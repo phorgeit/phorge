@@ -19,7 +19,7 @@ final class DrydockAuthorizationSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorDrydockApplication';
+    return PhabricatorDrydockApplication::class;
   }
 
   public function canUseInPanelContext() {

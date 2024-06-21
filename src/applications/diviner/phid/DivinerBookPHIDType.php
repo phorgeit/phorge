@@ -17,7 +17,7 @@ final class DivinerBookPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorDivinerApplication';
+    return PhabricatorDivinerApplication::class;
   }
 
   protected function buildQueryForObjects(

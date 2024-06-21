@@ -7,7 +7,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorPhrequentApplication';
+    return PhabricatorPhrequentApplication::class;
   }
 
   public function getPageSize(PhabricatorSavedQuery $saved) {

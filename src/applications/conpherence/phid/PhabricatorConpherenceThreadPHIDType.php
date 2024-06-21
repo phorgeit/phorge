@@ -13,7 +13,7 @@ final class PhabricatorConpherenceThreadPHIDType extends PhabricatorPHIDType {
   }
 
   public function getPHIDTypeApplicationClass() {
-    return 'PhabricatorConpherenceApplication';
+    return PhabricatorConpherenceApplication::class;
   }
 
   protected function buildQueryForObjects(

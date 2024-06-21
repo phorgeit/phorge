@@ -10,7 +10,7 @@ final class FundInitiativeEditEngine
   }
 
   public function getEngineApplicationClass() {
-    return 'PhabricatorFundApplication';
+    return PhabricatorFundApplication::class;
   }
 
   public function getSummaryHeader() {

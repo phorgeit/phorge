@@ -15,7 +15,7 @@ final class PhabricatorProjectTransactionEditor
   }
 
   public function getEditorApplicationClass() {
-    return 'PhabricatorProjectApplication';
+    return PhabricatorProjectApplication::class;
   }
 
   public function getEditorObjectsDescription() {

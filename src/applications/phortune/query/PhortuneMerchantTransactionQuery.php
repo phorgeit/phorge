@@ -7,4 +7,8 @@ final class PhortuneMerchantTransactionQuery
     return new PhortuneMerchantTransaction();
   }
 
+  public function getQueryApplicationClass() {
+    return PhabricatorPhortuneApplication::class;
+  }
+
 }
