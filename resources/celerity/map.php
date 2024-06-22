@@ -396,7 +396,7 @@ return array(
     'rsrc/js/application/diffusion/behavior-pull-lastmodified.js' => 'c715c123',
     'rsrc/js/application/doorkeeper/behavior-doorkeeper-tag.js' => '6a85bc5a',
     'rsrc/js/application/drydock/drydock-live-operation-status.js' => '47a0728b',
-    'rsrc/js/application/fact/Chart.js' => '0076c427',
+    'rsrc/js/application/fact/Chart.js' => '351abd1c',
     'rsrc/js/application/fact/ChartCurtainView.js' => '86954222',
     'rsrc/js/application/fact/ChartFunctionLabel.js' => '81de1dab',
     'rsrc/js/application/files/behavior-document-engine.js' => '243d6c22',
@@ -702,7 +702,7 @@ return array(
     'javelin-behavior-user-menu' => '60cd9241',
     'javelin-behavior-view-placeholder' => 'a9942052',
     'javelin-behavior-workflow' => '9623adc1',
-    'javelin-chart' => '0076c427',
+    'javelin-chart' => '351abd1c',
     'javelin-chart-curtain-view' => '86954222',
     'javelin-chart-function-label' => '81de1dab',
     'javelin-color' => '78f811c9',
@@ -918,12 +918,6 @@ return array(
     'unhandled-exception-css' => '9ecfc00d',
   ),
   'requires' => array(
-    '0076c427' => array(
-      'phui-chart-css',
-      'd3',
-      'javelin-chart-curtain-view',
-      'javelin-chart-function-label',
-    ),
     '0116d3e8' => array(
       'javelin-behavior',
       'javelin-dom',
@@ -1238,6 +1232,12 @@ return array(
     '34e2a838' => array(
       'aphront-typeahead-control-css',
       'phui-tag-view-css',
+    ),
+    '351abd1c' => array(
+      'phui-chart-css',
+      'd3',
+      'javelin-chart-curtain-view',
+      'javelin-chart-function-label',
     ),
     '3829a3cf' => array(
       'javelin-behavior',
