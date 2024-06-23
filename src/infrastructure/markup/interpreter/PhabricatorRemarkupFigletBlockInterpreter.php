@@ -1,7 +1,8 @@
 <?php
 
 final class PhabricatorRemarkupFigletBlockInterpreter
-  extends PhutilRemarkupBlockInterpreter {
+  extends PhutilRemarkupBlockInterpreter
+  implements RemarkupSyntaxDocumentationProvider {
 
   public function getInterpreterName() {
     return 'figlet';
@@ -68,4 +69,19 @@ final class PhabricatorRemarkupFigletBlockInterpreter
     return $map;
   }
 
+  public function getDocumentation() {
+    return <<<EOT
+= Figlet
+The `figlet` interpreter allows you to write some large text.
+For example, this:
+
+```figlet{{{Some big text!}}}```
+
+...produces this:
+
+figlet{{{Some big text!}}}
+
+More information about Figlet can be found [[/reference/figlet/ | here]]
+EOT;
+  }
 }

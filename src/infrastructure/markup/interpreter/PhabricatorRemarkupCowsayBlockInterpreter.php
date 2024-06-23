@@ -1,7 +1,8 @@
 <?php
 
 final class PhabricatorRemarkupCowsayBlockInterpreter
-  extends PhutilRemarkupBlockInterpreter {
+  extends PhutilRemarkupBlockInterpreter
+  implements RemarkupSyntaxDocumentationProvider {
 
   public function getInterpreterName() {
     return 'cowsay';
@@ -69,6 +70,24 @@ final class PhabricatorRemarkupCowsayBlockInterpreter
     }
 
     return $map;
+  }
+
+  public function getDocumentation() {
+    return <<<EOT
+= Cowsay
+
+Cowsay is an application by Tony Monroe which has been ported over to
+Phabricator/Phorge to allow your comments to be voiced by
+a cow.
+
+A basic example of using cowsay would be to add a comment
+  cowsay{{{Why don't they play poker in the jungle? Too many cheetahs}}}
+which generates:
+
+cowsay{{{Why don't they play poker in the jungle? Too many cheetahs}}}
+
+More information about Cowsay can be found [[/reference/cowsay/ | here]]
+EOT;
   }
 
 }

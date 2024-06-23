@@ -255,7 +255,7 @@ final class PhabricatorRemarkupControl
     $actions['fa-book'] = array(
       'tip' => pht('Help'),
       'align' => 'right',
-      'href'  => PhabricatorEnv::getDoclink('Remarkup Reference'),
+      'href'  => '/reference/remarkup/',
     );
 
     $mode_actions = array();
