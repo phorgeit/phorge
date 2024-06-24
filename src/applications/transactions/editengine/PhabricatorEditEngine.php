@@ -1920,7 +1920,7 @@ abstract class PhabricatorEditEngine
     $comment_text = $request->getStr('comment');
 
     $comment_metadata = $request->getStr('comment_metadata');
-    if (strlen($comment_metadata)) {
+    if (phutil_nonempty_string($comment_metadata)) {
       $comment_metadata = phutil_json_decode($comment_metadata);
     }
 
@@ -2020,7 +2020,7 @@ abstract class PhabricatorEditEngine
       $xactions[] = $xaction;
     }
 
-    if (strlen($comment_text) || !$xactions) {
+    if (phutil_nonempty_string($comment_text) || !$xactions) {
       $xactions[] = id(clone $template)
         ->setTransactionType(PhabricatorTransactions::TYPE_COMMENT)
         ->setMetadataValue('remarkup.control', $comment_metadata)
