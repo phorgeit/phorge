@@ -115,4 +115,32 @@ final class AlmanacServiceSearchEngine
 
     return $result;
   }
+
+  protected function getNewUserBody() {
+    $see_devices = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('See Devices'))
+      ->setHref('/almanac/device/');
+
+    $create_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('Create a Service'))
+      ->setHref('/almanac/service/edit/')
+      ->setIcon('fa-plus')
+      ->setColor(PHUIButtonView::GREEN);
+
+
+    $app_name = pht('Services');
+    $view = id(new PHUIBigInfoView())
+      ->setIcon('fa-plug')
+      ->setTitle(pht('Welcome to %s', $app_name))
+      ->setDescription(
+        pht(
+          'Services describe pools of devices, and '.
+          'they are available to Drydock for CI/CD, and more.'))
+      ->addAction($see_devices)
+      ->addAction($create_button);
+
+      return $view;
+  }
 }

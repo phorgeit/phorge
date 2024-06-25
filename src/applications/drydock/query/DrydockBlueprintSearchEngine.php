@@ -138,4 +138,32 @@ final class DrydockBlueprintSearchEngine
     return $result;
   }
 
+  protected function getNewUserBody() {
+    $see_almanac_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('See Almanac services'))
+      ->setHref('/almanac/service/');
+
+    $create_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('Create a Blueprint'))
+      ->setHref('/drydock/blueprint/edit/')
+      ->setIcon('fa-plus')
+      ->setColor(PHUIButtonView::GREEN);
+
+    $app_name = pht('Blueprints');
+    $view = id(new PHUIBigInfoView())
+      ->setIcon('fa-map-o')
+      ->setTitle(pht('Welcome to %s', $app_name))
+      ->setDescription(
+        pht(
+          'Blueprints allow to lease fresh working copies of repositories, '.
+          'on your Drydock devices, when needed by CI/CD workflows, and more. '.
+          'Blueprints lease services defined in your Almanac.'))
+      ->addAction($see_almanac_button)
+      ->addAction($create_button);
+
+      return $view;
+  }
+
 }
