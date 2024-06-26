@@ -54,6 +54,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $custom_phid = $this->getCustomPHID();
         break;
       case self::MODE_GLOBAL:
+      default:
         $custom_phid = null;
         break;
     }
