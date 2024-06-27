@@ -86,7 +86,7 @@ which generates:
 
 cowsay{{{Why don't they play poker in the jungle? Too many cheetahs}}}
 
-More information about Cowsay can be found [[/reference/cowsay/ | here]]
+[[/reference/cowsay/ | More information about Cowsay]] is available.
 EOT;
   }
 

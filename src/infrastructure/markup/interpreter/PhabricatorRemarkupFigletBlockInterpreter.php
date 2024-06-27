@@ -81,7 +81,7 @@ For example, this:
 
 figlet{{{Some big text!}}}
 
-More information about Figlet can be found [[/reference/figlet/ | here]]
+[[/reference/figlet/ | More information about Figlet]] is available.
 EOT;
   }
 }
