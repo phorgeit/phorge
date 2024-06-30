@@ -75,7 +75,7 @@
 /* Firefox Fix */
 .phui-badge-card-front {
   transform: rotateY(0deg);
-  -webkit-trasform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
 }
 
 .phui-badge-front-view,
