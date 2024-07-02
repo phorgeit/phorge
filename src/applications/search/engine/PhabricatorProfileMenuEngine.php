@@ -469,15 +469,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $map;
   }
 
-  private function validateNavigationMenuItem($item) {
-    if (!($item instanceof PHUIListItemView)) {
-      throw new Exception(
-        pht(
-          'Expected buildNavigationMenuItems() to return a list of '.
-          'PHUIListItemView objects, but got a surprise.'));
-    }
-  }
-
   public function getConfigureURI() {
     $mode = $this->getEditMode();
 
