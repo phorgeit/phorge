@@ -33,6 +33,7 @@ final class PhabricatorFactUpdateIterator extends PhutilBufferedIterator {
     }
   }
 
+  #[\ReturnTypeWillChange]
   public function key() {
     return $this->getCursorFromObject($this->current());
   }

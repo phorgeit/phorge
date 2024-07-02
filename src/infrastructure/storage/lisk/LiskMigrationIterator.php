@@ -26,6 +26,7 @@ final class LiskMigrationIterator extends PhutilBufferedIterator {
     $this->cursor = 0;
   }
 
+  #[\ReturnTypeWillChange]
   public function key() {
     return $this->current()->getID();
   }
