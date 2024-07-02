@@ -6,6 +6,7 @@ abstract class PhabricatorTimelineEngine
   private $viewer;
   private $object;
   private $xactions;
+  private $request;
   private $viewData;
 
   final public static function newForObject($object) {
