@@ -133,9 +133,9 @@ EODOC
 
     $adapter_description = $this->deformat(pht(<<<EODOC
 Adapter class to use to transmit mail to the MTA. The default uses
-PHPMailerLite, which will invoke "sendmail". This is appropriate if sendmail
-actually works on your host, but if you haven't configured mail it may not be so
-great. A number of other mailers are available (e.g., SES, SendGrid, SMTP,
+PHPMailer, which will invoke "mail". This is appropriate if mail actually
+works on your host, but if you haven't configured mail it may not be so great.
+A number of other mailers are available (e.g., SES, SendGrid, SMTP, Sendmail,
 custom mailers). This option is deprecated in favor of 'cluster.mailers'.
 EODOC
 ));

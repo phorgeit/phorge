@@ -32,14 +32,14 @@ final class PhabricatorMailAmazonSESAdapter
   }
 
   /**
-   * @phutil-external-symbol class PHPMailerLite
+   * @phutil-external-symbol class PHPMailer
    */
   public function sendMessage(PhabricatorMailExternalMessage $message) {
     $root = phutil_get_library_root('phabricator');
     $root = dirname($root);
-    require_once $root.'/externals/phpmailer/class.phpmailer-lite.php';
+    require_once $root.'/externals/phpmailer/class.phpmailer.php';
 
-    $mailer = PHPMailerLite::newFromMessage($message);
+    $mailer = PHPMailer::newFromMessage($message);
 
     $mailer->Mailer = 'amazon-ses';
     $mailer->customMailer = $this;
