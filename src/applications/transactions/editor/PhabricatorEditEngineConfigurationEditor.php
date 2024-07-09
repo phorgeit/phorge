@@ -7,6 +7,10 @@ final class PhabricatorEditEngineConfigurationEditor
     return PhabricatorTransactionsApplication::class;
   }
 
+  public function getCreateObjectTitle($author, $object) {
+    return pht('%s created this form.', $author);
+  }
+
   public function getEditorObjectsDescription() {
     return pht('Edit Configurations');
   }
