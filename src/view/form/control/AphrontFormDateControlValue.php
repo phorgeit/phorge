@@ -207,8 +207,6 @@ final class AphrontFormDateControlValue extends Phobject {
       $datetime->format($this->getDateFormat()),
       $datetime->format($this->getTimeFormat()),
     );
-
-    return array($date, $time);
   }
 
   private function newDateTime($date, $time) {
