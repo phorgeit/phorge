@@ -94,26 +94,33 @@ final class PhabricatorSubscriptionsUIEventListener
       }
     }
 
-    $mute_action = id(new PhabricatorActionView())
-      ->setWorkflow(true)
-      ->setHref('/subscriptions/mute/'.$object->getPHID().'/')
-      ->setDisabled(!$user_phid);
-
-    if (!$is_muted) {
-      $mute_action
-        ->setName(pht('Mute Notifications'))
-        ->setIcon('fa-volume-up');
-    } else {
-      $mute_action
-        ->setName(pht('Unmute Notifications'))
-        ->setIcon('fa-volume-off')
-        ->setColor(PhabricatorActionView::RED);
-    }
-
-
     $actions = $event->getValue('actions');
     $actions[] = $sub_action;
-    $actions[] = $mute_action;
+
+    // Hide "Mute Notifications" in sidebar if not supported by Editor - T15378
+    $supported_editor_transaction_types =
+      array_fill_keys($object->getApplicationTransactionEditor()
+      ->getTransactionTypesForObject($object), true);
+    if (array_key_exists(PhabricatorTransactions::TYPE_EDGE,
+        $supported_editor_transaction_types)) {
+      $mute_action = id(new PhabricatorActionView())
+        ->setWorkflow(true)
+        ->setHref('/subscriptions/mute/'.$object->getPHID().'/')
+        ->setDisabled(!$user_phid);
+
+      if (!$is_muted) {
+        $mute_action
+          ->setName(pht('Mute Notifications'))
+          ->setIcon('fa-volume-up');
+      } else {
+        $mute_action
+          ->setName(pht('Unmute Notifications'))
+          ->setIcon('fa-volume-off')
+          ->setColor(PhabricatorActionView::RED);
+      }
+      $actions[] = $mute_action;
+    }
+
     $event->setValue('actions', $actions);
   }
 
