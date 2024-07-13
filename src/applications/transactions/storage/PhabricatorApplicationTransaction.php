@@ -1608,6 +1608,8 @@ abstract class PhabricatorApplicationTransaction
         return pht('Changed Policy');
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         return pht('Changed Subscribers');
+      case PhabricatorTransactions::TYPE_CREATE:
+        return pht('Created');
       default:
         return pht('Updated');
     }
