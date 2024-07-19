@@ -532,8 +532,12 @@ final class HeraldEngine extends Phobject {
     if ($caught) {
       $result_data = array(
         'exception.class' => get_class($caught),
-        'exception.message' => $ex->getMessage(),
+        'exception.message' => $caught->getMessage(),
       );
+      phlog(pht('An exception occurred executing Herald rule %s: "%s" Review '.
+        'the Herald transcripts and correct or disable the problematic rule.',
+        $rule->getMonogram(),
+        $caught->getMessage()));
     }
 
     $result = HeraldConditionResult::newFromResultCode($result_code)
