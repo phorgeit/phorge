@@ -688,6 +688,14 @@ final class HeraldEngine extends Phobject {
         ->setTarget($action->getTarget())
         ->setRule($rule);
 
+      if ($object->getActionImplementation($action->getAction()) === null) {
+        phlog(pht('An exception occurred executing Herald rule %s: Unknown '.
+          'action: "%s". Review the Herald transcripts and correct or '.
+          'disable the problematic rule.',
+        $rule->getMonogram(),
+        $action->getAction()));
+      }
+
       $name = $rule->getName();
       $id = $rule->getID();
       $effect->setReason(
