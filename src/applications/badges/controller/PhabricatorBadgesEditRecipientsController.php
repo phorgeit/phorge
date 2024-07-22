@@ -7,6 +7,8 @@ final class PhabricatorBadgesEditRecipientsController
     $viewer = $request->getViewer();
     $id = $request->getURIData('id');
     $xactions = array();
+    $errors = array();
+    $e_recipient = true;
 
     $badge = id(new PhabricatorBadgesQuery())
       ->setViewer($viewer)
@@ -29,24 +31,29 @@ final class PhabricatorBadgesEditRecipientsController
       $add_recipients = $request->getArr('phids');
       if ($add_recipients) {
         foreach ($add_recipients as $phid) {
-          $award_phids[] = $phid;
+          $award_phids[$phid] = $phid;
         }
+      } else {
+        $errors[] = pht('Recipient name is required.');
+        $e_recipient = pht('Required');
       }
 
-      $xactions[] = id(new PhabricatorBadgesTransaction())
-        ->setTransactionType(
-          PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
-        ->setNewValue($award_phids);
+      if (!$errors) {
+        $xactions[] = id(new PhabricatorBadgesTransaction())
+          ->setTransactionType(
+            PhabricatorBadgesBadgeAwardTransaction::TRANSACTIONTYPE)
+          ->setNewValue($award_phids);
 
-      $editor = id(new PhabricatorBadgesEditor())
-        ->setActor($viewer)
-        ->setContentSourceFromRequest($request)
-        ->setContinueOnNoEffect(true)
-        ->setContinueOnMissingFields(true)
-        ->applyTransactions($badge, $xactions);
+        $editor = id(new PhabricatorBadgesEditor())
+          ->setActor($viewer)
+          ->setContentSourceFromRequest($request)
+          ->setContinueOnNoEffect(true)
+          ->setContinueOnMissingFields(true)
+          ->applyTransactions($badge, $xactions);
 
-      return id(new AphrontRedirectResponse())
-        ->setURI($view_uri);
+        return id(new AphrontRedirectResponse())
+          ->setURI($view_uri);
+      }
     }
 
     $form = new AphrontFormView();
@@ -57,6 +64,7 @@ final class PhabricatorBadgesEditRecipientsController
         id(new AphrontFormTokenizerControl())
           ->setName('phids')
           ->setLabel(pht('Recipients'))
+          ->setError($e_recipient)
           ->setDatasource(new PhabricatorPeopleDatasource()));
 
     $dialog = id(new AphrontDialogView())
