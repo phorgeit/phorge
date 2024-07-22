@@ -49,7 +49,7 @@ this:
     DocumentRoot /path/to/phorge/webroot
 
     RewriteEngine on
-    RewriteRule ^(.*)$          /index.php?__path__=$1  [B,L,QSA]
+    RewriteRule ^(.*)$          /index.php?__path__=$1  [B,L,QSA,UnsafeAllow3F]
   </VirtualHost>
 
 If Apache isn't currently configured to serve documents out of the directory
