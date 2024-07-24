@@ -298,10 +298,9 @@ abstract class HeraldAction extends Phobject {
         $no_permission[] = $phid;
         unset($targets[$phid]);
       }
-    }
-
-    if ($no_permission) {
-      $this->logEffect(self::DO_STANDARD_PERMISSION, $no_permission);
+      if ($no_permission) {
+        $this->logEffect(self::DO_STANDARD_PERMISSION, $no_permission);
+      }
     }
 
     return $targets;
