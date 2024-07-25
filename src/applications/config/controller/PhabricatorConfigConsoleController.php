@@ -60,7 +60,7 @@ final class PhabricatorConfigConsoleController
       ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
       ->setObjectList($menu);
 
-    $versions = $this->newLibraryVersionTable($viewer);
+    $versions = $this->newLibraryVersionTable();
     $binary_versions = $this->newBinaryVersionTable();
 
     $launcher_view = id(new PHUILauncherView())
