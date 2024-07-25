@@ -49,26 +49,15 @@ final class PhabricatorBadgesEditRecipientsController
         ->setURI($view_uri);
     }
 
-    $can_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      $badge,
-      PhabricatorPolicyCapability::CAN_EDIT);
-
-    $form_box = null;
-    $title = pht('Add Recipient');
-    if ($can_edit) {
-      $header_name = pht('Edit Recipients');
-
-      $form = new AphrontFormView();
-      $form
-        ->setUser($viewer)
-        ->setFullWidth(true)
-        ->appendControl(
-          id(new AphrontFormTokenizerControl())
-            ->setName('phids')
-            ->setLabel(pht('Recipients'))
-            ->setDatasource(new PhabricatorPeopleDatasource()));
-    }
+    $form = new AphrontFormView();
+    $form
+      ->setUser($viewer)
+      ->setFullWidth(true)
+      ->appendControl(
+        id(new AphrontFormTokenizerControl())
+          ->setName('phids')
+          ->setLabel(pht('Recipients'))
+          ->setDatasource(new PhabricatorPeopleDatasource()));
 
     $dialog = id(new AphrontDialogView())
       ->setUser($viewer)
