@@ -894,7 +894,6 @@ final class AphrontRequest extends Phobject {
     }
 
     $headers = array();
-    $seen = array();
 
     // NOTE: apache_request_headers() might provide a nicer way to do this,
     // but isn't available under FCGI until PHP 5.4.0.
@@ -920,30 +919,14 @@ final class AphrontRequest extends Phobject {
 
       if ($should_forward) {
         $headers[] = array($key, $value);
-        $seen[$key] = true;
       }
     }
 
     // In some situations, this may not be mapped into the HTTP_X constants.
     // CONTENT_LENGTH is similarly affected, but we trust cURL to take care
     // of that if it matters, since we're handing off a request body.
-    if (empty($seen['Content-Type'])) {
-      if (isset($_SERVER['CONTENT_TYPE'])) {
-        $headers[] = array('Content-Type', $_SERVER['CONTENT_TYPE']);
-      }
-    }
-
-    foreach ($headers as $header) {
-      list($key, $value) = $header;
-      switch ($key) {
-        case 'Host':
-        case 'Authorization':
-          // Don't forward these headers, we've already handled them elsewhere.
-          unset($headers[$key]);
-          break;
-        default:
-          break;
-      }
+    if (isset($_SERVER['CONTENT_TYPE'])) {
+      $headers[] = array('Content-Type', $_SERVER['CONTENT_TYPE']);
     }
 
     foreach ($headers as $header) {
