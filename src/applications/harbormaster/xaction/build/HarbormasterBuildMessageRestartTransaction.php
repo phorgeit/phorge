@@ -141,15 +141,13 @@ final class HarbormasterBuildMessageRestartTransaction
 
     $failed_restartable = HarbormasterBuildPlanBehavior::RESTARTABLE_IF_FAILED;
     $is_failed = ($option_key === $failed_restartable);
-    if ($is_failed) {
-      if (!$this->isFailed()) {
-        throw new HarbormasterMessageException(
-          pht('Only Restartable if Failed'),
-          pht(
-            'This build can not be restarted because the build plan is '.
-            'configured to prevent the build from restarting unless it '.
-            'has failed, and it has not failed.'));
-      }
+    if ($is_failed && !$build->isFailed()) {
+      throw new HarbormasterMessageException(
+        pht('Only Restartable if Failed'),
+        pht(
+          'This build can not be restarted because the build plan is '.
+          'configured to prevent the build from restarting unless it '.
+          'has failed, and it has not failed.'));
     }
 
   }
