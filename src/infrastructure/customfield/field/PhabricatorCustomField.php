@@ -443,14 +443,13 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomFieldInterface $object The object this field
    *   belongs to.
-   * @return $this
    * @task context
    */
   public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
     if ($this->proxy) {
       $this->proxy->readValueFromObject($object);
     }
-    return $this;
+    return;
   }
 
 
