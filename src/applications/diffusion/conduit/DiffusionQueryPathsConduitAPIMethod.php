@@ -27,7 +27,7 @@ final class DiffusionQueryPathsConduitAPIMethod
 
   protected function getResult(ConduitAPIRequest $request) {
     $results = parent::getResult($request);
-    $offset = $request->getValue('offset');
+    $offset = $request->getValue('offset', 0);
     return array_slice($results, $offset);
   }
 
