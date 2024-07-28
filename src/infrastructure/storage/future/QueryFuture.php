@@ -51,7 +51,7 @@ final class QueryFuture extends Future {
   }
 
   public function isReady() {
-    if ($this->result !== null || $this->exception) {
+    if ($this->canResolve()) {
       return true;
     }
 
@@ -105,7 +105,7 @@ final class QueryFuture extends Future {
 
     $this->processResults($this->conn->resolveAsyncQueries($conns, $asyncs));
 
-    if ($this->result !== null || $this->exception) {
+    if ($this->canResolve()) {
       return true;
     }
     return false;
