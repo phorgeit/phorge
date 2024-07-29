@@ -112,4 +112,20 @@ abstract class PhutilRemarkupRule extends Phobject {
     return (strpos($text, PhutilRemarkupBlockStorage::MAGIC_BYTE) === false);
   }
 
+  /**
+   * Get the CSS class="" attribute for a Remarkup link.
+   * It's just "remarkup-link" for all cases, plus the possibility for
+   * designers to style external links differently.
+   * @param  boolean $is_internal Whenever the link was internal or not.
+   * @return string
+   */
+  protected function getRemarkupLinkClass($is_internal) {
+    // Allow developers to style esternal links differently
+    $classes = array('remarkup-link');
+    if (!$is_internal) {
+      $classes[] = 'remarkup-link-ext';
+    }
+    return implode(' ', $classes);
+  }
+
 }
