@@ -340,12 +340,21 @@ td.cov-I {
 
 .differential-file-icon-header .phui-icon-view {
   display: inline-block;
-  margin: 0 6px 2px 0;
+  margin: 0 0 2px 0;
   vertical-align: middle;
   font-size: 14px;
 }
 
 .device-phone .differential-file-icon-header .phui-icon-view {
+  display: none;
+}
+
+.differential-changeset-path-copy-button {
+  margin-right: 0;
+  padding-right: 10px;
+}
+
+.device-phone .differential-changeset-path-copy-button {
   display: none;
 }
 

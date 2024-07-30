@@ -12,7 +12,7 @@ return array(
     'core.pkg.css' => 'ac619266',
     'core.pkg.js' => '2eeda9e0',
     'dark-console.pkg.js' => '187792c2',
-    'differential.pkg.css' => '6d3700f0',
+    'differential.pkg.css' => 'fda9518d',
     'differential.pkg.js' => '46fcb3af',
     'diffusion.pkg.css' => '354279ea',
     'diffusion.pkg.js' => '78c9885d',
@@ -63,7 +63,7 @@ return array(
     'rsrc/css/application/diff/diff-tree-view.css' => 'e2d3e222',
     'rsrc/css/application/diff/inline-comment-summary.css' => '81eb368d',
     'rsrc/css/application/differential/add-comment.css' => '7e5900d9',
-    'rsrc/css/application/differential/changeset-view.css' => '1b0476bc',
+    'rsrc/css/application/differential/changeset-view.css' => '979e688c',
     'rsrc/css/application/differential/core.css' => '7300a73e',
     'rsrc/css/application/differential/phui-inline-comment.css' => '9863a85e',
     'rsrc/css/application/differential/revision-comment.css' => '7dbc8d1d',
@@ -560,7 +560,7 @@ return array(
     'conpherence-transaction-css' => '3a3f5e7e',
     'd3' => 'e97b4b78',
     'diff-tree-view-css' => 'e2d3e222',
-    'differential-changeset-view-css' => '1b0476bc',
+    'differential-changeset-view-css' => '979e688c',
     'differential-core-view-css' => '7300a73e',
     'differential-revision-add-comment-css' => '7e5900d9',
     'differential-revision-comment-css' => '7dbc8d1d',
@@ -1055,9 +1055,6 @@ return array(
       'javelin-install',
       'javelin-util',
       'phabricator-keyboard-shortcut-manager',
-    ),
-    '1b0476bc' => array(
-      'phui-inline-comment-view-css',
     ),
     '1b6acc2a' => array(
       'javelin-magical-init',
@@ -1776,6 +1773,9 @@ return array(
       'javelin-dom',
       'javelin-stratcom',
       'phabricator-notification',
+    ),
+    '979e688c' => array(
+      'phui-inline-comment-view-css',
     ),
     '98ef467f' => array(
       'javelin-behavior',
