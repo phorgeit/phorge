@@ -3299,7 +3299,10 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   /**
-   * When a user interacts with an object, we might want to add them to CC.
+   * Adds the actor as a subscriber to the object with which they interact
+   * @param PhabricatorLiskDAO $object on which the action is performed
+   * @param array $xactions Transactions to apply
+   * @return array Transactions to apply
    */
   final public function applyImplicitCC(
     PhabricatorLiskDAO $object,
@@ -3381,11 +3384,18 @@ abstract class PhabricatorApplicationTransactionEditor
     return $xactions;
   }
 
+  /**
+   * Whether the action implies the actor should be subscribed on the object
+   * @param PhabricatorLiskDAO $object on which the action is performed
+   * @param PhabricatorApplicationTransaction $xaction Transaction to apply
+   * @return bool True if the actor should be subscribed on the object
+   */
   protected function shouldImplyCC(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
 
-    return $xaction->isCommentTransaction();
+    return ($xaction->isCommentTransaction() &&
+      !($xaction->getComment()->getIsRemoved()));
   }
 
 

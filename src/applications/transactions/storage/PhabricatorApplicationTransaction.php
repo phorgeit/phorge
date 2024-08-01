@@ -1580,6 +1580,10 @@ abstract class PhabricatorApplicationTransaction
     return 100;
   }
 
+  /**
+   * Whether the transaction concerns a comment (e.g. add, edit, remove)
+   * @return bool True if the transaction concerns a comment
+   */
   public function isCommentTransaction() {
     if ($this->hasComment()) {
       return true;

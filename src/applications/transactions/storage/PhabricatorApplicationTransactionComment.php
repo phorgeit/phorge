@@ -74,6 +74,10 @@ abstract class PhabricatorApplicationTransactionComment
     return PhabricatorContentSource::newFromSerialized($this->contentSource);
   }
 
+  /**
+   * Whether the transaction removes the comment
+   * @return bool True if the transaction removes the comment
+   */
   public function getIsRemoved() {
     return ($this->getIsDeleted() == 2);
   }
