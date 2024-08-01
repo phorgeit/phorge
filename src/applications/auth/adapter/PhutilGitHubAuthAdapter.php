@@ -55,7 +55,8 @@ final class PhutilGitHubAuthAdapter extends PhutilOAuthAuthAdapter {
     $future = new HTTPSFuture($uri);
 
     // NOTE: GitHub requires a User-Agent string.
-    $future->addHeader('User-Agent', __CLASS__);
+    $future->addHeader('User-Agent',
+      PhabricatorEnv::getEnvConfig('phabricator.base-uri'));
 
     // See T13485. Circa early 2020, GitHub has deprecated use of the
     // "access_token" URI parameter.

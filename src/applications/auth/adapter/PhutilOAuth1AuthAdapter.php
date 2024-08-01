@@ -100,6 +100,8 @@ abstract class PhutilOAuth1AuthAdapter extends PhutilAuthAdapter {
 
   protected function newOAuth1Future($uri, $data = array()) {
     $future = id(new PhutilOAuth1Future($uri, $data))
+      ->addHeader('User-Agent',
+          PhabricatorEnv::getEnvConfig('phabricator.base-uri'))
       ->setMethod('POST')
       ->setSignatureMethod($this->getSignatureMethod());
 
