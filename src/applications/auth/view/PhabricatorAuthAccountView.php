@@ -63,7 +63,7 @@ final class PhabricatorAuthAccountView extends AphrontView {
       ));
 
     $account_uri = $account->getAccountURI();
-    if (strlen($account_uri)) {
+    if (phutil_nonempty_string($account_uri)) {
 
       // Make sure we don't link a "javascript:" URI if a user somehow
       // managed to get one here.
