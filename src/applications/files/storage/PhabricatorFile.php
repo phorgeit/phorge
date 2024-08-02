@@ -176,6 +176,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return true;
   }
 
+  /**
+   * Get file monogram in the format of "F123"
+   * @return string
+   */
   public function getMonogram() {
     return 'F'.$this->getID();
   }
@@ -821,10 +825,19 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $iterator;
   }
 
+  /**
+   * Get file URI in the format of "/F123"
+   * @return string
+   */
   public function getURI() {
     return $this->getInfoURI();
   }
 
+  /**
+   * Get file view URI in the format of
+   * https://phorge.example.com/file/data/foo/PHID-FILE-bar/filename
+   * @return string
+   */
   public function getViewURI() {
     if (!$this->getPHID()) {
       throw new Exception(
@@ -834,6 +847,12 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this->getCDNURI('data');
   }
 
+  /**
+   * Get file view URI in the format of
+   * https://phorge.example.com/file/data/foo/PHID-FILE-bar/filename or
+   * https://phorge.example.com/file/download/foo/PHID-FILE-bar/filename
+   * @return string
+   */
   public function getCDNURI($request_kind) {
     if (($request_kind !== 'data') &&
         ($request_kind !== 'download')) {
@@ -876,7 +895,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
   }
 
-
+  /**
+   * Get file info URI in the format of "/F123"
+   * @return string
+   */
   public function getInfoURI() {
     return '/'.$this->getMonogram();
   }
@@ -889,6 +911,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
     }
   }
 
+  /**
+   * Get file view URI in the format of
+   * https://phorge.example.com/file/download/foo/PHID-FILE-bar/filename
+   * @return string
+   */
   public function getDownloadURI() {
     return $this->getCDNURI('download');
   }
@@ -917,10 +944,20 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return PhabricatorEnv::getCDNURI($path);
   }
 
+  /**
+   * Whether the file can be viewed in a browser
+   * @return bool True if MIME type of the file is listed in the
+   * files.viewable-mime-types setting
+   */
   public function isViewableInBrowser() {
     return ($this->getViewableMimeType() !== null);
   }
 
+  /**
+   * Whether the file is an image viewable in the browser
+   * @return bool True if MIME type of the file is listed in the
+   * files.image-mime-types setting and file is viewable in the browser
+   */
   public function isViewableImage() {
     if (!$this->isViewableInBrowser()) {
       return false;
@@ -931,6 +968,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return idx($mime_map, $mime_type);
   }
 
+  /**
+   * Whether the file is an audio file
+   * @return bool True if MIME type of the file is listed in the
+   * files.audio-mime-types setting and file is viewable in the browser
+   */
   public function isAudio() {
     if (!$this->isViewableInBrowser()) {
       return false;
@@ -941,6 +983,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return idx($mime_map, $mime_type);
   }
 
+  /**
+   * Whether the file is a video file
+   * @return bool True if MIME type of the file is listed in the
+   * files.video-mime-types setting and file is viewable in the browser
+   */
   public function isVideo() {
     if (!$this->isViewableInBrowser()) {
       return false;
@@ -951,6 +998,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return idx($mime_map, $mime_type);
   }
 
+  /**
+   * Whether the file is a PDF file
+   * @return bool True if MIME type of the file is application/pdf and file is
+   * viewable in the browser
+   */
   public function isPDF() {
     if (!$this->isViewableInBrowser()) {
       return false;
@@ -1048,6 +1100,11 @@ final class PhabricatorFile extends PhabricatorFileDAO
       ->execute();
   }
 
+  /**
+   * Whether the file is listed as a viewable MIME type
+   * @return bool True if MIME type of the file is listed in the
+   * files.viewable-mime-types setting
+   */
   public function getViewableMimeType() {
     $mime_map = PhabricatorEnv::getEnvConfig('files.viewable-mime-types');
 
