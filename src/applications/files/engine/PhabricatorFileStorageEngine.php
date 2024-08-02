@@ -7,7 +7,7 @@
  *
  * You can extend this class to provide new file storage backends.
  *
- * For more information, see @{article:File Storage Technical Documentation}.
+ * For more information, see @{article:Configuring File Storage}.
  *
  * @task construct Constructing an Engine
  * @task meta Engine Metadata
