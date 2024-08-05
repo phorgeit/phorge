@@ -82,7 +82,7 @@ final class ManiphestTaskPointsTransaction
 
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
-      if (strlen($new) && !is_numeric($new)) {
+      if (phutil_nonempty_string($new) && !is_numeric($new)) {
         $errors[] = $this->newInvalidError(
           pht('Points value must be numeric or empty.'));
         continue;
