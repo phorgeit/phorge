@@ -3453,6 +3453,7 @@ phutil_register_library_map(array(
     'PhabricatorFileAES256StorageFormat' => 'applications/files/format/PhabricatorFileAES256StorageFormat.php',
     'PhabricatorFileAltTextTransaction' => 'applications/files/xaction/PhabricatorFileAltTextTransaction.php',
     'PhabricatorFileAttachment' => 'applications/files/storage/PhabricatorFileAttachment.php',
+    'PhabricatorFileAttachmentDestructionEngineExtension' => 'applications/files/engineextension/PhabricatorFileAttachmentDestructionEngineExtension.php',
     'PhabricatorFileAttachmentQuery' => 'applications/files/query/PhabricatorFileAttachmentQuery.php',
     'PhabricatorFileBundleLoader' => 'applications/files/query/PhabricatorFileBundleLoader.php',
     'PhabricatorFileChunk' => 'applications/files/storage/PhabricatorFileChunk.php',
@@ -9924,6 +9925,7 @@ phutil_register_library_map(array(
       'PhabricatorPolicyInterface',
       'PhabricatorExtendedPolicyInterface',
     ),
+    'PhabricatorFileAttachmentDestructionEngineExtension' => 'PhabricatorDestructionEngineExtension',
     'PhabricatorFileAttachmentQuery' => 'PhabricatorCursorPagedPolicyAwareQuery',
     'PhabricatorFileBundleLoader' => 'Phobject',
     'PhabricatorFileChunk' => array(

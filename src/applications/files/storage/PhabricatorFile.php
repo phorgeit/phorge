@@ -1785,6 +1785,14 @@ final class PhabricatorFile extends PhabricatorFileDAO
     PhabricatorDestructionEngine $engine) {
 
     $this->openTransaction();
+
+      $attachments = id(new PhabricatorFileAttachment())->loadAllWhere(
+        'filePHID = %s',
+        $this->getPHID());
+      foreach ($attachments as $attachment) {
+        $attachment->delete();
+      }
+
       $this->delete();
     $this->saveTransaction();
   }
