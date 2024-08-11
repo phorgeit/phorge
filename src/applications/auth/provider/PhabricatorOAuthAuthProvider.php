@@ -144,7 +144,7 @@ abstract class PhabricatorOAuthAuthProvider extends PhabricatorAuthProvider {
 
     switch ($key) {
       case self::PROPERTY_NOTE:
-        if (strlen($old)) {
+        if (phutil_nonempty_string($old)) {
           return pht(
             '%s updated the OAuth application notes for this provider.',
             $xaction->renderHandleLink($author_phid));
