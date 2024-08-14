@@ -22,7 +22,7 @@ final class PhabricatorKeyboardRemarkupRule extends PhutilRemarkupRule {
     foreach ($keys as $k => $v) {
       $v = trim($v, " \n");
       $v = preg_replace('/\\\\(.)/', '\\1', $v);
-      if (!strlen($v)) {
+      if ($v === '') {
         unset($keys[$k]);
         continue;
       }

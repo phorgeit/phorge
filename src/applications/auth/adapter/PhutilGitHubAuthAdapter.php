@@ -31,7 +31,7 @@ final class PhutilGitHubAuthAdapter extends PhutilOAuthAuthAdapter {
 
   public function getAccountURI() {
     $name = $this->getAccountName();
-    if (strlen($name)) {
+    if (phutil_nonempty_string($name)) {
       return 'https://github.com/'.$name;
     }
     return null;
