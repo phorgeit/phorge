@@ -27,10 +27,10 @@ final class ConpherenceViewController extends
     $after_transaction_id = $request->getInt('newest_transaction_id');
     $old_message_id = $request->getURIData('messageID');
     if ($before_transaction_id && ($old_message_id || $after_transaction_id)) {
-      throw new Aphront400Response();
+      return new Aphront400Response();
     }
     if ($old_message_id && $after_transaction_id) {
-      throw new Aphront400Response();
+      return new Aphront400Response();
     }
 
     $marker_type = 'older';
