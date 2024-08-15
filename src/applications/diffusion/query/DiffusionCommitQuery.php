@@ -252,7 +252,7 @@ final class DiffusionCommitQuery
         $table->getTableName());
     }
 
-    if (!$subqueries) {
+    if (!$subqueries && $empty_exception) {
       throw $empty_exception;
     }
 
