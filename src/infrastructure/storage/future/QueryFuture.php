@@ -56,18 +56,6 @@ final class QueryFuture extends Future {
     }
 
     if (!$this->conn->supportsAsyncQueries()) {
-      if ($this->conn->supportsParallelQueries()) {
-        $queries = array();
-        $conns = array();
-        foreach (self::$futures as $id => $future) {
-          $queries[$id] = $future->query;
-          $conns[$id] = $future->conn;
-        }
-        $results = $this->conn->executeParallelQueries($queries, $conns);
-        $this->processResults($results);
-        return true;
-      }
-
       $conns = array();
       $conn_queries = array();
       foreach (self::$futures as $id => $future) {

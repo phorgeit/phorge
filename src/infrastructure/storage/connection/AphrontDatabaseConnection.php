@@ -63,10 +63,6 @@ abstract class AphrontDatabaseConnection
     return false;
   }
 
-  public function supportsParallelQueries() {
-    return false;
-  }
-
   public function setReadOnly($read_only) {
     $this->readOnly = $read_only;
     return $this;
