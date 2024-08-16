@@ -10,7 +10,6 @@ final class PhabricatorApplicationTransactionCommentView
   private $previewTimelineID;
   private $previewToggleID;
   private $formID;
-  private $statusID;
   private $commentID;
   private $draft;
   private $requestURI;
@@ -566,13 +565,6 @@ final class PhabricatorApplicationTransactionCommentView
       $this->formID = celerity_generate_unique_node_id();
     }
     return $this->formID;
-  }
-
-  private function getStatusID() {
-    if (!$this->statusID) {
-      $this->statusID = celerity_generate_unique_node_id();
-    }
-    return $this->statusID;
   }
 
   private function getCommentID() {
