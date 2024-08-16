@@ -472,23 +472,4 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       ));
   }
 
-  private function buildStatusText() {
-    return null;
-  }
-
-  private function buildSendButton() {
-    $conpherence = $this->getSelectedConpherence();
-    if (!$conpherence) {
-      return null;
-    }
-
-    return javelin_tag(
-      'button',
-      array(
-        'class' => 'grey',
-        'sigil' => 'conpherence-send-message',
-      ),
-      pht('Send'));
-  }
-
 }
