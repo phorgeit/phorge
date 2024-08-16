@@ -843,16 +843,6 @@ abstract class HeraldAdapter extends Phobject {
     return $impl->getHeraldActionValueType();
   }
 
-  private function buildTokenizerFieldValue(
-    PhabricatorTypeaheadDatasource $datasource) {
-
-    $key = 'action.'.get_class($datasource);
-
-    return id(new HeraldTokenizerFieldValue())
-      ->setKey($key)
-      ->setDatasource($datasource);
-  }
-
 /* -(  Repetition  )--------------------------------------------------------- */
 
 
