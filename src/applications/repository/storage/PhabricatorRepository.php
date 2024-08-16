@@ -1229,62 +1229,6 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return $uri;
   }
 
-
-  /**
-   * Determine if we should connect to the remote using SSH flags and
-   * credentials.
-   *
-   * @return bool True to use the SSH protocol.
-   * @task uri
-   */
-  private function shouldUseSSH() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    if ($this->isSSHProtocol($protocol)) {
-      return true;
-    }
-
-    return false;
-  }
-
-
-  /**
-   * Determine if we should connect to the remote using HTTP flags and
-   * credentials.
-   *
-   * @return bool True to use the HTTP protocol.
-   * @task uri
-   */
-  private function shouldUseHTTP() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    return ($protocol == 'http' || $protocol == 'https');
-  }
-
-
-  /**
-   * Determine if we should connect to the remote using SVN flags and
-   * credentials.
-   *
-   * @return bool True to use the SVN protocol.
-   * @task uri
-   */
-  private function shouldUseSVNProtocol() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    return ($protocol == 'svn');
-  }
-
-
   /**
    * Determine if a protocol is SSH or SSH-like.
    *
