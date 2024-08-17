@@ -303,3 +303,78 @@ body.printable {
 .phui-document-foot-content {
   margin: 64px 0 32px;
 }
+
+@media (min-width: 1792px) {
+  div.phui-document-view.phui-document-view-pro.has-curtain {
+    max-width: 1332px;
+    left: 50px;
+  }
+
+  .device-desktop div.phui-document-view.phui-document-view-pro.has-curtain
+    div.phui-document-content-outer {
+    width: 1332px;
+  }
+
+  div.phui-document-content {
+    margin-left: -200px;
+  }
+
+  div.phui-document-curtain {
+    top: 130px;
+    position: sticky;
+    right: 15%;
+  }
+
+  div.phui-document-content-outer,
+  div.phui-document-view.phui-document-view-pro
+    div.phui-header-shell.phui-header-tall {
+    margin-left: 300px;
+  }
+
+  div.phui-document-toc-container > a.phui-document-toc {
+    display: none;
+  }
+
+  .device-desktop div.phui-document-inner {
+    overflow: inherit;
+  }
+
+  div.phui-list-sidenav.phui-document-toc-list {
+    top: -16px;
+    margin-top: 23px;
+    box-shadow: 0px 0px;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px);
+    border: solid 1px {$lightgreyborder};
+  }
+
+  div.has-curtain div.phui-list-sidenav.phui-document-toc-list {
+    left: -185px;
+    margin-left: 175px;
+  }
+
+  .device-desktop .has-curtain div.phui-document-content-view {
+    display: block;
+  }
+
+  div.phui-document-container {
+    position: relative;
+  }
+
+  div.phui-document-toc-container {
+    position: sticky;
+    left: 0px;
+    top: 0;
+    margin-left: 32px;
+  }
+
+  div.phui-list-sidenav.phui-document-toc-list {
+    display: block;
+  }
+
+  div.phui-document-view-pro div.phui-document-toc-content li a {
+    white-space: break-spaces;
+    text-indent: -10px;
+    padding-left: 10px;
+  }
+}
