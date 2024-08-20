@@ -32,7 +32,7 @@ final class CelerityManagementMapWorkflow
   /**
    * Rebuild the resource map for a resource source.
    *
-   * @param CelerityPhysicalResources Resource source to rebuild.
+   * @param $resources CelerityPhysicalResources Resource source to rebuild.
    * @return void
    */
   private function rebuildResources(CelerityPhysicalResources $resources) {

@@ -64,10 +64,10 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
   /**
    * Search the graph cache for the most modification to a path.
    *
-   * @param int     The commit ID to search ancestors of.
-   * @param int     The path ID to search for changes to.
-   * @param float   Maximum number of seconds to spend trying to satisfy this
-   *                query using the graph cache. By default, `0.5` (500ms).
+   * @param int     $commit_id The commit ID to search ancestors of.
+   * @param int     $path_id The path ID to search for changes to.
+   * @param float   $time Maximum number of seconds to spend trying to satisfy
+   *                this query using the graph cache. By default `0.5` (500ms).
    * @return mixed  Commit ID, or `null` if no ancestors exist, or `false` if
    *                the graph cache was unable to determine the answer.
    * @task query
@@ -189,7 +189,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
   /**
    * Get the bucket key for a given commit ID.
    *
-   * @param   int   Commit ID.
+   * @param   int   $commit_id Commit ID.
    * @return  int   Bucket key.
    * @task cache
    */
@@ -201,7 +201,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
   /**
    * Get the cache key for a given bucket key (from @{method:getBucketKey}).
    *
-   * @param   int     Bucket key.
+   * @param   int     $bucket_key Bucket key.
    * @return  string  Cache key.
    * @task cache
    */
@@ -235,9 +235,10 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
    * Normally, this operates as a readthrough cache call. It can also be used
    * to force a cache update by passing the existing data to `$rebuild_data`.
    *
-   * @param   int     Bucket key, from @{method:getBucketKey}.
-   * @param   mixed   Current data, to force a cache rebuild of this bucket.
-   * @return  array   Data from the cache.
+   * @param   int    $bucket_key Bucket key, from @{method:getBucketKey}.
+   * @param   mixed? $rebuild_data Current data, to force a cache rebuild of
+   *                 this bucket.
+   * @return  array  Data from the cache.
    * @task cache
    */
   private function getBucketData($bucket_key, $rebuild_data = null) {
@@ -287,9 +288,9 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
   /**
    * Rebuild a cache bucket, amending existing data if available.
    *
-   * @param   int     Bucket key, from @{method:getBucketKey}.
-   * @param   array   Existing bucket data.
-   * @return  array   Rebuilt bucket data.
+   * @param   int   $bucket_key Bucket key, from @{method:getBucketKey}.
+   * @param   array $current_data Existing bucket data.
+   * @return  array Rebuilt bucket data.
    * @task cache
    */
   private function rebuildBucket($bucket_key, array $current_data) {

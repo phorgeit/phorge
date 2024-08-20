@@ -348,7 +348,7 @@ final class PhabricatorPolicy
    * policy. This is used to bulk load data (like project memberships) in order
    * to apply policy filters efficiently.
    *
-   * @param string Policy rule classname.
+   * @param string $rule_class Policy rule classname.
    * @return list<wild> List of values used in this policy.
    */
   public function getCustomRuleValues($rule_class) {
@@ -402,7 +402,7 @@ final class PhabricatorPolicy
    * set of unique users. In this case, neither is strictly stronger than
    * the other.
    *
-   * @param PhabricatorPolicy Other policy.
+   * @param PhabricatorPolicy $other Other policy.
    * @return bool `true` if this policy is more restrictive than the other
    *  policy.
    */

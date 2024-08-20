@@ -52,8 +52,8 @@ abstract class PhabricatorPHIDType extends Phobject {
    * can provide a dummy implementation for this method and overload
    * @{method:loadObjects} instead.
    *
-   * @param PhabricatorObjectQuery Query being executed.
-   * @param list<phid> PHIDs to load.
+   * @param PhabricatorObjectQuery $query Query being executed.
+   * @param list<phid> $phids PHIDs to load.
    * @return PhabricatorPolicyAwareQuery Query object which loads the
    *   specified PHIDs when executed.
    */
@@ -67,8 +67,8 @@ abstract class PhabricatorPHIDType extends Phobject {
    * necessary to implement @{method:buildQueryForObjects} to get object
    * loading to work.
    *
-   * @param PhabricatorObjectQuery Query being executed.
-   * @param list<phid> PHIDs to load.
+   * @param PhabricatorObjectQuery $query Query being executed.
+   * @param list<phid> $phids PHIDs to load.
    * @return list<wild> Corresponding objects.
    */
   public function loadObjects(
@@ -113,10 +113,11 @@ abstract class PhabricatorPHIDType extends Phobject {
    * each handle at a minimum. See @{class:PhabricatorObjectHandle} for other
    * handle properties.
    *
-   * @param PhabricatorHandleQuery          Issuing query object.
-   * @param list<PhabricatorObjectHandle>   Handles to populate with data.
-   * @param list<Object>                    Objects for these PHIDs loaded by
-   *                                        @{method:buildQueryForObjects()}.
+   * @param PhabricatorHandleQuery        $query    Issuing query object.
+   * @param list<PhabricatorObjectHandle> $handles  Handles to populate with
+   *   data.
+   * @param list<Object>                  $objects  Objects for these PHIDs
+   *   loaded by @{method:buildQueryForObjects()}.
    * @return void
    */
   abstract public function loadHandles(
@@ -165,7 +166,7 @@ abstract class PhabricatorPHIDType extends Phobject {
   /**
    * Get all PHID types of applications installed for a given viewer.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhabricatorUser $viewer Viewing user.
    * @return dict<string, PhabricatorPHIDType> Map of constants to installed
    *  types.
    */
@@ -209,7 +210,7 @@ abstract class PhabricatorPHIDType extends Phobject {
   /**
    * Get all PHID types of an application.
    *
-   * @param string Class name of an application
+   * @param string $application Class name of an application
    * @return dict<string, PhabricatorPHIDType> Map of constants of application
    */
   public static function getAllTypesForApplication(

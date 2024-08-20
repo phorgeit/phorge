@@ -59,7 +59,7 @@ final class PhabricatorWorkerTriggerQuery
    * triggers which have been scheduled to execute. You should not use this
    * ordering when querying for specific triggers, e.g. by ID or PHID.
    *
-   * @param const Result order.
+   * @param const $order Result order.
    * @return this
    */
   public function setOrder($order) {

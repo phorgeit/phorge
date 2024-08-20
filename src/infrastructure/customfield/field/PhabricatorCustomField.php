@@ -243,7 +243,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * For general implementations, the general field implementation can return
    * multiple field instances here.
    *
-   * @param object The object to create fields for.
+   * @param object $object The object to create fields for.
    * @return list<PhabricatorCustomField> List of fields.
    * @task core
    */
@@ -382,7 +382,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * Set the proxy implementation for this field. See @{method:canSetProxy} for
    * discussion of field proxies.
    *
-   * @param PhabricatorCustomField Field implementation.
+   * @param PhabricatorCustomField $proxy Field implementation.
    * @return this
    * @task proxy
    */
@@ -421,7 +421,8 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Sets the object this field belongs to.
    *
-   * @param PhabricatorCustomFieldInterface The object this field belongs to.
+   * @param PhabricatorCustomFieldInterface $object The object this field
+   *   belongs to.
    * @return this
    * @task context
    */
@@ -440,7 +441,8 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Read object data into local field storage, if applicable.
    *
-   * @param PhabricatorCustomFieldInterface The object this field belongs to.
+   * @param PhabricatorCustomFieldInterface $object The object this field
+   *   belongs to.
    * @return this
    * @task context
    */
@@ -607,7 +609,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * need to undo whatever serialization you applied in
    * @{method:getValueForStorage}.
    *
-   * @param string|null Serialized field representation (from
+   * @param string|null $value Serialized field representation (from
    *                    @{method:getValueForStorage}) or null if no value has
    *                    ever been stored.
    * @return this
@@ -729,7 +731,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Build and populate storage for a string index.
    *
-   * @param string String to index.
+   * @param string $value String to index.
    * @return PhabricatorCustomFieldStringIndexStorage Populated storage.
    * @task appsearch
    */
@@ -748,7 +750,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Build and populate storage for a numeric index.
    *
-   * @param string Numeric value to index.
+   * @param string $value Numeric value to index.
    * @return PhabricatorCustomFieldNumericIndexStorage Populated storage.
    * @task appsearch
    */
@@ -767,8 +769,9 @@ abstract class PhabricatorCustomField extends Phobject {
    * Read a query value from a request, for storage in a saved query. Normally,
    * this method should, e.g., read a string out of the request.
    *
-   * @param PhabricatorApplicationSearchEngine Engine building the query.
-   * @param AphrontRequest Request to read from.
+   * @param PhabricatorApplicationSearchEngine $engine Engine building the
+   *   query.
+   * @param AphrontRequest $request Request to read from.
    * @return wild
    * @task appsearch
    */
@@ -789,9 +792,10 @@ abstract class PhabricatorCustomField extends Phobject {
    * use `with...()` methods to apply filters or other constraints to the
    * query.
    *
-   * @param PhabricatorApplicationSearchEngine Engine executing the query.
-   * @param PhabricatorCursorPagedPolicyAwareQuery Query to constrain.
-   * @param wild Constraint provided by the user.
+   * @param PhabricatorApplicationSearchEngine $engine Engine executing the
+   *   query.
+   * @param PhabricatorCursorPagedPolicyAwareQuery $query Query to constrain.
+   * @param wild $value Constraint provided by the user.
    * @return void
    * @task appsearch
    */
@@ -812,9 +816,10 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Append search controls to the interface.
    *
-   * @param PhabricatorApplicationSearchEngine Engine constructing the form.
-   * @param AphrontFormView The form to update.
-   * @param wild Value from the saved query.
+   * @param PhabricatorApplicationSearchEngine $engine Engine constructing the
+   *   form.
+   * @param AphrontFormView $form The form to update.
+   * @param wild $value Value from the saved query.
    * @return void
    * @task appsearch
    */
@@ -1000,12 +1005,12 @@ abstract class PhabricatorCustomField extends Phobject {
    * when a transaction would set a field to an invalid value, or when a field
    * is required but no transactions provide value.
    *
-   * @param PhabricatorLiskDAO Editor applying the transactions.
-   * @param string Transaction type. This type is always
+   * @param PhabricatorLiskDAO $editor Editor applying the transactions.
+   * @param string $type Transaction type. This type is always
    *   `PhabricatorTransactions::TYPE_CUSTOMFIELD`, it is provided for
    *   convenience when constructing exceptions.
-   * @param list<PhabricatorApplicationTransaction> Transactions being applied,
-   *   which may be empty if this field is not being edited.
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   *   being applied, which may be empty if this field is not being edited.
    * @return list<PhabricatorApplicationTransactionValidationError> Validation
    *   errors.
    *
@@ -1566,7 +1571,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the Herald value type for the given condition.
    *
-   * @param   const       Herald condition constant.
+   * @param   const       $condition Herald condition constant.
    * @return  const|null  Herald value type, or null to use the default.
    * @task herald
    */

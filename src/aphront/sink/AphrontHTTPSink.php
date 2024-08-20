@@ -28,7 +28,8 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write an HTTP status code to the output.
    *
-   * @param int Numeric HTTP status code.
+   * @param int $code Numeric HTTP status code.
+   * @param string? $message
    * @return void
    */
   final public function writeHTTPStatus($code, $message = '') {
@@ -44,7 +45,7 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write HTTP headers to the output.
    *
-   * @param list<pair> List of <name, value> pairs.
+   * @param list<pair> $headers List of <name, value> pairs.
    * @return void
    */
   final public function writeHeaders(array $headers) {
@@ -89,7 +90,7 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write HTTP body data to the output.
    *
-   * @param string Body data.
+   * @param string $data Body data.
    * @return void
    */
   final public function writeData($data) {
@@ -100,7 +101,7 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write an entire @{class:AphrontResponse} to the output.
    *
-   * @param AphrontResponse The response object to write.
+   * @param AphrontResponse $response The response object to write.
    * @return void
    */
   final public function writeResponse(AphrontResponse $response) {

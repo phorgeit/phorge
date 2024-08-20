@@ -11,7 +11,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Get an estimate of the transformed dimensions of a file.
    *
-   * @param PhabricatorFile File to transform.
+   * @param PhabricatorFile $file File to transform.
    * @return list<int, int>|null Width and height, if available.
    */
   public function getTransformedDimensions(PhabricatorFile $file) {
@@ -132,7 +132,7 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Create a new @{class:PhabricatorFile} from raw data.
    *
-   * @param string Raw file data.
+   * @param string $data Raw file data.
    */
   protected function newFileFromData($data) {
     if ($this->file) {
@@ -159,8 +159,8 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
   /**
    * Create a new image filled with transparent pixels.
    *
-   * @param int Desired image width.
-   * @param int Desired image height.
+   * @param int $w Desired image width.
+   * @param int $h Desired image height.
    * @return resource New image resource.
    */
   protected function newEmptyImage($w, $h) {

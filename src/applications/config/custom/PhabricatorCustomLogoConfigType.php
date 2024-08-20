@@ -15,7 +15,7 @@ final class PhabricatorCustomLogoConfigType
 
   /**
    * Return the full URI of the Phorge logo
-   * @param PhabricatorUser Current viewer
+   * @param PhabricatorUser $viewer Current viewer
    * @return string Full URI of the Phorge logo
    */
   public static function getLogoURI(PhabricatorUser $viewer) {

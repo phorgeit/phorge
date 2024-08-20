@@ -254,7 +254,8 @@ final class PhrequentTimeBlock extends Phobject {
    * This is used to avoid double-counting time on objects which had timers
    * started multiple times.
    *
-   * @param list<pair<int, int>> List of possibly overlapping time ranges.
+   * @param list<pair<int, int>> $ranges List of possibly overlapping time
+   *   ranges.
    * @return list<pair<int, int>> Nonoverlapping time ranges.
    */
   public static function mergeTimeRanges(array $ranges) {

@@ -63,9 +63,10 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * This method should not acquire locks or expect anything to be locked. This
    * is a coarse compatibility check between a lease and a resource.
    *
-   * @param DrydockBlueprint Concrete blueprint to allocate for.
-   * @param DrydockResource Candidate resource to allocate the lease on.
-   * @param DrydockLease Pending lease that wants to allocate here.
+   * @param DrydockBlueprint $blueprint Concrete blueprint to allocate for.
+   * @param DrydockResource $resource Candidate resource to allocate the lease
+   *   on.
+   * @param DrydockLease $lease Pending lease that wants to allocate here.
    * @return bool True if the resource and lease are compatible.
    * @task lease
    */
@@ -81,9 +82,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    *
    * If acquisition fails, throw an exception.
    *
-   * @param DrydockBlueprint Blueprint which built the resource.
-   * @param DrydockResource Resource to acquire a lease on.
-   * @param DrydockLease Requested lease.
+   * @param DrydockBlueprint $blueprint Blueprint which built the resource.
+   * @param DrydockResource $resource Resource to acquire a lease on.
+   * @param DrydockLease $lease Requested lease.
    * @return void
    * @task lease
    */
@@ -111,9 +112,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * This callback is primarily useful for automatically releasing resources
    * once all leases are released.
    *
-   * @param DrydockBlueprint Blueprint which built the resource.
-   * @param DrydockResource Resource a lease was released on.
-   * @param DrydockLease Recently released lease.
+   * @param DrydockBlueprint $blueprint Blueprint which built the resource.
+   * @param DrydockResource $resource Resource a lease was released on.
+   * @param DrydockLease $lease Recently released lease.
    * @return void
    * @task lease
    */
@@ -128,9 +129,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    *
    * If a lease creates temporary state while held, destroy it here.
    *
-   * @param DrydockBlueprint Blueprint which built the resource.
-   * @param DrydockResource Resource the lease is acquired on.
-   * @param DrydockLease The lease being destroyed.
+   * @param DrydockBlueprint $blueprint Blueprint which built the resource.
+   * @param DrydockResource $resource Resource the lease is acquired on.
+   * @param DrydockLease $lease The lease being destroyed.
    * @return void
    * @task lease
    */
@@ -156,11 +157,11 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * has a flexible pool of expensive resources and you want to pack leases
    * onto them as tightly as possible.
    *
-   * @param DrydockBlueprint The blueprint for an existing resource being
-   *   acquired.
-   * @param DrydockResource The resource being acquired, which we may want to
-   *   build a supplemental resource for.
-   * @param DrydockLease The current lease performing acquisition.
+   * @param DrydockBlueprint $blueprint The blueprint for an existing resource
+   *   being acquired.
+   * @param DrydockResource $resource The resource being acquired, which we may
+   *   want to build a supplemental resource for.
+   * @param DrydockLease $lease The current lease performing acquisition.
    * @return bool True to prefer allocating a supplemental resource.
    *
    * @task lease
@@ -190,7 +191,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * really exists, only if some blueprint may conceivably exist which could
    * plausibly be able to build a suitable resource.
    *
-   * @param DrydockLease Requested lease.
+   * @param DrydockLease $lease Requested lease.
    * @return bool True if some concrete blueprint of this implementation's
    *   type might ever be able to build a resource for the lease.
    * @task resource
@@ -211,9 +212,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * if the blueprint as configured may, at some time, be able to build a
    * suitable resource.
    *
-   * @param DrydockBlueprint Blueprint which may be asked to allocate a
-   *   resource.
-   * @param DrydockLease Requested lease.
+   * @param DrydockBlueprint $blueprint Blueprint which may be asked to
+   *   allocate a resource.
+   * @param DrydockLease $lease Requested lease.
    * @return bool True if this blueprint can eventually build a suitable
    *   resource for the lease, as currently configured.
    * @task resource
@@ -240,9 +241,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * eaten up free capacity by the time it actually tries to build a resource.
    * This is normal and the allocator will recover from it.
    *
-   * @param DrydockBlueprint The blueprint which may be asked to allocate a
-   *   resource.
-   * @param DrydockLease Requested lease.
+   * @param DrydockBlueprint $blueprint The blueprint which may be asked to
+   *   allocate a resource.
+   * @param DrydockLease $lease Requested lease.
    * @return bool True if this blueprint appears likely to be able to allocate
    *   a suitable resource.
    * @task resource
@@ -260,8 +261,9 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * called. Blueprints are entirely responsible for any lock handling they
    * need to perform.
    *
-   * @param DrydockBlueprint The blueprint which should allocate a resource.
-   * @param DrydockLease Requested lease.
+   * @param DrydockBlueprint $blueprint The blueprint which should allocate a
+   *   resource.
+   * @param DrydockLease $lease Requested lease.
    * @return DrydockResource Allocated resource.
    * @task resource
    */
@@ -287,8 +289,8 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * here. For example, you might shut down a virtual host or destroy a working
    * copy on disk.
    *
-   * @param DrydockBlueprint Blueprint which built the resource.
-   * @param DrydockResource Resource being destroyed.
+   * @param DrydockBlueprint $blueprint Blueprint which built the resource.
+   * @param DrydockResource $resource Resource being destroyed.
    * @return void
    * @task resource
    */
@@ -300,8 +302,8 @@ abstract class DrydockBlueprintImplementation extends Phobject {
   /**
    * Get a human readable name for a resource.
    *
-   * @param DrydockBlueprint Blueprint which built the resource.
-   * @param DrydockResource Resource to get the name of.
+   * @param DrydockBlueprint $blueprint Blueprint which built the resource.
+   * @param DrydockResource $resource Resource to get the name of.
    * @return string Human-readable resource name.
    * @task resource
    */
@@ -338,7 +340,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
    * build a resource which can satisfy the lease. They may not be able to
    * build that resource right now.
    *
-   * @param DrydockLease Requested lease.
+   * @param DrydockLease $lease Requested lease.
    * @return list<DrydockBlueprintImplementation> List of qualifying blueprint
    *   implementations.
    */
@@ -429,7 +431,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
   /**
    * Get the effective concurrent resource limit for this blueprint.
    *
-   * @param DrydockBlueprint Blueprint to get the limit for.
+   * @param DrydockBlueprint $blueprint Blueprint to get the limit for.
    * @return int|null Limit, or `null` for no limit.
    */
   protected function getConcurrentResourceLimit(DrydockBlueprint $blueprint) {
@@ -500,7 +502,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
   /**
    * Apply standard limits on resource allocation rate.
    *
-   * @param DrydockBlueprint The blueprint requesting an allocation.
+   * @param DrydockBlueprint $blueprint The blueprint requesting an allocation.
    * @return bool True if further allocations should be limited.
    */
   protected function shouldLimitAllocatingPoolSize(

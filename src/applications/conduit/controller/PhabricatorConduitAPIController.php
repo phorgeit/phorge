@@ -159,8 +159,9 @@ final class PhabricatorConduitAPIController
   /**
    * Authenticate the client making the request to a Phabricator user account.
    *
-   * @param   ConduitAPIRequest Request being executed.
-   * @param   dict              Request metadata.
+   * @param   ConduitAPIRequest $api_request Request being executed.
+   * @param   dict              $metadata Request metadata.
+   * @param   wild              $method
    * @return  null|pair         Null to indicate successful authentication, or
    *                            an error code and error message pair.
    */

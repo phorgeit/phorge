@@ -38,7 +38,8 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
   /**
    * Set the caches which comprise this stack.
    *
-   * @param   list<PhutilKeyValueCache> Ordered list of key-value caches.
+   * @param   list<PhutilKeyValueCache> $caches Ordered list of key-value
+   *   caches.
    * @return  this
    * @task    config
    */
@@ -62,7 +63,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
    *   // TTL does not persist; this will use no TTL.
    *   $stack->getKey('hedgehog');
    *
-   * @param   int TTL in seconds.
+   * @param   int $ttl TTL in seconds.
    * @return  this
    *
    * @task    config

@@ -16,9 +16,9 @@
  * trusted blindly, and not escaped. You should not pass user data in these
  * parameters.
  *
- * @param string The name of the tag, like `a` or `div`.
- * @param map<string, string> A map of tag attributes.
- * @param wild Content to put in the tag.
+ * @param string $tag The name of the tag, like `a` or `div`.
+ * @param map<string, string>? $attributes A map of tag attributes.
+ * @param wild? $content Content to put in the tag.
  * @return PhutilSafeHTML Tag object.
  */
 function phutil_tag($tag, array $attributes = array(), $content = null) {

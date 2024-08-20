@@ -28,7 +28,7 @@ abstract class PhabricatorTriggerAction extends Phobject {
   /**
    * Validate action configuration.
    *
-   * @param map<string, wild> Map of action properties.
+   * @param map<string, wild> $properties Map of action properties.
    * @return void
    */
   abstract public function validateProperties(array $properties);
@@ -62,10 +62,10 @@ abstract class PhabricatorTriggerAction extends Phobject {
    * may be simplest to pass the trigger time to the task and then make the
    * decision to discard the action there.
    *
-   * @param int|null Last time the event occurred, or null if it has never
-   *   triggered before.
-   * @param int The scheduled time for the current action. This may be
-   *   significantly different from the current time.
+   * @param int|null $last_epoch Last time the event occurred, or null if it
+   *   has never triggered before.
+   * @param int $this_epoch The scheduled time for the current action. This
+   *   may be significantly different from the current time.
    * @return void
    */
   abstract public function execute($last_epoch, $this_epoch);

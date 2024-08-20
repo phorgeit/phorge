@@ -141,7 +141,7 @@ abstract class PhabricatorApplication
    *
    * Users who have not yet set preferences see a default list of applications.
    *
-   * @param PhabricatorUser User viewing the pinned application list.
+   * @param PhabricatorUser $viewer User viewing the pinned application list.
    * @return bool True if this application should be pinned by default.
    */
   public function isPinnedByDefault(PhabricatorUser $viewer) {
@@ -330,9 +330,9 @@ abstract class PhabricatorApplication
   /**
    * Build items for the main menu.
    *
-   * @param  PhabricatorUser    The viewing user.
-   * @param  AphrontController  The current controller. May be null for special
-   *                            pages like 404, exception handlers, etc.
+   * @param  PhabricatorUser    $user The viewing user.
+   * @param  AphrontController? $controller The current controller. May be null
+   *   for special pages like 404, exception handlers, etc.
    * @return list<PHUIListItemView> List of menu items.
    * @task ui
    */
@@ -409,7 +409,7 @@ abstract class PhabricatorApplication
    * To check if an application is installed //and// available to a particular
    * viewer, user @{method:isClassInstalledForViewer}.
    *
-   * @param string  Application class name.
+   * @param string $class Application class name.
    * @return bool   True if the class is installed.
    * @task meta
    */
@@ -425,8 +425,8 @@ abstract class PhabricatorApplication
    * To check if an application is installed at all, use
    * @{method:isClassInstalled}.
    *
-   * @param string Application class name.
-   * @param PhabricatorUser Viewing user.
+   * @param string $class Application class name.
+   * @param PhabricatorUser $viewer Viewing user.
    * @return bool True if the class is installed for the viewer.
    * @task meta
    */

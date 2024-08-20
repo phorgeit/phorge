@@ -538,7 +538,7 @@ final class PhabricatorRepositoryDiscoveryEngine
    *
    * @task internal
    *
-   * @param   list<DiffusionRepositoryRef> List of refs.
+   * @param   list<DiffusionRepositoryRef> $refs List of refs.
    * @return  list<DiffusionRepositoryRef> Sorted list of refs.
    */
   private function sortRefs(array $refs) {

@@ -146,7 +146,8 @@ EOFILE;
    * Find binary resources (like PNG and SWF) and return information about
    * them.
    *
-   * @param CelerityPhysicalResources Resource map to find binary resources for.
+   * @param CelerityPhysicalResources $resources Resource map to find binary
+   *                                  resources for.
    * @return map<string, map<string, string>> Resource information map.
    */
   private function rebuildBinaryResources(
@@ -170,8 +171,10 @@ EOFILE;
   /**
    * Find text resources (like JS and CSS) and return information about them.
    *
-   * @param CelerityPhysicalResources Resource map to find text resources for.
-   * @param CelerityResourceTransformer Configured resource transformer.
+   * @param CelerityPhysicalResources $resources Resource map to find text
+   *                                  resources for.
+   * @param CelerityResourceTransformer $xformer Configured resource
+   *                                    transformer.
    * @return map<string, map<string, string>> Resource information map.
    */
   private function rebuildTextResources(
@@ -211,8 +214,8 @@ EOFILE;
    * Parse the `@provides` and `@requires` symbols out of a text resource, like
    * JS or CSS.
    *
-   * @param string Resource name.
-   * @param string Resource data.
+   * @param string $name Resource name.
+   * @param string $data Resource data.
    * @return pair<string|null, list<string>|null> The `@provides` symbol and
    *    the list of `@requires` symbols. If the resource is not part of the
    *    dependency graph, both are null.
@@ -254,8 +257,8 @@ EOFILE;
    * Check for dependency cycles in the resource graph. Raises an exception if
    * a cycle is detected.
    *
-   * @param map<string, list<string>> Map of `@provides` symbols to their
-   *                                  `@requires` symbols.
+   * @param map<string, list<string>> $nodes Map of `@provides` symbols to
+   *                                  their `@requires` symbols.
    * @return void
    */
   private function detectGraphCycles(array $nodes) {
@@ -278,9 +281,9 @@ EOFILE;
   /**
    * Build package specifications for a given resource source.
    *
-   * @param CelerityPhysicalResources Resource source to rebuild.
-   * @param map<string, string> Map of `@provides` to hashes.
-   * @param map<string, string> Map of hashes to resource names.
+   * @param CelerityPhysicalResources $resources Resource source to rebuild.
+   * @param map<string, string> $symbol_map Map of `@provides` to hashes.
+   * @param map<string, string> $reverse_map Map of hashes to resource names.
    * @return map<string, map<string, string>> Package information maps.
    */
   private function rebuildPackages(

@@ -120,7 +120,7 @@ final class AphrontFormView extends AphrontView {
    * controls. It will propagate some information from the form to the
    * control to simplify rendering.
    *
-   * @param AphrontFormControl Control to append.
+   * @param AphrontFormControl $control Control to append.
    * @return this
    */
   public function appendControl(AphrontFormControl $control) {

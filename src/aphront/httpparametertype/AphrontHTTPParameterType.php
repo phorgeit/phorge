@@ -31,7 +31,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * example, a type might lookup usernames or project names. These types need
    * to use the current viewer to execute queries.
    *
-   * @param PhabricatorUser Current viewer.
+   * @param PhabricatorUser $viewer Current viewer.
    * @return this
    * @task read
    */
@@ -58,8 +58,8 @@ abstract class AphrontHTTPParameterType extends Phobject {
   /**
    * Test if a value is present in a request.
    *
-   * @param AphrontRequest The incoming request.
-   * @param string The key to examine.
+   * @param AphrontRequest $request The incoming request.
+   * @param string $key The key to examine.
    * @return bool True if a readable value is present in the request.
    * @task read
    */
@@ -74,8 +74,8 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * If the value is not present, a default value is returned (usually `null`).
    * Use @{method:getExists} to test if a value is present.
    *
-   * @param AphrontRequest The incoming request.
-   * @param string The key to examine.
+   * @param AphrontRequest $request The incoming request.
+   * @param string $key The key to examine.
    * @return wild Value, or default if value is not present.
    * @task read
    */
@@ -165,9 +165,9 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * existence check that a simpler "list of strings" type has, and can just
    * call the simpler type to reuse its behavior.
    *
-   * @param AphrontHTTPParameterType The other type.
-   * @param AphrontRequest Incoming request.
-   * @param string Key to examine.
+   * @param AphrontHTTPParameterType $type The other type.
+   * @param AphrontRequest $request Incoming request.
+   * @param string $key Key to examine.
    * @return bool True if the parameter exists.
    * @task util
    */
@@ -189,9 +189,9 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * type. For example, a "list of users" type may start by running the same
    * basic parsing that a simpler "list of strings" type does.
    *
-   * @param AphrontHTTPParameterType The other type.
-   * @param AphrontRequest Incoming request.
-   * @param string Key to examine.
+   * @param AphrontHTTPParameterType $type The other type.
+   * @param AphrontRequest $request Incoming request.
+   * @param string $key Key to examine.
    * @return wild Parsed value.
    * @task util
    */
@@ -233,8 +233,8 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * To call another type's behavior in order to perform this check, use
    * @{method:getExistsWithType}.
    *
-   * @param AphrontRequest The incoming request.
-   * @param string The key to examine.
+   * @param AphrontRequest $request The incoming request.
+   * @param string $key The key to examine.
    * @return bool True if a readable value is present in the request.
    * @task impl
    */
@@ -253,8 +253,8 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * To call another type's behavior in order to parse a value, use
    * @{method:getValueWithType}.
    *
-   * @param AphrontRequest The incoming request.
-   * @param string The key to examine.
+   * @param AphrontRequest $request The incoming request.
+   * @param string $key The key to examine.
    * @return wild Parsed value.
    * @task impl
    */

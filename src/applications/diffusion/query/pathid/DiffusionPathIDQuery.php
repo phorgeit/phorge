@@ -42,7 +42,7 @@ final class DiffusionPathIDQuery extends Phobject {
   /**
    * Convert a path to the canonical, absolute representation used by Diffusion.
    *
-   * @param string Some repository path.
+   * @param string $path Some repository path.
    * @return string Canonicalized Diffusion path.
    * @task pathutil
    */
@@ -62,7 +62,7 @@ final class DiffusionPathIDQuery extends Phobject {
    * Return the canonical parent directory for a path. Note, returns "/" when
    * passed "/".
    *
-   * @param string Some repository path.
+   * @param string $path Some repository path.
    * @return string That path's canonical parent directory.
    * @task pathutil
    */
@@ -80,7 +80,7 @@ final class DiffusionPathIDQuery extends Phobject {
    * Generate a list of parents for a repository path. The path itself is
    * included.
    *
-   * @param string Some repository path.
+   * @param string $path Some repository path.
    * @return list List of canonical paths between the path and the root.
    * @task pathutil
    */

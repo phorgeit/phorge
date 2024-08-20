@@ -43,7 +43,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Load all locks held by a particular owner.
    *
-   * @param phid Owner PHID.
+   * @param phid $owner_phid Owner PHID.
    * @return list<DrydockSlotLock> All held locks.
    * @task info
    */
@@ -57,7 +57,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Test if a lock is currently free.
    *
-   * @param string Lock key to test.
+   * @param string $lock Lock key to test.
    * @return bool True if the lock is currently free.
    * @task info
    */
@@ -69,7 +69,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Test if a list of locks are all currently free.
    *
-   * @param list<string> List of lock keys to test.
+   * @param list<string> $locks List of lock keys to test.
    * @return bool True if all locks are currently free.
    * @task info
    */
@@ -82,7 +82,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Load named locks.
    *
-   * @param list<string> List of lock keys to load.
+   * @param list<string> $locks List of lock keys to load.
    * @return list<DrydockSlotLock> List of held locks.
    * @task info
    */
@@ -114,8 +114,8 @@ final class DrydockSlotLock extends DrydockDAO {
    * This method either acquires all the locks or throws an exception (usually
    * because one or more locks are held).
    *
-   * @param phid Lock owner PHID.
-   * @param list<string> List of locks to acquire.
+   * @param phid $owner_phid Lock owner PHID.
+   * @param list<string> $locks List of locks to acquire.
    * @return void
    * @task locks
    */
@@ -158,7 +158,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Release all locks held by an owner.
    *
-   * @param phid Lock owner PHID.
+   * @param phid $owner_phid Lock owner PHID.
    * @return void
    * @task locks
    */

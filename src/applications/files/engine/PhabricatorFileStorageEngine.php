@@ -160,8 +160,8 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
    * throw an exception. If there are other satisfactory but less-preferred
    * storage engines available, they will be tried.
    *
-   * @param  string The file data to write.
-   * @param  array  File metadata (name, author), if available.
+   * @param  string $data The file data to write.
+   * @param  array  $params File metadata (name, author), if available.
    * @return string Unique string which identifies the stored file, max length
    *                255.
    * @task file
@@ -172,8 +172,8 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
   /**
    * Read the contents of a file previously written by @{method:writeFile}.
    *
-   * @param   string  The handle returned from @{method:writeFile} when the
-   *                  file was written.
+   * @param   string  $handle The handle returned from @{method:writeFile}
+   *                  when the file was written.
    * @return  string  File contents.
    * @task file
    */
@@ -183,8 +183,8 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
   /**
    * Delete the data for a file previously written by @{method:writeFile}.
    *
-   * @param   string  The handle returned from @{method:writeFile} when the
-   *                  file was written.
+   * @param   string  $handle The handle returned from @{method:writeFile}
+   *                  when the file was written.
    * @return  void
    * @task file
    */
@@ -200,7 +200,7 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
    * select the MySQL and Local Disk storage engines if they are configured
    * to allow a given file.
    *
-   * @param int File size in bytes.
+   * @param int $length File size in bytes.
    * @task load
    */
   public static function loadStorageEngines($length) {

@@ -80,7 +80,7 @@ final class PhabricatorMySQLFileStorageEngine
   /**
    * Load the Lisk object that stores the file data for a handle.
    *
-   * @param string  File data handle.
+   * @param string $handle File data handle.
    * @return PhabricatorFileStorageBlob Data DAO.
    * @task internal
    */

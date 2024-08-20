@@ -350,7 +350,7 @@ final class PhutilRemarkupCodeBlockRule extends PhutilRemarkupBlockRule {
 
   /**
    * Get the extension from a filename.
-   * @param  string "/path/to/something.name"
+   * @param  string $name "/path/to/something.name"
    * @return null|string ".name"
    */
   private function guessFilenameExtension($name) {

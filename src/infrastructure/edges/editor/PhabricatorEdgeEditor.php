@@ -45,10 +45,10 @@ final class PhabricatorEdgeEditor extends Phobject {
    *   - `inverse_data` Optional, data to write on the inverse edge. If not
    *     provided, `data` will be written.
    *
-   * @param phid  Source object PHID.
-   * @param const Edge type constant.
-   * @param phid  Destination object PHID.
-   * @param map   Options map (see documentation).
+   * @param phid  $src Source object PHID.
+   * @param const $type Edge type constant.
+   * @param phid  $dst Destination object PHID.
+   * @param map?  $options Options map (see documentation).
    * @return this
    *
    * @task edit
@@ -67,9 +67,9 @@ final class PhabricatorEdgeEditor extends Phobject {
    * will be ignored. Edges are added after edges are removed, so the effect of
    * a remove plus an add is to overwrite.
    *
-   * @param phid  Source object PHID.
-   * @param const Edge type constant.
-   * @param phid  Destination object PHID.
+   * @param phid  $src Source object PHID.
+   * @param const $type Edge type constant.
+   * @param phid  $dst Destination object PHID.
    * @return this
    *
    * @task edit

@@ -46,7 +46,8 @@ final class PhabricatorCustomFieldList extends Phobject {
   /**
    * Read stored values for all fields which support storage.
    *
-   * @param PhabricatorCustomFieldInterface Object to read field values for.
+   * @param PhabricatorCustomFieldInterface $object Object to read field values
+   *   for.
    * @return void
    */
   public function readFieldsFromStorage(

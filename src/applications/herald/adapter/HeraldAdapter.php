@@ -171,7 +171,8 @@ abstract class HeraldAdapter extends Phobject {
    * These transactions are set by @{class:PhabricatorApplicationEditor}
    * automatically, before it invokes Herald.
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhabricatorApplicationTransaction> $xactions List of
+   *   transactions.
    * @return this
    */
   final public function setAppliedTransactions(array $xactions) {

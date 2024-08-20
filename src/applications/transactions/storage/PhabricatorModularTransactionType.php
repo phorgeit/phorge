@@ -428,8 +428,9 @@ abstract class PhabricatorModularTransactionType
    * additional capability or policy requirement above and beyond CAN_EDIT, it
    * is usually better implemented as a validation check.
    *
-   * @param object Object being edited.
-   * @param PhabricatorApplicationTransaction Transaction being applied.
+   * @param object $object Object being edited.
+   * @param PhabricatorApplicationTransaction $xaction Transaction being
+   *    applied.
    * @return null|const|list<const> A capability constant (or list of
    *    capability constants) which the actor must have on the object. You can
    *    return `null` as a shorthand for "no capabilities are required".

@@ -95,7 +95,8 @@ final class PHUIHeaderView extends AphrontTagView {
    * Render PHUIHeaderView as a <summary> instead of a <div> HTML tag.
    * To be used for collapse/expand in combination with PHUIBoxView.
    *
-   * @param bool True to wrap in <summary> instead of <div> HTML tag.
+   * @param bool $collapsible True to wrap in <summary> instead of <div> HTML
+   *   tag.
    */
   public function setCollapsible($collapsible) {
     $this->collapsible = $collapsible;

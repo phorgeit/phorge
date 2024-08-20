@@ -19,7 +19,7 @@ final class PhutilURIHelper extends Phobject {
   private $phutilUri;
 
   /**
-   * @param string|PhutilURI
+   * @param string|PhutilURI $uri
    */
   public function __construct($uri) {
 

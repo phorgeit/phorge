@@ -93,7 +93,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    * have been generated incorrectly by accident. In these cases, we can
    * restore the original data.
    *
-   * @param bool
+   * @param bool $ghosts
    * @return this
    */
   public function withGhosts($ghosts) {
@@ -437,9 +437,10 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    * children. When recursing, also walk up the tree and collect children of
    * atoms they extend.
    *
-   * @param list<DivinerLiveSymbol> List of symbols to collect child hashes of.
-   * @param bool                    True to collect children of extended atoms,
-   *                                as well.
+   * @param list<DivinerLiveSymbol> $symbols List of symbols to collect child
+   *                                hashes of.
+   * @param bool                    $recurse_up True to collect children of
+   *                                extended atoms, as well.
    * @return map<string, string>    Hashes of atoms' children.
    */
   private function getAllChildHashes(array $symbols, $recurse_up) {
@@ -469,9 +470,12 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    * Attach child atoms to existing atoms. In recursive mode, also attach child
    * atoms to atoms that these atoms extend.
    *
-   * @param list<DivinerLiveSymbol> List of symbols to attach children to.
-   * @param map<string, DivinerLiveSymbol> Map of symbols, keyed by node hash.
-   * @param bool True to attach children to extended atoms, as well.
+   * @param list<DivinerLiveSymbol> $symbols List of symbols to attach children
+   *   to.
+   * @param map<string, DivinerLiveSymbol> $children Map of symbols, keyed by
+   *   node hash.
+   * @param bool $recurse_up True to attach children to extended atoms, as
+   *   well.
    * @return void
    */
   private function attachAllChildren(

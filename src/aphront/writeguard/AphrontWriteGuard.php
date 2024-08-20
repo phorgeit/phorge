@@ -57,7 +57,7 @@ final class AphrontWriteGuard extends Phobject {
    * the request, or abort the request (e.g., by throwing an exception) if a
    * valid token isn't present.
    *
-   * @param   callable CSRF callback.
+   * @param   $callback Callable CSRF callback.
    * @return  this
    * @task    manage
    */

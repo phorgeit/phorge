@@ -19,7 +19,7 @@ final class DifferentialReviewerStatus extends Phobject {
    * will attempt to update you to both "commented" and "accepted". We want
    * "accepted" to win, because it's the stronger of the two.
    *
-   * @param   const Reviewer status constant.
+   * @param   const $constant Reviewer status constant.
    * @return  int   Relative strength (higher is stronger).
    */
   public static function getStatusStrength($constant) {

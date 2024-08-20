@@ -58,8 +58,8 @@ final class DifferentialLineAdjustmentMap extends Phobject {
   /**
    * Map a line across a change, or a series of changes.
    *
-   * @param int Line to map
-   * @param bool True to map it as the end of a range.
+   * @param int $line Line to map
+   * @param bool $is_end True to map it as the end of a range.
    * @return wild Spooky magic.
    */
   public function mapLine($line, $is_end) {

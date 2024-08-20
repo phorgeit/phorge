@@ -30,7 +30,7 @@ final class AphrontFileResponse extends AphrontResponse {
   /**
    * Set a download filename
    *
-   * @param $download string
+   * @param string $download
    * @return self
    */
   public function setDownload($download) {

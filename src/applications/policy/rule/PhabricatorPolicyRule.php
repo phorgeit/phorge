@@ -120,9 +120,9 @@ abstract class PhabricatorPolicyRule extends Phobject {
    * rendering a verdict about whether the user will be able to see the object
    * or not after applying the policy change.
    *
-   * @param PhabricatorPolicyInterface Object to pass a hint about.
-   * @param PhabricatorPolicyRule Rule to pass hint to.
-   * @param wild Hint.
+   * @param PhabricatorPolicyInterface $object Object to pass a hint about.
+   * @param PhabricatorPolicyRule $rule Rule to pass hint to.
+   * @param wild $hint Hint.
    * @return void
    */
   public static function passTransactionHintToRule(

@@ -145,8 +145,8 @@ final class PhabricatorSetupIssue extends Phobject {
    * we alter `memory_limit` during startup, so if the original value is not
    * provided it will look like it is always set to `-1`.
    *
-   * @param string PHP configuration option to provide a value for.
-   * @param string Explicit value to show in the UI.
+   * @param string $php_config PHP configuration option to provide a value for.
+   * @param string $value Explicit value to show in the UI.
    * @return this
    */
   public function addPHPConfigOriginalValue($php_config, $value) {

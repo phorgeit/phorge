@@ -87,8 +87,8 @@ final class PhabricatorChunkedFileStorageEngine
    * Ideally, we'd like to be able to verify hashes, but this is complicated
    * and time consuming and gives us a fairly small benefit.
    *
-   * @param PhabricatorUser Viewing user.
-   * @param string Claimed file hash.
+   * @param PhabricatorUser $viewer Viewing user.
+   * @param string $hash Claimed file hash.
    * @return string Rehashed file hash.
    */
   public static function getChunkedHash(PhabricatorUser $viewer, $hash) {

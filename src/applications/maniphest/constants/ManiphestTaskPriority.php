@@ -137,7 +137,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Retrieve the full name of the priority level provided.
    *
-   * @param   int     A priority level.
+   * @param   int     $priority A priority level.
    * @return  string  The priority name if the level is a valid one.
    */
   public static function getTaskPriorityName($priority) {
@@ -147,7 +147,7 @@ final class ManiphestTaskPriority extends ManiphestConstants {
   /**
    * Retrieve the color of the priority level given
    *
-   * @param   int     A priority level.
+   * @param   int     $priority A priority level.
    * @return  string  The color of the priority if the level is valid,
    *                  or black if it is not.
    */

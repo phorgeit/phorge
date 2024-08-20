@@ -740,7 +740,7 @@ final class PhabricatorRepositoryPullEngine
    * error message. To prevent this, censor response bodies out of error
    * messages.
    *
-   * @param string Uncensored Mercurial command output.
+   * @param string $message Uncensored Mercurial command output.
    * @return string Censored Mercurial command output.
    */
   private function censorMercurialErrorMessage($message) {

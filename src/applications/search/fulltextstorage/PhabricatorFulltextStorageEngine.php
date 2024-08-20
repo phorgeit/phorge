@@ -47,7 +47,7 @@ abstract class PhabricatorFulltextStorageEngine extends Phobject {
   /**
    * Update the index for an abstract document.
    *
-   * @param PhabricatorSearchAbstractDocument Document to update.
+   * @param PhabricatorSearchAbstractDocument $document Document to update.
    * @return void
    */
   abstract public function reindexAbstractDocument(
@@ -56,7 +56,7 @@ abstract class PhabricatorFulltextStorageEngine extends Phobject {
   /**
    * Execute a search query.
    *
-   * @param PhabricatorSavedQuery A query to execute.
+   * @param PhabricatorSavedQuery $query A query to execute.
    * @return list A list of matching PHIDs.
    */
   abstract public function executeSearch(PhabricatorSavedQuery $query);

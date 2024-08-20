@@ -343,7 +343,7 @@ abstract class PhabricatorEditEngine
    * Set default placeholder plain text in the comment textarea of the engine.
    * To be overwritten by conditions defined in the child EditEngine class.
    *
-   * @param  object Object in which the comment textarea is displayed.
+   * @param  object $object Object in which the comment textarea is displayed.
    * @return string Placeholder text to display in the comment textarea.
    * @task text
    */
@@ -678,7 +678,7 @@ abstract class PhabricatorEditEngine
    * Initialize a new object for object creation via Conduit.
    *
    * @return object Newly initialized object.
-   * @param list<wild> Raw transactions.
+   * @param list<wild> $raw_xactions Raw transactions.
    * @task load
    */
   protected function newEditableObjectFromConduit(array $raw_xactions) {
@@ -698,7 +698,7 @@ abstract class PhabricatorEditEngine
   /**
    * Flag this workflow as a create or edit.
    *
-   * @param bool True if this is a create workflow.
+   * @param bool $is_create True if this is a create workflow.
    * @return this
    * @task load
    */
@@ -712,9 +712,9 @@ abstract class PhabricatorEditEngine
    * Try to load an object by ID, PHID, or monogram. This is done primarily
    * to make Conduit a little easier to use.
    *
-   * @param wild ID, PHID, or monogram.
-   * @param list<const> List of required capability constants, or omit for
-   *   defaults.
+   * @param wild $identifier ID, PHID, or monogram.
+   * @param list<const>? $capabilities List of required capability constants,
+   *   or omit for defaults.
    * @return object Corresponding editable object.
    * @task load
    */
@@ -792,9 +792,9 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object by ID.
    *
-   * @param int Object ID.
-   * @param list<const> List of required capability constants, or omit for
-   *   defaults.
+   * @param int $id Object ID.
+   * @param list<const>? $capabilities List of required capability constants,
+   *   or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -809,9 +809,9 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object by PHID.
    *
-   * @param phid Object PHID.
-   * @param list<const> List of required capability constants, or omit for
-   *   defaults.
+   * @param phid $phid Object PHID.
+   * @param list<const>? $capabilities List of required capability constants,
+   *   or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -826,9 +826,9 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object given a configured query.
    *
-   * @param PhabricatorPolicyAwareQuery Configured query.
-   * @param list<const> List of required capability constants, or omit for
-   *  defaults.
+   * @param PhabricatorPolicyAwareQuery $query Configured query.
+   * @param list<const>? $capabilities List of required capability constants,
+   *  or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -860,7 +860,7 @@ abstract class PhabricatorEditEngine
   /**
    * Verify that an object is appropriate for editing.
    *
-   * @param wild Loaded value.
+   * @param wild $object Loaded value.
    * @return void
    * @task load
    */
@@ -1767,7 +1767,7 @@ abstract class PhabricatorEditEngine
   /**
    * Respond to a request for documentation on HTTP parameters.
    *
-   * @param object Editable object.
+   * @param object $object Editable object.
    * @return AphrontResponse Response object.
    * @task http
    */
@@ -2244,10 +2244,10 @@ abstract class PhabricatorEditEngine
    * Generate transactions which can be applied from edit actions in a Conduit
    * request.
    *
-   * @param ConduitAPIRequest The request.
-   * @param list<wild> Raw conduit transactions.
-   * @param list<PhabricatorEditType> Supported edit types.
-   * @param PhabricatorApplicationTransaction Template transaction.
+   * @param ConduitAPIRequest $request The request.
+   * @param list<wild> $xactions Raw conduit transactions.
+   * @param list<PhabricatorEditType> $types Supported edit types.
+   * @param PhabricatorApplicationTransaction $template Template transaction.
    * @return list<PhabricatorApplicationTransaction> Generated transactions.
    * @task conduit
    */

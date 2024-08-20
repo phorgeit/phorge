@@ -322,8 +322,9 @@ final class HarbormasterBuildEngine extends Phobject {
    * particularly relevant when a build uses multiple hosts since it returns
    * hosts to the pool more quickly.
    *
-   * @param list<HarbormasterBuildTarget> Targets in the build.
-   * @param list<HarbormasterBuildStep> List of running and waiting steps.
+   * @param list<HarbormasterBuildTarget> $targets Targets in the build.
+   * @param list<HarbormasterBuildStep>   $steps List of running and waiting
+   *                                      steps.
    * @return void
    */
   private function releaseUnusedArtifacts(array $targets, array $steps) {
@@ -372,7 +373,7 @@ final class HarbormasterBuildEngine extends Phobject {
    * Process messages which were sent to these targets, kicking applicable
    * targets out of "Waiting" and into either "Passed" or "Failed".
    *
-   * @param list<HarbormasterBuildTarget> List of targets to process.
+   * @param list<HarbormasterBuildTarget> $targets List of targets to process.
    * @return void
    */
   private function updateWaitingTargets(array $targets) {
@@ -436,7 +437,7 @@ final class HarbormasterBuildEngine extends Phobject {
    * the overall state of the associated buildable. Compute the new aggregate
    * state and save it on the buildable.
    *
-   * @param   HarbormasterBuild The buildable to update.
+   * @param   HarbormasterBuild $buildable The buildable to update.
    * @return  void
    */
    public function updateBuildable(HarbormasterBuildable $buildable) {

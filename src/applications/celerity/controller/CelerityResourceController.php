@@ -194,7 +194,7 @@ abstract class CelerityResourceController extends PhabricatorController {
    * are cached, while other types of resources (which are large, and cheap
    * to process) are not.
    *
-   * @param string  Resource type.
+   * @param string  $type Resource type.
    * @return bool   True to enable caching.
    */
   private function isLocallyCacheableResourceType($type) {

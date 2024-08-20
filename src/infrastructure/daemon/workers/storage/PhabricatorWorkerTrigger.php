@@ -67,9 +67,10 @@ final class PhabricatorWorkerTrigger
    * is changed (usually because of an application edit). The `$is_reschedule`
    * parameter distinguishes between these cases.
    *
-   * @param int|null Epoch of the most recent successful event execution.
-   * @param bool `true` if we're trying to reschedule the event after
-   *   execution; `false` if this is in response to a trigger update.
+   * @param int|null $last_epoch Epoch of the most recent successful event
+   *   execution.
+   * @param bool $is_reschedule `true` if we're trying to reschedule the event
+   *   after execution; `false` if this is in response to a trigger update.
    * @return int|null Return an epoch to schedule the next event execution,
    *   or `null` to stop the event from executing again.
    */
@@ -81,10 +82,10 @@ final class PhabricatorWorkerTrigger
   /**
    * Execute the event.
    *
-   * @param int|null Epoch of previous execution, or null if this is the first
-   *   execution.
-   * @param int Scheduled epoch of this execution. This may not be the same
-   *   as the current time.
+   * @param int|null $last_event Epoch of previous execution, or null if this
+   *   is the first execution.
+   * @param int $this_event Scheduled epoch of this execution. This may not be
+   *   the same as the current time.
    * @return void
    */
   public function executeTrigger($last_event, $this_event) {

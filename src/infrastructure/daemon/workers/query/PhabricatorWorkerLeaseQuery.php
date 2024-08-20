@@ -30,7 +30,7 @@ final class PhabricatorWorkerLeaseQuery extends PhabricatorQuery {
    * This can be used to show which tasks are coming up next without altering
    * the queue's behavior.
    *
-   * @param bool True to skip the lease acquisition step.
+   * @param bool $skip True to skip the lease acquisition step.
    */
   public function setSkipLease($skip) {
     $this->skipLease = $skip;
@@ -58,8 +58,8 @@ final class PhabricatorWorkerLeaseQuery extends PhabricatorQuery {
    * leasing using @{method:setSkipLease}. These options are intended for use
    * when displaying task status information.
    *
-   * @param mixed `true` to select only leased tasks, `false` to select only
-   *              unleased tasks (default), or `null` to select both.
+   * @param mixed $leased `true` to select only leased tasks, `false` to select
+   *              only unleased tasks (default), or `null` to select both.
    * @return this
    */
   public function withLeasedTasks($leased) {

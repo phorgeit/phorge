@@ -126,7 +126,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Create a saved query object from the request.
    *
-   * @param AphrontRequest The search request.
+   * @param AphrontRequest $request The search request.
    * @return PhabricatorSavedQuery
    */
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
@@ -147,7 +147,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Executes the saved query.
    *
-   * @param PhabricatorSavedQuery The saved query to operate on.
+   * @param PhabricatorSavedQuery $original The saved query to operate on.
    * @return PhabricatorQuery The result of the query.
    */
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $original) {
@@ -201,7 +201,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * hook to keep old queries working the way users expect, by reading,
    * adjusting, and overwriting parameters.
    *
-   * @param PhabricatorSavedQuery Saved query which will be executed.
+   * @param PhabricatorSavedQuery $saved Saved query which will be executed.
    * @return void
    */
   protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {
@@ -215,8 +215,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Builds the search form using the request.
    *
-   * @param AphrontFormView       Form to populate.
-   * @param PhabricatorSavedQuery The query from which to build the form.
+   * @param AphrontFormView       $form  Form to populate.
+   * @param PhabricatorSavedQuery $saved Query from which to build the form.
    * @return void
    */
   public function buildSearchForm(
@@ -400,7 +400,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Return an application URI corresponding to the results page of a query.
    * Normally, this is something like `/application/query/QUERYKEY/`.
    *
-   * @param   string  The query key to build a URI for.
+   * @param   string  $query_key The query key to build a URI for.
    * @return  string  URI where the query can be executed.
    * @task uri
    */
@@ -730,9 +730,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * links to pages (like "alincoln's open revisions") without needing to make
    * API calls.
    *
-   * @param AphrontRequest  Request to read user PHIDs from.
-   * @param string          Key to read in the request.
-   * @param list<const>     Other permitted PHID types.
+   * @param AphrontRequest  $request Request to read user PHIDs from.
+   * @param string          $key Key to read in the request.
+   * @param list<const>?    $allow_types Other permitted PHID types.
    * @return list<phid>     List of user PHIDs and selector functions.
    * @task read
    */
@@ -782,8 +782,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Read a list of subscribers from a request in a flexible way.
    *
-   * @param AphrontRequest  Request to read PHIDs from.
-   * @param string          Key to read in the request.
+   * @param AphrontRequest  $request Request to read PHIDs from.
+   * @param string          $key Key to read in the request.
    * @return list<phid>     List of object PHIDs.
    * @task read
    */
@@ -805,9 +805,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * comma-delimited forms. Objects can be specified either by PHID or by
    * object name.
    *
-   * @param AphrontRequest  Request to read PHIDs from.
-   * @param string          Key to read in the request.
-   * @param list<const>     Optional, list of permitted PHID types.
+   * @param AphrontRequest  $request Request to read PHIDs from.
+   * @param string          $key Key to read in the request.
+   * @param list<const>?    $allow_types Optional, list of permitted PHID
+   *                        types.
    * @return list<phid>     List of object PHIDs.
    *
    * @task read
@@ -853,8 +854,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * This provides flexibility when constructing URIs, especially from external
    * sources.
    *
-   * @param AphrontRequest  Request to read strings from.
-   * @param string          Key to read in the request.
+   * @param AphrontRequest  $request Request to read strings from.
+   * @param string          $key Key to read in the request.
    * @return list<string>   List of values.
    */
   protected function readListFromRequest(

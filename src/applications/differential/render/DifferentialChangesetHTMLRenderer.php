@@ -491,9 +491,10 @@ abstract class DifferentialChangesetHTMLRenderer
   /**
    * Build links which users can click to show more context in a changeset.
    *
-   * @param int Beginning of the line range to build links for.
-   * @param int Length of the line range to build links for.
-   * @param int Total number of lines in the changeset.
+   * @param int $top Beginning of the line range to build links for.
+   * @param int $len Length of the line range to build links for.
+   * @param int $changeset_length Total number of lines in the changeset.
+   * @param bool? $is_blocks
    * @return markup Rendered links.
    */
   protected function renderShowContextLinks(
@@ -580,9 +581,9 @@ abstract class DifferentialChangesetHTMLRenderer
    *
    * See @{method:renderShowContextLinks}.
    *
-   * @param bool Does this link show all context when clicked?
-   * @param string Range specification for lines to show.
-   * @param string Text of the link.
+   * @param bool $is_all Does this link show all context when clicked?
+   * @param string $range Range specification for lines to show.
+   * @param string $text Text of the link.
    * @return markup Rendered link.
    */
   private function renderShowContextLink($is_all, $range, $text) {

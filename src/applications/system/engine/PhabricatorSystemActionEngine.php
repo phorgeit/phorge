@@ -33,9 +33,9 @@ final class PhabricatorSystemActionEngine extends Phobject {
    * If any actor is exceeding their rate limit, this method throws a
    * @{class:PhabricatorSystemActionRateLimitException}.
    *
-   * @param list<string> List of actors.
-   * @param PhabricatorSystemAction Action being taken.
-   * @param float Score or credit, see above.
+   * @param list<string> $actors List of actors.
+   * @param PhabricatorSystemAction $action Action being taken.
+   * @param float $score Score or credit, see above.
    * @return void
    */
   public static function willTakeAction(
@@ -174,7 +174,7 @@ final class PhabricatorSystemActionEngine extends Phobject {
    * Reset all action counts for actions taken by some set of actors in the
    * previous action window.
    *
-   * @param list<string> Actors to reset counts for.
+   * @param list<string> $actors Actors to reset counts for.
    * @return int Number of actions cleared.
    */
   public static function resetActions(array $actors) {

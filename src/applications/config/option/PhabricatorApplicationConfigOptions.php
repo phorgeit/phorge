@@ -65,8 +65,8 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
    * or other context. For example, this is used to show workspace IDs when
    * configuring `asana.workspace-id`.
    *
-   * @param   PhabricatorConfigOption   Option being rendered.
-   * @param   AphrontRequest            Active request.
+   * @param   PhabricatorConfigOption   $option Option being rendered.
+   * @param   AphrontRequest            $request Active request.
    * @return  wild                      Additional contextual description
    *                                    information.
    */

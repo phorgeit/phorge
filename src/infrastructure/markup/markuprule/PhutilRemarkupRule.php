@@ -20,9 +20,10 @@ abstract class PhutilRemarkupRule extends Phobject {
 
   /**
    * Check input whether to apply RemarkupRule. If true, apply formatting.
-   * @param  string|PhutilSafeHTML String to check and potentially format.
+   * @param  string|PhutilSafeHTML $text String to check and potentially
+   *   format.
    * @return string|PhutilSafeHTML Unchanged input if no match, or input after
-   * matching the formatting rule and applying the formatting.
+   *   matching the formatting rule and applying the formatting.
    */
   abstract public function apply($text);
 
@@ -59,9 +60,9 @@ abstract class PhutilRemarkupRule extends Phobject {
    * This method acts as @{function:phutil_tag}, but checks attributes before
    * using them.
    *
-   * @param   string              Tag name.
-   * @param   dict<string, wild>  Tag attributes.
-   * @param   wild                Tag content.
+   * @param   string              $name Tag name.
+   * @param   dict<string, wild>  $attrs Tag attributes.
+   * @param   wild?               $content Tag content.
    * @return  PhutilSafeHTML      Tag object.
    */
   protected function newTag($name, array $attrs, $content = null) {
@@ -85,7 +86,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    * Normally, you can call @{method:newTag} rather than calling this method
    * directly. @{method:newTag} will check attributes for you.
    *
-   * @param   wild    Ostensibly flat text.
+   * @param   wild    $text Ostensibly flat text.
    * @return  string  Flat text.
    */
   protected function assertFlatText($text) {
@@ -104,7 +105,7 @@ abstract class PhutilRemarkupRule extends Phobject {
   /**
    * Check whether text is flat (contains no replacement tokens) or not.
    *
-   * @param   wild  Ostensibly flat text.
+   * @param   wild  $text Ostensibly flat text.
    * @return  bool  True if the text is flat.
    */
   protected function isFlatText($text) {

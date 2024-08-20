@@ -258,7 +258,7 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
    * This is intended to make it easy to write unit tests for object remarkup
    * rules. Production code is not normally expected to call this method.
    *
-   * @param   string  Text to match rules against.
+   * @param   string  $text Text to match rules against.
    * @return  wild    Matches, suitable for writing unit tests against.
    */
   public function extractReferences($text) {

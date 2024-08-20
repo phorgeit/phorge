@@ -222,7 +222,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
    * Generally, render your settings panel by returning a form, then return
    * a redirect when the user saves settings.
    *
-   * @param   AphrontRequest  Incoming request.
+   * @param   AphrontRequest  $request Incoming request.
    * @return  wild            Response to request, either as an
    *                          @{class:AphrontResponse} or something which can
    *                          be composed into a @{class:AphrontView}.
@@ -234,7 +234,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   /**
    * Get the URI for this panel.
    *
-   * @param string? Optional path to append.
+   * @param string? $path Optional path to append.
    * @return string Relative URI for the panel.
    * @task panel
    */

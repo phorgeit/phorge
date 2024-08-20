@@ -160,7 +160,7 @@ final class CelerityResourceMap extends Phobject {
   /**
    * Get the epoch timestamp of the last modification time of a symbol.
    *
-   * @param string Resource symbol to lookup.
+   * @param string $name Resource symbol to lookup.
    * @return int Epoch timestamp of last resource modification.
    */
   public function getModifiedTimeForName($name) {
@@ -186,7 +186,7 @@ final class CelerityResourceMap extends Phobject {
    * Return the absolute URI for the resource associated with a symbol. This
    * method is fairly low-level and ignores packaging.
    *
-   * @param string Resource symbol to lookup.
+   * @param string $symbol Resource symbol to lookup.
    * @return string|null Resource URI, or null if the symbol is unknown.
    */
   public function getURIForSymbol($symbol) {
@@ -199,7 +199,7 @@ final class CelerityResourceMap extends Phobject {
    * Return the absolute URI for the resource associated with a resource name.
    * This method is fairly low-level and ignores packaging.
    *
-   * @param string Resource name to lookup.
+   * @param string $name Resource name to lookup.
    * @return string|null  Resource URI, or null if the name is unknown.
    */
   public function getURIForName($name) {
@@ -217,7 +217,7 @@ final class CelerityResourceMap extends Phobject {
    * Return the absolute URI for a resource, identified by hash.
    * This method is fairly low-level and ignores packaging.
    *
-   * @param string Resource hash to lookup.
+   * @param string $hash Resource hash to lookup.
    * @return string|null Resource URI, or null if the hash is unknown.
    */
   private function getURIForHash($hash) {
@@ -231,7 +231,7 @@ final class CelerityResourceMap extends Phobject {
   /**
    * Return the resource symbols required by a named resource.
    *
-   * @param string Resource name to lookup.
+   * @param string $name Resource name to lookup.
    * @return list<string>|null  List of required symbols, or null if the name
    *                            is unknown.
    */
@@ -247,7 +247,7 @@ final class CelerityResourceMap extends Phobject {
   /**
    * Return the resource name for a given symbol.
    *
-   * @param string Resource symbol to lookup.
+   * @param string $symbol Resource symbol to lookup.
    * @return string|null Resource name, or null if the symbol is unknown.
    */
   public function getResourceNameForSymbol($symbol) {

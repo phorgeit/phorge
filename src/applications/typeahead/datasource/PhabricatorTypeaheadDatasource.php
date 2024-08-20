@@ -212,7 +212,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
    * For datasources backed by database objects, this is often much less
    * efficient than filtering at the query level.
    *
-   * @param list<PhabricatorTypeaheadResult> List of typeahead results.
+   * @param list<PhabricatorTypeaheadResult> $results List of typeahead results.
    * @return list<PhabricatorTypeaheadResult> Filtered results.
    */
   protected function filterResultsAgainstTokens(array $results) {

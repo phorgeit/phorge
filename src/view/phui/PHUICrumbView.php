@@ -23,7 +23,7 @@ final class PHUICrumbView extends AphrontView {
    * Make this crumb always visible, even on devices where it would normally
    * be hidden.
    *
-   * @param bool True to make the crumb always visible.
+   * @param bool $always_visible True to make the crumb always visible.
    * @return this
    */
   public function setAlwaysVisible($always_visible) {

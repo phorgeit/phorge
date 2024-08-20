@@ -196,8 +196,8 @@ final class PhabricatorObjectQuery
    * viewer. This method is generally used to validate that PHIDs affected by
    * a transaction are valid.
    *
-   * @param PhabricatorUser Viewer.
-   * @param list<phid> List of ostensibly valid PHIDs.
+   * @param PhabricatorUser $viewer Viewer.
+   * @param list<phid> $phids List of ostensibly valid PHIDs.
    * @return list<phid> List of invalid or restricted PHIDs.
    */
   public static function loadInvalidPHIDsForViewer(

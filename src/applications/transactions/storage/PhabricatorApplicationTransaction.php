@@ -1696,7 +1696,7 @@ abstract class PhabricatorApplicationTransaction
    * Should this transaction be visually grouped with an existing transaction
    * group?
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhabricatorApplicationTransaction> $group List of transactions.
    * @return bool True to display in a group with the other transactions.
    */
   public function shouldDisplayGroupWith(array $group) {

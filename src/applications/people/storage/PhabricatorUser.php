@@ -429,8 +429,8 @@ final class PhabricatorUser
   /**
    * Test if a given setting is set to a particular value.
    *
-   * @param const Setting key.
-   * @param wild Value to compare.
+   * @param const $key Setting key.
+   * @param wild $value Value to compare.
    * @return bool True if the setting has the specified value.
    * @task settings
    */
@@ -477,7 +477,7 @@ final class PhabricatorUser
    *
    * This is primarily useful for unit tests.
    *
-   * @param string New timezone identifier.
+   * @param string $identifier New timezone identifier.
    * @return this
    * @task settings
    */
@@ -770,8 +770,8 @@ final class PhabricatorUser
   /**
    * Write to the availability cache.
    *
-   * @param wild Availability cache data.
-   * @param int|null Cache TTL.
+   * @param wild $availability Availability cache data.
+   * @param int|null $ttl Cache TTL.
    * @return this
    * @task availability
    */
@@ -916,7 +916,7 @@ final class PhabricatorUser
    * Get a @{class:PhabricatorHandleList} which benefits from this viewer's
    * internal handle pool.
    *
-   * @param list<phid> List of PHIDs to load.
+   * @param list<phid> $phids List of PHIDs to load.
    * @return PhabricatorHandleList Handle list object.
    * @task handle
    */
@@ -935,7 +935,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param phid PHID to render a handle for.
+   * @param phid $phid PHID to render a handle for.
    * @return PHUIHandleView View of the handle.
    * @task handle
    */
@@ -949,7 +949,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param list<phid> List of PHIDs to render.
+   * @param list<phid> $phids List of PHIDs to render.
    * @return PHUIHandleListView View of the handles.
    * @task handle
    */

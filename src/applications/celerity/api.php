@@ -9,8 +9,9 @@
  *
  * For more information, see @{article:Adding New CSS and JS}.
  *
- * @param string Name of the celerity module to include. This is whatever you
- *               annotated as "@provides" in the file.
+ * @param string $symbol Name of the celerity module to include. This is
+ *               whatever you annotated as "@provides" in the file.
+ * @param string? $source_name
  * @return void
  */
 function require_celerity_resource($symbol, $source_name = 'phabricator') {
@@ -40,7 +41,8 @@ function celerity_generate_unique_node_id() {
 /**
  * Get the versioned URI for a raw resource, like an image.
  *
- * @param   string  Path to the raw image.
+ * @param   string  $resource Path to the raw image.
+ * @param   string? $source
  * @return  string  Versioned path to the image, if one is available.
  */
 function celerity_get_resource_uri($resource, $source = 'phabricator') {

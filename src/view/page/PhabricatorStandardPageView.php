@@ -379,7 +379,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   /**
    * Insert a HTML element into <head> of the page to render.
    *
-   * @param PhutilSafeHTML HTML header to add
+   * @param PhutilSafeHTML $html HTML header to add
    */
   public function addHeadItem($html) {
     if ($html instanceof PhutilSafeHTML) {

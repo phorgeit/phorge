@@ -213,7 +213,7 @@ final class DifferentialChangeset
    * Test if this changeset and some other changeset put the affected file in
    * the same state.
    *
-   * @param DifferentialChangeset Changeset to compare against.
+   * @param DifferentialChangeset $other Changeset to compare against.
    * @return bool True if the two changesets have the same effect.
    */
   public function hasSameEffectAs(DifferentialChangeset $other) {

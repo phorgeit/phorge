@@ -17,8 +17,8 @@ final class PhabricatorScopedEnv extends Phobject {
   /**
    * Override a configuration key in this scope, setting it to a new value.
    *
-   * @param  string Key to override.
-   * @param  wild   New value.
+   * @param  string $key Key to override.
+   * @param  wild   $value New value.
    * @return this
    *
    * @task override
