@@ -69,7 +69,7 @@ final class PhutilURIHelper extends Phobject {
   /**
    * Check whenever the URI starts with the provided character.
    * @param string $char String that MUST have length of 1.
-   * @return boolean
+   * @return bool
    */
   private function isStartingWithChar($char) {
     return strncmp($this->uriStr, $char, 1) === 0;
