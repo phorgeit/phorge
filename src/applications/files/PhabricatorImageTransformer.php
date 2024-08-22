@@ -21,7 +21,7 @@ final class PhabricatorImageTransformer extends Phobject {
    * extensions), but can save images in another format.
    *
    * @param   resource  $data GD image resource.
-   * @param   string?   $preferred_mime Optionally, preferred mime type.
+   * @param   string    $preferred_mime (optional) Preferred mime type.
    * @return  string    Bytes of an image file.
    * @task save
    */

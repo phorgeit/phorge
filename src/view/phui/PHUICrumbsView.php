@@ -16,7 +16,7 @@ final class PHUICrumbsView extends AphrontView {
    * a link.
    *
    * @param string  $text Text of the crumb.
-   * @param string? $href Optional href for the crumb.
+   * @param string $href (optional) href for the crumb.
    * @return this
    */
   public function addTextCrumb($text, $href = null) {

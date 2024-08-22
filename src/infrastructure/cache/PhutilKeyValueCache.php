@@ -31,7 +31,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * once.
    *
    * @param   string  $key Key to retrieve.
-   * @param   wild?   $default Optional value to return if the key is not
+   * @param   wild    $default (optional) Value to return if the key is not
    *                  found. By default, returns null.
    * @return  wild    Cache value (on cache hit) or default value (on cache
    *                  miss).
@@ -51,7 +51,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    *
    * @param   string    $key Key to set.
    * @param   wild      $value Value to set.
-   * @param   int|null? $ttl Optional TTL.
+   * @param   int|null  $ttl (optional) TTL.
    * @return  this
    * @task kvimpl
    */
@@ -93,7 +93,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * policy and data will persist in cache indefinitely.
    *
    * @param dict<string, wild>  $keys Map of cache keys to values.
-   * @param int|null?           $ttl TTL for cache keys, in seconds.
+   * @param int|null            $ttl (optional) TTL for cache keys, in seconds.
    * @return this
    * @task kvimpl
    */

@@ -327,7 +327,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * multifactor authentication.
    *
    * @param PhabricatorUser $user User whose sessions should be terminated.
-   * @param string|null? $except_session Optionally, one session to keep.
+   * @param string|null $except_session (optional) One session to keep.
    *   Normally, the current login session.
    *
    * @return void
@@ -428,9 +428,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * @param AphrontRequest  $request Current request.
    * @param string          $cancel_uri URI to return the user to if they
    *                        cancel.
-   * @param bool?           $jump_into_hisec True to jump partial sessions
-   *                        directly into high security instead of just
-   *                        upgrading them to full sessions.
+   * @param bool            $jump_into_hisec (optional) True to jump partial
+   *                        sessions directly into high security instead of
+   *                        just upgrading them to full sessions.
    * @return PhabricatorAuthHighSecurityToken Security token.
    * @task hisec
    */
@@ -742,7 +742,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * Issue a high security token for a session, if authorized.
    *
    * @param PhabricatorAuthSession $session Session to issue a token for.
-   * @param bool? $force Force token issue.
+   * @param bool $force (optional) Force token issue.
    * @return PhabricatorAuthHighSecurityToken|null Token, if authorized.
    * @task hisec
    */
@@ -945,11 +945,11 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * @param PhabricatorUser $user User to generate a URI for.
    * @param PhabricatorUserEmail? $email Optionally, email to verify when
    *  link is used.
-   * @param string? $type Optional context string for the URI. This is purely
+   * @param string $type (optional) Context string for the URI. This is purely
    *  cosmetic and used only to customize workflow and error messages.
-   * @param bool? $force_full_session True to generate a URI which forces an
-   *  immediate upgrade to a full session, bypassing MFA and other login
-   *  checks.
+   * @param bool $force_full_session (optional) True to generate a URI which
+   *  forces an immediate upgrade to a full session, bypassing MFA and other
+   *  login checks.
    * @return string Login URI.
    * @task onetime
    */
@@ -994,9 +994,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * Load the temporary token associated with a given one-time login key.
    *
    * @param PhabricatorUser $user User to load the token for.
-   * @param PhabricatorUserEmail? $email Optionally, email to verify when
-   *  link is used.
-   * @param string? $key Key user is presenting as a valid one-time login key.
+   * @param PhabricatorUserEmail $email (optional) Email to verify when link is
+   *   used.
+   * @param string $key (optional) Key user is presenting as a valid one-time
+   *   login key.
    * @return PhabricatorAuthTemporaryToken|null Token, if one exists.
    * @task onetime
    */
@@ -1022,9 +1023,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * Hash a one-time login key for storage as a temporary token.
    *
    * @param PhabricatorUser $user User this key is for.
-   * @param PhabricatorUserEmail? $email Optionally, email to verify when
-   *  link is used.
-   * @param string? $key The one time login key.
+   * @param PhabricatorUserEmail $email (optional) Email to verify when link is
+   *   used.
+   * @param string $key (optional) The one time login key.
    * @return string Hash of the key.
    * task onetime
    */

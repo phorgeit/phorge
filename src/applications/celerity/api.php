@@ -11,7 +11,7 @@
  *
  * @param string $symbol Name of the celerity module to include. This is
  *               whatever you annotated as "@provides" in the file.
- * @param string? $source_name
+ * @param string $source_name (optional)
  * @return void
  */
 function require_celerity_resource($symbol, $source_name = 'phabricator') {
@@ -42,7 +42,7 @@ function celerity_generate_unique_node_id() {
  * Get the versioned URI for a raw resource, like an image.
  *
  * @param   string  $resource Path to the raw image.
- * @param   string? $source
+ * @param   string  $source (optional) Defaults to 'phabricator'
  * @return  string  Versioned path to the image, if one is available.
  */
 function celerity_get_resource_uri($resource, $source = 'phabricator') {

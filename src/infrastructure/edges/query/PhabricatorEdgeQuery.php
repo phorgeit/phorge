@@ -256,8 +256,10 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    *     $object->attachHandles(array_select_keys($handles, $dst_phids));
    *   }
    *
-   * @param list? $src_phids List of PHIDs to select, or empty to select all.
-   * @param list? $types List of edge types to select, or empty to select all.
+   * @param list $src_phids (optional) List of PHIDs to select, or empty to
+   *   select all.
+   * @param list $types (optional) List of edge types to select, or empty to
+   *   select all.
    * @return list<phid> List of matching destination PHIDs.
    */
   public function getDestinationPHIDs(

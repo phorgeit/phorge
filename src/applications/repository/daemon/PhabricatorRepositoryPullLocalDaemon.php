@@ -341,8 +341,8 @@ final class PhabricatorRepositoryPullLocalDaemon
    * With the `$consume` flag, an internal cursor will also be incremented so
    * that these messages are not returned by subsequent calls.
    *
-   * @param bool? $consume Pass `true` to consume these messages, so the
-   *   process will not see them again.
+   * @param bool $consume (optional) Pass `true` to consume these messages, so
+   *   the process will not see them again.
    * @return list<wild> Pending update messages.
    *
    * @task pull

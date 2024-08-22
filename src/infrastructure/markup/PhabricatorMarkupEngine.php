@@ -59,8 +59,8 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @param PhabricatorMarkupInterface  $object The object to render.
    * @param string                      $field The field to render.
    * @param PhabricatorUser             $viewer User viewing the markup.
-   * @param object?                     $context_object A context object for
-   *                                    policy checks.
+   * @param object                      $context_object (optional) A context
+   *                                    object for policy checks.
    * @return string                     Marked up output.
    * @task markup
    */
@@ -196,7 +196,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @param string                      $field The field to retrieve.
    * @param string                      $metadata_key The engine metadata field
    *                                    to retrieve.
-   * @param wild?                       $default Optional default value.
+   * @param wild                        $default (optional) Default value.
    * @task markup
    */
   public function getEngineMetadata(

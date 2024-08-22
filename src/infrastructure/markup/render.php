@@ -17,8 +17,8 @@
  * parameters.
  *
  * @param string $tag The name of the tag, like `a` or `div`.
- * @param map<string, string>? $attributes A map of tag attributes.
- * @param wild? $content Content to put in the tag.
+ * @param map<string, string> $attributes (optional) A map of tag attributes.
+ * @param wild $content (optional) Content to put in the tag.
  * @return PhutilSafeHTML Tag object.
  */
 function phutil_tag($tag, array $attributes = array(), $content = null) {

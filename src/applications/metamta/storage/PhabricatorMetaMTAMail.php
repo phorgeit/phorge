@@ -456,8 +456,8 @@ final class PhabricatorMetaMTAMail
    *
    * @param string  $thread_id Unique identifier, appropriate for use in a
    *                Message-ID, In-Reply-To or References headers.
-   * @param bool?   $is_first_message If true, indicates this is the first
-   *                message in the thread.
+   * @param bool    $is_first_message (optional) If true, indicates this is the
+   *                first message in the thread.
    * @return this
    */
   public function setThreadID($thread_id, $is_first_message = false) {

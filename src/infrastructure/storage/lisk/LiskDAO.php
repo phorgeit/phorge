@@ -264,7 +264,7 @@ abstract class LiskDAO extends Phobject
    *
    * @param mode $mode Connection mode.
    * @param AphrontDatabaseConnection $connection Connection to cache.
-   * @param bool? $force_unique
+   * @param bool $force_unique (optional)
    * @return this
    * @task conn
    */
@@ -802,8 +802,9 @@ abstract class LiskDAO extends Phobject
    * Get or build the database connection for this object.
    *
    * @param  string $mode 'r' for read, 'w' for read/write.
-   * @param  bool? $force_new True to force a new connection. The connection
-   *   will not be retrieved from or saved into the connection cache.
+   * @param  bool $force_new (optional) True to force a new connection. The
+   *   connection will not be retrieved from or saved into the connection
+   *   cache.
    * @return AphrontDatabaseConnection   Lisk connection object.
    *
    * @task   info

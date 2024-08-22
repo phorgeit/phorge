@@ -807,8 +807,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
   /**
    * Return an iterable which emits file content bytes.
    *
-   * @param int? $begin Offset for the start of data.
-   * @param int? $end Offset for the end of data.
+   * @param int $begin (optional) Offset for the start of data.
+   * @param int $end (optional) Offset for the end of data.
    * @return Iterable Iterable object which emits requested data.
    */
   public function getFileDataIterator($begin = null, $end = null) {

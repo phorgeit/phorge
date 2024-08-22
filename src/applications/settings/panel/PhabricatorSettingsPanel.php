@@ -234,7 +234,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   /**
    * Get the URI for this panel.
    *
-   * @param string? $path Optional path to append.
+   * @param string $path (optional) Path to append.
    * @return string Relative URI for the panel.
    * @task panel
    */

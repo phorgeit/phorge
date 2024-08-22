@@ -20,8 +20,8 @@ final class DiffusionGitBranch extends Phobject {
    *   );
    *
    * @param string $stdout stdout of git branch command.
-   * @param string? $only_this_remote Filter branches to those on a specific
-   *   remote.
+   * @param string $only_this_remote (optional) Filter branches to those on a
+   *   specific remote.
    * @return map Map of 'branch' or 'remote/branch' to hash at HEAD.
    */
   public static function parseRemoteBranchOutput(

@@ -29,7 +29,7 @@ abstract class AphrontHTTPSink extends Phobject {
    * Write an HTTP status code to the output.
    *
    * @param int $code Numeric HTTP status code.
-   * @param string? $message
+   * @param string $message (optional)
    * @return void
    */
   final public function writeHTTPStatus($code, $message = '') {

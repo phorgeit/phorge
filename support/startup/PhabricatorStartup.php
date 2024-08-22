@@ -344,10 +344,10 @@ final class PhabricatorStartup {
    * Fatal the request completely, sending a plain text message to the client.
    *
    * @param   string  $message Plain text message to send to the client.
-   * @param   string? $log_message Plain text message to send to the error log.
-   *                  If not provided, the client message is used. You can pass
-   *                  a more detailed message here (e.g., with stack traces) to
-   *                  avoid showing it to users.
+   * @param   string  $log_message (optional) Plain text message to send to the
+   *                  error log. If not provided, the client message is used.
+   *                  You can pass a more detailed message here (e.g., with
+   *                  stack traces) to avoid showing it to users.
    * @return  exit    This method **does not return**.
    *
    * @task apocalypse

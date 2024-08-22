@@ -462,7 +462,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
    *
    * @param   AphrontRequest $request HTTP request.
    * @param   string         $mode Request mode string.
-   * @param   map?           $attributes Additional parameters, see above.
+   * @param   map            $attributes (optional) Additional parameters, see
+   *   above.
    * @return  wild            Log in button.
    */
   protected function renderStandardLoginButton(

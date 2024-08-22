@@ -135,7 +135,7 @@ abstract class DiffusionRequest extends Phobject {
    *
    * @param   string            $identifier  Repository identifier.
    * @param   PhabricatorUser   $viewer  Viewing user.
-   * @param   bool?             $need_edit
+   * @param   bool              $need_edit (optional)
    * @return  DiffusionRequest    New request object.
    * @task new
    */
