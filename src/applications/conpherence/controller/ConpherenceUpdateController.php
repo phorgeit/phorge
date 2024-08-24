@@ -139,7 +139,6 @@ final class ConpherenceUpdateController
           break;
         default:
           throw new Exception(pht('Unknown action: %s', $action));
-          break;
       }
 
       if ($xactions) {
@@ -173,19 +172,16 @@ final class ConpherenceUpdateController
               $latest_transaction_id);
             return id(new AphrontAjaxResponse())
               ->setContent($content);
-            break;
           case 'go-home':
             $content = array(
               'href' => $this->getApplicationURI(),
             );
             return id(new AphrontAjaxResponse())
               ->setContent($content);
-            break;
           case 'redirect':
           default:
             return id(new AphrontRedirectResponse())
               ->setURI('/'.$conpherence->getMonogram());
-            break;
         }
       }
     }

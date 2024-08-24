@@ -144,7 +144,6 @@ abstract class HeraldField extends Phobject {
 
             return $tokenizer;
         }
-        break;
 
     }
 

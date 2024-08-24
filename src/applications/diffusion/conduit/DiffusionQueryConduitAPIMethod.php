@@ -162,7 +162,6 @@ abstract class DiffusionQueryConduitAPIMethod
         break;
       default:
         throw new ConduitException('ERR-UNKNOWN-VCS-TYPE');
-        break;
     }
     return $result;
   }

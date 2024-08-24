@@ -266,7 +266,6 @@ final class NuanceGitHubRawEvent extends Phobject {
             default:
               return pht('Ref %s', $ref);
           }
-          break;
         case 'PushEvent':
           $ref = idxv($raw, array('payload', 'ref'));
           if (preg_match('(^refs/heads/)', $ref)) {
@@ -274,7 +273,6 @@ final class NuanceGitHubRawEvent extends Phobject {
           } else {
             return pht('Ref %s', $ref);
           }
-          break;
         case 'WatchEvent':
           $actor = idxv($raw, array('actor', 'login'));
           return pht('User %s', $actor);
@@ -362,7 +360,6 @@ final class NuanceGitHubRawEvent extends Phobject {
           default:
             return pht('"%s"', $action);
         }
-        break;
       case 'IssueCommentEvent':
         $action = idxv($raw, array('payload', 'action'));
         switch ($action) {
@@ -371,7 +368,6 @@ final class NuanceGitHubRawEvent extends Phobject {
           default:
             return pht('"%s"', $action);
         }
-        break;
       case 'PullRequestEvent':
         $action = idxv($raw, array('payload', 'action'));
         switch ($action) {
@@ -380,7 +376,6 @@ final class NuanceGitHubRawEvent extends Phobject {
           default:
             return pht('"%s"', $action);
         }
-        break;
       case 'WatchEvent':
         return pht('Watched');
     }

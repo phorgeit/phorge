@@ -50,7 +50,6 @@ final class PhabricatorConpherenceSoundSetting
           ConpherenceRoomSettings::SOUND_MENTION =>
             ConpherenceRoomSettings::DEFAULT_MENTION_SOUND,
         );
-      break;
       case self::VALUE_CONPHERENCE_MENTION:
         return array(
           ConpherenceRoomSettings::SOUND_RECEIVE =>
@@ -58,7 +57,6 @@ final class PhabricatorConpherenceSoundSetting
           ConpherenceRoomSettings::SOUND_MENTION =>
             ConpherenceRoomSettings::DEFAULT_MENTION_SOUND,
         );
-      break;
       case self::VALUE_CONPHERENCE_SILENT:
         return array(
           ConpherenceRoomSettings::SOUND_RECEIVE =>
@@ -66,7 +64,6 @@ final class PhabricatorConpherenceSoundSetting
           ConpherenceRoomSettings::SOUND_MENTION =>
             ConpherenceRoomSettings::DEFAULT_NO_SOUND,
         );
-      break;
     }
   }
 

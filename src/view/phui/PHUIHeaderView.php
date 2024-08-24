@@ -376,7 +376,6 @@ final class PHUIHeaderView extends AphrontTagView {
           break;
           default:
             throw new Exception(pht('Incorrect Property Passed'));
-          break;
         }
       }
 

@@ -62,7 +62,6 @@ final class ConpherenceCreateThreadConduitAPIMethod
         switch ($error_code) {
           case ConpherenceEditor::ERROR_EMPTY_PARTICIPANTS:
             throw new ConduitException('ERR_EMPTY_PARTICIPANT_PHIDS');
-            break;
         }
       }
     }

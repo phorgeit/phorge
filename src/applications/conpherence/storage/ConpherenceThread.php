@@ -271,7 +271,6 @@ final class ConpherenceThread extends ConpherenceDAO
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_VIEW:
         return pht('Participants in a room can always view it.');
-        break;
     }
   }
 

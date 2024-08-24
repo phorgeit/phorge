@@ -252,11 +252,9 @@ final class DifferentialTransaction
                 $commit_name,
                 $author_name);
             }
-            break;
           default:
             return DifferentialAction::getBasicStoryText($new, $author_handle);
         }
-        break;
      }
 
     return parent::getTitle();
@@ -366,7 +364,6 @@ final class DifferentialTransaction
                   $commit_name);
               }
             }
-            break;
 
           case DifferentialAction::ACTION_REQUEST:
             return pht(

@@ -318,7 +318,6 @@ final class PhrequentTimeBlock extends Phobject {
       }
     }
 
-    return 0;
   }
 
 }

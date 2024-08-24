@@ -1038,13 +1038,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
       case 'jpg';
       case 'jpeg':
         return function_exists('imagejpeg');
-        break;
       case 'png':
         return function_exists('imagepng');
-        break;
       case 'gif':
         return function_exists('imagegif');
-        break;
       default:
         throw new Exception(pht('Unknown type matched as image MIME type.'));
     }

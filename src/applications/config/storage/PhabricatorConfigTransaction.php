@@ -45,7 +45,6 @@ final class PhabricatorConfigTransaction
             '%s edited this configuration entry.',
             $this->renderHandleLink($author_phid));
         }
-        break;
     }
 
     return parent::getTitle();
@@ -83,7 +82,6 @@ final class PhabricatorConfigTransaction
             $this->renderHandleLink($author_phid),
             $this->getObject()->getConfigKey());
         }
-        break;
     }
 
     return parent::getTitle();
@@ -145,7 +143,6 @@ final class PhabricatorConfigTransaction
         } else {
           return PhabricatorTransactions::COLOR_BLUE;
         }
-        break;
     }
   }
 

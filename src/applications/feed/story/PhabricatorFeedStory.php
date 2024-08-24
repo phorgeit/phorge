@@ -223,7 +223,6 @@ abstract class PhabricatorFeedStory
         break;
       default:
         throw new Exception(pht('Unknown rendering target: %s', $target));
-        break;
     }
   }
 

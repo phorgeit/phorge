@@ -81,7 +81,6 @@ final class DifferentialCreateCommentConduitAPIMethod
             pht(
               'Unsupported action "%s".',
               $action));
-          break;
       }
     }
 

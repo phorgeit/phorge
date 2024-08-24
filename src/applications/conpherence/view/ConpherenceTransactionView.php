@@ -88,7 +88,6 @@ final class ConpherenceTransactionView extends AphrontView {
                 $viewer,
               'M jS, Y')),
           ));
-        break;
     }
 
     $info = $this->renderTransactionInfo();
