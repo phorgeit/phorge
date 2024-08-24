@@ -147,6 +147,12 @@
   overflow: hidden auto;
 }
 
+.device-desktop .phui-flank-view-fixed .phui-flank-view-body {
+  scrollbar-width: thin;
+}
+
+/* Alternative thin scrollbar when `scrollbar-width: thin` is not supported */
+/* (Use the same selector as above for consistent behavior on Chrome/Firefox) */
 .device-desktop .phui-flank-view-fixed
   .phui-flank-view-body::-webkit-scrollbar {
   height: 6px;
