@@ -65,7 +65,7 @@
     "text": {
       "type": "text",
       "exclude": [
-        "(^src/(.*/)?__tests__/[^/]+/.*\\.(txt|json|expect))"
+        "(^src/(.*/)?__tests__/[^/]+/.*\\.(txt|json|expect|ics))"
       ]
     },
     "text-without-length": {
