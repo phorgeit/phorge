@@ -72,7 +72,7 @@ final class DivinerLiveBook extends DivinerDAO
     return idx($spec, 'name', $group);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(?PhabricatorRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }

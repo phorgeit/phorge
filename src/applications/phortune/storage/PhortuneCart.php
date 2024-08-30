@@ -106,7 +106,7 @@ final class PhortuneCart extends PhortuneDAO
   public function willApplyCharge(
     PhabricatorUser $actor,
     PhortunePaymentProvider $provider,
-    PhortunePaymentMethod $method = null) {
+    ?PhortunePaymentMethod $method = null) {
 
     $account = $this->getAccount();
 

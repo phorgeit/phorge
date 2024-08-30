@@ -180,7 +180,7 @@ final class NuanceItem
     return $this->assertAttached($this->queue);
   }
 
-  public function attachQueue(NuanceQueue $queue = null) {
+  public function attachQueue(?NuanceQueue $queue = null) {
     $this->queue = $queue;
     return $this;
   }

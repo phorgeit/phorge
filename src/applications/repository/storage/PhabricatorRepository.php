@@ -250,7 +250,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function attachMostRecentCommit(
-    PhabricatorRepositoryCommit $commit = null) {
+    ?PhabricatorRepositoryCommit $commit = null) {
     $this->mostRecentCommit = $commit;
     return $this;
   }

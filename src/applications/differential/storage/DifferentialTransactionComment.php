@@ -25,7 +25,7 @@ final class DifferentialTransactionComment
   }
 
   public function attachReplyToComment(
-    DifferentialTransactionComment $comment = null) {
+    ?DifferentialTransactionComment $comment = null) {
     $this->replyToComment = $comment;
     return $this;
   }
@@ -139,7 +139,7 @@ final class DifferentialTransactionComment
   }
 
   public function attachInlineContext(
-    PhabricatorInlineCommentContext $context = null) {
+    ?PhabricatorInlineCommentContext $context = null) {
     $this->inlineContext = $context;
     return $this;
   }

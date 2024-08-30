@@ -444,7 +444,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
 
   private function sendExceptionMail(
     Exception $ex,
-    PhabricatorUser $viewer = null) {
+    ?PhabricatorUser $viewer = null) {
 
     // If we've failed to identify a legitimate sender, we don't send them
     // an error message back. We want to avoid sending mail to unverified

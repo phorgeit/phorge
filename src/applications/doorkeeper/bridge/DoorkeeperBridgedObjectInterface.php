@@ -3,6 +3,6 @@
 interface DoorkeeperBridgedObjectInterface {
 
   public function getBridgedObject();
-  public function attachBridgedObject(DoorkeeperExternalObject $object = null);
+  public function attachBridgedObject(?DoorkeeperExternalObject $object = null);
 
 }

@@ -64,7 +64,7 @@ final class FundBacker extends FundDAO
     return $this->assertAttached($this->initiative);
   }
 
-  public function attachInitiative(FundInitiative $initiative = null) {
+  public function attachInitiative(?FundInitiative $initiative = null) {
     $this->initiative = $initiative;
     return $this;
   }

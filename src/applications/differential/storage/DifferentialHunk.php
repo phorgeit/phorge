@@ -435,7 +435,7 @@ final class DifferentialHunk
   private function destroyData(
     $type,
     $data,
-    PhabricatorDestructionEngine $engine = null) {
+    ?PhabricatorDestructionEngine $engine = null) {
 
     if (!$engine) {
       $engine = new PhabricatorDestructionEngine();

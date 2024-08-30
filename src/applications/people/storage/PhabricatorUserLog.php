@@ -13,7 +13,7 @@ final class PhabricatorUserLog extends PhabricatorUserDAO
   protected $session;
 
   public static function initializeNewLog(
-    PhabricatorUser $actor = null,
+    ?PhabricatorUser $actor = null,
     $object_phid = null,
     $action = null) {
 

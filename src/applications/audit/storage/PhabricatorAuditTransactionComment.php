@@ -66,7 +66,7 @@ final class PhabricatorAuditTransactionComment
   }
 
   public function attachReplyToComment(
-    PhabricatorAuditTransactionComment $comment = null) {
+    ?PhabricatorAuditTransactionComment $comment = null) {
     $this->replyToComment = $comment;
     return $this;
   }
@@ -93,7 +93,7 @@ final class PhabricatorAuditTransactionComment
   }
 
   public function attachInlineContext(
-    PhabricatorInlineCommentContext $context = null) {
+    ?PhabricatorInlineCommentContext $context = null) {
     $this->inlineContext = $context;
     return $this;
   }

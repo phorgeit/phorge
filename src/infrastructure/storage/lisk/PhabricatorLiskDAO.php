@@ -159,7 +159,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         $database));
   }
 
-  private function raiseUnreachable($database, Exception $proxy = null) {
+  private function raiseUnreachable($database, ?Exception $proxy = null) {
     $message = pht(
       'Unable to establish a connection to any database host '.
       '(while trying "%s"). All masters and replicas are completely '.

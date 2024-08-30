@@ -338,7 +338,7 @@ abstract class PhabricatorApplication
    */
   public function buildMainMenuItems(
     PhabricatorUser $user,
-    PhabricatorController $controller = null) {
+    ?PhabricatorController $controller = null) {
     return array();
   }
 

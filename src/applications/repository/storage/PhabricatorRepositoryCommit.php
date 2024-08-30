@@ -169,7 +169,7 @@ final class PhabricatorRepositoryCommit
   }
 
   public function attachCommitData(
-    PhabricatorRepositoryCommitData $data = null) {
+    ?PhabricatorRepositoryCommitData $data = null) {
     $this->commitData = $data;
     return $this;
   }
@@ -198,8 +198,8 @@ final class PhabricatorRepositoryCommit
   }
 
   public function attachIdentities(
-    PhabricatorRepositoryIdentity $author = null,
-    PhabricatorRepositoryIdentity $committer = null) {
+    ?PhabricatorRepositoryIdentity $author = null,
+    ?PhabricatorRepositoryIdentity $committer = null) {
 
     $this->authorIdentity = $author;
     $this->committerIdentity = $committer;

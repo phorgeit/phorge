@@ -40,7 +40,7 @@ final class PonderAnswer extends PonderDAO
 
   }
 
-  public function attachQuestion(PonderQuestion $question = null) {
+  public function attachQuestion(?PonderQuestion $question = null) {
     $this->question = $question;
     return $this;
   }

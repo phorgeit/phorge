@@ -71,7 +71,7 @@ final class PhabricatorFileAttachment
     return $this->assertAttached($this->object);
   }
 
-  public function attachFile(PhabricatorFile $file = null) {
+  public function attachFile(?PhabricatorFile $file = null) {
     $this->file = $file;
     return $this;
   }

@@ -96,7 +96,7 @@ final class PhabricatorWorkerTrigger
     return $this->assertAttached($this->event);
   }
 
-  public function attachEvent(PhabricatorWorkerTriggerEvent $event = null) {
+  public function attachEvent(?PhabricatorWorkerTriggerEvent $event = null) {
     $this->event = $event;
     return $this;
   }

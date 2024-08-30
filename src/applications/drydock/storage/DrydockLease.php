@@ -139,7 +139,7 @@ final class DrydockLease extends DrydockDAO
     return $this->assertAttached($this->resource);
   }
 
-  public function attachResource(DrydockResource $resource = null) {
+  public function attachResource(?DrydockResource $resource = null) {
     $this->resource = $resource;
     return $this;
   }

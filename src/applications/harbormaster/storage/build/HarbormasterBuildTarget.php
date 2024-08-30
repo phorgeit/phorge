@@ -146,7 +146,7 @@ final class HarbormasterBuildTarget
     return $this->assertAttached($this->build);
   }
 
-  public function attachBuildStep(HarbormasterBuildStep $step = null) {
+  public function attachBuildStep(?HarbormasterBuildStep $step = null) {
     $this->buildStep = $step;
     return $this;
   }

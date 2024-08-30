@@ -49,7 +49,7 @@ final class DrydockLog extends DrydockDAO
     ) + parent::getConfiguration();
   }
 
-  public function attachBlueprint(DrydockBlueprint $blueprint = null) {
+  public function attachBlueprint(?DrydockBlueprint $blueprint = null) {
     $this->blueprint = $blueprint;
     return $this;
   }
@@ -58,7 +58,7 @@ final class DrydockLog extends DrydockDAO
     return $this->assertAttached($this->blueprint);
   }
 
-  public function attachResource(DrydockResource $resource = null) {
+  public function attachResource(?DrydockResource $resource = null) {
     $this->resource = $resource;
     return $this;
   }
@@ -67,7 +67,7 @@ final class DrydockLog extends DrydockDAO
     return $this->assertAttached($this->resource);
   }
 
-  public function attachLease(DrydockLease $lease = null) {
+  public function attachLease(?DrydockLease $lease = null) {
     $this->lease = $lease;
     return $this;
   }
@@ -77,7 +77,7 @@ final class DrydockLog extends DrydockDAO
   }
 
   public function attachOperation(
-    DrydockRepositoryOperation $operation = null) {
+    ?DrydockRepositoryOperation $operation = null) {
     $this->operation = $operation;
     return $this;
   }

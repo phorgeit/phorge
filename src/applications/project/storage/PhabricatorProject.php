@@ -67,7 +67,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
   public static function initializeNewProject(
     PhabricatorUser $actor,
-    PhabricatorProject $parent = null) {
+    ?PhabricatorProject $parent = null) {
 
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
@@ -498,7 +498,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
     return $this->assertAttached($this->parentProject);
   }
 
-  public function attachParentProject(PhabricatorProject $project = null) {
+  public function attachParentProject(?PhabricatorProject $project = null) {
     $this->parentProject = $project;
     return $this;
   }
