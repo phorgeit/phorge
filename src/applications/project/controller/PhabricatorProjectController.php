@@ -170,7 +170,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   protected function newCardResponse(
     $board_phid,
     $object_phid,
-    PhabricatorProjectColumnOrder $ordering = null,
+    ?PhabricatorProjectColumnOrder $ordering = null,
     $sounds = array()) {
 
     $viewer = $this->getViewer();

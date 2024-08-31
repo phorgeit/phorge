@@ -5026,7 +5026,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   final protected function newSubEditor(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    ?PhabricatorApplicationTransactionEditor $template = null) {
     $editor = $this->newEditorCopy($template);
 
     $editor->parentEditor = $this;
@@ -5036,7 +5036,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newEditorCopy(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    ?PhabricatorApplicationTransactionEditor $template = null) {
     if ($template === null) {
       $template = newv(get_class($this), array());
     }

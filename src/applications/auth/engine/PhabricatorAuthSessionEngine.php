@@ -334,7 +334,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    */
   public function terminateLoginSessions(
     PhabricatorUser $user,
-    PhutilOpaqueEnvelope $except_session = null) {
+    ?PhutilOpaqueEnvelope $except_session = null) {
 
     $sessions = id(new PhabricatorAuthSessionQuery())
       ->setViewer($user)
@@ -955,7 +955,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    */
   public function getOneTimeLoginURI(
     PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    ?PhabricatorUserEmail $email = null,
     $type = self::ONETIME_RESET,
     $force_full_session = false) {
 
@@ -1003,7 +1003,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    */
   public function loadOneTimeLoginKey(
     PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    ?PhabricatorUserEmail $email = null,
     $key = null) {
 
     $key_hash = $this->getOneTimeLoginKeyHash($user, $email, $key);
@@ -1031,7 +1031,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    */
   private function getOneTimeLoginKeyHash(
     PhabricatorUser $user,
-    PhabricatorUserEmail $email = null,
+    ?PhabricatorUserEmail $email = null,
     $key = null) {
 
     $parts = array(

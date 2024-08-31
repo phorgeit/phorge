@@ -171,7 +171,7 @@ final class PhabricatorProfileMenuItemViewList
 
   private function getHighlightedItemKey(
     array $items,
-    PHUIListItemView $selected_item = null) {
+    ?PHUIListItemView $selected_item = null) {
 
     assert_instances_of($items, 'PHUIListItemView');
 
