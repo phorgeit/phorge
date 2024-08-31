@@ -80,7 +80,7 @@ You will also need:
   - **MySQL**: You need MySQL. We strongly recommend MySQL 5.5 or newer.
     You will need a server with multiple databases.
   - **PHP**: You need a PHP engine:
-    - PHP 7 - 7.2 or newer.
+    - PHP 7 - 7.2.25 or newer.
     - PHP 8 - 8.0 or newer.
   - **git**: You need git 2.5.0 or newer on the server.
     No particular version is needed on your clients.

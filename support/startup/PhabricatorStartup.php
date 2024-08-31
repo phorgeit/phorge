@@ -535,7 +535,7 @@ final class PhabricatorStartup {
    * @task validation
    */
   private static function verifyPHP() {
-    $required_version = '5.2.3';
+    $required_version = '7.2.25';
     if (version_compare(PHP_VERSION, $required_version) < 0) {
       self::didFatal(
         "You are running PHP version '".PHP_VERSION."', which is older than ".
