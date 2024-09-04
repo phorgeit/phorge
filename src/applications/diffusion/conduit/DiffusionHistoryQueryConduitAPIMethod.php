@@ -24,7 +24,7 @@ final class DiffusionHistoryQueryConduitAPIMethod
       'commit' => 'required string',
       'against' => 'optional string',
       'path' => 'required string',
-      'offset' => 'required int',
+      'offset' => 'optional int',
       'limit' => 'required int',
       'needDirectChanges' => 'optional bool',
       'needChildChanges' => 'optional bool',
@@ -109,7 +109,7 @@ final class DiffusionHistoryQueryConduitAPIMethod
     $repository = $drequest->getRepository();
     $commit_hash = $request->getValue('commit');
     $path = $request->getValue('path');
-    $offset = $request->getValue('offset');
+    $offset = $request->getValue('offset', 0);
     $limit = $request->getValue('limit');
 
     $path = DiffusionPathIDQuery::normalizePath($path);
