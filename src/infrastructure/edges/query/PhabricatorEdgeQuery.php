@@ -41,7 +41,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * to execute an edge query.
    *
    * @param list $source_phids List of source PHIDs.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -62,7 +62,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * Find edges terminating at one or more destination PHIDs.
    *
    * @param list $dest_phids List of destination PHIDs.
-   * @return this
+   * @return $this
    *
    */
   public function withDestinationPHIDs(array $dest_phids) {
@@ -75,7 +75,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * Find edges of specific types.
    *
    * @param list $types List of PhabricatorEdgeConfig type constants.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -89,7 +89,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * Configure the order edge results are returned in.
    *
    * @param const $order Order constant.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -103,7 +103,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * When loading edges, also load edge data.
    *
    * @param bool $need True to load edge data.
-   * @return this
+   * @return $this
    *
    * @task config
    */

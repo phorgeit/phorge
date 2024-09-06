@@ -1472,7 +1472,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * This method is successful even if the file is already attached.
    *
    * @param phid $phid Object PHID to attach to.
-   * @return this
+   * @return $this
    */
   public function attachToObject($phid) {
     self::attachFileToObject($this->getPHID(), $phid);
@@ -1526,7 +1526,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    *
    * @param map<string, wild> $params Bag of parameters, see
    *   @{class:PhabricatorFile} for documentation.
-   * @return this
+   * @return $this
    */
   private function readPropertiesFromParameters(array $params) {
     PhutilTypeSpec::checkMap(

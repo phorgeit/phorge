@@ -33,7 +33,7 @@ final class PhabricatorNotificationQuery
    *
    * @param mixed $unread True or false to filter results by read status. Null
    *              to remove the filter.
-   * @return this
+   * @return $this
    * @task config
    */
   public function withUnread($unread) {

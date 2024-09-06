@@ -32,7 +32,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    * to use the current viewer to execute queries.
    *
    * @param PhabricatorUser $viewer Current viewer.
-   * @return this
+   * @return $this
    * @task read
    */
   final public function setViewer(PhabricatorUser $viewer) {

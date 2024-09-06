@@ -383,7 +383,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * discussion of field proxies.
    *
    * @param PhabricatorCustomField $proxy Field implementation.
-   * @return this
+   * @return $this
    * @task proxy
    */
   final public function setProxy(PhabricatorCustomField $proxy) {
@@ -423,7 +423,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomFieldInterface $object The object this field
    *   belongs to.
-   * @return this
+   * @return $this
    * @task context
    */
   final public function setObject(PhabricatorCustomFieldInterface $object) {
@@ -443,7 +443,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomFieldInterface $object The object this field
    *   belongs to.
-   * @return this
+   * @return $this
    * @task context
    */
   public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
@@ -612,7 +612,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @param string|null $value Serialized field representation (from
    *                    @{method:getValueForStorage}) or null if no value has
    *                    ever been stored.
-   * @return this
+   * @return $this
    * @task storage
    */
   public function setValueFromStorage($value) {

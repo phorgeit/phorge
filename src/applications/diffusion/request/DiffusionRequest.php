@@ -296,7 +296,7 @@ abstract class DiffusionRequest extends Phobject {
    * Modify the request to move the symbolic commit elsewhere.
    *
    * @param string $symbol New symbolic commit.
-   * @return this
+   * @return $this
    */
   public function updateSymbolicCommit($symbol) {
     $this->symbolicCommit = $symbol;

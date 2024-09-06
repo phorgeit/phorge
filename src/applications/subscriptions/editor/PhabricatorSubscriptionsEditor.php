@@ -19,7 +19,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * had previously unsubscribed.
    *
    * @param list<phid> $phids List of PHIDs to explicitly subscribe.
-   * @return this
+   * @return $this
    */
   public function subscribeExplicit(array $phids) {
     $this->explicitSubscribePHIDs += array_fill_keys($phids, true);
@@ -33,7 +33,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * suppressed if they've previously unsubscribed from the object.
    *
    * @param list<phid> $phids List of PHIDs to implicitly subscribe.
-   * @return this
+   * @return $this
    */
   public function subscribeImplicit(array $phids) {
     $this->implicitSubscribePHIDs += array_fill_keys($phids, true);
@@ -46,7 +46,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * will not resubscribe them.
    *
    * @param list<phid> $phids List of PHIDs to unsubscribe.
-   * @return this
+   * @return $this
    */
   public function unsubscribe(array $phids) {
     $this->unsubscribePHIDs += array_fill_keys($phids, true);

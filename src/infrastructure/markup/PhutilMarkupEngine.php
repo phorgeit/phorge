@@ -10,7 +10,7 @@ abstract class PhutilMarkupEngine extends Phobject {
    *
    * @param   string $key Key to set in the configuration dictionary.
    * @param   string $value Value to set.
-   * @return  this
+   * @return  $this
    */
   abstract public function setConfig($key, $value);
 

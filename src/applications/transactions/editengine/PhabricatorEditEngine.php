@@ -699,7 +699,7 @@ abstract class PhabricatorEditEngine
    * Flag this workflow as a create or edit.
    *
    * @param bool $is_create True if this is a create workflow.
-   * @return this
+   * @return $this
    * @task load
    */
   private function setIsCreate($is_create) {

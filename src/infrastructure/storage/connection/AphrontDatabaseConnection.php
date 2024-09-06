@@ -164,7 +164,7 @@ abstract class AphrontDatabaseConnection
    * Begin a transaction, or set a savepoint if the connection is already
    * transactional.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function openTransaction() {
@@ -189,7 +189,7 @@ abstract class AphrontDatabaseConnection
    * Commit a transaction, or stage a savepoint for commit once the entire
    * transaction completes if inside a transaction stack.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function saveTransaction() {
@@ -208,7 +208,7 @@ abstract class AphrontDatabaseConnection
    * Rollback a transaction, or unstage the last savepoint if inside a
    * transaction stack.
    *
-   * @return this
+   * @return $this
    */
   public function killTransaction() {
     $state = $this->getTransactionState();

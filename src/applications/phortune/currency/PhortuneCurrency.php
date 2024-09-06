@@ -197,7 +197,7 @@ final class PhortuneCurrency extends Phobject {
    *
    * @param string|null Currency string, or null to skip check.
    * @param string|null Currency string, or null to skip check.
-   * @return this
+   * @return $this
    */
   public function assertInRange($minimum, $maximum) {
     if ($minimum !== null && $maximum !== null) {

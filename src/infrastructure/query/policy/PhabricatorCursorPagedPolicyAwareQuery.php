@@ -885,7 +885,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * also more involved.
    *
    * @param string $order Key of a builtin order supported by this query.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setOrder($order) {
@@ -919,7 +919,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param PhabricatorQueryOrderVector|list<string> $vector List of order
    *   keys.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setGroupVector($vector) {
@@ -1044,7 +1044,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param PhabricatorQueryOrderVector|list<string> $vector List of order
    *   keys.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setOrderVector($vector) {
@@ -1358,7 +1358,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @param PhabricatorCustomFieldIndexStorage $index Table where the index is
    *   stored.
    * @param string|list<string> $value One or more values to filter by.
-   * @return this
+   * @return $this
    * @task appsearch
    */
   public function withApplicationSearchContainsConstraint(
@@ -1410,7 +1410,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   stored.
    * @param int|null $min Minimum permissible value, inclusive.
    * @param int|null $max Maximum permissible value, inclusive.
-   * @return this
+   * @return $this
    * @task appsearch
    */
   public function withApplicationSearchRangeConstraint(
@@ -2590,7 +2590,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @param const $edge_type Edge constant.
    * @param const $operator Constraint operator.
    * @param list<phid> $phids List of PHIDs.
-   * @return this
+   * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicPHIDs($edge_type, $operator, array $phids) {
@@ -2604,7 +2604,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
-   * @return this
+   * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicConstraints($edge_type, array $constraints) {
@@ -3001,7 +3001,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   /**
    * Validate edge logic constraints for the query.
    *
-   * @return this
+   * @return $this
    * @task edgelogic
    */
   private function validateEdgeLogicConstraints() {

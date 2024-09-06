@@ -265,7 +265,7 @@ abstract class LiskDAO extends Phobject
    * @param mode $mode Connection mode.
    * @param AphrontDatabaseConnection $connection Connection to cache.
    * @param bool $force_unique (optional)
-   * @return this
+   * @return $this
    * @task conn
    */
   protected function setEstablishedConnection(
@@ -548,7 +548,7 @@ abstract class LiskDAO extends Phobject
    * properties. This is primarily useful after entering a transaction but
    * before applying changes to an object.
    *
-   * @return this
+   * @return $this
    *
    * @task   load
    */
@@ -580,7 +580,7 @@ abstract class LiskDAO extends Phobject
    * @param  dict  $row Dictionary of properties, which should be equivalent
    *               to selecting a row from the table or calling
    *               @{method:getProperties}.
-   * @return this
+   * @return $this
    *
    * @task   load
    */
@@ -694,7 +694,7 @@ abstract class LiskDAO extends Phobject
    * method unless with `IDS_MANUAL`.
    *
    * @param  mixed   $id Unique ID.
-   * @return this
+   * @return $this
    * @task   save
    */
   public function setID($id) {
@@ -918,7 +918,7 @@ abstract class LiskDAO extends Phobject
    * method you need to call to do writes. If the object has not yet been
    * inserted this will do an insert; if it has, it will do an update.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -935,7 +935,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use REPLACE regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -949,7 +949,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use INSERT regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -963,7 +963,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use UPDATE regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1019,7 +1019,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Delete this object, permanently.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1044,7 +1044,7 @@ abstract class LiskDAO extends Phobject
    *
    * @param  const $mode Either "INSERT" or "REPLACE", to force the desired
    *   mode.
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1309,7 +1309,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Increase transaction stack depth.
    *
-   * @return this
+   * @return $this
    */
   public function openTransaction() {
     $this->establishConnection('w')->openTransaction();
@@ -1320,7 +1320,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Decrease transaction stack depth, saving work.
    *
-   * @return this
+   * @return $this
    */
   public function saveTransaction() {
     $this->establishConnection('w')->saveTransaction();
@@ -1331,7 +1331,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Decrease transaction stack depth, discarding work.
    *
-   * @return this
+   * @return $this
    */
   public function killTransaction() {
     $this->establishConnection('w')->killTransaction();
@@ -1355,7 +1355,7 @@ abstract class LiskDAO extends Phobject
    *     $beach->endReadLocking();
    *   $beach->saveTransaction();
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function beginReadLocking() {
@@ -1367,7 +1367,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Ends read-locking that began at an earlier @{method:beginReadLocking} call.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function endReadLocking() {
@@ -1382,7 +1382,7 @@ abstract class LiskDAO extends Phobject
    * MySQL documentation for details). To end write locking, call
    * @{method:endWriteLocking}.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function beginWriteLocking() {
@@ -1395,7 +1395,7 @@ abstract class LiskDAO extends Phobject
    * Ends write-locking that began at an earlier @{method:beginWriteLocking}
    * call.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function endWriteLocking() {

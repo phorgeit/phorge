@@ -60,7 +60,7 @@ final class PhabricatorWorkerTriggerQuery
    * ordering when querying for specific triggers, e.g. by ID or PHID.
    *
    * @param const $order Result order.
-   * @return this
+   * @return $this
    */
   public function setOrder($order) {
     $this->order = $order;

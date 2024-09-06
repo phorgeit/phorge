@@ -344,7 +344,7 @@ abstract class PhutilDaemon extends Phobject {
    * that are part of an autoscale pool are continuously busy for a prolonged
    * period of time, the overseer may scale up the pool.
    *
-   * @return this
+   * @return $this
    * @task autoscale
    */
   protected function willBeginWork() {
@@ -365,7 +365,7 @@ abstract class PhutilDaemon extends Phobject {
    * that are part of an autoscale pool are idle for a prolonged period of
    * time, they may exit to scale the pool down.
    *
-   * @return this
+   * @return $this
    * @task autoscale
    */
   protected function willBeginIdle() {

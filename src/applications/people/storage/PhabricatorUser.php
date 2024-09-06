@@ -478,7 +478,7 @@ final class PhabricatorUser
    * This is primarily useful for unit tests.
    *
    * @param string $identifier New timezone identifier.
-   * @return this
+   * @return $this
    * @task settings
    */
   public function overrideTimezoneIdentifier($identifier) {
@@ -772,7 +772,7 @@ final class PhabricatorUser
    *
    * @param wild $availability Availability cache data.
    * @param int|null $ttl Cache TTL.
-   * @return this
+   * @return $this
    * @task availability
    */
   public function writeAvailabilityCache(array $availability, $ttl) {

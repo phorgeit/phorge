@@ -58,7 +58,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * a policy query.
    *
    * @param PhabricatorUser $viewer The viewing user.
-   * @return this
+   * @return $this
    * @task config
    */
   final public function setViewer(PhabricatorUser $viewer) {
@@ -83,7 +83,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * that configuration like whether or not to raise policy exceptions is
    * seamlessly passed along to child queries.
    *
-   * @return this
+   * @return $this
    * @task config
    */
   final public function setParentQuery(PhabricatorPolicyAwareQuery $query) {
@@ -106,7 +106,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
   /**
    * Hook to configure whether this query should raise policy exceptions.
    *
-   * @return this
+   * @return $this
    * @task config
    */
   final public function setRaisePolicyExceptions($bool) {
@@ -475,7 +475,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    *
    * @param map<phid, PhabricatorPolicyInterface> $objects Objects to add to
    *   the query workspace.
-   * @return this
+   * @return $this
    * @task workspace
    */
   public function putObjectsInWorkspace(array $objects) {
@@ -507,7 +507,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * queries.
    *
    * @param list<phid> $phids List of PHIDs to retrieve.
-   * @return this
+   * @return $this
    * @task workspace
    */
   public function getObjectsFromWorkspace(array $phids) {
@@ -537,7 +537,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * list can prevent infinite query loops by aborting queries which cycle.
    *
    * @param list<phid> $phids List of PHIDs which are now in flight.
-   * @return this
+   * @return $this
    */
   public function putPHIDsInFlight(array $phids) {
     foreach ($phids as $phid) {

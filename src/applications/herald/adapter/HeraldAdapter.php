@@ -173,7 +173,7 @@ abstract class HeraldAdapter extends Phobject {
    *
    * @param list<PhabricatorApplicationTransaction> $xactions List of
    *   transactions.
-   * @return this
+   * @return $this
    */
   final public function setAppliedTransactions(array $xactions) {
     assert_instances_of($xactions, 'PhabricatorApplicationTransaction');

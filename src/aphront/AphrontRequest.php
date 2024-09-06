@@ -539,7 +539,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $name Cookie name.
    * @param string $value Cookie value.
-   * @return this
+   * @return $this
    * @task cookie
    */
   public function setCookie($name, $value) {
@@ -555,7 +555,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $name Cookie name.
    * @param string $value Cookie value.
-   * @return this
+   * @return $this
    * @task cookie
    */
   public function setTemporaryCookie($name, $value) {
@@ -569,7 +569,7 @@ final class AphrontRequest extends Phobject {
    * @param string $name Cookie name.
    * @param string $value Cookie value.
    * @param int    $expire Epoch timestamp for cookie expiration.
-   * @return this
+   * @return $this
    * @task cookie
    */
   private function setCookieWithExpiration(

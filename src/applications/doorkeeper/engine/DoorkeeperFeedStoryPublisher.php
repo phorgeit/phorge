@@ -33,7 +33,7 @@ abstract class DoorkeeperFeedStoryPublisher extends Phobject {
    *
    * @param bool $render_with_implied_context True to assume object context
    *  when rendering.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setRenderWithImpliedContext($render_with_implied_context) {

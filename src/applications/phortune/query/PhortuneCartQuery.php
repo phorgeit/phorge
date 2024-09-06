@@ -48,7 +48,7 @@ final class PhortuneCartQuery
    * Include or exclude carts which represent invoices with payments due.
    *
    * @param bool `true` to select invoices; `false` to exclude invoices.
-   * @return this
+   * @return $this
    */
   public function withInvoices($invoices) {
     $this->invoices = $invoices;

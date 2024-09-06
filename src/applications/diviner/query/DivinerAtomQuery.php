@@ -94,7 +94,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    * restore the original data.
    *
    * @param bool $ghosts
-   * @return this
+   * @return $this
    */
   public function withGhosts($ghosts) {
     $this->isGhost = $ghosts;

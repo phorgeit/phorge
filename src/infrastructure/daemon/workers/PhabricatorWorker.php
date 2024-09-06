@@ -233,7 +233,7 @@ abstract class PhabricatorWorker extends Phobject {
    * @param string    $class Task class to queue.
    * @param array     $data Data for the followup task.
    * @param array     $options (optional) Options for the followup task.
-   * @return this
+   * @return $this
    */
   final protected function queueTask(
     $class,

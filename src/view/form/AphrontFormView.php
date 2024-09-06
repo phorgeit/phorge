@@ -121,7 +121,7 @@ final class AphrontFormView extends AphrontView {
    * control to simplify rendering.
    *
    * @param AphrontFormControl $control Control to append.
-   * @return this
+   * @return $this
    */
   public function appendControl(AphrontFormControl $control) {
     $this->controls[] = $control;

@@ -276,7 +276,7 @@ final class PhabricatorObjectHandle
    * @{method:isComplete} for an explanation of what it means to be complete.
    *
    * @param bool $complete True if the handle represents a complete object.
-   * @return this
+   * @return $this
    */
   public function setComplete($complete) {
     $this->complete = $complete;

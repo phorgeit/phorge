@@ -84,7 +84,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    *
    * @param PhabricatorMarkupInterface  $object The object to render.
    * @param string                      $field The field to render.
-   * @return this
+   * @return $this
    * @task markup
    */
   public function addObject(PhabricatorMarkupInterface $object, $field) {
@@ -102,7 +102,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * Process objects queued with @{method:addObject}. You can then retrieve
    * the output with @{method:getOutput}.
    *
-   * @return this
+   * @return $this
    * @task markup
    */
   public function process() {
@@ -319,7 +319,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * Set the viewing user. Used to implement object permissions.
    *
    * @param PhabricatorUser $viewer The viewing user.
-   * @return this
+   * @return $this
    * @task markup
    */
   public function setViewer(PhabricatorUser $viewer) {
@@ -331,7 +331,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * Set the context object. Used to implement object permissions.
    *
    * @param $object The object in which context this remarkup is used.
-   * @return this
+   * @return $this
    * @task markup
    */
   public function setContextObject($object) {

@@ -60,7 +60,7 @@ final class PhabricatorWorkerLeaseQuery extends PhabricatorQuery {
    *
    * @param mixed $leased `true` to select only leased tasks, `false` to select
    *              only unleased tasks (default), or `null` to select both.
-   * @return this
+   * @return $this
    */
   public function withLeasedTasks($leased) {
     $this->leased = $leased;

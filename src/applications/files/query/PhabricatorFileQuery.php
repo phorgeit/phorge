@@ -98,7 +98,7 @@ final class PhabricatorFileQuery
    *
    * @param list<dict> $specs List of transform specifications, described
    *                   above.
-   * @return this
+   * @return $this
    */
   public function withTransforms(array $specs) {
     foreach ($specs as $spec) {

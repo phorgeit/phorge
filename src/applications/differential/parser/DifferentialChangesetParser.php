@@ -246,7 +246,7 @@ final class DifferentialChangesetParser extends Phobject {
    *              storage changeset. Note that this may be false, if the left
    *              side of some storage changeset is being shown as the right
    *              side of a display diff.
-   * @return this
+   * @return $this
    */
   public function setRightSideCommentMapping($id, $is_new) {
     $this->rightSideChangesetID = $id;
@@ -297,7 +297,7 @@ final class DifferentialChangesetParser extends Phobject {
    *
    * @param   string $key  Key for identifying this changeset in the render
    *   cache.
-   * @return  this
+   * @return  $this
    */
   public function setRenderCacheKey($key) {
     $this->renderCacheKey = $key;

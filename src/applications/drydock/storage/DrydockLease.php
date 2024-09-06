@@ -511,7 +511,7 @@ final class DrydockLease extends DrydockDAO
   /**
    * Awaken yielded tasks after a state change.
    *
-   * @return this
+   * @return $this
    */
   public function awakenTasks() {
     $awaken_ids = $this->getAttribute('internal.awakenTaskIDs');
