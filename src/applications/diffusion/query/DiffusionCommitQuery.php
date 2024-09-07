@@ -776,7 +776,8 @@ final class DiffusionCommitQuery
               // See T3377.
               (int)$ref['identifier']);
           } else {
-            if (strlen($ref['identifier']) < $min_qualified) {
+            if (!phutil_nonempty_string($ref['identifier']) ||
+                strlen($ref['identifier']) < $min_qualified) {
               continue;
             }
 
