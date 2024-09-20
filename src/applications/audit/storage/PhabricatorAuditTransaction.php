@@ -427,8 +427,13 @@ final class PhabricatorAuditTransaction
   public function getBodyForFeed(PhabricatorFeedStory $story) {
     switch ($this->getTransactionType()) {
       case self::TYPE_COMMIT:
-        $data = $this->getNewValue();
-        return $story->renderSummary($data['summary']);
+        // At the moment commits have the very same title,
+        // and the very same body in web feeds.
+        // Maybe better to just show one of them.
+        // https://we.phorge.it/T15489
+        // $data = $this->getNewValue();
+        // return $story->renderSummary($data['summary']);
+        return null;
     }
     return parent::getBodyForFeed($story);
   }
