@@ -604,6 +604,9 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return "/R{$id}:{$identifier}";
   }
 
+  /**
+   * @return array|null
+   */
   public static function parseRepositoryServicePath($request_path, $vcs) {
     $is_git = ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
 

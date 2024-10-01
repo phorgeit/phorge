@@ -492,6 +492,9 @@ final class DiffusionServeController extends DiffusionController {
     return $result;
   }
 
+  /**
+   * @return bool
+   */
   private function isReadOnlyRequest(
     PhabricatorRepository $repository) {
     $request = $this->getRequest();
@@ -652,6 +655,9 @@ final class DiffusionServeController extends DiffusionController {
     return id(new DiffusionGitResponse())->setGitData($stdout);
   }
 
+  /**
+   * @return string
+   */
   private function getRequestDirectoryPath(PhabricatorRepository $repository) {
     $request = $this->getRequest();
     $request_path = $request->getRequestURI()->getPath();
@@ -659,7 +665,11 @@ final class DiffusionServeController extends DiffusionController {
     $info = PhabricatorRepository::parseRepositoryServicePath(
       $request_path,
       $repository->getVersionControlSystem());
-    $base_path = $info['path'];
+    if ($info) {
+      $base_path = $info['path'];
+    } else {
+      $base_path = '';
+    }
 
     // For Git repositories, strip an optional directory component if it
     // isn't the name of a known Git resource. This allows users to clone
