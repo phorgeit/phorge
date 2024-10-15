@@ -97,14 +97,15 @@ final class PhabricatorEmailPreferencesSettingsPanel
             'count' => 0,
             'name' => $name,
           );
+        } else {
+          $all_tags[$tag]['count']++;
         }
-        $all_tags[$tag]['count'];
       }
     }
 
     $common_tags = array();
     foreach ($all_tags as $tag => $info) {
-      if ($info['count'] > 1) {
+      if ($info['count'] > 0) {
         $common_tags[$tag] = $info['name'];
       }
     }

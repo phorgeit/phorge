@@ -34,12 +34,6 @@ final class AphrontTypeaheadTemplateView extends AphrontView {
 
     $id = $this->id;
     $name = $this->getName();
-    $values = nonempty($this->getValue(), array());
-
-    $tokens = array();
-    foreach ($values as $key => $value) {
-      $tokens[] = $this->renderToken($key, $value);
-    }
 
     $input = javelin_tag(
       'input',

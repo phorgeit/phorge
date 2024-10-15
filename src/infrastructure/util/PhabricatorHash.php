@@ -11,7 +11,8 @@ final class PhabricatorHash extends Phobject {
    * Because a SHA1 collision is now known, this method should be considered
    * weak. Callers should prefer @{method:digestWithNamedKey}.
    *
-   * @param   string  Input string.
+   * @param   string  $string Input string.
+   * @param   string? $key
    * @return  string  32-byte hexadecimal SHA1+HMAC hash.
    */
   public static function weakDigest($string, $key = null) {
@@ -38,7 +39,7 @@ final class PhabricatorHash extends Phobject {
    * This method emphasizes compactness, and should not be used for security
    * related hashing (for general purpose hashing, see @{method:digest}).
    *
-   * @param   string  Input string.
+   * @param   string  $string Input string.
    * @return  string  12-byte, case-sensitive, mostly-alphanumeric hash of
    *                  the string.
    */
@@ -72,7 +73,7 @@ final class PhabricatorHash extends Phobject {
    * much stuff we're breaking by switching to it. For additional discussion,
    * see T13045.
    *
-   * @param   string  Input string.
+   * @param   string  $string Input string.
    * @return  string  12-byte, case-sensitive, purely-alphanumeric hash of
    *                  the string.
    */
@@ -149,8 +150,8 @@ final class PhabricatorHash extends Phobject {
    * maintaining a high degree of collision resistance and a moderate degree
    * of human readability.
    *
-   * @param string The string to shorten.
-   * @param int Maximum length of the result.
+   * @param string $string The string to shorten.
+   * @param int $length Maximum length of the result.
    * @return string String shortened in a collision-resistant way.
    */
   public static function digestToLength($string, $length) {

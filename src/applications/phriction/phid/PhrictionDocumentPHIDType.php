@@ -47,4 +47,26 @@ final class PhrictionDocumentPHIDType extends PhabricatorPHIDType {
     }
   }
 
+  public function canLoadNamedObject($name) {
+    return preg_match('/.*\/$/', $name);
+  }
+
+  public function loadNamedObjects(
+    PhabricatorObjectQuery $query,
+    array $names) {
+      $objects = id(new PhrictionDocumentQuery())
+        ->setViewer($query->getViewer())
+        ->withSlugs($names)
+        ->execute();
+
+      $results = array();
+      foreach ($objects as $id => $object) {
+        foreach ($names as $name) {
+          $results[$name] = $object;
+        }
+      }
+
+      return $results;
+    }
+
 }

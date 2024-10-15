@@ -228,7 +228,8 @@ final class CelerityResourceTransformer extends Phobject {
    * small enough. Otherwise, this method will return `null` and we'll end up
    * using a normal URI instead.
    *
-   * @param string  Resource name to attempt to generate a data URI for.
+   * @param string $resource_name Resource name to attempt to generate a data
+   *               URI for.
    * @return string|null Data URI, or null if we declined to generate one.
    */
   private function generateDataURI($resource_name) {

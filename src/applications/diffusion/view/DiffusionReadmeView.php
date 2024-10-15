@@ -26,7 +26,7 @@ final class DiffusionReadmeView extends DiffusionView {
   /**
    * Get the markup language a README should be interpreted as.
    *
-   * @param string Local README path, like "README.txt".
+   * @param string $path Local README path, like "README.txt".
    * @return string Best markup interpreter (like "remarkup") for this file.
    */
    private function getReadmeLanguage($path) {

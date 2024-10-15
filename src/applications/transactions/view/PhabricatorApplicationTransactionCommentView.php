@@ -15,11 +15,12 @@ final class PhabricatorApplicationTransactionCommentView
   private $draft;
   private $requestURI;
   private $showPreview = true;
-  private $objectPHID;
+  private $object;
   private $headerText;
   private $noPermission;
   private $fullWidth;
   private $infoView;
+  private $editEngine;
   private $editEngineLock;
   private $noBorder;
   private $requiresMFA;
@@ -30,13 +31,19 @@ final class PhabricatorApplicationTransactionCommentView
   private $commentActionGroups = array();
   private $transactionTimeline;
 
-  public function setObjectPHID($object_phid) {
-    $this->objectPHID = $object_phid;
+  /**
+   * Set object in which this comment textarea field is displayed
+   */
+  public function setObject($object) {
+    $this->object = $object;
     return $this;
   }
 
-  public function getObjectPHID() {
-    return $this->objectPHID;
+  /**
+   * Get object in which this comment textarea is displayed
+   */
+  public function getObject() {
+    return $this->object;
   }
 
   public function setShowPreview($show_preview) {
@@ -148,6 +155,15 @@ final class PhabricatorApplicationTransactionCommentView
 
   public function getNoPermission() {
     return $this->noPermission;
+  }
+
+  public function setEditEngine(PhabricatorEditEngine $edit_engine) {
+    $this->editEngine = $edit_engine;
+    return $this;
+  }
+
+  public function getEditEngine() {
+    return $this->editEngine;
   }
 
   public function setEditEngineLock(PhabricatorEditEngineLock $lock) {
@@ -295,6 +311,15 @@ final class PhabricatorApplicationTransactionCommentView
 
   private function renderCommentPanel() {
     $viewer = $this->getViewer();
+    $engine = $this->getEditEngine();
+    // In a few rare cases PhabricatorApplicationTransactionCommentView gets
+    // initiated in a View or Controller class. Don't crash in that case.
+    if ($engine) {
+      $placeholder_text = $engine
+        ->getCommentFieldPlaceholderText($this->getObject());
+    } else {
+      $placeholder_text = '';
+    }
 
     $remarkup_control = id(new PhabricatorRemarkupControl())
       ->setViewer($viewer)
@@ -302,6 +327,7 @@ final class PhabricatorApplicationTransactionCommentView
       ->addClass('phui-comment-fullwidth-control')
       ->addClass('phui-comment-textarea-control')
       ->setCanPin(true)
+      ->setPlaceholder($placeholder_text)
       ->setName('comment');
 
     $draft_comment = '';
@@ -331,7 +357,7 @@ final class PhabricatorApplicationTransactionCommentView
     }
     $remarkup_control->setRemarkupMetadata($draft_metadata);
 
-    if (!$this->getObjectPHID()) {
+    if (!$this->getObject()->getPHID()) {
       throw new PhutilInvalidStateException('setObjectPHID', 'render');
     }
 
@@ -345,7 +371,7 @@ final class PhabricatorApplicationTransactionCommentView
       ->setFullWidth($this->fullWidth)
       ->setMetadata(
         array(
-          'objectPHID' => $this->getObjectPHID(),
+          'objectPHID' => $this->getObject()->getPHID(),
         ))
       ->setAction($this->getAction())
       ->setID($this->getFormID())

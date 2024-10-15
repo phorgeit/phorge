@@ -203,8 +203,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
       ->addPropertySection(pht('Description'), $description)
       ->addPropertySection(pht('Details'), $details);
 
-
-    return $this->newPage()
+    $page = $this->newPage()
       ->setTitle($title)
       ->setCrumbs($crumbs)
       ->setPageObjectPHIDs(
@@ -213,6 +212,74 @@ final class ManiphestTaskDetailController extends ManiphestController {
         ))
       ->appendChild($view);
 
+    if ($this->getIncludeOpenGraphMetadata($viewer, $task)) {
+      $page = $this->addOpenGraphProtocolMetadataTags($page, $task);
+    }
+
+    return $page;
+  }
+
+  /**
+   * Whether the page should include Open Graph metadata tags
+   * @param PhabricatorUser $viewer Viewer of the object
+   * @param object $object
+   * @return bool True if the page should serve Open Graph metadata tags
+   */
+  private function getIncludeOpenGraphMetadata(PhabricatorUser $viewer,
+    $object) {
+    // Don't waste time adding OpenGraph metadata for logged-in users
+    if ($viewer->getIsStandardUser()) {
+      return false;
+    }
+    // Include OpenGraph tags only for public objects
+    return $object->getViewPolicy() === PhabricatorPolicies::POLICY_PUBLIC;
+  }
+
+  /**
+   * Get Open Graph Protocol metadata values
+   * @param ManiphestTask $task
+   * @return array Map of Open Graph property => value
+   */
+  private function getOpenGraphProtocolMetadataValues($task) {
+    $viewer = $this->getViewer();
+
+    $v = [];
+    $v['og:site_name'] = PlatformSymbols::getPlatformServerName();
+    $v['og:type'] = 'object';
+    $v['og:url'] = PhabricatorEnv::getProductionURI($task->getURI());
+    $v['og:title'] = $task->getMonogram().' '.$task->getTitle();
+
+    $desc = $task->getDescription();
+    if (phutil_nonempty_string($desc)) {
+      $v['og:description'] =
+        PhabricatorMarkupEngine::summarizeSentence($desc);
+    }
+
+    $v['og:image'] =
+      PhabricatorCustomLogoConfigType::getLogoURI($viewer);
+
+    $v['og:image:height'] = 64;
+    $v['og:image:width'] = 64;
+
+    return $v;
+  }
+
+  /**
+   * Add Open Graph Protocol metadata tags to Maniphest task page
+   * @param PhabricatorStandardPageView $page
+   * @param ManiphestTask $task
+   * @return $page with additional OGP <meta> tags
+   */
+  private function addOpenGraphProtocolMetadataTags($page, $task) {
+    foreach ($this->getOpenGraphProtocolMetadataValues($task) as $k => $v) {
+      $page->addHeadItem(phutil_tag(
+        'meta',
+        array(
+          'property' => $k,
+          'content' => $v,
+        )));
+    }
+    return $page;
   }
 
   private function buildHeaderView(ManiphestTask $task) {

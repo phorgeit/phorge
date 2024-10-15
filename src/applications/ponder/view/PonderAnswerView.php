@@ -121,7 +121,7 @@ final class PonderAnswerView extends AphrontTagView {
 
     $comment_view = id(new PhabricatorApplicationTransactionCommentView())
       ->setUser($viewer)
-      ->setObjectPHID($answer->getPHID())
+      ->setObject($answer)
       ->setShowPreview(false)
       ->setHeaderText(pht('Answer Comment'))
       ->setAction("/ponder/answer/comment/{$id}/")

@@ -40,7 +40,7 @@ final class DiffusionSearchQueryConduitAPIMethod
       throw $ex;
     }
 
-    $offset = $request->getValue('offset');
+    $offset = $request->getValue('offset', 0);
     $results = array_slice($results, $offset);
 
     return $results;

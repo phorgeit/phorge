@@ -53,10 +53,10 @@ final class PhabricatorStandardCustomFieldCredential
     return array();
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
     if ($value) {
-      return $handles[$value]->renderLink();
+      return $this->getViewer()->renderHandle($value);
     }
     return null;
   }

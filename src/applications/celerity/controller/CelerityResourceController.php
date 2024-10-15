@@ -59,6 +59,7 @@ abstract class CelerityResourceController extends PhabricatorController {
     }
 
     $cache = null;
+    $cache_key = null;
     $data = null;
     if ($is_cacheable && $is_locally_cacheable && !$dev_mode) {
       $cache = PhabricatorCaches::getImmutableCache();
@@ -98,7 +99,7 @@ abstract class CelerityResourceController extends PhabricatorController {
         $data = $xformer->transformResource($path, $data);
       }
 
-      if ($cache) {
+      if ($cache && $cache_key !== null) {
         $cache->setKey($cache_key, $data);
       }
     }
@@ -193,7 +194,7 @@ abstract class CelerityResourceController extends PhabricatorController {
    * are cached, while other types of resources (which are large, and cheap
    * to process) are not.
    *
-   * @param string  Resource type.
+   * @param string  $type Resource type.
    * @return bool   True to enable caching.
    */
   private function isLocallyCacheableResourceType($type) {

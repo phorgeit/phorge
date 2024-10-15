@@ -88,7 +88,7 @@ final class PhabricatorMetaMTAMail
    * These tags are used to allow users to opt out of receiving certain types
    * of mail, like updates when a task's projects change.
    *
-   * @param list<const>
+   * @param list<const> $tags
    * @return this
    */
   public function setMailTags(array $tags) {
@@ -109,7 +109,7 @@ final class PhabricatorMetaMTAMail
    * needs to be set whenever an action is triggered by an email message. See
    * T251 for more details.
    *
-   * @param   string The "Message-ID" of the email which precedes this one.
+   * @param   string $id The "Message-ID" of the email which precedes this one.
    * @return  this
    */
   public function setParentMessageID($id) {
@@ -419,7 +419,7 @@ final class PhabricatorMetaMTAMail
    * This is primarily intended to let users who don't want any email still
    * receive things like password resets.
    *
-   * @param bool  True to force delivery despite user preferences.
+   * @param bool $force True to force delivery despite user preferences.
    * @return this
    */
   public function setForceDelivery($force) {
@@ -437,7 +437,7 @@ final class PhabricatorMetaMTAMail
    * "Precedence: bulk" or similar, but is implementation and configuration
    * dependent.
    *
-   * @param bool  True if the mail is automated bulk mail.
+   * @param bool $is_bulk True if the mail is automated bulk mail.
    * @return this
    */
   public function setIsBulk($is_bulk) {
@@ -454,9 +454,10 @@ final class PhabricatorMetaMTAMail
    * set appropriate headers (Message-ID, In-Reply-To, References and
    * Thread-Index) based on the capabilities of the underlying mailer.
    *
-   * @param string  Unique identifier, appropriate for use in a Message-ID,
-   *                In-Reply-To or References headers.
-   * @param bool    If true, indicates this is the first message in the thread.
+   * @param string  $thread_id Unique identifier, appropriate for use in a
+   *                Message-ID, In-Reply-To or References headers.
+   * @param bool?   $is_first_message If true, indicates this is the first
+   *                message in the thread.
    * @return this
    */
   public function setThreadID($thread_id, $is_first_message = false) {
@@ -858,8 +859,8 @@ final class PhabricatorMetaMTAMail
    * For example, this will expand project PHIDs into a list of the project's
    * members.
    *
-   * @param list<phid>  List of recipient PHIDs, possibly including aggregate
-   *                    recipients.
+   * @param list<phid>  $phids List of recipient PHIDs, possibly including
+   *                    aggregate recipients.
    * @return list<phid> Deaggregated list of mailable recipients.
    */
   public function expandRecipients(array $phids) {

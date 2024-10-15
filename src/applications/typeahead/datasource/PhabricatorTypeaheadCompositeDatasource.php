@@ -304,6 +304,15 @@ abstract class PhabricatorTypeaheadCompositeDatasource
     return parent::evaluateFunction($function, $argv);
   }
 
+  protected function isFunctionWithLoginRequired($function) {
+    foreach ($this->getUsableDatasources() as $source) {
+      if ($source->isFunctionWithLoginRequired($function)) {
+        return true;
+      }
+    }
+    return parent::isFunctionWithLoginRequired($function);
+  }
+
   public function renderFunctionTokens($function, array $argv_list) {
     foreach ($this->getUsableDatasources() as $source) {
       if ($source->canEvaluateFunction($function)) {

@@ -188,15 +188,21 @@ JX.install('Chart', {
           .attr('r', 3)
           .attr('cx', function(d) { return x(to_date(d.x)); })
           .attr('cy', function(d) { return y(d.y1); })
-          .on('mouseover', function(d) {
+          .on('mouseover', function(event, d) {
             var dd = to_date(d.x);
 
             var d_y = dd.getFullYear();
 
             // NOTE: Javascript months are zero-based. See PHI1017.
-            var d_m = dd.getMonth() + 1;
+            var d_m = (dd.getMonth() + 1).toString();
+            if (d_m.length == 1) {
+              d_m = '0' + d_m;
+            }
 
-            var d_d = dd.getDate();
+            var d_d = dd.getDate().toString();
+            if (d_d.length == 1) {
+              d_d = '0' + d_d;
+            }
 
             var y = parseInt(d.y1);
 
@@ -209,8 +215,8 @@ JX.install('Chart', {
             div
               .html(view)
               .style('opacity', 0.9)
-              .style('left', (d3.event.pageX - 60) + 'px')
-              .style('top', (d3.event.pageY - 38) + 'px');
+              .style('left', (event.pageX - 60) + 'px')
+              .style('top', (event.pageY - 38) + 'px');
             })
           .on('mouseout', function() {
             div.style('opacity', 0);

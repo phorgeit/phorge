@@ -20,8 +20,8 @@ final class PhabricatorImageTransformer extends Phobject {
    * Phabricator can not encode images in the given format (based on available
    * extensions), but can save images in another format.
    *
-   * @param   resource  GD image resource.
-   * @param   string?   Optionally, preferred mime type.
+   * @param   resource  $data GD image resource.
+   * @param   string?   $preferred_mime Optionally, preferred mime type.
    * @return  string    Bytes of an image file.
    * @task save
    */
@@ -62,7 +62,7 @@ final class PhabricatorImageTransformer extends Phobject {
   /**
    * Save an image in PNG format, returning the file data as a string.
    *
-   * @param resource      GD image resource.
+   * @param resource      $image GD image resource.
    * @return string|null  PNG file as a string, or null on failure.
    * @task save
    */
@@ -90,7 +90,7 @@ final class PhabricatorImageTransformer extends Phobject {
   /**
    * Save an image in GIF format, returning the file data as a string.
    *
-   * @param resource      GD image resource.
+   * @param resource      $image GD image resource.
    * @return string|null  GIF file as a string, or null on failure.
    * @task save
    */
@@ -114,7 +114,7 @@ final class PhabricatorImageTransformer extends Phobject {
   /**
    * Save an image in JPG format, returning the file data as a string.
    *
-   * @param resource      GD image resource.
+   * @param resource      $image GD image resource.
    * @return string|null  JPG file as a string, or null on failure.
    * @task save
    */

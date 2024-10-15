@@ -69,7 +69,7 @@ final class DrydockResource extends DrydockDAO
   }
 
   public function getCapability($key, $default = null) {
-    return idx($this->capbilities, $key, $default);
+    return idx($this->capabilities, $key, $default);
   }
 
   public function getInterface(DrydockLease $lease, $type) {

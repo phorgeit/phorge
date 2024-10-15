@@ -16,6 +16,7 @@ final class LiskRawMigrationIterator extends PhutilBufferedIterator {
     $this->cursor = 0;
   }
 
+  #[\ReturnTypeWillChange]
   public function key() {
     return idx($this->current(), $this->column);
   }

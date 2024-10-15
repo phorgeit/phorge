@@ -87,4 +87,25 @@ final class AlmanacNetworkSearchEngine
 
     return $result;
   }
+
+  protected function getNewUserBody() {
+    $create_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('Create a Network'))
+      ->setHref('/almanac/network/edit/')
+      ->setIcon('fa-plus')
+      ->setColor(PHUIButtonView::GREEN);
+
+    $app_name = pht('Networks');
+    $view = id(new PHUIBigInfoView())
+      ->setIcon('fa-globe')
+      ->setTitle(pht('Welcome to %s', $app_name))
+      ->setDescription(
+        pht(
+          'Use Almanac networks to catalogue private and public '.
+          'computer networks.'))
+      ->addAction($create_button);
+
+      return $view;
+  }
 }

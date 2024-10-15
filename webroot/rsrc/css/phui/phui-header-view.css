@@ -56,6 +56,27 @@ body .phui-header-shell.phui-bleed-header
   border-top-width: 0;
 }
 
+details > summary.phui-header-shell {
+  cursor: pointer;
+  list-style: none;
+}
+
+details > summary.phui-header-shell::marker {
+  content: none;
+}
+
+.device-phone details > summary.phui-header-shell::after,
+.device-tablet details > summary.phui-header-shell::after {
+  font-family: FontAwesome;
+  content: "\f061";
+}
+
+.device-phone details[open] > summary.phui-header-shell::after,
+.device-tablet details[open] > summary.phui-header-shell::after {
+  font-family: FontAwesome;
+  content: "\f063";
+}
+
 .phui-property-list-view + .diviner-document-section {
   margin-top: -1px;
 }

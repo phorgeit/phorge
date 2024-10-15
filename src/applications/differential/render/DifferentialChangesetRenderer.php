@@ -442,8 +442,8 @@ abstract class DifferentialChangesetRenderer extends Phobject {
    *      when a file is not changed.
    *    - `"none"`: Don't show the link (e.g., text not available).
    *
-   * @param   string        Message explaining why the diff is hidden.
-   * @param   string|null   Force mode, see above.
+   * @param   string        $message Message explaining why the diff is hidden.
+   * @param   string|null   $force Force mode, see above.
    * @return  string        Shield markup.
    */
   abstract public function renderShield($message, $force = 'default');

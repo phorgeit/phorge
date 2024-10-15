@@ -101,7 +101,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Produce a password hash.
    *
-   * @param   PhutilOpaqueEnvelope  Text to be hashed.
+   * @param   PhutilOpaqueEnvelope  $envelope Text to be hashed.
    * @return  PhutilOpaqueEnvelope  Hashed text.
    * @task hasher
    */
@@ -114,8 +114,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * The default implementation checks for equality; if a hasher embeds salt in
    * hashes it should override this method and perform a salt-aware comparison.
    *
-   * @param   PhutilOpaqueEnvelope  Password to compare.
-   * @param   PhutilOpaqueEnvelope  Bare password hash.
+   * @param   PhutilOpaqueEnvelope  $password Password to compare.
+   * @param   PhutilOpaqueEnvelope  $hash Bare password hash.
    * @return  bool                  True if the passwords match.
    * @task hasher
    */
@@ -137,7 +137,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
    * have (for example) an internal cost function may be able to upgrade an
    * existing hash to a stronger one with a higher cost.
    *
-   * @param PhutilOpaqueEnvelope  Bare hash.
+   * @param PhutilOpaqueEnvelope  $hash Bare hash.
    * @return bool                 True if the hash can be upgraded without
    *                              changing the algorithm (for example, to a
    *                              higher cost).
@@ -154,7 +154,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Get the hash of a password for storage.
    *
-   * @param   PhutilOpaqueEnvelope  Password text.
+   * @param   PhutilOpaqueEnvelope  $envelope Password text.
    * @return  PhutilOpaqueEnvelope  Hashed text.
    * @task hashing
    */
@@ -349,7 +349,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Generate a new hash for a password, using the best available hasher.
    *
-   * @param   PhutilOpaqueEnvelope  Password to hash.
+   * @param   PhutilOpaqueEnvelope  $password Password to hash.
    * @return  PhutilOpaqueEnvelope  Hashed password, using best available
    *                                hasher.
    * @task hashing
@@ -364,8 +364,8 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Compare a password to a stored hash.
    *
-   * @param   PhutilOpaqueEnvelope  Password to compare.
-   * @param   PhutilOpaqueEnvelope  Stored password hash.
+   * @param   PhutilOpaqueEnvelope  $password Password to compare.
+   * @param   PhutilOpaqueEnvelope  $hash Stored password hash.
    * @return  bool                  True if the passwords match.
    * @task hashing
    */
@@ -383,7 +383,7 @@ abstract class PhabricatorPasswordHasher extends Phobject {
   /**
    * Get the human-readable algorithm name for a given hash.
    *
-   * @param   PhutilOpaqueEnvelope  Storage hash.
+   * @param   PhutilOpaqueEnvelope  $hash Storage hash.
    * @return  string                Human-readable algorithm name.
    */
   public static function getCurrentAlgorithmName(PhutilOpaqueEnvelope $hash) {

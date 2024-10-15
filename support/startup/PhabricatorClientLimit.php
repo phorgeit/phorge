@@ -170,7 +170,7 @@ abstract class PhabricatorClientLimit {
   /**
    * Get the APC key for a given bucket.
    *
-   * @param int Bucket to get the key for.
+   * @param int $bucket_id Bucket to get the key for.
    * @return string APC key for the bucket.
    */
   private function getBucketCacheKey($bucket_id) {
@@ -182,9 +182,8 @@ abstract class PhabricatorClientLimit {
   /**
    * Add points to the rate limit score for some client.
    *
-   * @param string  Some key which identifies the client making the request.
-   * @param float   The cost for this request; more points pushes them toward
-   *                the limit faster.
+   * @param float   $score The cost for this request; more points pushes them
+   *                toward the limit faster.
    * @return this
    */
   private function addScore($score) {

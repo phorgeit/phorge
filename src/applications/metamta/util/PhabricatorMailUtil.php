@@ -10,7 +10,7 @@ final class PhabricatorMailUtil
    * which can make forwarding rules easier to write. This method strips the
    * prefix if it is present, and normalizes casing and whitespace.
    *
-   * @param PhutilEmailAddress Email address.
+   * @param PhutilEmailAddress $address Email address.
    * @return PhutilEmailAddress Normalized address.
    */
   public static function normalizeAddress(PhutilEmailAddress $address) {
@@ -47,8 +47,8 @@ final class PhabricatorMailUtil
    *   <ALincoln@example.com>
    *   "Abraham" <phabricator+ALINCOLN@EXAMPLE.COM> # With configured prefix.
    *
-   * @param   PhutilEmailAddress Email address.
-   * @param   PhutilEmailAddress Another email address.
+   * @param   PhutilEmailAddress $u Email address.
+   * @param   PhutilEmailAddress $v Another email address.
    * @return  bool True if addresses are effectively the same address.
    */
   public static function matchAddresses(

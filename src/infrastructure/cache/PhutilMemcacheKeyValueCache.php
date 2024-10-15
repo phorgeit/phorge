@@ -100,7 +100,7 @@ final class PhutilMemcacheKeyValueCache extends PhutilKeyValueCache {
    *       ),
    *    ));
    *
-   * @param   list<dict>  List of server specifications.
+   * @param   list<dict> $servers List of server specifications.
    * @return  this
    * @task memcache
    */

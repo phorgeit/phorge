@@ -18,6 +18,7 @@ final class PhabricatorQueryIterator extends PhutilBufferedIterator {
     $this->pager = $pager;
   }
 
+  #[\ReturnTypeWillChange]
   public function key() {
     return $this->current()->getID();
   }

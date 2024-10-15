@@ -69,6 +69,14 @@ final class ManiphestEditEngine
     return pht('Set Sail for Adventure');
   }
 
+  public function getCommentFieldPlaceholderText($object) {
+    if ($object->getStatus() === ManiphestTaskStatus::STATUS_CLOSED_DUPLICATE) {
+      return pht('This task is closed as a duplicate. '.
+      'Only comment if you think that this task is not a duplicate.');
+    }
+    return '';
+  }
+
   protected function getObjectViewURI($object) {
     return '/'.$object->getMonogram();
   }

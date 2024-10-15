@@ -427,7 +427,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
    * panel. Generally, all of this stuff is ridiculous and we just want to
    * shut it down.
    *
-   * @param PhabricatorDashboardPanel Panel being rendered.
+   * @param PhabricatorDashboardPanel $panel Panel being rendered.
    * @return void
    */
   private function detectRenderingCycle(PhabricatorDashboardPanel $panel) {

@@ -54,6 +54,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
         $custom_phid = $this->getCustomPHID();
         break;
       case self::MODE_GLOBAL:
+      default:
         $custom_phid = null;
         break;
     }
@@ -87,6 +88,9 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
   abstract public function getItemURI($path);
   abstract protected function isMenuEngineConfigurable();
 
+  /**
+   * @return array of PhabricatorProfileMenuItemConfiguration objects
+   */
   abstract protected function getBuiltinProfileItems($object);
 
   protected function getBuiltinCustomProfileItems(
@@ -463,15 +467,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     }
 
     return $map;
-  }
-
-  private function validateNavigationMenuItem($item) {
-    if (!($item instanceof PHUIListItemView)) {
-      throw new Exception(
-        pht(
-          'Expected buildNavigationMenuItems() to return a list of '.
-          'PHUIListItemView objects, but got a surprise.'));
-    }
   }
 
   public function getConfigureURI() {

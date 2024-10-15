@@ -122,7 +122,7 @@ final class PhabricatorTriggerDaemon
    * Process all of the triggers which have been updated since the last time
    * the daemon ran, scheduling them into the event table.
    *
-   * @param int Cursor for the next version update to process.
+   * @param int $cursor Cursor for the next version update to process.
    * @return void
    */
   private function scheduleTriggers($cursor) {
@@ -326,7 +326,7 @@ final class PhabricatorTriggerDaemon
   /**
    * Run the garbage collector for up to a specified number of seconds.
    *
-   * @param int Number of seconds the GC may run for.
+   * @param int $duration Number of seconds the GC may run for.
    * @return int Number of seconds remaining in the time budget.
    * @task garbage
    */

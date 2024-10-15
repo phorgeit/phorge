@@ -137,4 +137,30 @@ final class AlmanacDeviceSearchEngine
     return $result;
   }
 
+  protected function getNewUserBody() {
+    $see_network = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('See Networks'))
+      ->setHref('/almanac/network/');
+
+    $create_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setText(pht('Create a Device'))
+      ->setHref('/almanac/device/edit/')
+      ->setIcon('fa-plus')
+      ->setColor(PHUIButtonView::GREEN);
+
+    $app_name = pht('Devices');
+    $view = id(new PHUIBigInfoView())
+      ->setIcon('fa-server')
+      ->setTitle(pht('Welcome to %s', $app_name))
+      ->setDescription(
+        pht(
+          'Use Almanac devices to catalogue your build hosts '.
+          'and their SSH ports your network, and more.'))
+      ->addAction($see_network)
+      ->addAction($create_button);
+
+      return $view;
+  }
 }

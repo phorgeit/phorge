@@ -63,4 +63,16 @@ final class DifferentialRepositoryField
       $repository->getMonogram().' '.$repository->getName());
   }
 
+  public function shouldAppearInListView() {
+    return true;
+  }
+
+  public function renderOnListItem(PHUIObjectItemView $view) {
+    if ($this->getValue()) {
+      $handle = $this->getViewer()->renderHandle($this->getValue());
+      $view->addByLine(pht('Repository: %s', $handle));
+    }
+  }
+
+
 }

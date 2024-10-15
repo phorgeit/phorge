@@ -50,7 +50,7 @@ final class AphrontRoutingMap extends Phobject {
   /**
    * Find the route matching a path, if one exists.
    *
-   * @param string Path to route.
+   * @param string $path Path to route.
    * @return AphrontRoutingResult|null Routing result, if path matches map.
    * @task routing
    */
@@ -84,9 +84,9 @@ final class AphrontRoutingMap extends Phobject {
   /**
    * Test a sub-map to see if any routes match a path.
    *
-   * @param string Path to route.
-   * @param string Pattern from the map.
-   * @param string Value from the map.
+   * @param string $route Pattern from the map.
+   * @param string $value Value from the map.
+   * @param string $path Path to route.
    * @return dict<string, wild>|null Match details, if path matches sub-map.
    * @task routing
    */

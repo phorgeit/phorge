@@ -460,9 +460,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
    *   - `uri`: URI the button should take the user to when clicked.
    *   - `method`: Optional HTTP method the button should use, defaults to GET.
    *
-   * @param   AphrontRequest  HTTP request.
-   * @param   string          Request mode string.
-   * @param   map             Additional parameters, see above.
+   * @param   AphrontRequest $request HTTP request.
+   * @param   string         $mode Request mode string.
+   * @param   map?           $attributes Additional parameters, see above.
    * @return  wild            Log in button.
    */
   protected function renderStandardLoginButton(

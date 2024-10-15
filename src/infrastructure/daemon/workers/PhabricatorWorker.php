@@ -68,12 +68,12 @@ abstract class PhabricatorWorker extends Phobject {
    * retrying. For most tasks you can leave this at `null`, which will give you
    * a short default retry period (currently 60 seconds).
    *
-   * @param  PhabricatorWorkerTask  The task itself. This object is probably
-   *                                useful mostly to examine the failure count
-   *                                if you want to implement staggered retries,
-   *                                or to examine the execution exception if
-   *                                you want to react to different failures in
-   *                                different ways.
+   * @param  PhabricatorWorkerTask  $task The task itself. This object is
+   *                                probably useful mostly to examine the
+   *                                failure count if you want to implement
+   *                                staggered retries, or to examine the
+   *                                execution exception if you want to react to
+   *                                different failures in different ways.
    * @return int|null               Number of seconds to wait between retries,
    *                                or null for a default retry period
    *                                (currently 60 seconds).
@@ -230,9 +230,9 @@ abstract class PhabricatorWorker extends Phobject {
    *
    * The followup task will be queued only if this task completes cleanly.
    *
-   * @param string    Task class to queue.
-   * @param array     Data for the followup task.
-   * @param array Options for the followup task.
+   * @param string    $class Task class to queue.
+   * @param array     $data Data for the followup task.
+   * @param array?    $options Options for the followup task.
    * @return this
    */
   final protected function queueTask(
@@ -261,8 +261,7 @@ abstract class PhabricatorWorker extends Phobject {
    * this method to force the queue to flush before failing (for example, if
    * you are using queues to improve locking behavior).
    *
-   * @param map<string, wild> Optional default options.
-   * @return this
+   * @param map<string, wild>? $defaults Optional default options.
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {
@@ -287,7 +286,7 @@ abstract class PhabricatorWorker extends Phobject {
    * This method does not provide any assurances about when these tasks will
    * execute, or even guarantee that it will have any effect at all.
    *
-   * @param list<id> List of task IDs to try to awaken.
+   * @param list<id> $ids List of task IDs to try to awaken.
    * @return void
    */
   final public static function awakenTaskIDs(array $ids) {

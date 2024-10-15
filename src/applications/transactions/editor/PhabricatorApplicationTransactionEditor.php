@@ -140,7 +140,8 @@ abstract class PhabricatorApplicationTransactionEditor
    * nothing (e.g., empty comment with a status change that has already been
    * performed by another user).
    *
-   * @param bool  True to drop transactions without effect and continue.
+   * @param bool $continue True to drop transactions without effect and
+  *     continue.
    * @return this
    */
   public function setContinueOnNoEffect($continue) {
@@ -168,8 +169,8 @@ abstract class PhabricatorApplicationTransactionEditor
    * (like the priority, batch, and merge editors in Maniphest), these
    * operations can continue to function even if an object is outdated.
    *
-   * @param bool  True to continue when transactions don't completely satisfy
-   *              all required fields.
+   * @param bool $continue_on_missing_fields True to continue when transactions
+   *              don't completely satisfy all required fields.
    * @return this
    */
   public function setContinueOnMissingFields($continue_on_missing_fields) {
@@ -2853,11 +2854,11 @@ abstract class PhabricatorApplicationTransactionEditor
    * missing, by detecting that the object has no field value and there is no
    * transaction which sets one.
    *
-   * @param PhabricatorLiskDAO Object being edited.
-   * @param string Transaction type to validate.
-   * @param list<PhabricatorApplicationTransaction> Transactions of given type,
-   *   which may be empty if the edit does not apply any transactions of the
-   *   given type.
+   * @param PhabricatorLiskDAO $object Object being edited.
+   * @param string $type Transaction type to validate.
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions of
+   *   given type, which may be empty if the edit does not apply any
+   *   transactions of the given type.
    * @return list<PhabricatorApplicationTransactionValidationError> List of
    *   validation errors.
    */
@@ -3277,9 +3278,9 @@ abstract class PhabricatorApplicationTransactionEditor
    * This will return `true` if the net effect of the object and transactions
    * is an empty field.
    *
-   * @param wild Current field value.
-   * @param list<PhabricatorApplicationTransaction> Transactions editing the
-   *          field.
+   * @param wild $field_value Current field value.
+   * @param list<PhabricatorApplicationTransaction> $xactions Transactions
+   *          editing the field.
    * @return bool True if the field will be an empty text field after edits.
    */
   protected function validateIsEmptyTextField($field_value, array $xactions) {
@@ -3299,7 +3300,10 @@ abstract class PhabricatorApplicationTransactionEditor
 
 
   /**
-   * When a user interacts with an object, we might want to add them to CC.
+   * Adds the actor as a subscriber to the object with which they interact
+   * @param PhabricatorLiskDAO $object on which the action is performed
+   * @param array $xactions Transactions to apply
+   * @return array Transactions to apply
    */
   final public function applyImplicitCC(
     PhabricatorLiskDAO $object,
@@ -3381,11 +3385,18 @@ abstract class PhabricatorApplicationTransactionEditor
     return $xactions;
   }
 
+  /**
+   * Whether the action implies the actor should be subscribed on the object
+   * @param PhabricatorLiskDAO $object on which the action is performed
+   * @param PhabricatorApplicationTransaction $xaction Transaction to apply
+   * @return bool True if the actor should be subscribed on the object
+   */
   protected function shouldImplyCC(
     PhabricatorLiskDAO $object,
     PhabricatorApplicationTransaction $xaction) {
 
-    return $xaction->isCommentTransaction();
+    return ($xaction->isCommentTransaction() &&
+      !($xaction->getComment()->getIsRemoved()));
   }
 
 
@@ -4590,7 +4601,8 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * This method is used to load state when running worker operations.
    *
-   * @param dict<string, wild> Editor state, from @{method:getWorkerState}.
+   * @param dict<string, wild> $state Editor state, from
+        @{method:getWorkerState}.
    * @return this
    * @task workers
    */
@@ -4616,7 +4628,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * Hook; set custom properties on the editor from data emitted by
    * @{method:getCustomWorkerState}.
    *
-   * @param dict<string, wild> Custom state,
+   * @param dict<string, wild> $state Custom state,
    *   from @{method:getCustomWorkerState}.
    * @return this
    * @task workers
@@ -4664,8 +4676,8 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, wild> Map of values to encode.
-   * @param map<string, string> Map of encodings to apply.
+   * @param map<string, wild> $state Map of values to encode.
+   * @param map<string, string> $encodings Map of encodings to apply.
    * @return map<string, wild> Map of encoded values.
    * @task workers
    */
@@ -4710,8 +4722,8 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, wild> Map of encoded values.
-   * @param map<string, string> Map of encodings.
+   * @param map<string, wild> $state Map of encoded values.
+   * @param map<string, string> $encodings Map of encodings.
    * @return map<string, wild> Map of decoded values.
    * @task workers
    */
@@ -4749,7 +4761,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * If the list of PHIDs include mutually exclusive projects, remove the
    * conflicting projects.
    *
-   * @param list<phid> List of project PHIDs.
+   * @param list<phid> $phids List of project PHIDs.
    * @return list<phid> List with conflicts removed.
    */
   private function applyProjectConflictRules(array $phids) {

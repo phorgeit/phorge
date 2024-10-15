@@ -8,8 +8,8 @@ abstract class PhutilMarkupEngine extends Phobject {
    * documentation for specific rules and blocks for what options are available
    * for configuration.
    *
-   * @param   string  Key to set in the configuration dictionary.
-   * @param   string  Value to set.
+   * @param   string $key Key to set in the configuration dictionary.
+   * @param   string $value Value to set.
    * @return  this
    */
   abstract public function setConfig($key, $value);
@@ -21,8 +21,9 @@ abstract class PhutilMarkupEngine extends Phobject {
    * text; consult the documentation for specific rules and blocks to see what
    * metadata may be available in your configuration.
    *
-   * @param   string  Key to retrieve from metadata.
-   * @param   mixed   Default value to return if the key is not available.
+   * @param   string  $key Key to retrieve from metadata.
+   * @param   mixed?  $default Default value to return if the key is not
+   *   available.
    * @return  mixed   Metadata property, or default value.
    */
   abstract public function getTextMetadata($key, $default = null);

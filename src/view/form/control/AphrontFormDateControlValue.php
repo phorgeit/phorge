@@ -207,10 +207,14 @@ final class AphrontFormDateControlValue extends Phobject {
       $datetime->format($this->getDateFormat()),
       $datetime->format($this->getTimeFormat()),
     );
-
-    return array($date, $time);
   }
 
+  /**
+   * Create a DateTime object including timezone
+   * @param string $date Date, like "2024-08-20" or "2024-07-1" or such
+   * @param string|null $time Time, like "12:00 AM" or such
+   * @return DateTime|null
+   */
   private function newDateTime($date, $time) {
     $date = $this->getStandardDateFormat($date);
     $time = $this->getStandardTimeFormat($time);
@@ -282,10 +286,16 @@ final class AphrontFormDateControlValue extends Phobject {
     }
   }
 
+  /**
+   * @return DateTime|null
+   */
   public function getDateTime() {
     return $this->newDateTime($this->valueDate, $this->valueTime);
   }
 
+  /**
+   * @return DateTimeZone
+   */
   private function getTimezone() {
     if ($this->zone) {
       return $this->zone;

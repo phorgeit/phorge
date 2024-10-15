@@ -3,7 +3,6 @@
 final class HeraldEngine extends Phobject {
 
   protected $rules = array();
-  protected $activeRule;
   protected $transcript;
 
   private $fieldCache = array();
@@ -533,8 +532,12 @@ final class HeraldEngine extends Phobject {
     if ($caught) {
       $result_data = array(
         'exception.class' => get_class($caught),
-        'exception.message' => $ex->getMessage(),
+        'exception.message' => $caught->getMessage(),
       );
+      phlog(pht('An exception occurred executing Herald rule %s: "%s" Review '.
+        'the Herald transcripts and correct or disable the problematic rule.',
+        $rule->getMonogram(),
+        $caught->getMessage()));
     }
 
     $result = HeraldConditionResult::newFromResultCode($result_code)
@@ -590,6 +593,10 @@ final class HeraldEngine extends Phobject {
     $this->popProfilerRule($rule);
 
     if ($caught) {
+      phlog(pht('An exception occurred executing Herald rule %s: "%s" Review '.
+        'the Herald transcripts and correct or disable the problematic rule.',
+        $rule->getMonogram(),
+        $caught->getMessage()));
       throw $caught;
     }
 
@@ -680,6 +687,14 @@ final class HeraldEngine extends Phobject {
         ->setAction($action->getAction())
         ->setTarget($action->getTarget())
         ->setRule($rule);
+
+      if ($object->getActionImplementation($action->getAction()) === null) {
+        phlog(pht('An exception occurred executing Herald rule %s: Unknown '.
+          'action: "%s". Review the Herald transcripts and correct or '.
+          'disable the problematic rule.',
+        $rule->getMonogram(),
+        $action->getAction()));
+      }
 
       $name = $rule->getName();
       $id = $rule->getID();

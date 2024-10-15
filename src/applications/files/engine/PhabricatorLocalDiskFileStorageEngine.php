@@ -116,7 +116,7 @@ final class PhabricatorLocalDiskFileStorageEngine
   /**
    * Convert a handle into an absolute local disk path.
    *
-   * @param string File data handle.
+   * @param string $handle File data handle.
    * @return string Absolute path to the corresponding file.
    * @task internal
    */

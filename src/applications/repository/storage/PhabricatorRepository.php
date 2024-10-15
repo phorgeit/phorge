@@ -1288,7 +1288,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   /**
    * Determine if a protocol is SSH or SSH-like.
    *
-   * @param string A protocol string, like "http" or "ssh".
+   * @param string $protocol A protocol string, like "http" or "ssh".
    * @return bool True if the protocol is SSH-like.
    * @task uri
    */
@@ -1701,7 +1701,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * 2037). We adjust the pull frequency based on when the most recent commit
    * occurred.
    *
-   * @param   int   The minimum update interval to use, in seconds.
+   * @param   int? $minimum The minimum update interval to use, in seconds.
    * @return  int   Repository update interval, in seconds.
    */
   public function loadUpdateInterval($minimum = 15) {
@@ -1836,8 +1836,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * with repository services. This method provides lower-level resolution of
    * services, returning raw URIs.
    *
-   * @param PhabricatorUser Viewing user.
-   * @param map<string, wild> Constraints on selectable services.
+   * @param PhabricatorUser $viewer Viewing user.
+   * @param map<string, wild> $options Constraints on selectable services.
    * @return string|null URI, or `null` for local repositories.
    */
   public function getAlmanacServiceURI(
@@ -2168,8 +2168,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    *
    * For lower-level service resolution, see @{method:getAlmanacServiceURI}.
    *
-   * @param PhabricatorUser Viewing user.
-   * @param bool `true` to throw if a client would be returned.
+   * @param PhabricatorUser $viewer Viewing user.
+   * @param bool? $never_proxy `true` to throw if a client would be returned.
    * @return ConduitClient|null Client, or `null` for local repositories.
    */
   public function newConduitClient(

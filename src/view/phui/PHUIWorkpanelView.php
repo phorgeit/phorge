@@ -81,7 +81,8 @@ final class PHUIWorkpanelView extends AphrontTagView {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($this->header)
-      ->setSubheader($this->subheader);
+      ->setSubheader($this->subheader)
+      ->setCollapsible(true);
 
     foreach ($this->headerActions as $action) {
       $header->addActionItem($action);
@@ -112,6 +113,7 @@ final class PHUIWorkpanelView extends AphrontTagView {
     $view = id(new PHUIBoxView())
       ->setColor(PHUIBoxView::GREY)
       ->addClass('phui-workpanel-view-inner')
+      ->setCollapsible(true)
       ->appendChild(
         array(
           $header,

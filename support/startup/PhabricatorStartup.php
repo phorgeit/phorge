@@ -112,7 +112,7 @@ final class PhabricatorStartup {
 
 
   /**
-   * @param float Request start time, from `microtime(true)`.
+   * @param float $start_time Request start time, from `microtime(true)`.
    * @task hook
    */
   public static function didStartup($start_time) {
@@ -255,7 +255,7 @@ final class PhabricatorStartup {
    * The limit is implemented with a tick function, so enabling it implies
    * some accounting overhead.
    *
-   * @param int Time limit in seconds.
+   * @param int $limit Time limit in seconds.
    * @return void
    */
   public static function setDebugTimeLimit($limit) {
@@ -312,12 +312,12 @@ final class PhabricatorStartup {
    * Fatal the request completely in response to an exception, sending a plain
    * text message to the client. Calls @{method:didFatal} internally.
    *
-   * @param   string    Brief description of the exception context, like
+   * @param   string    $note Brief description of the exception context, like
    *                    `"Rendering Exception"`.
-   * @param   Throwable The exception itself.
-   * @param   bool      True if it's okay to show the exception's stack trace
-   *                    to the user. The trace will always be logged.
-   * @return  exit      This method **does not return**.
+   * @param   Throwable $ex The exception itself.
+   * @param   bool      $show_trace True if it's okay to show the exception's
+   *                    stack trace to the user. The trace will always be
+   *                    logged.
    *
    * @task apocalypse
    */
@@ -343,11 +343,11 @@ final class PhabricatorStartup {
   /**
    * Fatal the request completely, sending a plain text message to the client.
    *
-   * @param   string  Plain text message to send to the client.
-   * @param   string  Plain text message to send to the error log. If not
-   *                  provided, the client message is used. You can pass a more
-   *                  detailed message here (e.g., with stack traces) to avoid
-   *                  showing it to users.
+   * @param   string  $message Plain text message to send to the client.
+   * @param   string? $log_message Plain text message to send to the error log.
+   *                  If not provided, the client message is used. You can pass
+   *                  a more detailed message here (e.g., with stack traces) to
+   *                  avoid showing it to users.
    * @return  exit    This method **does not return**.
    *
    * @task apocalypse
@@ -514,7 +514,7 @@ final class PhabricatorStartup {
    * Adjustments here primarily impact the environment as seen by subprocesses.
    * The environment is forwarded explicitly by @{class:ExecFuture}.
    *
-   * @param map<string, wild> Input `$_ENV`.
+   * @param map<string, wild> $env Input `$_ENV`.
    * @return map<string, string> Suitable `$_ENV`.
    * @task validation
    */
@@ -654,7 +654,7 @@ final class PhabricatorStartup {
   /**
    * Add a new client limits.
    *
-   * @param PhabricatorClientLimit New limit.
+   * @param PhabricatorClientLimit $limit New limit.
    * @return PhabricatorClientLimit The limit.
    */
   public static function addRateLimit(PhabricatorClientLimit $limit) {
@@ -699,7 +699,8 @@ final class PhabricatorStartup {
   /**
    * Tear down rate limiting and allow limits to score the request.
    *
-   * @param map<string, wild> Additional, freeform request state.
+   * @param map<string, wild> $request_state Additional, freeform request
+   *   state.
    * @return void
    * @task ratelimit
    */
@@ -746,7 +747,7 @@ final class PhabricatorStartup {
    * time and record it with @{method:recordStartupPhase} after the class is
    * available.
    *
-   * @param string Phase name.
+   * @param string $phase Phase name.
    * @task phases
    */
   public static function beginStartupPhase($phase) {
@@ -762,8 +763,8 @@ final class PhabricatorStartup {
    * record a time before the class loads, then hand it over once the class
    * becomes available.
    *
-   * @param string Phase name.
-   * @param float Phase start time, from `microtime(true)`.
+   * @param string $phase Phase name.
+   * @param float $time Phase start time, from `microtime(true)`.
    * @task phases
    */
   public static function recordStartupPhase($phase, $time) {

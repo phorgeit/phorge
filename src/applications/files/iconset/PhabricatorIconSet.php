@@ -3,6 +3,8 @@
 abstract class PhabricatorIconSet
   extends Phobject {
 
+  abstract protected function newIcons();
+
   final public function getIconSetKey() {
     return $this->getPhobjectClassConstant('ICONSETKEY');
   }

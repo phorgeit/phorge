@@ -56,7 +56,7 @@ abstract class DiffusionRequest extends Phobject {
    *   - `commit` Optional, commit identifier.
    *   - `line` Optional, line range.
    *
-   * @param   map                 See documentation.
+   * @param   map                 $data See documentation.
    * @return  DiffusionRequest    New request object.
    * @task new
    */
@@ -133,8 +133,9 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
-   * @param   string              Repository identifier.
-   * @param   PhabricatorUser     Viewing user.
+   * @param   string            $identifier  Repository identifier.
+   * @param   PhabricatorUser   $viewer  Viewing user.
+   * @param   bool?             $need_edit
    * @return  DiffusionRequest    New request object.
    * @task new
    */
@@ -170,7 +171,7 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
-   * @param   PhabricatorRepository   Repository object.
+   * @param   PhabricatorRepository $repository Repository object.
    * @return  DiffusionRequest        New request object.
    * @task new
    */
@@ -201,7 +202,7 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Internal. Use @{method:newFromDictionary}, not this method.
    *
-   * @param map Map of parsed data.
+   * @param map $data Map of parsed data.
    * @return void
    * @task new
    */
@@ -294,7 +295,7 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Modify the request to move the symbolic commit elsewhere.
    *
-   * @param string New symbolic commit.
+   * @param string $symbol New symbolic commit.
    * @return this
    */
   public function updateSymbolicCommit($symbol) {
@@ -464,8 +465,8 @@ abstract class DiffusionRequest extends Phobject {
    *
    * Parse the request URI into components.
    *
-   * @param   string  URI blob.
-   * @param   bool    True if this VCS supports branches.
+   * @param   string  $blob URI blob.
+   * @param   bool    $supports_branches True if this VCS supports branches.
    * @return  map     Parsed URI.
    *
    * @task uri
@@ -535,7 +536,7 @@ abstract class DiffusionRequest extends Phobject {
   /**
    * Check that the working copy of the repository is present and readable.
    *
-   * @param   string  Path to the working copy.
+   * @param   string $path Path to the working copy.
    */
   protected function validateWorkingCopy($path) {
     if (!is_readable(dirname($path))) {

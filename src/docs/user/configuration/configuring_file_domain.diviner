@@ -66,11 +66,10 @@ Approach: Cloudflare
 ========
 
 WARNING: You should review all your Cloudflare settings, and be very
-sure to turn off all JavaScript, HTML, CSS minification and
-optimization features, including systems like "Rocket Loader". These
-features will break Phorge in strange and mysterious ways that
-are unpredictable. Only allow Cloudflare to cache files, and never
-optimize them.
+sure to turn off all optimization features, including systems like
+"Rocket Loader". These features will break Phorge in strange and
+mysterious ways that are unpredictable. Only allow Cloudflare to cache files,
+and never optimize them.
 
 [[ https://www.cloudflare.com | Cloudflare ]] is a general-purpose CDN service.
 

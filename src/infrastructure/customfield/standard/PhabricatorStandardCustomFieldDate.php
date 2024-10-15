@@ -52,7 +52,7 @@ final class PhabricatorStandardCustomFieldDate
     $this->setFieldValue($value);
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
     if (!$value) {
       return null;
@@ -177,6 +177,12 @@ final class PhabricatorStandardCustomFieldDate
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
         $new_date);
+    } else if (!$new && $old) {
+      return pht(
+        '%s removed %s which was set to %s.',
+        $xaction->renderHandleLink($author_phid),
+        $this->getFieldName(),
+        $old_date);
     } else if (!$new) {
       return pht(
         '%s removed %s.',

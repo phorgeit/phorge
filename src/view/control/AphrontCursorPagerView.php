@@ -72,8 +72,9 @@ final class AphrontCursorPagerView extends AphrontView {
 
   public function sliceResults(array $results) {
     if (count($results) > $this->getPageSize()) {
-      $offset = ($this->beforeID ? count($results) - $this->getPageSize() : 0);
-      $results = array_slice($results, $offset, $this->getPageSize(), true);
+      $page_size = (int)$this->getPageSize();
+      $offset = ($this->beforeID ? count($results) - $page_size : 0);
+      $results = array_slice($results, $offset, $page_size, true);
       $this->moreResults = true;
     }
     return $results;

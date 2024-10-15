@@ -199,6 +199,10 @@ final class DifferentialRevisionSearchEngine
 
     $unlanded = $this->loadUnlandedDependencies($revisions);
 
+    $custom_field_lists = $this->loadCustomFields(
+      $revisions,
+      PhabricatorCustomField::ROLE_LIST);
+
     $views = array();
     if ($bucket) {
       $bucket->setViewer($viewer);
@@ -231,6 +235,7 @@ final class DifferentialRevisionSearchEngine
 
     foreach ($views as $view) {
       $view->setUnlandedDependencies($unlanded);
+      $view->setCustomFieldLists($custom_field_lists);
     }
 
     if (count($views) == 1) {

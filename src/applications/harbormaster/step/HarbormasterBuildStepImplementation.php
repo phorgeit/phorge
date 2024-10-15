@@ -187,9 +187,11 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
    *
    *   ls 'dir with spaces'
    *
-   * @param string Name of a `vxsprintf` function, like @{function:vcsprintf}.
-   * @param string User-provided pattern string containing `${variables}`.
-   * @param dict   List of available replacement variables.
+   * @param string $function Name of a `vxsprintf` function, like
+   *               @{function:vcsprintf}.
+   * @param string $pattern User-provided pattern string containing
+   *               `${variables}`.
+   * @param dict   $variables List of available replacement variables.
    * @return string String with variables replaced safely into it.
    */
   protected function mergeVariables($function, $pattern, array $variables) {

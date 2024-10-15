@@ -718,9 +718,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * This method will then return a composable clause for inclusion in WHERE.
    *
-   * @param AphrontDatabaseConnection Connection query will execute on.
-   * @param list<map> Column description dictionaries.
-   * @param map Additional construction options.
+   * @param AphrontDatabaseConnection $conn Connection query will execute on.
+   * @param list<map> $columns Column description dictionaries.
+   * @param map $options Additional construction options.
    * @return string Query clause.
    * @task paging
    */
@@ -884,7 +884,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * across individual orderable columns. This offers greater control but is
    * also more involved.
    *
-   * @param string Key of a builtin order supported by this query.
+   * @param string $order Key of a builtin order supported by this query.
    * @return this
    * @task order
    */
@@ -917,7 +917,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * This is a high-level method which works alongside @{method:setOrder}. For
    * lower-level control over order vectors, use @{method:setOrderVector}.
    *
-   * @param PhabricatorQueryOrderVector|list<string> List of order keys.
+   * @param PhabricatorQueryOrderVector|list<string> $vector List of order
+   *   keys.
    * @return this
    * @task order
    */
@@ -1041,7 +1042,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * To set an order vector, specify a list of order keys as provided by
    * @{method:getOrderableColumns}.
    *
-   * @param PhabricatorQueryOrderVector|list<string> List of order keys.
+   * @param PhabricatorQueryOrderVector|list<string> $vector List of order
+   *   keys.
    * @return this
    * @task order
    */
@@ -1353,8 +1355,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   - Find users with shirt sizes "X" or "XL".
    *   - Find shoes with size "13".
    *
-   * @param PhabricatorCustomFieldIndexStorage Table where the index is stored.
-   * @param string|list<string> One or more values to filter by.
+   * @param PhabricatorCustomFieldIndexStorage $index Table where the index is
+   *   stored.
+   * @param string|list<string> $value One or more values to filter by.
    * @return this
    * @task appsearch
    */
@@ -1403,9 +1406,10 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * `5` will match fields with values `3`, `4`, or `5`. Providing `null` for
    * either end of the range will leave that end of the constraint open.
    *
-   * @param PhabricatorCustomFieldIndexStorage Table where the index is stored.
-   * @param int|null Minimum permissible value, inclusive.
-   * @param int|null Maximum permissible value, inclusive.
+   * @param PhabricatorCustomFieldIndexStorage $index Table where the index is
+   *   stored.
+   * @param int|null $min Minimum permissible value, inclusive.
+   * @param int|null $max Maximum permissible value, inclusive.
    * @return this
    * @task appsearch
    */
@@ -1449,7 +1453,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * See @{method:getPrimaryTableAlias} if the column needs to be qualified with
    * a table alias.
    *
-   * @param AphrontDatabaseConnection Connection executing queries.
+   * @param AphrontDatabaseConnection $conn Connection executing queries.
    * @return PhutilQueryString Column name.
    * @task appsearch
    */
@@ -1509,7 +1513,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   /**
    * Construct a GROUP BY clause appropriate for ApplicationSearch constraints.
    *
-   * @param AphrontDatabaseConnection Connection executing the query.
+   * @param AphrontDatabaseConnection $conn Connection executing the query.
    * @return string Group clause.
    * @task appsearch
    */
@@ -1531,7 +1535,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Construct a JOIN clause appropriate for applying ApplicationSearch
    * constraints.
    *
-   * @param AphrontDatabaseConnection Connection executing the query.
+   * @param AphrontDatabaseConnection $conn Connection executing the query.
    * @return string Join clause.
    * @task appsearch
    */
@@ -1653,7 +1657,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Construct a WHERE clause appropriate for applying ApplicationSearch
    * constraints.
    *
-   * @param AphrontDatabaseConnection Connection executing the query.
+   * @param AphrontDatabaseConnection $conn Connection executing the query.
    * @return list<string> Where clause parts.
    * @task appsearch
    */
@@ -2583,9 +2587,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Convenience method for specifying edge logic constraints with a list of
    * PHIDs.
    *
-   * @param const Edge constant.
-   * @param const Constraint operator.
-   * @param list<phid> List of PHIDs.
+   * @param const $edge_type Edge constant.
+   * @param const $operator Constraint operator.
+   * @param list<phid> $phids List of PHIDs.
    * @return this
    * @task edgelogic
    */
@@ -3091,7 +3095,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Queries are always constrained to include only results from spaces the
    * viewer has access to.
    *
-   * @param list<phid|null>
+   * @param list<phid|null> $space_phids
    * @task spaces
    */
   public function withSpacePHIDs(array $space_phids) {
@@ -3135,7 +3139,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * viewer has access to see with any explicit constraint on spaces added by
    * @{method:withSpacePHIDs}.
    *
-   * @param AphrontDatabaseConnection Database connection.
+   * @param AphrontDatabaseConnection $conn Database connection.
    * @return string Part of a WHERE clause.
    * @task spaces
    */

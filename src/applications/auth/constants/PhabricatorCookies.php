@@ -77,7 +77,7 @@ final class PhabricatorCookies extends Phobject {
    * Set the client ID cookie. This is a random cookie used like a CSRF value
    * during authentication workflows.
    *
-   * @param AphrontRequest  Request to modify.
+   * @param AphrontRequest $request Request to modify.
    * @return void
    * @task clientid
    */
@@ -105,10 +105,10 @@ final class PhabricatorCookies extends Phobject {
    * written, to avoid writing over a real URI with a bunch of "humans.txt"
    * stuff. See T3793 for discussion.
    *
-   * @param   AphrontRequest    Request to write to.
-   * @param   string            URI to write.
-   * @param   bool              Write this cookie even if we have a fresh
-   *                            cookie already.
+   * @param   AphrontRequest    $request Request to write to.
+   * @param   string            $next_uri URI to write.
+   * @param   bool?             $force Write this cookie even if we have a
+   *                            fresh cookie already.
    * @return  void
    *
    * @task next
@@ -139,7 +139,7 @@ final class PhabricatorCookies extends Phobject {
   /**
    * Read the URI out of the Next URI cookie.
    *
-   * @param   AphrontRequest  Request to examine.
+   * @param   AphrontRequest  $request Request to examine.
    * @return  string|null     Next URI cookie's URI value.
    *
    * @task next
@@ -155,7 +155,7 @@ final class PhabricatorCookies extends Phobject {
   /**
    * Parse a Next URI cookie into its components.
    *
-   * @param   string        Raw cookie value.
+   * @param   string        $cookie Raw cookie value.
    * @return  list<string>  List of timestamp and URI.
    *
    * @task next

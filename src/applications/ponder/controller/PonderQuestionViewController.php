@@ -60,7 +60,7 @@ final class PonderQuestionViewController extends PonderController {
 
     $add_comment = id(new PhabricatorApplicationTransactionCommentView())
       ->setUser($viewer)
-      ->setObjectPHID($question->getPHID())
+      ->setObject($question)
       ->setShowPreview(false)
       ->setAction($this->getApplicationURI("/question/comment/{$id}/"))
       ->setSubmitButtonName(pht('Comment'));

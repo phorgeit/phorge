@@ -44,16 +44,16 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
   protected function renderHyperlink($link, $name) {
     $engine = $this->getEngine();
 
-    $is_anchor = false;
-    if (strncmp($link, '/', 1) == 0) {
+    $uri = new PhutilURIHelper($link);
+    $is_anchor = $uri->isAnchor();
+    $starts_with_slash = $uri->isStartingWithSlash();
+    if ($starts_with_slash) {
       $base = phutil_string_cast($engine->getConfig('uri.base'));
       $base = rtrim($base, '/');
       $link = $base.$link;
-    } else if (strncmp($link, '#', 1) == 0) {
+    } else if ($is_anchor) {
       $here = $engine->getConfig('uri.here');
       $link = $here.$link;
-
-      $is_anchor = true;
     }
 
     if ($engine->isTextMode()) {
@@ -76,7 +76,13 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
       return $name;
     }
 
-    $same_window = $engine->getConfig('uri.same-window', false);
+    // Check if this link points to Phorge itself. Micro-optimized.
+    $is_self = $is_anchor || $starts_with_slash || $uri->isSelf();
+
+    // For historical reasons, links opened in a different tab
+    // for most links as default.
+    // Now internal resources keep internal link, as default.
+    $same_window = $engine->getConfig('uri.same-window', $is_self);
     if ($same_window) {
       $target = null;
     } else {
@@ -92,7 +98,7 @@ final class PhutilRemarkupDocumentLinkRule extends PhutilRemarkupRule {
       'a',
       array(
         'href' => $link,
-        'class' => 'remarkup-link',
+        'class' => $this->getRemarkupLinkClass($is_self),
         'target' => $target,
         'rel' => 'noreferrer',
       ),

@@ -38,7 +38,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
   /**
    * Update a resource, handling exceptions thrown during the update.
    *
-   * @param DrydockReosource Resource to update.
+   * @param DrydockResource $resource Resource to update.
    * @return void
    * @task update
    */
@@ -58,7 +58,7 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
   /**
    * Update a resource.
    *
-   * @param DrydockResource Resource to update.
+   * @param DrydockResource $resource Resource to update.
    * @return void
    * @task update
    */
@@ -89,8 +89,8 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
   /**
    * Convert a temporary exception into a yield.
    *
-   * @param DrydockResource Resource to yield.
-   * @param Exception Temporary exception worker encountered.
+   * @param DrydockResource $resource Resource to yield.
+   * @param Exception $ex Temporary exception worker encountered.
    * @task update
    */
   private function yieldResource(DrydockResource $resource, Exception $ex) {

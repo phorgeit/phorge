@@ -56,8 +56,8 @@ final class AphrontRequest extends Phobject {
    * Applications like Paste, Diffusion, and Harbormaster use "$12-14" in the
    * URI to allow users to link to particular lines.
    *
-   * @param string URI data key to pull line range information from.
-   * @param int|null Maximum length of the range.
+   * @param string $key URI data key to pull line range information from.
+   * @param int|null $limit Maximum length of the range.
    * @return null|pair<int, int> Null, or beginning and end of the range.
    */
   public function getURILineRange($key, $limit) {
@@ -537,8 +537,8 @@ final class AphrontRequest extends Phobject {
    *
    * To set a temporary cookie, see @{method:setTemporaryCookie}.
    *
-   * @param string  Cookie name.
-   * @param string  Cookie value.
+   * @param string $name Cookie name.
+   * @param string $value Cookie value.
    * @return this
    * @task cookie
    */
@@ -553,8 +553,8 @@ final class AphrontRequest extends Phobject {
    *
    * To set a durable cookie, see @{method:setCookie}.
    *
-   * @param string  Cookie name.
-   * @param string  Cookie value.
+   * @param string $name Cookie name.
+   * @param string $value Cookie value.
    * @return this
    * @task cookie
    */
@@ -566,9 +566,9 @@ final class AphrontRequest extends Phobject {
   /**
    * Set a cookie with a given expiration policy.
    *
-   * @param string  Cookie name.
-   * @param string  Cookie value.
-   * @param int     Epoch timestamp for cookie expiration.
+   * @param string $name Cookie name.
+   * @param string $value Cookie value.
+   * @param int    $expire Epoch timestamp for cookie expiration.
    * @return this
    * @task cookie
    */
@@ -748,7 +748,7 @@ final class AphrontRequest extends Phobject {
    * into a list of key-value pairs suitable for submitting via HTTP request
    * (with arrays flattened).
    *
-   * @param   dict<string, wild>    Data to flatten.
+   * @param   dict<string, wild>    $data Data to flatten.
    * @return  dict<string, string>  Flat data suitable for inclusion in an HTTP
    *                                request.
    */
@@ -778,9 +778,11 @@ final class AphrontRequest extends Phobject {
    * and looks up the appropriate value in `$_SERVER` (in this case,
    * `"HTTP_ACCEPT_ENCODING"`).
    *
-   * @param   string        Canonical header name, like `"Accept-Encoding"`.
-   * @param   wild          Default value to return if header is not present.
-   * @param   array?        Read this instead of `$_SERVER`.
+   * @param   string        $name Canonical header name, like
+        `"Accept-Encoding"`.
+   * @param   wild?         $default Default value to return if header is not
+        present.
+   * @param   array?        $data Read this instead of `$_SERVER`.
    * @return  string|wild   Header value if present, or `$default` if not.
    */
   public static function getHTTPHeader($name, $default = null, $data = null) {
@@ -844,7 +846,7 @@ final class AphrontRequest extends Phobject {
    * This is not a general-purpose proxying method; it is a specialized
    * method with niche applications and severe security implications.
    *
-   * @param string URI identifying the host we are proxying the request to.
+   * @param string URI $uri identifying the host we are proxying the request to.
    * @return HTTPSFuture New proxy future.
    *
    * @phutil-external-symbol class PhabricatorStartup

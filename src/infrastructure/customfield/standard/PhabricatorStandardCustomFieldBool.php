@@ -36,7 +36,7 @@ final class PhabricatorStandardCustomFieldBool
   }
 
   public function setValueFromStorage($value) {
-    if (strlen($value)) {
+    if (phutil_nonempty_scalar($value)) {
       $value = (bool)$value;
     } else {
       $value = null;
@@ -90,7 +90,7 @@ final class PhabricatorStandardCustomFieldBool
         (bool)$this->getFieldValue());
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
     if ($value) {
       return $this->getString('view.yes', pht('Yes'));

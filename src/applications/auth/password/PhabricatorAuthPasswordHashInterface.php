@@ -14,8 +14,8 @@ interface PhabricatorAuthPasswordHashInterface {
    * as their password or picking other passwords which are trivially similar
    * to an account or object identifier.
    *
-   * @param PhabricatorUser The user selecting the password.
-   * @param PhabricatorAuthPasswordEngine The password engine updating a
+   * @param PhabricatorUser $viewer The user selecting the password.
+   * @param PhabricatorAuthPasswordEngine $engine The password engine updating a
    *  password.
    * @return list<string> Blocklist of nonsecret identifiers which the password
    *  should not be similar to.

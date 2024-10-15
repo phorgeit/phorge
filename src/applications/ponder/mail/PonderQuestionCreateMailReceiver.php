@@ -20,11 +20,11 @@ final class PonderQuestionCreateMailReceiver
     $xactions = array();
 
     $xactions[] = id(new PonderQuestionTransaction())
-      ->setTransactionType(PonderQuestionTransaction::TYPE_TITLE)
+      ->setTransactionType(PonderQuestionTitleTransaction::TRANSACTIONTYPE)
       ->setNewValue($title);
 
     $xactions[] = id(new PonderQuestionTransaction())
-      ->setTransactionType(PonderQuestionTransaction::TYPE_CONTENT)
+      ->setTransactionType(PonderQuestionContentTransaction::TRANSACTIONTYPE)
       ->setNewValue($mail->getCleanTextBody());
 
     $question = PonderQuestion::initializeNewQuestion($author);

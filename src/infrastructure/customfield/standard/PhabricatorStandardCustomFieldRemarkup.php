@@ -27,7 +27,7 @@ final class PhabricatorStandardCustomFieldRemarkup
     );
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
 
     if (!phutil_nonempty_string($value)) {

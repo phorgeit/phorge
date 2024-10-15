@@ -116,7 +116,9 @@ final class PhutilRemarkupHyperlinkRule extends PhutilRemarkupRule {
 
     $engine = $this->getEngine();
 
-    $same_window = $engine->getConfig('uri.same-window', false);
+    $uri = new PhutilURIHelper($link);
+    $is_self = $uri->isSelf();
+    $same_window = $engine->getConfig('uri.same-window', $is_self);
     if ($same_window) {
       $target = null;
     } else {
@@ -127,7 +129,7 @@ final class PhutilRemarkupHyperlinkRule extends PhutilRemarkupRule {
       'a',
       array(
         'href' => $link,
-        'class' => 'remarkup-link',
+        'class' => $this->getRemarkupLinkClass($is_self),
         'target' => $target,
         'rel' => 'noreferrer',
       ),

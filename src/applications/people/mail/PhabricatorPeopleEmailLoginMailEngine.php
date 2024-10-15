@@ -84,14 +84,17 @@ final class PhabricatorPeopleEmailLoginMailEngine
           "Condolences on forgetting your password. You can use this ".
           "link to reset it:\n\n".
           "  %s\n\n".
-          "After you set a new password, consider writing it down on a ".
-          "sticky note and attaching it to your monitor so you don't ".
-          "forget again! Choosing a very short, easy-to-remember password ".
-          "like \"cat\" or \"1234\" might also help.\n\n".
-          "Best Wishes,\nPhabricator\n",
-          $login_uri);
+          "After setting a new password, consider writing it down ".
+          "on a sticky note and attaching it to your monitor so others ".
+          "can impersonate you at any time. Choosing a short, ".
+          "easy-to-remember password like \"cat\" or \"1234\"".
+          " might also help to get your machine hacked, your".
+          " bank account emptied, or your company ruined.".
+          "\n\nBest Wishes,\n%s",
+          $login_uri,
+          PlatformSymbols::getPlatformServerName());
 
-      }
+     }
     } else {
       $body[] = pht(
         "You can use this login link to regain access to your account:".

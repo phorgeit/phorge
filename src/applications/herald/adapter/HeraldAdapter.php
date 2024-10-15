@@ -171,7 +171,8 @@ abstract class HeraldAdapter extends Phobject {
    * These transactions are set by @{class:PhabricatorApplicationEditor}
    * automatically, before it invokes Herald.
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhabricatorApplicationTransaction> $xactions List of
+   *   transactions.
    * @return this
    */
   final public function setAppliedTransactions(array $xactions) {
@@ -841,16 +842,6 @@ abstract class HeraldAdapter extends Phobject {
   public function getValueTypeForAction($action, $rule_type) {
     $impl = $this->requireActionImplementation($action);
     return $impl->getHeraldActionValueType();
-  }
-
-  private function buildTokenizerFieldValue(
-    PhabricatorTypeaheadDatasource $datasource) {
-
-    $key = 'action.'.get_class($datasource);
-
-    return id(new HeraldTokenizerFieldValue())
-      ->setKey($key)
-      ->setDatasource($datasource);
   }
 
 /* -(  Repetition  )--------------------------------------------------------- */

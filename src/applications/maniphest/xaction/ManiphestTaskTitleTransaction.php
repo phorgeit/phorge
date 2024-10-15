@@ -4,6 +4,7 @@ final class ManiphestTaskTitleTransaction
   extends ManiphestTaskTransactionType {
 
   const TRANSACTIONTYPE = 'title';
+  private $maximumTaskTitleLength = 255;
 
   public function generateOldValue($object) {
     return $object->getTitle();
@@ -75,6 +76,13 @@ final class ManiphestTaskTitleTransaction
       if (!strlen($new)) {
         $errors[] = $this->newInvalidError(
           pht('Tasks must have a title.'),
+          $xaction);
+        continue;
+      }
+      if (mb_strlen($new) > $this->maximumTaskTitleLength) {
+        $errors[] = $this->newInvalidError(
+          pht('Task title cannot exceed %d characters.',
+            $this->maximumTaskTitleLength),
           $xaction);
         continue;
       }

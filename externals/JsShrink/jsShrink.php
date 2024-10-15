@@ -11,7 +11,8 @@
 function jsShrink($input) {
 	return preg_replace_callback('(
 		(?:
-			(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
+			(`(?:\\\\.|[^`\\\\])*`) # template literal
+			|(^|[-+\([{}=,:;!%^&*|?~]|/(?![/*])|return|throw) # context before regexp
 			(?:\s|//[^\n]*+\n|/\*(?:[^*]|\*(?!/))*+\*/)* # optional space
 			(/(?![/*])(?:
 				\\\\[^\n]
@@ -31,9 +32,11 @@ function jsShrink($input) {
 
 function jsShrinkCallback($match) {
 	static $last = '';
-	$match += array_fill(1, 5, null); // avoid E_NOTICE
-	list(, $context, $regexp, $result, $word, $operator) = $match;
-	if ($word != '') {
+	$match += array_fill(1, 7, null); // avoid E_NOTICE
+	list(, $template, $context, $regexp, $result, $word, $operator) = $match;
+	if ($template) {
+		$result = $template;
+	} elseif ($word != '') {
 		$result = ($last == 'word' ? "\n" : ($last == 'return' ? " " : "")) . $result;
 		$last = ($word == 'return' || $word == 'throw' || $word == 'break' || $word == 'async' ? 'return' : 'word');
 	} elseif ($operator) {

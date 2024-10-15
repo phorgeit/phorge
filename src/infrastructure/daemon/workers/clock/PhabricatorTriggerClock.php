@@ -32,7 +32,7 @@ abstract class PhabricatorTriggerClock extends Phobject {
   /**
    * Validate clock configuration.
    *
-   * @param map<string, wild> Map of clock properties.
+   * @param map<string, wild> $properties Map of clock properties.
    * @return void
    */
   abstract public function validateProperties(array $properties);
@@ -64,9 +64,10 @@ abstract class PhabricatorTriggerClock extends Phobject {
    * week to 3 minutes from now, the clock may reschedule the notification to
    * occur 12 minutes ago. This will cause it to execute immediately.
    *
-   * @param int|null Last time the event occurred, or null if it has never
-   *   triggered before.
-   * @param bool True if this is a reschedule after a successful trigger.
+   * @param int|null $last_epoch Last time the event occurred, or null if it
+   *   has never triggered before.
+   * @param bool $is_reschedule True if this is a reschedule after a successful
+   *   trigger.
    * @return int|null Next event, or null to decline to reschedule.
    */
   abstract public function getNextEventEpoch($last_epoch, $is_reschedule);

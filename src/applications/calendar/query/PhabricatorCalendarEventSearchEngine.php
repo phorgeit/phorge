@@ -525,6 +525,10 @@ final class PhabricatorCalendarEventSearchEngine
     }
   }
 
+  /**
+   * @param PhabricatorSavedQuery $saved
+   * @return AphrontFormDateControlValue
+   */
   private function getQueryDateFrom(PhabricatorSavedQuery $saved) {
     if ($this->calendarYear && $this->calendarMonth) {
       $viewer = $this->requireViewer();

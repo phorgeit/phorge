@@ -31,8 +31,8 @@ final class PhabricatorNotificationQuery
    * only unread notifications, while `false` means to return only //read//
    * notifications. The default is `null`, which returns both.
    *
-   * @param mixed True or false to filter results by read status. Null to remove
-   *              the filter.
+   * @param mixed $unread True or false to filter results by read status. Null
+   *              to remove the filter.
    * @return this
    * @task config
    */

@@ -6,6 +6,7 @@ final class PHUIBoxView extends AphrontTagView {
   private $padding = array();
   private $border = false;
   private $color;
+  private $collapsible;
 
   const BLUE = 'phui-box-blue';
   const GREY = 'phui-box-grey';
@@ -30,6 +31,18 @@ final class PHUIBoxView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * Render PHUIBoxView as a <details> instead of a <div> HTML tag.
+   * To be used for collapse/expand in combination with PHUIHeaderView.
+   *
+   * @param bool $collapsible True to wrap in <summary> instead of <div> HTML
+   *             tag.
+   */
+  public function setCollapsible($collapsible) {
+    $this->collapsible = $collapsible;
+    return $this;
+  }
+
   protected function getTagAttributes() {
     require_celerity_resource('phui-box-css');
     $outer_classes = array();
@@ -51,10 +64,20 @@ final class PHUIBoxView extends AphrontTagView {
       $outer_classes[] = $this->color;
     }
 
-    return array('class' => $outer_classes);
+    $tag_classes = array('class' => $outer_classes);
+
+    if ($this->collapsible) {
+      $attribute = array('open' => ''); // expand column by default
+      $tag_classes = array_merge($tag_classes, $attribute);
+    }
+
+    return $tag_classes;
   }
 
   protected function getTagName() {
+    if ($this->collapsible) {
+      return 'details';
+    }
     return 'div';
   }
 

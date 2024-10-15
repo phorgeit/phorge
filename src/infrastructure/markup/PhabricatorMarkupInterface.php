@@ -28,7 +28,7 @@ interface PhabricatorMarkupInterface {
    *
    *   "{$phid}:{$field}"
    *
-   * @param string Field name.
+   * @param string $field Field name.
    * @return string Cache key up to 125 characters.
    *
    * @task markup
@@ -39,7 +39,7 @@ interface PhabricatorMarkupInterface {
   /**
    * Build the engine the field should use.
    *
-   * @param string Field name.
+   * @param string $field Field name.
    * @return PhutilRemarkupEngine Markup engine to use.
    * @task markup
    */
@@ -49,7 +49,7 @@ interface PhabricatorMarkupInterface {
   /**
    * Return the contents of the specified field.
    *
-   * @param string Field name.
+   * @param string $field Field name.
    * @return string The raw markup contained in the field.
    * @task markup
    */
@@ -60,9 +60,9 @@ interface PhabricatorMarkupInterface {
    * Callback for final postprocessing of output. Normally, you can return
    * the output unmodified.
    *
-   * @param string Field name.
-   * @param string The finalized output of the engine.
-   * @param string The engine which generated the output.
+   * @param string $field Field name.
+   * @param string $output The finalized output of the engine.
+   * @param string $engine The engine which generated the output.
    * @return string Final output.
    * @task markup
    */

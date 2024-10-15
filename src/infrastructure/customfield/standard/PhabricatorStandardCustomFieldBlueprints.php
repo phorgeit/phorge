@@ -24,7 +24,7 @@ final class PhabricatorStandardCustomFieldBlueprints
       $new);
   }
 
-  public function renderPropertyViewValue(array $handles) {
+  protected function renderValue() {
     $value = $this->getFieldValue();
     if (!$value) {
       return phutil_tag('em', array(), pht('No authorized blueprints.'));

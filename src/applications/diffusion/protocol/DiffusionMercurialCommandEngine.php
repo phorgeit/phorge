@@ -58,7 +58,7 @@ final class DiffusionMercurialCommandEngine
    * Sanitize output of an `hg` command invoked with the `--debug` flag to make
    * it usable.
    *
-   * @param string Output from `hg --debug ...`
+   * @param string $stdout Output from `hg --debug ...`
    * @return string Usable output.
    */
   public static function filterMercurialDebugOutput($stdout) {

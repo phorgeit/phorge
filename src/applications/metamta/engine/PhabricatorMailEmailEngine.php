@@ -72,7 +72,7 @@ final class PhabricatorMailEmailEngine
     $message->setSubject($subject);
 
     $headers = $this->newEmailHeaders();
-    foreach ($this->newEmailThreadingHeaders($mailer) as $threading_header) {
+    foreach ($this->newEmailThreadingHeaders() as $threading_header) {
       $headers[] = $threading_header;
     }
 

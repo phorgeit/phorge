@@ -37,7 +37,7 @@ final class DivinerFindController extends DivinerController {
     }
 
     $type = $request->getStr('type');
-    if (strlen($type)) {
+    if (phutil_nonempty_string($type)) {
       $query->withTypes(array($type));
     }
 

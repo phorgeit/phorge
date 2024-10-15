@@ -27,7 +27,7 @@ abstract class PhabricatorApplicationConfigurationPanel
   /**
    * Get the URI for this application configuration panel.
    *
-   * @param string? Optional path to append.
+   * @param string? $path Optional path to append.
    * @return string Relative URI for the panel.
    */
   public function getPanelURI($path = '') {

@@ -126,11 +126,11 @@ final class DiffusionLowLevelCommitQuery
       $head = $parts[6];
       $tail = $parts[7];
 
-      if (strlen($head) && strlen($tail)) {
+      if (phutil_nonempty_string($head) && phutil_nonempty_string($tail)) {
         $body = $head."\n\n".$tail;
-      } else if (strlen($head)) {
+      } else if (phutil_nonempty_string($head)) {
         $body = $head;
-      } else if (strlen($tail)) {
+      } else if (phutil_nonempty_string($tail)) {
         $body = $tail;
       } else {
         $body = '';

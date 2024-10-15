@@ -123,7 +123,7 @@ final class DiffusionBrowseResultSet extends Phobject {
    * When a directory contains several README files, this function scores them
    * so the caller can select a preferred file. See @{method:getReadmePath}.
    *
-   * @param string Local README path, like "README.txt".
+   * @param string $path Local README path, like "README.txt".
    * @return int Priority score, with higher being more preferred.
    */
   public static function getReadmePriority($path) {

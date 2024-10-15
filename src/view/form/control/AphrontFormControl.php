@@ -59,7 +59,7 @@ abstract class AphrontFormControl extends AphrontView {
   /**
    * Set the Caption
    * The Caption shows a tip usually nearby the related input field.
-   * @param string|PhutilSafeHTML|null
+   * @param string|PhutilSafeHTML|null $caption
    * @return self
    */
   public function setCaption($caption) {

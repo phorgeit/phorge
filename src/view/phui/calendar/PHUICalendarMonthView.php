@@ -193,18 +193,6 @@ final class PHUICalendarMonthView extends AphrontView {
     return $box;
   }
 
-  private function getMaxDailyEventsForWeek($week_of_cell_lists) {
-    $max_count = 0;
-
-    foreach ($week_of_cell_lists as $cell_list) {
-      if ($cell_list['count'] > $max_count) {
-        $max_count = $cell_list['count'];
-      }
-    }
-
-    return $max_count;
-  }
-
   private function getEventListCell($event_list) {
     $list = $event_list['list'];
     $class = $event_list['class'];

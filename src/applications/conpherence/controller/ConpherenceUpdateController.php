@@ -79,6 +79,30 @@ final class ConpherenceUpdateController
               $user,
               $conpherence,
               $message);
+
+            $xaction_comment = PhabricatorTransactions::findOneByType(
+              $xactions,
+              PhabricatorTransactions::TYPE_COMMENT);
+
+            $text_metadata = $request->getStr('text_metadata');
+            if ($text_metadata) {
+              $text_metadata = phutil_json_decode($text_metadata);
+              $attached_file_phids = idx(
+                $text_metadata,
+                'attachedFilePHIDs',
+                array());
+
+              if ($attached_file_phids) {
+                $metadata_object = array(
+                  'remarkup.control' => array(
+                    'attachedFilePHIDs' => $attached_file_phids,
+                  ),
+                );
+
+                $xaction_comment->setMetadata($metadata_object);
+              }
+            }
+
             $delete_draft = true;
           } else {
             $action = ConpherenceUpdateActions::LOAD;

@@ -117,8 +117,9 @@ class AphrontRedirectResponse extends AphrontResponse {
    * ambiguity. For example, Chrome interprets "Location: /\evil.com" to mean
    * "perform a protocol-relative redirect to evil.com".
    *
-   * @param   string  URI to redirect to.
-   * @param   bool    True if this URI identifies a remote resource.
+   * @param   string  $uri URI to redirect to.
+   * @param   bool    $is_external True if this URI identifies a remote
+   *   resource.
    * @return  string  URI for use in a "Location:" header.
    */
   public static function getURIForRedirect($uri, $is_external) {

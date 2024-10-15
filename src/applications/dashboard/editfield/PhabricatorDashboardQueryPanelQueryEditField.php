@@ -38,7 +38,7 @@ final class PhabricatorDashboardQueryPanelQueryEditField
       }
     }
 
-    if (strlen($value) && !$seen) {
+    if (phutil_nonempty_string($value) && !$seen) {
       $name = pht('Custom Query ("%s")', $value);
     } else {
       $name = pht('(None)');
@@ -56,7 +56,7 @@ final class PhabricatorDashboardQueryPanelQueryEditField
         'queryID' => $control_id,
         'options' => $queries,
         'value' => array(
-          'key' => strlen($value) ? $value : null,
+          'key' => phutil_nonempty_string($value) ? $value : null,
           'name' => $name,
         ),
       ));

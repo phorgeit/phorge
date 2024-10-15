@@ -31,7 +31,8 @@ abstract class DoorkeeperFeedStoryPublisher extends Phobject {
    * JIRA issues which can have several linked revisions), it's generally
    * more useful not to assume context.
    *
-   * @param bool  True to assume object context when rendering.
+   * @param bool $render_with_implied_context True to assume object context
+   *  when rendering.
    * @return this
    * @task config
    */

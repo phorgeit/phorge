@@ -142,10 +142,10 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
 
     $username = $request->getStr('ldap_username');
     $password = $request->getStr('ldap_password');
-    $has_password = strlen($password);
+    $has_password = phutil_nonempty_string($password);
     $password = new PhutilOpaqueEnvelope($password);
 
-    if (!strlen($username) || !$has_password) {
+    if (!phutil_nonempty_string($username) || !$has_password) {
       $response = $controller->buildProviderPageResponse(
         $this,
         $this->renderLoginForm($request, 'login'));
@@ -154,7 +154,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
 
     if ($request->isFormPost()) {
       try {
-        if (strlen($username) && $has_password) {
+        if (phutil_nonempty_string($username) && $has_password) {
           $adapter = $this->getAdapter();
           $adapter->setLoginUsername($username);
           $adapter->setLoginPassword($password);

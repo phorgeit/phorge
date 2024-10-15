@@ -13,6 +13,7 @@
  * @task read       Reading Utilities
  * @task exec       Paging and Executing Queries
  * @task render     Rendering Results
+ * @task custom     Custom Fields
  */
 abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
@@ -125,7 +126,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Create a saved query object from the request.
    *
-   * @param AphrontRequest The search request.
+   * @param AphrontRequest $request The search request.
    * @return PhabricatorSavedQuery
    */
   public function buildSavedQueryFromRequest(AphrontRequest $request) {
@@ -146,7 +147,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Executes the saved query.
    *
-   * @param PhabricatorSavedQuery The saved query to operate on.
+   * @param PhabricatorSavedQuery $original The saved query to operate on.
    * @return PhabricatorQuery The result of the query.
    */
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $original) {
@@ -200,7 +201,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * hook to keep old queries working the way users expect, by reading,
    * adjusting, and overwriting parameters.
    *
-   * @param PhabricatorSavedQuery Saved query which will be executed.
+   * @param PhabricatorSavedQuery $saved Saved query which will be executed.
    * @return void
    */
   protected function willUseSavedQuery(PhabricatorSavedQuery $saved) {
@@ -214,8 +215,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Builds the search form using the request.
    *
-   * @param AphrontFormView       Form to populate.
-   * @param PhabricatorSavedQuery The query from which to build the form.
+   * @param AphrontFormView       $form  Form to populate.
+   * @param PhabricatorSavedQuery $saved Query from which to build the form.
    * @return void
    */
   public function buildSearchForm(
@@ -399,7 +400,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Return an application URI corresponding to the results page of a query.
    * Normally, this is something like `/application/query/QUERYKEY/`.
    *
-   * @param   string  The query key to build a URI for.
+   * @param   string  $query_key The query key to build a URI for.
    * @return  string  URI where the query can be executed.
    * @task uri
    */
@@ -729,9 +730,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * links to pages (like "alincoln's open revisions") without needing to make
    * API calls.
    *
-   * @param AphrontRequest  Request to read user PHIDs from.
-   * @param string          Key to read in the request.
-   * @param list<const>     Other permitted PHID types.
+   * @param AphrontRequest  $request Request to read user PHIDs from.
+   * @param string          $key Key to read in the request.
+   * @param list<const>?    $allow_types Other permitted PHID types.
    * @return list<phid>     List of user PHIDs and selector functions.
    * @task read
    */
@@ -781,8 +782,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   /**
    * Read a list of subscribers from a request in a flexible way.
    *
-   * @param AphrontRequest  Request to read PHIDs from.
-   * @param string          Key to read in the request.
+   * @param AphrontRequest  $request Request to read PHIDs from.
+   * @param string          $key Key to read in the request.
    * @return list<phid>     List of object PHIDs.
    * @task read
    */
@@ -804,9 +805,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * comma-delimited forms. Objects can be specified either by PHID or by
    * object name.
    *
-   * @param AphrontRequest  Request to read PHIDs from.
-   * @param string          Key to read in the request.
-   * @param list<const>     Optional, list of permitted PHID types.
+   * @param AphrontRequest  $request Request to read PHIDs from.
+   * @param string          $key Key to read in the request.
+   * @param list<const>?    $allow_types Optional, list of permitted PHID
+   *                        types.
    * @return list<phid>     List of object PHIDs.
    *
    * @task read
@@ -852,8 +854,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * This provides flexibility when constructing URIs, especially from external
    * sources.
    *
-   * @param AphrontRequest  Request to read strings from.
-   * @param string          Key to read in the request.
+   * @param AphrontRequest  $request Request to read strings from.
+   * @param string          $key Key to read in the request.
    * @return list<string>   List of values.
    */
   protected function readListFromRequest(
@@ -1071,7 +1073,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     if ($phids) {
       $handles = id(new PhabricatorHandleQuery())
         ->setViewer($this->requireViewer())
-        ->witHPHIDs($phids)
+        ->withPHIDs($phids)
         ->execute();
     } else {
       $handles = array();
@@ -1453,6 +1455,12 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $attachments;
   }
 
+  /**
+   * Render a content body (if available) to onboard new users.
+   * This body is usually visible when you have no elements in a list,
+   * or when you force the rendering on a list with the `?nux=1` URL.
+   * @return wild|PhutilSafeHTML|null
+   */
   final public function renderNewUserView() {
     $body = $this->getNewUserBody();
 
@@ -1463,6 +1471,12 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $body;
   }
 
+  /**
+   * Get a content body to onboard new users.
+   * Traditionally this content is shown from an empty list, to explain
+   * what a certain entity does, and how to create a new one.
+   * @return wild|PhutilSafeHTML|null
+   */
   protected function getNewUserHeader() {
     return null;
   }
@@ -1624,6 +1638,35 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     }
 
     return $supported;
+  }
+
+  /**
+   * Load from object and from storage, and updates Custom Fields instances
+   * that are attached to each object.
+   *
+   * @return map<phid->PhabricatorCustomFieldList> of loaded fields.
+   * @task custom
+   */
+  protected function loadCustomFields(array $objects, $role) {
+    assert_instances_of($objects, 'PhabricatorCustomFieldInterface');
+
+    $query = new PhabricatorCustomFieldStorageQuery();
+    $lists = array();
+
+    foreach ($objects as $object) {
+      $field_list = PhabricatorCustomField::getObjectFields($object, $role);
+      $field_list->readFieldsFromObject($object);
+      foreach ($field_list->getFields() as $field) {
+        // TODO move $viewer into PhabricatorCustomFieldStorageQuery
+        $field->setViewer($this->viewer);
+      }
+      $lists[$object->getPHID()] = $field_list;
+      $query->addFields($field_list->getFields());
+    }
+    // This updates the field_list objects.
+    $query->execute();
+
+    return $lists;
   }
 
 }

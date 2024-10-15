@@ -75,7 +75,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * Get the session kind (e.g., anonymous, user, external account) from a
    * session token. Returns a `KIND_` constant.
    *
-   * @param   string  Session token.
+   * @param   string  $session_token Session token.
    * @return  const   Session kind constant.
    */
   public static function getSessionKindFromToken($session_token) {
@@ -109,8 +109,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * loading context. This prevents use of a Conduit sesssion as a Web
    * session, for example.
    *
-   * @param const The type of session to load.
-   * @param string The session token.
+   * @param const $session_type The type of session to load.
+   * @param string $session_token The session token.
    * @return PhabricatorUser|null
    * @task use
    */
@@ -250,11 +250,12 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * You can configure the maximum number of concurrent sessions for various
    * session types in the Phabricator configuration.
    *
-   * @param   const     Session type constant (see
+   * @param   const     $session_type Session type constant (see
    *                    @{class:PhabricatorAuthSession}).
-   * @param   phid|null Identity to establish a session for, usually a user
-   *                    PHID. With `null`, generates an anonymous session.
-   * @param   bool      True to issue a partial session.
+   * @param   phid|null $identity_phid Identity to establish a session for,
+   *                    usually a user PHID. With `null`, generates an
+   *                    anonymous session.
+   * @param   bool      $partial True to issue a partial session.
    * @return  string    Newly generated session key.
    */
   public function establishSession($session_type, $identity_phid, $partial) {
@@ -325,9 +326,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * This is used when users change passwords, linked accounts, or add
    * multifactor authentication.
    *
-   * @param PhabricatorUser User whose sessions should be terminated.
-   * @param string|null Optionally, one session to keep. Normally, the current
-   *   login session.
+   * @param PhabricatorUser $user User whose sessions should be terminated.
+   * @param string|null? $except_session Optionally, one session to keep.
+   *   Normally, the current login session.
    *
    * @return void
    */
@@ -388,9 +389,11 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * does not upgrade the user's session as a side effect. This method is
    * appropriate for one-time checks.
    *
-   * @param PhabricatorUser User whose session needs to be in high security.
-   * @param AphrontRequest  Current request.
-   * @param string          URI to return the user to if they cancel.
+   * @param PhabricatorUser $viewer User whose session needs to be in high
+   *   security.
+   * @param AphrontRequest  $request Current request.
+   * @param string          $cancel_uri URI to return the user to if they
+   *   cancel.
    * @return PhabricatorAuthHighSecurityToken Security token.
    * @task hisec
    */
@@ -420,12 +423,14 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * take multiple high security actions. To perform a one-time check instead,
    * use @{method:requireHighSecurityToken}.
    *
-   * @param PhabricatorUser User whose session needs to be in high security.
-   * @param AphrontRequest  Current request.
-   * @param string          URI to return the user to if they cancel.
-   * @param bool            True to jump partial sessions directly into high
-   *                        security instead of just upgrading them to full
-   *                        sessions.
+   * @param PhabricatorUser $viewer User whose session needs to be in high
+   *                        security.
+   * @param AphrontRequest  $request Current request.
+   * @param string          $cancel_uri URI to return the user to if they
+   *                        cancel.
+   * @param bool?           $jump_into_hisec True to jump partial sessions
+   *                        directly into high security instead of just
+   *                        upgrading them to full sessions.
    * @return PhabricatorAuthHighSecurityToken Security token.
    * @task hisec
    */
@@ -736,8 +741,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Issue a high security token for a session, if authorized.
    *
-   * @param PhabricatorAuthSession Session to issue a token for.
-   * @param bool Force token issue.
+   * @param PhabricatorAuthSession $session Session to issue a token for.
+   * @param bool? $force Force token issue.
    * @return PhabricatorAuthHighSecurityToken|null Token, if authorized.
    * @task hisec
    */
@@ -756,8 +761,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Render a form for providing relevant multi-factor credentials.
    *
-   * @param PhabricatorUser Viewing user.
-   * @param AphrontRequest Current request.
+   * @param array $factors
+   * @param array $validation_results
+   * @param PhabricatorUser $viewer Viewing user.
+   * @param AphrontRequest $request Current request.
    * @return AphrontFormView Renderable form.
    * @task hisec
    */
@@ -810,8 +817,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    *
    * Kicks a session out of high security and logs the exit.
    *
-   * @param PhabricatorUser Acting user.
-   * @param PhabricatorAuthSession Session to return to normal security.
+   * @param PhabricatorUser $viewer Acting user.
+   * @param PhabricatorAuthSession $session Session to return to normal
+   *  security.
    * @return void
    * @task hisec
    */
@@ -843,7 +851,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Upgrade a partial session to a full session.
    *
-   * @param PhabricatorAuthSession Session to upgrade.
+   * @param PhabricatorUser $viewer Viewer whose session should upgrade.
    * @return void
    * @task partial
    */
@@ -885,8 +893,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Upgrade a session to have all legalpad documents signed.
    *
-   * @param PhabricatorUser User whose session should upgrade.
-   * @param array LegalpadDocument objects
+   * @param PhabricatorUser $viewer User whose session should upgrade.
+   * @param array $docs LegalpadDocument objects
    * @return void
    * @task partial
    */
@@ -934,13 +942,14 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * These URIs are used for password recovery and to regain access to accounts
    * which users have been locked out of.
    *
-   * @param PhabricatorUser User to generate a URI for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhabricatorUser $user User to generate a URI for.
+   * @param PhabricatorUserEmail? $email Optionally, email to verify when
    *  link is used.
-   * @param string Optional context string for the URI. This is purely cosmetic
-   *  and used only to customize workflow and error messages.
-   * @param bool True to generate a URI which forces an immediate upgrade to
-   *  a full session, bypassing MFA and other login checks.
+   * @param string? $type Optional context string for the URI. This is purely
+   *  cosmetic and used only to customize workflow and error messages.
+   * @param bool? $force_full_session True to generate a URI which forces an
+   *  immediate upgrade to a full session, bypassing MFA and other login
+   *  checks.
    * @return string Login URI.
    * @task onetime
    */
@@ -984,10 +993,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Load the temporary token associated with a given one-time login key.
    *
-   * @param PhabricatorUser User to load the token for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhabricatorUser $user User to load the token for.
+   * @param PhabricatorUserEmail? $email Optionally, email to verify when
    *  link is used.
-   * @param string Key user is presenting as a valid one-time login key.
+   * @param string? $key Key user is presenting as a valid one-time login key.
    * @return PhabricatorAuthTemporaryToken|null Token, if one exists.
    * @task onetime
    */
@@ -1012,10 +1021,10 @@ final class PhabricatorAuthSessionEngine extends Phobject {
   /**
    * Hash a one-time login key for storage as a temporary token.
    *
-   * @param PhabricatorUser User this key is for.
-   * @param PhabricatorUserEmail Optionally, email to verify when
+   * @param PhabricatorUser $user User this key is for.
+   * @param PhabricatorUserEmail? $email Optionally, email to verify when
    *  link is used.
-   * @param string The one time login key.
+   * @param string? $key The one time login key.
    * @return string Hash of the key.
    * task onetime
    */

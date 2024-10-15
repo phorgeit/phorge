@@ -233,6 +233,22 @@ final class DifferentialChangesetDetailView extends AphrontView {
       $show_directory_uri = phutil_string_cast($show_directory_uri);
     }
 
+    Javelin::initBehavior('phabricator-clipboard-copy');
+    $path_copy_button = id(new PHUIButtonView())
+      ->setTag('a')
+      ->setColor(PHUIButtonView::GREY)
+      ->setIcon('fa-clipboard')
+      ->setHref('#')
+      ->addSigil('clipboard-copy')
+      ->addSigil('has-tooltip')
+      ->setMetadata(
+        array(
+          'tip' => pht('Copy file path'),
+          'text' => $display_filename,
+          'successMessage' => pht('File path copied.'),
+          'errorMessage' => pht('Copy of file path failed.'),
+        ));
+
     return javelin_tag(
       'div',
       array(
@@ -278,14 +294,23 @@ final class DifferentialChangesetDetailView extends AphrontView {
             'sigil' => 'changeset-header',
           ),
           array(
-            $icon,
+            javelin_tag(
+              'span',
+              array(
+                'class' => 'differential-changeset-path-copy-button',
+                'meta' => array(
+                  'selectID' => $display_filename,
+                  'once' => true,
+                  ),
+                ),
+              $path_copy_button),
             javelin_tag(
               'span',
               array(
                 'class' => 'differential-changeset-path-name',
                 'sigil' => 'changeset-header-path-name',
               ),
-              $display_filename),
+                $display_filename),
           )),
         javelin_tag(
           'div',

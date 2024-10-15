@@ -46,7 +46,8 @@ final class PhabricatorCustomFieldList extends Phobject {
   /**
    * Read stored values for all fields which support storage.
    *
-   * @param PhabricatorCustomFieldInterface Object to read field values for.
+   * @param PhabricatorCustomFieldInterface $object Object to read field values
+   *   for.
    * @return void
    */
   public function readFieldsFromStorage(
@@ -196,6 +197,19 @@ final class PhabricatorCustomFieldList extends Phobject {
             $view->addTextContent($value);
             break;
         }
+      }
+    }
+  }
+
+  public function addFieldsToListViewItem(
+    PhabricatorCustomFieldInterface $object,
+    PhabricatorUser $viewer,
+    PHUIObjectItemView $view) {
+
+    foreach ($this->fields as $field) {
+      if ($field->shouldAppearInListView()) {
+        $field->setViewer($viewer);
+        $field->renderOnListItem($view);
       }
     }
   }

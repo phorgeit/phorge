@@ -41,4 +41,19 @@ final class PhabricatorTransactions extends Phobject {
     );
   }
 
+  /**
+   * Find the first transaction that matches a type.
+   * @param array $xactions
+   * @param string $type
+   * @return PhabricatorTransactions|null
+   */
+  public static function findOneByType($xactions, $type) {
+    foreach ($xactions as $xaction) {
+      if ($xaction->getTransactionType() === $type) {
+        return $xaction;
+      }
+    }
+    return null;
+  }
+
 }

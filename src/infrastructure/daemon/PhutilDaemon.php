@@ -31,9 +31,6 @@
  * into an autoscale pool, this will cause the pool to automatically scale up
  * when busy and down when idle.
  *
- * See @{class:PhutilHighIntensityIntervalDaemon} for an example of a simple
- * autoscaling daemon.
- *
  * Launching a daemon which does not make these callbacks into an autoscale
  * pool will have no effect.
  *

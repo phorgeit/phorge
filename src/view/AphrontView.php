@@ -16,7 +16,7 @@ abstract class AphrontView extends Phobject
   /**
    * Set the user viewing this element.
    *
-   * @param PhabricatorUser Viewing user.
+   * @param PhabricatorUser $viewer Viewing user.
    * @return this
    */
   public function setViewer(PhabricatorUser $viewer) {
@@ -100,7 +100,7 @@ abstract class AphrontView extends Phobject
    * This method will only work if the view supports children, which is
    * determined by @{method:canAppendChild}.
    *
-   * @param  wild   Something renderable.
+   * @param  wild  $child Something renderable.
    * @return this
    */
   final public function appendChild($child) {
@@ -152,7 +152,7 @@ abstract class AphrontView extends Phobject
    * NOTE: Because View children are not rendered, a View which renders down
    * to nothing will not be reduced by this method.
    *
-   * @param   list<wild>  Renderable children.
+   * @param   list<wild>  $children Renderable children.
    * @return  list<wild>  Reduced list of children.
    * @task children
    */

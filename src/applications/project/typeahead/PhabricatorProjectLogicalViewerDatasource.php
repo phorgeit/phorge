@@ -35,8 +35,12 @@ final class PhabricatorProjectLogicalViewerDatasource
     );
   }
 
+  protected function isFunctionWithLoginRequired($function) {
+    return true;
+  }
+
   public function loadResults() {
-    if ($this->getViewer()->getPHID()) {
+    if ($this->getViewer()->isLoggedIn()) {
       $results = array($this->renderViewerProjectsFunctionToken());
     } else {
       $results = array();
@@ -46,7 +50,7 @@ final class PhabricatorProjectLogicalViewerDatasource
   }
 
   protected function canEvaluateFunction($function) {
-    if (!$this->getViewer()->getPHID()) {
+    if (!$this->getViewer()->isLoggedIn()) {
       return false;
     }
 

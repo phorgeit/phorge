@@ -45,7 +45,7 @@ final class PhabricatorPDFIterator
   }
 
   public function key() {
-    return $this->framgentKey;
+    return $this->fragmentKey;
   }
 
   public function next() {

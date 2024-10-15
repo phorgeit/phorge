@@ -35,7 +35,7 @@ final class DiffusionGitRawDiffQuery extends DiffusionRawDiffQuery {
     }
 
     $path = $drequest->getPath();
-    if (!strlen($path)) {
+    if (!phutil_nonempty_string($path)) {
       $path = '.';
     }
 

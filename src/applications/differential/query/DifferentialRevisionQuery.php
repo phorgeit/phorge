@@ -45,7 +45,7 @@ final class DifferentialRevisionQuery
   /**
    * Find revisions affecting one or more items in a list of paths.
    *
-   * @param list<string> List of file paths.
+   * @param list<string> $paths List of file paths.
    * @return this
    * @task config
    */
@@ -59,7 +59,7 @@ final class DifferentialRevisionQuery
    * this function will clear anything set by previous calls to
    * @{method:withAuthors}.
    *
-   * @param array List of PHIDs of authors
+   * @param array $author_phids List of PHIDs of authors
    * @return this
    * @task config
    */
@@ -72,7 +72,7 @@ final class DifferentialRevisionQuery
    * Filter results to revisions which CC one of the listed people. Calling this
    * function will clear anything set by previous calls to @{method:withCCs}.
    *
-   * @param array List of PHIDs of subscribers.
+   * @param array $cc_phids List of PHIDs of subscribers.
    * @return this
    * @task config
    */
@@ -86,7 +86,7 @@ final class DifferentialRevisionQuery
    * reviewers. Calling this function will clear anything set by previous calls
    * to @{method:withReviewers}.
    *
-   * @param array List of PHIDs of reviewers
+   * @param array $reviewer_phids List of PHIDs of reviewers
    * @return this
    * @task config
    */
@@ -124,7 +124,7 @@ final class DifferentialRevisionQuery
    * Calling this function will clear anything set by previous calls to
    * @{method:withCommitHashes}.
    *
-   * @param array List of pairs <Class
+   * @param array $commit_hashes List of pairs <Class
    *              ArcanistDifferentialRevisionHash::HASH_$type constant,
    *              hash>
    * @return this
@@ -149,7 +149,7 @@ final class DifferentialRevisionQuery
   /**
    * Filter results to revisions on given branches.
    *
-   * @param  list List of branch names.
+   * @param list $branches List of branch names.
    * @return this
    * @task config
    */
@@ -162,7 +162,7 @@ final class DifferentialRevisionQuery
   /**
    * Filter results to only return revisions whose ids are in the given set.
    *
-   * @param array List of revision ids
+   * @param array $ids List of revision ids
    * @return this
    * @task config
    */
@@ -175,7 +175,7 @@ final class DifferentialRevisionQuery
   /**
    * Filter results to only return revisions whose PHIDs are in the given set.
    *
-   * @param array List of revision PHIDs
+   * @param array $phids List of revision PHIDs
    * @return this
    * @task config
    */
@@ -189,7 +189,7 @@ final class DifferentialRevisionQuery
    * Given a set of users, filter results to return only revisions they are
    * responsible for (i.e., they are either authors or reviewers).
    *
-   * @param array List of user PHIDs.
+   * @param array $responsible_phids List of user PHIDs.
    * @return this
    * @task config
    */
@@ -221,7 +221,7 @@ final class DifferentialRevisionQuery
    * Set whether or not the query should load the active diff for each
    * revision.
    *
-   * @param bool True to load and attach diffs.
+   * @param bool $need_active_diffs True to load and attach diffs.
    * @return this
    * @task config
    */
@@ -235,7 +235,7 @@ final class DifferentialRevisionQuery
    * Set whether or not the query should load the associated commit PHIDs for
    * each revision.
    *
-   * @param bool True to load and attach diffs.
+   * @param bool $need_commit_phids True to load and attach diffs.
    * @return this
    * @task config
    */
@@ -249,7 +249,7 @@ final class DifferentialRevisionQuery
    * Set whether or not the query should load associated diff IDs for each
    * revision.
    *
-   * @param bool True to load and attach diff IDs.
+   * @param bool $need_diff_ids True to load and attach diff IDs.
    * @return this
    * @task config
    */
@@ -263,7 +263,7 @@ final class DifferentialRevisionQuery
    * Set whether or not the query should load associated commit hashes for each
    * revision.
    *
-   * @param bool True to load and attach commit hashes.
+   * @param bool $need_hashes True to load and attach commit hashes.
    * @return this
    * @task config
    */
@@ -276,7 +276,7 @@ final class DifferentialRevisionQuery
   /**
    * Set whether or not the query should load associated reviewers.
    *
-   * @param bool True to load and attach reviewers.
+   * @param bool $need_reviewers True to load and attach reviewers.
    * @return this
    * @task config
    */
@@ -291,7 +291,7 @@ final class DifferentialRevisionQuery
    * reviewer. In particular, they have authority to act on behalf of projects
    * they are a member of.
    *
-   * @param bool True to load and attach authority.
+   * @param bool $need_reviewer_authority True to load and attach authority.
    * @return this
    * @task config
    */

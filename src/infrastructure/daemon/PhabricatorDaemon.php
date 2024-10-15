@@ -24,7 +24,7 @@ abstract class PhabricatorDaemon extends PhutilDaemon {
    * Format a command so it executes as the daemon user, if a daemon user is
    * defined. This wraps the provided command in `sudo -u ...`, roughly.
    *
-   * @param   PhutilCommandString Command to execute.
+   * @param   PhutilCommandString $command Command to execute.
    * @return  PhutilCommandString `sudo` version of the command.
    */
   public static function sudoCommandAsDaemonUser($command) {

@@ -602,22 +602,6 @@ final class PhabricatorRepositoryPullEngine
     return $map;
   }
 
-  private function loadGitLocalRefs(PhabricatorRepository $repository) {
-    $refs = id(new DiffusionLowLevelGitRefQuery())
-      ->setRepository($repository)
-      ->execute();
-
-    $map = array();
-    foreach ($refs as $ref) {
-      $fields = $ref->getRawFields();
-      $map[idx($fields, 'refname')] = $ref->getCommitIdentifier();
-    }
-
-    ksort($map);
-
-    return $map;
-  }
-
   private function logRefDifferences(array $remote, array $local) {
     $all = $local + $remote;
 
@@ -756,7 +740,7 @@ final class PhabricatorRepositoryPullEngine
    * error message. To prevent this, censor response bodies out of error
    * messages.
    *
-   * @param string Uncensored Mercurial command output.
+   * @param string $message Uncensored Mercurial command output.
    * @return string Censored Mercurial command output.
    */
   private function censorMercurialErrorMessage($message) {

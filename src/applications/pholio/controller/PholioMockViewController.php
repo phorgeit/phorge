@@ -223,7 +223,7 @@ final class PholioMockViewController extends PholioController {
 
     $form = id(new PhabricatorApplicationTransactionCommentView())
       ->setUser($viewer)
-      ->setObjectPHID($mock->getPHID())
+      ->setObject($mock)
       ->setFormID($comment_form_id)
       ->setDraft($draft)
       ->setHeaderText($title)

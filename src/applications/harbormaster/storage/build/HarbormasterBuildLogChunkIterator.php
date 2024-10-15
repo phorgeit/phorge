@@ -18,6 +18,7 @@ final class HarbormasterBuildLogChunkIterator
     $this->cursor = $this->min;
   }
 
+  #[\ReturnTypeWillChange]
   public function key() {
     return $this->current()->getID();
   }

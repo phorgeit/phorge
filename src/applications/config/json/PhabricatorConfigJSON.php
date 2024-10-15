@@ -4,7 +4,8 @@ final class PhabricatorConfigJSON extends Phobject {
   /**
    * Properly format a JSON value.
    *
-   * @param wild Any value, but should be a raw value, not a string of JSON.
+   * @param wild $value Any value, but should be a raw value, not a string of
+   *   JSON.
    * @return string
    */
   public static function prettyPrintJSON($value) {

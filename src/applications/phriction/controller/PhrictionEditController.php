@@ -134,9 +134,31 @@ final class PhrictionEditController
       $xactions[] = id(new PhrictionTransaction())
         ->setTransactionType(PhrictionDocumentTitleTransaction::TRANSACTIONTYPE)
         ->setNewValue($title);
-      $xactions[] = id(new PhrictionTransaction())
+      $content_xaction = id(new PhrictionTransaction())
         ->setTransactionType($edit_type)
         ->setNewValue($content_text);
+
+      $content_metadata = $request->getStr('content_metadata');
+      if ($content_metadata) {
+        $content_metadata = phutil_json_decode($content_metadata);
+        $attached_file_phids = idx(
+          $content_metadata,
+          'attachedFilePHIDs',
+          array());
+
+        if ($attached_file_phids) {
+          $metadata_object = array(
+            'remarkup.control' => array(
+              'attachedFilePHIDs' => $attached_file_phids,
+            ),
+          );
+
+          $content_xaction->setMetadata($metadata_object);
+        }
+      }
+
+      $xactions[] = $content_xaction;
+
       $xactions[] = id(new PhrictionTransaction())
         ->setTransactionType(PhabricatorTransactions::TYPE_VIEW_POLICY)
         ->setNewValue($v_view)

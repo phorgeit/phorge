@@ -33,6 +33,11 @@ final class ManiphestTaskPointsTransaction
         '%s set the point value for this task to %s.',
         $this->renderAuthor(),
         $this->renderNewValue());
+    } else if ($new === null && $old !== null) {
+      return pht(
+        '%s removed the point value %s for this task.',
+        $this->renderAuthor(),
+        $this->renderOldValue());
     } else if ($new === null) {
       return pht(
         '%s removed the point value for this task.',
@@ -77,7 +82,7 @@ final class ManiphestTaskPointsTransaction
 
     foreach ($xactions as $xaction) {
       $new = $xaction->getNewValue();
-      if (strlen($new) && !is_numeric($new)) {
+      if (phutil_nonempty_string($new) && !is_numeric($new)) {
         $errors[] = $this->newInvalidError(
           pht('Points value must be numeric or empty.'));
         continue;

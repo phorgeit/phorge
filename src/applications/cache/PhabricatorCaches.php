@@ -416,7 +416,7 @@ final class PhabricatorCaches extends Phobject {
    *
    * Data can later be inflated with @{method:inflateData}.
    *
-   * @param string String to attempt to deflate.
+   * @param string $value String to attempt to deflate.
    * @return string|null Deflated string, or null if it was not deflated.
    * @task compress
    */
@@ -447,7 +447,7 @@ final class PhabricatorCaches extends Phobject {
   /**
    * Inflate data previously deflated by @{method:maybeDeflateData}.
    *
-   * @param string Deflated data, from @{method:maybeDeflateData}.
+   * @param string $value Deflated data, from @{method:maybeDeflateData}.
    * @return string Original, uncompressed data.
    * @task compress
    */

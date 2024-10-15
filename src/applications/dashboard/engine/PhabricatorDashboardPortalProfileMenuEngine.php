@@ -41,7 +41,7 @@ final class PhabricatorDashboardPortalProfileMenuEngine
         pht('New Portal'),
         pht('Use "Edit Menu" to add menu items to this portal.'));
     } else {
-      return $this->newEmptyValue(
+      return $this->newNoContentView(
         pht('No Portal Content'),
         pht(
           'None of the visible menu items in this portal can render any '.

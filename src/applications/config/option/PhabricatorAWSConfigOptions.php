@@ -8,7 +8,7 @@ final class PhabricatorAWSConfigOptions
   }
 
   public function getDescription() {
-    return pht('Configure integration with AWS (EC2, SES, S3, etc).');
+    return pht('Configure integration with AWS (EC2, SES, S3, etc.).');
   }
 
   public function getIcon() {

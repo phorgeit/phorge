@@ -646,7 +646,7 @@ final class PhabricatorEnv extends Phobject {
    * NOTE: This method is generally intended to reject URIs which it may be
    * unsafe to put in an "href" link attribute.
    *
-   * @param string URI to test.
+   * @param string $uri URI to test.
    * @return bool True if the URI identifies a web resource.
    * @task uri
    */
@@ -662,7 +662,7 @@ final class PhabricatorEnv extends Phobject {
    * NOTE: This method is generally intended to reject URIs which it may be
    * unsafe to issue a "Location:" redirect to.
    *
-   * @param string URI to test.
+   * @param string $uri URI to test.
    * @return bool True if the URI identifies a local page.
    * @task uri
    */
@@ -704,7 +704,7 @@ final class PhabricatorEnv extends Phobject {
   /**
    * Detect if a URI identifies some valid linkable remote resource.
    *
-   * @param string URI to test.
+   * @param string $uri URI to test.
    * @return bool True if a URI identifies a remote resource with an allowed
    *              protocol.
    * @task uri
@@ -726,7 +726,7 @@ final class PhabricatorEnv extends Phobject {
    * A valid linkable remote resource can be safely linked or redirected to.
    * This is primarily a protocol whitelist check.
    *
-   * @param string URI to test.
+   * @param string $raw_uri URI to test.
    * @return void
    * @task uri
    */
@@ -766,8 +766,8 @@ final class PhabricatorEnv extends Phobject {
   /**
    * Detect if a URI identifies a valid fetchable remote resource.
    *
-   * @param string URI to test.
-   * @param list<string> Allowed protocols.
+   * @param string $uri URI to test.
+   * @param list<string> $protocols Allowed protocols.
    * @return bool True if the URI is a valid fetchable remote resource.
    * @task uri
    */
@@ -789,8 +789,8 @@ final class PhabricatorEnv extends Phobject {
    * originating on this server. This is a primarily an address check against
    * the outbound address blacklist.
    *
-   * @param string URI to test.
-   * @param list<string> Allowed protocols.
+   * @param string $raw_uri URI to test.
+   * @param list<string> $protocols Allowed protocols.
    * @return pair<string, string> Pre-resolved URI and domain.
    * @task uri
    */
@@ -861,7 +861,7 @@ final class PhabricatorEnv extends Phobject {
   /**
    * Determine if an IP address is in the outbound address blacklist.
    *
-   * @param string IP address.
+   * @param string $address IP address.
    * @return bool True if the address is blacklisted.
    */
   public static function isBlacklistedOutboundAddress($address) {

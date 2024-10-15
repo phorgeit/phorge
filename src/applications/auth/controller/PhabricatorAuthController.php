@@ -44,8 +44,9 @@ abstract class PhabricatorAuthController extends PhabricatorController {
    * the user's cookies are set. However, event listeners can intercept this
    * event and do something else if they prefer.
    *
-   * @param   PhabricatorUser   User to log the viewer in as.
-   * @param bool True to issue a full session immediately, bypassing MFA.
+   * @param   PhabricatorUser $user User to log the viewer in as.
+   * @param bool? $force_full_session True to issue a full session immediately,
+   *   bypassing MFA.
    * @return  AphrontResponse   Response which continues the login process.
    */
   protected function loginUser(

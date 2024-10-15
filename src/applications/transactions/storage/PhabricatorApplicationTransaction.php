@@ -1475,6 +1475,8 @@ abstract class PhabricatorApplicationTransaction
         } else {
           $fragments = array();
           foreach ($moves as $move) {
+            $to_column = $move['columnPHID'];
+            $board_phid = $move['boardPHID'];
             $fragments[] = pht(
               '%s (%s)',
               $this->renderHandleLink($board_phid),
@@ -1578,6 +1580,10 @@ abstract class PhabricatorApplicationTransaction
     return 100;
   }
 
+  /**
+   * Whether the transaction concerns a comment (e.g. add, edit, remove)
+   * @return bool True if the transaction concerns a comment
+   */
   public function isCommentTransaction() {
     if ($this->hasComment()) {
       return true;
@@ -1606,6 +1612,8 @@ abstract class PhabricatorApplicationTransaction
         return pht('Changed Policy');
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         return pht('Changed Subscribers');
+      case PhabricatorTransactions::TYPE_CREATE:
+        return pht('Created');
       default:
         return pht('Updated');
     }
@@ -1688,7 +1696,7 @@ abstract class PhabricatorApplicationTransaction
    * Should this transaction be visually grouped with an existing transaction
    * group?
    *
-   * @param list<PhabricatorApplicationTransaction> List of transactions.
+   * @param list<PhabricatorApplicationTransaction> $group List of transactions.
    * @return bool True to display in a group with the other transactions.
    */
   public function shouldDisplayGroupWith(array $group) {

@@ -157,9 +157,9 @@ final class PassphraseCredentialControl extends AphrontFormControl {
    *   - If you do change the credential, the new credential must be one you
    *     can use.
    *
-   * @param PhabricatorUser The acting user.
-   * @param list<PhabricatorApplicationTransaction> List of credential altering
-   *        transactions.
+   * @param PhabricatorUser $actor The acting user.
+   * @param list<PhabricatorApplicationTransaction> $xactions List of
+   *        credential altering transactions.
    * @return bool True if the transactions are valid.
    */
   public static function validateTransactions(

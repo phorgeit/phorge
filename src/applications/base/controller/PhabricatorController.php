@@ -627,25 +627,4 @@ abstract class PhabricatorController extends AphrontController {
     return $this->delegateToController($controller);
   }
 
-
-/* -(  Deprecated  )--------------------------------------------------------- */
-
-
-  /**
-   * DEPRECATED. Use @{method:newPage}.
-   */
-  public function buildStandardPageView() {
-    return $this->newPage();
-  }
-
-
-  /**
-   * DEPRECATED. Use @{method:newPage}.
-   */
-  public function buildStandardPageResponse($view, array $data) {
-    $page = $this->buildStandardPageView();
-    $page->appendChild($view);
-    return $page->produceAphrontResponse();
-  }
-
 }

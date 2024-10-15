@@ -4,7 +4,7 @@
  * Parse the "X_FORWARDED_FOR" HTTP header to determine the original client
  * address.
  *
- * @param  int  Number of devices to trust.
+ * @param  int? $layers Number of devices to trust.
  * @return void
  */
 function preamble_trust_x_forwarded_for_header($layers = 1) {

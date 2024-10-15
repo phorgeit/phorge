@@ -487,6 +487,12 @@ final class ManiphestReportController extends ManiphestController {
     );
   }
 
+  private function getAveragePriority() {
+    // TODO: This is sort of a hard-code for the default "normal" status.
+    // When reports are more powerful, this should be made more general.
+    return 50;
+  }
+
   public function renderOpenTasks() {
     $request = $this->getRequest();
     $viewer = $request->getUser();
@@ -626,9 +632,7 @@ final class ManiphestReportController extends ManiphestController {
 
       $normal_or_better = array();
       foreach ($taskv as $id => $task) {
-        // TODO: This is sort of a hard-code for the default "normal" status.
-        // When reports are more powerful, this should be made more general.
-        if ($task->getPriority() < 50) {
+        if ($task->getPriority() < $this->getAveragePriority()) {
           continue;
         }
         $normal_or_better[$id] = $task;
@@ -700,13 +704,22 @@ final class ManiphestReportController extends ManiphestController {
       ),
       pht('Oldest (All)'));
     $cclass[] = 'n';
+    $low_priorities = array();
+    $priorities_map = ManiphestTaskPriority::getTaskPriorityMap();
+    $normal_priority = $this->getAveragePriority();
+    foreach ($priorities_map as $pri => $full_label) {
+      if ($pri < $normal_priority) {
+        $low_priorities[] = $full_label;
+      }
+    }
+    $pri_string = implode(', ', $low_priorities);
     $cname[] = javelin_tag(
       'span',
       array(
         'sigil' => 'has-tooltip',
         'meta'  => array(
           'tip' => pht(
-            'Oldest open task, excluding those with Low or Wishlist priority.'),
+            'Oldest open task, excluding those with priority %s', $pri_string),
           'size' => 200,
         ),
       ),

@@ -104,9 +104,9 @@ function phabricator_datetimezone($epoch, $user) {
  * @{function:phabricator_date}, @{function:phabricator_time}, or
  * @{function:phabricator_datetime}.
  *
- * @param int Unix epoch timestamp.
- * @param PhabricatorUser User viewing the timestamp.
- * @param string Date format, as per DateTime class.
+ * @param int $epoch Unix epoch timestamp.
+ * @param PhabricatorUser $user User viewing the timestamp.
+ * @param string $format Date format, as per DateTime class.
  * @return string Formatted, local date/time.
  */
 function phabricator_format_local_time($epoch, $user, $format) {

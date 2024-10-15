@@ -16,7 +16,7 @@ final class PhabricatorCommonPasswords extends Phobject {
   /**
    * Check if a password is extremely common.
    *
-   * @param   string  Password to test.
+   * @param   string  $password Password to test.
    * @return  bool    True if the password is pathologically weak.
    *
    * @task common

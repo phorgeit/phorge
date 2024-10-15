@@ -33,7 +33,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * The key should be a short, unique (within a search engine) string which
    * does not contain any special characters.
    *
-   * @param string Unique key which identifies the field.
+   * @param string $key Unique key which identifies the field.
    * @return this
    * @task config
    */
@@ -59,7 +59,7 @@ abstract class PhabricatorSearchField extends Phobject {
    *
    * This should be a short text string, like "Reviewers" or "Colors".
    *
-   * @param string Short, human-readable field label.
+   * @param string $label Short, human-readable field label.
    * @return this
    * task config
    */
@@ -86,7 +86,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * Engines do not need to do this explicitly; it will be done on their
    * behalf by the caller.
    *
-   * @param PhabricatorUser Viewer.
+   * @param PhabricatorUser $viewer Viewer.
    * @return this
    * @task config
    */
@@ -115,7 +115,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * an alias like `authors` to let users write `&authors=alincoln` instead of
    * `&authorPHIDs=alincoln`. This is a little easier to use.
    *
-   * @param list<string> List of aliases for this field.
+   * @param list<string> $aliases List of aliases for this field.
    * @return this
    * @task config
    */
@@ -142,7 +142,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * This can allow you to choose a more usable key for API endpoints.
    * If no key is provided, the main key is used.
    *
-   * @param string Alternate key for Conduit.
+   * @param string $conduit_key Alternate key for Conduit.
    * @return this
    * @task config
    */
@@ -170,7 +170,7 @@ abstract class PhabricatorSearchField extends Phobject {
   /**
    * Set a human-readable description for this field.
    *
-   * @param string Human-readable description.
+   * @param string $description Human-readable description.
    * @return this
    * @task config
    */
@@ -194,7 +194,7 @@ abstract class PhabricatorSearchField extends Phobject {
   /**
    * Hide this field from the web UI.
    *
-   * @param bool True to hide the field from the web UI.
+   * @param bool $is_hidden True to hide the field from the web UI.
    * @return this
    * @task config
    */
@@ -400,8 +400,8 @@ abstract class PhabricatorSearchField extends Phobject {
    * This provides flexibility when constructing URIs, especially from external
    * sources.
    *
-   * @param AphrontRequest  Request to read strings from.
-   * @param string          Key to read in the request.
+   * @param AphrontRequest  $request Request to read strings from.
+   * @param string          $key Key to read in the request.
    * @return list<string>   List of values.
    * @task utility
    */

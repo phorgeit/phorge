@@ -10,17 +10,18 @@ final class PhabricatorXHPASTViewFrameController
   public function handleRequest(AphrontRequest $request) {
     $id = $request->getURIData('id');
 
-    return $this->buildStandardPageResponse(
-      phutil_tag(
+    return $this->newPage()
+     ->setApplicationName('XHPASTView')
+     ->setBaseURI('/xhpast/')
+     ->setTitle(pht('XHPAST View'))
+     ->setGlyph("\xE2\x96\xA0")
+     ->appendChild(phutil_tag(
         'iframe',
         array(
           'src'         => "/xhpast/frameset/{$id}/",
           'frameborder' => '0',
           'style'       => 'width: 100%; height: 800px;',
         '',
-      )),
-      array(
-        'title' => pht('XHPAST View'),
-      ));
+      )));
   }
 }

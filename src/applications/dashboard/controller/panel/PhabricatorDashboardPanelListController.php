@@ -48,23 +48,4 @@ final class PhabricatorDashboardPanelListController
     return $crumbs;
   }
 
-  protected function getNewUserBody() {
-    $create_button = id(new PHUIButtonView())
-      ->setTag('a')
-      ->setText(pht('Create a Panel'))
-      ->setHref('/dashboard/panel/edit/')
-      ->setColor(PHUIButtonView::GREEN);
-
-    $icon = $this->getApplication()->getIcon();
-    $app_name =  $this->getApplication()->getName();
-    $view = id(new PHUIBigInfoView())
-      ->setIcon($icon)
-      ->setTitle(pht('Welcome to %s', $app_name))
-      ->setDescription(
-        pht('Build individual panels to display on your homepage dashboard.'))
-      ->addAction($create_button);
-
-      return $view;
-  }
-
 }

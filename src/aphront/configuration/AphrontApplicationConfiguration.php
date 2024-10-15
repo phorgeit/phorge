@@ -510,8 +510,8 @@ final class AphrontApplicationConfiguration
    * Map a specific path to the corresponding controller. For a description
    * of routing, see @{method:buildController}.
    *
-   * @param list<AphrontRoutingMap> List of routing maps.
-   * @param string Path to route.
+   * @param list<AphrontRoutingMap> $maps List of routing maps.
+   * @param string $path Path to route.
    * @return pair<AphrontController,dict> Controller and dictionary of request
    *                                      parameters.
    * @task routing
@@ -523,6 +523,7 @@ final class AphrontApplicationConfiguration
         return array($result->getController(), $result->getURIData());
       }
     }
+    return null;
   }
 
   private function buildSiteForRequest(AphrontRequest $request) {
@@ -561,7 +562,7 @@ final class AphrontApplicationConfiguration
   /**
    * Tests if a response is of a valid type.
    *
-   * @param wild Supposedly valid response.
+   * @param wild $response Supposedly valid response.
    * @return bool True if the object is of a valid type.
    * @task response
    */
@@ -582,8 +583,9 @@ final class AphrontApplicationConfiguration
    * Verifies that the return value from an @{class:AphrontController} is
    * of an allowed type.
    *
-   * @param AphrontController Controller which returned the response.
-   * @param wild Supposedly valid response.
+   * @param AphrontController $controller Controller which returned the
+   *   response.
+   * @param wild $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -611,9 +613,9 @@ final class AphrontApplicationConfiguration
    * Verifies that the return value from an
    * @{class:AphrontResponseProducerInterface} is of an allowed type.
    *
-   * @param AphrontResponseProducerInterface Object which produced
+   * @param AphrontResponseProducerInterface $producer Object which produced
    *   this response.
-   * @param wild Supposedly valid response.
+   * @param wild $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -641,9 +643,9 @@ final class AphrontApplicationConfiguration
    * Verifies that the return value from an
    * @{class:AphrontRequestExceptionHandler} is of an allowed type.
    *
-   * @param AphrontRequestExceptionHandler Object which produced this
+   * @param AphrontRequestExceptionHandler $handler Object which produced this
    *  response.
-   * @param wild Supposedly valid response.
+   * @param wild $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -677,9 +679,9 @@ final class AphrontApplicationConfiguration
    * If a controller returns a response producer, invoke it now and produce
    * the real response.
    *
-   * @param AphrontRequest Request being handled.
-   * @param AphrontResponse|AphrontResponseProducerInterface Response, or
-   *   response producer.
+   * @param AphrontRequest $request Request being handled.
+   * @param AphrontResponse|AphrontResponseProducerInterface $response
+   *   Response, or response producer.
    * @return AphrontResponse Response after any required production.
    * @task response
    */
@@ -737,7 +739,7 @@ final class AphrontApplicationConfiguration
    * This method delegates exception handling to available subclasses of
    * @{class:AphrontRequestExceptionHandler}.
    *
-   * @param Throwable Exception which needs to be handled.
+   * @param Throwable $throwable Exception which needs to be handled.
    * @return wild Response or response producer, or null if no available
    *   handler can produce a response.
    * @task exception

@@ -233,7 +233,7 @@ final class PhabricatorRepositoryRefEngine
    * point at commits which no longer exist. This can make commands issued later
    * fail. See T5839 for discussion.
    *
-   * @param list<string>    List of commit identifiers.
+   * @param list<string>    $identifiers List of commit identifiers.
    * @return list<string>   List with nonexistent identifiers removed.
    */
   private function removeMissingCommits(array $identifiers) {

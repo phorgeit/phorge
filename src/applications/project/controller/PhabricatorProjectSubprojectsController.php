@@ -212,16 +212,4 @@ final class PhabricatorProjectSubprojectsController
     return $curtain;
   }
 
-  private function renderStatus($icon, $target, $note) {
-    $item = id(new PHUIStatusItemView())
-      ->setIcon($icon)
-      ->setTarget(phutil_tag('strong', array(), $target))
-      ->setNote($note);
-
-    return id(new PHUIStatusListView())
-      ->addItem($item);
-  }
-
-
-
 }
