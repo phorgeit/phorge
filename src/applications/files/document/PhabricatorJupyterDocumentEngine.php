@@ -323,7 +323,7 @@ final class PhabricatorJupyterDocumentEngine
     }
 
     $nbformat = idx($data, 'nbformat');
-    if (!strlen($nbformat)) {
+    if (!phutil_nonempty_string($nbformat)) {
       throw new Exception(
         pht(
           'This document is missing an "nbformat" field. Jupyter notebooks '.
