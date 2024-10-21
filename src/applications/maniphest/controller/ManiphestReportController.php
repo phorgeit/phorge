@@ -71,6 +71,9 @@ final class ManiphestReportController extends ManiphestController {
 
   }
 
+  /**
+   * @return array<AphrontListFilterView, PHUIObjectBoxView>
+   */
   public function renderBurn() {
     $request = $this->getRequest();
     $viewer = $request->getUser();
@@ -84,11 +87,13 @@ final class ManiphestReportController extends ManiphestController {
       $handle = $handles[$project_phid];
     }
 
-    $table = new ManiphestTransaction();
-    $conn = $table->establishConnection('r');
+    $xtable = new ManiphestTransaction();
+    $conn = $xtable->establishConnection('r');
 
+    // Get legacy data: Querying the task transaction table is only needed for
+    // code before rPd321cc81 got merged on 2017-11-22.
     if ($project_phid) {
-      $joins = qsprintf(
+      $legacy_joins = qsprintf(
         $conn,
         'JOIN %T t ON x.objectPHID = t.phid
           JOIN %T p ON p.src = t.phid AND p.type = %d AND p.dst = %s',
@@ -96,59 +101,26 @@ final class ManiphestReportController extends ManiphestController {
         PhabricatorEdgeConfig::TABLE_NAME_EDGE,
         PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
         $project_phid);
-      $create_joins = qsprintf(
-        $conn,
-        'JOIN %T p ON p.src = t.phid AND p.type = %d AND p.dst = %s',
-        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
-        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
-        $project_phid);
     } else {
-      $joins = qsprintf($conn, '');
-      $create_joins = qsprintf($conn, '');
+      $legacy_joins = qsprintf($conn, '');
     }
 
-    $data = queryfx_all(
+    $legacy_data = queryfx_all(
       $conn,
       'SELECT x.transactionType, x.oldValue, x.newValue, x.dateCreated
         FROM %T x %Q
         WHERE transactionType IN (%Ls)
         ORDER BY x.dateCreated ASC',
-      $table->getTableName(),
-      $joins,
+      $xtable->getTableName(),
+      $legacy_joins,
       array(
         ManiphestTaskStatusTransaction::TRANSACTIONTYPE,
         ManiphestTaskMergedIntoTransaction::TRANSACTIONTYPE,
       ));
 
-    // See PHI273. After the move to EditEngine, we no longer create a
-    // "status" transaction if a task is created directly into the default
-    // status. This likely impacted API/email tasks after 2016 and all other
-    // tasks after late 2017. Until Facts can fix this properly, use the
-    // task creation dates to generate synthetic transactions which look like
-    // the older transactions that this page expects.
-
-    $default_status = ManiphestTaskStatus::getDefaultStatus();
-    $duplicate_status = ManiphestTaskStatus::getDuplicateStatus();
-
-    // Build synthetic transactions which take status from `null` to the
-    // default value.
-    $create_rows = queryfx_all(
-      $conn,
-      'SELECT t.dateCreated FROM %T t %Q',
-      id(new ManiphestTask())->getTableName(),
-      $create_joins);
-    foreach ($create_rows as $key => $create_row) {
-      $create_rows[$key] = array(
-        'transactionType' => 'status',
-        'oldValue' => null,
-        'newValue' => $default_status,
-        'dateCreated' => $create_row['dateCreated'],
-      );
-    }
-
     // Remove any actual legacy status transactions which take status from
     // `null` to any open status.
-    foreach ($data as $key => $row) {
+    foreach ($legacy_data as $key => $row) {
       if ($row['transactionType'] != 'status') {
         continue;
       }
@@ -168,12 +140,50 @@ final class ManiphestReportController extends ManiphestController {
       }
 
       // If this is a legacy "create" transaction, discard it in favor of the
-      // synthetic one.
-      unset($data[$key]);
+      // synthetic transaction to be created below.
+      unset($legacy_data[$key]);
     }
 
-    // Merge the synthetic rows into the real transactions.
-    $data = array_merge($create_rows, $data);
+    // Since rPd321cc81, after the move to EditEngine, we no longer create a
+    // "status" transaction if a task is created directly into the default
+    // status. This likely impacted API/email tasks after 2016 and all other
+    // tasks after deploying the Phorge codebase from 2017-11-22.
+    // Until Facts can fix this properly, use the task creation dates to
+    // generate synthetic transactions which look like the older transactions
+    // that this page expects.
+
+    $default_status = ManiphestTaskStatus::getDefaultStatus();
+    $duplicate_status = ManiphestTaskStatus::getDuplicateStatus();
+
+    if ($project_phid) {
+      $synth_joins = qsprintf(
+        $conn,
+        'JOIN %T p ON p.src = t.phid AND p.type = %d AND p.dst = %s',
+        PhabricatorEdgeConfig::TABLE_NAME_EDGE,
+        PhabricatorProjectObjectHasProjectEdgeType::EDGECONST,
+        $project_phid);
+    } else {
+      $synth_joins = qsprintf($conn, '');
+    }
+
+    // Build synthetic transactions which take status from `null` to the
+    // default value.
+    $synth_data = queryfx_all(
+      $conn,
+      'SELECT t.dateCreated FROM %T t %Q',
+      id(new ManiphestTask())->getTableName(),
+      $synth_joins);
+    foreach ($synth_data as $key => $synth_row) {
+      $synth_data[$key] = array(
+        'transactionType' => 'status',
+        'oldValue' => null,
+        'newValue' => $default_status,
+        'dateCreated' => $synth_row['dateCreated'],
+      );
+    }
+
+    // Merge the synthetic transactions into the legacy transactions.
+    $data = array_merge($synth_data, $legacy_data);
     $data = array_values($data);
     $data = isort($data, 'dateCreated');
 
@@ -412,6 +422,11 @@ final class ManiphestReportController extends ManiphestController {
     return array($filter, $chart_view);
   }
 
+  /**
+   * @param array $tokens
+   * @param bool $has_window
+   * @return AphrontListFilterView
+   */
   private function renderReportFilters(array $tokens, $has_window) {
     $request = $this->getRequest();
     $viewer = $request->getUser();
