@@ -863,8 +863,8 @@ final class DifferentialRevisionViewController
 
   private function loadChangesetsAndVsMap(
     DifferentialDiff $target,
-    DifferentialDiff $diff_vs = null,
-    PhabricatorRepository $repository = null) {
+    ?DifferentialDiff $diff_vs = null,
+    ?PhabricatorRepository $repository = null) {
     $viewer = $this->getViewer();
 
     $load_diffs = array($target);
@@ -1049,7 +1049,7 @@ final class DifferentialRevisionViewController
     array $changesets,
     array $vs_changesets,
     array $vs_map,
-    PhabricatorRepository $repository = null) {
+    ?PhabricatorRepository $repository = null) {
 
     assert_instances_of($changesets,    'DifferentialChangeset');
     assert_instances_of($vs_changesets, 'DifferentialChangeset');

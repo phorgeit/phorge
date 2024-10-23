@@ -485,8 +485,8 @@ abstract class PhabricatorController extends AphrontController {
 
   protected function buildTransactionTimeline(
     PhabricatorApplicationTransactionInterface $object,
-    PhabricatorApplicationTransactionQuery $query = null,
-    PhabricatorMarkupEngine $engine = null,
+    ?PhabricatorApplicationTransactionQuery $query = null,
+    ?PhabricatorMarkupEngine $engine = null,
     $view_data = array()) {
 
     $request = $this->getRequest();

@@ -32,7 +32,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
   }
 
   public function setSelectedConpherence(
-    ConpherenceThread $conpherence = null) {
+    ?ConpherenceThread $conpherence = null) {
     $this->selectedConpherence = $conpherence;
     return $this;
   }

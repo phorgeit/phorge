@@ -227,7 +227,7 @@ final class PhutilSearchQueryCompilerTestCase
   private function assertCompileQueries(
     array $tests,
     $operators = null,
-    PhutilSearchStemmer $stemmer = null) {
+    ?PhutilSearchStemmer $stemmer = null) {
     foreach ($tests as $input => $expect) {
       $caught = null;
 

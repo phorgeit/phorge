@@ -527,9 +527,9 @@ final class PhabricatorConduitAPIController
 
   private function buildHumanReadableResponse(
     $method,
-    ConduitAPIRequest $request = null,
+    ?ConduitAPIRequest $request = null,
     $result = null,
-    ConduitAPIMethod $method_implementation = null) {
+    ?ConduitAPIMethod $method_implementation = null) {
 
     $param_rows = array();
     $param_rows[] = array('Method', $this->renderAPIValue($method));

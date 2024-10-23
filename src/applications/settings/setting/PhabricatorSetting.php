@@ -4,7 +4,7 @@ abstract class PhabricatorSetting extends Phobject {
 
   private $viewer = false;
 
-  public function setViewer(PhabricatorUser $viewer = null) {
+  public function setViewer(?PhabricatorUser $viewer = null) {
     $this->viewer = $viewer;
     return $this;
   }

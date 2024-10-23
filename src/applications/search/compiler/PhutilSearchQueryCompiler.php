@@ -437,7 +437,7 @@ final class PhutilSearchQueryCompiler
 
   private function renderToken(
     PhutilSearchQueryToken $token,
-    PhutilSearchStemmer $stemmer = null) {
+    ?PhutilSearchStemmer $stemmer = null) {
     $value = $token->getValue();
 
     if ($stemmer) {

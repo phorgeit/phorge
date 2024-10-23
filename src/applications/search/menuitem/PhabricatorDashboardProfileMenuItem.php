@@ -27,7 +27,7 @@ final class PhabricatorDashboardProfileMenuItem
     return true;
   }
 
-  private function attachDashboard(PhabricatorDashboard $dashboard = null) {
+  private function attachDashboard(?PhabricatorDashboard $dashboard = null) {
     $this->dashboard = $dashboard;
     return $this;
   }

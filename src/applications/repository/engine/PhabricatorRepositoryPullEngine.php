@@ -172,7 +172,7 @@ final class PhabricatorRepositoryPullEngine
     $this->donePull();
   }
 
-  private function abortPull($message, Exception $ex = null) {
+  private function abortPull($message, ?Exception $ex = null) {
     $code_error = PhabricatorRepositoryStatusMessage::CODE_ERROR;
     $this->updateRepositoryInitStatus($code_error, $message);
     if ($ex) {

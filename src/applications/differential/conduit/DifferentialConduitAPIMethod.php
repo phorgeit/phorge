@@ -20,7 +20,7 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
 
   protected function buildInlineInfoDictionary(
     DifferentialInlineComment $inline,
-    DifferentialChangeset $changeset = null) {
+    ?DifferentialChangeset $changeset = null) {
 
     $file_path = null;
     $diff_id = null;

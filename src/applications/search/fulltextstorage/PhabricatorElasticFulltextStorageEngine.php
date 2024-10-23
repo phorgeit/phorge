@@ -263,7 +263,7 @@ class PhabricatorElasticFulltextStorageEngine
       $exceptions);
   }
 
-  public function indexExists(PhabricatorElasticsearchHost $host = null) {
+  public function indexExists(?PhabricatorElasticsearchHost $host = null) {
     if (!$host) {
       $host = $this->getHostForRead();
     }
@@ -397,7 +397,7 @@ class PhabricatorElasticFulltextStorageEngine
     return $data;
   }
 
-  public function indexIsSane(PhabricatorElasticsearchHost $host = null) {
+  public function indexIsSane(?PhabricatorElasticsearchHost $host = null) {
     if (!$host) {
       $host = $this->getHostForRead();
     }
@@ -476,7 +476,7 @@ class PhabricatorElasticFulltextStorageEngine
     $this->executeRequest($host, '/', $data, 'PUT');
   }
 
-  public function getIndexStats(PhabricatorElasticsearchHost $host = null) {
+  public function getIndexStats(?PhabricatorElasticsearchHost $host = null) {
     if ($this->version < 2) {
       return false;
     }

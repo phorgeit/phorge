@@ -1534,7 +1534,7 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
 
   private function createProject(
     PhabricatorUser $user,
-    PhabricatorProject $parent = null,
+    ?PhabricatorProject $parent = null,
     $is_milestone = false) {
 
     $project = PhabricatorProject::initializeNewProject($user, $parent);

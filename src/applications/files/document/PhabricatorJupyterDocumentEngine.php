@@ -36,14 +36,14 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
     return true;
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
 
     $blocks = new PhabricatorDocumentEngineBlocks();
 

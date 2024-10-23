@@ -205,7 +205,7 @@ final class PhabricatorGlobalLockTestCase
 
   private function tryHeldLock(
     $lock_name,
-    AphrontDatabaseConnection $conn = null) {
+    ?AphrontDatabaseConnection $conn = null) {
 
     $lock = PhabricatorGlobalLock::newLock($lock_name);
 

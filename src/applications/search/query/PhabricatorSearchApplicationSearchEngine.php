@@ -201,7 +201,7 @@ final class PhabricatorSearchApplicationSearchEngine
   }
 
   public static function getIndexableDocumentTypes(
-    PhabricatorUser $viewer = null) {
+    ?PhabricatorUser $viewer = null) {
 
     // TODO: This is inelegant and not very efficient, but gets us reasonable
     // results. It would be nice to do this more elegantly.

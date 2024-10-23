@@ -135,7 +135,7 @@ final class PHUIObjectBoxView extends AphrontTagView {
   }
 
   public function setValidationException(
-    PhabricatorApplicationTransactionValidationException $ex = null) {
+    ?PhabricatorApplicationTransactionValidationException $ex = null) {
     $this->validationException = $ex;
     return $this;
   }

@@ -204,7 +204,7 @@ final class PhabricatorDashboardAdjustController
   private function handleMoveRequest(
     PhabricatorDashboard $dashboard,
     PhabricatorDashboardPanelRef $panel_ref,
-    PhabricatorDashboardPanelRef $after_ref = null) {
+    ?PhabricatorDashboardPanelRef $after_ref = null) {
 
     $request = $this->getRequest();
     $request->validateCSRF();

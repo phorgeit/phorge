@@ -405,7 +405,7 @@ final class PhabricatorRepositoryPullLocalDaemon
   private function loadPullableRepositories(
     array $include,
     array $exclude,
-    AlmanacDevice $device = null) {
+    ?AlmanacDevice $device = null) {
 
     $query = id(new PhabricatorRepositoryQuery())
       ->setViewer($this->getViewer());

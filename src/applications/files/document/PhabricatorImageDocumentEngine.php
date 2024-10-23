@@ -18,8 +18,8 @@ final class PhabricatorImageDocumentEngine
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
 
     // For now, we can only render a rich image diff if the documents have
     // their data stored in Files already.
@@ -36,8 +36,8 @@ final class PhabricatorImageDocumentEngine
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
 
     if ($uref) {
       $u_blocks = $this->newDiffBlocks($uref);

@@ -80,7 +80,7 @@ final class ConduitGetCertificateConduitAPIMethod extends ConduitAPIMethod {
 
   private function logFailure(
     ConduitAPIRequest $request,
-    PhabricatorConduitCertificateToken $info = null) {
+    ?PhabricatorConduitCertificateToken $info = null) {
 
     $log = PhabricatorUserLog::initializeNewLog(
         $request->getUser(),

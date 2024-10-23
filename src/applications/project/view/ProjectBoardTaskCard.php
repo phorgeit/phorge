@@ -54,7 +54,7 @@ final class ProjectBoardTaskCard extends Phobject {
     return $this->task;
   }
 
-  public function setOwner(PhabricatorObjectHandle $owner = null) {
+  public function setOwner(?PhabricatorObjectHandle $owner = null) {
     $this->owner = $owner;
     return $this;
   }
