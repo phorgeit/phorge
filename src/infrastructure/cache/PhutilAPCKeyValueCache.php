@@ -38,10 +38,14 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
     return $results;
   }
 
-  public function setKeys(array $keys, $ttl = null) {
+  public function setKeys(array $keys, $ttl = 0) {
     static $is_apcu;
     if ($is_apcu === null) {
       $is_apcu = self::isAPCu();
+    }
+
+    if ($ttl === null) {
+      $ttl = 0;
     }
 
     // NOTE: Although modern APC supports passing an array to `apc_store()`,
