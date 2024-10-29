@@ -72,14 +72,16 @@ final class ManiphestTaskTitleTransaction
     // problems.
 
     foreach ($xactions as $xaction) {
-      $new = $xaction->getNewValue();
-      if (!strlen($new)) {
+      $new_value = $xaction->getNewValue();
+      $new_value = trim($new_value); // Strip surrounding whitespace
+      $xaction->setNewValue($new_value);
+      if (!strlen($new_value)) {
         $errors[] = $this->newInvalidError(
           pht('Tasks must have a title.'),
           $xaction);
         continue;
       }
-      if (mb_strlen($new) > $this->maximumTaskTitleLength) {
+      if (mb_strlen($new_value) > $this->maximumTaskTitleLength) {
         $errors[] = $this->newInvalidError(
           pht('Task title cannot exceed %d characters.',
             $this->maximumTaskTitleLength),
