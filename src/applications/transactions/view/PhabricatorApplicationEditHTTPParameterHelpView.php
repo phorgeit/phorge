@@ -76,7 +76,7 @@ To prefill the form, add properly encoded HTTP parameters to the URI. You
 should end up with something like this:
 
 ```
-%s?title=Platyplus&body=Ornithopter
+%s?title=Platypus&body=Ornithopter
 ```
 
 If the form has `title` and `body` fields of the correct types, visiting this
