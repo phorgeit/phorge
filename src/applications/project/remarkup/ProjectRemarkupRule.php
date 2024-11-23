@@ -22,8 +22,8 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
   }
 
   protected function getObjectIDPattern() {
-    // NOTE: The latter half of this rule matches monograms with internal
-    // periods, like `#domain.com`, but does not match monograms with terminal
+    // NOTE: This rule matches monograms with internal periods,
+    // like `#domain.com`, but does not match monograms with terminal
     // periods, because they're probably just punctuation.
 
     // Broadly, this will not match every possible project monogram, and we
@@ -39,12 +39,14 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
     // These characters may not appear at the edge of the string.
     $never_edge = '.';
 
-    return
-      '[^'.$never_edge.$never.']+'.
-      '(?:'.
-        '[^'.$never.']*'.
-        '[^'.$never_edge.$never.']+'.
-      ')*';
+    return '(?:'.
+        // Short project name with one or two characters not in $never_edge or
+        '[^'.$never_edge.$never.']{1,2}|'.
+        // A single character not in $never or $never_edge,
+        // then any number of characters not in $never then a single character
+        // not in $never or $never_edge
+        '[^'.$never_edge.$never.'][^'.$never.']+[^'.$never_edge.$never.']'.
+    ')';
   }
 
   protected function loadObjects(array $ids) {
