@@ -57,10 +57,6 @@ foreach (array('text', 'html') as $part) {
 }
 
 $headers = $parser->getHeaders();
-if (array_key_exists('subject', $headers)) {
-  $headers['subject'] = phutil_decode_mime_header($headers['subject']);
-}
-$headers['from'] = phutil_decode_mime_header($headers['from']);
 
 if ($args->getArg('process-duplicates')) {
   $headers['message-id'] = Filesystem::readRandomCharacters(64);
