@@ -26,6 +26,7 @@ final class PhabricatorUser
   const SESSION_TABLE = 'phabricator_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
   const MAXIMUM_USERNAME_LENGTH = 64;
+  const MAXIMUM_REALNAME_LENGTH = 256;
 
   protected $userName;
   protected $realName;
@@ -548,6 +549,16 @@ final class PhabricatorUser
     }
 
     return (bool)preg_match('/^[a-zA-Z0-9._-]*[a-zA-Z0-9_-]\z/', $username);
+  }
+
+  public static function describeValidRealName() {
+    return pht(
+      'Real Name must have no more than %d characters.',
+      new PhutilNumber(self::MAXIMUM_REALNAME_LENGTH));
+  }
+
+  public static function validateRealName($realname) {
+    return strlen($realname) <= self::MAXIMUM_REALNAME_LENGTH;
   }
 
   public static function getDefaultProfileImageURI() {

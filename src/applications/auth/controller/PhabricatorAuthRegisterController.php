@@ -342,6 +342,10 @@ final class PhabricatorAuthRegisterController
         if (!strlen($value_realname) && $require_real_name) {
           $e_realname = pht('Required');
           $errors[] = pht('Real name is required.');
+        } else if ($value_realname &&
+                 !PhabricatorUser::validateRealName($value_realname)) {
+          $e_realname = pht('Invalid');
+          $errors[] = PhabricatorUser::describeValidRealName();
         } else {
           $e_realname = null;
         }
