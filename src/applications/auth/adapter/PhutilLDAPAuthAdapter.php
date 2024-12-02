@@ -305,12 +305,7 @@ final class PhutilLDAPAuthAdapter extends PhutilAuthAdapter {
           'port' => $this->port,
         ));
 
-      if ($this->ldapStartTLS) {
-        $ldap_server_uri = 'ldaps://'.$host.':'.$this->port;
-      } else {
-        $ldap_server_uri = 'ldap://'.$host.':'.$this->port;
-      }
-      $conn = @ldap_connect($ldap_server_uri);
+      $conn = @ldap_connect($host, $this->port);
 
       $profiler->endServiceCall(
         $call_id,
@@ -320,7 +315,7 @@ final class PhutilLDAPAuthAdapter extends PhutilAuthAdapter {
 
       if (!$conn) {
         throw new Exception(
-          pht('Unable to connect to LDAP server (%s).', $ldap_server_uri));
+          pht('Unable to connect to LDAP server (%s:%d).', $host, $port));
       }
 
       $options = array(
