@@ -154,7 +154,8 @@ final class DiffusionRepositoryBasicsManagementPanel
         ->setName(pht('Delete Repository'))
         ->setHref($delete_uri)
         ->setIcon('fa-times')
-        ->setWorkflow(true));
+        ->setWorkflow(true)
+        ->setDisabled(!$can_edit));
 
     return $this->newCurtainView()
       ->setActionList($action_list);

@@ -4,7 +4,10 @@ final class DiffusionRepositoryEditDeleteController
   extends DiffusionRepositoryManageController {
 
   public function handleRequest(AphrontRequest $request) {
-    $response = $this->loadDiffusionContextForEdit();
+    // This is just an information box, telling admins to use CLI for destroy.
+    // To increase shared knowledge about how Phorge works, we can safely show
+    // it to those who see the repository, not just those who can edit it.
+    $response = $this->loadDiffusionContext();
     if ($response) {
       return $response;
     }
