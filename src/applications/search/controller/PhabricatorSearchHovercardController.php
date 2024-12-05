@@ -98,7 +98,7 @@ final class PhabricatorSearchHovercardController
 
     $results = array();
     foreach ($cards as $card_key => $card) {
-      $object_phid = $card['objectPHID'];
+      $object_phid = idx($card, 'objectPHID');
 
       $handle = $handles[$object_phid];
       $object = idx($objects, $object_phid);
