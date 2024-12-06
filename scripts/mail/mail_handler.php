@@ -14,15 +14,7 @@ if ($argc > 1) {
 
 $root = dirname(dirname(dirname(__FILE__)));
 require_once $root.'/scripts/__init_script__.php';
-require_once $root.'/externals/mimemailparser/Contracts/CharsetManager.php';
-require_once $root.'/externals/mimemailparser/Contracts/Middleware.php';
-require_once $root.'/externals/mimemailparser/Parser.php';
-require_once $root.'/externals/mimemailparser/Charset.php';
-require_once $root.'/externals/mimemailparser/Attachment.php';
-require_once $root.'/externals/mimemailparser/Exception.php';
-require_once $root.'/externals/mimemailparser/Middleware.php';
-require_once $root.'/externals/mimemailparser/MiddlewareStack.php';
-require_once $root.'/externals/mimemailparser/MimePart.php';
+require_once $root.'/externals/mimemailparser/__init.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->parseStandardArguments();
