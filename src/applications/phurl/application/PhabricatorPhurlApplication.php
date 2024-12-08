@@ -73,6 +73,15 @@ final class PhabricatorPhurlApplication extends PhabricatorApplication {
       PhabricatorPhurlURLCreateCapability::CAPABILITY => array(
         'default' => PhabricatorPolicies::POLICY_USER,
       ),
+      PhabricatorPhurlURLDefaultViewCapability::CAPABILITY => array(
+        'template' => PhabricatorPhurlURLPHIDType::TYPECONST,
+        'capability' => PhabricatorPolicyCapability::CAN_VIEW,
+      ),
+      PhabricatorPhurlURLDefaultEditCapability::CAPABILITY => array(
+        'default' => PhabricatorPolicies::POLICY_USER,
+        'template' => PhabricatorPhurlURLPHIDType::TYPECONST,
+        'capability' => PhabricatorPolicyCapability::CAN_EDIT,
+      ),
     );
   }
 
