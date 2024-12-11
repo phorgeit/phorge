@@ -43,7 +43,7 @@ Webhook Configuration
 =====================
 
 In {nav Settings} for your Organization in Buildkite, under
-{nav Notification Services}, add a new **Webook Notification**.
+{nav Notification Services}, add a new **Webhook Notification**.
 
 Use these settings:
 
@@ -61,7 +61,7 @@ These variables will be available in the build environment:
 
 | Variable | Description |
 |----------|-------------|
-| `HARBORMASTER_BUILD_TARGET_PHID` | PHID of the Build Target.
+| `HARBORMASTER_BUILD_TARGET_PHID` | PHID of the Build Target. |
 EOTEXT
     ,
     $hook_uri);
