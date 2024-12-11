@@ -171,7 +171,9 @@ body.printable {
   white-space: nowrap;
 }
 
-.phui-document-view-pro .phui-document-toc-content a:hover {
+.phui-document-view-pro .phui-document-toc-content a:hover,
+.phui-document-view-pro .phui-document-toc-content a:hover
+span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   color: {$anchor};
   text-decoration: underline;
 }
@@ -376,5 +378,10 @@ body.printable {
     white-space: break-spaces;
     text-indent: -10px;
     padding-left: 10px;
+  }
+
+  div.phui-document-view-pro div.phui-document-toc-content
+  span.visual-only.phui-icon-view.phui-font-fa {
+    text-indent: 0px;
   }
 }
