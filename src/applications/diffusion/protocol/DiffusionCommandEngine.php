@@ -175,10 +175,12 @@ abstract class DiffusionCommandEngine extends Phobject {
     $repository = $this->getRepository();
 
     $env = array();
-      // NOTE: Force the language to "en_US.UTF-8", which overrides locale
+      // NOTE: Force the language to "C", which overrides locale
       // settings. This makes stuff print in English instead of, e.g., French,
       // so we can parse the output of some commands, error messages, etc.
-    $env['LANG'] = 'en_US.UTF-8';
+      // Note that LANG can be ignored if there is LANGUAGE.
+      // https://we.phorge.it/T15872
+    $env['LC_ALL'] = 'C';
 
       // Propagate PHABRICATOR_ENV explicitly. For discussion, see T4155.
     $env['PHABRICATOR_ENV'] = PhabricatorEnv::getSelectedEnvironmentName();
