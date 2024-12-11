@@ -93,7 +93,8 @@ final class DiffusionResolveUserQuery extends Phobject {
 
 
   private function findUserByEmailAddress($email_address) {
-    $by_email = PhabricatorUser::loadOneWithEmailAddress($email_address);
+    $by_email =
+      PhabricatorUser::loadOneWithVerifiedEmailAddress($email_address);
 
     if ($by_email) {
       return $by_email->getPHID();

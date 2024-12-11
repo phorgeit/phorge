@@ -652,6 +652,28 @@ final class PhabricatorUser
     return $this->getUsername();
   }
 
+  /**
+   * Load one user from their verified email address.
+   * @param string $address
+   * @return PhabricatorUser|null
+   */
+  public static function loadOneWithVerifiedEmailAddress($address) {
+    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+      'address = %s AND isVerified = 1',
+      $address);
+    if (!$email) {
+      return null;
+    }
+    return id(new self())->loadOneWhere(
+      'phid = %s',
+      $email->getUserPHID());
+  }
+
+  /**
+   * Load one user from their potentially unverified email address.
+   * @param string $address
+   * @return PhabricatorUser|null
+   */
   public static function loadOneWithEmailAddress($address) {
     $email = id(new PhabricatorUserEmail())->loadOneWhere(
       'address = %s',

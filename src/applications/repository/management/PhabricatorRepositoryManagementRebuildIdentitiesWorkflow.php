@@ -281,7 +281,7 @@ final class PhabricatorRepositoryManagementRebuildIdentitiesWorkflow
           $user->getMonogram()));
 
       $emails = id(new PhabricatorUserEmail())->loadAllWhere(
-        'userPHID = %s',
+        'userPHID = %s AND isVerified = 1',
         $user->getPHID());
       if ($emails) {
         $this->rebuildEmails(mpull($emails, 'getAddress'));
