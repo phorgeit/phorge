@@ -322,26 +322,28 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   protected function willReadData(array &$data) {
     parent::willReadData($data);
 
-    static $custom;
-    if ($custom === null) {
-      $custom = $this->getConfigOption(self::CONFIG_APPLICATION_SERIALIZERS);
+    static $custom = array();
+    if (!isset($custom[static::class])) {
+      $custom[static::class] = $this->getConfigOption(
+        self::CONFIG_APPLICATION_SERIALIZERS);
     }
 
-    if ($custom) {
-      foreach ($custom as $key => $serializer) {
+    if (!empty($custom[static::class])) {
+      foreach ($custom[static::class] as $key => $serializer) {
         $data[$key] = $serializer->willReadValue($data[$key]);
       }
     }
   }
 
   protected function willWriteData(array &$data) {
-    static $custom;
-    if ($custom === null) {
-      $custom = $this->getConfigOption(self::CONFIG_APPLICATION_SERIALIZERS);
+    static $custom = array();
+    if (!isset($custom[static::class])) {
+      $custom[static::class] = $this->getConfigOption(
+        self::CONFIG_APPLICATION_SERIALIZERS);
     }
 
-    if ($custom) {
-      foreach ($custom as $key => $serializer) {
+    if (!empty($custom[static::class])) {
+      foreach ($custom[static::class] as $key => $serializer) {
         $data[$key] = $serializer->willWriteValue($data[$key]);
       }
     }
