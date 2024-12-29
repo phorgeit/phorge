@@ -44,7 +44,7 @@ final class PhabricatorSyntaxHighlightingConfigOptions
           ))
         ->setDescription(
           pht(
-            'Syntax highlighting a supported for a few languages by '.
+            'Syntax highlighting is supported for a few languages by '.
             'default, but you can install Pygments (a third-party syntax '.
             'highlighting tool) to provide support for many more languages.'.
             "\n\n".

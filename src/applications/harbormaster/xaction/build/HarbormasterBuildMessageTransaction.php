@@ -134,7 +134,7 @@ abstract class HarbormasterBuildMessageTransaction
           PhabricatorPolicyCapability::CAN_EDIT);
       } catch (PhabricatorPolicyException $ex) {
         throw new HarbormasterMessageException(
-          pht('Insufficent Build Plan Permission'),
+          pht('Insufficient Build Plan Permission'),
           pht(
             'The build plan for this build is configured to prevent '.
             'users who can not edit it from issuing commands to the '.

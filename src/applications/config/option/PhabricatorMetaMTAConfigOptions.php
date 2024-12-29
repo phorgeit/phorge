@@ -24,7 +24,7 @@ final class PhabricatorMetaMTAConfigOptions
 When a user takes an action which generates an email notification (like
 commenting on a Differential revision), the "From" address can either be set
 to the user's email address (like "alincoln@logcabin.com") or the
-"metamta.defualt-address" address.
+"metamta.default-address" address.
 
 The user experience is generally better if the user's real address is used as
 the "From" header value, since the messages are easier to organize when they

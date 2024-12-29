@@ -100,7 +100,7 @@ EOREMARKUP
         ->setDescription(
           pht(
             "These alternative URIs will be able to access 'normal' pages ".
-            "on your this install. Other features such as OAuth ".
+            "on this install. Other features such as OAuth ".
             "won't work. The major use case for this is moving installs ".
             "across domains."))
         ->addExample(
