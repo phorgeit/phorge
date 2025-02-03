@@ -4,6 +4,7 @@ final class PHUICrumbView extends AphrontView {
 
   private $name;
   private $href;
+  private $strikethrough = false;
   private $icon;
   private $isLastCrumb;
   private $workflow;
@@ -54,6 +55,17 @@ final class PHUICrumbView extends AphrontView {
     return $this;
   }
 
+  /**
+   * Render this crumb as strike-through.
+   *
+   * @param bool $strikethrough True to render the crumb strike-through.
+   * @return $this
+   */
+  public function setStrikethrough(bool $strikethrough) {
+    $this->strikethrough = $strikethrough;
+    return $this;
+  }
+
   public function setIcon($icon) {
     $this->icon = $icon;
     return $this;
@@ -88,6 +100,10 @@ final class PHUICrumbView extends AphrontView {
       $classes[] = 'phui-crumb-has-icon';
       $icon = id(new PHUIIconView())
         ->setIcon($this->icon);
+    }
+
+    if ($this->strikethrough) {
+      $classes[] = 'phui-crumb-strikethrough';
     }
 
     // Surround the crumb name with spaces so that double clicking it only

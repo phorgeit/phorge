@@ -137,8 +137,8 @@ abstract class PhabricatorProjectController extends PhabricatorController {
               break;
           }
         }
-
-        $crumbs->addTextCrumb($ancestor->getName(), $crumb_uri);
+        $archived = $ancestor->isArchived();
+        $crumbs->addTextCrumb($ancestor->getName(), $crumb_uri, $archived);
       }
     }
 
