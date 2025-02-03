@@ -334,7 +334,8 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
           'Unable to determine image width and height with getimagesize().'));
     }
 
-    $max_pixels = (4096 * 4096);
+    $max_pixels_array = $this->getMaxTransformDimensions();
+    $max_pixels = ($max_pixels_array[0] * $max_pixels_array[1]);
     $img_pixels = ($width * $height);
 
     if ($img_pixels > $max_pixels) {
@@ -363,6 +364,15 @@ abstract class PhabricatorFileImageTransform extends PhabricatorFileTransform {
 
     $this->image = $image;
     return $this->image;
+  }
+
+  /**
+   * Get maximum supported image dimensions in pixels for transforming
+   *
+   * @return array<int> Maximum width and height
+   */
+  public function getMaxTransformDimensions() {
+    return array(4096, 4096);
   }
 
   private function shouldUseImagemagick() {
