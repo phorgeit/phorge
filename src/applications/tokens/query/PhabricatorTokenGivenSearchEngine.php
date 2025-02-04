@@ -16,11 +16,23 @@ final class PhabricatorTokenGivenSearchEngine
   }
 
   protected function buildCustomSearchFields() {
-    return array();
+    return array(
+      id(new PhabricatorTokenSearchField())
+        ->setLabel(pht('Token used'))
+        ->setKey('tokenPHIDs')
+        ->setConduitKey('tokens')
+        ->setAliases(array('token', 'tokens')),
+    );
   }
 
   protected function buildQueryFromParameters(array $map) {
-    return $this->newQuery();
+    $query = $this->newQuery();
+
+    if ($map['tokenPHIDs']) {
+      $query->withTokenPHIDs($map['tokenPHIDs']);
+    }
+
+    return $query;
   }
 
   protected function getRequiredHandlePHIDsForResultList(
