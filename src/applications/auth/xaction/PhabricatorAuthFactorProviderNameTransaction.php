@@ -17,12 +17,12 @@ final class PhabricatorAuthFactorProviderNameTransaction
     $old = $this->getOldValue();
     $new = $this->getNewValue();
 
-    if (!strlen($old)) {
+    if (!phutil_nonempty_string($old)) {
       return pht(
         '%s named this provider %s.',
         $this->renderAuthor(),
         $this->renderNewValue());
-    } else if (!strlen($new)) {
+    } else if (!phutil_nonempty_string($new)) {
       return pht(
         '%s removed the name (%s) of this provider.',
         $this->renderAuthor(),
