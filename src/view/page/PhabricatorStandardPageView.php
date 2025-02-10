@@ -626,20 +626,25 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     // Try to guess the device resolution based on UA strings to avoid a flash
     // of incorrectly-styled content.
     $device_guess = 'device-desktop';
-    if (preg_match('@iPhone|iPod|(Android.*Chrome/[.0-9]* Mobile)@', $agent)) {
-      $device_guess = 'device-phone device';
-    } else if (preg_match('@iPad|(Android.*Chrome/)@', $agent)) {
-      $device_guess = 'device-tablet device';
+    if (phutil_nonempty_string($agent)) {
+      if (preg_match('@iPhone|iPod|(Android.*Chrome/[.0-9]* Mobile)@',
+        $agent)) {
+        $device_guess = 'device-phone device';
+      } else if (preg_match('@iPad|(Android.*Chrome/)@', $agent)) {
+        $device_guess = 'device-tablet device';
+      }
     }
 
     $classes[] = $device_guess;
 
-    if (preg_match('@Windows@', $agent)) {
-      $classes[] = 'platform-windows';
-    } else if (preg_match('@Macintosh@', $agent)) {
-      $classes[] = 'platform-mac';
-    } else if (preg_match('@X11@', $agent)) {
-      $classes[] = 'platform-linux';
+    if (phutil_nonempty_string($agent)) {
+      if (preg_match('@Windows@', $agent)) {
+        $classes[] = 'platform-windows';
+      } else if (preg_match('@Macintosh@', $agent)) {
+        $classes[] = 'platform-mac';
+      } else if (preg_match('@X11@', $agent)) {
+        $classes[] = 'platform-linux';
+      }
     }
 
     if ($this->getRequest()->getStr('__print__')) {
