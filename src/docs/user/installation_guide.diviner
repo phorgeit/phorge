@@ -132,8 +132,8 @@ Now that you have all that stuff installed, grab Phorge and its
 dependencies:
 
   $ cd somewhere/ # pick some install directory
-  somewhere/ $ git clone https://we.phorge.it/source/arcanist.git
-  somewhere/ $ git clone https://we.phorge.it/source/phorge.git
+  somewhere/ $ git clone https://github.com/phorgeit/arcanist.git
+  somewhere/ $ git clone https://github.com/phorgeit/phorge.git
 
 After cloning, flag them as safe (to avoid the error //"fatal:
 detected dubious ownership in repository at ..."//):
