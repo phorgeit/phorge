@@ -35,15 +35,6 @@ final class PhabricatorPeopleProfileMenuEngine
       ->setBuiltinKey(self::ITEM_PROFILE)
       ->setMenuItemKey(PhabricatorPeopleDetailsProfileMenuItem::MENUITEMKEY);
 
-    $have_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
-      $viewer);
-    if ($have_badges) {
-      $items[] = $this->newItem()
-        ->setBuiltinKey(self::ITEM_BADGES)
-        ->setMenuItemKey(PhabricatorPeopleBadgesProfileMenuItem::MENUITEMKEY);
-    }
-
     $have_maniphest = PhabricatorApplication::isClassInstalledForViewer(
       'PhabricatorManiphestApplication',
       $viewer);
@@ -70,6 +61,15 @@ final class PhabricatorPeopleProfileMenuEngine
       $items[] = $this->newItem()
         ->setBuiltinKey(self::ITEM_COMMITS)
         ->setMenuItemKey(PhabricatorPeopleCommitsProfileMenuItem::MENUITEMKEY);
+    }
+
+    $have_badges = PhabricatorApplication::isClassInstalledForViewer(
+      'PhabricatorBadgesApplication',
+      $viewer);
+    if ($have_badges) {
+      $items[] = $this->newItem()
+        ->setBuiltinKey(self::ITEM_BADGES)
+        ->setMenuItemKey(PhabricatorPeopleBadgesProfileMenuItem::MENUITEMKEY);
     }
 
     $items[] = $this->newItem()
