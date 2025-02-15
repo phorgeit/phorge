@@ -15,7 +15,7 @@ final class PhabricatorPackagesVersion
   protected $name;
   protected $packagePHID;
 
-  private $package;
+  private $package = self::ATTACHABLE;
 
   public static function initializeNewVersion(PhabricatorUser $actor) {
     return id(new self());
