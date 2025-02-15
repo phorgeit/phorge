@@ -416,7 +416,7 @@ abstract class PhabricatorController extends AphrontController {
     $submit_uri = $submit_uri->getPath();
 
     return id(new AphrontDialogView())
-      ->setUser($this->getRequest()->getUser())
+      ->setViewer($this->getRequest()->getUser())
       ->setSubmitURI($submit_uri);
   }
 
@@ -440,7 +440,7 @@ abstract class PhabricatorController extends AphrontController {
 
     $viewer = $this->getRequest()->getUser();
     if ($viewer) {
-      $page->setUser($viewer);
+      $page->setViewer($viewer);
     }
 
     return $page;

@@ -364,7 +364,7 @@ final class PhabricatorApplicationTransactionCommentView
     $version_value = $this->getCurrentVersion();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addSigil('transaction-append')
       ->setWorkflow(true)
       ->setFullWidth($this->fullWidth)

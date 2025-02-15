@@ -26,7 +26,7 @@ final class ConpherenceParticipantController extends ConpherenceController {
 
     $uri = $this->getApplicationURI('edit/'.$conpherence->getID().'/');
     $content = id(new ConpherenceParticipantView())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setConpherence($conpherence)
       ->setUpdateURI($uri);
 

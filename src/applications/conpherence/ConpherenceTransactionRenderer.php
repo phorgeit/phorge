@@ -64,14 +64,14 @@ final class ConpherenceTransactionRenderer extends Phobject {
         ConpherenceThreadDateMarkerTransaction::TRANSACTIONTYPE)
       ->makeEphemeral();
     $date_marker_transaction_view = id(new ConpherenceTransactionView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setConpherenceTransaction($date_marker_transaction)
       ->setConpherenceThread($conpherence)
       ->setHandles($handles)
       ->setMarkupEngine($engine);
 
     $transaction_view_template = id(new ConpherenceTransactionView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setConpherenceThread($conpherence)
       ->setHandles($handles)
       ->setMarkupEngine($engine);

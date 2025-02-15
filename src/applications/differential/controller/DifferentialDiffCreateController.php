@@ -141,7 +141,7 @@ final class DifferentialDiffCreateController extends DifferentialController {
 
     $form
       ->setEncType('multipart/form-data')
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($revision) {
       $form->appendChild(
@@ -178,7 +178,7 @@ final class DifferentialDiffCreateController extends DifferentialController {
           ->setLimit(1))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setName('viewPolicy')
           ->setPolicyObject($diff_object)
           ->setPolicies($policies)

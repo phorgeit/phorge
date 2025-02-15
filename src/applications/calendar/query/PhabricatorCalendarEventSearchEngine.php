@@ -368,7 +368,7 @@ final class PhabricatorCalendarEventSearchEngine
         $start_year);
     }
 
-    $month_view->setUser($viewer);
+    $month_view->setViewer($viewer);
 
     $viewer_phid = $viewer->getPHID();
     foreach ($events as $event) {

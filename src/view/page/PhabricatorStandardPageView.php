@@ -351,7 +351,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     }
 
     $menu = id(new PhabricatorMainMenuView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($this->getController()) {
       $menu->setController($this->getController());
@@ -501,7 +501,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
       $is_minimize = $this->getDurableColumnMinimize();
       $durable_column = id(new ConpherenceDurableColumnView())
         ->setSelectedConpherence(null)
-        ->setUser($user)
+        ->setViewer($user)
         ->setQuicksandConfig($this->buildQuicksandConfig())
         ->setVisible($is_visible)
         ->setMinimize($is_minimize)

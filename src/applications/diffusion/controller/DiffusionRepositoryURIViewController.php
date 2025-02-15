@@ -179,7 +179,7 @@ final class DiffusionRepositoryURIViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $properties->addProperty(pht('URI'), $uri->getDisplayURI());
 

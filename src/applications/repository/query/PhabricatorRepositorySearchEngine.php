@@ -175,7 +175,7 @@ final class PhabricatorRepositorySearchEngine
       $id = $repository->getID();
 
       $item = id(new PHUIObjectItemView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($repository)
         ->setHeader($repository->getName())
         ->setObjectName($repository->getMonogram())

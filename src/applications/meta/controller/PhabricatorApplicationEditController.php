@@ -79,7 +79,7 @@ final class PhabricatorApplicationEditController
       $application);
 
     $form = id(new AphrontFormView())
-      ->setUser($user);
+      ->setViewer($user);
 
     $locked_policies = PhabricatorEnv::getEnvConfig('policy.locked');
     foreach ($application->getCapabilities() as $capability) {
@@ -96,7 +96,7 @@ final class PhabricatorApplicationEditController
             ->setCaption($caption));
       } else {
         $control = id(new AphrontFormPolicyControl())
-          ->setUser($user)
+          ->setViewer($user)
           ->setDisabled($locked)
           ->setCapability($capability)
           ->setPolicyObject($application)

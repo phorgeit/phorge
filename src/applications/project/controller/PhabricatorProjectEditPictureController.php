@@ -107,7 +107,7 @@ final class PhabricatorProjectEditPictureController
     $title = pht('Edit Project Picture');
 
     $form = id(new PHUIFormLayoutView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $builtin = PhabricatorProjectIconSet::getIconImage(
       $project->getIcon());
@@ -261,7 +261,7 @@ final class PhabricatorProjectEditPictureController
         ->setValue($compose_form));
 
     $upload_form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

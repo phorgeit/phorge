@@ -19,7 +19,7 @@ final class PhabricatorHomeProfileMenuEngine
     // the home page or any home dashboard to upload them.
 
     $upload = id(new PhabricatorGlobalUploadTargetView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $content = parent::buildItemViewContent($item);
 

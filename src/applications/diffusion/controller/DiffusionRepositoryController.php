@@ -274,7 +274,7 @@ final class DiffusionRepositoryController extends DiffusionController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($repository->getName())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($repository)
       ->setProfileHeader(true)
       ->setImage($repository->getProfileImageURI())
@@ -315,7 +315,7 @@ final class DiffusionRepositoryController extends DiffusionController {
 
     $edit_uri = $repository->getPathURI('manage/');
     $action_view = id(new PhabricatorActionListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($repository);
 
     $action_view->addAction(
@@ -359,7 +359,7 @@ final class DiffusionRepositoryController extends DiffusionController {
   private function buildDescriptionView(PhabricatorRepository $repository) {
     $viewer = $this->getViewer();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $description = $repository->getDetail('description');
     if (strlen($description)) {

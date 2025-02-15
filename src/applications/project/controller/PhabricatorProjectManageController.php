@@ -20,7 +20,7 @@ final class PhabricatorProjectManageController
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Project History'))
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($project);
 
     if ($project->getStatus() == PhabricatorProjectStatus::STATUS_ACTIVE) {
@@ -133,7 +133,7 @@ final class PhabricatorProjectManageController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $view->addProperty(
       pht('Looks Like'),

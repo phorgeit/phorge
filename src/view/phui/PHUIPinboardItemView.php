@@ -62,7 +62,7 @@ final class PHUIPinboardItemView extends AphrontView {
         ),
         array(
           id(new PHUISpacesNamespaceContextView())
-            ->setUser($this->getUser())
+            ->setViewer($this->getUser())
             ->setObject($this->object),
           phutil_tag(
             'a',

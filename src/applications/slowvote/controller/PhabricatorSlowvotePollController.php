@@ -23,7 +23,7 @@ final class PhabricatorSlowvotePollController
     }
 
     $poll_view = id(new SlowvoteEmbedView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPoll($poll);
 
     if ($request->isAjax()) {
@@ -43,7 +43,7 @@ final class PhabricatorSlowvotePollController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($poll->getQuestion())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setStatus($header_icon, $header_color, $header_name)
       ->setPolicyObject($poll)
       ->setHeaderIcon('fa-bar-chart');
@@ -153,7 +153,7 @@ final class PhabricatorSlowvotePollController
     $draft = PhabricatorDraft::newFromUserAndKey($viewer, $poll->getPHID());
 
     return id(new PhabricatorApplicationTransactionCommentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($poll)
       ->setDraft($draft)
       ->setHeaderText($add_comment_header)

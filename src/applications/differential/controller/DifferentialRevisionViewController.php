@@ -382,7 +382,7 @@ final class DifferentialRevisionViewController
         ->setRawFileURIs(
           '/differential/changeset/?view=old',
           '/differential/changeset/?view=new')
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setDiff($target)
         ->setRenderingReferences($rendering_references)
         ->setVsMap($vs_map)
@@ -408,7 +408,7 @@ final class DifferentialRevisionViewController
     $broken_diffs = $this->loadHistoryDiffStatus($diffs);
 
     $history = id(new DifferentialRevisionUpdateHistoryView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setDiffs($diffs)
       ->setDiffUnitStatuses($broken_diffs)
       ->setSelectedVersusDiffID($diff_vs)
@@ -416,7 +416,7 @@ final class DifferentialRevisionViewController
       ->setCommitsForLinks($commits_for_links);
 
     $local_table = id(new DifferentialLocalCommitsView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setLocalCommits(idx($props, 'local:commits'))
       ->setCommitsForLinks($commits_for_links);
 
@@ -667,7 +667,7 @@ final class DifferentialRevisionViewController
   private function buildHeader(DifferentialRevision $revision) {
     $view = id(new PHUIHeaderView())
       ->setHeader($revision->getTitle($revision))
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setPolicyObject($revision)
       ->setHeaderIcon('fa-cog');
 
@@ -724,7 +724,7 @@ final class DifferentialRevisionViewController
     $custom_fields) {
     $viewer = $this->getViewer();
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($custom_fields) {
       $custom_fields->appendFieldsToPropertyList(
@@ -1200,7 +1200,7 @@ final class DifferentialRevisionViewController
     return id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Diff Detail'))
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addTabGroup($tab_group);
   }
 
@@ -1211,7 +1211,7 @@ final class DifferentialRevisionViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($diff);
 
     foreach ($fields as $field) {

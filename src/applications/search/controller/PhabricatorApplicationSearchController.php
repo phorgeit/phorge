@@ -178,7 +178,7 @@ final class PhabricatorApplicationSearchController
       'query/advanced');
 
     $form = id(new AphrontFormView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setAction($request->getPath());
 
     $engine->buildSearchForm($form, $saved_query);
@@ -771,7 +771,7 @@ final class PhabricatorApplicationSearchController
     $engine = $this->getSearchEngine();
 
     $nav = id(new AphrontSideNavFilterView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBaseURI(new PhutilURI($this->getApplicationURI()));
 
     $engine->addNavigationItems($nav->getMenu());

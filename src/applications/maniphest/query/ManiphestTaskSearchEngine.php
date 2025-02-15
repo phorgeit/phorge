@@ -379,7 +379,7 @@ final class ManiphestTaskSearchEngine
       PhabricatorCustomField::ROLE_LIST);
 
     $list = id(new ManiphestTaskResultListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTasks($tasks)
       ->setHandles($handles)
       ->setSavedQuery($saved)

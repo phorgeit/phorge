@@ -42,7 +42,7 @@ final class PhabricatorProjectSubprojectsController
         ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
         ->setObjectList(
           id(new PhabricatorProjectListView())
-            ->setUser($viewer)
+            ->setViewer($viewer)
             ->setProjects($subprojects)
             ->setNoDataString(pht('This project has no subprojects.'))
             ->renderList());
@@ -64,7 +64,7 @@ final class PhabricatorProjectSubprojectsController
         ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
         ->setObjectList(
           id(new PhabricatorProjectListView())
-            ->setUser($viewer)
+            ->setViewer($viewer)
             ->setProjects($milestones)
             ->setNoDataString(pht('This project has no milestones.'))
             ->renderList());

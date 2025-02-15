@@ -44,7 +44,7 @@ final class PhabricatorProjectListView extends AphrontView {
     }
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString($no_data);
 
     foreach ($projects as $key => $project) {

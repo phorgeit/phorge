@@ -24,7 +24,7 @@ final class PHUIRemarkupView extends AphrontView {
   const OPTION_GENERATE_TOC = 'header.generate-toc';
 
   public function __construct(PhabricatorUser $viewer, $corpus) {
-    $this->setUser($viewer);
+    $this->setViewer($viewer);
     $this->corpus = $corpus;
   }
 

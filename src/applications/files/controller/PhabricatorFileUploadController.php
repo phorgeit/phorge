@@ -54,7 +54,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
       ->execute();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())
@@ -68,7 +68,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
           ->setValue($request->getStr('name')))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
           ->setPolicyObject($file)
           ->setPolicies($policies)
@@ -86,7 +86,7 @@ final class PhabricatorFileUploadController extends PhabricatorFileController {
     $title = pht('Upload File');
 
     $global_upload = id(new PhabricatorGlobalUploadTargetView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setShowIfSupportedID($support_id);
 
     $form_box = id(new PHUIObjectBoxView())

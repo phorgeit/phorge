@@ -70,7 +70,7 @@ final class PHUIApplicationMenuView extends Phobject {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $profile_menu = $this->getProfileMenu();
     if ($profile_menu) {

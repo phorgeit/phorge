@@ -412,7 +412,7 @@ final class PHUIObjectItemView extends AphrontTagView {
 
     if ($viewer) {
       $header_name[] = id(new PHUISpacesNamespaceContextView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($this->object);
     }
 

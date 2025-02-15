@@ -36,7 +36,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     $phid = $file->getPHID();
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($file)
       ->setHeader($file->getName())
       ->setHeaderIcon('fa-file-o');

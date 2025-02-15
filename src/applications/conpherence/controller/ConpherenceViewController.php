@@ -115,7 +115,7 @@ final class ConpherenceViewController extends
     }
 
     $layout = id(new ConpherenceLayoutView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setBaseURI($this->getApplicationURI())
       ->setThread($conpherence)
       ->setHeader($header)
@@ -160,14 +160,14 @@ final class ConpherenceViewController extends
       }
 
       $form = id(new AphrontFormView())
-        ->setUser($user)
+        ->setViewer($user)
         ->setAction($update_uri)
         ->addSigil('conpherence-pontificate')
         ->setWorkflow(true)
         ->addHiddenInput('action', $action)
         ->appendChild(
           id(new PhabricatorRemarkupControl())
-          ->setUser($user)
+          ->setViewer($user)
           ->setName('text')
           ->setSendOnEnter(true)
           ->setValue($draft->getDraft()));

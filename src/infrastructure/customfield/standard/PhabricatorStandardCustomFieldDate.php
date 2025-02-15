@@ -46,7 +46,7 @@ final class PhabricatorStandardCustomFieldDate
 
   public function readValueFromRequest(AphrontRequest $request) {
     $control = $this->newDateControl();
-    $control->setUser($request->getUser());
+    $control->setViewer($request->getUser());
     $value = $control->readValueFromRequest($request);
 
     $this->setFieldValue($value);
@@ -65,7 +65,7 @@ final class PhabricatorStandardCustomFieldDate
     $control = id(new AphrontFormDateControl())
       ->setLabel($this->getFieldName())
       ->setName($this->getFieldKey())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setCaption($this->getCaption())
       ->setAllowNull(!$this->getRequired());
 

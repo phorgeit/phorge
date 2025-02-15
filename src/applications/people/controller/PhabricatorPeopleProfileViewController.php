@@ -90,7 +90,7 @@ final class PhabricatorPeopleProfileViewController
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($user);
 
     $field_list = PhabricatorCustomField::getObjectFields(
@@ -135,7 +135,7 @@ final class PhabricatorPeopleProfileViewController
       $limit = 5;
       $render_phids = array_slice($projects, 0, $limit);
       $list = id(new PhabricatorProjectListView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setProjects($render_phids);
 
       if (count($projects) > $limit) {

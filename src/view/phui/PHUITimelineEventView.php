@@ -356,7 +356,7 @@ final class PHUITimelineEventView extends AphrontView {
       }
 
       $action_list = id(new PhabricatorActionListView())
-        ->setUser($this->getUser());
+        ->setViewer($this->getUser());
       foreach ($items as $item) {
         $action_list->addAction($item);
       }
@@ -575,7 +575,7 @@ final class PHUITimelineEventView extends AphrontView {
       if ($source) {
         $content_source = id(new PhabricatorContentSourceView())
           ->setContentSource($source)
-          ->setUser($this->getUser());
+          ->setViewer($this->getUser());
         $content_source = pht('Via %s', $content_source->getSourceName());
       }
 

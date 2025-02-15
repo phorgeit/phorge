@@ -51,7 +51,7 @@ final class PholioMockViewController extends PholioController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setStatus($header_icon, $header_color, $header_name)
       ->setPolicyObject($mock)
       ->setHeaderIcon('fa-camera-retro');
@@ -73,7 +73,7 @@ final class PholioMockViewController extends PholioController {
     $mock_view = id(new PholioMockImagesView())
       ->setRequestURI($request->getRequestURI())
       ->setCommentFormID($comment_form_id)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setMock($mock)
       ->setImageID($image_id);
 
@@ -89,7 +89,7 @@ final class PholioMockViewController extends PholioController {
     $crumbs->setBorder(true);
 
     $thumb_grid = id(new PholioMockThumbGridView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setMock($mock);
 
     $view = id(new PHUITwoColumnView())
@@ -176,7 +176,7 @@ final class PholioMockViewController extends PholioController {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     $description = $mock->getDescription();
 
     if (strlen($description)) {
@@ -222,7 +222,7 @@ final class PholioMockViewController extends PholioController {
       : pht('History Beckons');
 
     $form = id(new PhabricatorApplicationTransactionCommentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($mock)
       ->setFormID($comment_form_id)
       ->setDraft($draft)

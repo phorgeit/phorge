@@ -153,7 +153,7 @@ final class PhabricatorSlowvoteEditController
 
     $form = id(new AphrontFormView())
       ->setAction($request->getrequestURI())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setLabel(pht('Question'))
@@ -162,7 +162,7 @@ final class PhabricatorSlowvoteEditController
           ->setError($e_question))
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setLabel(pht('Description'))
           ->setName('description')
           ->setValue($v_description))
@@ -265,7 +265,7 @@ final class PhabricatorSlowvoteEditController
             $v_shuffle))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setName('viewPolicy')
           ->setPolicyObject($poll)
           ->setPolicies($policies)

@@ -9,7 +9,7 @@ abstract class PhabricatorStandardCustomFieldTokenizer
     $value = $this->getFieldValue();
 
     $control = id(new AphrontFormTokenizerControl())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setLabel($this->getFieldName())
       ->setName($this->getFieldKey())
       ->setDatasource($this->getDatasource())

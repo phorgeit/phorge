@@ -91,7 +91,7 @@ final class ProjectBoardTaskCard extends Phobject {
 
     $card = id(new PHUIObjectItemView())
       ->setObject($task)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObjectName($task->getMonogram())
       ->setHeader($task->getTitle())
       ->setHref($task->getURI())

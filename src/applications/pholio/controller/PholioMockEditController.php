@@ -246,7 +246,7 @@ final class PholioMockEditController extends PholioController {
     }
     foreach ($display_mock_images as $mock_image) {
       $image_elements[] = id(new PholioUploadedImageView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setImage($mock_image)
         ->setReplacesPHID($mock_image->getFilePHID());
     }
@@ -297,7 +297,7 @@ final class PholioMockEditController extends PholioController {
 
     require_celerity_resource('pholio-edit-css');
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($order_control)
       ->appendChild(
         id(new AphrontFormTextControl())
@@ -310,7 +310,7 @@ final class PholioMockEditController extends PholioController {
         ->setName('description')
         ->setValue($v_desc)
         ->setLabel(pht('Description'))
-        ->setUser($viewer))
+        ->setViewer($viewer))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Tags'))
@@ -322,11 +322,11 @@ final class PholioMockEditController extends PholioController {
           ->setLabel(pht('Subscribers'))
           ->setName('cc')
           ->setValue($v_cc)
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setDatasource(new PhabricatorMetaMTAMailableDatasource()))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
           ->setPolicyObject($mock)
           ->setPolicies($policies)
@@ -334,7 +334,7 @@ final class PholioMockEditController extends PholioController {
           ->setName('can_view'))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
           ->setPolicyObject($mock)
           ->setPolicies($policies)

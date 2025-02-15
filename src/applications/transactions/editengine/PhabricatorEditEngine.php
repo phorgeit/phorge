@@ -1284,7 +1284,7 @@ abstract class PhabricatorEditEngine
     $tail = $this->newEditFormTailContent($page_state);
 
     $box = id(new PHUIObjectBoxView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($box_header)
       ->setValidationException($validation_exception)
       ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
@@ -1357,7 +1357,7 @@ abstract class PhabricatorEditEngine
     $request_path = $request->getPath();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setAction($request_path)
       ->addHiddenInput('editEngine', 'true');
 
@@ -1430,7 +1430,7 @@ abstract class PhabricatorEditEngine
     $viewer = $this->getViewer();
 
     $action_view = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($this->buildEditFormActions($object) as $action) {
       $action_view->addAction($action);
@@ -1673,7 +1673,7 @@ abstract class PhabricatorEditEngine
     }
 
     $view = id(new PhabricatorApplicationTransactionCommentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeaderText($header_text)
       ->setAction($comment_uri)
       ->setRequestURI(new PhutilURI($this->getObjectViewURI($object)))

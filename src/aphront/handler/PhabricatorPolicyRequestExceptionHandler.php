@@ -76,7 +76,7 @@ final class PhabricatorPolicyRequestExceptionHandler
     $dialog = id(new AphrontDialogView())
       ->setTitle($throwable->getTitle())
       ->setClass('aphront-access-dialog')
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($content);
 
     if ($list) {
