@@ -9,8 +9,8 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => '2f25eb4f',
     'conpherence.pkg.js' => '020aebcf',
-    'core.pkg.css' => 'ac619266',
-    'core.pkg.js' => 'b3c5c317',
+    'core.pkg.css' => '112931ab',
+    'core.pkg.js' => '820af51e',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '94bb10ca',
     'differential.pkg.js' => '46fcb3af',
