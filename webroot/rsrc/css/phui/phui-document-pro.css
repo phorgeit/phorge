@@ -228,8 +228,8 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
 }
 
 .phui-document-view-pro .phabricator-remarkup-embed-image-wide {
-  margin-left: -200px;
-  margin-right: -200px;
+  margin-left: -300px;
+  margin-right: -300px;
   width: auto;
 }
 
@@ -318,7 +318,7 @@ span.visual-only.phui-icon-view.phui-font-fa.fa-users {
   }
 
   div.phui-document-content {
-    margin-left: -200px;
+    margin-left: -300px;
   }
 
   div.phui-document-curtain {
