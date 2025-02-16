@@ -122,6 +122,9 @@ abstract class HeraldAction extends Phobject {
     return $this;
   }
 
+  /*
+   * @return HeraldAdapter HeraldAdapter class of the action
+   **/
   final public function getAdapter() {
     return $this->adapter;
   }
