@@ -1,0 +1,353 @@
+@title Understanding Application Transaction Editors
+@group developer
+
+An incomplete guide to implementing and using Application Transaction Editors.
+
+= Overview
+
+Transaction editors, subclasses of
+@{class:PhabricatorApplicationTransactionEditor}, provide a common abstraction
+to applying mutations to an object in an extensible way. Each application is
+responsible for providing a transaction editor for object types. By implementing
+your object mutation logic as a transaction editor, you gain benefits like being
+able to use standard CRUD (Create, Read, Update, Delete) components like
+@{class:PhabricatorEditEngine} which gives you standard edit and create forms
+for your object types, as well as the transaction history for each object.
+
+At a high level, an editor takes an object and a list of actions to apply, and
+then in a rather large set of phases: Validates each action, applies the
+mutations, performs various ancillary work (such as queuing Herald actions), and
+inserts logs of the mutations into a transaction table which is used principally
+to render timelines in the UI, but are general enough that you //could// do
+more. As an example, they, like feed, can be used for incremental
+synchronization with external or even internal sources.
+
+It's important to understand that because the base transaction editor class is
+attempting to consolidate a large amount of ad-hoc, legacy, and custom object
+mutation code, it's //very// large and complex.
+
+= Concepts
+
+== Getting an Editor
+
+The best way to get a transaction editor for an object type is to instantiate or
+get an object of that type, which must implement
+@{interface:PhabricatorApplicationTransactionInterface}, and call
+@{method:PhabricatorApplicationTransactionInterface::getApplicationTransactionEditor}.
+
+Editors operate in one of two modes: real or live, and "preview". Of course the
+"live" mode actually applies mutations and triggers email, etc. The preview mode
+is used when a form (such as in Phriction) wants to render a preview of the
+changes to be made. In the case of Phriction, that means showing the new
+rendered content. **The preview path is //not// expanded upon in this guide.**
+
+== Transactions and Transaction Types
+
+Transactions refer to the actual storage objects for an object type's
+transaction table. These are typically referred to as `xactions` and are
+subclasses of @{class:PhabricatorModularTransaction}.
+
+Transaction //types// refer to the implementation logic for a particular kind of
+mutation. These are typically referred to as `xtypes`, but very occassionally
+they are also called `xactions` in the base editor code. There are two kinds of
+transactions types: legacy, and modern or modular. Legacy transaction types will
+not be discussed as no new legacy transaction types should be added. Modular
+transaction types inherit from @{class:PhabricatorModularTransactionType}.
+Certain core transaction types apply to almost all object types, and those can
+be found in @{class:PhabricatorTransactions}.
+
+Providing a list of mutations to an editor involves constructing transaction
+objects for the object type and setting the transaction object's type to a
+constant. Example code is worth at least 500 words, so here's an example to
+clarify this relationship:
+
+```lang=php
+$xactions = array();
+// ManiphestTransaction inherits from PhabricatorModularTransaction.
+$xactions[] = (new ManiphestTransaction())
+  // You set the transaction type to a constant, and then the editor intantiates
+  // the appropriate transaction type class to perform the mutation.
+  ->setTransactionType(ManiphestTaskTitleTransaction::TRANSACTIONTYPE)
+  // The value to set on the object. See below for a discussion of new/old
+  // values.
+  ->setNewValue('A hot task title meant to inspire action');
+
+$xactions[] = (new ManiphestTransaction())
+  // This is one of the core transaction types. It's applicable to anything that
+  // implements PhabricatorSubscribableInterface.
+  ->setTransactionType(PhabricatorTransactions::TYPE_SUBSCRIBERS)
+  // This sets the subscribers to $some_phid, discarding any others.
+  ->setNewValue(array(
+    '=' => array($some_phid => $some_phid)
+  ));
+// ...
+(new ManiphestTransactionEditor())
+  // common builder methods not applicable here, see below for more details
+  ->applyTransactions($a_task_object, $xactions);
+```
+
+= Edit Phases
+
+The most daunting aspect of transaction editors is just how complicated the edit
+process //is.// There's thirty primary phases with a large number of hooks for
+applications to customize the process to varying degrees.
+
+| #   | Summary                         | Clones xtype | Can hook     |
+| --- | ------------------------------- | ------------ | ------------ |
+| 1   | Open txn and lock object        | no           |              |
+| 2   | Edit params validated           | no           |              |
+| 3   | MFA requirements                | **yes**      | xtype        |
+| 4   | Object+viewer txn attached      | no           |              |
+| 5   | Expand transactions             | no           | editor       |
+| 6   | Implicit+support txns added     | no           | editor       |
+| 7   | Merge transactions              | no           | editor+xtype |
+| 8   | Common attributes               | no           | editor       |
+| 9   | Transaction type validators     | no           | editor+xtype |
+| 10  | Editor xaction validation       | no           | editor       |
+| 11  | Extension xaction validation    | no           |              |
+| 12  | Any validation errors thrown    | no           |              |
+| 13  | new/old values generated        | no           | xtype        |
+| 14  | Capability checks               | no           | xtype        |
+| 15  | No-op transactions are filtered | no           | editor+xtype |
+| 16  | MFA requirement execution       | no           |              |
+| 17  | //Initial// effects applied     | no           | editor       |
+| 18  | Fixup isCreate flag on xactions | no           |              |
+| 19  | Transactions are sorted         | no           | editor       |
+| 20  | //Internal// effects applied    | **yes**      | xtype        |
+| 21  | Object committed                | no           |              |
+| 22  | handle duplicate key errs       | no           | editor       |
+| 23  | xactions commit                 | no           |              |
+| 24  | //External// effects applied    | **yes**      | xtype        |
+| 25  | //Final// effects applied       | no           | editor       |
+| 26  | "did commit" callback           | **yes**      | xtype        |
+| 27  | Cache engine updates            | no           | extensions   |
+| 28  | Herald rules                    | no           | editor       |
+| 29  | "did commit" part 2             | no           | editor       |
+| 30  | Email+feed processing hooks     | no           | editor       |
+
+1. **Open transaction and lock object**
+
+If it's an existing object and this isn't a preview edit, then it's reloaded
+from the database, a db transaction is opened and the object is loaded with
+`SELECT .. FOR UPDATE` to prevent concurrent modification.
+
+2. **High level parameters of the edit are validated.**
+
+E.g., all the actions to perform are instances of the base Transaction DAO,
+that it's not a transaction that's already been applied.
+
+3. **Checks for MFA authentication requirements**
+
+If any xaction has such a requirement, a MFA xaction at the front of the
+transaction list. The presence of such a transaction configures edit forms to
+require MFA re-authentication to submit the form. An object or transaction type
+that requires MFA to edit/apply cannot be edited outside the web UI, unless the
+omnipotent viewer is used.
+
+4. **The object-under-edit and current viewer are attached to the xactions.**
+
+This is not helpful for implementing new types because it attaches them to the
+transaction objects for internal purposes, not the transaction //types.//
+Transaction types can always access the actor the editor is using
+@{method:PhabricatorModularTransactionType::getActor}.
+
+5. **Transactions are "expanded".**
+
+Which means that a transaction like "resign from diff" also means "remove
+myself as a reviewer." Hooks are provided but do not instantiate transaction
+types. Transaction expansion runs in the context of the editor.
+
+6. **Some implicit/automatic support transactions are added to the process**
+
+for things like where your transaction has some reMarkup changes, or the
+object has subscribers and those subscribers have changed... within some
+reMarkup.
+
+7. **Transactions are combined**
+
+To coalesce two updates of one field into one update. Has hook on transaction
+type objects, but only works if you have two of the same type in an edit.
+
+8. **Common attributes are added to the transactions.**
+
+**(NO HOOKS)** This is stuff like the author/actor, content source (e.g.,
+web), edit policy.
+
+9. **Transaction type validation logic is run.**
+
+The transactions are grouped by their type and then all of the xactions of
+that type are passed to the transaction type //once// for validation. Any state
+you set on the input transactions to the editor (expect builtin state like
+newObject) //will not be present.//
+
+10. **The editor gets the chance to validate every transaction.**
+
+This is presumably for domain specific editing logic.
+
+11. **Transaction editor //extensions// get to validate the transactions.**
+
+NOTE: Currently undocumented.
+
+12. **Missing field errors are checked for and processed.**
+
+These errors may not be raised if the editor is configured to not care.
+
+13. **New/old values generated + some legacy file attachment handling.**
+
+This is where new and old values are generated from the xtype as well as some
+custom logic for fixing up the values for file type transactions.
+
+14. **Capability checks are performed.**
+
+Transaction types are allowed to declare additional capabilities a user needs in
+order to perform the action.
+
+15. **Transactions are filtered for effect and special effects.**
+
+Transactions are allowed to define what "has an effect" means. This means that
+they can conditionally filter themselves out based on arbitrary logic. There is
+also a number of built-in filtering for comment and MFA transactions.
+
+16. **MFA requirement tested and if needed executed.**
+
+MFA requirements only work if the call is from conduit or web. Anything else
+simply can't use MFA and transaction editors.
+
+17. **Initial effects are executed.**
+
+These allow the editor to prepare state to handle subsequent phases, as well as
+other mysterious purposes. It's really important to note that
+`shouldApplyInitialEffect` will get called **TWICE** because of some weirdness
+around previewing.
+
+18. **Marks all the xactions as create if needed.**
+
+When an object is being created a special key in the transaction metadata is
+set to indicate that the transaction group was the creation txn.
+
+19. **Transactions are sorted for display purposes.**
+
+An opportunity is given to editors to reorder how the transactions will be
+committed to the database. There is also default behavior for comments.
+
+20. **Internal effects are executed.**
+
+Internal effects (defined on the transaction type) are where most
+transactions apply the new state to the object being worked on and other
+ancillary but closely related objects.
+
+21. **//The object is saved//.**
+
+All the internal effects have run successfully to build new object(s) state.
+The object is inserted/updated in the database.
+
+22. **The editor is given a chance to react to duplicate key errors.**
+
+This is nominally to allow the editor to process the exception and throw
+something else.
+
+23. **The xactions themselves are saved to the database.**
+
+This involves setting some final metadata such as the object PHID and
+transaction group id. There's some special case logic around a new EDGE type
+transaction format.
+
+24. **External effects are executed.**
+
+These effects (defined on the transaction types) are used to perform side
+effects on other objects, enqueue daemon jobs, or potentially talk to
+external services.
+
+25. **Final effects are executed.**
+
+This allows the editor to perform side final side effects before the overall
+database transaction is committed. Immediately after this is transaction
+commit, call it phase 25a.
+
+26. **A "did commit" callback is executed on the xactions.**
+
+Each transaction type is able to react to the fact that the overall database
+transaction has been applied successfully. This is typically used for
+notifying related applications of a change they need to respond to.
+
+27. **Cache engines are notified of the object change.**
+
+Someone ought to write some prose for this.
+
+28. **Herald rules are run.**
+
+This is kinda interesting. The editor can decide if there are herald rules
+that need running based on all the transactions applied. If there are any,
+then the editor must provide a @{class:HeraldAdapter} by some means. The
+adapter then runs it's rules and afterwards the editor can generate further
+transactions for the object for things like rules that automatically assign
+tasks with titles starting with "[LOL]" to the team's intern.
+Finally, the herald editor is run to commit those transactions.
+
+29. **Editors can handle the completion of the primary edit portion.**
+
+This doesn't include the major side effects of enqueueing the jobs to send
+email and publish feed stories.
+
+30. **Various hooks for email processing are called on the editor.**
+
+The hooks are for things like deciding if mail should be sent, whom they
+should be sent to, what mail content to create, queue final transactions to
+be run after all is said and done. This is a wild scenario because a copy of
+the editor will be created and then will be called all over again for the
+transactions it just generated.
+
+= Implementing an Editor
+
+The process for creating an editor is rather straightforward. The overwhelming
+majority of the logic is in the base class, and can't be overridden. In short
+you must:
+
+1. Create a subclass of @{class:PhabricatorApplicationTransactionEditor}
+2. Implement @{interface:PhabricatorApplicationTransactionInterface} on the
+   object types of your application. I.e., your storage objects that descend
+   from @{class:LiskDAO}.
+3. Implement zero or more transaction types by creating a subclass of
+   @{class:PhabricatorModularTransactionType} for each storage object type in
+   your application.
+4. Use the editor!
+
+If you need to exit an edit early, the only way out is to record an error in
+`xtype` validation logic, or throw an exception in one of the editor hooks.
+
+== Implementing Transaction Types
+
+For simple object types, the majority of the logic will go into the transaction
+types. There are a few methods that are largely mandatory to implement to have
+any kind of reasonable logic.
+
+The most important is
+@{method:PhabricatorModularTransactionType::validateTransactions}. This is where
+you'll ensure that the changes are well formed. Logic like ensuring a maximum
+length for a value, or that it's a PHID should go here. This method will be
+called with //all// of the transactions of this type that will be applied to the
+object, so this is also where you could ensure that only one "Title" transaction
+is applied.
+
+Next is @{method:PhabricatorModularTransactionType::generateOldValue}. Typically
+the implementation of this will just return the value already on the object, but
+can also always return `null` if that's challenging or not meaningful to do.
+
+There are two methods you can implement to actually perform mutations. The
+first, and most common is
+@{method:PhabricatorModularTransactionType::applyInternalEffects}. This method
+should be used to mutate the actual object being edited. The second is
+@{method:PhabricatorModularTransactionType::applyExternalEffects} which is where
+you should place mutations that affect other objects such as caches or internal
+state.
+
+NOTE: It's important that your transaction types are **stateless**! Because of
+how the types are cloned inside the base editor, it's very challenging or
+impossible to have stateful transaction types.
+
+= Next Steps
+
+Try reading a few transaction editors and their transaction types.
+@{class:PhrictionTransactionEditor} and @{class:PonderEditor} are both simple
+editors that are not too difficult to understand. A much more complex one is
+@{class:ManiphestTransactionEditor}.
