@@ -388,7 +388,7 @@ final class PhabricatorStartup {
    * @task validation
    */
   private static function setupPHP() {
-    error_reporting(E_ALL | E_STRICT);
+    error_reporting(E_ALL);
     self::$oldMemoryLimit = ini_get('memory_limit');
     ini_set('memory_limit', -1);
 
