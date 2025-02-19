@@ -18,7 +18,15 @@ final class PhabricatorFeedQuery
     return $this;
   }
 
+  /**
+   * @param int|null $range_min Minimum epoch value of feed stories
+   * @param int|null $range_max Maximum epoch value of feed stories
+   */
   public function withEpochInRange($range_min, $range_max) {
+    if ($range_min && $range_max && $range_min > $range_max) {
+      throw new PhutilArgumentUsageException(
+        pht('Feed query minimum range must be lower than maximum range.'));
+    }
     $this->rangeMin = $range_min;
     $this->rangeMax = $range_max;
     return $this;
