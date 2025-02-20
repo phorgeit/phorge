@@ -63,7 +63,7 @@ final class PhabricatorConpherenceApplication extends PhabricatorApplication {
           => 'ConpherenceParticipantController',
         'preferences/(?P<id>[1-9]\d*)/'
           => 'ConpherenceRoomPreferencesController',
-        'update/(?P<id>[1-9]\d*)/'
+        'edit/(?P<id>[1-9]\d*)/'
           => 'ConpherenceUpdateController',
       ),
     );

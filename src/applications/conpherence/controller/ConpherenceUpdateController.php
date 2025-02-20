@@ -204,7 +204,7 @@ final class ConpherenceUpdateController
       $dialog
         ->setUser($user)
         ->setWidth(AphrontDialogView::WIDTH_FORM)
-        ->setSubmitURI($this->getApplicationURI('update/'.$conpherence_id.'/'))
+        ->setSubmitURI($this->getApplicationURI('edit/'.$conpherence_id.'/'))
         ->addSubmitButton()
         ->addCancelButton($this->getApplicationURI($conpherence->getID().'/'));
 
@@ -373,7 +373,7 @@ final class ConpherenceUpdateController
     $rendered_transactions = idx($data, 'transactions');
     $new_latest_transaction_id = idx($data, 'latest_transaction_id');
 
-    $update_uri = $this->getApplicationURI('update/'.$conpherence->getID().'/');
+    $update_uri = $this->getApplicationURI('edit/'.$conpherence->getID().'/');
     $nav_item = null;
     $header = null;
     $people_widget = null;
