@@ -10,7 +10,7 @@ return array(
     'conpherence.pkg.css' => '2f25eb4f',
     'conpherence.pkg.js' => '020aebcf',
     'core.pkg.css' => '112931ab',
-    'core.pkg.js' => 'd9e681ec',
+    'core.pkg.js' => 'f58c3c6e',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '94bb10ca',
     'differential.pkg.js' => '46fcb3af',
