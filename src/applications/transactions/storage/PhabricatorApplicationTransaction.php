@@ -1118,7 +1118,7 @@ abstract class PhabricatorApplicationTransaction
             '%s updated %s attached file(s), added %s: %s; removed %s: %s; '.
             'modified %s: %s.',
             $this->renderHandleLink($author_phid),
-            new PhutilNumber(count($add) + count($rem)),
+            new PhutilNumber(count($add) + count($rem) + count($mod)),
             phutil_count($add),
             $this->renderHandleList($add),
             phutil_count($rem),
