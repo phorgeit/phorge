@@ -86,7 +86,7 @@ whatever machine you're editing code on. It runs on:
 
 Arcanist is written in PHP, so you need to install the PHP CLI first if you
 don't already have it. Arcanist should run on PHP 5.2 and newer. If you don't
-have PHP installed, you can download it from <http://www.php.net/>.
+have PHP installed, you can download it from <https://www.php.net/>.
 
 To install Arcanist, pick an install directory and clone the code from GitHub:
 
