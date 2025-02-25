@@ -9385,23 +9385,6 @@ USE `{$NAMESPACE}_search`;
 
  SET character_set_client = {$CHARSET} ;
 
-CREATE TABLE `search_documentfield` (
-  `phid` varbinary(64) NOT NULL,
-  `phidType` varchar(4) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `field` varchar(4) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,
-  `auxPHID` varbinary(64) DEFAULT NULL,
-  `corpus` longtext CHARACTER SET {$CHARSET_FULLTEXT} COLLATE {$COLLATE_FULLTEXT},
-  `stemmedCorpus` longtext CHARACTER SET {$CHARSET_SORT} COLLATE {$COLLATE_SORT},
-  KEY `phid` (`phid`),
-  FULLTEXT KEY `key_corpus` (`corpus`,`stemmedCorpus`)
-) ENGINE=MyISAM DEFAULT CHARSET={$CHARSET} COLLATE={$COLLATE_TEXT};
-
-USE `{$NAMESPACE}_search`;
-
- SET NAMES utf8 ;
-
- SET character_set_client = {$CHARSET} ;
-
 CREATE TABLE `search_documentrelationship` (
   `phid` varbinary(64) NOT NULL,
   `relatedPHID` varbinary(64) NOT NULL,
