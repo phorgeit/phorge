@@ -72,6 +72,11 @@ final class ManiphestReportController extends ManiphestController {
   }
 
   /**
+   * Render the "Burnup Rate" on /maniphest/report/burn/.
+   *
+   * Ironically this is not called for the "Burndown" on /project/reports/$id/
+   * as that's handled by PhabricatorProjectReportsController instead.
+   *
    * @return array<AphrontListFilterView, PHUIObjectBoxView>
    */
   public function renderBurn() {
@@ -484,6 +489,14 @@ final class ManiphestReportController extends ManiphestController {
     return array(array_keys($out), array_values($out));
   }
 
+  /**
+   * @param $label string Time representation for the row, e.g. "Feb 29 2024",
+   *        "All Time", "Week of May 10 2024", "Month To Date", etc.
+   * @param $info array<string,int> open|close; number of tasks in timespan
+   * @return array<string,string,string,PhutilSafeHTML> Row text label; number
+   *         of open tasks as string; number of closed tasks as string;
+   *         PhutilSafeHTML such as "<span class="red">+144</span>"
+   */
   private function formatBurnRow($label, $info) {
     $delta = $info['open'] - $info['close'];
     $fmt = number_format($delta);
@@ -502,12 +515,20 @@ final class ManiphestReportController extends ManiphestController {
     );
   }
 
+  /**
+   * @return int 50
+   */
   private function getAveragePriority() {
     // TODO: This is sort of a hard-code for the default "normal" status.
     // When reports are more powerful, this should be made more general.
     return 50;
   }
 
+  /**
+   * Render all table cells in the "Open Tasks" table on /maniphest/report/*.
+   *
+   * @return array<AphrontListFilterView,PHUIObjectBoxView>
+   */
   public function renderOpenTasks() {
     $request = $this->getRequest();
     $viewer = $request->getUser();
@@ -792,7 +813,10 @@ final class ManiphestReportController extends ManiphestController {
 
 
   /**
-   * Load all the tasks that have been recently closed.
+   * Load all tasks that have been recently closed.
+   * This is used for the "Recently Closed" column on /maniphest/report/*.
+   *
+   * @return array<ManiphestTask|null>
    */
   private function loadRecentlyClosedTasks() {
     list($ignored, $window_epoch) = $this->getWindow();
@@ -845,11 +869,16 @@ final class ManiphestReportController extends ManiphestController {
   }
 
   /**
-   * Parse the "Recently Means" filter into:
-   *
+   * Parse the "Recently Means" filter on /maniphest/report/* into:
    *    - A string representation, like "12 AM 7 days ago" (default);
    *    - a locale-aware epoch representation; and
    *    - a possible error.
+   * This is used for the "Recently Closed" column on /maniphest/report/*.
+   *
+   * @return array<string,integer,string|null> "Recently Means" user input;
+   *         Resulting epoch timeframe used to get "Recently Closed" numbers
+   *         (when user input is invalid, it defaults to a week ago); "Invalid"
+   *         if first parameter could not be parsed as an epoch, else null.
    */
   private function getWindow() {
     $request = $this->getRequest();
@@ -884,6 +913,13 @@ final class ManiphestReportController extends ManiphestController {
     return array($window_str, $window_epoch, $error);
   }
 
+  /**
+   * Render date of oldest open task per user or per project with a link.
+   * Used on /maniphest/report/user/ and /maniphest/report/project/ URIs.
+   *
+   * @return array<PhutilSafeHTML,int> HTML link markup and the timespan
+   *         (as epoch) since task creation
+   */
   private function renderOldest(array $tasks) {
     assert_instances_of($tasks, 'ManiphestTask');
     $oldest = null;
