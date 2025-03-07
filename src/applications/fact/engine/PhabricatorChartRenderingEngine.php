@@ -25,6 +25,11 @@ final class PhabricatorChartRenderingEngine
     return $this->chart;
   }
 
+  /**
+   * Load the chart by its key
+   * @param string $chart_key 12-character string identifier of chart to load
+   * @return PhabricatorFactChart
+   */
   public function loadChart($chart_key) {
     $chart = id(new PhabricatorFactChart())->loadOneWhere(
       'chartKey = %s',
@@ -37,12 +42,20 @@ final class PhabricatorChartRenderingEngine
     return $chart;
   }
 
+  /**
+   * Get the relative URI of the chart
+   * @param string $chart_key 12-character string identifier of chart to load
+   * @return string Relative URI of the chart, e.g. "fact/chart/a1b2c3d4e5f6/"
+   */
   public static function getChartURI($chart_key) {
     return id(new PhabricatorFactChart())
       ->setChartKey($chart_key)
       ->getURI();
   }
 
+  /**
+   * @return PhabricatorFactChart
+   */
   public function getStoredChart() {
     if (!$this->storedChart) {
       $chart = $this->getChart();
@@ -84,6 +97,9 @@ final class PhabricatorChartRenderingEngine
     return $this->storedChart;
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   public function newChartView() {
     $chart = $this->getStoredChart();
     $chart_key = $chart->getChartKey();

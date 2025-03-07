@@ -45,6 +45,10 @@ abstract class PhabricatorChartEngine
     return clone id($engine_map[$engine_key]);
   }
 
+  /**
+   * Load all available chart engines.
+   * @return list<PhabricatorChartEngine> All available chart engines.
+   */
   final public static function getAllChartEngines() {
     return id(new PhutilClassMapQuery())
       ->setAncestorClass(__CLASS__)

@@ -10,6 +10,12 @@ abstract class PhabricatorChartFunction
     return $this->getPhobjectClassConstant('FUNCTIONKEY', 32);
   }
 
+  /**
+   * Get all available PhabricatorChartFunction subclasses
+   *
+   * @return array<PhabricatorChartFunction> All Phabricator*ChartFunction
+   *         classes which implement getFunctionKey()
+   */
   final public static function getAllFunctions() {
     return id(new PhutilClassMapQuery())
       ->setAncestorClass(__CLASS__)
@@ -127,6 +133,11 @@ abstract class PhabricatorChartFunction
     return $results;
   }
 
+  /**
+   * Return arrays of x,y data points for a two-dimensional chart
+   * @param PhabricatorChartDataQuery $query
+   * @return array<array<int,int>> x => epoch value; y => incremental number
+   */
   public function newDatapoints(PhabricatorChartDataQuery $query) {
     $xv = $this->newInputValues($query);
 

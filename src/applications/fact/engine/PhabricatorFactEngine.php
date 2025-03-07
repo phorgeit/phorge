@@ -11,11 +11,20 @@ abstract class PhabricatorFactEngine extends Phobject {
       ->execute();
   }
 
+  /**
+   * @return array All types of facts known by this FactEngine
+   */
   abstract public function newFacts();
 
+  /**
+   * @return bool
+   */
   abstract public function supportsDatapointsForObject(
     PhabricatorLiskDAO $object);
 
+  /**
+   * Add new datapoints (due to a transaction) about an object
+   */
   abstract public function newDatapointsForObject(PhabricatorLiskDAO $object);
 
   final protected function getFact($key) {

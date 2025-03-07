@@ -13,6 +13,9 @@ abstract class PhabricatorChartDataset
     return $this->functions;
   }
 
+  /**
+   * @param array<PhabricatorComposeChartFunction> $functions
+   */
   final public function setFunctions(array $functions) {
     assert_instances_of($functions, 'PhabricatorComposeChartFunction');
 
@@ -67,7 +70,10 @@ abstract class PhabricatorChartDataset
   abstract protected function newChartDisplayData(
     PhabricatorChartDataQuery $data_query);
 
-
+  /**
+   * @param PhabricatorChartDataQuery $data_query
+   * @return PhabricatorChartDisplayData
+   */
   final public function getTabularDisplayData(
     PhabricatorChartDataQuery $data_query) {
     $results = array();

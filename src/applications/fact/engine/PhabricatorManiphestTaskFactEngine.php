@@ -3,6 +3,9 @@
 final class PhabricatorManiphestTaskFactEngine
   extends PhabricatorTransactionFactEngine {
 
+  /**
+   * @return array<PhabricatorCountFact> All known task related facts
+   */
   public function newFacts() {
     return array(
       id(new PhabricatorCountFact())
