@@ -163,12 +163,19 @@ final class PhamePostViewController
         $prev->getBestURI($is_live, $is_external));
     }
 
+    $monogram = $post->getMonogram();
+
     $document->setFoot($next_view);
     $crumbs = $this->buildApplicationCrumbs();
     $properties = phutil_tag_div('phui-document-view-pro-box', $properties);
 
+    // Public viewers like search engines will not see the monogram
+    $title = $viewer->isLoggedIn()
+      ? pht('%s %s', $monogram, $post->getTitle())
+      : $post->getTitle();
+
     $page = $this->newPage()
-      ->setTitle($post->getTitle())
+      ->setTitle($title)
       ->setPageObjectPHIDs(array($post->getPHID()))
       ->setCrumbs($crumbs)
       ->appendChild(
