@@ -14,7 +14,7 @@ final class DivinerArticleAtomizer extends DivinerAtomizer {
     $meta = $atom->getDocblockMeta();
 
     $title = idx($meta, 'title');
-    if (!strlen($title)) {
+    if (!phutil_nonempty_string($title)) {
       $title = pht('Untitled Article "%s"', basename($file_name));
       $atom->addWarning(pht('Article has no %s!', '@title'));
       $atom->setDocblockMetaValue('title', $title);
