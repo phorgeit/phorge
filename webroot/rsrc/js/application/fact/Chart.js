@@ -86,7 +86,7 @@ JX.install('Chart', {
 
       var svg = d3.select(container_node).append('svg')
         .attr('width', size.frameWidth)
-        .attr('height', size.frameHeight)
+        .attr('height', size.frameHeight + 20)
         .attr('class', 'chart');
 
       var g = svg.append('g')
@@ -124,7 +124,12 @@ JX.install('Chart', {
       g.append('g')
         .attr('class', 'x axis')
         .attr('transform', css_function('translate', 0, size.height))
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll('text')
+        .style('text-anchor', 'end')
+        .attr('dx', '-.8em')
+        .attr('dy', '.15em')
+        .attr('transform', 'rotate(-25)');
 
       g.append('g')
         .attr('class', 'y axis')

@@ -396,7 +396,7 @@ return array(
     'rsrc/js/application/diffusion/behavior-pull-lastmodified.js' => 'c715c123',
     'rsrc/js/application/doorkeeper/behavior-doorkeeper-tag.js' => '6a85bc5a',
     'rsrc/js/application/drydock/drydock-live-operation-status.js' => '47a0728b',
-    'rsrc/js/application/fact/Chart.js' => '351abd1c',
+    'rsrc/js/application/fact/Chart.js' => 'ce6f8e3d',
     'rsrc/js/application/fact/ChartCurtainView.js' => '86954222',
     'rsrc/js/application/fact/ChartFunctionLabel.js' => '81de1dab',
     'rsrc/js/application/files/behavior-document-engine.js' => '243d6c22',
@@ -702,7 +702,7 @@ return array(
     'javelin-behavior-user-menu' => '60cd9241',
     'javelin-behavior-view-placeholder' => 'a9942052',
     'javelin-behavior-workflow' => '9623adc1',
-    'javelin-chart' => '351abd1c',
+    'javelin-chart' => 'ce6f8e3d',
     'javelin-chart-curtain-view' => '86954222',
     'javelin-chart-function-label' => '81de1dab',
     'javelin-color' => '78f811c9',
@@ -1229,12 +1229,6 @@ return array(
     '34e2a838' => array(
       'aphront-typeahead-control-css',
       'phui-tag-view-css',
-    ),
-    '351abd1c' => array(
-      'phui-chart-css',
-      'd3',
-      'javelin-chart-curtain-view',
-      'javelin-chart-function-label',
     ),
     '3829a3cf' => array(
       'javelin-behavior',
@@ -2056,6 +2050,12 @@ return array(
       'javelin-install',
       'phuix-button-view',
       'phabricator-diff-tree-view',
+    ),
+    'ce6f8e3d' => array(
+      'phui-chart-css',
+      'd3',
+      'javelin-chart-curtain-view',
+      'javelin-chart-function-label',
     ),
     'cef53b3e' => array(
       'javelin-install',
