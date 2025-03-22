@@ -728,6 +728,11 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-search')
       ->setHref($query_uri);
 
+    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
+      $viewer,
+      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      ManiphestBulkEditCapability::CAPABILITY);
+
     $column_move_uri = urisprintf('bulkmove/%d/column/', $column->getID());
     $column_move_uri = $state->newWorkboardURI($column_move_uri);
 
@@ -735,6 +740,7 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-arrows-h')
       ->setName(pht('Move Tasks to Column...'))
       ->setHref($column_move_uri)
+      ->setDisabled(!$can_bulk_edit)
       ->setWorkflow(true);
 
     $project_move_uri = urisprintf('bulkmove/%d/project/', $column->getID());
@@ -744,15 +750,11 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-arrows')
       ->setName(pht('Move Tasks to Project...'))
       ->setHref($project_move_uri)
+      ->setDisabled(!$can_bulk_edit)
       ->setWorkflow(true);
 
     $bulk_edit_uri = urisprintf('bulk/%d/', $column->getID());
     $bulk_edit_uri = $state->newWorkboardURI($bulk_edit_uri);
-
-    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
-      ManiphestBulkEditCapability::CAPABILITY);
 
     $column_items[] = id(new PhabricatorActionView())
       ->setIcon('fa-pencil-square-o')
