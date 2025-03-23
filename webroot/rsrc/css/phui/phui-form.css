@@ -51,7 +51,6 @@ div.jx-tokenizer-container {
 
   -webkit-transition: border linear .05s, box-shadow linear .05s;
   -moz-transition: border linear .05s, box-shadow linear .05s;
-  -o-transition: border linear .05s, box-shadow linear .05s;
   transition: border linear .05s, box-shadow linear .05s;
 
   -webkit-box-sizing: border-box;
