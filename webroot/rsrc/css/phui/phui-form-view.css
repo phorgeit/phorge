@@ -402,7 +402,7 @@ body .phui-form-view .remarkup-assist-textarea.aphront-textarea-drag-and-drop {
 
 .fancy-datepicker-core .day-table td {
   overflow: hidden;
-  vertical-align: center;
+  vertical-align: middle;
   text-align: center;
   border: 1px solid {$thinblueborder};
   padding: 4px 0;
