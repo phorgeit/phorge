@@ -59,7 +59,7 @@
 
 .device-desktop .phabricator-main-menu-brand:hover {
   background-color: rgba({$alphagrey},.2);
-  cursor: hand;
+  cursor: pointer;
 }
 
 .device-phone .phabricator-wordmark {
