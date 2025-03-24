@@ -95,7 +95,7 @@ ul.phui-oi-list-view {
 }
 
 .device-phone .phui-oi-name {
-  overflow: normal;
+  overflow: visible;
   white-space: normal;
   font-weight: bold;
 }
