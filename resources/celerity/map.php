@@ -9,7 +9,7 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => '2f25eb4f',
     'conpherence.pkg.js' => '020aebcf',
-    'core.pkg.css' => 'be74e96c',
+    'core.pkg.css' => '9073ec19',
     'core.pkg.js' => 'f58c3c6e',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => 'b343ce15',
@@ -33,7 +33,7 @@ return array(
     'rsrc/css/aphront/panel-view.css' => '46923d46',
     'rsrc/css/aphront/phabricator-nav-view.css' => '423f92cc',
     'rsrc/css/aphront/table-view.css' => '0bb61df1',
-    'rsrc/css/aphront/tokenizer.css' => '34e2a838',
+    'rsrc/css/aphront/tokenizer.css' => '8d8f59bd',
     'rsrc/css/aphront/tooltip.css' => 'e3f2412f',
     'rsrc/css/aphront/typeahead-browse.css' => 'b7ed02d2',
     'rsrc/css/aphront/typeahead.css' => '8779483d',
@@ -541,7 +541,7 @@ return array(
     'aphront-multi-column-view-css' => 'fbc00ba3',
     'aphront-panel-view-css' => '46923d46',
     'aphront-table-view-css' => '0bb61df1',
-    'aphront-tokenizer-control-css' => '34e2a838',
+    'aphront-tokenizer-control-css' => '8d8f59bd',
     'aphront-tooltip-css' => 'e3f2412f',
     'aphront-typeahead-control-css' => '8779483d',
     'application-search-view-css' => '0f7c06d8',
@@ -1223,10 +1223,6 @@ return array(
       'javelin-stratcom',
       'javelin-workflow',
     ),
-    '34e2a838' => array(
-      'aphront-typeahead-control-css',
-      'phui-tag-view-css',
-    ),
     '3829a3cf' => array(
       'javelin-behavior',
       'javelin-uri',
@@ -1697,6 +1693,10 @@ return array(
       'phabricator-title',
       'phabricator-shaped-request',
       'conpherence-thread-manager',
+    ),
+    '8d8f59bd' => array(
+      'aphront-typeahead-control-css',
+      'phui-tag-view-css',
     ),
     '8e0aa661' => array(
       'javelin-install',
