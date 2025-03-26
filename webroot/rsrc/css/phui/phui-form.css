@@ -49,11 +49,9 @@ div.jx-tokenizer-container {
   border: 1px solid {$greyborder};
   border-radius: 3px;
 
-  -webkit-transition: border linear .05s, box-shadow linear .05s;
   -moz-transition: border linear .05s, box-shadow linear .05s;
   transition: border linear .05s, box-shadow linear .05s;
 
-  -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 
@@ -81,9 +79,6 @@ div.jx-tokenizer-container-focused {
   outline: 0;
   /* IE6-9 */
 
-  -webkit-box-shadow:
-    inset 0 1px 1px rgba({$alphablack},.075),
-    0 0 8px rgba(82,168,236,.6);
   box-shadow:
     inset 0 1px 1px rgba({$alphablack},.075),
     0 0 8px rgba(82,168,236,.6);

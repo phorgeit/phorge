@@ -554,7 +554,6 @@ body div.phabricator-remarkup > *:last-child {
   border-bottom-right-radius: 3px;
 
   box-shadow: none;
-  -webkit-box-shadow: none;
 
   /* Set line height explicitly so the metrics <var /> and the real textarea
      are forced to the same value. */

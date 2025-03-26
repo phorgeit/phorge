@@ -122,7 +122,6 @@
 
 .pholio-mock-comment-icon {
   opacity: 1;
-  -webkit-transition: all .3s ease;
   -moz-transition: all .3s ease;
   -ms-transition: all .3s ease;
   transition: all .3s ease;
@@ -152,7 +151,6 @@
 .device-desktop .pholio-mock-reticle-draft:hover .pholio-mock-comment-icon,
 .device-desktop .pholio-mock-reticle-final:hover .pholio-mock-comment-icon {
   opacity: 0;
-  -webkit-transition: all .3s ease;
   -moz-transition: all .3s ease;
   -ms-transition: all .3s ease;
   transition: all .3s ease;

@@ -33,7 +33,6 @@ body input.jx-tokenizer-input {
   float: left;
   width: 100%;
   box-shadow: none;
-  -webkit-box-shadow: none;
   font-size: {$normalfontsize};
   color: #333;
   height: 26px;
@@ -42,7 +41,6 @@ body input.jx-tokenizer-input {
 
 body input.jx-tokenizer-input:focus {
   box-shadow: none;
-  -webkit-box-shadow: none;
   border-color: transparent;
 }
 
