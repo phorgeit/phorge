@@ -168,7 +168,6 @@
   border-top: 3px solid;
   border-color: {$darkbluetext};
 
-  -ms-transform:rotate(-40deg);
   transform:rotate(-40deg);
 }
 

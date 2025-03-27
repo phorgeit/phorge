@@ -13,27 +13,22 @@
 }
 
 .ph-rotate-90 {
-  -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .ph-rotate-180 {
-  -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .ph-rotate-270 {
-  -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .ph-flip-horizontal {
-  -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .ph-flip-vertical {
-  -ms-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
@@ -47,14 +42,6 @@
   }
   100% {
     transform: rotate(359deg);
-  }
-}
-@-ms-keyframes spin {
-  0% {
-    -ms-transform: rotate(0deg);
-  }
-  100% {
-    -ms-transform: rotate(359deg);
   }
 }
 @keyframes spin {
