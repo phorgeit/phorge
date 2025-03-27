@@ -13,31 +13,26 @@
 }
 
 .ph-rotate-90 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .ph-rotate-180 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .ph-rotate-270 {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
   -ms-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .ph-flip-horizontal {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
   -ms-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .ph-flip-vertical {
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
   -ms-transform: scale(1, -1);
   transform: scale(1, -1);
 }
