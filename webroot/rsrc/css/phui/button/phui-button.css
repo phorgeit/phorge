@@ -100,7 +100,6 @@ input[type="submit"].button-grey {
 a.disabled,
 button.disabled,
 button[disabled] {
-  filter:alpha(opacity=50);
   opacity: 0.5;
 }
 
