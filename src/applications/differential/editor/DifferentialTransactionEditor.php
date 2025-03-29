@@ -1384,11 +1384,6 @@ final class DifferentialTransactionEditor
     return implode("\n", $filenames);
   }
 
-  private function renderPatchHTMLForMail($patch) {
-    return phutil_tag('pre',
-      array('style' => 'font-family: monospace;'), $patch);
-  }
-
   private function buildPatchForMail(DifferentialDiff $diff, $byte_limit) {
     $format = PhabricatorEnv::getEnvConfig('metamta.differential.patch-format');
 

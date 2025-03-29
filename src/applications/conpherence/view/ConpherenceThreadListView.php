@@ -155,18 +155,4 @@ final class ConpherenceThreadListView extends AphrontView {
     return $item;
   }
 
-  private function getNoRoomsMenuItem() {
-    $message = phutil_tag(
-      'div',
-      array(
-        'class' => 'no-conpherences-menu-item',
-      ),
-      pht('No Rooms'));
-
-    return id(new PHUIListItemView())
-      ->setType(PHUIListItemView::TYPE_CUSTOM)
-      ->setName($message);
-  }
-
-
 }

@@ -296,24 +296,6 @@ final class PHUICalendarDayView extends AphrontView {
     return $header;
   }
 
-  private function updateEventsFromCluster($cluster, $hourly_events) {
-    $cluster_size = count($cluster);
-    $n = 0;
-    foreach ($cluster as $cluster_member) {
-      $event_id = $cluster_member->getEventID();
-      $offset = (($n / $cluster_size) * 100).'%';
-      $width = ((1 / $cluster_size) * 100).'%';
-
-      if (isset($hourly_events[$event_id])) {
-        $hourly_events[$event_id]['offset'] = $offset;
-        $hourly_events[$event_id]['width'] = $width;
-      }
-      $n++;
-    }
-
-    return $hourly_events;
-  }
-
   // returns DateTime of each hour in the day
   private function getHoursOfDay() {
     $included_datetimes = array();
