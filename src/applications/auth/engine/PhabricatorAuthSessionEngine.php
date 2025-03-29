@@ -76,7 +76,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * session token. Returns a `KIND_` constant.
    *
    * @param   string  $session_token Session token.
-   * @return  const   Session kind constant.
+   * @return  string   Session kind constant.
    */
   public static function getSessionKindFromToken($session_token) {
     if (strpos($session_token, '/') === false) {

@@ -115,7 +115,7 @@ abstract class ConduitAPIMethod
    * Should return a METHOD_STATUS_* constant. By default, methods are
    * "stable".
    *
-   * @return const  METHOD_STATUS_* constant.
+   * @return string METHOD_STATUS_* constant.
    * @task status
    */
   public function getMethodStatus() {

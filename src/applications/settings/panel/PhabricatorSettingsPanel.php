@@ -144,7 +144,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
   /**
    * Return a panel group key constant for this panel.
    *
-   * @return const Panel group key.
+   * @return string Panel group key.
    * @task config
    */
   abstract public function getPanelGroupKey();
