@@ -62,7 +62,7 @@ interface PhabricatorMarkupInterface {
    *
    * @param string $field Field name.
    * @param string $output The finalized output of the engine.
-   * @param string $engine The engine which generated the output.
+   * @param PhutilMarkupEngine $engine The engine which generated the output.
    * @return string Final output.
    * @task markup
    */

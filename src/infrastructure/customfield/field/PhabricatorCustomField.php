@@ -1004,7 +1004,8 @@ abstract class PhabricatorCustomField extends Phobject {
    * when a transaction would set a field to an invalid value, or when a field
    * is required but no transactions provide value.
    *
-   * @param PhabricatorLiskDAO $editor Editor applying the transactions.
+   * @param PhabricatorApplicationTransactionEditor $editor Editor applying the
+   *   transactions.
    * @param string $type Transaction type. This type is always
    *   `PhabricatorTransactions::TYPE_CUSTOMFIELD`, it is provided for
    *   convenience when constructing exceptions.

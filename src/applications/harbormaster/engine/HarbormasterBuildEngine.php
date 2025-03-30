@@ -437,7 +437,7 @@ final class HarbormasterBuildEngine extends Phobject {
    * the overall state of the associated buildable. Compute the new aggregate
    * state and save it on the buildable.
    *
-   * @param   HarbormasterBuild $buildable The buildable to update.
+   * @param   HarbormasterBuildable $buildable The buildable to update.
    * @return  void
    */
    public function updateBuildable(HarbormasterBuildable $buildable) {
