@@ -402,7 +402,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Determine the setting of a configuration option for this class of objects.
    *
-   * @param  const  $option_name Option name, one of the CONFIG_* constants.
+   * @param string  $option_name Option name, one of the CONFIG_* constants.
    * @return mixed  Option value, if configured (null if unavailable).
    *
    * @task   config
@@ -1042,7 +1042,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Internal implementation of INSERT and REPLACE.
    *
-   * @param  const $mode Either "INSERT" or "REPLACE", to force the desired
+   * @param string $mode Either "INSERT" or "REPLACE", to force the desired
    *   mode.
    * @return $this
    *

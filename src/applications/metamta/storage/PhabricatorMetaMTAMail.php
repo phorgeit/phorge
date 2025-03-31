@@ -88,7 +88,7 @@ final class PhabricatorMetaMTAMail
    * These tags are used to allow users to opt out of receiving certain types
    * of mail, like updates when a task's projects change.
    *
-   * @param list<const> $tags
+   * @param list<string> $tags Tag constants.
    * @return $this
    */
   public function setMailTags(array $tags) {

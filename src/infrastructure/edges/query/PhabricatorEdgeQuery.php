@@ -88,7 +88,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
   /**
    * Configure the order edge results are returned in.
    *
-   * @param const $order Order constant.
+   * @param string $order Order constant.
    * @return $this
    *
    * @task config
@@ -122,7 +122,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * use case.
    *
    * @param phid  $src_phid Source PHID.
-   * @param const $edge_type Edge type.
+   * @param string $edge_type Edge type constant.
    * @return list<phid> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {
@@ -140,7 +140,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * and immediately executes a full query.
    *
    * @param phid  $src_phid Source PHID.
-   * @param const $edge_type Edge type.
+   * @param string  $edge_type Edge type constant.
    * @param phid  $dest_phid Destination PHID.
    * @return wild Edge annotation (or null).
    */

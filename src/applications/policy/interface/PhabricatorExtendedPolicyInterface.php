@@ -62,7 +62,7 @@ interface PhabricatorExtendedPolicyInterface {
    *     // ...
    *   );
    *
-   * @param const $capability Capability being tested.
+   * @param string $capability Constant of the capability being tested.
    * @param PhabricatorUser $viewer Viewer whose capabilities are being tested.
    * @return list<pair<wild, wild>> List of extended policies.
    */

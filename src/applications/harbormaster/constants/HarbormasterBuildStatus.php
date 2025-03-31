@@ -96,7 +96,7 @@ final class HarbormasterBuildStatus extends Phobject {
   /**
    * Get a human readable name for a build status constant.
    *
-   * @param  const $status Build status constant.
+   * @param  string $status Build status constant.
    * @return string Human-readable name.
    */
   public static function getBuildStatusName($status) {

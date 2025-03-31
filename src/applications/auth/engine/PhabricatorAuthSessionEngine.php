@@ -109,7 +109,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * loading context. This prevents use of a Conduit sesssion as a Web
    * session, for example.
    *
-   * @param const $session_type The type of session to load.
+   * @param string $session_type Constant of the type of session to load.
    * @param string $session_token The session token.
    * @return PhabricatorUser|null
    * @task use
@@ -250,7 +250,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * You can configure the maximum number of concurrent sessions for various
    * session types in the Phabricator configuration.
    *
-   * @param   const     $session_type Session type constant (see
+   * @param   string    $session_type Session type constant (see
    *                    @{class:PhabricatorAuthSession}).
    * @param   phid|null $identity_phid Identity to establish a session for,
    *                    usually a user PHID. With `null`, generates an

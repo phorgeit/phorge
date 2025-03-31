@@ -1570,8 +1570,9 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the Herald value type for the given condition.
    *
-   * @param   const       $condition Herald condition constant.
-   * @return  const|null  Herald value type, or null to use the default.
+   * @param   string       $condition Herald condition constant.
+   * @return  string|null  Herald value type constant, or null to use the
+   *                       default.
    * @task herald
    */
   public function getHeraldFieldValueType($condition) {

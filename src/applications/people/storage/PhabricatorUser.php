@@ -430,7 +430,7 @@ final class PhabricatorUser
   /**
    * Test if a given setting is set to a particular value.
    *
-   * @param const $key Setting key.
+   * @param string $key Setting key constant.
    * @param wild $value Value to compare.
    * @return bool True if the setting has the specified value.
    * @task settings

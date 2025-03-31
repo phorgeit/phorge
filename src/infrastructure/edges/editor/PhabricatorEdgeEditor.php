@@ -46,7 +46,7 @@ final class PhabricatorEdgeEditor extends Phobject {
    *     provided, `data` will be written.
    *
    * @param phid  $src Source object PHID.
-   * @param const $type Edge type constant.
+   * @param string  $type Edge type constant.
    * @param phid  $dst Destination object PHID.
    * @param map   $options (optional) Options map (see documentation).
    * @return $this
@@ -68,7 +68,7 @@ final class PhabricatorEdgeEditor extends Phobject {
    * a remove plus an add is to overwrite.
    *
    * @param phid  $src Source object PHID.
-   * @param const $type Edge type constant.
+   * @param string  $type Edge type constant.
    * @param phid  $dst Destination object PHID.
    * @return $this
    *

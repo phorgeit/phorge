@@ -732,7 +732,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    *
    * @param AphrontRequest  $request Request to read user PHIDs from.
    * @param string          $key Key to read in the request.
-   * @param list<const>     $allow_types (optional) Other permitted PHID types.
+   * @param list<string>    $allow_types (optional) Other permitted PHID type
+   *                        constants.
    * @return list<phid>     List of user PHIDs and selector functions.
    * @task read
    */
@@ -807,8 +808,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    *
    * @param AphrontRequest  $request Request to read PHIDs from.
    * @param string          $key Key to read in the request.
-   * @param list<const>     $allow_types (optional) List of permitted PHID
-   *                        types.
+   * @param list<string>    $allow_types (optional) List of permitted PHID
+   *                        type constants.
    * @return list<phid>     List of object PHIDs.
    *
    * @task read

@@ -713,7 +713,7 @@ abstract class PhabricatorEditEngine
    * to make Conduit a little easier to use.
    *
    * @param wild $identifier ID, PHID, or monogram.
-   * @param list<const> $capabilities (optional) List of required capability
+   * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object Corresponding editable object.
    * @task load
@@ -793,7 +793,7 @@ abstract class PhabricatorEditEngine
    * Load an object by ID.
    *
    * @param int $id Object ID.
-   * @param list<const> $capabilities (optional) List of required capability
+   * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
@@ -810,7 +810,7 @@ abstract class PhabricatorEditEngine
    * Load an object by PHID.
    *
    * @param phid $phid Object PHID.
-   * @param list<const> $capabilities (optional) List of required capability
+   * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
@@ -827,7 +827,7 @@ abstract class PhabricatorEditEngine
    * Load an object given a configured query.
    *
    * @param PhabricatorPolicyAwareQuery $query Configured query.
-   * @param list<const> $capabilities (optional) List of required capability
+   * @param list<string> $capabilities (optional) List of required capability
    *  constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
