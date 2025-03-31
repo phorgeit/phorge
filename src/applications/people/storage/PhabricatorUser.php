@@ -949,7 +949,7 @@ final class PhabricatorUser
    * Get a @{class:PhabricatorHandleList} which benefits from this viewer's
    * internal handle pool.
    *
-   * @param list<phid> $phids List of PHIDs to load.
+   * @param list<string> $phids List of PHIDs to load.
    * @return PhabricatorHandleList Handle list object.
    * @task handle
    */
@@ -968,7 +968,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param phid $phid PHID to render a handle for.
+   * @param string $phid PHID to render a handle for.
    * @return PHUIHandleView View of the handle.
    * @task handle
    */
@@ -982,7 +982,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param list<phid> $phids List of PHIDs to render.
+   * @param list<string> $phids List of PHIDs to render.
    * @return PHUIHandleListView View of the handles.
    * @task handle
    */

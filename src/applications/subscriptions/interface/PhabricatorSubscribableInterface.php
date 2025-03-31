@@ -8,7 +8,7 @@ interface PhabricatorSubscribableInterface {
    * irrevocably a subscriber). This will, e.g., cause the UI to render
    * "Automatically Subscribed" instead of "Subscribe".
    *
-   * @param PHID $phid PHID (presumably a user) to test for automatic
+   * @param string $phid PHID (presumably a user) to test for automatic
    *   subscription.
    * @return bool True if the object/user is automatically subscribed.
    */

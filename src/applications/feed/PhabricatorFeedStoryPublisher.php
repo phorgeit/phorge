@@ -214,8 +214,8 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
   /**
    * Remove PHIDs who should not receive notifications from a subscriber list.
    *
-   * @param list<phid> $phids List of potential subscribers.
-   * @return list<phid> List of actual subscribers.
+   * @param list<string> $phids List of PHIDs of potential subscribers.
+   * @return list<string> List of PHIDs of actual subscribers.
    */
   private function filterSubscribedPHIDs(array $phids) {
     $phids = $this->expandRecipients($phids);

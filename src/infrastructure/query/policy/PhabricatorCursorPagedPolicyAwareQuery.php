@@ -2589,7 +2589,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param string $edge_type Edge constant.
    * @param string $operator Constraint operator.
-   * @param list<phid> $phids List of PHIDs.
+   * @param list<string> $phids List of PHIDs.
    * @return $this
    * @task edgelogic
    */
@@ -3095,7 +3095,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Queries are always constrained to include only results from spaces the
    * viewer has access to.
    *
-   * @param list<phid|null> $space_phids
+   * @param list<string|null> $space_phids PHIDs of the spaces.
    * @task spaces
    */
   public function withSpacePHIDs(array $space_phids) {

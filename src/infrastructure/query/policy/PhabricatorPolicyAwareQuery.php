@@ -506,7 +506,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * searches both the current query's workspace and the workspaces of parent
    * queries.
    *
-   * @param list<phid> $phids List of PHIDs to retrieve.
+   * @param list<string> $phids List of PHIDs to retrieve.
    * @return $this
    * @task workspace
    */
@@ -536,7 +536,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * PHIDs which are "in flight" are actively being queried for. Using this
    * list can prevent infinite query loops by aborting queries which cycle.
    *
-   * @param list<phid> $phids List of PHIDs which are now in flight.
+   * @param list<string> $phids List of PHIDs which are now in flight.
    * @return $this
    */
   public function putPHIDsInFlight(array $phids) {

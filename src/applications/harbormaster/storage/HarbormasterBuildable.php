@@ -60,8 +60,8 @@ final class HarbormasterBuildable
   /**
    * Start builds for a given buildable.
    *
-   * @param phid $phid PHID of the object to build.
-   * @param phid $container_phid Container PHID for the buildable.
+   * @param string $phid PHID of the object to build.
+   * @param string $container_phid Container PHID for the buildable.
    * @param list<HarbormasterBuildRequest> $requests List of builds to perform.
    * @return void
    */

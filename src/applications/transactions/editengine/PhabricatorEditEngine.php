@@ -809,7 +809,7 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object by PHID.
    *
-   * @param phid $phid Object PHID.
+   * @param string $phid Object PHID.
    * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.

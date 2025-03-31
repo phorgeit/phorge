@@ -252,7 +252,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    *
    * @param   string    $session_type Session type constant (see
    *                    @{class:PhabricatorAuthSession}).
-   * @param   phid|null $identity_phid Identity to establish a session for,
+   * @param   string|null $identity_phid Identity to establish a session for,
    *                    usually a user PHID. With `null`, generates an
    *                    anonymous session.
    * @param   bool      $partial True to issue a partial session.

@@ -4761,7 +4761,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * If the list of PHIDs include mutually exclusive projects, remove the
    * conflicting projects.
    *
-   * @param list<phid> $phids List of project PHIDs.
+   * @param list<string> $phids List of project PHIDs.
    * @return list<phid> List with conflicts removed.
    */
   private function applyProjectConflictRules(array $phids) {

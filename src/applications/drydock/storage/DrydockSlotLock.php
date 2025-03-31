@@ -43,7 +43,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Load all locks held by a particular owner.
    *
-   * @param phid $owner_phid Owner PHID.
+   * @param string $owner_phid Owner PHID.
    * @return list<DrydockSlotLock> All held locks.
    * @task info
    */
@@ -114,7 +114,7 @@ final class DrydockSlotLock extends DrydockDAO {
    * This method either acquires all the locks or throws an exception (usually
    * because one or more locks are held).
    *
-   * @param phid $owner_phid Lock owner PHID.
+   * @param string $owner_phid Lock owner PHID.
    * @param list<string> $locks List of locks to acquire.
    * @return void
    * @task locks
@@ -158,7 +158,7 @@ final class DrydockSlotLock extends DrydockDAO {
   /**
    * Release all locks held by an owner.
    *
-   * @param phid $owner_phid Lock owner PHID.
+   * @param string $owner_phid Lock owner PHID.
    * @return void
    * @task locks
    */

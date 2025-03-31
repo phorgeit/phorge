@@ -859,9 +859,9 @@ final class PhabricatorMetaMTAMail
    * For example, this will expand project PHIDs into a list of the project's
    * members.
    *
-   * @param list<phid>  $phids List of recipient PHIDs, possibly including
+   * @param list<string>  $phids List of recipient PHIDs, possibly including
    *                    aggregate recipients.
-   * @return list<phid> Deaggregated list of mailable recipients.
+   * @return list<string> Deaggregated list pf PHIDs of mailable recipients.
    */
   public function expandRecipients(array $phids) {
     if ($this->recipientExpansionMap === null) {

@@ -1471,7 +1471,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * Write the policy edge between this file and some object.
    * This method is successful even if the file is already attached.
    *
-   * @param phid $phid Object PHID to attach to.
+   * @param string $phid Object PHID to attach to.
    * @return $this
    */
   public function attachToObject($phid) {
@@ -1485,8 +1485,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * NOTE: Please avoid to use this static method directly.
    *       Instead, use PhabricatorFile#attachToObject(phid).
    *
-   * @param phid $file_phid File PHID to attach from.
-   * @param phid $object_phid Object PHID to attach to.
+   * @param string $file_phid File PHID to attach from.
+   * @param string $object_phid Object PHID to attach to.
    * @return void
    */
   public static function attachFileToObject($file_phid, $object_phid) {

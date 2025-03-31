@@ -18,7 +18,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * (or been subscribed) to the object, and will be added even if they
    * had previously unsubscribed.
    *
-   * @param list<phid> $phids List of PHIDs to explicitly subscribe.
+   * @param list<string> $phids List of PHIDs to explicitly subscribe.
    * @return $this
    */
   public function subscribeExplicit(array $phids) {
@@ -32,7 +32,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * implicitly subscribes them (e.g., adding a comment) but it will be
    * suppressed if they've previously unsubscribed from the object.
    *
-   * @param list<phid> $phids List of PHIDs to implicitly subscribe.
+   * @param list<string> $phids List of PHIDs to implicitly subscribe.
    * @return $this
    */
   public function subscribeImplicit(array $phids) {
@@ -45,7 +45,7 @@ final class PhabricatorSubscriptionsEditor extends PhabricatorEditor {
    * Unsubscribe PHIDs and mark them as unsubscribed, so implicit subscriptions
    * will not resubscribe them.
    *
-   * @param list<phid> $phids List of PHIDs to unsubscribe.
+   * @param list<string> $phids List of PHIDs to unsubscribe.
    * @return $this
    */
   public function unsubscribe(array $phids) {
