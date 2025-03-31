@@ -584,7 +584,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * storing in auxiliary field storage. You must implement this method if
    * you implement @{method:shouldUseStorage}.
    *
-   * If the field value is a scalar, it can be returned unmodiifed. If not,
+   * If the field value is a scalar, it can be returned unmodified. If not,
    * it should be serialized (for example, using JSON).
    *
    * @return string Serialized field value.
