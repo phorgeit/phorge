@@ -276,7 +276,7 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * @param list<string> $to List of To PHIDs.
    * @param list<string> $cc List of CC PHIDs.
-   * @return pair<list<phid>, list<phid>> Expanded PHID lists.
+   * @return pair<list<string>, list<string>> Expanded PHID lists.
    */
   private function expandRecipientPHIDs(array $to, array $cc) {
     $to_result = array();

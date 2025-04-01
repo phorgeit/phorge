@@ -198,7 +198,7 @@ final class PhabricatorObjectQuery
    *
    * @param PhabricatorUser $viewer Viewer.
    * @param list<string> $phids List of ostensibly valid PHIDs.
-   * @return list<phid> List of invalid or restricted PHIDs.
+   * @return list<string> List of invalid or restricted PHIDs.
    */
   public static function loadInvalidPHIDsForViewer(
     PhabricatorUser $viewer,

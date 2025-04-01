@@ -826,8 +826,8 @@ final class PhabricatorMetaMTAMail
    * Note that this expands recipients into their members, because delivery
    * is never directly attempted to aggregate actors like projects.
    *
-   * @return  list<phid>  A list of all recipients to whom delivery will be
-   *                      attempted.
+   * @return  list<string>  A list of all recipients to whom delivery will be
+   *                        attempted.
    * @task recipients
    */
   public function buildRecipientList() {

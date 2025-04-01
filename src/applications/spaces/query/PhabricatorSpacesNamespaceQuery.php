@@ -213,7 +213,7 @@ final class PhabricatorSpacesNamespaceQuery
    * can intentionally pass any value in (including `null`).
    *
    * @param wild $object
-   * @return phid|null
+   * @return string|null Space PHID of the object, or null.
    */
   public static function getObjectSpacePHID($object) {
     if (!$object) {

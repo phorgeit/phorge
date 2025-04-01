@@ -123,7 +123,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    *
    * @param string  $src_phid Source PHID.
    * @param string $edge_type Edge type constant.
-   * @return list<phid> List of destination PHIDs.
+   * @return list<string> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {
     $edges = id(new PhabricatorEdgeQuery())
@@ -260,7 +260,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    *   select all.
    * @param list $types (optional) List of edge types to select, or empty to
    *   select all.
-   * @return list<phid> List of matching destination PHIDs.
+   * @return list<string> List of matching destination PHIDs.
    */
   public function getDestinationPHIDs(
     array $src_phids = array(),

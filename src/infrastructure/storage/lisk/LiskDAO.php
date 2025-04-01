@@ -1187,7 +1187,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Generate a new PHID, used by CONFIG_AUX_PHID.
    *
-   * @return phid    Unique, newly allocated PHID.
+   * @return string    Unique, newly allocated PHID.
    *
    * @task   hook
    */

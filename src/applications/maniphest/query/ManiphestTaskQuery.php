@@ -809,8 +809,8 @@ final class ManiphestTaskQuery extends PhabricatorCursorPagedPolicyAwareQuery {
    * ...we ignore the single project, as every result is in that project. (In
    * the case that there are several "any" projects, we do not ignore them.)
    *
-   * @return list<phid> Project PHIDs which should be ignored in query
-   *                    construction.
+   * @return list<string> Project PHIDs which should be ignored in query
+   *                      construction.
    */
   private function getIgnoreGroupedProjectPHIDs() {
     // Maybe we should also exclude the "OPERATOR_NOT" PHIDs? It won't

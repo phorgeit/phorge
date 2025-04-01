@@ -145,8 +145,8 @@ final class DoorkeeperJIRAFeedWorker extends DoorkeeperFeedWorker {
   /**
    * Get a list of users to act as when publishing into JIRA.
    *
-   * @return list<phid> Candidate user PHIDs to act as when publishing this
-   *                    story.
+   * @return list<string> Candidate user PHIDs to act as when publishing this
+   *                      story.
    * @task internal
    */
   private function findUsersToPossess() {

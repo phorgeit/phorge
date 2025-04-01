@@ -433,7 +433,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * between objects which do not exist (or, at least, were filtered at the
    * content level) and objects which exist but aren't visible.
    *
-   * @return map<phid, phid> Map of object PHIDs which were filtered
+   * @return map<string, string> Map of object PHIDs which were filtered
    *   by policies.
    * @task exec
    */
@@ -552,7 +552,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    *
    * PHIDs which are "in flight" are actively being queried for.
    *
-   * @return map<phid, phid> PHIDs currently in flight.
+   * @return map<string, string> PHIDs currently in flight.
    */
   public function getPHIDsInFlight() {
     $results = $this->inFlightPHIDs;

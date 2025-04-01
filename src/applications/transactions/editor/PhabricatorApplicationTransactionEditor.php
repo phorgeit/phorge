@@ -4762,7 +4762,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * conflicting projects.
    *
    * @param list<string> $phids List of project PHIDs.
-   * @return list<phid> List with conflicts removed.
+   * @return list<string> List of project PHIDs with conflicts removed.
    */
   private function applyProjectConflictRules(array $phids) {
     if (!$phids) {
