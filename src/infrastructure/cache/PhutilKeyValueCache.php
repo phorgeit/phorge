@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface to a key-value cache like Memcache or APC. This class provides a
+ * Interface to a key-value cache like Memcache or APCu. This class provides a
  * uniform interface to multiple different key-value caches and integration
  * with PhutilServiceProfiler.
  *
@@ -14,8 +14,8 @@ abstract class PhutilKeyValueCache extends Phobject {
 
 
   /**
-   * Determine if the cache is available. For example, the APC cache tests if
-   * APC is installed. If this method returns false, the cache is not
+   * Determine if the cache is available. For example, the APCu cache tests if
+   * APCu is installed. If this method returns false, the cache is not
    * operational and can not be used.
    *
    * @return bool True if the cache can be used.
