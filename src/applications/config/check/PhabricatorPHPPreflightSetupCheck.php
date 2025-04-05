@@ -11,31 +11,6 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
   }
 
   protected function executeChecks() {
-    $version = phpversion();
-    if (version_compare($version, 7, '>=') &&
-        version_compare($version, 7.1, '<')) {
-      $message = pht(
-        'You are running PHP version %s. PHP versions between 7.0 and 7.1 '.
-        'are not supported'.
-        "\n\n".
-        'PHP removed required signal handling features in '.
-        'PHP 7.0, and did not restore an equivalent mechanism until PHP 7.1.'.
-        "\n\n".
-        'Upgrade to PHP 7.1 or newer (recommended) or downgrade to an older '.
-        'version of PHP 5 (discouraged).',
-        $version);
-
-      $this->newIssue('php.version7')
-        ->setIsFatal(true)
-        ->setName(pht('PHP 7.0-7.1 Not Supported'))
-        ->setMessage($message)
-        ->addLink(
-          'https://secure.phabricator.com/T12101',
-          pht('PHP 7 Compatibility Information'));
-
-      return;
-    }
-
     // TODO: This can be removed entirely because the minimum PHP version is
     // now PHP 5.5, which does not have safe mode.
 
