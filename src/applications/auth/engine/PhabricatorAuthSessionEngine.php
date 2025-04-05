@@ -136,11 +136,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     $user_table = new PhabricatorUser();
     $conn = $session_table->establishConnection('r');
 
-    // TODO: See T13225. We're moving sessions to a more modern digest
-    // algorithm, but still accept older cookies for compatibility.
     $session_key = PhabricatorAuthSession::newSessionDigest(
       new PhutilOpaqueEnvelope($session_token));
-    $weak_key = PhabricatorHash::weakDigest($session_token);
 
     $cache_parts = $this->getUserCacheQueryParts($conn);
     list($cache_selects, $cache_joins, $cache_map, $types_map) = $cache_parts;
@@ -155,27 +152,20 @@ final class PhabricatorAuthSessionEngine extends Phobject {
           s.highSecurityUntil AS s_highSecurityUntil,
           s.isPartial AS s_isPartial,
           s.signedLegalpadDocuments as s_signedLegalpadDocuments,
-          IF(s.sessionKey = %P, 1, 0) as s_weak,
           u.*
           %Q
         FROM %R u JOIN %R s ON u.phid = s.userPHID
-        AND s.type = %s AND s.sessionKey IN (%P, %P) %Q',
-      new PhutilOpaqueEnvelope($weak_key),
+        AND s.type = %s AND s.sessionKey = %P %Q',
       $cache_selects,
       $user_table,
       $session_table,
       $session_type,
       new PhutilOpaqueEnvelope($session_key),
-      new PhutilOpaqueEnvelope($weak_key),
       $cache_joins);
 
     if (!$info) {
       return null;
     }
-
-    // TODO: Remove this, see T13225.
-    $is_weak = (bool)$info['s_weak'];
-    unset($info['s_weak']);
 
     $session_dict = array(
       'userPHID' => $info['phid'],
@@ -219,19 +209,6 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     $session = id(new PhabricatorAuthSession())->loadFromArray($session_dict);
 
     $this->extendSession($session);
-
-    // TODO: Remove this, see T13225.
-    if ($is_weak) {
-      $unguarded = AphrontWriteGuard::beginScopedUnguardedWrites();
-        $conn_w = $session_table->establishConnection('w');
-        queryfx(
-          $conn_w,
-          'UPDATE %T SET sessionKey = %P WHERE id = %d',
-          $session->getTableName(),
-          new PhutilOpaqueEnvelope($session_key),
-          $session->getID());
-      unset($unguarded);
-    }
 
     $user->attachSession($session);
     return $user;
