@@ -120,7 +120,7 @@ Here's a general description of what you need to install:
   - Apache (usually "httpd" or "apache2") (or nginx)
   - MySQL Server (usually "mysqld" or "mysql-server" or "mariadb-server")
   - PHP (usually "php")
-  - Required PHP extensions: mbstring, iconv, mysql (or mysqli), curl, pcntl
+  - Required PHP extensions: mbstring, iconv, mysqli, curl, pcntl
     (these might be something like "php-mysql" or "php-mysqlnd")
   - Optional PHP extensions: gd, zip
 

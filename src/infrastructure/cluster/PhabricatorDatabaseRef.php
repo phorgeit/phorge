@@ -738,11 +738,7 @@ final class PhabricatorDatabaseRef
   }
 
   public static function newRawConnection(array $options) {
-    if (extension_loaded('mysqli')) {
-      return new AphrontMySQLiDatabaseConnection($options);
-    } else {
-      return new AphrontMySQLDatabaseConnection($options);
-    }
+    return new AphrontMySQLiDatabaseConnection($options);
   }
 
 }
