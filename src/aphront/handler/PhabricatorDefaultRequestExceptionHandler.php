@@ -42,7 +42,15 @@ final class PhabricatorDefaultRequestExceptionHandler
     }
 
     $class = get_class($throwable);
-    $message = $throwable->getMessage();
+
+    if (PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
+      // Include last location in error message
+      $message = '"'.$throwable->getMessage().'" at '.
+        PhutilErrorHandler::adjustFilePath($throwable->getFile()).
+        ':'.$throwable->getLine();
+    } else {
+      $message = $throwable->getMessage();
+    }
 
     if ($throwable instanceof AphrontSchemaQueryException) {
       $message .= "\n\n".pht(
