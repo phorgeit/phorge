@@ -203,7 +203,7 @@ abstract class LiskDAO extends Phobject
   /**
    *  Build an empty object.
    *
-   *  @return obj Empty object.
+   *  @return object Empty object.
    */
   public function __construct() {
     $id_key = $this->getIDKey();
@@ -429,8 +429,8 @@ abstract class LiskDAO extends Phobject
    *
    *   $dog = id(new Dog())->load($dog_id);
    *
-   * @param  int       $id Numeric ID identifying the object to load.
-   * @return obj|null  Identified object, or null if it does not exist.
+   * @param  int          $id Numeric ID identifying the object to load.
+   * @return object|null  Identified object, or null if it does not exist.
    *
    * @task   load
    */
@@ -492,9 +492,9 @@ abstract class LiskDAO extends Phobject
    * query. See loadAllWhere(). This method is similar, but returns a single
    * result instead of a list.
    *
-   * @param  string    $pattern queryfx()-style SQL WHERE clause.
-   * @param  ...       Zero or more conversions.
-   * @return obj|null  Matching object, or null if no object matches.
+   * @param  string       $pattern queryfx()-style SQL WHERE clause.
+   * @param  ...          Zero or more conversions.
+   * @return object|null  Matching object, or null if no object matches.
    *
    * @task   load
    */
