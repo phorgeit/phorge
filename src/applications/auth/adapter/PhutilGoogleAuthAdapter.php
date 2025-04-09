@@ -109,8 +109,9 @@ final class PhutilGoogleAuthAdapter extends PhutilOAuthAuthAdapter {
     try {
       $result =  phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected valid JSON response from Google account data request.'),
+        0,
         $ex);
     }
 

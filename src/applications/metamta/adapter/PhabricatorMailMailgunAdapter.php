@@ -119,8 +119,9 @@ final class PhabricatorMailMailgunAdapter
     try {
       $response = phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Failed to JSON decode response.'),
+        0,
         $ex);
     }
 

@@ -68,8 +68,9 @@ final class PhutilGitHubAuthAdapter extends PhutilOAuthAuthAdapter {
     try {
       return phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected valid JSON response from GitHub account data request.'),
+        0,
         $ex);
     }
   }

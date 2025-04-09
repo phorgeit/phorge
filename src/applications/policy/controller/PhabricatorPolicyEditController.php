@@ -91,8 +91,9 @@ final class PhabricatorPolicyEditController
       try {
         $data = phutil_json_decode($data);
       } catch (PhutilJSONParserException $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht('Failed to JSON decode rule data!'),
+          0,
           $ex);
       }
 

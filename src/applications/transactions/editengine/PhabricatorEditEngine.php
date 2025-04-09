@@ -2295,11 +2295,12 @@ abstract class PhabricatorEditEngine
         $value = $type->getTransactionValueFromConduit($value);
         $xaction['value'] = $value;
       } catch (Exception $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Exception when processing transaction of type "%s": %s',
             $xaction['type'],
             $ex->getMessage()),
+          0,
           $ex);
       }
 

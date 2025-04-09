@@ -24,8 +24,9 @@ final class DifferentialParseRenderTestCase extends PhabricatorTestCase {
         try {
           $options = phutil_json_decode($options);
         } catch (PhutilJSONParserException $ex) {
-          throw new PhutilProxyException(
+          throw new Exception(
             pht('Invalid options file: %s.', $opt_file),
+            0,
             $ex);
         }
       } else {

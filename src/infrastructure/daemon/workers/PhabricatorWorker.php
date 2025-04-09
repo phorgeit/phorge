@@ -169,10 +169,11 @@ abstract class PhabricatorWorker extends Phobject {
           $task_result = PhabricatorWorkerArchiveTask::RESULT_SUCCESS;
           break;
         } catch (PhabricatorWorkerPermanentFailureException $ex) {
-          $proxy = new PhutilProxyException(
+          $proxy = new Exception(
             pht(
               'In-process task ("%s") failed permanently.',
               $task_class),
+            0,
             $ex);
 
           phlog($proxy);

@@ -683,7 +683,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         }
       } catch (Exception $ex) {
         if ($redirects) {
-          throw new PhutilProxyException(
+          throw new Exception(
             pht(
               'Failed to fetch remote URI "%s" after following %s redirect(s) '.
               '(%s): %s',
@@ -691,6 +691,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
               phutil_count($redirects),
               implode(' > ', array_keys($redirects)),
               $ex->getMessage()),
+            0,
             $ex);
         } else {
           throw $ex;

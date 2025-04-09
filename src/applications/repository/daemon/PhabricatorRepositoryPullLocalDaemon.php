@@ -495,10 +495,11 @@ final class PhabricatorRepositoryPullLocalDaemon
     try {
       list($stdout, $stderr) = $future->resolvex();
     } catch (Exception $ex) {
-      $proxy = new PhutilProxyException(
+      $proxy = new Exception(
         pht(
           'Error while updating the "%s" repository.',
           $display_name),
+        0,
         $ex);
       phlog($proxy);
 

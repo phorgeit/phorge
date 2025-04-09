@@ -75,8 +75,9 @@ abstract class DoorkeeperBridge extends Phobject {
           ->withObjectKeys(array($ref->getObjectKey()))
           ->executeOne();
         if (!$obj) {
-          throw new PhutilProxyException(
+          throw new Exception(
             pht('Failed to load external object after collision.'),
+            0,
             $ex);
         }
 

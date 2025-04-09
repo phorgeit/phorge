@@ -151,8 +151,8 @@ abstract class DrydockWorker extends PhabricatorWorker {
       }
     }
 
-    if ($ex instanceof PhutilProxyException) {
-      return $this->isTemporaryException($ex->getPreviousException());
+    if ($ex->getPrevious()) {
+      return $this->isTemporaryException($ex->getPrevious());
     }
 
     return false;

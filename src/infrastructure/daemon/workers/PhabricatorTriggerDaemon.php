@@ -78,12 +78,13 @@ final class PhabricatorTriggerDaemon
       try {
         $lock->lock(5);
       } catch (PhutilLockException $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Another process is holding the trigger lock. Usually, this '.
             'means another copy of the trigger daemon is running elsewhere. '.
             'Multiple processes are not permitted to update triggers '.
             'simultaneously.'),
+          0,
           $ex);
       }
 

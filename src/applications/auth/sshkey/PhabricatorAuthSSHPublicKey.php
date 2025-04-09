@@ -130,13 +130,14 @@ final class PhabricatorAuthSSHPublicKey extends Phobject {
         $tmp);
     } catch (CommandException $ex) {
       unset($tmp);
-      throw new PhutilProxyException(
+      throw new Exception(
         pht(
           'Failed to convert public key into PKCS8 format. If you are '.
           'developing on OSX, you may be able to use `%s` '.
           'to work around this issue. %s',
           'bin/auth cache-pkcs8',
           $ex->getMessage()),
+        0,
         $ex);
     }
     unset($tmp);

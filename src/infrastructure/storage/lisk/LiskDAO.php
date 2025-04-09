@@ -1095,12 +1095,13 @@ abstract class LiskDAO extends Phobject
           $data[$key] = qsprintf($conn, '%ns', $value);
         }
       } catch (AphrontParameterQueryException $parameter_exception) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             "Unable to insert or update object of class %s, field '%s' ".
             "has a non-scalar value.",
             get_class($this),
             $key),
+          0,
           $parameter_exception);
       }
     }

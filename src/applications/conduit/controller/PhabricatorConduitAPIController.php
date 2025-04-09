@@ -689,10 +689,11 @@ final class PhabricatorConduitAPIController
       try {
         $params = phutil_json_decode($params_json);
       } catch (PhutilJSONParserException $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             "Invalid parameter information was passed to method '%s'.",
             $method),
+          0,
           $ex);
       }
 

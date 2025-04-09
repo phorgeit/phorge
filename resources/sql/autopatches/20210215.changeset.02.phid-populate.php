@@ -19,10 +19,11 @@ try {
       changeset_phid VARBINARY(64) NOT NULL)',
     $temporary_table);
 } catch (AphrontAccessDeniedQueryException $ex) {
-  throw new PhutilProxyException(
+  throw new Exception(
     pht(
       'Failed to "CREATE TEMPORARY TABLE". You may need to "GRANT" the '.
       'current MySQL user this permission.'),
+    0,
     $ex);
 }
 

@@ -30,8 +30,9 @@ final class ConduitSSHWorkflow extends PhabricatorSSHWorkflow {
     try {
       $raw_params = phutil_json_decode($json);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Invalid JSON input.'),
+        0,
         $ex);
     }
 

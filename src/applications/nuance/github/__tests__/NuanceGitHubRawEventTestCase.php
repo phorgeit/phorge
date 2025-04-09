@@ -95,10 +95,11 @@ final class NuanceGitHubRawEventTestCase
         $input = phutil_json_decode($input);
         $expect = phutil_json_decode($expect);
       } catch (Exception $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Exception while decoding test data for test "%s".',
             $file),
+          0,
           $ex);
       }
 

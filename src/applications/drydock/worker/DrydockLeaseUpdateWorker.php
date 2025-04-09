@@ -1066,10 +1066,11 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
       case DrydockLeaseStatus::STATUS_BROKEN:
       case DrydockLeaseStatus::STATUS_RELEASED:
       case DrydockLeaseStatus::STATUS_DESTROYED:
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Unexpected failure while destroying lease ("%s").',
             $lease->getPHID()),
+          0,
           $ex);
     }
 

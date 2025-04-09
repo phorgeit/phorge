@@ -75,8 +75,9 @@ final class PhutilDisqusAuthAdapter extends PhutilOAuthAuthAdapter {
       $data = phutil_json_decode($body);
       return $data['response'];
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected valid JSON response from Disqus account data request.'),
+        0,
         $ex);
     }
   }

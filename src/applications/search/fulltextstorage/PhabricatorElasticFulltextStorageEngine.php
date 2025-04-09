@@ -533,8 +533,9 @@ class PhabricatorElasticFulltextStorageEngine
       return $data;
     } catch (PhutilJSONParserException $ex) {
       $host->didHealthCheck(false);
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Elasticsearch server returned invalid JSON!'),
+        0,
         $ex);
     }
 

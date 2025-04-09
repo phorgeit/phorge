@@ -25,19 +25,21 @@ final class PhabricatorTaskmasterDaemon extends PhabricatorDaemon {
             if ($ex instanceof PhabricatorWorkerPermanentFailureException) {
               // NOTE: Make sure these reach the daemon log, even when not
               // running in verbose mode. See T12803 for discussion.
-              $log_exception = new PhutilProxyException(
+              $log_exception = new Exception(
                 pht(
                   'Task "%s" encountered a permanent failure and was '.
                   'cancelled.',
                   $id),
+                0,
                 $ex);
               phlog($log_exception);
             } else if ($ex instanceof PhabricatorWorkerYieldException) {
               $this->log(pht('Task %s yielded.', $id));
             } else {
               $this->log(pht('Task %d failed!', $id));
-              throw new PhutilProxyException(
+              throw new Exception(
                 pht('Error while executing Task ID %d.', $id),
+                0,
                 $ex);
             }
           } else {
