@@ -299,7 +299,7 @@ abstract class AphrontHTTPParameterType extends Phobject {
    *
    * See @{method:getDefaultValue}. If unspecified, the default is `null`.
    *
-   * @return wild Default value.
+   * @return wild|null Default value (null if unspecified).
    * @task impl
    */
   protected function getParameterDefault() {

@@ -433,7 +433,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * this is the case, return the alias for the primary table the query
    * uses; generally the object table which has `id` and `phid` columns.
    *
-   * @return string Alias for the primary table.
+   * @return string|null Alias for the primary table, or null.
    */
   protected function getPrimaryTableAlias() {
     return null;
@@ -3140,7 +3140,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @{method:withSpacePHIDs}.
    *
    * @param AphrontDatabaseConnection $conn Database connection.
-   * @return string Part of a WHERE clause.
+   * @return string|null Part of a WHERE clause, or null when there is no
+   *   object or the object is not an instance of PhabricatorSpacesInterface.
    * @task spaces
    */
   private function buildSpacesWhereClause(AphrontDatabaseConnection $conn) {

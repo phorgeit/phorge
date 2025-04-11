@@ -587,7 +587,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * If the field value is a scalar, it can be returned unmodified. If not,
    * it should be serialized (for example, using JSON).
    *
-   * @return string Serialized field value.
+   * @return string|null Serialized field value.
    * @task storage
    */
   public function getValueForStorage() {
@@ -686,9 +686,8 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * The value of the index is not used.
    *
-   * Return null from this method if the field can not be ordered.
-   *
-   * @return PhabricatorCustomFieldIndexStorage A single index to order by.
+   * @return PhabricatorCustomFieldIndexStorage|null A single index to order
+   *   by, or null if this field cannot be ordered.
    * @task appsearch
    */
   public function buildOrderIndex() {

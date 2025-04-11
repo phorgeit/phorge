@@ -111,9 +111,9 @@ final class PhameBlog extends PhameDAO
    * Makes sure a given custom blog uri is properly configured in DNS
    * to point at this Phabricator instance. If there is an error in
    * the configuration, return a string describing the error and how
-   * to fix it. If there is no error, return an empty string.
+   * to fix it. If there is no error, return null.
    *
-   * @return string
+   * @return string|null
    */
   public function validateCustomDomain($domain_full_uri) {
     $example_domain = 'http://blog.example.com/';

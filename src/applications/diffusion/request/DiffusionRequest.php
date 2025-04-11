@@ -56,8 +56,9 @@ abstract class DiffusionRequest extends Phobject {
    *   - `commit` Optional, commit identifier.
    *   - `line` Optional, line range.
    *
-   * @param   map                 $data See documentation.
-   * @return  DiffusionRequest    New request object.
+   * @param   map                   $data See documentation.
+   * @return  DiffusionRequest|null New request object, or null if none is
+   *   found.
    * @task new
    */
   final public static function newFromDictionary(array $data) {
@@ -136,7 +137,8 @@ abstract class DiffusionRequest extends Phobject {
    * @param   string            $identifier  Repository identifier.
    * @param   PhabricatorUser   $viewer  Viewing user.
    * @param   bool              $need_edit (optional)
-   * @return  DiffusionRequest    New request object.
+   * @return  DiffusionRequest  New request object, or null if no repository is
+   *   found.
    * @task new
    */
   private static function newFromIdentifier(
