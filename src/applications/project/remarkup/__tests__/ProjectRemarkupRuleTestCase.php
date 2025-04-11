@@ -135,6 +135,21 @@ final class ProjectRemarkupRuleTestCase extends PhabricatorTestCase {
         ),
       ),
 
+      // This test case failed in an old version of the regex
+      '#js-draw' => array(
+        'embed' => array(),
+        'ref' => array(
+          array(
+            'offset' => 1,
+            'id' => 'js-draw',
+          ),
+        ),
+     ),
+     // Don't match leading dots for consistency with trailing ones
+     '#.js' => array(
+        'embed' => array(),
+        'ref' => array(),
+     ),
     );
 
     foreach ($cases as $input => $expect) {

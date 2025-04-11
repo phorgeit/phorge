@@ -40,12 +40,7 @@ final class ProjectRemarkupRule extends PhabricatorObjectRemarkupRule {
     $never_edge = '.';
 
     return '(?:'.
-        // Short project name with one or two characters not in $never_edge or
-        '[^'.$never_edge.$never.']{1,2}|'.
-        // A single character not in $never or $never_edge,
-        // then any number of characters not in $never then a single character
-        // not in $never or $never_edge
-        '[^'.$never_edge.$never.'][^'.$never.']+[^'.$never_edge.$never.']'.
+        '[^'.$never_edge.$never.'](?:[^'.$never.']*[^'.$never_edge.$never.'])?'.
     ')';
   }
 
