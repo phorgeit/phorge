@@ -439,9 +439,9 @@ final class DiffusionCommitQuery
     }
 
     if ($this->needIdentities) {
-      $identity_phids = array_merge(
+      $identity_phids = array_unique(array_merge(
         mpull($commits, 'getAuthorIdentityPHID'),
-        mpull($commits, 'getCommitterIdentityPHID'));
+        mpull($commits, 'getCommitterIdentityPHID')));
 
       $data = id(new PhabricatorRepositoryIdentityQuery())
         ->withPHIDs($identity_phids)
