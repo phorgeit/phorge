@@ -24,7 +24,7 @@ final class ConpherenceParticipantController extends ConpherenceController {
       return new Aphront404Response();
     }
 
-    $uri = $this->getApplicationURI('edit/'.$conpherence->getID().'/');
+    $uri = $this->getApplicationURI('update/'.$conpherence->getID().'/');
     $content = id(new ConpherenceParticipantView())
       ->setViewer($this->getViewer())
       ->setConpherence($conpherence)

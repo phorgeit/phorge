@@ -147,7 +147,7 @@ final class ConpherenceViewController extends
     $draft = PhabricatorDraft::newFromUserAndKey(
       $user,
       $conpherence->getPHID());
-    $update_uri = $this->getApplicationURI('edit/'.$conpherence->getID().'/');
+    $update_uri = $this->getApplicationURI('update/'.$conpherence->getID().'/');
 
     if ($user->isLoggedIn()) {
       $this->initBehavior('conpherence-pontificate');

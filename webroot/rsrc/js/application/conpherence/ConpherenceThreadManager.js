@@ -512,7 +512,7 @@ JX.install('ConpherenceThreadManager', {
     },
 
     _getUpdateURI: function() {
-      return '/conpherence/edit/' + this._loadedThreadID + '/';
+      return '/conpherence/update/' + this._loadedThreadID + '/';
     },
 
     _getMoreMessagesURI: function() {

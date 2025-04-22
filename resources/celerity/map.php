@@ -10,7 +10,7 @@ return array(
     'conpherence.pkg.css' => '3144a5e2',
     'conpherence.pkg.js' => '020aebcf',
     'core.pkg.css' => '10815c8e',
-    'core.pkg.js' => '813d8cbd',
+    'core.pkg.js' => '086da722',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '91ac6214',
     'differential.pkg.js' => '46fcb3af',
@@ -364,7 +364,7 @@ return array(
     'rsrc/js/application/calendar/behavior-event-all-day.js' => '0b1bc990',
     'rsrc/js/application/calendar/behavior-month-view.js' => '158c64e0',
     'rsrc/js/application/config/behavior-reorder-fields.js' => '2539f834',
-    'rsrc/js/application/conpherence/ConpherenceThreadManager.js' => 'b314366e',
+    'rsrc/js/application/conpherence/ConpherenceThreadManager.js' => 'aec8e38c',
     'rsrc/js/application/conpherence/behavior-conpherence-search.js' => '91befbcc',
     'rsrc/js/application/conpherence/behavior-durable-column.js' => 'fa6f30b2',
     'rsrc/js/application/conpherence/behavior-menu.js' => '8c2ed2bf',
@@ -555,7 +555,7 @@ return array(
     'conpherence-message-pane-css' => '25e1e98a',
     'conpherence-notification-css' => '85c48def',
     'conpherence-participant-pane-css' => '69e0058a',
-    'conpherence-thread-manager' => 'b314366e',
+    'conpherence-thread-manager' => 'aec8e38c',
     'conpherence-transaction-css' => '3a3f5e7e',
     'd3' => 'e97b4b78',
     'diff-tree-view-css' => 'e2d3e222',
@@ -1885,17 +1885,7 @@ return array(
       'javelin-typeahead-ondemand-source',
       'javelin-util',
     ),
-    'b105a3a6' => array(
-      'javelin-behavior',
-      'javelin-stratcom',
-      'javelin-dom',
-    ),
-    'b26a41e4' => array(
-      'javelin-behavior',
-      'javelin-stratcom',
-      'javelin-dom',
-    ),
-    'b314366e' => array(
+    'aec8e38c' => array(
       'javelin-dom',
       'javelin-util',
       'javelin-stratcom',
@@ -1905,6 +1895,16 @@ return array(
       'javelin-router',
       'javelin-behavior-device',
       'javelin-vector',
+    ),
+    'b105a3a6' => array(
+      'javelin-behavior',
+      'javelin-stratcom',
+      'javelin-dom',
+    ),
+    'b26a41e4' => array(
+      'javelin-behavior',
+      'javelin-stratcom',
+      'javelin-dom',
     ),
     'b347a301' => array(
       'javelin-behavior',

@@ -29,7 +29,7 @@ abstract class ConpherenceController extends PhabricatorController {
         ->setName(pht('Edit Room'))
         ->setType(PHUIListItemView::TYPE_LINK)
         ->setHref(
-          $this->getApplicationURI('edit/'.$conpherence->getID()).'/')
+          $this->getApplicationURI('update/'.$conpherence->getID()).'/')
         ->setWorkflow(true));
 
       $nav->addMenuItem(
@@ -135,7 +135,7 @@ abstract class ConpherenceController extends PhabricatorController {
 
       if (!$participating) {
         $action = ConpherenceUpdateActions::JOIN_ROOM;
-        $uri = $this->getApplicationURI("edit/{$id}/");
+        $uri = $this->getApplicationURI("update/{$id}/");
         $button = phutil_tag(
           'button',
           array(

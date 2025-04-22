@@ -356,7 +356,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       $actions[] = array(
         'name' => pht('Add Participants'),
         'disabled' => !$can_edit,
-        'href' => '/conpherence/edit/'.$conpherence->getID().'/',
+        'href' => '/conpherence/update/'.$conpherence->getID().'/',
         'icon' => 'fa-plus',
         'key' => ConpherenceUpdateActions::ADD_PERSON,
       );
@@ -457,7 +457,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       $this->getUser(),
       array(
         'method' => 'POST',
-        'action' => '/conpherence/edit/'.$id.'/',
+        'action' => '/conpherence/update/'.$id.'/',
         'sigil' => 'conpherence-message-form',
       ),
       array(
