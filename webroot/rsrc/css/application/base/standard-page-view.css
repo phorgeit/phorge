@@ -170,8 +170,7 @@ a.handle-status-closed:hover {
   -moz-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
   background: #6c6e71;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding;
+  background-clip: padding-box;
 }
 
 .jx-scrollbar-bar:hover .jx-scrollbar-handle {
