@@ -167,7 +167,6 @@ a.handle-status-closed:hover {
   min-height: 10px;
   width: 7px;
   opacity: 0;
-  -moz-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
   background: #6c6e71;
   background-clip: padding-box;
@@ -175,7 +174,6 @@ a.handle-status-closed:hover {
 
 .jx-scrollbar-bar:hover .jx-scrollbar-handle {
   opacity: 0.7;
-  -moz-transition: opacity 0s linear;
   transition: opacity 0s linear;
 }
 

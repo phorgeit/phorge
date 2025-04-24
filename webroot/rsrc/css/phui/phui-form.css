@@ -49,7 +49,6 @@ div.jx-tokenizer-container {
   border: 1px solid {$greyborder};
   border-radius: 3px;
 
-  -moz-transition: border linear .05s, box-shadow linear .05s;
   transition: border linear .05s, box-shadow linear .05s;
 
   -moz-box-sizing: border-box;
