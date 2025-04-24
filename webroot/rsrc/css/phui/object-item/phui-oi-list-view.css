@@ -120,7 +120,7 @@ ul.phui-oi-list-view {
 }
 
 .device .phui-oi-grippable {
-  cursor: normal;
+  cursor: default;
 }
 
 .phui-oi-grip {
