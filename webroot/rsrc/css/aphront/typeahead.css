@@ -4,7 +4,6 @@
 
 div.jx-typeahead-hardpoint {
   position: relative;
-  _zoom: 1; /* Some kind of IE6 fix? */ /* yes */ /* why? */ /* still need? */
 }
 
 div.jx-typeahead-results {
