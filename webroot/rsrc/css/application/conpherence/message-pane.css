@@ -284,7 +284,7 @@
 }
 
 .device-phone .conpherence-transaction-view.conpherence-edited {
-  min-height: none;
+  min-height: 0;
   color: {$lightgreytext};
   margin: 0 8px;
 }
