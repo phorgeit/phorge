@@ -375,7 +375,8 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
   protected function shouldUseMySQLSearchEngine() {
     $services = PhabricatorSearchService::getAllServices();
     foreach ($services as $service) {
-      if ($service instanceof PhabricatorMySQLSearchHost) {
+      if ($service->getEngine() instanceof
+          PhabricatorFerretFulltextStorageEngine) {
         return true;
       }
     }
