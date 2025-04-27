@@ -49,7 +49,7 @@ final class PhabricatorSearchDocumentQuery
       ->setParameter('offset', $this->unfilteredOffset)
       ->setParameter('limit', $this->getRawResultLimit());
 
-    $result_set = PhabricatorSearchService::newResultSet($query, $this);
+    $result_set = PhabricatorSearchService::newResultSet($query);
     $phids = $result_set->getPHIDs();
 
     $this->fulltextResultSet = $result_set;

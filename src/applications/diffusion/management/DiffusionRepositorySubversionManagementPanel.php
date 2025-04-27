@@ -56,7 +56,7 @@ final class DiffusionRepositorySubversionManagementPanel
         ->setDisabled(!$can_edit)
         ->setWorkflow(!$can_edit));
 
-    return $this->newCurtainView($action_list)
+    return $this->newCurtainView()
       ->setActionList($action_list);
   }
 

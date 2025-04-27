@@ -454,7 +454,7 @@ final class PhabricatorRepositoryPullEngine
   }
 
   private function getGitRefRules(PhabricatorRepository $repository) {
-    $ref_rules = $repository->getFetchRules($repository);
+    $ref_rules = $repository->getFetchRules();
 
     if (!$ref_rules) {
       $ref_rules = array(

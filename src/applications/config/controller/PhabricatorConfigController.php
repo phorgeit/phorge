@@ -10,7 +10,7 @@ abstract class PhabricatorConfigController extends PhabricatorController {
     $viewer = $this->getViewer();
 
     $file = PhabricatorFile::loadBuiltin($viewer, 'projects/v3/manage.png');
-    $image = $file->getBestURI($file);
+    $image = $file->getBestURI();
     $header = id(new PHUIHeaderView())
       ->setHeader($text)
       ->setProfileHeader(true)

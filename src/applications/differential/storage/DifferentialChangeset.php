@@ -587,7 +587,7 @@ final class DifferentialChangeset
       $right_data);
 
     $comparison = id(new self())
-      ->makeEphemeral(true)
+      ->makeEphemeral()
       ->attachDiff($left->getDiff())
       ->setOldFile($left->getFilename())
       ->setFilename($file_name);

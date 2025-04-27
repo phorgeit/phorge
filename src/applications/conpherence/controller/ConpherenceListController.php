@@ -133,8 +133,7 @@ final class ConpherenceListController extends ConpherenceController {
           ->setObject($conpherence)
           ->execute();
         $layout->setHeader($this->buildHeaderPaneContent(
-            $conpherence,
-            $policy_objects));
+            $conpherence));
         $response = $this->newPage()
           ->setTitle($title)
           ->appendChild($layout);

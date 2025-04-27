@@ -72,7 +72,7 @@ final class PhabricatorDifferentialRevisionTestDataGenerator
 
   public function generateDescription() {
     return id(new PhutilLipsumContextFreeGrammar())
-      ->generate(10, 20);
+      ->generateSeveral(rand(10, 20), "\n");
   }
 
   public function generateTitle() {
