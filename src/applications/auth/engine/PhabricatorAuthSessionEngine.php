@@ -304,8 +304,8 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * multifactor authentication.
    *
    * @param PhabricatorUser $user User whose sessions should be terminated.
-   * @param string|null $except_session (optional) One session to keep.
-   *   Normally, the current login session.
+   * @param PhutilOpaqueEnvelope|null $except_session (optional) One session to
+   *   keep. Normally, the current login session.
    *
    * @return void
    */

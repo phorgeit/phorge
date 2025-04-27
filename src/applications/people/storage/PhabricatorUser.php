@@ -803,7 +803,7 @@ final class PhabricatorUser
   /**
    * Write to the availability cache.
    *
-   * @param wild $availability Availability cache data.
+   * @param array $availability Availability cache data.
    * @param int|null $ttl Cache TTL.
    * @return $this
    * @task availability
