@@ -469,7 +469,7 @@ abstract class LiskDAO extends Phobject
    * The pattern and arguments are as per queryfx().
    *
    * @param  string  $pattern queryfx()-style SQL WHERE clause.
-   * @param  ...     Zero or more conversions.
+   * @param  mixed   $args,... Zero or more conversions.
    * @return dict    Dictionary of matching objects, keyed on ID.
    *
    * @task   load
@@ -490,7 +490,7 @@ abstract class LiskDAO extends Phobject
    * result instead of a list.
    *
    * @param  string       $pattern queryfx()-style SQL WHERE clause.
-   * @param  ...          Zero or more conversions.
+   * @param  mixed        $args,... Zero or more conversions.
    * @return object|null  Matching object, or null if no object matches.
    *
    * @task   load
