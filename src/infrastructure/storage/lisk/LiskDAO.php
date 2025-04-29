@@ -122,9 +122,6 @@
  * @{method:loadAllWhere} returns a list of objects, while
  * @{method:loadOneWhere} returns a single object (or `null`).
  *
- * There's also a @{method:loadRelatives} method which helps to prevent the 1+N
- * queries problem.
- *
  * = Managing Transactions =
  *
  * Lisk uses a transaction stack, so code does not generally need to be aware
