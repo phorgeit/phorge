@@ -794,7 +794,6 @@ abstract class PhabricatorCustomField extends Phobject {
    *   query.
    * @param PhabricatorCursorPagedPolicyAwareQuery $query Query to constrain.
    * @param wild $value Constraint provided by the user.
-   * @return void
    * @task appsearch
    */
   public function applyApplicationSearchConstraintToQuery(
@@ -818,7 +817,6 @@ abstract class PhabricatorCustomField extends Phobject {
    *   form.
    * @param AphrontFormView $form The form to update.
    * @param wild $value Value from the saved query.
-   * @return void
    * @task appsearch
    */
   public function appendToApplicationSearchForm(

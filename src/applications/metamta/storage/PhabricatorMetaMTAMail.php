@@ -531,8 +531,6 @@ final class PhabricatorMetaMTAMail
 
   /**
    * Attempt to deliver an email immediately, in this process.
-   *
-   * @return void
    */
   public function sendNow() {
     if ($this->getStatus() != PhabricatorMailOutboundStatus::STATUS_QUEUE) {

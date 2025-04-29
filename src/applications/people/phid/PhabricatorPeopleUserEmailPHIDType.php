@@ -34,8 +34,6 @@ final class PhabricatorPeopleUserEmailPHIDType
       $email = $objects[$phid];
       $handle->setName($email->getAddress());
     }
-
-    return null;
   }
 
 }

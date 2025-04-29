@@ -169,7 +169,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
    * acquire the lease.
    *
    * @param DrydockLease $lease Requested lease.
-   * @return void
+   * @return DrydockResource
    * @task allocator
    */
   private function executeAllocator(DrydockLease $lease) {

@@ -74,7 +74,6 @@ final class PhabricatorWorkerTriggerQuery
     // (Before T13266, we raised an exception here, but since "nextPage()" is
     // now called even if we don't page we can't do that anymore. Just do
     // nothing instead.)
-    return null;
   }
 
   protected function loadPage() {
