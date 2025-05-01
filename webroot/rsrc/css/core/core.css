@@ -129,6 +129,8 @@ hr {
 .aural-only {
   position: absolute !important;
   clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
 
   /* NOTE: Without this, Safari sometimes lays these elements out at normal
      size. An example is the label on the comment action menu on timelines. */
@@ -144,6 +146,8 @@ hr {
 
 .audible .aural-only {
   clip: auto;
+  -webkit-clip-path: none;
+  clip-path: none;
   width: auto;
   height: auto;
   overflow: auto;

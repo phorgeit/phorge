@@ -2187,6 +2187,8 @@
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  -webkit-clip-path: inset(100%);
+  clip-path: inset(100%);
   border: 0;
 }
 .sr-only-focusable:active,
@@ -2197,4 +2199,6 @@
   margin: 0;
   overflow: visible;
   clip: auto;
+  -webkit-clip-path: none;
+  clip-path: none;
 }
