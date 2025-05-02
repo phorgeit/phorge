@@ -15,6 +15,7 @@ final class PhutilCalendarEventNode
   private $modifiedDateTime;
   private $organizer;
   private $attendees = array();
+  private $timeTransparency;
   private $recurrenceRule;
   private $recurrenceExceptions = array();
   private $recurrenceDates = array();
@@ -127,6 +128,24 @@ final class PhutilCalendarEventNode
 
   public function addAttendee(PhutilCalendarUserNode $attendee) {
     $this->attendees[] = $attendee;
+    return $this;
+  }
+
+  /**
+   * Get the "time transparency" as described by RFC 5545 3.8.2.7.
+   * @return string|null
+   */
+  public function getTimeTransparency() {
+    return $this->timeTransparency;
+  }
+
+  /**
+   * Set the "time transparency" as described by RFC 5545 3.8.2.7.
+   * @param string|null $time_transparency
+   * @return self
+   */
+  public function setTimeTransparency($time_transparency) {
+    $this->timeTransparency = $time_transparency;
     return $this;
   }
 

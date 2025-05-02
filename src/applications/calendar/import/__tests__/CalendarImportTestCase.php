@@ -56,7 +56,7 @@ final class CalendarImportTestCase extends PhabricatorTestCase {
         'fileAuthor' => $lincoln_verified,
         'expectedInvitees' => 3,
         'expectedInviteesTests' => array(
-//        array($lincoln_verified, true), // Self-invitation. T15564
+          array($lincoln_verified, true), // Self-invitation. T15564
           array($alice_unverified, false),
           array($alien_unverified, false),
           array($alien_verified, false),

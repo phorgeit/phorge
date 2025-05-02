@@ -673,6 +673,10 @@ final class PhutilICSParser extends Phobject {
         $attendee = $this->newAttendeeFromProperty($parameters, $value);
         $node->addAttendee($attendee);
         break;
+      case 'TRANSP':
+        $transp = $this->newTextFromProperty($parameters, $value);
+        $node->setTimeTransparency($transp);
+        break;
     }
 
   }

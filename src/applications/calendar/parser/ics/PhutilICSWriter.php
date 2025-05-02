@@ -213,6 +213,17 @@ final class PhutilICSWriter extends Phobject {
       }
     }
 
+    // In the future you may want to add export support
+    // to the "Time Trasparency" field. In case, please tell us why.
+    // No one needs it at the moment. This is not even persisted
+    // in the event object, so, this cannot be exported.
+//    $transp = $event->getTimeTransparency();
+//    if ($transp) {
+//      $properties[] = $this->newTextProperty(
+//        'TRANSP',
+//        $transp);
+//    }
+
     $rrule = $event->getRecurrenceRule();
     if ($rrule) {
       $properties[] = $this->newRRULEProperty(
