@@ -47,7 +47,7 @@ final class PhrictionDocumentTitleTransaction
         return pht(
           '%s stubbed out this document when creating %s.',
           $this->renderAuthor(),
-          $this->renderHandleLink(
+          $this->renderHandle(
             $this->getMetadataValue('stub:create:phid')));
       } else {
         return pht(
