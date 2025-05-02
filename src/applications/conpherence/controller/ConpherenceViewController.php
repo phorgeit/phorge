@@ -27,10 +27,10 @@ final class ConpherenceViewController extends
     $after_transaction_id = $request->getInt('newest_transaction_id');
     $old_message_id = $request->getURIData('messageID');
     if ($before_transaction_id && ($old_message_id || $after_transaction_id)) {
-      throw new Aphront400Response();
+      return new Aphront400Response();
     }
     if ($old_message_id && $after_transaction_id) {
-      throw new Aphront400Response();
+      return new Aphront400Response();
     }
 
     $marker_type = 'older';
@@ -115,7 +115,7 @@ final class ConpherenceViewController extends
     }
 
     $layout = id(new ConpherenceLayoutView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setBaseURI($this->getApplicationURI())
       ->setThread($conpherence)
       ->setHeader($header)
@@ -160,14 +160,14 @@ final class ConpherenceViewController extends
       }
 
       $form = id(new AphrontFormView())
-        ->setUser($user)
+        ->setViewer($user)
         ->setAction($update_uri)
         ->addSigil('conpherence-pontificate')
         ->setWorkflow(true)
         ->addHiddenInput('action', $action)
         ->appendChild(
           id(new PhabricatorRemarkupControl())
-          ->setUser($user)
+          ->setViewer($user)
           ->setName('text')
           ->setSendOnEnter(true)
           ->setValue($draft->getDraft()));

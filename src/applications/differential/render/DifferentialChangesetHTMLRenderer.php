@@ -494,7 +494,7 @@ abstract class DifferentialChangesetHTMLRenderer
    * @param int $top Beginning of the line range to build links for.
    * @param int $len Length of the line range to build links for.
    * @param int $changeset_length Total number of lines in the changeset.
-   * @param bool? $is_blocks
+   * @param bool $is_blocks (optional)
    * @return markup Rendered links.
    */
   protected function renderShowContextLinks(

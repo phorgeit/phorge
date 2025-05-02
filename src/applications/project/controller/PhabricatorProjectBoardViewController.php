@@ -97,7 +97,7 @@ final class PhabricatorProjectBoardViewController
     $board_id = celerity_generate_unique_node_id();
 
     $board = id(new PHUIWorkboardView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setID($board_id)
       ->addSigil('jx-workboard')
       ->setMetadata(
@@ -207,7 +207,7 @@ final class PhabricatorProjectBoardViewController
       $panel->setHeaderTag($count_tag);
 
       $cards = id(new PHUIObjectItemListView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setFlush(true)
         ->setAllowEmptyList(true)
         ->addSigil('project-column')
@@ -438,7 +438,7 @@ final class PhabricatorProjectBoardViewController
       ->setDisabled(!$can_edit);
 
     $sort_menu = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($items as $item) {
       $sort_menu->addAction($item);
     }
@@ -541,7 +541,7 @@ final class PhabricatorProjectBoardViewController
       ->setDisabled(!$can_edit);
 
     $filter_menu = id(new PhabricatorActionListView())
-        ->setUser($viewer);
+        ->setViewer($viewer);
     foreach ($items as $item) {
       $filter_menu->addAction($item);
     }
@@ -629,7 +629,7 @@ final class PhabricatorProjectBoardViewController
       ->setHref($manage_uri);
 
     $manage_menu = id(new PhabricatorActionListView())
-        ->setUser($viewer);
+        ->setViewer($viewer);
     foreach ($manage_items as $item) {
       $manage_menu->addAction($item);
     }
@@ -728,6 +728,11 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-search')
       ->setHref($query_uri);
 
+    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
+      $viewer,
+      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      ManiphestBulkEditCapability::CAPABILITY);
+
     $column_move_uri = urisprintf('bulkmove/%d/column/', $column->getID());
     $column_move_uri = $state->newWorkboardURI($column_move_uri);
 
@@ -735,6 +740,7 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-arrows-h')
       ->setName(pht('Move Tasks to Column...'))
       ->setHref($column_move_uri)
+      ->setDisabled(!$can_bulk_edit)
       ->setWorkflow(true);
 
     $project_move_uri = urisprintf('bulkmove/%d/project/', $column->getID());
@@ -744,15 +750,11 @@ final class PhabricatorProjectBoardViewController
       ->setIcon('fa-arrows')
       ->setName(pht('Move Tasks to Project...'))
       ->setHref($project_move_uri)
+      ->setDisabled(!$can_bulk_edit)
       ->setWorkflow(true);
 
     $bulk_edit_uri = urisprintf('bulk/%d/', $column->getID());
     $bulk_edit_uri = $state->newWorkboardURI($bulk_edit_uri);
-
-    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
-      $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
-      ManiphestBulkEditCapability::CAPABILITY);
 
     $column_items[] = id(new PhabricatorActionView())
       ->setIcon('fa-pencil-square-o')
@@ -794,7 +796,7 @@ final class PhabricatorProjectBoardViewController
     }
 
     $column_menu = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($column_items as $item) {
       $column_menu->addAction($item);
     }
@@ -856,7 +858,7 @@ final class PhabricatorProjectBoardViewController
       ->setDisabled(!$can_edit || !$trigger);
 
     $trigger_menu = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($trigger_items as $item) {
       $trigger_menu->addAction($item);
     }

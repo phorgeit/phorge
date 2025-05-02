@@ -35,7 +35,7 @@ final class PhabricatorFileDocumentRenderingEngine
 
   protected function addApplicationCrumbs(
     PHUICrumbsView $crumbs,
-    PhabricatorDocumentRef $ref = null) {
+    ?PhabricatorDocumentRef $ref = null) {
 
     if ($ref) {
       $file = $ref->getFile();

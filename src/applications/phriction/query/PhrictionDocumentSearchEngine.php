@@ -114,7 +114,7 @@ final class PhrictionDocumentSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($documents as $document) {
       $content = $document->getContent();
       $slug = $document->getSlug();

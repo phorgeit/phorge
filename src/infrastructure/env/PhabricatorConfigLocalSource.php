@@ -29,23 +29,25 @@ final class PhabricatorConfigLocalSource extends PhabricatorConfigProxySource {
     try {
       $data = Filesystem::readFile($path);
     } catch (FilesystemException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht(
           'Configuration file "%s" exists, but could not be read.',
           $path),
+        0,
         $ex);
     }
 
     try {
       $result = phutil_json_decode($data);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht(
           'Configuration file "%s" exists and is readable, but the content '.
           'is not valid JSON. You may have edited this file manually and '.
           'introduced a syntax error by mistake. Correct the file syntax '.
           'to continue.',
           $path),
+        0,
         $ex);
     }
 

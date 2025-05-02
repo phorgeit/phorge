@@ -34,7 +34,7 @@ abstract class MetaMTAEmailTransactionCommand extends Phobject {
    *
    * This can be as long as necessary to explain the command.
    *
-   * @return string Human-readable remarkup of whatever length is desired.
+   * @return string|null Human-readable remarkup of whatever length is desired.
    * @task docs
    */
   public function getCommandDescription() {

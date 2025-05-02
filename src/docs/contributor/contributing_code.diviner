@@ -112,13 +112,17 @@ pieces of infrastructure. We can help you identify technical blockers and
 possibly guide you through resolving them if you're interested.
 
 
-No Prototype Changes
+Prototype Changes
 ====================
 
-With rare exceptions, we do not accept patches for prototype applications for
-the same reasons that we don't accept feature requests or bug reports. To learn
-more about prototype applications, see
-@{article:User Guide: Prototype Applications}.
+We generally advise against submitting patches for prototype applications, as
+they may not be widely adopted and may need extra care from rare users who are
+particularly familiar with them.
+For the same reasons, we also discourage feature requests or bug reports for
+prototype applications, unless you are very familiar with their original design
+and original workflows. You are welcome to [[https://we.phorge.it/ponder/ |
+open a question in Ponder]] instead. To learn more about prototype
+applications, see @{article:User Guide: Prototype Applications}.
 
 
 No Pull Requests

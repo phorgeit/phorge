@@ -65,7 +65,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
     foreach ($groups as $group => $list) {
       $task_list = new ManiphestTaskListView();
       $task_list->setShowBatchControls($this->showBatchControls);
-      $task_list->setUser($viewer);
+      $task_list->setViewer($viewer);
       $task_list->setTasks($list);
       $task_list->setHandles($this->handles);
       $task_list->setCustomFieldLists($this->customFieldLists);

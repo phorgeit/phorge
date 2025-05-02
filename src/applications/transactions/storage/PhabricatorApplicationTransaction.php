@@ -678,7 +678,6 @@ abstract class PhabricatorApplicationTransaction
         } else {
           return false;
         }
-        break;
       case PhabricatorTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getTransactionCustomField();
         if ($field) {
@@ -705,7 +704,6 @@ abstract class PhabricatorApplicationTransaction
               return true;
             }
             return false;
-            break;
           default:
             break;
         }
@@ -1061,7 +1059,6 @@ abstract class PhabricatorApplicationTransaction
             '%s updated subscribers...',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case PhabricatorTransactions::TYPE_FILE:
         $add = array_diff_key($new, $old);
         $add = array_keys($add);
@@ -1121,7 +1118,7 @@ abstract class PhabricatorApplicationTransaction
             '%s updated %s attached file(s), added %s: %s; removed %s: %s; '.
             'modified %s: %s.',
             $this->renderHandleLink($author_phid),
-            new PhutilNumber(count($add) + count($rem)),
+            new PhutilNumber(count($add) + count($rem) + count($mod)),
             phutil_count($add),
             $this->renderHandleList($add),
             phutil_count($rem),
@@ -1179,7 +1176,6 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($author_phid));
         }
 
-        break;
       case PhabricatorTransactions::TYPE_EDGE:
         $record = PhabricatorEdgeChangeRecord::newFromTransaction($this);
         $add = $record->getAddedPHIDs();
@@ -1275,7 +1271,6 @@ abstract class PhabricatorApplicationTransaction
             $this->renderHandleLink($author_phid),
             new PhutilNumber($undone));
         }
-        break;
 
       case PhabricatorTransactions::TYPE_COLUMNS:
         $moves = $this->getInterestingMoves($new);
@@ -1315,8 +1310,6 @@ abstract class PhabricatorApplicationTransaction
             phutil_count($moves),
             phutil_implode_html(', ', $fragments));
         }
-        break;
-
 
       case PhabricatorTransactions::TYPE_MFA:
         return pht(
@@ -1490,7 +1483,6 @@ abstract class PhabricatorApplicationTransaction
             phutil_count($moves),
             phutil_implode_html(', ', $fragments));
         }
-        break;
 
       case PhabricatorTransactions::TYPE_MFA:
         return null;

@@ -5,104 +5,13 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
   public static function getActiveCacheSpec() {
     $spec = new PhabricatorOpcodeCacheSpec();
 
-    // NOTE: If APCu is installed, it reports that APC is installed.
-    if (extension_loaded('apc') && !extension_loaded('apcu')) {
-      $spec->initAPCSpec();
-    } else if (extension_loaded('Zend OPcache')) {
+    if (extension_loaded('Zend OPcache')) {
       $spec->initOpcacheSpec();
     } else {
       $spec->initNoneSpec();
     }
 
     return $spec;
-  }
-
-  private function initAPCSpec() {
-    $this
-      ->setName(pht('APC'))
-      ->setVersion(phpversion('apc'));
-
-    if (ini_get('apc.enabled')) {
-      $this
-        ->setIsEnabled(true)
-        ->setClearCacheCallback('apc_clear_cache');
-
-      $mem = apc_sma_info();
-      $this->setTotalMemory($mem['num_seg'] * $mem['seg_size']);
-
-      $info = apc_cache_info();
-      $this->setUsedMemory($info['mem_size']);
-
-      $write_lock = ini_get('apc.write_lock');
-      $slam_defense = ini_get('apc.slam_defense');
-
-      if (!$write_lock || $slam_defense) {
-        $summary = pht('Adjust APC settings to quiet unnecessary errors.');
-
-        $message = pht(
-          'Some versions of APC may emit unnecessary errors into the '.
-          'error log under the current APC settings. To resolve this, '.
-          'enable "%s" and disable "%s" in your PHP configuration.',
-          'apc.write_lock',
-          'apc.slam_defense');
-
-        $this
-          ->newIssue('extension.apc.write-lock')
-          ->setShortName(pht('Noisy APC'))
-          ->setName(pht('APC Has Noisy Configuration'))
-          ->setSummary($summary)
-          ->setMessage($message)
-          ->addPHPConfig('apc.write_lock')
-          ->addPHPConfig('apc.slam_defense');
-      }
-
-      $is_dev = PhabricatorEnv::getEnvConfig('phabricator.developer-mode');
-      $is_stat_enabled = ini_get('apc.stat');
-      if ($is_stat_enabled && !$is_dev) {
-        $summary = pht(
-          '"%s" is currently enabled, but should probably be disabled.',
-          'apc.stat');
-
-        $message = pht(
-          'The "%s" setting is currently enabled in your PHP configuration. '.
-          'In production mode, "%s" should be disabled. '.
-          'This will improve performance slightly.',
-          'apc.stat',
-          'apc.stat');
-
-        $this
-          ->newIssue('extension.apc.stat-enabled')
-          ->setShortName(pht('"%s" Enabled', 'apc.stat'))
-          ->setName(pht('"%s" Enabled in Production', 'apc.stat'))
-          ->setSummary($summary)
-          ->setMessage($message)
-          ->addPHPConfig('apc.stat')
-          ->addPhabricatorConfig('phabricator.developer-mode');
-      } else if (!$is_stat_enabled && $is_dev) {
-        $summary = pht(
-          '"%s" is currently disabled, but should probably be enabled.',
-          'apc.stat');
-
-        $message = pht(
-          'The "%s" setting is currently disabled in your PHP configuration, '.
-          'but this software is running in development mode. This option '.
-          'should normally be enabled in development so you do not need to '.
-          'restart anything after making changes to the code.',
-          'apc.stat');
-
-        $this
-          ->newIssue('extension.apc.stat-disabled')
-          ->setShortName(pht('"%s" Disabled', 'apc.stat'))
-          ->setName(pht('"%s" Disabled in Development', 'apc.stat'))
-          ->setSummary($summary)
-          ->setMessage($message)
-          ->addPHPConfig('apc.stat')
-          ->addPhabricatorConfig('phabricator.developer-mode');
-      }
-    } else {
-      $this->setIsEnabled(false);
-      $this->raiseEnableAPCIssue();
-    }
   }
 
   private function initOpcacheSpec() {
@@ -187,19 +96,15 @@ final class PhabricatorOpcodeCacheSpec extends PhabricatorCacheSpec {
   }
 
   private function initNoneSpec() {
-    if (version_compare(phpversion(), '5.5', '>=')) {
-      $message = pht(
-        'Installing the "Zend OPcache" extension will dramatically improve '.
-        'performance.');
+    $message = pht(
+      'Installing the "Zend OPcache" extension will dramatically improve '.
+      'performance.');
 
-      $this
-        ->newIssue('extension.opcache')
-        ->setShortName(pht('OPcache'))
-        ->setName(pht('Zend OPcache Not Installed'))
-        ->setMessage($message)
-        ->addPHPExtension('Zend OPcache');
-    } else {
-      $this->raiseInstallAPCIssue();
-    }
+    $this
+      ->newIssue('extension.opcache')
+      ->setShortName(pht('OPcache'))
+      ->setName(pht('Zend OPcache Not Installed'))
+      ->setMessage($message)
+      ->addPHPExtension('Zend OPcache');
   }
 }

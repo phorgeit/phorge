@@ -80,8 +80,9 @@ final class PhutilFacebookAuthAdapter extends PhutilOAuthAuthAdapter {
     try {
       $data = phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected valid JSON response from Facebook account data request.'),
+        0,
         $ex);
     }
 

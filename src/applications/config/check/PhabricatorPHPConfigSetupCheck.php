@@ -67,29 +67,7 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
         ->addPHPConfig('always_populate_raw_post_data');
     }
 
-    if (!extension_loaded('mysqli')) {
-      $summary = pht(
-        'Install the MySQLi extension to improve database behavior.');
-
-      $message = pht(
-        'PHP is currently using the very old "mysql" extension to interact '.
-        'with the database. You should install the newer "mysqli" extension '.
-        'to improve behaviors (like error handling and query timeouts).'.
-        "\n\n".
-        'This software will work with the older extension, but upgrading to '.
-        'the newer extension is recommended.'.
-        "\n\n".
-        'You may be able to install the extension with a command like: %s',
-
-        // NOTE: We're intentionally telling you to install "mysqlnd" here; on
-        // Ubuntu, there's no separate "mysqli" package.
-        phutil_tag('tt', array(), 'sudo apt-get install php-mysqlnd'));
-
-      $this->newIssue('php.mysqli')
-        ->setName(pht('MySQLi Extension Not Available'))
-        ->setSummary($summary)
-        ->setMessage($message);
-    } else if (!defined('MYSQLI_ASYNC')) {
+    if (!defined('MYSQLI_ASYNC')) {
       $summary = pht(
         'Configure the MySQL Native Driver to improve database behavior.');
 
@@ -112,17 +90,10 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
         ->setMessage($message);
     }
 
-
-    if (extension_loaded('mysqli')) {
-      $infile_key = 'mysqli.allow_local_infile';
-    } else {
-      $infile_key = 'mysql.allow_local_infile';
-    }
-
-    if (ini_get($infile_key)) {
+    if (ini_get('mysqli.allow_local_infile')) {
       $summary = pht(
         'Disable unsafe option "%s" in PHP configuration.',
-        $infile_key);
+        'mysqli.allow_local_infile');
 
       $message = pht(
         'PHP is currently configured to honor requests from any MySQL server '.
@@ -139,13 +110,16 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
         'dangerous.'.
         "\n\n".
         'To disable this option, set: %s',
-        phutil_tag('tt', array(), pht('%s = 0', $infile_key)));
+        phutil_tag(
+          'tt',
+          array(),
+          pht('%s = 0', 'mysqli.allow_local_infile')));
 
-      $this->newIssue('php.'.$infile_key)
+      $this->newIssue('php.mysqli.allow_local_infile')
         ->setName(pht('Unsafe PHP "Local Infile" Configuration'))
         ->setSummary($summary)
         ->setMessage($message)
-        ->addPHPConfig($infile_key);
+        ->addPHPConfig('mysqli.allow_local_infile');
     }
 
   }

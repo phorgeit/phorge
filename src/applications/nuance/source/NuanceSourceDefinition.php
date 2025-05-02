@@ -206,7 +206,7 @@ abstract class NuanceSourceDefinition extends Phobject {
     return new Aphront404Response();
   }
 
-  public function getActionURI($path = null) {
+  public function getActionURI($path = '') {
     $source_id = $this->getSource()->getID();
     return '/action/'.$source_id.'/'.ltrim($path, '/');
   }

@@ -26,6 +26,7 @@ final class PhabricatorUser
   const SESSION_TABLE = 'phabricator_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
   const MAXIMUM_USERNAME_LENGTH = 64;
+  const MAXIMUM_REALNAME_LENGTH = 256;
 
   protected $userName;
   protected $realName;
@@ -429,7 +430,7 @@ final class PhabricatorUser
   /**
    * Test if a given setting is set to a particular value.
    *
-   * @param const $key Setting key.
+   * @param string $key Setting key constant.
    * @param wild $value Value to compare.
    * @return bool True if the setting has the specified value.
    * @task settings
@@ -478,7 +479,7 @@ final class PhabricatorUser
    * This is primarily useful for unit tests.
    *
    * @param string $identifier New timezone identifier.
-   * @return this
+   * @return $this
    * @task settings
    */
   public function overrideTimezoneIdentifier($identifier) {
@@ -548,6 +549,16 @@ final class PhabricatorUser
     }
 
     return (bool)preg_match('/^[a-zA-Z0-9._-]*[a-zA-Z0-9_-]\z/', $username);
+  }
+
+  public static function describeValidRealName() {
+    return pht(
+      'Real Name must have no more than %d characters.',
+      new PhutilNumber(self::MAXIMUM_REALNAME_LENGTH));
+  }
+
+  public static function validateRealName($realname) {
+    return strlen($realname) <= self::MAXIMUM_REALNAME_LENGTH;
   }
 
   public static function getDefaultProfileImageURI() {
@@ -641,6 +652,28 @@ final class PhabricatorUser
     return $this->getUsername();
   }
 
+  /**
+   * Load one user from their verified email address.
+   * @param string $address
+   * @return PhabricatorUser|null
+   */
+  public static function loadOneWithVerifiedEmailAddress($address) {
+    $email = id(new PhabricatorUserEmail())->loadOneWhere(
+      'address = %s AND isVerified = 1',
+      $address);
+    if (!$email) {
+      return null;
+    }
+    return id(new self())->loadOneWhere(
+      'phid = %s',
+      $email->getUserPHID());
+  }
+
+  /**
+   * Load one user from their potentially unverified email address.
+   * @param string $address
+   * @return PhabricatorUser|null
+   */
   public static function loadOneWithEmailAddress($address) {
     $email = id(new PhabricatorUserEmail())->loadOneWhere(
       'address = %s',
@@ -770,9 +803,9 @@ final class PhabricatorUser
   /**
    * Write to the availability cache.
    *
-   * @param wild $availability Availability cache data.
+   * @param array $availability Availability cache data.
    * @param int|null $ttl Cache TTL.
-   * @return this
+   * @return $this
    * @task availability
    */
   public function writeAvailabilityCache(array $availability, $ttl) {
@@ -916,7 +949,7 @@ final class PhabricatorUser
    * Get a @{class:PhabricatorHandleList} which benefits from this viewer's
    * internal handle pool.
    *
-   * @param list<phid> $phids List of PHIDs to load.
+   * @param list<string> $phids List of PHIDs to load.
    * @return PhabricatorHandleList Handle list object.
    * @task handle
    */
@@ -935,7 +968,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param phid $phid PHID to render a handle for.
+   * @param string $phid PHID to render a handle for.
    * @return PHUIHandleView View of the handle.
    * @task handle
    */
@@ -949,7 +982,7 @@ final class PhabricatorUser
    *
    * This benefits from the viewer's internal handle pool.
    *
-   * @param list<phid> $phids List of PHIDs to render.
+   * @param list<string> $phids List of PHIDs to render.
    * @return PHUIHandleListView View of the handles.
    * @task handle
    */

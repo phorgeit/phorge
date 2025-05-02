@@ -331,14 +331,14 @@ abstract class PhabricatorApplication
    * Build items for the main menu.
    *
    * @param  PhabricatorUser    $user The viewing user.
-   * @param  AphrontController? $controller The current controller. May be null
-   *   for special pages like 404, exception handlers, etc.
+   * @param  PhabricatorController|null  $controller (optional) The current
+   *   controller. Null for special pages like 404, exception handlers, etc.
    * @return list<PHUIListItemView> List of menu items.
    * @task ui
    */
   public function buildMainMenuItems(
     PhabricatorUser $user,
-    PhabricatorController $controller = null) {
+    ?PhabricatorController $controller = null) {
     return array();
   }
 

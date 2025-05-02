@@ -39,7 +39,7 @@ final class PhabricatorDocumentEngineBlocks
   }
 
   public function addBlockList(
-    PhabricatorDocumentRef $ref = null,
+    ?PhabricatorDocumentRef $ref = null,
     array $blocks = array()) {
 
     assert_instances_of($blocks, 'PhabricatorDocumentEngineBlock');

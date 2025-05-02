@@ -36,7 +36,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     $phid = $file->getPHID();
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($file)
       ->setHeader($file->getName())
       ->setHeaderIcon('fa-file-o');
@@ -316,7 +316,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     }
 
     $default_alt = $file->getDefaultAltText();
-    if (strlen($default_alt)) {
+    if (phutil_nonempty_string($default_alt)) {
       $finfo->addProperty(pht('Default Alt Text'), $default_alt);
     }
 

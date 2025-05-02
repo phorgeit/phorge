@@ -42,7 +42,7 @@ APIs (like `maniphest.edit`, `differential.revision.edit`, and so on).
 However, builds require long-running background processing and Habormaster
 objects have a more complex lifecycle than most other application objects and
 may spend significant periods of time locked by daemon processes during build
-execition. A synchronous edit might need to wait an arbitrarily long amount of
+execution. A synchronous edit might need to wait an arbitrarily long amount of
 time for this lock to become available so the edit could be applied.
 
 Additionally, some edits may also require an arbitrarily long amount of time to

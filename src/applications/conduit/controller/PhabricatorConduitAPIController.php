@@ -527,9 +527,9 @@ final class PhabricatorConduitAPIController
 
   private function buildHumanReadableResponse(
     $method,
-    ConduitAPIRequest $request = null,
+    ?ConduitAPIRequest $request = null,
     $result = null,
-    ConduitAPIMethod $method_implementation = null) {
+    ?ConduitAPIMethod $method_implementation = null) {
 
     $param_rows = array();
     $param_rows[] = array('Method', $this->renderAPIValue($method));
@@ -689,10 +689,11 @@ final class PhabricatorConduitAPIController
       try {
         $params = phutil_json_decode($params_json);
       } catch (PhutilJSONParserException $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             "Invalid parameter information was passed to method '%s'.",
             $method),
+          0,
           $ex);
       }
 

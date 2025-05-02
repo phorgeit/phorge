@@ -58,7 +58,7 @@ final class AphrontWriteGuard extends Phobject {
    * valid token isn't present.
    *
    * @param   $callback Callable CSRF callback.
-   * @return  this
+   * @return  $this
    * @task    manage
    */
   public function __construct($callback) {

@@ -114,11 +114,12 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
           // If we ended up here as the result of a failover, log the
           // exception. This is seriously bad news even if we are able
           // to recover from it.
-          $proxy_exception = new PhutilProxyException(
+          $proxy_exception = new Exception(
             pht(
               'Failed to connect to master database ("%s"), failing over '.
               'into read-only mode.',
               $database),
+            0,
             $master_exception);
           phlog($proxy_exception);
         }
@@ -159,7 +160,7 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
         $database));
   }
 
-  private function raiseUnreachable($database, Exception $proxy = null) {
+  private function raiseUnreachable($database, ?Exception $proxy = null) {
     $message = pht(
       'Unable to establish a connection to any database host '.
       '(while trying "%s"). All masters and replicas are completely '.
@@ -322,26 +323,28 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   protected function willReadData(array &$data) {
     parent::willReadData($data);
 
-    static $custom;
-    if ($custom === null) {
-      $custom = $this->getConfigOption(self::CONFIG_APPLICATION_SERIALIZERS);
+    static $custom = array();
+    if (!isset($custom[static::class])) {
+      $custom[static::class] = $this->getConfigOption(
+        self::CONFIG_APPLICATION_SERIALIZERS);
     }
 
-    if ($custom) {
-      foreach ($custom as $key => $serializer) {
+    if (!empty($custom[static::class])) {
+      foreach ($custom[static::class] as $key => $serializer) {
         $data[$key] = $serializer->willReadValue($data[$key]);
       }
     }
   }
 
   protected function willWriteData(array &$data) {
-    static $custom;
-    if ($custom === null) {
-      $custom = $this->getConfigOption(self::CONFIG_APPLICATION_SERIALIZERS);
+    static $custom = array();
+    if (!isset($custom[static::class])) {
+      $custom[static::class] = $this->getConfigOption(
+        self::CONFIG_APPLICATION_SERIALIZERS);
     }
 
-    if ($custom) {
-      foreach ($custom as $key => $serializer) {
+    if (!empty($custom[static::class])) {
+      foreach ($custom[static::class] as $key => $serializer) {
         $data[$key] = $serializer->willWriteValue($data[$key]);
       }
     }

@@ -19,6 +19,7 @@ final class PhabricatorExtensionsSetupCheck extends PhabricatorSetupCheck {
       'openssl',
       'mbstring',
       'ctype',
+      'mysqli',
 
       // There is a tiny chance we might not need this, but a significant
       // number of applications require it and it's widely available.
@@ -30,10 +31,6 @@ final class PhabricatorExtensionsSetupCheck extends PhabricatorSetupCheck {
       if (!extension_loaded($extension)) {
         $need[] = $extension;
       }
-    }
-
-    if (!extension_loaded('mysqli') && !extension_loaded('mysql')) {
-      $need[] = 'mysqli or mysql';
     }
 
     if (!$need) {

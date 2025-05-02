@@ -124,22 +124,4 @@ final class ConpherenceRoomTestCase extends ConpherenceTestCase {
     return $conpherence;
   }
 
-  private function changeEditPolicy(
-    PhabricatorUser $actor,
-    ConpherenceThread $room,
-    $policy) {
-
-    $xactions = array();
-    $xactions[] = id(new ConpherenceTransaction())
-      ->setTransactionType(PhabricatorTransactions::TYPE_EDIT_POLICY)
-      ->setNewValue($policy);
-
-    id(new ConpherenceEditor())
-      ->setActor($actor)
-      ->setContentSource($this->newContentSource())
-      ->setContinueOnNoEffect(true)
-      ->applyTransactions($room, $xactions);
-  }
-
-
 }

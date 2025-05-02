@@ -4,21 +4,19 @@
 
 .device-desktop .phui-navigation-shell,
 .phabricator-home.device .phui-navigation-shell {
-  display: table;
   width: 100%;
   height: calc(100vh - {$menu.main.height});
 }
 
 .device-desktop .phui-navigation-shell .phabricator-nav,
 .phabricator-home.device .phui-navigation-shell .phabricator-nav {
-  display: table-row;
+  display: flex;
+  min-height: 100%;
 }
 
 .device-desktop .phui-navigation-shell .phabricator-nav-local,
 .phabricator-home.device .phui-navigation-shell .phabricator-nav-local {
-  display: table-cell;
   position: relative;
-  vertical-align: top;
   margin-top: 0;
   overflow: hidden;
 }
@@ -35,10 +33,18 @@
 }
 
 .phui-basic-nav.phui-navigation-shell .phabricator-nav-local {
-  width: 205px;
-  max-width: 205px;
+  flex: 0 0 205px;
   padding-top: 12px;
   padding-right: 8px;
+}
+
+.device .phui-navigation-shell .phabricator-nav-local {
+  display: none;
+}
+
+.phabricator-nav-content {
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .phui-two-column-view .phui-basic-nav.phui-navigation-shell

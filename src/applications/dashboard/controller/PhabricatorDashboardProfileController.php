@@ -32,7 +32,7 @@ abstract class PhabricatorDashboardProfileController
       $dashboard->getStatus());
 
     return id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($dashboard->getName())
       ->setPolicyObject($dashboard)
       ->setStatus($status_icon, $status_color, $status_name)

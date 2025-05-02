@@ -46,7 +46,7 @@ final class DifferentialRevisionQuery
    * Find revisions affecting one or more items in a list of paths.
    *
    * @param list<string> $paths List of file paths.
-   * @return this
+   * @return $this
    * @task config
    */
   public function withPaths(array $paths) {
@@ -60,7 +60,7 @@ final class DifferentialRevisionQuery
    * @{method:withAuthors}.
    *
    * @param array $author_phids List of PHIDs of authors
-   * @return this
+   * @return $this
    * @task config
    */
   public function withAuthors(array $author_phids) {
@@ -73,7 +73,7 @@ final class DifferentialRevisionQuery
    * function will clear anything set by previous calls to @{method:withCCs}.
    *
    * @param array $cc_phids List of PHIDs of subscribers.
-   * @return this
+   * @return $this
    * @task config
    */
   public function withCCs(array $cc_phids) {
@@ -87,7 +87,7 @@ final class DifferentialRevisionQuery
    * to @{method:withReviewers}.
    *
    * @param array $reviewer_phids List of PHIDs of reviewers
-   * @return this
+   * @return $this
    * @task config
    */
   public function withReviewers(array $reviewer_phids) {
@@ -127,7 +127,7 @@ final class DifferentialRevisionQuery
    * @param array $commit_hashes List of pairs <Class
    *              ArcanistDifferentialRevisionHash::HASH_$type constant,
    *              hash>
-   * @return this
+   * @return $this
    * @task config
    */
   public function withCommitHashes(array $commit_hashes) {
@@ -150,7 +150,7 @@ final class DifferentialRevisionQuery
    * Filter results to revisions on given branches.
    *
    * @param list $branches List of branch names.
-   * @return this
+   * @return $this
    * @task config
    */
   public function withBranches(array $branches) {
@@ -163,7 +163,7 @@ final class DifferentialRevisionQuery
    * Filter results to only return revisions whose ids are in the given set.
    *
    * @param array $ids List of revision ids
-   * @return this
+   * @return $this
    * @task config
    */
   public function withIDs(array $ids) {
@@ -176,7 +176,7 @@ final class DifferentialRevisionQuery
    * Filter results to only return revisions whose PHIDs are in the given set.
    *
    * @param array $phids List of revision PHIDs
-   * @return this
+   * @return $this
    * @task config
    */
   public function withPHIDs(array $phids) {
@@ -190,7 +190,7 @@ final class DifferentialRevisionQuery
    * responsible for (i.e., they are either authors or reviewers).
    *
    * @param array $responsible_phids List of user PHIDs.
-   * @return this
+   * @return $this
    * @task config
    */
   public function withResponsibleUsers(array $responsible_phids) {
@@ -222,7 +222,7 @@ final class DifferentialRevisionQuery
    * revision.
    *
    * @param bool $need_active_diffs True to load and attach diffs.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needActiveDiffs($need_active_diffs) {
@@ -236,7 +236,7 @@ final class DifferentialRevisionQuery
    * each revision.
    *
    * @param bool $need_commit_phids True to load and attach diffs.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needCommitPHIDs($need_commit_phids) {
@@ -250,7 +250,7 @@ final class DifferentialRevisionQuery
    * revision.
    *
    * @param bool $need_diff_ids True to load and attach diff IDs.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needDiffIDs($need_diff_ids) {
@@ -264,7 +264,7 @@ final class DifferentialRevisionQuery
    * revision.
    *
    * @param bool $need_hashes True to load and attach commit hashes.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needHashes($need_hashes) {
@@ -277,7 +277,7 @@ final class DifferentialRevisionQuery
    * Set whether or not the query should load associated reviewers.
    *
    * @param bool $need_reviewers True to load and attach reviewers.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needReviewers($need_reviewers) {
@@ -292,7 +292,7 @@ final class DifferentialRevisionQuery
    * they are a member of.
    *
    * @param bool $need_reviewer_authority True to load and attach authority.
-   * @return this
+   * @return $this
    * @task config
    */
   public function needReviewerAuthority($need_reviewer_authority) {

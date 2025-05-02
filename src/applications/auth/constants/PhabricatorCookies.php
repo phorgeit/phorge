@@ -107,8 +107,8 @@ final class PhabricatorCookies extends Phobject {
    *
    * @param   AphrontRequest    $request Request to write to.
    * @param   string            $next_uri URI to write.
-   * @param   bool?             $force Write this cookie even if we have a
-   *                            fresh cookie already.
+   * @param   bool              $force (optional) Write this cookie even if we
+   *                            have a fresh cookie already.
    * @return  void
    *
    * @task next
@@ -155,8 +155,9 @@ final class PhabricatorCookies extends Phobject {
   /**
    * Parse a Next URI cookie into its components.
    *
-   * @param   string        $cookie Raw cookie value.
-   * @return  list<string>  List of timestamp and URI.
+   * @param   string                 $cookie Raw cookie value.
+   * @return  list<int,string>|null  List of timestamp and URI, or null if the
+   *   cookie is empty or null.
    *
    * @task next
    */

@@ -17,7 +17,6 @@
  */
 final class AphrontSideNavFilterView extends AphrontView {
 
-  private $items = array();
   private $baseURI;
   private $selectedFilter = false;
   private $menu;
@@ -199,23 +198,16 @@ final class AphrontSideNavFilterView extends AphrontView {
   }
 
   private function renderFlexNav() {
-    require_celerity_resource('phabricator-nav-view-css');
-
     $nav_classes = array();
     $nav_classes[] = 'phabricator-nav';
 
-    $nav_id = null;
-    $drag_id = null;
     $content_id = celerity_generate_unique_node_id();
     $local_id = null;
-    $background_id = null;
     $local_menu = null;
     $main_id = $this->getMainID();
 
-    $nav_menu = null;
     if ($this->menu->getItems()) {
       $local_id = celerity_generate_unique_node_id();
-      $background_id = celerity_generate_unique_node_id();
 
       $nav_classes[] = 'has-local-nav';
 

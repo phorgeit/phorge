@@ -19,7 +19,11 @@ final class PhabricatorPackagesVersionEditEngine
 
   protected function newEditableObject() {
     $viewer = $this->getViewer();
-    return PhabricatorPackagesVersion::initializeNewVersion($viewer);
+    return PhabricatorPackagesVersion::initializeNewVersion($viewer)
+      // Attach a dummy package to have the policy checks pass for this object
+      // during creation.
+      ->attachPackage(
+        PhabricatorPackagesPackage::initializeNewPackage($viewer));
   }
 
   protected function newObjectQuery() {

@@ -650,7 +650,6 @@ final class PhabricatorDuoAuthFactor
                 'You denied this request. Wait %s second(s) to try again.',
                 new PhutilNumber($wait_duration)));
         }
-        break;
     }
 
     return null;

@@ -10,7 +10,7 @@ final class PhabricatorFileinfoSetupCheck extends PhabricatorSetupCheck {
     if (!extension_loaded('fileinfo')) {
       $message = pht(
         "The '%s' extension is not installed. Without '%s', ".
-        "support, this software may not be able to determine the MIME types ".
+        "this server may not be able to determine the MIME types ".
         "of uploaded files.",
         'fileinfo',
         'fileinfo');

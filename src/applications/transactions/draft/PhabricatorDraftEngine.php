@@ -27,7 +27,7 @@ abstract class PhabricatorDraftEngine
   }
 
   final public function setVersionedDraft(
-    PhabricatorVersionedDraft $draft = null) {
+    ?PhabricatorVersionedDraft $draft = null) {
     $this->hasVersionedDraft = true;
     $this->versionedDraft = $draft;
     return $this;

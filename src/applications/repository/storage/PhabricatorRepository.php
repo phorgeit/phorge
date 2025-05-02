@@ -250,7 +250,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   }
 
   public function attachMostRecentCommit(
-    PhabricatorRepositoryCommit $commit = null) {
+    ?PhabricatorRepositoryCommit $commit = null) {
     $this->mostRecentCommit = $commit;
     return $this;
   }
@@ -604,6 +604,9 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return "/R{$id}:{$identifier}";
   }
 
+  /**
+   * @return array|null
+   */
   public static function parseRepositoryServicePath($request_path, $vcs) {
     $is_git = ($vcs == PhabricatorRepositoryType::REPOSITORY_TYPE_GIT);
 
@@ -1229,62 +1232,6 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return $uri;
   }
 
-
-  /**
-   * Determine if we should connect to the remote using SSH flags and
-   * credentials.
-   *
-   * @return bool True to use the SSH protocol.
-   * @task uri
-   */
-  private function shouldUseSSH() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    if ($this->isSSHProtocol($protocol)) {
-      return true;
-    }
-
-    return false;
-  }
-
-
-  /**
-   * Determine if we should connect to the remote using HTTP flags and
-   * credentials.
-   *
-   * @return bool True to use the HTTP protocol.
-   * @task uri
-   */
-  private function shouldUseHTTP() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    return ($protocol == 'http' || $protocol == 'https');
-  }
-
-
-  /**
-   * Determine if we should connect to the remote using SVN flags and
-   * credentials.
-   *
-   * @return bool True to use the SVN protocol.
-   * @task uri
-   */
-  private function shouldUseSVNProtocol() {
-    if ($this->isHosted()) {
-      return false;
-    }
-
-    $protocol = $this->getRemoteProtocol();
-    return ($protocol == 'svn');
-  }
-
-
   /**
    * Determine if a protocol is SSH or SSH-like.
    *
@@ -1701,7 +1648,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * 2037). We adjust the pull frequency based on when the most recent commit
    * occurred.
    *
-   * @param   int? $minimum The minimum update interval to use, in seconds.
+   * @param   int  $minimum (optional) The minimum update interval to use, in
+   *   seconds.
    * @return  int   Repository update interval, in seconds.
    */
   public function loadUpdateInterval($minimum = 15) {
@@ -2169,7 +2117,8 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * For lower-level service resolution, see @{method:getAlmanacServiceURI}.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @param bool? $never_proxy `true` to throw if a client would be returned.
+   * @param bool $never_proxy (optional) `true` to throw if a client would be
+   *   returned.
    * @return ConduitClient|null Client, or `null` for local repositories.
    */
   public function newConduitClient(

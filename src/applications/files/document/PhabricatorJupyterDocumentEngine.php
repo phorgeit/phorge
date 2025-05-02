@@ -36,14 +36,14 @@ final class PhabricatorJupyterDocumentEngine
   }
 
   public function canDiffDocuments(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
     return true;
   }
 
   public function newEngineBlocks(
-    PhabricatorDocumentRef $uref = null,
-    PhabricatorDocumentRef $vref = null) {
+    ?PhabricatorDocumentRef $uref = null,
+    ?PhabricatorDocumentRef $vref = null) {
 
     $blocks = new PhabricatorDocumentEngineBlocks();
 
@@ -323,7 +323,7 @@ final class PhabricatorJupyterDocumentEngine
     }
 
     $nbformat = idx($data, 'nbformat');
-    if (!strlen($nbformat)) {
+    if (!phutil_nonempty_string($nbformat)) {
       throw new Exception(
         pht(
           'This document is missing an "nbformat" field. Jupyter notebooks '.

@@ -332,7 +332,7 @@ final class DifferentialDiff
     return $this->assertAttached($this->revision);
   }
 
-  public function attachRevision(DifferentialRevision $revision = null) {
+  public function attachRevision(?DifferentialRevision $revision = null) {
     $this->revision = $revision;
     return $this;
   }
@@ -363,7 +363,7 @@ final class DifferentialDiff
     return $this->assertAttached($this->properties);
   }
 
-  public function attachBuildable(HarbormasterBuildable $buildable = null) {
+  public function attachBuildable(?HarbormasterBuildable $buildable = null) {
     $this->buildable = $buildable;
     return $this;
   }

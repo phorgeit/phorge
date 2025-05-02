@@ -14,7 +14,7 @@ if ($argc > 1) {
 
 $root = dirname(dirname(dirname(__FILE__)));
 require_once $root.'/scripts/__init_script__.php';
-require_once $root.'/externals/mimemailparser/MimeMailParser.class.php';
+require_once $root.'/externals/mimemailparser/__init.php';
 
 $args = new PhutilArgumentParser($argv);
 $args->parseStandardArguments();
@@ -32,33 +32,23 @@ $args->parse(
     ),
   ));
 
-$parser = new MimeMailParser();
+if (!extension_loaded('mailparse')) {
+  throw new Exception(
+    pht(
+      'PhpMimeMailParser for handling incoming mail requires the PHP '.
+      'mailparse extension to be installed.'));
+}
+
+$parser = new \PhpMimeMailParser\Parser();
 $parser->setText(file_get_contents('php://stdin'));
 
 $content = array();
 foreach (array('text', 'html') as $part) {
   $part_body = $parser->getMessageBody($part);
-
-  if (strlen($part_body) && !phutil_is_utf8($part_body)) {
-    $part_headers = $parser->getMessageBodyHeaders($part);
-    if (!is_array($part_headers)) {
-      $part_headers = array();
-    }
-    $content_type = idx($part_headers, 'content-type');
-    if (preg_match('/charset="(.*?)"/', $content_type, $matches) ||
-        preg_match('/charset=(\S+)/', $content_type, $matches)) {
-      $part_body = phutil_utf8_convert($part_body, 'UTF-8', $matches[1]);
-    }
-  }
-
   $content[$part] = $part_body;
 }
 
 $headers = $parser->getHeaders();
-if (array_key_exists('subject', $headers)) {
-  $headers['subject'] = phutil_decode_mime_header($headers['subject']);
-}
-$headers['from'] = phutil_decode_mime_header($headers['from']);
 
 if ($args->getArg('process-duplicates')) {
   $headers['message-id'] = Filesystem::readRandomCharacters(64);

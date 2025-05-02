@@ -100,9 +100,6 @@ input[type="submit"].button-grey {
 a.disabled,
 button.disabled,
 button[disabled] {
-  filter:alpha(opacity=50);
-  -moz-opacity: 0.5;
-  -khtml-opacity: 0.5;
   opacity: 0.5;
 }
 
@@ -183,8 +180,6 @@ button.link {
   border-bottom: none;
   text-decoration: none;
   color: #19558D;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
 }
 

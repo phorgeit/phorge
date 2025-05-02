@@ -325,7 +325,7 @@ final class PhabricatorProjectSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PhabricatorProjectListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProjects($projects)
       ->setShowWatching(true)
       ->setShowMember(true)

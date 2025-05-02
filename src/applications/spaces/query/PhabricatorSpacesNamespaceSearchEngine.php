@@ -73,7 +73,7 @@ final class PhabricatorSpacesNamespaceSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($spaces as $space) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName($space->getMonogram())

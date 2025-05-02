@@ -56,8 +56,9 @@ abstract class DiffusionRequest extends Phobject {
    *   - `commit` Optional, commit identifier.
    *   - `line` Optional, line range.
    *
-   * @param   map                 $data See documentation.
-   * @return  DiffusionRequest    New request object.
+   * @param   map                   $data See documentation.
+   * @return  DiffusionRequest|null New request object, or null if none is
+   *   found.
    * @task new
    */
   final public static function newFromDictionary(array $data) {
@@ -135,8 +136,9 @@ abstract class DiffusionRequest extends Phobject {
    *
    * @param   string            $identifier  Repository identifier.
    * @param   PhabricatorUser   $viewer  Viewing user.
-   * @param   bool?             $need_edit
-   * @return  DiffusionRequest    New request object.
+   * @param   bool              $need_edit (optional)
+   * @return  DiffusionRequest  New request object, or null if no repository is
+   *   found.
    * @task new
    */
   private static function newFromIdentifier(
@@ -296,7 +298,7 @@ abstract class DiffusionRequest extends Phobject {
    * Modify the request to move the symbolic commit elsewhere.
    *
    * @param string $symbol New symbolic commit.
-   * @return this
+   * @return $this
    */
   public function updateSymbolicCommit($symbol) {
     $this->symbolicCommit = $symbol;

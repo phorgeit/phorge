@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Interface to a key-value cache like Memcache or APC. This class provides a
+ * Interface to a key-value cache like Memcache or APCu. This class provides a
  * uniform interface to multiple different key-value caches and integration
  * with PhutilServiceProfiler.
  *
@@ -14,8 +14,8 @@ abstract class PhutilKeyValueCache extends Phobject {
 
 
   /**
-   * Determine if the cache is available. For example, the APC cache tests if
-   * APC is installed. If this method returns false, the cache is not
+   * Determine if the cache is available. For example, the APCu cache tests if
+   * APCu is installed. If this method returns false, the cache is not
    * operational and can not be used.
    *
    * @return bool True if the cache can be used.
@@ -31,7 +31,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * once.
    *
    * @param   string  $key Key to retrieve.
-   * @param   wild?   $default Optional value to return if the key is not
+   * @param   wild    $default (optional) Value to return if the key is not
    *                  found. By default, returns null.
    * @return  wild    Cache value (on cache hit) or default value (on cache
    *                  miss).
@@ -51,8 +51,8 @@ abstract class PhutilKeyValueCache extends Phobject {
    *
    * @param   string    $key Key to set.
    * @param   wild      $value Value to set.
-   * @param   int|null? $ttl Optional TTL.
-   * @return  this
+   * @param   int|null  $ttl (optional) TTL.
+   * @return  $this
    * @task kvimpl
    */
   final public function setKey($key, $value, $ttl = null) {
@@ -65,7 +65,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * keys at once.
    *
    * @param   string $key Key to delete.
-   * @return  this
+   * @return  $this
    * @task kvimpl
    */
   final public function deleteKey($key) {
@@ -93,8 +93,8 @@ abstract class PhutilKeyValueCache extends Phobject {
    * policy and data will persist in cache indefinitely.
    *
    * @param dict<string, wild>  $keys Map of cache keys to values.
-   * @param int|null?           $ttl TTL for cache keys, in seconds.
-   * @return this
+   * @param int|null            $ttl (optional) TTL for cache keys, in seconds.
+   * @return $this
    * @task kvimpl
    */
   abstract public function setKeys(array $keys, $ttl = null);
@@ -104,7 +104,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * Delete a list of keys from the cache.
    *
    * @param list<string> $keys List of keys to delete.
-   * @return this
+   * @return $this
    * @task kvimpl
    */
   abstract public function deleteKeys(array $keys);
@@ -113,7 +113,7 @@ abstract class PhutilKeyValueCache extends Phobject {
   /**
    * Completely destroy all data in the cache.
    *
-   * @return this
+   * @return $this
    * @task kvimpl
    */
   abstract public function destroyCache();

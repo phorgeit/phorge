@@ -76,10 +76,6 @@ final class PHUIPagerView extends AphrontView {
       + ($this->hasMorePages ? 1 : 0);
   }
 
-  private function isExactCountKnown() {
-    return $this->count !== null;
-  }
-
   /**
    * A common paging strategy is to select one extra record and use that to
    * indicate that there's an additional page (this doesn't give you a

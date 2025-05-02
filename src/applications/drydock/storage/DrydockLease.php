@@ -139,7 +139,7 @@ final class DrydockLease extends DrydockDAO
     return $this->assertAttached($this->resource);
   }
 
-  public function attachResource(DrydockResource $resource = null) {
+  public function attachResource(?DrydockResource $resource = null) {
     $this->resource = $resource;
     return $this;
   }
@@ -511,7 +511,7 @@ final class DrydockLease extends DrydockDAO
   /**
    * Awaken yielded tasks after a state change.
    *
-   * @return this
+   * @return $this
    */
   public function awakenTasks() {
     $awaken_ids = $this->getAttribute('internal.awakenTaskIDs');

@@ -349,8 +349,8 @@ final class PhabricatorConfigSchemaQuery extends Phobject {
   }
 
   private function compareSchemata(
-    PhabricatorConfigStorageSchema $expect = null,
-    PhabricatorConfigStorageSchema $actual = null) {
+    ?PhabricatorConfigStorageSchema $expect = null,
+    ?PhabricatorConfigStorageSchema $actual = null) {
 
     $expect_is_key = ($expect instanceof PhabricatorConfigKeySchema);
     $actual_is_key = ($actual instanceof PhabricatorConfigKeySchema);

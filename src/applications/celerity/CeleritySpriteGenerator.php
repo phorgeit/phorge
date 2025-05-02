@@ -120,7 +120,6 @@ final class CeleritySpriteGenerator extends Phobject {
     if ($has_retina) {
       $retina_rules = <<<EOCSS
 @media
-only screen and (min-device-pixel-ratio: 1.5),
 only screen and (-webkit-min-device-pixel-ratio: 1.5),
 only screen and (min-resolution: 1.5dppx) {
   .sprite-{$name}{$extra_css} {

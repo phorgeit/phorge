@@ -104,9 +104,9 @@ final class DrydockAuthorization extends DrydockDAO
    * blueprint selector control an object.
    *
    * @param PhabricatorUser $viewer User applying the change.
-   * @param phid $object_phid Object PHID change is being applied to.
-   * @param list<phid> $old Old blueprint PHIDs.
-   * @param list<phid> $new New blueprint PHIDs.
+   * @param string $object_phid Object PHID change is being applied to.
+   * @param list<string> $old Old blueprint PHIDs.
+   * @param list<string> $new New blueprint PHIDs.
    * @return void
    */
   public static function applyAuthorizationChanges(

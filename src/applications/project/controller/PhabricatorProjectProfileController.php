@@ -27,7 +27,7 @@ final class PhabricatorProjectProfileController
 
     $header = id(new PHUIHeaderView())
       ->setHeader(array($project->getDisplayName(), $tag))
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($project)
       ->setProfileHeader(true);
 
@@ -61,14 +61,14 @@ final class PhabricatorProjectProfileController
     $subproject_list = $this->buildSubprojectList($project);
 
     $member_list = id(new PhabricatorProjectMemberListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProject($project)
       ->setLimit(10)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setUserPHIDs($project->getMemberPHIDs());
 
     $watcher_list = id(new PhabricatorProjectWatcherListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProject($project)
       ->setLimit(10)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
@@ -160,7 +160,7 @@ final class PhabricatorProjectProfileController
     $viewer = $request->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($project);
 
     $field_list = PhabricatorCustomField::getObjectFields(
@@ -261,7 +261,7 @@ final class PhabricatorProjectProfileController
     }
 
     $milestone_list = id(new PhabricatorProjectListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProjects($milestones)
       ->renderList();
 

@@ -1371,7 +1371,6 @@ final class DiffusionCommitHookEngine extends Phobject {
 
         return id(new DiffusionCommitRef())
           ->setMessage($message);
-        break;
       default:
         throw new Exception(pht("Unknown VCS '%s!'", $vcs));
     }

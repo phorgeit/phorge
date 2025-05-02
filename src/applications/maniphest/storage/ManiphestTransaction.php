@@ -130,7 +130,6 @@ final class ManiphestTransaction
           $this->renderHandleLink($author_phid),
           $this->renderSubtypeName($old),
           $this->renderSubtypeName($new));
-        break;
     }
 
     return parent::getTitle();

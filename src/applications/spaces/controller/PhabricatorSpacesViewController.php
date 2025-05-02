@@ -33,7 +33,7 @@ final class PhabricatorSpacesViewController
     $timeline->setShouldTerminate(true);
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($space->getNamespaceName())
       ->setPolicyObject($space)
       ->setHeaderIcon('fa-th-large');
@@ -72,7 +72,7 @@ final class PhabricatorSpacesViewController
     $viewer = $this->getRequest()->getUser();
 
     $list = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $list->addProperty(
       pht('Default Space'),

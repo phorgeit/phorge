@@ -69,11 +69,13 @@ final class ManiphestGetTaskTransactionsConduitAPIMethod
 
       $results[$task_id][] = array(
         'taskID'  => $task_id,
+        'title'   => (string)$transaction->getTitleForTextMail(),
         'transactionID' => $transaction->getID(),
         'transactionPHID' => $transaction->getPHID(),
         'transactionType'  => $transaction->getTransactionType(),
         'oldValue'  => $transaction->getOldValue(),
         'newValue'  => $transaction->getNewValue(),
+        'meta'      => $transaction->getMetadata(),
         'comments'      => $comments,
         'authorPHID'  => $transaction->getAuthorPHID(),
         'dateCreated' => $transaction->getDateCreated(),

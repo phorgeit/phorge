@@ -75,7 +75,7 @@ final class PhabricatorDashboardPanelViewController
     $id = $panel->getID();
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($panel->getName())
       ->setPolicyObject($panel)
       ->setHeaderIcon('fa-window-maximize');

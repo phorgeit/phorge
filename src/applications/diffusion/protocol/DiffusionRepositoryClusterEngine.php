@@ -189,12 +189,13 @@ final class DiffusionRepositoryClusterEngine extends Phobject {
             'Acquired read lock immediately.'));
       }
     } catch (PhutilLockException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht(
           'Failed to acquire read lock after waiting %s second(s). You '.
           'may be able to retry later. (%s)',
           new PhutilNumber($lock_wait),
           $ex->getHint()),
+        0,
         $ex);
     }
 
@@ -379,12 +380,13 @@ final class DiffusionRepositoryClusterEngine extends Phobject {
             'Acquired write lock immediately.'));
       }
     } catch (PhutilLockException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht(
           'Failed to acquire write lock after waiting %s second(s). You '.
           'may be able to retry later. (%s)',
           new PhutilNumber($lock_wait),
           $ex->getHint()),
+        0,
         $ex);
     }
 

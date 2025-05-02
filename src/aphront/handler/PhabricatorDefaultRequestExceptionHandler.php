@@ -53,7 +53,7 @@ final class PhabricatorDefaultRequestExceptionHandler
 
     if (PhabricatorEnv::getEnvConfig('phabricator.developer-mode')) {
       $trace = id(new AphrontStackTraceView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTrace($throwable->getTrace());
     } else {
       $trace = null;
@@ -71,7 +71,7 @@ final class PhabricatorDefaultRequestExceptionHandler
     $dialog
       ->setTitle(pht('Unhandled Exception ("%s")', $class))
       ->setClass('aphront-exception-dialog')
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($content);
 
     if ($request->isAjax()) {

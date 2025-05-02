@@ -147,7 +147,7 @@ final class PhabricatorSetupIssue extends Phobject {
    *
    * @param string $php_config PHP configuration option to provide a value for.
    * @param string $value Explicit value to show in the UI.
-   * @return this
+   * @return $this
    */
   public function addPHPConfigOriginalValue($php_config, $value) {
     $this->originalPHPConfigValues[$php_config] = $value;

@@ -374,3 +374,25 @@ foreach (range('a', 'z') as $c) {
   // ...
 }
 ```
+
+= PHP casts all-digit array keys from string to int =
+
+An array key which is a string that contains a decimal int will be cast to the
+int type:
+
+```lang=php
+$key0 = "main";
+$key1 = "123";
+$key2 = "0123";
+$array = array($key0 => "foo", $key1 => "foo", $key2 => "foo");
+foreach ($array as $key => $value) {
+  print(gettype($key)."\n");
+}
+```
+prints `string`, `integer`, `string`.
+
+Thus running `phutil_nonempty_string($key)` complains that it expected null or
+a string but got int.
+
+Avoid this by either explicitly casting via `(string)$key`, or by using
+`phutil_nonempty_scalar($key)` instead of `phutil_nonempty_string($key)`.

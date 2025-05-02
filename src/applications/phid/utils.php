@@ -4,7 +4,7 @@
  * Look up the type of a PHID. Returns
  * PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN if it fails to look up the type
  *
- * @param   phid   $phid Anything.
+ * @param   string   $phid A PHID of anything.
  * @return  string A value from PhabricatorPHIDConstants (ideally)
  */
 function phid_get_type($phid) {
@@ -18,7 +18,7 @@ function phid_get_type($phid) {
 /**
  * Group a list of phids by type.
  *
- * @param   $phids Array of phids
+ * @param   array $phids Array of PHIDs.
  * @return  map of phid type => list of phids
  */
 function phid_group_by_type($phids) {

@@ -184,7 +184,7 @@ abstract class PhabricatorClientLimit {
    *
    * @param float   $score The cost for this request; more points pushes them
    *                toward the limit faster.
-   * @return this
+   * @return $this
    */
   private function addScore($score) {
     $is_apcu = (bool)function_exists('apcu_fetch');

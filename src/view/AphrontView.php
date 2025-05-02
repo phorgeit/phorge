@@ -17,7 +17,7 @@ abstract class AphrontView extends Phobject
    * Set the user viewing this element.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @return this
+   * @return $this
    */
   public function setViewer(PhabricatorUser $viewer) {
     $this->viewer = $viewer;
@@ -101,7 +101,7 @@ abstract class AphrontView extends Phobject
    * determined by @{method:canAppendChild}.
    *
    * @param  wild  $child Something renderable.
-   * @return this
+   * @return $this
    */
   final public function appendChild($child) {
     if (!$this->canAppendChild()) {

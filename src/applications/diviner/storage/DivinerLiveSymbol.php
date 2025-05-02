@@ -102,7 +102,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this->assertAttached($this->repository);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(?PhabricatorRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -111,7 +111,7 @@ final class DivinerLiveSymbol extends DivinerDAO
     return $this->assertAttached($this->atom);
   }
 
-  public function attachAtom(DivinerLiveAtom $atom = null) {
+  public function attachAtom(?DivinerLiveAtom $atom = null) {
     if ($atom === null) {
       $this->atom = null;
     } else {

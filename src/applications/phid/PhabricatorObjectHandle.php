@@ -168,6 +168,19 @@ final class PhabricatorObjectHandle
     if ($this->name === null) {
       if ($this->getPolicyFiltered()) {
         return pht('Restricted %s', $this->getTypeName());
+      } else if ($this->getPHID() && $this->getTypeName() ===
+          PhabricatorPHIDConstants::PHID_TYPE_UNKNOWN) {
+        // Values of custom Select field conditions in Herald rules do not have
+        // a PHID (and no PHID type) as they are arbitrary text when loadPage()
+        // in PhabricatorHandleQuery calls $type = phid_get_type($phid).
+        // Thus the code lower in this class cannot pull a name to render for
+        // these non-existing PHIDs either.
+        // In this case, render their PHID (the actual Select field key value).
+        // This is always more informative than 'Unknown Object (????)' though
+        // still imperfect as it displays the key instead of the user-friendly
+        // name value defined in maniphest.custom-field-definitions.
+        // https://we.phorge.it/T15860
+        return $this->getPHID();
       } else {
         return pht('Unknown Object (%s)', $this->getTypeName());
       }
@@ -276,7 +289,7 @@ final class PhabricatorObjectHandle
    * @{method:isComplete} for an explanation of what it means to be complete.
    *
    * @param bool $complete True if the handle represents a complete object.
-   * @return this
+   * @return $this
    */
   public function setComplete($complete) {
     $this->complete = $complete;

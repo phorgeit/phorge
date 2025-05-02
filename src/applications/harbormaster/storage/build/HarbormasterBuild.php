@@ -90,7 +90,7 @@ final class HarbormasterBuild extends HarbormasterDAO
   }
 
   public function attachBuildPlan(
-    HarbormasterBuildPlan $build_plan = null) {
+    ?HarbormasterBuildPlan $build_plan = null) {
     $this->buildPlan = $build_plan;
     return $this;
   }

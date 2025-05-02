@@ -32,8 +32,11 @@ JX.behavior('phui-hovercards', function(config, statics) {
       }
 
       var node = e.getNode('hovercard');
-      var data = e.getNodeData('hovercard').hovercardSpec;
+      if (node.closest('.jx-hovercard-container')) {
+        return;
+      }
 
+      var data = e.getNodeData('hovercard').hovercardSpec;
       var card = cards.getCard(data);
 
       cards.drawCard(card, node);

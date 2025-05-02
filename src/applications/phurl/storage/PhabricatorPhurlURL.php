@@ -34,10 +34,15 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
       ->withClasses(array('PhabricatorPhurlApplication'))
       ->executeOne();
 
+    $view_policy = $app->getPolicy(
+      PhabricatorPhurlURLDefaultViewCapability::CAPABILITY);
+    $edit_policy = $app->getPolicy(
+      PhabricatorPhurlURLDefaultEditCapability::CAPABILITY);
+
     return id(new PhabricatorPhurlURL())
       ->setAuthorPHID($actor->getPHID())
-      ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
-      ->setEditPolicy($actor->getPHID())
+      ->setViewPolicy($view_policy)
+      ->setEditPolicy($edit_policy)
       ->setSpacePHID($actor->getDefaultSpacePHID());
   }
 

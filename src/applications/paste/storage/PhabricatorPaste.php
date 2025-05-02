@@ -22,7 +22,6 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   protected $parentPHID;
   protected $viewPolicy;
   protected $editPolicy;
-  protected $mailKey;
   protected $status;
   protected $spacePHID;
 
@@ -74,7 +73,6 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
         'status' => 'text32',
         'title' => 'text255',
         'language' => 'text64?',
-        'mailKey' => 'bytes20',
         'parentPHID' => 'phid?',
 
         // T6203/NULLABILITY
@@ -105,13 +103,6 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
 
   public function isArchived() {
     return ($this->getStatus() == self::STATUS_ARCHIVED);
-  }
-
-  public function save() {
-    if (!$this->getMailKey()) {
-      $this->setMailKey(Filesystem::readRandomCharacters(20));
-    }
-    return parent::save();
   }
 
   public function getFullName() {

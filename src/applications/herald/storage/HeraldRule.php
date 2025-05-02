@@ -265,6 +265,9 @@ final class HeraldRule extends HeraldDAO
       ->addString($this->getName());
   }
 
+  /**
+   * @return string Name of the rule, for example "H123 RuleName (Disabled)"
+   */
   public function getEditorDisplayName() {
     $name = pht('%s %s', $this->getMonogram(), $this->getName());
 

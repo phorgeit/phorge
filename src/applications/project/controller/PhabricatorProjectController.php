@@ -137,8 +137,8 @@ abstract class PhabricatorProjectController extends PhabricatorController {
               break;
           }
         }
-
-        $crumbs->addTextCrumb($ancestor->getName(), $crumb_uri);
+        $archived = $ancestor->isArchived();
+        $crumbs->addTextCrumb($ancestor->getName(), $crumb_uri, $archived);
       }
     }
 
@@ -170,7 +170,7 @@ abstract class PhabricatorProjectController extends PhabricatorController {
   protected function newCardResponse(
     $board_phid,
     $object_phid,
-    PhabricatorProjectColumnOrder $ordering = null,
+    ?PhabricatorProjectColumnOrder $ordering = null,
     $sounds = array()) {
 
     $viewer = $this->getViewer();

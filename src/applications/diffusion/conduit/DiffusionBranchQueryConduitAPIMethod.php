@@ -56,7 +56,7 @@ final class DiffusionBranchQueryConduitAPIMethod
       $refs = array();
       foreach ($ref_map as $ref => $commit) {
         $refs[] = id(new DiffusionRepositoryRef())
-          ->setShortName($ref)
+          ->setShortName((string)$ref)
           ->setCommitIdentifier($commit);
       }
     } else {

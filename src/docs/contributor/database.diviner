@@ -10,10 +10,7 @@ Database System
 Phorge uses MySQL or another MySQL-compatible database (like MariaDB
 or Amazon RDS).
 
-Phorge uses the InnoDB table engine. The only exception is the
-`search_documentfield` table which uses MyISAM because MySQL doesn't support
-fulltext search in InnoDB (recent versions do, but we haven't added support
-yet).
+Phorge uses the InnoDB table engine.
 
 We are unlikely to ever support other incompatible databases like PostgreSQL or
 SQLite.
@@ -21,8 +18,8 @@ SQLite.
 PHP Drivers
 ===========
 
-Phorge supports [[ http://www.php.net/book.mysql | MySQL ]] and
-[[ http://www.php.net/book.mysqli | MySQLi ]] PHP extensions.
+Phorge supports [[ https://www.php.net/book.mysql | MySQL ]] and
+[[ https://www.php.net/book.mysqli | MySQLi ]] PHP extensions.
 
 Databases
 =========

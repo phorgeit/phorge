@@ -20,7 +20,7 @@ final class DiffusionLocalRepositoryFilter extends Phobject {
     return $this->viewer;
   }
 
-  public function setDevice(AlmanacDevice $device = null) {
+  public function setDevice(?AlmanacDevice $device = null) {
     $this->device = $device;
     return $this;
   }

@@ -270,7 +270,7 @@ final class PHUIHeaderView extends AphrontTagView {
     $space_header = null;
     if ($viewer) {
       $space_header = id(new PHUISpacesNamespaceContextView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($this->policyObject);
     }
 
@@ -376,7 +376,6 @@ final class PHUIHeaderView extends AphrontTagView {
           break;
           default:
             throw new Exception(pht('Incorrect Property Passed'));
-          break;
         }
       }
 

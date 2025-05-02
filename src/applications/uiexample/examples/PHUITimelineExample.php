@@ -82,21 +82,21 @@ final class PHUITimelineExample extends PhabricatorUIExample {
 
     // Pinboard!!
     $pin1 = id(new PHUIPinboardItemView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setHeader('user0.png')
       ->setImageURI(celerity_get_resource_uri('/rsrc/image/people/user0.png'))
       ->setURI(celerity_get_resource_uri('/rsrc/image/people/user0.png'))
       ->setImageSize(280, 210);
 
     $pin2 = id(new PHUIPinboardItemView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setHeader('user1.png')
       ->setImageURI(celerity_get_resource_uri('/rsrc/image/people/user1.png'))
       ->setURI(celerity_get_resource_uri('/rsrc/image/people/user1.png'))
       ->setImageSize(280, 210);
 
     $pin3 = id(new PHUIPinboardItemView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setHeader('user2.png')
       ->setImageURI(celerity_get_resource_uri('/rsrc/image/people/user2.png'))
       ->setURI(celerity_get_resource_uri('/rsrc/image/people/user1.png'))
@@ -204,14 +204,14 @@ final class PHUITimelineExample extends PhabricatorUIExample {
     $anchor = 0;
     foreach ($events as $group) {
       foreach ($group->getEventGroup() as $event) {
-        $event->setUser($user);
+        $event->setViewer($user);
         $event->setDateCreated(time() + ($anchor * 60 * 8));
         $event->setAnchor(++$anchor);
       }
     }
 
     $timeline = id(new PHUITimelineView());
-    $timeline->setUser($user);
+    $timeline->setViewer($user);
     foreach ($events as $event) {
       $timeline->addEvent($event);
     }

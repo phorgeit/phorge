@@ -13,7 +13,7 @@ final class PhabricatorApplicationTransactionValidationError
     $type,
     $short_message,
     $message,
-    PhabricatorApplicationTransaction $xaction = null) {
+    ?PhabricatorApplicationTransaction $xaction = null) {
 
     $this->type = $type;
     $this->shortMessage = $short_message;

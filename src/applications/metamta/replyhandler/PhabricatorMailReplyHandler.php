@@ -199,8 +199,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    * Each target should be sent a separate email, and contains the information
    * required to generate it with appropriate permissions and configuration.
    *
-   * @param list<phid> $raw_to List of "To" PHIDs.
-   * @param list<phid> $raw_cc List of "CC" PHIDs.
+   * @param list<string> $raw_to List of "To" PHIDs.
+   * @param list<string> $raw_cc List of "CC" PHIDs.
    * @return list<PhabricatorMailTarget> List of targets.
    */
   final public function getMailTargets(array $raw_to, array $raw_cc) {
@@ -274,9 +274,9 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    * This takes any compound recipients (like projects) and looks up all their
    * members.
    *
-   * @param list<phid> $to List of To PHIDs.
-   * @param list<phid> $cc List of CC PHIDs.
-   * @return pair<list<phid>, list<phid>> Expanded PHID lists.
+   * @param list<string> $to List of To PHIDs.
+   * @param list<string> $cc List of CC PHIDs.
+   * @return pair<list<string>, list<string>> Expanded PHID lists.
    */
   private function expandRecipientPHIDs(array $to, array $cc) {
     $to_result = array();
@@ -332,8 +332,8 @@ abstract class PhabricatorMailReplyHandler extends Phobject {
    *
    * Invalid recipients are dropped from the results.
    *
-   * @param list<phid> $to List of To PHIDs.
-   * @param list<phid> $cc List of CC PHIDs.
+   * @param list<string> $to List of To PHIDs.
+   * @param list<string> $cc List of CC PHIDs.
    * @return pair<wild, wild> Maps from PHIDs to users.
    */
   private function loadRecipientUsers(array $to, array $cc) {

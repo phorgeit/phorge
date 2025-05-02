@@ -19,7 +19,7 @@ final class PhabricatorScopedEnv extends Phobject {
    *
    * @param  string $key Key to override.
    * @param  wild   $value New value.
-   * @return this
+   * @return $this
    *
    * @task override
    */

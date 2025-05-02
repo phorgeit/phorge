@@ -98,7 +98,7 @@ final class HarbormasterBuildMessageAbortTransaction
       throw new HarbormasterMessageException(
         pht('Unable to Abort Build'),
         pht(
-          'You can not abort this biuld because it is already complete.'));
+          'You can not abort this build because it is already complete.'));
     }
   }
 

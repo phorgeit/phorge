@@ -82,11 +82,4 @@ final class DifferentialRevisionVoidTransaction
     return true;
   }
 
-  private function getVoidableStatuses() {
-    return array(
-      DifferentialReviewerStatus::STATUS_ACCEPTED,
-      DifferentialReviewerStatus::STATUS_REJECTED,
-    );
-  }
-
 }

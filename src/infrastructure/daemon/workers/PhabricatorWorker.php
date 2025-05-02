@@ -169,10 +169,11 @@ abstract class PhabricatorWorker extends Phobject {
           $task_result = PhabricatorWorkerArchiveTask::RESULT_SUCCESS;
           break;
         } catch (PhabricatorWorkerPermanentFailureException $ex) {
-          $proxy = new PhutilProxyException(
+          $proxy = new Exception(
             pht(
               'In-process task ("%s") failed permanently.',
               $task_class),
+            0,
             $ex);
 
           phlog($proxy);
@@ -232,8 +233,8 @@ abstract class PhabricatorWorker extends Phobject {
    *
    * @param string    $class Task class to queue.
    * @param array     $data Data for the followup task.
-   * @param array?    $options Options for the followup task.
-   * @return this
+   * @param array     $options (optional) Options for the followup task.
+   * @return $this
    */
   final protected function queueTask(
     $class,
@@ -261,7 +262,7 @@ abstract class PhabricatorWorker extends Phobject {
    * this method to force the queue to flush before failing (for example, if
    * you are using queues to improve locking behavior).
    *
-   * @param map<string, wild>? $defaults Optional default options.
+   * @param map<string, wild> $defaults (optional) Default options.
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {

@@ -112,7 +112,7 @@ final class PhabricatorCalendarEventViewController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($event->getName())
       ->setStatus($icon, $color, $status)
       ->setPolicyObject($event)
@@ -151,7 +151,7 @@ final class PhabricatorCalendarEventViewController
         ->setText(pht('Availability: %s', $selected_option['name']));
 
       $dropdown = id(new PhabricatorActionListView())
-        ->setUser($viewer);
+        ->setViewer($viewer);
 
       foreach ($options as $key => $option) {
         $uri = "event/availability/{$id}/{$key}/";
@@ -277,7 +277,7 @@ final class PhabricatorCalendarEventViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $invitees = $event->getInvitees();
     foreach ($invitees as $key => $invitee) {
@@ -444,7 +444,7 @@ final class PhabricatorCalendarEventViewController
     }
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $is_parent = $event->isParentEvent();
     if ($is_parent) {
@@ -513,7 +513,7 @@ final class PhabricatorCalendarEventViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if (strlen($event->getDescription())) {
       $description = new PHUIRemarkupView($viewer, $event->getDescription());

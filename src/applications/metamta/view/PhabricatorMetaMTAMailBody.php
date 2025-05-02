@@ -41,7 +41,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
    * Add a raw block of text to the email. This will be rendered as-is.
    *
    * @param string $text Block of text.
-   * @return this
+   * @return $this
    * @task compose
    */
   public function addRawSection($text) {
@@ -102,7 +102,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
    *
    * @param string $header Header text.
    * @param string $section Section text.
-   * @return this
+   * @return $this
    * @task compose
    */
   public function addTextSection($header, $section) {
@@ -156,7 +156,7 @@ final class PhabricatorMetaMTAMailBody extends Phobject {
    * Add an attachment.
    *
    * @param PhabricatorMailAttachment $attachment Attachment.
-   * @return this
+   * @return $this
    * @task compose
    */
   public function addAttachment(PhabricatorMailAttachment $attachment) {

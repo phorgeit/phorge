@@ -123,7 +123,6 @@ final class PhabricatorFlagQuery
       default:
         throw new Exception(
           pht('Unknown groupBy parameter: %s', $this->groupBy));
-        break;
     }
 
     return $flags;

@@ -683,7 +683,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
         }
       } catch (Exception $ex) {
         if ($redirects) {
-          throw new PhutilProxyException(
+          throw new Exception(
             pht(
               'Failed to fetch remote URI "%s" after following %s redirect(s) '.
               '(%s): %s',
@@ -691,6 +691,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
               phutil_count($redirects),
               implode(' > ', array_keys($redirects)),
               $ex->getMessage()),
+            0,
             $ex);
         } else {
           throw $ex;
@@ -807,8 +808,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
   /**
    * Return an iterable which emits file content bytes.
    *
-   * @param int? $begin Offset for the start of data.
-   * @param int? $end Offset for the end of data.
+   * @param int $begin (optional) Offset for the start of data.
+   * @param int $end (optional) Offset for the end of data.
    * @return Iterable Iterable object which emits requested data.
    */
   public function getFileDataIterator($begin = null, $end = null) {
@@ -1038,13 +1039,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
       case 'jpg';
       case 'jpeg':
         return function_exists('imagejpeg');
-        break;
       case 'png':
         return function_exists('imagepng');
-        break;
       case 'gif':
         return function_exists('imagegif');
-        break;
       default:
         throw new Exception(pht('Unknown type matched as image MIME type.'));
     }
@@ -1317,7 +1315,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     return $this->assertAttached($this->originalFile);
   }
 
-  public function attachOriginalFile(PhabricatorFile $file = null) {
+  public function attachOriginalFile(?PhabricatorFile $file = null) {
     $this->originalFile = $file;
     return $this;
   }
@@ -1474,8 +1472,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * Write the policy edge between this file and some object.
    * This method is successful even if the file is already attached.
    *
-   * @param phid $phid Object PHID to attach to.
-   * @return this
+   * @param string $phid Object PHID to attach to.
+   * @return $this
    */
   public function attachToObject($phid) {
     self::attachFileToObject($this->getPHID(), $phid);
@@ -1488,8 +1486,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * NOTE: Please avoid to use this static method directly.
    *       Instead, use PhabricatorFile#attachToObject(phid).
    *
-   * @param phid $file_phid File PHID to attach from.
-   * @param phid $object_phid Object PHID to attach to.
+   * @param string $file_phid File PHID to attach from.
+   * @param string $object_phid Object PHID to attach to.
    * @return void
    */
   public static function attachFileToObject($file_phid, $object_phid) {
@@ -1529,7 +1527,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    *
    * @param map<string, wild> $params Bag of parameters, see
    *   @{class:PhabricatorFile} for documentation.
-   * @return this
+   * @return $this
    */
   private function readPropertiesFromParameters(array $params) {
     PhutilTypeSpec::checkMap(

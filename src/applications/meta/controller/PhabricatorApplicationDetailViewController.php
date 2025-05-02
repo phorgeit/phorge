@@ -28,7 +28,7 @@ final class PhabricatorApplicationDetailViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($selected)
       ->setHeaderIcon($selected->getIcon());
 

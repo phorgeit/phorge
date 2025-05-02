@@ -613,7 +613,7 @@ final class HeraldTranscriptController extends HeraldController {
     foreach ($profile as $frame) {
       $cost = $frame['elapsed'];
       $cost = 1000000 * $cost;
-      $cost = pht('%sus', new PhutilNumber($cost));
+      $cost = pht('%s%ss', new PhutilNumber($cost), mb_chr(956, 'UTF-8'));
 
       $type = $frame['type'];
       switch ($type) {

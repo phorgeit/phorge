@@ -7,10 +7,6 @@ final class DiffusionDoorkeeperCommitFeedStoryPublisher
   private $activePHIDs;
   private $passivePHIDs;
 
-  private function getAuditRequests() {
-    return $this->auditRequests;
-  }
-
   public function canPublishStory(PhabricatorFeedStory $story, $object) {
     return
       ($story instanceof PhabricatorApplicationTransactionFeedStory) &&

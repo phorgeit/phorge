@@ -86,7 +86,6 @@ final class PhabricatorWorkerTrigger
    *   is the first execution.
    * @param int $this_event Scheduled epoch of this execution. This may not be
    *   the same as the current time.
-   * @return void
    */
   public function executeTrigger($last_event, $this_event) {
     return $this->getAction()->execute($last_event, $this_event);
@@ -96,7 +95,7 @@ final class PhabricatorWorkerTrigger
     return $this->assertAttached($this->event);
   }
 
-  public function attachEvent(PhabricatorWorkerTriggerEvent $event = null) {
+  public function attachEvent(?PhabricatorWorkerTriggerEvent $event = null) {
     $this->event = $event;
     return $this;
   }

@@ -146,7 +146,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
     return $form_box;
   }
 
-  private function getAllEditorsWithTags(PhabricatorUser $user = null) {
+  private function getAllEditorsWithTags(?PhabricatorUser $user = null) {
     $editors = id(new PhutilClassMapQuery())
       ->setAncestorClass('PhabricatorApplicationTransactionEditor')
       ->setFilterMethod('getMailTagsMap')
@@ -165,7 +165,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
     return $editors;
   }
 
-  private function getAllTags(PhabricatorUser $user = null) {
+  private function getAllTags(?PhabricatorUser $user = null) {
     $tags = array();
     foreach ($this->getAllEditorsWithTags($user) as $editor) {
       $tags += $editor->getMailTagsMap();

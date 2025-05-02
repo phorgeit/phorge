@@ -122,9 +122,6 @@
  * @{method:loadAllWhere} returns a list of objects, while
  * @{method:loadOneWhere} returns a single object (or `null`).
  *
- * There's also a @{method:loadRelatives} method which helps to prevent the 1+N
- * queries problem.
- *
  * = Managing Transactions =
  *
  * Lisk uses a transaction stack, so code does not generally need to be aware
@@ -203,7 +200,7 @@ abstract class LiskDAO extends Phobject
   /**
    *  Build an empty object.
    *
-   *  @return obj Empty object.
+   *  @return object Empty object.
    */
   public function __construct() {
     $id_key = $this->getIDKey();
@@ -264,8 +261,8 @@ abstract class LiskDAO extends Phobject
    *
    * @param mode $mode Connection mode.
    * @param AphrontDatabaseConnection $connection Connection to cache.
-   * @param bool? $force_unique
-   * @return this
+   * @param bool $force_unique (optional)
+   * @return $this
    * @task conn
    */
   protected function setEstablishedConnection(
@@ -402,7 +399,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Determine the setting of a configuration option for this class of objects.
    *
-   * @param  const  $option_name Option name, one of the CONFIG_* constants.
+   * @param string  $option_name Option name, one of the CONFIG_* constants.
    * @return mixed  Option value, if configured (null if unavailable).
    *
    * @task   config
@@ -429,8 +426,8 @@ abstract class LiskDAO extends Phobject
    *
    *   $dog = id(new Dog())->load($dog_id);
    *
-   * @param  int       $id Numeric ID identifying the object to load.
-   * @return obj|null  Identified object, or null if it does not exist.
+   * @param  int          $id Numeric ID identifying the object to load.
+   * @return object|null  Identified object, or null if it does not exist.
    *
    * @task   load
    */
@@ -472,7 +469,7 @@ abstract class LiskDAO extends Phobject
    * The pattern and arguments are as per queryfx().
    *
    * @param  string  $pattern queryfx()-style SQL WHERE clause.
-   * @param  ...     Zero or more conversions.
+   * @param  mixed   $args,... Zero or more conversions.
    * @return dict    Dictionary of matching objects, keyed on ID.
    *
    * @task   load
@@ -492,9 +489,9 @@ abstract class LiskDAO extends Phobject
    * query. See loadAllWhere(). This method is similar, but returns a single
    * result instead of a list.
    *
-   * @param  string    $pattern queryfx()-style SQL WHERE clause.
-   * @param  ...       Zero or more conversions.
-   * @return obj|null  Matching object, or null if no object matches.
+   * @param  string       $pattern queryfx()-style SQL WHERE clause.
+   * @param  mixed        $args,... Zero or more conversions.
+   * @return object|null  Matching object, or null if no object matches.
    *
    * @task   load
    */
@@ -548,7 +545,7 @@ abstract class LiskDAO extends Phobject
    * properties. This is primarily useful after entering a transaction but
    * before applying changes to an object.
    *
-   * @return this
+   * @return $this
    *
    * @task   load
    */
@@ -580,7 +577,7 @@ abstract class LiskDAO extends Phobject
    * @param  dict  $row Dictionary of properties, which should be equivalent
    *               to selecting a row from the table or calling
    *               @{method:getProperties}.
-   * @return this
+   * @return $this
    *
    * @task   load
    */
@@ -694,7 +691,7 @@ abstract class LiskDAO extends Phobject
    * method unless with `IDS_MANUAL`.
    *
    * @param  mixed   $id Unique ID.
-   * @return this
+   * @return $this
    * @task   save
    */
   public function setID($id) {
@@ -802,8 +799,9 @@ abstract class LiskDAO extends Phobject
    * Get or build the database connection for this object.
    *
    * @param  string $mode 'r' for read, 'w' for read/write.
-   * @param  bool? $force_new True to force a new connection. The connection
-   *   will not be retrieved from or saved into the connection cache.
+   * @param  bool $force_new (optional) True to force a new connection. The
+   *   connection will not be retrieved from or saved into the connection
+   *   cache.
    * @return AphrontDatabaseConnection   Lisk connection object.
    *
    * @task   info
@@ -917,7 +915,7 @@ abstract class LiskDAO extends Phobject
    * method you need to call to do writes. If the object has not yet been
    * inserted this will do an insert; if it has, it will do an update.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -934,7 +932,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use REPLACE regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -948,7 +946,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use INSERT regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -962,7 +960,7 @@ abstract class LiskDAO extends Phobject
    * Save this object, forcing the query to use UPDATE regardless of object
    * state.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1018,7 +1016,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Delete this object, permanently.
    *
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1041,9 +1039,9 @@ abstract class LiskDAO extends Phobject
   /**
    * Internal implementation of INSERT and REPLACE.
    *
-   * @param  const $mode Either "INSERT" or "REPLACE", to force the desired
+   * @param string $mode Either "INSERT" or "REPLACE", to force the desired
    *   mode.
-   * @return this
+   * @return $this
    *
    * @task   save
    */
@@ -1094,12 +1092,13 @@ abstract class LiskDAO extends Phobject
           $data[$key] = qsprintf($conn, '%ns', $value);
         }
       } catch (AphrontParameterQueryException $parameter_exception) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             "Unable to insert or update object of class %s, field '%s' ".
             "has a non-scalar value.",
             get_class($this),
             $key),
+          0,
           $parameter_exception);
       }
     }
@@ -1186,7 +1185,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Generate a new PHID, used by CONFIG_AUX_PHID.
    *
-   * @return phid    Unique, newly allocated PHID.
+   * @return string    Unique, newly allocated PHID.
    *
    * @task   hook
    */
@@ -1308,7 +1307,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Increase transaction stack depth.
    *
-   * @return this
+   * @return $this
    */
   public function openTransaction() {
     $this->establishConnection('w')->openTransaction();
@@ -1319,7 +1318,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Decrease transaction stack depth, saving work.
    *
-   * @return this
+   * @return $this
    */
   public function saveTransaction() {
     $this->establishConnection('w')->saveTransaction();
@@ -1330,7 +1329,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Decrease transaction stack depth, discarding work.
    *
-   * @return this
+   * @return $this
    */
   public function killTransaction() {
     $this->establishConnection('w')->killTransaction();
@@ -1354,7 +1353,7 @@ abstract class LiskDAO extends Phobject
    *     $beach->endReadLocking();
    *   $beach->saveTransaction();
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function beginReadLocking() {
@@ -1366,7 +1365,7 @@ abstract class LiskDAO extends Phobject
   /**
    * Ends read-locking that began at an earlier @{method:beginReadLocking} call.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function endReadLocking() {
@@ -1381,7 +1380,7 @@ abstract class LiskDAO extends Phobject
    * MySQL documentation for details). To end write locking, call
    * @{method:endWriteLocking}.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function beginWriteLocking() {
@@ -1394,7 +1393,7 @@ abstract class LiskDAO extends Phobject
    * Ends write-locking that began at an earlier @{method:beginWriteLocking}
    * call.
    *
-   * @return this
+   * @return $this
    * @task xaction
    */
   public function endWriteLocking() {

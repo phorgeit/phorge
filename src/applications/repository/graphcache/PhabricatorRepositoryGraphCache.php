@@ -236,8 +236,8 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
    * to force a cache update by passing the existing data to `$rebuild_data`.
    *
    * @param   int    $bucket_key Bucket key, from @{method:getBucketKey}.
-   * @param   mixed? $rebuild_data Current data, to force a cache rebuild of
-   *                 this bucket.
+   * @param   mixed  $rebuild_data (optional) Current data, to force a cache
+   *                 rebuild of this bucket.
    * @return  array  Data from the cache.
    * @task cache
    */

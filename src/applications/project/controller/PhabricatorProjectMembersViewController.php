@@ -23,14 +23,14 @@ final class PhabricatorProjectMembersViewController
     $curtain = $this->buildCurtainView($project);
 
     $member_list = id(new PhabricatorProjectMemberListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProject($project)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setUserPHIDs($project->getMemberPHIDs())
       ->setShowNote(true);
 
     $watcher_list = id(new PhabricatorProjectWatcherListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProject($project)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setUserPHIDs($project->getWatcherPHIDs())

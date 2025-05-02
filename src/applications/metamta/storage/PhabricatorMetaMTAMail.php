@@ -88,8 +88,8 @@ final class PhabricatorMetaMTAMail
    * These tags are used to allow users to opt out of receiving certain types
    * of mail, like updates when a task's projects change.
    *
-   * @param list<const> $tags
-   * @return this
+   * @param list<string> $tags Tag constants.
+   * @return $this
    */
   public function setMailTags(array $tags) {
     $this->setParam('mailtags', array_unique($tags));
@@ -110,7 +110,7 @@ final class PhabricatorMetaMTAMail
    * T251 for more details.
    *
    * @param   string $id The "Message-ID" of the email which precedes this one.
-   * @return  this
+   * @return  $this
    */
   public function setParentMessageID($id) {
     $this->setParam('parent-message-id', $id);
@@ -420,7 +420,7 @@ final class PhabricatorMetaMTAMail
    * receive things like password resets.
    *
    * @param bool $force True to force delivery despite user preferences.
-   * @return this
+   * @return $this
    */
   public function setForceDelivery($force) {
     $this->setParam('force', $force);
@@ -438,7 +438,7 @@ final class PhabricatorMetaMTAMail
    * dependent.
    *
    * @param bool $is_bulk True if the mail is automated bulk mail.
-   * @return this
+   * @return $this
    */
   public function setIsBulk($is_bulk) {
     $this->setParam('is-bulk', $is_bulk);
@@ -456,9 +456,9 @@ final class PhabricatorMetaMTAMail
    *
    * @param string  $thread_id Unique identifier, appropriate for use in a
    *                Message-ID, In-Reply-To or References headers.
-   * @param bool?   $is_first_message If true, indicates this is the first
-   *                message in the thread.
-   * @return this
+   * @param bool    $is_first_message (optional) If true, indicates this is the
+   *                first message in the thread.
+   * @return $this
    */
   public function setThreadID($thread_id, $is_first_message = false) {
     $this->setParam('thread-id', $thread_id);
@@ -478,14 +478,14 @@ final class PhabricatorMetaMTAMail
    * Save a newly created mail to the database. The mail will eventually be
    * delivered by the MetaMTA daemon.
    *
-   * @return this
+   * @return $this
    */
   public function saveAndSend() {
     return $this->save();
   }
 
   /**
-   * @return this
+   * @return $this
    */
   public function save() {
     if ($this->getID()) {
@@ -531,8 +531,6 @@ final class PhabricatorMetaMTAMail
 
   /**
    * Attempt to deliver an email immediately, in this process.
-   *
-   * @return void
    */
   public function sendNow() {
     if ($this->getStatus() != PhabricatorMailOutboundStatus::STATUS_QUEUE) {
@@ -826,8 +824,8 @@ final class PhabricatorMetaMTAMail
    * Note that this expands recipients into their members, because delivery
    * is never directly attempted to aggregate actors like projects.
    *
-   * @return  list<phid>  A list of all recipients to whom delivery will be
-   *                      attempted.
+   * @return  list<string>  A list of all recipients to whom delivery will be
+   *                        attempted.
    * @task recipients
    */
   public function buildRecipientList() {
@@ -859,9 +857,9 @@ final class PhabricatorMetaMTAMail
    * For example, this will expand project PHIDs into a list of the project's
    * members.
    *
-   * @param list<phid>  $phids List of recipient PHIDs, possibly including
+   * @param list<string>  $phids List of recipient PHIDs, possibly including
    *                    aggregate recipients.
-   * @return list<phid> Deaggregated list of mailable recipients.
+   * @return list<string> Deaggregated list pf PHIDs of mailable recipients.
    */
   public function expandRecipients(array $phids) {
     if ($this->recipientExpansionMap === null) {

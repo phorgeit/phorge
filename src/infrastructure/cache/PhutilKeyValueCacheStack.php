@@ -40,7 +40,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
    *
    * @param   list<PhutilKeyValueCache> $caches Ordered list of key-value
    *   caches.
-   * @return  this
+   * @return  $this
    * @task    config
    */
   public function setCaches(array $caches) {
@@ -64,7 +64,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
    *   $stack->getKey('hedgehog');
    *
    * @param   int $ttl TTL in seconds.
-   * @return  this
+   * @return  $this
    *
    * @task    config
    */

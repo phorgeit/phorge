@@ -44,7 +44,7 @@ final class PhabricatorFileChunk extends PhabricatorFileDAO
       ->setByteEnd($end);
   }
 
-  public function attachDataFile(PhabricatorFile $file = null) {
+  public function attachDataFile(?PhabricatorFile $file = null) {
     $this->dataFile = $file;
     return $this;
   }

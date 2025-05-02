@@ -266,10 +266,11 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
       case DrydockResourceStatus::STATUS_DESTROYED:
         // If the resource was already broken, just throw a normal exception.
         // This will retry the task eventually.
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Unexpected failure while destroying resource ("%s").',
             $resource->getPHID()),
+          0,
           $ex);
     }
 

@@ -172,18 +172,6 @@ final class DifferentialRevisionSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
-  private function getStatusOptions() {
-    return array(
-      DifferentialLegacyQuery::STATUS_ANY            => pht('All'),
-      DifferentialLegacyQuery::STATUS_OPEN           => pht('Open'),
-      DifferentialLegacyQuery::STATUS_ACCEPTED       => pht('Accepted'),
-      DifferentialLegacyQuery::STATUS_NEEDS_REVIEW   => pht('Needs Review'),
-      DifferentialLegacyQuery::STATUS_NEEDS_REVISION => pht('Needs Revision'),
-      DifferentialLegacyQuery::STATUS_CLOSED         => pht('Closed'),
-      DifferentialLegacyQuery::STATUS_ABANDONED      => pht('Abandoned'),
-    );
-  }
-
   protected function renderResultList(
     array $revisions,
     PhabricatorSavedQuery $query,

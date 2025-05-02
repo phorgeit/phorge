@@ -16,15 +16,16 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
 
   public function getFactorCreateHelp() {
     return pht(
-      'Allow users to attach a mobile authenticator application (like '.
-      'Google Authenticator) to their account.');
+      'Allow users to attach a mobile authenticator application (like 2FAS, '.
+      'Aegis, FreeOTP, or Bitwarden Authenticator) to their account.');
   }
 
   public function getFactorDescription() {
     return pht(
-      'Attach a mobile authenticator application (like Authy '.
-      'or Google Authenticator) to your account. When you need to '.
-      'authenticate, you will enter a code shown on your phone.');
+      'Attach a mobile authenticator application (like 2FAS, Aegis, '.
+      'FreeOTP, Bitwarden Authenticator, Google Authenticator, or Authy) to '.
+      'your account. When you need to authenticate, you will enter a code '.
+      'shown on your phone.');
   }
 
   public function getEnrollDescription(
@@ -33,9 +34,10 @@ final class PhabricatorTOTPAuthFactor extends PhabricatorAuthFactor {
 
     return pht(
       'To add a TOTP factor to your account, you will first need to install '.
-      'a mobile authenticator application on your phone. Two applications '.
-      'which work well are **Google Authenticator** and **Authy**, but any '.
-      'other TOTP application should also work.'.
+      'a mobile authenticator application on your phone. Some applications '.
+      'which work well are **Aegis**, **2FAS**, **FreeOTP**, **Bitwarden '.
+      'Authenticator**, **Google Authenticator**, and **Authy**, but any '.
+      'other TOTP application should work.'.
       "\n\n".
       'If you haven\'t already, download and install a TOTP application on '.
       'your phone now. Once you\'ve launched the application and are ready '.

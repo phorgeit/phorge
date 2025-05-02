@@ -35,6 +35,15 @@ final class PhabricatorProjectEditPictureController
     $e_file = true;
     $errors = array();
 
+    // Get the image file transform.
+    $xform = PhabricatorFileTransform::getTransformByKey(
+      PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
+
+    // Have an hard-limit to save our resources.
+    $max_image_dimensions = $xform->getMaxTransformDimensions();
+    $max_image_dimensions_message = pht('Maximum image dimensions: %s pixels.',
+      implode(mb_chr(215), $max_image_dimensions));
+
     if ($request->isFormPost()) {
       $phid = $request->getStr('phid');
       $is_default = false;
@@ -66,8 +75,6 @@ final class PhabricatorProjectEditPictureController
           $e_file = pht('Not Supported');
           $errors[] = $supported_formats_message;
         } else {
-          $xform = PhabricatorFileTransform::getTransformByKey(
-            PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
           $xformed = $xform->executeTransform($file);
         }
       }
@@ -100,7 +107,7 @@ final class PhabricatorProjectEditPictureController
     $title = pht('Edit Project Picture');
 
     $form = id(new PHUIFormLayoutView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $builtin = PhabricatorProjectIconSet::getIconImage(
       $project->getIcon());
@@ -254,14 +261,15 @@ final class PhabricatorProjectEditPictureController
         ->setValue($compose_form));
 
     $upload_form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())
           ->setName('picture')
           ->setLabel(pht('Upload Picture'))
           ->setError($e_file)
-          ->setCaption($supported_formats_message))
+          ->setCaption($supported_formats_message.' '.
+            $max_image_dimensions_message))
       ->appendChild(
         id(new AphrontFormSubmitControl())
           ->addCancelButton($manage_uri)

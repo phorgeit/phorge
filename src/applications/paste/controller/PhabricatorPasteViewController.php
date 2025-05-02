@@ -91,7 +91,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($this->getRequest()->getUser())
+      ->setViewer($this->getRequest()->getUser())
       ->setStatus($header_icon, $header_color, $header_name)
       ->setPolicyObject($paste)
       ->setHeaderIcon('fa-clipboard');

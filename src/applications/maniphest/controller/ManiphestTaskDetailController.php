@@ -285,7 +285,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
   private function buildHeaderView(ManiphestTask $task) {
     $view = id(new PHUIHeaderView())
       ->setHeader($task->getTitle())
-      ->setUser($this->getRequest()->getUser())
+      ->setViewer($this->getRequest()->getUser())
       ->setPolicyObject($task);
 
     $priority_name = ManiphestTaskPriority::getTaskPriorityName(
@@ -454,7 +454,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $source = $task->getOriginalEmailSource();
     if ($source) {

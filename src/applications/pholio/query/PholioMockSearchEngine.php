@@ -104,7 +104,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
 
       $header = 'M'.$mock->getID().' '.$mock->getName();
       $item = id(new PHUIPinboardItemView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setHeader($header)
         ->setObject($mock)
         ->setURI('/M'.$mock->getID())

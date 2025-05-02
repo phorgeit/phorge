@@ -1,0 +1,139 @@
+@title Javelin Introduction
+@group introduction
+
+Explore the Javelin framework to make your frontend "go brrrrr".
+
+= Preamble =
+
+As you know, Phorge is the fork of Phabricator. But, you may not know
+that Phabricator was designed with a particular Open Source JavaScript
+library called **Javelin**.
+
+So, why I should master Javelin?
+
+The Javelin APIs are un-documented, un-intuitive, and esoteric,
+and you may prefer X / Y / Z framework instead.
+But hey: Javelin will //not// be abandoned anytime soon.
+Give Javelin a try, so you can make Phorge even better.
+
+Some advantages of Javelin:
+
+- Javelin encourages strong separation between CSS selectors and
+  business logic selectors
+- Javelin un-minified is more lightweight than jQuery minified
+- it starts with "Jav" like "JavaScript" so it's easy
+
+= Concepts: DOM Traversing with Sigils =
+
+Traversing the DOM using Javelin is simple... as long as
+you know what a "sigil" is. In fact, Javelin is designed to avoid
+finding something by CSS classes. Instead, Javelin introduced
+"sigils" - that is, exactly like a CSS class but vegan (?).
+
+So, pretend you don't know what a CSS class is, and explore
+this related reading about sigils, and how to store data in
+elements marked with a sigil:
+
+@{article:Concepts: Sigils and Metadata}.
+
+The source code of the DOM utilities of Javelin is here:
+
+https://we.phorge.it/source/phorge/browse/master/webroot/rsrc/externals/javelin/lib/DOM.js
+
+== Find Element by ID with `$` ==
+
+The `$` Javelin method finds exactly one HTML element by its id. Definition:
+
+```javascript
+function X.$(id: string): Element
+```
+
+Example usage:
+
+```javascript
+var elementById = JX.$('my-id');
+```
+
+As you can imagine, this method is just a shorter version for the native
+[[ https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById | document.getElementById() ]].
+
+Please remember to write `'id'` and not `'#id'`.
+
+Comparison table from other frameworks:
+
+|                 | From Code     | To Javelin      |
+|-----------------|---------------|-----------------|
+| **From jQuery** | `$('#my-id')` | `JX.$('my-id')` |
+
+== Look Down for Multiple Elements with `scry` ==
+
+The `scry` Javelin method looks down for multiple HTML elements by sigil.
+Definition:
+
+```javascript
+function JX.DOM.scry(parent: Element, tagName: string, sigil: string): Element[]
+```
+
+Example usage:
+
+```javascript
+var elementsWithSigil = JX.DOM.scry(document.body, '*', 'my-sigil');
+```
+
+The method requires a starting element to descend from and
+it returns an array of elements at any child depth, that have
+the specified sigil __and__ the specified tag name. Few tips:
+
+- if you don't want to specify a tag name, set "`*`" as tag name
+- if you specify a tagname like "`a`", it may be faster
+
+Comparison table from other frameworks:
+
+|                 | From Code                       | To Javelin                               |
+|-----------------|---------------------------------|------------------------------------------|
+| **From jQuery** | `$(parent).find('.class-name')` | `JX.DOM.scry(parent, '*', 'sigil-name')` |
+
+== Look Down for One Element with `find` ==
+
+The `find` Javelin method looks down for exactly one element by sigil.
+Definition:
+
+```javascript
+function JX.DOM.find(root: Element, tagName: string, sigil: string): Element
+```
+
+Example usage:
+
+```javascript
+var child = JX.DOM.find(document.body, '*', 'my-sigil');
+```
+
+As you can imagine, the method `find` is just a particular case of the method `scry`,
+to be sure that you return exactly one element.
+
+Comparison table from other frameworks:
+
+|                 | From Code                          | To Javelin                               |
+|-----------------|------------------------------------|------------------------------------------|
+| **From jQuery** | `$(parent).find('.class-name')[0]` | `JX.DOM.find(parent, '*', 'sigil-name')` |
+
+== Look Up for One Element with `findAbove` ==
+
+The `findAbove` Javelin method looks up for exactly one HMTL element by sigil.
+Definition:
+
+```javascript
+function JX.DOM.findAbove(anchor: Element, tagName: string, sigil: string): Element
+```
+
+Example usage:
+
+```javascript
+var parent = JX.DOM.findAbove(child, '*', 'my-sigil');
+```
+
+Comparison table from other frameworks:
+
+|                 | From Code                             | To Javelin                                    |
+|-----------------|---------------------------------------|-----------------------------------------------|
+| **From jQuery** | `$(anchor).closest('.class-name')[0]` | `JX.DOM.findAbove(anchor, '*', 'sigil-name')` |

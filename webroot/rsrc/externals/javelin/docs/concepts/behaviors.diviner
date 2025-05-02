@@ -84,7 +84,7 @@ which you access with @{function:JX.initBehavior}.
 
 Another way to think about them is that you are defining methods which represent
 the entirety of the API exposed by the document. The recommended approach to
-glue code is that the server interact with Javascript on the client //only// by
+glue code is that the server interact with JavaScript on the client //only// by
 invoking behaviors, so the set of available behaviors represent the complete set
 of legal interactions available to the server.
 
@@ -152,7 +152,7 @@ now you have a bunch of classes which only really have glue code in them.
 
 Javelin behaviors provide a more structured solution to some of these problems:
 
-  - All your Javascript code is in Javascript files, not embedded in strings in
+  - All your JavaScript code is in JavaScript files, not embedded in strings in
     in some host language on the server side.
   - You can use static analysis and minification tools normally.
   - Provided you use a reasonable server-side library, you can't get escaping

@@ -11,7 +11,7 @@ final class PhabricatorPolicies extends PhabricatorPolicyConstants {
    * Returns the most public policy this install's configuration permits.
    * This is either "public" (if available) or "all users" (if not).
    *
-   * @return const Most open working policy constant.
+   * @return string Most open working policy constant.
    */
   public static function getMostOpenPolicy() {
     if (PhabricatorEnv::getEnvConfig('policy.allow-public')) {

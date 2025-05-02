@@ -62,7 +62,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    *
    * @param   string              $name Tag name.
    * @param   dict<string, wild>  $attrs Tag attributes.
-   * @param   wild?               $content Tag content.
+   * @param   wild                $content (optional) Tag content.
    * @return  PhutilSafeHTML      Tag object.
    */
   protected function newTag($name, array $attrs, $content = null) {

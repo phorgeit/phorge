@@ -13,6 +13,9 @@ final class HeraldEffect extends Phobject {
     return $this;
   }
 
+  /**
+   * @return string PHID of the object that Herald is applied on
+   */
   public function getObjectPHID() {
     return $this->objectPHID;
   }
@@ -22,6 +25,9 @@ final class HeraldEffect extends Phobject {
     return $this;
   }
 
+  /**
+   * @return string ACTIONCONST of the HeraldAction
+   */
   public function getAction() {
     return $this->action;
   }
@@ -31,6 +37,9 @@ final class HeraldEffect extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array|null
+   */
   public function getTarget() {
     return $this->target;
   }
@@ -40,6 +49,9 @@ final class HeraldEffect extends Phobject {
     return $this;
   }
 
+  /**
+   * @return HeraldRule
+   */
   public function getRule() {
     return $this->rule;
   }
@@ -49,6 +61,10 @@ final class HeraldEffect extends Phobject {
     return $this;
   }
 
+  /**
+   * @return string Reason why Herald effect was applied, for example
+   *         "Conditions were met for H123 RuleName"
+   */
   public function getReason() {
     return $this->reason;
   }

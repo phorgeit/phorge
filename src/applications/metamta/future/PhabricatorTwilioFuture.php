@@ -89,8 +89,9 @@ final class PhabricatorTwilioFuture extends FutureProxy {
     try {
       $data = phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected JSON response from Twilio.'),
+        0,
         $ex);
     }
 

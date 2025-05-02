@@ -75,7 +75,7 @@ final class PhabricatorConfigSettingsListController
 
   private function newConfigOptionView(
     PhabricatorConfigOption $option,
-    PhabricatorConfigEntry $stored_value = null) {
+    ?PhabricatorConfigEntry $stored_value = null) {
 
     $summary = $option->getSummary();
 

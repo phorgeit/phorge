@@ -126,10 +126,11 @@ final class PhabricatorRepositoryManagementUpdateWorkflow
     } catch (Exception $ex) {
       // TODO: We should report these into the UI properly, but for now just
       // complain. These errors are much less severe than pull errors.
-      $proxy = new PhutilProxyException(
+      $proxy = new Exception(
         pht(
           'Error while pushing "%s" repository to mirrors.',
           $repository->getMonogram()),
+        0,
         $ex);
       phlog($proxy);
     }

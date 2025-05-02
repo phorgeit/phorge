@@ -43,7 +43,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($document)
       ->setHeaderIcon('fa-gavel');
 
@@ -85,7 +85,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     $document_body = $document->getDocumentBody();
     $document_text = $engine->getOutput(
       $document_body, LegalpadDocumentBody::MARKUP_FIELD_TEXT);
@@ -148,7 +148,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $properties->addProperty(
       pht('Signature Type'),

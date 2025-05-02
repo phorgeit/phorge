@@ -55,7 +55,7 @@ abstract class PhabricatorCalendarImportEngine
   final protected function importEventDocument(
     PhabricatorUser $viewer,
     PhabricatorCalendarImport $import,
-    PhutilCalendarRootNode $root = null) {
+    ?PhutilCalendarRootNode $root = null) {
 
     $event_type = PhutilCalendarEventNode::NODETYPE;
 

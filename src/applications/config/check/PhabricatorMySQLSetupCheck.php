@@ -167,19 +167,12 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
           "(in the %s section) and then restart %s:\n\n".
           "%s\n".
           "(You can also use a different file if you prefer. The file ".
-          "suggested above has about 50 of the most common English words.)\n\n".
-          "Finally, run this command to rebuild indexes using the new ".
-          "rules:\n\n".
-          "%s",
+          "suggested above has about 50 of the most common English words.)",
           $host_name,
           phutil_tag('tt', array(), 'my.cnf'),
           phutil_tag('tt', array(), '[mysqld]'),
           phutil_tag('tt', array(), 'mysqld'),
-          phutil_tag('pre', array(), 'ft_stopword_file='.$stopword_path),
-          phutil_tag(
-            'pre',
-            array(),
-            "mysql> REPAIR TABLE {$namespace}_search.search_documentfield;"));
+          phutil_tag('pre', array(), 'ft_stopword_file='.$stopword_path));
 
         $this->newIssue('mysql.ft_stopword_file')
           ->setName(pht('MySQL is Using Default Stopword File'))
@@ -215,19 +208,12 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
           "only MySQL fulltext search is affected.\n\n".
           "To reduce the minimum word length to 3, add this to your %s file ".
           "(in the %s section) and then restart %s:\n\n".
-          "%s\n".
-          "Finally, run this command to rebuild indexes using the new ".
-          "rules:\n\n".
-          "%s",
+          "%s\n",
           $host_name,
           phutil_tag('tt', array(), 'my.cnf'),
           phutil_tag('tt', array(), '[mysqld]'),
           phutil_tag('tt', array(), 'mysqld'),
-          phutil_tag('pre', array(), 'ft_min_word_len=3'),
-          phutil_tag(
-            'pre',
-            array(),
-            "mysql> REPAIR TABLE {$namespace}_search.search_documentfield;"));
+          phutil_tag('pre', array(), 'ft_min_word_len=3'));
 
         $this->newIssue('mysql.ft_min_word_len')
           ->setName(pht('MySQL is Using Default Minimum Word Length'))
@@ -389,7 +375,8 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
   protected function shouldUseMySQLSearchEngine() {
     $services = PhabricatorSearchService::getAllServices();
     foreach ($services as $service) {
-      if ($service instanceof PhabricatorMySQLSearchHost) {
+      if ($service->getEngine() instanceof
+          PhabricatorFerretFulltextStorageEngine) {
         return true;
       }
     }

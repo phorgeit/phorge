@@ -79,7 +79,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled this provider.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_LOGIN:
         if ($new) {
           return pht(
@@ -90,7 +89,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled login.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_REGISTRATION:
         if ($new) {
           return pht(
@@ -101,7 +99,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled registration.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_LINK:
         if ($new) {
           return pht(
@@ -112,7 +109,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled account linking.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_UNLINK:
         if ($new) {
           return pht(
@@ -123,7 +119,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled account unlinking.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_TRUST_EMAILS:
         if ($new) {
           return pht(
@@ -134,7 +129,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled email trust.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_AUTO_LOGIN:
         if ($new) {
           return pht(
@@ -145,7 +139,6 @@ final class PhabricatorAuthProviderConfigTransaction
             '%s disabled auto login.',
             $this->renderHandleLink($author_phid));
         }
-        break;
       case self::TYPE_PROPERTY:
         $provider = $this->getProvider();
         if ($provider) {
@@ -158,7 +151,6 @@ final class PhabricatorAuthProviderConfigTransaction
         return pht(
           '%s edited a property of this provider.',
           $this->renderHandleLink($author_phid));
-        break;
     }
 
     return parent::getTitle();

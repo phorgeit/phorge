@@ -592,7 +592,7 @@ final class DifferentialRevision extends DifferentialDAO
     return $this->assertAttached($this->repository);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(?PhabricatorRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }
@@ -668,7 +668,7 @@ final class DifferentialRevision extends DifferentialDAO
 
   public function attachFlag(
     PhabricatorUser $viewer,
-    PhabricatorFlag $flag = null) {
+    ?PhabricatorFlag $flag = null) {
     $this->flags[$viewer->getPHID()] = $flag;
     return $this;
   }

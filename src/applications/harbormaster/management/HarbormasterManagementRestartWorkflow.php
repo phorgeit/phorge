@@ -50,7 +50,7 @@ final class HarbormasterManagementRestartWorkflow
 
     $count = count($builds);
     if (!$count) {
-      $this->logSkip(
+      $this->logInfo(
         pht('SKIP'),
         pht('No builds to restart.'));
       return 0;

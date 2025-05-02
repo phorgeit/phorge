@@ -91,7 +91,7 @@ final class PassphraseCredential extends PassphraseDAO
       PassphraseCredentialPHIDType::TYPECONST);
   }
 
-  public function attachSecret(PhutilOpaqueEnvelope $secret = null) {
+  public function attachSecret(?PhutilOpaqueEnvelope $secret = null) {
     $this->secret = $secret;
     return $this;
   }

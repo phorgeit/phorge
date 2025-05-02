@@ -49,6 +49,9 @@ final class PhabricatorFactIntDatapoint extends PhabricatorFactDAO {
     return $this->objectPHID;
   }
 
+  /**
+   * @param string $dimension_phid
+   */
   public function setDimensionPHID($dimension_phid) {
     $this->dimensionPHID = $dimension_phid;
     return $this;

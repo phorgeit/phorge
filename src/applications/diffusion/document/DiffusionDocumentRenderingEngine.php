@@ -65,7 +65,7 @@ final class DiffusionDocumentRenderingEngine
 
   protected function addApplicationCrumbs(
     PHUICrumbsView $crumbs,
-    PhabricatorDocumentRef $ref = null) {
+    ?PhabricatorDocumentRef $ref = null) {
     return;
   }
 

@@ -383,7 +383,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * discussion of field proxies.
    *
    * @param PhabricatorCustomField $proxy Field implementation.
-   * @return this
+   * @return $this
    * @task proxy
    */
   final public function setProxy(PhabricatorCustomField $proxy) {
@@ -423,7 +423,7 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomFieldInterface $object The object this field
    *   belongs to.
-   * @return this
+   * @return $this
    * @task context
    */
   final public function setObject(PhabricatorCustomFieldInterface $object) {
@@ -443,14 +443,13 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * @param PhabricatorCustomFieldInterface $object The object this field
    *   belongs to.
-   * @return this
    * @task context
    */
   public function readValueFromObject(PhabricatorCustomFieldInterface $object) {
     if ($this->proxy) {
       $this->proxy->readValueFromObject($object);
     }
-    return $this;
+    return;
   }
 
 
@@ -585,10 +584,10 @@ abstract class PhabricatorCustomField extends Phobject {
    * storing in auxiliary field storage. You must implement this method if
    * you implement @{method:shouldUseStorage}.
    *
-   * If the field value is a scalar, it can be returned unmodiifed. If not,
+   * If the field value is a scalar, it can be returned unmodified. If not,
    * it should be serialized (for example, using JSON).
    *
-   * @return string Serialized field value.
+   * @return string|null Serialized field value.
    * @task storage
    */
   public function getValueForStorage() {
@@ -612,7 +611,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @param string|null $value Serialized field representation (from
    *                    @{method:getValueForStorage}) or null if no value has
    *                    ever been stored.
-   * @return this
+   * @return $this
    * @task storage
    */
   public function setValueFromStorage($value) {
@@ -687,9 +686,8 @@ abstract class PhabricatorCustomField extends Phobject {
    *
    * The value of the index is not used.
    *
-   * Return null from this method if the field can not be ordered.
-   *
-   * @return PhabricatorCustomFieldIndexStorage A single index to order by.
+   * @return PhabricatorCustomFieldIndexStorage|null A single index to order
+   *   by, or null if this field cannot be ordered.
    * @task appsearch
    */
   public function buildOrderIndex() {
@@ -796,7 +794,6 @@ abstract class PhabricatorCustomField extends Phobject {
    *   query.
    * @param PhabricatorCursorPagedPolicyAwareQuery $query Query to constrain.
    * @param wild $value Constraint provided by the user.
-   * @return void
    * @task appsearch
    */
   public function applyApplicationSearchConstraintToQuery(
@@ -820,7 +817,6 @@ abstract class PhabricatorCustomField extends Phobject {
    *   form.
    * @param AphrontFormView $form The form to update.
    * @param wild $value Value from the saved query.
-   * @return void
    * @task appsearch
    */
   public function appendToApplicationSearchForm(
@@ -1005,7 +1001,8 @@ abstract class PhabricatorCustomField extends Phobject {
    * when a transaction would set a field to an invalid value, or when a field
    * is required but no transactions provide value.
    *
-   * @param PhabricatorLiskDAO $editor Editor applying the transactions.
+   * @param PhabricatorApplicationTransactionEditor $editor Editor applying the
+   *   transactions.
    * @param string $type Transaction type. This type is always
    *   `PhabricatorTransactions::TYPE_CUSTOMFIELD`, it is provided for
    *   convenience when constructing exceptions.
@@ -1571,8 +1568,9 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the Herald value type for the given condition.
    *
-   * @param   const       $condition Herald condition constant.
-   * @return  const|null  Herald value type, or null to use the default.
+   * @param   string       $condition Herald condition constant.
+   * @return  string|null  Herald value type constant, or null to use the
+   *                       default.
    * @task herald
    */
   public function getHeraldFieldValueType($condition) {

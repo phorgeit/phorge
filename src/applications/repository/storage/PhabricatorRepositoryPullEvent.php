@@ -59,7 +59,7 @@ final class PhabricatorRepositoryPullEvent
       PhabricatorRepositoryPullEventPHIDType::TYPECONST);
   }
 
-  public function attachRepository(PhabricatorRepository $repository = null) {
+  public function attachRepository(?PhabricatorRepository $repository = null) {
     $this->repository = $repository;
     return $this;
   }

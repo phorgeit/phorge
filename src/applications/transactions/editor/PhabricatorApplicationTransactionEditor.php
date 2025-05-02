@@ -142,7 +142,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * @param bool $continue True to drop transactions without effect and
   *     continue.
-   * @return this
+   * @return $this
    */
   public function setContinueOnNoEffect($continue) {
     $this->continueOnNoEffect = $continue;
@@ -171,7 +171,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * @param bool $continue_on_missing_fields True to continue when transactions
    *              don't completely satisfy all required fields.
-   * @return this
+   * @return $this
    */
   public function setContinueOnMissingFields($continue_on_missing_fields) {
     $this->continueOnMissingFields = $continue_on_missing_fields;
@@ -4603,7 +4603,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * @param dict<string, wild> $state Editor state, from
         @{method:getWorkerState}.
-   * @return this
+   * @return $this
    * @task workers
    */
   final public function loadWorkerState(array $state) {
@@ -4630,7 +4630,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * @param dict<string, wild> $state Custom state,
    *   from @{method:getCustomWorkerState}.
-   * @return this
+   * @return $this
    * @task workers
    */
   protected function loadCustomWorkerState(array $state) {
@@ -4761,8 +4761,8 @@ abstract class PhabricatorApplicationTransactionEditor
    * If the list of PHIDs include mutually exclusive projects, remove the
    * conflicting projects.
    *
-   * @param list<phid> $phids List of project PHIDs.
-   * @return list<phid> List with conflicts removed.
+   * @param list<string> $phids List of project PHIDs.
+   * @return list<string> List of project PHIDs with conflicts removed.
    */
   private function applyProjectConflictRules(array $phids) {
     if (!$phids) {
@@ -5026,7 +5026,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   final protected function newSubEditor(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    ?PhabricatorApplicationTransactionEditor $template = null) {
     $editor = $this->newEditorCopy($template);
 
     $editor->parentEditor = $this;
@@ -5036,7 +5036,7 @@ abstract class PhabricatorApplicationTransactionEditor
   }
 
   private function newEditorCopy(
-    PhabricatorApplicationTransactionEditor $template = null) {
+    ?PhabricatorApplicationTransactionEditor $template = null) {
     if ($template === null) {
       $template = newv(get_class($this), array());
     }

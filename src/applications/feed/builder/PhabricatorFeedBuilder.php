@@ -60,7 +60,7 @@ final class PhabricatorFeedBuilder extends Phobject {
 
       try {
         $view = $story->renderView();
-        $view->setUser($user);
+        $view->setViewer($user);
         $view = $view->render();
       } catch (Exception $ex) {
         // If rendering failed for any reason, don't fail the entire feed,

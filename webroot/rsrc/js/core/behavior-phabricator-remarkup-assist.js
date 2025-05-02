@@ -233,6 +233,9 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
         update(area, table_prefix + '| ', sel || pht('data'), ' |');
         break;
       case 'fa-meh-o':
+        // Deactivate full-screen to avoid popup visibility problems.
+        set_edit_mode(edit_root, 'normal');
+
         new JX.Workflow('/macro/meme/create/')
           .setHandler(function(response) {
             update(
@@ -244,6 +247,9 @@ JX.behavior('phabricator-remarkup-assist', function(config) {
           .start();
         break;
       case 'fa-cloud-upload':
+        // Deactivate full-screen to avoid popup visibility problems.
+        set_edit_mode(edit_root, 'normal');
+
         new JX.Workflow('/file/uploaddialog/')
           .setHandler(function(response) {
             var files = response.files;

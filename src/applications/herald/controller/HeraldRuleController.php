@@ -286,8 +286,9 @@ final class HeraldRuleController extends HeraldController {
     try {
       $data = phutil_json_decode($request->getStr('rule'));
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Failed to decode rule data.'),
+        0,
         $ex);
     }
 

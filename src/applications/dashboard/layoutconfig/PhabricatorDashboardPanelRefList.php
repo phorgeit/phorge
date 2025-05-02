@@ -121,7 +121,7 @@ final class PhabricatorDashboardPanelRefList
   public function movePanelRef(
     PhabricatorDashboardPanelRef $target,
     $column_key,
-    PhabricatorDashboardPanelRef $after = null) {
+    ?PhabricatorDashboardPanelRef $after = null) {
 
     $target->setColumnKey($column_key);
 

@@ -11,50 +11,6 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
   }
 
   protected function executeChecks() {
-    $version = phpversion();
-    if (version_compare($version, 7, '>=') &&
-        version_compare($version, 7.1, '<')) {
-      $message = pht(
-        'You are running PHP version %s. PHP versions between 7.0 and 7.1 '.
-        'are not supported'.
-        "\n\n".
-        'PHP removed required signal handling features in '.
-        'PHP 7.0, and did not restore an equivalent mechanism until PHP 7.1.'.
-        "\n\n".
-        'Upgrade to PHP 7.1 or newer (recommended) or downgrade to an older '.
-        'version of PHP 5 (discouraged).',
-        $version);
-
-      $this->newIssue('php.version7')
-        ->setIsFatal(true)
-        ->setName(pht('PHP 7.0-7.1 Not Supported'))
-        ->setMessage($message)
-        ->addLink(
-          'https://secure.phabricator.com/T12101',
-          pht('PHP 7 Compatibility Information'));
-
-      return;
-    }
-
-    // TODO: This can be removed entirely because the minimum PHP version is
-    // now PHP 5.5, which does not have safe mode.
-
-    $safe_mode = ini_get('safe_mode');
-    if ($safe_mode) {
-      $message = pht(
-        "You have '%s' enabled in your PHP configuration, but this software ".
-        "will not run in safe mode. Safe mode has been deprecated in PHP 5.3 ".
-        "and removed in PHP 5.4.\n\nDisable safe mode to continue.",
-        'safe_mode');
-
-      $this->newIssue('php.safe_mode')
-        ->setIsFatal(true)
-        ->setName(pht('Disable PHP %s', 'safe_mode'))
-        ->setMessage($message)
-        ->addPHPConfig('safe_mode');
-      return;
-    }
-
     // Check for `disable_functions` or `disable_classes`. Although it's
     // possible to disable a bunch of functions (say, `array_change_key_case()`)
     // and classes and still have Phabricator work fine, it's unreasonably

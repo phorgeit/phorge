@@ -30,7 +30,8 @@ final class PhabricatorTokensApplication extends PhabricatorApplication {
     return array(
       '/token/' => array(
         '' => 'PhabricatorTokenGivenController',
-        'given/' => 'PhabricatorTokenGivenController',
+        $this->getQueryRoutePattern('given/') =>
+          'PhabricatorTokenGivenController',
         'give/(?<phid>[^/]+)/' => 'PhabricatorTokenGiveController',
         'leaders/' => 'PhabricatorTokenLeaderController',
       ),

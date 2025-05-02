@@ -11,7 +11,24 @@ JX.behavior('aphront-form-disable-on-submit', function() {
 
   JX.Stratcom.listen('click', 'tag:button', function(e) {
     var raw = e.getRawEvent();
-    new_tab = (raw.altKey || raw.ctrlKey || raw.metaKey || raw.shiftKey);
+    // Only set new_tab if raw.detail is set. When Ctrl+Return is used on an
+    // input element, the event is bubbled through like so:
+    // <input> -> <button> -> <form>
+    //
+    // When the event hits the button element, we receive a click event without
+    // any of the *Key properties set to true, even if the key is held down. We
+    // can handle this by ignoring the fake click event, which is detectable
+    // through `raw.detail === 0`. `raw.detail` stolen from CSS Tricks:
+    // https://css-tricks.com/when-a-click-is-not-just-a-click/
+    if (raw.detail !== 0) {
+      new_tab = (raw.altKey || raw.ctrlKey || raw.metaKey || raw.shiftKey);
+    }
+  });
+
+  JX.Stratcom.listen('keydown', 'tag:input', function(e) {
+    var raw = e.getRawEvent();
+    new_tab = e.getSpecialKey() === 'return' &&
+      (raw.altKey || raw.ctrlKey || raw.metaKey || raw.shiftKey);
   });
 
 

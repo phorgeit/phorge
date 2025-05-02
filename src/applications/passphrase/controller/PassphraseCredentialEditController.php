@@ -257,7 +257,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
     $credential_is_locked = $credential->getIsLocked();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('isInitialized', true)
       ->addHiddenInput('type', $type_const)
       ->appendChild(
@@ -268,7 +268,7 @@ final class PassphraseCredentialEditController extends PassphraseController {
           ->setError($e_name))
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setName('description')
           ->setLabel(pht('Description'))
           ->setValue($v_desc))

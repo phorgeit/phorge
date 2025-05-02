@@ -93,7 +93,7 @@ final class PhabricatorUserPreferences
     return $this;
   }
 
-  public function attachUser(PhabricatorUser $user = null) {
+  public function attachUser(?PhabricatorUser $user = null) {
     $this->user = $user;
     return $this;
   }

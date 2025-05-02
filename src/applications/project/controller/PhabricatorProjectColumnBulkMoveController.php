@@ -40,6 +40,20 @@ final class PhabricatorProjectColumnBulkMoveController
 
     $move_tasks = array_select_keys($tasks, $move_task_phids);
 
+    $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
+      $viewer,
+      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      ManiphestBulkEditCapability::CAPABILITY);
+
+    if (!$can_bulk_edit) {
+      return $this->newDialog()
+        ->setTitle(pht('No Movable Tasks'))
+        ->appendParagraph(
+          pht(
+            'You do not have permission to bulk edit tasks.'))
+        ->addCancelButton($board_uri);
+    }
+
     $move_tasks = id(new PhabricatorPolicyFilter())
       ->setViewer($viewer)
       ->requireCapabilities(array(PhabricatorPolicyCapability::CAN_EDIT))

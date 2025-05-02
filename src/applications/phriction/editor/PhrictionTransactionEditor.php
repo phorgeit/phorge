@@ -108,6 +108,14 @@ final class PhrictionTransactionEditor
     return $types;
   }
 
+  public function getCreateObjectTitle($author, $object) {
+    return pht('%s created this document.', $author);
+  }
+
+  public function getCreateObjectTitleForFeed($author, $object) {
+    return pht('%s created %s.', $author, $object);
+  }
+
   protected function expandTransactions(
     PhabricatorLiskDAO $object,
     array $xactions) {

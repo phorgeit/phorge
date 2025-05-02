@@ -64,7 +64,7 @@ final class PhabricatorPeopleEmailLoginMailEngine
     $message_body = PhabricatorAuthMessage::loadMessageText(
       $recipient,
       $message_key);
-    if (strlen($message_body)) {
+    if (phutil_nonempty_string($message_body)) {
       $body[] = $this->newRemarkupText($message_body);
     }
 

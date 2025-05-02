@@ -41,7 +41,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * to execute an edge query.
    *
    * @param list $source_phids List of source PHIDs.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -62,7 +62,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * Find edges terminating at one or more destination PHIDs.
    *
    * @param list $dest_phids List of destination PHIDs.
-   * @return this
+   * @return $this
    *
    */
   public function withDestinationPHIDs(array $dest_phids) {
@@ -75,7 +75,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * Find edges of specific types.
    *
    * @param list $types List of PhabricatorEdgeConfig type constants.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -88,8 +88,8 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
   /**
    * Configure the order edge results are returned in.
    *
-   * @param const $order Order constant.
-   * @return this
+   * @param string $order Order constant.
+   * @return $this
    *
    * @task config
    */
@@ -103,7 +103,7 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * When loading edges, also load edge data.
    *
    * @param bool $need True to load edge data.
-   * @return this
+   * @return $this
    *
    * @task config
    */
@@ -121,9 +121,9 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * edge type. Equivalent to building a full query, but simplifies a common
    * use case.
    *
-   * @param phid  $src_phid Source PHID.
-   * @param const $edge_type Edge type.
-   * @return list<phid> List of destination PHIDs.
+   * @param string  $src_phid Source PHID.
+   * @param string $edge_type Edge type constant.
+   * @return list<string> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {
     $edges = id(new PhabricatorEdgeQuery())
@@ -139,10 +139,10 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * if the edge does not exist or does not have metadata. Builds
    * and immediately executes a full query.
    *
-   * @param phid  $src_phid Source PHID.
-   * @param const $edge_type Edge type.
-   * @param phid  $dest_phid Destination PHID.
-   * @return wild Edge annotation (or null).
+   * @param string  $src_phid Source PHID.
+   * @param string  $edge_type Edge type constant.
+   * @param string  $dest_phid Destination PHID.
+   * @return wild|null Edge annotation, or null.
    */
   public static function loadSingleEdgeData($src_phid, $edge_type, $dest_phid) {
     $edges = id(new PhabricatorEdgeQuery())
@@ -256,9 +256,11 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    *     $object->attachHandles(array_select_keys($handles, $dst_phids));
    *   }
    *
-   * @param list? $src_phids List of PHIDs to select, or empty to select all.
-   * @param list? $types List of edge types to select, or empty to select all.
-   * @return list<phid> List of matching destination PHIDs.
+   * @param list $src_phids (optional) List of PHIDs to select, or empty to
+   *   select all.
+   * @param list $types (optional) List of edge types to select, or empty to
+   *   select all.
+   * @return list<string> List of matching destination PHIDs.
    */
   public function getDestinationPHIDs(
     array $src_phids = array(),

@@ -284,7 +284,7 @@
 }
 
 .device-phone .conpherence-transaction-view.conpherence-edited {
-  min-height: none;
+  min-height: 0;
   color: {$lightgreytext};
   margin: 0 8px;
 }
@@ -351,7 +351,6 @@ body .conpherence-message-pane .aphront-form-control {
   padding: 8px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }

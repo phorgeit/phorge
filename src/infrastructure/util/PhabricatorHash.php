@@ -12,7 +12,7 @@ final class PhabricatorHash extends Phobject {
    * weak. Callers should prefer @{method:digestWithNamedKey}.
    *
    * @param   string  $string Input string.
-   * @param   string? $key
+   * @param   string  $key (optional)
    * @return  string  32-byte hexadecimal SHA1+HMAC hash.
    */
   public static function weakDigest($string, $key = null) {

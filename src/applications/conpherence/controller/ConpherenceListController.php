@@ -104,7 +104,7 @@ final class ConpherenceListController extends ConpherenceController {
     $threads = $this->loadConpherenceThreadData($all_participation);
 
     $thread_view = id(new ConpherenceThreadListView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setBaseURI($this->getApplicationURI())
       ->setThreads($threads);
 

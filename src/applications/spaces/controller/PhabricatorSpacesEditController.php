@@ -121,7 +121,7 @@ final class PhabricatorSpacesEditController
       ->execute();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($make_default) {
       $form->appendRemarkupInstructions(
@@ -145,7 +145,7 @@ final class PhabricatorSpacesEditController
           ->setValue($v_desc))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setCapability(PhabricatorPolicyCapability::CAN_VIEW)
           ->setPolicyObject($space)
           ->setPolicies($policies)
@@ -153,7 +153,7 @@ final class PhabricatorSpacesEditController
           ->setName('viewPolicy'))
       ->appendChild(
         id(new AphrontFormPolicyControl())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setCapability(PhabricatorPolicyCapability::CAN_EDIT)
           ->setPolicyObject($space)
           ->setPolicies($policies)

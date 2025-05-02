@@ -42,7 +42,7 @@ final class PhortunePayPalPaymentProvider extends PhortunePaymentProvider {
       "    into the fields above.\n\n".
       "You can select whether the provider operates in test mode or ".
       "accepts live payments using the **Mode** dropdown above.\n\n".
-      "You can either use `sandbox.paypal.com` to retrieve live credentials, ".
+      "You can either use `sandbox.paypal.com` to retrieve test credentials, ".
       "or `paypal.com` to retrieve live credentials.");
   }
 

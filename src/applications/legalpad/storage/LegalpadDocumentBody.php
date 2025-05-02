@@ -54,7 +54,6 @@ final class LegalpadDocumentBody extends LegalpadDAO
         break;
       default:
         throw new Exception(pht('Unknown field: %s', $field));
-        break;
     }
 
     return $text;

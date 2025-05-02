@@ -53,7 +53,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * @{method:loadObjects} instead.
    *
    * @param PhabricatorObjectQuery $query Query being executed.
-   * @param list<phid> $phids PHIDs to load.
+   * @param list<string> $phids PHIDs to load.
    * @return PhabricatorPolicyAwareQuery Query object which loads the
    *   specified PHIDs when executed.
    */
@@ -68,7 +68,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * loading to work.
    *
    * @param PhabricatorObjectQuery $query Query being executed.
-   * @param list<phid> $phids PHIDs to load.
+   * @param list<string> $phids PHIDs to load.
    * @return list<wild> Corresponding objects.
    */
   public function loadObjects(

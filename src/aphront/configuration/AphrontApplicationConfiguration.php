@@ -512,8 +512,8 @@ final class AphrontApplicationConfiguration
    *
    * @param list<AphrontRoutingMap> $maps List of routing maps.
    * @param string $path Path to route.
-   * @return pair<AphrontController,dict> Controller and dictionary of request
-   *                                      parameters.
+   * @return pair<AphrontController,dict>|null Controller and dictionary of
+   *   request parameters, or null if no paths to route were found.
    * @task routing
    */
   private function routePath(array $maps, $path) {

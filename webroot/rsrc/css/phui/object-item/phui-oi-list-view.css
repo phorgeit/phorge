@@ -95,7 +95,7 @@ ul.phui-oi-list-view {
 }
 
 .device-phone .phui-oi-name {
-  overflow: normal;
+  overflow: visible;
   white-space: normal;
   font-weight: bold;
 }
@@ -120,7 +120,7 @@ ul.phui-oi-list-view {
 }
 
 .device .phui-oi-grippable {
-  cursor: normal;
+  cursor: default;
 }
 
 .phui-oi-grip {

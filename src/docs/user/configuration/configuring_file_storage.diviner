@@ -88,7 +88,7 @@ You may also want to configure these PHP options:
     upload. This is not normally used when uploading files via drag-and-drop,
     but affects some other kinds of file uploads. If you exceed this,
     Phorge will give you a useful error. This often defaults to `2M`. Set
-    this to at least `32MB`.
+    this to at least `32M`.
 
 Once you've adjusted all this configuration, your server will be able to
 receive chunk uploads. As long as you have somewhere to store them, this will

@@ -21,7 +21,7 @@ including a local mailer or various third-party services. Options include:
 | SendGrid | Medium | Cheap | Yes | Email | |
 | Twilio | Easy | Cheap | No | SMS | Recommended |
 | Amazon SNS | Easy | Cheap | No | SMS | Recommended |
-| External SMTP | Medium | Varies | No | Email | Gmail, etc. |
+| External SMTP | Medium | Varies | No | Email | |
 | Local SMTP | Hard | Free | No | Email | sendmail, postfix, etc |
 | Custom | Hard | Free | No | All | Write a custom mailer. |
 | Drop in a Hole | Easy | Free | No | All | Drops mail in a deep, dark hole. |
@@ -360,7 +360,7 @@ Mailer: SMTP
 | Inbound | Requires Configuration
 |---------|
 
-You can use this adapter to send mail via an external SMTP server, like Gmail.
+You can use this adapter to send mail via an external SMTP server.
 
 To use this mailer, set `type` to `smtp`, then configure these `options`:
 
@@ -368,8 +368,7 @@ To use this mailer, set `type` to `smtp`, then configure these `options`:
   - `port`: Optional int. The port to connect to on your SMTP server.
   - `user`: Optional string. Username used for authentication.
   - `password`: Optional string. Password for authentication.
-  - `protocol`: Optional string. Set to `tls` or `ssl` if necessary. Use
-    `ssl` for Gmail.
+  - `protocol`: Optional string. Set to `tls` or `ssl` if necessary.
   - `message-id`: Optional bool. Set to `false` if Phorge will not be
     able to select a custom "Message-ID" header when sending mail via this
     mailer. See "Message-ID Headers" below.

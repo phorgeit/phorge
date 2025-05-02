@@ -699,7 +699,7 @@ abstract class PhabricatorEditEngine
    * Flag this workflow as a create or edit.
    *
    * @param bool $is_create True if this is a create workflow.
-   * @return this
+   * @return $this
    * @task load
    */
   private function setIsCreate($is_create) {
@@ -713,8 +713,8 @@ abstract class PhabricatorEditEngine
    * to make Conduit a little easier to use.
    *
    * @param wild $identifier ID, PHID, or monogram.
-   * @param list<const>? $capabilities List of required capability constants,
-   *   or omit for defaults.
+   * @param list<string> $capabilities (optional) List of required capability
+   *   constants, or omit for defaults.
    * @return object Corresponding editable object.
    * @task load
    */
@@ -793,8 +793,8 @@ abstract class PhabricatorEditEngine
    * Load an object by ID.
    *
    * @param int $id Object ID.
-   * @param list<const>? $capabilities List of required capability constants,
-   *   or omit for defaults.
+   * @param list<string> $capabilities (optional) List of required capability
+   *   constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -809,9 +809,9 @@ abstract class PhabricatorEditEngine
   /**
    * Load an object by PHID.
    *
-   * @param phid $phid Object PHID.
-   * @param list<const>? $capabilities List of required capability constants,
-   *   or omit for defaults.
+   * @param string $phid Object PHID.
+   * @param list<string> $capabilities (optional) List of required capability
+   *   constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -827,8 +827,8 @@ abstract class PhabricatorEditEngine
    * Load an object given a configured query.
    *
    * @param PhabricatorPolicyAwareQuery $query Configured query.
-   * @param list<const>? $capabilities List of required capability constants,
-   *  or omit for defaults.
+   * @param list<string> $capabilities (optional) List of required capability
+   *  constants, or omit for defaults.
    * @return object|null Object, or null if no such object exists.
    * @task load
    */
@@ -1284,7 +1284,7 @@ abstract class PhabricatorEditEngine
     $tail = $this->newEditFormTailContent($page_state);
 
     $box = id(new PHUIObjectBoxView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($box_header)
       ->setValidationException($validation_exception)
       ->setBackground(PHUIObjectBoxView::WHITE_CONFIG)
@@ -1357,7 +1357,7 @@ abstract class PhabricatorEditEngine
     $request_path = $request->getPath();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setAction($request_path)
       ->addHiddenInput('editEngine', 'true');
 
@@ -1430,7 +1430,7 @@ abstract class PhabricatorEditEngine
     $viewer = $this->getViewer();
 
     $action_view = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($this->buildEditFormActions($object) as $action) {
       $action_view->addAction($action);
@@ -1673,7 +1673,7 @@ abstract class PhabricatorEditEngine
     }
 
     $view = id(new PhabricatorApplicationTransactionCommentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeaderText($header_text)
       ->setAction($comment_uri)
       ->setRequestURI(new PhutilURI($this->getObjectViewURI($object)))
@@ -2295,11 +2295,12 @@ abstract class PhabricatorEditEngine
         $value = $type->getTransactionValueFromConduit($value);
         $xaction['value'] = $value;
       } catch (Exception $ex) {
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Exception when processing transaction of type "%s": %s',
             $xaction['type'],
             $ex->getMessage()),
+          0,
           $ex);
       }
 

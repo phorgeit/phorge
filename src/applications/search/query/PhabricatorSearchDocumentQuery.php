@@ -105,7 +105,6 @@ final class PhabricatorSearchDocumentQuery
   protected function nextPage(array $page) {
     // We already updated the internal offset in `loadPage()` after loading
     // results, so we do not need to make any additional state updates here.
-    return $this;
   }
 
 }

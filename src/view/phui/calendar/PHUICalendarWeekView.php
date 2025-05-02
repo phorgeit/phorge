@@ -73,7 +73,7 @@ final class PHUICalendarWeekView extends AphrontView {
       ->addClass('calendar-day-view-sidebar');
 
     $list = id(new PHUICalendarListView())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setView($this->getView());
 
     if (count($events) == 0) {

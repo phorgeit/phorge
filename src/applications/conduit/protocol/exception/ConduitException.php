@@ -13,7 +13,7 @@ class ConduitException extends Exception {
    * an exception (e.g., which values were wrong in an invalid request).
    *
    * @param string $error_description Detailed error description.
-   * @return this
+   * @return $this
    */
   final public function setErrorDescription($error_description) {
     $this->errorDescription = $error_description;

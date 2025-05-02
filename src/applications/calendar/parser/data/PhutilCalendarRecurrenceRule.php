@@ -575,7 +575,6 @@ final class PhutilCalendarRecurrenceRule
             pht(
               'RRULE specifies BYMONTHDAY with FREQ set to WEEKLY, which '.
               'violates RFC5545.'));
-          break;
         default:
           break;
       }

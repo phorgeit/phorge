@@ -37,7 +37,6 @@ final class PhabricatorApplicationTransactionValueController
         break;
       default:
         return new Aphront404Response();
-        break;
     }
 
     if ($type == 'old') {

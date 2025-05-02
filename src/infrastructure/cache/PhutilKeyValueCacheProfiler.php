@@ -18,7 +18,7 @@ final class PhutilKeyValueCacheProfiler extends PhutilKeyValueCacheProxy {
    * Set a profiler for cache operations.
    *
    * @param PhutilServiceProfiler $profiler Service profiler.
-   * @return this
+   * @return $this
    * @task kvimpl
    */
   public function setProfiler(PhutilServiceProfiler $profiler) {

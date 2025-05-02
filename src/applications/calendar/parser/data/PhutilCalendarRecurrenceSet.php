@@ -21,8 +21,8 @@ final class PhutilCalendarRecurrenceSet
   }
 
   public function getEventsBetween(
-    PhutilCalendarDateTime $start = null,
-    PhutilCalendarDateTime $end = null,
+    ?PhutilCalendarDateTime $start = null,
+    ?PhutilCalendarDateTime $end = null,
     $limit = null) {
 
     if ($end === null && $limit === null) {

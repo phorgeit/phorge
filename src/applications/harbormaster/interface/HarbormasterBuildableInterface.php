@@ -11,7 +11,7 @@ interface HarbormasterBuildableInterface {
    * buildable (the diff), but for commits the buildable (the commit) is more
    * meaningful than the container (the repository).
    *
-   * @return phid Related object PHID most meaningful for human viewers.
+   * @return string Related object PHID most meaningful for human viewers.
    */
   public function getHarbormasterBuildableDisplayPHID();
 

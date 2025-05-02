@@ -715,7 +715,7 @@ final class HarbormasterBuildLog
     $this->delete();
   }
 
-  public function destroyFile(PhabricatorDestructionEngine $engine = null) {
+  public function destroyFile(?PhabricatorDestructionEngine $engine = null) {
     if (!$engine) {
       $engine = new PhabricatorDestructionEngine();
     }

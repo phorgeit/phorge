@@ -45,8 +45,8 @@ abstract class PhabricatorAuthController extends PhabricatorController {
    * event and do something else if they prefer.
    *
    * @param   PhabricatorUser $user User to log the viewer in as.
-   * @param bool? $force_full_session True to issue a full session immediately,
-   *   bypassing MFA.
+   * @param bool $force_full_session (optional) True to issue a full session
+   *   immediately, bypassing MFA.
    * @return  AphrontResponse   Response which continues the login process.
    */
   protected function loginUser(

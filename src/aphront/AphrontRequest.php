@@ -539,7 +539,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $name Cookie name.
    * @param string $value Cookie value.
-   * @return this
+   * @return $this
    * @task cookie
    */
   public function setCookie($name, $value) {
@@ -555,7 +555,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $name Cookie name.
    * @param string $value Cookie value.
-   * @return this
+   * @return $this
    * @task cookie
    */
   public function setTemporaryCookie($name, $value) {
@@ -569,7 +569,7 @@ final class AphrontRequest extends Phobject {
    * @param string $name Cookie name.
    * @param string $value Cookie value.
    * @param int    $expire Epoch timestamp for cookie expiration.
-   * @return this
+   * @return $this
    * @task cookie
    */
   private function setCookieWithExpiration(
@@ -780,9 +780,9 @@ final class AphrontRequest extends Phobject {
    *
    * @param   string        $name Canonical header name, like
         `"Accept-Encoding"`.
-   * @param   wild?         $default Default value to return if header is not
-        present.
-   * @param   array?        $data Read this instead of `$_SERVER`.
+   * @param   wild          $default (optional) Default value to return if
+        header is not present.
+   * @param   array         $data (optional) Read this instead of `$_SERVER`.
    * @return  string|wild   Header value if present, or `$default` if not.
    */
   public static function getHTTPHeader($name, $default = null, $data = null) {

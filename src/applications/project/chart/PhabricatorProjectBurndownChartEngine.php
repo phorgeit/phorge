@@ -5,6 +5,9 @@ final class PhabricatorProjectBurndownChartEngine
 
   const CHARTENGINEKEY = 'project.burndown';
 
+  /**
+   * @param array<PhabricatorProject> $projects
+   */
   public function setProjects(array $projects) {
     assert_instances_of($projects, 'PhabricatorProject');
     $project_phids = mpull($projects, 'getPHID');
@@ -97,6 +100,11 @@ final class PhabricatorProjectBurndownChartEngine
     $chart->attachDatasets($datasets);
   }
 
+  /**
+   * @param string $fact_key The key of the new fact sum
+   *   (e.g. "tasks.open-count.assign.project")
+   * @param array<string> Project PHIDs
+   */
   private function newFactSum($fact_key, array $phids) {
     $result = array();
     $result[] = 'sum';

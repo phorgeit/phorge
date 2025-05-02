@@ -439,9 +439,9 @@ final class DiffusionCommitQuery
     }
 
     if ($this->needIdentities) {
-      $identity_phids = array_merge(
+      $identity_phids = array_unique(array_merge(
         mpull($commits, 'getAuthorIdentityPHID'),
-        mpull($commits, 'getCommitterIdentityPHID'));
+        mpull($commits, 'getCommitterIdentityPHID')));
 
       $data = id(new PhabricatorRepositoryIdentityQuery())
         ->withPHIDs($identity_phids)
@@ -776,7 +776,8 @@ final class DiffusionCommitQuery
               // See T3377.
               (int)$ref['identifier']);
           } else {
-            if (strlen($ref['identifier']) < $min_qualified) {
+            if (!phutil_nonempty_string($ref['identifier']) ||
+                strlen($ref['identifier']) < $min_qualified) {
               continue;
             }
 

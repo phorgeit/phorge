@@ -341,8 +341,8 @@ final class PhabricatorRepositoryPullLocalDaemon
    * With the `$consume` flag, an internal cursor will also be incremented so
    * that these messages are not returned by subsequent calls.
    *
-   * @param bool? $consume Pass `true` to consume these messages, so the
-   *   process will not see them again.
+   * @param bool $consume (optional) Pass `true` to consume these messages, so
+   *   the process will not see them again.
    * @return list<wild> Pending update messages.
    *
    * @task pull
@@ -405,7 +405,7 @@ final class PhabricatorRepositoryPullLocalDaemon
   private function loadPullableRepositories(
     array $include,
     array $exclude,
-    AlmanacDevice $device = null) {
+    ?AlmanacDevice $device = null) {
 
     $query = id(new PhabricatorRepositoryQuery())
       ->setViewer($this->getViewer());
@@ -495,10 +495,11 @@ final class PhabricatorRepositoryPullLocalDaemon
     try {
       list($stdout, $stderr) = $future->resolvex();
     } catch (Exception $ex) {
-      $proxy = new PhutilProxyException(
+      $proxy = new Exception(
         pht(
           'Error while updating the "%s" repository.',
           $display_name),
+        0,
         $ex);
       phlog($proxy);
 

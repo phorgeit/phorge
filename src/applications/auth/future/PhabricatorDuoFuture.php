@@ -143,8 +143,9 @@ final class PhabricatorDuoFuture
     try {
       $data = phutil_json_decode($body);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Expected JSON response from Duo.'),
+        0,
         $ex);
     }
 

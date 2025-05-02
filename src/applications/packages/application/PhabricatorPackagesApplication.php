@@ -15,7 +15,7 @@ final class PhabricatorPackagesApplication extends PhabricatorApplication {
   }
 
   public function getBaseURI() {
-    return '/packages/package/';
+    return '/packages/';
   }
 
   public function getIcon() {
@@ -64,6 +64,7 @@ final class PhabricatorPackagesApplication extends PhabricatorApplication {
         ),
       ),
       '/packages/' => array(
+        '' => 'PhabricatorPackagesConsoleController',
         'publisher/' => array(
           $this->getQueryRoutePattern() =>
             'PhabricatorPackagesPublisherListController',

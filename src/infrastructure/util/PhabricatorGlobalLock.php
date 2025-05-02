@@ -89,7 +89,7 @@ final class PhabricatorGlobalLock extends PhutilLock {
    * be used to lock on a specific connection.
    *
    * @param  AphrontDatabaseConnection $conn
-   * @return this
+   * @return $this
    */
   public function setExternalConnection(AphrontDatabaseConnection $conn) {
     if ($this->conn) {

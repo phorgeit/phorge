@@ -137,7 +137,7 @@ final class PhortuneCharge extends PhortuneDAO
     return $this->assertAttached($this->cart);
   }
 
-  public function attachCart(PhortuneCart $cart = null) {
+  public function attachCart(?PhortuneCart $cart = null) {
     $this->cart = $cart;
     return $this;
   }

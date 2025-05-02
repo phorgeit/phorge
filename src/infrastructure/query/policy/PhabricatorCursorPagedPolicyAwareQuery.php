@@ -433,7 +433,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * this is the case, return the alias for the primary table the query
    * uses; generally the object table which has `id` and `phid` columns.
    *
-   * @return string Alias for the primary table.
+   * @return string|null Alias for the primary table, or null.
    */
   protected function getPrimaryTableAlias() {
     return null;
@@ -885,7 +885,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * also more involved.
    *
    * @param string $order Key of a builtin order supported by this query.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setOrder($order) {
@@ -919,7 +919,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param PhabricatorQueryOrderVector|list<string> $vector List of order
    *   keys.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setGroupVector($vector) {
@@ -1044,7 +1044,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *
    * @param PhabricatorQueryOrderVector|list<string> $vector List of order
    *   keys.
-   * @return this
+   * @return $this
    * @task order
    */
   public function setOrderVector($vector) {
@@ -1358,7 +1358,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @param PhabricatorCustomFieldIndexStorage $index Table where the index is
    *   stored.
    * @param string|list<string> $value One or more values to filter by.
-   * @return this
+   * @return $this
    * @task appsearch
    */
   public function withApplicationSearchContainsConstraint(
@@ -1410,7 +1410,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   stored.
    * @param int|null $min Minimum permissible value, inclusive.
    * @param int|null $max Maximum permissible value, inclusive.
-   * @return this
+   * @return $this
    * @task appsearch
    */
   public function withApplicationSearchRangeConstraint(
@@ -2587,10 +2587,10 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Convenience method for specifying edge logic constraints with a list of
    * PHIDs.
    *
-   * @param const $edge_type Edge constant.
-   * @param const $operator Constraint operator.
-   * @param list<phid> $phids List of PHIDs.
-   * @return this
+   * @param string $edge_type Edge constant.
+   * @param string $operator Constraint operator.
+   * @param list<string> $phids List of PHIDs.
+   * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicPHIDs($edge_type, $operator, array $phids) {
@@ -2604,7 +2604,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
-   * @return this
+   * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicConstraints($edge_type, array $constraints) {
@@ -3001,7 +3001,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   /**
    * Validate edge logic constraints for the query.
    *
-   * @return this
+   * @return $this
    * @task edgelogic
    */
   private function validateEdgeLogicConstraints() {
@@ -3095,7 +3095,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Queries are always constrained to include only results from spaces the
    * viewer has access to.
    *
-   * @param list<phid|null> $space_phids
+   * @param list<string|null> $space_phids PHIDs of the spaces.
    * @task spaces
    */
   public function withSpacePHIDs(array $space_phids) {
@@ -3140,7 +3140,8 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * @{method:withSpacePHIDs}.
    *
    * @param AphrontDatabaseConnection $conn Database connection.
-   * @return string Part of a WHERE clause.
+   * @return string|null Part of a WHERE clause, or null when there is no
+   *   object or the object is not an instance of PhabricatorSpacesInterface.
    * @task spaces
    */
   private function buildSpacesWhereClause(AphrontDatabaseConnection $conn) {

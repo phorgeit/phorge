@@ -169,7 +169,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
    * acquire the lease.
    *
    * @param DrydockLease $lease Requested lease.
-   * @return void
+   * @return DrydockResource
    * @task allocator
    */
   private function executeAllocator(DrydockLease $lease) {
@@ -1066,10 +1066,11 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
       case DrydockLeaseStatus::STATUS_BROKEN:
       case DrydockLeaseStatus::STATUS_RELEASED:
       case DrydockLeaseStatus::STATUS_DESTROYED:
-        throw new PhutilProxyException(
+        throw new Exception(
           pht(
             'Unexpected failure while destroying lease ("%s").',
             $lease->getPHID()),
+          0,
           $ex);
     }
 

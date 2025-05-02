@@ -367,11 +367,19 @@ final class PhabricatorConfigConsoleController
         $lib,
         'https://we.phorge.it/T15282',
         $lib_root));
-    } else {
-
-      // Otherwise show a generic error message
-      phlog($e);
+      return;
     }
+
+    // Second, detect if .git does not exist
+    // https://we.phorge.it/T16023
+    $expected_error_msg_part = 'fatal: not a git repository '.
+      '(or any of the parent directories): .git';
+    if (strpos($stderr, $expected_error_msg_part) !== false) {
+      return;
+    }
+
+    // Otherwise show a generic error message
+    phlog($e);
   }
 
 }

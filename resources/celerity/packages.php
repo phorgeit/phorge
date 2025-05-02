@@ -124,7 +124,6 @@ return array(
     'phui-lightbox-css',
     'phui-comment-panel-css',
     'phui-header-view-css',
-    'phabricator-nav-view-css',
     'phui-basic-nav-view-css',
     'phui-crumbs-view-css',
     'phui-oi-list-view-css',

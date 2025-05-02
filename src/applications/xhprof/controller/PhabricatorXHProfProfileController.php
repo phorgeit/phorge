@@ -22,8 +22,9 @@ final class PhabricatorXHProfProfileController
     try {
       $data = phutil_json_decode($data);
     } catch (PhutilJSONParserException $ex) {
-      throw new PhutilProxyException(
+      throw new Exception(
         pht('Failed to unserialize XHProf profile!'),
+        0,
         $ex);
     }
 

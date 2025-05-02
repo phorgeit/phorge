@@ -3,7 +3,7 @@
 /**
  * Handle request startup, before loading the environment or libraries. This
  * class bootstraps the request state up to the point where we can enter
- * Phabricator code.
+ * Phorge code.
  *
  * NOTE: This class MUST NOT have any dependencies. It runs before libraries
  * load.
@@ -11,8 +11,8 @@
  * Rate Limiting
  * =============
  *
- * Phabricator limits the rate at which clients can request pages, and issues
- * HTTP 429 "Too Many Requests" responses if clients request too many pages too
+ * Phorge limits the rate at which clients can request pages, and issues HTTP
+ * 429" Too Many Requests" responses if clients request too many pages too
  * quickly. Although this is not a complete defense against high-volume attacks,
  * it can  protect an install against aggressive crawlers, security scanners,
  * and some types of malicious activity.
@@ -213,7 +213,7 @@ final class PhabricatorStartup {
         '"phorge/" on disk.');
     }
 
-    // Load Phabricator itself using the absolute path, so we never end up doing
+    // Load Phorge itself using the absolute path, so we never end up doing
     // anything surprising (loading index.php and libraries from different
     // directories).
     phutil_load_library($phabricator_root.'/src');
@@ -344,10 +344,10 @@ final class PhabricatorStartup {
    * Fatal the request completely, sending a plain text message to the client.
    *
    * @param   string  $message Plain text message to send to the client.
-   * @param   string? $log_message Plain text message to send to the error log.
-   *                  If not provided, the client message is used. You can pass
-   *                  a more detailed message here (e.g., with stack traces) to
-   *                  avoid showing it to users.
+   * @param   string  $log_message (optional) Plain text message to send to the
+   *                  error log. If not provided, the client message is used.
+   *                  You can pass a more detailed message here (e.g., with
+   *                  stack traces) to avoid showing it to users.
    * @return  exit    This method **does not return**.
    *
    * @task apocalypse
@@ -535,7 +535,7 @@ final class PhabricatorStartup {
    * @task validation
    */
   private static function verifyPHP() {
-    $required_version = '5.2.3';
+    $required_version = '7.2.25';
     if (version_compare(PHP_VERSION, $required_version) < 0) {
       self::didFatal(
         "You are running PHP version '".PHP_VERSION."', which is older than ".
@@ -552,8 +552,8 @@ final class PhabricatorStartup {
           'This feature is "highly discouraged" by PHP\'s developers, and '.
           'has been removed entirely in PHP8.'.
           "\n\n".
-          'You must disable "magic_quotes_gpc" to run Phabricator. Consult '.
-          'the PHP manual for instructions.');
+          'You must disable "magic_quotes_gpc" to run Phorge. Consult the '.
+          'PHP manual for instructions.');
       }
     }
 
@@ -567,8 +567,8 @@ final class PhabricatorStartup {
       if (isset($known_bad[$apc_version])) {
         self::didFatal(
           "You have APC {$apc_version} installed. This version of APC is ".
-          "known to be bad, and does not work with Phabricator (it will ".
-          "cause Phabricator to fatal unrecoverably with nonsense errors). ".
+          "known to be bad, and does not work with Phorge (it will cause ".
+          "Phorge to fatal unrecoverably with nonsense errors).".
           "Downgrade to version 3.1.13.");
       }
     }
@@ -634,7 +634,7 @@ final class PhabricatorStartup {
         'Request attempted to access request path, but no request path is '.
         'available for this request. You may be calling web request code '.
         'from a non-request context, or your webserver may not be passing '.
-        'a request path to Phabricator in a format that it understands.');
+        'a request path to Phorge in a format that it understands.');
     }
 
     return $path;

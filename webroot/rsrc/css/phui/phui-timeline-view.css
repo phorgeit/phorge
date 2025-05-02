@@ -168,10 +168,6 @@
   border-top: 3px solid;
   border-color: {$darkbluetext};
 
-  -webkit-transform:rotate(-40deg);
-  -moz-transform:rotate(-40deg);
-  -ms-transform:rotate(-40deg);
-  -o-transform:rotate(-40deg);
   transform:rotate(-40deg);
 }
 
@@ -355,20 +351,6 @@
   border-color: {$yellow};
   padding: 4px;
   margin: -4px;
-}
-
-.phui-timeline-preview-header {
-  background: #e0e3ec;
-  color: {$darkgreytext};
-  padding: 4px 1.25%;
-  border: solid {$blueborder} 1px 0;
-}
-
-.phui-timeline-change-details {
-  padding: 10px 0;
-  border-style: solid;
-  border-color: #efefef;
-  border-width: 1px 0;
 }
 
 .phui-timeline-older-transactions-are-hidden {

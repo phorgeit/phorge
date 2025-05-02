@@ -22,7 +22,7 @@ final class PhabricatorDifferenceEngine extends Phobject {
    * Set the name to identify the old file with. Primarily cosmetic.
    *
    * @param  string $old_name Old file name.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setOldName($old_name) {
@@ -35,7 +35,7 @@ final class PhabricatorDifferenceEngine extends Phobject {
    * Set the name to identify the new file with. Primarily cosmetic.
    *
    * @param  string $new_name New file name.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setNewName($new_name) {

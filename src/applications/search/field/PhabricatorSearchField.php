@@ -34,7 +34,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * does not contain any special characters.
    *
    * @param string $key Unique key which identifies the field.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setKey($key) {
@@ -60,7 +60,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * This should be a short text string, like "Reviewers" or "Colors".
    *
    * @param string $label Short, human-readable field label.
-   * @return this
+   * @return $this
    * task config
    */
   public function setLabel($label) {
@@ -87,7 +87,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * behalf by the caller.
    *
    * @param PhabricatorUser $viewer Viewer.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setViewer(PhabricatorUser $viewer) {
@@ -116,7 +116,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * `&authorPHIDs=alincoln`. This is a little easier to use.
    *
    * @param list<string> $aliases List of aliases for this field.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setAliases(array $aliases) {
@@ -143,7 +143,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * If no key is provided, the main key is used.
    *
    * @param string $conduit_key Alternate key for Conduit.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setConduitKey($conduit_key) {
@@ -171,7 +171,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * Set a human-readable description for this field.
    *
    * @param string $description Human-readable description.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setDescription($description) {
@@ -195,7 +195,7 @@ abstract class PhabricatorSearchField extends Phobject {
    * Hide this field from the web UI.
    *
    * @param bool $is_hidden True to hide the field from the web UI.
-   * @return this
+   * @return $this
    * @task config
    */
   public function setIsHidden($is_hidden) {

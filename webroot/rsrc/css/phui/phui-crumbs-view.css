@@ -71,6 +71,10 @@
   margin: 0 4px;
 }
 
+.phui-crumb-strikethrough > .phui-crumb-name {
+  text-decoration: line-through;
+}
+
 .device-phone .phui-crumb-icon {
   margin-left: 7px;
 }

@@ -16,32 +16,13 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
   public static function getActiveCacheSpec() {
     $spec = new PhabricatorDataCacheSpec();
 
-    // NOTE: If APCu is installed, it reports that APC is installed.
-    if (extension_loaded('apc') && !extension_loaded('apcu')) {
-      $spec->initAPCSpec();
-    } else if (extension_loaded('apcu')) {
+    if (extension_loaded('apcu')) {
       $spec->initAPCuSpec();
     } else {
       $spec->initNoneSpec();
     }
 
     return $spec;
-  }
-
-  private function initAPCSpec() {
-    $this
-      ->setName(pht('APC User Cache'))
-      ->setVersion(phpversion('apc'));
-
-    if (ini_get('apc.enabled')) {
-      $this
-        ->setIsEnabled(true)
-        ->setClearCacheCallback('apc_clear_cache');
-      $this->initAPCCommonSpec();
-    } else {
-      $this->setIsEnabled(false);
-      $this->raiseEnableAPCIssue();
-    }
   }
 
   private function initAPCuSpec() {
@@ -67,21 +48,17 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
   }
 
   private function initNoneSpec() {
-    if (version_compare(phpversion(), '5.5', '>=')) {
-      $message = pht(
-        'Installing the "APCu" PHP extension will improve performance. '.
-        'This extension is strongly recommended. Without it, this software '.
-        'must rely on a very inefficient disk-based cache.');
+    $message = pht(
+      'Installing the "APCu" PHP extension will improve performance. '.
+      'This extension is strongly recommended. Without it, this software '.
+      'must rely on a very inefficient disk-based cache.');
 
-      $this
-        ->newIssue('extension.apcu')
-        ->setShortName(pht('APCu'))
-        ->setName(pht('PHP Extension "APCu" Not Installed'))
-        ->setMessage($message)
-        ->addPHPExtension('apcu');
-    } else {
-      $this->raiseInstallAPCIssue();
-    }
+    $this
+      ->newIssue('extension.apcu')
+      ->setShortName(pht('APCu'))
+      ->setName(pht('PHP Extension "APCu" Not Installed'))
+      ->setMessage($message)
+      ->addPHPExtension('apcu');
   }
 
   private function initAPCCommonSpec() {
@@ -107,8 +84,8 @@ final class PhabricatorDataCacheSpec extends PhabricatorCacheSpec {
       $state = array();
       foreach ($cache as $item) {
         // Some older versions of APCu report the cachekey as "key", while
-        // newer APCu and APC report it as "info". Just check both indexes
-        // for commpatibility. See T13164 for details.
+        // newer APCu report it as "info". Just check both indexes for
+        // compatibility. See T13164 for details.
 
         $info = idx($item, 'info');
         if ($info === null) {
