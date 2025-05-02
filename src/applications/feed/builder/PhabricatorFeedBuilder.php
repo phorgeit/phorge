@@ -37,8 +37,6 @@ final class PhabricatorFeedBuilder extends Phobject {
 
     $null_view = new AphrontNullView();
 
-    require_celerity_resource('phabricator-feed-css');
-
     $last_date = null;
     foreach ($stories as $story) {
       $story->setHovercard($this->hovercards);

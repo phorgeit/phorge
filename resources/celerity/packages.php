@@ -159,7 +159,6 @@ return array(
 
     'phui-status-list-view-css',
     'phui-feed-story-css',
-    'phabricator-feed-css',
     'phabricator-dashboard-css',
     'aphront-multi-column-view-css',
     'phui-curtain-object-ref-view-css',
