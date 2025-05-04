@@ -25,7 +25,6 @@ div.jx-tokenizer-container {
   color: inherit;
   vertical-align: middle;
   font: {$basefont};
-  -webkit-font-smoothing: antialiased;
 }
 
 textarea,

@@ -384,7 +384,6 @@ video.phabricator-media {
   margin: 0 0 4px;
   display: inline-block;
   font-weight: bold;
-  -webkit-font-smoothing: antialiased;
   border: 1px solid {$lightblueborder};
   border-radius: 3px;
   color: {$blacktext};
@@ -787,7 +786,6 @@ var.remarkup-assist-textarea {
   padding: 8px;
   border: 1px solid {$lightblueborder};
   border-top: none;
-  -webkit-font-smoothing: antialiased;
 }
 
 .remarkup-control-fullscreen-mode .remarkup-inline-preview {

@@ -250,6 +250,5 @@ button.pholio-image-button-link:active {
   color: {$lightbluetext};
   font-weight: bold;
   padding-right: 8px;
-  -webkit-font-smoothing: antialiased;
   white-space: nowrap;
 }

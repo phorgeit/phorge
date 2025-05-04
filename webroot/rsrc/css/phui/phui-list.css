@@ -10,7 +10,6 @@
 .phui-list-item-header a {
   color: {$bluetext};
   font-weight: bold;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* - Sidenav and Actions -------------------------------------------------------
@@ -28,7 +27,6 @@
   color: {$bluetext};
   padding: 4px 8px 6px 8px;
   display: block;
-  -webkit-font-smoothing: antialiased;
 }
 
 .phui-list-sidenav .phui-list-item-type-divider {

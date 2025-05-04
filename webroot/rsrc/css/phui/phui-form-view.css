@@ -23,7 +23,6 @@
   font-weight: bold;
   font-size: {$normalfontsize};
   color: {$bluetext};
-  -webkit-font-smoothing: antialiased;
 }
 
 .device-phone .phui-form-view label.aphront-form-label,
@@ -102,7 +101,6 @@
   font-weight: normal;
   color: {$lightgreytext};
   font-size: {$smallestfontsize};
-  -webkit-font-smoothing: antialiased;
 }
 
 .aphront-form-input input[type="text"],
@@ -154,7 +152,6 @@
   padding: 8px 0;
   margin-right: 20%;
   margin-left: 20%;
-  -webkit-font-smoothing: antialiased;
   line-height: 16px;
 }
 

@@ -65,7 +65,6 @@
   display: block;
   white-space: nowrap;
   text-decoration: none;
-  -webkit-font-smoothing: antialiased;
 }
 
 .phui-basic-nav .phabricator-side-menu .phui-list-item-href {

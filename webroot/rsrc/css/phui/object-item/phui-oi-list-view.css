@@ -91,7 +91,6 @@ ul.phui-oi-list-view {
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bold;
-  -webkit-font-smoothing: antialiased;
 }
 
 .device-phone .phui-oi-name {

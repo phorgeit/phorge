@@ -209,7 +209,6 @@ details > summary.phui-header-shell::marker {
   border-radius: 3px;
   background: rgba({$alphablue}, 0.1);
   margin-right: 8px;
-  -webkit-font-smoothing: auto;
   border-color: transparent;
   line-height: 28px;
 }
@@ -219,7 +218,6 @@ details > summary.phui-header-shell::marker {
 .phui-header-subheader .phui-tag-type-shade .phui-tag-core {
   border: none;
   font-weight: normal;
-  -webkit-font-smoothing: auto;
 }
 
 .policy-header-callout.policy-adjusted-special {
