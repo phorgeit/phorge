@@ -3,6 +3,8 @@
 final class PhabricatorViewerDatasource
   extends PhabricatorTypeaheadDatasource {
 
+  const FUNCTION_TOKEN = 'viewer()';
+
   public function getBrowseTitle() {
     return pht('Browse Viewer');
   }
