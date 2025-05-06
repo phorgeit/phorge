@@ -235,21 +235,6 @@
   background-size: 25px;
 }
 
-.conpherence-transaction-view.conpherence-comment.anchor-target,
-.conpherence-transaction-view.conpherence-edited.anchor-target {
-  background: {$lightyellow};
-}
-
-.cconpherence-transaction-view.conpherence-comment.anchor-target {
-  margin: 4px 8px 4px 8px;
-  padding: 2px 4px 2px 4px;
-}
-
-.conpherence-transaction-view.conpherence-edited.anchor-target {
-  margin: 0px 8px 0px 8px;
-  padding: 0px 4px 0px 4px;
-}
-
 .conpherence-transaction-view .conpherence-transaction-detail {
   border-width: 0;
   margin-left: 45px;
