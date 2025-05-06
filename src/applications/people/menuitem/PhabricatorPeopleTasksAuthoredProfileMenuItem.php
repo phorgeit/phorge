@@ -1,16 +1,16 @@
 <?php
 
-final class PhabricatorPeopleTasksProfileMenuItem
+final class PhabricatorPeopleTasksAuthoredProfileMenuItem
   extends PhabricatorProfileMenuItem {
 
-  const MENUITEMKEY = 'people.tasks';
+  const MENUITEMKEY = 'people.tasks.authored';
 
   public function getMenuItemTypeName() {
-    return pht('Tasks');
+    return pht('Authored Tasks');
   }
 
   private function getDefaultName() {
-    return pht('Tasks');
+    return pht('Authored Tasks');
   }
 
   public function canHideMenuItem(
@@ -47,7 +47,7 @@ final class PhabricatorPeopleTasksProfileMenuItem
     $id = $user->getID();
 
     $item = $this->newItemView()
-      ->setURI("/people/tasks/{$id}/")
+    ->setURI("/people/tasks/authored/{$id}/")
       ->setName($this->getDisplayName($config))
       ->setIcon('fa-anchor');
 

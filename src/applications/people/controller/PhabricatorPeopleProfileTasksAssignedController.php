@@ -1,6 +1,6 @@
 <?php
 
-final class PhabricatorPeopleProfileTasksController
+final class PhabricatorPeopleProfileTasksAssignedController
   extends PhabricatorPeopleProfileController {
 
   public function handleRequest(AphrontRequest $request) {
@@ -34,7 +34,7 @@ final class PhabricatorPeopleProfileTasksController
 
     $nav = $this->newNavigation(
       $user,
-      PhabricatorPeopleProfileMenuEngine::ITEM_TASKS);
+      PhabricatorPeopleProfileMenuEngine::ITEM_TASKS_ASSIGNED);
 
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)

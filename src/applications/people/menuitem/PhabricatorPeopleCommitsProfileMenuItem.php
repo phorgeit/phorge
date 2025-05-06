@@ -6,11 +6,11 @@ final class PhabricatorPeopleCommitsProfileMenuItem
   const MENUITEMKEY = 'people.commits';
 
   public function getMenuItemTypeName() {
-    return pht('Commits');
+    return pht('Authored Commits');
   }
 
   private function getDefaultName() {
-    return pht('Commits');
+    return pht('Authored Commits');
   }
 
   public function canHideMenuItem(

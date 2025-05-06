@@ -45,7 +45,7 @@ final class PhabricatorPeopleDetailsProfileMenuItem
 
     $item = $this->newItemView()
       ->setURI($uri)
-      ->setName(pht('Profile'))
+      ->setName(pht('User Profile'))
       ->setIcon('fa-user');
 
     return array(

@@ -6,11 +6,11 @@ final class PhabricatorPeopleRevisionsProfileMenuItem
   const MENUITEMKEY = 'people.revisions';
 
   public function getMenuItemTypeName() {
-    return pht('Revisions');
+    return pht('Authored Revisions');
   }
 
   private function getDefaultName() {
-    return pht('Revisions');
+    return pht('Authored Revisions');
   }
 
   public function canHideMenuItem(

@@ -1,21 +1,21 @@
 <?php
 
-final class PhabricatorPeopleManageProfileMenuItem
+final class PhabricatorPeopleTasksAssignedProfileMenuItem
   extends PhabricatorProfileMenuItem {
 
-  const MENUITEMKEY = 'people.manage';
+  const MENUITEMKEY = 'people.tasks.assigned';
 
   public function getMenuItemTypeName() {
-    return pht('Manage User');
+    return pht('Assigned Tasks');
   }
 
   private function getDefaultName() {
-    return pht('Manage User');
+    return pht('Assigned Tasks');
   }
 
   public function canHideMenuItem(
     PhabricatorProfileMenuItemConfiguration $config) {
-    return false;
+    return true;
   }
 
   public function getDisplayName(
@@ -47,9 +47,9 @@ final class PhabricatorPeopleManageProfileMenuItem
     $id = $user->getID();
 
     $item = $this->newItemView()
-      ->setURI("/people/manage/{$id}/")
+      ->setURI("/people/tasks/assigned/{$id}/")
       ->setName($this->getDisplayName($config))
-      ->setIcon('fa-gears');
+      ->setIcon('fa-anchor');
 
     return array(
       $item,
