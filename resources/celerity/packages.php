@@ -188,7 +188,6 @@ return array(
     'differential-changeset-view-css',
     'differential-revision-history-css',
     'differential-table-of-contents-css',
-    'differential-revision-comment-css',
     'differential-revision-add-comment-css',
     'phabricator-object-selector-css',
     'phabricator-content-source-view-css',
