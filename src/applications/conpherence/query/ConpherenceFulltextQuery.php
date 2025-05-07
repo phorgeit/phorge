@@ -55,7 +55,7 @@ final class ConpherenceFulltextQuery
         $this->previousTransactionPHIDs);
     }
 
-    if (strlen($this->fulltext)) {
+    if (phutil_nonempty_string($this->fulltext)) {
       $compiler = PhabricatorSearchDocument::newQueryCompiler();
       $tokens = $compiler->newTokens($this->fulltext);
       $compiled_query = $compiler->compileQuery($tokens);
@@ -70,7 +70,7 @@ final class ConpherenceFulltextQuery
   }
 
   private function buildOrderByClause(AphrontDatabaseConnection $conn_r) {
-    if (strlen($this->fulltext)) {
+    if (phutil_nonempty_string($this->fulltext)) {
       return qsprintf(
         $conn_r,
         'ORDER BY MATCH(i.corpus) AGAINST (%s IN BOOLEAN MODE) DESC',
