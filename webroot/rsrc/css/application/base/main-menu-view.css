@@ -36,10 +36,6 @@
 
 */
 
-.device-desktop .phabricator-main-menu-group-logo {
-  float: left;
-}
-
 .phabricator-main-menu-brand {
   height: 44px;
   float: left;
@@ -102,13 +98,11 @@
   line-height: 24px;
 }
 
-.phabricator-expand-application-menu,
-.phabricator-expand-search-menu {
+.phabricator-expand-application-menu {
   float: right;
 }
 
-.device-desktop .phabricator-main-menu-search-button,
-.device-desktop .phabricator-main-menu-expand-button {
+.device-desktop .phabricator-main-menu-search-button {
   display: none;
 }
 
@@ -336,11 +330,6 @@ a.phabricator-core-user-menu .caret:before {
   font-weight: normal;
 }
 
-.device .phabricator-application-menu-expanded.phabricator-search-menu-expanded
- .phabricator-search-menu {
-  padding: 0;
-}
-
 .device-phone .phabricator-main-search-typeahead-result .result-name {
   font-size: {$biggestfontsize};
 }
@@ -525,26 +514,6 @@ a.phabricator-core-user-menu .caret:before {
   min-width: 36px;
   height: 36px;
   margin-top: 4px;
-}
-
-.device-desktop .phabricator-core-menu-icon {
-  top: 4px;
-  left: 4px;
-}
-
-.device .phabricator-core-menu-icon {
-  left: 16px;
-  height: 24px;
-  width: 24px;
-  background-size: 24px;
-  margin: 2px;
-}
-
-.phabricator-core-menu-icon {
-  position: absolute;
-  display: block;
-  width: 28px;
-  height: 28px;
 }
 
 .phabricator-main-menu-dropdown.phui-list-sidenav {
