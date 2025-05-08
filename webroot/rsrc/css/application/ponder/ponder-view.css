@@ -2,23 +2,8 @@
  * @provides ponder-view-css
  */
 
-.ponder-question-container {
-  border-top: 1px solid {$thinblueborder};
-}
-
-.device .ponder-view-properties {
-  border-left: none;
-  border-right: none;
-  border-radius: 0;
-}
-
 .device .ponder-question-view .phui-timeline-view,
 .device .ponder-question-view .phui-timeline-event-view {
-  margin: 0;
-  padding: 0;
-}
-
-.ponder-view-properties .phui-property-list-container {
   margin: 0;
   padding: 0;
 }
@@ -89,14 +74,6 @@
   height: 30px;
   width: 30px;
   border-radius: 3px;
-}
-
-.ponder-answer-wiki-header {
-  font-weight: bold;
-  border-bottom: 1px solid {$lightblueborder};
-  color: {$bluetext};
-  padding-bottom: 8px;
-  margin-bottom: 16px;
 }
 
 .ponder-footer-view {
