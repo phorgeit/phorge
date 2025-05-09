@@ -52,10 +52,6 @@ body .phui-header-shell.phui-bleed-header
   color: {$darkbluetext};
 }
 
-.phui-header-shell + .phabricator-form-view {
-  border-top-width: 0;
-}
-
 details > summary.phui-header-shell {
   cursor: pointer;
   list-style: none;
@@ -151,15 +147,6 @@ details > summary.phui-header-shell::marker {
   color: {$lightbluetext};
 }
 
-.phui-header-tags {
-  margin-left: 12px;
-  font-size: {$normalfontsize};
-}
-
-.phui-header-tags .phui-tag-view {
-  margin-left: 4px;
-}
-
 .phui-header-image {
   display: inline-block;
   background-repeat: no-repeat;
@@ -251,12 +238,6 @@ details > summary.phui-header-shell::marker {
 .policy-header-callout.policy-adjusted-locked .policy-link,
 .policy-header-callout.policy-adjusted-locked .phui-icon-view {
   color: {$sh-pinktext};
-}
-
-
-.policy-header-callout .policy-space-container {
-  font-weight: bold;
-  color: {$sh-redtext};
 }
 
 .policy-header-callout .policy-tier-separator {
