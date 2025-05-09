@@ -103,7 +103,6 @@ return array(
     'phabricator-standard-page-view',
     'aphront-dialog-view-css',
     'phui-form-view-css',
-    'aphront-panel-view-css',
     'aphront-table-view-css',
     'aphront-tokenizer-control-css',
     'aphront-typeahead-control-css',
