@@ -20,10 +20,6 @@
   z-index: 2;
 }
 
-.pholio-new-inline-comment {
-  z-index: 2;
-}
-
 .slowvote-bar {
   z-index: 2;
 }
@@ -45,10 +41,6 @@ div.phui-calendar-day-event {
 }
 
 .phabricator-nav-local {
-  z-index: 4;
-}
-
-.project-board-header {
   z-index: 4;
 }
 
