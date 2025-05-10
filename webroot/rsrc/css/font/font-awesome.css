@@ -10,8 +10,7 @@
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('/rsrc/externals/font/fontawesome/fontawesome-webfont.eot?v=4.7.0');
-  src: url('/rsrc/externals/font/fontawesome/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('/rsrc/externals/font/fontawesome/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('/rsrc/externals/font/fontawesome/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('/rsrc/externals/font/fontawesome/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('/rsrc/externals/font/fontawesome/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+  src: url('/rsrc/externals/font/fontawesome/fontawesome-webfont.woff2?v=4.7.0') format('woff2');
   font-weight: normal;
   font-style: normal;
 }

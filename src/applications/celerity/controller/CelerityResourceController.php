@@ -139,9 +139,7 @@ abstract class CelerityResourceController extends PhabricatorController {
     // Firefox and IE. Possibly we should generalize this more.
 
     $cross_origin_types = array(
-      'woff' => true,
       'woff2' => true,
-      'eot' => true,
     );
 
     if (isset($cross_origin_types[$type])) {
@@ -168,10 +166,7 @@ abstract class CelerityResourceController extends PhabricatorController {
       'gif' => 'image/gif',
       'jpg' => 'image/jpeg',
       'swf' => 'application/x-shockwave-flash',
-      'woff' => 'font/woff',
       'woff2' => 'font/woff2',
-      'eot' => 'font/eot',
-      'ttf' => 'font/ttf',
       'mp3' => 'audio/mpeg',
       'ico' => 'image/x-icon',
     );
