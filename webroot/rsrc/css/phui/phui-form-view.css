@@ -280,18 +280,6 @@ table.aphront-form-control-checkbox-layout th {
   width: 400px;
 }
 
-.drag-and-drop-instructions {
-  color: {$darkgreytext};
-  font-size: {$smallestfontsize};
-  padding: 6px 8px;
-}
-
-.drag-and-drop-file-target {
-  border: 1px dashed #bfbfbf;
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
 body .phui-form-view .remarkup-assist-textarea.aphront-textarea-drag-and-drop {
   background: {$sh-greenbackground};
   border: 1px solid {$sh-greenborder};
@@ -488,10 +476,6 @@ properly, and submit values. */
   background: {$thinblueborder};
   width: 85%;
   margin: 15px auto;
-}
-
-.recaptcha_only_if_privacy {
-  display: none;
 }
 
 .phabricator-standard-custom-field-header {
