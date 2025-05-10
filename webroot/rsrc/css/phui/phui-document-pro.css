@@ -59,8 +59,7 @@
   border-bottom: 1px solid {$document.border};
 }
 
-.phui-document-view-pro-box,
-.phui-document-properties {
+.phui-document-view-pro-box {
   max-width: 800px;
   margin: 0 auto;
 }
