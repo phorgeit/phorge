@@ -135,6 +135,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   abstract public function getDatasourceApplicationClass();
   abstract public function loadResults();
 
+  /**
+   * @param $phase string
+   * @param $limit int
+   */
   protected function loadResultsForPhase($phase, $limit) {
     // By default, sources just load all of their results in every phase and
     // rely on filtering at a higher level to sequence phases correctly.
