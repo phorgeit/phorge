@@ -627,8 +627,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     // of incorrectly-styled content.
     $device_guess = 'device-desktop';
     if (phutil_nonempty_string($agent)) {
-      if (preg_match('@iPhone|iPod|(Android.*Chrome/[.0-9]* Mobile)@',
-        $agent)) {
+      if (preg_match('@iPhone|iPod|Android.*(Chrome/[.0-9]* Mobile|'.
+        'Mobile.*Firefox/[.0-9]*)@', $agent)) {
         $device_guess = 'device-phone device';
       } else if (preg_match('@iPad|(Android.*Chrome/)@', $agent)) {
         $device_guess = 'device-tablet device';
