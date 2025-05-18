@@ -34,6 +34,9 @@ final class PhabricatorSearchHovercardController
     $handle_phids = array();
     $context_phids = array();
     foreach ($cards as $card) {
+      if (!is_array($card)) { // ignore external fuzzing noise
+        $card = array();
+      }
       $object_phid = idx($card, 'objectPHID');
 
       $handle_phids[] = $object_phid;
@@ -98,6 +101,9 @@ final class PhabricatorSearchHovercardController
 
     $results = array();
     foreach ($cards as $card_key => $card) {
+      if (!is_array($card)) { // ignore external fuzzing noise
+        $card = array();
+      }
       $object_phid = idx($card, 'objectPHID');
 
       $handle = $handles[$object_phid];
