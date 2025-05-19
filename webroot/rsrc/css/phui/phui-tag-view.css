@@ -550,3 +550,7 @@ a.phui-tag-view.phui-tag-exiled:hover
   .phui-tag-core.phui-tag-color-person {
   border-color: {$red};
 }
+
+.phabricator-remarkup a.phui-tag-view {
+  white-space: wrap;
+}
