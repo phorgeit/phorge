@@ -45,6 +45,11 @@ final class PhabricatorFileFilePHIDType extends PhabricatorPHIDType {
     }
   }
 
+  /**
+   * Check whether a named object is of this PHID type
+   * @param string $name Object name
+   * @return bool True if the named object is of this PHID type
+   */
   public function canLoadNamedObject($name) {
     return preg_match('/^F\d*[1-9]\d*$/', $name);
   }

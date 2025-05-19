@@ -86,6 +86,11 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
     }
   }
 
+  /**
+   * Check whether a named object is of this PHID type
+   * @param string $name Object name
+   * @return bool True if the named object is of this PHID type
+   */
   public function canLoadNamedObject($name) {
     return preg_match('/^@.+/', $name);
   }
