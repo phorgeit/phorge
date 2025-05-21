@@ -63,8 +63,8 @@ final class AphrontFormDateControlValue extends Phobject {
     $value = new AphrontFormDateControlValue();
     $value->viewer = $request->getViewer();
 
-    $date = $request->getStr($key.'_d');
-    $time = $request->getStr($key.'_t');
+    $date = $request->getStr($key.'_d', '');
+    $time = $request->getStr($key.'_t', '');
 
     // If we have the individual parts, we read them preferentially. If we do
     // not, try to read the key as a raw value. This makes it so that HTTP
