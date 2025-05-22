@@ -98,10 +98,6 @@
   width: auto;
 }
 
-.device-phone .aphront-form-drag-and-drop-upload {
-  display: none;
-}
-
 .aphront-form-required {
   font-weight: normal;
   color: {$lightgreytext};
@@ -181,17 +177,6 @@
   padding: 12px 8px 8px;
 }
 
-.aphront-form-important {
-  margin: .5em 0;
-  background: #ffffdd;
-  padding: .5em 1em;
-}
-.aphront-form-important code {
-  display: block;
-  padding: .25em;
-  margin: .5em 2em;
-}
-
 .aphront-form-control-markup .aphront-form-input {
   font-size: {$normalfontsize};
   padding: 3px 0;
@@ -199,10 +184,6 @@
 
 .aphront-form-control-static .aphront-form-input {
   line-height: 28px;
-}
-
-.aphront-form-control-togglebuttons .aphront-form-input {
-  padding: 2px 0 0 0;
 }
 
 table.aphront-form-control-radio-layout,
@@ -244,15 +225,6 @@ table.aphront-form-control-checkbox-layout th {
   color: {$bluetext};
 }
 
-.aphront-form-control-image span {
-  margin: 0 4px 0 2px;
-}
-
-.aphront-form-control-image .default-image {
-  display: inline;
-  width: 12px;
-}
-
 .aphront-form-input hr {
   border: none;
   background: #bbbbbb;
@@ -276,24 +248,9 @@ table.aphront-form-control-checkbox-layout th {
   border-bottom: 1px solid {$thinblueborder};
 }
 
-.aphront-form-drag-and-drop-file-list {
-  width: 400px;
-}
-
 body .phui-form-view .remarkup-assist-textarea.aphront-textarea-drag-and-drop {
   background: {$sh-greenbackground};
   border: 1px solid {$sh-greenborder};
-}
-
-.aphront-form-crop .crop-box {
-  cursor: move;
-  overflow: hidden;
-}
-
-.aphront-form-crop .crop-box .crop-image {
-  position: relative;
-  top: 0px;
-  left: 0px;
 }
 
 .calendar-button {
