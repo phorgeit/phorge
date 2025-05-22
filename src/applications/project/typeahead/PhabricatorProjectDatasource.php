@@ -51,7 +51,7 @@ final class PhabricatorProjectDatasource
     $projs = mpull($projs, null, 'getPHID');
 
     $must_have_cols = $this->getParameter('mustHaveColumns', false);
-    if ($must_have_cols) {
+    if ($must_have_cols && $projs) {
       $columns = id(new PhabricatorProjectColumnQuery())
         ->setViewer($viewer)
         ->withProjectPHIDs(array_keys($projs))
