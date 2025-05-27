@@ -29,19 +29,32 @@ final class PhutilSearchQueryCompiler
     return $this;
   }
 
+  /**
+   * @return PhutilSearchStemmer
+   */
   public function getStemmer() {
     return $this->stemmer;
   }
 
+  /**
+   * @param bool $enable_functions
+   */
   public function setEnableFunctions($enable_functions) {
     $this->enableFunctions = $enable_functions;
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   public function getEnableFunctions() {
     return $this->enableFunctions;
   }
 
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileQuery(array $tokens) {
     assert_instances_of($tokens, 'PhutilSearchQueryToken');
 
@@ -53,6 +66,10 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileLiteralQuery(array $tokens) {
     assert_instances_of($tokens, 'PhutilSearchQueryToken');
 
@@ -67,6 +84,10 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @param array<PhutilSearchQueryToken> $tokens
+   * @return string|null
+   */
   public function compileStemmedQuery(array $tokens) {
     assert_instances_of($tokens, 'PhutilSearchQueryToken');
 
@@ -81,6 +102,9 @@ final class PhutilSearchQueryCompiler
     return $this->compileRenderedTokens($result);
   }
 
+  /**
+   * @return string|null
+   */
   private function compileRenderedTokens(array $list) {
     if (!$list) {
       return null;
@@ -90,6 +114,9 @@ final class PhutilSearchQueryCompiler
     return implode(' ', $list);
   }
 
+  /**
+   * @return PhutilSearchQueryToken[]
+   */
   public function newTokens($query) {
     $results = $this->tokenizeQuery($query);
 
@@ -101,6 +128,12 @@ final class PhutilSearchQueryCompiler
     return $tokens;
   }
 
+  /**
+   * @param  string $query Search string or part of the search string
+   * @return array<string[]> An array consisting of array elements like
+   *   {"operator":"and","quoted":false,"value":"get","raw":"get",
+   *   "function":null}
+   */
   private function tokenizeQuery($query) {
     $maximum_bytes = 1024;
     if ($query === null) {

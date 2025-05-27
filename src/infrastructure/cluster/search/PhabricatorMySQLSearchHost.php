@@ -9,10 +9,16 @@ final class PhabricatorMySQLSearchHost
     return $this;
   }
 
+  /**
+   * @return string Display name of the search host: "MySQL"
+   */
   public function getDisplayName() {
     return 'MySQL';
   }
 
+  /**
+   * @return string[] Get a list of fields to show in the status overview UI
+   */
   public function getStatusViewColumns() {
     return array(
         pht('Protocol') => 'mysql',
@@ -20,6 +26,9 @@ final class PhabricatorMySQLSearchHost
     );
   }
 
+  /**
+   * @return string Search host protocol: "mysql"
+   */
   public function getProtocol() {
     return 'mysql';
   }

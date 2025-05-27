@@ -7,6 +7,9 @@ final class PhutilSearchQueryToken extends Phobject {
   private $operator;
   private $function;
 
+  /**
+   * @return PhutilSearchQueryToken
+   */
   public static function newFromDictionary(array $dictionary) {
     $token = new self();
 

@@ -26,6 +26,8 @@ class PhabricatorSearchService
 
   /**
    * @throws Exception
+   * @return PhabricatorSearchHost An instance of a subclass of
+   *   PhabricatorSearchHost
    */
   public function newHost($config) {
     $host = clone($this->hostType);
@@ -35,14 +37,24 @@ class PhabricatorSearchService
     return $host;
   }
 
+  /**
+   * @return PhabricatorFulltextStorageEngine A subclass of
+   *   PhabricatorFulltextStorageEngine
+   */
   public function getEngine() {
     return $this->engine;
   }
 
+  /**
+   * @return string Display name of the search host, e.g. "MySQL"
+   */
   public function getDisplayName() {
     return $this->hostType->getDisplayName();
   }
 
+  /**
+   * @return string[] Get a list of fields to show in the status overview UI
+   */
   public function getStatusViewColumns() {
     return $this->hostType->getStatusViewColumns();
   }
@@ -66,6 +78,9 @@ class PhabricatorSearchService
 
   }
 
+  /**
+   * @return string[]
+   */
   public function getConfig() {
     return $this->config;
   }
@@ -249,6 +264,10 @@ class PhabricatorSearchService
     return $result_set->getPHIDs();
   }
 
+  /**
+   * @param  PhabricatorSavedQuery $query
+   * @return PhabricatorFulltextResultSet
+   */
   public static function newResultSet(PhabricatorSavedQuery $query) {
     $exceptions = array();
     // try all services until one succeeds

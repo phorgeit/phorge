@@ -6,6 +6,9 @@ final class PhabricatorFerretFulltextStorageEngine
   private $fulltextTokens = array();
   private $engineLimits;
 
+  /**
+   * @return string Engine identifier string: "mysql"
+   */
   public function getEngineIdentifier() {
     return 'mysql';
   }

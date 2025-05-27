@@ -11,6 +11,9 @@ final class PhabricatorFulltextToken extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhutilSearchQueryToken
+   */
   public function getToken() {
     return $this->token;
   }

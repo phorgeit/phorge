@@ -26,6 +26,9 @@ final class PhabricatorSearchDocumentQuery
     return $this->getRequiredCapabilities();
   }
 
+  /**
+   * @return PhabricatorFulltextResultSet
+   */
   public function getFulltextResultSet() {
     if (!$this->fulltextResultSet) {
       throw new PhutilInvalidStateException('execute');
@@ -39,6 +42,11 @@ final class PhabricatorSearchDocumentQuery
     $this->fulltextResultSet = null;
   }
 
+  /**
+   * Load a raw page of results.
+   *
+   * @return list PHIDs of the search result objects as array keys.
+   */
   protected function loadPage() {
     // NOTE: The offset and limit information in the inherited properties of
     // this object represent a policy-filtered offset and limit, but the
