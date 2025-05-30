@@ -384,7 +384,7 @@ abstract class LiskDAO extends Phobject
    * advanced, specialized feature and there are usually better approaches for
    * most locking/contention problems.
    *
-   * @return dictionary  Map of configuration options to values.
+   * @return array<string, mixed>  Map of configuration options to values.
    *
    * @task   config
    */
