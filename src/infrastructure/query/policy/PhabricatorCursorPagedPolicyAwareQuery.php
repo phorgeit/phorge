@@ -12,6 +12,9 @@
  * @task order Result Ordering
  * @task edgelogic Working with Edge Logic
  * @task spaces Working with Spaces
+ *
+ * @template R of PhabricatorPolicyInterface
+ * @extends PhabricatorPolicyAwareQuery<R>
  */
 abstract class PhabricatorCursorPagedPolicyAwareQuery
   extends PhabricatorPolicyAwareQuery {
@@ -439,6 +442,9 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
     return null;
   }
 
+  /**
+   * @return R|null
+   */
   public function newResultObject() {
     return null;
   }
