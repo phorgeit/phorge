@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorApplication>
+ */
 final class PhabricatorApplicationQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
@@ -53,6 +56,9 @@ final class PhabricatorApplicationQuery
     return $this;
   }
 
+  /**
+   * @param array<class-string<PhabricatorApplication>> $classes
+   */
   public function withClasses(array $classes) {
     $this->classes = $classes;
     return $this;
