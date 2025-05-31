@@ -3,14 +3,34 @@
 abstract class FerretSearchFunction
   extends Phobject {
 
+  /**
+   * @return string Ferret function name, e.g. 'title', 'body', 'comment',
+   *   'core', 'all'
+   */
   abstract public function getFerretFunctionName();
+  /**
+   * @return string Ferret field key, e.g. 'titl', 'body', 'cmnt', 'core',
+   *   'full'
+   */
   abstract public function getFerretFieldKey();
+  /**
+   * @return bool
+   */
   abstract public function supportsObject(PhabricatorFerretInterface $object);
 
+  /**
+   * @param  string $name
+   * @return string Lower-case $name
+   */
   final public static function getNormalizedFunctionName($name) {
     return phutil_utf8_strtolower($name);
   }
 
+  /**
+   * @param string $function_name
+   * @return void
+   * @throws Exception if $function_name is invalid
+   */
   final public static function validateFerretFunctionName($function_name) {
     if (!preg_match('/^[a-zA-Z-]+\z/', $function_name)) {
       throw new Exception(
@@ -22,6 +42,12 @@ abstract class FerretSearchFunction
     }
   }
 
+  /**
+   * @param string $field_key Ferret search engine field key, supposed to be
+   *   four characters and only lowercase latin letters
+   * @return void
+   * @throws Exception if $field_key is invalid
+   */
   final public static function validateFerretFunctionFieldKey($field_key) {
     if (!preg_match('/^[a-z]{4}\z/', $field_key)) {
       throw new Exception(
@@ -33,6 +59,9 @@ abstract class FerretSearchFunction
     }
   }
 
+  /**
+   * @return array<string,FerretSearchFunction>
+   */
   final public static function newFerretSearchFunctions() {
     $extensions = PhabricatorFulltextEngineExtension::getAllExtensions();
 
