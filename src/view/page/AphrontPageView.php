@@ -65,9 +65,16 @@ abstract class AphrontPageView extends AphrontView {
       $data_fragment = null;
     }
 
+    if ($this->hasViewer() && $this->getViewer()->isLoggedIn()) {
+      $html_lang = phutil_safe_html(' lang="'.
+        str_replace('_', '-', $this->getViewer()->getTranslation().'"'));
+    } else {
+      $html_lang = phutil_safe_html(' lang="en"');
+    }
+
     $response = hsprintf(
       '<!DOCTYPE html>'.
-      '<html%s>'.
+      '<html%s%s>'.
         '<head>'.
           '<meta charset="UTF-8" />'.
           '<title>%s</title>'.
@@ -76,6 +83,7 @@ abstract class AphrontPageView extends AphrontView {
         '%s'.
       '</html>',
       $data_fragment,
+      $html_lang,
       $title,
       $head,
       $body);
