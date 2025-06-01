@@ -42,6 +42,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
         'autocorrect' => 'off',
         'autocapitalize' => 'off',
         'spellcheck' => 'false',
+        'aria-label' => pht('Search'),
       ));
 
     $target = javelin_tag(
