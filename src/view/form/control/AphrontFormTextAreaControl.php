@@ -84,6 +84,7 @@ class AphrontFormTextAreaControl extends AphrontFormControl {
       'textarea',
       array(
         'name'        => $this->getName(),
+        'aria-label'  => $this->getName(),
         'disabled'    => $this->getDisabled() ? 'disabled' : null,
         'readonly'    => $this->getReadOnly() ? 'readonly' : null,
         'class'       => $classes,
