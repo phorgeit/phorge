@@ -688,6 +688,7 @@ final class PHUIObjectItemView extends AphrontTagView {
         'a',
         array(
           'href' => $image_href,
+          'title' => $title_text,
         ),
         $image);
     }
