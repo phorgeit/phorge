@@ -52,6 +52,13 @@ final class PhutilSearchQueryCompiler
   }
 
   /**
+   * @return int
+   */
+  private function getMaxQueryTokens(): int {
+    return 61;
+  }
+
+  /**
    * @param array<PhutilSearchQueryToken> $tokens
    * @return string|null
    */
@@ -143,7 +150,8 @@ final class PhutilSearchQueryCompiler
     if ($query_bytes > $maximum_bytes) {
       throw new PhutilSearchQueryCompilerSyntaxException(
         pht(
-          'Query is too long (%s bytes, maximum is %s bytes).',
+          'Query is too long (%s bytes, maximum is %s bytes). '.
+            'Please use more specific search criteria.',
           new PhutilNumber($query_bytes),
           new PhutilNumber($maximum_bytes)));
     }
@@ -297,6 +305,18 @@ final class PhutilSearchQueryCompiler
 
       $tokens[] = $token;
     }
+
+    $query_tokens = count($tokens);
+    $maximum_tokens = $this->getMaxQueryTokens();
+    if ($query_tokens > $maximum_tokens) {
+      throw new PhutilSearchQueryCompilerSyntaxException(
+        pht(
+          'Query has too many search tokens (%s tokens, maximum is %s '.
+            'tokens). Please use more specific search criteria.',
+          new PhutilNumber($query_tokens),
+          new PhutilNumber($maximum_tokens)));
+    }
+
 
     $results = array();
     $last_function = null;
