@@ -195,6 +195,7 @@ final class PhabricatorProfileMenuItemView
           array(
             'src' => $image_src,
             'class' => implode(' ', $classes),
+            'alt' => pht('Profile picture'),
           ));
 
         $image = phutil_tag(
