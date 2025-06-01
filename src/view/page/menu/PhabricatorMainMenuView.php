@@ -88,7 +88,6 @@ final class PhabricatorMainMenuView extends AphrontView {
         'div',
         array(
           'class' => 'phabricator-main-menu-alerts',
-          'aural' => false,
         ),
         $alerts);
     }
