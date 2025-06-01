@@ -451,6 +451,7 @@ final class PhabricatorApplicationTransactionCommentView
       $action_select = id(new AphrontFormSelectControl())
         ->addClass('phui-comment-fullwidth-control')
         ->addClass('phui-comment-action-control')
+        ->setAriaLabel(pht('Comment Action Options'))
         ->setID($action_id)
         ->setOptions($options);
 
