@@ -135,6 +135,7 @@ final class ManiphestTaskListView extends ManiphestView {
           id(new PHUIListItemView())
             ->setIcon('fa-pencil')
             ->addSigil('maniphest-edit-task')
+            ->setAriaLabel(pht('Edit Task'))
             ->setHref($href));
       }
 
