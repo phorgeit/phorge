@@ -815,7 +815,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
   }
 
   public function getFieldValuesForConduit() {
-    $color_key = $this->getColor();
+    $color_key = $this->getDisplayColor();
     $color_name = PhabricatorProjectIconSet::getColorName($color_key);
 
     if ($this->isMilestone()) {
