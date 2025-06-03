@@ -62,6 +62,7 @@ final class PhabricatorFulltextToken extends Phobject {
       $operator = $token->getOperator();
       switch ($operator) {
         case PhutilSearchQueryCompiler::OPERATOR_NOT:
+          $tip = pht('Excluding Search');
           $shade = PHUITagView::COLOR_RED;
           $icon = 'fa-minus';
           break;
