@@ -191,7 +191,7 @@ abstract class HarbormasterBuildStepImplementation extends Phobject {
    *               @{function:vcsprintf}.
    * @param string $pattern User-provided pattern string containing
    *               `${variables}`.
-   * @param dict   $variables List of available replacement variables.
+   * @param array  $variables List of available replacement variables.
    * @return string String with variables replaced safely into it.
    */
   protected function mergeVariables($function, $pattern, array $variables) {

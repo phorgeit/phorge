@@ -77,7 +77,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * Get data from the cache.
    *
    * @param   list<string>        $keys List of cache keys to retrieve.
-   * @return  dict<string, wild>  Dictionary of keys that were found in the
+   * @return  array<string, wild> Dictionary of keys that were found in the
    *                              cache. Keys not present in the cache are
    *                              omitted, so you can detect a cache miss.
    * @task kvimpl
@@ -92,7 +92,7 @@ abstract class PhutilKeyValueCache extends Phobject {
    * after a specified number of seconds. By default, there is no expiration
    * policy and data will persist in cache indefinitely.
    *
-   * @param dict<string, wild>  $keys Map of cache keys to values.
+   * @param array<string, wild> $keys Map of cache keys to values.
    * @param int|null            $ttl (optional) TTL for cache keys, in seconds.
    * @return $this
    * @task kvimpl

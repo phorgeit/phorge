@@ -450,8 +450,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Loads all of the objects, unconditionally.
    *
-   * @return dict    Dictionary of all persisted objects of this type, keyed
-   *                 on object ID.
+   * @return array<int,object> Dictionary of all persisted objects of this
+   *   type, keyed on object ID.
    *
    * @task   load
    */
@@ -470,7 +470,7 @@ abstract class LiskDAO extends Phobject
    *
    * @param  string  $pattern queryfx()-style SQL WHERE clause.
    * @param  mixed   $args,... Zero or more conversions.
-   * @return dict    Dictionary of matching objects, keyed on ID.
+   * @return array<int,object> Dictionary of matching objects, keyed on ID.
    *
    * @task   load
    */
@@ -574,9 +574,9 @@ abstract class LiskDAO extends Phobject
    * convenient to pull data from elsewhere directly (e.g., a complicated
    * join via @{method:queryData}) and then load from an array representation.
    *
-   * @param  dict  $row Dictionary of properties, which should be equivalent
-   *               to selecting a row from the table or calling
-   *               @{method:getProperties}.
+   * @param  array<string,string|null>  $row Dictionary of properties, which
+   *   should be equivalent to selecting a row from the table or calling
+   *   @{method:getProperties}.
    * @return $this
    *
    * @task   load
@@ -650,7 +650,7 @@ abstract class LiskDAO extends Phobject
    * This is a lot messier than @{method:loadAllWhere}, but more flexible.
    *
    * @param  list  $rows List of property dictionaries.
-   * @return dict  List of constructed objects, keyed on ID.
+   * @return array<int,object> List of constructed objects, keyed on ID.
    *
    * @task   load
    */
@@ -739,8 +739,8 @@ abstract class LiskDAO extends Phobject
    * database.
    * Properties that should not be persisted must be declared as private.
    *
-   * @return dict  Dictionary of normalized (lowercase) to canonical (original
-   *               case) property names.
+   * @return array<string,string>  Dictionary of normalized (lowercase) to
+   *   canonical (original case) property names.
    *
    * @task   info
    */
@@ -874,7 +874,7 @@ abstract class LiskDAO extends Phobject
    * using legacy features with CONFIG_CONVERT_CAMELCASE, but in that case you
    * should just go ahead and die in a fire).
    *
-   * @return dict  Dictionary of object properties.
+   * @return array<string,wild|null>  Dictionary of object properties.
    *
    * @task   info
    */

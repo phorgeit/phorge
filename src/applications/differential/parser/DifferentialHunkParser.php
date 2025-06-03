@@ -14,7 +14,8 @@ final class DifferentialHunkParser extends Phobject {
    * datastructure is used to determine when to render "Context not available."
    * in diffs with multiple hunks.
    *
-   * @return dict<int, bool>  Map of lines where hunks start, other than line 1.
+   * @return array<int|string, bool> Map of lines where hunks start, other than
+   *   line 1.
    */
   public function getHunkStartLines(array $hunks) {
     assert_instances_of($hunks, 'DifferentialHunk');

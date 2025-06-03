@@ -96,8 +96,8 @@ final class PhabricatorFileQuery
    * `PHID-FILE-aaaa` and all transformations of the file with PHID
    * `PHID-FILE-bbbb`.
    *
-   * @param list<dict> $specs List of transform specifications, described
-   *                   above.
+   * @param array<int, array<string, mixed>> $specs List of transform
+   *                   specifications, described above.
    * @return $this
    */
   public function withTransforms(array $specs) {

@@ -1215,7 +1215,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * @param  PhabricatorUser $user Viewing user.
    * @param  list<PhabricatorFilesBuiltinFile> $builtins List of builtin file
    *   specs.
-   * @return dict<string, PhabricatorFile> Dictionary of named builtins.
+   * @return array<string, PhabricatorFile> Dictionary of named builtins.
    */
   public static function loadBuiltins(PhabricatorUser $user, array $builtins) {
     $builtins = mpull($builtins, null, 'getBuiltinFileKey');

@@ -21,6 +21,9 @@ final class AphrontRoutingResult extends Phobject {
     return $this;
   }
 
+  /**
+   * @return AphrontSite
+   */
   public function getSite() {
     return $this->site;
   }
@@ -30,6 +33,9 @@ final class AphrontRoutingResult extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorApplication
+   */
   public function getApplication() {
     return $this->application;
   }
@@ -39,6 +45,9 @@ final class AphrontRoutingResult extends Phobject {
     return $this;
   }
 
+  /**
+   * @return AphrontController
+   */
   public function getController() {
     return $this->controller;
   }
@@ -48,6 +57,9 @@ final class AphrontRoutingResult extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array<string,string>
+   */
   public function getURIData() {
     return $this->uriData;
   }

@@ -4548,7 +4548,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * This data will be loaded with @{method:loadWorkerState} in the worker.
    *
-   * @return dict<string, wild> Serializable editor state.
+   * @return array<string, wild> Serializable editor state.
    * @task workers
    */
   private function getWorkerState() {
@@ -4573,7 +4573,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * Hook; return custom properties which need to be passed to workers.
    *
-   * @return dict<string, wild> Custom properties.
+   * @return array<string, wild> Custom properties.
    * @task workers
    */
   protected function getCustomWorkerState() {
@@ -4588,7 +4588,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * This primarily allows binary data to be passed to workers and survive
    * JSON encoding.
    *
-   * @return dict<string, string> Property encodings.
+   * @return array<string, string> Property encodings.
    * @task workers
    */
   protected function getCustomWorkerStateEncoding() {
@@ -4601,7 +4601,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * This method is used to load state when running worker operations.
    *
-   * @param dict<string, wild> $state Editor state, from
+   * @param array<string, wild> $state Editor state, from
         @{method:getWorkerState}.
    * @return $this
    * @task workers
@@ -4628,7 +4628,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * Hook; set custom properties on the editor from data emitted by
    * @{method:getCustomWorkerState}.
    *
-   * @param dict<string, wild> $state Custom state,
+   * @param array<string, wild> $state Custom state,
    *   from @{method:getCustomWorkerState}.
    * @return $this
    * @task workers

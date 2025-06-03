@@ -147,7 +147,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * To get PHID types a given user has access to, see
    * @{method:getAllInstalledTypes}.
    *
-   * @return dict<string, PhabricatorPHIDType> Map of type constants to types.
+   * @return array<string, PhabricatorPHIDType> Map of type constants to types.
    */
   final public static function getAllTypes() {
     return self::newClassMapQuery()
@@ -172,7 +172,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * Get all PHID types of applications installed for a given viewer.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @return dict<string, PhabricatorPHIDType> Map of constants to installed
+   * @return array<string, PhabricatorPHIDType> Map of constants to installed
    *  types.
    */
   public static function getAllInstalledTypes(PhabricatorUser $viewer) {
@@ -216,7 +216,7 @@ abstract class PhabricatorPHIDType extends Phobject {
    * Get all PHID types of an application.
    *
    * @param string $application Class name of an application
-   * @return dict<string, PhabricatorPHIDType> Map of constants of application
+   * @return array<string, PhabricatorPHIDType> Map of constants of application
    */
   public static function getAllTypesForApplication(
     string $application) {

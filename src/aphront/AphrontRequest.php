@@ -714,7 +714,7 @@ final class AphrontRequest extends Phobject {
    * This is primarily useful if you want to ask the user for more input and
    * then resubmit their request.
    *
-   * @return  dict<string, string>  Original request parameters.
+   * @return  array<string, string>  Original request parameters.
    */
   public function getPassthroughRequestParameters($include_quicksand = false) {
     return self::flattenData(
@@ -724,7 +724,7 @@ final class AphrontRequest extends Phobject {
   /**
    * Get request data other than "magic" parameters.
    *
-   * @return dict<string, wild> Request data, with magic filtered out.
+   * @return array<string, wild> Request data, with magic filtered out.
    */
   public function getPassthroughRequestData($include_quicksand = false) {
     $data = $this->getRequestData();
@@ -748,9 +748,9 @@ final class AphrontRequest extends Phobject {
    * into a list of key-value pairs suitable for submitting via HTTP request
    * (with arrays flattened).
    *
-   * @param   dict<string, wild>    $data Data to flatten.
-   * @return  dict<string, string>  Flat data suitable for inclusion in an HTTP
-   *                                request.
+   * @param   array<string, wild>    $data Data to flatten.
+   * @return  array<string, string>  Flat data suitable for inclusion in an HTTP
+   *                                 request.
    */
   public static function flattenData(array $data) {
     $result = array();

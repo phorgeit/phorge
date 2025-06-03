@@ -32,8 +32,8 @@ abstract class PhabricatorFeedStory
    * construct appropriate @{class:PhabricatorFeedStory} wrappers for each
    * data row.
    *
-   * @param list<dict>  $rows List of @{class:PhabricatorFeedStoryData} rows
-   *                    from the database.
+   * @param array<int,array<string,string>>  $rows List of
+   *    @{class:PhabricatorFeedStoryData} rows from the database.
    * @param PhabricatorUser $viewer
    * @return list<PhabricatorFeedStory>   List of @{class:PhabricatorFeedStory}
    *                                      objects.

@@ -60,10 +60,10 @@ abstract class PhutilRemarkupRule extends Phobject {
    * This method acts as @{function:phutil_tag}, but checks attributes before
    * using them.
    *
-   * @param   string              $name Tag name.
-   * @param   dict<string, wild>  $attrs Tag attributes.
-   * @param   wild                $content (optional) Tag content.
-   * @return  PhutilSafeHTML      Tag object.
+   * @param   string               $name Tag name.
+   * @param   array<string, wild>  $attrs Dictionary of tag attributes.
+   * @param   wild                 $content (optional) Tag content.
+   * @return  PhutilSafeHTML       Tag object.
    */
   protected function newTag($name, array $attrs, $content = null) {
     foreach ($attrs as $key => $attr) {
