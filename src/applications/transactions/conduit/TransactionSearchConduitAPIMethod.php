@@ -483,10 +483,9 @@ EOREMARKUP
   }
 
   /**
-   * Get a new object from a 'objectType' API parameter.
-   * @param $type PhabricatorPHIDType
-   * @return PhabricatorApplicationTransactionInterface|null
-   *         Get the new object, or null when the type is not supported.
+   * Check whether an object type is supported.
+   * @param PhabricatorPHIDType $type
+   * @return bool True if the type is supported.
    */
   private function isObjectTypeSupported($type) {
     $obj = $type->newObject();
