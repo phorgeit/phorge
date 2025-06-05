@@ -31,7 +31,7 @@ final class PhabricatorSearchController
     if ($request->getBool('search:primary')) {
 
       // If there's no query, just take the user to advanced search.
-      if (!strlen($query)) {
+      if (!phutil_nonempty_string($query)) {
         $advanced_uri = '/search/query/advanced/';
         return id(new AphrontRedirectResponse())->setURI($advanced_uri);
       }
