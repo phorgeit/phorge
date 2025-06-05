@@ -1554,7 +1554,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the available conditions for this field in Herald.
    *
-   * @return list<const> List of Herald condition constants.
+   * @return list<string> List of Herald condition constants.
    * @task herald
    */
   public function getHeraldFieldConditions() {
