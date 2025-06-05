@@ -495,7 +495,7 @@ abstract class DifferentialChangesetHTMLRenderer
    * @param int $len Length of the line range to build links for.
    * @param int $changeset_length Total number of lines in the changeset.
    * @param bool $is_blocks (optional)
-   * @return markup Rendered links.
+   * @return string Rendered links.
    */
   protected function renderShowContextLinks(
     $top,
@@ -584,7 +584,7 @@ abstract class DifferentialChangesetHTMLRenderer
    * @param bool $is_all Does this link show all context when clicked?
    * @param string $range Range specification for lines to show.
    * @param string $text Text of the link.
-   * @return markup Rendered link.
+   * @return string Rendered link.
    */
   private function renderShowContextLink($is_all, $range, $text) {
     $reference = $this->getRenderingReference();
