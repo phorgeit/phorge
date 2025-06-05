@@ -1301,7 +1301,7 @@ final class DifferentialChangesetParser extends Phobject {
    *
    * @param string $spec Range specification, indicating the range of the diff
    *               that should be rendered.
-   * @return tuple List of <start, end, mask> suitable for passing to
+   * @return array Tuple of <start, end, mask> suitable for passing to
    *               @{method:render}.
    */
   public static function parseRangeSpecification($spec) {

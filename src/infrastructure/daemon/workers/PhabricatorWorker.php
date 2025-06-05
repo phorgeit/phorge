@@ -248,7 +248,7 @@ abstract class PhabricatorWorker extends Phobject {
   /**
    * Get tasks queued as followups by @{method:queueTask}.
    *
-   * @return list<tuple<string, wild, int|null>> Queued task specifications.
+   * @return list<array<string, wild, int|null>> Queued task specifications.
    */
   final protected function getQueuedTasks() {
     return $this->queuedTasks;
