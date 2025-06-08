@@ -1,5 +1,5 @@
 {
-  "phabricator.uri": "https://we.phorge.it/",
+  "phabricator.uri": "https://signuro.com/",
   "load": ["src/"],
   "history.immutable": false
 }

@@ -1,8 +1,8 @@
-**Phorge** is a collection of web applications which help software companies build better software.
+**Vixon** is a collection of web applications which help software companies build better software.
 
-Phorge is a community-maintained fork of [Phabricator](http://phabricator.org).
+Vixon is a community-maintained fork of [Phorge](http://phorge.it).
 
-Phorge includes applications for:
+Vixon includes applications for:
 
   - reviewing and auditing source code;
   - hosting and browsing repositories;
@@ -15,7 +15,7 @@ Phorge includes applications for:
   - also some other things.
 
 
-Phorge is developed and maintained by [The Phorge Team](https://phorge.it).
+Vixon is developed and maintained by [The Signuro Team](https://signuro.com).
 
 ----------
 
