@@ -259,7 +259,7 @@ final class PhrequentTimeBlock extends Phobject {
    * @return list<pair<int, int>> Nonoverlapping time ranges.
    */
   public static function mergeTimeRanges(array $ranges) {
-    $ranges = isort($ranges, 0);
+    $ranges = isort($ranges, '0');
 
     $result = array();
 

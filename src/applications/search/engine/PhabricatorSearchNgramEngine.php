@@ -35,6 +35,7 @@ final class PhabricatorSearchNgramEngine
 
     $ngrams = array();
     foreach ($unique_tokens as $token => $ignored) {
+      $token = (string)$token;
       $token_v = phutil_utf8v($token);
       $length = count($token_v);
 

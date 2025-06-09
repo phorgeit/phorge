@@ -194,7 +194,7 @@ final class PhabricatorMetaMTAMailViewController
     }
 
     // Sort headers by name.
-    $headers = isort($headers, 0);
+    $headers = isort($headers, '0');
 
     foreach ($headers as $header) {
       list($key, $value) = $header;

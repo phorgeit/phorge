@@ -93,7 +93,7 @@ final class PhabricatorXHProfProfileSymbolView
         $data[$key]['wt'] / $flat[$symbol]['wt'],
       );
     }
-    $child_rows = isort($child_rows, 2);
+    $child_rows = isort($child_rows, '2');
     $child_rows = array_reverse($child_rows);
     $rows = array_merge(
       $rows,

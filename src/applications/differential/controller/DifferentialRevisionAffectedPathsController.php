@@ -87,7 +87,7 @@ final class DifferentialRevisionAffectedPathsController
     }
 
     // Sort rows by path name.
-    $rows = isort($rows, 3);
+    $rows = isort($rows, '3');
 
     $table_view = id(new AphrontTableView($rows))
       ->setNoDataString(pht('This revision has no indexed affected paths.'))
