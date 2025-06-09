@@ -287,7 +287,7 @@ abstract class PhabricatorWorker extends Phobject {
    * This method does not provide any assurances about when these tasks will
    * execute, or even guarantee that it will have any effect at all.
    *
-   * @param list<id> $ids List of task IDs to try to awaken.
+   * @param array<int> $ids List of task IDs to try to awaken.
    * @return void
    */
   final public static function awakenTaskIDs(array $ids) {

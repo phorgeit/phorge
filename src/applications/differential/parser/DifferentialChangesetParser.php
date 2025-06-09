@@ -240,7 +240,7 @@ final class DifferentialChangesetParser extends Phobject {
    * the left and right halves of the displayed diff to be correctly mapped to
    * storage changesets.
    *
-   * @param id    $id The Differential Changeset ID that comments added to the
+   * @param int   $id The Differential Changeset ID that comments added to the
    *              right side of the visible diff should be attached to.
    * @param bool  $is_new If true, attach new comments to the right side of the
    *              storage changeset. Note that this may be false, if the left
