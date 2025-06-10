@@ -118,7 +118,7 @@ final class SlowvoteEmbedView extends AphrontView {
           )));
     }
 
-    $body = phabricator_form(
+    $body = vixon_form(
       $this->getUser(),
       array(
         'action'  => '/vote/'.$poll->getID().'/',

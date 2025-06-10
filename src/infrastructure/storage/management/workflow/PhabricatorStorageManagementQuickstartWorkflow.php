@@ -32,7 +32,7 @@ final class PhabricatorStorageManagementQuickstartWorkflow
           '--output'));
     }
 
-    $namespace = 'phabricator_quickstart_'.Filesystem::readRandomCharacters(8);
+    $namespace = 'vixon_quickstart_'.Filesystem::readRandomCharacters(8);
 
     $bin = dirname(phutil_get_library_root('phabricator')).'/bin/storage';
 

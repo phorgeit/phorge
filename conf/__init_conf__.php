@@ -1,6 +1,6 @@
 <?php
 
-function phabricator_read_config_file($original_config) {
+function vixon_read_config_file($original_config) {
   $root = dirname(dirname(__FILE__));
 
   // Accept either "myconfig" (preferred) or "myconfig.conf.php".

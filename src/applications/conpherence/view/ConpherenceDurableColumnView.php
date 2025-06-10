@@ -453,7 +453,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
         'uri'             => '/file/dropupload/',
       ));
     $id = $conpherence->getID();
-    return phabricator_form(
+    return vixon_form(
       $this->getUser(),
       array(
         'method' => 'POST',

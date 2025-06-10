@@ -202,7 +202,7 @@ final class PhabricatorCalendarImportViewController
         $next_epoch = $trigger->getNextEventPrediction();
         $next_trigger = pht(
           '%s (%s)',
-          phabricator_datetime($next_epoch, $viewer),
+          vixon_datetime($next_epoch, $viewer),
           phutil_format_relative_time($next_epoch - $now));
       }
 

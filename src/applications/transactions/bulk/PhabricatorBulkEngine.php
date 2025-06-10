@@ -116,7 +116,7 @@ abstract class PhabricatorBulkEngine extends Phobject {
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setForm($form_view);
 
-    $complete_form = phabricator_form(
+    $complete_form = vixon_form(
       $viewer,
       array(
         'action' => $this->getBulkURI(),

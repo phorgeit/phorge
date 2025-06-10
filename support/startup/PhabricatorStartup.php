@@ -194,8 +194,8 @@ final class PhabricatorStartup {
   }
 
   public static function loadCoreLibraries() {
-    $phabricator_root = dirname(dirname(dirname(__FILE__)));
-    $libraries_root = dirname($phabricator_root);
+    $vixon_root = dirname(dirname(dirname(__FILE__)));
+    $libraries_root = dirname($vixon_root);
 
     $root = null;
     if (!empty($_SERVER['PHUTIL_LIBRARY_ROOT'])) {
@@ -216,7 +216,7 @@ final class PhabricatorStartup {
     // Load Phorge itself using the absolute path, so we never end up doing
     // anything surprising (loading index.php and libraries from different
     // directories).
-    phutil_load_library($phabricator_root.'/src');
+    phutil_load_library($vixon_root.'/src');
   }
 
 /* -(  Output Capture  )----------------------------------------------------- */

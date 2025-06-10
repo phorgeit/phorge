@@ -121,7 +121,7 @@ final class FundBackerSearchEngine
         $handles[$backer->getInitiativePHID()]->renderLink(),
         $handles[$backer->getBackerPHID()]->renderLink(),
         $backer->getAmountAsCurrency()->formatForDisplay(),
-        phabricator_datetime($backer->getDateCreated(), $viewer),
+        vixon_datetime($backer->getDateCreated(), $viewer),
       );
     }
 

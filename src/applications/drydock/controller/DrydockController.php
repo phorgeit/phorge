@@ -52,7 +52,7 @@ abstract class DrydockController extends PhabricatorController {
         ($command->getIsConsumed()
           ? $consumed_yes
           : $consumed_no),
-        phabricator_datetime($command->getDateCreated(), $viewer),
+        vixon_datetime($command->getDateCreated(), $viewer),
       );
     }
 

@@ -214,7 +214,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   public function setEpoch($epoch) {
-    $date = phabricator_dual_datetime($epoch, $this->getUser());
+    $date = vixon_dual_datetime($epoch, $this->getUser());
     $this->addIcon('none', $date);
     return $this;
   }

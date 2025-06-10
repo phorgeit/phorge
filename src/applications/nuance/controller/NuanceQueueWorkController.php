@@ -155,7 +155,7 @@ final class NuanceQueueWorkController
           ->setIcon($icon, $color),
         $viewer->renderHandle($command->getAuthorPHID()),
         $command->getCommand(),
-        phabricator_datetime($command->getDateCreated(), $viewer),
+        vixon_datetime($command->getDateCreated(), $viewer),
       );
     }
 

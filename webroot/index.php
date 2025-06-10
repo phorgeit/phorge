@@ -1,6 +1,6 @@
 <?php
 
-phabricator_startup();
+vixon_startup();
 
 $fatal_exception = null;
 try {
@@ -75,7 +75,7 @@ if ($fatal_exception) {
     false);
 }
 
-function phabricator_startup() {
+function vixon_startup() {
   // Load the PhabricatorStartup class itself.
   $t_startup = microtime(true);
   $root = dirname(dirname(__FILE__));

@@ -245,7 +245,7 @@ final class PhabricatorConduitLogSearchEngine
         $caller,
         $log->getError(),
         pht('%s us', new PhutilNumber($log->getDuration())),
-        phabricator_datetime($log->getDateCreated(), $viewer),
+        vixon_datetime($log->getDateCreated(), $viewer),
       );
     }
 

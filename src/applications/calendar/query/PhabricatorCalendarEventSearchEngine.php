@@ -349,9 +349,9 @@ final class PhabricatorCalendarEventSearchEngine
         $this->getQueryDateTo($query)->getEpoch(),
         $query->getParameter('display'));
 
-    $now_year = phabricator_format_local_time($now, $viewer, 'Y');
-    $now_month = phabricator_format_local_time($now, $viewer, 'm');
-    $now_day = phabricator_format_local_time($now, $viewer, 'j');
+    $now_year = vixon_format_local_time($now, $viewer, 'Y');
+    $now_month = vixon_format_local_time($now, $viewer, 'm');
+    $now_day = vixon_format_local_time($now, $viewer, 'j');
 
     if ($start_month == $now_month && $start_year == $now_year) {
       $month_view = new PHUICalendarMonthView(
@@ -514,10 +514,10 @@ final class PhabricatorCalendarEventSearchEngine
       if ($display == 'month') {
         $day = 1;
       } else {
-        $day = phabricator_format_local_time($epoch, $viewer, 'd');
+        $day = vixon_format_local_time($epoch, $viewer, 'd');
       }
-      $start_year = phabricator_format_local_time($epoch, $viewer, 'Y');
-      $start_month = phabricator_format_local_time($epoch, $viewer, 'm');
+      $start_year = vixon_format_local_time($epoch, $viewer, 'Y');
+      $start_month = vixon_format_local_time($epoch, $viewer, 'm');
       $start_day = $day;
     }
     return array($start_year, $start_month, $start_day);

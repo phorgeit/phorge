@@ -114,7 +114,7 @@ final class LegalpadDocumentSearchEngine
     $list = new PHUIObjectItemListView();
     $list->setUser($viewer);
     foreach ($documents as $document) {
-      $last_updated = phabricator_date($document->getDateModified(), $viewer);
+      $last_updated = vixon_date($document->getDateModified(), $viewer);
 
       $title = $document->getTitle();
 
@@ -146,7 +146,7 @@ final class LegalpadDocumentSearchEngine
               ' ',
               pht(
                 'Signed on %s',
-                phabricator_date($signature->getDateCreated(), $viewer)),
+                vixon_date($signature->getDateCreated(), $viewer)),
             ));
         } else {
           $item->addAttribute(

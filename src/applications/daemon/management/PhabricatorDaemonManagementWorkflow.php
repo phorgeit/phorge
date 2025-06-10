@@ -144,8 +144,8 @@ abstract class PhabricatorDaemonManagementWorkflow
 
     $command = csprintf('./phd-daemon %Ls', $flags);
 
-    $phabricator_root = dirname(phutil_get_library_root('phabricator'));
-    $daemon_script_dir = $phabricator_root.'/scripts/daemon/';
+    $vixon_root = dirname(phutil_get_library_root('phabricator'));
+    $daemon_script_dir = $vixon_root.'/scripts/daemon/';
 
     if ($debug) {
       // Don't terminate when the user sends ^C; it will be sent to the

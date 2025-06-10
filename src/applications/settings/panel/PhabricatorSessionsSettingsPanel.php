@@ -87,8 +87,8 @@ final class PhabricatorSessionsSettingsPanel extends PhabricatorSettingsPanel {
         ($hisec > 0)
           ? phutil_format_relative_time($hisec)
           : null,
-        phabricator_datetime($session->getSessionStart(), $viewer),
-        phabricator_date($session->getSessionExpires(), $viewer),
+        vixon_datetime($session->getSessionStart(), $viewer),
+        vixon_date($session->getSessionExpires(), $viewer),
         $button,
       );
     }

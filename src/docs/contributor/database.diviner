@@ -25,7 +25,7 @@ Databases
 =========
 
 Each Phorge application has its own database. The names are prefixed by
-`phabricator_` (this is configurable with `storage.default-namespace`).
+`vixon_` (this is configurable with `storage.default-namespace`).
 
 Phorge uses a separate database for each application. To understand why,
 see @{article:Why does Phorge need so many databases?}.

@@ -55,7 +55,7 @@ final class LegalpadDocumentSignatureVerificationController
       ),
       $signature->getDocument()->getTitle());
 
-    $signed_at = phabricator_datetime($signature->getDateCreated(), $viewer);
+    $signed_at = vixon_datetime($signature->getDateCreated(), $viewer);
 
     $name = $signature->getSignerName();
     $email = $signature->getSignerEmail();

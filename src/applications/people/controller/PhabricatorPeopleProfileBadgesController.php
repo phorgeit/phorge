@@ -82,7 +82,7 @@ final class PhabricatorPeopleProfileBadgesController
 
         $awarder_phid = $award->getAwarderPHID();
         $awarder_handle = $viewer->renderHandle($awarder_phid);
-        $awarded_date = phabricator_date($award->getDateCreated(), $viewer);
+        $awarded_date = vixon_date($award->getDateCreated(), $viewer);
 
         $awarder_info = pht(
           'Awarded by %s',

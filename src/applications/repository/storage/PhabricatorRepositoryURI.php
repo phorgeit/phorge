@@ -338,10 +338,10 @@ final class PhabricatorRepositoryURI
   }
 
   private function getForcedHost() {
-    $phabricator_uri = PhabricatorEnv::getURI('/');
-    $phabricator_uri = new PhutilURI($phabricator_uri);
+    $vixon_uri = PhabricatorEnv::getURI('/');
+    $vixon_uri = new PhutilURI($vixon_uri);
 
-    $phabricator_host = $phabricator_uri->getDomain();
+    $vixon_host = $vixon_uri->getDomain();
 
     switch ($this->getBuiltinProtocol()) {
       case self::BUILTIN_PROTOCOL_SSH:
@@ -349,10 +349,10 @@ final class PhabricatorRepositoryURI
         if ($ssh_host !== null) {
           return $ssh_host;
         }
-        return $phabricator_host;
+        return $vixon_host;
       case self::BUILTIN_PROTOCOL_HTTP:
       case self::BUILTIN_PROTOCOL_HTTPS:
-        return $phabricator_host;
+        return $vixon_host;
       default:
         return null;
     }

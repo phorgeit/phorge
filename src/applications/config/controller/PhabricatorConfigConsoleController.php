@@ -101,7 +101,7 @@ final class PhabricatorConfigConsoleController
 
       $epoch = $info['epoch'];
       if ($epoch) {
-        $epoch = phabricator_date($epoch, $viewer);
+        $epoch = vixon_date($epoch, $viewer);
       } else {
         $epoch = null;
       }

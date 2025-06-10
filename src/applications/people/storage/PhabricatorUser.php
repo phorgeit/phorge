@@ -23,7 +23,7 @@ final class PhabricatorUser
     PhabricatorConduitResultInterface,
     PhabricatorAuthPasswordHashInterface {
 
-  const SESSION_TABLE = 'phabricator_session';
+  const SESSION_TABLE = 'vixon_session';
   const NAMETOKEN_TABLE = 'user_nametoken';
   const MAXIMUM_USERNAME_LENGTH = 64;
   const MAXIMUM_REALNAME_LENGTH = 256;

@@ -8,7 +8,7 @@
 final class AphrontRequest extends Phobject {
 
   // NOTE: These magic request-type parameters are automatically included in
-  // certain requests (e.g., by phabricator_form(), JX.Request,
+  // certain requests (e.g., by vixon_form(), JX.Request,
   // JX.Workflow, and ConduitClient) and help us figure out what sort of
   // response the client expects.
 
@@ -386,8 +386,8 @@ final class AphrontRequest extends Phobject {
           "mechanisms.\n\n".
           "Some UI elements (like %s) also have methods which will allow you ".
           "to render links as forms (like %s).",
-          'phabricator_form()',
-          'phabricator_form()',
+          'vixon_form()',
+          'vixon_form()',
           '/',
           'AphrontWriteGuard::beginScopedUnguardedWrites()',
           'PhabricatorActionListView',

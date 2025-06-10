@@ -48,7 +48,7 @@ final class PhabricatorTokensSettingsPanel extends PhabricatorSettingsPanel {
       }
 
       if ($token->getTokenExpires() >= time()) {
-        $expiry = phabricator_datetime($token->getTokenExpires(), $viewer);
+        $expiry = vixon_datetime($token->getTokenExpires(), $viewer);
       } else {
         $expiry = pht('Expired');
       }

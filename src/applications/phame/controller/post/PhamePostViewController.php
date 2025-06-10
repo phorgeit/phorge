@@ -105,7 +105,7 @@ final class PhamePostViewController
       ),
       $blogger->getUsername());
 
-    $date = phabricator_datetime($post->getDatePublished(), $viewer);
+    $date = vixon_datetime($post->getDatePublished(), $viewer);
     if ($post->isDraft()) {
       $subtitle = pht('Unpublished draft by %s.', $author);
     } else if ($post->isArchived()) {

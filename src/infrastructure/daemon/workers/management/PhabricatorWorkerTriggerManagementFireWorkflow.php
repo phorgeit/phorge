@@ -58,7 +58,7 @@ final class PhabricatorWorkerTriggerManagementFireWorkflow
       "%s\n",
       pht(
         'Set current time to %s.',
-        phabricator_datetime(PhabricatorTime::getNow(), $viewer)));
+        vixon_datetime(PhabricatorTime::getNow(), $viewer)));
 
     $last_time = $this->parseTimeArgument($args->getArg('last'));
     $next_time = $this->parseTimeArgument($args->getArg('next'));
@@ -92,7 +92,7 @@ final class PhabricatorWorkerTriggerManagementFireWorkflow
           "%s\n",
           pht(
             'Executing event as though it was scheduled to execute at %s.',
-            phabricator_datetime($next_time, $viewer)));
+            vixon_datetime($next_time, $viewer)));
       }
 
       if (!$last_time) {
@@ -105,7 +105,7 @@ final class PhabricatorWorkerTriggerManagementFireWorkflow
           "%s\n",
           pht(
             'Executing event as though it previously executed at %s.',
-            phabricator_datetime($last_time, $viewer)));
+            vixon_datetime($last_time, $viewer)));
       }
 
       $trigger->executeTrigger($last_time, $next_time);
@@ -126,7 +126,7 @@ final class PhabricatorWorkerTriggerManagementFireWorkflow
           pht(
             'After executing under these conditions, this event would '.
             'next execute at %s.',
-            phabricator_datetime($reschedule_time, $viewer)));
+            vixon_datetime($reschedule_time, $viewer)));
       }
     }
 

@@ -133,7 +133,7 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
       $desc = $row['desc'];
 
       if ($row['age']) {
-        $age = phabricator_datetime($row['age'], $this->getUser());
+        $age = vixon_datetime($row['age'], $this->getUser());
       } else {
         $age = null;
       }
@@ -248,7 +248,7 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
           pht('Show Diff')),
       ));
 
-    $content = phabricator_form(
+    $content = vixon_form(
       $this->getUser(),
       array(
         'action' => '/D'.$revision_id.'#toc',

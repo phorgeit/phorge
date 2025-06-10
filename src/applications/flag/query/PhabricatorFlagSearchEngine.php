@@ -177,7 +177,7 @@ final class PhabricatorFlagSearchEngine
 
       $item->addIcon(
         'none',
-        phabricator_datetime($flag->getDateCreated(), $viewer));
+        vixon_datetime($flag->getDateCreated(), $viewer));
 
       $list->addItem($item);
     }

@@ -129,7 +129,7 @@ final class PhabricatorMacroViewController
     $author_phid = $macro->getAuthorPHID();
 
     $author = $viewer->renderHandle($author_phid)->render();
-    $date = phabricator_datetime($macro->getDateCreated(), $viewer);
+    $date = vixon_datetime($macro->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $handles = $viewer->loadHandles(array($author_phid));

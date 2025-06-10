@@ -303,7 +303,7 @@ final class LegalpadDocumentSignatureSearchEngine
             'href' => 'mailto:'.$email,
           ),
           $email),
-        phabricator_datetime($signature->getDateCreated(), $viewer),
+        vixon_datetime($signature->getDateCreated(), $viewer),
       );
     }
 

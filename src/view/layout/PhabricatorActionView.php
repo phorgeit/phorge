@@ -244,7 +244,7 @@ final class PhabricatorActionView extends AphrontView {
           ),
           array($icon, $this->name));
 
-        $item = phabricator_form(
+        $item = vixon_form(
           $this->getViewer(),
           array(
             'action'    => $this->getHref(),

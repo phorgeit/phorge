@@ -603,27 +603,27 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       if ($show_end_date) {
         return pht(
           '%s - %s, All Day',
-          phabricator_date($min_epoch, $viewer),
-          phabricator_date($max_epoch, $viewer));
+          vixon_date($min_epoch, $viewer),
+          vixon_date($max_epoch, $viewer));
       } else {
         return pht(
           '%s, All Day',
-          phabricator_date($min_epoch, $viewer));
+          vixon_date($min_epoch, $viewer));
       }
     } else if ($show_end_date) {
       return pht(
         '%s - %s',
-        phabricator_datetime($min_epoch, $viewer),
-        phabricator_datetime($max_epoch, $viewer));
+        vixon_datetime($min_epoch, $viewer),
+        vixon_datetime($max_epoch, $viewer));
     } else if ($show_end) {
       return pht(
         '%s - %s',
-        phabricator_datetime($min_epoch, $viewer),
-        phabricator_time($max_epoch, $viewer));
+        vixon_datetime($min_epoch, $viewer),
+        vixon_time($max_epoch, $viewer));
     } else {
       return pht(
         '%s',
-        phabricator_datetime($min_epoch, $viewer));
+        vixon_datetime($min_epoch, $viewer));
     }
   }
 
@@ -1432,7 +1432,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return array(
       'epoch' => (int)$epoch,
       'display' => array(
-        'default' => phabricator_datetime($epoch, $viewer),
+        'default' => vixon_datetime($epoch, $viewer),
       ),
       'iso8601' => $datetime->getISO8601(),
       'timezone' => $this->viewerTimezone,

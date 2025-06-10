@@ -244,7 +244,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
         pht('Expires'),
         pht(
           '%s (%s)',
-          phabricator_datetime($ttl, $viewer),
+          vixon_datetime($ttl, $viewer),
           phutil_format_relative_time_detailed($delta)));
     }
 

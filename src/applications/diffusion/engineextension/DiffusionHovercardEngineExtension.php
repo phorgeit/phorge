@@ -76,7 +76,7 @@ final class DiffusionHovercardEngineExtension
       $hovercard->addField(pht('Committer'), $committer);
     }
 
-    $date = phabricator_date($commit->getEpoch(), $viewer);
+    $date = vixon_date($commit->getEpoch(), $viewer);
     $hovercard->addField(pht('Commit Date'), $date);
 
     if (!$commit->isAuditStatusNoAudit()) {

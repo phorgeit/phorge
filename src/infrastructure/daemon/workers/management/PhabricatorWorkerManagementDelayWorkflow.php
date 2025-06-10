@@ -82,7 +82,7 @@ final class PhabricatorWorkerManagementDelayWorkflow
         pht(
           '%s was delayed until "%s".',
           $this->describeTask($task),
-          phabricator_datetime($until, $viewer)));
+          vixon_datetime($until, $viewer)));
 
       $delay_count++;
     }

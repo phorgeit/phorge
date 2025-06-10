@@ -174,8 +174,8 @@ final class PhabricatorLockLogManagementWorkflow
         $held = null;
       }
 
-      $created = phabricator_datetime($created, $viewer);
-      $released = phabricator_datetime($released, $viewer);
+      $created = vixon_datetime($created, $viewer);
+      $released = vixon_datetime($released, $viewer);
 
       $parameters = $log->getLockParameters();
       $context = $log->getLockContext();

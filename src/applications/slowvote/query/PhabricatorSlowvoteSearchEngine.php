@@ -120,7 +120,7 @@ final class PhabricatorSlowvoteSearchEngine
     $phids = mpull($polls, 'getAuthorPHID');
 
     foreach ($polls as $poll) {
-      $date_created = phabricator_datetime($poll->getDateCreated(), $viewer);
+      $date_created = vixon_datetime($poll->getDateCreated(), $viewer);
       if ($poll->getAuthorPHID()) {
         $author = $handles[$poll->getAuthorPHID()]->renderLink();
       } else {

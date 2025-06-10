@@ -88,7 +88,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $selector = $this->buildModeSelector($selector_id, $application_id);
 
-    $form = phabricator_form(
+    $form = vixon_form(
       $viewer,
       array(
         'action' => '/search/',

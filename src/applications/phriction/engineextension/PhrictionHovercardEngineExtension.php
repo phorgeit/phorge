@@ -84,7 +84,7 @@ final class PhrictionHovercardEngineExtension
 
       $hovercard->addField(
         pht('Last Edited'),
-        phabricator_dual_datetime($content->getDateCreated(), $viewer));
+        vixon_dual_datetime($content->getDateCreated(), $viewer));
     }
   }
 

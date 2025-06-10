@@ -121,7 +121,7 @@ final class PhabricatorSlowvotePollController
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($poll->getAuthorPHID())->render();
-    $date = phabricator_datetime($poll->getDateCreated(), $viewer);
+    $date = vixon_datetime($poll->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $person = id(new PhabricatorPeopleQuery())

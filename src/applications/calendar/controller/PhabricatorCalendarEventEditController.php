@@ -49,7 +49,7 @@ final class PhabricatorCalendarEventEditController
           $start_time = phutil_tag(
             'strong',
             array(),
-            phabricator_datetime($event->getStartDateTimeEpoch(), $viewer));
+            vixon_datetime($event->getStartDateTimeEpoch(), $viewer));
 
           $form = id(new AphrontFormView())
             ->setViewer($viewer)

@@ -127,7 +127,7 @@ final class PhabricatorFeedTransactionSearchEngine
         $handles[$author_phid]->renderLink(),
         $handles[$object_phid]->renderLink(),
         AphrontTableView::renderSingleDisplayLine($title),
-        phabricator_datetime($object->getDateCreated(), $viewer),
+        vixon_datetime($object->getDateCreated(), $viewer),
       );
     }
 

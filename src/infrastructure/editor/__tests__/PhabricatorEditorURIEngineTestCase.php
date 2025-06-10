@@ -136,9 +136,9 @@ final class PhabricatorEditorURIEngineTestCase
   }
 
   public function testNewForViewer() {
-    $phabricator_user = $this->generateNewTestUser();
+    $vixon_user = $this->generateNewTestUser();
     try {
-      $engine = PhabricatorEditorURIEngine::newForViewer($phabricator_user);
+      $engine = PhabricatorEditorURIEngine::newForViewer($vixon_user);
       $this->assertTrue(true, 'newForViewer did not throw an error');
     } catch (Throwable $ex) {
       $this->assertTrue(false,

@@ -42,7 +42,7 @@ final class PhabricatorCountdownView extends AphrontView {
     );
 
     $epoch = $countdown->getEpoch();
-    $launch_date = phabricator_datetime($epoch, $this->getUser());
+    $launch_date = vixon_datetime($epoch, $this->getUser());
     $foot = phutil_tag(
       'td',
       array(

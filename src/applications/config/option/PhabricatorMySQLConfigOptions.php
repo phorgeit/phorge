@@ -43,7 +43,7 @@ final class PhabricatorMySQLConfigOptions
           pht(
             "Databases are created in a namespace, which defaults to ".
             "'phabricator' -- for instance, the Differential database is ".
-            "named 'phabricator_differential' by default. You can change ".
+            "named 'vixon_differential' by default. You can change ".
             "this namespace if you want. Normally, you should not do this ".
             "unless you are developing extensions and using namespaces to ".
             "separate multiple sandbox datasets.")),

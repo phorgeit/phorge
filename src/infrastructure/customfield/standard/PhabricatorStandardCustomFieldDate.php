@@ -58,7 +58,7 @@ final class PhabricatorStandardCustomFieldDate
       return null;
     }
 
-    return phabricator_datetime($value, $this->getViewer());
+    return vixon_datetime($value, $this->getViewer());
   }
 
   private function newDateControl() {
@@ -163,12 +163,12 @@ final class PhabricatorStandardCustomFieldDate
 
     $old_date = null;
     if ($old) {
-      $old_date = phabricator_datetime($old, $viewer);
+      $old_date = vixon_datetime($old, $viewer);
     }
 
     $new_date = null;
     if ($new) {
-      $new_date = phabricator_datetime($new, $viewer);
+      $new_date = vixon_datetime($new, $viewer);
     }
 
     if (!$old) {
@@ -214,7 +214,7 @@ final class PhabricatorStandardCustomFieldDate
         '%s set %s to %s on %s.',
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
-        phabricator_datetime($new, $viewer),
+        vixon_datetime($new, $viewer),
         $xaction->renderHandleLink($object_phid));
     } else if (!$new) {
       return pht(
@@ -227,8 +227,8 @@ final class PhabricatorStandardCustomFieldDate
         '%s changed %s from %s to %s on %s.',
         $xaction->renderHandleLink($author_phid),
         $this->getFieldName(),
-        phabricator_datetime($old, $viewer),
-        phabricator_datetime($new, $viewer),
+        vixon_datetime($old, $viewer),
+        vixon_datetime($new, $viewer),
         $xaction->renderHandleLink($object_phid));
     }
   }

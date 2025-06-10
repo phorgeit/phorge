@@ -130,7 +130,7 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
         $this->instructions);
     }
 
-    $search_box = phabricator_form(
+    $search_box = vixon_form(
       $user,
       array(
         'method' => 'POST',

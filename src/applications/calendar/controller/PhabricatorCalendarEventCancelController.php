@@ -141,7 +141,7 @@ final class PhabricatorCalendarEventCancelController
       $start_time = phutil_tag(
         'strong',
         array(),
-        phabricator_datetime($event->getStartDateTimeEpoch(), $viewer));
+        vixon_datetime($event->getStartDateTimeEpoch(), $viewer));
 
       if ($is_cancelled) {
         $this_name = pht('Reinstate Only This Event');

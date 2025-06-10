@@ -530,7 +530,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
       $static_response->addContentSecurityPolicyURI('form-action', $csp_uri);
     }
 
-    return phabricator_form(
+    return vixon_form(
       $viewer,
       array(
         'method' => idx($attributes, 'method', 'GET'),

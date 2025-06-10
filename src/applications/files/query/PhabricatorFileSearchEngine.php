@@ -149,7 +149,7 @@ final class PhabricatorFileSearchEngine
       $name = $file->getName();
       $file_uri = $this->getApplicationURI("/info/{$phid}/");
 
-      $date_created = phabricator_datetime($file->getDateCreated(), $viewer);
+      $date_created = vixon_datetime($file->getDateCreated(), $viewer);
       $author_phid = $file->getAuthorPHID();
       if ($author_phid) {
         $author_link = $handles[$author_phid]->renderLink();

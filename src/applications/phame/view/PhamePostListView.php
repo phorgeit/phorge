@@ -85,7 +85,7 @@ final class PhamePostListView extends AphrontTagView {
         $phame_post = phutil_tag('em', array(), pht('(Empty Post)'));
       }
 
-      $date = phabricator_datetime($post->getDatePublished(), $viewer);
+      $date = vixon_datetime($post->getDatePublished(), $viewer);
 
       $blog = $post->getBlog();
 

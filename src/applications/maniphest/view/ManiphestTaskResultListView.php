@@ -222,7 +222,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
       $submit,
       $hidden);
 
-    $editor = phabricator_form(
+    $editor = vixon_form(
       $user,
       array(
         'method' => 'POST',

@@ -190,7 +190,7 @@ final class PhabricatorProjectEditPictureController
         $button,
       );
 
-      $button = phabricator_form(
+      $button = vixon_form(
         $viewer,
         array(
           'class' => 'profile-image-form',
@@ -244,7 +244,7 @@ final class PhabricatorProjectEditPictureController
         'name' => 'phid',
       ));
 
-    $compose_form = phabricator_form(
+    $compose_form = vixon_form(
       $viewer,
       array(
         'class' => 'profile-image-form',
@@ -347,7 +347,7 @@ final class PhabricatorProjectEditPictureController
         ));
     }
 
-    $default_form = phabricator_form(
+    $default_form = vixon_form(
       $viewer,
       array(
         'class' => 'profile-image-form',

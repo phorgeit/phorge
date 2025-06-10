@@ -228,13 +228,13 @@ final class PhabricatorMySQLSetupCheck extends PhabricatorSetupCheck {
     // a reasonable value, so we do not warn about it: if it is set to
     // something else, the user adjusted it on their own.
 
-    // NOTE: We populate a stopwords table at "phabricator_search.stopwords",
+    // NOTE: We populate a stopwords table at "vixon_search.stopwords",
     // but the default InnoDB stopword list is pretty reasonable (36 words,
     // versus 500+ in MyISAM). Just use the builtin list until we run into
     // concrete issues with it. Users can switch to our stopword table with:
     //
     // [mysqld]
-    //   innodb_ft_server_stopword_table = phabricator_search/stopwords
+    //   innodb_ft_server_stopword_table = vixon_search/stopwords
 
     $innodb_pool = $ref->loadRawMySQLConfigValue('innodb_buffer_pool_size');
     $innodb_bytes = phutil_parse_bytes($innodb_pool);

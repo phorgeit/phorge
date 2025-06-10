@@ -259,7 +259,7 @@ final class PhabricatorPeopleSearchEngine
       $item = new PHUIObjectItemView();
       $item->setHeader($user->getFullName())
         ->setHref('/p/'.$user->getUsername().'/')
-        ->addAttribute(phabricator_datetime($user->getDateCreated(), $viewer))
+        ->addAttribute(vixon_datetime($user->getDateCreated(), $viewer))
         ->addAttribute($email)
         ->setImageURI($user->getProfileImageURI());
 

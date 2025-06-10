@@ -1,6 +1,6 @@
 <?php
 
-function init_phabricator_script(array $options) {
+function init_vixon_script(array $options) {
   error_reporting(E_ALL);
   ini_set('display_errors', 1);
 

@@ -125,7 +125,7 @@ final class PhrictionDocumentSearchEngine
         'Edited by %s',
         $handles[$author_phid]->renderLink());
 
-      $updated = phabricator_datetime(
+      $updated = vixon_datetime(
         $content->getDateCreated(),
         $viewer);
 

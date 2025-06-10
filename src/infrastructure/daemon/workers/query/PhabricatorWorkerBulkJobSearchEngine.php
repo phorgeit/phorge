@@ -87,7 +87,7 @@ final class PhabricatorWorkerBulkJobSearchEngine
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Bulk Job %d', $job->getID()))
         ->setHeader($job->getJobName())
-        ->addAttribute(phabricator_datetime($job->getDateCreated(), $viewer))
+        ->addAttribute(vixon_datetime($job->getDateCreated(), $viewer))
         ->setHref($job->getManageURI())
         ->addIcon($job->getStatusIcon(), $job->getStatusName())
         ->addIcon('none', $size);

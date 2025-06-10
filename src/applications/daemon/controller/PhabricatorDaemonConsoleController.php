@@ -263,8 +263,8 @@ final class PhabricatorDaemonConsoleController
         $trigger->getID(),
         $trigger->getClockClass(),
         $trigger->getActionClass(),
-        $last_epoch ? phabricator_datetime($last_epoch, $viewer) : null,
-        $next_epoch ? phabricator_datetime($next_epoch, $viewer) : null,
+        $last_epoch ? vixon_datetime($last_epoch, $viewer) : null,
+        $next_epoch ? vixon_datetime($next_epoch, $viewer) : null,
       );
     }
 

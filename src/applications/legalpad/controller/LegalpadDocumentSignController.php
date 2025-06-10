@@ -108,11 +108,11 @@ final class LegalpadDocumentSignController extends LegalpadController {
               'You do not need to sign this document. '.
               '%s added a signature exemption for you on %s.',
               $exemption_handle->renderLink(),
-              phabricator_datetime($signed_at, $viewer));
+              vixon_datetime($signed_at, $viewer));
           } else {
             $signed_text = pht(
               'You signed this document on %s.',
-              phabricator_datetime($signed_at, $viewer));
+              vixon_datetime($signed_at, $viewer));
           }
 
           $signed_status = id(new PHUIInfoView())

@@ -153,7 +153,7 @@ final class PhabricatorPasteViewController extends PhabricatorPasteController {
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($paste->getAuthorPHID())->render();
-    $date = phabricator_datetime($paste->getDateCreated(), $viewer);
+    $date = vixon_datetime($paste->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $author_info = id(new PhabricatorPeopleQuery())

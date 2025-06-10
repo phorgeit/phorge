@@ -290,16 +290,16 @@ abstract class PhabricatorModularTransactionType
     }
 
     if ($all_day) {
-      $display = phabricator_date($epoch, $viewer);
+      $display = vixon_date($epoch, $viewer);
     } else if ($this->isRenderingTargetExternal()) {
       // When rendering to text, we explicitly render the offset from UTC to
       // provide context to the date: the mail may be generating with the
       // server's settings, or the user may later refer back to it after
       // changing timezones.
 
-      $display = phabricator_datetimezone($epoch, $viewer);
+      $display = vixon_datetimezone($epoch, $viewer);
     } else {
-      $display = phabricator_datetime($epoch, $viewer);
+      $display = vixon_datetime($epoch, $viewer);
     }
 
     return $this->renderValue($display);

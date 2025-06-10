@@ -82,8 +82,8 @@ final class PhabricatorUserLogView extends AphrontView {
         $user_name,
         $remote_address,
         $session,
-        phabricator_date($log->getDateCreated(), $viewer),
-        phabricator_time($log->getDateCreated(), $viewer),
+        vixon_date($log->getDateCreated(), $viewer),
+        vixon_time($log->getDateCreated(), $viewer),
       );
     }
 

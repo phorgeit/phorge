@@ -22,7 +22,7 @@ final class PhabricatorUserSinceField
   }
 
   public function renderPropertyViewValue(array $handles) {
-    $absolute = phabricator_datetime(
+    $absolute = vixon_datetime(
       $this->getObject()->getDateCreated(),
       $this->getViewer());
 

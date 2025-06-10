@@ -107,8 +107,8 @@ final class PhabricatorEnv extends Phobject {
 
     // Prepend '/support/bin' and append any paths to $PATH if we need to.
     $env_path = getenv('PATH');
-    $phabricator_path = dirname(phutil_get_library_root('phabricator'));
-    $support_path = $phabricator_path.'/support/bin';
+    $vixon_path = dirname(phutil_get_library_root('phabricator'));
+    $support_path = $vixon_path.'/support/bin';
     $env_path = $support_path.PATH_SEPARATOR.$env_path;
     $append_dirs = self::getEnvConfig('environment.append-paths');
     if (!empty($append_dirs)) {
@@ -139,7 +139,7 @@ final class PhabricatorEnv extends Phobject {
     // Load the preamble utility library if we haven't already. On web
     // requests this loaded earlier, but we want to load it for non-web
     // requests so that unit tests can call these functions.
-    require_once $phabricator_path.'/support/startup/preamble-utils.php';
+    require_once $vixon_path.'/support/startup/preamble-utils.php';
   }
 
   public static function beginScopedLocale($locale_code) {

@@ -86,7 +86,7 @@ final class PhabricatorXHProfSampleSearchEngine
 
       $item->addIcon(
         'none',
-        phabricator_datetime($sample->getDateCreated(), $viewer));
+        vixon_datetime($sample->getDateCreated(), $viewer));
 
       $list->addItem($item);
     }

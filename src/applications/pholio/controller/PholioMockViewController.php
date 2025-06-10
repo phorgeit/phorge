@@ -201,7 +201,7 @@ final class PholioMockViewController extends PholioController {
     $author = $viewer->renderHandle($author_phid)->render();
 
     $content = phutil_tag('strong', array(), $author);
-    $date = phabricator_date($mock->getDateCreated(), $viewer);
+    $date = vixon_date($mock->getDateCreated(), $viewer);
     $content = pht('%s, %s', $content, $date);
     $authored_by = id(new PHUIHeadThingView())
       ->setImage($author_uri)

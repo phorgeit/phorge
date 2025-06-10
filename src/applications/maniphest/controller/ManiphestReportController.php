@@ -214,7 +214,7 @@ final class ManiphestReportController extends ManiphestController {
 
     $recently_closed = $this->loadRecentlyClosedTasks();
 
-    $date = phabricator_date(time(), $viewer);
+    $date = vixon_date(time(), $viewer);
 
     switch ($this->view) {
       case 'user':
@@ -416,7 +416,7 @@ final class ManiphestReportController extends ManiphestController {
     $cclass[] = 'n';
 
     list($ignored, $window_epoch) = $this->getWindow();
-    $edate = phabricator_datetime($window_epoch, $viewer);
+    $edate = vixon_datetime($window_epoch, $viewer);
     $cname[] = javelin_tag(
       'span',
       array(

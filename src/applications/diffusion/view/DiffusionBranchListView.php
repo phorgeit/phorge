@@ -44,7 +44,7 @@ final class DiffusionBranchListView extends DiffusionView {
       $commit = idx($commits, $branch->getCommitIdentifier());
       if ($commit) {
         $details = $commit->getSummary();
-        $datetime = phabricator_datetime($commit->getEpoch(), $viewer);
+        $datetime = vixon_datetime($commit->getEpoch(), $viewer);
 
         $buildable = idx($buildables, $commit->getPHID());
         if ($buildable) {

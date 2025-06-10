@@ -294,9 +294,9 @@ final class PhabricatorMemeEngine extends Phobject {
   }
 
   private function getFont() {
-    $phabricator_root = dirname(phutil_get_library_root('phabricator'));
+    $vixon_root = dirname(phutil_get_library_root('phabricator'));
 
-    $font_root = $phabricator_root.'/resources/font/';
+    $font_root = $vixon_root.'/resources/font/';
     if (Filesystem::pathExists($font_root.'impact.ttf')) {
       $font_path = $font_root.'impact.ttf';
     } else {

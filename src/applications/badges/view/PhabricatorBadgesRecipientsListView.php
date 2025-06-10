@@ -55,7 +55,7 @@ final class PhabricatorBadgesRecipientsListView extends AphrontView {
 
       $award = $awards[$handle->getPHID()];
       $awarder_handle = $viewer->renderHandle($award->getAwarderPHID());
-      $award_date = phabricator_date($award->getDateCreated(), $viewer);
+      $award_date = vixon_date($award->getDateCreated(), $viewer);
       $awarder_info = pht(
         'Awarded by %s on %s',
         $awarder_handle->render(),

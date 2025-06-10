@@ -172,7 +172,7 @@ final class HarbormasterBuildViewController
         if ($ended) {
           $when[] = pht(
             'Completed at %s',
-            phabricator_datetime($ended, $viewer));
+            vixon_datetime($ended, $viewer));
 
           $duration = ($ended - $started);
           if ($duration) {
@@ -185,7 +185,7 @@ final class HarbormasterBuildViewController
         } else {
           $when[] = pht(
             'Started at %s',
-            phabricator_datetime($started, $viewer));
+            vixon_datetime($started, $viewer));
           $duration = ($now - $started);
           if ($duration) {
             $when[] = pht(
@@ -197,7 +197,7 @@ final class HarbormasterBuildViewController
         $created = $build_target->getDateCreated();
         $when[] = pht(
           'Queued at %s',
-          phabricator_datetime($started, $viewer));
+          vixon_datetime($started, $viewer));
         $duration = ($now - $created);
         if ($duration) {
           $when[] = pht(
@@ -656,7 +656,7 @@ final class HarbormasterBuildViewController
         $handles[$message->getAuthorPHID()]->renderLink(),
         $message->getType(),
         $message->getIsConsumed() ? pht('Consumed') : null,
-        phabricator_datetime($message->getDateCreated(), $viewer),
+        vixon_datetime($message->getDateCreated(), $viewer),
       );
     }
 

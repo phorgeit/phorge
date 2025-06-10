@@ -57,7 +57,7 @@ final class NuanceItemManageController extends NuanceController {
 
     $properties->addProperty(
       pht('Date Created'),
-      phabricator_datetime($item->getDateCreated(), $viewer));
+      vixon_datetime($item->getDateCreated(), $viewer));
 
     $requestor_phid = $item->getRequestorPHID();
     if ($requestor_phid) {

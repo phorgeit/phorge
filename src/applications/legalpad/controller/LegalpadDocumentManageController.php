@@ -156,7 +156,7 @@ final class LegalpadDocumentManageController extends LegalpadController {
 
     $properties->addProperty(
       pht('Last Updated'),
-      phabricator_datetime($document->getDateModified(), $viewer));
+      vixon_datetime($document->getDateModified(), $viewer));
 
     $properties->addProperty(
       pht('Updated By'),

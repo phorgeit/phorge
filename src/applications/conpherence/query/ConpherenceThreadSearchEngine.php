@@ -143,7 +143,7 @@ final class ConpherenceThreadSearchEngine
     $list = new PHUIObjectItemListView();
     $list->setUser($viewer);
     foreach ($conpherences as $conpherence_phid => $conpherence) {
-      $created = phabricator_date($conpherence->getDateCreated(), $viewer);
+      $created = vixon_date($conpherence->getDateCreated(), $viewer);
       $title = $conpherence->getTitle();
       $monogram = $conpherence->getMonogram();
 
@@ -168,7 +168,7 @@ final class ConpherenceThreadSearchEngine
               ' ',
               pht(
                 'Last updated %s',
-                phabricator_datetime($conpherence->getDateModified(), $viewer)),
+                vixon_datetime($conpherence->getDateModified(), $viewer)),
             ));
           $list->addItem($item);
       } else {

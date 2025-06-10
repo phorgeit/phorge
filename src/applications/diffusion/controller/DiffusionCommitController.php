@@ -631,7 +631,7 @@ final class DiffusionCommitController extends DiffusionController {
         $author_date = $commit->getEpoch();
       }
 
-      $author_date = phabricator_datetime($author_date, $viewer);
+      $author_date = vixon_datetime($author_date, $viewer);
 
       $provenance_list->addItem(
         id(new PHUIStatusItemView())
@@ -643,7 +643,7 @@ final class DiffusionCommitController extends DiffusionController {
       $committer_view = $commit->newCommitCommitterView($viewer);
       if ($committer_view) {
         $committer_date = $commit->getEpoch();
-        $committer_date = phabricator_datetime($committer_date, $viewer);
+        $committer_date = vixon_datetime($committer_date, $viewer);
 
         $provenance_list->addItem(
           id(new PHUIStatusItemView())
@@ -657,7 +657,7 @@ final class DiffusionCommitController extends DiffusionController {
 
       foreach ($push_logs as $push_log) {
         $pusher_date = $push_log->getEpoch();
-        $pusher_date = phabricator_datetime($pusher_date, $viewer);
+        $pusher_date = vixon_datetime($pusher_date, $viewer);
 
         $pusher_view = $handles[$push_log->getPusherPHID()]->renderLink();
 

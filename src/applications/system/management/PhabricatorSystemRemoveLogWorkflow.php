@@ -18,7 +18,7 @@ final class PhabricatorSystemRemoveLogWorkflow
     foreach (new LiskMigrationIterator($table) as $row) {
       $console->writeOut(
         "[%s]\t%s %s\t%s\t%s\n",
-        phabricator_datetime($row->getEpoch(), $this->getViewer()),
+        vixon_datetime($row->getEpoch(), $this->getViewer()),
         ($row->getRootLogID() ? ' ' : '*'),
         $row->getObjectClass(),
         $row->getObjectPHID(),

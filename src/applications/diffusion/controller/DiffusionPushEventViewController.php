@@ -69,7 +69,7 @@ final class DiffusionPushEventViewController
 
     $view->addProperty(
       pht('Pushed At'),
-      phabricator_datetime($event->getEpoch(), $viewer));
+      vixon_datetime($event->getEpoch(), $viewer));
 
     $view->addProperty(
       pht('Pushed By'),

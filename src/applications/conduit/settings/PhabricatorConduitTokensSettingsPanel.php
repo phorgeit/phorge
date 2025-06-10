@@ -57,9 +57,9 @@ final class PhabricatorConduitTokensSettingsPanel
           ),
           $token->getPublicTokenName()),
         PhabricatorConduitToken::getTokenTypeName($token->getTokenType()),
-        phabricator_datetime($token->getDateCreated(), $viewer),
+        vixon_datetime($token->getDateCreated(), $viewer),
         ($token->getExpires()
-          ? phabricator_datetime($token->getExpires(), $viewer)
+          ? vixon_datetime($token->getExpires(), $viewer)
           : pht('Never')),
         javelin_tag(
           'a',

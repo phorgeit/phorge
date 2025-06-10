@@ -91,7 +91,7 @@ final class PhrictionDocumentController
           $version_note = pht(
             'You are viewing an older version of this document, as it '.
             'appeared on %s.',
-            phabricator_datetime($content->getDateCreated(), $viewer));
+            vixon_datetime($content->getDateCreated(), $viewer));
         } else if ($view_version > $published_version) {
           $is_draft = true;
           $version_note = pht(
@@ -401,7 +401,7 @@ final class PhrictionDocumentController
 
     $view->addProperty(
       pht('Last Edited'),
-      phabricator_dual_datetime($content->getDateCreated(), $viewer));
+      vixon_dual_datetime($content->getDateCreated(), $viewer));
 
     return $view;
   }

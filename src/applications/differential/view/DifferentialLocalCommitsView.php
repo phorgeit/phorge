@@ -91,7 +91,7 @@ final class DifferentialLocalCommitsView extends AphrontView {
         idx($commit, 'date'),
         idx($commit, 'time'));
       if ($date) {
-        $date = phabricator_datetime($date, $viewer);
+        $date = vixon_datetime($date, $viewer);
       }
       $row[] = $date;
 

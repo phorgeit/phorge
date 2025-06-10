@@ -64,7 +64,7 @@ final class DiffusionPullLogListView extends AphrontView {
         $event->getRemoteProtocolDisplayName(),
         $event->newResultIcon(),
         $event->getResultCode(),
-        phabricator_datetime($event->getEpoch(), $viewer),
+        vixon_datetime($event->getEpoch(), $viewer),
       );
     }
 

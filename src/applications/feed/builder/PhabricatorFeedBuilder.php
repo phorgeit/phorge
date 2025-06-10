@@ -41,7 +41,7 @@ final class PhabricatorFeedBuilder extends Phobject {
     foreach ($stories as $story) {
       $story->setHovercard($this->hovercards);
 
-      $date = ucfirst(phabricator_relative_date($story->getEpoch(), $user));
+      $date = ucfirst(vixon_relative_date($story->getEpoch(), $user));
 
       if ($date !== $last_date) {
         if ($last_date !== null) {

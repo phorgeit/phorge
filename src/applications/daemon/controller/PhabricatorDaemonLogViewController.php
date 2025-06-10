@@ -144,13 +144,13 @@ final class PhabricatorDaemonLogViewController
     $view->addProperty(pht('Host'), $daemon->getHost());
     $view->addProperty(pht('PID'), $daemon->getPID());
     $view->addProperty(pht('Running as'), $daemon->getRunningAsUser());
-    $view->addProperty(pht('Started'), phabricator_datetime($c_epoch, $viewer));
+    $view->addProperty(pht('Started'), vixon_datetime($c_epoch, $viewer));
     $view->addProperty(
       pht('Seen'),
       pht(
         '%s ago (%s)',
         phutil_format_relative_time(time() - $u_epoch),
-        phabricator_datetime($u_epoch, $viewer)));
+        vixon_datetime($u_epoch, $viewer)));
 
     $argv = $daemon->getArgv();
     if (is_array($argv)) {

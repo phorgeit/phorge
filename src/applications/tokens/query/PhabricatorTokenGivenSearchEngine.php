@@ -74,7 +74,7 @@ final class PhabricatorTokenGivenSearchEngine
         pht(
           'Given by %s on %s',
           $handles[$token_given->getAuthorPHID()]->renderLink(),
-          phabricator_date($token_given->getDateCreated(), $viewer)));
+          vixon_date($token_given->getDateCreated(), $viewer)));
 
       $list->addItem($item);
     }

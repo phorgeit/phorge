@@ -2,7 +2,7 @@
 
 abstract class PhabricatorTestCase extends PhutilTestCase {
 
-  const NAMESPACE_PREFIX = 'phabricator_unittest_';
+  const NAMESPACE_PREFIX = 'vixon_unittest_';
 
   /**
    * If true, put Lisk in process-isolated mode for the duration of the tests so

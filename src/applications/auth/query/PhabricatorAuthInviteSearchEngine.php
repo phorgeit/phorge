@@ -86,7 +86,7 @@ final class PhabricatorAuthInviteSearchEngine
         ($invite->getAcceptedByPHID()
           ? $handles[$invite->getAcceptedByPHID()]->renderLink()
           : null),
-        phabricator_datetime($invite->getDateCreated(), $viewer),
+        vixon_datetime($invite->getDateCreated(), $viewer),
       );
     }
 

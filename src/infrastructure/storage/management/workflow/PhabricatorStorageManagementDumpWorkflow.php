@@ -51,7 +51,7 @@ final class PhabricatorStorageManagementDumpWorkflow
               'Dump only tables in the named database (or databases, if '.
               'the flag is repeated). Specify database names without the '.
               'namespace prefix (that is: use "differential", not '.
-              '"phabricator_differential").'),
+              '"vixon_differential").'),
             'repeat' => true,
           ),
         ));

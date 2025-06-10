@@ -49,7 +49,7 @@ final class PhabricatorCalendarImportLogView extends AphrontView {
         id(new PHUIIconView())->setIcon($icon, $color),
         $name,
         phutil_escape_html_newlines($description),
-        phabricator_datetime($log->getDateCreated(), $viewer),
+        vixon_datetime($log->getDateCreated(), $viewer),
       );
     }
 

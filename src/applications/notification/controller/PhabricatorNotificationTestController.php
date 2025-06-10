@@ -9,7 +9,7 @@ final class PhabricatorNotificationTestController
     if ($request->validateCSRF()) {
       $message_text = pht(
         'This is a test notification, sent at %s.',
-        phabricator_datetime(time(), $viewer));
+        vixon_datetime(time(), $viewer));
 
       // NOTE: Currently, the FeedStoryPublisher explicitly filters out
       // notifications about your own actions. Send this notification from

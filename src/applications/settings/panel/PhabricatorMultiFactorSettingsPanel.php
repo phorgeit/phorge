@@ -91,7 +91,7 @@ final class PhabricatorMultiFactorSettingsPanel
         $provider->getFactor()->getFactorShortName(),
         $provider->getDisplayName(),
         $details,
-        phabricator_datetime($factor->getDateCreated(), $viewer),
+        vixon_datetime($factor->getDateCreated(), $viewer),
         javelin_tag(
           'a',
           array(

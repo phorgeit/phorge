@@ -147,7 +147,7 @@ final class PhabricatorMetaMTAMailViewController
 
     $properties->addProperty(
       pht('Sent'),
-      phabricator_datetime($mail->getDateCreated(), $viewer));
+      vixon_datetime($mail->getDateCreated(), $viewer));
 
     $properties->addSectionHeader(
       pht('Message'),

@@ -180,7 +180,7 @@ final class DiffusionRepositoryProfilePictureController
         $button,
       );
 
-      $button = phabricator_form(
+      $button = vixon_form(
         $viewer,
         array(
           'class' => 'profile-image-form',

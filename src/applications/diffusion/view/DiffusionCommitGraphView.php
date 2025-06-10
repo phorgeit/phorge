@@ -225,7 +225,7 @@ final class DiffusionCommitGraphView
     $rows = array();
     foreach ($items as $hash => $item) {
       $item_epoch = $item['epoch'];
-      $item_date = phabricator_date($item_epoch, $viewer);
+      $item_date = vixon_date($item_epoch, $viewer);
       if ($item_date !== $last_date) {
         $last_date = $item_date;
         $header = $item_date;

@@ -82,7 +82,7 @@ final class PhabricatorDaemonLogListView extends AphrontView {
           $status_label,
         ));
 
-      $launched = phabricator_datetime($daemon->getDateCreated(), $viewer);
+      $launched = vixon_datetime($daemon->getDateCreated(), $viewer);
 
       $rows[] = array(
         $id,

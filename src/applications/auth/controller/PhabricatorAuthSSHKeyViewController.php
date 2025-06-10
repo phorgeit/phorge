@@ -113,7 +113,7 @@ final class PhabricatorAuthSSHKeyViewController
     $properties->addProperty(pht('Public Key'), $ssh_key->getEntireKey());
     $properties->addProperty(
       pht('Created'),
-      phabricator_datetime($ssh_key->getDateCreated(), $viewer));
+      vixon_datetime($ssh_key->getDateCreated(), $viewer));
 
     return id(new PHUIObjectBoxView())
       ->setHeaderText(pht('Details'))

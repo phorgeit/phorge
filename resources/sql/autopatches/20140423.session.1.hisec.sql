@@ -1,2 +1,2 @@
-ALTER TABLE {$NAMESPACE}_user.phabricator_session
+ALTER TABLE {$NAMESPACE}_user.vixon_session
   ADD highSecurityUntil INT UNSIGNED;

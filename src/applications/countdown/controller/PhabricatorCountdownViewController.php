@@ -110,7 +110,7 @@ final class PhabricatorCountdownViewController
     $viewer = $this->getViewer();
 
     $author = $viewer->renderHandle($countdown->getAuthorPHID())->render();
-    $date = phabricator_datetime($countdown->getDateCreated(), $viewer);
+    $date = vixon_datetime($countdown->getDateCreated(), $viewer);
     $author = phutil_tag('strong', array(), $author);
 
     $person = id(new PhabricatorPeopleQuery())

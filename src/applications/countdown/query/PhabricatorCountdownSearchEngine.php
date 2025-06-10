@@ -118,7 +118,7 @@ final class PhabricatorCountdownSearchEngine
 
       if ($ended) {
         $item->addAttribute(
-          pht('Launched on %s', phabricator_datetime($epoch, $viewer)));
+          pht('Launched on %s', vixon_datetime($epoch, $viewer)));
         $item->setDisabled(true);
       } else {
         $time_left = ($epoch - PhabricatorTime::getNow());
@@ -130,7 +130,7 @@ final class PhabricatorCountdownSearchEngine
         }
         $item->setCountdown($num, $noun);
         $item->addAttribute(
-          phabricator_datetime($epoch, $viewer));
+          vixon_datetime($epoch, $viewer));
       }
 
       $list->addItem($item);

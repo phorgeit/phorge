@@ -193,7 +193,7 @@ final class MultimeterSampleController extends MultimeterController {
         ($row['N'] == 1)
           ? $row['sampleRate']
           : '-',
-        phabricator_datetime($row['epoch'], $viewer),
+        vixon_datetime($row['epoch'], $viewer),
       );
     }
 
@@ -262,8 +262,8 @@ final class MultimeterSampleController extends MultimeterController {
       ->setHeader(
         pht(
           'Samples (%s - %s)',
-          phabricator_datetime($ago, $viewer),
-          phabricator_datetime($now, $viewer)))
+          vixon_datetime($ago, $viewer),
+          vixon_datetime($now, $viewer)))
       ->setHeaderIcon('fa-motorcycle');
 
     $view = id(new PHUITwoColumnView())

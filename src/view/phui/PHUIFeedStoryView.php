@@ -153,7 +153,7 @@ final class PHUIFeedStoryView extends AphrontView {
           $marker = id(new PHUIIconView())
             ->setIcon('fa-circle')
             ->addClass('phabricator-notification-status');
-          $date = phabricator_datetime($this->epoch, $user);
+          $date = vixon_datetime($this->epoch, $user);
           $foot = phutil_tag(
             'span',
             array(
@@ -220,7 +220,7 @@ final class PHUIFeedStoryView extends AphrontView {
       // TODO: This is really bad; when rendering through Conduit and via
       // renderText() we don't have a user.
       if ($this->hasViewer()) {
-        $foot = phabricator_datetime($this->epoch, $this->getViewer());
+        $foot = vixon_datetime($this->epoch, $this->getViewer());
       } else {
         $foot = null;
       }

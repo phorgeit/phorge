@@ -144,7 +144,7 @@ final class PhabricatorPasteSearchEngine
     $list = new PHUIObjectItemListView();
     $list->setUser($viewer);
     foreach ($pastes as $paste) {
-      $created = phabricator_date($paste->getDateCreated(), $viewer);
+      $created = vixon_date($paste->getDateCreated(), $viewer);
       $author = $handles[$paste->getAuthorPHID()]->renderLink();
 
       $snippet_type = $paste->getSnippet()->getType();
@@ -165,7 +165,7 @@ final class PhabricatorPasteSearchEngine
         ),
         $preview);
 
-      $created = phabricator_datetime($paste->getDateCreated(), $viewer);
+      $created = vixon_datetime($paste->getDateCreated(), $viewer);
       $line_count = $paste->getSnippet()->getContentLineCount();
       $line_count = pht(
         '%s Line(s)',

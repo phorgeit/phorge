@@ -104,8 +104,8 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
           ),
           $authorization->getClient()->getName()),
         $authorization->getScopeString(),
-        phabricator_datetime($authorization->getDateCreated(), $viewer),
-        phabricator_datetime($authorization->getDateModified(), $viewer),
+        vixon_datetime($authorization->getDateCreated(), $viewer),
+        vixon_datetime($authorization->getDateModified(), $viewer),
         $button,
       );
     }

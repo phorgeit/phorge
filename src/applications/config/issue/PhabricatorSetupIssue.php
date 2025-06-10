@@ -171,8 +171,8 @@ final class PhabricatorSetupIssue extends Phobject {
     return $this->mysqlConfig;
   }
 
-  public function addPhabricatorConfig($phabricator_config) {
-    $this->phabricatorConfig[] = $phabricator_config;
+  public function addPhabricatorConfig($vixon_config) {
+    $this->phabricatorConfig[] = $vixon_config;
     return $this;
   }
 
@@ -180,8 +180,8 @@ final class PhabricatorSetupIssue extends Phobject {
     return $this->phabricatorConfig;
   }
 
-  public function addRelatedPhabricatorConfig($phabricator_config) {
-    $this->relatedPhabricatorConfig[] = $phabricator_config;
+  public function addRelatedPhabricatorConfig($vixon_config) {
+    $this->relatedPhabricatorConfig[] = $vixon_config;
     return $this;
   }
 

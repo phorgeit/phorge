@@ -240,7 +240,7 @@ final class DiffusionBlameController extends DiffusionController {
     $handles) {
     $viewer = $this->getViewer();
 
-    $date = phabricator_date($revision->getDateModified(), $viewer);
+    $date = vixon_date($revision->getDateModified(), $viewer);
     $monogram = $revision->getMonogram();
     $title = $revision->getTitle();
     $header = "{$monogram} {$title}";
@@ -256,7 +256,7 @@ final class DiffusionBlameController extends DiffusionController {
 
     $viewer = $this->getViewer();
 
-    $date = phabricator_date($commit->getEpoch(), $viewer);
+    $date = vixon_date($commit->getEpoch(), $viewer);
     $summary = trim($commit->getSummary());
 
     $author_phid = $commit->getAuthorPHID();

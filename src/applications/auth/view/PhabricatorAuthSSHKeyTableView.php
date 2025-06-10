@@ -108,7 +108,7 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
         $key->getIsTrusted() ? $trusted_icon : $untrusted_icon,
         $key->getKeyComment(),
         $key->getKeyType(),
-        phabricator_datetime($key->getDateCreated(), $viewer),
+        vixon_datetime($key->getDateCreated(), $viewer),
       );
     }
 

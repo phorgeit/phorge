@@ -261,7 +261,7 @@ abstract class PhabricatorOAuth2AuthProvider
         $item->addAttribute(
           pht(
             'Active OAuth Token (Expires: %s)',
-            phabricator_datetime($oauth_expires, $viewer)));
+            vixon_datetime($oauth_expires, $viewer)));
       } else {
         $item->addAttribute(
           pht('Active OAuth Token'));

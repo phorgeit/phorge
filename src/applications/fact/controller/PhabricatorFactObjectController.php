@@ -170,7 +170,7 @@ final class PhabricatorFactObjectController
           $fact_label,
           $dimension,
           $datapoint->getValue(),
-          phabricator_datetime($datapoint->getEpoch(), $viewer),
+          vixon_datetime($datapoint->getEpoch(), $viewer),
         );
       }
 
@@ -196,7 +196,7 @@ final class PhabricatorFactObjectController
             $fact_label,
             $dimension,
             $datapoint['value'],
-            phabricator_datetime($datapoint['epoch'], $viewer),
+            vixon_datetime($datapoint['epoch'], $viewer),
           );
         }
       }
@@ -274,7 +274,7 @@ final class PhabricatorFactObjectController
               $group_key,
               $xaction->getTransactionType(),
               $xaction_handles[$xaction->getAuthorPHID()]->renderLink(),
-              phabricator_datetime($xaction->getDateCreated(), $viewer),
+              vixon_datetime($xaction->getDateCreated(), $viewer),
             );
           }
         }

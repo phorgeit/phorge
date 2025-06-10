@@ -1,23 +1,23 @@
 <?php
 
-function phabricator_date($epoch, PhabricatorUser $user) {
-  return phabricator_format_local_time(
+function vixon_date($epoch, PhabricatorUser $user) {
+  return vixon_format_local_time(
     $epoch,
     $user,
     phutil_date_format($epoch));
 }
 
-function phabricator_relative_date($epoch, $user, $on = false) {
+function vixon_relative_date($epoch, $user, $on = false) {
   static $today;
   static $yesterday;
 
   if (!$today || !$yesterday) {
     $now = time();
-    $today = phabricator_date($now, $user);
-    $yesterday = phabricator_date($now - 86400, $user);
+    $today = vixon_date($now, $user);
+    $yesterday = vixon_date($now - 86400, $user);
   }
 
-  $date = phabricator_date($epoch, $user);
+  $date = vixon_date($epoch, $user);
 
   if ($date === $today) {
     return 'today';
@@ -30,17 +30,17 @@ function phabricator_relative_date($epoch, $user, $on = false) {
   return (($on ? 'on ' : '').$date);
 }
 
-function phabricator_time($epoch, $user) {
+function vixon_time($epoch, $user) {
   $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
-  return phabricator_format_local_time(
+  return vixon_format_local_time(
     $epoch,
     $user,
     $user->getUserSetting($time_key));
 }
 
-function phabricator_dual_datetime($epoch, $user) {
-  $screen_view = phabricator_datetime($epoch, $user);
-  $print_view = phabricator_absolute_datetime($epoch, $user);
+function vixon_dual_datetime($epoch, $user) {
+  $screen_view = vixon_datetime($epoch, $user);
+  $print_view = vixon_absolute_datetime($epoch, $user);
 
   $screen_tag = javelin_tag(
     'span',
@@ -62,18 +62,18 @@ function phabricator_dual_datetime($epoch, $user) {
   );
 }
 
-function phabricator_absolute_datetime($epoch, $user) {
+function vixon_absolute_datetime($epoch, $user) {
   $format = 'Y-m-d H:i:s (\\U\\T\\CP)';
 
-  $datetime = phabricator_format_local_time($epoch, $user, $format);
+  $datetime = vixon_format_local_time($epoch, $user, $format);
   $datetime = preg_replace('/(UTC[+-])0?([^:]+)(:00)?/', '\\1\\2', $datetime);
 
   return $datetime;
 }
 
-function phabricator_datetime($epoch, $user) {
+function vixon_datetime($epoch, $user) {
   $time_key = PhabricatorTimeFormatSetting::SETTINGKEY;
-  return phabricator_format_local_time(
+  return vixon_format_local_time(
     $epoch,
     $user,
     pht('%s, %s',
@@ -81,9 +81,9 @@ function phabricator_datetime($epoch, $user) {
       $user->getUserSetting($time_key)));
 }
 
-function phabricator_datetimezone($epoch, $user) {
-  $datetime = phabricator_datetime($epoch, $user);
-  $timezone = phabricator_format_local_time($epoch, $user, 'T');
+function vixon_datetimezone($epoch, $user) {
+  $datetime = vixon_datetime($epoch, $user);
+  $timezone = vixon_format_local_time($epoch, $user, 'T');
 
   // Some obscure timezones just render as "+03" or "-09". Make these render
   // as "UTC+3" instead.
@@ -101,15 +101,15 @@ function phabricator_datetimezone($epoch, $user) {
 
 /**
  * This function does not usually need to be called directly. Instead, call
- * @{function:phabricator_date}, @{function:phabricator_time}, or
- * @{function:phabricator_datetime}.
+ * @{function:vixon_date}, @{function:vixon_time}, or
+ * @{function:vixon_datetime}.
  *
  * @param int $epoch Unix epoch timestamp.
  * @param PhabricatorUser $user User viewing the timestamp.
  * @param string $format Date format, as per DateTime class.
  * @return string Formatted, local date/time.
  */
-function phabricator_format_local_time($epoch, $user, $format) {
+function vixon_format_local_time($epoch, $user, $format) {
   if (!$epoch) {
     // If we're missing date information for something, the DateTime class will
     // throw an exception when we try to construct an object. Since this is a

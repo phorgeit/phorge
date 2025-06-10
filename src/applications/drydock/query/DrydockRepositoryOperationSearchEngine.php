@@ -103,7 +103,7 @@ final class DrydockRepositoryOperationSearchEngine
       $item->setStatusIcon($icon, $name);
 
 
-      $created = phabricator_datetime($operation->getDateCreated(), $viewer);
+      $created = vixon_datetime($operation->getDateCreated(), $viewer);
       $item->addIcon(null, $created);
 
       $item->addByline(

@@ -95,11 +95,11 @@ final class ManiphestTaskListView extends ManiphestView {
 
         $item->addIcon(
           'fa-check-square-o grey',
-          phabricator_datetime($closed_epoch, $this->getUser()));
+          vixon_datetime($closed_epoch, $this->getUser()));
       } else {
         $item->addIcon(
           'none',
-          phabricator_datetime($task->getDateModified(), $this->getUser()));
+          vixon_datetime($task->getDateModified(), $this->getUser()));
       }
 
       if ($this->showBatchControls) {

@@ -61,7 +61,7 @@ final class PHUICalendarDayView extends AphrontView {
     foreach ($hours as $hour) {
       $js_hours[] = array(
         'hour' => $hour->format('G'),
-        'displayTime' => phabricator_time($hour->format('U'), $viewer),
+        'displayTime' => vixon_time($hour->format('U'), $viewer),
       );
     }
 

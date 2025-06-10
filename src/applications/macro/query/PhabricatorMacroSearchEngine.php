@@ -154,7 +154,7 @@ final class PhabricatorMacroSearchEngine
       }
 
       if ($macro->getDateCreated()) {
-        $datetime = phabricator_date($macro->getDateCreated(), $viewer);
+        $datetime = vixon_date($macro->getDateCreated(), $viewer);
         $item->appendChild(
           phutil_tag(
             'div',

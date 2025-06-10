@@ -82,7 +82,7 @@ final class PhabricatorPhortuneManagementInvoiceWorkflow
       "%s\n",
       pht(
         'Set current time to %s.',
-        phabricator_datetime(PhabricatorTime::getNow(), $viewer)));
+        vixon_datetime(PhabricatorTime::getNow(), $viewer)));
 
     $auto_range = $args->getArg('auto-range');
     $last_arg = $args->getArg('last');
@@ -134,9 +134,9 @@ final class PhabricatorPhortuneManagementInvoiceWorkflow
         'Preparing to invoice subscription "%s" from %s to %s.',
         $subscription->getSubscriptionName(),
         ($last_time
-          ? phabricator_datetime($last_time, $viewer)
+          ? vixon_datetime($last_time, $viewer)
           : pht('subscription creation')),
-        phabricator_datetime($next_time, $viewer)));
+        vixon_datetime($next_time, $viewer)));
 
     PhabricatorWorker::setRunAllTasksInProcess(true);
 

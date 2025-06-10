@@ -155,7 +155,7 @@ final class DiffusionTagListView extends DiffusionView {
       $author = self::renderName($tag->getAuthor());
     }
 
-    $committed = phabricator_datetime($commit->getEpoch(), $viewer);
+    $committed = vixon_datetime($commit->getEpoch(), $viewer);
     $author_name = phutil_tag(
       'strong',
       array(

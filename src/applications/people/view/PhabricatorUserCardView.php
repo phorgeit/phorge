@@ -103,7 +103,7 @@ final class PhabricatorUserCardView extends AphrontTagView {
     /* TODO: Replace with Conpherence Availability if we ship it */
     $body[] = $this->addItem(
       'fa-user-plus',
-      phabricator_date($user->getDateCreated(), $viewer));
+      vixon_date($user->getDateCreated(), $viewer));
 
     $has_calendar = PhabricatorApplication::isClassInstalledForViewer(
       'PhabricatorCalendarApplication',

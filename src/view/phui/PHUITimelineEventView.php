@@ -587,7 +587,7 @@ final class PHUITimelineEventView extends AphrontView {
       }
 
       if ($date_created) {
-        $date = phabricator_dual_datetime(
+        $date = vixon_dual_datetime(
           $date_created,
           $this->getUser());
         if ($this->anchor) {

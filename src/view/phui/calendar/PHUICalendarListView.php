@@ -63,7 +63,7 @@ final class PHUICalendarListView extends AphrontTagView {
       if ($event->getIsAllDay()) {
         $timelabel = pht('All Day');
       } else {
-        $timelabel = phabricator_time(
+        $timelabel = vixon_time(
           $event->getEpochStart(),
           $this->getUser());
       }

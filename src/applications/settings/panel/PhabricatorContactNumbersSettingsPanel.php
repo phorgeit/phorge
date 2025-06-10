@@ -65,7 +65,7 @@ final class PhabricatorContactNumbersSettingsPanel
           ),
           $number->getDisplayName()),
         $primary_display,
-        phabricator_datetime($number->getDateCreated(), $viewer),
+        vixon_datetime($number->getDateCreated(), $viewer),
       );
     }
 

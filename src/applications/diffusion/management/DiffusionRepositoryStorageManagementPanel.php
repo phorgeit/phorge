@@ -201,7 +201,7 @@ final class DiffusionRepositoryStorageManagementPanel
 
           $writer_epoch = idx($write_properties, 'epoch');
           if ($writer_epoch) {
-            $writer_epoch = phabricator_datetime($writer_epoch, $viewer);
+            $writer_epoch = vixon_datetime($writer_epoch, $viewer);
           }
         }
 

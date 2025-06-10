@@ -9942,7 +9942,7 @@ USE `{$NAMESPACE}_user`;
 
  SET character_set_client = {$CHARSET} ;
 
-CREATE TABLE `phabricator_session` (
+CREATE TABLE `vixon_session` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userPHID` varbinary(64) NOT NULL,
   `type` varchar(32) CHARACTER SET {$CHARSET} COLLATE {$COLLATE_TEXT} NOT NULL,

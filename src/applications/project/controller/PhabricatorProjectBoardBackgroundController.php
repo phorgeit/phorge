@@ -157,7 +157,7 @@ final class PhabricatorProjectBoardBackgroundController
         'value' => $option['key'],
       ));
 
-    return phabricator_form(
+    return vixon_form(
       $viewer,
       array(
         'class' => 'profile-image-form',

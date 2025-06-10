@@ -65,7 +65,7 @@ final class PhabricatorPeopleLogViewController
 
     $view->addProperty(
       pht('Event Date'),
-      phabricator_datetime($log->getDateCreated(), $viewer));
+      vixon_datetime($log->getDateCreated(), $viewer));
 
     $actor_phid = $log->getActorPHID();
     if ($actor_phid) {

@@ -182,7 +182,7 @@ final class PonderQuestionViewController extends PonderController {
     $viewer = $this->getViewer();
 
     $asker = $viewer->renderHandle($question->getAuthorPHID())->render();
-    $date = phabricator_datetime($question->getDateCreated(), $viewer);
+    $date = vixon_datetime($question->getDateCreated(), $viewer);
     $asker = phutil_tag('strong', array(), $asker);
 
     $author = id(new PhabricatorPeopleQuery())

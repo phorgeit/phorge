@@ -234,8 +234,8 @@ final class PhrictionDiffController extends PhrictionController {
           $author,
           pht('Version %s', $c->getVersion())))
         ->addAttribute(pht('%s %s',
-          phabricator_date($c->getDateCreated(), $viewer),
-          phabricator_time($c->getDateCreated(), $viewer)));
+          vixon_date($c->getDateCreated(), $viewer),
+          vixon_time($c->getDateCreated(), $viewer)));
 
       if ($c->getDescription()) {
         $item->addAttribute($c->getDescription());

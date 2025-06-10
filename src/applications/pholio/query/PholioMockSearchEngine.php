@@ -116,7 +116,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
 
       if ($mock->getAuthorPHID()) {
         $author_handle = $handles[$mock->getAuthorPHID()];
-        $datetime = phabricator_date($mock->getDateCreated(), $viewer);
+        $datetime = vixon_date($mock->getDateCreated(), $viewer);
         $item->appendChild(
           pht('By %s on %s', $author_handle->renderLink(), $datetime));
       }

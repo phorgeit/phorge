@@ -79,11 +79,11 @@ final class ConpherenceTransactionRenderer extends Phobject {
     foreach ($transactions as $transaction) {
       $collapsed = false;
       if ($previous_transaction) {
-        $previous_day = phabricator_format_local_time(
+        $previous_day = vixon_format_local_time(
           $previous_transaction->getDateCreated(),
           $user,
           'Ymd');
-        $current_day = phabricator_format_local_time(
+        $current_day = vixon_format_local_time(
           $transaction->getDateCreated(),
           $user,
           'Ymd');
