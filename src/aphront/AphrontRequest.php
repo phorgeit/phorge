@@ -211,7 +211,7 @@ final class AphrontRequest extends Phobject {
    */
   public function getStr($name, $default = null) {
     if (isset($this->requestData[$name])) {
-      $str = (string)$this->requestData[$name];
+      $str = phutil_string_cast($this->requestData[$name]);
       // Normalize newline craziness.
       $str = str_replace(
         array("\r\n", "\r"),
