@@ -930,6 +930,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
         'key' => $color_key,
         'name' => $color_name,
       ),
+      'status' => PhabricatorProjectStatus::getKeyForStatus($this->getStatus()),
     );
   }
 

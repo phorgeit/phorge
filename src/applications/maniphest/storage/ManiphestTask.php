@@ -494,6 +494,11 @@ final class ManiphestTask extends ManiphestDAO
       $closed_epoch = (int)$closed_epoch;
     }
 
+    $group_by_phid = $this->groupByProjectPHID;
+    if ($group_by_phid === self::ATTACHABLE) {
+      $group_by_phid = null;
+    }
+
     return array(
       'name' => $this->getTitle(),
       'description' => array(
@@ -507,6 +512,7 @@ final class ManiphestTask extends ManiphestDAO
       'subtype' => $this->getSubtype(),
       'closerPHID' => $this->getCloserPHID(),
       'dateClosed' => $closed_epoch,
+      'groupByProjectPHID' => $group_by_phid,
     );
   }
 

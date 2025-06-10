@@ -247,37 +247,45 @@ final class PhabricatorProjectSearchEngine
     // By default, do not show milestones in the list view.
     $query->setParameter('isMilestone', false);
 
+    $active = PhabricatorProjectStatus::STATUS_ACTIVE_KEY;
+
     switch ($query_key) {
       case 'all':
         return $query;
       case 'active':
         return $query
-          ->setParameter('status', 'active');
+          ->setParameter('status', $active);
       case 'joined':
         return $query
           ->setParameter('memberPHIDs', array($viewer_phid))
-          ->setParameter('status', 'active');
+          ->setParameter('status', $active);
       case 'watching':
         return $query
           ->setParameter('watcherPHIDs', array($viewer_phid))
-          ->setParameter('status', 'active');
+          ->setParameter('status', $active);
     }
 
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
   private function getStatusOptions() {
+    $active = PhabricatorProjectStatus::STATUS_ACTIVE_KEY;
+    $archived = PhabricatorProjectStatus::STATUS_ARCHIVED_KEY;
+
     return array(
-      'active'   => pht('Show Only Active Projects'),
-      'archived' => pht('Show Only Archived Projects'),
+      $active    => pht('Show Only Active Projects'),
+      $archived  => pht('Show Only Archived Projects'),
       'all'      => pht('Show All Projects'),
     );
   }
 
   private function getStatusValues() {
+    $active = PhabricatorProjectStatus::STATUS_ACTIVE_KEY;
+    $archived = PhabricatorProjectStatus::STATUS_ARCHIVED_KEY;
+
     return array(
-      'active'   => PhabricatorProjectQuery::STATUS_ACTIVE,
-      'archived' => PhabricatorProjectQuery::STATUS_ARCHIVED,
+      $active    => PhabricatorProjectQuery::STATUS_ACTIVE,
+      $archived  => PhabricatorProjectQuery::STATUS_ARCHIVED,
       'all'      => PhabricatorProjectQuery::STATUS_ANY,
     );
   }

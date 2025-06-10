@@ -33,4 +33,19 @@ final class PhabricatorSearchSelectField
       ->setOptions($this->getOptions());
   }
 
+  protected function newConduitParameterType() {
+    return new ConduitStringParameterType();
+  }
+
+  public function newConduitConstants() {
+    $list = array();
+
+    foreach ($this->getOptions() as $key => $option) {
+      $list[] = id(new ConduitConstantDescription())
+        ->setKey($key)
+        ->setValue($option);
+    }
+
+    return $list;
+  }
 }
