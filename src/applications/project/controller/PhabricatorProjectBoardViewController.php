@@ -191,10 +191,22 @@ final class PhabricatorProjectBoardViewController
         $panel->addHeaderAction($trigger_menu);
       }
 
+      $column_points_tip = pht('Tasks');
+      $point_limit = $column->getPointLimit();
+      if (ManiphestTaskPoints::getIsEnabled()) {
+        $column_points_tip .= ' | '.pht('Points');
+        if ($point_limit !== null) {
+          $column_points_tip .= ' / '.pht('Point Limit');
+        }
+      } else if ($point_limit !== null) {
+          $column_points_tip .= ' / '.pht('Count Limit');
+      }
+
       $count_tag = id(new PHUITagView())
         ->setType(PHUITagView::TYPE_SHADE)
         ->setColor(PHUITagView::COLOR_BLUE)
         ->addSigil('column-points')
+        ->addSigil('has-tooltip')
         ->setName(
           javelin_tag(
             'span',
@@ -202,6 +214,11 @@ final class PhabricatorProjectBoardViewController
               'sigil' => 'column-points-content',
             ),
             pht('-')))
+        ->setMetadata(
+          array(
+            'tip' => $column_points_tip,
+            'align' => 'S',
+          ))
         ->setStyle('display: none');
 
       $panel->setHeaderTag($count_tag);
