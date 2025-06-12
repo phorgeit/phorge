@@ -258,6 +258,12 @@ video.phabricator-media {
   max-width: 95%;
 }
 
+.phabricator-remarkup video.video-thumb {
+  display: inline-block;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
 .phui-remarkup-preview .phabricator-remarkup-mention-unknown {
   font-weight: bold;
   background: #ffaaaa;

@@ -311,6 +311,11 @@ final class PhabricatorEmbedFileRemarkupRule
       $mime_type = $file->getMimeType();
     }
 
+    $thumb_class = null;
+    if (isset($options['size']) && $options['size'] == 'thumb') {
+      $thumb_class = ' video-thumb';
+    }
+
     return $this->newTag(
       $tag,
       array(
@@ -319,7 +324,7 @@ final class PhabricatorEmbedFileRemarkupRule
         'autoplay' => $autoplay,
         'loop' => idx($options, 'loop') ? 'loop' : null,
         'alt' => $options['alt'],
-        'class' => 'phabricator-media',
+        'class' => 'phabricator-media'.$thumb_class,
       ),
       $this->newTag(
         'source',
