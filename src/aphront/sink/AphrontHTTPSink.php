@@ -45,7 +45,7 @@ abstract class AphrontHTTPSink extends Phobject {
   /**
    * Write HTTP headers to the output.
    *
-   * @param list<pair> $headers List of <name, value> pairs.
+   * @param list<array> $headers List of <name, value> pairs.
    * @return void
    */
   final public function writeHeaders(array $headers) {

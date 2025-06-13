@@ -606,7 +606,7 @@ abstract class DifferentialChangesetHTMLRenderer
   /**
    * Build the prefixes for line IDs used to track inline comments.
    *
-   * @return pair<wild, wild> Left and right prefixes.
+   * @return array<wild, wild> Left and right prefixes.
    */
   protected function getLineIDPrefixes() {
     // These look like "C123NL45", which means the line is line 45 on the

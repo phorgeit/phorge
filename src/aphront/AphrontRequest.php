@@ -58,7 +58,7 @@ final class AphrontRequest extends Phobject {
    *
    * @param string $key URI data key to pull line range information from.
    * @param int|null $limit Maximum length of the range.
-   * @return null|pair<int, int> Null, or beginning and end of the range.
+   * @return null|array<int, int> Null, or beginning and end of the range.
    */
   public function getURILineRange($key, $limit) {
     $range = $this->getURIData($key);

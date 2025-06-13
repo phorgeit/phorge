@@ -387,8 +387,8 @@ final class AphrontApplicationConfiguration
   /**
    * Build a controller to respond to the request.
    *
-   * @return pair<AphrontController,array> Controller and dictionary of request
-   *                                       parameters.
+   * @return array<AphrontController,array> Controller and dictionary of
+   *                                        request parameters.
    * @task routing
    */
   private function buildController() {

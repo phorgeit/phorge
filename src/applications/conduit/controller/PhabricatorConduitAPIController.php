@@ -162,7 +162,7 @@ final class PhabricatorConduitAPIController
    * @param   ConduitAPIRequest $api_request Request being executed.
    * @param   array             $metadata Dictionary of request metadata.
    * @param   wild              $method
-   * @return  null|pair         Null to indicate successful authentication, or
+   * @return  null|array        Null to indicate successful authentication, or
    *                            an error code and error message pair.
    */
   private function authenticateUser(
