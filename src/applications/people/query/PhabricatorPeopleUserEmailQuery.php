@@ -29,7 +29,7 @@ final class PhabricatorPeopleUserEmailQuery
 
   /**
    * With a verified email or not.
-   * @param bool|null $isVerified
+   * @param bool|null $verified
    */
   public function withIsVerified($verified) {
     $this->isVerified = $verified;
