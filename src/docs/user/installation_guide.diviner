@@ -16,7 +16,7 @@ Phorge, you will need:
   - basic sysadmin skills;
   - Apache, nginx, or another webserver;
   - PHP;
-  - MySQL (you will need a server with multiple databases);
+  - MySQL or MariaDB (you will need a server with multiple databases);
   - git
 
 The remainder of this document details these requirements.
@@ -77,8 +77,10 @@ Beyond an operating system, you will need **a webserver**.
 
 You will also need:
 
-  - **MySQL**: You need MySQL. The required version is MySQL 8.0 or newer.
+  - **MySQL or MariaDB**: You need MySQL or MariaDB. The minimum required
+    version is 8.0 MySQL and 10.5.1 for MariaDB.
     You will need a server with multiple databases.
+    From now on, both will be referred to as MySQL.
   - **PHP**: You need a PHP engine:
     - PHP 7 - 7.2.25 or newer.
     - PHP 8 - 8.0 or newer.
