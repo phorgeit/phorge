@@ -173,7 +173,7 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
     }
 
     // NOTE: It's possible that replication is broken but we have not been
-    // granted permission to "SHOW SLAVE STATUS" so we can't figure it out.
+    // granted permission to "SHOW REPLICA STATUS" so we can't figure it out.
     // We allow this kind of configuration and survive these checks, trusting
     // that operations knows what they're doing. This issue is shown on the
     // "Database Servers" console.

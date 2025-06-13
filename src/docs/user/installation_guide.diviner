@@ -77,7 +77,7 @@ Beyond an operating system, you will need **a webserver**.
 
 You will also need:
 
-  - **MySQL**: You need MySQL. We strongly recommend MySQL 5.5 or newer.
+  - **MySQL**: You need MySQL. The required version is MySQL 8.0 or newer.
     You will need a server with multiple databases.
   - **PHP**: You need a PHP engine:
     - PHP 7 - 7.2.25 or newer.

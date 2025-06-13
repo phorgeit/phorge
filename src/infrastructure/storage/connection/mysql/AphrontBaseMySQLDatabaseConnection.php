@@ -347,7 +347,7 @@ abstract class AphrontBaseMySQLDatabaseConnection
       case 1044: // Access denied to database
       case 1142: // Access denied to table
       case 1143: // Access denied to column
-      case 1227: // Access denied (e.g., no SUPER for SHOW SLAVE STATUS).
+      case 1227: // Access denied (e.g., no SUPER for SHOW REPLICA STATUS).
 
         // See T13622. Try to help users figure out that this is a GRANT
         // problem.
