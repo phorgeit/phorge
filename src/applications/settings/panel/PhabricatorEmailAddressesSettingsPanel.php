@@ -19,7 +19,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     return PhabricatorSettingsEmailPanelGroup::PANELGROUPKEY;
   }
 
-  public function isEditableByAdministrators() {
+  public function isManagementPanel() {
     if ($this->getUser()->getIsMailingList()) {
       return true;
     }
