@@ -920,7 +920,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * which users have been locked out of.
    *
    * @param PhabricatorUser $user User to generate a URI for.
-   * @param PhabricatorUserEmail? $email Optionally, email to verify when
+   * @param PhabricatorUserEmail|null $email Optionally, email to verify when
    *  link is used.
    * @param string $type (optional) Context string for the URI. This is purely
    *  cosmetic and used only to customize workflow and error messages.

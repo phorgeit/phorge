@@ -528,10 +528,11 @@ final class ManiphestReportController extends ManiphestController {
    *    - a possible error.
    * This is used for the "Recently Closed" column on /maniphest/report/*.
    *
-   * @return array<string,integer,string|null> "Recently Means" user input;
+   * @return array Array with three items: "Recently Means" user input;
    *         Resulting epoch timeframe used to get "Recently Closed" numbers
    *         (when user input is invalid, it defaults to a week ago); "Invalid"
    *         if first parameter could not be parsed as an epoch, else null.
+   *         array<string,integer,string|null>
    */
   private function getWindow() {
     $request = $this->getRequest();

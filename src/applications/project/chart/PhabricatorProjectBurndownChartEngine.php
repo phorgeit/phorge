@@ -103,7 +103,8 @@ final class PhabricatorProjectBurndownChartEngine
   /**
    * @param string $fact_key The key of the new fact sum
    *   (e.g. "tasks.open-count.assign.project")
-   * @param array<string> Project PHIDs
+   * @param array<string> $phids Project PHIDs
+   * @return array
    */
   private function newFactSum($fact_key, array $phids) {
     $result = array();

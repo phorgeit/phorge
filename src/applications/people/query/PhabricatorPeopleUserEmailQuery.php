@@ -20,7 +20,7 @@ final class PhabricatorPeopleUserEmailQuery
 
   /**
    * With the specified User PHIDs.
-   * @param null|array $phids User PHIDs
+   * @param array<string|null> $phids User PHIDs
    */
   public function withUserPHIDs(array $phids) {
     $this->userPhids = $phids;

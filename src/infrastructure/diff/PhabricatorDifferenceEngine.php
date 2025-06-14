@@ -134,7 +134,7 @@ final class PhabricatorDifferenceEngine extends Phobject {
    *
    * @param string $old Entire previous file content.
    * @param string $new Entire current file content.
-   * @return @{class:DifferentialChangeset} Synthetic changeset.
+   * @return DifferentialChangeset Synthetic changeset.
    * @task diff
    */
   public function generateChangesetFromFileContent($old, $new) {

@@ -1193,7 +1193,7 @@ final class DifferentialChangesetParser extends Phobject {
    * "show more"). The $mask returned is a sparsely populated dictionary
    * of $visible_line_number => true.
    *
-   * @return array($gaps, $mask)
+   * @return array Array of <$gaps, $mask>
    */
   private function calculateGapsAndMask(
     $mask_force,

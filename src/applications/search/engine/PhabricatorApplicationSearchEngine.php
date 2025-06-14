@@ -1645,7 +1645,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Load from object and from storage, and updates Custom Fields instances
    * that are attached to each object.
    *
-   * @return map<phid->PhabricatorCustomFieldList> of loaded fields.
+   * @return map Map of of loaded fields (PHID to PhabricatorCustomFieldList).
    * @task custom
    */
   protected function loadCustomFields(array $objects, $role) {

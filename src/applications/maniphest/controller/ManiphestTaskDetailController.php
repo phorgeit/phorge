@@ -268,7 +268,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
    * Add Open Graph Protocol metadata tags to Maniphest task page
    * @param PhabricatorStandardPageView $page
    * @param ManiphestTask $task
-   * @return $page with additional OGP <meta> tags
+   * @return PhabricatorStandardPageView with additional OGP <meta> tags
    */
   private function addOpenGraphProtocolMetadataTags($page, $task) {
     foreach ($this->getOpenGraphProtocolMetadataValues($task) as $k => $v) {

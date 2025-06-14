@@ -846,7 +846,8 @@ final class AphrontRequest extends Phobject {
    * This is not a general-purpose proxying method; it is a specialized
    * method with niche applications and severe security implications.
    *
-   * @param string URI $uri identifying the host we are proxying the request to.
+   * @param string $uri URI identifying the host we are proxying the request
+   *   to.
    * @return HTTPSFuture New proxy future.
    *
    * @phutil-external-symbol class PhabricatorStartup
