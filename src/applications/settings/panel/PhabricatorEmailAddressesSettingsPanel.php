@@ -20,7 +20,9 @@ final class PhabricatorEmailAddressesSettingsPanel
   }
 
   public function isManagementPanel() {
-    if ($this->getUser()->getIsMailingList()) {
+    $user = $this->getUser();
+
+    if ($user->getIsMailingList() || $user->getIsSystemAgent()) {
       return true;
     }
 
