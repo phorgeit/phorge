@@ -113,6 +113,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->setKeys($keys, $ttl);
     }
+    return $this;
   }
 
 
@@ -120,6 +121,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->deleteKeys($keys);
     }
+    return $this;
   }
 
 
@@ -127,6 +129,7 @@ final class PhutilKeyValueCacheStack extends PhutilKeyValueCache {
     foreach ($this->cachesBackward as $cache) {
       $cache->destroyCache();
     }
+    return $this;
   }
 
 }
