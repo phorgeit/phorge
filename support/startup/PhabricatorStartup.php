@@ -348,7 +348,7 @@ final class PhabricatorStartup {
    *                  error log. If not provided, the client message is used.
    *                  You can pass a more detailed message here (e.g., with
    *                  stack traces) to avoid showing it to users.
-   * @return  exit    This method **does not return**.
+   * @return  never-returns This method **does not return**.
    *
    * @task apocalypse
    */
@@ -722,7 +722,7 @@ final class PhabricatorStartup {
    * Emit an HTTP 429 "Too Many Requests" response (indicating that the user
    * has exceeded application rate limits) and exit.
    *
-   * @return exit This method **does not return**.
+   * @return never-returns This method **does not return**.
    * @task ratelimit
    */
   private static function didRateLimit($reason) {
