@@ -37,10 +37,10 @@ abstract class PhabricatorClientLimit {
     // NOTE: We can not use pht() here because this runs before libraries
     // load.
 
-    if (!function_exists('apc_fetch') && !function_exists('apcu_fetch')) {
+    if (!function_exists('apcu_fetch')) {
       throw new Exception(
-        'You can not configure connection rate limits unless APC/APCu are '.
-        'available. Rate limits rely on APC/APCu to track clients and '.
+        'You can not configure connection rate limits unless APCu is '.
+        'available. Rate limits rely on APCu to track clients and '.
         'connections.');
     }
 
@@ -199,8 +199,6 @@ abstract class PhabricatorClientLimit {
 
     if ($is_apcu) {
       $bucket = apcu_fetch($bucket_key);
-    } else {
-      $bucket = apc_fetch($bucket_key);
     }
 
     if (!is_array($bucket)) {
@@ -216,8 +214,6 @@ abstract class PhabricatorClientLimit {
 
     if ($is_apcu) {
       @apcu_store($bucket_key, $bucket);
-    } else {
-      @apc_store($bucket_key, $bucket);
     }
 
     return $this;
@@ -237,8 +233,6 @@ abstract class PhabricatorClientLimit {
     $min_key = $this->getMinimumBucketCacheKey();
     if ($is_apcu) {
       $min = apcu_fetch($min_key);
-    } else {
-      $min = apc_fetch($min_key);
     }
 
     // If we don't have any buckets stored yet, store the current bucket as
@@ -247,8 +241,6 @@ abstract class PhabricatorClientLimit {
     if (!$min) {
       if ($is_apcu) {
         @apcu_store($min_key, $cur);
-      } else {
-        @apc_store($min_key, $cur);
       }
       $min = $cur;
     }
@@ -262,9 +254,6 @@ abstract class PhabricatorClientLimit {
       if ($is_apcu) {
         apcu_delete($bucket_key);
         @apcu_store($min_key, $cursor + 1);
-      } else {
-        apc_delete($bucket_key);
-        @apc_store($min_key, $cursor + 1);
       }
     }
 
@@ -276,8 +265,6 @@ abstract class PhabricatorClientLimit {
       $bucket_key = $this->getBucketCacheKey($cursor);
       if ($is_apcu) {
         $bucket = apcu_fetch($bucket_key);
-      } else {
-        $bucket = apc_fetch($bucket_key);
       }
       if (isset($bucket[$client_key])) {
         $score += $bucket[$client_key];

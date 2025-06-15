@@ -234,9 +234,9 @@ final class PhutilKeyValueCacheTestCase extends PhutilTestCase {
 
 
     // NOTE: The TTL tests are necessarily slow (we must sleep() through the
-    // TTLs) and do not work with APC (it does not TTL until the next request)
-    // so they're disabled by default. If you're developing the cache stack,
-    // it may be useful to run them.
+    // TTLs) and did not work with old APC (it does not TTL until the next
+    // request) so they're disabled by default. If you're developing the cache
+    // stack, it may be useful to run them.
 
     return;
 

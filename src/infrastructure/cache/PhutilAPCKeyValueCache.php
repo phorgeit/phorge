@@ -11,7 +11,7 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
 
 
   public function isAvailable() {
-    return (function_exists('apc_fetch') || function_exists('apcu_fetch')) &&
+    return function_exists('apcu_fetch') &&
            ini_get('apc.enabled') &&
            (ini_get('apc.enable_cli') || php_sapi_name() != 'cli');
   }
@@ -27,8 +27,6 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
     foreach ($keys as $key) {
       if ($is_apcu) {
         $result = apcu_fetch($key, $fetched);
-      } else {
-        $result = apc_fetch($key, $fetched);
       }
 
       if ($fetched) {
@@ -48,8 +46,8 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
       $ttl = 0;
     }
 
-    // NOTE: Although modern APC supports passing an array to `apc_store()`,
-    // it is not supported by older version of APC or by HPHP.
+    // NOTE: Although late APC supported passing an array to `apc_store()`,
+    // it was not supported by older versions of APC or by HPHP.
 
     // See T13525 for discussion of use of "@" to silence this warning:
     // > GC cache entry "<some-key-name>" was on gc-list for <X> seconds
@@ -57,8 +55,6 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
     foreach ($keys as $key => $value) {
       if ($is_apcu) {
         @apcu_store($key, $value, $ttl);
-      } else {
-        @apc_store($key, $value, $ttl);
       }
     }
 
@@ -74,8 +70,6 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
     foreach ($keys as $key) {
       if ($is_apcu) {
         apcu_delete($key);
-      } else {
-        apc_delete($key);
       }
     }
 
@@ -90,8 +84,6 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
 
     if ($is_apcu) {
       apcu_clear_cache();
-    } else {
-      apc_clear_cache('user');
     }
 
     return $this;

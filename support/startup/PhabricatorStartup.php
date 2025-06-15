@@ -557,22 +557,6 @@ final class PhabricatorStartup {
       }
     }
 
-    if (extension_loaded('apc')) {
-      $apc_version = phpversion('apc');
-      $known_bad = array(
-        '3.1.14' => true,
-        '3.1.15' => true,
-        '3.1.15-dev' => true,
-      );
-      if (isset($known_bad[$apc_version])) {
-        self::didFatal(
-          "You have APC {$apc_version} installed. This version of APC is ".
-          "known to be bad, and does not work with Phorge (it will cause ".
-          "Phorge to fatal unrecoverably with nonsense errors).".
-          "Downgrade to version 3.1.13.");
-      }
-    }
-
     if (isset($_SERVER['HTTP_PROXY'])) {
       self::didFatal(
         'This HTTP request included a "Proxy:" header, poisoning the '.
