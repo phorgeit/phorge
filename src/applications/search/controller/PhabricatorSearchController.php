@@ -9,6 +9,9 @@ final class PhabricatorSearchController
     return true;
   }
 
+  /**
+   * @return PhabricatorStandardPageView|AphrontRedirectResponse
+   */
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $query = $request->getStr('query');
@@ -96,6 +99,9 @@ final class PhabricatorSearchController
     return $this->delegateToController($controller);
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   public function buildSideNavView($for_app = false) {
     $viewer = $this->getViewer();
 

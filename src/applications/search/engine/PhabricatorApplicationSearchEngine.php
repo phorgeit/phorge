@@ -36,6 +36,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorController
+   */
   public function getController() {
     return $this->controller;
   }
@@ -51,6 +54,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $controller->delegateToController($search);
   }
 
+  /**
+   * @return object|null Matching object (e.g. PhabricatorUser, PhamePost, or
+   *   PhabricatorDashboardPanel), or null if no object matches.
+   */
   public function newResultObject() {
     // We may be able to get this automatically if newQuery() is implemented.
     $query = $this->newQuery();
@@ -73,6 +80,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   * @throws PhutilInvalidStateException
+   */
   protected function requireViewer() {
     if (!$this->viewer) {
       throw new PhutilInvalidStateException('setViewer');
@@ -89,12 +100,18 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return ($this->context == self::CONTEXT_PANEL);
   }
 
+  /**
+   * @param array<PHUIListItemView> $navigation_items
+   */
   public function setNavigationItems(array $navigation_items) {
     assert_instances_of($navigation_items, 'PHUIListItemView');
     $this->navigationItems = $navigation_items;
     return $this;
   }
 
+  /**
+   * @return array<PHUIListItemView> $navigation_items
+   */
   public function getNavigationItems() {
     return $this->navigationItems;
   }

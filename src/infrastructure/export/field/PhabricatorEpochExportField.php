@@ -24,6 +24,9 @@ final class PhabricatorEpochExportField
     return $date->format('c');
   }
 
+  /**
+   * @return int|null
+   */
   public function getNaturalValue($value) {
     if ($value === null) {
       return $value;

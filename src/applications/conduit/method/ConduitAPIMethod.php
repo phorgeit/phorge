@@ -69,9 +69,20 @@ abstract class ConduitAPIMethod
       ->setContent($box_view);
   }
 
+  /**
+   * @return array Pairs of parameter name and their type
+   */
   abstract protected function defineParamTypes();
+
+  /**
+   * @return string Human-readable text description of the return format,
+   *   for example 'array<string,mixed> | null'
+   */
   abstract protected function defineReturnType();
 
+  /**
+   * @return array Pairs of error code and the corresponding error message
+   */
   protected function defineErrorTypes() {
     return array();
   }
@@ -94,10 +105,17 @@ abstract class ConduitAPIMethod
     return $types;
   }
 
+  /**
+   * @return string Human-readable text description of the return format,
+   *   for example 'array<string,mixed> | null'
+   */
   public function getReturnType() {
     return $this->defineReturnType();
   }
 
+  /**
+   * @return array Pairs of error code and the corresponding error message
+   */
   public function getErrorTypes() {
     return $this->defineErrorTypes();
   }

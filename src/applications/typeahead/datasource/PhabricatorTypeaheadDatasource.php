@@ -98,12 +98,22 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $this->phase;
   }
 
+  /**
+   * @return string A text URI consisting of '/typeahead/class/' followed by
+   *   a datasource (e.g. 'PhabricatorProjectDatasource/') and optionally
+   *   URI parameters (e.g. '?parameters=%7B%22autocomplete%22%3A1%7D')
+   */
   public function getDatasourceURI() {
     $params = $this->newURIParameters();
     $uri = new PhutilURI('/typeahead/class/'.get_class($this).'/', $params);
     return phutil_string_cast($uri);
   }
 
+  /**
+   * @return string|null A text URI consisting of '/typeahead/browse/' followed
+   *   by a datasource (e.g. 'PhabricatorPeopleDatasource/') and optionally
+   *   URI parameters. Returns null if not browsable.
+   */
   public function getBrowseURI() {
     if (!$this->isBrowsable()) {
       return null;
@@ -114,6 +124,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return phutil_string_cast($uri);
   }
 
+  /**
+   * @return array Array with key 'parameters' and value consisting of JSON
+   *   encoded parameters.
+   */
   private function newURIParameters() {
     if (!$this->parameters) {
       return array();
@@ -126,8 +140,16 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $map;
   }
 
+  /**
+   * @return string Placeholder text to display in the empty datasource field
+   *   field to provide a hint to the user, for example 'Type a user'
+   */
   abstract public function getPlaceholderText();
 
+  /**
+   * @return string Title to display in the selection popup dialog created
+   * after selecting the magnifier icon, for example 'Browse Projects'
+   */
   public function getBrowseTitle() {
     return get_class($this);
   }
@@ -136,8 +158,8 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
   abstract public function loadResults();
 
   /**
-   * @param $phase string
-   * @param $limit int
+   * @param string $phase
+   * @param int $limit
    */
   protected function loadResultsForPhase($phase, $limit) {
     // By default, sources just load all of their results in every phase and
@@ -150,6 +172,9 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return $results;
   }
 
+  /**
+   * @return array<string>
+   */
   public static function tokenizeString($string) {
     $string = phutil_utf8_strtolower($string);
     $string = trim($string);
@@ -475,6 +500,8 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * @param string $token
+   * @return bool
    * @task functions
    */
   public static function isFunctionToken($token) {
@@ -589,6 +616,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * @return array
    * @task functions
    */
   public function getFunctionStack() {
@@ -597,6 +625,7 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * @return array<PhabricatorTypeaheadTokenView>
    * @task functions
    */
   protected function getCurrentFunction() {

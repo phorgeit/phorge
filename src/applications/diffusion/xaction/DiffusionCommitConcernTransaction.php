@@ -14,10 +14,16 @@ final class DiffusionCommitConcernTransaction
     return pht('This commit will be returned to the author for consideration.');
   }
 
+  /**
+   * @return string Transaction icon
+   */
   public function getIcon() {
     return 'fa-times-circle-o';
   }
 
+  /**
+   * @return string Transaction color
+   */
   public function getColor() {
     return 'red';
   }

@@ -47,6 +47,9 @@ final class PhabricatorApplicationSearchResultView extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PHUIInfoView
+   */
   public function getInfoView() {
     return $this->infoView;
   }

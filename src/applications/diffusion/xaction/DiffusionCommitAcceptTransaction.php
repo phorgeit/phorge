@@ -14,10 +14,16 @@ final class DiffusionCommitAcceptTransaction
     return pht('This commit will be approved.');
   }
 
+  /**
+   * @return string Transaction icon
+   */
   public function getIcon() {
     return 'fa-check-circle-o';
   }
 
+  /**
+   * @return string Transaction color
+   */
   public function getColor() {
     return 'green';
   }

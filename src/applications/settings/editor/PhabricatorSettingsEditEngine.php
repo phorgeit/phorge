@@ -9,11 +9,19 @@ final class PhabricatorSettingsEditEngine
   private $profileURI;
   private $settingsPanel;
 
+  /**
+   * @param bool $is_self_edit True if the current viewer edits their own
+   *   settings; false if someone else's (e.g. a bot account's settings).
+   */
   public function setIsSelfEdit($is_self_edit) {
     $this->isSelfEdit = $is_self_edit;
     return $this;
   }
 
+  /**
+   * @return bool $is_self_edit True if the current viewer edits their own
+   *   settings; false if someone else's (e.g. a bot account's settings).
+   */
   public function getIsSelfEdit() {
     return $this->isSelfEdit;
   }

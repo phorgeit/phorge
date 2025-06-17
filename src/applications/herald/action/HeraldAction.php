@@ -20,11 +20,18 @@ abstract class HeraldAction extends Phobject {
   const DO_STANDARD_WRONG_RULE_TYPE = 'do.standard.wrong-rule-type';
   const DO_STANDARD_FORBIDDEN = 'do.standard.forbidden';
 
+  /**
+   * @return string Text of option in first dropdown of a Herald Action
+   */
   abstract public function getHeraldActionName();
   abstract public function supportsObject($object);
   abstract public function supportsRuleType($rule_type);
   abstract public function applyEffect($object, HeraldEffect $effect);
 
+  /**
+   * @return string|PhutilSafeHTML Description of the action performed by a
+   *   Herald rule, shown under 'Take these actions...' on a Herald rule page
+   */
   abstract public function renderActionDescription($value);
 
   public function getRequiredAdapterStates() {

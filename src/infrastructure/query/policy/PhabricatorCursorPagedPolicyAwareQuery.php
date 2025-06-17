@@ -1149,6 +1149,11 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
+   * @return array<string,array<string,string>> PhutilKeyValueCacheStack string
+   *   (e.g. 'id', 'rank', 'fulltext-created', 'fulltext-modified') and the
+   *   cache value as an array, for example '{"table":"user","column":"id",
+   *   "reverse":false,"type":"int","unique":true}' or '{"table":null,
+   *   "column":"_ft_rank","type":"int","requires-ferret":true,"having":true}'
    * @task order
    */
   public function getOrderableColumns() {
@@ -1250,6 +1255,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
   }
 
   /**
+   * @return PhabricatorQueryOrderVector
    * @task order
    */
   private function getQueryableOrderVector() {

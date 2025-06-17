@@ -14,10 +14,16 @@ final class DiffusionCommitResignTransaction
     return pht('You will resign as an auditor for this commit.');
   }
 
+  /**
+   * @return string Transaction icon
+   */
   public function getIcon() {
     return 'fa-flag';
   }
 
+  /**
+   * @return string Transaction color
+   */
   public function getColor() {
     return 'orange';
   }

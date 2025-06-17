@@ -13,6 +13,12 @@ final class PhabricatorRemarkupControl
     return $this;
   }
 
+  /**
+   * Set whether the form can be pinned on the screen
+   * @param bool $can_pin True if the form can be pinned on the screen by the
+   *   user
+   * @return $this
+   */
   public function setCanPin($can_pin) {
     $this->canPin = $can_pin;
     return $this;

@@ -14,6 +14,10 @@ abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
     $flag->attachHandle($handle);
   }
 
+  /**
+   * @param PhabricatorFlag $flag
+   * @return array<string,mixed>
+   */
   protected function buildFlagInfoDictionary($flag) {
     $color = $flag->getColor();
     $uri = PhabricatorEnv::getProductionURI($flag->getHandle()->getURI());

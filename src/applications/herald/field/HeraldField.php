@@ -13,6 +13,9 @@ abstract class HeraldField extends Phobject {
   const STANDARD_PHID_BOOL = 'standard.phid.bool';
   const STANDARD_PHID_NULLABLE = 'standard.phid.nullable';
 
+  /**
+   * @return string Text of option in first dropdown of a Herald Condition
+   */
   abstract public function getHeraldFieldName();
   abstract public function getHeraldFieldValue($object);
 
