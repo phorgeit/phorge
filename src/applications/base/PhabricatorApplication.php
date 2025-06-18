@@ -468,6 +468,27 @@ abstract class PhabricatorApplication
     return $result;
   }
 
+  /**
+   * Determine if an application is installed at all, and if a viewer is given
+   * if the application is available to a viewer, by application class name.
+   *
+   * To check if an application is installed at all, use
+   * @{method:isClassInstalled}.
+   *
+   * @param string Application class name.
+   * @param PhabricatorUser|null Viewing user.
+   * @return bool True if the class is installed or if the installed class is
+   * available to the viewer when a viewer is given.
+   * @task meta
+   */
+  final public static function isClassInstalledForViewerIfAny(
+    $class,
+    ?PhabricatorUser $viewer) {
+
+    return $viewer
+      ? self::isClassInstalledForViewer($class, $viewer)
+      : self::isClassInstalled($class);
+  }
 
 /* -(  PhabricatorPolicyInterface  )----------------------------------------- */
 

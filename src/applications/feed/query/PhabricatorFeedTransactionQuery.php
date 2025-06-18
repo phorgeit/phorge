@@ -155,6 +155,19 @@ final class PhabricatorFeedTransactionQuery
       ->setAncestorClass('PhabricatorApplicationTransactionQuery')
       ->execute();
 
+    // Remove TransactionQuery classes of uninstalled apps. Increases query
+    // performance and decreases likeliness of a "Query Overheated" error if
+    // an app got uninstalled so data in it cannot be accessed anymore anyway.
+    // See https://secure.phabricator.com/T13133, https://we.phorge.it/T15642
+    foreach ($queries as $key => $query) {
+      $app = $query->getQueryApplicationClass();
+      if ($app !== null &&
+          PhabricatorApplication::isClassInstalledForViewerIfAny($app,
+            $viewer)) {
+        unset($queries[$key]);
+      }
+    }
+
     $type_map = array();
 
     // If we're querying for specific transaction PHIDs, we only need to
