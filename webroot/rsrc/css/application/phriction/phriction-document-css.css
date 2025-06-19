@@ -2,10 +2,6 @@
  * @provides phriction-document-css
  */
 
-.phriction-document-crumbs a {
-  font-weight: bold;
-}
-
 .phriction-revert-table {
   width: 100%;
 }
