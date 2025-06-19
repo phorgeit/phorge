@@ -27,10 +27,6 @@
   }
 }
 
-.jx-tooltip-hidden {
-  opacity: 0;
-}
-
 .jx-tooltip-inner {
   position: relative;
   background: #000;
