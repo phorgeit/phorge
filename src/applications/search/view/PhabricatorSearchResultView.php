@@ -11,6 +11,10 @@ final class PhabricatorSearchResultView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorFulltextToken> $tokens
+   * @return $this
+   */
   public function setTokens(array $tokens) {
     assert_instances_of($tokens, 'PhabricatorFulltextToken');
     $this->tokens = $tokens;
@@ -22,10 +26,15 @@ final class PhabricatorSearchResultView extends AphrontView {
     return $this;
   }
 
+  /**
+   * Render a search result item
+   *
+   * @return PHUIObjectItemView|null
+   */
   public function render() {
     $handle = $this->handle;
     if (!$handle->isComplete()) {
-      return;
+      return null;
     }
 
     require_celerity_resource('phabricator-search-results-css');

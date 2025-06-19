@@ -43,6 +43,10 @@ final class PhabricatorSearchApplicationSearchEngine
     return $saved;
   }
 
+  /**
+   * @param PhabricatorSavedQuery $saved
+   * @return PhabricatorSearchDocumentQuery
+   */
   public function buildQueryFromSavedQuery(PhabricatorSavedQuery $saved) {
     $query = new PhabricatorSearchDocumentQuery();
 
@@ -182,6 +186,9 @@ final class PhabricatorSearchApplicationSearchEngine
     );
   }
 
+  /**
+   * @return PhabricatorSavedQuery
+   */
   public function buildSavedQueryFromBuiltin($query_key) {
     $query = $this->newSavedQuery();
     $query->setQueryKey($query_key);
@@ -200,6 +207,10 @@ final class PhabricatorSearchApplicationSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @return array<string,string> PHIDType and its description, for example
+   *   'TASK => Maniphest Task' or 'DREV => Differential Revision'
+   */
   public static function getIndexableDocumentTypes(
     ?PhabricatorUser $viewer = null) {
 
@@ -240,6 +251,12 @@ final class PhabricatorSearchApplicationSearchEngine
     return true;
   }
 
+  /**
+   * @param array<string,PhabricatorObjectHandle> $results Array of pairs of
+   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   * @param PhabricatorSavedQuery $query
+   * @param array<string,PhabricatorObjectHandle> $handles Unused.
+   */
   protected function renderResultList(
     array $results,
     PhabricatorSavedQuery $query,

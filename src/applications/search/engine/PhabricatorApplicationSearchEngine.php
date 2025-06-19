@@ -481,6 +481,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   abstract public function getResultTypeDescription();
 
 
+  /**
+   * @return PhabricatorSavedQuery New instance of PhabricatorSavedQuery
+   */
   public function newSavedQuery() {
     return id(new PhabricatorSavedQuery())
       ->setEngineClassName(get_class($this));
@@ -515,6 +518,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this;
   }
 
+  /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   */
   public function loadAllNamedQueries() {
     $viewer = $this->requireViewer();
     $builtin = $this->getBuiltinQueries();
@@ -553,6 +560,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->namedQueries + $builtin;
   }
 
+  /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   */
   public function loadEnabledNamedQueries() {
     $named_queries = $this->loadAllNamedQueries();
     foreach ($named_queries as $key => $named_query) {
@@ -563,6 +574,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $named_queries;
   }
 
+  /**
+   * @return string Name of the default query (e.g. 'all' or 'open') when not
+   * passing a query key, e.g. by going to generic /search/ or /maniphest/
+   */
   public function getDefaultQueryKey() {
     $viewer = $this->requireViewer();
 
@@ -618,6 +633,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->getApplication()->getApplicationURI($path);
   }
 
+  /**
+   * @return PhabricatorApplication A PhabricatorApplication subclass
+   */
   protected function getApplication() {
     if (!$this->application) {
       $class = $this->getApplicationClassName();
@@ -674,6 +692,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
 
   /**
+   * @return array<string,PhabricatorNamedQuery> Array with pairs of the query
+   * name (e.g. 'all' or 'open') and the corresponding PhabricatorNamedQuery
+   *
    * @task builtin
    */
   public function getBuiltinQueries() {
@@ -1000,7 +1021,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return idx($buckets, $key);
   }
 
-
+  /**
+   * @return int
+   */
   public function getPageSize(PhabricatorSavedQuery $saved) {
     $bucket = $this->getResultBucket($saved);
 
@@ -1025,7 +1048,9 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return false;
   }
 
-
+  /**
+   * @return AphrontCursorPagerView|PHUIPagerView
+   */
   public function newPagerForSavedQuery(PhabricatorSavedQuery $saved) {
     if ($this->shouldUseOffsetPaging()) {
       $pager = new PHUIPagerView();
@@ -1047,7 +1072,10 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $pager;
   }
 
-
+  /**
+   * @return array<string,PhabricatorObjectHandle> $results Array of pairs of
+   *   the object's PHID as key and the corresponding PhabricatorObjectHandle
+   */
   public function executeQuery(
     PhabricatorPolicyAwareQuery $query,
     AphrontView $pager) {
@@ -1662,7 +1690,8 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Load from object and from storage, and updates Custom Fields instances
    * that are attached to each object.
    *
-   * @return map Map of of loaded fields (PHID to PhabricatorCustomFieldList).
+   * @return array<string, PhabricatorCustomFieldList> Map of loaded fields
+   *   (PHID to PhabricatorCustomFieldList).
    * @task custom
    */
   protected function loadCustomFields(array $objects, $role) {
