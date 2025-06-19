@@ -260,8 +260,8 @@ final class ManiphestTaskSearchEngine
       $query->setGroupBy($group);
     }
 
-    if ($map['ids']) {
-      $ids = $map['ids'];
+    $ids = idx($map, 'ids');
+    if ($ids) {
       foreach ($ids as $key => $id) {
         $id = trim($id, ' Tt');
         if (!$id || !is_numeric($id)) {

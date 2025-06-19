@@ -137,7 +137,7 @@ final class PhabricatorCalendarEventSearchEngine
       $query->withImportSourcePHIDs($map['importSourcePHIDs']);
     }
 
-    if (!$map['ids'] && !$map['phids']) {
+    if (empty($map['ids']) && empty($map['phids'])) {
       $query
         ->withIsStub(false)
         ->setGenerateGhosts(true);
