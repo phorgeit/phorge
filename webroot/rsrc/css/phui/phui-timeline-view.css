@@ -372,14 +372,6 @@
   color: {$greytext};
 }
 
-.phui-timeline-comment-actions .phui-icon-view {
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-  text-align: center;
-  overflow: hidden;
-}
-
 .phui-timeline-menu {
   position: absolute;
   right: 3px;
