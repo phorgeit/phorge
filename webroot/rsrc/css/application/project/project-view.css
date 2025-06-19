@@ -71,10 +71,6 @@
   color: {$lightgreytext};
 }
 
-.profile-no-badges {
-  padding: 24px 0;
-}
-
 .people-profile-header.phui-profile-header .phui-header-col1 {
   display: none;
 }
