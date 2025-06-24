@@ -114,7 +114,7 @@ final class PhabricatorSearchApplicationSearchEngine
       PhabricatorSearchRelationship::RELATIONSHIP_CLOSED => pht('Closed'),
     );
     $status_control = id(new AphrontFormCheckboxControl())
-      ->setLabel(pht('Document Status'));
+      ->setLabel(pht('Item Status'));
     foreach ($statuses as $status => $name) {
       $status_control->addCheckbox(
         'statuses[]',
@@ -127,7 +127,7 @@ final class PhabricatorSearchApplicationSearchEngine
     $type_values = array_fuse($type_values);
 
     $types_control = id(new AphrontFormTokenizerControl())
-      ->setLabel(pht('Document Types'))
+      ->setLabel(pht('Item Types'))
       ->setName('types')
       ->setDatasource(new PhabricatorSearchDocumentTypeDatasource())
       ->setValue($type_values);
@@ -180,8 +180,8 @@ final class PhabricatorSearchApplicationSearchEngine
 
   protected function getBuiltinQueryNames() {
     return array(
-      'all' => pht('All Documents'),
-      'open' => pht('Open Documents'),
+      'all' => pht('All Items'),
+      'open' => pht('Open Items'),
       'open-tasks' => pht('Open Tasks'),
     );
   }

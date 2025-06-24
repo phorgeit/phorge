@@ -129,7 +129,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $items[] = array(
       'icon' => 'fa-globe',
-      'name' => pht('All Documents'),
+      'name' => pht('All Items'),
       'value' => 'all',
     );
 
