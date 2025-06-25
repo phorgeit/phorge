@@ -28,7 +28,8 @@ final class PhabricatorPeopleSearchEngine
         ->setLabel(pht('Name Contains'))
         ->setKey('nameLike')
         ->setDescription(
-          pht('Find users whose usernames contain a substring.')),
+          pht(
+            'Find users whose usernames or real names contain a substring.')),
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Administrators'))
         ->setKey('isAdmin')
