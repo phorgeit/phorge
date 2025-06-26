@@ -188,11 +188,6 @@
   padding: 12px 8px;
 }
 
-.phui-two-column-view .phui-property-list-container
-  .keyboard-shortcuts-available {
-    display: none;
-}
-
 .device .phui-two-column-content .phui-two-column-properties.phui-object-box {
   padding: 0 12px;
 }

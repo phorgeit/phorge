@@ -2,23 +2,6 @@
  * @provides phui-property-list-view-css
  */
 
-.phui-property-list-view .keyboard-shortcuts-available {
-  float: right;
-  height: 16px;
-  margin: 12px 10px -28px 0px;
-  padding: 0px 20px 0px 0px;
-  vertical-align: middle;
-  color: {$greytext};
-  text-align: right;
-  font-size: {$smallestfontsize};
-  background:
-    url('/rsrc/image/icon/fatcow/key_question.png') right center no-repeat;
-}
-
-.device .keyboard-shortcuts-available {
-  display: none;
-}
-
 .phui-property-group-noninitial,
 .phui-property-list-section-noninitial {
   border-color: {$thinblueborder};
