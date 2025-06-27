@@ -465,7 +465,7 @@ return array(
     'rsrc/js/core/behavior-keyboard-pager.js' => '1325b731',
     'rsrc/js/core/behavior-keyboard-shortcuts.js' => '42c44e8b',
     'rsrc/js/core/behavior-lightbox-attachments.js' => '14c7ab36',
-    'rsrc/js/core/behavior-line-linker.js' => '0d915ff5',
+    'rsrc/js/core/behavior-line-linker.js' => '8cbbcfc5',
     'rsrc/js/core/behavior-linked-container.js' => '74446546',
     'rsrc/js/core/behavior-more.js' => '506aa3f4',
     'rsrc/js/core/behavior-object-selector.js' => '98ef467f',
@@ -627,7 +627,7 @@ return array(
     'javelin-behavior-phabricator-gesture-example' => '242dedd0',
     'javelin-behavior-phabricator-keyboard-pager' => '1325b731',
     'javelin-behavior-phabricator-keyboard-shortcuts' => '42c44e8b',
-    'javelin-behavior-phabricator-line-linker' => '0d915ff5',
+    'javelin-behavior-phabricator-line-linker' => '8cbbcfc5',
     'javelin-behavior-phabricator-notification-example' => '29819b75',
     'javelin-behavior-phabricator-object-selector' => '98ef467f',
     'javelin-behavior-phabricator-oncopy' => 'da8f5259',
@@ -984,13 +984,6 @@ return array(
     ),
     '0d2490ce' => array(
       'javelin-install',
-    ),
-    '0d915ff5' => array(
-      'javelin-behavior',
-      'javelin-stratcom',
-      'javelin-dom',
-      'javelin-history',
-      'javelin-external-editor-link-engine',
     ),
     '0eaa33a9' => array(
       'javelin-behavior',
@@ -1668,6 +1661,13 @@ return array(
       'phabricator-title',
       'phabricator-shaped-request',
       'conpherence-thread-manager',
+    ),
+    '8cbbcfc5' => array(
+      'javelin-behavior',
+      'javelin-stratcom',
+      'javelin-dom',
+      'javelin-history',
+      'javelin-external-editor-link-engine',
     ),
     '8e0aa661' => array(
       'javelin-install',
