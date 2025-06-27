@@ -3961,18 +3961,9 @@ abstract class PhabricatorApplicationTransactionEditor
         $object_label);
     }
 
-    $xactions_style = array();
-
     $header_action = phutil_tag(
       'td',
       array(),
-      $header_button);
-
-    $header_action = phutil_tag(
-      'td',
-      array(
-        'style' => implode(' ', $xactions_style),
-      ),
       array(
         $headers_html,
         // Add an extra newline to prevent the "View Object" button from
