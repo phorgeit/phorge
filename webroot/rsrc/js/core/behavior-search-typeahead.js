@@ -142,7 +142,7 @@ JX.behavior('phabricator-search-typeahead', function(config) {
 
   JX.DOM.listen(JX.$(config.button), 'click', null, function () {
     typeahead.setPlaceholder('');
-    typeahead.updatePlaceHolder();
+    typeahead.updatePlaceholder();
   });
 
 
