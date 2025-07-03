@@ -91,6 +91,10 @@ abstract class PhabricatorProjectController extends PhabricatorController {
     // Redirect to the canonical slug.
     $primary_slug = $project->getPrimarySlug();
     if ($slug && ($slug !== $primary_slug)) {
+      // Things like milestones do not have a '/tag/something/' page.
+      if (!phutil_nonempty_string($primary_slug)) {
+        return new Aphront404Response();
+      }
       $primary_uri = "/tag/{$primary_slug}/";
       return id(new AphrontRedirectResponse())->setURI($primary_uri);
     }
