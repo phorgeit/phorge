@@ -5,7 +5,7 @@
 .device-desktop .phui-navigation-shell,
 .phabricator-home.device .phui-navigation-shell {
   width: 100%;
-  height: calc(100vh - {$menu.main.height});
+  min-height: calc(100vh - {$menu.main.height});
 }
 
 .device-desktop .phui-navigation-shell .phabricator-nav,
