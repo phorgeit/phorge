@@ -581,8 +581,18 @@ final class PhabricatorStartup {
     // to "$_REQUEST" here won't always work, because later code may rebuild
     // "$_REQUEST" from other sources.
 
-    if (isset($_REQUEST['__path__']) && strlen($_REQUEST['__path__'])) {
-      self::setRequestPath($_REQUEST['__path__']);
+    if (isset($_REQUEST['__path__']) && $_REQUEST['__path__'] !== '') {
+      // Carefully crafted urls can supply their own __path__.
+      // Harmless normally, but when specified as __path__[],
+      // it becomes an array and overwrites the initial __path__.
+      // Parse the request uri directly to send the user to the right place.
+      if (is_array($_REQUEST['__path__'])) {
+        $path = parse_url($_SERVER['REQUEST_URI'])['path'];
+      } else {
+        $path = $_REQUEST['__path__'];
+      }
+
+      self::setRequestPath($path);
       return;
     }
 
@@ -599,7 +609,7 @@ final class PhabricatorStartup {
         "are not configured correctly.");
     }
 
-    if (!strlen($_REQUEST['__path__'])) {
+    if ($_REQUEST['__path__'] === '') {
       self::didFatal(
         "Request parameter '__path__' is set, but empty. Your rewrite rules ".
         "are not configured correctly. The '__path__' should always ".
@@ -626,6 +636,7 @@ final class PhabricatorStartup {
 
   /**
    * @task request-path
+   * @param string $path
    */
   public static function setRequestPath($path) {
     self::$requestPath = $path;
