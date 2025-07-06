@@ -93,7 +93,7 @@ final class PhabricatorApplicationTransactionResponse
     }
 
     $aural = phutil_tag(
-      'h3',
+      'h2',
       array(
         'class' => 'aural-only',
       ),

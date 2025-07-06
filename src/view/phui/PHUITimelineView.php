@@ -89,7 +89,7 @@ final class PHUITimelineView extends AphrontView {
       ),
       array(
         phutil_tag(
-          'h3',
+          'h2',
           array(
             'class' => 'aural-only',
           ),
