@@ -551,7 +551,7 @@ final class DiffusionCommitQuery
     }
 
     if ($this->ancestorsOf !== null) {
-      if (count($this->repositoryIDs) !== 1) {
+      if ($this->repositoryIDs === null || count($this->repositoryIDs) !== 1) {
         throw new PhabricatorSearchConstraintException(
           pht(
             'To search for commits which are ancestors of particular refs, '.
