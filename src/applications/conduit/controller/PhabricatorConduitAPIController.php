@@ -9,6 +9,15 @@ final class PhabricatorConduitAPIController
 
   public function handleRequest(AphrontRequest $request) {
     $method = $request->getURIData('method');
+    // PhabricatorConduitMethodCallLog limits 'method' to 'text64' so truncate
+    // the method name. This entire call will fail anyway; truncation allows us
+    // to at least show a meaningful error message instead of returning a raw
+    // DB write error while still logging the failed call in the Call Logs.
+    $limit = 64;
+    if (strlen($method) > $limit) {
+      $method = substr($method, 0, $limit);
+    }
+
     $time_start = microtime(true);
 
     $api_request = null;
