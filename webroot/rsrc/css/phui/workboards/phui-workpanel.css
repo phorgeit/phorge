@@ -189,7 +189,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   border: 1px solid {$lightblueborder};
   padding: 4px 0;
-  background: #fff;
+  background: {$page.content};
 }
 
 .workboard-drop-preview li {
