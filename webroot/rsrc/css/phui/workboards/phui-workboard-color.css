@@ -38,10 +38,6 @@ body.phui-workboard-color .phui-profile-menu .phabricator-side-menu {
   background-color: rgba({$alphagrey},.3);
 }
 
-body.phui-workboard-color .phabricator-side-menu .phui-profile-menu-footer-1 {
-  background-color: transparent;
-}
-
 .phui-workboard-color .phui-profile-menu .phabricator-side-menu {
   box-shadow: none;
 }
