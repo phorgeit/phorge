@@ -26,10 +26,6 @@
   color: #fff;
 }
 
-.phui-workboard-color .phuix-dropdown-menu {
-  background-color: rgba({$alphawhite},.95);
-}
-
 .phui-workboard-color .phui-workpanel-view .phui-box-grey {
   background-color: rgba({$alphawhite},.6);
 }
