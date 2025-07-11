@@ -71,7 +71,7 @@
 
 .device-desktop .phui-workcard.phui-oi:hover
   .phui-list-item-href {
-    background: #fff;
+    background: {$page.content};
     opacity: .7;
 }
 
