@@ -45,7 +45,6 @@
   top: 8px;
   width: 100%;
   color: {$darkbluetext};
-  text-shadow: {$whitetextshadow};
 }
 
 .device-phone .slowvote-control-offset {
@@ -78,7 +77,6 @@
   top: 0;
   right: 8px;
   position: absolute;
-  text-shadow: {$whitetextshadow};
 }
 
 .slowvote-voters {
