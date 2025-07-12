@@ -92,4 +92,10 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
     );
   }
 
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorPastePastePHIDType::TYPECONST,
+    );
+  }
+
 }

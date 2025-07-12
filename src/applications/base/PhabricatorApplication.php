@@ -638,6 +638,10 @@ abstract class PhabricatorApplication
     return $map;
   }
 
+  /**
+   * @return array<string|null> Type constants of supported document types,
+   *   e.g. 'DREV' for Differential Revisions or 'TASK' for Maniphest Tasks
+   */
   public function getApplicationSearchDocumentTypes() {
     return array();
   }
