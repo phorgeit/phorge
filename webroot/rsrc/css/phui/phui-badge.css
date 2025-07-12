@@ -84,7 +84,7 @@
 }
 
 .phui-badge-illustration {
-  background-color: #fff;
+  background-color: {$page.content};
   box-shadow: inset 0 -1px 1px 0 rgba({$alphablack},.1);
   text-align: center;
   height: 100px;
