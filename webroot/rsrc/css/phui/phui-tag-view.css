@@ -458,7 +458,7 @@ a.phui-tag-view:hover.phui-tag-disabled .phui-tag-core {
 }
 
 .phui-tag-view.phui-tag-type-outline .phui-tag-core {
-  background: #fff;
+  background: {$page.content};
   padding: 0 6px 1px 6px;
 }
 
