@@ -18,6 +18,9 @@ final class PHUIFormationResizerView
     return 8;
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   public function render() {
     $width = $this->getWidth();
     $style = sprintf('width: %dpx;', $width);
