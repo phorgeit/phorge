@@ -8,6 +8,10 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
     return pht('LDAP');
   }
 
+  protected function getLoginIcon() {
+    return 'LDAP';
+  }
+
   public function getDescriptionForCreate() {
     return pht(
       'Configure a connection to an LDAP server so that users can use their '.
