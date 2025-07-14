@@ -863,7 +863,7 @@ final class PhabricatorApplicationSearchController
     $overheated_link = phutil_tag(
       'a',
       array(
-        'href' => 'https://secure.phabricator.com/T13274',
+        'href' => 'https://we.phorge.it/w/overheated_queries/',
         'target' => '_blank',
       ),
       pht('Learn More'));
