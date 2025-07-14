@@ -132,7 +132,7 @@
 
 .phui-list-navbar-vertical .phui-list-item-href {
   display: block;
-  background: #ffffff;
+  background: {$page.content};
 }
 
 .phui-list-navbar .phui-list-item-selected .phui-list-item-href {
