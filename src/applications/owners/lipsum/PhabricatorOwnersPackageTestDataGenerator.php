@@ -55,8 +55,14 @@ final class PhabricatorOwnersPackageTestDataGenerator
     $paths = explode("\n", $paths);
     $paths = array_unique($paths);
 
-    $repository_phid = $this->loadOneRandom('PhabricatorRepository')
-      ->getPHID();
+    $repository = $this->loadOneRandom('PhabricatorRepository');
+    if (!$repository) {
+      throw new Exception(
+        pht(
+          'Failed to load a random repository. You may need to generate more '.
+          'test repositories first.'));
+    }
+    $repository_phid = $repository->getPHID();
 
     $paths_value = array();
     foreach ($paths as $path) {
