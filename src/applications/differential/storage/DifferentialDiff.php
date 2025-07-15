@@ -828,6 +828,10 @@ final class DifferentialDiff
     return array(
       id(new DifferentialCommitsSearchEngineAttachment())
         ->setAttachmentKey('commits'),
+      // TM CHANGES BEGIN: Register "lint" attachment
+      id(new DifferentialLintSearchEngineAttachment())
+        ->setAttachmentKey('lint'),
+      // TM CHANGES END
     );
   }
 

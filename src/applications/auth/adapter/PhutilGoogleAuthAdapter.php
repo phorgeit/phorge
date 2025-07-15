@@ -96,6 +96,11 @@ final class PhutilGoogleAuthAdapter extends PhutilOAuthAuthAdapter {
   }
 
   protected function loadOAuthAccountData() {
+    // TM CHANGES BEGIN: Adding functions to use Cloud IAP authorization.
+    if ($this->iapAccountData) {
+      return $this->iapAccountData;
+    }
+    // TM CHANGES END
     $uri = new PhutilURI('https://www.googleapis.com/userinfo/v2/me');
     $uri->replaceQueryParam('access_token', $this->getAccessToken());
 
@@ -117,4 +122,16 @@ final class PhutilGoogleAuthAdapter extends PhutilOAuthAuthAdapter {
     return $result;
   }
 
+  // TM CHANGES BEGIN: Adding functions to use Cloud IAP authorization.
+  private $iapAccountData;
+
+  public function usingIapLogin() {
+    return (bool)$this->iapAccountData;
+  }
+
+  public function setIapAccountData(string $email, string $id) {
+    $this->iapAccountData = array('email' => $email, 'id' => $id);
+    $this->iapAccountData['name'] = $this->getAccountName();
+  }
+  // TM CHANGES END
 }

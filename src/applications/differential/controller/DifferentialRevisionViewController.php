@@ -817,6 +817,9 @@ final class DifferentialRevisionViewController
         ->setDisabled(!$can_land);
 
       $curtain->addAction($action);
+      //  TM CHANGES BEGIN: including safe land indicator
+      require_celerity_resource('safe-landing');
+      // TM CHANGES END
     }
 
     return $curtain;

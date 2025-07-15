@@ -118,6 +118,17 @@ final class PhabricatorAuthStartController
       PhabricatorCookies::setClientIDCookie($request);
     }
 
+    // TM CHANGES BEGIN: Allow IAP auth provider to opt into authenticating responses without
+    //                   an explicit user login page.
+    foreach ($providers as $provider) {
+      if ($provider->canAuthRequest($request)) {
+        // Redirect the user over to the login endpoint for this provider.
+        return id(new AphrontRedirectResponse())
+            ->setURI($this->getApplicationURI(
+                '/login/'.$provider->getAdapter()->getAdapterKey().'/'));
+      }
+    }
+    // TM CHANGES END
     $auto_response = $this->tryAutoLogin($providers);
     if ($auto_response) {
       return $auto_response;

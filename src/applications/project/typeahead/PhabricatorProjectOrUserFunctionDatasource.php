@@ -17,6 +17,9 @@ final class PhabricatorProjectOrUserFunctionDatasource
       new PhabricatorPeopleDatasource(),
       new PhabricatorProjectDatasource(),
       new PhabricatorProjectMembersDatasource(),
+      // TM CHANGES
+      new PhabricatorProjectLogicalViewerDatasource(),
+      // TM CHANGES END
       new PhabricatorProjectUserFunctionDatasource(),
     );
   }
