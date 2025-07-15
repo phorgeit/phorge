@@ -38,7 +38,7 @@ final class PhabricatorObjectQuery
     $actually_phids = array();
     if ($names) {
       foreach ($names as $key => $name) {
-        if (!strncmp($name, 'PHID-', 5)) {
+        if (!phutil_nonempty_string($name) || !strncmp($name, 'PHID-', 5)) {
           $actually_phids[] = $name;
           $phids[] = $name;
           unset($names[$key]);
