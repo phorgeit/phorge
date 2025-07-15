@@ -152,4 +152,10 @@ final class PhabricatorCalendarApplication extends PhabricatorApplication {
     );
   }
 
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorCalendarEventPHIDType::TYPECONST,
+    );
+  }
+
 }
