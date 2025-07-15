@@ -509,7 +509,6 @@ properly, and submit values. */
   border-radius: 4px;
   text-align: center;
   vertical-align: middle;
-  text-shadow: 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 .phui-form-timer-content {
