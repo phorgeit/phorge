@@ -27,7 +27,7 @@ information about the endpoint and how it can be used.
 Creating Objects
 ================
 
-To create objects, pass a list of transactions but leave `objectIdentfier`
+To create objects, pass a list of transactions but leave `objectIdentifier`
 blank. This tells the endpoint that you want to create a new, empty object and
 then apply the transactions to it.
 
