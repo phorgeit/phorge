@@ -113,4 +113,11 @@ final class PhabricatorPhameApplication extends PhabricatorApplication {
     );
   }
 
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorPhameBlogPHIDType::TYPECONST,
+      PhabricatorPhamePostPHIDType::TYPECONST,
+    );
+  }
+
 }
