@@ -95,4 +95,13 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
       ),
     );
   }
+
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorDashboardDashboardPHIDType::TYPECONST,
+      PhabricatorDashboardPanelPHIDType::TYPECONST,
+      PhabricatorDashboardPortalPHIDType::TYPECONST,
+    );
+  }
+
 }
