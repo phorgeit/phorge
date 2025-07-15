@@ -79,4 +79,10 @@ final class PhabricatorOwnersApplication extends PhabricatorApplication {
     );
   }
 
+  public function getApplicationSearchDocumentTypes() {
+    return array(
+      PhabricatorOwnersPackagePHIDType::TYPECONST,
+    );
+  }
+
 }
