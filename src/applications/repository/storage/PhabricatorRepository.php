@@ -1196,9 +1196,10 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
         $base_uri->setPath($path);
         return $base_uri;
-      } else {
-        return $this->getRemoteURIObject();
       }
+      // TM CHANGES BEGIN: Removed line that sets the close URI to the remote repo when the repo is mirrored/observed.
+      // TM CHANGES END
+
     }
 
     // TODO: This should be cleaned up to deal with all the new URI handling.

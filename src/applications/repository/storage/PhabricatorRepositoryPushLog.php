@@ -11,7 +11,11 @@
  */
 final class PhabricatorRepositoryPushLog
   extends PhabricatorRepositoryDAO
-  implements PhabricatorPolicyInterface {
+  // TM CHANGES
+  implements
+    HarbormasterBuildableInterface,
+    PhabricatorPolicyInterface {
+  // TM CHANGES END
 
   const REFTYPE_BRANCH = 'branch';
   const REFTYPE_TAG = 'tag';
@@ -240,4 +244,57 @@ final class PhabricatorRepositoryPushLog
       "repository.");
   }
 
+
+  /* TM CHANGES */
+  /* -(  HarbormasterBuildableInterface  )------------------------------------- */
+
+
+  public function getHarbormasterBuildableDisplayPHID() {
+    return $this->getHarbormasterBuildablePHID();
+  }
+
+  public function getHarbormasterBuildablePHID() {
+    return $this->getPHID();
+  }
+
+  public function getHarbormasterContainerPHID() {
+    return $this->getRepository()->getPHID();
+  }
+
+  public function getBuildVariables() {
+    $results = array();
+
+    $results['buildable.ref'] = $this->getRefNewShort();
+    $results['buildable.reftype'] = $this->$getRefType();
+    $repo = $this->getRepository();
+
+    $results['repository.callsign'] = $repo->getCallsign();
+    $results['repository.phid'] = $repo->getPHID();
+    $results['repository.vcs'] = $repo->getVersionControlSystem();
+    $results['repository.uri'] = $repo->getPublicCloneURI();
+
+    return $results;
+  }
+
+  public function getAvailableBuildVariables() {
+    return array(
+      'buildable.ref' => pht('The reference.'),
+      'buildable.reftype' => pht('The reference type.'),
+      'repository.callsign' =>
+        pht('The callsign of the repository.'),
+      'repository.phid' =>
+        pht('The PHID of the repository.'),
+      'repository.vcs' =>
+        pht('The version control system, either "svn", "hg" or "git".'),
+      'repository.uri' =>
+        pht('The URI to clone or checkout the repository from.'),
+    );
+  }
+
+  public function newBuildableEngine() {
+    return new DiffusionPushLogBuildableEngine();
+  }
+
+
+  /* TM CHANGES END */
 }

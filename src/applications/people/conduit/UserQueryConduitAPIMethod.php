@@ -83,7 +83,9 @@ final class UserQueryConduitAPIMethod extends UserConduitAPIMethod {
     foreach ($users as $user) {
       $results[] = $this->buildUserInformationDictionary(
         $user,
-        $with_email = false,
+        // TM CHANGES BEGIN
+        $with_email = true,
+        // TM CHANGES END
         $with_availability = true);
     }
     return $results;

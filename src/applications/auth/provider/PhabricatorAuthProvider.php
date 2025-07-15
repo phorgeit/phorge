@@ -591,4 +591,15 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return array();
   }
 
+  // TM CHANGES BEGIN: Add this method for all auth providers.
+  /**
+   * Return true if the provider is capable of authenticating from this request.
+   * This is intended for providers such as IAP that don't need any specific action
+   * to be taken by the user.
+   */
+  public function canAuthRequest(AphrontRequest $request) {
+    return false;
+  }
+  // TM CHANGES END
+
 }

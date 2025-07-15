@@ -11,10 +11,12 @@ final class DiffusionGitBlameQuery extends DiffusionBlameQuery {
     // commit marker. Without it, root commits render with a "^" before them,
     // and one fewer character of the commit hash.
 
+    // TM CHANGES
     return $repository->getLocalCommandFuture(
-      '--no-pager blame --root -s -l %s -- %s',
+      '--no-pager blame --root -s -l -C -w %s -- %s',
       gitsprintf('%s', $commit),
       $path);
+    // TM CHANGES END
   }
 
   protected function resolveBlameFuture(ExecFuture $future) {

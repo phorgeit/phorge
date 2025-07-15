@@ -13,7 +13,7 @@ final class HeraldDifferentialRevisionAdapter
   private $buildRequests = array();
 
   public function getAdapterApplicationClass() {
-    return 'PhabricatorDifferentialApplication';
+    return PhabricatorDifferentialApplication::class;
   }
 
   protected function newObject() {
@@ -38,6 +38,12 @@ final class HeraldDifferentialRevisionAdapter
   protected function initializeNewAdapter() {
     $this->revision = $this->newObject();
   }
+
+  // TM CHANGES START
+  public function getOntoBranch() {
+    return $this->getDiff()->loadTargetBranch();
+  }
+  // TM CHANGES END
 
   public function getObject() {
     return $this->revision;

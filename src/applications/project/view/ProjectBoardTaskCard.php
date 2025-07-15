@@ -155,6 +155,12 @@ final class ProjectBoardTaskCard extends Phobject {
         ->setIcon($icon.' grey');
       $card->addAttribute($icon);
       $card->setBarColor('grey');
+      // TM CHANGES BEGIN: Add current status to open tasks.
+    } else {
+      $status_map = ManiphestTaskStatus::getTaskStatusMap();
+      $status_name = idx($status_map, $task->getStatus());
+      $card->addAttribute($status_name);
+      // TM CHANGES END
     }
 
     $project_handles = $this->getProjectHandles();

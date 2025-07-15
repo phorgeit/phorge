@@ -20,6 +20,11 @@
 /conf/keys/device.id
 /conf/aphlict/aphlict.custom.json
 
+# Composer
+/vendor/
+composer.phar
+*.sw?
+
 # Impact Font
 /resources/font/impact.ttf
 

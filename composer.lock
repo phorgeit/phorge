@@ -1,0 +1,146 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b63413f26db5ad44935c307038516ea8",
+    "packages": [
+        {
+            "name": "kelvinmo/simplejwt",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kelvinmo/simplejwt.git",
+                "reference": "99d18a0cd9e3de975f0d7f24e7845b55b74312db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kelvinmo/simplejwt/zipball/99d18a0cd9e3de975f0d7f24e7845b55b74312db",
+                "reference": "99d18a0cd9e3de975f0d7f24e7845b55b74312db",
+                "shasum": ""
+            },
+            "require": {
+                "ext-hash": "*",
+                "ext-openssl": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ext-bz2": "*",
+                "ext-phar": "*",
+                "phing/phing": "2.*",
+                "phpunit/phpunit": "4.*",
+                "symfony/console": "2.7.*"
+            },
+            "bin": [
+                "bin/jwkstool.phar"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SimpleJWT\\": "src/SimpleJWT"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kelvin Mo",
+                    "email": "kmo@users.sourceforge.net"
+                }
+            ],
+            "description": "An simple JSON Web Token library for PHP.",
+            "homepage": "https://github.com/kelvinmo/simplejwt",
+            "keywords": [
+                "JOSE",
+                "JWE",
+                "jwt"
+            ],
+            "support": {
+                "issues": "https://github.com/kelvinmo/simplejwt/issues",
+                "source": "https://github.com/kelvinmo/simplejwt/tree/v0.3.0"
+            },
+            "time": "2020-06-15T21:47:11+00:00"
+        },
+        {
+            "name": "promphp/prometheus_client_php",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PromPHP/prometheus_client_php.git",
+                "reference": "6e30c28d19acb65e5d9a445c8c9bdb11b0d56c73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PromPHP/prometheus_client_php/zipball/6e30c28d19acb65e5d9a445c8c9bdb11b0d56c73",
+                "reference": "6e30c28d19acb65e5d9a445c8c9bdb11b0d56c73",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.2|^8.0"
+            },
+            "replace": {
+                "endclothing/prometheus_client_php": "*",
+                "jimdo/prometheus_client_php": "*",
+                "lkaemmerling/prometheus_client_php": "*"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3|^7.0",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^0.12.50",
+                "phpstan/phpstan-phpunit": "^0.12.16",
+                "phpstan/phpstan-strict-rules": "^0.12.5",
+                "phpunit/phpunit": "^8.4|^9.4",
+                "squizlabs/php_codesniffer": "^3.5",
+                "symfony/polyfill-apcu": "^1.6"
+            },
+            "suggest": {
+                "ext-apc": "Required if using APCu.",
+                "ext-redis": "Required if using Redis.",
+                "promphp/prometheus_push_gateway_php": "An easy client for using Prometheus PushGateway.",
+                "symfony/polyfill-apcu": "Required if you use APCu on PHP8.0+"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Prometheus\\": "src/Prometheus/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Lukas Kämmerling",
+                    "email": "kontakt@lukas-kaemmerling.de"
+                }
+            ],
+            "description": "Prometheus instrumentation library for PHP applications.",
+            "support": {
+                "issues": "https://github.com/PromPHP/prometheus_client_php/issues",
+                "source": "https://github.com/PromPHP/prometheus_client_php/tree/v2.3.0"
+            },
+            "time": "2021-09-14T05:39:00+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "ext-redis": "^5.3.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}
