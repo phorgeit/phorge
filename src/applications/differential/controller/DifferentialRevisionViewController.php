@@ -818,7 +818,7 @@ final class DifferentialRevisionViewController
 
       $curtain->addAction($action);
       //  TM CHANGES BEGIN: including safe land indicator
-      require_celerity_resource('safe-landing', 'tmphabricator');
+      require_celerity_resource('safe-landing');
       // TM CHANGES END
     }
 
