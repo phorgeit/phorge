@@ -20,6 +20,7 @@ final class FileTypeIcon extends Phobject {
         break;
       case 'm4v':
       case 'mov':
+      case 'webm':
         $icon = 'fa-file-movie-o';
         break;
       case 'sql':
@@ -44,6 +45,7 @@ final class FileTypeIcon extends Phobject {
       case 'jpg':
       case 'bmp':
       case 'gif':
+      case 'webp':
         $icon = 'fa-file-picture-o';
         break;
       case 'txt':

@@ -1027,7 +1027,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
     $ok = false;
     if ($this->getViewableMimeType() !== null) {
       $ok = preg_match(
-        '@^image/(gif|png|jpe?g)@',
+        '@^image/(gif|png|jpe?g|webp)@',
         $this->getViewableMimeType(),
         $matches);
     }
@@ -1043,6 +1043,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
         return function_exists('imagepng');
       case 'gif':
         return function_exists('imagegif');
+      case 'webp':
+        return function_exists('imagewebp');
       default:
         throw new Exception(pht('Unknown type matched as image MIME type.'));
     }
@@ -1061,6 +1063,10 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
     if (function_exists('imagegif')) {
       $supported[] = 'gif';
+    }
+
+    if (function_exists('imagewebp')) {
+      $supported[] = 'webp';
     }
 
     return $supported;

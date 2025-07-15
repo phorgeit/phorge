@@ -626,6 +626,7 @@ final class PhabricatorJupyterDocumentEngine
           'image/jpeg',
           'image/jpg',
           'image/gif',
+          'image/webp',
         );
 
         foreach ($image_formats as $image_format) {

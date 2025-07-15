@@ -25,6 +25,7 @@ final class PhabricatorFilesConfigOptions
       'image/jpg'   => 'image/jpg',
       'image/png'   => 'image/png',
       'image/gif'   => 'image/gif',
+      'image/webp'  => 'image/webp',
       'text/plain'  => 'text/plain; charset=utf-8',
       'text/x-diff' => 'text/plain; charset=utf-8',
 
@@ -54,6 +55,7 @@ final class PhabricatorFilesConfigOptions
       'image/jpg'                 => true,
       'image/png'                 => true,
       'image/gif'                 => true,
+      'image/webp'                => true,
       'image/x-ico'               => true,
       'image/x-icon'              => true,
       'image/vnd.microsoft.icon'  => true,
