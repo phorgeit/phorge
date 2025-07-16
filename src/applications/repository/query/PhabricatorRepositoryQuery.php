@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorRepository>
+ */
 final class PhabricatorRepositoryQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
