@@ -4396,7 +4396,7 @@
                 if($col >= $this->rsblocks[0]->dataLength) {
                     $row += $this->b1;
                 }
-                $ret = $this->rsblocks[$row]->data[$col];
+                $ret = round(($this->rsblocks[$row]->data[$col]), 0);
             } else if($this->count < $this->dataLength + $this->eccLength) {
                 $row = ($this->count - $this->dataLength) % $this->blocks;
                 $col = ($this->count - $this->dataLength) / $this->blocks;
