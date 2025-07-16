@@ -65,30 +65,22 @@ We propose a minimal systemd configuration file, following some assumptions:
 - you have a dedicated Unix user called `daemon-user` - coming from
   @{article:Diffusion User Guide}
 
-With the above assumptions, create this configuration file as super-user:
-
-```lang=ini,name=/etc/systemd/system/phorge-phd.service
-[Unit]
-Description=Phorge Daemons
-Documentation=https://we.phorge.it/book/phorge/article/managing_daemons/
-After=syslog.target network.target mariadb.service
-
-[Service]
-Type=forking
-User=daemon-user
-Group=daemon-user
-ExecStart=/somewhere/phorge/bin/phd start
-ExecStop=/somewhere/phorge/bin/phd stop
-
-[Install]
-WantedBy=multi-user.target
-```
-
-To install this new systemd configuration, execute these commands as
-super-user:
+With the above assumptions, link the phd service into your system configuration.
+As super-user, run:
 
 ```
-systemctl daemon-reload
+systemctl link /somewhere/phorge/resources/phd/phorge-phd.service
+```
+
+Then, also as super-user, create the following configuration:
+
+```lang=ini,name=/etc/phorge/environment
+PHORGE_ROOT=/somewhere/phorge
+```
+
+To install this new systemd configuration, execute these commands as super-user:
+
+```
 systemctl enable --now phorge-phd
 ```
 
@@ -99,6 +91,11 @@ To check if everything is OK:
 ```
 systemctl status phorge-phd
 ```
+
+NOTE: In addition to the basic `phd.service` file, Phorge also ships with a
+systemd "template unit" in the same directory as the standard unit, for use with
+advanced or multi-tenant installations. This is an advanced feature that the
+majority of installations will not need.
 
 Anything else can be explored in depth by reading the systemd documentation.
 
