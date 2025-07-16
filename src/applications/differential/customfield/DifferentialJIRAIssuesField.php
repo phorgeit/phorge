@@ -139,6 +139,12 @@ final class DifferentialJIRAIssuesField
       $type,
       $xactions);
 
+    if ($this->getViewer()->getIsSystemAgent()) {
+      // Skip further validation if user is a bot
+      return $errors;
+    }
+
+
     $transaction = null;
     foreach ($xactions as $xaction) {
       $old = $xaction->getOldValue();
@@ -157,7 +163,7 @@ final class DifferentialJIRAIssuesField
         $refs = id(new DoorkeeperImportEngine())
           ->setViewer($this->getViewer())
           ->setRefs($this->buildDoorkeeperRefs($add))
-          ->setThrowOnMissingLink(false)
+          ->setThrowOnMissingLink(true)
           ->execute();
       } catch (DoorkeeperMissingLinkException $ex) {
         $this->error = pht('Not Linked');
