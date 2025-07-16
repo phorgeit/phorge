@@ -2778,6 +2778,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       'callsign' => $this->getCallsign(),
       'shortName' => $this->getRepositorySlug(),
       'status' => $this->getStatus(),
+      'isHosted' => $this->isHosted(),
       'isImporting' => (bool)$this->isImporting(),
       'almanacServicePHID' => $this->getAlmanacServicePHID(),
       'refRules' => array(
