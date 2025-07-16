@@ -157,7 +157,7 @@ final class DifferentialJIRAIssuesField
         $refs = id(new DoorkeeperImportEngine())
           ->setViewer($this->getViewer())
           ->setRefs($this->buildDoorkeeperRefs($add))
-          ->setThrowOnMissingLink(true)
+          ->setThrowOnMissingLink(false)
           ->execute();
       } catch (DoorkeeperMissingLinkException $ex) {
         $this->error = pht('Not Linked');
