@@ -133,20 +133,17 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
       'value' => 'all',
     );
 
-    $application_value = null;
-    $application_icon = self::DEFAULT_APPLICATION_ICON;
-    if ($application) {
-      $application_value = get_class($application);
-      if ($application->getApplicationSearchDocumentTypes()) {
-        $application_icon = $application->getIcon();
+    if ($application && $application->getApplicationSearchDocumentTypes()) {
+      $application_icon = $application->getIcon();
+      if (!$application_icon) {
+        $application_icon = self::DEFAULT_APPLICATION_ICON;
       }
+      $items[] = array(
+        'icon' => $application_icon,
+        'name' => pht('Current Application'),
+        'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
+      );
     }
-
-    $items[] = array(
-      'icon' => $application_icon,
-      'name' => pht('Current Application'),
-      'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
-    );
 
     $items[] = array(
       'name' => pht('Saved Queries'),

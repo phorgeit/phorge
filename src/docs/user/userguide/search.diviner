@@ -41,7 +41,7 @@ search, you'll get matching wiki documents.
 
 Some pages (like the 404 page) don't belong to an application, or belong to an
 application which doesn't have any searchable items. In these cases,
-Phorge will search all items.
+the **Current Application** scope is not available for selection.
 
 To quickly **jump to an object** like a task, enter the object's ID in the
 global search box and search for it. For example, you can enter `T123` or
