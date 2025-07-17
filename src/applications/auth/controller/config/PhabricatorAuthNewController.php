@@ -61,6 +61,7 @@ final class PhabricatorAuthNewController
       $item = id(new PHUIObjectItemView())
         ->setHeader($provider->getNameForCreate())
         ->setImageIcon($provider->newIconView())
+        ->setHasSpriteImage(true)
         ->addAttribute($provider->getDescriptionForCreate());
 
       if (!$already_exists) {

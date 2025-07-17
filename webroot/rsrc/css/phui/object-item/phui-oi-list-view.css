@@ -635,6 +635,16 @@ ul.phui-oi-list-view .phui-oi-selected
   line-height: 36px;
 }
 
+/* Set $hoverblue for auth icons to make them readable in dark mode */
+.phui-oi-image-icon.phui-oi-with-sprite-image {
+  background-image: radial-gradient(#eceff5 0%, #eceff5 60%, transparent 65%);
+  margin: 10px 2px 12px;
+}
+
+.phui-icon-view.sprite-login {
+  margin-top: 6px;
+}
+
 .phui-oi-image {
   width: 40px;
   height: 40px;
