@@ -135,12 +135,13 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     if ($application && $application->getApplicationSearchDocumentTypes()) {
       $application_icon = $application->getIcon();
+      $application_name = $application->getName();
       if (!$application_icon) {
         $application_icon = self::DEFAULT_APPLICATION_ICON;
       }
       $items[] = array(
         'icon' => $application_icon,
-        'name' => pht('Current Application'),
+        'name' => pht('In %s Only', $application_name),
         'value' => PhabricatorSearchController::SCOPE_CURRENT_APPLICATION,
       );
     }

@@ -34,14 +34,15 @@ By default, global search queries search all document types: for example, they
 will find matching tasks, commits, wiki documents, users, etc. You can use the
 dropdown to the left of the search box to select a different search scope.
 
-If you choose the **Current Application** scope, Phorge will search for
+If you choose the **In Application Only** scope (instead of "Application",
+Phorge displays the actual name of the application), Phorge will search for
 open items in the current application. For example, if you're in Maniphest
 and run a search, you'll get matching tasks. If you're in Phriction and run a
 search, you'll get matching wiki documents.
 
 Some pages (like the 404 page) don't belong to an application, or belong to an
 application which doesn't have any searchable items. In these cases,
-the **Current Application** scope is not available for selection.
+the **In Application Only** scope is not available for selection.
 
 To quickly **jump to an object** like a task, enter the object's ID in the
 global search box and search for it. For example, you can enter `T123` or
