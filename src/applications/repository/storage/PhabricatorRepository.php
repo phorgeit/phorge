@@ -1490,7 +1490,10 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
 
     $uri = $this->getRawHTTPCloneURIObject();
     $uri = (string)$uri;
-    $uri = $uri.'/'.$path;
+    if ($uri[-1] !== '/') {
+      $uri .= '/';
+    }
+    $uri .= $path;
 
     return $uri;
   }

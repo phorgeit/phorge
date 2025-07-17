@@ -24,7 +24,7 @@ final class DiffusionGitLFSTemporaryTokenType
     $lfs_pass = Filesystem::readRandomCharacters(32);
     $lfs_hash = PhabricatorHash::weakDigest($lfs_pass);
 
-    $ttl = PhabricatorTime::getNow() + phutil_units('1 day in seconds');
+    $ttl = phutil_units('1 day in seconds');
 
     $token = id(new PhabricatorAuthTemporaryToken())
       ->setTokenResource($repository->getPHID())
@@ -32,11 +32,14 @@ final class DiffusionGitLFSTemporaryTokenType
       ->setTokenCode($lfs_hash)
       ->setUserPHID($viewer->getPHID())
       ->setTemporaryTokenProperty('lfs.operation', $operation)
-      ->setTokenExpires($ttl)
+      ->setTokenExpires(PhabricatorTime::getNow() + $ttl)
       ->save();
 
     $authorization_header = base64_encode($lfs_user.':'.$lfs_pass);
-    return 'Basic '.$authorization_header;
+    return array(
+      'header' => 'Basic '.$authorization_header,
+      'ttl' => $ttl,
+    );
   }
 
 }
