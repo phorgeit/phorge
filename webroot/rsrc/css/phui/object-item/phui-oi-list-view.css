@@ -702,21 +702,21 @@ ul.phui-oi-list-view .phui-oi-selectable
 }
 
 .differential-revision-large {
-  background: {$sh-orangebackground};
+  background: {$diffsize.large.background};
 }
 
 /* NOTE: These are intentionally using nonstandard colors, see T13127. */
 
 .differential-revision-large .phui-icon-view {
-  color: #e5ae7e;
+  color: {$diffsize.large.icon};
 }
 
 .differential-revision-small {
-  background: #f2f7ff;
+  background: {$diffsize.small.background};
 }
 
 .differential-revision-small .phui-icon-view {
-  color: #6699ba;
+  color: {$diffsize.small.icon};
 }
 
 .phui-oi-tail {

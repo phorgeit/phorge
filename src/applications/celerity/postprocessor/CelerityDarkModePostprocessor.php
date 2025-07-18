@@ -192,6 +192,11 @@ final class CelerityDarkModePostprocessor
       'move-background' => '#faca00',
       'copy-background' => '#f1c40f',
 
+      'diffsize.small.background' => '#324d67',
+      'diffsize.large.background' => '#4b3826',
+      'diffsize.small.icon' => '#cadce7',
+      'diffsize.large.icon' => '#f2d7c0',
+
       // Usually light yellow
       'gentle.highlight' => '#26c1c9',
       'gentle.highlight.border' => '#21a9b0',

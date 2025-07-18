@@ -205,6 +205,11 @@ final class CelerityDefaultPostprocessor
       'move-background' => '#fdf5d4',
       'copy-background' => '#f1c40f',
 
+      'diffsize.small.background' => '#f2f7ff',
+      'diffsize.large.background' => '#fbede1',
+      'diffsize.small.icon' => '#6699ba',
+      'diffsize.large.icon' => '#e5ae7e',
+
       // Usually light yellow
       'gentle.highlight' => '#fdf3da',
       'gentle.highlight.border' => '#c9b8a8',
