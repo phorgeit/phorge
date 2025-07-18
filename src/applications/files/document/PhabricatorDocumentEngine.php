@@ -28,7 +28,12 @@ abstract class PhabricatorDocumentEngine
   }
 
   final public function canRenderDocument(PhabricatorDocumentRef $ref) {
-    return $this->canRenderDocumentType($ref);
+    try {
+      return $this->canRenderDocumentType($ref);
+    } catch (Throwable $e) {
+      phlog($e);
+      return false;
+    }
   }
 
   public function canDiffDocuments(
