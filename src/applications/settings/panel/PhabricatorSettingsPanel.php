@@ -25,6 +25,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   public function getUser() {
     return $this->user;
   }
@@ -34,6 +37,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUser
+   */
   public function getViewer() {
     return $this->viewer;
   }
@@ -48,6 +54,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorController
+   */
   final public function getController() {
     return $this->controller;
   }
@@ -57,6 +66,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   final public function getNavigation() {
     return $this->navigation;
   }
@@ -66,6 +78,9 @@ abstract class PhabricatorSettingsPanel extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorUserPreferences
+   */
   public function getPreferences() {
     return $this->preferences;
   }

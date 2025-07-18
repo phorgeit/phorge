@@ -3208,13 +3208,20 @@ abstract class PhabricatorApplicationTransactionEditor
 
     foreach ($xactions as $xaction) {
       if (!$factors) {
+        $mfa_panel = id(new PhabricatorMultiFactorSettingsPanel())
+          ->setUser($this->getActor());
+        $mfa_uri = $mfa_panel->getPanelURI();
+        $mfa_panel_name = pht('Settings');
+        $mfa_link = new PhutilSafeHTML(
+          '<a href="'.$mfa_uri.'">'.$mfa_panel_name.'</a>');
         $errors[] = new PhabricatorApplicationTransactionValidationError(
           $transaction_type,
           pht('No MFA'),
           pht(
             'You do not have any MFA factors attached to your account, so '.
             'you can not sign this transaction group with MFA. Add MFA to '.
-            'your account in Settings.'),
+            'your account in %s.',
+            $mfa_link),
           $xaction);
       }
     }
