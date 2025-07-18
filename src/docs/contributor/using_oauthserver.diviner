@@ -35,7 +35,7 @@ clients that implement OAuth 2.0.
 
 = Setup - Creating a Client =
 
-# Visit {nav Your Local Install > OAuth Server > Create Application}
+# Visit {nav Your Local Install > OAuth Server > Create OAuth Server}
 # Fill out the form
 # Profit
 
