@@ -121,7 +121,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    * @return string
    */
   protected function getRemarkupLinkClass($is_internal) {
-    // Allow developers to style esternal links differently
+    // Allow developers to style external links differently
     $classes = array('remarkup-link');
     if (!$is_internal) {
       $classes[] = 'remarkup-link-ext';
