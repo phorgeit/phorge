@@ -93,6 +93,7 @@ final class PhabricatorConduitTokenEditController
           ->appendChild(
             id(new AphrontFormTextControl())
               ->setLabel(pht('Token'))
+              ->setReadOnly(true)
               ->setValue($token->getToken()));
 
         $dialog->appendForm($form);

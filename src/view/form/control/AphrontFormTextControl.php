@@ -6,6 +6,7 @@ final class AphrontFormTextControl extends AphrontFormControl {
   private $sigil;
   private $placeholder;
   private $autofocus;
+  private $readOnly;
 
   public function setDisableAutocomplete($disable) {
     $this->disableAutocomplete = $disable;
@@ -43,6 +44,15 @@ final class AphrontFormTextControl extends AphrontFormControl {
     return $this;
   }
 
+  public function setReadOnly($read_only) {
+    $this->readOnly = $read_only;
+    return $this;
+  }
+
+  protected function getReadOnly() {
+    return $this->readOnly;
+  }
+
   protected function getCustomControlClass() {
     return 'aphront-form-control-text';
   }
@@ -55,6 +65,7 @@ final class AphrontFormTextControl extends AphrontFormControl {
         'name'         => $this->getName(),
         'value'        => $this->getValue(),
         'disabled'     => $this->getDisabled() ? 'disabled' : null,
+        'readonly'     => $this->getReadOnly() ? 'readonly' : null,
         'autocomplete' => $this->getDisableAutocomplete() ? 'off' : null,
         'id'           => $this->getID(),
         'sigil'        => $this->getSigil(),
