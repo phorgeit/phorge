@@ -220,19 +220,21 @@ abstract class PhabricatorApplication
       }
     }
 
-    $command_specs = $this->getMailCommandObjects();
-    if ($command_specs) {
-      foreach ($command_specs as $key => $spec) {
-        $object = $spec['object'];
+    if (PhabricatorEnv::getEnvConfig('metamta.reply-handler-domain')) {
+      $command_specs = $this->getMailCommandObjects();
+      if ($command_specs) {
+        foreach ($command_specs as $key => $spec) {
+          $object = $spec['object'];
 
-        $class = get_class($this);
-        $href = '/applications/mailcommands/'.$class.'/'.$key.'/';
-        $item = id(new PhabricatorActionView())
-          ->setName($spec['name'])
-          ->setHref($href)
-          ->addSigil('help-item')
-          ->setOpenInNewWindow(true);
-        $items[] = $item;
+          $class = get_class($this);
+          $href = '/applications/mailcommands/'.$class.'/'.$key.'/';
+          $item = id(new PhabricatorActionView())
+            ->setName($spec['name'])
+            ->setHref($href)
+            ->addSigil('help-item')
+            ->setOpenInNewWindow(true);
+          $items[] = $item;
+        }
       }
     }
 
