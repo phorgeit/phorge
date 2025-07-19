@@ -25,10 +25,10 @@ final class PhutilAPCKeyValueCache extends PhutilKeyValueCache {
     $results = array();
     $fetched = false;
     foreach ($keys as $key) {
-      if ($is_apcu) {
-        $result = apcu_fetch($key, $fetched);
+      if (!$is_apcu) {
+        continue;
       }
-
+      $result = apcu_fetch($key, $fetched);
       if ($fetched) {
         $results[$key] = $result;
       }

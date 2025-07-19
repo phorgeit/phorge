@@ -392,6 +392,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
 
   private function loadBuiltinProfileItems($mode) {
     $object = $this->getProfileObject();
+    $builtins = array();
 
     switch ($mode) {
       case self::MODE_GLOBAL:
@@ -403,7 +404,6 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
           $this->getCustomPHID());
         break;
       case self::MODE_COMBINED:
-        $builtins = array();
         $builtins[] = $this->getBuiltinCustomProfileItems(
           $object,
           $this->getCustomPHID());

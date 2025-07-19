@@ -35,6 +35,7 @@ final class PhabricatorPeopleDatasource
     $users = $this->executeQuery($query);
 
     $is_browse = $this->getIsBrowse();
+    $handles = array();
 
     if ($is_browse && $users) {
       $phids = mpull($users, 'getPHID');

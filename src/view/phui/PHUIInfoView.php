@@ -84,6 +84,7 @@ final class PHUIInfoView extends AphrontTagView {
       return $this->icon;
     }
 
+    $icon = null;
     switch ($this->getSeverity()) {
       case self::SEVERITY_ERROR:
         $icon = 'fa-exclamation-circle';

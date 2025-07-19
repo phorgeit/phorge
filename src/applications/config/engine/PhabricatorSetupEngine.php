@@ -47,7 +47,7 @@ final class PhabricatorSetupEngine
       // because data may be at risk.
       PhabricatorSetupCheck::resetSetupState();
 
-      return PhabricatorSetupCheck::newIssueResponse($issue);
+      return PhabricatorSetupCheck::newIssueResponse($fatal_issue);
     }
 
     $issue_keys = PhabricatorSetupCheck::getUnignoredIssueKeys($issues);

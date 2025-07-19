@@ -201,7 +201,7 @@ abstract class PhabricatorClientLimit {
       $bucket = apcu_fetch($bucket_key);
     }
 
-    if (!is_array($bucket)) {
+    if (!isset($bucket) || !is_array($bucket)) {
       $bucket = array();
     }
 
@@ -238,7 +238,7 @@ abstract class PhabricatorClientLimit {
     // If we don't have any buckets stored yet, store the current bucket as
     // the oldest bucket.
     $cur = $this->getCurrentBucketID();
-    if (!$min) {
+    if (!isset($min) || !$min) {
       if ($is_apcu) {
         @apcu_store($min_key, $cur);
       }

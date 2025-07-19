@@ -227,6 +227,7 @@ final class PHUICurtainObjectRefView
   }
 
   private function newIconView() {
+    $icon_view = null;
     $handle = $this->handle;
 
     if ($handle) {

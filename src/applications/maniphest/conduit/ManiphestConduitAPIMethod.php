@@ -157,7 +157,8 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
     foreach ($changes as $type => $value) {
       $transaction = clone $template;
       $transaction->setTransactionType($type);
-      if ($type == PhabricatorTransactions::TYPE_COMMENT) {
+      if ($type == PhabricatorTransactions::TYPE_COMMENT &&
+          isset($comments)) {
         $transaction->attachComment(
           id(new ManiphestTransactionComment())
             ->setContent($comments));

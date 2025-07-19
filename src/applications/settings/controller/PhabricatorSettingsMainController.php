@@ -114,7 +114,7 @@ final class PhabricatorSettingsMainController
     $crumbs->addTextCrumb($panel->getPanelName());
     $crumbs->setBorder(true);
 
-    if ($this->user) {
+    if (isset($user)) {
       $header_text = pht('Edit Settings: %s', $user->getUserName());
     } else {
       $header_text = pht('Edit Global Settings');

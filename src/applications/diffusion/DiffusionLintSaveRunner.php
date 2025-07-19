@@ -91,6 +91,7 @@ final class DiffusionLintSaveRunner extends Phobject {
       $this->lintCommit = $this->branch->getLintCommit();
     }
 
+    $all_files = array();
     if ($this->lintCommit) {
       try {
         $commit = $this->lintCommit;

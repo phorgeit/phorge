@@ -292,6 +292,8 @@ final class DiffusionRepositoryStorageManagementPanel
     $viewer = $this->getViewer();
 
     $caught = null;
+    $refs = array();
+
     try {
       $refs = $repository->getAlmanacServiceRefs($viewer, $options);
     } catch (Exception $ex) {
@@ -302,7 +304,6 @@ final class DiffusionRepositoryStorageManagementPanel
 
     $info_view = null;
     if ($caught) {
-      $refs = array();
       $info_view = id(new PHUIInfoView())
         ->setErrors(
           array(

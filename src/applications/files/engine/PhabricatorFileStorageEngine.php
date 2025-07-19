@@ -320,7 +320,7 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
       }
     }
 
-    if (!$min) {
+    if (!$min || !isset($engine)) {
       return null;
     }
 
