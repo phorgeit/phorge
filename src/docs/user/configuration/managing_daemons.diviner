@@ -106,7 +106,7 @@ Anything else can be explored in depth by reading the systemd documentation.
 
 You can view status and debugging information for daemons in the Daemon Console
 via the web interface. Go to `/daemon/` in your install or click
-**Daemon Console** from "More Stuff".
+**Daemons** from "More Applications".
 
 The Daemon Console shows a list of all the daemons that have ever launched, and
 allows you to view log information for them. If you have issues with daemons,

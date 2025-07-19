@@ -498,7 +498,7 @@ silliness implications. Carefully read the description before enabling it.
 
 = Image Macros =
 
-You can upload image macros (More Stuff -> Macro) which will replace text
+You can upload image macros (More Applications -> Macro) which will replace text
 strings with the image you specify. For instance, you could upload an image of a
 dancing banana to create a macro named "peanutbutterjellytime", and then any
 time you type that string on a separate line it will be replaced with the image
