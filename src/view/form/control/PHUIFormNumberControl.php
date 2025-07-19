@@ -4,6 +4,7 @@ final class PHUIFormNumberControl extends AphrontFormControl {
 
   private $disableAutocomplete;
   private $autofocus;
+  private $readOnly;
 
   public function setDisableAutocomplete($disable_autocomplete) {
     $this->disableAutocomplete = $disable_autocomplete;
@@ -21,6 +22,15 @@ final class PHUIFormNumberControl extends AphrontFormControl {
 
   public function getAutofocus() {
     return $this->autofocus;
+  }
+
+  public function setReadOnly($read_only) {
+    $this->readOnly = $read_only;
+    return $this;
+  }
+
+  protected function getReadOnly() {
+    return $this->readOnly;
   }
 
   protected function getCustomControlClass() {
@@ -42,6 +52,7 @@ final class PHUIFormNumberControl extends AphrontFormControl {
         'name' => $this->getName(),
         'value' => $this->getValue(),
         'disabled' => $this->getDisabled() ? 'disabled' : null,
+        'readonly' => $this->getReadOnly() ? 'readonly' : null,
         'autocomplete' => $autocomplete,
         'id' => $this->getID(),
         'autofocus' => ($this->getAutofocus() ? 'autofocus' : null),

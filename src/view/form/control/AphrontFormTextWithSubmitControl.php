@@ -3,6 +3,7 @@
 final class AphrontFormTextWithSubmitControl extends AphrontFormControl {
 
   private $submitLabel;
+  private $readOnly;
 
   public function setSubmitLabel($submit_label) {
     $this->submitLabel = $submit_label;
@@ -11,6 +12,15 @@ final class AphrontFormTextWithSubmitControl extends AphrontFormControl {
 
   public function getSubmitLabel() {
     return $this->submitLabel;
+  }
+
+  public function setReadOnly($read_only) {
+    $this->readOnly = $read_only;
+    return $this;
+  }
+
+  protected function getReadOnly() {
+    return $this->readOnly;
   }
 
   protected function getCustomControlClass() {
@@ -37,6 +47,7 @@ final class AphrontFormTextWithSubmitControl extends AphrontFormControl {
               'name'      => $this->getName(),
               'value'     => $this->getValue(),
               'disabled'  => $this->getDisabled() ? 'disabled' : null,
+              'readonly'  => $this->getReadOnly() ? 'readonly' : null,
               'id'        => $this->getID(),
             ))),
         phutil_tag(
