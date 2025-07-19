@@ -335,7 +335,6 @@ body .conpherence-message-pane .aphront-form-control {
   height: 34px;
   padding: 8px;
   box-sizing: border-box;
-  -moz-box-sizing: border-box;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }
