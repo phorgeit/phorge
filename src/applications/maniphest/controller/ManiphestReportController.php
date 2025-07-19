@@ -38,8 +38,8 @@ final class ManiphestReportController extends ManiphestController {
 
     $class = PhabricatorFactApplication::class;
     if (PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
-      $nav->addLabel(pht('Burnup'));
-      $nav->addFilter('burn', pht('Burnup Rate'));
+      $nav->addLabel(pht('Burnup / Burndown'));
+      $nav->addFilter('burn', pht('Burnup / Burndown Rate'));
     }
 
     $this->view = $nav->selectFilter($this->view, 'user');
@@ -72,10 +72,10 @@ final class ManiphestReportController extends ManiphestController {
   }
 
   /**
-   * Render the "Burnup Rate" on /maniphest/report/burn/.
+   * Render the 'Burnup / Burndown Rate' on /maniphest/report/burn/.
    *
-   * Ironically this is not called for the "Burndown" on /project/reports/$id/
-   * as that's handled by PhabricatorProjectReportsController instead.
+   * The same thing on /project/reports/$id/ is handled by
+   * PhabricatorProjectReportsController instead.
    *
    * @return array<AphrontListFilterView, PHUIObjectBoxView>
    */
@@ -113,7 +113,7 @@ final class ManiphestReportController extends ManiphestController {
       ->setProjects($projects)
       ->buildChartPanel();
 
-    $panel->setName(pht('Burnup Rate'));
+    $panel->setName(pht('Burnup / Burndown Rate'));
 
     $chart_view = id(new PhabricatorDashboardPanelRenderingEngine())
       ->setViewer($viewer)
