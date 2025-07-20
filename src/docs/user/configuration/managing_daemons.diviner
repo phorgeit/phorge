@@ -123,8 +123,8 @@ You can get a list of launchable daemons with **phd list**:
   - **PhabricatorTaskmasterDaemon** performs work from a task queue;
   - **PhabricatorRepositoryPullLocalDaemon** daemons track repositories, for
     more information see @{article:Diffusion User Guide}; and
-  - **PhabricatorTriggerDaemon** schedules event triggers and cleans up old
-    logs and caches.
+  - **PhabricatorTriggerDaemon** schedules event triggers (see
+    @{article:Understanding Event Triggers}) and cleans up old logs and caches.
 
 = Debugging and Tuning =
 

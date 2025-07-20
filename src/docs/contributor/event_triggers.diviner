@@ -1,0 +1,44 @@
+@title Understanding Event Triggers
+@group developer
+
+Incomplete notes on implementing and using Event Triggers.
+
+= Overview =
+
+Phorge has an internal framework to schedule certain activity at certain times,
+called Event Triggers.
+
+Event Triggers are internal, automated, regular, and can access other parts of
+the Phorge codebase.
+In comparison, external bot software interacts with Phorge by calling Conduit
+API endpoints (see @{article:Conduit API Overview}) to perform actions.
+
+= Use =
+
+Event Triggers can be monitored under "Upcoming Triggers" in the Daemon Console
+(at `/daemon/` in the web UI).
+
+As of 2025, the only utilization of the Event Triggers framework exists when
+importing an externally hosted calendar file into the Calendar prototype
+application and configuring Phorge to regularly update its data copy by pulling
+the latest version of that external file. Additional use cases will obviously
+require additional code paths to be executed which set up additional triggers,
+as Event Triggers cannot be created by external software.
+
+= Database =
+
+An Event Trigger is stored in the "phabricator_worker" database.
+
+The table "worker_triggerevent" stores the previous and the next execution
+timestamp, for example:
+
+| id | triggerID | lastEventEpoch | nextEventEpoch |
+|----|-----------|----------------|----------------|
+|  1 |         1 |           NULL |     1751623688 |
+
+The table "worker_trigger" stores the configuration and type of an Event
+Trigger, for example:
+
+| id | phid                           | triggerVersion | clockClass                        | clockProperties | actionClass                          | actionProperties                                                                                                                                                                                   |
+|----|--------------------------------|----------------|-----------------------------------|-----------------|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  1 | PHID-TRIG-ywy5v5zouv744zhnjed5 |              1 | PhabricatorMetronomicTriggerClock | {"period":3600} | PhabricatorScheduleTaskTriggerAction | {"class":"PhabricatorCalendarImportReloadWorker","data":{"importPHID":"PHID-CIMP-ielkbnijgs5w6hmjsypu","via":"trigger"},"options":{"objectPHID":"PHID-CIMP-ielkbnijgs5w6hmjsypu","priority":3000}} |
