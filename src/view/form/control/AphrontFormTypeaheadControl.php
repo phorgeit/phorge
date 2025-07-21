@@ -4,7 +4,7 @@ final class AphrontFormTypeaheadControl extends AphrontFormControl {
 
   private $hardpointID;
   private $placeholder;
-  private $readonly;
+  private $readOnly;
 
   public function setHardpointID($hardpoint_id) {
     $this->hardpointID = $hardpoint_id;
