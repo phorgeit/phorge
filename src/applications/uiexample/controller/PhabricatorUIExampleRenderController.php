@@ -57,7 +57,7 @@ final class PhabricatorUIExampleRenderController extends PhabricatorController {
 
     return $this->newPage()
       ->setTitle($example->getName())
-      ->appendChild($nav);
+      ->setNavigation($nav);
   }
 
 }
