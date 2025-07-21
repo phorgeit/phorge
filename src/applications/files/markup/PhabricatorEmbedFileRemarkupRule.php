@@ -157,6 +157,7 @@ final class PhabricatorEmbedFileRemarkupRule
             'src' => $file->getBestURI(),
             'height' => $file->getImageHeight(),
             'width' => $file->getImageWidth(),
+            'loading' => 'lazy',
           );
           $image_class = 'phabricator-remarkup-embed-image-full';
           break;
