@@ -1,19 +1,36 @@
 [Unit]
 Description=Phorge Daemons
 Documentation=https://we.phorge.it/book/phorge/article/managing_daemons/
-After=syslog.target network.target
+# Want this so that there is a greater chance phd will start up successfully
+# when mysql is on a remote host.
+Wants=network-online.target
+After=local-fs.target network-online.target syslog.socket
 
 [Service]
 Type=forking
 Environment=PHABRICATOR_ENV=%I
 EnvironmentFile=/etc/phorge/environment
 EnvironmentFile=-/etc/phorge/%I.env
-User=phd
-Group=phd
+User=daemon-user
+Group=daemon-user
 ExecStart="${PHORGE_ROOT}/bin/phd" start
+ExecReload="${PHORGE_ROOT}/bin/phd" reload
 ExecStop="${PHORGE_ROOT}/bin/phd" stop
 
 Restart=on-failure
+
+ProtectHome=tmpfs
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+ProtectSystem=full
+ProtectProc=invisible
+ProtectControlGroups=strict
+PrivateDevices=yes
+PrivateIPC=yes
+PrivateTmp=yes
+PrivateUsers=yes
 
 [Install]
 WantedBy=multi-user.target
