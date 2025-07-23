@@ -63,6 +63,11 @@ The system accounts Phorge uses are:
     If you do not plan to make repositories available over SSH, you do not need
     to create or configure this user.
 
+IMPORTANT: As a general service management philosophy, service users are
+virtually always named after the service they are for. You are **strongly**
+encouraged to pick something other than `daemon-user` for running the daemons. A
+good username might be `phd`.
+
 To create these users:
 
   - Create a `www-user` if one does not already exist. In most cases, this
