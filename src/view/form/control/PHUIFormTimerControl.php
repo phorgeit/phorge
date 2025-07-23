@@ -33,20 +33,18 @@ final class PHUIFormTimerControl extends AphrontFormControl {
 
   public function newTimerView() {
     $icon_cell = phutil_tag(
-      'td',
+      'span',
       array(
-        'class' => 'phui-form-timer-icon',
+        'class' => 'phui-form-timer-icon visual-only',
       ),
       $this->getIcon());
 
     $content_cell = phutil_tag(
-      'td',
+      'span',
       array(
         'class' => 'phui-form-timer-content',
       ),
       $this->renderChildren());
-
-    $row = phutil_tag('tr', array(), array($icon_cell, $content_cell));
 
     $node_id = null;
 
@@ -62,7 +60,13 @@ final class PHUIFormTimerControl extends AphrontFormControl {
         ));
     }
 
-    return phutil_tag('table', array('id' => $node_id), $row);
+    return phutil_tag(
+      'div',
+      array(
+        'id' => $node_id,
+        'class' => 'phui-form-timer-box',
+      ),
+      array($icon_cell, $content_cell));
   }
 
 }

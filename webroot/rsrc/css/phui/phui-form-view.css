@@ -505,7 +505,13 @@ properly, and submit values. */
   margin-left: 4px;
 }
 
+.phui-form-timer-box {
+  display: flex;
+  align-items: center;
+}
+
 .phui-form-timer-icon {
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
   padding: 4px;
