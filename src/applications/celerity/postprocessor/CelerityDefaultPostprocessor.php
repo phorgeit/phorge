@@ -210,6 +210,11 @@ final class CelerityDefaultPostprocessor
       'diffsize.small.icon' => '#6699ba',
       'diffsize.large.icon' => '#e5ae7e',
 
+      'diff.update-history-new' => '#d0ffd0',
+      'diff.update-history-new-now' => '#aaffaa',
+      'diff.update-history-old' => '#f9d0d0',
+      'diff.update-history-old-now' => '#ffaaaa',
+
       // Usually light yellow
       'gentle.highlight' => '#fdf3da',
       'gentle.highlight.border' => '#c9b8a8',

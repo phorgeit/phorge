@@ -30,11 +30,11 @@
 }
 
 .aphront-table-view td.differential-update-history-old {
-  background: #f9d0d0;
+  background: {$diff.update-history-old};
 }
 
 .aphront-table-view td.differential-update-history-new {
-  background: #d0ffd0;
+  background: {$diff.update-history-new};
 }
 
 .aphront-table-view
@@ -43,7 +43,7 @@
 .aphront-table-view
   .alt-differential-update-history-old-now
   td.differential-update-history-old {
-  background: #ffaaaa;
+  background: {$diff.update-history-old-now};
 }
 
 .aphront-table-view
@@ -52,5 +52,5 @@
 .aphront-table-view
   .alt-differential-update-history-new-now
   td.differential-update-history-new {
-  background: #aaffaa;
+  background: {$diff.update-history-new-now};
 }

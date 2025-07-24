@@ -197,6 +197,11 @@ final class CelerityDarkModePostprocessor
       'diffsize.small.icon' => '#cadce7',
       'diffsize.large.icon' => '#f2d7c0',
 
+      'diff.update-history-new' => '#226622',
+      'diff.update-history-new-now' => '#155815',
+      'diff.update-history-old' => '#a65353',
+      'diff.update-history-old-now' => '#903e3e',
+
       // Usually light yellow
       'gentle.highlight' => '#26c1c9',
       'gentle.highlight.border' => '#21a9b0',
