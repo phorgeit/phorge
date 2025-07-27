@@ -189,7 +189,7 @@
 }
 
 table.aphront-form-control-radio-layout,
-table.aphront-form-control-checkbox-layout {
+div.aphront-form-control-checkbox-layout {
   margin-top: 4px !important;
   font-size: {$normalfontsize};
 }
@@ -201,22 +201,25 @@ table.aphront-form-control-radio-layout th {
   color: {$darkgreytext};
 }
 
-
-table.aphront-form-control-checkbox-layout th {
-  padding-top: 2px;
-  padding-left: 8px;
+div.checkbox-entry {
   padding-bottom: 4px;
+}
+
+label.checkbox-label {
+  text-align: left;
+  padding-left: 8px;
   color: {$darkgreytext};
 }
 
 .aphront-form-control-radio-layout td input,
-.aphront-form-control-checkbox-layout td input {
+input .checkbox-box {
+  vertical-align: top;
   margin-top: 4px;
   width: auto;
 }
 
 .aphront-form-control-radio-layout label.disabled,
-.aphront-form-control-checkbox-layout label.disabled {
+label.checkbox-label.disabled {
   color: {$greytext};
 }
 

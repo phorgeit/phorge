@@ -78,16 +78,21 @@ final class AphrontFormCheckboxControl extends AphrontFormControl {
           'value' => $box['value'],
           'checked' => $checked ? 'checked' : null,
           'disabled' => $this->getDisabled() ? 'disabled' : null,
+          'class' => 'checkbox-box',
         ));
       $label = phutil_tag(
         'label',
         array(
           'for' => $id,
+          'class' => 'checkbox-label',
         ),
         $box['label']);
-      $rows[] = phutil_tag('tr', array(), array(
-        phutil_tag('td', array(), $checkbox),
-        phutil_tag('th', array(), $label),
+      $rows[] = phutil_tag(
+        'div',
+        array('class' => 'checkbox-entry'),
+        array(
+          $checkbox,
+          $label,
       ));
     }
 
@@ -108,7 +113,7 @@ final class AphrontFormCheckboxControl extends AphrontFormControl {
     }
 
     return phutil_tag(
-      'table',
+      'div',
       array('class' => 'aphront-form-control-checkbox-layout'),
       $rows);
   }
