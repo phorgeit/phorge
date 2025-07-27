@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorConduitMethodCallLog>
+ */
 final class PhabricatorConduitLogQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

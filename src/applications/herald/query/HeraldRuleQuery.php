@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<HeraldRule>
+ */
 final class HeraldRuleQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorRepositoryGitLFSRef>
+ */
 final class PhabricatorRepositoryGitLFSRefQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

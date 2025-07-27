@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhameBlog>
+ */
 final class PhameBlogQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;

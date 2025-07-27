@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DivinerLiveSymbol>
+ */
 final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;

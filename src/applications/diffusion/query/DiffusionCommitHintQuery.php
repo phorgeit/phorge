@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorRepositoryCommitHint>
+ */
 final class DiffusionCommitHintQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

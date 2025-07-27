@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialChangeset>
+ */
 final class DifferentialChangesetQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

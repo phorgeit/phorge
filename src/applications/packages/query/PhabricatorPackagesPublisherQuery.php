@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorPackagesQuery<PhabricatorPackagesPublisher>
+ */
 final class PhabricatorPackagesPublisherQuery
   extends PhabricatorPackagesQuery {
 

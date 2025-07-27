@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DoorkeeperExternalObject>
+ */
 final class DoorkeeperExternalObjectQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

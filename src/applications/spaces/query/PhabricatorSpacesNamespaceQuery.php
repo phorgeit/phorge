@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorSpacesNamespace>
+ */
 final class PhabricatorSpacesNamespaceQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

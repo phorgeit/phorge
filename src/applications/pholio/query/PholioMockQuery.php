@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PholioMock>
+ */
 final class PholioMockQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

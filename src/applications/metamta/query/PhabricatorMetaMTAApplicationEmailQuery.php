@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorMetaMTAApplicationEmail>
+ */
 final class PhabricatorMetaMTAApplicationEmailQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

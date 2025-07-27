@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorSlowvotePoll>
+ */
 final class PhabricatorSlowvoteQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends DrydockQuery<DrydockLog>
+ */
 final class DrydockLogQuery extends DrydockQuery {
 
   private $ids;

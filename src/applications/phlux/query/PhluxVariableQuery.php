@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhluxVariable>
+ */
 final class PhluxVariableQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

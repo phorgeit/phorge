@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<AlmanacProperty>
+ */
 final class AlmanacPropertyQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

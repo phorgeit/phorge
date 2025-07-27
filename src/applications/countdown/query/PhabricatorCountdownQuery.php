@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorCountdown>
+ */
 final class PhabricatorCountdownQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

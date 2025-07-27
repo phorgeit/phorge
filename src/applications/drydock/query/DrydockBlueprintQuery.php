@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends DrydockQuery<DrydockBlueprint>
+ */
 final class DrydockBlueprintQuery extends DrydockQuery {
 
   private $ids;

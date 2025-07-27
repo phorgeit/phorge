@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends NuanceQuery<NuanceItemCommand>
+ */
 final class NuanceItemCommandQuery
   extends NuanceQuery {
 

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DivinerLiveBook>
+ */
 final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;

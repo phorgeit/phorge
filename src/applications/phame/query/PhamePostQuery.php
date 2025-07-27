@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhamePost>
+ */
 final class PhamePostQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
   private $ids;

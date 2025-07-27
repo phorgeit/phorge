@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorXHProfSample>
+ */
 final class PhabricatorXHProfSampleQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

@@ -3,6 +3,8 @@
 /**
  * @task config Configuring the Query
  * @task exec   Query Execution
+ *
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorFeedStory>
  */
 final class PhabricatorNotificationQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {

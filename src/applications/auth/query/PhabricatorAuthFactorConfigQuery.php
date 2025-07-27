@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorAuthFactorConfig>
+ */
 final class PhabricatorAuthFactorConfigQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

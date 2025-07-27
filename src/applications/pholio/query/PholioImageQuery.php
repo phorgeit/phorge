@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PholioImage>
+ */
 final class PholioImageQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

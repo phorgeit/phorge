@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorAuthSSHKey>
+ */
 final class PhabricatorAuthSSHKeyQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

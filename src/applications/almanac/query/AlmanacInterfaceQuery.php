@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends AlmanacQuery<AlmanacInterface>
+ */
 final class AlmanacInterfaceQuery
   extends AlmanacQuery {
 

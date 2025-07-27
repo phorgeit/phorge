@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PassphraseCredential>
+ */
 final class PassphraseCredentialQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

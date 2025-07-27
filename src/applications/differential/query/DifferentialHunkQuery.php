@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialHunk>
+ */
 final class DifferentialHunkQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

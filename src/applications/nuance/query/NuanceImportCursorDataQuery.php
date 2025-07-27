@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends NuanceQuery<NuanceImportCursorData>
+ */
 final class NuanceImportCursorDataQuery
   extends NuanceQuery {
 

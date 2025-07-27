@@ -4,6 +4,8 @@
  * @task config   Query Configuration
  * @task exec     Query Execution
  * @task internal Internals
+ *
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<DifferentialRevision>
  */
 final class DifferentialRevisionQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {

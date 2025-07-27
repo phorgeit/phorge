@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<ConpherenceThread>
+ */
 final class ConpherenceThreadQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 

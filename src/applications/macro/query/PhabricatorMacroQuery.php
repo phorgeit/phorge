@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @extends PhabricatorCursorPagedPolicyAwareQuery<PhabricatorFileImageMacro>
+ */
 final class PhabricatorMacroQuery
   extends PhabricatorCursorPagedPolicyAwareQuery {
 
