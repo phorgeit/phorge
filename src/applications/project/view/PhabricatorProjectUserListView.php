@@ -115,15 +115,15 @@ abstract class PhabricatorProjectUserListView
 
         $item
           ->setDisabled(true)
-          ->addAttribute(pht('Disabled'));
-      } else {
-        $icon = id(new PHUIIconView())
-          ->setIcon($handle->getIcon());
-
-        $subtitle = $handle->getSubtitle();
-
-        $item->addAttribute(array($icon, ' ', $subtitle));
+          ->addIcon('fa-ban', pht('Disabled'));
       }
+
+      $icon = id(new PHUIIconView())
+        ->setIcon($handle->getIcon());
+
+      $subtitle = $handle->getSubtitle();
+
+      $item->addAttribute(array($icon, ' ', $subtitle));
 
       if ($supports_edit && !$is_panel) {
         $remove_uri = $this->getRemoveURI($user_phid);
