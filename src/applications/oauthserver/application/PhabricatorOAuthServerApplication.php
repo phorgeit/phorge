@@ -39,9 +39,11 @@ final class PhabricatorOAuthServerApplication extends PhabricatorApplication {
   public function getHelpDocumentationArticles(PhabricatorUser $viewer) {
     return array(
       array(
-        'name' => pht('Using the Phabricator OAuth Server'),
+        'name' => pht(
+          'Using the %s OAuth Server',
+          PlatformSymbols::getPlatformServerName()),
         'href' => PhabricatorEnv::getDoclink(
-          'Using the Phabricator OAuth Server'),
+          'Using the Phorge OAuth Server'),
       ),
     );
   }
