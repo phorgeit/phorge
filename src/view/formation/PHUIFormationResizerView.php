@@ -29,6 +29,7 @@ final class PHUIFormationResizerView
       'div',
       array(
         'id' => $this->getID(),
+        'aria-hidden' => 'true',
         'class' => 'phui-formation-resizer',
         'style' => $style,
       ));
