@@ -117,6 +117,7 @@ final class ProjectBoardTaskCard extends Phobject {
           ->setName(pht('Edit'))
           ->setIcon($edit_icon)
           ->addSigil('edit-project-card')
+          ->setAriaLabel(pht('Edit Task'))
           ->setHref('/maniphest/task/edit/'.$task->getID().'/'));
     }
 
