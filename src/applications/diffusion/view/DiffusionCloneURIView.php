@@ -100,7 +100,7 @@ final class DiffusionCloneURIView extends AphrontView {
           'tip' => pht('Copy repository URI'),
           'text' => $display,
           'successMessage' => pht('Repository URI copied.'),
-          'errorMessage' => pht('Copy of Repository URI failed.'),
+          'errorMessage' => pht('Copying failed.'),
         ));
 
     switch ($uri->getEffectiveIOType()) {

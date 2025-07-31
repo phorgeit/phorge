@@ -58,7 +58,8 @@ final class AphrontFormTextControl extends AphrontFormControl {
   }
 
   protected function renderInput() {
-    return javelin_tag(
+    $input = array();
+    $input[] = javelin_tag(
       'input',
       array(
         'type'         => 'text',
@@ -72,6 +73,38 @@ final class AphrontFormTextControl extends AphrontFormControl {
         'placeholder'  => $this->getPlaceholder(),
         'autofocus' => ($this->getAutofocus() ? 'autofocus' : null),
       ));
+
+    if ($this->getHasCopyButton()) {
+      Javelin::initBehavior('select-content');
+      Javelin::initBehavior('phabricator-clipboard-copy');
+      Javelin::initBehavior('phabricator-tooltips');
+
+      $field_label = $this->getLabel();
+      if (phutil_nonempty_string($field_label)) {
+        // TODO: 'Copy %s' is broken i18n as it ignores grammatical case
+        $tip_message = pht('Copy %s', $field_label);
+        $success_message = pht('%s copied.', $field_label);
+      } else {
+        $tip_message = pht('Copy text');
+        $success_message = pht('Text copied.');
+      }
+      $copy = id(new PHUIButtonView())
+        ->setTag('a')
+        ->setColor(PHUIButtonView::GREY)
+        ->setIcon('fa-clipboard')
+        ->setHref('#')
+        ->addSigil('clipboard-copy')
+        ->addSigil('has-tooltip')
+        ->setMetadata(
+          array(
+            'tip' => $tip_message,
+            'text' => $this->getValue(),
+            'successMessage' => $success_message,
+            'errorMessage' => pht('Copying failed.'),
+          ));
+      $input[] = $copy;
+    }
+    return $input;
   }
 
 }

@@ -15,6 +15,7 @@ abstract class AphrontFormControl extends AphrontView {
   private $required;
   private $hidden;
   private $classes;
+  private $hasCopyButton;
 
   public function setHidden($hidden) {
     $this->hidden = $hidden;
@@ -114,6 +115,33 @@ abstract class AphrontFormControl extends AphrontView {
     return $this;
   }
 
+  /**
+   * Whether a button is displayed next to the control which allows the user to
+   * copy the value in the form control. Common use cases include <input>
+   * (AphrontFormTextControl) and <textarea> (AphrontFormTextAreaControl)
+   * elements displaying read-only data such as tokens or passphrases. This is
+   * only to get the CSS right; actual button implementation is in subclasses.
+   *
+   * @return bool
+   */
+  public function getHasCopyButton() {
+    return $this->hasCopyButton;
+  }
+
+  /**
+   * Whether to display a button next to the control which allows the user to
+   * copy the value in the form control. Common use cases include <input>
+   * (AphrontFormTextControl) and <textarea> (AphrontFormTextAreaControl)
+   * elements displaying read-only data such as tokens or passphrases. This is
+   * only to get the CSS right; actual button implementation is in subclasses.
+   *
+   * @param bool $has_copy_button
+   */
+  public function setHasCopyButton($has_copy_button) {
+    $this->hasCopyButton = $has_copy_button;
+    return $this;
+  }
+
   public function getValue() {
     return $this->value;
   }
@@ -192,9 +220,14 @@ abstract class AphrontFormControl extends AphrontView {
       $this->setID(celerity_generate_unique_node_id());
     }
 
+    $class = 'aphront-form-input';
+    if ($this->getHasCopyButton()) {
+      $class = $class.' has-copy-button';
+    }
+
     $input = phutil_tag(
       'div',
-      array('class' => 'aphront-form-input'),
+      array('class' => $class),
       $this->renderInput());
 
     $error = null;

@@ -96,6 +96,7 @@ final class PhabricatorConduitTokenEditController
               ->setLabel(pht('Token'))
               ->setReadOnly(true)
               ->setSigil('select-on-click')
+              ->setHasCopyButton(true)
               ->setValue($token->getToken()));
 
         $dialog->appendForm($form);

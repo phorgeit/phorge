@@ -246,7 +246,7 @@ final class DifferentialChangesetDetailView extends AphrontView {
           'tip' => pht('Copy file path'),
           'text' => $display_filename,
           'successMessage' => pht('File path copied.'),
-          'errorMessage' => pht('Copy of file path failed.'),
+          'errorMessage' => pht('Copying failed.'),
         ));
 
     return javelin_tag(

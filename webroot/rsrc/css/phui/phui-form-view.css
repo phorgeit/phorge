@@ -104,6 +104,17 @@
   width: 100%;
 }
 
+/* Reduce from 100% to 85% to avoid linebreak when displaying a Copy button */
+.aphront-form-input.has-copy-button input[type="text"],
+.aphront-form-input.has-copy-button textarea {
+  width: 85%;
+}
+
+.aphront-form-input.has-copy-button .button {
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
 .aphront-form-cvc-input input {
   width: 64px;
 }
