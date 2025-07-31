@@ -92,9 +92,6 @@ final class DifferentialRevisionOperationController
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)
-      ->appendRemarkupInstructions(
-        pht(
-          '(NOTE) This feature is new and experimental.'))
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Onto Branch'))
