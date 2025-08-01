@@ -245,7 +245,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
 
     $v = [];
     $v['og:site_name'] = PlatformSymbols::getPlatformServerName();
-    $v['og:type'] = 'object';
+    $v['og:type'] = 'website';
     $v['og:url'] = PhabricatorEnv::getProductionURI($task->getURI());
     $v['og:title'] = $task->getMonogram().' '.$task->getTitle();
 
