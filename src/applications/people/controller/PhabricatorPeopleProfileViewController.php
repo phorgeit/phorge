@@ -85,6 +85,9 @@ final class PhabricatorPeopleProfileViewController
         ));
   }
 
+  /**
+   * @return PHUIObjectBoxView|null
+   */
   private function buildPropertyView(
     PhabricatorUser $user) {
 
@@ -114,6 +117,9 @@ final class PhabricatorPeopleProfileViewController
     return $view;
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function buildProjectsView(
     PhabricatorUser $user) {
 
@@ -168,6 +174,9 @@ final class PhabricatorPeopleProfileViewController
     return $box;
   }
 
+  /**
+   * @return PHUIObjectBoxView|null
+   */
   private function buildCalendarDayView(PhabricatorUser $user) {
     $viewer = $this->getViewer();
     $class = 'PhabricatorCalendarApplication';
