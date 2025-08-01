@@ -9,6 +9,7 @@ final class DiffusionCommitGraphView
   private $isTail;
   private $parents;
   private $filterParents;
+  private $noDataString;
 
   private $commitMap;
   private $buildableMap;
@@ -79,6 +80,11 @@ final class DiffusionCommitGraphView
 
   public function getFilterParents() {
     return $this->filterParents;
+  }
+
+  public function setNoDataString($no_data_string) {
+    $this->noDataString = $no_data_string;
+    return $this;
   }
 
   private function getRepository() {
@@ -215,6 +221,9 @@ final class DiffusionCommitGraphView
     return $views;
   }
 
+  /**
+   * @return array<PHUIObjectItemListView>
+   */
   private function newObjectItemRows() {
     $viewer = $this->getViewer();
 
@@ -276,12 +285,17 @@ final class DiffusionCommitGraphView
       $rows[$idx] = phutil_tag('tr', array(), $cells);
     }
 
-    $table = phutil_tag(
-      'table',
-      array(
-        'class' => 'diffusion-commit-graph-table',
-      ),
-      $rows);
+    if ($rows) {
+      $table = phutil_tag(
+        'table',
+        array(
+          'class' => 'diffusion-commit-graph-table',
+        ),
+        $rows);
+    } else {
+      $table = id(new PHUIObjectItemListView())
+        ->setNoDataString($this->noDataString);
+    }
 
     return $table;
   }

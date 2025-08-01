@@ -53,6 +53,9 @@ final class DifferentialRevisionListView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @return PHUIObjectItemListView
+   */
   public function render() {
     $viewer = $this->getViewer();
 

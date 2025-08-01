@@ -64,8 +64,14 @@ final class PhabricatorPeopleProfileCommitsController
 
     $list = id(new DiffusionCommitGraphView())
       ->setViewer($viewer)
-      ->setCommits($commits);
+      ->setCommits($commits)
+      ->setNoDataString(pht('No recent commits.'));
 
-    return $list;
+    $view = id(new PHUIObjectBoxView())
+      ->setHeaderText(pht('Recent Commits'))
+      ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
+      ->appendChild($list);
+
+    return $view;
   }
 }
