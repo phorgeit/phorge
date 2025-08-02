@@ -4,8 +4,7 @@
 
 .phui-timeline-view {
   padding: 0 16px;
-  background-image: url('/rsrc/image/d5d8e1.png');
-  background-repeat: repeat-y;
+  background: linear-gradient(to right, #d5d8e1 1px, transparent 1px);
   background-position: 96px;
 }
 
