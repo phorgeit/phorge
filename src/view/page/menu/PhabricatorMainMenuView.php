@@ -403,6 +403,7 @@ final class PhabricatorMainMenuView extends AphrontView {
           'href'  => '/conpherence/',
           'class' => implode(' ', $container_classes),
           'id'    => $message_id,
+          'aria-label' => pht('Chat Messages'),
         ),
         array(
           $message_icon_tag,
@@ -484,6 +485,7 @@ final class PhabricatorMainMenuView extends AphrontView {
           'href'  => '/notification/',
           'class' => implode(' ', $container_classes),
           'id'    => $bubble_id,
+          'aria-label' => pht('Notifications'),
         ),
         array($icon_tag, $count_tag));
 
@@ -563,6 +565,7 @@ final class PhabricatorMainMenuView extends AphrontView {
             'href'  => '/config/issue/',
             'class' => implode(' ', $container_classes),
             'id'    => $setup_id,
+            'aria-label' => pht('Unresolved Setup Issues'),
           ),
           array(
             $setup_icon_tag,
@@ -629,6 +632,7 @@ final class PhabricatorMainMenuView extends AphrontView {
             'href' => $settings_uri,
             'class' => 'setup-unread',
             'id' => $bubble_id,
+            'aria-label' => pht('Account Setup Issues'),
           ),
           array(
             $user_icon,
