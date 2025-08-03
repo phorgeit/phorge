@@ -46,8 +46,8 @@ final class PhabricatorProjectActivityChartEngine
     $function->getFunctionLabel()
       ->setKey('moved-in')
       ->setName(pht('Tasks Moved Into Project'))
-      ->setColor('rgba(128, 128, 200, 1)')
-      ->setFillColor('rgba(128, 128, 200, 0.15)');
+      ->setColor('rgba(182, 126, 200, 1)')
+      ->setFillColor('rgba(182, 126, 200, 0.15)');
 
     $functions[] = $function;
 
