@@ -55,6 +55,9 @@ abstract class PhabricatorChartFunction
     return $this;
   }
 
+  /**
+   * @return PhabricatorChartFunctionLabel
+   */
   public function getFunctionLabel() {
     if (!$this->functionLabel) {
       $this->functionLabel = id(new PhabricatorChartFunctionLabel())

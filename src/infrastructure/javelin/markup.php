@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @return PhutilSafeHTML
+ */
 function javelin_tag(
   $tag,
   array $attributes = array(),
@@ -66,10 +69,12 @@ function javelin_tag(
     unset($attributes['print']);
   }
 
-
   return phutil_tag($tag, $attributes, $content);
 }
 
+/**
+ * @return PhutilSafeHTML
+ */
 function phabricator_form(PhabricatorUser $user, $attributes, $content) {
   $body = array();
 

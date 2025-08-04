@@ -14,6 +14,9 @@ final class PhabricatorChartFunctionLabel
     return $this;
   }
 
+  /**
+   * @return string Internal identifier of the line, e.g. "moved-in"
+   */
   public function getKey() {
     return $this->key;
   }
@@ -23,6 +26,10 @@ final class PhabricatorChartFunctionLabel
     return $this;
   }
 
+  /**
+   * @return string User-visible label describing what the line represents,
+   *   e.g. "Open Tasks"
+   */
   public function getName() {
     return $this->name;
   }
@@ -32,6 +39,9 @@ final class PhabricatorChartFunctionLabel
     return $this;
   }
 
+  /**
+   * @return string Color of the line, such as 'rgba(128, 128, 200, 1)'
+   */
   public function getColor() {
     return $this->color;
   }
@@ -50,10 +60,16 @@ final class PhabricatorChartFunctionLabel
     return $this;
   }
 
+  /**
+   * @return string Color of the area, such as 'rgba(128, 128, 200, 0.15)'
+   */
   public function getFillColor() {
     return $this->fillColor;
   }
 
+  /**
+   * @return array
+   */
   public function toWireFormat() {
     return array(
       'key' => $this->getKey(),

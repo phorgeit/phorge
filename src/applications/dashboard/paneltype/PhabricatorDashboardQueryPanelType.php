@@ -215,6 +215,9 @@ final class PhabricatorDashboardQueryPanelType
     return $engine;
   }
 
+  /**
+   * @return array<PhabricatorActionView>
+   */
   public function newHeaderEditActions(
     PhabricatorDashboardPanel $panel,
     PhabricatorUser $viewer,

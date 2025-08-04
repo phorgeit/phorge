@@ -3,6 +3,9 @@
 final class PhabricatorAuthEditController
   extends PhabricatorAuthProviderConfigController {
 
+  /**
+   * @return PhabricatorStandardPageView|AphrontResponse
+   */
   public function handleRequest(AphrontRequest $request) {
     $this->requireApplicationCapability(
       AuthManageProvidersCapability::CAPABILITY);

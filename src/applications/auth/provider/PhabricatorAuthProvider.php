@@ -64,6 +64,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
       ->execute();
   }
 
+  /**
+   * @return array<static>
+   */
   public static function getAllProviders() {
     static $providers;
 
@@ -99,6 +102,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $providers;
   }
 
+  /**
+   * @return array<static>
+   */
   public static function getAllEnabledProviders() {
     $providers = self::getAllProviders();
     foreach ($providers as $key => $provider) {
@@ -267,6 +273,9 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return $this->didUpdateAccount($account);
   }
 
+  /**
+   * @return PhabricatorExternalAccount
+   */
   private function didUpdateAccount(PhabricatorExternalAccount $account) {
     $adapter = $this->getAdapter();
 
@@ -375,10 +384,16 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return '500-'.$this->getProviderName();
   }
 
+  /**
+   * @return string Name of the icon of the auth provider
+   */
   protected function getLoginIcon() {
     return 'Generic';
   }
 
+  /**
+   * @return PHUIIconView Icon of the auth provider
+   */
   public function newIconView() {
     return id(new PHUIIconView())
       ->setSpriteSheet(PHUIIconView::SPRITE_LOGIN)
@@ -464,7 +479,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
    * @param   string         $mode Request mode string.
    * @param   map            $attributes (optional) Additional parameters, see
    *   above.
-   * @return  wild            Log in button.
+   * @return  PhutilSafeHTML Log in button.
    */
   protected function renderStandardLoginButton(
     AphrontRequest $request,

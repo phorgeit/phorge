@@ -5,6 +5,9 @@ abstract class PhabricatorEditEngineController
 
   private $engineKey;
 
+  /**
+   * @param string $engine_key Engine key, e.g. 'maniphest.task'
+   */
   public function setEngineKey($engine_key) {
     $this->engineKey = $engine_key;
     return $this;
@@ -34,14 +37,24 @@ abstract class PhabricatorEditEngineController
     return $crumbs;
   }
 
+  /**
+   * @return PhabricatorEditEngineConfiguration|null
+   */
   protected function loadConfigForEdit() {
     return $this->loadConfig($need_edit = true);
   }
 
+  /**
+   * @return PhabricatorEditEngineConfiguration|null
+   */
   protected function loadConfigForView() {
     return $this->loadConfig($need_edit = false);
   }
 
+  /**
+   * @param bool $need_edit
+   * @return PhabricatorEditEngineConfiguration|null
+   */
   private function loadConfig($need_edit) {
     $request = $this->getRequest();
     $viewer = $this->getViewer();

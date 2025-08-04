@@ -1422,6 +1422,9 @@ abstract class PhabricatorEditEngine
     return $fields;
   }
 
+  /**
+   * @return PHUIButtonView|null
+   */
   private function buildEditFormActionButton($object) {
     if (!$this->isEngineConfigurable()) {
       return null;
@@ -1446,6 +1449,9 @@ abstract class PhabricatorEditEngine
     return $action_button;
   }
 
+  /**
+   * @return array<PhabricatorActionView>
+   */
   private function buildEditFormActions($object) {
     $actions = array();
 
