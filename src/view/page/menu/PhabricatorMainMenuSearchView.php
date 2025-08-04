@@ -190,6 +190,10 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
     );
 
     $items[] = array(
+      'name' => pht('Documentation'),
+    );
+
+    $items[] = array(
       'icon' => 'fa-book',
       'name' => pht('User Guide: Search'),
       'href' => PhabricatorEnv::getDoclink('Search User Guide'),
