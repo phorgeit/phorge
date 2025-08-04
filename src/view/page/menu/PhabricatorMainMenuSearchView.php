@@ -179,16 +179,6 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
       );
     }
 
-    $items[] =  array(
-      'name' => pht('More Options'),
-    );
-
-    $items[] = array(
-      'icon' => 'fa-search-plus',
-      'name' => pht('Global Search'),
-      'href' => '/search/query/advanced/',
-    );
-
     $items[] = array(
       'name' => pht('Documentation'),
     );

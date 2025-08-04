@@ -51,8 +51,8 @@ commit hash to jump to the corresponding commit. For a complete list of
 supported commands, see @{article:Search User Guide: Shortcuts}.
 
 After running a search, you can scroll up to add filters and refine the result
-set. You can also select **Global Search** from the dropdown menu to jump
-here immediately, or press return in the search box without entering a query.
+set. You can also press return in the search box without entering a query to go
+here immediately.
 
 This interface supports standard Phorge search and filtering features,
 like **saved queries** and **typeaheads**. See below for more details on using
