@@ -211,7 +211,13 @@ final class PhabricatorApplicationSearchController
     if ($named_query) {
       $title = $named_query->getQueryName();
     } else {
-      $title = pht('Advanced Search');
+      $current_app = $this->getCurrentApplication()->getName();
+      $search_app = id(new PhabricatorSearchApplication())->getName();
+      if ($current_app === $search_app) {
+        $title = pht('Global Search');
+      } else {
+        $title = pht('Search');
+      }
     }
 
     $header = id(new PHUIHeaderView())
@@ -577,8 +583,10 @@ final class PhabricatorApplicationSearchController
         'items' => array(),
         'edit' => true,
       ),
+      // The name 'global' is a remnant of the time this group was called
+      // Global Saved Queries. See T16168.
       'global' => array(
-        'name' => pht('Global Saved Queries'),
+        'name' => pht('System Saved Queries'),
         'items' => array(),
         'edit' => $can_global,
       ),

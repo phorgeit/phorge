@@ -13,7 +13,7 @@ final class PhabricatorPirateEnglishTranslation
       'Review Code' => 'Inspect Riggins',
       'Tasks and Bugs' => 'Bilge rats',
       'Cancel' => 'Belay',
-      'Advanced Search' => 'Scour Hard',
+      'Global Search' => 'Scour Wide',
       'No search results.' => 'We be finding nothin.',
       'Send' => 'Aye!',
       'Partial' => 'Parrtial',

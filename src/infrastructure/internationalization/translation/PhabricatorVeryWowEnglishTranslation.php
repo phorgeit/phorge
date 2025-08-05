@@ -13,7 +13,7 @@ final class PhabricatorVeryWowEnglishTranslation
       'Review Code' => 'Wow! Code Review! Wow!',
       'Tasks and Bugs' => 'Much Bug! Very Bad!',
       'Cancel' => 'Nope!',
-      'Advanced Search' => 'Much Search!',
+      'Global Search' => 'All The Search!',
       'No search results.' => 'No results! Wow!',
       'Send' => 'Bark Bark!',
       'Partial' => 'Pawtial',

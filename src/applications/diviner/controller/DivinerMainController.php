@@ -20,7 +20,7 @@ final class DivinerMainController extends DivinerController {
     $query_button = id(new PHUIButtonView())
       ->setTag('a')
       ->setHref($this->getApplicationURI('query/'))
-      ->setText(pht('Advanced Search'))
+      ->setText(pht('Diviner Search'))
       ->setIcon('fa-search');
 
     $header = id(new PHUIHeaderView())

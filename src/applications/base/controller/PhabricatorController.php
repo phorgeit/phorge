@@ -323,6 +323,9 @@ abstract class PhabricatorController extends AphrontController {
     return null;
   }
 
+  /**
+   * @return PHUICrumbsView
+   */
   protected function buildApplicationCrumbs() {
     $crumbs = array();
 

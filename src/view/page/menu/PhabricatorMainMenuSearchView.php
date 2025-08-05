@@ -124,7 +124,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $items = array();
     $items[] = array(
-      'name' => pht('Search'),
+      'name' => pht('Global Search'),
     );
 
     $items[] = array(
@@ -147,7 +147,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
     }
 
     $items[] = array(
-      'name' => pht('Saved Queries'),
+      'name' => pht('Saved Global Queries'),
     );
 
 
@@ -185,7 +185,7 @@ final class PhabricatorMainMenuSearchView extends AphrontView {
 
     $items[] = array(
       'icon' => 'fa-search-plus',
-      'name' => pht('Advanced Search'),
+      'name' => pht('Global Search'),
       'href' => '/search/query/advanced/',
     );
 

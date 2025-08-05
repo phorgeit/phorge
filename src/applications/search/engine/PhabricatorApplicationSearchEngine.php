@@ -492,7 +492,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   public function addNavigationItems(PHUIListView $menu) {
     $viewer = $this->requireViewer();
 
-    $menu->newLabel(pht('Queries'));
+    $current_app = $this->getApplication()->getName();
+    $search_app = id(new PhabricatorSearchApplication())->getName();
+
+    if ($current_app === $search_app) {
+      $menu->newLabel(pht('Global Queries'));
+    } else {
+      $menu->newLabel(pht('%s Queries', $current_app));
+    }
 
     $named_queries = $this->loadEnabledNamedQueries();
 
@@ -509,7 +516,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $menu->newLabel(pht('Search'));
     $advanced_uri = $this->getQueryResultsPageURI('advanced');
-    $menu->newLink(pht('Advanced Search'), $advanced_uri, 'query/advanced');
+    if ($current_app === $search_app) {
+      $menu->newLink(pht('Global Search'), $advanced_uri, 'query/advanced');
+    } else {
+      $menu->newLink(
+        pht('%s Search', $current_app),
+        $advanced_uri,
+        'query/advanced');
+    }
 
     foreach ($this->navigationItems as $extra_item) {
       $menu->addMenuItem($extra_item);
