@@ -65,7 +65,7 @@ final class PhabricatorAuthSetupCheck extends PhabricatorSetupCheck {
       $this
         ->newIssue('auth.config-unlocked')
         ->setShortName(pht('Auth Config Unlocked'))
-        ->setName(pht('Authenticaton Configuration Unlocked'))
+        ->setName(pht('Authentication Configuration Unlocked'))
         ->setSummary(
           pht(
             'Authentication configuration is currently unlocked. Once you '.
