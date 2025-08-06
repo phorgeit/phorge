@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200"
+xmlns="http://www.w3.org/2000/svg">
+<rect x="10" y="10" width="20" height="180" fill="#8e663e"/>
+<path id="flag" fill="#c3c3c3" d="
+M 30,20
+Q 60,10 100,30
+T 185,25
+L 185,140
+Q 140,160 100,140
+T 30,140 Z
+">
+</path>
+</svg>

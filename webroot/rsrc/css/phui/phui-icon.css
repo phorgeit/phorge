@@ -30,6 +30,10 @@
   background-size: 35px;
 }
 
+.phui-icon-view.phuihead-flag {
+  background-size: 16px;
+}
+
 .phui-icon-has-text:before {
   margin-right: 6px;
 }

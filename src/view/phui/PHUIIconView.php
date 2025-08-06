@@ -7,6 +7,7 @@ final class PHUIIconView extends AphrontTagView {
 
   const HEAD_SMALL = 'phuihead-small';
   const HEAD_MEDIUM = 'phuihead-medium';
+  const HEAD_FLAG = 'phuihead-flag';
 
   private $href = null;
   private $image;
@@ -26,6 +27,9 @@ final class PHUIIconView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param string $image URI of the icon file
+   */
   public function setImage($image) {
     $this->image = $image;
     return $this;
@@ -36,6 +40,9 @@ final class PHUIIconView extends AphrontTagView {
     return $this;
   }
 
+  /**
+   * @param string $size One of the `PHUIIconView::HEAD_*` variables
+   */
   public function setHeadSize($size) {
     $this->headSize = $size;
     return $this;

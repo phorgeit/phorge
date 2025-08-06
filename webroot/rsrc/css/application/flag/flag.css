@@ -21,39 +21,48 @@
 }
 
 .phabricator-flag-color-0 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_red.png);
+  background-image: url(/rsrc/image/icon/flags/flag_red.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-1 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_orange.png);
+  background-image: url(/rsrc/image/icon/flags/flag_orange.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-2 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_yellow.png);
+  background-image: url(/rsrc/image/icon/flags/flag_yellow.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-3 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_green.png);
+  background-image: url(/rsrc/image/icon/flags/flag_green.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-4 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_blue.png);
+  background-image: url(/rsrc/image/icon/flags/flag_blue.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-5 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_pink.png);
+  background-image: url(/rsrc/image/icon/flags/flag_pink.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-6 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_purple.png);
+  background-image: url(/rsrc/image/icon/flags/flag_purple.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-color-7 {
-  background-image: url(/rsrc/image/icon/fatcow/flag_finish.png);
+  background-image: url(/rsrc/image/icon/flags/flag_finish.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-ghost {
-  background-image: url(/rsrc/image/icon/fatcow/flag_ghost.png);
+  background-image: url(/rsrc/image/icon/flags/flag_ghost.svg);
+  background-size: 16px;
 }
 
 .phabricator-flag-select-control .phabricator-flag-select-label {
