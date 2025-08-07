@@ -128,7 +128,7 @@ ul.phui-oi-list-view {
   bottom: 0;
   left: 0;
   width: 20px;
-  background: url('/rsrc/image/texture/grip.png') center center no-repeat;
+  background: url('/rsrc/image/grip.svg') center center no-repeat;
 }
 
 .phui-oi-ungrippable .phui-oi-grip {

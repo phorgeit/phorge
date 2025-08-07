@@ -159,7 +159,7 @@
   height: 100%;
   width: 12px;
   cursor: move;
-  background-image: url(/rsrc/image/texture/grip.png);
+  background-image: url(/rsrc/image/grip.svg);
   background-position: center center;
   background-repeat: no-repeat;
 }
