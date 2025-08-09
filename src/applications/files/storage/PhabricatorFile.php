@@ -1531,7 +1531,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
    * This method is called both when creating a file from fresh data, and
    * when creating a new file which reuses existing storage.
    *
-   * @param map<string, wild> $params Bag of parameters, see
+   * @param map<string, mixed> $params Bag of parameters, see
    *   @{class:PhabricatorFile} for documentation.
    * @return $this
    */

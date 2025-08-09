@@ -60,7 +60,7 @@ final class DifferentialLineAdjustmentMap extends Phobject {
    *
    * @param int $line Line to map
    * @param bool $is_end True to map it as the end of a range.
-   * @return wild Spooky magic.
+   * @return array{bool,int,int} Tuple of (deleted, offset, line).
    */
   public function mapLine($line, $is_end) {
     $nmap = $this->getNearestMap();

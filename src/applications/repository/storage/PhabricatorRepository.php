@@ -1158,7 +1158,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
   /**
    * Get a parsed object representation of the repository's remote URI..
    *
-   * @return wild A @{class@arcanist:PhutilURI}.
+   * @return PhutilURI A @{class@arcanist:PhutilURI}.
    * @task uri
    */
   public function getRemoteURIObject() {
@@ -1788,7 +1788,7 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
    * services, returning raw URIs.
    *
    * @param PhabricatorUser $viewer Viewing user.
-   * @param map<string, wild> $options Constraints on selectable services.
+   * @param map<string, mixed> $options Constraints on selectable services.
    * @return string|null URI, or `null` for local repositories.
    */
   public function getAlmanacServiceURI(

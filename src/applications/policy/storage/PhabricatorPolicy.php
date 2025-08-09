@@ -349,7 +349,7 @@ final class PhabricatorPolicy
    * to apply policy filters efficiently.
    *
    * @param class-string $rule_class Policy rule classname.
-   * @return list<wild> List of values used in this policy.
+   * @return array<mixed> List of values used in this policy.
    */
   public function getCustomRuleValues($rule_class) {
     $values = array();

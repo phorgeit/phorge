@@ -1519,7 +1519,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Render a content body (if available) to onboard new users.
    * This body is usually visible when you have no elements in a list,
    * or when you force the rendering on a list with the `?nux=1` URL.
-   * @return wild|PhutilSafeHTML|null
+   * @return mixed|PhutilSafeHTML|null
    */
   final public function renderNewUserView() {
     $body = $this->getNewUserBody();
@@ -1535,7 +1535,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Get a content body to onboard new users.
    * Traditionally this content is shown from an empty list, to explain
    * what a certain entity does, and how to create a new one.
-   * @return wild|PhutilSafeHTML|null
+   * @return mixed|PhutilSafeHTML|null
    */
   protected function getNewUserHeader() {
     return null;

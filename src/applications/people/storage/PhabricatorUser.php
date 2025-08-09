@@ -431,7 +431,7 @@ final class PhabricatorUser
    * Test if a given setting is set to a particular value.
    *
    * @param string $key Setting key constant.
-   * @param wild $value Value to compare.
+   * @param mixed $value Value to compare.
    * @return bool True if the setting has the specified value.
    * @task settings
    */
@@ -783,7 +783,7 @@ final class PhabricatorUser
   /**
    * Get cached availability, if present.
    *
-   * @return wild|null Cache data, or null if no cache is available.
+   * @return array|null Cache data, or null if no cache is available.
    * @task availability
    */
   public function getAvailabilityCache() {

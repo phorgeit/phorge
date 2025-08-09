@@ -4,7 +4,7 @@ final class PhabricatorConfigJSON extends Phobject {
   /**
    * Properly format a JSON value.
    *
-   * @param wild $value Any value, but should be a raw value, not a string of
+   * @param mixed $value Any value, but should be a raw value, not a string of
    *   JSON.
    * @return string
    */

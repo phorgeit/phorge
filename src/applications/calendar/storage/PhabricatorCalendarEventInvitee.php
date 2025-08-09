@@ -72,7 +72,7 @@ final class PhabricatorCalendarEventInvitee extends PhabricatorCalendarDAO
   /**
    * Import the invitee availability from the Time Transparency
    * field in an ICS calendar event as per RFC 5545 section 3.8.2.7.
-   * @param wild $time_transp Time transparency like 'OPAQUE'
+   * @param mixed $time_transp Time transparency like 'OPAQUE'
    *                          or 'TRANSPARENT' or null.
    * @return void
    */

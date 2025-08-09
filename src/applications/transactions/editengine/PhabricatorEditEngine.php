@@ -691,7 +691,7 @@ abstract class PhabricatorEditEngine
    * Initialize a new object for object creation via Conduit.
    *
    * @return object Newly initialized object.
-   * @param list<wild> $raw_xactions Raw transactions.
+   * @param array<mixed> $raw_xactions Raw transactions.
    * @task load
    */
   protected function newEditableObjectFromConduit(array $raw_xactions) {
@@ -725,7 +725,7 @@ abstract class PhabricatorEditEngine
    * Try to load an object by ID, PHID, or monogram. This is done primarily
    * to make Conduit a little easier to use.
    *
-   * @param wild $identifier ID, PHID, or monogram.
+   * @param int|string $identifier ID, PHID, or monogram.
    * @param list<string> $capabilities (optional) List of required capability
    *   constants, or omit for defaults.
    * @return object Corresponding editable object.
@@ -873,7 +873,7 @@ abstract class PhabricatorEditEngine
   /**
    * Verify that an object is appropriate for editing.
    *
-   * @param wild $object Loaded value.
+   * @param PhabricatorApplicationTransactionInterface $object Loaded value.
    * @return void
    * @task load
    */
@@ -2264,7 +2264,8 @@ abstract class PhabricatorEditEngine
    * request.
    *
    * @param ConduitAPIRequest $request The request.
-   * @param list<wild> $xactions Raw conduit transactions.
+   * @param array<array{type:string,value:mixed}> $xactions Raw conduit
+   *                                              transactions.
    * @param list<PhabricatorEditType> $types Supported edit types.
    * @param PhabricatorApplicationTransaction $template Template transaction.
    * @return list<PhabricatorApplicationTransaction> Generated transactions.

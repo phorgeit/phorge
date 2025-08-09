@@ -883,7 +883,7 @@ abstract class LiskDAO extends Phobject
    * using legacy features with CONFIG_CONVERT_CAMELCASE, but in that case you
    * should just go ahead and die in a fire).
    *
-   * @return array<string,wild|null>  Dictionary of object properties.
+   * @return array<string,mixed>  Dictionary of object properties.
    *
    * @task   info
    */

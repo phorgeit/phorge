@@ -70,8 +70,8 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
    *
    * @param   PhabricatorConfigOption   $option Option being rendered.
    * @param   AphrontRequest            $request Active request.
-   * @return  wild|null                 Additional contextual description
-   *                                    information.
+   * @return  PhutilSafeHTMLProducerInterface|array|null Additional contextual
+   *                                                    description information.
    */
   public function renderContextualDescription(
     PhabricatorConfigOption $option,

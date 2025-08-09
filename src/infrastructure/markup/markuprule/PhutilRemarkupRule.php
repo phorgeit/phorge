@@ -61,8 +61,8 @@ abstract class PhutilRemarkupRule extends Phobject {
    * using them.
    *
    * @param   string               $name Tag name.
-   * @param   array<string, wild>  $attrs Dictionary of tag attributes.
-   * @param   wild                 $content (optional) Tag content.
+   * @param   array<string, mixed> $attrs Dictionary of tag attributes.
+   * @param   mixed                $content (optional) Tag content.
    * @return  PhutilSafeHTML       Tag object.
    */
   protected function newTag($name, array $attrs, $content = null) {
@@ -86,7 +86,7 @@ abstract class PhutilRemarkupRule extends Phobject {
    * Normally, you can call @{method:newTag} rather than calling this method
    * directly. @{method:newTag} will check attributes for you.
    *
-   * @param   wild    $text Ostensibly flat text.
+   * @param   mixed   $text Ostensibly flat text.
    * @return  string  Flat text.
    */
   protected function assertFlatText($text) {
@@ -105,7 +105,7 @@ abstract class PhutilRemarkupRule extends Phobject {
   /**
    * Check whether text is flat (contains no replacement tokens) or not.
    *
-   * @param   wild  $text Ostensibly flat text.
+   * @param   mixed $text Ostensibly flat text.
    * @return  bool  True if the text is flat.
    */
   protected function isFlatText($text) {

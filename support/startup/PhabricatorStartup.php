@@ -514,7 +514,7 @@ final class PhabricatorStartup {
    * Adjustments here primarily impact the environment as seen by subprocesses.
    * The environment is forwarded explicitly by @{class:ExecFuture}.
    *
-   * @param map<string, wild> $env Input `$_ENV`.
+   * @param map<string, mixed> $env Input `$_ENV`.
    * @return map<string, string> Suitable `$_ENV`.
    * @task validation
    */
@@ -694,7 +694,7 @@ final class PhabricatorStartup {
   /**
    * Tear down rate limiting and allow limits to score the request.
    *
-   * @param map<string, wild> $request_state Additional, freeform request
+   * @param map<string, mixed> $request_state Additional, freeform request
    *   state.
    * @return void
    * @task ratelimit

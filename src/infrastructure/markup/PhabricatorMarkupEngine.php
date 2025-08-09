@@ -196,7 +196,7 @@ final class PhabricatorMarkupEngine extends Phobject {
    * @param string                      $field The field to retrieve.
    * @param string                      $metadata_key The engine metadata field
    *                                    to retrieve.
-   * @param wild                        $default (optional) Default value.
+   * @param mixed                       $default (optional) Default value.
    * @task markup
    */
   public function getEngineMetadata(

@@ -770,7 +770,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @param PhabricatorApplicationSearchEngine $engine Engine building the
    *   query.
    * @param AphrontRequest $request Request to read from.
-   * @return wild
+   * @return mixed
    * @task appsearch
    */
   public function readApplicationSearchValueFromRequest(
@@ -793,7 +793,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @param PhabricatorApplicationSearchEngine $engine Engine executing the
    *   query.
    * @param PhabricatorCursorPagedPolicyAwareQuery $query Query to constrain.
-   * @param wild $value Constraint provided by the user.
+   * @param mixed $value Constraint provided by the user.
    * @task appsearch
    */
   public function applyApplicationSearchConstraintToQuery(
@@ -816,7 +816,7 @@ abstract class PhabricatorCustomField extends Phobject {
    * @param PhabricatorApplicationSearchEngine $engine Engine constructing the
    *   form.
    * @param AphrontFormView $form The form to update.
-   * @param wild $value Value from the saved query.
+   * @param mixed $value Value from the saved query.
    * @task appsearch
    */
   public function appendToApplicationSearchForm(
@@ -1540,7 +1540,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Get the field value for evaluation by Herald.
    *
-   * @return wild Field value.
+   * @return mixed Field value.
    * @task herald
    */
   public function getHeraldFieldValue() {

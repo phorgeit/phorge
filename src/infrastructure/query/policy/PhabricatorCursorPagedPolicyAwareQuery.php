@@ -955,7 +955,11 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    *   - `vector` (`list<string>`): The actual order vector to use.
    *   - `name` (`string`): Human-readable order name.
    *
-   * @return map<string, wild> Map from builtin order keys to specification.
+   * @phpstan-type BuiltinOrder array{name: string, vector: string[],
+   *                                  aliases?: string[]}
+   * @return map<string,BuiltinOrder> Map from builtin order keys to
+   *                                    specification.
+   *
    * @task order
    */
   public function getBuiltinOrders() {

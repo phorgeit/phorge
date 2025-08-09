@@ -817,7 +817,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
    * object we expect.
    *
    * @param DrydockBlueprint $blueprint Blueprint which built the resource.
-   * @param wild $resource Thing which the blueprint claims is a valid
+   * @param mixed $resource Thing which the blueprint claims is a valid
    *   resource.
    * @param DrydockLease $lease Lease the resource was allocated for.
    * @return void

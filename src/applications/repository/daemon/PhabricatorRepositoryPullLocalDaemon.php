@@ -343,7 +343,7 @@ final class PhabricatorRepositoryPullLocalDaemon
    *
    * @param bool $consume (optional) Pass `true` to consume these messages, so
    *   the process will not see them again.
-   * @return list<wild> Pending update messages.
+   * @return array<PhabricatorRepositoryStatusMessage> Pending update messages.
    *
    * @task pull
    */

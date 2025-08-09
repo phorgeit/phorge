@@ -32,7 +32,7 @@ abstract class PhabricatorTriggerClock extends Phobject {
   /**
    * Validate clock configuration.
    *
-   * @param map<string, wild> $properties Map of clock properties.
+   * @param map<string, mixed> $properties Map of clock properties.
    * @return void
    */
   abstract public function validateProperties(array $properties);

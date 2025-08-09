@@ -563,7 +563,7 @@ final class AphrontApplicationConfiguration
   /**
    * Tests if a response is of a valid type.
    *
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return bool True if the object is of a valid type.
    * @task response
    */
@@ -586,7 +586,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontController $controller Controller which returned the
    *   response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -616,7 +616,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontResponseProducerInterface $producer Object which produced
    *   this response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -646,7 +646,7 @@ final class AphrontApplicationConfiguration
    *
    * @param AphrontRequestExceptionHandler $handler Object which produced this
    *  response.
-   * @param wild $response Supposedly valid response.
+   * @param mixed $response Supposedly valid response.
    * @return void
    * @task response
    */
@@ -741,7 +741,7 @@ final class AphrontApplicationConfiguration
    * @{class:AphrontRequestExceptionHandler}.
    *
    * @param Throwable $throwable Exception which needs to be handled.
-   * @return wild Response or response producer, or null if no available
+   * @return mixed Response or response producer, or null if no available
    *   handler can produce a response.
    * @task exception
    */

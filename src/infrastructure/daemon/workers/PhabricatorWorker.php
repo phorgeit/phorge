@@ -263,7 +263,7 @@ abstract class PhabricatorWorker extends Phobject {
   /**
    * Get tasks queued as followups by @{method:queueTask}.
    *
-   * @return list<array<string, wild, int|null>> Queued task specifications.
+   * @return list<array{string, mixed, int|null}> Queued task specifications.
    */
   final protected function getQueuedTasks() {
     return $this->queuedTasks;
@@ -277,7 +277,7 @@ abstract class PhabricatorWorker extends Phobject {
    * this method to force the queue to flush before failing (for example, if
    * you are using queues to improve locking behavior).
    *
-   * @param map<string, wild> $defaults (optional) Default options.
+   * @param map<string, mixed> $defaults (optional) Default options.
    */
   final public function flushTaskQueue($defaults = array()) {
     foreach ($this->getQueuedTasks() as $task) {

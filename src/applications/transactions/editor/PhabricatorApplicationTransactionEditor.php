@@ -3286,7 +3286,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * This will return `true` if the net effect of the object and transactions
    * is an empty field.
    *
-   * @param wild $field_value Current field value.
+   * @param mixed $field_value Current field value.
    * @param list<PhabricatorApplicationTransaction> $xactions Transactions
    *          editing the field.
    * @return bool True if the field will be an empty text field after edits.
@@ -4547,7 +4547,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * This data will be loaded with @{method:loadWorkerState} in the worker.
    *
-   * @return array<string, wild> Serializable editor state.
+   * @return array<string, mixed> Serializable editor state.
    * @task workers
    */
   private function getWorkerState() {
@@ -4572,7 +4572,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * Hook; return custom properties which need to be passed to workers.
    *
-   * @return array<string, wild> Custom properties.
+   * @return array<string, mixed> Custom properties.
    * @task workers
    */
   protected function getCustomWorkerState() {
@@ -4600,7 +4600,7 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * This method is used to load state when running worker operations.
    *
-   * @param array<string, wild> $state Editor state, from
+   * @param array<string, mixed> $state Editor state, from
         @{method:getWorkerState}.
    * @return $this
    * @task workers
@@ -4627,7 +4627,7 @@ abstract class PhabricatorApplicationTransactionEditor
    * Hook; set custom properties on the editor from data emitted by
    * @{method:getCustomWorkerState}.
    *
-   * @param array<string, wild> $state Custom state,
+   * @param array<string, mixed> $state Custom state,
    *   from @{method:getCustomWorkerState}.
    * @return $this
    * @task workers
@@ -4675,9 +4675,10 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, wild> $state Map of values to encode.
-   * @param map<string, string> $encodings Map of encodings to apply.
-   * @return map<string, wild> Map of encoded values.
+   * @param map<string,mixed> $state Map of values to encode.
+   * @param map<string,string> $encodings Map of encodings to apply.
+   * @return map<string,mixed> Map of encoded values.
+   *
    * @task workers
    */
   private function encodeStateForStorage(
@@ -4721,9 +4722,10 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * See @{method:getCustomWorkerStateEncoding}.
    *
-   * @param map<string, wild> $state Map of encoded values.
+   * @param map<string, mixed> $state Map of encoded values.
    * @param map<string, string> $encodings Map of encodings.
-   * @return map<string, wild> Map of decoded values.
+   * @return map<string, mixed> Map of decoded values.
+   *
    * @task workers
    */
   private function decodeStateFromStorage(

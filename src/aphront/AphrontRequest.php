@@ -724,7 +724,7 @@ final class AphrontRequest extends Phobject {
   /**
    * Get request data other than "magic" parameters.
    *
-   * @return array<string, wild> Request data, with magic filtered out.
+   * @return array<string, mixed> Request data, with magic filtered out.
    */
   public function getPassthroughRequestData($include_quicksand = false) {
     $data = $this->getRequestData();
@@ -748,7 +748,7 @@ final class AphrontRequest extends Phobject {
    * into a list of key-value pairs suitable for submitting via HTTP request
    * (with arrays flattened).
    *
-   * @param   array<string, wild>    $data Data to flatten.
+   * @param   array<string, mixed>    $data Data to flatten.
    * @return  array<string, string>  Flat data suitable for inclusion in an HTTP
    *                                 request.
    */
@@ -778,12 +778,11 @@ final class AphrontRequest extends Phobject {
    * and looks up the appropriate value in `$_SERVER` (in this case,
    * `"HTTP_ACCEPT_ENCODING"`).
    *
-   * @param   string        $name Canonical header name, like
-        `"Accept-Encoding"`.
-   * @param   wild          $default (optional) Default value to return if
-        header is not present.
-   * @param   array         $data (optional) Read this instead of `$_SERVER`.
-   * @return  string|wild   Header value if present, or `$default` if not.
+   * @param  string  $name Canonical header name, like `"Accept-Encoding"`.
+   * @param  mixed   $default (optional) Default value to return if
+   *                 header is not present.
+   * @param  array   $data (optional) Read this instead of `$_SERVER`.
+   * @return mixed   Header value if present, or `$default` if not.
    */
   public static function getHTTPHeader($name, $default = null, $data = null) {
     // PHP mangles HTTP headers by uppercasing them and replacing hyphens with
