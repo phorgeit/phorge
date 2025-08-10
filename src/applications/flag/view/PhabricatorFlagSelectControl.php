@@ -39,6 +39,7 @@ final class PhabricatorFlagSelectControl extends AphrontFormControl {
         array(
           'type' => 'checkbox',
           'name' => $this->getName().'[]',
+          'aria-label' => $partial,
           'value' => $const,
           'checked' => isset($value_map[$const])
             ? 'checked'
