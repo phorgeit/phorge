@@ -34,7 +34,7 @@ make this work, you need to do three things:
   - add the class name to your `.arcconfig` as the **lint.engine**,
     **unit.engine**, or **arcanist_configuration**.
 
-= Create a libphutil Library =
+= Create a Library =
 
 If you haven't created a library for the class to live in yet, you need to do
 that first. Follow the instructions in

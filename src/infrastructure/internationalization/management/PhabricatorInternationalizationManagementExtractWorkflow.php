@@ -49,7 +49,7 @@ final class PhabricatorInternationalizationManagementExtractWorkflow
       if (!$libraries) {
         throw new PhutilArgumentUsageException(
           pht(
-            'Path "%s" contains no libphutil libraries.',
+            'Path "%s" contains no libraries.',
             $path));
       }
 

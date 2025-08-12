@@ -64,7 +64,7 @@ Arcanist integrates with other tools:
 Arcanist has some advanced features as well, you can:
 
   - execute Conduit method calls with `arc call-conduit`
-  - create or update libphutil libraries with `arc liberate`
+  - create or update libraries with `arc liberate`
   - activate tab completion with `arc shell-complete`
   - ...or extend Arcanist and add new commands.
 
