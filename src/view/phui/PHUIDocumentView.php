@@ -113,6 +113,7 @@ final class PHUIDocumentView extends AphrontTagView {
         ->setButtonType(PHUIButtonView::BUTTONTYPE_SIMPLE)
         ->addClass('phui-document-toc')
         ->addSigil('jx-toggle-class')
+        ->setAuralLabel(pht('Table of Contents'))
         ->setMetaData(array(
           'map' => array(
             $toc_id => 'phui-document-toc-open',
