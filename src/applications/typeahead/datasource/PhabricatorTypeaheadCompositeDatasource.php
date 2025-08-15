@@ -246,6 +246,7 @@ abstract class PhabricatorTypeaheadCompositeDatasource
           $result = id(new PhabricatorApplicationQuery())
             ->setViewer($this->getViewer())
             ->withClasses(array($application_class))
+            ->withInstalled(true)
             ->execute();
           if (!$result) {
             continue;
