@@ -86,9 +86,6 @@ return array(
     'rsrc/css/application/pholio/pholio-edit.css' => 'ea13cd28',
     'rsrc/css/application/pholio/pholio-inline-comments.css' => '722b48c2',
     'rsrc/css/application/pholio/pholio.css' => 'f0cd31a4',
-    'rsrc/css/application/phortune/phortune-credit-card-form.css' => '3b9868a8',
-    'rsrc/css/application/phortune/phortune-invoice.css' => '4436b241',
-    'rsrc/css/application/phortune/phortune.css' => '508a1a5e',
     'rsrc/css/application/phriction/phriction-document-css.css' => 'd8f8cdd6',
     'rsrc/css/application/policy/policy-edit.css' => '8794e2ed',
     'rsrc/css/application/policy/policy-transaction-detail.css' => 'c02b8384',
@@ -348,9 +345,6 @@ return array(
     'rsrc/js/application/passphrase/passphrase-credential-control.js' => '48fe33d0',
     'rsrc/js/application/pholio/behavior-pholio-mock-edit.js' => 'e10d1263',
     'rsrc/js/application/pholio/behavior-pholio-mock-view.js' => 'e9592389',
-    'rsrc/js/application/phortune/behavior-stripe-payment-form.js' => '02cb4398',
-    'rsrc/js/application/phortune/behavior-test-payment-form.js' => '4a7fb02b',
-    'rsrc/js/application/phortune/phortune-credit-card-form.js' => '58883f56',
     'rsrc/js/application/policy/behavior-policy-control.js' => '7068a45f',
     'rsrc/js/application/policy/behavior-policy-rule-editor.js' => '9347f172',
     'rsrc/js/application/projects/WorkboardBoard.js' => 'a4fd3b57',
@@ -622,8 +616,6 @@ return array(
     'javelin-behavior-select-content' => 'c538cbfc',
     'javelin-behavior-select-on-click' => '66365ee2',
     'javelin-behavior-setup-check-https' => 'adb0a739',
-    'javelin-behavior-stripe-payment-form' => '02cb4398',
-    'javelin-behavior-test-payment-form' => '4a7fb02b',
     'javelin-behavior-time-typeahead' => 'cd00e3d4',
     'javelin-behavior-toggle-class' => '32db8374',
     'javelin-behavior-toggle-widget' => '194194c0',
@@ -743,10 +735,6 @@ return array(
     'pholio-css' => 'f0cd31a4',
     'pholio-edit-css' => 'ea13cd28',
     'pholio-inline-comments-css' => '722b48c2',
-    'phortune-credit-card-form' => '58883f56',
-    'phortune-credit-card-form-css' => '3b9868a8',
-    'phortune-css' => '508a1a5e',
-    'phortune-invoice-css' => '4436b241',
     'phriction-document-css' => 'd8f8cdd6',
     'phui-action-panel-css' => '88a4298b',
     'phui-badge-view-css' => 'aa49028c',
@@ -868,11 +856,6 @@ return array(
     '02a2c910' => array(
       'javelin-install',
       'javelin-dom',
-    ),
-    '02cb4398' => array(
-      'javelin-behavior',
-      'javelin-dom',
-      'phortune-credit-card-form',
     ),
     '037c04be' => array(
       'javelin-install',
@@ -1259,11 +1242,6 @@ return array(
     '490e2e2e' => array(
       'phui-oi-list-view-css',
     ),
-    '4a7fb02b' => array(
-      'javelin-behavior',
-      'javelin-dom',
-      'phortune-credit-card-form',
-    ),
     '4b671572' => array(
       'javelin-behavior',
       'javelin-dom',
@@ -1362,13 +1340,6 @@ return array(
     ),
     '548567f6' => array(
       'syntax-default-css',
-    ),
-    '58883f56' => array(
-      'javelin-install',
-      'javelin-dom',
-      'javelin-json',
-      'javelin-workflow',
-      'javelin-util',
     ),
     '5a59fb82' => array(
       'javelin-install',

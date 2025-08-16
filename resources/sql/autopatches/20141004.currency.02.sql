@@ -1,2 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_account
-  DROP balanceInCents;
+/* This file is intentionally left empty, see T15726 */

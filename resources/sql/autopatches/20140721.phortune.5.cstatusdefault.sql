@@ -1,2 +1,1 @@
-UPDATE {$NAMESPACE}_phortune.phortune_cart
-  SET status = 'cart:ready' WHERE status = '';
+/* This file is intentionally left empty, see T15726 */

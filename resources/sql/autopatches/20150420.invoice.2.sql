@@ -1,2 +1,1 @@
-UPDATE {$NAMESPACE}_phortune.phortune_cart
-  SET isInvoice = 1 WHERE subscriptionPHID IS NOT NULL;
+/* This file is intentionally left empty, see T15726 */

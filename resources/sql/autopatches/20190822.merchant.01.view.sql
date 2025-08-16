@@ -1,2 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_merchant
-  DROP viewPolicy;
+/* This file is intentionally left empty, see T15726 */

@@ -1,2 +1,1 @@
-ALTER TABLE {$NAMESPACE}_fund.fund_initiative
-  ADD mailKey BINARY(20) NOT NULL;
+/* This file is intentionally left empty, see T15726 */

@@ -39,7 +39,6 @@ $applications = array(
   'Phame',
   'Phlux',
   'Pholio',
-  'Phortune',
   'PHPAST',
   'Phragment',
   'Phrequent',

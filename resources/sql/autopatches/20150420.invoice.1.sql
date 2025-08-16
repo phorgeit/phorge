@@ -1,2 +1,1 @@
-ALTER TABLE {$NAMESPACE}_phortune.phortune_cart
-  ADD isInvoice BOOL NOT NULL;
+/* This file is intentionally left empty, see T15726 */
