@@ -74,6 +74,11 @@ final class DiffusionRepositoryController extends DiffusionController {
             'This repository is configured with default branch "%s"  but '.
             'there is no branch with that name in this repository.',
             $default);
+          $branch_setup_uri = $this->getApplicationURI(
+            'edit/'.$repository->getID().'/page/branches/');
+          phlog('Repository "'.$repository->getName().'" is configured with '.
+            'default branch "'.$default.'" but there is no such branch in '.
+            'this repository. Correct the settings at '.$branch_setup_uri);
         }
       }
     }
