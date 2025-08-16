@@ -119,6 +119,11 @@ body .phui-main-column .ponder-question-content .ponder-answer-view
     margin-left: 62px;
 }
 
+.ponder-question-content div.ponder-question-add-comment-view
+  div.phui-box.phui-object-box.remarkup-assist-pinned {
+    margin-right: 0;
+    margin-left: 0px;
+}
 .device .ponder-question-content div.ponder-question-add-comment-view
   div.phui-box.phui-object-box {
   margin: 0;
