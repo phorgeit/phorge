@@ -120,9 +120,9 @@ effect, then continue to "Monitoring Replicas" to verify the configuration.
 Monitoring Replicas
 ===================
 
-You can monitor replicas in {nav Config > Database Servers}. This interface
-shows you a quick overview of replicas and their health, and can detect some
-common issues with replication.
+You can monitor replicas in {nav Config > Services > Database Servers}. This
+interface shows you a quick overview of replicas and their health, and can
+detect some common issues with replication.
 
 The table on this page shows each database and current status.
 

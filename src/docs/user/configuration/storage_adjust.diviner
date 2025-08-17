@@ -51,10 +51,10 @@ Reviewing Outstanding Adjustments
 There are two ways to review outstanding adjustments: you can use the web UI,
 or you can use the CLI.
 
-To access the web UI, navigate to {nav Config > Database Status} or
-{nav Config > Database Issues}. The //Database Status// panel provides a general
-overview of all schemata. The //Database Issues// panel shows outstanding
-issues.
+To access the web UI, navigate to {nav Config > Services > Database Status} or
+{nav Config > Services > Schemata Issues}. The //Database Status// panel
+provides a general overview of all schemata. The //Schemata Issues// panel
+shows outstanding issues.
 
 These interfaces report //Errors//, which are serious issues that can not be
 resolved through adjustment, and //Warnings//, which are minor issues that the
