@@ -25,7 +25,7 @@ Phorge Version
 To get Phorge version information:
 
   - Go to the {nav Config} application. You can type "Config" into the global
-    search box, or navigate to `https://your.install.com/config/`. You must
+    search box, or navigate to `https://phorge.example.com/config/`. You must
     be an administrator to access this application.
   - Click {nav Versions} in the left menu.
   - Copy and paste all of the information on the page into your report.
