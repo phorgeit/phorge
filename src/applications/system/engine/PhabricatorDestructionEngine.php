@@ -73,6 +73,17 @@ final class PhabricatorDestructionEngine extends Phobject {
       }
     }
 
+    if ($object_phid) {
+      // Allow extension to do something before the destruction.
+      $before_extensions =
+        PhabricatorBeforeDestructionEngineExtension::getAllExtensions();
+      foreach ($before_extensions as $key => $before_extension) {
+        if ($before_extension->canBeforeDestroyObject($this, $object)) {
+          $before_extension->beforeDestroyObject($this, $object);
+        }
+      }
+    }
+
     $object->destroyObjectPermanently($this);
 
     if ($object_phid) {
