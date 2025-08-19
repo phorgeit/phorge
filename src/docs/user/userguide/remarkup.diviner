@@ -201,12 +201,15 @@ Code Blocks
 
 Make **code blocks** by indenting two spaces:
 
-  f(x, y);
+`  f(x, y);`
 
 You can also use three backticks to enclose the code block:
 
-  ```f(x, y);
-  g(f);```
+  lang=text
+  ```
+  f(x, y);
+  g(f);
+  ```
 
 You can specify a language for syntax highlighting with `lang=xxx`:
 
@@ -214,7 +217,7 @@ You can specify a language for syntax highlighting with `lang=xxx`:
   lang=html
   <a href="#">...</a>
 
-When using fenced code blocks (triple backticks) you can simply append the
+When using fenced code blocks (triple backticks) you can append the
 language right after the backticks, like this: ##```html##
 
 This will highlight the block using a highlighter for that language, if one is
