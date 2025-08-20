@@ -228,6 +228,15 @@ final class PhabricatorConduitLogSearchEngine
                 'tip' => pht('Deprecated'),
               ));
           break;
+        case ConduitAPIMethod::METHOD_STATUS_FROZEN:
+          $status = id(new PHUIIconView())
+            ->setIcon('fa-exclamation-triangle grey')
+            ->addSigil('has-tooltip')
+            ->setMetadata(
+              array(
+                'tip' => pht('Frozen'),
+              ));
+          break;
         default:
           $status = id(new PHUIIconView())
             ->setIcon('fa-question-circle')
