@@ -62,7 +62,7 @@ final class PhabricatorAuthManagementRevokeWorkflow
     $is_everything = $args->getArg('everything');
     if ($type === null && !$is_everything) {
       if ($is_list) {
-        // By default, "bin/revoke --list" implies "--everything".
+        // By default, "bin/auth revoke --list" implies "--everything".
         $types = $all_types;
       } else {
         throw new PhutilArgumentUsageException(
