@@ -30,6 +30,7 @@
  * @{class:AphrontDatabaseConnection}; this will tell Lisk where to save your
  * objects.
  *
+ *   lang=php
  *   class Dog extends LiskDAO {
  *
  *     protected $name;
@@ -40,7 +41,7 @@
  *     }
  *   }
  *
- * Now, you should create your table:
+ * Now, you should create your table in the @{article:Database Schema}:
  *
  *   lang=sql
  *   CREATE TABLE dog (
@@ -76,6 +77,7 @@
  *
  * To create and persist a Lisk object, use @{method:save}:
  *
+ *   lang=php
  *   $dog = id(new Dog())
  *     ->setName('Sawyer')
  *     ->setBreed('Pug')
@@ -91,6 +93,7 @@
  *
  * To load objects by ID, use the @{method:load} method:
  *
+ *   lang=php
  *   $dog = id(new Dog())->load($id);
  *
  * This will load the Dog record with ID $id into $dog, or `null` if no such
@@ -100,10 +103,12 @@
  *
  * To update an object, change its properties and save it:
  *
+ *   lang=php
  *   $dog->setBreed('Lab')->save();
  *
  * To delete an object, call @{method:delete}:
  *
+ *   lang=php
  *   $dog->delete();
  *
  * That's Lisk CRUD in a nutshell.
@@ -113,6 +118,7 @@
  * Often, you want to load a bunch of objects, or execute a more specialized
  * query. Use @{method:loadAllWhere} or @{method:loadOneWhere} to do this:
  *
+ *   lang=php
  *   $pugs = $dog->loadAllWhere('breed = %s', 'Pug');
  *   $sawyer = $dog->loadOneWhere('name = %s', 'Sawyer');
  *
@@ -128,6 +134,7 @@
  * of the transactional state of objects to implement correct transaction
  * semantics:
  *
+ *   lang=php
  *   $obj->openTransaction();
  *     $obj->save();
  *     $other->save();
