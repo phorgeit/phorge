@@ -67,29 +67,6 @@ final class PhabricatorPHPConfigSetupCheck extends PhabricatorSetupCheck {
         ->addPHPConfig('always_populate_raw_post_data');
     }
 
-    if (!defined('MYSQLI_ASYNC')) {
-      $summary = pht(
-        'Configure the MySQL Native Driver to improve database behavior.');
-
-      $message = pht(
-        'PHP is currently using the older MySQL external driver instead of '.
-        'the newer MySQL native driver. The older driver lacks options and '.
-        'features (like support for query timeouts) which allow this server '.
-        'to interact better with the database.'.
-        "\n\n".
-        'This software will work with the older driver, but upgrading to the '.
-        'native driver is recommended.'.
-        "\n\n".
-        'You may be able to install the native driver with a command like: %s',
-        phutil_tag('tt', array(), 'sudo apt-get install php-mysqlnd'));
-
-
-      $this->newIssue('php.myqlnd')
-        ->setName(pht('MySQL Native Driver Not Available'))
-        ->setSummary($summary)
-        ->setMessage($message);
-    }
-
     if (ini_get('mysqli.allow_local_infile')) {
       $summary = pht(
         'Disable unsafe option "%s" in PHP configuration.',
