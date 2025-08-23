@@ -62,11 +62,15 @@ final class PhabricatorPHPPreflightSetupCheck extends PhabricatorSetupCheck {
       }
     }
 
+    // Remove this check once Phorge requires PHP 8. mbstring.func_overload
+    // got deprecated in PHP 7.2.0 and removed in PHP 8.0.0.
     $overload_option = 'mbstring.func_overload';
     $func_overload = ini_get($overload_option);
     if ($func_overload) {
       $message = pht(
         "You have '%s' enabled in your PHP configuration.\n\n".
+        'This feature is "highly discouraged" by PHP\'s developers, and '.
+        'has been removed entirely in PHP8.'.
         "This option is not compatible with this software. Disable ".
         "'%s' in your PHP configuration to continue.",
         $overload_option,
