@@ -138,7 +138,7 @@ final class AphrontMySQLiDatabaseConnection
     // If we have a query time limit, run this query synchronously but use
     // the async API. This allows us to kill queries which take too long
     // without requiring any configuration on the server side.
-    if ($time_limit && $this->supportsAsyncQueries()) {
+    if ($time_limit) {
       $conn->query($raw_query, MYSQLI_ASYNC);
 
       $read = array($conn);
@@ -240,10 +240,6 @@ final class AphrontMySQLiDatabaseConnection
 
   protected function getErrorDescription($connection) {
     return $connection->error;
-  }
-
-  public function supportsAsyncQueries() {
-    return defined('MYSQLI_ASYNC');
   }
 
   public function asyncQuery($raw_query) {
