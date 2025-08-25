@@ -31,7 +31,8 @@ final class PHUIInfoView extends AphrontTagView {
   }
 
   /**
-   * @param string One of the SEVERITY_* constants defined in PHUIInfoView
+   * @param string $severity One of the SEVERITY_* constants defined in
+   *   PHUIInfoView
    * @return $this
    */
   public function setSeverity($severity) {

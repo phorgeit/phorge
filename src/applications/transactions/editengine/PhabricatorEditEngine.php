@@ -78,6 +78,12 @@ abstract class PhabricatorEditEngine
     return true;
   }
 
+  /**
+   * Whether this EditEngine creates by default an entry in the Favorites
+   * dropdown in the top bar to use the Default Form for this EditEngine
+   *
+   * @return bool
+   */
   public function isDefaultQuickCreateEngine() {
     return false;
   }

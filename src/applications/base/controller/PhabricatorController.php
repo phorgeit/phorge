@@ -454,6 +454,9 @@ abstract class PhabricatorController extends AphrontController {
       ->setViewer($this->getViewer());
   }
 
+  /**
+   * @return PHUICurtainView
+   */
   public function newCurtainView($object = null) {
     $viewer = $this->getViewer();
 

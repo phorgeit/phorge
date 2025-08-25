@@ -353,6 +353,9 @@ final class HeraldRule extends HeraldDAO
     );
   }
 
+  /**
+   * @return string String like 'public', 'users', 'admin', or a User PHID
+   */
   public function getPolicy($capability) {
     if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
       return PhabricatorPolicies::getMostOpenPolicy();
@@ -374,6 +377,9 @@ final class HeraldRule extends HeraldDAO
     return false;
   }
 
+  /**
+   * @return string|null
+   */
   public function describeAutomaticCapability($capability) {
     if ($capability == PhabricatorPolicyCapability::CAN_VIEW) {
       return null;

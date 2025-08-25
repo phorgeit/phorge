@@ -34,6 +34,10 @@ final class PhabricatorEditEngineProfileMenuItem
     return $form;
   }
 
+  /**
+   * Attach forms to menu items shown in top bar Favorites dropdown
+   * @param array<PhabricatorProfileMenuItemConfiguration> $items
+   */
   public function willGetMenuItemViewList(array $items) {
     $viewer = $this->getViewer();
     $engines = PhabricatorEditEngine::getAllEditEngines();

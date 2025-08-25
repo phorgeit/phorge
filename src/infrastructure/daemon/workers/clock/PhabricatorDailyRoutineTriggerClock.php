@@ -47,8 +47,7 @@ final class PhabricatorDailyRoutineTriggerClock
     $next = new DateTime("{$ymd} {$hms} UTC");
 
     // Add a day.
-    // NOTE: DateInterval doesn't exist until PHP 5.3.0, and we currently
-    // target PHP 5.2.3.
+    // TODO: Use PHP's DateInterval instead which exists since PHP 5.3.0
     $next->modify('+1 day');
 
     return (int)$next->format('U');

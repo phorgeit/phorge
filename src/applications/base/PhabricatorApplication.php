@@ -477,8 +477,8 @@ abstract class PhabricatorApplication
    * To check if an application is installed at all, use
    * @{method:isClassInstalled}.
    *
-   * @param string Application class name.
-   * @param PhabricatorUser|null Viewing user.
+   * @param string $class Application class name.
+   * @param PhabricatorUser|null $viewer Viewing user.
    * @return bool True if the class is installed or if the installed class is
    * available to the viewer when a viewer is given.
    * @task meta

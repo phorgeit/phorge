@@ -2,8 +2,25 @@
 
 interface PhabricatorPolicyInterface extends PhabricatorPHIDInterface {
 
+  /**
+   * @return array<PhabricatorPolicyCapability>
+   */
   public function getCapabilities();
+
+  /**
+   * @param PhabricatorPolicyCapability $capability
+   * @return string A PhabricatorPolicyConstant
+   */
   public function getPolicy($capability);
+
+  /**
+   * Whether an object provides automatic capability grants to a user (e.g. the
+   * owner of an object can always see it even if a capability is set to NOONE)
+   *
+   * @param PhabricatorPolicyCapability $capability
+   * @param PhabricatorUser $viewer
+   * @return bool
+   */
   public function hasAutomaticCapability($capability, PhabricatorUser $viewer);
 
 }

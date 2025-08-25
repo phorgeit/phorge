@@ -475,7 +475,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
    * automatically populated as a side effect of objects surviving policy
    * filtering.
    *
-   * @param array<phid, PhabricatorPolicyInterface> $objects Objects to add to
+   * @param array<PhabricatorPolicyInterface> $objects Objects to add to
    *   the query workspace.
    * @return $this
    * @task workspace
