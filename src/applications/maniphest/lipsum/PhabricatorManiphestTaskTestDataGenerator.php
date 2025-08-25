@@ -72,7 +72,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
   public function getProjectPHIDs() {
     $projects = array();
     for ($i = 0; $i < rand(1, 4);$i++) {
-      $project = $this->loadOneRandom('PhabricatorProject');
+      $project = $this->loadOneRandom(PhabricatorProject::class);
       if ($project) {
         $projects[] = $project->getPHID();
       }

@@ -55,7 +55,7 @@ final class PhabricatorOwnersPackageTestDataGenerator
     $paths = explode("\n", $paths);
     $paths = array_unique($paths);
 
-    $repository = $this->loadOneRandom('PhabricatorRepository');
+    $repository = $this->loadOneRandom(PhabricatorRepository::class);
     if (!$repository) {
       throw new Exception(
         pht(
