@@ -40,6 +40,39 @@ final class DifferentialRevisionViewController
     return $this;
   }
 
+
+  private function newMentionsTab(
+    DifferentialRevision $revision) {
+
+    $phid = $revision->getPHID();
+
+    $edge_types = array(
+      PhabricatorObjectMentionedByObjectEdgeType::EDGECONST,
+      PhabricatorObjectMentionsObjectEdgeType::EDGECONST,
+    );
+
+    $edge_query = id(new PhabricatorEdgeQuery())
+      ->withSourcePHIDs(array($phid))
+      ->withEdgeTypes($edge_types);
+
+    $edge_query->execute();
+
+    $view = (new PhorgeApplicationMentionsListView())
+      ->setEdgeQuery($edge_query)
+      ->setViewer($this->getViewer())
+      ->getMentionsView();
+
+    if (!$view ) {
+      return null;
+    }
+
+    return id(new PHUITabView())
+      ->setName(pht('Mentions'))
+      ->setKey('mentions')
+      ->appendChild($view);
+  }
+
+
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
     $this->revisionID = $request->getURIData('id');
@@ -487,6 +520,12 @@ final class DifferentialRevisionViewController
         ->setName(pht('History'))
         ->setKey('history')
         ->appendChild($history));
+
+    $mentions_tab = $this->newMentionsTab($revision);
+
+    if ($mentions_tab) {
+      $tab_group->addTab($mentions_tab);
+    }
 
     $filetree = id(new DifferentialFileTreeEngine())
       ->setViewer($viewer);

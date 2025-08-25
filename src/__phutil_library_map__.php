@@ -5405,6 +5405,7 @@ phutil_register_library_map(array(
     'PholioTransactionType' => 'applications/pholio/xaction/PholioTransactionType.php',
     'PholioTransactionView' => 'applications/pholio/view/PholioTransactionView.php',
     'PholioUploadedImageView' => 'applications/pholio/view/PholioUploadedImageView.php',
+    'PhorgeApplicationMentionsListView' => 'applications/transactions/view/PhorgeApplicationMentionsListView.php',
     'PhorgeCodeWarningSetupCheck' => 'applications/config/check/PhorgeCodeWarningSetupCheck.php',
     'PhorgeFlagFlaggedObjectCustomField' => 'applications/flag/customfield/PhorgeFlagFlaggedObjectCustomField.php',
     'PhorgeFlagFlaggedObjectFieldStorage' => 'applications/flag/customfield/PhorgeFlagFlaggedObjectFieldStorage.php',

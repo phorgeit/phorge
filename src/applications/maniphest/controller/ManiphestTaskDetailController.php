@@ -163,7 +163,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
     }
 
     $related_tabs[] = $this->newMocksTab($task, $query);
-    $related_tabs[] = $this->newMentionsTab($task, $query);
+    $related_tabs[] = $this->newMentionsTab($query);
     $related_tabs[] = $this->newDuplicatesTab($task, $query);
 
     $tab_view = null;
@@ -528,49 +528,15 @@ final class ManiphestTaskDetailController extends ManiphestController {
   }
 
   private function newMentionsTab(
-    ManiphestTask $task,
     PhabricatorEdgeQuery $edge_query) {
 
-    $in_type = PhabricatorObjectMentionedByObjectEdgeType::EDGECONST;
-    $out_type = PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
+    $view = (new PhorgeApplicationMentionsListView())
+      ->setEdgeQuery($edge_query)
+      ->setViewer($this->getViewer())
+      ->getMentionsView();
 
-    $in_phids = $edge_query->getDestinationPHIDs(array(), array($in_type));
-    $out_phids = $edge_query->getDestinationPHIDs(array(), array($out_type));
-
-    // Filter out any mentioned users from the list. These are not generally
-    // very interesting to show in a relationship summary since they usually
-    // end up as subscribers anyway.
-
-    $user_type = PhabricatorPeopleUserPHIDType::TYPECONST;
-    foreach ($out_phids as $key => $out_phid) {
-      if (phid_get_type($out_phid) == $user_type) {
-        unset($out_phids[$key]);
-      }
-    }
-
-    if (!$in_phids && !$out_phids) {
+    if (!$view ) {
       return null;
-    }
-
-    $viewer = $this->getViewer();
-    $in_handles = $viewer->loadHandles($in_phids);
-    $out_handles = $viewer->loadHandles($out_phids);
-
-    $in_handles = $this->getCompleteHandles($in_handles);
-    $out_handles = $this->getCompleteHandles($out_handles);
-
-    if (!count($in_handles) && !count($out_handles)) {
-      return null;
-    }
-
-    $view = new PHUIPropertyListView();
-
-    if (count($in_handles)) {
-      $view->addProperty(pht('Mentioned In'), $in_handles->renderList());
-    }
-
-    if (count($out_handles)) {
-      $view->addProperty(pht('Mentioned Here'), $out_handles->renderList());
     }
 
     return id(new PHUITabView())
