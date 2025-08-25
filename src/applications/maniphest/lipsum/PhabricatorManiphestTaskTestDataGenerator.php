@@ -13,8 +13,7 @@ final class PhabricatorManiphestTaskTestDataGenerator
     $author_phid = $this->loadPhabricatorUserPHID();
     $author = id(new PhabricatorUser())
       ->loadOneWhere('phid = %s', $author_phid);
-    $task = ManiphestTask::initializeNewTask($author)
-      ->setTitle($this->generateTitle());
+    $task = ManiphestTask::initializeNewTask($author);
 
     $content_source = $this->getLipsumContentSource();
 
