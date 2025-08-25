@@ -337,3 +337,120 @@ similar policies.
 
 Form customization also provides a powerful tool for making many policy
 management tasks easier (see @{article:User Guide: Customizing Forms}).
+
+Archiving
+=========
+
+In Phorge, you can both destroy a project (dangerous) or archive it (very safe).
+
+Archiving a project (or a milestone, which is a kind of project)
+is very much recommended, for example, to archive a project when it stops
+being useful, when the project reaches its deadline, or when its investor turns
+out to be a scam. You might be surprised how useful it is to know which
+colleagues have worked on a certain very old archived project, which fortunately
+somebody decided to archive rather than fully destroy.
+
+The {nav icon=ban,name=Archive} action is visible to all people who
+can {nav icon=pencil,name=Edit} a project. As usual in Phorge,
+there is a confirmation dialog.
+
+After you confirm the archival, these things will happen:
+
+- wherever the tag or its hashtag are mentioned, the corresponding badge is
+  appropriately de-colorized or struck-through.
+- the archived project stops appearing in the active projects list at
+  [ /project/query/active/ ]( /project/query/active/ )
+- the archived project is de-prioritized from most search results and selectors,
+  including the top search bar, the tag pickers, etc.
+- the archived project is muted, and does not cause "watch" notifications.
+- the performer of this action is logged in the recent actions.
+
+All these consequences are reversible. You can bring a project back
+to life anytime using the {nav icon=check,name=Activate project} action.
+
+After archiving a project, all tagged objects, tagged tasks, etc. will be
+intentionally kept as-is. In particular, no special read-only policy is
+enforced on these tagged objects. This is in line with the above section
+about "Policies In Depth". In fact, an object can have many tags, and
+if a specific team group ceases its operations, that does not mean that
+others should stop working on the same tasks, etc.
+
+In case additional hiding of information is needed, you can reduce the
+visibility policy of that project. For example, the visibility policy
+"No One" makes the project effectively invisible to others.
+Mastering the visibility policies helps a lot in making sure your cleanup
+requests are managed professionally and in a secure way, while still allowing
+future auditing, when needed.
+
+If you still decide against archiving a project in a recoverable way,
+continue to the following scary and dangerous section about
+permanent destruction.
+
+Permanently Destroying
+======================
+
+Phorge is designed as a safe collaborative platform that rarely
+requires @{article:Permanently Destroying Data}.
+
+If you have read that article, and if you have done a backup, and if
+you have access to the command line, and if you still want to permanently
+destroy a project (or a milestone), these will be the consequences:
+
+- The project is destroyed permanently from the database, forever
+  (unless you have a good backup and sufficient recovery skills).
+- All objects, including tasks, repositories, wiki documents, calendars,
+  secrets, other projects, etc. to which you have set visibility restrictions
+  involving that project (example: "visible to project members")
+  will be broken, and everyone will be locked out of them.
+  That means these objects will become completely invisible from the web
+  interface and API results.
+  You can still recover from these particular policy problems,
+  by reading the @{article:User Guide: Unlocking Objects}.
+- Users that were members or watchers will lose that relationship.
+- Tagged items will lose that relationship, including tasks, commits,
+  wiki documents, calendar events, repositories, etc.; these objects
+  will simply not be associated anymore with that project tag
+  (but will remain associated with other tags, of course).
+- Comments and texts mentioning the hashtag of that `#project` will no longer
+  render that project link.
+  You will still be able to add that hashtag to another project,
+  to revive these links.
+- If the project has a workboard, that workboard will be destroyed as well
+  (tasks in that workboard will always be kept and will remain associated
+  with other workboards).
+- If the project has direct milestones, these milestones will be destroyed
+  as well. This has sense because milestones are numbered in a linear
+  chronological sequence, and this sequence cannot "just" be moved elsewhere.
+  For example if we have projects {nav A > B > Milestones} and if you destroy
+  the project "B", we cannot just move these milestones up to "A", since
+  the parent project "A" may already have its own milestones,
+  and we would lead to sequence conflicts.
+  (Recall that milestones are technically projects, so consider reading this
+  list again to understand what will happen while destroying each milestone.)
+- If the project has a parent project, and if that parent will end up with
+  no other child projects, that parent can be promoted to root-project again.
+  This means membership of the parent project will be editable again.
+- If the project has subprojects, all subprojects and all their descendant
+  subprojects will climb the tree depth by one level, to fill the gap
+  you caused. Grandchildren become children, children become parents,
+  etc. - a real mess for family photos.
+- You increase the risk of something completely unexpected happening,
+  such as the destruction of your entire datacenter by Psyduck Pokemons
+  out of recursion control.
+
+To permanently destroy a project, you will need to execute a command like this,
+from the root directory of the Phorge repository on your server:
+
+```
+./bin/remove destroy PHID-PROJ-abcdef123456
+```
+
+The command needs the "PHID" code of the project.
+Every project has a PHID which can be retrieved in multiple ways,
+including the {nav icon=cog,name=Manage} menu of that project, or hovering
+the cursor on the {nav icon=flag,name=Flag For Later} feature.
+
+This command requires manual confirmation. Before proceeding,
+take the disclaimer seriously and read the previous section again about
+archiving projects (safe), instead of permanently destroying them (unsafe),
+to hopefully change your mind.

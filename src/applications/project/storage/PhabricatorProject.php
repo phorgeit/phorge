@@ -748,7 +748,90 @@ final class PhabricatorProject extends PhabricatorProjectDAO
         $slug->delete();
       }
 
+      // If I'm a project with milestones, these milestones cannot live
+      // without me (without their project), so, delete milestones as well.
+      // FAQ: can we just move milestones to my parent?
+      //    Nope: milestones are numbered, so it would not make sense
+      //    to try to move my milestones to the parent project,
+      //    especially since the parent project may have its own milestones,
+      //    with conflicting numbering.
+      // To find milestones, do not use PhabricatorProjectQuery, to avoid a
+      // circular dependency, and to avoid a silent fail, since these
+      // milestones do not have their parent anymore.
+      // Micro-optimization: find milestones, only if I support them.
+      if ($this->supportsMilestones()) {
+        $milestones = id(new self())->loadAllWhere(
+          'parentProjectPHID = %s AND milestoneNumber IS NOT NULL',
+          $this->getPHID());
+        foreach ($milestones as $milestone) {
+          $milestone->attachParentProject($this);
+          $engine->destroyObject($milestone);
+        }
+      }
+
+      // Refresh the 'depth' of my children, fix gaps in the tree, etc.
+      $this->onDestroyTouchChildren();
+
+      // After the tree is fixed, update the field 'hasSubProjects'
+      // of my parent project.
+      // In this way, my parent project may become root-project again.
+      if ($this->getParentProject()) {
+        id(new PhabricatorProjectsMembershipIndexEngineExtension())
+          ->rematerialize($this->getParentProject());
+      }
+
     $this->saveTransaction();
+  }
+
+  /**
+   * On destroy, refresh my children, and their children recursively,
+   * to consolidate depth, path key, etc.
+   * As default, only during the initial call, bubble up my direct children,
+   * to close the gap in our project tree.
+   * @param bool $first_call True, only during our initial call.
+   */
+  private function onDestroyTouchChildren(bool $first_call = true): void {
+    // Micro-optimization: proceed only if we may have at least one child.
+    if (!$this->supportsSubprojects() && !$this->supportsMilestones()) {
+      return;
+    }
+
+    // Find my direct children.
+    // Do not use 'PhabricatorProjectQuery' to avoid a circular dependency.
+    $table_project = new self();
+    if ($first_call) {
+      // We must skip my direct milestones since they are under removal.
+      $children = $table_project->loadAllWhere(
+        'parentProjectPHID = %s AND milestoneNumber IS NULL',
+        $this->getPHID());
+    } else {
+      // We must take all sub-projects and milestones.
+      $children = $table_project->loadAllWhere(
+        'parentProjectPHID = %s',
+        $this->getPHID());
+    }
+
+    // Refresh all children.
+    foreach ($children as $child) {
+
+      if ($first_call) {
+        // This is a direct children of the deleted project.
+        // Bubble up it, to don't stay orphan and broken.
+        $desired_parent = $this->getParentProject();
+        $desired_parent_phid =
+          $desired_parent ? $desired_parent->getPHID() : null;
+        $child->attachParentProject($desired_parent);
+        $child->setParentProjectPHID($desired_parent_phid);
+      }
+
+       // Refresh 'pathKey' and 'depth'.
+      $child->setProjectPathKey(null);
+
+      $child->save();
+
+      // Recursively refresh all its children (if any).
+      $child->onDestroyTouchChildren(false);
+    }
   }
 
 

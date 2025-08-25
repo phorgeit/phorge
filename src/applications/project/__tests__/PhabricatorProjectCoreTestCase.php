@@ -1273,6 +1273,119 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     }
   }
 
+  /**
+   * Test that you can successfully destroy a complex projects tree,
+   * leaf by leaf, and the depths and the join policies remain consistent.
+   */
+  public function testProjectDestroy() {
+    // Create test actors.
+    $author = $this->createUser()->save();
+    $mario = $this->createUser()->save();
+    $luigi = $this->createUser()->save();
+
+    // Create a project "A". It will have children later.
+    $a = $this->createProject($author)->save();
+
+    // Add "Mario" in the project "A", successfully.
+    $this->joinProject($a, $mario);
+
+    // Under project "A", create "B".
+    // Side-effects:
+    //   - members of "A" are moved to "B".
+    //   - members of "A" are not editable anymore.
+    $b = $this->createProject($author, $a)->save();
+
+    // Under project "B", create the milestone "M".
+    // Note that the members of "B" are also members of "M".
+    $m = $this->createProject($author, $b, true)->save();
+
+    // Under project "B", create "C".
+    // Side-effects:
+    //   - members of "B" are automatically moved to "C".
+    //   - members of "B" are not editable anymore.
+    $c = $this->createProject($author, $b)->save();
+
+    // Refresh the perspective of Mario.
+    $this->refreshProjectInPlace($a, $mario);
+    $this->refreshProjectInPlace($b, $mario);
+    $this->refreshProjectInPlace($c, $mario);
+    $this->refreshProjectInPlace($m, $mario);
+
+    // Check the desired project tree:
+    //
+    //   Project A > Project B > Milestone M
+    //   Project A > Project B > Project C
+    //    \ Depth: 0  \          \
+    //                 \ Depth: 1 \
+    //                             \ Depth: 2
+    //
+    //   - Mario is an indirect member of "A"
+    //   - Mario is an indirect member of "B"
+    //   - Mario is an indirect member of "M"
+    //   - Mario is a    direct member of "C"
+    //   - Users cannot join "A" directly.
+    //   - Users cannot join "B" directly.
+    //
+    $this->assertEqual(0, (int)$a->getProjectDepth());
+    $this->assertEqual(1, (int)$b->getProjectDepth());
+    $this->assertEqual(2, (int)$m->getProjectDepth());
+    $this->assertEqual(2, (int)$c->getProjectDepth());
+    $this->assertTrue($a->isUserMember($mario->getPHID()));
+    $this->assertTrue($b->isUserMember($mario->getPHID()));
+    $this->assertTrue($c->isUserMember($mario->getPHID()));
+    $this->assertTrue($m->isUserMember($mario->getPHID()));
+    $this->assertCannotJoinProject($a, $luigi, pht(
+      'Test users cannot join project A, because B exists'));
+    $this->assertCannotJoinProject($b, $luigi, pht(
+      'Test users cannot join project B, because C exists'));
+
+    // Destroy project "B" and refresh its relatives.
+    // Note that its milestone "M" is also nuked automatically.
+    $engine = new PhabricatorDestructionEngine();
+    $engine->destroyObject($b);
+    $this->refreshProjectInPlace($a, $mario);
+    $this->refreshProjectInPlace($c, $mario);
+
+    // Check the desired project tree:
+    //
+    //   Project A > Project C
+    //    \ Depth: 0  \
+    //                 \ Depth: 1
+    //
+    //   - Mario is an indirect member of "A"
+    //   - Mario is an   direct member of "C"
+    //   - Users cannot join "A" directly.
+    //
+    $this->assertEqual(null, $this->refreshProject($b, $mario));
+    $this->assertEqual(null, $this->refreshProject($m, $mario));
+    $this->assertEqual(0, (int)$a->getProjectDepth());
+    $this->assertEqual(1, (int)$c->getProjectDepth());
+    $this->assertTrue($a->isUserMember($mario->getPHID()));
+    $this->assertTrue($c->isUserMember($mario->getPHID()));
+    $this->assertCannotJoinProject($a, $luigi, pht(
+      'Test users cannot join project A, because C exists'));
+
+    // Destroy project "C" and refresh relatives.
+    $engine->destroyObject($c);
+    $this->refreshProjectInPlace($a, $author);
+
+    // Check the desired project tree:
+    //
+    //   Project A
+    //    \- Depth: 0
+    //
+    //   - Mario is a direct member of "A"
+    //   - Users can join and leave "A" directly again \o/
+    //
+    $this->assertEqual(null, $this->refreshProject($c, $mario));
+    $this->assertEqual(0, (int)$a->getProjectDepth());
+    $this->joinProject($a, $luigi); // No crash
+    $this->leaveProject($a, $luigi); // No crash
+
+    // Destroy "A". It works and nothing remains.
+    $engine->destroyObject($a);
+    $this->assertEqual(null, $this->refreshProject($a, $mario));
+  }
 
   private function moveToColumn(
     PhabricatorUser $viewer,
@@ -1496,6 +1609,26 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $this->assertEqual($expect_phids, $actual_phids, $label);
   }
 
+  /**
+   * Refresh a project in place.
+   * @param PhabricatorProject $project Project that will be refreshed.
+   * @param PhabricatorUser $viewer
+   * @return void
+   */
+  private function refreshProjectInPlace(
+    PhabricatorProject &$project,
+    PhabricatorUser $viewer): void {
+    $project = $this->refreshProject($project, $viewer);
+  }
+
+  /**
+   * Get a project, refreshed.
+   * @param PhabricatorProject $project Project.
+   * @param PhabricatorUser $viewer
+   * @param mixed $need_members If you also need project members.
+   * @param mixed $need_watchers If you also need project watchers.
+   * @return PhabricatorProject|null Refreshed project.
+   */
   private function refreshProject(
     PhabricatorProject $project,
     PhabricatorUser $viewer,
@@ -1609,6 +1742,27 @@ final class PhabricatorProjectCoreTestCase extends PhabricatorTestCase {
     $user->setRealName(pht('Unit Test User %d', $rand));
 
     return $user;
+  }
+
+  /**
+   * Assert that the specified project is not joinable by the specified user.
+   *
+   * @param $project PhabricatorProject Test project
+   * @param $user PhabricatorUser Test user
+   * @param $assert_message string Test assert message
+   */
+  private function assertCannotJoinProject(
+    PhabricatorProject $project,
+    PhabricatorUser $user,
+    string $assert_message) {
+    $join_crashed = false;
+    try {
+      $this->joinProject($project, $user);
+    } catch (PhabricatorApplicationTransactionValidationException $e) {
+      // You cannot join this project.
+      $join_crashed = true;
+    }
+    $this->assertTrue($join_crashed, $assert_message);
   }
 
   private function joinProject(
