@@ -158,14 +158,17 @@ final class PHUITagExample extends PhabricatorUIExample {
       ->appendChild($icons)
       ->addPadding(PHUI::PADDING_LARGE);
 
-    $shades = PHUITagView::getShades();
+    // Build the 'Shades' example box.
+    // Avoid 'getShades()' since it only gets keys.
+    // Use 'getShadeMapCached()' which also gives labels.
+    $shades = PHUITagView::getShadeMapCached();
     $tags = array();
-    foreach ($shades as $shade) {
+    foreach ($shades as $shade => $shade_label) {
       $tags[] = id(new PHUITagView())
         ->setType(PHUITagView::TYPE_SHADE)
         ->setColor($shade)
         ->setIcon('fa-tags')
-        ->setName(ucwords($shade))
+        ->setName($shade_label)
         ->setHref('#');
       $tags[] = hsprintf('&nbsp;');
       $tags[] = id(new PHUITagView())
@@ -173,11 +176,12 @@ final class PHUITagExample extends PhabricatorUIExample {
         ->setColor($shade)
         ->setSlimShady(true)
         ->setIcon('fa-tags')
-        ->setName(ucwords($shade))
+        ->setName($shade_label)
         ->setHref('#');
       $tags[] = hsprintf('<br /><br />');
     }
 
+    // Content for the 'Shades' example box.
     $content4 = id(new PHUIBoxView())
       ->appendChild($tags)
       ->addPadding(PHUI::PADDING_LARGE);

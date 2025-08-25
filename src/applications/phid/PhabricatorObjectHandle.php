@@ -60,11 +60,7 @@ final class PhabricatorObjectHandle
   }
 
   public function setTagColor($color) {
-    static $colors;
-    if (!$colors) {
-      $colors = array_fuse(array_keys(PHUITagView::getShadeMap()));
-    }
-
+    $colors = PHUITagView::getShadeMapCached();
     if (isset($colors[$color])) {
       $this->tagColor = $color;
     }
