@@ -158,10 +158,19 @@ final class PhabricatorRemarkupControl
             // Cancel on emoticons like ":3".
             'ignore' => array(
               '3',
+              '\'', // crying :'(
               ')',
               '(',
               '-',
               '/',
+              '<',
+              '>',
+              '[',
+              ']',
+              '|',
+              'D',
+//            'p', // Too risky, many emojis starting with lowercase p
+              'P',
             ),
           ),
           91 => array( // "["
