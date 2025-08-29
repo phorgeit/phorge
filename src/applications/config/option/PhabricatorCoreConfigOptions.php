@@ -264,6 +264,20 @@ EOREMARKUP
           ))
         ->setSummary(pht('Stop this software from sending any email, etc.'))
         ->setDescription($silent_description),
+      $this->newOption('phabricator.user-agent', 'string', null)
+        ->setSummary(
+          pht(
+            'Default User-Agent for outgoing HTTP requests '.
+            'made by this software.'))
+        ->setDescription(
+          pht(
+            'This User-Agent will be used for most outgoing HTTP '.
+            'requests. When unset, the base URI will be used, '.
+            'with a " %s/1.0" suffix.',
+            PlatformSymbols::getPlatformServerName()))
+        ->addExample('Example/1.0 (https://example.org)',
+          pht('Set default user-agent to "%s"',
+            'Example/1.0 (https://example.org)')),
       );
 
   }
