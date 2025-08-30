@@ -921,7 +921,7 @@ final class PhabricatorApplicationSearchController
 
     if ($can_use && $is_installed) {
       $actions[] = id(new PhabricatorActionView())
-        ->setIcon('fa-dashboard')
+        ->setIcon('fa-tachometer')
         ->setName(pht('Add to Dashboard'))
         ->setWorkflow(true)
         ->setHref("/dashboard/panel/install/{$engine_class}/{$query_key}/");

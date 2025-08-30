@@ -297,7 +297,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
 
     $minimize = id(new PHUIListItemView())
       ->setName(pht('Minimize Window'))
-      ->setIcon('fa-toggle-down')
+      ->setIcon('fa-caret-square-o-down')
       ->addClass('core-menu-item')
       ->addClass('conpherence-minimize-icon')
       ->addSigil('conpherence-minimize-window')

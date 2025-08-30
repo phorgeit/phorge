@@ -111,7 +111,7 @@ final class PhabricatorFilesConfigOptions
       // pdf file icon
       'application/pdf' => 'fa-file-pdf-o',
       // zip file icon
-      'application/zip' => 'fa-file-zip-o',
+      'application/zip' => 'fa-file-archive-o',
       // msword icon
       'application/msword' => 'fa-file-word-o',
       // msexcel

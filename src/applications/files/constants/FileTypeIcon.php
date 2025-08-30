@@ -16,7 +16,7 @@ final class FileTypeIcon extends Phobject {
       case 'wav':
       case 'mp3':
       case 'aiff':
-        $icon = 'fa-file-sound-o';
+        $icon = 'fa-file-audio-o';
         break;
       case 'm4v':
       case 'mov':

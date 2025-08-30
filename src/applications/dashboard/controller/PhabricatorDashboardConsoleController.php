@@ -29,7 +29,7 @@ final class PhabricatorDashboardConsoleController
     $menu->addItem(
       id(new PHUIObjectItemView())
         ->setHeader(pht('Dashboards'))
-        ->setImageIcon('fa-dashboard')
+        ->setImageIcon('fa-tachometer')
         ->setHref($this->getApplicationURI('/'))
         ->setClickable(true)
         ->addAttribute(

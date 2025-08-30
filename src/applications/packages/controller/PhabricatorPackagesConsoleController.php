@@ -18,7 +18,7 @@ final class PhabricatorPackagesConsoleController
       id(new PHUIObjectItemView())
         ->setHeader(pht('Publishers'))
         ->setHref($this->getApplicationURI('publisher/'))
-        ->setImageIcon('fa-institution')
+        ->setImageIcon('fa-university')
         ->setClickable(true)
         ->addAttribute(
           pht(

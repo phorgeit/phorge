@@ -159,7 +159,7 @@ final class FundInitiativeViewController
     $curtain->addAction(
       id(new PhabricatorActionView())
         ->setName(pht('View Backers'))
-        ->setIcon('fa-bank')
+        ->setIcon('fa-university')
         ->setHref($this->getApplicationURI("/backers/{$id}/")));
 
     return $curtain;

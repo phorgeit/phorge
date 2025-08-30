@@ -30,7 +30,7 @@ final class PhabricatorDashboard extends PhabricatorDashboardDAO
   public static function initializeNewDashboard(PhabricatorUser $actor) {
     return id(new PhabricatorDashboard())
       ->setName('')
-      ->setIcon('fa-dashboard')
+      ->setIcon('fa-tachometer')
       ->setViewPolicy(PhabricatorPolicies::getMostOpenPolicy())
       ->setEditPolicy($actor->getPHID())
       ->setStatus(self::STATUS_ACTIVE)

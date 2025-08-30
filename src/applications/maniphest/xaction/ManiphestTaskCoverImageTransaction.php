@@ -134,7 +134,7 @@ final class ManiphestTaskCoverImageTransaction
   }
 
   public function getIcon() {
-    return 'fa-image';
+    return 'fa-picture-o';
   }
 
 

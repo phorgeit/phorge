@@ -19,7 +19,7 @@ final class PhabricatorDashboardApplication extends PhabricatorApplication {
   }
 
   public function getIcon() {
-    return 'fa-dashboard';
+    return 'fa-tachometer';
   }
 
   public function isPinnedByDefault(PhabricatorUser $viewer) {

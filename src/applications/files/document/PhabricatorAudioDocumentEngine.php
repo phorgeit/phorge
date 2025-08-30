@@ -10,7 +10,7 @@ final class PhabricatorAudioDocumentEngine
   }
 
   protected function getDocumentIconIcon(PhabricatorDocumentRef $ref) {
-    return 'fa-file-sound-o';
+    return 'fa-file-audio-o';
   }
 
   protected function getByteLengthLimit() {

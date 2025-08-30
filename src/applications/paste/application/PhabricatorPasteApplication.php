@@ -11,7 +11,7 @@ final class PhabricatorPasteApplication extends PhabricatorApplication {
   }
 
   public function getIcon() {
-    return 'fa-paste';
+    return 'fa-clipboard';
   }
 
   public function getTitleGlyph() {

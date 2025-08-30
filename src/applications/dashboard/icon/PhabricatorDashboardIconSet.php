@@ -12,7 +12,7 @@ final class PhabricatorDashboardIconSet
   protected function newIcons() {
     $map = array(
       'fa-home' => pht('Home'),
-      'fa-dashboard' => pht('Dashboard'),
+      'fa-tachometer' => pht('Dashboard'),
       'fa-th-large' => pht('Blocks'),
       'fa-columns' => pht('Columns'),
       'fa-bookmark' => pht('Page Saver'),

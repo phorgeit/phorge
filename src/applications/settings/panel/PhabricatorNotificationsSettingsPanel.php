@@ -159,7 +159,7 @@ final class PhabricatorNotificationsSettingsPanel
 
     $button = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon('fa-send-o')
+      ->setIcon('fa-paper-plane-o')
       ->setWorkflow(true)
       ->setText(pht('Send Test Notification'))
       ->setHref('/notification/test/')
