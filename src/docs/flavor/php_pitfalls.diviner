@@ -4,7 +4,7 @@
 This document discusses difficult traps and pitfalls in PHP, and how to avoid,
 work around, or at least understand them.
 
-= `array_merge()` in Incredibly Slow When Merging A List of Arrays =
+= `array_merge()` is Incredibly Slow When Merging A List of Arrays =
 
 If you merge a list of arrays like this:
 
