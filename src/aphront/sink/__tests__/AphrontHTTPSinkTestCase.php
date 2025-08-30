@@ -16,7 +16,7 @@ final class AphrontHTTPSinkTestCase extends PhabricatorTestCase {
   }
 
   public function testHTTPSinkStatusCode() {
-    $input = $this->tryTestCaseMap(
+    $this->tryTestCaseMap(
       array(
         200     => true,
         '201'   => true,
@@ -34,7 +34,7 @@ final class AphrontHTTPSinkTestCase extends PhabricatorTestCase {
   }
 
   public function testHTTPSinkResponseSplitting() {
-    $input = $this->tryTestCaseMap(
+    $this->tryTestCaseMap(
       array(
         'test'      => true,
         "test\nx"   => false,
@@ -50,7 +50,7 @@ final class AphrontHTTPSinkTestCase extends PhabricatorTestCase {
   }
 
   public function testHTTPHeaderNames() {
-    $input = $this->tryTestCaseMap(
+    $this->tryTestCaseMap(
       array(
         'test'  => true,
         'test:' => false,

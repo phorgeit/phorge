@@ -613,7 +613,7 @@ abstract class PhabricatorController extends AphrontController {
       // If nothing needs to be signed (either because there are no documents
       // which require a signature, or because the user has already signed
       // all of them) mark the session as good and continue.
-      $engine = id(new PhabricatorAuthSessionEngine())
+      id(new PhabricatorAuthSessionEngine())
         ->signLegalpadDocuments($viewer, $sign_docs);
 
       return null;
