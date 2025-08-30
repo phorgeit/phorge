@@ -250,7 +250,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Get an existing, cached connection for this object.
    *
-   * @param mode $mode Connection mode.
+   * @param string $mode Connection mode: 'r' for read, 'w' for read/write.
+   *   This strings may also have an 'isolate-' prefix.
    * @return AphrontDatabaseConnection|null  Connection, if it exists in cache.
    * @task conn
    */
@@ -266,7 +267,8 @@ abstract class LiskDAO extends Phobject
   /**
    * Store a connection in the connection cache.
    *
-   * @param mode $mode Connection mode.
+   * @param string $mode Connection mode: 'r' for read, 'w' for read/write.
+   *   This strings may also have an 'isolate-' prefix.
    * @param AphrontDatabaseConnection $connection Connection to cache.
    * @param bool $force_unique (optional)
    * @return $this
