@@ -291,7 +291,7 @@ final class DivinerAtomQuery extends PhabricatorCursorPagedPolicyAwareQuery {
 
         if (!$repository) {
           $this->didRejectResult($atom);
-          unset($atom[$key]);
+          unset($atoms[$key]);
           continue;
         }
 
