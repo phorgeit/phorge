@@ -81,7 +81,7 @@ final class PhabricatorRepositoryCommit
     return $this->adjustImportStatusFlag($flag, false);
   }
 
-  private function adjustImportStatusFlag($flag, $set) {
+  private function adjustImportStatusFlag(int $flag, $set) {
     $conn_w = $this->establishConnection('w');
     $table_name = $this->getTableName();
     $id = $this->getID();
