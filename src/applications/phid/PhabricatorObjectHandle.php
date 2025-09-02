@@ -33,6 +33,7 @@ final class PhabricatorObjectHandle
   private $commandLineObjectName;
   private $mailStampName;
   private $capabilities = array();
+  private $userIsEnrolledInMultiFactor = false;
 
   public function setIcon($icon) {
     $this->icon = $icon;
@@ -279,6 +280,27 @@ final class PhabricatorObjectHandle
     return $this->getType();
   }
 
+  /**
+   * Set whether or not the user object has multi-factor auth enabled.
+   *
+   * @param bool $has_mfa True when the user represented by the handle has
+   *  multi-factor auth enabled. Defaults to false otherwise.
+   * @return $this
+   */
+  public function setUserIsEnrolledInMultiFactor(bool $has_mfa) {
+    $this->userIsEnrolledInMultiFactor = $has_mfa;
+    return $this;
+  }
+
+  /**
+   * Get whether or not the user object has multi-factor auth enabled.
+   *
+   * @return bool True when the user represented by the handle has
+   *  multi-factor auth enabled. Defaults to false.
+   */
+  public function getUserIsEnrolledInMultiFactor(): bool {
+    return $this->userIsEnrolledInMultiFactor;
+  }
 
   /**
    * Set whether or not the underlying object is complete. See

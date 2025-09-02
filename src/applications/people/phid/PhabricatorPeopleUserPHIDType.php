@@ -79,9 +79,12 @@ final class PhabricatorPeopleUserPHIDType extends PhabricatorPHIDType {
           }
         }
       }
-
       if ($availability) {
         $handle->setAvailability($availability);
+      }
+
+      if ($user->getIsEnrolledInMultiFactor()) {
+        $handle->setUserIsEnrolledInMultiFactor(true);
       }
     }
   }
