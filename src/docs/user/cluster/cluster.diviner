@@ -62,10 +62,10 @@ This option should contain a list of network address blocks which are considered
 to be part of the cluster. Hosts in this list are allowed to bend (or even
 break) some of the security and policy rules when they make requests to other
 hosts in the cluster, so this list should be as small as possible. See "Cluster
-Whitelist Security" below for discussion.
+Allowlist Security" below for discussion.
 
 If you are deploying hardware in EC2, a reasonable approach is to launch a
-dedicated Phorge VPC, whitelist the whole VPC as a Phorge cluster,
+dedicated Phorge VPC, put the whole VPC into the allowlist as a Phorge cluster,
 and then deploy only Phorge services into that VPC.
 
 If you have additional auxiliary hosts which run builds and tests via Drydock,
@@ -77,7 +77,7 @@ Most other clustering features will not work until you define a cluster by
 configuring `cluster.addresses`.
 
 
-Cluster Whitelist Security
+Cluster Allowlist Security
 ========================
 
 When you configure `cluster.addresses`, you should keep the list of trusted
@@ -91,7 +91,7 @@ balancer is deployed. In particular, clients can set `X-Forwarded-For` to any
 value and spoof traffic from arbitrary remotes.
 
 These headers are trusted when they are received from a host on the cluster
-address whitelist. This allows requests from cluster loadbalancers to be
+address allowlist. This allows requests from cluster loadbalancers to be
 interpreted correctly by default without requiring additional custom code or
 configuration.
 
@@ -117,7 +117,7 @@ the user within the cluster.
 These mechanisms are still authenticated (and use asymmetric keys, like SSH
 does), so access to a host in the cluster address block does not mean that an
 attacker can immediately compromise the cluster. However, an over-broad cluster
-address whitelist may give an attacker who gains some access additional tools
+address allowlist may give an attacker who gains some access additional tools
 to escalate access.
 
 Note that if an attacker gains access to an actual cluster host, these extra

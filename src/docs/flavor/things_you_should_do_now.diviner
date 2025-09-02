@@ -79,35 +79,35 @@ everything, just the basics. Your language probably already has a function which
 does the sanitizing for you.
 
 
-= Never Design a Blacklist-Based Security System =
+= Never Design a Denylist-Based Security System =
 
 When you have an alternative, don't design security systems which are default
-permit, blacklist-based, or otherwise attempt to enumerate badness. When
-Facebook launched Platform, it launched with a blacklist-based CSS filter, which
+permit, denylist-based, or otherwise attempt to enumerate badness. When
+Facebook launched Platform, it launched with a denylist-based CSS filter, which
 basically tried to enumerate all the "bad" parts of CSS and filter them out.
 This was a poor design choice and lead to basically infinite security holes for
 all time.
 
 It is very difficult to enumerate badness in a complex system and badness is
-often a moving target. Instead of trying to do this, design whitelist-based
+often a moving target. Instead of trying to do this, design allowlist-based
 security systems where you list allowed things and reject anything you don't
 understand. Assume things are bad until you verify that they're OK.
 
-It's tempting to design blacklist-based systems because they're easier to write
+It's tempting to design denylist-based systems because they're easier to write
 and accept more inputs. In the case of the CSS filter, the product goal was for
 users to just be able to use CSS normally and feel like this system was no
-different from systems they were familiar with. A whitelist-based system would
+different from systems they were familiar with. An allowlist-based system would
 reject some valid, safe inputs and create product friction.
 
-But this is a much better world than the alternative, where the blacklist-based
+But this is a much better world than the alternative, where the denylist-based
 system fails to reject some dangerous inputs and creates //security holes//. It
 //also// creates product friction because when you fix those holes you break
 existing uses, and that backward-compatibility friction makes it very difficult
-to move the system from a blacklist to a whitelist. So you're basically in
+to move the system from a denylist to an allowlist. So you're basically in
 trouble no matter what you do, and have a bunch of security holes you need to
 unbreak immediately, so you won't even have time to feel sorry for yourself.
 
-Designing blacklist-based security is one of the worst now-vs-future tradeoffs
+Designing denylist-based security is one of the worst now-vs-future tradeoffs
 you can make. See also "The Six Dumbest Ideas in Computer Security":
 
 http://www.ranum.com/security/computer_security/

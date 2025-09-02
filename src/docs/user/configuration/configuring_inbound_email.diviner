@@ -198,7 +198,7 @@ https://<phorge.yourdomain.com>/mail/postmark/
 ```
 
 See also the Postmark section in @{article:Configuring Outbound Email} for
-discussion of the remote address whitelist used to verify that requests this
+discussion of the remote address allowlist used to verify that requests this
 endpoint receives are authentic requests originating from Postmark.
 
 
