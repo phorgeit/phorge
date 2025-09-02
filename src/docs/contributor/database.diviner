@@ -18,8 +18,8 @@ SQLite.
 PHP Drivers
 ===========
 
-Phorge supports [[ https://www.php.net/book.mysql | MySQL ]] and
-[[ https://www.php.net/book.mysqli | MySQLi ]] PHP extensions.
+Phorge supports the [[ https://www.php.net/book.mysqli | MySQLi ]] PHP
+extension.
 
 Databases
 =========
