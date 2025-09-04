@@ -245,22 +245,25 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
 
     if ($user) {
       if ($user->isUserActivated()) {
-        $offset = $user->getTimeZoneOffset();
+        // Only bother user about timezone offset if they have not set UTC
+        if ($user->getTimezoneIdentifier() !== 'UTC') {
+          $offset = $user->getTimeZoneOffset();
 
-        $ignore_key = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
-        $ignore = $user->getUserSetting($ignore_key);
+          $ignore_key = PhabricatorTimezoneIgnoreOffsetSetting::SETTINGKEY;
+          $ignore = $user->getUserSetting($ignore_key);
 
-        Javelin::initBehavior(
-          'detect-timezone',
-          array(
-            'offset' => $offset,
-            'uri' => '/settings/timezone/',
-            'message' => pht(
-              'Your browser timezone setting differs from the timezone '.
-              'setting in your profile, click to reconcile.'),
-            'ignoreKey' => $ignore_key,
-            'ignore' => $ignore,
-          ));
+          Javelin::initBehavior(
+            'detect-timezone',
+            array(
+              'offset' => $offset,
+              'uri' => '/settings/timezone/',
+              'message' => pht(
+                'Your browser timezone setting differs from the timezone '.
+                'setting in your profile, click to reconcile.'),
+              'ignoreKey' => $ignore_key,
+              'ignore' => $ignore,
+            ));
+        }
 
         if ($user->getIsAdmin()) {
           $server_https = $request->isHTTPS();
