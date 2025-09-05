@@ -247,7 +247,7 @@ final class DivinerLiveSymbol extends DivinerDAO
 
   public function getMarkupText($field) {
     if (!$this->getAtom()) {
-      return;
+      return '';
     }
 
     return $this->getAtom()->getDocblockText();

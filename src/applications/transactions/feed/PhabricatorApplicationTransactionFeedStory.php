@@ -121,7 +121,7 @@ class PhabricatorApplicationTransactionFeedStory
       }
     }
 
-    return null;
+    return '';
   }
 
   public function renderView() {

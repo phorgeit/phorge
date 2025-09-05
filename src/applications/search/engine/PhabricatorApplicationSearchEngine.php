@@ -463,7 +463,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Return the URI to a path within the application. Used to construct default
    * URIs for management and results.
    *
-   * @return string URI to path.
+   * @return string URI to path; empty string if not implemented or applicable.
    * @task uri
    */
   abstract protected function getURI($path);

@@ -42,7 +42,7 @@ final class PhabricatorProjectColumnSearchEngine
   protected function getURI($path) {
     // NOTE: There's no way to query columns in the web UI, at least for
     // the moment.
-    return null;
+    return '';
   }
 
   protected function getBuiltinQueryNames() {

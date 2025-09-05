@@ -185,7 +185,7 @@ abstract class PhabricatorPolicyRule extends Phobject {
    * @task objectpolicy
    */
   public function getObjectPolicyKey() {
-    return null;
+    return '';
   }
 
   final public function getObjectPolicyFullKey() {
