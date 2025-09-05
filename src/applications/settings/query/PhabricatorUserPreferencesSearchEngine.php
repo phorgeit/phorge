@@ -8,7 +8,7 @@ final class PhabricatorUserPreferencesSearchEngine
   }
 
   public function getApplicationClassName() {
-    return 'PhabricatorSettingApplication';
+    return PhabricatorSettingsApplication::class;
   }
 
   public function newQuery() {
