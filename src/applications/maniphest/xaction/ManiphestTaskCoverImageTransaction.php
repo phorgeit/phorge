@@ -30,14 +30,7 @@ final class ManiphestTaskCoverImageTransaction
     // Generate an image transformation, usually smaller (orphan now).
     $xform_key = PhabricatorFileThumbnailTransform::TRANSFORM_WORKCARD;
     $xform = PhabricatorFileTransform::getTransformByKey($xform_key)
-      ->executeTransform($file);
-
-    // Make that image transformation non-orphan.
-    id(new PhabricatorTransformedFile())
-      ->setOriginalPHID($file_phid)
-      ->setTransformedPHID($xform->getPHID())
-      ->setTransform($xform_key)
-      ->save();
+      ->executeTransformExplicit($file);
 
     $object->setProperty('cover.filePHID', $file->getPHID());
     $object->setProperty('cover.thumbnailPHID', $xform->getPHID());

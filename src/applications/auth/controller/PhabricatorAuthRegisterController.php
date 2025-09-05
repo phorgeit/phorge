@@ -710,7 +710,7 @@ final class PhabricatorAuthRegisterController
 
     $xform = PhabricatorFileTransform::getTransformByKey(
       PhabricatorFileThumbnailTransform::TRANSFORM_PROFILE);
-    return $xform->executeTransform($file);
+    return $xform->executeTransformExplicit($file);
   }
 
   protected function renderError($message) {
