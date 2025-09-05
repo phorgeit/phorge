@@ -215,8 +215,10 @@ abstract class PhabricatorPHIDType extends Phobject {
   /**
    * Get all PHID types of an application.
    *
-   * @param string $application Class name of an application
-   * @return array<string, PhabricatorPHIDType> Map of constants of application
+   * @param class-string<PhabricatorApplication> $application Class name of an
+   *   application.
+   * @return array<string, PhabricatorPHIDType> Map of constants of
+   *   application.
    */
   public static function getAllTypesForApplication(
     string $application) {

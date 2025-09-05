@@ -7,6 +7,9 @@ final class PhabricatorProjectBoardViewController
     return true;
   }
 
+  /**
+   * @return AphrontResponse|PhabricatorStandardPageView
+   */
   public function handleRequest(AphrontRequest $request) {
     $viewer = $request->getUser();
 
@@ -400,6 +403,9 @@ final class PhabricatorProjectBoardViewController
     return $page;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildSortMenu(
     PhabricatorUser $viewer,
     PhabricatorProject $project,
@@ -473,6 +479,9 @@ final class PhabricatorProjectBoardViewController
     return $sort_button;
   }
 
+  /**
+   * @return PHUIListItemView
+   */
   private function buildFilterMenu(
     PhabricatorUser $viewer,
     PhabricatorProject $project,

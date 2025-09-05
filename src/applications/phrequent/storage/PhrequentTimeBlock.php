@@ -19,6 +19,9 @@ final class PhrequentTimeBlock extends Phobject {
     return $slices->getDuration($now);
   }
 
+  /**
+   * @return array<PhrequentTimeSlices>
+   */
   public function getObjectTimeRanges() {
     $ranges = array();
 

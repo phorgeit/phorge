@@ -230,14 +230,30 @@ abstract class ConduitAPIMethod
       ->loadClass($method_name);
   }
 
+  /**
+   * Whether to require a session key for calling the API method.
+   *
+   * @return bool Defaults to true
+   */
   public function shouldRequireAuthentication() {
     return true;
   }
 
+  /**
+   * Whether to allow public access. Related to the `policy.allow-public`
+   * global setting and policies set for the corresponding application.
+   *
+   * @return bool Defaults to false
+   */
   public function shouldAllowPublic() {
     return false;
   }
 
+  /**
+   * Whether not to guard writes against CSRF. See @{class:AphrontWriteGuard}.
+   *
+   * @return bool Defaults to false
+   */
   public function shouldAllowUnguardedWrites() {
     return false;
   }
@@ -316,6 +332,7 @@ abstract class ConduitAPIMethod
 
 
   /**
+   * @return AphrontCursorPagerView
    * @task pager
    */
   protected function newPager(ConduitAPIRequest $request) {

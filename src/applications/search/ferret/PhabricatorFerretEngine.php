@@ -15,8 +15,8 @@ abstract class PhabricatorFerretEngine extends Phobject {
    */
   abstract public function getScopeName();
   /**
-   * @return string New instance of the corresponding
-   *   PhabricatorApplicationSearchEngine subclass
+   * @return PhabricatorApplicationSearchEngine New instance of the
+   *   corresponding PhabricatorApplicationSearchEngine subclass
    */
   abstract public function newSearchEngine();
 

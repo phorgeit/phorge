@@ -102,6 +102,13 @@ abstract class PhabricatorEditEngine
     return $keys;
   }
 
+  /**
+   * Split the Full Key into its Edit Engine Key and its Form Key
+   *
+   * @param string $full_key 'Edit Engine Key/Form Key' string, e.g.
+   *   'macro.image/default' or 'maniphest.task/5'
+   * @return array<string,string> Edit Engine Key and Form Key
+   */
   public static function splitFullKey($full_key) {
     return explode('/', $full_key, 2);
   }

@@ -97,7 +97,7 @@ abstract class PhabricatorTestDataGenerator extends Phobject {
   /**
    * Get one random object by its PHP class name.
    *
-   * @param string $classname PHP class name.
+   * @param class-string $classname PHP class name.
    * @return PhabricatorLiskDAO Object of that class.
    */
   public function loadOneRandom($classname) {

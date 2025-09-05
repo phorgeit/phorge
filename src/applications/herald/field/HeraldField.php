@@ -39,6 +39,11 @@ abstract class HeraldField extends Phobject {
     return null;
   }
 
+  /**
+   * @return array Conditions available in the dropdown after the object
+   *   dropdown as one of the CONDITION_* constants defined in the
+   *   HeraldAdapter class, rendered as e.g. "contains" or "is any of"
+   */
   public function getHeraldFieldConditions() {
     $standard_type = $this->getHeraldFieldStandardType();
     switch ($standard_type) {
@@ -157,6 +162,9 @@ abstract class HeraldField extends Phobject {
         $standard_type));
   }
 
+  /**
+   * @return bool
+   */
   abstract public function supportsObject($object);
 
   public function getFieldsForObject($object) {

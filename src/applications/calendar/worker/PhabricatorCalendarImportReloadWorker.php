@@ -31,6 +31,9 @@ final class PhabricatorCalendarImportReloadWorker extends PhabricatorWorker {
     $import_engine->importEventsFromSource($author, $import, false);
   }
 
+  /**
+   * @return PhabricatorCalendarImportQuery
+   */
   private function loadImport() {
     $viewer = PhabricatorUser::getOmnipotentUser();
 

@@ -1036,7 +1036,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
   }
 
   /**
-   * @return int
+   * @return int|float Number of results to display (float if set to infinity)
    */
   public function getPageSize(PhabricatorSavedQuery $saved) {
     $bucket = $this->getResultBucket($saved);

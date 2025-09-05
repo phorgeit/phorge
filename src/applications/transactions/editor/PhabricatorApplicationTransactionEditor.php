@@ -103,7 +103,8 @@ abstract class PhabricatorApplicationTransactionEditor
    *
    * Uninstalling the application will disable the editor.
    *
-   * @return string Editor's application class name.
+   * @return class-string<PhabricatorApplication> Editor's application
+   *   class name.
    */
   abstract public function getEditorApplicationClass();
 

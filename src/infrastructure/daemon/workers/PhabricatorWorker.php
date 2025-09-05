@@ -89,6 +89,9 @@ abstract class PhabricatorWorker extends Phobject {
     return $this;
   }
 
+  /**
+   * @return PhabricatorWorkerTask
+   */
   public function getCurrentWorkerTask() {
     return $this->currentWorkerTask;
   }
@@ -101,6 +104,13 @@ abstract class PhabricatorWorker extends Phobject {
     return $task->getID();
   }
 
+  /**
+   *  Perform some preparations and set up context, then call the final
+   *  functionality (e.g. publishFeedStory() or importEvents() or whatever
+   *  work the PhabricatorWorker subclass is supposed to do).
+   *
+   *  @return void
+   */
   abstract protected function doWork();
 
   final public function __construct($data) {
@@ -120,6 +130,11 @@ abstract class PhabricatorWorker extends Phobject {
     return idx($data, $key, $default);
   }
 
+  /**
+   *  Public wrapper function which calls the doWork() function
+   *
+   *  @return void
+   */
   final public function executeTask() {
     $this->doWork();
   }
