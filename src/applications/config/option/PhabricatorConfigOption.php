@@ -126,11 +126,22 @@ final class PhabricatorConfigOption
     throw new PhutilInvalidStateException('setEnumOptions');
   }
 
+  /**
+   * Set the config key.
+   *
+   * @param string $key
+   * @return $this
+   */
   public function setKey($key) {
     $this->key = $key;
     return $this;
   }
 
+  /**
+   * Get the config key.
+   *
+   * @return string
+   */
   public function getKey() {
     return $this->key;
   }
@@ -176,11 +187,23 @@ final class PhabricatorConfigOption
     return $this->description;
   }
 
+  /**
+   * Set the type key.
+   *
+   * @param string $type Type key.
+   * @return $this
+   */
   public function setType($type) {
     $this->type = $type;
     return $this;
   }
 
+  /**
+   * Get the type key.
+   *
+   * @param string $type Type key.
+   * @return string|null
+   */
   public function getType() {
     return $this->type;
   }
