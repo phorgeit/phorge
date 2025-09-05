@@ -529,7 +529,7 @@ var.remarkup-assist-textarea {
 }
 
 .remarkup-assist-textarea:focus {
-  border: 1px solid rgba(82, 168, 236, 0.8);
+  border-color: {$greyborder};
 }
 
 .remarkup-assist-bar {

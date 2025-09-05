@@ -14,7 +14,7 @@ input[type="submit"] {
 button:focus,
 a.button:focus {
   outline: 0;
-  box-shadow: 0 0 2pt 2pt rgba(82, 168, 236, 0.7);
+  box-shadow: 0 0 1pt 1pt rgba(82, 168, 236, 0.7) inset;
 }
 
 button,

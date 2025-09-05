@@ -72,13 +72,9 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 div.jx-tokenizer-container-focused {
-  border-color: rgba(82, 168, 236, 0.8);
+  border-color: {$greyborder};
   outline: 0;
-  /* IE6-9 */
-
-  box-shadow:
-    inset 0 1px 1px rgba({$alphablack},.075),
-    0 0 8px rgba(82,168,236,.6);
+  box-shadow: 0 0 1pt 1pt rgba(82, 168, 236, 0.7) inset;
 }
 input[type="radio"],
 input[type="checkbox"] {
