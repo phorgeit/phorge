@@ -11,13 +11,14 @@ final class FileInfoConduitAPIMethod extends FileConduitAPIMethod {
   }
 
   public function getMethodStatus() {
-    return self::METHOD_STATUS_FROZEN;
+    return self::METHOD_STATUS_DEPRECATED;
   }
 
   public function getMethodStatusDescription() {
     return pht(
-      'This method is frozen and will eventually be deprecated. New code '.
-      'should use "file.search" instead.');
+      'This method has been deprecated since %s in favor of %s.',
+      '10/2025',
+      'file.search');
   }
 
   protected function defineParamTypes() {

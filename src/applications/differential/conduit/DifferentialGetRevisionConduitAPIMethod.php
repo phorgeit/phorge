@@ -12,7 +12,10 @@ final class DifferentialGetRevisionConduitAPIMethod
   }
 
   public function getMethodStatusDescription() {
-    return pht("Replaced by '%s'.", 'differential.query');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '04/2012',
+      'differential.query');
   }
 
   public function getMethodDescription() {

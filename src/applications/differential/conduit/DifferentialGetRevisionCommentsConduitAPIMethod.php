@@ -12,7 +12,7 @@ final class DifferentialGetRevisionCommentsConduitAPIMethod
   }
 
   public function getMethodStatusDescription() {
-    return pht('Obsolete and doomed, see T2222.');
+    return pht('Obsolete and doomed since 02/2014, see T2222.');
   }
 
   public function getMethodDescription() {

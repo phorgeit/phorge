@@ -11,7 +11,10 @@ final class UserFindConduitAPIMethod extends UserConduitAPIMethod {
   }
 
   public function getMethodStatusDescription() {
-    return pht('Obsoleted by "%s".', 'user.query');
+    return pht(
+      'This method has been deprecated since %s in favor of %s.',
+      '01/2014',
+      'user.query');
   }
 
   public function getMethodDescription() {
