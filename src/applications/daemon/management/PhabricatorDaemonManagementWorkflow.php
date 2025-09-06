@@ -152,7 +152,7 @@ abstract class PhabricatorDaemonManagementWorkflow
       // subprocess which will terminate normally.
       pcntl_signal(
         SIGINT,
-        array(__CLASS__, 'ignoreSignal'));
+        array(self::class, 'ignoreSignal'));
 
       echo "\n    scripts/daemon/ \$ {$command}\n\n";
 

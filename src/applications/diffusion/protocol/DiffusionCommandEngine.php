@@ -30,7 +30,7 @@ abstract class DiffusionCommandEngine extends Phobject {
 
   private static function newCommandEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

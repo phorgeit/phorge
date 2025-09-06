@@ -54,7 +54,7 @@ abstract class PhabricatorApplicationConfigurationPanel
 
   public static function loadAllPanels() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPanelKey')
       ->execute();
   }

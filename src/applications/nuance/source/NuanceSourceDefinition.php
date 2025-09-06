@@ -38,7 +38,7 @@ abstract class NuanceSourceDefinition extends Phobject {
 
   public static function getAllDefinitions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getSourceTypeConstant')
       ->execute();
   }

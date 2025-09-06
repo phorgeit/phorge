@@ -22,7 +22,7 @@ abstract class PhabricatorCachePurger
 
   final public static function getAllPurgers() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPurgerKey')
       ->execute();
   }

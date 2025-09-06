@@ -67,7 +67,7 @@ final class AphrontWriteGuard extends Phobject {
         pht(
           'An %s already exists. Dispose of the previous guard '.
           'before creating a new one.',
-          __CLASS__));
+          self::class));
     }
     if (self::$allowUnguardedWrites) {
       throw new Exception(
@@ -75,7 +75,7 @@ final class AphrontWriteGuard extends Phobject {
           'An %s is being created in a context which permits '.
           'unguarded writes unconditionally. This is not allowed and '.
           'indicates a serious error.',
-          __CLASS__));
+          self::class));
     }
     $this->callback = $callback;
     self::$instance = $this;
@@ -99,7 +99,7 @@ final class AphrontWriteGuard extends Phobject {
       throw new Exception(
         pht(
           'Imbalanced %s: more %s calls than %s calls.',
-          __CLASS__,
+          self::class,
           'beginUnguardedWrites()',
           'endUnguardedWrites()'));
     }
@@ -155,7 +155,7 @@ final class AphrontWriteGuard extends Phobject {
         throw new Exception(
           pht(
             'Unguarded write! There must be an active %s to perform writes.',
-            __CLASS__));
+            self::class));
       } else {
         // Unguarded writes are being allowed unconditionally.
         return;
@@ -231,7 +231,7 @@ final class AphrontWriteGuard extends Phobject {
       throw new Exception(
         pht(
           'Imbalanced %s: more %s calls than %s calls.',
-          __CLASS__,
+          self::class,
           'endUnguardedWrites()',
           'beginUnguardedWrites()'));
     }
@@ -257,7 +257,7 @@ final class AphrontWriteGuard extends Phobject {
         pht(
           'You can not unconditionally disable %s by calling %s while a write '.
           'guard is active. Use %s to temporarily allow unguarded writes.',
-          __CLASS__,
+          self::class,
           __FUNCTION__.'()',
           'beginUnguardedWrites()'));
     }

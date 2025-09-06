@@ -75,7 +75,7 @@ abstract class PhabricatorBeforeDestructionEngineExtension extends Phobject {
   final public static function getAllExtensions(): array {
     $map = new PhutilClassMapQuery();
     return $map
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getExtensionKey')
       ->execute();
   }

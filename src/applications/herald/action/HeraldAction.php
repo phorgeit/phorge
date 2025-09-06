@@ -151,7 +151,7 @@ abstract class HeraldAction extends Phobject {
 
   final public static function getAllActions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getActionConstant')
       ->execute();
   }

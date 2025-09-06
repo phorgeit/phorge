@@ -371,7 +371,7 @@ abstract class PhabricatorApplication
 
     if ($applications === null) {
       $apps = id(new PhutilClassMapQuery())
-        ->setAncestorClass(__CLASS__)
+        ->setAncestorClass(self::class)
         ->setSortMethod('getApplicationOrder')
         ->execute();
 

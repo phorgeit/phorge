@@ -61,7 +61,7 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
 
   final public static function getAllMenuItems() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getMenuItemKey')
       ->execute();
   }

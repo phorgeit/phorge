@@ -8,7 +8,7 @@ abstract class HeraldFieldGroup extends HeraldGroup {
 
   final public static function getAllFieldGroups() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getGroupKey')
       ->setSortMethod('getSortKey')
       ->execute();

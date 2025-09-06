@@ -28,7 +28,7 @@ abstract class PhabricatorStandardCustomField
     $builtin = false) {
 
     $types = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getFieldType')
       ->execute();
 

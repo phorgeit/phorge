@@ -87,7 +87,7 @@ abstract class PhabricatorSettingsPanel extends Phobject {
 
   final public static function getAllPanels() {
     $panels = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPanelKey')
       ->execute();
     return msortv($panels, 'getPanelOrderVector');

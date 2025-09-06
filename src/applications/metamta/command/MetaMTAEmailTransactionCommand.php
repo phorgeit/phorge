@@ -61,7 +61,7 @@ abstract class MetaMTAEmailTransactionCommand extends Phobject {
 
   public static function getAllCommands() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setExpandMethod('getCommandObjects')
       ->setUniqueMethod('getCommand')
       ->execute();
@@ -81,7 +81,7 @@ abstract class MetaMTAEmailTransactionCommand extends Phobject {
   }
 
   public static function getCommandMap(array $commands) {
-    assert_instances_of($commands, __CLASS__);
+    assert_instances_of($commands, self::class);
 
     $map = array();
     foreach ($commands as $command) {

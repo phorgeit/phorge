@@ -93,7 +93,7 @@ abstract class PhabricatorObjectRelationship extends Phobject {
 
   final public static function getAllRelationships() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getRelationshipConstant')
       ->execute();
   }

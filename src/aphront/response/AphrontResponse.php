@@ -339,7 +339,7 @@ abstract class AphrontResponse extends Phobject {
 
     array_walk_recursive(
       $object,
-      array(__CLASS__, 'processValueForJSONEncoding'));
+      array(self::class, 'processValueForJSONEncoding'));
 
     $response = phutil_json_encode($object);
 

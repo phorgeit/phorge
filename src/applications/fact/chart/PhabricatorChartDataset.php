@@ -26,7 +26,7 @@ abstract class PhabricatorChartDataset
 
   final public static function getAllDatasetTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getDatasetTypeKey')
       ->execute();
   }

@@ -79,7 +79,7 @@ abstract class NuanceItemType
 
   final public static function getAllItemTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getItemTypeConstant')
       ->execute();
   }

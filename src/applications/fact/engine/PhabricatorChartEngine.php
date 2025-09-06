@@ -51,7 +51,7 @@ abstract class PhabricatorChartEngine
    */
   final public static function getAllChartEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getChartEngineKey')
       ->execute();
   }

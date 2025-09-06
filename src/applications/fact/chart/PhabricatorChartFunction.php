@@ -18,7 +18,7 @@ abstract class PhabricatorChartFunction
    */
   final public static function getAllFunctions() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getFunctionKey')
       ->execute();
   }

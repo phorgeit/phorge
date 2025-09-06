@@ -6,7 +6,7 @@ abstract class HeraldStateReasons extends Phobject {
 
   final public static function getAllReasons() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

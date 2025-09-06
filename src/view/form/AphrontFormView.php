@@ -138,7 +138,7 @@ final class AphrontFormView extends AphrontView {
       throw new Exception(
         pht(
           'You must pass the user to %s.',
-          __CLASS__));
+          self::class));
     }
 
     $sigils = $this->sigils;

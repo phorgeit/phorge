@@ -32,7 +32,7 @@ abstract class PhutilDaemonOverseerModule extends Phobject {
 
   public static function getAllModules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

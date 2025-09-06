@@ -37,7 +37,7 @@ abstract class CelerityPostprocessor
 
   final public static function getAllPostprocessors() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPostprocessorKey')
       ->execute();
   }

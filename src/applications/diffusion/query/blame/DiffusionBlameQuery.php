@@ -29,7 +29,7 @@ abstract class DiffusionBlameQuery extends DiffusionQuery {
 
   final public static function newFromDiffusionRequest(
     DiffusionRequest $request) {
-    return parent::newQueryObject(__CLASS__, $request);
+    return parent::newQueryObject(self::class, $request);
   }
 
   final protected function executeQuery() {

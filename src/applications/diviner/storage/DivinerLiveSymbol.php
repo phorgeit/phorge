@@ -194,7 +194,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
   public function attachExtends(array $extends) {
-    assert_instances_of($extends, __CLASS__);
+    assert_instances_of($extends, self::class);
     $this->extends = $extends;
     return $this;
   }
@@ -204,7 +204,7 @@ final class DivinerLiveSymbol extends DivinerDAO
   }
 
   public function attachChildren(array $children) {
-    assert_instances_of($children, __CLASS__);
+    assert_instances_of($children, self::class);
     $this->children = $children;
     return $this;
   }

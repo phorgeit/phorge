@@ -19,7 +19,7 @@ abstract class PhabricatorEdgeType extends Phobject {
         pht(
           '%s class "%s" has an invalid %s property. '.
           'Edge constants must be positive integers.',
-          __CLASS__,
+          self::class,
           get_class($this),
           'EDGECONST'));
     }
@@ -159,7 +159,7 @@ abstract class PhabricatorEdgeType extends Phobject {
 
     if ($type_map === null) {
       $types = id(new PhutilClassMapQuery())
-        ->setAncestorClass(__CLASS__)
+        ->setAncestorClass(self::class)
         ->setUniqueMethod('getEdgeConstant')
         ->execute();
 

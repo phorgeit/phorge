@@ -53,7 +53,7 @@ abstract class PhabricatorFileTransform extends Phobject {
 
   public static function getAllTransforms() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setExpandMethod('generateTransforms')
       ->setUniqueMethod('getTransformKey')
       ->execute();

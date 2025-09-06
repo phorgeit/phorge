@@ -20,7 +20,7 @@ abstract class PhabricatorProjectColumnOrder
 
   final public static function getAllOrders() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getColumnOrderKey')
       ->setSortMethod('getMenuOrder')
       ->execute();

@@ -48,7 +48,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
 
   final public static function buildAllPatches() {
     $patch_lists = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getNamespace')
       ->execute();
 
@@ -70,7 +70,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
           throw new Exception(
             pht(
               "%s '%s' has a patch '%s' which is not an array.",
-              __CLASS__,
+              self::class,
               get_class($patch_list),
               $key));
         }
@@ -90,7 +90,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
               pht(
                 "%s '%s' has a patch, '%s', with an unknown property, '%s'.".
                 "Patches must have only valid keys: %s.",
-                __CLASS__,
+                self::class,
                 get_class($patch_list),
                 $key,
                 $pkey,
@@ -103,7 +103,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
             pht(
               "%s '%s' has a patch with a numeric key, '%s'. ".
               "Patches must use string keys.",
-              __CLASS__,
+              self::class,
               get_class($patch_list),
               $key));
         }
@@ -113,7 +113,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
             pht(
               "%s '%s' has a patch with a colon in the key name, '%s'. ".
               "Patch keys may not contain colons.",
-              __CLASS__,
+              self::class,
               get_class($patch_list),
               $key));
         }
@@ -126,7 +126,7 @@ abstract class PhabricatorSQLPatchList extends Phobject {
             pht(
               "%s '%s' has a patch '%s' which duplicates an ".
               "existing patch key.",
-              __CLASS__,
+              self::class,
               get_class($patch_list),
               $key));
         }

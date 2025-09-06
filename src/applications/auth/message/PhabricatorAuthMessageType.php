@@ -9,7 +9,7 @@ abstract class PhabricatorAuthMessageType
 
   final public static function getAllMessageTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getMessageTypeKey')
       ->execute();
   }

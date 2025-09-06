@@ -10,7 +10,7 @@ abstract class PhabricatorGuideModule extends Phobject {
 
   final public static function getAllModules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getModuleKey')
       ->setSortMethod('getModulePosition')
       ->execute();
@@ -18,7 +18,7 @@ abstract class PhabricatorGuideModule extends Phobject {
 
   final public static function getEnabledModules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getModuleKey')
       ->setSortMethod('getModulePosition')
       ->setFilterMethod('getIsModuleEnabled')

@@ -9,7 +9,7 @@ abstract class DiffusionRawDiffQuery
 
   final public static function newFromDiffusionRequest(
     DiffusionRequest $request) {
-    return parent::newQueryObject(__CLASS__, $request);
+    return parent::newQueryObject(self::class, $request);
   }
 
   final public function setLinesOfContext($lines_of_context) {

@@ -22,7 +22,7 @@ abstract class PhabricatorSettingsPanelGroup extends Phobject {
 
   final public static function getAllPanelGroups() {
     $groups = id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getPanelGroupKey')
       ->execute();
 

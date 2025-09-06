@@ -8,7 +8,7 @@ abstract class HeraldActionGroup extends HeraldGroup {
 
   final public static function getAllActionGroups() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getGroupKey')
       ->setSortMethod('getSortKey')
       ->execute();

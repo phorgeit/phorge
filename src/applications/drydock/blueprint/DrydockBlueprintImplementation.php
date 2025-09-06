@@ -327,7 +327,7 @@ abstract class DrydockBlueprintImplementation extends Phobject {
 
   public static function getAllBlueprintImplementations() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

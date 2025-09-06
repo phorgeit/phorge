@@ -98,7 +98,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
 
   final public static function loadAll($external_only = false) {
     $symbols = id(new PhutilSymbolLoader())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setConcreteOnly(true)
       ->selectAndLoadSymbols();
 
@@ -117,7 +117,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
         throw new Exception(
           pht(
             "Multiple %s subclasses have the same key ('%s'): %s, %s.",
-            __CLASS__,
+            self::class,
             $key,
             $pclass,
             $nclass));
@@ -139,7 +139,7 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
           throw new Exception(
             pht(
               "Multiple %s subclasses contain an option named '%s'!",
-              __CLASS__,
+              self::class,
               $key));
         }
         $options[$key] = $option;

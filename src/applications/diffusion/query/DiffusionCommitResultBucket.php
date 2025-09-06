@@ -5,7 +5,7 @@ abstract class DiffusionCommitResultBucket
 
   public static function getAllResultBuckets() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getResultBucketKey')
       ->execute();
   }

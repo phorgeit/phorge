@@ -160,7 +160,7 @@ abstract class PhabricatorDocumentEngine
 
   final public static function getAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getDocumentEngineKey')
       ->execute();
   }

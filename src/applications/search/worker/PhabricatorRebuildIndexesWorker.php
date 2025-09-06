@@ -4,7 +4,7 @@ final class PhabricatorRebuildIndexesWorker extends PhabricatorWorker {
 
   public static function rebuildObjectsWithQuery($query_class) {
     parent::scheduleTask(
-      __CLASS__,
+      self::class,
       array(
         'queryClass' => $query_class,
       ),

@@ -883,7 +883,7 @@ abstract class HeraldAdapter extends Phobject {
 
   public static function getAllAdapters() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAdapterContentType')
       ->setSortMethod('getAdapterSortKey')
       ->execute();

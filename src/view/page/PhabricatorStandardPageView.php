@@ -221,7 +221,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
         pht(
           'You must set the %s to render a %s.',
           'Request',
-          __CLASS__));
+          self::class));
     }
 
     $console = $this->getConsole();

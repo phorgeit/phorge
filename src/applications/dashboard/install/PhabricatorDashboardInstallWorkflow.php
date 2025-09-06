@@ -50,7 +50,7 @@ abstract class PhabricatorDashboardInstallWorkflow
 
   final public static function getAllWorkflows() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getWorkflowKey')
       ->setSortMethod('getOrder')
       ->execute();

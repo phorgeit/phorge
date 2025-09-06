@@ -278,7 +278,7 @@ final class ConpherenceThread extends ConpherenceDAO
     PhabricatorUser $viewer,
     array $conpherences) {
 
-    assert_instances_of($conpherences, __CLASS__);
+    assert_instances_of($conpherences, self::class);
 
     $policies = array();
     foreach ($conpherences as $room) {

@@ -5,7 +5,7 @@ abstract class DiffusionFileContentQuery
 
   final public static function newFromDiffusionRequest(
     DiffusionRequest $request) {
-    return parent::newQueryObject(__CLASS__, $request);
+    return parent::newQueryObject(self::class, $request);
   }
 
 }

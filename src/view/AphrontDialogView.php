@@ -322,7 +322,7 @@ final class AphrontDialogView
         pht(
           'You must call %s when rendering an %s.',
           'setViewer()',
-          __CLASS__));
+          self::class));
     }
 
     $classes = array();

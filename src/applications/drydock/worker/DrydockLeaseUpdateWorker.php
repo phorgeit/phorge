@@ -919,7 +919,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
     // activate it.
     if ($lease->getStatus() == DrydockLeaseStatus::STATUS_ACQUIRED) {
       $this->queueTask(
-        __CLASS__,
+        self::class,
         array(
           'leasePHID' => $lease->getPHID(),
         ),
@@ -1088,7 +1088,7 @@ final class DrydockLeaseUpdateWorker extends DrydockWorker {
     $lease->awakenTasks();
 
     $this->queueTask(
-      __CLASS__,
+      self::class,
       array(
         'leasePHID' => $lease->getPHID(),
       ),

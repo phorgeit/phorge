@@ -5,7 +5,7 @@ abstract class HarbormasterHookHandler
 
   public static function getHandlers() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getName')
       ->execute();
   }

@@ -46,7 +46,7 @@ abstract class PhabricatorCalendarImportEngine
 
   final public static function getAllImportEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getImportEngineType')
       ->setSortMethod('getImportEngineName')
       ->execute();

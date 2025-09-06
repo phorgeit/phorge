@@ -227,7 +227,7 @@ abstract class PhabricatorFileStorageEngine extends Phobject {
    */
   public static function loadAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getEngineIdentifier')
       ->setSortMethod('getEnginePriority')
       ->execute();

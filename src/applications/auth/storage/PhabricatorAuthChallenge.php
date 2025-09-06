@@ -27,7 +27,7 @@ final class PhabricatorAuthChallenge
   }
 
   public static function newHTTPParametersFromChallenges(array $challenges) {
-    assert_instances_of($challenges, __CLASS__);
+    assert_instances_of($challenges, self::class);
 
     $token_list = array();
     foreach ($challenges as $challenge) {
@@ -54,7 +54,7 @@ final class PhabricatorAuthChallenge
   public static function newChallengeResponsesFromRequest(
     array $challenges,
     AphrontRequest $request) {
-    assert_instances_of($challenges, __CLASS__);
+    assert_instances_of($challenges, self::class);
 
     $token_list = $request->getStr(self::HTTPKEY, '');
     $token_list = explode(' ', $token_list);

@@ -219,7 +219,7 @@ abstract class ConduitAPIMethod
 
   private static function newClassMapQuery() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getAPIMethodName');
   }
 

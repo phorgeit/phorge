@@ -8,7 +8,7 @@ abstract class PhabricatorConfigModule extends Phobject {
 
   final public static function getAllModules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getModuleKey')
       ->setSortMethod('getModuleName')
       ->execute();

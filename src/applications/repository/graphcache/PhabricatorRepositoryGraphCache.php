@@ -110,7 +110,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
 
       // Sanity check so we can survive and recover from bad data.
       if (isset($seen[$commit_id])) {
-        phlog(pht('Unexpected infinite loop in %s!', __CLASS__));
+        phlog(pht('Unexpected infinite loop in %s!', self::class));
         return false;
       } else {
         $seen[$commit_id] = true;

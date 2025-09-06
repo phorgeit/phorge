@@ -9,7 +9,7 @@ abstract class PhabricatorCalendarImportLogType
 
   final public static function getAllLogTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getLogTypeConstant')
       ->execute();
   }

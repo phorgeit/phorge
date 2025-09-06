@@ -64,7 +64,7 @@ abstract class PhabricatorIconSet
 
   final public static function getAllIconSets() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getIconSetKey')
       ->execute();
   }

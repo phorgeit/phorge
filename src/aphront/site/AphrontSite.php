@@ -36,7 +36,7 @@ abstract class AphrontSite extends Phobject {
 
   final public static function getAllSites() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setSortMethod('getPriority')
       ->execute();
   }

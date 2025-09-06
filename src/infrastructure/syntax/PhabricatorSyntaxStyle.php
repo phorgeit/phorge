@@ -21,7 +21,7 @@ abstract class PhabricatorSyntaxStyle extends Phobject {
 
   public static function getAllStyles() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getSyntaxStyleKey')
       ->setSortMethod('getStyleName')
       ->execute();

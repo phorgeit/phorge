@@ -128,7 +128,7 @@ final class PhabricatorStartup {
       // NOTE: This protects us against multiple calls to didStartup() in the
       // same request, but also against repeated requests to the same
       // interpreter state, which we may implement in the future.
-      register_shutdown_function(array(__CLASS__, 'didShutdown'));
+      register_shutdown_function(array(self::class, 'didShutdown'));
       $registered = true;
     }
 
@@ -264,7 +264,7 @@ final class PhabricatorStartup {
     static $initialized = false;
     if (!$initialized) {
       declare(ticks=1);
-      register_tick_function(array(__CLASS__, 'onDebugTick'));
+      register_tick_function(array(self::class, 'onDebugTick'));
       $initialized = true;
     }
   }

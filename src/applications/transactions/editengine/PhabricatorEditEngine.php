@@ -2369,7 +2369,7 @@ abstract class PhabricatorEditEngine
 
   final public static function getAllEditEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getEngineKey')
       ->execute();
   }

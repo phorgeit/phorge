@@ -45,7 +45,7 @@ abstract class PhabricatorExportFormat
 
   final public static function getAllExportFormats() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getExportFormatKey')
       ->execute();
   }

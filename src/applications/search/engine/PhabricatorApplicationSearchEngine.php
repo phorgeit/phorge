@@ -685,7 +685,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    */
   public static function getAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

@@ -19,7 +19,7 @@ abstract class HarbormasterBuildStepGroup extends Phobject {
 
   final public static function getAllGroups() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getGroupKey')
       ->setSortMethod('getGroupOrder')
       ->execute();

@@ -72,7 +72,7 @@ final class PhrequentTimeBlock extends Phobject {
       // Now, figure out how much time was actually spent working on the
       // object.
 
-      usort($timeline, array(__CLASS__, 'sortTimeline'));
+      usort($timeline, array(self::class, 'sortTimeline'));
 
       $stack = array();
       $depth = null;

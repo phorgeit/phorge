@@ -20,7 +20,7 @@ abstract class PhabricatorWorkerBulkJobType extends Phobject {
 
   final public static function getAllJobTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getBulkJobTypeKey')
       ->execute();
   }

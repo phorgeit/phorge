@@ -27,7 +27,7 @@ abstract class PhabricatorAuthFactor extends Phobject {
 
   public static function getAllFactors() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getFactorKey')
       ->execute();
   }

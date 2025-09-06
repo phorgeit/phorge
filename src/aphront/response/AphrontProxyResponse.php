@@ -74,7 +74,7 @@ abstract class AphrontProxyResponse
     throw new Exception(
       pht(
         '%s must implement %s.',
-        __CLASS__,
+        self::class,
         'reduceProxyResponse()'));
   }
 

@@ -10,7 +10,7 @@ abstract class PhabricatorPHIDType extends Phobject {
         pht(
           '%s class "%s" has an invalid %s property. PHID '.
           'constants must be a four character uppercase string.',
-          __CLASS__,
+          self::class,
           get_class($this),
           'TYPECONST'));
     }
@@ -163,7 +163,7 @@ abstract class PhabricatorPHIDType extends Phobject {
 
   private static function newClassMapQuery() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getTypeConstant');
   }
 

@@ -60,7 +60,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
 
   public static function getAllBaseProviders() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->execute();
   }
 

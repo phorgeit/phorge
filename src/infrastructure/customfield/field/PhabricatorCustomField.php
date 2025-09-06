@@ -1651,7 +1651,7 @@ abstract class PhabricatorCustomField extends Phobject {
     PhabricatorCustomFieldInterface $object,
     $role,
     array $fields) {
-    assert_instances_of($fields, __CLASS__);
+    assert_instances_of($fields, self::class);
 
     // We only apply subtype adjustment for some roles. For example, when
     // writing Herald rules or building a Search interface, we always want to

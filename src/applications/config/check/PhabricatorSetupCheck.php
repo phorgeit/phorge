@@ -239,7 +239,7 @@ abstract class PhabricatorSetupCheck extends Phobject {
 
   final public static function loadAllChecks() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setSortMethod('getExecutionOrder')
       ->execute();
   }

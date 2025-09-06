@@ -1675,7 +1675,7 @@ abstract class PhabricatorApplicationTransaction
   }
 
   public function attachTransactionGroup(array $group) {
-    assert_instances_of($group, __CLASS__);
+    assert_instances_of($group, self::class);
     $this->transactionGroup = $group;
     return $this;
   }

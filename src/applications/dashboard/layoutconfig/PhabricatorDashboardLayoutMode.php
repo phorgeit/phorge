@@ -20,7 +20,7 @@ abstract class PhabricatorDashboardLayoutMode
 
   final public static function getAllLayoutModes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getLayoutModeKey')
       ->setSortMethod('getLayoutModeOrder')
       ->execute();

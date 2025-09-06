@@ -22,7 +22,7 @@ abstract class AphrontRequestExceptionHandler extends Phobject {
 
   final public static function getAllHandlers() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setSortMethod('getRequestExceptionHandlerPriority')
       ->execute();
   }

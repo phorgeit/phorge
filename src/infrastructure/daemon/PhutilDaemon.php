@@ -85,7 +85,7 @@ abstract class PhutilDaemon extends Phobject {
     if (!$router->getHandler($handler_key)) {
       $handler = new PhutilCallbackSignalHandler(
         SIGTERM,
-        __CLASS__.'::onTermSignal');
+        self::class.'::onTermSignal');
       $router->installHandler($handler_key, $handler);
     }
 

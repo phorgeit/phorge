@@ -71,7 +71,7 @@ abstract class AlmanacServiceType extends Phobject {
    */
   public static function getAllServiceTypes() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass(__CLASS__)
+      ->setAncestorClass(self::class)
       ->setUniqueMethod('getServiceTypeConstant')
       ->setSortMethod('getServiceTypeName')
       ->execute();
