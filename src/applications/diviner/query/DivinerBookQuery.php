@@ -70,8 +70,11 @@ final class DivinerBookQuery extends PhabricatorCursorPagedPolicyAwareQuery {
     return $table->loadAllFromArray($data);
   }
 
+  /**
+   * @param array<DivinerLiveBook> $books
+   */
   protected function didFilterPage(array $books) {
-    assert_instances_of($books, 'DivinerLiveBook');
+    assert_instances_of($books, DivinerLiveBook::class);
 
     if ($this->needRepositories) {
       $repositories = id(new PhabricatorRepositoryQuery())

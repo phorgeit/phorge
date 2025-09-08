@@ -69,11 +69,16 @@ final class PassphraseCredentialSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PassphraseCredential> $credentials
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $credentials,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($credentials, 'PassphraseCredential');
+    assert_instances_of($credentials, PassphraseCredential::class);
 
     $viewer = $this->requireViewer();
 

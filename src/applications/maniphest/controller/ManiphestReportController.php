@@ -571,11 +571,12 @@ final class ManiphestReportController extends ManiphestController {
    * Render date of oldest open task per user or per project with a link.
    * Used on /maniphest/report/user/ and /maniphest/report/project/ URIs.
    *
+   * @param array<ManiphestTask> $tasks
    * @return array<PhutilSafeHTML,int> HTML link markup and the timespan
    *         (as epoch) since task creation
    */
   private function renderOldest(array $tasks) {
-    assert_instances_of($tasks, 'ManiphestTask');
+    assert_instances_of($tasks, ManiphestTask::class);
     $oldest = null;
     foreach ($tasks as $id => $task) {
       if (($oldest === null) ||

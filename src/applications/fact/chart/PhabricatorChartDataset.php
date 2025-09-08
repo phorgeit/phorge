@@ -17,7 +17,7 @@ abstract class PhabricatorChartDataset
    * @param array<PhabricatorComposeChartFunction> $functions
    */
   final public function setFunctions(array $functions) {
-    assert_instances_of($functions, 'PhabricatorComposeChartFunction');
+    assert_instances_of($functions, PhabricatorComposeChartFunction::class);
 
     $this->functions = $functions;
 

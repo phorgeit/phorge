@@ -99,7 +99,9 @@ final class DiffusionSymbolController extends DiffusionController {
       }
 
       try {
-        assert_instances_of($source_results, 'PhabricatorRepositorySymbol');
+        assert_instances_of(
+          $source_results,
+          PhabricatorRepositorySymbol::class);
       } catch (InvalidArgumentException $ex) {
         throw new Exception(
           pht(

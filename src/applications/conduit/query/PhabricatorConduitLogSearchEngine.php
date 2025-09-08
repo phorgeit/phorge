@@ -174,11 +174,16 @@ final class PhabricatorConduitLogSearchEngine
     return $export;
   }
 
+  /**
+   * @param array<PhabricatorConduitMethodCallLog> $logs
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $logs,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($logs, 'PhabricatorConduitMethodCallLog');
+    assert_instances_of($logs, PhabricatorConduitMethodCallLog::class);
     $viewer = $this->requireViewer();
 
     $methods = id(new PhabricatorConduitMethodQuery())

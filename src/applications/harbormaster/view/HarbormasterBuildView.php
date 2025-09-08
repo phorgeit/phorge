@@ -5,8 +5,11 @@ final class HarbormasterBuildView
 
   private $builds = array();
 
+  /**
+   * @param array<HarbormasterBuild> $builds
+   */
   public function setBuilds(array $builds) {
-    assert_instances_of($builds, 'HarbormasterBuild');
+    assert_instances_of($builds, HarbormasterBuild::class);
     $this->builds = $builds;
     return $this;
   }

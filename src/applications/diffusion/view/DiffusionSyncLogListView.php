@@ -4,8 +4,11 @@ final class DiffusionSyncLogListView extends AphrontView {
 
   private $logs;
 
+  /**
+   * @param array<PhabricatorRepositorySyncEvent> $logs
+   */
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositorySyncEvent');
+    assert_instances_of($logs, PhabricatorRepositorySyncEvent::class);
     $this->logs = $logs;
     return $this;
   }

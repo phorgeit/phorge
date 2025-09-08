@@ -90,11 +90,16 @@ final class PhabricatorFeedTransactionSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $objects
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $objects,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($objects, 'PhabricatorApplicationTransaction');
+    assert_instances_of($objects, PhabricatorApplicationTransaction::class);
 
     $viewer = $this->requireViewer();
 

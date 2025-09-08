@@ -203,7 +203,7 @@ abstract class PhabricatorEditEngine
         $template_object);
 
       // TODO: Validate this in more detail with a more tailored error.
-      assert_instances_of($extension_fields, 'PhabricatorEditField');
+      assert_instances_of($extension_fields, PhabricatorEditField::class);
 
       foreach ($extension_fields as $field) {
         $field
@@ -480,7 +480,9 @@ abstract class PhabricatorEditEngine
           get_class($this)));
     }
 
-    assert_instances_of($configurations, 'PhabricatorEditEngineConfiguration');
+    assert_instances_of(
+      $configurations,
+      PhabricatorEditEngineConfiguration::class);
 
     $has_default = false;
     foreach ($configurations as $config) {
@@ -2491,7 +2493,7 @@ abstract class PhabricatorEditEngine
     if ($this->pages === null) {
       $pages = $this->newPages($object);
 
-      assert_instances_of($pages, 'PhabricatorEditPage');
+      assert_instances_of($pages, PhabricatorEditPage::class);
       $pages = mpull($pages, null, 'getKey');
 
       $this->pages = $pages;

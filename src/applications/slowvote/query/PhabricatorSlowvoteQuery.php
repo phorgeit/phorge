@@ -60,8 +60,11 @@ final class PhabricatorSlowvoteQuery
     return new PhabricatorSlowvotePoll();
   }
 
+  /**
+   * @param array<PhabricatorSlowvotePoll> $polls
+   */
   protected function willFilterPage(array $polls) {
-    assert_instances_of($polls, 'PhabricatorSlowvotePoll');
+    assert_instances_of($polls, PhabricatorSlowvotePoll::class);
 
     $ids = mpull($polls, 'getID');
     $viewer = $this->getViewer();

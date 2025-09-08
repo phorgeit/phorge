@@ -229,7 +229,7 @@ final class PhabricatorChartStackedAreaDataset
     PhabricatorChartDataQuery $data_query,
     array $functions) {
 
-    assert_instances_of($functions, 'PhabricatorChartFunction');
+    assert_instances_of($functions, PhabricatorChartFunction::class);
 
     $points = array();
     foreach ($functions as $idx => $function) {

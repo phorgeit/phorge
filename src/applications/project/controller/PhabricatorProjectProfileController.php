@@ -182,8 +182,11 @@ final class PhabricatorProjectProfileController
     return $view;
   }
 
+  /**
+   * @param array<PhabricatorFeedStory> $stories
+   */
   private function renderStories(array $stories) {
-    assert_instances_of($stories, 'PhabricatorFeedStory');
+    assert_instances_of($stories, PhabricatorFeedStory::class);
 
     $builder = new PhabricatorFeedBuilder($stories);
     $builder->setUser($this->getRequest()->getUser());

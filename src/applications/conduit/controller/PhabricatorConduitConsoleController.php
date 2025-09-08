@@ -126,10 +126,16 @@ final class PhabricatorConduitConsoleController
       ->appendChild($view);
   }
 
+  /**
+   * @param ConduitAPIMethod $method
+   * @param array<ConduitAPIDocumentationPage> $documentation_pages
+   */
   private function newDocumentationView(
     ConduitAPIMethod $method,
     array $documentation_pages) {
-    assert_instances_of($documentation_pages, 'ConduitAPIDocumentationPage');
+    assert_instances_of(
+      $documentation_pages,
+      ConduitAPIDocumentationPage::class);
 
     $viewer = $this->getViewer();
 
@@ -153,10 +159,16 @@ final class PhabricatorConduitConsoleController
     return $view;
   }
 
+  /**
+   * @param ConduitAPIMethod $method
+   * @param array<ConduitAPIDocumentationPage> $documentation_pages
+   */
   private function newNavigationView(
     ConduitAPIMethod $method,
     array $documentation_pages) {
-    assert_instances_of($documentation_pages, 'ConduitAPIDocumentationPage');
+    assert_instances_of(
+      $documentation_pages,
+      ConduitAPIDocumentationPage::class);
 
     $console_uri = urisprintf(
       '/method/%s/',

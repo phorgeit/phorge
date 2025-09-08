@@ -569,8 +569,11 @@ final class DivinerAtomController extends DivinerController {
       $out);
   }
 
+  /**
+   * @param array<DivinerLiveSymbol> $symbols
+   */
   private function buildParametersAndReturn(array $symbols) {
-    assert_instances_of($symbols, 'DivinerLiveSymbol');
+    assert_instances_of($symbols, DivinerLiveSymbol::class);
 
     $symbols = array_reverse($symbols);
     $out = array();

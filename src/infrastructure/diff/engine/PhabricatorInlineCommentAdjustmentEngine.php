@@ -18,8 +18,11 @@ final class PhabricatorInlineCommentAdjustmentEngine
     return $this->viewer;
   }
 
+  /**
+   * @param array<DifferentialInlineComment> $inlines
+   */
   public function setInlines(array $inlines) {
-    assert_instances_of($inlines, 'DifferentialInlineComment');
+    assert_instances_of($inlines, DifferentialInlineComment::class);
     $this->inlines = $inlines;
     return $this;
   }
@@ -28,8 +31,11 @@ final class PhabricatorInlineCommentAdjustmentEngine
     return $this->inlines;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $old_changesets
+   */
   public function setOldChangesets(array $old_changesets) {
-    assert_instances_of($old_changesets, 'DifferentialChangeset');
+    assert_instances_of($old_changesets, DifferentialChangeset::class);
     $this->oldChangesets = $old_changesets;
     return $this;
   }
@@ -38,8 +44,11 @@ final class PhabricatorInlineCommentAdjustmentEngine
     return $this->oldChangesets;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $new_changesets
+   */
   public function setNewChangesets(array $new_changesets) {
-    assert_instances_of($new_changesets, 'DifferentialChangeset');
+    assert_instances_of($new_changesets, DifferentialChangeset::class);
     $this->newChangesets = $new_changesets;
     return $this;
   }

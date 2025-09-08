@@ -9,7 +9,7 @@ final class PhabricatorProjectBurndownChartEngine
    * @param array<PhabricatorProject> $projects
    */
   public function setProjects(array $projects) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, PhabricatorProject::class);
     $project_phids = mpull($projects, 'getPHID');
     return $this->setEngineParameter('projectPHIDs', $project_phids);
   }

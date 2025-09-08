@@ -80,8 +80,11 @@ final class PhabricatorSlowvotePoll
     return $this->assertAttached($this->options);
   }
 
+  /**
+   * @param array<PhabricatorSlowvoteOption> $options
+   */
   public function attachOptions(array $options) {
-    assert_instances_of($options, 'PhabricatorSlowvoteOption');
+    assert_instances_of($options, PhabricatorSlowvoteOption::class);
     $this->options = $options;
     return $this;
   }
@@ -90,8 +93,11 @@ final class PhabricatorSlowvotePoll
     return $this->assertAttached($this->choices);
   }
 
+  /**
+   * @param array<PhabricatorSlowvoteChoice> $choices
+   */
   public function attachChoices(array $choices) {
-    assert_instances_of($choices, 'PhabricatorSlowvoteChoice');
+    assert_instances_of($choices, PhabricatorSlowvoteChoice::class);
     $this->choices = $choices;
     return $this;
   }
@@ -100,11 +106,15 @@ final class PhabricatorSlowvotePoll
     return $this->assertAttachedKey($this->viewerChoices, $viewer->getPHID());
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param array<PhabricatorSlowvoteChoice> $choices
+   */
   public function attachViewerChoices(PhabricatorUser $viewer, array $choices) {
     if ($this->viewerChoices === self::ATTACHABLE) {
       $this->viewerChoices = array();
     }
-    assert_instances_of($choices, 'PhabricatorSlowvoteChoice');
+    assert_instances_of($choices, PhabricatorSlowvoteChoice::class);
     $this->viewerChoices[$viewer->getPHID()] = $choices;
     return $this;
   }

@@ -95,10 +95,14 @@ abstract class PhabricatorDraftEngine
     $editor->save();
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param array<PhabricatorDraftInterface> $objects
+   */
   final public static function attachDrafts(
     PhabricatorUser $viewer,
     array $objects) {
-    assert_instances_of($objects, 'PhabricatorDraftInterface');
+    assert_instances_of($objects, PhabricatorDraftInterface::class);
 
     $viewer_phid = $viewer->getPHID();
 

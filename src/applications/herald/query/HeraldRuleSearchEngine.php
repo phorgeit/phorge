@@ -133,7 +133,7 @@ final class HeraldRuleSearchEngine extends PhabricatorApplicationSearchEngine {
   /**
    * @param array<HeraldRule> $rules
    * @param PhabricatorSavedQuery $query
-   * @param array $handles
+   * @param array<PhabricatorObjectHandle> $handles
    */
   protected function renderResultList(
     array $rules,

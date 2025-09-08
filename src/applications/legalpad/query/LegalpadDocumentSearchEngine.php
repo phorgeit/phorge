@@ -103,11 +103,16 @@ final class LegalpadDocumentSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<LegalpadDocument> $documents
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $documents,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($documents, 'LegalpadDocument');
+    assert_instances_of($documents, LegalpadDocument::class);
 
     $viewer = $this->requireViewer();
 

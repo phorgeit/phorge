@@ -14,8 +14,11 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorPolicy> $policies
+   */
   public function setPolicies(array $policies) {
-    assert_instances_of($policies, 'PhabricatorPolicy');
+    assert_instances_of($policies, PhabricatorPolicy::class);
     $this->policies = $policies;
     return $this;
   }

@@ -5,8 +5,11 @@ final class PhabricatorPackagesPackageListView
 
   private $packages;
 
+  /**
+   * @param array<PhabricatorPackagesPackage> $packages
+   */
   public function setPackages(array $packages) {
-    assert_instances_of($packages, 'PhabricatorPackagesPackage');
+    assert_instances_of($packages, PhabricatorPackagesPackage::class);
     $this->packages = $packages;
     return $this;
   }

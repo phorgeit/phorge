@@ -375,8 +375,12 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     return $futures;
   }
 
+  /**
+   * @param array<Future> $futures
+   * @param array<string,string> $file_hashes
+   */
   private function resolveAtomizerFutures(array $futures, array $file_hashes) {
-    assert_instances_of($futures, 'Future');
+    assert_instances_of($futures, Future::class);
 
     $atom_cache = $this->getAtomCache();
     $bar = id(new PhutilConsoleProgressBar())

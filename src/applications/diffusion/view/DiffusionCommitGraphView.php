@@ -17,8 +17,11 @@ final class DiffusionCommitGraphView
 
   private $showAuditors;
 
+  /**
+   * @param array<DiffusionPathChange> $history
+   */
   public function setHistory(array $history) {
-    assert_instances_of($history, 'DiffusionPathChange');
+    assert_instances_of($history, DiffusionPathChange::class);
     $this->history = $history;
     return $this;
   }
@@ -27,8 +30,11 @@ final class DiffusionCommitGraphView
     return $this->history;
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   public function setCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
     $this->commits = $commits;
     return $this;
   }

@@ -2620,11 +2620,13 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
 
 
   /**
+   * @param int $edge_type An edge type's EDGECONST constant
+   * @param array<PhabricatorQueryConstraint> $constraints
    * @return $this
    * @task edgelogic
    */
   public function withEdgeLogicConstraints($edge_type, array $constraints) {
-    assert_instances_of($constraints, 'PhabricatorQueryConstraint');
+    assert_instances_of($constraints, PhabricatorQueryConstraint::class);
 
     $constraints = mgroup($constraints, 'getOperator');
     foreach ($constraints as $operator => $list) {

@@ -12,8 +12,11 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
   private $policyObjects;
   private $quicksandConfig = array();
 
+  /**
+   * @param array<ConpherenceThread> $conpherences
+   */
   public function setConpherences(array $conpherences) {
-    assert_instances_of($conpherences, 'ConpherenceThread');
+    assert_instances_of($conpherences, ConpherenceThread::class);
     $this->conpherences = $conpherences;
     return $this;
   }
@@ -41,8 +44,11 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     return $this->selectedConpherence;
   }
 
+  /**
+   * @param array<ConpherenceThread> $transactions
+   */
   public function setTransactions(array $transactions) {
-    assert_instances_of($transactions, 'ConpherenceTransaction');
+    assert_instances_of($transactions, ConpherenceTransaction::class);
     $this->transactions = $transactions;
     return $this;
   }
@@ -78,8 +84,11 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     return $this->initialLoad;
   }
 
+  /**
+   * @param array<PhabricatorPolicy> $objects
+   */
   public function setPolicyObjects(array $objects) {
-    assert_instances_of($objects, 'PhabricatorPolicy');
+    assert_instances_of($objects, PhabricatorPolicy::class);
 
     $this->policyObjects = $objects;
     return $this;

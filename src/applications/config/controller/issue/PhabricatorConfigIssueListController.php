@@ -67,8 +67,13 @@ final class PhabricatorConfigIssueListController
       ->appendChild($content);
   }
 
+  /**
+   * @param array<PhabricatorSetupIssue> $issues
+   * @param string $group
+   * @param string $fonticon FontAwesome icon name
+   */
   private function buildIssueList(array $issues, $group, $fonticon) {
-    assert_instances_of($issues, 'PhabricatorSetupIssue');
+    assert_instances_of($issues, PhabricatorSetupIssue::class);
     $list = new PHUIObjectItemListView();
     $list->setBig(true);
     $ignored_items = array();

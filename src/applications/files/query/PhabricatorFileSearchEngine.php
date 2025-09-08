@@ -122,12 +122,17 @@ final class PhabricatorFileSearchEngine
     return mpull($files, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PhabricatorFile> $files
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $files,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($files, 'PhabricatorFile');
+    assert_instances_of($files, PhabricatorFile::class);
 
     $request = $this->getRequest();
     if ($request) {

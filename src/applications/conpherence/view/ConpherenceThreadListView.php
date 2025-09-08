@@ -7,8 +7,11 @@ final class ConpherenceThreadListView extends AphrontView {
   private $baseURI;
   private $threads;
 
+  /**
+   * @param array<ConpherenceThread> $threads
+   */
   public function setThreads(array $threads) {
-    assert_instances_of($threads, 'ConpherenceThread');
+    assert_instances_of($threads, ConpherenceThread::class);
     $this->threads = $threads;
     return $this;
   }

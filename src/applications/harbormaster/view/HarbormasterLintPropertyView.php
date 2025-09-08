@@ -11,8 +11,11 @@ final class HarbormasterLintPropertyView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<HarbormasterBuildLintMessage> $messages
+   */
   public function setLintMessages(array $messages) {
-    assert_instances_of($messages, 'HarbormasterBuildLintMessage');
+    assert_instances_of($messages, HarbormasterBuildLintMessage::class);
     $this->lintMessages = $messages;
     return $this;
   }

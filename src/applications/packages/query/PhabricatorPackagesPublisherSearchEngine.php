@@ -62,12 +62,17 @@ final class PhabricatorPackagesPublisherSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorPackagesPublisher> $publishers
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $publishers,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($publishers, 'PhabricatorPackagesPublisher');
+    assert_instances_of($publishers, PhabricatorPackagesPublisher::class);
 
     $viewer = $this->requireViewer();
 

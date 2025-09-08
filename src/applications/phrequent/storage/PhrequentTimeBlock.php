@@ -4,8 +4,11 @@ final class PhrequentTimeBlock extends Phobject {
 
   private $events;
 
+  /**
+   * @param array<PhrequentUserTime> $events
+   */
   public function __construct(array $events) {
-    assert_instances_of($events, 'PhrequentUserTime');
+    assert_instances_of($events, PhrequentUserTime::class);
     $this->events = $events;
   }
 

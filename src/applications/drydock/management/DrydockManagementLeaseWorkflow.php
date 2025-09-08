@@ -308,10 +308,14 @@ final class DrydockManagementLeaseWorkflow
     return mpull($map, null, 'getPHID');
   }
 
+  /**
+   * @param DrydockLease $lease
+   * @param array<DrydockBlueprint> $filter_blueprints
+   */
   private function newAllowedBlueprintPHIDs(
     DrydockLease $lease,
     array $filter_blueprints) {
-    assert_instances_of($filter_blueprints, 'DrydockBlueprint');
+    assert_instances_of($filter_blueprints, DrydockBlueprint::class);
 
     $viewer = $this->getViewer();
 

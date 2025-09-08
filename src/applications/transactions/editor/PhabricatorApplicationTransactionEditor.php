@@ -1756,6 +1756,10 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
+  /**
+   * @param PhabricatorLiskDAO $object
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   */
   private function validateEditParameters(
     PhabricatorLiskDAO $object,
     array $xactions) {
@@ -1770,7 +1774,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     $types = array_fill_keys($this->getTransactionTypes(), true);
 
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, PhabricatorApplicationTransaction::class);
     foreach ($xactions as $xaction) {
       if ($xaction->getPHID() || $xaction->getID()) {
         throw new PhabricatorApplicationTransactionStructureException(
@@ -1841,10 +1845,14 @@ abstract class PhabricatorApplicationTransactionEditor
     }
   }
 
+  /**
+   * @param PhabricatorLiskDAO $object
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   */
   private function applyCapabilityChecks(
     PhabricatorLiskDAO $object,
     array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, PhabricatorApplicationTransaction::class);
 
     $can_edit = PhabricatorPolicyCapability::CAN_EDIT;
 
@@ -2254,7 +2262,12 @@ abstract class PhabricatorApplicationTransactionEditor
     return $xactions;
   }
 
-
+  /**
+   * @param PhabricatorLiskDAO $object
+   * @param array<PhabricatorApplicationTransaction> $xactions
+   * @param array<PhabricatorTransactionRemarkupChange> $remarkup_changes
+   * @return PhabricatorApplicationTransaction
+   */
   private function newFileTransaction(
     PhabricatorLiskDAO $object,
     array $xactions,
@@ -2262,7 +2275,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     assert_instances_of(
       $remarkup_changes,
-      'PhabricatorTransactionRemarkupChange');
+      PhabricatorTransactionRemarkupChange::class);
 
     $new_map = array();
 
@@ -4340,7 +4353,9 @@ abstract class PhabricatorApplicationTransactionEditor
     }
 
     $apply_xactions = $this->didApplyHeraldRules($object, $adapter, $xscript);
-    assert_instances_of($apply_xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of(
+      $apply_xactions,
+      PhabricatorApplicationTransaction::class);
 
     $queue_xactions = $adapter->getQueuedTransactions();
 
@@ -5718,7 +5733,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
       assert_instances_of(
         $extension_errors,
-        'PhabricatorApplicationTransactionValidationError');
+        PhabricatorApplicationTransactionValidationError::class);
 
       $errors[] = $extension_errors;
     }

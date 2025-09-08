@@ -91,12 +91,17 @@ final class PhabricatorPhurlURLSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorPhurlURL> $urls
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $urls,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($urls, 'PhabricatorPhurlURL');
+    assert_instances_of($urls, PhabricatorPhurlURL::class);
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
     $handles = $viewer->loadHandles(mpull($urls, 'getAuthorPHID'));

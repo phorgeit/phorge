@@ -16,8 +16,11 @@ final class DiffusionBrowseResultSet extends Phobject {
   private $existedAtCommit;
   private $deletedAtCommit;
 
+  /**
+   * @param array<DiffusionRepositoryPath> $paths
+   */
   public function setPaths(array $paths) {
-    assert_instances_of($paths, 'DiffusionRepositoryPath');
+    assert_instances_of($paths, DiffusionRepositoryPath::class);
     $this->paths = $paths;
     return $this;
   }

@@ -12,8 +12,11 @@ final class PhabricatorCustomFieldList extends Phobject {
   private $fields;
   private $viewer;
 
+  /**
+   * @param array<PhabricatorCustomField> $fields
+   */
   public function __construct(array $fields) {
-    assert_instances_of($fields, 'PhabricatorCustomField');
+    assert_instances_of($fields, PhabricatorCustomField::class);
     $this->fields = $fields;
   }
 

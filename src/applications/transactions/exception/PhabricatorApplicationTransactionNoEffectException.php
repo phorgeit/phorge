@@ -7,8 +7,15 @@ final class PhabricatorApplicationTransactionNoEffectException
   private $anyEffect;
   private $hasComment;
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $transactions
+   * @param bool $any_effect
+   * @param bool $has_comment
+   */
   public function __construct(array $transactions, $any_effect, $has_comment) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of(
+      $transactions,
+      PhabricatorApplicationTransaction::class);
 
     $this->transactions = $transactions;
     $this->anyEffect = $any_effect;

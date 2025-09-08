@@ -107,7 +107,7 @@ final class HeraldTranscriptSearchEngine
   /**
    * @param array<HeraldTranscript> $transcripts
    * @param PhabricatorSavedQuery $query
-   * @param array $handles
+   * @param array<PhabricatorObjectHandle> $handles
    */
   protected function renderResultList(
     array $transcripts,

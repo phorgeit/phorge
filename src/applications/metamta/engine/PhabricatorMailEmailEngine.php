@@ -537,8 +537,12 @@ final class PhabricatorMailEmailEngine
     return $install_uri->getDomain();
   }
 
+  /**
+   * @param array<PhabricatorMailHeader> $headers
+   * @param bool $must_encrypt
+   */
   private function filterHeaders(array $headers, $must_encrypt) {
-    assert_instances_of($headers, 'PhabricatorMailHeader');
+    assert_instances_of($headers, PhabricatorMailHeader::class);
 
     if (!$must_encrypt) {
       return $headers;
@@ -582,11 +586,15 @@ final class PhabricatorMailEmailEngine
     return $headers;
   }
 
+  /**
+   * @param array<PhutilEmailAddress> $addresses
+   * @param array<PhutilEmailAddress> $exclude
+   */
   private function getUniqueEmailAddresses(
     array $addresses,
     array $exclude = array()) {
-    assert_instances_of($addresses, 'PhutilEmailAddress');
-    assert_instances_of($exclude, 'PhutilEmailAddress');
+    assert_instances_of($addresses, PhutilEmailAddress::class);
+    assert_instances_of($exclude, PhutilEmailAddress::class);
 
     $seen = array();
 

@@ -196,10 +196,14 @@ abstract class PhabricatorAuthProvider extends Phobject {
     return;
   }
 
+  /**
+   * @param array<PhabricatorExternalAccountIdentifier> $identifiers
+   */
   final protected function newExternalAccountForIdentifiers(
     array $identifiers) {
 
-    assert_instances_of($identifiers, 'PhabricatorExternalAccountIdentifier');
+    assert_instances_of($identifiers,
+      PhabricatorExternalAccountIdentifier::class);
 
     if (!$identifiers) {
       throw new Exception(

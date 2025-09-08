@@ -86,13 +86,17 @@ final class PhamePostSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
-
+  /**
+   * @param array<PhamePost> $posts
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $posts,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($posts, 'PhamePost');
+    assert_instances_of($posts, PhamePost::class);
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();

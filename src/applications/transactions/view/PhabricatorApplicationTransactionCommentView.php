@@ -127,8 +127,13 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->infoView;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineCommentAction> $comment_actions
+   */
   public function setCommentActions(array $comment_actions) {
-    assert_instances_of($comment_actions, 'PhabricatorEditEngineCommentAction');
+    assert_instances_of(
+      $comment_actions,
+      PhabricatorEditEngineCommentAction::class);
     $this->commentActions = $comment_actions;
     return $this;
   }
@@ -137,8 +142,13 @@ final class PhabricatorApplicationTransactionCommentView
     return $this->commentActions;
   }
 
+  /**
+   * @param array<PhabricatorEditEngineCommentActionGroup> $groups
+   */
   public function setCommentActionGroups(array $groups) {
-    assert_instances_of($groups, 'PhabricatorEditEngineCommentActionGroup');
+    assert_instances_of(
+      $groups,
+      PhabricatorEditEngineCommentActionGroup::class);
     $this->commentActionGroups = $groups;
     return $this;
   }

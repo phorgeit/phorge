@@ -61,8 +61,11 @@ abstract class PhutilRemarkupBlockRule extends Phobject {
     return $this->engine;
   }
 
+  /**
+   * @param array<PhutilRemarkupRule> $rules
+   */
   public function setMarkupRules(array $rules) {
-    assert_instances_of($rules, 'PhutilRemarkupRule');
+    assert_instances_of($rules, PhutilRemarkupRule::class);
     $this->rules = $rules;
     $this->updateRules();
     return $this;

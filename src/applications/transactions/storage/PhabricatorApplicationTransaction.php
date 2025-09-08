@@ -217,7 +217,7 @@ abstract class PhabricatorApplicationTransaction
 
   public function getRemarkupChanges() {
     $changes = $this->newRemarkupChanges();
-    assert_instances_of($changes, 'PhabricatorTransactionRemarkupChange');
+    assert_instances_of($changes, PhabricatorTransactionRemarkupChange::class);
 
     // Convert older-style remarkup blocks into newer-style remarkup changes.
     // This builds changes that do not have the correct "old value", so rules
@@ -1674,6 +1674,9 @@ abstract class PhabricatorApplicationTransaction
       ->setNewText($new);
   }
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $group
+   */
   public function attachTransactionGroup(array $group) {
     assert_instances_of($group, self::class);
     $this->transactionGroup = $group;

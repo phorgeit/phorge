@@ -86,11 +86,16 @@ final class AlmanacServiceSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<AlmanacService> $services
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $services,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($services, 'AlmanacService');
+    assert_instances_of($services, AlmanacService::class);
 
     $viewer = $this->requireViewer();
 

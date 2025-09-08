@@ -10,8 +10,11 @@ abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
     return self::METHOD_STATUS_UNSTABLE;
   }
 
+  /**
+   * @param array<PhabricatorToken> $tokens
+   */
   public function buildTokenDicts(array $tokens) {
-    assert_instances_of($tokens, 'PhabricatorToken');
+    assert_instances_of($tokens, PhabricatorToken::class);
 
     $list = array();
     foreach ($tokens as $token) {
@@ -25,8 +28,11 @@ abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
     return $list;
   }
 
+  /**
+   * @param array<PhabricatorTokenGiven> $tokens_given
+   */
   public function buildTokenGivenDicts(array $tokens_given) {
-    assert_instances_of($tokens_given, 'PhabricatorTokenGiven');
+    assert_instances_of($tokens_given, PhabricatorTokenGiven::class);
 
     $list = array();
     foreach ($tokens_given as $given) {

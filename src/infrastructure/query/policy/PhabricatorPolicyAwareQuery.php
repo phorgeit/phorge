@@ -487,7 +487,7 @@ abstract class PhabricatorPolicyAwareQuery extends PhabricatorOffsetPagedQuery {
       return $this;
     }
 
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, PhabricatorPolicyInterface::class);
 
     $viewer_fragment = $this->getViewer()->getCacheFragment();
 

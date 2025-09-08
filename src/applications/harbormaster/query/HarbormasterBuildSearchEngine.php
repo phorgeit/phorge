@@ -120,11 +120,16 @@ final class HarbormasterBuildSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<HarbormasterBuild> $builds
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $builds,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($builds, 'HarbormasterBuild');
+    assert_instances_of($builds, HarbormasterBuild::class);
 
     $viewer = $this->requireViewer();
 

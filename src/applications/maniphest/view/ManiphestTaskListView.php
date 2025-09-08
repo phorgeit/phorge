@@ -152,12 +152,17 @@ final class ManiphestTaskListView extends ManiphestView {
     return $list;
   }
 
-  // This method should be removed, and all call-sites switch
-  // to use ManiphestSearchEngine
+  /**
+   * Deprecated.
+   * @param PhabricatorUser $viewer
+   * @param array<ManiphestTask> $tasks
+   */
   public static function loadTaskHandles(
     PhabricatorUser $viewer,
     array $tasks) {
-    assert_instances_of($tasks, 'ManiphestTask');
+    // TODO: This method should be removed, and all call-sites switch
+    // to use ManiphestSearchEngine
+    assert_instances_of($tasks, ManiphestTask::class);
 
     $phids = array();
     foreach ($tasks as $task) {

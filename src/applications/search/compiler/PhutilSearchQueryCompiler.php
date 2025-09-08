@@ -63,7 +63,7 @@ final class PhutilSearchQueryCompiler
    * @return string|null
    */
   public function compileQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {
@@ -78,7 +78,7 @@ final class PhutilSearchQueryCompiler
    * @return string|null
    */
   public function compileLiteralQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {
@@ -96,7 +96,7 @@ final class PhutilSearchQueryCompiler
    * @return string|null
    */
   public function compileStemmedQuery(array $tokens) {
-    assert_instances_of($tokens, 'PhutilSearchQueryToken');
+    assert_instances_of($tokens, PhutilSearchQueryToken::class);
 
     $result = array();
     foreach ($tokens as $token) {

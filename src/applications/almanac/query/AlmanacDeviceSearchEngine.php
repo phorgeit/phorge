@@ -93,11 +93,16 @@ final class AlmanacDeviceSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<AlmanacDevice> $devices
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $devices,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($devices, 'AlmanacDevice');
+    assert_instances_of($devices, AlmanacDevice::class);
 
     $viewer = $this->requireViewer();
 

@@ -4,8 +4,11 @@ final class DiffusionPullLogListView extends AphrontView {
 
   private $logs;
 
+  /**
+   * @param array<PhabricatorRepositoryPullEvent> $logs
+   */
   public function setLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositoryPullEvent');
+    assert_instances_of($logs, PhabricatorRepositoryPullEvent::class);
     $this->logs = $logs;
     return $this;
   }

@@ -114,8 +114,11 @@ final class PonderQuestion extends PonderDAO
     return '/'.$this->getMonogram();
   }
 
+  /**
+   * @param array<PonderAnswer> $answers
+   */
   public function attachAnswers(array $answers) {
-    assert_instances_of($answers, 'PonderAnswer');
+    assert_instances_of($answers, PonderAnswer::class);
     $this->answers = $answers;
     return $this;
   }

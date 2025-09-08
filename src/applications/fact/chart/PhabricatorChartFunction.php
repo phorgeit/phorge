@@ -38,7 +38,7 @@ abstract class PhabricatorChartFunction
           phutil_describe_type($specs)));
     }
 
-    assert_instances_of($specs, 'PhabricatorChartFunctionArgument');
+    assert_instances_of($specs, PhabricatorChartFunctionArgument::class);
 
     foreach ($specs as $spec) {
       $parser->addArgument($spec);

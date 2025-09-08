@@ -14,8 +14,13 @@ final class PhabricatorApplicationTransactionResponse
     return new AphrontAjaxResponse();
   }
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $transactions
+   */
   public function setTransactions($transactions) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of(
+      $transactions,
+      PhabricatorApplicationTransaction::class);
 
     $this->transactions = $transactions;
     return $this;

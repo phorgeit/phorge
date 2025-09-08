@@ -62,7 +62,8 @@ final class HarbormasterBuildable
    *
    * @param string $phid PHID of the object to build.
    * @param string $container_phid Container PHID for the buildable.
-   * @param list<HarbormasterBuildRequest> $requests List of builds to perform.
+   * @param array<HarbormasterBuildRequest> $requests List of builds to
+   *   perform.
    * @return void
    */
   public static function applyBuildPlans(
@@ -70,7 +71,7 @@ final class HarbormasterBuildable
     $container_phid,
     array $requests) {
 
-    assert_instances_of($requests, 'HarbormasterBuildRequest');
+    assert_instances_of($requests, HarbormasterBuildRequest::class);
 
     if (!$requests) {
       return;
@@ -208,8 +209,11 @@ final class HarbormasterBuildable
     return $this->assertAttached($this->containerObject);
   }
 
+  /**
+   * @param array<HarbormasterBuild> $builds
+   */
   public function attachBuilds(array $builds) {
-    assert_instances_of($builds, 'HarbormasterBuild');
+    assert_instances_of($builds, HarbormasterBuild::class);
     $this->builds = $builds;
     return $this;
   }

@@ -119,11 +119,16 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
       ));
   }
 
+  /**
+   * @param array<PhrequentUserTime> $usertimes
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $usertimes,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($usertimes, 'PhrequentUserTime');
+    assert_instances_of($usertimes, PhrequentUserTime::class);
     $viewer = $this->requireViewer();
 
     $view = id(new PHUIObjectItemListView())

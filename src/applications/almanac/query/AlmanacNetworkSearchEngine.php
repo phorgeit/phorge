@@ -59,11 +59,16 @@ final class AlmanacNetworkSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<AlmanacNetwork> $networks
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $networks,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($networks, 'AlmanacNetwork');
+    assert_instances_of($networks, AlmanacNetwork::class);
 
     $viewer = $this->requireViewer();
 

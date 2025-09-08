@@ -8,8 +8,11 @@ final class PhamePostListView extends AphrontTagView {
   private $isExternal;
   private $isLive;
 
+  /**
+   * @param array<PhamePost> $posts
+   */
   public function setPosts($posts) {
-    assert_instances_of($posts, 'PhamePost');
+    assert_instances_of($posts, PhamePost::class);
     $this->posts = $posts;
     return $this;
   }

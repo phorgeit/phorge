@@ -69,8 +69,11 @@ final class PHUIDiffTableOfContentsItemView extends AphrontView {
     return $this->context;
   }
 
+  /**
+   * @param array<PhabricatorOwnersPackage> $packages
+   */
   public function setPackages(array $packages) {
-    assert_instances_of($packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($packages, PhabricatorOwnersPackage::class);
     $this->packages = mpull($packages, null, 'getPHID');
     return $this;
   }

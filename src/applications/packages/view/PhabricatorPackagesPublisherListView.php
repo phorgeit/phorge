@@ -5,8 +5,11 @@ final class PhabricatorPackagesPublisherListView
 
   private $publishers;
 
+  /**
+   * @param array<PhabricatorPackagesPublisher> $publishers
+   */
   public function setPublishers(array $publishers) {
-    assert_instances_of($publishers, 'PhabricatorPackagesPublisher');
+    assert_instances_of($publishers, PhabricatorPackagesPublisher::class);
     $this->publishers = $publishers;
     return $this;
   }

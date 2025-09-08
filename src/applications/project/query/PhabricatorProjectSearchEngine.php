@@ -325,11 +325,16 @@ final class PhabricatorProjectSearchEngine
     return $options;
   }
 
+  /**
+   * @param array<PhabricatorProject> $projects
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $projects,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, PhabricatorProject::class);
     $viewer = $this->requireViewer();
 
     $list = id(new PhabricatorProjectListView())

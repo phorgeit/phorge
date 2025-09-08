@@ -119,9 +119,12 @@ final class PhabricatorFactDaemon extends PhabricatorDaemon {
     return array_mergev($facts);
   }
 
+  /**
+   * @param array<PhabricatorFactIntDatapoint> $map
+   */
   private function updateDatapoints(array $map) {
     foreach ($map as $phid => $facts) {
-      assert_instances_of($facts, 'PhabricatorFactIntDatapoint');
+      assert_instances_of($facts, PhabricatorFactIntDatapoint::class);
     }
 
     $phids = array_keys($map);

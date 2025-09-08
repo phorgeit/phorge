@@ -96,11 +96,16 @@ final class DiffusionRepositoryIdentitySearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorRepositoryIdentity> $identities
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $identities,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($identities, 'PhabricatorRepositoryIdentity');
+    assert_instances_of($identities, PhabricatorRepositoryIdentity::class);
 
     $viewer = $this->requireViewer();
 

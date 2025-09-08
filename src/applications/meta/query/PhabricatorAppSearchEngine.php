@@ -178,11 +178,16 @@ final class PhabricatorAppSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorApplication> $all_applications
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $all_applications,
     PhabricatorSavedQuery $query,
-    array $handle) {
-    assert_instances_of($all_applications, 'PhabricatorApplication');
+    array $handles) {
+    assert_instances_of($all_applications, PhabricatorApplication::class);
 
     $all_applications = msort($all_applications, 'getName');
 

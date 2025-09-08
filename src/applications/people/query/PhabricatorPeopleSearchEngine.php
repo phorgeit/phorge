@@ -235,12 +235,17 @@ final class PhabricatorPeopleSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorUser> $users
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $users,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, PhabricatorUser::class);
 
     $request = $this->getRequest();
     $viewer = $this->requireViewer();

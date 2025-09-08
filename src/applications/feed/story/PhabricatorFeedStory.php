@@ -288,8 +288,11 @@ abstract class PhabricatorFeedStory
     return $this->hasViewed;
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   final public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }

@@ -76,11 +76,16 @@ final class PhabricatorNotificationSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorFeedStory> $notifications
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $notifications,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($notifications, 'PhabricatorFeedStory');
+    assert_instances_of($notifications, PhabricatorFeedStory::class);
 
     $viewer = $this->requireViewer();
 

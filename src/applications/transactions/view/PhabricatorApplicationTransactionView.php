@@ -84,8 +84,12 @@ class PhabricatorApplicationTransactionView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorApplicationTransaction> $transactions
+   */
   public function setTransactions(array $transactions) {
-    assert_instances_of($transactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($transactions,
+      PhabricatorApplicationTransaction::class);
     $this->transactions = $transactions;
     return $this;
   }

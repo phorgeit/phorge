@@ -64,11 +64,16 @@ final class PhabricatorSpacesNamespaceSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorSpacesNamespace> $spaces
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $spaces,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($spaces, 'PhabricatorSpacesNamespace');
+    assert_instances_of($spaces, PhabricatorSpacesNamespace::class);
 
     $viewer = $this->requireViewer();
 

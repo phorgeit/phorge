@@ -216,11 +216,16 @@ final class LegalpadDocumentSignatureSearchEngine
       mpull($signatures, 'getDocumentPHID'));
   }
 
+  /**
+   * @param array<LegalpadDocumentSignature> $signatures
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $signatures,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($signatures, 'LegalpadDocumentSignature');
+    assert_instances_of($signatures, LegalpadDocumentSignature::class);
 
     $viewer = $this->requireViewer();
 

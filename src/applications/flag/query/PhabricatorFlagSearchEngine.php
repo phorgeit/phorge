@@ -126,11 +126,16 @@ final class PhabricatorFlagSearchEngine
     return $options;
   }
 
+  /**
+   * @param array<PhabricatorFlag> $flags
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $flags,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($flags, 'PhabricatorFlag');
+    assert_instances_of($flags, PhabricatorFlag::class);
 
     $viewer = $this->requireViewer();
 

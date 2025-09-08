@@ -72,12 +72,17 @@ final class PhabricatorPackagesPackageSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorPackagesPackage> $packages
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $packages,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($packages, 'PhabricatorPackagesPackage');
+    assert_instances_of($packages, PhabricatorPackagesPackage::class);
     $viewer = $this->requireViewer();
 
     $list = id(new PhabricatorPackagesPackageListView())

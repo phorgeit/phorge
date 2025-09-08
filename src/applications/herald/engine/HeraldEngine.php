@@ -125,7 +125,7 @@ final class HeraldEngine extends Phobject {
   /**
    * @param array<HeraldRule> $rules
    * @param HeraldAdapter $object
-   * @return array
+   * @return array<HeraldEffect>
    */
   public function applyRules(array $rules, HeraldAdapter $object) {
     assert_instances_of($rules, HeraldRule::class);

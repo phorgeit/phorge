@@ -59,11 +59,16 @@ final class AlmanacNamespaceSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<AlmanacNamespace> $namespaces
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $namespaces,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($namespaces, 'AlmanacNamespace');
+    assert_instances_of($namespaces, AlmanacNamespace::class);
 
     $viewer = $this->requireViewer();
 

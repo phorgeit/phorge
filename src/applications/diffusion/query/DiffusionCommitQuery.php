@@ -126,8 +126,11 @@ final class DiffusionCommitQuery
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorUser> $users
+   */
   public function needAuditAuthority(array $users) {
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, PhabricatorUser::class);
     $this->needAuditAuthority = $users;
     return $this;
   }

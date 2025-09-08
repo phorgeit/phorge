@@ -119,8 +119,11 @@ final class DiffusionTagsQueryConduitAPIMethod
     return $tag_names;
   }
 
+  /**
+   * @param array<DiffusionRepositoryTag> $tags
+   */
   private function loadMessagesForTags(array $tags) {
-    assert_instances_of($tags, 'DiffusionRepositoryTag');
+    assert_instances_of($tags, DiffusionRepositoryTag::class);
 
     $drequest = $this->getDiffusionRequest();
     $repository = $drequest->getRepository();

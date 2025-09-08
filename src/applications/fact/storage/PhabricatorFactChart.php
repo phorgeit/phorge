@@ -54,8 +54,11 @@ final class PhabricatorFactChart
     return parent::save();
   }
 
+  /**
+   * @param array<PhabricatorChartDataset> $datasets
+   */
   public function attachDatasets(array $datasets) {
-    assert_instances_of($datasets, 'PhabricatorChartDataset');
+    assert_instances_of($datasets, PhabricatorChartDataset::class);
     $this->datasets = $datasets;
     return $this;
   }

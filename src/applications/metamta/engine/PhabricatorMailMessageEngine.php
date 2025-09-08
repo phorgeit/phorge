@@ -27,8 +27,11 @@ abstract class PhabricatorMailMessageEngine
     return $this->mail;
   }
 
+  /**
+   * @param array<PhabricatorMetaMTAActor> $actors
+   */
   final public function setActors(array $actors) {
-    assert_instances_of($actors, 'PhabricatorMetaMTAActor');
+    assert_instances_of($actors, PhabricatorMetaMTAActor::class);
     $this->actors = $actors;
     return $this;
   }

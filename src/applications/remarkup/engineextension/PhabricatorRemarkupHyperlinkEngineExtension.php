@@ -3,8 +3,11 @@
 abstract class PhabricatorRemarkupHyperlinkEngineExtension
   extends PhutilRemarkupHyperlinkEngineExtension {
 
+  /**
+   * @param array<PhutilRemarkupHyperlinkRef> $hyperlinks
+   */
   final protected function getSelfLinks(array $hyperlinks) {
-    assert_instances_of($hyperlinks, 'PhutilRemarkupHyperlinkRef');
+    assert_instances_of($hyperlinks, PhutilRemarkupHyperlinkRef::class);
 
     $allowed_protocols = array(
       'http' => true,

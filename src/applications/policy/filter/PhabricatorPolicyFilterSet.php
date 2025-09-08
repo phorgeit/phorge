@@ -102,6 +102,11 @@ final class PhabricatorPolicyFilterSet
     $this->queue = array();
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param array<PhabricatorObjectHandle> $handles
+   * @param array<PhabricatorPolicyInterface> $objects
+   */
   public static function loadHandleViewCapabilities(
     $viewer,
     $handles,
@@ -111,7 +116,7 @@ final class PhabricatorPolicyFilterSet
       PhabricatorPolicyCapability::CAN_VIEW,
     );
 
-    assert_instances_of($objects, 'PhabricatorPolicyInterface');
+    assert_instances_of($objects, PhabricatorPolicyInterface::class);
 
     if (!$objects) {
       return;

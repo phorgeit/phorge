@@ -339,11 +339,15 @@ final class PhabricatorAuthPasswordEngine
     return $matches;
   }
 
+  /**
+   * @param PhutilOpaqueEnvelope $envelope
+   * @param array<PhabricatorAuthPassword> $passwords
+   */
   private function upgradeHashers(
     PhutilOpaqueEnvelope $envelope,
     array $passwords) {
 
-    assert_instances_of($passwords, 'PhabricatorAuthPassword');
+    assert_instances_of($passwords, PhabricatorAuthPassword::class);
 
     $need_upgrade = array();
     foreach ($passwords as $password) {

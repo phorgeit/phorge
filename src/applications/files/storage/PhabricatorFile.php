@@ -344,7 +344,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
       }
     }
 
-    assert_instances_of($engines, 'PhabricatorFileStorageEngine');
+    assert_instances_of($engines, PhabricatorFileStorageEngine::class);
     if (!$engines) {
       throw new Exception(pht('No valid storage engines are available!'));
     }

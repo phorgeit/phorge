@@ -70,11 +70,16 @@ final class DrydockBlueprintSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<DrydockBlueprint> $blueprints
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $blueprints,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($blueprints, 'DrydockBlueprint');
+    assert_instances_of($blueprints, DrydockBlueprint::class);
 
     $viewer = $this->requireViewer();
 

@@ -739,7 +739,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
    * Render a form for providing relevant multi-factor credentials.
    *
    * @param array $factors
-   * @param array $validation_results
+   * @param array<PhabricatorAuthFactorResult> $validation_results
    * @param PhabricatorUser $viewer Viewing user.
    * @param AphrontRequest $request Current request.
    * @return AphrontFormView Renderable form.
@@ -750,7 +750,9 @@ final class PhabricatorAuthSessionEngine extends Phobject {
     array $validation_results,
     PhabricatorUser $viewer,
     AphrontRequest $request) {
-    assert_instances_of($validation_results, 'PhabricatorAuthFactorResult');
+    assert_instances_of(
+      $validation_results,
+      PhabricatorAuthFactorResult::class);
 
     $form = id(new AphrontFormView())
       ->setUser($viewer)

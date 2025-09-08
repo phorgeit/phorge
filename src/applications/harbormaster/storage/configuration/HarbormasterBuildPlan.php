@@ -75,8 +75,11 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
       HarbormasterBuildPlanPHIDType::TYPECONST);
   }
 
+  /**
+   * @param array<HarbormasterBuildStep> $steps
+   */
   public function attachBuildSteps(array $steps) {
-    assert_instances_of($steps, 'HarbormasterBuildStep');
+    assert_instances_of($steps, HarbormasterBuildStep::class);
     $this->buildSteps = $steps;
     return $this;
   }

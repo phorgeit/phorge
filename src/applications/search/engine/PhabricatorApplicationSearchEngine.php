@@ -104,7 +104,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * @param array<PHUIListItemView> $navigation_items
    */
   public function setNavigationItems(array $navigation_items) {
-    assert_instances_of($navigation_items, 'PHUIListItemView');
+    assert_instances_of($navigation_items, PHUIListItemView::class);
     $this->navigationItems = $navigation_items;
     return $this;
   }
@@ -1704,12 +1704,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
    * Load from object and from storage, and updates Custom Fields instances
    * that are attached to each object.
    *
+   * @param array<PhabricatorCustomFieldInterface> $objects
+   * @param string $role One of the PhabricatorCustomField::ROLE_ constants
    * @return array<string, PhabricatorCustomFieldList> Map of loaded fields
    *   (PHID to PhabricatorCustomFieldList).
    * @task custom
    */
   protected function loadCustomFields(array $objects, $role) {
-    assert_instances_of($objects, 'PhabricatorCustomFieldInterface');
+    assert_instances_of($objects, PhabricatorCustomFieldInterface::class);
 
     $query = new PhabricatorCustomFieldStorageQuery();
     $lists = array();

@@ -242,8 +242,11 @@ final class DrydockAlmanacServiceHostBlueprintImplementation
     return $this->services;
   }
 
+  /**
+   * @param array<AlmanacService> $services
+   */
   private function getActiveBindings(array $services) {
-    assert_instances_of($services, 'AlmanacService');
+    assert_instances_of($services, AlmanacService::class);
     $bindings = array_mergev(mpull($services, 'getActiveBindings'));
     return mpull($bindings, null, 'getPHID');
   }

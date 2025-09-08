@@ -5,8 +5,11 @@ final class DrydockAuthorizationListView extends AphrontView {
   private $authorizations;
   private $noDataString;
 
+  /**
+   * @param array<DrydockAuthorization> $authorizations
+   */
   public function setAuthorizations(array $authorizations) {
-    assert_instances_of($authorizations, 'DrydockAuthorization');
+    assert_instances_of($authorizations, DrydockAuthorization::class);
     $this->authorizations = $authorizations;
     return $this;
   }

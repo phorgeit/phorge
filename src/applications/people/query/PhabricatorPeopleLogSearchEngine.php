@@ -124,11 +124,16 @@ final class PhabricatorPeopleLogSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorUserLog> $logs
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $logs,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($logs, 'PhabricatorUserLog');
+    assert_instances_of($logs, PhabricatorUserLog::class);
 
     $viewer = $this->requireViewer();
 

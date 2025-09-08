@@ -13,10 +13,11 @@ final class HeraldRuleSerializer extends Phobject {
   }
 
   /**
+<<<<<<< HEAD
    * @param $match_all
    * @param array<HeraldCondition> $conditions
    * @param array<HeraldActionRecord> $actions
-   * @param $repetition_policy
+   * @param string $repetition_policy One of the HeraldRule::REPEAT_ constants
    * @return array
    */
   public function serializeRuleComponents(

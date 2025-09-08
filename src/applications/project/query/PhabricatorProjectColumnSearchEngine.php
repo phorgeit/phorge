@@ -65,11 +65,16 @@ final class PhabricatorProjectColumnSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorProjectColumn> $projects
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $projects,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($projects, 'PhabricatorProjectColumn');
+    assert_instances_of($projects, PhabricatorProjectColumn::class);
     $viewer = $this->requireViewer();
 
     return null;

@@ -221,8 +221,11 @@ abstract class DiffusionView extends AphrontView {
 
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   final protected function loadBuildables(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
 
     if (!$commits) {
       return array();

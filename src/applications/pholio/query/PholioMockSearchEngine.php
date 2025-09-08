@@ -86,7 +86,7 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
   /**
    * @param array<PholioMock> $mocks
    * @param PhabricatorSavedQuery $query
-   * @param array $handles
+   * @param array<PhabricatorObjectHandle> $handles
    */
   protected function renderResultList(
     array $mocks,

@@ -5,14 +5,20 @@ final class DiffusionBranchListView extends DiffusionView {
   private $branches;
   private $commits = array();
 
+  /**
+   * @param array<DiffusionRepositoryRef> $branches
+   */
   public function setBranches(array $branches) {
-    assert_instances_of($branches, 'DiffusionRepositoryRef');
+    assert_instances_of($branches, DiffusionRepositoryRef::class);
     $this->branches = $branches;
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   public function setCommits(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
     $this->commits = mpull($commits, null, 'getCommitIdentifier');
     return $this;
   }

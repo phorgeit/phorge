@@ -86,12 +86,17 @@ final class PhabricatorCountdownSearchEngine
     return mpull($countdowns, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PhabricatorCountdown> $countdowns
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $countdowns,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($countdowns, 'PhabricatorCountdown');
+    assert_instances_of($countdowns, PhabricatorCountdown::class);
 
     $viewer = $this->requireViewer();
 

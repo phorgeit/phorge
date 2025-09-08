@@ -34,8 +34,11 @@ final class PhabricatorUserPreferencesQuery
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorUser> $users
+   */
   public function withUsers(array $users) {
-    assert_instances_of($users, 'PhabricatorUser');
+    assert_instances_of($users, PhabricatorUser::class);
     $this->users = mpull($users, null, 'getPHID');
     $this->withUserPHIDs(array_keys($this->users));
     return $this;

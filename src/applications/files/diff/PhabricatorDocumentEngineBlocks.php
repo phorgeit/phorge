@@ -38,11 +38,15 @@ final class PhabricatorDocumentEngineBlocks
     return $this->messages;
   }
 
+  /**
+   * @param ?PhabricatorDocumentRef $ref
+   * @param array<PhabricatorDocumentEngineBlock> $blocks
+   */
   public function addBlockList(
     ?PhabricatorDocumentRef $ref = null,
     array $blocks = array()) {
 
-    assert_instances_of($blocks, 'PhabricatorDocumentEngineBlock');
+    assert_instances_of($blocks, PhabricatorDocumentEngineBlock::class);
 
     $this->lists[] = array(
       'ref' => $ref,

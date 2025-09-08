@@ -24,8 +24,11 @@ final class PhabricatorOwnersOwner extends PhabricatorOwnersDAO {
     ) + parent::getConfiguration();
   }
 
+  /**
+   * @param array<PhabricatorOwnersPackage> $packages
+   */
   public static function loadAllForPackages(array $packages) {
-    assert_instances_of($packages, 'PhabricatorOwnersPackage');
+    assert_instances_of($packages, PhabricatorOwnersPackage::class);
     if (!$packages) {
       return array();
     }

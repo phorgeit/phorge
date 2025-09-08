@@ -169,11 +169,15 @@ final class PhabricatorProfileMenuItemViewList
     return $navigation;
   }
 
+  /**
+   * @param array<PHUIListItemView> $items
+   * @param ?PHUIListItemView $selected_item
+   */
   private function getHighlightedItemKey(
     array $items,
     ?PHUIListItemView $selected_item = null) {
 
-    assert_instances_of($items, 'PHUIListItemView');
+    assert_instances_of($items, PHUIListItemView::class);
 
     $default_key = null;
     if ($selected_item) {

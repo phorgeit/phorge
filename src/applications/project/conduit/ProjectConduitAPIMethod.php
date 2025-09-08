@@ -11,8 +11,11 @@ abstract class ProjectConduitAPIMethod extends ConduitAPIMethod {
     return idx($results, $project->getPHID());
   }
 
+  /**
+   * @param array<PhabricatorProject> $projects
+   */
   protected function buildProjectInfoDictionaries(array $projects) {
-    assert_instances_of($projects, 'PhabricatorProject');
+    assert_instances_of($projects, PhabricatorProject::class);
     if (!$projects) {
       return array();
     }
