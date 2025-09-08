@@ -13,8 +13,11 @@ final class DifferentialChangesetEngine extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   */
   public function rebuildChangesets(array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $changesets = $this->loadChangesetFiles($changesets);
 

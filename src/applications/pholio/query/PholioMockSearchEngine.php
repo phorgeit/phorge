@@ -83,11 +83,16 @@ final class PholioMockSearchEngine extends PhabricatorApplicationSearchEngine {
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PholioMock> $mocks
+   * @param PhabricatorSavedQuery $query
+   * @param array $handles
+   */
   protected function renderResultList(
     array $mocks,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($mocks, 'PholioMock');
+    assert_instances_of($mocks, PholioMock::class);
 
     $viewer = $this->requireViewer();
     $handles = $viewer->loadHandles(mpull($mocks, 'getAuthorPHID'));

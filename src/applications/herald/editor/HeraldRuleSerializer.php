@@ -12,14 +12,21 @@ final class HeraldRuleSerializer extends Phobject {
       $rule->getRepetitionPolicyStringConstant());
   }
 
+  /**
+   * @param $match_all
+   * @param array<HeraldCondition> $conditions
+   * @param array<HeraldActionRecord> $actions
+   * @param $repetition_policy
+   * @return array
+   */
   public function serializeRuleComponents(
     $match_all,
     array $conditions,
     array $actions,
     $repetition_policy) {
 
-    assert_instances_of($conditions, 'HeraldCondition');
-    assert_instances_of($actions, 'HeraldActionRecord');
+    assert_instances_of($conditions, HeraldCondition::class);
+    assert_instances_of($actions, HeraldActionRecord::class);
 
     $conditions_array = array();
     foreach ($conditions as $condition) {

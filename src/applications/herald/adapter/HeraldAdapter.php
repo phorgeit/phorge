@@ -143,8 +143,11 @@ abstract class HeraldAdapter extends Phobject {
       ->getHeraldFieldValue($this->getObject());
   }
 
+  /**
+   * @param array<HeraldEffect> $effects
+   */
   public function applyHeraldEffects(array $effects) {
-    assert_instances_of($effects, 'HeraldEffect');
+    assert_instances_of($effects, HeraldEffect::class);
 
     $result = array();
     foreach ($effects as $effect) {
@@ -171,12 +174,12 @@ abstract class HeraldAdapter extends Phobject {
    * These transactions are set by @{class:PhabricatorApplicationEditor}
    * automatically, before it invokes Herald.
    *
-   * @param list<PhabricatorApplicationTransaction> $xactions List of
+   * @param array<PhabricatorApplicationTransaction> $xactions List of
    *   transactions.
    * @return $this
    */
   final public function setAppliedTransactions(array $xactions) {
-    assert_instances_of($xactions, 'PhabricatorApplicationTransaction');
+    assert_instances_of($xactions, PhabricatorApplicationTransaction::class);
     $this->appliedTransactions = $xactions;
     return $this;
   }

@@ -162,11 +162,16 @@ final class PhabricatorRepositorySearchEngine
     return array_mergev(mpull($repositories, 'getProjectPHIDs'));
   }
 
+  /**
+   * @param array<PhabricatorRepository> $repositories
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $repositories,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($repositories, 'PhabricatorRepository');
+    assert_instances_of($repositories, PhabricatorRepository::class);
 
     $viewer = $this->requireViewer();
 

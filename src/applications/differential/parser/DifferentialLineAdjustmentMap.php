@@ -158,8 +158,11 @@ final class DifferentialLineAdjustmentMap extends Phobject {
     return $this;
   }
 
+  /**
+   * @param array<DifferentialHunk> $hunks
+   */
   public static function newFromHunks(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
 
     $map = array();
     $o = 0;

@@ -104,12 +104,16 @@ final class PhrictionDocumentSearchEngine
     return $phids;
   }
 
-
+  /**
+   * @param array<PhrictionDocument> $documents
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $documents,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($documents, 'PhrictionDocument');
+    assert_instances_of($documents, PhrictionDocument::class);
 
     $viewer = $this->requireViewer();
 

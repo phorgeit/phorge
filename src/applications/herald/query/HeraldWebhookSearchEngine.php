@@ -68,11 +68,16 @@ final class HeraldWebhookSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<HeraldWebhook> $hooks
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $hooks,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($hooks, 'HeraldWebhook');
+    assert_instances_of($hooks, HeraldWebhook::class);
 
     $viewer = $this->requireViewer();
 

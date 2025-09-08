@@ -104,11 +104,16 @@ final class HeraldTranscriptSearchEngine
     return mpull($transcripts, 'getObjectPHID');
   }
 
+  /**
+   * @param array<HeraldTranscript> $transcripts
+   * @param PhabricatorSavedQuery $query
+   * @param array $handles
+   */
   protected function renderResultList(
     array $transcripts,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($transcripts, 'HeraldTranscript');
+    assert_instances_of($transcripts, HeraldTranscript::class);
 
     $viewer = $this->requireViewer();
 

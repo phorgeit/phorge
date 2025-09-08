@@ -90,8 +90,11 @@ final class HeraldRule extends HeraldDAO
       $this->getID());
   }
 
+  /**
+   * @param array<HeraldCondition> $conditions
+   */
   public function attachConditions(array $conditions) {
-    assert_instances_of($conditions, 'HeraldCondition');
+    assert_instances_of($conditions, HeraldCondition::class);
     $this->conditions = $conditions;
     return $this;
   }
@@ -110,9 +113,12 @@ final class HeraldRule extends HeraldDAO
       $this->getID());
   }
 
+  /**
+   * @param array<HeraldActionRecord> $actions
+   */
   public function attachActions(array $actions) {
     // TODO: validate actions have been attached.
-    assert_instances_of($actions, 'HeraldActionRecord');
+    assert_instances_of($actions, HeraldActionRecord::class);
     $this->actions = $actions;
     return $this;
   }
@@ -121,22 +127,32 @@ final class HeraldRule extends HeraldDAO
     return $this->actions;
   }
 
+  /**
+   * @param array<HeraldCondition> $conditions
+   */
   public function saveConditions(array $conditions) {
-    assert_instances_of($conditions, 'HeraldCondition');
+    assert_instances_of($conditions, HeraldCondition::class);
     return $this->saveChildren(
       id(new HeraldCondition())->getTableName(),
       $conditions);
   }
 
+  /**
+   * @param array<HeraldActionRecord> $actions
+   */
   public function saveActions(array $actions) {
-    assert_instances_of($actions, 'HeraldActionRecord');
+    assert_instances_of($actions, HeraldActionRecord::class);
     return $this->saveChildren(
       id(new HeraldActionRecord())->getTableName(),
       $actions);
   }
 
+  /**
+   * @param string $table_name
+   * @param array<HeraldDAO> $children
+   */
   protected function saveChildren($table_name, array $children) {
-    assert_instances_of($children, 'HeraldDAO');
+    assert_instances_of($children, parent::class);
 
     if (!$this->getID()) {
       throw new PhutilInvalidStateException('save');

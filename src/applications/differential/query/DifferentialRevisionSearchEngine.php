@@ -172,11 +172,16 @@ final class DifferentialRevisionSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<DifferentialRevision> $revisions
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $revisions,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     $viewer = $this->requireViewer();
     $template = id(new DifferentialRevisionListView())

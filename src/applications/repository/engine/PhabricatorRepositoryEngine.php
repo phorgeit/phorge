@@ -124,10 +124,14 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
     PhabricatorWorker::scheduleTask($class, $data, $options);
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<PhabricatorRepositoryCommitRef> $refs
+   */
   final protected function getImportTaskPriority(
     PhabricatorRepository $repository,
     array $refs) {
-    assert_instances_of($refs, 'PhabricatorRepositoryCommitRef');
+    assert_instances_of($refs, PhabricatorRepositoryCommitRef::class);
 
     // If the repository is importing for the first time, we schedule tasks
     // at IMPORT priority, which is very low. Making progress on importing a

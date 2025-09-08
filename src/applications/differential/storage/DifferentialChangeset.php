@@ -85,8 +85,11 @@ final class DifferentialChangeset
     return $this->getAddLines() + $this->getDelLines();
   }
 
+  /**
+   * @param array<DifferentialHunk> $hunks
+   */
   public function attachHunks(array $hunks) {
-    assert_instances_of($hunks, 'DifferentialHunk');
+    assert_instances_of($hunks, DifferentialHunk::class);
     $this->hunks = $hunks;
     return $this;
   }

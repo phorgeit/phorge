@@ -121,10 +121,14 @@ final class PhabricatorRepositoryRefEngine
     }
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<PhabricatorRepositoryRefCursor> $cursors
+   */
   private function getCursorsForUpdate(
     PhabricatorRepository $repository,
     array $cursors) {
-    assert_instances_of($cursors, 'PhabricatorRepositoryRefCursor');
+    assert_instances_of($cursors, PhabricatorRepositoryRefCursor::class);
 
     $publisher = $repository->newPublisher();
 
@@ -145,11 +149,15 @@ final class PhabricatorRepositoryRefEngine
     return $results;
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<DiffusionRepositoryRef> $branches
+   */
   private function updateBranchStates(
     PhabricatorRepository $repository,
     array $branches) {
 
-    assert_instances_of($branches, 'DiffusionRepositoryRef');
+    assert_instances_of($branches, DiffusionRepositoryRef::class);
     $viewer = $this->getViewer();
 
     $all_cursors = id(new PhabricatorRepositoryRefCursorQuery())

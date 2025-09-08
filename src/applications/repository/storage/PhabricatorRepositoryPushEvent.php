@@ -81,8 +81,11 @@ final class PhabricatorRepositoryPushEvent
     return $this->assertAttached($this->logs);
   }
 
+  /**
+   * @param array<PhabricatorRepositoryPushLog> $logs
+   */
   public function saveWithLogs(array $logs) {
-    assert_instances_of($logs, 'PhabricatorRepositoryPushLog');
+    assert_instances_of($logs, PhabricatorRepositoryPushLog::class);
 
     $this->openTransaction();
       $this->save();

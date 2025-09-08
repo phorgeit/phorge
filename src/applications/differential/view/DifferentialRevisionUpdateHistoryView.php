@@ -8,8 +8,11 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
   private $commitsForLinks = array();
   private $unitStatus = array();
 
+  /**
+   * @param array<DifferentialDiff> $diffs
+   */
   public function setDiffs(array $diffs) {
-    assert_instances_of($diffs, 'DifferentialDiff');
+    assert_instances_of($diffs, DifferentialDiff::class);
     $this->diffs = $diffs;
     return $this;
   }
@@ -24,8 +27,11 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
     return $this;
   }
 
+  /**
+   * @param array<PhabricatorRepositoryCommit> $commits
+   */
   public function setCommitsForLinks(array $commits) {
-    assert_instances_of($commits, 'PhabricatorRepositoryCommit');
+    assert_instances_of($commits, PhabricatorRepositoryCommit::class);
     $this->commitsForLinks = $commits;
     return $this;
   }

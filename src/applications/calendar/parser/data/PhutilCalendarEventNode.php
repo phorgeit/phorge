@@ -116,8 +116,11 @@ final class PhutilCalendarEventNode
     return $this->organizer;
   }
 
+  /**
+   * @param array<PhutilCalendarUserNode> $attendees
+   */
   public function setAttendees(array $attendees) {
-    assert_instances_of($attendees, 'PhutilCalendarUserNode');
+    assert_instances_of($attendees, PhutilCalendarUserNode::class);
     $this->attendees = $attendees;
     return $this;
   }
@@ -159,8 +162,11 @@ final class PhutilCalendarEventNode
     return $this->recurrenceRule;
   }
 
+  /**
+   * @param array<PhutilCalendarDateTime> $recurrence_exceptions
+   */
   public function setRecurrenceExceptions(array $recurrence_exceptions) {
-    assert_instances_of($recurrence_exceptions, 'PhutilCalendarDateTime');
+    assert_instances_of($recurrence_exceptions, PhutilCalendarDateTime::class);
     $this->recurrenceExceptions = $recurrence_exceptions;
     return $this;
   }
@@ -169,8 +175,11 @@ final class PhutilCalendarEventNode
     return $this->recurrenceExceptions;
   }
 
+  /**
+   * @param array<PhutilCalendarDateTime> $recurrence_dates
+   */
   public function setRecurrenceDates(array $recurrence_dates) {
-    assert_instances_of($recurrence_dates, 'PhutilCalendarDateTime');
+    assert_instances_of($recurrence_dates, PhutilCalendarDateTime::class);
     $this->recurrenceDates = $recurrence_dates;
     return $this;
   }

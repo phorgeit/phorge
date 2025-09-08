@@ -23,8 +23,11 @@ final class PholioImageQuery
     return $this;
   }
 
+  /**
+   * @param array<PholioMock> $mocks
+   */
   public function withMocks(array $mocks) {
-    assert_instances_of($mocks, 'PholioMock');
+    assert_instances_of($mocks, PholioMock::class);
 
     $mocks = mpull($mocks, null, 'getPHID');
     $this->mocks = $mocks;
@@ -74,8 +77,11 @@ final class PholioImageQuery
     return $where;
   }
 
+  /**
+   * @param array<PholioImage> $images
+   */
   protected function willFilterPage(array $images) {
-    assert_instances_of($images, 'PholioImage');
+    assert_instances_of($images, PholioImage::class);
 
     $mock_phids = array();
     foreach ($images as $image) {
@@ -117,8 +123,11 @@ final class PholioImageQuery
     return $images;
   }
 
+  /**
+   * @param array<PholioImage> $images
+   */
   protected function didFilterPage(array $images) {
-    assert_instances_of($images, 'PholioImage');
+    assert_instances_of($images, PholioImage::class);
 
     $file_phids = mpull($images, 'getFilePHID');
 

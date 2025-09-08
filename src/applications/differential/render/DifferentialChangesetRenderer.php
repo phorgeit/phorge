@@ -177,8 +177,11 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->markupEngine;
   }
 
+  /**
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   public function setHandles(array $handles) {
-    assert_instances_of($handles, 'PhabricatorObjectHandle');
+    assert_instances_of($handles, PhabricatorObjectHandle::class);
     $this->handles = $handles;
     return $this;
   }
@@ -261,20 +264,27 @@ abstract class DifferentialChangesetRenderer extends Phobject {
     return $this->documentEngineBlocks;
   }
 
+  /**
+   * @param array<PhabricatorInlineComment> $new_comments
+   */
   public function setNewComments(array $new_comments) {
     foreach ($new_comments as $line_number => $comments) {
-      assert_instances_of($comments, 'PhabricatorInlineComment');
+      assert_instances_of($comments, PhabricatorInlineComment::class);
     }
     $this->newComments = $new_comments;
     return $this;
   }
+
   protected function getNewComments() {
     return $this->newComments;
   }
 
+  /**
+   * @param array<PhabricatorInlineComment> $old_comments
+   */
   public function setOldComments(array $old_comments) {
     foreach ($old_comments as $line_number => $comments) {
-      assert_instances_of($comments, 'PhabricatorInlineComment');
+      assert_instances_of($comments, PhabricatorInlineComment::class);
     }
     $this->oldComments = $old_comments;
     return $this;

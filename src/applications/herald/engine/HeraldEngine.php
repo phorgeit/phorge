@@ -122,8 +122,13 @@ final class HeraldEngine extends Phobject {
     return $this->ruleResults[$phid];
   }
 
+  /**
+   * @param array<HeraldRule> $rules
+   * @param HeraldAdapter $object
+   * @return array
+   */
   public function applyRules(array $rules, HeraldAdapter $object) {
-    assert_instances_of($rules, 'HeraldRule');
+    assert_instances_of($rules, HeraldRule::class);
     $t_start = microtime(true);
 
     // Rules execute in a well-defined order: sort them into execution order.
@@ -254,12 +259,18 @@ final class HeraldEngine extends Phobject {
     return $effects;
   }
 
+  /**
+   * @param array<HeraldEffect> $effects
+   * @param HeraldAdapter $adapter
+   * @param array<HeraldRule> $rules
+   * @return array
+   */
   public function applyEffects(
     array $effects,
     HeraldAdapter $adapter,
     array $rules) {
-    assert_instances_of($effects, 'HeraldEffect');
-    assert_instances_of($rules, 'HeraldRule');
+    assert_instances_of($effects, HeraldEffect::class);
+    assert_instances_of($rules, HeraldRule::class);
 
     $this->transcript->setDryRun((int)$this->getDryRun());
 
@@ -275,7 +286,7 @@ final class HeraldEngine extends Phobject {
       $xscripts = $adapter->applyHeraldEffects($effects);
     }
 
-    assert_instances_of($xscripts, 'HeraldApplyTranscript');
+    assert_instances_of($xscripts, HeraldApplyTranscript::class);
     foreach ($xscripts as $apply_xscript) {
       $this->transcript->addApplyTranscript($apply_xscript);
     }

@@ -183,8 +183,11 @@ final class PhabricatorRepositoryCommit
     return $this->assertAttached($this->commitData);
   }
 
+  /**
+   * @param array<PhabricatorRepositoryAuditRequest> $audits
+   */
   public function attachAudits(array $audits) {
-    assert_instances_of($audits, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of($audits, PhabricatorRepositoryAuditRequest::class);
     $this->audits = $audits;
     return $this;
   }
@@ -302,9 +305,11 @@ final class PhabricatorRepositoryCommit
   /**
    * Synchronize a commit's overall audit status with the individual audit
    * triggers.
+   *
+   * @param array<PhabricatorRepositoryAuditRequest> $requests
    */
   public function updateAuditStatus(array $requests) {
-    assert_instances_of($requests, 'PhabricatorRepositoryAuditRequest');
+    assert_instances_of($requests, PhabricatorRepositoryAuditRequest::class);
 
     $any_concern = false;
     $any_accept = false;

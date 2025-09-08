@@ -53,12 +53,17 @@ final class PhabricatorCalendarImportSearchEngine
     return parent::buildSavedQueryFromBuiltin($query_key);
   }
 
+  /**
+   * @param array<PhabricatorCalendarImport> $imports
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $imports,
     PhabricatorSavedQuery $query,
     array $handles) {
 
-    assert_instances_of($imports, 'PhabricatorCalendarImport');
+    assert_instances_of($imports, PhabricatorCalendarImport::class);
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();

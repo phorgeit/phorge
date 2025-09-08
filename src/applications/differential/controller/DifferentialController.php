@@ -25,8 +25,11 @@ abstract class DifferentialController extends PhabricatorController {
     return $this->buildSideNavView(true)->getMenu();
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   */
   protected function buildPackageMaps(array $changesets) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $this->packageChangesetMap = array();
     $this->pathPackageMap = array();

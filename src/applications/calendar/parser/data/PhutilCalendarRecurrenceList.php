@@ -6,8 +6,11 @@ final class PhutilCalendarRecurrenceList
   private $dates = array();
   private $order;
 
+  /**
+   * @param array<PhutilCalendarDateTime> $dates
+   */
   public function setDates(array $dates) {
-    assert_instances_of($dates, 'PhutilCalendarDateTime');
+    assert_instances_of($dates, PhutilCalendarDateTime::class);
     $this->dates = $dates;
     return $this;
   }

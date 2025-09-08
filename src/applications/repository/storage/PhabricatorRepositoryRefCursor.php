@@ -74,8 +74,11 @@ final class PhabricatorRepositoryRefCursor
     return $this->assertAttached($this->repository);
   }
 
+  /**
+   * @param array<PhabricatorRepositoryRefPosition> $positions
+   */
   public function attachPositions(array $positions) {
-    assert_instances_of($positions, 'PhabricatorRepositoryRefPosition');
+    assert_instances_of($positions, PhabricatorRepositoryRefPosition::class);
     $this->positions = $positions;
     return $this;
   }

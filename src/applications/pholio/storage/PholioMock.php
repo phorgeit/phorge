@@ -78,8 +78,11 @@ final class PholioMock extends PholioDAO
     return PholioMockPHIDType::TYPECONST;
   }
 
+  /**
+   * @param array<PholioImage> $images
+   */
   public function attachImages(array $images) {
-    assert_instances_of($images, 'PholioImage');
+    assert_instances_of($images, PholioImage::class);
     $images = mpull($images, null, 'getPHID');
     $images = msort($images, 'getSequence');
     $this->images = $images;

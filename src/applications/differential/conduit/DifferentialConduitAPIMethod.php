@@ -118,10 +118,14 @@ abstract class DifferentialConduitAPIMethod extends ConduitAPIMethod {
       ->execute();
   }
 
+  /**
+   * @param PhabricatorUser $viewer
+   * @param array<DifferentialRevision> $revisions
+   */
   protected function loadCustomFieldsForRevisions(
     PhabricatorUser $viewer,
     array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
 
     if (!$revisions) {
       return array();

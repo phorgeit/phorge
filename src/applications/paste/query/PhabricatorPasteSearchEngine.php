@@ -131,11 +131,16 @@ final class PhabricatorPasteSearchEngine
     return mpull($pastes, 'getAuthorPHID');
   }
 
+  /**
+   * @param array<PhabricatorPaste> $pastes
+   * @param PhabricatorSavedQuery $query
+   * @param array<PhabricatorObjectHandle> $handles
+   */
   protected function renderResultList(
     array $pastes,
     PhabricatorSavedQuery $query,
     array $handles) {
-    assert_instances_of($pastes, 'PhabricatorPaste');
+    assert_instances_of($pastes, PhabricatorPaste::class);
 
     $viewer = $this->requireViewer();
 

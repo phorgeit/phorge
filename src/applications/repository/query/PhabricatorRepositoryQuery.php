@@ -234,8 +234,11 @@ final class PhabricatorRepositoryQuery
     return $repositories;
   }
 
+  /**
+   * @param array<PhabricatorRepository> $repositories
+   */
   protected function willFilterPage(array $repositories) {
-    assert_instances_of($repositories, 'PhabricatorRepository');
+    assert_instances_of($repositories, PhabricatorRepository::class);
 
     // TODO: Denormalize repository status into the PhabricatorRepository
     // table so we can do this filtering in the database.

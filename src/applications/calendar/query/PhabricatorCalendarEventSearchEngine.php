@@ -286,11 +286,15 @@ final class PhabricatorCalendarEventSearchEngine
     return $result;
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   */
   private function buildCalendarListView(
     array $events,
     PhabricatorSavedQuery $query) {
 
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, PhabricatorCalendarEvent::class);
     $viewer = $this->requireViewer();
     $list = new PHUIObjectItemListView();
 
@@ -335,10 +339,14 @@ final class PhabricatorCalendarEventSearchEngine
       ->setNoDataString(pht('No events found.'));
   }
 
+  /**
+   * @param array<PhabricatorCalendarEvent> $events
+   * @param PhabricatorSavedQuery $query
+   */
   private function buildCalendarMonthView(
     array $events,
     PhabricatorSavedQuery $query) {
-    assert_instances_of($events, 'PhabricatorCalendarEvent');
+    assert_instances_of($events, PhabricatorCalendarEvent::class);
 
     $viewer = $this->requireViewer();
     $now = PhabricatorTime::getNow();

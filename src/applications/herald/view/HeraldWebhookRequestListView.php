@@ -6,8 +6,11 @@ final class HeraldWebhookRequestListView
   private $requests;
   private $highlightID;
 
+  /**
+   * @param array<HeraldWebhookRequest> $requests
+   */
   public function setRequests(array $requests) {
-    assert_instances_of($requests, 'HeraldWebhookRequest');
+    assert_instances_of($requests, HeraldWebhookRequest::class);
     $this->requests = $requests;
     return $this;
   }

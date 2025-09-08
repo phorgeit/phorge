@@ -285,11 +285,16 @@ final class PhutilICSWriter extends Phobject {
     return $this->newDateTimesProperty($name, array($value), $parameters);
   }
 
+  /**
+   * @param $name
+   * @param array<PhutilCalendarDateTime> $values
+   * @param array $parameters
+   */
   private function newDateTimesProperty(
     $name,
     array $values,
     array $parameters = array()) {
-    assert_instances_of($values, 'PhutilCalendarDateTime');
+    assert_instances_of($values, PhutilCalendarDateTime::class);
 
     if (head($values)->getIsAllDay()) {
       $parameters[] = array(

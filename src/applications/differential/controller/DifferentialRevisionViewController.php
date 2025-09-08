@@ -861,8 +861,11 @@ final class DifferentialRevisionViewController
     return $curtain;
   }
 
+  /**
+   * @param array<DifferentialDiff> $diffs
+   */
   private function loadHistoryDiffStatus(array $diffs) {
-    assert_instances_of($diffs, 'DifferentialDiff');
+    assert_instances_of($diffs, DifferentialDiff::class);
 
     $diff_phids = mpull($diffs, 'getPHID');
     $bad_unit_status = array(
@@ -978,10 +981,14 @@ final class DifferentialRevisionViewController
     return array($changesets, $vs_map, $vs_changesets, $refs);
   }
 
+  /**
+   * @param PhabricatorRepository $repository
+   * @param array<DifferentialChangeset> $unfolded_changesets
+   */
   private function buildSymbolIndexes(
     PhabricatorRepository $repository,
     array $unfolded_changesets) {
-    assert_instances_of($unfolded_changesets, 'DifferentialChangeset');
+    assert_instances_of($unfolded_changesets, DifferentialChangeset::class);
 
     $engine = PhabricatorSyntaxHighlighter::newEngine();
 
@@ -1019,11 +1026,16 @@ final class DifferentialRevisionViewController
     return $symbol_indexes;
   }
 
+  /**
+   * @param array<DifferentialChangeset> $changesets
+   * @param DifferentialDiff $target
+   * @param PhabricatorRepository $repository
+   */
   private function loadOtherRevisions(
     array $changesets,
     DifferentialDiff $target,
     PhabricatorRepository $repository) {
-    assert_instances_of($changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets, DifferentialChangeset::class);
 
     $viewer = $this->getViewer();
 
@@ -1068,8 +1080,11 @@ final class DifferentialRevisionViewController
     return $results;
   }
 
+  /**
+   * @param array<DifferentialRevision> $revisions
+   */
   private function renderOtherRevisions(array $revisions) {
-    assert_instances_of($revisions, 'DifferentialRevision');
+    assert_instances_of($revisions, DifferentialRevision::class);
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
@@ -1082,7 +1097,13 @@ final class DifferentialRevisionViewController
       ->setNoBox(true);
   }
 
-
+  /**
+   * @param DifferentialRevision $revision
+   * @param array<DifferentialChangeset> $changesets
+   * @param array<DifferentialChangeset> $vs_changesets
+   * @param array $vs_map
+   * @param ?PhabricatorRepository $repository
+   */
   private function buildRawDiffResponse(
     DifferentialRevision $revision,
     array $changesets,
@@ -1090,8 +1111,8 @@ final class DifferentialRevisionViewController
     array $vs_map,
     ?PhabricatorRepository $repository = null) {
 
-    assert_instances_of($changesets,    'DifferentialChangeset');
-    assert_instances_of($vs_changesets, 'DifferentialChangeset');
+    assert_instances_of($changesets,    DifferentialChangeset::class);
+    assert_instances_of($vs_changesets, DifferentialChangeset::class);
 
     $viewer = $this->getViewer();
 
@@ -1350,8 +1371,12 @@ final class DifferentialRevisionViewController
       ->setShowViewAll(true);
   }
 
+  /**
+   * @param DifferentialRevision $revision
+   * @param array<DifferentialDiff> $diffs
+   */
   private function getOldDiffID(DifferentialRevision $revision, array $diffs) {
-    assert_instances_of($diffs, 'DifferentialDiff');
+    assert_instances_of($diffs, DifferentialDiff::class);
     $request = $this->getRequest();
 
     $diffs = mpull($diffs, null, 'getID');
@@ -1459,8 +1484,12 @@ final class DifferentialRevisionViewController
     return null;
   }
 
+  /**
+   * @param DifferentialRevision $revision
+   * @param array<DifferentialDiff> $diffs
+   */
   private function getNewDiffID(DifferentialRevision $revision, array $diffs) {
-    assert_instances_of($diffs, 'DifferentialDiff');
+    assert_instances_of($diffs, DifferentialDiff::class);
     $request = $this->getRequest();
 
     $diffs = mpull($diffs, null, 'getID');

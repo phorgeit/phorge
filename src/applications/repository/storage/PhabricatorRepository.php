@@ -1954,14 +1954,20 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return array_values($refs);
   }
 
+  /**
+   * @param array<DiffusionServiceRef> $refs
+   */
   private function sortReadableAlmanacServiceRefs(array $refs) {
-    assert_instances_of($refs, 'DiffusionServiceRef');
+    assert_instances_of($refs, DiffusionServiceRef::class);
     shuffle($refs);
     return $refs;
   }
 
+  /**
+   * @param array<DiffusionServiceRef> $refs
+   */
   private function sortWritableAlmanacServiceRefs(array $refs) {
-    assert_instances_of($refs, 'DiffusionServiceRef');
+    assert_instances_of($refs, DiffusionServiceRef::class);
 
     // See T13109 for discussion of how this method routes requests.
 
