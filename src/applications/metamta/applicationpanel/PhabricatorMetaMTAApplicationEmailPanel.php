@@ -88,13 +88,11 @@ final class PhabricatorMetaMTAApplicationEmailPanel
       ->setSubheader($application->getAppEmailBlurb())
       ->setHeaderIcon('fa-pencil');
 
-    $icon = id(new PHUIIconView())
-      ->setIcon('fa-plus');
     $button = new PHUIButtonView();
     $button->setText(pht('Add New Address'));
     $button->setTag('a');
     $button->setHref($uri->alter('new', 'true'));
-    $button->setIcon($icon);
+    $button->setIcon('fa-plus');
     $button->addSigil('workflow');
     $header->addActionLink($button);
 

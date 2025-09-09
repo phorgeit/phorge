@@ -57,13 +57,10 @@ final class PhabricatorDashboardChartPanelType
     $key = $panel->getProperty('chartKey');
     $uri = PhabricatorChartRenderingEngine::getChartURI($key);
 
-    $icon = id(new PHUIIconView())
-      ->setIcon('fa-area-chart');
-
     $button = id(new PHUIButtonView())
       ->setTag('a')
       ->setText(pht('View Chart'))
-      ->setIcon($icon)
+      ->setIcon('fa-area-chart')
       ->setHref($uri)
       ->setColor(PHUIButtonView::GREY);
 

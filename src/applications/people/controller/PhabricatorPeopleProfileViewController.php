@@ -31,9 +31,7 @@ final class PhabricatorPeopleProfileViewController
 
     $view_all = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon(
-        id(new PHUIIconView())
-          ->setIcon('fa-list-ul'))
+      ->setIcon('fa-list-ul')
       ->setText(pht('View All'))
       ->setHref('/feed/?userPHIDs='.$user->getPHID());
 

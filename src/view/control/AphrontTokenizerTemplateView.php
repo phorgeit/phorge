@@ -78,12 +78,9 @@ final class AphrontTokenizerTemplateView extends AphrontView {
       ),
       $content);
 
-    $icon = id(new PHUIIconView())
-      ->setIcon('fa-search');
-
     $browse = id(new PHUIButtonView())
       ->setTag('a')
-      ->setIcon($icon)
+      ->setIcon('fa-search')
       ->addClass('tokenizer-browse-button')
       ->setColor(PHUIButtonView::GREY)
       ->addSigil('tokenizer-browse');

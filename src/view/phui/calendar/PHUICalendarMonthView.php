@@ -411,23 +411,19 @@ final class PHUICalendarMonthView extends AphrontView {
 
       $button_bar = new PHUIButtonBarView();
 
-      $left_icon = id(new PHUIIconView())
-          ->setIcon('fa-chevron-left bluegrey');
       $left = id(new PHUIButtonView())
         ->setTag('a')
         ->setColor(PHUIButtonView::GREY)
         ->setHref($prev_uri)
         ->setTitle(pht('Previous Month'))
-        ->setIcon($left_icon);
+        ->setIcon('fa-chevron-left bluegrey');
 
-      $right_icon = id(new PHUIIconView())
-          ->setIcon('fa-chevron-right bluegrey');
       $right = id(new PHUIButtonView())
         ->setTag('a')
         ->setColor(PHUIButtonView::GREY)
         ->setHref($next_uri)
         ->setTitle(pht('Next Month'))
-        ->setIcon($right_icon);
+        ->setIcon('fa-chevron-right bluegrey');
 
       $button_bar->addButton($left);
       $button_bar->addButton($right);
