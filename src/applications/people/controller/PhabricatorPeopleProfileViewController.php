@@ -142,21 +142,18 @@ final class PhabricatorPeopleProfileViewController
         ->setViewer($viewer)
         ->setProjects($render_phids);
 
-      if (count($projects) > $limit) {
-        $header_text = pht(
-          'Projects (%s)',
-          phutil_count($projects));
+      $header_text = pht(
+        'Projects (%s)',
+        phutil_count($projects));
 
-        $header = id(new PHUIHeaderView())
-          ->setHeader($header_text)
-          ->addActionLink(
-            id(new PHUIButtonView())
-              ->setTag('a')
-              ->setIcon('fa-list-ul')
-              ->setText(pht('View All'))
-              ->setHref('/project/?member='.$user->getPHID()));
-
-      }
+      $header = id(new PHUIHeaderView())
+        ->setHeader($header_text)
+        ->addActionLink(
+          id(new PHUIButtonView())
+            ->setTag('a')
+            ->setIcon('fa-list-ul')
+            ->setText(pht('View All'))
+            ->setHref('/project/?member='.$user->getPHID().'#R'));
 
     } else {
       $list = id(new PHUIInfoView())
