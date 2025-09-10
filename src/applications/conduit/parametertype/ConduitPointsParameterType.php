@@ -27,7 +27,7 @@ final class ConduitPointsParameterType
   }
 
   protected function getParameterTypeName() {
-    return 'points';
+    return 'int|float';
   }
 
   protected function getParameterFormatDescriptions() {
