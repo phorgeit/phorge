@@ -221,6 +221,7 @@ final class CelerityDarkModePostprocessor
 
       'navigation-menu-selection-background' => 'rgba(255, 255, 255,.2)',
       'navigation-menu-hover-background' => 'rgba(255,255,255,.1)',
+      'workboard-column-background' => 'rgba(60,90,120,.55)',
 
       // Buttons
       'blue.button.color' => '#2980b9',
