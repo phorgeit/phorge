@@ -117,8 +117,8 @@ input[type="checkbox"]:focus {
   outline-offset: -2px;
 }
 
-input:-moz-placeholder,
-textarea:-moz-placeholder {
+input::-moz-placeholder,
+textarea::-moz-placeholder {
   color: {$lightgreytext};
 }
 
