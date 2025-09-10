@@ -58,10 +58,6 @@
   opacity: 1; /* Firefox nudges the opacity to 0.4 */
 }
 
-.aphront-form-input *:-ms-input-placeholder  {
-  color:{$greytext} !important;
-}
-
 .aphront-form-input > input[type="file"] {
   max-width: stretch;
   max-width: -moz-available;
