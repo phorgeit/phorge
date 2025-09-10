@@ -238,6 +238,9 @@ final class CelerityDefaultPostprocessor
       'menu.main.height' => '44px',
       'menu.profile.width' => '240px',
 
+      'navigation-menu-selection-background' => 'rgba(0, 0, 0,.05)',
+      'navigation-menu-hover-background' => 'rgba(0, 0, 0,.07)',
+
       // Buttons
       'blue.button.color' => '#2980b9',
       'blue.button.gradient' => 'linear-gradient(to bottom, #3498db, #2980b9)',

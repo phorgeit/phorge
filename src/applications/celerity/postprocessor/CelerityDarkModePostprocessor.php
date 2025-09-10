@@ -219,6 +219,9 @@ final class CelerityDarkModePostprocessor
       'menu.profile.text.selected' => 'rgba(255,255,255,1)',
       'menu.profile.icon.disabled' => 'rgba(255,255,255,.4)',
 
+      'navigation-menu-selection-background' => 'rgba(255, 255, 255,.2)',
+      'navigation-menu-hover-background' => 'rgba(255,255,255,.1)',
+
       // Buttons
       'blue.button.color' => '#2980b9',
       'blue.button.gradient' => 'linear-gradient(to bottom, #3498db, #2980b9)',
