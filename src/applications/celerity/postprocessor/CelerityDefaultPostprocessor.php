@@ -241,6 +241,7 @@ final class CelerityDefaultPostprocessor
       'navigation-menu-selection-background' => 'rgba(0, 0, 0,.05)',
       'navigation-menu-hover-background' => 'rgba(0, 0, 0,.07)',
       'workboard-column-background' => 'rgba(234, 230, 247, 0.85)',
+      'form-inset-background' => '#f7f9fd',
 
       // Buttons
       'blue.button.color' => '#2980b9',

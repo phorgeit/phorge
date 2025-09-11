@@ -228,7 +228,7 @@ table.aphront-form-control-checkbox-layout th {
 .phui-form-inset {
   margin: 12px 0;
   padding: 8px;
-  background: #f7f9fd;
+  background: {$form-inset-background};
   border: 1px solid {$lightblueborder};
   border-radius: 3px;
 }
