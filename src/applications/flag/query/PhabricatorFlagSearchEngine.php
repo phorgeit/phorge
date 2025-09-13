@@ -101,7 +101,7 @@ final class PhabricatorFlagSearchEngine
 
   private function getObjectFilterOptions() {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFlaggableInterface')
+      ->setAncestorClass(PhabricatorFlaggableInterface::class)
       ->execute();
 
     $all_types = PhabricatorPHIDType::getAllTypes();

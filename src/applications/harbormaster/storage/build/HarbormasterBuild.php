@@ -160,7 +160,7 @@ final class HarbormasterBuild extends HarbormasterDAO
 
   public static function getAvailableBuildVariables() {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('HarbormasterBuildableInterface')
+      ->setAncestorClass(HarbormasterBuildableInterface::class)
       ->execute();
 
     $variables = array();

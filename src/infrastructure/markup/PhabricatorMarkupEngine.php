@@ -717,13 +717,13 @@ final class PhabricatorMarkupEngine extends Phobject {
 
   private static function loadCustomInlineRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomInlineRule')
+      ->setAncestorClass(PhabricatorRemarkupCustomInlineRule::class)
       ->execute();
   }
 
   private static function loadCustomBlockRules() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorRemarkupCustomBlockRule')
+      ->setAncestorClass(PhabricatorRemarkupCustomBlockRule::class)
       ->execute();
   }
 

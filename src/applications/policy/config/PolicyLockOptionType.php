@@ -5,7 +5,7 @@ final class PolicyLockOptionType
 
   public function validateOption(PhabricatorConfigOption $option, $value) {
     $capabilities = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyCapability')
+      ->setAncestorClass(PhabricatorPolicyCapability::class)
       ->setUniqueMethod('getCapabilityKey')
       ->execute();
 

@@ -10,7 +10,7 @@ final class PhabricatorEventEngine extends Phobject {
 
     // Load automatic listeners.
     $listeners = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorAutoEventListener')
+      ->setAncestorClass(PhabricatorAutoEventListener::class)
       ->execute();
 
     // Load configured listeners.

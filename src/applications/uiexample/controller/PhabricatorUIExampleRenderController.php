@@ -10,7 +10,7 @@ final class PhabricatorUIExampleRenderController extends PhabricatorController {
     $id = $request->getURIData('class');
 
     $classes = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorUIExample')
+      ->setAncestorClass(PhabricatorUIExample::class)
       ->setSortMethod('getName')
       ->execute();
 

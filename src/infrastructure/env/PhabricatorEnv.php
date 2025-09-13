@@ -220,7 +220,7 @@ final class PhabricatorEnv extends Phobject {
 
     // If this install has site config sources, load them now.
     $site_sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorConfigSiteSource')
+      ->setAncestorClass(PhabricatorConfigSiteSource::class)
       ->setSortMethod('getPriority')
       ->execute();
 

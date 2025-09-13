@@ -148,7 +148,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
 
   private function getAllEditorsWithTags(?PhabricatorUser $user = null) {
     $editors = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionEditor')
+      ->setAncestorClass(PhabricatorApplicationTransactionEditor::class)
       ->setFilterMethod('getMailTagsMap')
       ->execute();
 

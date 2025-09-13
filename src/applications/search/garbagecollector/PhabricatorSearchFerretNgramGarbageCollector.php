@@ -15,7 +15,7 @@ final class PhabricatorSearchFerretNgramGarbageCollector
 
   protected function collectGarbage() {
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     $did_collect = false;

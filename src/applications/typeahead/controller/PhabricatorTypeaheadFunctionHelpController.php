@@ -12,7 +12,7 @@ final class PhabricatorTypeaheadFunctionHelpController
     $class = $request->getURIData('class');
 
     $sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTypeaheadDatasource')
+      ->setAncestorClass(PhabricatorTypeaheadDatasource::class)
       ->execute();
 
     if (!isset($sources[$class])) {

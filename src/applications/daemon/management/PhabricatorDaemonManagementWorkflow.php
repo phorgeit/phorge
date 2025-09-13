@@ -7,7 +7,7 @@ abstract class PhabricatorDaemonManagementWorkflow
 
   final protected function loadAvailableDaemonClasses() {
     return id(new PhutilSymbolLoader())
-      ->setAncestorClass('PhutilDaemon')
+      ->setAncestorClass(PhutilDaemon::class)
       ->setConcreteOnly(true)
       ->selectSymbolsWithoutLoading();
   }

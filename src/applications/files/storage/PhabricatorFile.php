@@ -1100,7 +1100,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
   public static function buildAllEngines() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFileStorageEngine')
+      ->setAncestorClass(PhabricatorFileStorageEngine::class)
       ->execute();
   }
 

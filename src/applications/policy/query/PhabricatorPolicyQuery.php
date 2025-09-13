@@ -354,7 +354,7 @@ final class PhabricatorPolicyQuery
 
   public static function getObjectPolicyRules($object) {
     $rules = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorPolicyRule')
+      ->setAncestorClass(PhabricatorPolicyRule::class)
       ->execute();
 
     $results = array();

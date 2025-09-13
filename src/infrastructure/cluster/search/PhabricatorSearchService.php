@@ -186,7 +186,7 @@ class PhabricatorSearchService
    */
   public static function loadAllFulltextStorageEngines() {
     return id(new PhutilClassMapQuery())
-    ->setAncestorClass('PhabricatorFulltextStorageEngine')
+    ->setAncestorClass(PhabricatorFulltextStorageEngine::class)
     ->setUniqueMethod('getEngineIdentifier')
     ->execute();
   }

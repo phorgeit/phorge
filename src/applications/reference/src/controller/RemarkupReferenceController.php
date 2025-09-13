@@ -751,7 +751,7 @@ exit **Fullscreen** mode by clicking the button again or by pressing escape.
 EOTEXT;
 
     $remarkup_syntax_documentation_providers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('RemarkupSyntaxDocumentationProvider')
+      ->setAncestorClass(RemarkupSyntaxDocumentationProvider::class)
       ->execute();
 
     // add custom Remarkup help

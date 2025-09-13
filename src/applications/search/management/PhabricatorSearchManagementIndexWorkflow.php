@@ -316,7 +316,7 @@ final class PhabricatorSearchManagementIndexWorkflow
 
   private function getIndexableObjectsByTypes(array $types) {
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorIndexableInterface')
+      ->setAncestorClass(PhabricatorIndexableInterface::class)
       ->execute();
 
     $type_map = array();

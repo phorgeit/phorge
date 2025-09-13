@@ -26,7 +26,7 @@ final class PhabricatorTransactionsObjectTypeDatasource
 
   private function buildResults() {
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+      ->setAncestorClass(PhabricatorApplicationTransactionQuery::class)
       ->execute();
 
     $phid_types = PhabricatorPHIDType::getAllTypes();

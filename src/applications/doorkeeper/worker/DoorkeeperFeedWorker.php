@@ -126,7 +126,7 @@ abstract class DoorkeeperFeedWorker extends FeedPushWorker {
     $object = $this->getStoryObject();
 
     $publishers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DoorkeeperFeedStoryPublisher')
+      ->setAncestorClass(DoorkeeperFeedStoryPublisher::class)
       ->execute();
 
     foreach ($publishers as $publisher) {

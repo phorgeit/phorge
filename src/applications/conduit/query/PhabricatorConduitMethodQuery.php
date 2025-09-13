@@ -52,7 +52,7 @@ final class PhabricatorConduitMethodQuery
 
   private function getAllMethods() {
     return id(new PhutilClassMapQuery())
-      ->setAncestorClass('ConduitAPIMethod')
+      ->setAncestorClass(ConduitAPIMethod::class)
       ->setSortMethod('getSortOrder')
       ->execute();
   }

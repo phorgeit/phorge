@@ -84,7 +84,7 @@ final class DiffusionSymbolController extends DiffusionController {
     }
 
     $external_sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DiffusionExternalSymbolsSource')
+      ->setAncestorClass(DiffusionExternalSymbolsSource::class)
       ->execute();
 
     $results = array($symbols);

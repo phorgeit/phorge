@@ -125,7 +125,7 @@ final class PhabricatorMailManagementReceiveTestWorkflow
           ));
 
       $receivers = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorMailReceiver')
+        ->setAncestorClass(PhabricatorMailReceiver::class)
         ->setFilterMethod('isEnabled')
         ->execute();
 

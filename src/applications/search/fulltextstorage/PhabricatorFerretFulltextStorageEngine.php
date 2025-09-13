@@ -29,7 +29,7 @@ final class PhabricatorFerretFulltextStorageEngine
 
   public function executeSearch(PhabricatorSavedQuery $query) {
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     $type_map = array();

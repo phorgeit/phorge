@@ -218,7 +218,7 @@ final class PhabricatorSearchApplicationSearchEngine
     // results. It would be nice to do this more elegantly.
 
     $objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFulltextInterface')
+      ->setAncestorClass(PhabricatorFulltextInterface::class)
       ->execute();
 
     $type_map = array();

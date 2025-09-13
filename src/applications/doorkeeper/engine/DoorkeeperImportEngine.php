@@ -104,7 +104,7 @@ final class DoorkeeperImportEngine extends Phobject {
 
     if (!$this->localOnly) {
       $bridges = id(new PhutilClassMapQuery())
-        ->setAncestorClass('DoorkeeperBridge')
+        ->setAncestorClass(DoorkeeperBridge::class)
         ->setFilterMethod('isEnabled')
         ->execute();
 

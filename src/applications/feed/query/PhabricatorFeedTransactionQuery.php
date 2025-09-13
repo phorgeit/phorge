@@ -152,7 +152,7 @@ final class PhabricatorFeedTransactionQuery
     $viewer = $this->getViewer();
 
     $queries = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationTransactionQuery')
+      ->setAncestorClass(PhabricatorApplicationTransactionQuery::class)
       ->execute();
 
     // Remove TransactionQuery classes of uninstalled apps. Increases query

@@ -160,7 +160,7 @@ final class PhabricatorBulkManagementExportWorkflow
     }
 
     $engine_classes = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorApplicationSearchEngine')
+      ->setAncestorClass(PhabricatorApplicationSearchEngine::class)
       ->execute();
 
     $class = $args->getArg('class');

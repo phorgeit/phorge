@@ -56,7 +56,7 @@ final class PhabricatorSearchManagementNgramsWorkflow
     }
 
     $all_objects = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorFerretInterface')
+      ->setAncestorClass(PhabricatorFerretInterface::class)
       ->execute();
 
     foreach ($all_objects as $object) {

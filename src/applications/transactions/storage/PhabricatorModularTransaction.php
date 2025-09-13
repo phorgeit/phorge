@@ -33,7 +33,7 @@ abstract class PhabricatorModularTransaction
 
     // Add core transaction types.
     $types += id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorCoreTransactionType')
+      ->setAncestorClass(PhabricatorCoreTransactionType::class)
       ->setUniqueMethod('getTransactionTypeConstant')
       ->execute();
 

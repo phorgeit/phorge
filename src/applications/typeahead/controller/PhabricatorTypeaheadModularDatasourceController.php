@@ -30,7 +30,7 @@ final class PhabricatorTypeaheadModularDatasourceController
     $class = nonempty($request->getURIData('class'), $request->getStr('class'));
 
     $sources = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTypeaheadDatasource')
+      ->setAncestorClass(PhabricatorTypeaheadDatasource::class)
       ->execute();
 
     if (isset($sources[$class])) {

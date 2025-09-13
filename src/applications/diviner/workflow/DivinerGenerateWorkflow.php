@@ -180,7 +180,7 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     $symbols = id(new PhutilSymbolLoader())
       ->setName($publisher_class)
       ->setConcreteOnly(true)
-      ->setAncestorClass('DivinerPublisher')
+      ->setAncestorClass(DivinerPublisher::class)
       ->selectAndLoadSymbols();
 
     if (!$symbols) {
@@ -414,7 +414,7 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     $version['rules'] = $this->getRules();
 
     $atomizers = id(new PhutilClassMapQuery())
-      ->setAncestorClass('DivinerAtomizer')
+      ->setAncestorClass(DivinerAtomizer::class)
       ->execute();
 
     $atomizer_versions = array();

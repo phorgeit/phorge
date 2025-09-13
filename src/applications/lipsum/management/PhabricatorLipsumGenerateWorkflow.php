@@ -40,7 +40,7 @@ final class PhabricatorLipsumGenerateWorkflow
     }
 
     $all_generators = id(new PhutilClassMapQuery())
-      ->setAncestorClass('PhabricatorTestDataGenerator')
+      ->setAncestorClass(PhabricatorTestDataGenerator::class)
       ->setUniqueMethod('getGeneratorKey')
       ->execute();
 

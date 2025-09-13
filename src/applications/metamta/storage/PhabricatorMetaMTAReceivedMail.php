@@ -176,7 +176,7 @@ final class PhabricatorMetaMTAReceivedMail extends PhabricatorMetaMTADAO {
       }
 
       $receivers = id(new PhutilClassMapQuery())
-        ->setAncestorClass('PhabricatorMailReceiver')
+        ->setAncestorClass(PhabricatorMailReceiver::class)
         ->setFilterMethod('isEnabled')
         ->execute();
 
