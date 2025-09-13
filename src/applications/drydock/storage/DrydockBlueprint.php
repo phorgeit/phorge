@@ -27,7 +27,7 @@ final class DrydockBlueprint extends DrydockDAO
   public static function initializeNewBlueprint(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDrydockApplication'))
+      ->withClasses(array(PhabricatorDrydockApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

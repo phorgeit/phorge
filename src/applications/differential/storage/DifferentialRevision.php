@@ -67,7 +67,7 @@ final class DifferentialRevision extends DifferentialDAO
   public static function initializeNewRevision(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDifferentialApplication'))
+      ->withClasses(array(PhabricatorDifferentialApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

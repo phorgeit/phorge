@@ -38,7 +38,7 @@ final class FundInitiative extends FundDAO
   public static function initializeNewInitiative(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorFundApplication'))
+      ->withClasses(array(PhabricatorFundApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(FundDefaultViewCapability::CAPABILITY);

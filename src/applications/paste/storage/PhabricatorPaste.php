@@ -35,7 +35,7 @@ final class PhabricatorPaste extends PhabricatorPasteDAO
   public static function initializeNewPaste(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPasteApplication'))
+      ->withClasses(array(PhabricatorPasteApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PasteDefaultViewCapability::CAPABILITY);

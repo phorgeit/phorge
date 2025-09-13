@@ -71,7 +71,7 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withClasses(array('PhabricatorProjectApplication'))
+      ->withClasses(array(PhabricatorProjectApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

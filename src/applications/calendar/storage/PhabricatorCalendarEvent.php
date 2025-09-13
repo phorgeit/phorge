@@ -60,7 +60,7 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
   public static function initializeNewCalendarEvent(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorCalendarApplication'))
+      ->withClasses(array(PhabricatorCalendarApplication::class))
       ->executeOne();
 
     $view_default = PhabricatorCalendarEventDefaultViewCapability::CAPABILITY;

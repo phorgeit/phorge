@@ -31,7 +31,7 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
   public static function initializeNewPhurlURL(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPhurlApplication'))
+      ->withClasses(array(PhabricatorPhurlApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

@@ -35,7 +35,7 @@ final class PhabricatorBadgesBadge extends PhabricatorBadgesDAO
   public static function initializeNewBadge(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorBadgesApplication'))
+      ->withClasses(array(PhabricatorBadgesApplication::class))
       ->executeOne();
 
     $view_policy = PhabricatorPolicies::getMostOpenPolicy();

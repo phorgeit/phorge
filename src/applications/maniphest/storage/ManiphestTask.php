@@ -57,7 +57,7 @@ final class ManiphestTask extends ManiphestDAO
   public static function initializeNewTask(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorManiphestApplication'))
+      ->withClasses(array(PhabricatorManiphestApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(ManiphestDefaultViewCapability::CAPABILITY);

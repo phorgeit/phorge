@@ -32,7 +32,7 @@ final class PassphraseCredential extends PassphraseDAO
   public static function initializeNewCredential(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPassphraseApplication'))
+      ->withClasses(array(PhabricatorPassphraseApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PassphraseDefaultViewCapability::CAPABILITY);

@@ -27,7 +27,7 @@ final class PonderAnswer extends PonderDAO
     PonderQuestion $question) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPonderApplication'))
+      ->withClasses(array(PhabricatorPonderApplication::class))
       ->executeOne();
 
     return id(new PonderAnswer())

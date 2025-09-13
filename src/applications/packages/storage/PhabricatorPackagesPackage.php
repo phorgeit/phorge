@@ -22,7 +22,7 @@ final class PhabricatorPackagesPackage
   public static function initializeNewPackage(PhabricatorUser $actor) {
     $packages_application = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPackagesApplication'))
+      ->withClasses(array(PhabricatorPackagesApplication::class))
       ->executeOne();
 
     $view_policy = $packages_application->getPolicy(

@@ -140,7 +140,7 @@ final class DifferentialDiff
   public static function initializeNewDiff(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorDifferentialApplication'))
+      ->withClasses(array(PhabricatorDifferentialApplication::class))
       ->executeOne();
     $view_policy = $app->getPolicy(
       DifferentialDefaultViewCapability::CAPABILITY);

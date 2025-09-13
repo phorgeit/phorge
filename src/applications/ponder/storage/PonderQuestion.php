@@ -38,7 +38,7 @@ final class PonderQuestion extends PonderDAO
   public static function initializeNewQuestion(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPonderApplication'))
+      ->withClasses(array(PhabricatorPonderApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

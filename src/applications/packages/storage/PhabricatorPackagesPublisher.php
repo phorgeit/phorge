@@ -18,7 +18,7 @@ final class PhabricatorPackagesPublisher
   public static function initializeNewPublisher(PhabricatorUser $actor) {
     $packages_application = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPackagesApplication'))
+      ->withClasses(array(PhabricatorPackagesApplication::class))
       ->executeOne();
 
     $edit_policy = $packages_application->getPolicy(

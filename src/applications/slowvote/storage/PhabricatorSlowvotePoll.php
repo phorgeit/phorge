@@ -30,7 +30,7 @@ final class PhabricatorSlowvotePoll
   public static function initializeNewPoll(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorSlowvoteApplication'))
+      ->withClasses(array(PhabricatorSlowvoteApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

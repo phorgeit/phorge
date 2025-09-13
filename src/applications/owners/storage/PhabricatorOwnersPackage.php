@@ -50,7 +50,7 @@ final class PhabricatorOwnersPackage
   public static function initializeNewPackage(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorOwnersApplication'))
+      ->withClasses(array(PhabricatorOwnersApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

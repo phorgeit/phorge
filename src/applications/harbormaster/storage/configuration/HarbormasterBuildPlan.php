@@ -28,7 +28,7 @@ final class HarbormasterBuildPlan extends HarbormasterDAO
   public static function initializeNewBuildPlan(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorHarbormasterApplication'))
+      ->withClasses(array(PhabricatorHarbormasterApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

@@ -74,7 +74,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
   public static function initializeNewFile() {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer(PhabricatorUser::getOmnipotentUser())
-      ->withClasses(array('PhabricatorFilesApplication'))
+      ->withClasses(array(PhabricatorFilesApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(

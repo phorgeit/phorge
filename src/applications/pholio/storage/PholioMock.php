@@ -35,7 +35,7 @@ final class PholioMock extends PholioDAO
   public static function initializeNewMock(PhabricatorUser $actor) {
     $app = id(new PhabricatorApplicationQuery())
       ->setViewer($actor)
-      ->withClasses(array('PhabricatorPholioApplication'))
+      ->withClasses(array(PhabricatorPholioApplication::class))
       ->executeOne();
 
     $view_policy = $app->getPolicy(PholioDefaultViewCapability::CAPABILITY);

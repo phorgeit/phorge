@@ -41,7 +41,7 @@ final class PhabricatorFavoritesMainMenuBarExtension
   private function newDropdown(PhabricatorUser $viewer) {
     $applications = id(new PhabricatorApplicationQuery())
       ->setViewer($viewer)
-      ->withClasses(array('PhabricatorFavoritesApplication'))
+      ->withClasses(array(PhabricatorFavoritesApplication::class))
       ->withInstalled(true)
       ->execute();
     $favorites = head($applications);
