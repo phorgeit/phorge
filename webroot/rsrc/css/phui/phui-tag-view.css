@@ -285,7 +285,7 @@ a.phui-tag-view:hover.phui-tag-blue .phui-tag-core,
 
 .phui-tag-sky .phui-tag-core,
 .jx-tokenizer-token.sky {
-  background: #E0F0FA;
+  background: {$sh-skybackground};
   border-color: {$sh-lightblueborder};
   color: {$sh-bluetext};
 }

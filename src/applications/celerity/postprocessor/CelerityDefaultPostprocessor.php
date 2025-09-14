@@ -161,6 +161,9 @@ final class CelerityDefaultPostprocessor
       'sh-bluetext'           => '#464c5c',
       'sh-bluebackground'     => '#dee7f8',
 
+      // Shade Sky (mostly re-uses Blue colors above)
+      'sh-skybackground'      => '#e0f0fa',
+
       // Shade Indigo
       'sh-lightindigoborder'  => '#d1c9ee',
       'sh-indigoborder'       => '#bcb4da',
