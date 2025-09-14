@@ -3,7 +3,8 @@
 abstract class FileConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorFilesApplication');
+    return PhabricatorApplication::getByClass(
+      PhabricatorFilesApplication::class);
   }
 
   protected function loadFileByPHID(PhabricatorUser $viewer, $file_phid) {

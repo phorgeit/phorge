@@ -23,7 +23,7 @@ final class PhabricatorConpherenceNotificationsSetting
 
   protected function isEnabledForViewer(PhabricatorUser $viewer) {
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorConpherenceApplication',
+      PhabricatorConpherenceApplication::class,
       $viewer);
   }
 

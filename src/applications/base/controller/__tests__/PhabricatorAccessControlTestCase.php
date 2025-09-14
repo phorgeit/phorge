@@ -200,7 +200,8 @@ final class PhabricatorAccessControlTestCase extends PhabricatorTestCase {
     $env->overrideEnvConfig('policy.allow-public', false);
 
 
-    $app = PhabricatorApplication::getByClass('PhabricatorTestApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorTestApplication::class);
     $app->reset();
     $app->setPolicy(
       PhabricatorPolicyCapability::CAN_VIEW,

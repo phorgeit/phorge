@@ -4,7 +4,7 @@ abstract class ManiphestConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
     return PhabricatorApplication::getByClass(
-      'PhabricatorManiphestApplication');
+      PhabricatorManiphestApplication::class);
   }
 
   protected function defineErrorTypes() {

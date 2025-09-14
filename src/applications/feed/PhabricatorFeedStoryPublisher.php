@@ -99,7 +99,7 @@ final class PhabricatorFeedStoryPublisher extends Phobject {
           $class));
     }
 
-    if (!is_subclass_of($class, 'PhabricatorFeedStory')) {
+    if (!is_subclass_of($class, PhabricatorFeedStory::class)) {
       throw new Exception(
         pht(
           "Story type must be a valid class name and must subclass %s. ".

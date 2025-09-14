@@ -7,7 +7,7 @@ abstract class PholioMockRelationship
     $viewer = $this->getViewer();
 
     $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorPholioApplication',
+      PhabricatorPholioApplication::class,
       $viewer);
     if (!$has_app) {
       return false;

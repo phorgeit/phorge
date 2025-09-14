@@ -42,7 +42,7 @@ abstract class DifferentialController extends PhabricatorController {
     $viewer = $this->getViewer();
 
     $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+      PhabricatorOwnersApplication::class,
       $viewer);
     if (!$have_owners) {
       return;

@@ -7,7 +7,7 @@ abstract class DifferentialRevisionRelationship
     $viewer = $this->getViewer();
 
     $has_app = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
     if (!$has_app) {
       return false;

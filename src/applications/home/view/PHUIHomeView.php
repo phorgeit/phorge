@@ -16,15 +16,15 @@ final class PHUIHomeView
     $viewer = $this->getViewer();
 
     $has_maniphest = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+      PhabricatorManiphestApplication::class,
       $viewer);
 
     $has_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
 
     $has_differential = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
 
     $revision_panel = null;

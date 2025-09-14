@@ -756,7 +756,8 @@ final class PhabricatorProjectBoardViewController
 
     $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      PhabricatorApplication::getByClass(
+        PhabricatorManiphestApplication::class),
       ManiphestBulkEditCapability::CAPABILITY);
 
     $column_move_uri = urisprintf('bulkmove/%d/column/', $column->getID());

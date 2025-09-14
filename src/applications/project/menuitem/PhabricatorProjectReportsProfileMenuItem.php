@@ -29,12 +29,12 @@ final class PhabricatorProjectReportsProfileMenuItem
       return false;
     }
 
-    $class = 'PhabricatorManiphestApplication';
+    $class = PhabricatorManiphestApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }
 
-    $class = 'PhabricatorFactApplication';
+    $class = PhabricatorFactApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;
     }

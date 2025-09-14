@@ -270,7 +270,8 @@ abstract class PhortunePaymentProvider extends Phobject {
     $local = false) {
 
     $id = $this->getProviderConfig()->getID();
-    $app = PhabricatorApplication::getByClass('PhabricatorPhortuneApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorPhortuneApplication::class);
     $path = $app->getBaseURI().'provider/'.$id.'/'.$action.'/';
 
     $uri = new PhutilURI($path, $params);

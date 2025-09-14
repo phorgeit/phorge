@@ -335,7 +335,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getLoginURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorAuthApplication::class);
     return $app->getApplicationURI('/login/'.$this->getProviderKey().'/');
   }
 
@@ -344,7 +345,8 @@ abstract class PhabricatorAuthProvider extends Phobject {
   }
 
   public function getStartURI() {
-    $app = PhabricatorApplication::getByClass('PhabricatorAuthApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorAuthApplication::class);
     $uri = $app->getApplicationURI('/start/');
     return $uri;
   }

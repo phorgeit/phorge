@@ -24,7 +24,7 @@ final class PhabricatorAuditApplication extends PhabricatorApplication {
 
   public function isPinnedByDefault(PhabricatorUser $viewer) {
     return parent::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
   }
 

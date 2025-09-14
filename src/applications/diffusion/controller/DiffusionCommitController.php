@@ -980,7 +980,7 @@ final class DiffusionCommitController extends DiffusionController {
       ->setDiffusionRequest($drequest);
 
     $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+      PhabricatorOwnersApplication::class,
       $viewer);
 
     if (!$changesets) {

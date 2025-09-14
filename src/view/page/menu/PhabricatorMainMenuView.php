@@ -354,7 +354,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $message_tag = '';
     $message_notification_dropdown = '';
-    $conpherence_app = 'PhabricatorConpherenceApplication';
+    $conpherence_app = PhabricatorConpherenceApplication::class;
     $conpherence_data = $dropdown_data[$conpherence_app];
     if ($conpherence_data['isInstalled']) {
       $message_id = celerity_generate_unique_node_id();
@@ -436,7 +436,7 @@ final class PhabricatorMainMenuView extends AphrontView {
 
     $bubble_tag = '';
     $notification_dropdown = '';
-    $notification_app = 'PhabricatorNotificationsApplication';
+    $notification_app = PhabricatorNotificationsApplication::class;
     $notification_data = $dropdown_data[$notification_app];
     if ($notification_data['isInstalled']) {
       $count_id = celerity_generate_unique_node_id();

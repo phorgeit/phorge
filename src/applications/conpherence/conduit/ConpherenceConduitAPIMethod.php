@@ -4,7 +4,7 @@ abstract class ConpherenceConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
     return PhabricatorApplication::getByClass(
-      'PhabricatorConpherenceApplication');
+      PhabricatorConpherenceApplication::class);
   }
 
   final protected function getConpherenceURI(ConpherenceThread $conpherence) {

@@ -177,7 +177,7 @@ final class PhabricatorPeopleProfileViewController
    */
   private function buildCalendarDayView(PhabricatorUser $user) {
     $viewer = $this->getViewer();
-    $class = 'PhabricatorCalendarApplication';
+    $class = PhabricatorCalendarApplication::class;
 
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return null;

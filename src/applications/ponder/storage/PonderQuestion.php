@@ -216,7 +216,7 @@ final class PonderQuestion extends PonderDAO
         return $this->getViewPolicy();
       case PhabricatorPolicyCapability::CAN_EDIT:
         $app = PhabricatorApplication::getByClass(
-          'PhabricatorPonderApplication');
+          PhabricatorPonderApplication::class);
         return $app->getPolicy(PonderModerateCapability::CAPABILITY);
     }
   }

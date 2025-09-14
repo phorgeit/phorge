@@ -337,7 +337,7 @@ final class DiffusionCommitGraphView
     $viewer = $this->getViewer();
 
     $show_builds = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorHarbormasterApplication',
+      PhabricatorHarbormasterApplication::class,
       $this->getUser());
 
     return $show_builds;
@@ -347,7 +347,7 @@ final class DiffusionCommitGraphView
     $viewer = $this->getViewer();
 
     $show_revisions = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
 
     return $show_revisions;

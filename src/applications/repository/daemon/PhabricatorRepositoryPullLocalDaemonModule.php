@@ -7,7 +7,7 @@ final class PhabricatorRepositoryPullLocalDaemonModule
 
   public function shouldWakePool(PhutilDaemonPool $pool) {
     $class = $pool->getPoolDaemonClass();
-    if ($class != 'PhabricatorRepositoryPullLocalDaemon') {
+    if ($class != PhabricatorRepositoryPullLocalDaemon::class) {
       return false;
     }
 

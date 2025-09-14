@@ -503,7 +503,7 @@ final class DiffusionBrowseController extends DiffusionController {
     $viewer = $this->getViewer();
 
     $have_owners = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorOwnersApplication',
+      PhabricatorOwnersApplication::class,
       $viewer);
     if (!$have_owners) {
       return null;

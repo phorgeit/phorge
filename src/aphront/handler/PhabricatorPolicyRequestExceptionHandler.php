@@ -37,7 +37,7 @@ final class PhabricatorPolicyRequestExceptionHandler
       //
       // Possibly we should add a header here like "you need to login to see
       // the thing you are trying to look at".
-      $auth_app_class = 'PhabricatorAuthApplication';
+      $auth_app_class = PhabricatorAuthApplication::class;
       $auth_app = PhabricatorApplication::getByClass($auth_app_class);
 
       return id(new PhabricatorAuthStartController())

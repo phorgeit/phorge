@@ -32,7 +32,8 @@ final class PhabricatorShortSite extends PhabricatorSite {
   }
 
   public function getRoutingMaps() {
-    $app = PhabricatorApplication::getByClass('PhabricatorPhurlApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorPhurlApplication::class);
 
     $maps = array();
     $maps[] = $this->newRoutingMap()

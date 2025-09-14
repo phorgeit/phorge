@@ -7,7 +7,7 @@ final class ManiphestTaskRelationshipSource
     $viewer = $this->getViewer();
 
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+      PhabricatorManiphestApplication::class,
       $viewer);
   }
 

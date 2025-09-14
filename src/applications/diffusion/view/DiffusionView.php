@@ -233,7 +233,7 @@ abstract class DiffusionView extends AphrontView {
 
     $viewer = $this->getUser();
 
-    $harbormaster_app = 'PhabricatorHarbormasterApplication';
+    $harbormaster_app = PhabricatorHarbormasterApplication::class;
     $have_harbormaster = PhabricatorApplication::isClassInstalledForViewer(
       $harbormaster_app,
       $viewer);

@@ -18,7 +18,7 @@ final class PhabricatorPeopleProfileTasksAuthoredController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorManiphestApplication';
+    $class = PhabricatorManiphestApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }

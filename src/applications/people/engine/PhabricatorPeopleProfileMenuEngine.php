@@ -37,7 +37,7 @@ final class PhabricatorPeopleProfileMenuEngine
       ->setMenuItemKey(PhabricatorPeopleDetailsProfileMenuItem::MENUITEMKEY);
 
     $have_maniphest = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorManiphestApplication',
+      PhabricatorManiphestApplication::class,
       $viewer);
     if ($have_maniphest) {
       $items[] = $this->newItem()
@@ -51,7 +51,7 @@ final class PhabricatorPeopleProfileMenuEngine
     }
 
     $have_differential = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDifferentialApplication',
+      PhabricatorDifferentialApplication::class,
       $viewer);
     if ($have_differential) {
       $items[] = $this->newItem()
@@ -61,7 +61,7 @@ final class PhabricatorPeopleProfileMenuEngine
     }
 
     $have_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
     if ($have_diffusion) {
       $items[] = $this->newItem()
@@ -70,7 +70,7 @@ final class PhabricatorPeopleProfileMenuEngine
     }
 
     $have_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+      PhabricatorBadgesApplication::class,
       $viewer);
     if ($have_badges) {
       $items[] = $this->newItem()

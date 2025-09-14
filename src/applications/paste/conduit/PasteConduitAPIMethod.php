@@ -3,7 +3,8 @@
 abstract class PasteConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorPasteApplication');
+    return PhabricatorApplication::getByClass(
+      PhabricatorPasteApplication::class);
   }
 
   protected function buildPasteInfoDictionary(PhabricatorPaste $paste) {

@@ -93,7 +93,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
     }
 
     $conpherence_installed = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorConpherenceApplication',
+      PhabricatorConpherenceApplication::class,
       $viewer);
     if (!$conpherence_installed) {
       return false;

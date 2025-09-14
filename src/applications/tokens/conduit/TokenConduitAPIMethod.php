@@ -3,7 +3,8 @@
 abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorTokensApplication');
+    return PhabricatorApplication::getByClass(
+      PhabricatorTokensApplication::class);
   }
 
   public function getMethodStatus() {

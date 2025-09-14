@@ -106,7 +106,7 @@ final class PhabricatorUserCardView extends AphrontTagView {
       phabricator_date($user->getDateCreated(), $viewer));
 
     $has_calendar = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorCalendarApplication',
+      PhabricatorCalendarApplication::class,
       $viewer);
     if ($has_calendar) {
       if (!$user->getIsDisabled()) {

@@ -42,7 +42,8 @@ final class PhabricatorProjectColumnBulkMoveController
 
     $can_bulk_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
-      PhabricatorApplication::getByClass('PhabricatorManiphestApplication'),
+      PhabricatorApplication::getByClass(
+        PhabricatorManiphestApplication::class),
       ManiphestBulkEditCapability::CAPABILITY);
 
     if (!$can_bulk_edit) {

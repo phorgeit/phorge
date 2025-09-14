@@ -3,7 +3,8 @@
 abstract class FlagConduitAPIMethod extends ConduitAPIMethod {
 
   final public function getApplication() {
-    return PhabricatorApplication::getByClass('PhabricatorFlagsApplication');
+    return PhabricatorApplication::getByClass(
+      PhabricatorFlagsApplication::class);
   }
 
   protected function attachHandleToFlag($flag, PhabricatorUser $user) {

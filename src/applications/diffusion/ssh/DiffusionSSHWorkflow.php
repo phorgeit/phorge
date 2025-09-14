@@ -166,7 +166,7 @@ abstract class DiffusionSSHWorkflow extends PhabricatorSSHWorkflow {
 
     $viewer = $this->getSSHUser();
     $have_diffusion = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDiffusionApplication',
+      PhabricatorDiffusionApplication::class,
       $viewer);
     if (!$have_diffusion) {
       throw new Exception(

@@ -916,7 +916,7 @@ final class PhabricatorApplicationSearchController
 
     $can_use = $engine->canUseInPanelContext();
     $is_installed = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorDashboardApplication',
+      PhabricatorDashboardApplication::class,
       $viewer);
 
     if ($can_use && $is_installed) {

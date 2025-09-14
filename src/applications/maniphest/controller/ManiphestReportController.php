@@ -36,7 +36,7 @@ final class ManiphestReportController extends ManiphestController {
     $nav->addFilter('user', pht('By User'));
     $nav->addFilter('project', pht('By Project'));
 
-    $class = 'PhabricatorFactApplication';
+    $class = PhabricatorFactApplication::class;
     if (PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       $nav->addLabel(pht('Burnup'));
       $nav->addFilter('burn', pht('Burnup Rate'));

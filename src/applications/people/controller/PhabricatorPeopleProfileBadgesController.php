@@ -16,7 +16,7 @@ final class PhabricatorPeopleProfileBadgesController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorBadgesApplication';
+    $class = PhabricatorBadgesApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }

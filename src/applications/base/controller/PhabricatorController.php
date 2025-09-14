@@ -590,7 +590,7 @@ abstract class PhabricatorController extends AphrontController {
     $must_sign_docs = array();
     $sign_docs = array();
 
-    $legalpad_class = 'PhabricatorLegalpadApplication';
+    $legalpad_class = PhabricatorLegalpadApplication::class;
     $legalpad_installed = PhabricatorApplication::isClassInstalledForViewer(
       $legalpad_class,
       $viewer);

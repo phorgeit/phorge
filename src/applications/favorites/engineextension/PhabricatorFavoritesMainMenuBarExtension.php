@@ -7,7 +7,7 @@ final class PhabricatorFavoritesMainMenuBarExtension
 
   public function isExtensionEnabledForViewer(PhabricatorUser $viewer) {
     return PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorFavoritesApplication',
+      PhabricatorFavoritesApplication::class,
       $viewer);
   }
 

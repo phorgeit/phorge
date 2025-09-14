@@ -52,7 +52,9 @@ final class PhabricatorExportEngineBulkJobType
     PhabricatorWorkerBulkTask $task) {
 
     $engine_class = $job->getParameter('engineClass');
-    if (!is_subclass_of($engine_class, 'PhabricatorApplicationSearchEngine')) {
+    if (!is_subclass_of(
+      $engine_class,
+      PhabricatorApplicationSearchEngine::class)) {
       throw new Exception(
         pht(
           'Unknown search engine class "%s".',

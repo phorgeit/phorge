@@ -241,7 +241,7 @@ final class PHUITimelineView extends AphrontView {
 
     $viewer = $this->getUser();
     $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
-      'PhabricatorBadgesApplication',
+      PhabricatorBadgesApplication::class,
       $viewer);
     if (!$can_use_badges) {
       return;

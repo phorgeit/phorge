@@ -36,7 +36,7 @@ final class ConduitGetCapabilitiesConduitAPIMethod extends ConduitAPIMethod {
       'sessionless',
     );
 
-    $oauth_app = 'PhabricatorOAuthServerApplication';
+    $oauth_app = PhabricatorOAuthServerApplication::class;
     if (PhabricatorApplication::isClassInstalled($oauth_app)) {
       $authentication[] = 'oauth';
     }

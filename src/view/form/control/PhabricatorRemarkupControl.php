@@ -249,7 +249,7 @@ final class PhabricatorRemarkupControl
 
     if ($can_use_macros) {
       $can_use_macros = PhabricatorApplication::isClassInstalledForViewer(
-        'PhabricatorMacroApplication',
+        PhabricatorMacroApplication::class,
         $viewer);
     }
 

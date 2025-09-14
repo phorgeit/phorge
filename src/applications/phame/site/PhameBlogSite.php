@@ -65,7 +65,8 @@ final class PhameBlogSite extends PhameSite {
   }
 
   public function getRoutingMaps() {
-    $app = PhabricatorApplication::getByClass('PhabricatorPhameApplication');
+    $app = PhabricatorApplication::getByClass(
+      PhabricatorPhameApplication::class);
 
     $maps = array();
     $maps[] = $this->newRoutingMap()

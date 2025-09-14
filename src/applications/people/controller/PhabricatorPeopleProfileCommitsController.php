@@ -18,7 +18,7 @@ final class PhabricatorPeopleProfileCommitsController
       return new Aphront404Response();
     }
 
-    $class = 'PhabricatorDiffusionApplication';
+    $class = PhabricatorDiffusionApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return new Aphront404Response();
     }
