@@ -122,7 +122,8 @@ final class PhabricatorEdgeQuery extends PhabricatorQuery {
    * use case.
    *
    * @param string  $src_phid Source PHID.
-   * @param string  $edge_type Edge type constant.
+   * @param int     $edge_type Edge type constant
+   *                (SomeClassEdgeType::EDGECONST).
    * @return list<string> List of destination PHIDs.
    */
   public static function loadDestinationPHIDs($src_phid, $edge_type) {

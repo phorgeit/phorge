@@ -748,7 +748,7 @@ abstract class PhabricatorCustomField extends Phobject {
   /**
    * Build and populate storage for a numeric index.
    *
-   * @param string $value Numeric value to index.
+   * @param int $value Numeric value to index.
    * @return PhabricatorCustomFieldNumericIndexStorage Populated storage.
    * @task appsearch
    */

@@ -2603,7 +2603,7 @@ abstract class PhabricatorCursorPagedPolicyAwareQuery
    * Convenience method for specifying edge logic constraints with a list of
    * PHIDs.
    *
-   * @param string $edge_type Edge constant.
+   * @param int $edge_type Edge type constant (SomeClassEdgeType::EDGECONST).
    * @param string $operator Constraint operator.
    * @param list<string> $phids List of PHIDs.
    * @return $this
