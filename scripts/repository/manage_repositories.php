@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage repositories'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **repository** __command__ [__options__]
-    Manage and debug Phabricator repository configuration, tracking,
+    Manage and debug Diffusion repository configuration, tracking,
     discovery and import.
 
 EOSYNOPSIS

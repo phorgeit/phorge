@@ -8,7 +8,7 @@ $args = new PhutilArgumentParser($argv);
 $args->setTagline(pht('manage search'));
 $args->setSynopsis(<<<EOSYNOPSIS
 **search** __command__ [__options__]
-    Manage Phabricator search index.
+    Manage search index.
 
 EOSYNOPSIS
   );
