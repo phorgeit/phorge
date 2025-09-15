@@ -19,11 +19,12 @@ support logging in with other credentials. For example:
   - **OAuth:** Users use accounts on a supported OAuth2 provider (like
     GitHub, Facebook, or Google) to log in or register.
   - **Other Providers:** More providers are available, and Phorge
-    can be extended with custom providers. See the "Auth" application for
-    a list of available providers.
+    can be extended with custom providers.
 
-By default, no providers are enabled. You must use the "Auth" application to
-add one or more providers after you complete the installation process.
+By default, no providers are enabled. After you complete the installation
+process, you can add one or more authentication providers from the list of
+available providers by navigating to {nav icon=home, name=Home >
+More Applications > Auth} in the web UI.
 
 After you add a provider, you can link it to existing accounts (for example,
 associate an existing Phorge account with a GitHub OAuth account) or users

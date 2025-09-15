@@ -186,7 +186,7 @@ system access beyond the reasonably restricted defaults.
 
 You can view status and debugging information for daemons in the Daemon Console
 via the web interface. Go to `/daemon/` in your install or navigate to
-{nav icon=home, name=Home > Applications > Daemons }.
+{nav icon=home, name=Home > More Applications > Daemons }.
 
 
 The Daemon Console shows a list of all the daemons that have ever launched, and
