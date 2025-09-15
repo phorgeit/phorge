@@ -108,7 +108,8 @@ Phorge supports several different file storage engines:
 | Custom | Hard | Varies | Implement a custom storage engine. |
 
 You can review available storage engines and their configuration by navigating
-to {nav Applications > Files > Help/Options > Storage Engines} in the web UI.
+to {nav icon=home, name=Home > Applications > Files > Help/Options >
+Storage Engines} in the web UI.
 
 By default, Phorge is configured to store files up to 1MB in MySQL, and
 reject files larger than 1MB. To store larger files, you can either:
