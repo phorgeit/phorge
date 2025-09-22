@@ -37,6 +37,11 @@ final class PhabricatorUserUsernameTransaction
   }
 
   public function getTitle() {
+    if (!$this->getViewer()->getIsAdmin()) {
+      return pht(
+      '%s renamed this user.',
+        $this->renderAuthor());
+    }
     return pht(
       '%s renamed this user from %s to %s.',
       $this->renderAuthor(),
@@ -45,6 +50,12 @@ final class PhabricatorUserUsernameTransaction
   }
 
   public function getTitleForFeed() {
+    if (!$this->getViewer()->getIsAdmin()) {
+      return pht(
+        '%s renamed %s.',
+        $this->renderAuthor(),
+        $this->renderObject());
+    }
     return pht(
       '%s renamed %s from %s to %s.',
       $this->renderAuthor(),
