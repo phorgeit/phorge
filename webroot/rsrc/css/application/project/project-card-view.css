@@ -80,7 +80,7 @@
 }
 
 .project-card-view .project-card-item-exiled .project-card-item-text {
-  color: {$red};
+  color: {$redtext};
 }
 
 .project-card-view .project-card-item-icon {

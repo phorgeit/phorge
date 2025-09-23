@@ -92,104 +92,104 @@ final class CelerityDarkModePostprocessor
       'blacktext'           => 'rgba(255,255,255,.9)',
 
       // Base Greens
-      'lightgreenborder'      => '#bfdac1',
-      'greenborder'           => '#8cb89c',
-      'greentext'             => '#3e6d35',
-      'lightgreenbackground'  => '#e6f2e4',
+      'lightgreenborder'      => '#105610',
+      'greenborder'           => '#446f54',
+      'greentext'             => '#e0eedd',
+      'lightgreenbackground'  => '#132211',
 
       // Base Red
-      'lightredborder'        => '#f4c6c6',
-      'redborder'             => '#eb9797',
-      'redtext'               => '#802b2b',
-      'lightredbackground'    => '#f5e1e1',
+      'lightredborder'        => '#561010',
+      'redborder'             => '#6b1414',
+      'redtext'               => '#f2d9d9',
+      'lightredbackground'    => '#260d0d',
 
       // Base Yellow
-      'lightyellowborder'     => '#dbdbbd',
-      'yellowborder'          => '#b9b988',
-      'yellowtext'            => '#72723c',
-      'lightyellowbackground' => '#ededde',
+      'lightyellowborder'     => '#565610',
+      'yellowborder'          => '#707042',
+      'yellowtext'            => '#ededde',
+      'lightyellowbackground' => '#31311b',
 
       // Base Violet
-      'lightvioletborder'     => '#cfbddb',
-      'violetborder'          => '#b589ba',
-      'violettext'            => '#603c73',
-      'lightvioletbackground' => '#e9dfee',
+      'lightvioletborder'     => '#331056',
+      'violetborder'          => '#6c4270',
+      'violettext'            => '#e8deed',
+      'lightvioletbackground' => '#2a1a32',
 
       // Shades are a more muted set of our base colors
       // better suited to blending into other UIs.
 
       // Shade Red
-      'sh-lightredborder'     => '#efcfcf',
-      'sh-redborder'          => '#d1abab',
-      'sh-redicon'            => '#c85a5a',
-      'sh-redtext'            => '#a53737',
-      'sh-redbackground'      => '#f7e6e6',
+      'sh-lightredborder'     => '#7b1e1e',
+      'sh-redborder'          => '#8d3f3f',
+      'sh-redicon'            => '#ff9999',
+      'sh-redtext'            => '#ffcccc',
+      'sh-redbackground'      => '#563636',
 
       // Shade Orange
-      'sh-lightorangeborder'  => '#f8dcc3',
-      'sh-orangeborder'       => '#dbb99e',
-      'sh-orangeicon'         => '#e78331',
-      'sh-orangetext'         => '#ba6016',
-      'sh-orangebackground'   => '#fbede1',
+      'sh-lightorangeborder'  => '#7b4d1e',
+      'sh-orangeborder'       => '#8d663f',
+      'sh-orangeicon'         => '#ffcc99',
+      'sh-orangetext'         => '#ffe6cc',
+      'sh-orangebackground'   => '#554535',
 
       // Shade Yellow
-      'sh-lightyellowborder'  => '#e9dbcd',
-      'sh-yellowborder'       => '#c9b8a8',
-      'sh-yellowicon'         => '#9b946e',
-      'sh-yellowtext'         => '#726f56',
-      'sh-yellowbackground'   => '#fdf3da',
+      'sh-lightyellowborder'  => '#7b7b1e',
+      'sh-yellowborder'       => '#8d8d3f',
+      'sh-yellowicon'         => '#ffff99',
+      'sh-yellowtext'         => '#ffffcc',
+      'sh-yellowbackground'   => '#555535',
 
       // Shade Green
-      'sh-lightgreenborder'   => '#c6e6c7',
-      'sh-greenborder'        => '#a0c4a1',
-      'sh-greenicon'          => '#4ca74e',
-      'sh-greentext'          => '#326d34',
-      'sh-greenbackground'    => '#ddefdd',
+      'sh-lightgreenborder'   => '#357b1e',
+      'sh-greenborder'        => '#538d3f',
+      'sh-greenicon'          => '#99ff99',
+      'sh-greentext'          => '#d9ffcc',
+      'sh-greenbackground'    => '#355535',
 
       // Shade Blue
-      'sh-lightblueborder'    => '#cfdbe3',
-      'sh-blueborder'         => '#a7b5bf',
-      'sh-blueicon'           => '#6b748c',
-      'sh-bluetext'           => '#464c5c',
-      'sh-bluebackground'     => '#dee7f8',
+      'sh-lightblueborder'    => '#1e4d7b',
+      'sh-blueborder'         => '#3f668d',
+      'sh-blueicon'           => '#99ccff',
+      'sh-bluetext'           => '#cce6ff',
+      'sh-bluebackground'     => '#353d55',
 
       // Shade Sky (mostly re-uses Blue colors above)
-      'sh-skybackground'      => '#e0f0fa',
+      'sh-skybackground'      => '#354d55',
 
       // Shade Indigo
-      'sh-lightindigoborder'  => '#d1c9ee',
-      'sh-indigoborder'       => '#bcb4da',
-      'sh-indigoicon'         => '#8672d4',
-      'sh-indigotext'         => '#6e5cb6',
-      'sh-indigobackground'   => '#eae6f7',
+      'sh-lightindigoborder'  => '#1e1e7b',
+      'sh-indigoborder'       => '#3f3f8d',
+      'sh-indigoicon'         => '#9999ff',
+      'sh-indigotext'         => '#ccccff',
+      'sh-indigobackground'   => '#3d3555',
 
       // Shade Violet
-      'sh-lightvioletborder'  => '#e0d1e7',
-      'sh-violetborder'       => '#bcabc5',
-      'sh-violeticon'         => '#9260ad',
-      'sh-violettext'         => '#69427f',
-      'sh-violetbackground'   => '#efe8f3',
+      'sh-lightvioletborder'  => '#4d1e7b',
+      'sh-violetborder'       => '#663f8d',
+      'sh-violeticon'         => '#cc99ff',
+      'sh-violettext'         => '#e6ccff',
+      'sh-violetbackground'   => '#4d3555',
 
       // Shade Pink
-      'sh-lightpinkborder'  => '#f6d5ef',
-      'sh-pinkborder'       => '#d5aecd',
-      'sh-pinkicon'         => '#e26fcb',
-      'sh-pinktext'         => '#da49be',
-      'sh-pinkbackground'   => '#fbeaf8',
+      'sh-lightpinkborder'  => '#7b1e7b',
+      'sh-pinkborder'       => '#8d3f8d',
+      'sh-pinkicon'         => '#ff99ff',
+      'sh-pinktext'         => '#ffccff',
+      'sh-pinkbackground'   => '#553555',
 
       // Shade Grey
-      'sh-lightgreyborder'    => '#e3e4e8',
-      'sh-greyborder'         => '#b2b2b2',
-      'sh-greyicon'           => '#757575',
-      'sh-greytext'           => '#555555',
-      'sh-greybackground'     => '#edeef2',
+      'sh-lightgreyborder'    => '#737373',
+      'sh-greyborder'         => '#b9bbc6',
+      'sh-greyicon'           => '#4d4d4d',
+      'sh-greytext'           => '#262626',
+      'sh-greybackground'     => '#979db4',
 
       // Shade Disabled
-      'sh-lightdisabledborder'  => '#e5e5e5',
-      'sh-disabledborder'       => '#cbcbcb',
-      'sh-disabledicon'         => '#bababa',
-      'sh-disabledtext'         => '#a6a6a6',
-      'sh-disabledbackground'   => '#f3f3f3',
+      'sh-lightdisabledborder'  => '#1a1a1a',
+      'sh-disabledborder'       => '#333333',
+      'sh-disabledicon'         => '#595959',
+      'sh-disabledtext'         => '#737373',
+      'sh-disabledbackground'   => '#223144',
 
       // Diffs
       'diff.background' => '#121b27',
