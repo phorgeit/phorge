@@ -82,7 +82,7 @@ final class CelerityDarkModePostprocessor
 
       // Base Blues
       'thinblueborder'      => '#2c405a',
-      'lightblueborder'     => '#39506d',
+      'lightblueborder'     => '#3e5675',
       'blueborder'          => '#8C98B8',
       'darkblueborder'      => '#626E82',
       'lightbluebackground' => 'rgba(255,255,255,.05)',
