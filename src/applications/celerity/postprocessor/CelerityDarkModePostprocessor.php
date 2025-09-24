@@ -104,6 +104,12 @@ final class CelerityDarkModePostprocessor
       'redtext'               => '#802b2b',
       'lightredbackground'    => '#f5e1e1',
 
+      // Base Yellow
+      'lightyellowborder'     => '#dbdbbd',
+      'yellowborder'          => '#b9b988',
+      'yellowtext'            => '#72723c',
+      'lightyellowbackground' => '#ededde',
+
       // Base Violet
       'lightvioletborder'     => '#cfbddb',
       'violetborder'          => '#b589ba',

@@ -9,7 +9,7 @@ return array(
   'names' => array(
     'conpherence.pkg.css' => 'beb13d57',
     'conpherence.pkg.js' => '020aebcf',
-    'core.pkg.css' => '1bfee9a9',
+    'core.pkg.css' => 'b6b76664',
     'core.pkg.js' => '83580d78',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => '77189aae',
@@ -116,7 +116,7 @@ return array(
     'rsrc/css/fuel/fuel-menu.css' => '21f5d199',
     'rsrc/css/layout/phabricator-source-code-view.css' => 'e994d13f',
     'rsrc/css/phui/button/phui-button-bar.css' => 'a4aa75c4',
-    'rsrc/css/phui/button/phui-button-simple.css' => '1ff278aa',
+    'rsrc/css/phui/button/phui-button-simple.css' => 'a9da7b2a',
     'rsrc/css/phui/button/phui-button.css' => 'bca9bfe3',
     'rsrc/css/phui/calendar/phui-calendar-day.css' => '9597d706',
     'rsrc/css/phui/calendar/phui-calendar-list.css' => 'ccd7e4e2',
@@ -775,7 +775,7 @@ return array(
     'phui-bulk-editor-css' => '374d5e30',
     'phui-button-bar-css' => 'a4aa75c4',
     'phui-button-css' => 'bca9bfe3',
-    'phui-button-simple-css' => '1ff278aa',
+    'phui-button-simple-css' => 'a9da7b2a',
     'phui-calendar-css' => '5dfee96b',
     'phui-calendar-day-css' => '9597d706',
     'phui-calendar-list-css' => 'ccd7e4e2',
@@ -1013,9 +1013,6 @@ return array(
     '1e413dc9' => array(
       'javelin-behavior',
       'javelin-dom',
-    ),
-    '1ff278aa' => array(
-      'phui-button-css',
     ),
     '202a2e85' => array(
       'javelin-install',
@@ -1775,6 +1772,9 @@ return array(
       'javelin-stratcom',
       'javelin-util',
       'phabricator-notification-css',
+    ),
+    'a9da7b2a' => array(
+      'phui-button-css',
     ),
     'aa371860' => array(
       'javelin-behavior',
