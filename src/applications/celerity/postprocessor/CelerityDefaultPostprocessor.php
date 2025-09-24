@@ -30,7 +30,6 @@ final class CelerityDefaultPostprocessor
 
       // Drop Shadow
       'dropshadow' => '0 2px 12px rgba(0, 0, 0, .20)',
-      'whitetextshadow' => '0 1px 0 rgba(255, 255, 255, 1)',
 
       // Anchors
       'anchor' => '#136CB2',
