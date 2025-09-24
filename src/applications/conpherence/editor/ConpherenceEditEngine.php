@@ -61,6 +61,11 @@ final class ConpherenceEditEngine
     return $object->getURI();
   }
 
+  protected function getCreateNewObjectPolicy() {
+    return $this->getApplication()->getPolicy(
+      ConpherenceCreateRoomCapability::CAPABILITY);
+  }
+
   public function isEngineConfigurable() {
     return false;
   }

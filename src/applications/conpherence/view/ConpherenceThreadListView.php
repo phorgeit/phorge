@@ -24,6 +24,13 @@ final class ConpherenceThreadListView extends AphrontView {
   public function render() {
     require_celerity_resource('conpherence-menu-css');
 
+    $viewer = $this->getViewer();
+    $can_create_room = PhabricatorPolicyFilter::hasCapability(
+      $viewer,
+      PhabricatorApplication::getByClass(
+        PhabricatorConpherenceApplication::class),
+      ConpherenceCreateRoomCapability::CAPABILITY);
+
     $menu = id(new PHUIListView())
       ->addClass('conpherence-menu')
       ->setID('conpherence-menu');
@@ -43,6 +50,7 @@ final class ConpherenceThreadListView extends AphrontView {
         ->setType(PHUIListItemView::TYPE_LINK)
         ->setHref('/conpherence/new/')
         ->setWorkflow(true)
+        ->setDisabled(!$can_create_room)
         ->setName(pht('Create a Room'));
       $menu->addMenuItem($create_item);
     }
@@ -109,6 +117,13 @@ final class ConpherenceThreadListView extends AphrontView {
   }
 
   private function buildHeaderItemView() {
+    $viewer = $this->getViewer();
+    $can_create_room = PhabricatorPolicyFilter::hasCapability(
+      $viewer,
+      PhabricatorApplication::getByClass(
+        PhabricatorConpherenceApplication::class),
+      ConpherenceCreateRoomCapability::CAPABILITY);
+
     $rooms = phutil_tag(
       'a',
       array(
@@ -125,6 +140,10 @@ final class ConpherenceThreadListView extends AphrontView {
       ->setMetaData(array(
         'tip' => pht('New Room'),
       ));
+
+    if (!$can_create_room) {
+      $new_icon->setColor('lightgreytext');
+    }
 
     $search_icon = id(new PHUIIconView())
       ->setIcon('fa-search')
