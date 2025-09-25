@@ -25,6 +25,7 @@ final class PhabricatorDashboardChartPanelType
       ->setLabel(pht('Chart'))
       ->setTransactionType(
         PhabricatorDashboardChartPanelChartTransaction::TRANSACTIONTYPE)
+      ->setIsRequired(true)
       ->setValue($panel->getProperty('chartKey', ''));
 
     return array(
