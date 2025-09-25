@@ -38,7 +38,7 @@ form.compose-dialog {
 }
 
 .compose-dialog .compose-icon-bg.phui-icon-view {
-  color: #e7e7e7;
+  color: {$lightgreybackground};
   line-height: 48px;
   width: 48px;
   text-align: center;
