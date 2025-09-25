@@ -65,16 +65,4 @@ topic is complicated, but you can test for it by running:
 
   $ openssl s_client -connect example.com:443 -servername example.com
 
-Replace **both** instances of "example.com" with your domain. If you receive
-an error in `SSL23_GET_SERVER_HELLO` with `reason(1112)`, like this:
-
-  CONNECTED(00000003)
-  87871:error:14077458:SSL routines:SSL23_GET_SERVER_HELLO:reason(1112):
-    /SourceCache/OpenSSL098/OpenSSL098-44/src/ssl/s23_clnt.c:602:
-
-...it indicates server is misconfigured. The most common cause of this problem
-is an Apache server that does not explicitly name the Phorge domain as a
-valid VirtualHost.
-
-This error occurs only for some versions of the OpenSSL client library
-(from v0.9.8r or earlier until 1.0.0), so only some users may experience it.
+Replace **both** instances of "example.com" with your domain.
