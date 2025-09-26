@@ -166,5 +166,5 @@
 
 .phabricator-notification .phui-timeline-value {
   font-style: italic;
-  color: #000;
+  color: {$darkgreytext};
 }
