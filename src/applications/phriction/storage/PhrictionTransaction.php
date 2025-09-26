@@ -22,7 +22,7 @@ final class PhrictionTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhrictionDocumentTransactionType';
+    return PhrictionDocumentTransactionType::class;
   }
 
   public function getRequiredHandlePHIDs() {

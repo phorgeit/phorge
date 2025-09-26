@@ -20,7 +20,7 @@ final class PhabricatorCalendarEventTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCalendarEventTransactionType';
+    return PhabricatorCalendarEventTransactionType::class;
   }
 
   public function getMailTags() {

@@ -16,7 +16,7 @@ final class PhameBlogTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhameBlogTransactionType';
+    return PhameBlogTransactionType::class;
   }
 
   public function getMailTags() {

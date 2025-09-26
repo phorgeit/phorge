@@ -12,6 +12,6 @@ final class PhabricatorAuthPasswordTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorAuthPasswordTransactionType';
+    return PhabricatorAuthPasswordTransactionType::class;
   }
 }

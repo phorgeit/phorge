@@ -21,7 +21,7 @@ final class PhabricatorAuditTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'DiffusionCommitTransactionType';
+    return DiffusionCommitTransactionType::class;
   }
 
   public function getApplicationTransactionType() {

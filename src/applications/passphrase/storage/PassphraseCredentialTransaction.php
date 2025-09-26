@@ -12,7 +12,7 @@ final class PassphraseCredentialTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PassphraseCredentialTransactionType';
+    return PassphraseCredentialTransactionType::class;
   }
 
 }

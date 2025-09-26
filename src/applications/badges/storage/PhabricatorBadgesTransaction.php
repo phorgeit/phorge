@@ -20,7 +20,7 @@ final class PhabricatorBadgesTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorBadgesBadgeTransactionType';
+    return PhabricatorBadgesBadgeTransactionType::class;
   }
 
   public function getMailTags() {

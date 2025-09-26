@@ -8,7 +8,7 @@ final class AlmanacDeviceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'AlmanacDeviceTransactionType';
+    return AlmanacDeviceTransactionType::class;
   }
 
 }

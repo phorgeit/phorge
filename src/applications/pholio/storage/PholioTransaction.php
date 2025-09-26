@@ -12,7 +12,7 @@ final class PholioTransaction extends PhabricatorModularTransaction {
   }
 
   public function getBaseTransactionClass() {
-    return 'PholioTransactionType';
+    return PholioTransactionType::class;
   }
 
   public function getApplicationTransactionType() {

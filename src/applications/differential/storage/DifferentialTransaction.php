@@ -17,7 +17,7 @@ final class DifferentialTransaction
   const MAILTAG_OTHER          = 'differential-other';
 
   public function getBaseTransactionClass() {
-    return 'DifferentialRevisionTransactionType';
+    return DifferentialRevisionTransactionType::class;
   }
 
   protected function newFallbackModularTransactionType() {

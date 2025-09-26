@@ -16,7 +16,7 @@ final class ConpherenceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'ConpherenceThreadTransactionType';
+    return ConpherenceThreadTransactionType::class;
   }
 
 }

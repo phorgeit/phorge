@@ -12,7 +12,7 @@ final class HarbormasterBuildableTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'HarbormasterBuildableTransactionType';
+    return HarbormasterBuildableTransactionType::class;
   }
 
 }

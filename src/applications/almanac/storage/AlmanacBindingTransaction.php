@@ -8,7 +8,7 @@ final class AlmanacBindingTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'AlmanacBindingTransactionType';
+    return AlmanacBindingTransactionType::class;
   }
 
 }

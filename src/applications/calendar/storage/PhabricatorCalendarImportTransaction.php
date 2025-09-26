@@ -12,7 +12,7 @@ final class PhabricatorCalendarImportTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorCalendarImportTransactionType';
+    return PhabricatorCalendarImportTransactionType::class;
   }
 
 }

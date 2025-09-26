@@ -20,7 +20,7 @@ final class PhabricatorProjectTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorProjectTransactionType';
+    return PhabricatorProjectTransactionType::class;
   }
 
   public function getRequiredHandlePHIDs() {

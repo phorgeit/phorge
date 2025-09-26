@@ -8,7 +8,7 @@ final class AlmanacNamespaceTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'AlmanacNamespaceTransactionType';
+    return AlmanacNamespaceTransactionType::class;
   }
 
 }

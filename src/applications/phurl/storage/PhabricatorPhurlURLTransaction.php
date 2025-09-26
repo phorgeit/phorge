@@ -18,7 +18,7 @@ final class PhabricatorPhurlURLTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'PhabricatorPhurlURLTransactionType';
+    return PhabricatorPhurlURLTransactionType::class;
   }
 
   public function getRequiredHandlePHIDs() {

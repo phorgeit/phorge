@@ -27,7 +27,7 @@ final class ManiphestTransaction
   }
 
   public function getBaseTransactionClass() {
-    return 'ManiphestTaskTransactionType';
+    return ManiphestTaskTransactionType::class;
   }
 
   public function shouldGenerateOldValue() {

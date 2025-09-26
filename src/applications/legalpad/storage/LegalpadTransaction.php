@@ -15,7 +15,7 @@ final class LegalpadTransaction extends PhabricatorModularTransaction {
   }
 
   public function getBaseTransactionClass() {
-    return 'LegalpadDocumentTransactionType';
+    return LegalpadDocumentTransactionType::class;
   }
 
 }
