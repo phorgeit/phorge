@@ -48,16 +48,15 @@ final class PhabricatorUIExampleRenderController extends PhabricatorController {
       ->appendChild($example->getDescription())
       ->setSeverity(PHUIInfoView::SEVERITY_NODATA);
 
-    $nav->appendChild(
-      array(
-        $crumbs,
-        $note,
-        $result,
-      ));
-
     return $this->newPage()
       ->setTitle($example->getName())
-      ->setNavigation($nav);
+      ->setNavigation($nav)
+      ->appendChild(
+        array(
+          $crumbs,
+          $note,
+          $result,
+        ));
   }
 
 }
