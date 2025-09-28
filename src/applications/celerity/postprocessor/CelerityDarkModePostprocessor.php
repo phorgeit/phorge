@@ -211,8 +211,8 @@ final class CelerityDarkModePostprocessor
       'diff.update-history-old-now' => '#903e3e',
 
       // Usually light yellow
-      'gentle.highlight' => '#26c1c9',
-      'gentle.highlight.border' => '#21a9b0',
+      'gentle.highlight' => '#105356',
+      'gentle.highlight.border' => '#0c3e40',
 
       'paste.content' => '#222222',
       'paste.border' => '#000000',
