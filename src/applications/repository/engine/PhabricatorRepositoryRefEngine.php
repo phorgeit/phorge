@@ -518,21 +518,6 @@ final class PhabricatorRepositoryRefEngine
     $commit_table = new PhabricatorRepositoryCommit();
     $conn = $commit_table->establishConnection('w');
 
-    $vcs = $repository->getVersionControlSystem();
-    switch ($vcs) {
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_GIT:
-        $class = 'PhabricatorRepositoryGitCommitMessageParserWorker';
-        break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_SVN:
-        $class = 'PhabricatorRepositorySvnCommitMessageParserWorker';
-        break;
-      case PhabricatorRepositoryType::REPOSITORY_TYPE_MERCURIAL:
-        $class = 'PhabricatorRepositoryMercurialCommitMessageParserWorker';
-        break;
-      default:
-        throw new Exception(pht("Unknown repository type '%s'!", $vcs));
-    }
-
     $identifier_tokens = array();
     foreach ($identifiers as $identifier) {
       $identifier_tokens[] = qsprintf(
