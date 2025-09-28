@@ -329,6 +329,10 @@ a.phabricator-core-user-menu .caret:before {
   font-weight: normal;
 }
 
+.phabricator-main-search-typeahead-result .result-type .phui-font-fa {
+  color: {$lightgreytext};
+}
+
 .device-phone .phabricator-main-search-typeahead-result .result-name {
   font-size: {$biggestfontsize};
 }
