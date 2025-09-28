@@ -196,6 +196,9 @@ final class PHUIDiffGraphView extends Phobject {
     return array($graph, $count);
   }
 
+  /**
+   * @return array<PhutilSafeHTML>
+   */
   public function renderGraph(array $parents) {
     list($graph, $count) = $this->renderRawGraph($parents);
 

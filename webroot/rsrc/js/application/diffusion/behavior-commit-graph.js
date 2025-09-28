@@ -28,7 +28,7 @@ JX.behavior('diffusion-commit-graph', function(config) {
   // Stroke a line (for lines between commits).
   function lstroke(c) {
     cxt.lineWidth = 3;
-    cxt.strokeStyle = '#ffffff';
+    cxt.strokeStyle = 'rgb(255 255 255 / 50%)';
     cxt.stroke();
     cxt.lineWidth = 1;
     cxt.strokeStyle = color(c);
@@ -39,7 +39,7 @@ JX.behavior('diffusion-commit-graph', function(config) {
   function fstroke(c) {
     cxt.lineWidth = 1;
     cxt.fillStyle = color(c);
-    cxt.strokeStyle = '#ffffff';
+    cxt.strokeStyle = 'rgb(255 255 255 / 50%)';
     cxt.fill();
     cxt.stroke();
   }
@@ -78,8 +78,8 @@ JX.behavior('diffusion-commit-graph', function(config) {
     // are drawn from 4.5 to 5.5.
     cxt.translate(0.5, 0.5);
 
-    cxt.strokeStyle = '#ffffff';
-    cxt.fillStyle = '#ffffff';
+    cxt.strokeStyle = 'rgb(255 255 255 / 50%)';
+    cxt.fillStyle = 'rgb(255 255 255 / 50%)';
 
     // First, figure out which column this commit appears in. It is marked by
     // "o" (if it has a commit after it) or "^" (if no other commit has it as
