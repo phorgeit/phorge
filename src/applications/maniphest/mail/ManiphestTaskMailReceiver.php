@@ -4,7 +4,7 @@ final class ManiphestTaskMailReceiver extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorManiphestApplication');
+      PhabricatorManiphestApplication::class);
   }
 
   protected function getObjectPattern() {

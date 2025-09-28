@@ -24,8 +24,8 @@ final class DifferentialRequiredSignaturesField
   }
 
   public static function loadForRevision($revision) {
-    $app_legalpad = 'PhabricatorLegalpadApplication';
-    if (!PhabricatorApplication::isClassInstalled($app_legalpad)) {
+    $legalpad_class = PhabricatorLegalpadApplication::class;
+    if (!PhabricatorApplication::isClassInstalled($legalpad_class)) {
       return array();
     }
 

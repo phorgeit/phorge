@@ -7,7 +7,7 @@ final class DiffusionHovercardEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDiffusionApplication');
+      PhabricatorDiffusionApplication::class);
   }
 
   public function getExtensionName() {

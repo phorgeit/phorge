@@ -7,7 +7,7 @@ final class DifferentialHovercardEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDifferentialApplication');
+      PhabricatorDifferentialApplication::class);
   }
 
   public function getExtensionName() {

@@ -4,7 +4,7 @@ final class LegalpadMailReceiver extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorLegalpadApplication');
+      PhabricatorLegalpadApplication::class);
   }
 
   protected function getObjectPattern() {

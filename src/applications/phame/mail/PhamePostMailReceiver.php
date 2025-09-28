@@ -5,7 +5,7 @@ final class PhamePostMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhameApplication');
+      PhabricatorPhameApplication::class);
   }
 
   protected function getObjectPattern() {

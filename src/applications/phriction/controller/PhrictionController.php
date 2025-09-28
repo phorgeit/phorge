@@ -37,7 +37,7 @@ abstract class PhrictionController extends PhabricatorController {
   protected function buildApplicationCrumbs() {
     $crumbs = parent::buildApplicationCrumbs();
 
-    if (get_class($this) != 'PhrictionListController') {
+    if (get_class($this) != PhrictionListController::class) {
       $crumbs->addAction(
         id(new PHUIListItemView())
           ->setName(pht('Index'))

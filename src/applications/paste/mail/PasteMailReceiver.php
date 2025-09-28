@@ -3,8 +3,8 @@
 final class PasteMailReceiver extends PhabricatorObjectMailReceiver {
 
   public function isEnabled() {
-    $app_class = 'PhabricatorPasteApplication';
-    return PhabricatorApplication::isClassInstalled($app_class);
+    return PhabricatorApplication::isClassInstalled(
+      PhabricatorPasteApplication::class);
   }
 
   protected function getObjectPattern() {

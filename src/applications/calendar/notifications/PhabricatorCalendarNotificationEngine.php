@@ -41,7 +41,7 @@ final class PhabricatorCalendarNotificationEngine
       return;
     }
 
-    $calendar_class = 'PhabricatorCalendarApplication';
+    $calendar_class = PhabricatorCalendarApplication::class;
     if (!PhabricatorApplication::isClassInstalled($calendar_class)) {
       return;
     }

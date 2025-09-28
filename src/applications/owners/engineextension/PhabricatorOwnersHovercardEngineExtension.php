@@ -7,7 +7,7 @@ final class PhabricatorOwnersHovercardEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorOwnersApplication');
+      PhabricatorOwnersApplication::class);
   }
 
   public function getExtensionName() {

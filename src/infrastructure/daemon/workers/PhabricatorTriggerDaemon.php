@@ -415,8 +415,8 @@ final class PhabricatorTriggerDaemon
 
 
   private function updateNuanceImportCursors() {
-    $nuance_app = PhabricatorNuanceApplication::class;
-    if (!PhabricatorApplication::isClassInstalled($nuance_app)) {
+    $nuance_class = PhabricatorNuanceApplication::class;
+    if (!PhabricatorApplication::isClassInstalled($nuance_class)) {
       return false;
     }
 

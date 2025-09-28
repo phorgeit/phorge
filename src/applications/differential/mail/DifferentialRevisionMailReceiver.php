@@ -5,7 +5,7 @@ final class DifferentialRevisionMailReceiver
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorDifferentialApplication');
+      PhabricatorDifferentialApplication::class);
   }
 
   protected function getObjectPattern() {

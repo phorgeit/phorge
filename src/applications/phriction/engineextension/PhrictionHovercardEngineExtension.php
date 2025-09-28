@@ -7,7 +7,7 @@ final class PhrictionHovercardEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorPhrictionApplication');
+      PhabricatorPhrictionApplication::class);
   }
 
   public function getExtensionName() {

@@ -10,7 +10,7 @@ final class PhabricatorNotificationsSettingsPanel
     }
 
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorNotificationsApplication');
+      PhabricatorNotificationsApplication::class);
   }
 
   public function getPanelKey() {

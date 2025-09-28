@@ -21,7 +21,7 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
 
   public function isEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorOAuthServerApplication');
+      PhabricatorOAuthServerApplication::class);
   }
 
   public function processRequest(AphrontRequest $request) {

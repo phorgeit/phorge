@@ -72,7 +72,7 @@ final class PhabricatorCommitSearchEngine
   protected function buildCustomSearchFields() {
     $show_audit_fields = (id(new PhabricatorAuditApplication())->isInstalled());
     $show_packages = PhabricatorApplication::isClassInstalled(
-      'PhabricatorPackagesApplication');
+      PhabricatorPackagesApplication::class);
     return array(
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Responsible Users'))

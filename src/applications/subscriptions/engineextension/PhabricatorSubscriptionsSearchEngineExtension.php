@@ -7,7 +7,7 @@ final class PhabricatorSubscriptionsSearchEngineExtension
 
   public function isExtensionEnabled() {
     return PhabricatorApplication::isClassInstalled(
-      'PhabricatorSubscriptionsApplication');
+      PhabricatorSubscriptionsApplication::class);
   }
 
   public function getExtensionName() {
