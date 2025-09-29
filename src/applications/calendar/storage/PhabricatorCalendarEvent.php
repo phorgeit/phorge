@@ -912,16 +912,6 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
     return $this->newSequenceIndexDateTime($index);
   }
 
-  private function newDateTimeFromEpoch($epoch) {
-    $datetime = PhutilCalendarAbsoluteDateTime::newFromEpoch($epoch);
-
-    if ($this->getIsAllDay()) {
-      $datetime->setIsAllDay(true);
-    }
-
-    return $this->newDateTimeFromDateTime($datetime);
-  }
-
   private function newDateTimeFromDictionary(array $dict) {
     $datetime = PhutilCalendarAbsoluteDateTime::newFromDictionary($dict);
     return $this->newDateTimeFromDateTime($datetime);
