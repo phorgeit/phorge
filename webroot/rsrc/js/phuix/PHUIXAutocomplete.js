@@ -157,8 +157,30 @@ JX.install('PHUIXAutocomplete', {
           JX.bind(this, this._onresults, code));
 
         datasource.setTransformer(JX.bind(this, this._transformresult));
+      // List users first who are involved in the object
+      if (spec.datasourceURI ==
+          '/typeahead/class/PhabricatorPeopleDatasource/') {
+        var involvedUsers = spec.involvedUsers;
+        if (involvedUsers !== null && involvedUsers.length !== 0) {
+          datasource.setSortHandler(function(value, list) {
+            list.sort(function(u,v){
+            var usort = involvedUsers.includes(u.id) ? 0 : 1;
+            var vsort = involvedUsers.includes(v.id) ? 0 : 1;
+            if (usort !== vsort) {
+              return usort - vsort;
+            } else {
+              return 0;
+            }
+            });
+          });
+        } else {
+          datasource.setSortHandler(
+            JX.bind(datasource, JX.Prefab.sortHandler, {}));
+        }
+      } else {
         datasource.setSortHandler(
           JX.bind(datasource, JX.Prefab.sortHandler, {}));
+      }
 
         this._datasources[code] = datasource;
       }

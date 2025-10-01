@@ -17,6 +17,7 @@ final class ManiphestTask extends ManiphestDAO
     PhabricatorConduitResultInterface,
     PhabricatorFulltextInterface,
     PhabricatorFerretInterface,
+    PhabricatorInvolveeInterface,
     DoorkeeperBridgedObjectInterface,
     PhabricatorEditEngineSubtypeInterface,
     PhabricatorEditEngineLockableInterface,
@@ -582,6 +583,25 @@ final class ManiphestTask extends ManiphestDAO
 
   public function newFerretEngine() {
     return new ManiphestTaskFerretEngine();
+  }
+
+
+/* -(  PhabricatorInvolveeInterface  )--------------------------------------- */
+
+
+  /**
+   * Get PHIDs of all user accounts involved in a task
+   *
+   * @return array<string> PHIDs of task author, assignee, and subscribers
+   */
+  public function getInvolvedUsers() {
+    $involved_users = $this->getSubscriberPHIDs();
+    $involved_users[] = $this->getAuthorPHID();
+    $owner_phid = $this->getOwnerPHID();
+    if ($owner_phid) {
+      $involved_users[] = $owner_phid;
+    }
+    return $involved_users;
   }
 
 

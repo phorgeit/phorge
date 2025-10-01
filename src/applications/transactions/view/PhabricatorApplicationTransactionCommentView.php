@@ -335,6 +335,7 @@ final class PhabricatorApplicationTransactionCommentView
       ->setID($this->getCommentID())
       ->addClass('phui-comment-fullwidth-control')
       ->addClass('phui-comment-textarea-control')
+      ->setSurroundingObject($this->getObject())
       ->setCanPin(true)
       ->setPlaceholder($placeholder_text)
       ->setName('comment');
