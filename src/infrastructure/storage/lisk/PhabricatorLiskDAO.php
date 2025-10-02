@@ -180,6 +180,8 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
 
 
   /**
+   * Get the database table name
+   * @return string Name of the database table
    * @task config
    */
   public function getTableName() {
@@ -203,6 +205,8 @@ abstract class PhabricatorLiskDAO extends LiskDAO {
   }
 
   /**
+   * Get the database name
+   * @return string Name of the database
    * @task config
    */
   abstract public function getApplicationName();
