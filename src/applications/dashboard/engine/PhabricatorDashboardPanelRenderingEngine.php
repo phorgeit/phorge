@@ -409,6 +409,7 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
     $action_menu = id(new PHUIButtonView())
       ->setTag('a')
       ->setIcon('fa-cog')
+      ->setHref('#')
       ->setText(pht('Manage Panel'))
       ->setDropdownMenu($dropdown_menu);
 
