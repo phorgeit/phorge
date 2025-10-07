@@ -42,17 +42,17 @@
 }
 
 .diff-tree-path-focused {
-  background: {$darkgreybackground};
+  background: {$navigation-menu-selection-background};
 }
 
 .device-desktop .diff-tree-path-changeset:hover {
-  background: {$lightblueborder};
+  background: {$navigation-menu-hover-background};
   transition: 0.1s;
 }
 
 .diff-tree-view .diff-tree-path-changeset.diff-tree-path-selected {
   /* Rule is intentionally more specific than "hover". */
-  background: {$yellow};
+  background: {$gentle.highlight};
 }
 
 .diff-tree-path-low-importance .diff-tree-path-name {

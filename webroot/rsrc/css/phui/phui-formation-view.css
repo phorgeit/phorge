@@ -201,7 +201,7 @@
 }
 
 .device-desktop .phui-flank-view .phui-list-item-view:hover {
-  background: {$lightblueborder};
+  background: {$navigation-menu-hover-background};
   transition: 0.1s;
 }
 
