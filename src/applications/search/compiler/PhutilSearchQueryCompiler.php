@@ -52,6 +52,9 @@ final class PhutilSearchQueryCompiler
   }
 
   /**
+   * Get maximum number of tables in a single JOIN. MariaDB and MySQL set this
+   * to 61 tables per https://dev.mysql.com/doc/refman/8.4/en/join.html
+   *
    * @return int
    */
   private function getMaxQueryTokens(): int {

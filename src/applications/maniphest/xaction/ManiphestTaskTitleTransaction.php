@@ -4,6 +4,9 @@ final class ManiphestTaskTitleTransaction
   extends ManiphestTaskTransactionType {
 
   const TRANSACTIONTYPE = 'title';
+
+  // Arbitrary title length limit to reduce abuse as the database scheme
+  // defines "longtext" instead of "varchar(255)" for maniphest_task.title
   private $maximumTaskTitleLength = 255;
 
   public function generateOldValue($object) {
