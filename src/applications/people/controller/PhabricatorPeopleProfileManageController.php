@@ -152,10 +152,10 @@ final class PhabricatorPeopleProfileManageController
 
     if ($user->getIsDisabled()) {
       $disable_icon = 'fa-check-circle-o';
-      $disable_name = pht('Enable User');
+      $disable_name = pht('Enable Account');
     } else {
       $disable_icon = 'fa-ban';
-      $disable_name = pht('Disable User');
+      $disable_name = pht('Disable Account');
     }
 
     $curtain->addAction(

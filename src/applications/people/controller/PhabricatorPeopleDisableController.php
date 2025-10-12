@@ -20,7 +20,7 @@ final class PhabricatorPeopleDisableController
       return new Aphront404Response();
     }
 
-    // NOTE: We reach this controller via the administrative "Disable User"
+    // NOTE: We reach this controller via the administrative "Disable Account"
     // on profiles and also via the "X" action on the approval queue. We do
     // things slightly differently depending on the context the actor is in.
 
@@ -86,17 +86,17 @@ final class PhabricatorPeopleDisableController
     }
 
     if ($should_disable) {
-      $title = pht('Disable User?');
-      $short_title = pht('Disable User');
+      $title = pht('Disable User Account?');
+      $short_title = pht('Disable Account');
 
       $body = pht(
         'Disable %s? They will no longer be able to access this server or '.
         'receive email.',
         phutil_tag('strong', array(), $user->getUsername()));
 
-      $submit = pht('Disable User');
+      $submit = pht('Disable Account');
     } else {
-      $title = pht('Enable User?');
+      $title = pht('Enable User Account?');
       $short_title = pht('Enable User');
 
       $body = pht(
@@ -104,7 +104,7 @@ final class PhabricatorPeopleDisableController
         'email again.',
         phutil_tag('strong', array(), $user->getUsername()));
 
-      $submit = pht('Enable User');
+      $submit = pht('Enable Account');
     }
 
     return $this->newDialog()
