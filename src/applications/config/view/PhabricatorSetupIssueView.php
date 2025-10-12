@@ -54,6 +54,12 @@ final class PhabricatorSetupIssueView extends AphrontView {
     }
 
     $commands = $issue->getCommands();
+
+    $or = null;
+    if ($configs && $commands) {
+      $or = pht('Or:');
+    }
+
     if ($commands) {
       $run_these = pht('Run these %d command(s):', count($commands));
       $description[] = phutil_tag(
@@ -62,6 +68,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           'class' => 'setup-issue-config',
         ),
         array(
+          phutil_tag('p', array(), $or),
           phutil_tag('p', array(), $run_these),
           phutil_tag('pre', array(), phutil_implode_html("\n", $commands)),
         ));
