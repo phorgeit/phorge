@@ -1101,7 +1101,7 @@ final class PhabricatorMetaMTAMail
     assert_instances_of($headers, PhabricatorMailHeader::class);
 
     $list = array();
-    foreach ($list as $header) {
+    foreach ($headers as $header) {
       $list[] = array(
         $header->getName(),
         $header->getValue(),
