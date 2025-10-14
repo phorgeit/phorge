@@ -80,6 +80,10 @@ abstract class PhabricatorDocumentEngine
     return false;
   }
 
+  /**
+   * Check if the engine supports the blame feature.
+   * @return bool
+   */
   public function canBlame(PhabricatorDocumentRef $ref) {
     return false;
   }
