@@ -19,6 +19,10 @@ final class PhabricatorStandardSelectCustomFieldDatasource
     $viewer = $this->getViewer();
 
     $class = $this->getParameter('object');
+    if (!$class) {
+      throw new Exception(
+        pht('You must set a custom field class!'));
+    }
     if (!class_exists($class)) {
       throw new Exception(
         pht(
