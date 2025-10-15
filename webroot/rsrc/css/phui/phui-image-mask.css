@@ -4,7 +4,11 @@
 
 
 .phui-image-mask {
-  background: url('/rsrc/image/checker_lighter.png');
+  /* TODO: Remove static image for old browsers some day; see D26155 */
+  background: url('/rsrc/image/checker_light.png');
+  background: repeating-conic-gradient(
+    {$lightgreybackground} 0% 25%,
+    {$page.content} 0% 50%) 0 0/20px 20px;
   display: inline-block;
   border: 1px solid {$lightblueborder};
   padding: 4px;
