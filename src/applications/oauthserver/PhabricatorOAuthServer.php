@@ -191,7 +191,7 @@ final class PhabricatorOAuthServer extends Phobject {
   }
 
   /**
-   * See http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2
+   * See https://datatracker.ietf.org/doc/rfc6749/ section 3.1.2
    * for details on what makes a given redirect URI "valid".
    */
   public function assertValidRedirectURI($raw_uri) {
