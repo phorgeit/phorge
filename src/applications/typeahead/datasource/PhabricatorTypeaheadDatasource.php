@@ -198,6 +198,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
     return array_values($tokens);
   }
 
+  /**
+   * Break search term entered in typeahead field into string tokens
+   * @return array<string>
+   */
   public function getTokens() {
     return self::tokenizeString($this->getRawQuery());
   }
@@ -379,6 +383,12 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Return available function tokens for this typeahead datasource, with each
+   * key being the function name (e.g. any, not, null, only) and each value
+   * being another array containing name, summary, description. See the
+   * "Function Quick Reference" in the Typeahead Function Help for details.
+   *
+   * @return array<array<string>|null>
    * @task functions
    */
   public function getDatasourceFunctions() {
@@ -387,6 +397,12 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
+   * Return all function tokens for typeahead datasources, with each key being
+   * the function name (e.g. any, not, null, only) and each value being another
+   * array containing name, summary, description. See the
+   * "Function Quick Reference" in the Typeahead Function Help for details.
+   *
+   * @return array<array<string>>
    * @task functions
    */
   public function getAllDatasourceFunctions() {
@@ -616,7 +632,10 @@ abstract class PhabricatorTypeaheadDatasource extends Phobject {
 
 
   /**
-   * @return array
+   * Get the function tokens entered in the typeahead field,
+   * e.g. "not" or "any"
+   *
+   * @return array<string|null>
    * @task functions
    */
   public function getFunctionStack() {

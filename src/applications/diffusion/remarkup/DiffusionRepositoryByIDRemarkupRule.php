@@ -7,6 +7,9 @@ final class DiffusionRepositoryByIDRemarkupRule
     return 'R';
   }
 
+  /**
+   * @return string Regex which defines a valid object ID
+   */
   protected function getObjectIDPattern() {
     return '[0-9]+';
   }

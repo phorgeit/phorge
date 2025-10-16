@@ -62,7 +62,7 @@ final class PhabricatorRepositoryGraphCache extends Phobject {
 
 
   /**
-   * Search the graph cache for the most modification to a path.
+   * Search the graph cache for the most recent modification to a path.
    *
    * @param int     $commit_id The commit ID to search ancestors of.
    * @param int     $path_id The path ID to search for changes to.

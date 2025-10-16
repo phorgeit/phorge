@@ -109,6 +109,12 @@ final class PHUIPropertyListView extends AphrontView {
     $this->invokedWillRenderEvent = true;
   }
 
+  /**
+   * Whether there are any properties to display in the list view.
+   * Useful to e.g. display an explanation via PHUIInfoView if false.
+   *
+   * @return bool
+   */
   public function hasAnyProperties() {
     $this->invokeWillRenderEvent();
 

@@ -6,6 +6,9 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
     return 'M';
   }
 
+  /**
+   * @return string Regex which defines a valid object ID
+   */
   protected function getObjectIDPattern() {
     // Match "M123", "M123/456", and "M123/456/". Users can hit the latter
     // forms when clicking comment anchors on a mock page.

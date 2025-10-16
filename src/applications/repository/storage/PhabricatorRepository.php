@@ -1053,6 +1053,10 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return array_keys($this->getDetail('close-commits-filter', array()));
   }
 
+  /**
+   * Set Refs which should not automatically get closed via commits.
+   * This usually includes the name of the main development branch.
+   */
   public function setPermanentRefRules(array $rules) {
     $rules = array_fill_keys($rules, true);
     $this->setDetail('close-commits-filter', $rules);
@@ -1063,6 +1067,18 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
     return array_keys($this->getDetail('branch-filter', array()));
   }
 
+  /**
+   * The "Track Only" feature has been deprecated since 2019 in
+   * https://secure.phabricator.com/T13277 and
+   * https://we.phorge.it/rPc33f544e741775c52c223bc435331bc3422231ee
+   * "Track Only" rules can be moved to "Permanent Refs" and/or "Fetch Only".
+   * The only use case left may be for performance reasons limiting what is
+   * fetched from an observed remote with tens of thousands of branches.
+   *
+   * You can find all repositories which still use this deprecated setting via
+   * SELECT * FROM phabricator_repository.repository WHERE
+   * JSON_LENGTH(JSON_EXTRACT(details, '$.branch-filter')) > 0;
+   */
   public function setTrackOnlyRules(array $rules) {
     $rules = array_fill_keys($rules, true);
     $this->setDetail('branch-filter', $rules);

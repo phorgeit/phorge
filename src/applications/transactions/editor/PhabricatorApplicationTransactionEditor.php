@@ -5363,6 +5363,9 @@ abstract class PhabricatorApplicationTransactionEditor
     return true;
   }
 
+  /**
+   * Get an entire object's history (via the "!history" email command)
+   */
   private function buildHistoryMail(PhabricatorLiskDAO $object) {
     $viewer = $this->requireActor();
     $recipient_phid = $this->getActingAsPHID();

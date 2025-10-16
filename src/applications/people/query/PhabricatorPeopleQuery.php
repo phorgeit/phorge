@@ -100,6 +100,10 @@ final class PhabricatorPeopleQuery
     return $this;
   }
 
+  /**
+   * Set a prefix to query in a LIKE clause of the query
+   * @param array<string> $prefixes String prefixes to search for
+   */
   public function withNamePrefixes(array $prefixes) {
     $this->namePrefixes = $prefixes;
     return $this;

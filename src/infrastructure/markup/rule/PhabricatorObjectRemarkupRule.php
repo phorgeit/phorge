@@ -20,6 +20,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return preg_match('/^\w/', $prefix);
   }
 
+  /**
+   * @return string Regex which defines a valid object ID
+   */
   protected function getObjectIDPattern() {
     return '[1-9]\d*';
   }
@@ -35,6 +38,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->getObjectNamePrefix().$id;
   }
 
+  /**
+   * @return array<PhabricatorHandleList>
+   */
   protected function loadHandles(array $objects) {
     $phids = mpull($objects, 'getPHID');
 
@@ -63,6 +69,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $uri;
   }
 
+  /**
+   * @return string|PhutilSafeHTML|PHUITagView
+   */
   protected function renderObjectRefForAnyMedia(
     $object,
     PhabricatorObjectHandle $handle,
@@ -88,6 +97,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
 
   }
 
+  /**
+   * @return PHUITagView
+   */
   protected function renderObjectRef(
     $object,
     PhabricatorObjectHandle $handle,
@@ -111,6 +123,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->renderHovertag($text, $href, $attr);
   }
 
+  /**
+   * @return string|PhutilSafeHTML|PHUITagView
+   */
   protected function renderObjectEmbedForAnyMedia(
     $object,
     PhabricatorObjectHandle $handle,
@@ -135,6 +150,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->renderObjectEmbed($object, $handle, $options);
   }
 
+  /**
+   * @return PhutilSafeHTML|string|array
+   */
   protected function renderObjectEmbed(
     $object,
     PhabricatorObjectHandle $handle,
@@ -142,6 +160,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->renderDefaultObjectEmbed($object, $handle);
   }
 
+  /**
+   * @return PhutilSafeHTML|string|array
+   */
   final protected function renderDefaultObjectEmbed(
     $object,
     PhabricatorObjectHandle $handle) {
@@ -157,6 +178,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->renderHovertag($name, $href, $attr);
   }
 
+  /**
+   * @return PhutilSafeHTML
+   */
   protected function renderObjectTagForMail(
     $text,
     $href,
@@ -182,6 +206,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
       $text);
   }
 
+  /**
+   * @return PhutilSafeHTML|string|array
+   */
   protected function renderHovertag($name, $href, array $attr = array()) {
     return id(new PHUITagView())
       ->setName($name)
@@ -206,6 +233,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $text;
   }
 
+  /**
+   * @return string Regex
+   */
   private function getObjectEmbedPattern() {
     if ($this->embedPattern === null) {
       $prefix = $this->getObjectNamePrefix();
@@ -219,6 +249,9 @@ abstract class PhabricatorObjectRemarkupRule extends PhutilRemarkupRule {
     return $this->embedPattern;
   }
 
+  /**
+   * @return string Regex
+   */
   private function getObjectReferencePattern() {
     if ($this->referencePattern === null) {
       $prefix = $this->getObjectNamePrefix();
