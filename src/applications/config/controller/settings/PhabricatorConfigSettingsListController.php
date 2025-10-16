@@ -38,8 +38,24 @@ final class PhabricatorConfigSettingsListController
     $rows = array();
     $options = PhabricatorApplicationConfigOptions::loadAllOptions();
     ksort($options);
+
+    $uninstalled_apps =
+      PhabricatorApplication::getAllUninstalledApplications();
+    $uninstalled_apps = mpull($uninstalled_apps, 'getName');
+    $uninstalled_apps = array_map('strtolower', $uninstalled_apps);
+
     foreach ($options as $option) {
       $key = $option->getKey();
+
+      $app_installed = true;
+      $app_name = null;
+      $pos = strpos($key, '.');
+      if ($pos !== false) {
+        $app_name = substr($key, 0, $pos);
+      }
+      if ($app_name && in_array($app_name, $uninstalled_apps)) {
+        $app_installed = false;
+      }
 
       $is_advanced = (bool)$option->getLocked();
       if ($is_advanced && !$show_advanced) {
@@ -52,7 +68,7 @@ final class PhabricatorConfigSettingsListController
 
       $db_value = idx($db_values, $key);
 
-      $item = $this->newConfigOptionView($option, $db_value);
+      $item = $this->newConfigOptionView($option, $db_value, $app_installed);
       $list->addItem($item);
     }
 
@@ -74,9 +90,13 @@ final class PhabricatorConfigSettingsListController
       ->appendChild($content);
   }
 
+  /**
+   * @return PHUIObjectItemView
+   */
   private function newConfigOptionView(
     PhabricatorConfigOption $option,
-    ?PhabricatorConfigEntry $stored_value = null) {
+    ?PhabricatorConfigEntry $stored_value = null,
+    bool $app_installed = true) {
 
     $summary = $option->getSummary();
 
@@ -105,7 +125,12 @@ final class PhabricatorConfigSettingsListController
       $color = 'violet';
     }
 
-    if ($option->getHidden()) {
+    if (!$app_installed) {
+      $item->setDisabled(true)
+            ->setStatusIcon(
+              'fa-times-circle grey',
+              pht('Disabled Application'));
+    } else if ($option->getHidden()) {
       $item->setStatusIcon('fa-eye-slash', pht('Hidden'));
     } else if ($option->getLocked()) {
       $item->setStatusIcon('fa-lock '.$color, pht('Locked'));
