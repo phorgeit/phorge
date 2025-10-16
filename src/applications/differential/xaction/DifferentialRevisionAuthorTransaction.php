@@ -97,7 +97,7 @@ final class DifferentialRevisionAuthorTransaction
     if ($is_foist) {
       if ($new_phid) {
         return pht(
-          '%s foisted this revision upon %s.',
+          '%s changed the author of this revision to %s.',
           $this->renderAuthor(),
           $this->renderNewHandle());
       } else {
@@ -106,7 +106,7 @@ final class DifferentialRevisionAuthorTransaction
         // the preview if you temporarily delete the tokenizer value.
 
         return pht(
-          '%s foisted this revision upon...',
+          '%s changed the author of this revision to...',
           $this->renderAuthor());
       }
     }
