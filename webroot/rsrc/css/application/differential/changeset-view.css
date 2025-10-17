@@ -288,12 +288,20 @@ td.cov-I {
 
 .differential-diff td.diff-image-cell {
   background-color: transparent;
-  background-image: url(/rsrc/image/checker_light.png);
+  /* TODO: Remove static image for old browsers some day; see D26155 */
+  background: url('/rsrc/image/checker_light.png');
+  background: repeating-conic-gradient(
+    {$checker.light-one} 0% 25%,
+    {$checker.light-two} 0% 50%) 0 0/20px 20px;
   padding: 8px;
 }
 
 .device-desktop .differential-diff .diff-image-cell:hover {
-  background-image: url(/rsrc/image/checker_dark.png);
+  /* TODO: Remove static image for old browsers some day; see D26155 */
+  background: url('/rsrc/image/checker_dark.png');
+  background: repeating-conic-gradient(
+    {$checker.dark-one} 0% 25%,
+    {$checker.dark-two} 0% 50%) 0 0/20px 20px;
 }
 
 .differential-image-stage {

@@ -191,6 +191,10 @@ final class CelerityDarkModePostprocessor
       'sh-disabledtext'         => '#737373',
       'sh-disabledbackground'   => '#223144',
 
+      // Shade Checkered
+      'sh-checkeredtext' => '#bbbbbb',
+      'sh-checkeredicon' => '#979db4',
+
       // Diffs
       'diff.background' => '#121b27',
       'new-background' => 'rgba(213, 246, 213, .2)',
@@ -240,6 +244,14 @@ final class CelerityDarkModePostprocessor
       'grey.button.color' => '#223246',
       'grey.button.gradient' => 'linear-gradient(to bottom, #223246, #223246)',
       'grey.button.hover' => 'linear-gradient(to bottom, #1c293b, #1c293b)',
+
+      // Checkerboard patterns
+      'checker.light-one' => '#223246',
+      'checker.light-two' => '#0d0d0d',
+      'checker.lighter-one' => '#292929',
+      'checker.lighter-two' => '#26374c',
+      'checker.dark-one' => '#cccccc',
+      'checker.dark-two' => '#f3f3f3',
 
       // Codeblock syntax highlighting
       'syntax.highlighted-line' => '#fa8',

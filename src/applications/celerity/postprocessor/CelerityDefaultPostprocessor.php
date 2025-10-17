@@ -204,6 +204,10 @@ final class CelerityDefaultPostprocessor
       'sh-disabledtext'         => '#a6a6a6',
       'sh-disabledbackground'   => '#f3f3f3',
 
+      // Shade Checkered
+      'sh-checkeredtext' => '#555555',
+      'sh-checkeredicon' => '#757575',
+
       // Diffs
       'diff.background' => '#fff',
       'new-background' => 'rgba(151, 234, 151, .3)',
@@ -269,6 +273,14 @@ final class CelerityDefaultPostprocessor
 
       'delete-color' => '#c0392b',
       'create-color' => '#139543',
+
+      // Checkerboard patterns
+      'checker.light-one' => '#cccccc',
+      'checker.light-two' => '#f3f3f3',
+      'checker.lighter-one' => '#ebebeb',
+      'checker.lighter-two' => '#fafafa',
+      'checker.dark-one' => '#343434',
+      'checker.dark-two' => '#0d0d0d',
 
       // Codeblock syntax highlighting
       'syntax.highlighted-line' => '#ffffcc',

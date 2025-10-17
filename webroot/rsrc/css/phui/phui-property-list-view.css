@@ -171,11 +171,19 @@ div.phui-property-list-stacked .phui-property-list-properties
 
 .phui-property-list-image-content img {
   margin: 20px auto;
+  /* TODO: Remove static image for old browsers some day; see D26155 */
   background: url('/rsrc/image/checker_light.png');
+  background: repeating-conic-gradient(
+    {$checker.light-one} 0% 25%,
+    {$checker.light-two} 0% 50%) 0 0/20px 20px;
 }
 
 .device-desktop .phui-property-list-image-content img:hover {
+  /* TODO: Remove static image for old browsers some day; see D26155 */
   background: url('/rsrc/image/checker_dark.png');
+  background: repeating-conic-gradient(
+    {$checker.dark-one} 0% 25%,
+    {$checker.dark-two} 0% 50%) 0 0/20px 20px;
 }
 
 /* - Dashboards ------------------------------------------------------------ */
@@ -188,12 +196,20 @@ div.phui-property-list-stacked .phui-property-list-properties
 
 .document-engine-image img {
   margin: 20px auto;
+  /* TODO: Remove static image for old browsers some day; see D26155 */
   background: url('/rsrc/image/checker_light.png');
+  background: repeating-conic-gradient(
+    {$checker.light-one} 0% 25%,
+    {$checker.light-two} 0% 50%) 0 0/20px 20px;
   max-width: 100%;
 }
 
 .device-desktop .document-engine-image img:hover {
+  /* TODO: Remove static image for old browsers some day; see D26155 */
   background: url('/rsrc/image/checker_dark.png');
+  background: repeating-conic-gradient(
+    {$checker.dark-one} 0% 25%,
+    {$checker.dark-two} 0% 50%) 0 0/20px 20px;
 }
 
 .document-engine-video video {

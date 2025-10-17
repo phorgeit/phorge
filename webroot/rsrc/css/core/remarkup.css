@@ -422,17 +422,25 @@ video.phabricator-media {
 
 .phabricator-remarkup-embed-image {
   display: inline-block;
-  border: 3px solid white;
+  border: 3px solid {$page.content};
   box-shadow: 1px 1px 2px rgba({$alphablack}, 0.20);
 }
 
-.phabricator-remarkup-embed-image > img {
-  background: url('/rsrc/image/checker_light.png');
-}
+ .phabricator-remarkup-embed-image > img {
+   /* TODO: Remove static image for old browsers some day; see D26155 */
+   background: url('/rsrc/image/checker_light.png');
+   background: repeating-conic-gradient(
+     {$checker.light-one} 0% 25%,
+     {$checker.light-two} 0% 50%) 0 0/20px 20px;
+ }
 
-.device-desktop .phabricator-remarkup-embed-image > img:hover {
-  background: url('/rsrc/image/checker_dark.png');
-}
+ .device-desktop .phabricator-remarkup-embed-image > img:hover {
+   /* TODO: Remove static image for old browsers some day; see D26155 */
+   background: url('/rsrc/image/checker_dark.png');
+   background: repeating-conic-gradient(
+     {$checker.dark-one} 0% 25%,
+     {$checker.dark-two} 0% 50%) 0 0/20px 20px;
+ }
 
 .phabricator-remarkup-embed-image-full,
 .phabricator-remarkup-embed-image-wide {
