@@ -55,11 +55,14 @@ final class DivinerGenerateWorkflow extends DivinerWorkflow {
     } else {
       $cwd = getcwd();
       $this->log(pht('FINDING DOCUMENTATION BOOKS'));
+      $books = array();
 
-      $books = id(new FileFinder($cwd))
-        ->withType('f')
-        ->withSuffix('book')
-        ->find();
+      if ($cwd) {
+        $books = id(new FileFinder($cwd))
+          ->withType('f')
+          ->withSuffix('book')
+          ->find();
+      }
 
       if (!$books) {
         throw new PhutilArgumentUsageException(

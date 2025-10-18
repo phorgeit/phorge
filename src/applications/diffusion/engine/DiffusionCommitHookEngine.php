@@ -982,12 +982,12 @@ final class DiffusionCommitHookEngine extends Phobject {
     $key_name = getenv('HG_KEY');
 
     $key_old = getenv('HG_OLD');
-    if (!strlen($key_old)) {
+    if (!$key_old || !strlen($key_old)) {
       $key_old = null;
     }
 
     $key_new = getenv('HG_NEW');
-    if (!strlen($key_new)) {
+    if (!$key_new || !strlen($key_new)) {
       $key_new = null;
     }
 

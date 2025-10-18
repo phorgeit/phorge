@@ -2260,14 +2260,14 @@ final class PhabricatorRepository extends PhabricatorRepositoryDAO
       );
       foreach ($git_env as $key) {
         $value = getenv($key);
-        if (strlen($value)) {
+        if ($value && strlen($value)) {
           $env[$key] = $value;
         }
       }
 
       $key = 'GIT_PUSH_OPTION_COUNT';
       $git_count = getenv($key);
-      if (strlen($git_count)) {
+      if ($git_count && strlen($git_count)) {
         $git_count = (int)$git_count;
         $env[$key] = $git_count;
         for ($ii = 0; $ii < $git_count; $ii++) {

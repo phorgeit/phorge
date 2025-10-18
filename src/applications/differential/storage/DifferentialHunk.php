@@ -225,7 +225,7 @@ final class DifferentialHunk
       }
 
       if ($line[0] == '\\') {
-        if ($use_next_newline) {
+        if ($use_next_newline && $results) {
           $results[last_key($results)] = rtrim(end($results), "\n");
         }
       } else if (empty($include_map[$line[0]])) {

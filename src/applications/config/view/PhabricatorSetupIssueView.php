@@ -372,14 +372,14 @@ final class PhabricatorSetupIssueView extends AphrontView {
     $matches = null;
 
     $ini_loc = null;
-    if (preg_match($rex, $phpinfo, $matches)) {
+    if ($phpinfo && preg_match($rex, $phpinfo, $matches)) {
       $ini_loc = trim($matches[1]);
     }
 
     $rex = '@Additional \.ini files parsed\s*</td><td class="v">(.*?)</td>@i';
 
     $more_loc = array();
-    if (preg_match($rex, $phpinfo, $matches)) {
+    if ($phpinfo && preg_match($rex, $phpinfo, $matches)) {
       $more_loc = trim($matches[1]);
       if ($more_loc == '(none)') {
         $more_loc = array();

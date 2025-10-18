@@ -35,7 +35,7 @@ final class PhabricatorSSHLog extends Phobject {
       }
 
       $client = getenv('SSH_CLIENT');
-      if (strlen($client)) {
+      if ($client && strlen($client)) {
         $remote_address = head(explode(' ', $client));
         $data['r'] = $remote_address;
       }

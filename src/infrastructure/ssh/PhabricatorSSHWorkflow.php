@@ -101,7 +101,7 @@ abstract class PhabricatorSSHWorkflow
 
   public function getSSHRemoteAddress() {
     $ssh_client = getenv('SSH_CLIENT');
-    if (!strlen($ssh_client)) {
+    if (!$ssh_client || !strlen($ssh_client)) {
       return null;
     }
 
