@@ -323,11 +323,11 @@ final class PhabricatorJupyterDocumentEngine
     }
 
     $nbformat = idx($data, 'nbformat');
-    if (!phutil_nonempty_string($nbformat)) {
+    if (!is_int($nbformat)) {
       throw new Exception(
         pht(
-          'This document is missing an "nbformat" field. Jupyter notebooks '.
-          'must have this field.'));
+          'This document lacks a valid "nbformat" field. Jupyter notebooks '.
+          'must have this field and it must have an integer value.'));
     }
 
     if ($nbformat !== 4) {
