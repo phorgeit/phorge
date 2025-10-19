@@ -388,7 +388,7 @@ If you intend to run on a non-default port, adjust it now.
 If you did everything correctly, you should be able to run this command:
 
 ```
-$ echo {} | ssh vcs-user@phorge.yourcompany.com conduit conduit.ping
+$ echo {} | ssh vcs-user@phorge.yourcompany.com conduit conduit.ping --
 ```
 
 ...and get a response like this:
