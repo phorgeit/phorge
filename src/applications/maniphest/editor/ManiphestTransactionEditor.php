@@ -101,6 +101,7 @@ final class ManiphestTransactionEditor
     $unblock_xaction = null;
     foreach ($xactions as $xaction) {
       switch ($xaction->getTransactionType()) {
+        case ManiphestTaskParentTransaction::TRANSACTIONTYPE:
         case ManiphestTaskStatusTransaction::TRANSACTIONTYPE:
           $unblock_xaction = $xaction;
           break;
