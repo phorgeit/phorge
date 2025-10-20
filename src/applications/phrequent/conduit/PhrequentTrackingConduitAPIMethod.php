@@ -11,10 +11,6 @@ final class PhrequentTrackingConduitAPIMethod
     return pht('Returns current objects being tracked in Phrequent.');
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   protected function defineParamTypes() {
     return array();
   }

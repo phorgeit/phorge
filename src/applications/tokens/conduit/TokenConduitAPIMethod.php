@@ -7,10 +7,6 @@ abstract class TokenConduitAPIMethod extends ConduitAPIMethod {
       PhabricatorTokensApplication::class);
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   /**
    * @param array<PhabricatorToken> $tokens
    */

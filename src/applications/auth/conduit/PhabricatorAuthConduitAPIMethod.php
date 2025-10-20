@@ -7,10 +7,6 @@ abstract class PhabricatorAuthConduitAPIMethod extends ConduitAPIMethod {
       PhabricatorAuthApplication::class);
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodStatusDescription() {
     return pht('These methods are recently introduced and subject to change.');
   }

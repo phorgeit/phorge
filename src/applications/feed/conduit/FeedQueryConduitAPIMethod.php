@@ -6,10 +6,6 @@ final class FeedQueryConduitAPIMethod extends FeedConduitAPIMethod {
     return 'feed.query';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht('Query the feed for stories');
   }

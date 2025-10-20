@@ -6,10 +6,6 @@ final class MacroCreateMemeConduitAPIMethod extends MacroConduitAPIMethod {
     return 'macro.creatememe';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht('Generate a meme.');
   }

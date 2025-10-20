@@ -7,10 +7,6 @@ final class DiffusionGetLintMessagesConduitAPIMethod
     return 'diffusion.getlintmessages';
   }
 
-  public function getMethodStatus() {
-    return self::METHOD_STATUS_UNSTABLE;
-  }
-
   public function getMethodDescription() {
     return pht('Get lint messages for existing code.');
   }
