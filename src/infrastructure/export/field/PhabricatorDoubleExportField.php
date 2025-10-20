@@ -11,7 +11,7 @@ final class PhabricatorDoubleExportField
       return $value;
     }
 
-    return (double)$value;
+    return (float)$value;
   }
 
   /**

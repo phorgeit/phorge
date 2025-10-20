@@ -88,7 +88,7 @@ final class ManiphestTaskPointsTransaction
         continue;
       }
 
-      if ((double)$new < 0) {
+      if ((float)$new < 0) {
         $errors[] = $this->newInvalidError(
           pht('Points value must be nonnegative.'));
         continue;
@@ -116,7 +116,7 @@ final class ManiphestTaskPointsTransaction
       $value = null;
     }
     if ($value !== null) {
-      $value = (double)$value;
+      $value = (float)$value;
     }
     return $value;
   }
