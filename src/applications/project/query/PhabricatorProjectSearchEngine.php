@@ -55,7 +55,8 @@ final class PhabricatorProjectSearchEngine
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Status'))
         ->setKey('status')
-        ->setOptions($this->getStatusOptions()),
+        ->setOptions($this->getStatusOptions())
+        ->setDefault('active'),
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Milestones'))
         ->setKey('isMilestone')
