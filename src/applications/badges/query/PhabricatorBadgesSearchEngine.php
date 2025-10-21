@@ -29,6 +29,8 @@ final class PhabricatorBadgesSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
+        ->setDescription(
+          pht('Search for active or archived badges.'))
         ->setOptions(
           id(new PhabricatorBadgesBadge())
             ->getStatusNameMap()),

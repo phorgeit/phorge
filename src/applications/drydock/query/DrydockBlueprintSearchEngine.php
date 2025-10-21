@@ -38,6 +38,7 @@ final class DrydockBlueprintSearchEngine
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Disabled'))
         ->setKey('isDisabled')
+        ->setDescription(pht('Search for disabled or enabled blueprints.'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Disabled Blueprints'),

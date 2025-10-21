@@ -44,11 +44,13 @@ final class PhabricatorProjectSearchEngine
         ->setLabel(pht('Members'))
         ->setKey('memberPHIDs')
         ->setConduitKey('members')
+        ->setDescription(pht('Search for projects with particular members.'))
         ->setAliases(array('member', 'members')),
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Watchers'))
         ->setKey('watcherPHIDs')
         ->setConduitKey('watchers')
+        ->setDescription(pht('Search for projects with particular watchers.'))
         ->setAliases(array('watcher', 'watchers')),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Status'))
@@ -105,10 +107,12 @@ final class PhabricatorProjectSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setLabel(pht('Icons'))
         ->setKey('icons')
+        ->setDescription(pht('Search for projects with particular icons.'))
         ->setOptions($this->getIconOptions()),
       id(new PhabricatorSearchCheckboxesField())
         ->setLabel(pht('Colors'))
         ->setKey('colors')
+        ->setDescription(pht('Search for projects with particular colors.'))
         ->setOptions($this->getColorOptions()),
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Parent Projects'))

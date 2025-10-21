@@ -89,11 +89,15 @@ final class ManiphestTaskSearchEngine
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Columns'))
         ->setKey('columnPHIDs')
-        ->setAliases(array('column', 'columnPHID', 'columns')),
+        ->setAliases(array('column', 'columnPHID', 'columns'))
+        ->setDescription(
+          pht('Search for tasks in specific workboard columns.')),
       id(new PhabricatorSearchThreeStateField())
         ->setLabel(pht('Open Parents'))
         ->setKey('hasParents')
         ->setAliases(array('blocking'))
+        ->setDescription(
+          pht('Search for tasks which block open parent tasks.'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Tasks With Open Parents'),
@@ -102,6 +106,8 @@ final class ManiphestTaskSearchEngine
         ->setLabel(pht('Open Subtasks'))
         ->setKey('hasSubtasks')
         ->setAliases(array('blocked'))
+        ->setDescription(
+          pht('Search for tasks blocked by open subtasks.'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Tasks With Open Subtasks'),
@@ -109,33 +115,50 @@ final class ManiphestTaskSearchEngine
       id(new PhabricatorIDsSearchField())
         ->setLabel(pht('Parent IDs'))
         ->setKey('parentIDs')
-        ->setAliases(array('parentID')),
+        ->setAliases(array('parentID'))
+        ->setDescription(
+          pht('Search for tasks which have specific parent tasks.')),
       id(new PhabricatorIDsSearchField())
         ->setLabel(pht('Subtask IDs'))
         ->setKey('subtaskIDs')
-        ->setAliases(array('subtaskID')),
+        ->setAliases(array('subtaskID'))
+        ->setDescription(
+          pht('Search for tasks which have specific subtasks.')),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Group By'))
         ->setKey('group')
+        ->setDescription(pht('Group results by a certain parameter.'))
         ->setOptions($this->getGroupOptions()),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created After'))
-        ->setKey('createdStart'),
+        ->setKey('createdStart')
+        ->setDescription(
+          pht('Search for tasks created after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created Before'))
-        ->setKey('createdEnd'),
+        ->setKey('createdEnd')
+        ->setDescription(
+          pht('Search for tasks created before a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Updated After'))
-        ->setKey('modifiedStart'),
+        ->setKey('modifiedStart')
+        ->setDescription(
+          pht('Search for tasks updated after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Updated Before'))
-        ->setKey('modifiedEnd'),
+        ->setKey('modifiedEnd')
+        ->setDescription(
+          pht('Search for tasks updated before a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Closed After'))
-        ->setKey('closedStart'),
+        ->setKey('closedStart')
+        ->setDescription(
+          pht('Search for tasks closed after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Closed Before'))
-        ->setKey('closedEnd'),
+        ->setKey('closedEnd')
+        ->setDescription(
+          pht('Search for tasks closed before a certain date.')),
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Closed By'))
         ->setKey('closerPHIDs')

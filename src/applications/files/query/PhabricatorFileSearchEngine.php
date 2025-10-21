@@ -26,20 +26,28 @@ final class PhabricatorFileSearchEngine
       id(new PhabricatorUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('author', 'authors'))
-        ->setLabel(pht('Authors')),
+        ->setLabel(pht('Authors'))
+        ->setDescription(
+          pht('Search for objects created by specific authors.')),
       id(new PhabricatorSearchThreeStateField())
         ->setKey('explicit')
         ->setLabel(pht('Upload Source'))
+        ->setDescription(
+          pht('Search for files which were explicitly uploaded.'))
         ->setOptions(
           pht('(Show All)'),
           pht('Show Only Manually Uploaded Files'),
           pht('Hide Manually Uploaded Files')),
       id(new PhabricatorSearchDateField())
         ->setKey('createdStart')
-        ->setLabel(pht('Created After')),
+        ->setLabel(pht('Created After'))
+        ->setDescription(
+          pht('Search for files created after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setKey('createdEnd')
-        ->setLabel(pht('Created Before')),
+        ->setLabel(pht('Created Before'))
+        ->setDescription(
+          pht('Search for files created before a certain date.')),
       id(new PhabricatorSearchTextField())
         ->setLabel(pht('Name Contains'))
         ->setKey('name')

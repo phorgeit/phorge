@@ -23,21 +23,31 @@ final class PhabricatorRepositorySearchEngine
     return array(
       id(new PhabricatorSearchStringListField())
         ->setLabel(pht('Callsigns'))
-        ->setKey('callsigns'),
+        ->setKey('callsigns')
+        ->setDescription(
+          pht('Search for repositories with specific callsigns.')),
       id(new PhabricatorSearchStringListField())
         ->setLabel(pht('Short Names'))
-        ->setKey('shortNames'),
+        ->setKey('shortNames')
+        ->setDescription(
+          pht('Search for repositories with specific short names.')),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Status'))
         ->setKey('status')
+        ->setDescription(
+          pht('Search for repositories with a specific status.'))
         ->setOptions($this->getStatusOptions()),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Hosted'))
         ->setKey('hosted')
+        ->setDescription(
+          pht('Search for repositories which are hosted or remote.'))
         ->setOptions($this->getHostedOptions()),
       id(new PhabricatorSearchCheckboxesField())
         ->setLabel(pht('Types'))
         ->setKey('types')
+        ->setDescription(
+          pht('Search for repositories of a specific VCS type.'))
         ->setOptions(PhabricatorRepositoryType::getAllRepositoryTypes()),
       id(new PhabricatorSearchStringListField())
         ->setLabel(pht('URIs'))
@@ -47,6 +57,8 @@ final class PhabricatorRepositorySearchEngine
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Services'))
         ->setKey('almanacServicePHIDs')
+        ->setDescription(
+          pht('Search for repositories with a specific Almanac Service.'))
         ->setAliases(
           array(
             'almanacServicePHID',

@@ -52,6 +52,7 @@ final class DrydockResourceSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setLabel(pht('Statuses'))
         ->setKey('statuses')
+        ->setDescription(pht('Search for objects with given statuses.'))
         ->setOptions(DrydockResourceStatus::getStatusMap()),
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Blueprints'))

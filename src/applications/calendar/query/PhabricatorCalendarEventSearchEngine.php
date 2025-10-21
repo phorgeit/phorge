@@ -32,10 +32,14 @@ final class PhabricatorCalendarEventSearchEngine
         ->setLabel(pht('Hosts'))
         ->setKey('hostPHIDs')
         ->setAliases(array('host', 'hostPHID', 'hosts'))
+        ->setDescription(
+          pht('Search for events created by specific hosts.'))
         ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Invited'))
         ->setKey('invitedPHIDs')
+        ->setDescription(
+          pht('Search for events with specific invited users.'))
         ->setDatasource(new PhabricatorCalendarInviteeDatasource()),
       id(new PhabricatorSearchDateControlField())
         ->setLabel(pht('Occurs After'))
@@ -52,15 +56,20 @@ final class PhabricatorCalendarEventSearchEngine
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Cancelled Events'))
         ->setKey('isCancelled')
+        ->setDescription(pht('Search for active or cancelled events.'))
         ->setOptions($this->getCancelledOptions())
         ->setDefault('active'),
       id(new PhabricatorPHIDsSearchField())
         ->setLabel(pht('Import Sources'))
         ->setKey('importSourcePHIDs')
+        ->setDescription(
+          pht('Search for events with specific import sources.'))
         ->setAliases(array('importSourcePHID')),
       id(new PhabricatorSearchSelectField())
         ->setLabel(pht('Display Options'))
         ->setKey('display')
+        ->setDescription(
+          pht('Display events in a certain display format.'))
         ->setOptions($this->getViewOptions())
         ->setDefault('month'),
     );

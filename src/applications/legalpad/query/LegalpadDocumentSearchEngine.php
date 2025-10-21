@@ -38,10 +38,14 @@ final class LegalpadDocumentSearchEngine
           pht('Search for documents with given contributors.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created After'))
-        ->setKey('createdStart'),
+        ->setKey('createdStart')
+        ->setDescription(
+          pht('Search for documents created after a certain date.')),
       id(new PhabricatorSearchDateField())
         ->setLabel(pht('Created Before'))
-        ->setKey('createdEnd'),
+        ->setKey('createdEnd')
+        ->setDescription(
+          pht('Search for documents created before a certain date.')),
     );
   }
 

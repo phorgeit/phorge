@@ -34,6 +34,7 @@ final class PhamePostSearchEngine
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('visibility')
         ->setLabel(pht('Visibility'))
+        ->setDescription(pht('Search for posts with specific visibility.'))
         ->setOptions(
           array(
             PhameConstants::VISIBILITY_PUBLISHED => pht('Published'),

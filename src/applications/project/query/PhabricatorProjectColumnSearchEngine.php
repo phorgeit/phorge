@@ -25,6 +25,8 @@ final class PhabricatorProjectColumnSearchEngine
         ->setLabel(pht('Projects'))
         ->setKey('projectPHIDs')
         ->setConduitKey('projects')
+        ->setDescription(
+          pht('Search for objects with specific project PHIDs.'))
         ->setAliases(array('project', 'projects', 'projectPHID')),
     );
   }

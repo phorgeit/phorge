@@ -29,6 +29,7 @@ final class PhameBlogSearchEngine
       id(new PhabricatorSearchSelectField())
         ->setKey('statuses')
         ->setLabel(pht('Status'))
+        ->setDescription(pht('Search for blogs with given statuses.'))
         ->setOptions(array(
           '' => pht('All'),
           PhameBlog::STATUS_ACTIVE => pht('Active'),

@@ -42,6 +42,8 @@ final class PhabricatorSlowvoteSearchEngine
       id(new PhabricatorUsersSearchField())
         ->setKey('authorPHIDs')
         ->setAliases(array('authors'))
+        ->setDescription(
+          pht('Search for objects created by specific authors.'))
         ->setLabel(pht('Authors')),
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('voted')

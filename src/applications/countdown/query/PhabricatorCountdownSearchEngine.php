@@ -34,6 +34,8 @@ final class PhabricatorCountdownSearchEngine
       id(new PhabricatorUsersSearchField())
         ->setLabel(pht('Authors'))
         ->setKey('authorPHIDs')
+        ->setDescription(
+          pht('Search for objects created by specific authors.'))
         ->setAliases(array('author', 'authors')),
       id(new PhabricatorSearchCheckboxesField())
         ->setKey('upcoming')

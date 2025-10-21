@@ -24,6 +24,8 @@ final class PhabricatorPhurlURLSearchEngine
       id(new PhabricatorSearchDatasourceField())
         ->setLabel(pht('Created By'))
         ->setKey('authorPHIDs')
+        ->setDescription(
+          pht('Search for Phurl URLs created by specific authors.'))
         ->setDatasource(new PhabricatorPeopleUserFunctionDatasource()),
       id(new PhabricatorSearchTextField())
         ->setLabel(pht('Name Contains'))
