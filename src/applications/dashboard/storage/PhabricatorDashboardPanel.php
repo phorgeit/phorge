@@ -103,7 +103,11 @@ final class PhabricatorDashboardPanel
   }
 
   public function getEditEngineFields() {
-    return $this->requireImplementation()->getEditEngineFields($this);
+    $panel_type = $this->getPanelType();
+    if ($panel_type && $this->getImplementation()) {
+      return $this->getImplementation()->getEditEngineFields($this);
+    }
+    return array();
   }
 
   public function newHeaderEditActions(

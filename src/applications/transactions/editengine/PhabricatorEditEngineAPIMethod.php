@@ -89,7 +89,54 @@ abstract class PhabricatorEditEngineAPIMethod
     $pages[] = $this->newDocumentationBoxPage($viewer, $title, $content)
       ->setAnchor('types');
 
+    $fields = $engine->getEditFieldsForConduit();
+    $select_edit_fields = array();
+    foreach ($fields as $key => $type) {
+      if ($type instanceof PhabricatorSelectEditField) {
+        $select_edit_fields[$type->getKey()] = $type;
+      }
+    }
+    $fields = $select_edit_fields;
+
     foreach ($types as $type) {
+
+      // If we match on keys, set a footer with available values
+      $key = $type->getEditType();
+      $constants_list = array();
+      if (array_key_exists($key, $fields)) {
+        $field = $fields[$key];
+        $constants = $field->newConduitConstants();
+        $constants_list[] = $this->newRemarkupDocumentationView(
+          pht('Supported values:'));
+
+        $constants_rows = array();
+        foreach ($constants as $constant) {
+          $constants_rows[] = array(
+            $constant->getKey(),
+            $constant->getValue(),
+          );
+        }
+
+        $constants_table = id(new AphrontTableView($constants_rows))
+          ->setHeaders(
+            array(
+              pht('Value'),
+              pht('Description'),
+            ))
+          ->setColumnClasses(
+            array(
+              'mono',
+              'wide',
+            ));
+
+        $constants_list[] = $constants_table;
+      }
+
+      $rows[] = array(
+        $type->getEditType(),
+        $type->getConduitDescription(),
+      );
+
       $section = array();
 
       $section[] = $type->getConduitDescription();
@@ -133,6 +180,7 @@ abstract class PhabricatorEditEngineAPIMethod
       $content = array(
         $this->buildRemarkup($section),
         $type_table,
+        $constants_list,
       );
 
       $pages[] = $this->newDocumentationBoxPage($viewer, $title, $content)

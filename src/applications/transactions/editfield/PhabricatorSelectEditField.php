@@ -54,6 +54,20 @@ final class PhabricatorSelectEditField
     return new ConduitStringParameterType();
   }
 
+  /**
+   * @return array<ConduitConstantDescription>
+   */
+  public function newConduitConstants() {
+    $list = array();
+
+    foreach ($this->getOptions() as $key => $option) {
+      $list[] = id(new ConduitConstantDescription())
+        ->setKey($key)
+        ->setValue($option);
+    }
+    return $list;
+  }
+
   protected function newBulkParameterType() {
     return id(new BulkSelectParameterType())
       ->setOptions($this->getOptions());

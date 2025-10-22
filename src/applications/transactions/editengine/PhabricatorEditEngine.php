@@ -146,6 +146,11 @@ abstract class PhabricatorEditEngine
   abstract public function getEngineApplicationClass();
   abstract protected function buildCustomEditFields($object);
 
+  public function getEditFieldsForConduit() {
+    $object = $this->newEditableObject();
+    return $this->buildCustomEditFields($object);
+  }
+
   public function getFieldsForConfig(
     PhabricatorEditEngineConfiguration $config) {
 
@@ -2381,6 +2386,11 @@ abstract class PhabricatorEditEngine
     return $types;
   }
 
+  /**
+   * @return array<PhabricatorEditType> Array of subclasses of
+   *   PhabricatorEditType
+   * @task conduit
+   */
   public function getConduitEditTypes() {
     $config = $this->loadDefaultConfiguration();
     if (!$config) {
