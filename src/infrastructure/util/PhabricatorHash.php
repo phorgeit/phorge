@@ -39,11 +39,14 @@ final class PhabricatorHash extends Phobject {
    * This method emphasizes compactness, and should not be used for security
    * related hashing (for general purpose hashing, see @{method:digest}).
    *
-   * @param   string  $string Input string.
+   * @param   string|null  $string Input string.
    * @return  string  12-byte, case-sensitive, mostly-alphanumeric hash of
    *                  the string.
    */
   public static function digestForIndex($string) {
+    if ($string === null) {
+      $string = '';
+    }
     $hash = sha1($string, $raw_output = true);
 
     static $map;
