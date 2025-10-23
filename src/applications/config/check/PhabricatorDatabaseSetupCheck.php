@@ -97,6 +97,41 @@ final class PhabricatorDatabaseSetupCheck extends PhabricatorSetupCheck {
 
   private function executeRefChecks(PhabricatorDatabaseRef $ref) {
     $conn_raw = $ref->newManagementConnection();
+
+    $versions = queryfx_one($conn_raw, 'SELECT VERSION() as v');
+    $server_string = $versions['v'];
+    if (phutil_nonempty_string($server_string)) {
+      $matches = array();
+      if (preg_match('/^(\d+\.\d+\.\d+)/', $server_string, $matches)) {
+        $server_version = $matches[1];
+        $is_maria_db = stripos($server_string, 'MariaDB');
+        // Keep $min_version in sync with 'installation_guide.diviner'!
+        if ($is_maria_db) {
+          $software_name = 'MariaDB';
+          $min_version = '10.5.1';
+        } else {
+          $software_name = 'MySQL';
+          $min_version = '8.0.0';
+        }
+        if (version_compare($server_version, $min_version, '<')) {
+          $message = pht(
+            'You are running %s version "%s", which is older than the '.
+            'minimum required version, "%s". Update to at least "%s".',
+            $software_name,
+            $server_version,
+            $min_version,
+            $min_version);
+
+          $this->newIssue('mysql.version')
+            ->setName(pht('Update %s', $software_name))
+            ->setMessage($message)
+            ->setIsFatal(true);
+
+          return true;
+        }
+      }
+    }
+
     $ref_key = $ref->getRefKey();
 
     $engines = queryfx_all($conn_raw, 'SHOW ENGINES');
