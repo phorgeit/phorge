@@ -35,10 +35,14 @@ final class PhabricatorProjectBoardViewController
       $custom_query = null;
     }
 
-    $layout_engine = $state->getLayoutEngine();
-
+    $columns = array();
     $board_phid = $project->getPHID();
-    $columns = $layout_engine->getColumns($board_phid);
+
+    if ($project->getHasWorkboard()) {
+      $layout_engine = $state->getLayoutEngine();
+      $columns = $layout_engine->getColumns($board_phid);
+    }
+
     if (!$columns || !$project->getHasWorkboard()) {
       $has_normal_columns = false;
 
