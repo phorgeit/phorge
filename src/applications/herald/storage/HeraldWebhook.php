@@ -24,7 +24,7 @@ final class HeraldWebhook
       self::CONFIG_AUX_PHID => true,
       self::CONFIG_COLUMN_SCHEMA => array(
         'name' => 'text128',
-        'webhookURI' => 'text255',
+        'webhookURI' => 'text',
         'status' => 'text32',
         'hmacKey' => 'text32',
       ),

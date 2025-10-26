@@ -1,0 +1,2 @@
+ALTER TABLE {$NAMESPACE}_herald.herald_webhook
+  MODIFY COLUMN webhookURI LONGTEXT NOT NULL;

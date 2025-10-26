@@ -4,6 +4,7 @@ final class HeraldWebhookURITransaction
   extends HeraldWebhookTransactionType {
 
   const TRANSACTIONTYPE = 'uri';
+  private $webhookURIMaxLength = 2048;
 
   public function generateOldValue($object) {
     return $object->getWebhookURI();
@@ -40,17 +41,16 @@ final class HeraldWebhookURITransaction
       return $errors;
     }
 
-    $max_length = $object->getColumnMaximumByteLength('webhookURI');
     foreach ($xactions as $xaction) {
       $old_value = $this->generateOldValue($object);
       $new_value = $xaction->getNewValue();
 
       $new_length = strlen($new_value);
-      if ($new_length > $max_length) {
+      if ($new_length > $this->webhookURIMaxLength) {
         $errors[] = $this->newInvalidError(
           pht(
             'Webhook URIs can be no longer than %s characters.',
-            new PhutilNumber($max_length)),
+            new PhutilNumber($this->webhookURIMaxLength)),
           $xaction);
       }
 
