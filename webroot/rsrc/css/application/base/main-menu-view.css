@@ -154,7 +154,6 @@
   transition: none;
 
   color: {$bluetext};
-  width: 100%;
   right: 0;
   position: absolute;
   font-size: {$normalfontsize};
