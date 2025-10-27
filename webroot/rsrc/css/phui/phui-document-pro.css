@@ -31,7 +31,6 @@
 .device-desktop .phui-document-content-outer {
   display: table;
   width: 100%;
-  layout: fixed;
 }
 
 /* Force very wide content, like tables with many columns, to scroll inside
