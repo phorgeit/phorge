@@ -26,7 +26,7 @@
 }
 
 .phui-workcard.phui-oi .phui-oi-objname {
-  -webkit-touch-callout: text;
+  -webkit-touch-callout: default;
   -webkit-user-select: text;
   user-select: text;
 }
