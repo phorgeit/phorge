@@ -50,7 +50,6 @@ body .phabricator-timer .countdown-description.phabricator-remarkup {
   font-size: 36px;
   font-weight: bold;
   overflow: hidden;
-  line-height: auto;
   height: auto;
   line-height: 44px;
 }
