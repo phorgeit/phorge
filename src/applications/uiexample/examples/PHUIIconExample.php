@@ -51,37 +51,37 @@ final class PHUIIconExample extends PhabricatorUIExample {
 
     $person1 = new PHUIIconView();
     $person1->setHeadSize(PHUIIconView::HEAD_MEDIUM);
-    $person1->setHref('http://en.wikipedia.org/wiki/George_Washington');
+    $person1->setHref('https://en.wikipedia.org/wiki/George_Washington');
     $person1->setImage(
       celerity_get_resource_uri('/rsrc/image/people/washington.png'));
 
     $person2 = new PHUIIconView();
     $person2->setHeadSize(PHUIIconView::HEAD_MEDIUM);
-    $person2->setHref('http://en.wikipedia.org/wiki/Warren_G._Harding');
+    $person2->setHref('https://en.wikipedia.org/wiki/Warren_G._Harding');
     $person2->setImage(
       celerity_get_resource_uri('/rsrc/image/people/harding.png'));
 
     $person3 = new PHUIIconView();
     $person3->setHeadSize(PHUIIconView::HEAD_MEDIUM);
-    $person3->setHref('http://en.wikipedia.org/wiki/William_Howard_Taft');
+    $person3->setHref('https://en.wikipedia.org/wiki/William_Howard_Taft');
     $person3->setImage(
       celerity_get_resource_uri('/rsrc/image/people/taft.png'));
 
     $person4 = new PHUIIconView();
     $person4->setHeadSize(PHUIIconView::HEAD_SMALL);
-    $person4->setHref('http://en.wikipedia.org/wiki/George_Washington');
+    $person4->setHref('https://en.wikipedia.org/wiki/George_Washington');
     $person4->setImage(
       celerity_get_resource_uri('/rsrc/image/people/washington.png'));
 
     $person5 = new PHUIIconView();
     $person5->setHeadSize(PHUIIconView::HEAD_SMALL);
-    $person5->setHref('http://en.wikipedia.org/wiki/Warren_G._Harding');
+    $person5->setHref('https://en.wikipedia.org/wiki/Warren_G._Harding');
     $person5->setImage(
       celerity_get_resource_uri('/rsrc/image/people/harding.png'));
 
     $person6 = new PHUIIconView();
     $person6->setHeadSize(PHUIIconView::HEAD_SMALL);
-    $person6->setHref('http://en.wikipedia.org/wiki/William_Howard_Taft');
+    $person6->setHref('https://en.wikipedia.org/wiki/William_Howard_Taft');
     $person6->setImage(
       celerity_get_resource_uri('/rsrc/image/people/taft.png'));
 

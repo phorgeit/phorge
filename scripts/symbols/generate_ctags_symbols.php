@@ -21,7 +21,7 @@ if (ctags_check_executable() == false) {
       'available in executable path.'),
     pht(
       'Exuberant Ctags project page: %s',
-      'http://ctags.sourceforge.net/'));
+      'https://ctags.sourceforge.net/'));
   exit(1);
 }
 

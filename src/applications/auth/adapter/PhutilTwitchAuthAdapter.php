@@ -32,7 +32,7 @@ final class PhutilTwitchAuthAdapter extends PhutilOAuthAuthAdapter {
   public function getAccountURI() {
     $name = $this->getAccountName();
     if ($name) {
-      return 'http://www.twitch.tv/'.$name;
+      return 'https://www.twitch.tv/'.$name;
     }
     return null;
   }

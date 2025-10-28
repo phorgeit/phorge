@@ -100,7 +100,7 @@ final class PHUIColorPalletteExample extends PhabricatorUIExample {
     $color_url = phutil_tag(
       'a',
       array(
-        'href' => 'http://color.hailpixel.com/#'.implode(',', $url),
+        'href' => 'https://color.hailpixel.com/#'.implode(',', $url),
         'class' => 'button button-grey mlb',
       ),
       pht('Color Palette'));

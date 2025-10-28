@@ -444,7 +444,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           phutil_tag(
             'a',
             array(
-              'href' => 'http://php.net/manual/ini.list.php',
+              'href' => 'https://www.php.net/manual/ini.list.php',
               'target' => '_blank',
             ),
             pht('PHP Documentation'))));
@@ -460,7 +460,7 @@ final class PhabricatorSetupIssueView extends AphrontView {
           phutil_tag(
             'a',
             array(
-              'href' => 'http://php.net/manual/opcache.configuration.php',
+              'href' => 'https://www.php.net/manual/opcache.configuration.php',
               'target' => '_blank',
             ),
             pht('PHP OPcache Documentation'))));
