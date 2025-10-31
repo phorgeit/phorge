@@ -216,7 +216,8 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
 
     parent::willRenderPage();
 
-    if (!$this->getRequest()) {
+    $request = $this->getRequest();
+    if (!$request) {
       throw new Exception(
         pht(
           'You must set the %s to render a %s.',
@@ -237,12 +238,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
 
     Javelin::initBehavior('workflow', array());
 
-    $request = $this->getRequest();
-    $user = null;
-    if ($request) {
-      $user = $request->getUser();
-    }
-
+    $user = $request->getUser();
     if ($user) {
       if ($user->isUserActivated()) {
         // Only bother user about timezone offset if they have not set UTC

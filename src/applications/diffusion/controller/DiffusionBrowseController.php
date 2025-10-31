@@ -1020,14 +1020,11 @@ final class DiffusionBrowseController extends DiffusionController {
       ->setHeader($header)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->addClass('diffusion-mobile-view')
-      ->setCollapsed(true);
-
-    if ($messages) {
-      $corpus->setInfoView(
+      ->setCollapsed(true)
+      ->setInfoView(
         id(new PHUIInfoView())
           ->setSeverity($severity)
           ->setErrors($messages));
-    }
 
     return $corpus;
   }

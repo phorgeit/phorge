@@ -1419,10 +1419,8 @@ abstract class PhabricatorApplicationTransactionEditor
         $read_locking = false;
       }
 
-      if ($transaction_open) {
-        $object->saveTransaction();
-        $transaction_open = false;
-      }
+      $object->saveTransaction();
+      $transaction_open = false;
 
       $this->didCommitTransactions($object, $xactions);
 
