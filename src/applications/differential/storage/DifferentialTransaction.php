@@ -422,6 +422,8 @@ final class DifferentialTransaction
             return 'fa-flag';
           case DifferentialAction::ACTION_CLAIM:
             return 'fa-flag';
+          default:
+            break;
         }
       case PhabricatorTransactions::TYPE_EDGE:
         switch ($this->getMetadataValue('edge:type')) {
