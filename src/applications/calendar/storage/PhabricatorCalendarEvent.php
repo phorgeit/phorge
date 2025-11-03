@@ -675,7 +675,6 @@ final class PhabricatorCalendarEvent extends PhabricatorCalendarDAO
       $status = $this->getUserInviteStatus($viewer_phid);
       switch ($status) {
         case PhabricatorCalendarEventInvitee::STATUS_ATTENDING:
-          return 'green';
         case PhabricatorCalendarEventInvitee::STATUS_INVITED:
           return 'green';
         case PhabricatorCalendarEventInvitee::STATUS_DECLINED:

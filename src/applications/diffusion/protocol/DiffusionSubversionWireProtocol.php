@@ -134,10 +134,8 @@ final class DiffusionSubversionWireProtocol extends Phobject {
       $value = $item['value'];
       $type = $item['type'];
       switch ($type) {
-        case 'word':
-          $out[] = $value;
-          break;
         case 'number':
+        case 'word':
           $out[] = $value;
           break;
         case 'string':

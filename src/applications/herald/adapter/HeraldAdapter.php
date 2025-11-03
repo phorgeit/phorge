@@ -512,12 +512,11 @@ abstract class HeraldAdapter extends Phobject {
           $condition_value);
       case self::CONDITION_EXISTS:
       case self::CONDITION_IS_TRUE:
+      case self::CONDITION_UNCONDITIONALLY:
         return (bool)$field_value;
       case self::CONDITION_NOT_EXISTS:
       case self::CONDITION_IS_FALSE:
         return !$field_value;
-      case self::CONDITION_UNCONDITIONALLY:
-        return (bool)$field_value;
       case self::CONDITION_NEVER:
         return false;
       case self::CONDITION_REGEXP:

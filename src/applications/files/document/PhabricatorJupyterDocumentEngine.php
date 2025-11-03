@@ -201,13 +201,6 @@ final class PhabricatorJupyterDocumentEngine
 
       switch ($type) {
         case '-':
-          $result[] = phutil_tag(
-            'span',
-            array(
-              'class' => 'bright',
-            ),
-            $text);
-          break;
         case '+':
           $result[] = phutil_tag(
             'span',

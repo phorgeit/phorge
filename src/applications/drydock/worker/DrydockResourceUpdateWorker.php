@@ -71,14 +71,13 @@ final class DrydockResourceUpdateWorker extends DrydockWorker {
         $this->activateResource($resource);
         break;
       case DrydockResourceStatus::STATUS_ACTIVE:
+      case DrydockResourceStatus::STATUS_DESTROYED:
         // Nothing to do.
         break;
       case DrydockResourceStatus::STATUS_RELEASED:
       case DrydockResourceStatus::STATUS_BROKEN:
         $this->destroyResource($resource);
         break;
-      case DrydockResourceStatus::STATUS_DESTROYED:
-        // Nothing to do.
         break;
     }
 

@@ -107,8 +107,6 @@ final class FeedQueryConduitAPIMethod extends FeedConduitAPIMethod {
 
         switch ($view_type) {
           case 'html':
-            $data = $view->render();
-          break;
           case 'html-summary':
             $data = $view->render();
           break;

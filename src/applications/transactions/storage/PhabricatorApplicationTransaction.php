@@ -791,6 +791,7 @@ abstract class PhabricatorApplicationTransaction
     switch ($this->getTransactionType()) {
       case PhabricatorTransactions::TYPE_TOKEN:
       case PhabricatorTransactions::TYPE_MFA:
+      case PhabricatorTransactions::TYPE_INLINESTATE:
         return true;
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         // See T8952. When an application (usually Herald) modifies
@@ -815,8 +816,6 @@ abstract class PhabricatorApplicationTransaction
             break;
         }
         break;
-     case PhabricatorTransactions::TYPE_INLINESTATE:
-       return true;
     }
 
     return $this->shouldHide();

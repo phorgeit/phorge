@@ -418,9 +418,8 @@ final class DifferentialTransaction
           case DifferentialAction::ACTION_RECLAIM:
           case DifferentialAction::ACTION_REOPEN:
             return 'fa-bullhorn';
-          case DifferentialAction::ACTION_RESIGN:
-            return 'fa-flag';
           case DifferentialAction::ACTION_CLAIM:
+          case DifferentialAction::ACTION_RESIGN:
             return 'fa-flag';
           default:
             break;
@@ -468,19 +467,15 @@ final class DifferentialTransaction
       case self::TYPE_ACTION:
         switch ($this->getNewValue()) {
           case DifferentialAction::ACTION_CLOSE:
+          case DifferentialAction::ACTION_ABANDON:
             return PhabricatorTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_ACCEPT:
             return PhabricatorTransactions::COLOR_GREEN;
           case DifferentialAction::ACTION_REJECT:
-            return PhabricatorTransactions::COLOR_RED;
-          case DifferentialAction::ACTION_ABANDON:
-            return PhabricatorTransactions::COLOR_INDIGO;
           case DifferentialAction::ACTION_RETHINK:
             return PhabricatorTransactions::COLOR_RED;
           case DifferentialAction::ACTION_REQUEST:
-            return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RECLAIM:
-            return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_REOPEN:
             return PhabricatorTransactions::COLOR_SKY;
           case DifferentialAction::ACTION_RESIGN:

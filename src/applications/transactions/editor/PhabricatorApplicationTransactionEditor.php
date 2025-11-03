@@ -505,11 +505,12 @@ abstract class PhabricatorApplicationTransactionEditor
     switch ($type) {
       case PhabricatorTransactions::TYPE_CREATE:
       case PhabricatorTransactions::TYPE_HISTORY:
+      case PhabricatorTransactions::TYPE_MFA:
+      case PhabricatorTransactions::TYPE_COMMENT:
+      case PhabricatorTransactions::TYPE_FILE:
         return null;
       case PhabricatorTransactions::TYPE_SUBTYPE:
         return $object->getEditEngineSubtype();
-      case PhabricatorTransactions::TYPE_MFA:
-        return null;
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         return array_values($this->subscribers);
       case PhabricatorTransactions::TYPE_VIEW_POLICY:
@@ -578,10 +579,6 @@ abstract class PhabricatorApplicationTransactionEditor
         // NOTE: Custom fields have their old value pre-populated when they are
         // built by PhabricatorCustomFieldList.
         return $xaction->getOldValue();
-      case PhabricatorTransactions::TYPE_COMMENT:
-        return null;
-      case PhabricatorTransactions::TYPE_FILE:
-        return null;
       default:
         return $this->getCustomTransactionOldValue($object, $xaction);
     }
@@ -602,6 +599,7 @@ abstract class PhabricatorApplicationTransactionEditor
 
     switch ($type) {
       case PhabricatorTransactions::TYPE_CREATE:
+      case PhabricatorTransactions::TYPE_COMMENT:
         return null;
       case PhabricatorTransactions::TYPE_SUBSCRIBERS:
         return $this->getPHIDTransactionNewValue($xaction);
@@ -649,8 +647,6 @@ abstract class PhabricatorApplicationTransactionEditor
       case PhabricatorTransactions::TYPE_CUSTOMFIELD:
         $field = $this->getCustomFieldForTransaction($object, $xaction);
         return $field->getNewValueFromApplicationTransactions($xaction);
-      case PhabricatorTransactions::TYPE_COMMENT:
-        return null;
       default:
         return $this->getCustomTransactionNewValue($object, $xaction);
     }
