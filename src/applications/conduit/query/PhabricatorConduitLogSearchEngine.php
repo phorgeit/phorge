@@ -26,6 +26,10 @@ final class PhabricatorConduitLogSearchEngine
       $query->withCallerPHIDs($map['callerPHIDs']);
     }
 
+    if ($map['isBot'] !== null) {
+      $query->withIsSystemAgent($map['isBot']);
+    }
+
     if ($map['methods']) {
       $query->withMethods($map['methods']);
     }
@@ -50,6 +54,17 @@ final class PhabricatorConduitLogSearchEngine
         ->setLabel(pht('Callers'))
         ->setAliases(array('caller', 'callers'))
         ->setDescription(pht('Find calls by specific users.')),
+      id(new PhabricatorSearchThreeStateField())
+        ->setLabel(pht('Caller Type'))
+        ->setKey('isBot')
+        ->setAliases(array('isSystemAgent'))
+        ->setOptions(
+          pht('(Show All)'),
+          pht('Show Only Bots'),
+          pht('Hide Bots'))
+        ->setDescription(
+          pht(
+            'Pass true to find only bots, or false to omit bots.')),
       id(new PhabricatorSearchStringListField())
         ->setKey('methods')
         ->setLabel(pht('Methods'))
