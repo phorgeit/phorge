@@ -157,7 +157,6 @@ final class PhabricatorApplicationQuery
         $apps = msort($apps, 'getName');
         break;
       case self::ORDER_APPLICATION:
-        $apps = $apps;
         break;
       default:
         throw new Exception(

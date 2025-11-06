@@ -728,11 +728,9 @@ final class PhabricatorJupyterDocumentEngine
   private function readStringList(array $src, $key) {
     $list = idx($src, $key);
 
-    if (is_array($list)) {
-      $list = $list;
-    } else if (is_string($list)) {
+    if (is_string($list)) {
       $list = array($list);
-    } else {
+    } else if (!is_array($list)) {
       $list = array();
     }
 
