@@ -156,6 +156,7 @@ final class ManiphestTaskListView extends ManiphestView {
    * Deprecated.
    * @param PhabricatorUser $viewer
    * @param array<ManiphestTask> $tasks
+   * @deprecated
    */
   public static function loadTaskHandles(
     PhabricatorUser $viewer,
