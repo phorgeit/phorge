@@ -25,14 +25,14 @@ final class PhluxViewController extends PhluxController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($var)
       ->setHeaderIcon('fa-copy');
 
     $display_value = json_encode($var->getVariableValue());
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addProperty(pht('Value'), $display_value);
 
     $timeline = $this->buildTransactionTimeline(

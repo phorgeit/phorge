@@ -102,7 +102,7 @@ final class PhabricatorAuthSSHKeyEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setLabel(pht('Name'))

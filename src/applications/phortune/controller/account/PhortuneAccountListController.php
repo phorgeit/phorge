@@ -28,7 +28,7 @@ final class PhortuneAccountListController extends PhortuneController {
     $crumbs->setBorder(true);
 
     $payment_list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString(
         pht(
           'You are not a member of any payment accounts. Payment '.
@@ -60,7 +60,7 @@ final class PhortuneAccountListController extends PhortuneController {
       ->setObjectList($payment_list);
 
     $merchant_list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString(
         pht(
           'You do not control any merchant accounts. Merchant accounts are '.

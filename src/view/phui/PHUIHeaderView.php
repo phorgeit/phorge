@@ -262,7 +262,7 @@ final class PHUIHeaderView extends AphrontTagView {
       }
     }
 
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $left = array();
     $right = array();
@@ -440,7 +440,7 @@ final class PHUIHeaderView extends AphrontTagView {
   }
 
   private function renderPolicyProperty(PhabricatorPolicyInterface $object) {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $policies = PhabricatorPolicyQuery::loadPolicies($viewer, $object);
 

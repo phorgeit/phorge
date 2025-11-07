@@ -113,7 +113,7 @@ final class FundInitiativeBackController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormSelectControl())
           ->setName('accountPHID')

@@ -400,7 +400,7 @@ final class PhortunePaymentMethodCreateController
     $viewer = $this->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBig(true)
       ->setFlush(true);
 
@@ -428,7 +428,7 @@ final class PhortunePaymentMethodCreateController
     $viewer = $this->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBig(true)
       ->setFlush(true);
 

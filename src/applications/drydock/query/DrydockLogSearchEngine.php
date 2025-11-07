@@ -147,7 +147,7 @@ final class DrydockLogSearchEngine extends PhabricatorApplicationSearchEngine {
     array $handles) {
 
     $list = id(new DrydockLogListView())
-      ->setUser($this->requireViewer())
+      ->setViewer($this->requireViewer())
       ->setLogs($logs);
 
     $result = new PhabricatorApplicationSearchResultView();

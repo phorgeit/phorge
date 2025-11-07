@@ -44,13 +44,13 @@ final class PhrictionDeleteController extends PhrictionController {
 
     if ($e_text) {
       $dialog = id(new AphrontDialogView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTitle(pht('Can Not Delete Document!'))
         ->appendChild($e_text)
         ->addCancelButton($document_uri);
     } else {
       $dialog = id(new AphrontDialogView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTitle(pht('Delete Document?'))
         ->appendChild(
           pht('Really delete this document? You can recover it later by '.

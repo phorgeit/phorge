@@ -305,7 +305,7 @@ final class PhabricatorProjectProfileController
     }
 
     $subproject_list = id(new PhabricatorProjectListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setProjects($subprojects)
       ->renderList();
 

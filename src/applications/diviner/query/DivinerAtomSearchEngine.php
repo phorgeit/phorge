@@ -138,7 +138,7 @@ final class DivinerAtomSearchEngine extends PhabricatorApplicationSearchEngine {
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($symbols as $symbol) {
       $type = $symbol->getType();

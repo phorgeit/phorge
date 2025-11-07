@@ -127,7 +127,7 @@ final class PhortuneAccountDetailsController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $view->addProperty(pht('Account Name'), $account->getName());
 

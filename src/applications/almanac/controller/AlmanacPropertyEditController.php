@@ -70,7 +70,7 @@ final class AlmanacPropertyEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setName('key')

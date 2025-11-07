@@ -26,7 +26,7 @@ final class SlowvoteRemarkupRule extends PhabricatorObjectRemarkupRule {
     $viewer = $this->getEngine()->getConfig('viewer');
 
     $embed = id(new SlowvoteEmbedView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPoll($object);
 
     return $embed;

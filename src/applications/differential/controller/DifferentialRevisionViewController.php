@@ -1329,7 +1329,7 @@ final class DifferentialRevisionViewController
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY);
 
     return id(new DrydockRepositoryOperationStatusView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBoxView($box_view)
       ->setOperation($operation);
   }

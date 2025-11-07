@@ -988,7 +988,7 @@ final class PhabricatorProjectBoardViewController
         true);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('initialize', 1)
       ->appendRemarkupInstructions(
         pht('The workboard for this project has not been created yet.'))

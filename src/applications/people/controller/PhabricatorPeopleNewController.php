@@ -142,7 +142,7 @@ final class PhabricatorPeopleNewController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($admin);
+      ->setViewer($admin);
 
     if ($is_bot) {
       $title = pht('Create New Bot');

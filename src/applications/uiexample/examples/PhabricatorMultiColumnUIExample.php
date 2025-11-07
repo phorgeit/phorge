@@ -101,7 +101,7 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
       ->setBorder(true);
 
     $shipping = id(new PHUIFormLayoutView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setFullWidth(true)
       ->appendChild(
         id(new AphrontFormTextControl())
@@ -130,7 +130,7 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
         ->setSigil('postal-input'));
 
     $cc = id(new PHUIFormLayoutView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setFullWidth(true)
       ->appendChild(
         id(new AphrontFormTextControl())
@@ -147,7 +147,7 @@ final class PhabricatorMultiColumnUIExample extends PhabricatorUIExample {
       ->appendChild(
         id(new PhortuneMonthYearExpiryControl())
         ->setLabel(pht('Expiration'))
-        ->setUser($user)
+        ->setViewer($user)
         ->setError(''));
 
     $shipping_title = pht('Shipping Address');

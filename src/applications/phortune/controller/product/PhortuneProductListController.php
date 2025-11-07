@@ -27,7 +27,7 @@ final class PhortuneProductListController extends PhabricatorController {
     $crumbs->setBorder(true);
 
     $product_list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString(pht('No products.'));
 
     foreach ($products as $product) {

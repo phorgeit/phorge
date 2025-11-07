@@ -60,7 +60,7 @@ final class PhabricatorBadgesViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $description = $badge->getDescription();
     if (strlen($description)) {

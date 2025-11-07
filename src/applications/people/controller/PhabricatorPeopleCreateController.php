@@ -75,7 +75,7 @@ final class PhabricatorPeopleCreateController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($admin)
+      ->setViewer($admin)
       ->appendRemarkupInstructions(
         pht(
           'Choose the type of user account to create. For a detailed '.

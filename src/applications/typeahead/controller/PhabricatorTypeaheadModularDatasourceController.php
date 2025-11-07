@@ -339,7 +339,7 @@ final class PhabricatorTypeaheadModularDatasourceController
     asort($options);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setAction('/typeahead/class/')
       ->appendChild(
         id(new AphrontFormSelectControl())

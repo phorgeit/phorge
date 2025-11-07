@@ -135,7 +135,7 @@ final class PonderQuestionSearchEngine
       ->execute();
 
     $view = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($questions as $question) {
       $color = PonderQuestionStatus::getQuestionStatusTagColor(

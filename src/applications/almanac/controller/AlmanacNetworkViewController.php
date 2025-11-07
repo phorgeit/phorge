@@ -24,7 +24,7 @@ final class AlmanacNetworkViewController
     $curtain = $this->buildCurtain($network);
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($network->getName())
       ->setHeaderIcon('fa-globe')
       ->setPolicyObject($network);

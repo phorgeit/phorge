@@ -37,7 +37,7 @@ final class PhortuneMerchantInvoiceCreateController
 
     if (!$target_user) {
       $form = id(new AphrontFormView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->appendRemarkupInstructions(pht('Choose a user to invoice.'))
         ->appendControl(
           id(new AphrontFormTokenizerControl())
@@ -71,7 +71,7 @@ final class PhortuneMerchantInvoiceCreateController
         ->execute();
 
       $form = id(new AphrontFormView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->addHiddenInput('userPHID', $target_user->getPHID())
         ->appendRemarkupInstructions(pht('Choose which account to invoice.'))
         ->appendControl(
@@ -191,7 +191,7 @@ final class PhortuneMerchantInvoiceCreateController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('userPHID', $target_user->getPHID())
       ->addHiddenInput('accountPHID', $target_account->getPHID())
       ->addHiddenInput('invoice', true)

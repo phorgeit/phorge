@@ -33,7 +33,7 @@ final class PHUIHovercardUIExample extends PhabricatorUIExample {
       ->addField(pht('Author'), $user->getUsername())
       ->addField(pht('Updated'), phabricator_datetime(time(), $user))
       ->addAction(pht('Subscribe'), '/dev/random')
-      ->setUser($user));
+      ->setViewer($user));
     $elements[] = $panel;
 
     $task_handle = $this->createBasicDummyHandle(
@@ -47,7 +47,7 @@ final class PHUIHovercardUIExample extends PhabricatorUIExample {
     $panel = $this->createPanel(pht('Maniphest Hovercard'));
     $panel->appendChild(id(new PHUIHovercardView())
       ->setObjectHandle($task_handle)
-      ->setUser($user)
+      ->setViewer($user)
       ->addField(pht('Assigned to'), $user->getUsername())
       ->addField(pht('Dependent Tasks'), 'T123, T124, T125')
       ->addAction(pht('Subscribe'), '/dev/random')
@@ -67,7 +67,7 @@ final class PHUIHovercardUIExample extends PhabricatorUIExample {
       ->addField(pht('Status'), pht('Available'))
       ->addField(pht('Member since'), '30. February 1750')
       ->addAction(pht('Send a Message'), '/dev/null')
-      ->setUser($user));
+      ->setViewer($user));
     $elements[] = $panel;
 
     return phutil_implode_html('', $elements);

@@ -109,7 +109,7 @@ final class PhluxEditController extends PhluxController {
       ->execute();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setValue($var->getVariableKey())

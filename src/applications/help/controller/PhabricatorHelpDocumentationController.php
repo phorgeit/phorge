@@ -23,7 +23,7 @@ final class PhabricatorHelpDocumentationController
     $title = pht('%s Help', $application->getName());
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($items as $item) {
       if ($item->getType() == PHUIListItemView::TYPE_LABEL) {
         continue;

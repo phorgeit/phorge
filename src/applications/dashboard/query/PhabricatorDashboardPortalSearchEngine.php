@@ -64,7 +64,7 @@ final class PhabricatorDashboardPortalSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($portals as $portal) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName($portal->getObjectName())

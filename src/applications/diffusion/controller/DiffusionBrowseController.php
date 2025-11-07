@@ -301,7 +301,7 @@ final class DiffusionBrowseController extends DiffusionController {
       $browse_table = id(new DiffusionBrowseTableView())
         ->setDiffusionRequest($drequest)
         ->setPaths($results->getPaths())
-        ->setUser($request->getUser());
+        ->setViewer($request->getUser());
 
       $title = nonempty(basename($drequest->getPath()), '/');
       $icon = 'fa-folder-open';
@@ -527,7 +527,7 @@ final class DiffusionBrowseController extends DiffusionController {
       $drequest->getPath());
 
     $ownership = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString(pht('No Owners'));
 
     if ($packages) {
@@ -810,7 +810,7 @@ final class DiffusionBrowseController extends DiffusionController {
     $search = $this->renderSearchForm($path);
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($this->renderPathLinks($drequest, $mode = 'browse'))
       ->addActionItem($search)
       ->addTag($commit_tag)
@@ -888,7 +888,7 @@ final class DiffusionBrowseController extends DiffusionController {
 
     $viewer = $this->getViewer();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($drequest->getSymbolicType() == 'tag') {
       $symbolic = $drequest->getSymbolicCommit();

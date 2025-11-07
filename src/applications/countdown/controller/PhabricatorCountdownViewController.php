@@ -20,7 +20,7 @@ final class PhabricatorCountdownViewController
     }
 
     $countdown_view = id(new PhabricatorCountdownView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCountdown($countdown);
 
     $id = $countdown->getID();
@@ -44,7 +44,7 @@ final class PhabricatorCountdownViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($countdown)
       ->setStatus($icon, $color, $status)
       ->setHeaderIcon('fa-rocket');

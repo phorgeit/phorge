@@ -32,7 +32,7 @@ final class PhabricatorProjectListView extends AphrontView {
   }
 
   public function renderList() {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     $viewer_phid = $viewer->getPHID();
     $projects = $this->getProjects();
 

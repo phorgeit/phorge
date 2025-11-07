@@ -70,7 +70,7 @@ final class DivinerBookEditController extends DivinerController {
     $edit_capability = PhabricatorPolicyCapability::CAN_EDIT;
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setDatasource(new PhabricatorProjectDatasource())

@@ -87,7 +87,7 @@ final class PhabricatorPhurlURLViewController
       ->setDisabled(!$url->isValid());
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($url->getDisplayName())
       ->setStatus($icon, $color, $status)
       ->setPolicyObject($url)
@@ -124,7 +124,7 @@ final class PhabricatorPhurlURLViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $properties->addProperty(
       pht('Short URL'),

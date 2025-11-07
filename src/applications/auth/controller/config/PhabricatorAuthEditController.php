@@ -59,7 +59,7 @@ final class PhabricatorAuthEditController
       if ($configs) {
         $id = head($configs)->getID();
         $dialog = id(new AphrontDialogView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setMethod('GET')
           ->setSubmitURI($this->getApplicationURI('config/edit/'.$id.'/'))
           ->setTitle(pht('Provider Already Configured'))
@@ -277,7 +277,7 @@ final class PhabricatorAuthEditController
         'the only available provider.'));
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('provider', $provider_class)
       ->appendChild(
         id(new AphrontFormCheckboxControl())

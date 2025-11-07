@@ -30,7 +30,7 @@ final class PhabricatorProjectBoardFilterController
     }
 
     $filter_form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $search_engine->buildSearchForm($filter_form, $saved_query);
 

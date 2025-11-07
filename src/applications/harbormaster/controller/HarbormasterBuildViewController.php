@@ -28,7 +28,7 @@ final class HarbormasterBuildViewController
 
     $page_header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($build)
       ->setHeaderIcon('fa-cubes');
 
@@ -119,7 +119,7 @@ final class HarbormasterBuildViewController
     foreach ($build_targets as $build_target) {
       $header = id(new PHUIHeaderView())
         ->setHeader($build_target->getName())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setHeaderIcon('fa-bullseye');
 
       $target_box = id(new PHUIObjectBoxView())
@@ -422,7 +422,7 @@ final class HarbormasterBuildViewController
           $log->getLogType()))
         ->addActionLink($prototype_view)
         ->setSubheader($subheader)
-        ->setUser($viewer);
+        ->setViewer($viewer);
 
       $log_box = id(new PHUIObjectBoxView())
         ->setHeader($header)
@@ -566,7 +566,7 @@ final class HarbormasterBuildViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $handles = id(new PhabricatorHandleQuery())
       ->setViewer($viewer)

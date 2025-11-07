@@ -27,7 +27,7 @@ final class PhortuneCartViewController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($order->getName())
       ->setHeaderIcon('fa-shopping-bag');
 

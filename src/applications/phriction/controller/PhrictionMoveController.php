@@ -97,7 +97,7 @@ final class PhrictionMoveController extends PhrictionController {
 
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormStaticControl())
           ->setLabel(pht('Title'))

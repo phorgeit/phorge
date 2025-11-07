@@ -140,7 +140,7 @@ final class DiffusionLintController extends DiffusionController {
 
     if (!$drequest) {
       $form = id(new AphrontFormView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setMethod('GET')
         ->appendControl(
           id(new AphrontFormTokenizerControl())
@@ -180,7 +180,7 @@ final class DiffusionLintController extends DiffusionController {
 
       $header = id(new PHUIHeaderView())
         ->setHeader(pht('Lint: %s', $this->renderPathLinks($drequest, 'lint')))
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setHeaderIcon('fa-code');
       $actions = $this->buildActionView($drequest);
       $properties = $this->buildPropertyView(
@@ -307,7 +307,7 @@ final class DiffusionLintController extends DiffusionController {
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PhabricatorActionListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $list_uri = $drequest->generateURI(
       array(
@@ -355,7 +355,7 @@ final class DiffusionLintController extends DiffusionController {
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setActionList($actions);
 
     $lint_commit = $branch->getLintCommit();

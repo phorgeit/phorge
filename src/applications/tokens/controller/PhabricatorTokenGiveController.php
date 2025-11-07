@@ -71,7 +71,7 @@ final class PhabricatorTokenGiveController extends PhabricatorTokenController {
       $dialog = $this->buildRescindTokenDialog(head($current));
     }
 
-    $dialog->setUser($viewer);
+    $dialog->setViewer($viewer);
     $dialog->addCancelButton($done_uri);
 
     return id(new AphrontDialogResponse())->setDialog($dialog);

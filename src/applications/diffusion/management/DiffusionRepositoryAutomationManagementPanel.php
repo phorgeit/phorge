@@ -97,7 +97,7 @@ final class DiffusionRepositoryAutomationManagementPanel
       $blueprint_view = phutil_tag('em', array(), pht('Not Configured'));
     } else {
       $blueprint_view = id(new DrydockObjectAuthorizationView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObjectPHID($repository->getPHID())
         ->setBlueprintPHIDs($blueprint_phids);
     }

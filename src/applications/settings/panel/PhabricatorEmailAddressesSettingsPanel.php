@@ -308,7 +308,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $address = $email->getAddress();
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('delete', $email_id)
       ->setTitle(pht("Really delete address '%s'?", $address))
       ->appendParagraph(
@@ -350,7 +350,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $address = $email->getAddress();
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('verify', $email_id)
       ->setTitle(pht('Send Another Verification Email?'))
       ->appendChild(phutil_tag('p', array(), pht(
@@ -395,7 +395,7 @@ final class PhabricatorEmailAddressesSettingsPanel
     $address = $email->getAddress();
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addHiddenInput('primary', $email_id)
       ->setTitle(pht('Change primary email address?'))
       ->appendParagraph(

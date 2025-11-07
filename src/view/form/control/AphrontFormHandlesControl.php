@@ -35,7 +35,7 @@ final class AphrontFormHandlesControl extends AphrontFormControl {
 
   protected function renderInput() {
     $value = $this->getValue();
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $out = array();
 

@@ -41,7 +41,7 @@ final class FundInitiativeViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($initiative->getName())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($initiative)
       ->setStatus($status_icon, $status_color, $status_name)
       ->setHeaderIcon('fa-heart');
@@ -76,7 +76,7 @@ final class FundInitiativeViewController
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $owner_phid = $initiative->getOwnerPHID();
     $merchant_phid = $initiative->getMerchantPHID();

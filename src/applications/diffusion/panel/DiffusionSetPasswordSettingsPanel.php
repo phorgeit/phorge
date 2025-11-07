@@ -111,7 +111,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
     $title = pht('Set VCS Password');
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions(
         pht(
           'To access repositories hosted on this server over HTTP, you must '.
@@ -226,7 +226,7 @@ final class DiffusionSetPasswordSettingsPanel extends PhabricatorSettingsPanel {
       ->setFormErrors($errors);
 
     $remove_form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($vcspassword->getID()) {
       $remove_form

@@ -94,7 +94,7 @@ final class PHUIHovercardView extends AphrontTagView {
       throw new PhutilInvalidStateException('setObjectHandle');
     }
 
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     $handle = $this->handle;
 
     require_celerity_resource('phui-hovercard-view-css');
@@ -107,7 +107,7 @@ final class PHUIHovercardView extends AphrontTagView {
 
     $title = array(
       id(new PHUISpacesNamespaceContextView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($this->getObject()),
       $this->title ? $this->title : $handle->getName(),
     );

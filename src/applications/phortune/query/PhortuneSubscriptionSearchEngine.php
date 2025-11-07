@@ -134,7 +134,7 @@ final class PhortuneSubscriptionSearchEngine
     $viewer = $this->requireViewer();
 
     $table = id(new PhortuneSubscriptionTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setSubscriptions($subscriptions);
 
     $merchant = $this->getMerchant();

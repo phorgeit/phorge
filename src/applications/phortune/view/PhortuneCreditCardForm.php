@@ -95,7 +95,7 @@ final class PhortuneCreditCardForm extends Phobject {
       ->appendChild(
         id(new PhortuneMonthYearExpiryControl())
           ->setLabel(pht('Expiration'))
-          ->setUser($this->user)
+          ->setViewer($this->user)
           ->setError($e_expiry));
 
     $assurance = $this->getSecurityAssurance();

@@ -66,7 +66,7 @@ final class PhabricatorEmailVerificationController
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle($title)
       ->addCancelButton('/', $continue)
       ->appendChild($content);

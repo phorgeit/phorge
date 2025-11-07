@@ -65,7 +65,7 @@ final class PhabricatorPeopleProfileManageController
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($user);
 
     $field_list = PhabricatorCustomField::getObjectFields(

@@ -58,7 +58,7 @@ final class PhamePostMoveController extends PhamePostController {
     asort($options);
 
     $form = id(new PHUIFormLayoutView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormSelectControl())
           ->setLabel(pht('Blog'))

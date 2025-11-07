@@ -42,7 +42,7 @@ final class PhabricatorMustVerifyEmailController
       'to try sending another one.');
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle(pht('Check Your Email'))
       ->appendParagraph($must_verify)
       ->appendParagraph($send_again)

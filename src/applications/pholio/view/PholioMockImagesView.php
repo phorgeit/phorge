@@ -68,7 +68,7 @@ final class PholioMockImagesView extends AphrontView {
 
     // TODO: We could maybe do a better job with tailoring this, which is the
     // image shown on the review stage.
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $default = PhabricatorFile::loadBuiltin($viewer, 'image-100x100.png');
 
@@ -142,7 +142,7 @@ final class PholioMockImagesView extends AphrontView {
       'commentFormID' => $this->getCommentFormID(),
       'images' => $images,
       'selectedID' => $selected_id,
-      'loggedIn' => $this->getUser()->isLoggedIn(),
+      'loggedIn' => $this->getViewer()->isLoggedIn(),
       'logInLink' => (string)$login_uri,
       'navsequence' => $navsequence,
       'fullIcon' => hsprintf('%s', $full_icon),

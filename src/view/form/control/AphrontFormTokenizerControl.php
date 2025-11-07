@@ -65,7 +65,7 @@ final class AphrontFormTokenizerControl extends AphrontFormControl {
       throw new Exception(
         pht('You must set a datasource to use a TokenizerControl.'));
     }
-    $datasource->setViewer($this->getUser());
+    $datasource->setViewer($this->getViewer());
 
     $placeholder = null;
     if (!phutil_nonempty_string($this->placeholder)) {
@@ -125,7 +125,7 @@ final class AphrontFormTokenizerControl extends AphrontFormControl {
 
   private function loadHandles() {
     if ($this->handles === null) {
-      $viewer = $this->getUser();
+      $viewer = $this->getViewer();
       if (!$viewer) {
         throw new Exception(
           pht(

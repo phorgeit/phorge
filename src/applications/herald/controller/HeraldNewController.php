@@ -213,7 +213,7 @@ final class HeraldNewController extends HeraldController {
       ->replaceQueryParam('adapter', $adapter_type);
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBig(true);
 
     foreach ($specs as $rule_type => $spec) {

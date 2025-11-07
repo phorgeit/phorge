@@ -37,7 +37,7 @@ final class PhabricatorAuthFactorProviderEditController
     $factors = PhabricatorAuthFactor::getAllFactors();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBig(true)
       ->setFlush(true);
 

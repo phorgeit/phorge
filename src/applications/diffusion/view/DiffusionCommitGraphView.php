@@ -338,7 +338,7 @@ final class DiffusionCommitGraphView
 
     $show_builds = PhabricatorApplication::isClassInstalledForViewer(
       PhabricatorHarbormasterApplication::class,
-      $this->getUser());
+      $this->getViewer());
 
     return $show_builds;
   }

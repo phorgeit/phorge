@@ -80,7 +80,7 @@ final class PhabricatorDashboardQueryPanelType
       if (!$viewer->isLoggedIn()) {
       // If user is not logged in, authored/assigned/etc queries are empty.
         return id(new PHUIObjectItemListView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setNoDataString(pht('You must log in to access this panel.'));
       }
       throw new Exception(

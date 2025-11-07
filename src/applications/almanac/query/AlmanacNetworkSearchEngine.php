@@ -73,7 +73,7 @@ final class AlmanacNetworkSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($networks as $network) {
       $id = $network->getID();
 

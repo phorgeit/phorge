@@ -56,7 +56,7 @@ final class DiffusionBranchTableController extends DiffusionController {
         ->execute();
 
       $list = id(new DiffusionBranchListView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setBranches($branches)
         ->setCommits($commits)
         ->setDiffusionRequest($drequest);

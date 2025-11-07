@@ -48,7 +48,7 @@ final class ConpherenceColumnViewController extends
     }
 
     $durable_column = id(new ConpherenceDurableColumnView())
-      ->setUser($user)
+      ->setViewer($user)
       ->setVisible(true);
     if (!$conpherence) {
       if ($should_404) {

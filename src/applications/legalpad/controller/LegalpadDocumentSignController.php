@@ -261,7 +261,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
     // These details are available on the "Manage" page.
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEpoch($content_updated);
 
     // If we're showing the user this document because it's required to use
@@ -287,7 +287,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
       // elements like "Subscribers". This information is available on the
       // "Manage" page, but just clutters up the "Signature" page.
       $preamble = id(new PHUIPropertyListView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->addSectionHeader(pht('Preamble'))
         ->addTextContent($preamble_text);
 
@@ -409,7 +409,7 @@ final class LegalpadDocumentSignController extends LegalpadController {
     $data = $signature->getSignatureData();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $signature_type = $document->getSignatureType();
     switch ($signature_type) {

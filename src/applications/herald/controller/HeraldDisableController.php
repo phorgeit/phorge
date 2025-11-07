@@ -54,7 +54,7 @@ final class HeraldDisableController extends HeraldController {
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle($title)
       ->appendChild($body)
       ->addSubmitButton($button)

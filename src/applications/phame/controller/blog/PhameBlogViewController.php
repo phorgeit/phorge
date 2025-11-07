@@ -36,7 +36,7 @@ final class PhameBlogViewController extends PhameLiveController {
 
     $header = id(new PHUIHeaderView())
       ->addClass('phame-header-bar')
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if (!$is_external) {
       if ($blog->isArchived()) {
@@ -134,7 +134,7 @@ final class PhameBlogViewController extends PhameLiveController {
 
     $actions = id(new PhabricatorActionListView())
       ->setObject($blog)
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
@@ -151,7 +151,7 @@ final class PhameBlogViewController extends PhameLiveController {
 
     $actions->addAction(
       id(new PhabricatorActionView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setIcon('fa-search')
         ->setHref(
           $this->getApplicationURI('post/?blog='.$blog->getPHID()))
@@ -159,7 +159,7 @@ final class PhameBlogViewController extends PhameLiveController {
 
     $actions->addAction(
       id(new PhabricatorActionView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setIcon('fa-globe')
         ->setHref($blog->getLiveURI())
         ->setName(pht('View Live')));

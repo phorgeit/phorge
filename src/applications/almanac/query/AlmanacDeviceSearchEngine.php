@@ -107,7 +107,7 @@ final class AlmanacDeviceSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($devices as $device) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Device %d', $device->getID()))

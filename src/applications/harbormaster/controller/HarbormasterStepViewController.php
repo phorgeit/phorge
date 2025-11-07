@@ -68,7 +68,7 @@ final class HarbormasterStepViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     try {
       $implementation = $step->getStepImplementation();

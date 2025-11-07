@@ -65,7 +65,7 @@ final class PhabricatorUserBlurbField
 
   public function renderEditControl(array $handles) {
     return id(new PhabricatorRemarkupControl())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setName($this->getFieldKey())
       ->setValue($this->value)
       ->setLabel($this->getFieldName());

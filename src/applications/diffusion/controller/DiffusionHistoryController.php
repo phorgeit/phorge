@@ -105,7 +105,7 @@ final class DiffusionHistoryController extends DiffusionController {
     }
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($header_text)
       ->setHeaderIcon('fa-clock-o');
 

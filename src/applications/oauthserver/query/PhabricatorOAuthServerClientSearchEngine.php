@@ -87,7 +87,7 @@ final class PhabricatorOAuthServerClientSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($clients as $client) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Application %d', $client->getID()))

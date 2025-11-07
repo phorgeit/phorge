@@ -45,7 +45,7 @@ final class DiffusionPushEventViewController
     $logs = $event->getLogs();
 
     $updates_table = id(new DiffusionPushLogListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setLogs($logs);
 
     $update_box = id(new PHUIObjectBoxView())

@@ -20,7 +20,7 @@ final class PhamePostViewController
 
     $header = id(new PHUIHeaderView())
       ->addClass('phame-header-bar')
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $hero = $this->buildPhamePostHeader($post);
 
@@ -148,7 +148,7 @@ final class PhamePostViewController
     list($prev, $next) = $this->loadAdjacentPosts($post);
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($post);
 
     $is_live = $this->getIsLive();
@@ -202,7 +202,7 @@ final class PhamePostViewController
 
     $actions = id(new PhabricatorActionListView())
       ->setObject($post)
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
@@ -288,7 +288,7 @@ final class PhamePostViewController
     if (!$post->isArchived()) {
       $actions->addAction(
         id(new PhabricatorActionView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setIcon('fa-globe')
           ->setHref($post->getLiveURI())
           ->setName($live_name));

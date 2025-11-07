@@ -140,7 +140,7 @@ final class PhabricatorFileViewController extends PhabricatorFileController {
     } else {
       $curtain->addAction(
         id(new PhabricatorActionView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setDownload($can_download)
           ->setName(pht('Download File'))
           ->setIcon('fa-download')

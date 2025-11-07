@@ -59,7 +59,7 @@ final class PhabricatorAuthConfirmLinkController
             PlatformSymbols::getPlatformServerName())))
       ->appendChild(
         id(new PhabricatorAuthAccountView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setExternalAccount($account)
           ->setAuthProvider($provider));
 

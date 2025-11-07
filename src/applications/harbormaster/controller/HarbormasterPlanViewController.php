@@ -22,7 +22,7 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($plan->getName())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($plan)
       ->setHeaderIcon('fa-ship');
 
@@ -106,7 +106,7 @@ final class HarbormasterPlanViewController extends HarbormasterPlanController {
       PhabricatorPolicyCapability::CAN_EDIT);
 
     $step_list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setNoDataString(
         pht('This build plan does not have any build steps yet.'));
 

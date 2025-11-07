@@ -9,7 +9,7 @@ abstract class PhortuneAccountProfileController
     $title = $account->getName();
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($title)
       ->setHeaderIcon('fa-user-circle');
 
@@ -120,7 +120,7 @@ abstract class PhortuneAccountProfileController
     $orders_uri = $account->getOrderListURI();
 
     $table = id(new PhortuneOrderTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCarts($carts);
 
     $header = id(new PHUIHeaderView())

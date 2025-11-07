@@ -33,7 +33,7 @@ final class PhabricatorNotificationClearController
     }
 
     $dialog = new AphrontDialogView();
-    $dialog->setUser($viewer);
+    $dialog->setViewer($viewer);
     $dialog->addCancelButton('/notification/');
     if ($chrono_key) {
       $dialog->setTitle(pht('Really mark all notifications as read?'));

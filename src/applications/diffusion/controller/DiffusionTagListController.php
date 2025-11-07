@@ -72,7 +72,7 @@ final class DiffusionTagListController extends DiffusionController {
 
       $tag_list = id(new DiffusionTagListView())
         ->setTags($tags)
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setCommits($commits)
         ->setDiffusionRequest($drequest);
 

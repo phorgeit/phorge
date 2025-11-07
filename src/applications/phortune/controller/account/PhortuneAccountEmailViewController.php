@@ -148,7 +148,7 @@ final class PhortuneAccountEmailViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $access_key = $address->getAccessKey();
 

@@ -144,7 +144,7 @@ final class PhabricatorDaemonConsoleController
       ->setTable($completed_table);
 
     $daemon_table = id(new PhabricatorDaemonLogListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setDaemonLogs($logs);
 
     $daemon_panel = id(new PHUIObjectBoxView())

@@ -33,7 +33,7 @@ final class PhabricatorFileUICurtainListController
     $file_handles = $viewer->loadHandles($file_phids);
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($attachments as $attachment) {
       $file_phid = $attachment->getFilePHID();
       $handle = $file_handles[$file_phid];

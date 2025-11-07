@@ -89,7 +89,7 @@ final class PhortuneMerchantPictureController
     $title = pht('Edit Logo');
 
     $form = id(new PHUIFormLayoutView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $default_image = PhabricatorFile::loadBuiltin($viewer, 'merchant.png');
 
@@ -182,7 +182,7 @@ final class PhortuneMerchantPictureController
       ->setForm($form);
 
     $upload_form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

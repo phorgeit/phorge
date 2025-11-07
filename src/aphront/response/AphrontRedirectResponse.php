@@ -68,7 +68,7 @@ class AphrontRedirectResponse extends AphrontResponse {
       $view->setTitle(pht('Stopped on Redirect'));
 
       $dialog = new AphrontDialogView();
-      $dialog->setUser($viewer);
+      $dialog->setViewer($viewer);
       $dialog->setTitle(pht('Stopped on Redirect'));
 
       $dialog->appendParagraph(
@@ -87,7 +87,7 @@ class AphrontRedirectResponse extends AphrontResponse {
 
       $dialog->appendChild(
         id(new AphrontStackTraceView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setTrace($this->stackWhenCreated));
 
       $dialog->setIsStandalone(true);

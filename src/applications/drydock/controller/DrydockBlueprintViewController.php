@@ -18,7 +18,7 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($blueprint)
       ->setHeaderIcon('fa-map-o');
 
@@ -132,7 +132,7 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $view->addProperty(
       pht('Type'),
@@ -156,7 +156,7 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
       ->execute();
 
     $resource_list = id(new DrydockResourceListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setResources($resources)
       ->render()
       ->setNoDataString(pht('This blueprint has no active resources.'));
@@ -222,7 +222,7 @@ final class DrydockBlueprintViewController extends DrydockBlueprintController {
       mpull($all_authorizations, null, 'getPHID');
 
     $authorization_list = id(new DrydockAuthorizationListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setAuthorizations($authorizations)
       ->setNoDataString(
         pht('No objects have active authorizations to use this blueprint.'));

@@ -17,7 +17,7 @@ final class DiffusionCloneController extends DiffusionController {
     $repository = $drequest->getRepository();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $display_never = PhabricatorRepositoryURI::DISPLAY_NEVER;
     $warning = null;

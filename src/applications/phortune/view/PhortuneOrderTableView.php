@@ -55,7 +55,7 @@ final class PhortuneOrderTableView extends AphrontView {
 
   public function render() {
     $carts = $this->getCarts();
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $is_invoices = $this->getIsInvoices();
     $is_merchant = $this->getIsMerchantView();

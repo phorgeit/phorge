@@ -148,7 +148,7 @@ final class PhabricatorProjectColumnEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($request->getUser());
+      ->setViewer($request->getUser());
 
     // Show the most appropriate input field for the name.
     if ($is_column) {

@@ -24,7 +24,7 @@ final class DrydockObjectAuthorizationView extends AphrontView {
   }
 
   public function render() {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     $blueprint_phids = $this->getBlueprintPHIDs();
     $object_phid = $this->getObjectPHID();
 

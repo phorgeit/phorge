@@ -67,7 +67,7 @@ final class DiffusionReadmeView extends DiffusionView {
         $markup_field = 'default';
 
         $content = id(new PhabricatorMarkupEngine())
-          ->setViewer($this->getUser())
+          ->setViewer($this->getViewer())
           ->addObject($markup_object, $markup_field)
           ->process()
           ->getOutput($markup_object, $markup_field);

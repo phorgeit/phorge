@@ -38,7 +38,7 @@ final class ManiphestTaskSubtaskController
     }
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBig(true)
       ->setFlush(true);
 

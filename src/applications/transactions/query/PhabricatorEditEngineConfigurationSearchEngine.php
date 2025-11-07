@@ -114,7 +114,7 @@ final class PhabricatorEditEngineConfigurationSearchEngine
     $engine_key = $this->getEngineKey();
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($configs as $config) {
       $item = id(new PHUIObjectItemView())
         ->setHeader($config->getDisplayName());

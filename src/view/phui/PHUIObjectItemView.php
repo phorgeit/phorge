@@ -214,7 +214,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   public function setEpoch($epoch) {
-    $date = phabricator_dual_datetime($epoch, $this->getUser());
+    $date = phabricator_dual_datetime($epoch, $this->getViewer());
     $this->addIcon('none', $date);
     return $this;
   }
@@ -403,7 +403,7 @@ final class PHUIObjectItemView extends AphrontTagView {
   }
 
   protected function getTagContent() {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $content_classes = array();
     $content_classes[] = 'phui-oi-content';

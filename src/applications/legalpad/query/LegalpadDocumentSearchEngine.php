@@ -121,7 +121,7 @@ final class LegalpadDocumentSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($documents as $document) {
       $last_updated = phabricator_date($document->getDateModified(), $viewer);
 

@@ -47,7 +47,7 @@ final class PhabricatorBadgesRemoveRecipientsController
       ->executeOne();
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle(pht('Really Revoke Badge?'))
       ->appendParagraph(
         pht(

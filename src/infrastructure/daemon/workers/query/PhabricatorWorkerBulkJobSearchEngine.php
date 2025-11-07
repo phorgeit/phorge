@@ -85,7 +85,7 @@ final class PhabricatorWorkerBulkJobSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
     foreach ($jobs as $job) {
       $size = pht('%s Bulk Task(s)', new PhutilNumber($job->getSize()));
 

@@ -56,7 +56,7 @@ final class PhameBlogArchiveController
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle($title)
       ->appendChild($body)
       ->addCancelButton($view_uri)

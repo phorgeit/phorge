@@ -80,7 +80,7 @@ final class PhabricatorRemarkupControl
       $this->setID($id);
     }
 
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     if (!$viewer) {
       throw new PhutilInvalidStateException('setUser');
     }

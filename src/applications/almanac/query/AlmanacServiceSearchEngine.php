@@ -100,7 +100,7 @@ final class AlmanacServiceSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($services as $service) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Service %d', $service->getID()))

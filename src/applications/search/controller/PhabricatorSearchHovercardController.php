@@ -117,7 +117,7 @@ final class PhabricatorSearchHovercardController
       }
 
       $hovercard = id(new PHUIHovercardView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObjectHandle($handle);
 
       if ($context_object) {

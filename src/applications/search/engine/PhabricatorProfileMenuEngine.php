@@ -637,7 +637,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     }
 
     $menu = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $modes = array_fuse($modes);
 

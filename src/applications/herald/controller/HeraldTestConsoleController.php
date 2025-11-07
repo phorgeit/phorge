@@ -105,7 +105,7 @@ final class HeraldTestConsoleController extends HeraldController {
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions(
         pht(
         'Enter an object to test rules for, like a Diffusion commit (e.g., '.

@@ -39,7 +39,7 @@ final class PhabricatorMacroViewController
     $comment_form = $this->buildCommentForm($macro, $timeline);
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($macro)
       ->setHeader($macro->getName())
       ->setHeaderIcon('fa-file-image-o');
@@ -154,7 +154,7 @@ final class PhabricatorMacroViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     switch ($macro->getAudioBehavior()) {
       case PhabricatorFileImageMacro::AUDIO_BEHAVIOR_ONCE:
@@ -184,7 +184,7 @@ final class PhabricatorMacroViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $file = $macro->getFile();
     if ($file) {

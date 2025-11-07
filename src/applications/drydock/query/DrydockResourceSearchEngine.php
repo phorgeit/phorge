@@ -105,7 +105,7 @@ final class DrydockResourceSearchEngine
     array $handles) {
 
     $list = id(new DrydockResourceListView())
-      ->setUser($this->requireViewer())
+      ->setViewer($this->requireViewer())
       ->setResources($resources);
 
     $result = new PhabricatorApplicationSearchResultView();

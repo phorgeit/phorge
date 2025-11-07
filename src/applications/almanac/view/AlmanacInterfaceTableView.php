@@ -25,7 +25,7 @@ final class AlmanacInterfaceTableView extends AphrontView {
 
   public function render() {
     $interfaces = $this->getInterfaces();
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $can_edit = $this->getCanEdit();
 

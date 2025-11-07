@@ -52,7 +52,7 @@ final class PhortuneMerchantDetailsController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($merchant);
 
     $invoice_from = $merchant->getInvoiceEmail();

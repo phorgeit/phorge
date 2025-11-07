@@ -64,7 +64,7 @@ final class DiffusionChangeController extends DiffusionController {
     $changeset_view->setRawFileURIs($left_uri, $right_uri);
 
     $changeset_view->setRenderURI($repository->getPathURI('diff/'));
-    $changeset_view->setUser($viewer);
+    $changeset_view->setViewer($viewer);
     $changeset_view->setHeader($changeset_header);
 
     // TODO: This is pretty awkward, unify the CSS between Diffusion and
@@ -112,7 +112,7 @@ final class DiffusionChangeController extends DiffusionController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($links)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($drequest->getRepository())
       ->addTag($tag);
 
@@ -159,7 +159,7 @@ final class DiffusionChangeController extends DiffusionController {
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setActionList($actions);
 
     $stable_commit = $drequest->getStableCommit();

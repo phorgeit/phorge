@@ -131,7 +131,7 @@ class PhabricatorApplicationTransactionView extends AphrontView {
   }
 
   public function buildEvents($with_hiding = false) {
-    $user = $this->getUser();
+    $user = $this->getViewer();
 
     $xactions = $this->transactions;
 

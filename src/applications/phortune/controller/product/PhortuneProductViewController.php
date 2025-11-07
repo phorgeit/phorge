@@ -32,7 +32,7 @@ final class PhortuneProductViewController extends PhortuneController {
     $crumbs->setBorder(true);
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addProperty(
         pht('Price'),
         $product->getPriceAsCurrency()->formatForDisplay());

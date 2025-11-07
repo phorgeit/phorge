@@ -60,7 +60,7 @@ final class PhortuneAccountManagersController
       ->addActionLink($add);
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $member_phids = $account->getMemberPHIDs();
     $handles = $viewer->loadHandles($member_phids);

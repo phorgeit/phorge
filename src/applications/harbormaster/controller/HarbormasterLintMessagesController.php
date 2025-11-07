@@ -39,7 +39,7 @@ final class HarbormasterLintMessagesController
     }
 
     $lint_table = id(new HarbormasterLintPropertyView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setLintMessages($lint_data);
 
     $lint = id(new PHUIObjectBoxView())

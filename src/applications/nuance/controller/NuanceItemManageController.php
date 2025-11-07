@@ -53,7 +53,7 @@ final class NuanceItemManageController extends NuanceController {
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $properties->addProperty(
       pht('Date Created'),

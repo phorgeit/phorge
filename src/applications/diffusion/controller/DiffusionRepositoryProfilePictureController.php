@@ -86,7 +86,7 @@ final class DiffusionRepositoryProfilePictureController
     $title = pht('Edit Picture');
 
     $form = id(new PHUIFormLayoutView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $default_image = PhabricatorFile::loadBuiltin(
       $viewer, 'repo/code.png');
@@ -210,7 +210,7 @@ final class DiffusionRepositoryProfilePictureController
       ->setForm($form);
 
     $upload_form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

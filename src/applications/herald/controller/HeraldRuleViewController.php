@@ -21,7 +21,7 @@ final class HeraldRuleViewController extends HeraldController {
     }
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($rule->getName())
       ->setPolicyObject($rule)
       ->setHeaderIcon('fa-bullhorn');
@@ -110,7 +110,7 @@ final class HeraldRuleViewController extends HeraldController {
 
     $viewer = $this->getRequest()->getUser();
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $view->addProperty(
       pht('Rule Type'),

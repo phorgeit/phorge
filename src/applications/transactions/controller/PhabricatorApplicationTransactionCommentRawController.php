@@ -56,7 +56,7 @@ final class PhabricatorApplicationTransactionCommentRawController
       }
     }
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addCancelButton($obj_handle->getURI())
       ->setTitle($title);
 

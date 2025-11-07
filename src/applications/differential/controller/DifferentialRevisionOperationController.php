@@ -91,7 +91,7 @@ final class DifferentialRevisionOperationController
         ));
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions(
         pht(
           '(NOTE) This feature is new and experimental.'))

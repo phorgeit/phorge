@@ -15,7 +15,7 @@ final class DrydockResourceListView extends AphrontView {
 
   public function render() {
     $resources = $this->resources;
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $view = new PHUIObjectItemListView();
     foreach ($resources as $resource) {

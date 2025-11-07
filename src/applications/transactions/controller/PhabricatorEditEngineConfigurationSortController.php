@@ -98,7 +98,7 @@ final class PhabricatorEditEngineConfigurationSortController
     $input_id = celerity_generate_unique_node_id();
 
     $list = id(new PHUIObjectItemListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setID($list_id)
       ->setFlush(true);
 

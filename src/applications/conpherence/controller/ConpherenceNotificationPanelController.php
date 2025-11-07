@@ -48,7 +48,7 @@ final class ConpherenceNotificationPanelController
         $image = $d_data['image'];
 
         $msg_view = id(new ConpherenceMenuItemView())
-          ->setUser($user)
+          ->setViewer($user)
           ->setTitle($title)
           ->setSubtitle($subtitle)
           ->setHref($uri)

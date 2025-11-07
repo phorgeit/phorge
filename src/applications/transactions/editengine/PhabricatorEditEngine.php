@@ -1555,7 +1555,7 @@ abstract class PhabricatorEditEngine
       $disabled = false;
 
       $dropdown = id(new PhabricatorActionListView())
-        ->setUser($viewer);
+        ->setViewer($viewer);
 
       foreach ($specs as $spec) {
         $dropdown->addAction(
@@ -1810,11 +1810,11 @@ abstract class PhabricatorEditEngine
       ->setHeader($header_text);
 
     $help_view = id(new PhabricatorApplicationEditHTTPParameterHelpView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setFields($fields);
 
     $document = id(new PHUIDocumentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($header)
       ->appendChild($help_view);
 

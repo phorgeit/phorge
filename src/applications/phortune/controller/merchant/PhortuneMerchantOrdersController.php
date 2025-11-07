@@ -58,7 +58,7 @@ final class PhortuneMerchantOrdersController
     $orders_uri = $merchant->getOrderListURI();
 
     $table = id(new PhortuneOrderTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCarts($carts);
 
     $header = id(new PHUIHeaderView())

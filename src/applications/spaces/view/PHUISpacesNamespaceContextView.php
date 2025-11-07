@@ -22,7 +22,7 @@ final class PHUISpacesNamespaceContextView extends AphrontView {
     }
 
     // If the viewer can't see spaces, pretend they don't exist.
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     if (!PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       return null;
     }

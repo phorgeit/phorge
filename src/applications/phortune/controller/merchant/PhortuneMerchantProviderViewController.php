@@ -112,7 +112,7 @@ final class PhortuneMerchantProviderViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $provider_type = $provider->buildProvider();
 

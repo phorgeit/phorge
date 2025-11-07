@@ -96,7 +96,7 @@ final class PhabricatorProjectBoardImportController
 
     $proj_selector = id(new AphrontFormTokenizerControl())
       ->setName('importProjectPHID')
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setDatasource(id(new PhabricatorProjectDatasource())
         ->setParameters(array('mustHaveColumns' => true))
       ->setLimit(1));

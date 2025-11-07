@@ -27,7 +27,7 @@ final class PhabricatorConduitConsoleController
 
     $form = id(new AphrontFormView())
       ->setAction($call_uri)
-      ->setUser($request->getUser())
+      ->setViewer($request->getUser())
       ->appendRemarkupInstructions(
         pht(
           'Enter parameters using **JSON**. For instance, to enter a '.
@@ -67,7 +67,7 @@ final class PhabricatorConduitConsoleController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($method->getAPIMethodName())
       ->setHeaderIcon('fa-tty');
 

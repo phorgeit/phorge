@@ -755,7 +755,7 @@ final class PhabricatorAuthSessionEngine extends Phobject {
       PhabricatorAuthFactorResult::class);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions('');
 
     $answered = array();

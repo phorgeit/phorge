@@ -27,7 +27,7 @@ final class AlmanacServiceViewController
     $details = $this->buildPropertySection($service);
 
     $header = id(new PHUIHeaderView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHeader($service->getName())
       ->setPolicyObject($service)
       ->setHeaderIcon('fa-plug');
@@ -74,7 +74,7 @@ final class AlmanacServiceViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $properties->addProperty(
       pht('Service Type'),
@@ -127,7 +127,7 @@ final class AlmanacServiceViewController
     $table = id(new AlmanacBindingTableView())
       ->setNoDataString(
         pht('This service has not been bound to any device interfaces yet.'))
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setBindings($bindings)
       ->setHideServiceColumn(true);
 

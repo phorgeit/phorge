@@ -132,7 +132,7 @@ final class PhrequentSearchEngine extends PhabricatorApplicationSearchEngine {
     $viewer = $this->requireViewer();
 
     $view = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($usertimes as $usertime) {
       $item = new PHUIObjectItemView();

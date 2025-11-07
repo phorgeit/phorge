@@ -559,7 +559,7 @@ final class PHUICalendarMonthView extends AphrontView {
   }
 
   private function getTodayMidnight() {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     $today = new DateTime('@'.time());
     $today->setTimezone($viewer->getTimeZone());
     $today->setTime(0, 0, 0);

@@ -32,7 +32,7 @@ final class PholioUploadedImageView extends AphrontView {
       ->setLabel(pht('Title'));
 
     $description = id(new PhabricatorRemarkupControl())
-      ->setViewer($this->getUser())
+      ->setViewer($this->getViewer())
       ->setName('description_'.$phid)
       ->setValue($image->getDescription())
       ->setSigil('image-description')

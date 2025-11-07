@@ -214,7 +214,7 @@ final class PhortuneOrderSummaryView
       ->execute();
 
     $charges_table = id(new PhortuneChargeTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCharges($charges)
       ->setShowOrder(false);
 

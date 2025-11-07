@@ -62,7 +62,7 @@ EOTEXT
       );
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions($help);
 
     $locks = $config->getFieldLocks();

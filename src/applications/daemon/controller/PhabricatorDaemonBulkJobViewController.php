@@ -55,7 +55,7 @@ final class PhabricatorDaemonBulkJobViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($job);
 
     $view->addProperty(

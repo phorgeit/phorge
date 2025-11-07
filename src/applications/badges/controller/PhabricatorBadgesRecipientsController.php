@@ -40,7 +40,7 @@ final class PhabricatorBadgesRecipientsController
       ->setBadge($badge)
       ->setAwards($awards)
       ->setHandles($handles)
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $view = id(new PHUITwoColumnView())
       ->setHeader($header)

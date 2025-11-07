@@ -49,7 +49,7 @@ final class PhortuneAccountChargesController
     $charges_uri = $account->getChargeListURI();
 
     $table = id(new PhortuneChargeTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCharges($charges);
 
     $header = id(new PHUIHeaderView())

@@ -21,7 +21,7 @@ final class PhabricatorUserLogView extends AphrontView {
 
   public function render() {
     $logs = $this->logs;
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $phids = array();
     foreach ($logs as $log) {

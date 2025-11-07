@@ -19,7 +19,7 @@ final class PhrictionNewController extends PhrictionController {
         return $this->newDialog()
           ->setSubmitURI('/phriction/new/')
           ->setTitle(pht('Edit Existing Document?'))
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->appendChild(pht(
             'The document %s already exists. Do you want to edit it instead?',
             phutil_tag('tt', array(), $slug)))

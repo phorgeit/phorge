@@ -31,7 +31,7 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
     $view_uri = "/auth/sshkey/for/{$object_phid}/";
 
     $action_view = id(new PhabricatorActionListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->addAction(
         id(new PhabricatorActionView())
           ->setHref($upload_uri)
@@ -91,7 +91,7 @@ final class PhabricatorAuthSSHKeyTableView extends AphrontView {
 
   public function render() {
     $keys = $this->keys;
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $trusted_icon = id(new PHUIIconView())
       ->setIcon('fa-star blue');

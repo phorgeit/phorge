@@ -146,7 +146,7 @@ final class ConpherenceThreadSearchEngine
 
     $content = array();
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($conpherences as $conpherence_phid => $conpherence) {
       $created = phabricator_date($conpherence->getDateCreated(), $viewer);
       $title = $conpherence->getTitle();
@@ -190,7 +190,7 @@ final class ConpherenceThreadSearchEngine
               }
 
               $view = id(new ConpherenceTransactionView())
-                ->setUser($viewer)
+                ->setViewer($viewer)
                 ->setHandles($handles)
                 ->setMarkupEngine($engines[$conpherence_phid])
                 ->setConpherenceThread($conpherence)

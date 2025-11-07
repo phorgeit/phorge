@@ -68,7 +68,7 @@ final class PhabricatorPeopleProfileTasksAssignedController
     $handles = ManiphestTaskListView::loadTaskHandles($viewer, $tasks);
 
     $list = id(new ManiphestTaskListView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setHandles($handles)
       ->setTasks($tasks)
       ->setNoDataString(pht('No open, assigned tasks.'));

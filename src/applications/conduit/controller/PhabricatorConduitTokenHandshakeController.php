@@ -19,7 +19,7 @@ final class PhabricatorConduitTokenHandshakeController
     unset($unguarded);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions(
         pht(
           'Copy-paste the API Token below to grant access to your account.'))

@@ -141,7 +141,7 @@ final class PhortuneCartCheckoutController
     $payment_method_uri = new PhutilURI($payment_method_uri, $params);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($method_control);
 
     $add_providers = $this->loadCreatePaymentMethodProvidersForMerchant(

@@ -69,7 +69,7 @@ final class PhortuneAccountOverviewController
     $table = id(new PhortuneOrderTableView())
       ->setNoDataString(pht('You have no unpaid invoices.'))
       ->setIsInvoices(true)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCarts($carts);
 
     $header = id(new PHUIHeaderView())

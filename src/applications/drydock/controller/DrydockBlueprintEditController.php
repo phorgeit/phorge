@@ -77,7 +77,7 @@ final class DrydockBlueprintEditController extends DrydockBlueprintController {
     $crumbs->setBorder(true);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($control)
       ->appendChild(
         id(new AphrontFormSubmitControl())

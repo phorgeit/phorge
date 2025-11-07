@@ -24,12 +24,12 @@ final class PonderQuestionViewController extends PonderController {
 
     $answer_add_panel = id(new PonderAddAnswerView())
       ->setQuestion($question)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setActionURI('/ponder/answer/add/');
 
     $header = new PHUIHeaderView();
     $header->setHeader($question->getTitle());
-    $header->setUser($viewer);
+    $header->setViewer($viewer);
     $header->setPolicyObject($question);
     $header->setHeaderIcon('fa-university');
 
@@ -59,7 +59,7 @@ final class PonderQuestionViewController extends PonderController {
     $xactions = $timeline->getTransactions();
 
     $add_comment = id(new PhabricatorApplicationTransactionCommentView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setObject($question)
       ->setShowPreview(false)
       ->setAction($this->getApplicationURI("/question/comment/{$id}/"))
@@ -251,7 +251,7 @@ final class PonderQuestionViewController extends PonderController {
         $xactions = $timeline->getTransactions();
 
         $view[] = id(new PonderAnswerView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->setAnswer($answer)
           ->setTransactions($xactions)
           ->setTimeline($timeline)

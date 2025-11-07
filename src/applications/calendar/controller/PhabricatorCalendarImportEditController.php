@@ -90,7 +90,7 @@ final class PhabricatorCalendarImportEditController
       ->setHeaderIcon('fa-upload');
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild($type_control)
       ->appendChild(
           id(new AphrontFormSubmitControl())

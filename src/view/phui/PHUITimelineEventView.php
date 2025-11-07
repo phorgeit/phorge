@@ -352,7 +352,7 @@ final class PHUITimelineEventView extends AphrontView {
       Javelin::initBehavior('phui-dropdown-menu');
 
       $action_list = id(new PhabricatorActionListView())
-        ->setViewer($this->getUser());
+        ->setViewer($this->getViewer());
       foreach ($items as $item) {
         $action_list->addAction($item);
       }
@@ -571,7 +571,7 @@ final class PHUITimelineEventView extends AphrontView {
       if ($source) {
         $content_source = id(new PhabricatorContentSourceView())
           ->setContentSource($source)
-          ->setViewer($this->getUser());
+          ->setViewer($this->getViewer());
         $content_source = pht('Via %s', $content_source->getSourceName());
       }
 
@@ -589,7 +589,7 @@ final class PHUITimelineEventView extends AphrontView {
       if ($date_created) {
         $date = phabricator_dual_datetime(
           $date_created,
-          $this->getUser());
+          $this->getViewer());
         if ($this->anchor) {
           Javelin::initBehavior('phabricator-watch-anchor');
           Javelin::initBehavior('phabricator-tooltips');

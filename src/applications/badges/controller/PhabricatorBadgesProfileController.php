@@ -36,7 +36,7 @@ abstract class PhabricatorBadgesProfileController
 
     return id(new PHUIHeaderView())
       ->setHeader($badge->getName())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setPolicyObject($badge)
       ->setStatus($status_icon, $status_color, $status_name)
       ->setHeaderIcon('fa-trophy');

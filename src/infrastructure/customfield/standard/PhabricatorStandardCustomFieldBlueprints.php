@@ -31,7 +31,7 @@ final class PhabricatorStandardCustomFieldBlueprints
     }
 
     return id(new DrydockObjectAuthorizationView())
-      ->setUser($this->getViewer())
+      ->setViewer($this->getViewer())
       ->setObjectPHID($this->getObject()->getPHID())
       ->setBlueprintPHIDs($value);
   }

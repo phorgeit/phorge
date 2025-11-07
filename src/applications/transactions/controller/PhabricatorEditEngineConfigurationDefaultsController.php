@@ -78,7 +78,7 @@ final class PhabricatorEditEngineConfigurationDefaultsController
     $title = pht('Edit Form Defaults');
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($fields as $field) {
       $field->appendToForm($form);

@@ -154,7 +154,7 @@ final class PhabricatorFileSearchEngine
     $highlighted_ids = array_fill_keys($highlighted_ids, true);
 
     $list_view = id(new PHUIObjectItemListView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     foreach ($files as $file) {
       $id = $file->getID();
@@ -196,7 +196,7 @@ final class PhabricatorFileSearchEngine
     }
 
     $list_view->appendChild(id(new PhabricatorGlobalUploadTargetView())
-      ->setUser($viewer));
+      ->setViewer($viewer));
 
 
     $result = new PhabricatorApplicationSearchResultView();

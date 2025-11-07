@@ -103,7 +103,7 @@ final class PhabricatorCountdownSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setUser($viewer);
+    $list->setViewer($viewer);
     foreach ($countdowns as $countdown) {
       $id = $countdown->getID();
       $ended = false;
@@ -113,7 +113,7 @@ final class PhabricatorCountdownSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($countdown)
         ->setObjectName($countdown->getMonogram())
         ->setHeader($countdown->getTitle())

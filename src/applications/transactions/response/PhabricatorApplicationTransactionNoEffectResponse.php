@@ -59,7 +59,7 @@ final class PhabricatorApplicationTransactionNoEffectResponse
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($request->getUser())
+      ->setViewer($request->getUser())
       ->setTitle($title);
 
     $dialog->appendChild($head);

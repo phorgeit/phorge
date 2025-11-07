@@ -15,13 +15,13 @@ final class DrydockLeaseListView extends AphrontView {
 
   public function render() {
     $leases = $this->leases;
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
 
     $view = new PHUIObjectItemListView();
 
     foreach ($leases as $lease) {
       $item = id(new PHUIObjectItemView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setHeader($lease->getLeaseName())
         ->setHref('/drydock/lease/'.$lease->getID().'/');
 

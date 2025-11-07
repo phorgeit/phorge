@@ -48,7 +48,7 @@ final class PhortuneAccountSubscriptionController
       ->execute();
 
     $table = id(new PhortuneSubscriptionTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setSubscriptions($subscriptions);
 
     $header = id(new PHUIHeaderView())

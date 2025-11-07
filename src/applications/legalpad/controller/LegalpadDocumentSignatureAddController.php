@@ -114,7 +114,7 @@ final class LegalpadDocumentSignatureAddController extends LegalpadController {
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     if ($is_individual) {
       $form

@@ -174,7 +174,7 @@ final class PhabricatorObjectSelectorDialog extends Phobject {
 
     $dialog = new AphrontDialogView();
     $dialog
-      ->setUser($this->user)
+      ->setViewer($this->user)
       ->setTitle($this->title)
       ->setClass('phabricator-object-selector-dialog')
       ->appendChild($search_box)

@@ -81,7 +81,7 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
 
     $form = id(new AphrontFormView())
       ->addHiddenInput('behaviorForm', 1)
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $options = id(new AphrontFormRadioButtonControl())
       ->setLabel(pht('Audio Behavior'))
@@ -125,7 +125,7 @@ final class PhabricatorMacroAudioController extends PhabricatorMacroController {
 
     $upload_form = id(new AphrontFormView())
       ->setEncType('multipart/form-data')
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendChild(
         id(new AphrontFormFileControl())
           ->setLabel(pht('Audio File'))

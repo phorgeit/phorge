@@ -32,7 +32,7 @@ final class PhabricatorRateLimitRequestExceptionHandler
 
     return id(new AphrontDialogView())
       ->setTitle(pht('Slow Down!'))
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setErrors(array(pht('You are being rate limited.')))
       ->appendParagraph($throwable->getMessage())
       ->appendParagraph($throwable->getRateExplanation())

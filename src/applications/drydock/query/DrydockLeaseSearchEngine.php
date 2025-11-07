@@ -114,7 +114,7 @@ final class DrydockLeaseSearchEngine
     array $handles) {
 
     $list = id(new DrydockLeaseListView())
-      ->setUser($this->requireViewer())
+      ->setViewer($this->requireViewer())
       ->setLeases($leases);
 
     return id(new PhabricatorApplicationSearchResultView())

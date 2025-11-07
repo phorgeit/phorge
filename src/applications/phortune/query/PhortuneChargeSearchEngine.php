@@ -99,7 +99,7 @@ final class PhortuneChargeSearchEngine
     $viewer = $this->requireViewer();
 
     $table = id(new PhortuneChargeTableView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setCharges($charges);
 
     $result = new PhabricatorApplicationSearchResultView();

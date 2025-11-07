@@ -31,7 +31,7 @@ final class PhabricatorActivitySettingsPanel extends PhabricatorSettingsPanel {
       ->executeWithCursorPager($pager);
 
     $table = id(new PhabricatorUserLogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setLogs($logs);
 
     $panel = $this->newBox(pht('Account Activity Logs'), $table);

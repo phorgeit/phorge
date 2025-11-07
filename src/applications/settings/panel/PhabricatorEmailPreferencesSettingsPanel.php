@@ -62,7 +62,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
       PhabricatorEmailTagsSetting::SETTINGKEY);
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $form->appendRemarkupInstructions(
       pht(

@@ -134,7 +134,7 @@ final class ManiphestReportController extends ManiphestController {
     $viewer = $request->getUser();
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setDatasource(new PhabricatorProjectDatasource())

@@ -141,14 +141,14 @@ final class PhabricatorPeopleInviteSendController
       }
 
       $invite_table = id(new PhabricatorAuthInviteActionTableView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setInviteActions($actions)
         ->setHandles($handles);
 
       $confirm_form = null;
       if ($any_valid) {
         $confirm_form = id(new AphrontFormView())
-          ->setUser($viewer)
+          ->setViewer($viewer)
           ->addHiddenInput('message', $message)
           ->addHiddenInput('emails', $emails)
           ->addHiddenInput('confirm', true)
@@ -175,7 +175,7 @@ final class PhabricatorPeopleInviteSendController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->appendRemarkupInstructions(
         pht(
           'To invite users, enter their email addresses below. '.

@@ -71,7 +71,7 @@ final class PhabricatorApplicationTransactionCommentRemoveController
     }
 
     $form = id(new AphrontFormView())
-      ->setUser($viewer);
+      ->setViewer($viewer);
 
     $dialog = $this->newDialog()
       ->setTitle(pht('Remove Comment'));

@@ -36,7 +36,7 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
       $viewer);
     if (!$installed) {
       $dialog = id(new AphrontDialogView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTitle(pht('OAuth Not Available'))
         ->appendParagraph(
           pht('You do not have access to OAuth authorizations.'))
@@ -64,7 +64,7 @@ final class PhabricatorOAuthServerAuthorizationsSettingsPanel
       }
 
       $dialog = id(new AphrontDialogView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setTitle(pht('Revoke Authorization?'))
         ->appendParagraph(
           pht(

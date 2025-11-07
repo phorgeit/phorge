@@ -28,7 +28,7 @@ final class SlowvoteEmbedView extends AphrontView {
     $phids[] = $poll->getAuthorPHID();
 
     $this->handles = id(new PhabricatorHandleQuery())
-      ->setViewer($this->getUser())
+      ->setViewer($this->getViewer())
       ->withPHIDs($phids)
       ->execute();
 
@@ -40,7 +40,7 @@ final class SlowvoteEmbedView extends AphrontView {
 
     require_celerity_resource('phabricator-slowvote-css');
 
-    $user_choices = $poll->getViewerChoices($this->getUser());
+    $user_choices = $poll->getViewerChoices($this->getViewer());
     $user_choices = mpull($user_choices, 'getOptionID', 'getOptionID');
 
     $out = array();
@@ -61,7 +61,7 @@ final class SlowvoteEmbedView extends AphrontView {
 
     $description = $poll->getDescription();
     if (strlen($description)) {
-      $description = new PHUIRemarkupView($this->getUser(), $description);
+      $description = new PHUIRemarkupView($this->getViewer(), $description);
       $description = phutil_tag(
         'div',
         array(
@@ -119,7 +119,7 @@ final class SlowvoteEmbedView extends AphrontView {
     }
 
     $body = phabricator_form(
-      $this->getUser(),
+      $this->getViewer(),
       array(
         'action'  => '/vote/'.$poll->getID().'/',
         'method'  => 'POST',
@@ -258,7 +258,7 @@ final class SlowvoteEmbedView extends AphrontView {
     $handles = $this->handles;
     $authors = mpull($choices, 'getAuthorPHID', 'getAuthorPHID');
 
-    $viewer_phid = $this->getUser()->getPHID();
+    $viewer_phid = $this->getViewer()->getPHID();
 
     // Put the viewer first if they've voted for this option.
     $authors = array_select_keys($authors, array($viewer_phid))

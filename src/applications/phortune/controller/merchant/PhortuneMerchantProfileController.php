@@ -10,7 +10,7 @@ abstract class PhortuneMerchantProfileController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setImage($merchant->getProfileImageURI());
 
     return $header;

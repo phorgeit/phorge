@@ -58,7 +58,7 @@ final class PhabricatorBadgesEditRecipientsController
 
     $form = new AphrontFormView();
     $form
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setFullWidth(true)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
@@ -68,7 +68,7 @@ final class PhabricatorBadgesEditRecipientsController
           ->setDatasource(new PhabricatorPeopleDatasource()));
 
     $dialog = id(new AphrontDialogView())
-      ->setUser($viewer)
+      ->setViewer($viewer)
       ->setTitle(pht('Add Recipients'))
       ->appendForm($form)
       ->addCancelButton($view_uri)

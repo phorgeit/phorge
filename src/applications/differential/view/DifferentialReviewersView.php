@@ -30,7 +30,7 @@ final class DifferentialReviewersView extends AphrontView {
   }
 
   public function render() {
-    $viewer = $this->getUser();
+    $viewer = $this->getViewer();
     $reviewers = $this->reviewers;
     $diff = $this->diff;
     $handles = $this->handles;

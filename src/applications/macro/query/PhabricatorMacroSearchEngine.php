@@ -149,7 +149,7 @@ final class PhabricatorMacroSearchEngine
       $file = $macro->getFile();
 
       $item = id(new PHUIPinboardItemView())
-        ->setUser($viewer)
+        ->setViewer($viewer)
         ->setObject($macro);
 
       if ($file) {
