@@ -408,7 +408,7 @@ final class HeraldRule extends HeraldDAO
     } else if ($this->isObjectRule()) {
       return pht('Object rules inherit the edit policies of their objects.');
     } else {
-      return pht('A personal rule can only be edited by its owner.');
+      return pht('A personal rule can only be edited by its author.');
     }
   }
 

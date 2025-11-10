@@ -345,7 +345,7 @@ final class ManiphestTask extends ManiphestDAO
   }
 
   public function hasAutomaticCapability($capability, PhabricatorUser $user) {
-    // The owner of a task can always view and edit it.
+    // The owner (assignee) of a task can always view and edit it.
     $owner_phid = $this->getOwnerPHID();
     if ($owner_phid) {
       $user_phid = $user->getPHID();
@@ -445,7 +445,7 @@ final class ManiphestTask extends ManiphestDAO
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('ownerPHID')
         ->setType('phid?')
-        ->setDescription(pht('Current task owner, if task is assigned.')),
+        ->setDescription(pht('Current task assignee, if task is assigned.')),
       id(new PhabricatorConduitSearchFieldSpecification())
         ->setKey('status')
         ->setType('map<string, wild>')

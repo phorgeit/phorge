@@ -152,7 +152,7 @@ final class PhabricatorPhurlURL extends PhabricatorPhurlDAO
   }
 
   public function describeAutomaticCapability($capability) {
-    return pht('The owner of a URL can always view and edit it.');
+    return pht('The author of a URL can always view and edit it.');
   }
 
 /* -(  PhabricatorApplicationTransactionInterface  )------------------------- */

@@ -193,7 +193,7 @@ final class PholioMock extends PholioDAO
   }
 
   public function describeAutomaticCapability($capability) {
-    return pht("A mock's owner can always view and edit it.");
+    return pht('The author of a mock can always view and edit it.');
   }
 
 

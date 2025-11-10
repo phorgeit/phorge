@@ -177,7 +177,7 @@ final class ManiphestTransactionEditor
       ManiphestTransaction::MAILTAG_STATUS =>
         pht("A task's status changes."),
       ManiphestTransaction::MAILTAG_OWNER =>
-        pht("A task's owner changes."),
+        pht("A task's assignee changes."),
       ManiphestTransaction::MAILTAG_PRIORITY =>
         pht("A task's priority changes."),
       ManiphestTransaction::MAILTAG_CC =>
@@ -829,19 +829,19 @@ final class ManiphestTransactionEditor
         $message = pht(
           'You can not lock this task and unassign it at the same time '.
           'because no one will be able to edit it anymore. Lock the task '.
-          'or remove the owner, but not both.');
+          'or remove the assignee, but not both.');
         $problem_xaction = $status_xaction;
       } else if ($status_changed) {
         $message = pht(
-          'You can not lock this task because it does not have an owner. '.
+          'You can not lock this task because it does not have an assignee. '.
           'No one would be able to edit the task. Assign the task to an '.
-          'owner before locking it.');
+          'assignee before locking it.');
         $problem_xaction = $status_xaction;
       } else if ($owner_changed) {
         $message = pht(
-          'You can not remove the owner of this task because it is locked '.
+          'You can not remove the assignee of this task because it is locked '.
           'and no one would be able to edit the task. Reassign the task or '.
-          'unlock it before removing the owner.');
+          'unlock it before removing the assignee.');
         $problem_xaction = $owner_xaction;
       } else {
         // If the task was already broken, we don't have a transaction to

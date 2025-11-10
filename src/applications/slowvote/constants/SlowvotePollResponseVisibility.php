@@ -66,8 +66,8 @@ final class SlowvotePollResponseVisibility
         'name.edit' => pht('Require a vote to see the responses'),
       ),
       self::RESPONSES_OWNER => array(
-        'name' => pht('Owner'),
-        'name.edit' => pht('Only the poll owner can see the responses'),
+        'name' => pht('Author'),
+        'name.edit' => pht('Only the poll author can see the responses'),
       ),
     );
   }

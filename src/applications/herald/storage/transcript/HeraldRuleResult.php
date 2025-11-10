@@ -149,10 +149,10 @@ final class HeraldRuleResult
       self::RESULT_OWNER => array(
         'match' => null,
         'apply' => false,
-        'name' => pht('Rule Owner'),
+        'name' => pht('Rule Author'),
         'description' => pht(
           'Rule failed automatically because it is a personal rule and '.
-          'its owner is invalid or disabled.'),
+          'its author is invalid or disabled.'),
         'icon' => 'fa-times-circle',
         'color.icon' => 'red',
       ),
@@ -162,7 +162,7 @@ final class HeraldRuleResult
         'name' => pht('View Policy'),
         'description' => pht(
           'Rule failed automatically because it is a personal rule and '.
-          'its owner does not have permission to view the object.'),
+          'its author does not have permission to view the object.'),
         'icon' => 'fa-times-circle',
         'color.icon' => 'red',
       ),

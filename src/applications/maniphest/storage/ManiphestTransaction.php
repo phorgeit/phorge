@@ -202,7 +202,7 @@ final class ManiphestTransaction
       case ManiphestTaskStatusTransaction::TRANSACTIONTYPE:
         return pht('The task already has the selected status.');
       case ManiphestTaskOwnerTransaction::TRANSACTIONTYPE:
-        return pht('The task already has the selected owner.');
+        return pht('The task already has the selected assignee.');
       case ManiphestTaskPriorityTransaction::TRANSACTIONTYPE:
         return pht('The task already has the selected priority.');
     }
