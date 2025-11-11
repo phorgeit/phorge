@@ -40,7 +40,7 @@
 
 .conpherence-show-more-messages {
   display: block;
-  background: #e0e3ec;
+  background: {$gentle.highlight};
   margin: 10px;
   text-align: center;
   padding: 10px;
