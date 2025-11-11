@@ -88,12 +88,14 @@ final class PhabricatorConduitTokenEditController
             'requests between nodes in a cluster. You can not use this '.
             'token in external applications.'));
       } else {
+        Javelin::initBehavior('select-on-click');
         $form = id(new AphrontFormView())
           ->setUser($viewer)
           ->appendChild(
             id(new AphrontFormTextControl())
               ->setLabel(pht('Token'))
               ->setReadOnly(true)
+              ->setSigil('select-on-click')
               ->setValue($token->getToken()));
 
         $dialog->appendForm($form);
