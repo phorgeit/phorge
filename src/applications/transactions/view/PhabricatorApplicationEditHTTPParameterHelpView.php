@@ -312,7 +312,7 @@ EOTEXT
   }
 
   protected function renderInstructions($corpus) {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $view = new PHUIRemarkupView($viewer, $corpus);
 
     $view->setRemarkupOptions(

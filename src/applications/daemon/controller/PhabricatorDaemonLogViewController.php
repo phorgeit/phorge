@@ -88,7 +88,7 @@ final class PhabricatorDaemonLogViewController
     $viewer = $request->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $id = $daemon->getID();
     $c_epoch = $daemon->getDateCreated();

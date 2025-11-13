@@ -138,7 +138,7 @@ final class PhabricatorPeopleLogSearchEngine
     $viewer = $this->requireViewer();
 
     $table = id(new PhabricatorUserLogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setLogs($logs);
 
     if ($viewer->getIsAdmin()) {

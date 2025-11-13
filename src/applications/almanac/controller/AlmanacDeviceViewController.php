@@ -26,7 +26,7 @@ final class AlmanacDeviceViewController
     $curtain = $this->buildCurtain($device);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($device->getName())
       ->setPolicyObject($device)
       ->setHeaderIcon('fa-server');
@@ -120,7 +120,7 @@ final class AlmanacDeviceViewController
       ->execute();
 
     $table = id(new AlmanacInterfaceTableView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setInterfaces($interfaces)
       ->setCanEdit($can_edit);
 
@@ -158,7 +158,7 @@ final class AlmanacDeviceViewController
       ->execute();
 
     $table = id(new PhabricatorAuthSSHKeyTableView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setKeys($keys)
       ->setCanEdit($can_edit)
       ->setShowID(true)

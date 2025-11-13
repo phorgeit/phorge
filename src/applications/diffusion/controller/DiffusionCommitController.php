@@ -439,7 +439,7 @@ final class DiffusionCommitController extends DiffusionController {
       $change_list->setRenderingReferences($references);
       $change_list->setRenderURI($repository->getPathURI('diff/'));
       $change_list->setRepository($repository);
-      $change_list->setViewer($viewer);
+      $change_list->setUser($viewer);
       $change_list->setBackground(PHUIObjectBoxView::BLUE_PROPERTY);
 
       // TODO: Try to setBranch() to something reasonable here?
@@ -530,7 +530,7 @@ final class DiffusionCommitController extends DiffusionController {
     $repository = $drequest->getRepository();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($this->getRequest()->getUser())
+      ->setUser($this->getRequest()->getUser())
       ->setObject($commit);
 
     $edge_query = id(new PhabricatorEdgeQuery())
@@ -966,7 +966,7 @@ final class DiffusionCommitController extends DiffusionController {
     $viewer = $this->getViewer();
 
     $toc_view = id(new PHUIDiffTableOfContentsListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($header)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY);
 

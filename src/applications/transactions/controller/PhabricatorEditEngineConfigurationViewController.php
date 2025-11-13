@@ -21,7 +21,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $properties = $this->buildPropertyView($config);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($config)
       ->setHeader(pht('Edit Form: %s', $config->getDisplayName()))
       ->setHeaderIcon('fa-pencil');
@@ -225,7 +225,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     return $properties;
   }
@@ -237,7 +237,7 @@ final class PhabricatorEditEngineConfigurationViewController
     $fields = $engine->getFieldsForConfig($config);
 
     $form = id(new AphrontFormView())
-       ->setViewer($viewer)
+       ->setUser($viewer)
        ->setAction(null);
 
     foreach ($fields as $field) {

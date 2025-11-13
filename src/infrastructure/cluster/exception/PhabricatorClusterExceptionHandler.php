@@ -27,7 +27,7 @@ final class PhabricatorClusterExceptionHandler
 
     $dialog =  id(new AphrontDialogView())
       ->setTitle($title)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendParagraph($throwable->getMessage())
       ->addCancelButton('/', pht('Proceed With Caution'));
 

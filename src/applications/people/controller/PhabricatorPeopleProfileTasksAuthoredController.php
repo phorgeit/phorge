@@ -66,7 +66,7 @@ final class PhabricatorPeopleProfileTasksAuthoredController
     $handles = ManiphestTaskListView::loadTaskHandles($viewer, $tasks);
 
     $list = id(new ManiphestTaskListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHandles($handles)
       ->setTasks($tasks)
       ->setNoDataString(pht('No authored tasks.'));

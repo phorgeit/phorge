@@ -1668,7 +1668,7 @@ abstract class PhabricatorApplicationTransaction
     $old,
     $new) {
     return id(new PhabricatorApplicationTransactionTextDiffDetailView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setOldText($old)
       ->setNewText($new);
   }

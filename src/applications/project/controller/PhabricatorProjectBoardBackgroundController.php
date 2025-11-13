@@ -62,7 +62,7 @@ final class PhabricatorProjectBoardBackgroundController
       ->addTextCrumb(pht('Background Color'));
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $group_info = array(
       'basic' => array(

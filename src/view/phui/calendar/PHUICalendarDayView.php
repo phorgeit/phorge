@@ -52,7 +52,7 @@ final class PHUICalendarDayView extends AphrontView {
   public function render() {
     require_celerity_resource('phui-calendar-day-css');
 
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
 
     $hours = $this->getHoursOfDay();
     $js_hours = array();

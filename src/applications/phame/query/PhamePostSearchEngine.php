@@ -101,7 +101,7 @@ final class PhamePostSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
 
     foreach ($posts as $post) {
       $id = $post->getID();
@@ -111,7 +111,7 @@ final class PhamePostSearchEngine
       $blog_name = pht('Blog: %s', $blog_name);
 
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($post)
         ->setObjectName($post->getMonogram())
         ->setHeader($post->getTitle())

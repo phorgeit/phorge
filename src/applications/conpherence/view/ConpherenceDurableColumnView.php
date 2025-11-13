@@ -141,7 +141,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       ));
 
     $policy_objects = ConpherenceThread::loadViewPolicyObjects(
-      $this->getViewer(),
+      $this->getUser(),
       $this->getConpherences());
     $this->setPolicyObjects($policy_objects);
 
@@ -218,7 +218,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       if ($selected_conpherence->getID() == $conpherence->getID()) {
         $classes[] = 'selected';
       }
-      $data = $conpherence->getDisplayData($this->getViewer());
+      $data = $conpherence->getDisplayData($this->getUser());
       $thread_title = phutil_tag(
         'span',
         array(),
@@ -320,7 +320,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       ->addClass('phabricator-application-menu');
 
     if ($conpherence) {
-      $data = $conpherence->getDisplayData($this->getViewer());
+      $data = $conpherence->getDisplayData($this->getUser());
       $header = phutil_tag(
         'span',
         array(),
@@ -359,7 +359,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     $actions = array();
     if ($conpherence) {
       $can_edit = PhabricatorPolicyFilter::hasCapability(
-        $this->getViewer(),
+        $this->getUser(),
         $conpherence,
         PhabricatorPolicyCapability::CAN_EDIT);
       $actions[] = array(
@@ -421,7 +421,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
     }
 
     $data = ConpherenceTransactionRenderer::renderTransactions(
-      $this->getViewer(),
+      $this->getUser(),
       $conpherence);
     $messages = ConpherenceTransactionRenderer::renderMessagePaneContent(
       $data['transactions'],
@@ -463,7 +463,7 @@ final class ConpherenceDurableColumnView extends AphrontTagView {
       ));
     $id = $conpherence->getID();
     return phabricator_form(
-      $this->getViewer(),
+      $this->getUser(),
       array(
         'method' => 'POST',
         'action' => '/conpherence/update/'.$id.'/',

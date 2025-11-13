@@ -95,7 +95,7 @@ final class PhabricatorPeopleProfilePictureController
     $title = pht('Edit Profile Picture');
 
     $form = id(new PHUIFormLayoutView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $default_image = $user->getDefaultProfileImagePHID();
     if ($default_image) {
@@ -254,7 +254,7 @@ final class PhabricatorPeopleProfilePictureController
       ->setForm($form);
 
     $upload_form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

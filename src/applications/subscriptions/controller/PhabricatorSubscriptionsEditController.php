@@ -98,7 +98,7 @@ final class PhabricatorSubscriptionsEditController
     $viewer = $request->getUser();
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle($title)
       ->appendChild($message)
       ->addCancelButton($uri);

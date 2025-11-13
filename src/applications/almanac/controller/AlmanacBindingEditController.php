@@ -83,7 +83,7 @@ final class AlmanacBindingEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('interfacePHIDs')

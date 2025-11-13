@@ -25,7 +25,7 @@ final class DifferentialRevisionCloseDetailsController
       $obj_handle);
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Commit Close Explanation'))
       ->appendParagraph($body)
       ->addCancelButton($obj_handle->getURI());

@@ -46,7 +46,7 @@ final class PassphraseCredentialDestroyController
     }
 
     return $this->newDialog()
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Really destroy credential?'))
       ->appendChild(
         pht(

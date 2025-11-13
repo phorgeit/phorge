@@ -72,7 +72,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
 
     $dialog = id(new AphrontDialogView())
       ->setSubmitURI($this->getLoginURI())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if ($mode == 'link') {
       $dialog->setTitle(pht('Link LDAP Account'));
@@ -110,7 +110,7 @@ final class PhabricatorLDAPAuthProvider extends PhabricatorAuthProvider {
     }
 
     $form = id(new PHUIFormLayoutView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setFullWidth(true)
       ->appendChild(
         id(new AphrontFormTextControl())

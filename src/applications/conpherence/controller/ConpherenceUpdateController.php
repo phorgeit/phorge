@@ -202,7 +202,7 @@ final class ConpherenceUpdateController
 
     return
       $dialog
-        ->setViewer($user)
+        ->setUser($user)
         ->setWidth(AphrontDialogView::WIDTH_FORM)
         ->setSubmitURI($this->getApplicationURI('update/'.$conpherence_id.'/'))
         ->addSubmitButton()
@@ -218,12 +218,12 @@ final class ConpherenceUpdateController
     $add_person = $request->getStr('add_person');
 
     $form = id(new AphrontFormView())
-      ->setViewer($user)
+      ->setUser($user)
       ->setFullWidth(true)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('add_person')
-          ->setViewer($user)
+          ->setUser($user)
           ->setDatasource(new PhabricatorPeopleDatasource()));
 
     $view = id(new AphrontDialogView())
@@ -378,7 +378,7 @@ final class ConpherenceUpdateController
     switch ($action) {
       case ConpherenceUpdateActions::ADD_PERSON:
         $people_widget = id(new ConpherenceParticipantView())
-          ->setViewer($user)
+          ->setUser($user)
           ->setConpherence($conpherence)
           ->setUpdateURI($update_uri);
         $people_widget = hsprintf('%s', $people_widget->render());

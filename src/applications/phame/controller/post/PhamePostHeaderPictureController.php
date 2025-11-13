@@ -83,7 +83,7 @@ final class PhamePostHeaderPictureController
     $title = pht('Edit Post Header');
 
     $upload_form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

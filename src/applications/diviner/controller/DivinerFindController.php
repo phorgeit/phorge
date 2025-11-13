@@ -68,7 +68,7 @@ final class DivinerFindController extends DivinerController {
 
     if (!$atoms) {
       $dialog = id(new AphrontDialogView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Documentation Not Found'))
         ->appendChild(
           pht(

@@ -39,7 +39,7 @@ final class PhabricatorSystemSelectEncodingController
     ) + $encodings;
 
     $form = id(new AphrontFormView())
-      ->setViewer($this->getRequest()->getUser())
+      ->setUser($this->getRequest()->getUser())
       ->appendRemarkupInstructions(pht('Choose a text encoding to use.'))
       ->appendChild(
         id(new AphrontFormSelectControl())

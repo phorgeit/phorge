@@ -23,7 +23,7 @@ final class PonderAnswerSaveController extends PonderController {
 
     if (!strlen(trim($content))) {
       $dialog = id(new AphrontDialogView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Empty Answer'))
         ->appendChild(
           phutil_tag('p', array(), pht('Your answer must not be empty.')))

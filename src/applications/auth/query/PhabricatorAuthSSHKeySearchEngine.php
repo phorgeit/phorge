@@ -87,7 +87,7 @@ final class PhabricatorAuthSSHKeySearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($keys as $key) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('SSH Key %d', $key->getID()))

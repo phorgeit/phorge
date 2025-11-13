@@ -68,7 +68,7 @@ final class PHUICalendarListView extends AphrontTagView {
       } else {
         $timelabel = phabricator_time(
           $event->getEpochStart(),
-          $this->getViewer());
+          $this->getUser());
       }
 
       $icon_icon = $event->getIcon();

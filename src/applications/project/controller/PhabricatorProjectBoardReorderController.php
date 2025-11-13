@@ -92,7 +92,7 @@ final class PhabricatorProjectBoardReorderController
     $list_id = celerity_generate_unique_node_id();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setID($list_id)
       ->setFlush(true)
       ->setDrag(true);

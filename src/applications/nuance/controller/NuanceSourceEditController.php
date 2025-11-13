@@ -51,7 +51,7 @@ final class NuanceSourceEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild($source_types)
       ->appendChild(
         id(new AphrontFormSubmitControl())

@@ -108,7 +108,7 @@ final class DrydockAuthorizationSearchEngine
     array $handles) {
 
     $list = id(new DrydockAuthorizationListView())
-      ->setViewer($this->requireViewer())
+      ->setUser($this->requireViewer())
       ->setAuthorizations($authorizations);
 
     $result = new PhabricatorApplicationSearchResultView();

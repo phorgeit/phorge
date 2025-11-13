@@ -83,7 +83,7 @@ final class PassphraseCredentialSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($credentials as $credential) {
 
       $item = id(new PHUIObjectItemView())

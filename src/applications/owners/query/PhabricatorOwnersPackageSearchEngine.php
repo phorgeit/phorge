@@ -135,7 +135,7 @@ final class PhabricatorOwnersPackageSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
     foreach ($packages as $package) {
       $id = $package->getID();
 

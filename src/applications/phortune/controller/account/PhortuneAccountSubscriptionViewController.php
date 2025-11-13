@@ -43,7 +43,7 @@ final class PhortuneAccountSubscriptionViewController
       ->setBorder(true);
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $next_invoice = $subscription->getTrigger()->getNextEventPrediction();
     $properties->addProperty(
@@ -93,7 +93,7 @@ final class PhortuneAccountSubscriptionViewController
       ->execute();
 
     $invoice_table = id(new PhortuneOrderTableView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setCarts($invoices)
       ->setIsInvoices(true);
 
@@ -125,7 +125,7 @@ final class PhortuneAccountSubscriptionViewController
       ->execute();
 
     $invoice_table = id(new PhortuneOrderTableView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setCarts($invoices);
 
     $account = $subscription->getAccount();

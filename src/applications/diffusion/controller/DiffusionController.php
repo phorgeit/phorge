@@ -439,7 +439,7 @@ abstract class DiffusionController extends PhabricatorController {
     }
 
     return id(new DiffusionReadmeView())
-      ->setViewer($this->getViewer())
+      ->setUser($this->getViewer())
       ->setPath($readme_path)
       ->setContent($readme_corpus);
   }
@@ -596,7 +596,7 @@ abstract class DiffusionController extends PhabricatorController {
         ));
 
       $form = id(new AphrontFormView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->appendChild(
           id(new AphrontFormTypeaheadControl())
             ->setHardpointID('locate-control')

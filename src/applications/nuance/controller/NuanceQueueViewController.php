@@ -44,7 +44,7 @@ final class NuanceQueueViewController
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($queue->getName())
       ->setPolicyObject($queue);
 

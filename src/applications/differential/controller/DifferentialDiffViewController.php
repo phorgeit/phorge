@@ -138,7 +138,7 @@ final class DifferentialDiffViewController extends DifferentialController {
       ->setDiff($diff)
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setTitle(pht('Diff %d', $diff->getID()))
-      ->setViewer($request->getUser());
+      ->setUser($request->getUser());
 
     $title = pht('Diff %d', $diff->getID());
     $crumbs = $this->buildApplicationCrumbs();

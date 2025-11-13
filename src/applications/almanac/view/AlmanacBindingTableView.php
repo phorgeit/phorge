@@ -36,7 +36,7 @@ final class AlmanacBindingTableView extends AphrontView {
 
   public function render() {
     $bindings = $this->getBindings();
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
 
     $phids = array();
     foreach ($bindings as $binding) {

@@ -54,7 +54,7 @@ final class NuanceSourceViewController
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($source->getName())
       ->setPolicyObject($source);
 
@@ -66,7 +66,7 @@ final class NuanceSourceViewController
     $id = $source->getID();
 
     $actions = id(new PhabricatorActionListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,

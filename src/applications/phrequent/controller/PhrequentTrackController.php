@@ -141,7 +141,7 @@ final class PhrequentTrackController
 
     $form->appendChild(
       id(new AphrontFormDateControl())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setName('epoch')
         ->setLabel($action_text)
         ->setError($e_date)

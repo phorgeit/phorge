@@ -44,7 +44,7 @@ final class PhabricatorMacroMemeDialogController
     }
 
     $view = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Macro'))
@@ -64,7 +64,7 @@ final class PhabricatorMacroMemeDialogController
           ->setValue($below));
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Create Meme'))
       ->appendForm($view)
       ->addCancelButton('/')

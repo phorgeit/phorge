@@ -113,7 +113,7 @@ final class PhabricatorDashboardPanelSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($panels as $panel) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName($panel->getMonogram())

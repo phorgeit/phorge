@@ -47,7 +47,7 @@ final class PholioMockEmbedView extends AphrontView {
     list($x, $y) = $xform->getTransformedDimensions($thumbfile);
 
     $item = id(new PHUIPinboardItemView())
-      ->setViewer($this->getViewer())
+      ->setUser($this->getUser())
       ->setObject($mock)
       ->setHeader($header)
       ->setURI($uri)

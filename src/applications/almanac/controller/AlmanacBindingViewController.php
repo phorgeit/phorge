@@ -31,7 +31,7 @@ final class AlmanacBindingViewController
     $curtain = $this->buildCurtain($binding);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($title)
       ->setPolicyObject($binding)
       ->setHeaderIcon('fa-object-group');
@@ -83,7 +83,7 @@ final class AlmanacBindingViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $properties->addProperty(
       pht('Service'),
@@ -108,7 +108,7 @@ final class AlmanacBindingViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObject($binding);
     $properties->invokeWillRenderEvent();
 

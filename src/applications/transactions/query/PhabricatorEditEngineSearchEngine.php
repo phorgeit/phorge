@@ -69,7 +69,7 @@ final class PhabricatorEditEngineSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
     foreach ($engines as $engine) {
       if (!$engine->isEngineConfigurable()) {
         continue;

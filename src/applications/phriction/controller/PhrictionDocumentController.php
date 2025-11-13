@@ -310,7 +310,7 @@ final class PhrictionDocumentController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($document)
       ->setHeader($page_title);
 
@@ -393,7 +393,7 @@ final class PhrictionDocumentController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $view->addProperty(
       pht('Last Author'),

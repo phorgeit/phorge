@@ -70,7 +70,7 @@ final class PholioRemarkupRule extends PhabricatorObjectRemarkupRule {
     $viewer = $this->getEngine()->getConfig('viewer');
 
     $embed_mock = id(new PholioMockEmbedView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setMock($object);
 
     if (strlen($options)) {

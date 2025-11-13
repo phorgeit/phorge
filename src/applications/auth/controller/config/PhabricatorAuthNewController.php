@@ -25,7 +25,7 @@ final class PhabricatorAuthNewController
           $locked_config_key));
 
       return $this->newDialog()
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Authentication Config Locked'))
         ->appendChild($message)
         ->addCancelButton($cancel_uri);

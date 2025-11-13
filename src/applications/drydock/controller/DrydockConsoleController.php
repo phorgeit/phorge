@@ -26,7 +26,7 @@ final class DrydockConsoleController extends DrydockController {
     $viewer = $request->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setBig(true);
 
     $menu->addItem(

@@ -116,7 +116,7 @@ final class PhabricatorMetaMTAMailSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($mail)
         ->setEpoch($mail->getDateCreated())
         ->setObjectName(pht('Mail %d', $mail->getID()))

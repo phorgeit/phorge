@@ -24,7 +24,7 @@ final class DrydockAuthorizationListView extends AphrontView {
   }
 
   public function render() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
 
     $authorizations = $this->authorizations;
 

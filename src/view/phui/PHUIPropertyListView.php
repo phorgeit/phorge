@@ -96,15 +96,14 @@ final class PHUIPropertyListView extends AphrontView {
   }
 
   public function invokeWillRenderEvent() {
-    if ($this->object && $this->getViewer() &&
-        !$this->invokedWillRenderEvent) {
+    if ($this->object && $this->getUser() && !$this->invokedWillRenderEvent) {
       $event = new PhabricatorEvent(
         PhabricatorEventType::TYPE_UI_WILLRENDERPROPERTIES,
         array(
           'object'  => $this->object,
           'view'    => $this,
         ));
-      $event->setUser($this->getViewer());
+      $event->setUser($this->getUser());
       PhutilEventEngine::dispatchEvent($event);
     }
     $this->invokedWillRenderEvent = true;

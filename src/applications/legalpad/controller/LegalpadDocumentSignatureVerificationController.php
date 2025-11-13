@@ -61,7 +61,7 @@ final class LegalpadDocumentSignatureVerificationController
     $email = $signature->getSignerEmail();
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendRemarkupInstructions(
         pht('Please verify this document signature.'))
       ->appendChild(

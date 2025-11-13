@@ -74,7 +74,7 @@ final class ConpherenceRoomPreferencesController
       $map[ConpherenceRoomSettings::SOUND_MENTION]);
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormRadioButtonControl())
           ->setLabel(pht('Notify'))

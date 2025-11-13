@@ -38,7 +38,7 @@ final class DifferentialProjectReviewersField
     }
 
     $view = id(new DifferentialReviewersView())
-      ->setViewer($this->getViewer())
+      ->setUser($this->getViewer())
       ->setReviewers($reviewers)
       ->setHandles($handles);
 

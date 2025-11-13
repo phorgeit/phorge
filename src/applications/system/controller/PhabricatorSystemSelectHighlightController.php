@@ -20,7 +20,7 @@ final class PhabricatorSystemSelectHighlightController
     ) + PhabricatorEnv::getEnvConfig('pygments.dropdown-choices');
 
     $form = id(new AphrontFormView())
-      ->setViewer($this->getRequest()->getUser())
+      ->setUser($this->getRequest()->getUser())
       ->appendRemarkupInstructions(pht('Choose a syntax highlighting to use.'))
       ->appendChild(
         id(new AphrontFormSelectControl())

@@ -59,7 +59,7 @@ final class PhabricatorBadgesAwardController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Badge'))

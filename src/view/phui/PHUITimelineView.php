@@ -239,7 +239,7 @@ final class PHUITimelineView extends AphrontView {
   private function prepareBadgeData(array $events) {
     assert_instances_of($events, PHUITimelineEventView::class);
 
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
       PhabricatorBadgesApplication::class,
       $viewer);

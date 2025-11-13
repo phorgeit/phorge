@@ -139,7 +139,7 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
       $desc = $row['desc'];
 
       if ($row['age']) {
-        $age = phabricator_datetime($row['age'], $this->getViewer());
+        $age = phabricator_datetime($row['age'], $this->getUser());
       } else {
         $age = null;
       }
@@ -255,7 +255,7 @@ final class DifferentialRevisionUpdateHistoryView extends AphrontView {
       ));
 
     $content = phabricator_form(
-      $this->getViewer(),
+      $this->getUser(),
       array(
         'action' => '/D'.$revision_id.'#toc',
       ),

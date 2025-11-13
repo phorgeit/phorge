@@ -24,7 +24,7 @@ final class AlmanacNamespaceViewController
     $curtain = $this->buildCurtain($namespace);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($namespace->getName())
       ->setPolicyObject($namespace)
       ->setHeaderIcon('fa-asterisk');

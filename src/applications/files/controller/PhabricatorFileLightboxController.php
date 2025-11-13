@@ -86,14 +86,14 @@ final class PhabricatorFileLightboxController
     $post_uri = $this->getApplicationURI('thread/'.$file->getPHID().'/');
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setAction($post_uri)
       ->addSigil('lightbox-comment-form')
       ->addClass('lightbox-comment-form')
       ->setWorkflow(true)
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setName('comment')
         ->setValue($draft->getDraft()))
       ->appendChild(

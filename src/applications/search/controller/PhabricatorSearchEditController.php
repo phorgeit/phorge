@@ -88,7 +88,7 @@ final class PhabricatorSearchEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $form->appendChild(
       id(new AphrontFormTextControl())

@@ -277,7 +277,7 @@ final class DifferentialChangesetViewController extends DifferentialController {
     }
 
     $detail = id(new DifferentialChangesetListView())
-      ->setViewer($this->getViewer())
+      ->setUser($this->getViewer())
       ->setChangesets(array($changeset))
       ->setVisibleChangesets(array($changeset))
       ->setRenderingReferences(array($rendering_reference))

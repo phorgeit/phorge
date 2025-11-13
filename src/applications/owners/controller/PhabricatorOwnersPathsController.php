@@ -134,7 +134,7 @@ final class PhabricatorOwnersPathsController
     $cancel_uri = $package->getURI();
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new PHUIFormInsetView())
           ->setTitle(pht('Paths'))

@@ -51,7 +51,7 @@ final class LegalpadDocumentSignatureViewController extends LegalpadController {
     $actor_handle = $handles[$actor_phid];
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if ($signature->getExemptionPHID()) {
       $form

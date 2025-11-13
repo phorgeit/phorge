@@ -24,7 +24,7 @@ final class DrydockRepositoryOperationViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($operation)
       ->setHeaderIcon('fa-fighter-jet');
 
@@ -44,7 +44,7 @@ final class DrydockRepositoryOperationViewController
     $crumbs->setBorder(true);
 
     $status_view = id(new DrydockRepositoryOperationStatusView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setOperation($operation);
 
     $log_query = id(new DrydockLogQuery())

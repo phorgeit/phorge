@@ -34,7 +34,7 @@ final class PhabricatorXHPASTViewRunController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new AphrontFormTextAreaControl())
           ->setLabel(pht('Source'))

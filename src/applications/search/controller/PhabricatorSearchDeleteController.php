@@ -101,7 +101,7 @@ final class PhabricatorSearchDeleteController
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle($title)
       ->appendChild($desc)
       ->addCancelButton($return_uri)

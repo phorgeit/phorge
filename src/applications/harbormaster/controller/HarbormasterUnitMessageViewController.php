@@ -85,7 +85,7 @@ final class HarbormasterUnitMessageViewController
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $view->addProperty(
       pht('Run At'),

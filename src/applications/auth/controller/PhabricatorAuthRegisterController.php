@@ -510,7 +510,7 @@ final class PhabricatorAuthRegisterController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($request->getUser())
+      ->setUser($request->getUser())
       ->addHiddenInput('phase', 2);
 
     if (!$is_default) {
@@ -519,7 +519,7 @@ final class PhabricatorAuthRegisterController
           ->setLabel(pht('External Account'))
           ->setValue(
             id(new PhabricatorAuthAccountView())
-              ->setViewer($request->getUser())
+              ->setUser($request->getUser())
               ->setExternalAccount($account)
               ->setAuthProvider($provider)));
     }

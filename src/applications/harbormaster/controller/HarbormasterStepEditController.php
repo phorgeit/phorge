@@ -136,7 +136,7 @@ final class HarbormasterStepEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $instructions = $implementation->getEditInstructions();
     if (phutil_nonempty_string($instructions)) {
@@ -172,7 +172,7 @@ final class HarbormasterStepEditController
     $form
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-          ->setViewer($viewer)
+          ->setUser($viewer)
           ->setName('description')
           ->setLabel(pht('Description'))
           ->setError($e_description)
@@ -258,7 +258,7 @@ final class HarbormasterStepEditController
     $rows = implode("\n", $rows);
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendRemarkupInstructions($rows);
 
     return id(new PHUIObjectBoxView())

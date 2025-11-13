@@ -11,7 +11,7 @@ final class PhabricatorDashboardConsoleController
     $viewer = $request->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setBig(true);
 
     $menu->addItem(

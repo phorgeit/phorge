@@ -154,7 +154,7 @@ final class PHUIDiffInlineCommentDetailView
       $classes[] = 'inline-comment-is-reply';
     }
 
-    $viewer_phid = $this->getViewer()->getPHID();
+    $viewer_phid = $this->getUser()->getPHID();
     $owner_phid = $this->getObjectOwnerPHID();
 
     if ($viewer_phid) {
@@ -497,7 +497,7 @@ final class PHUIDiffInlineCommentDetailView
       return false;
     }
 
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     if (!$viewer->isLoggedIn()) {
       return false;
     }

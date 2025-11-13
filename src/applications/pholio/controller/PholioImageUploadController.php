@@ -30,7 +30,7 @@ final class PholioImageUploadController extends PholioController {
       ->makeEphemeral();
 
     $view = id(new PholioUploadedImageView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setImage($image)
       ->setReplacesPHID($replaces_phid);
 

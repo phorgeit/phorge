@@ -37,7 +37,7 @@ final class PassphraseCredentialConduitController
 
     if ($is_locked) {
       return $this->newDialog()
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Credential Locked'))
         ->appendChild(
           pht(

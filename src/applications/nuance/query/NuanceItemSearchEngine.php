@@ -64,7 +64,7 @@ final class NuanceItemSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($items as $item) {
       $impl = $item->getImplementation();
 

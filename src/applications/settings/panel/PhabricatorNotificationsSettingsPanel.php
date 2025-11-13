@@ -137,7 +137,7 @@ final class PhabricatorNotificationsSettingsPanel
      );
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new AphrontFormSelectControl())
         ->setLabel($title)

@@ -20,7 +20,7 @@ final class DiffusionIdentityViewController
     $curtain = $this->buildCurtain($identity);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($identity->getIdentityShortName())
       ->setHeaderIcon('fa-globe');
 

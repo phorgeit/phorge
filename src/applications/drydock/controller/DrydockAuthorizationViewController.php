@@ -23,7 +23,7 @@ final class DrydockAuthorizationViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($authorization);
 
     $state = $authorization->getBlueprintAuthorizationState();

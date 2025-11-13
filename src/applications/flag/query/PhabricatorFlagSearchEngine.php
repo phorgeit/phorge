@@ -140,7 +140,7 @@ final class PhabricatorFlagSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
     foreach ($flags as $flag) {
       $id = $flag->getID();
       $phid = $flag->getObjectPHID();

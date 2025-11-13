@@ -34,7 +34,7 @@ final class PhabricatorConfigPurgeCacheController
     }
 
     $caches = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if ($opcode_clearable) {
       $caches->addProperty(

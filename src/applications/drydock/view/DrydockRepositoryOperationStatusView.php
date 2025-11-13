@@ -25,7 +25,7 @@ final class DrydockRepositoryOperationStatusView
   }
 
   public function render() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $operation = $this->getOperation();
 
     $list = $this->renderUnderwayState();
@@ -57,7 +57,7 @@ final class DrydockRepositoryOperationStatusView
   }
 
   public function renderUnderwayState() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $operation = $this->getOperation();
 
     $id = $operation->getID();

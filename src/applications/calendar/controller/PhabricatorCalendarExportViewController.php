@@ -64,7 +64,7 @@ final class PhabricatorCalendarExportViewController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($export->getName())
       ->setStatus($icon, $color, $status)
       ->setPolicyObject($export);
@@ -128,7 +128,7 @@ final class PhabricatorCalendarExportViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $mode = $export->getPolicyMode();
 

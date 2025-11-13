@@ -24,7 +24,7 @@ final class PhabricatorCountdownRemarkupRule
 
     return id(new PhabricatorCountdownView())
       ->setCountdown($object)
-      ->setViewer($viewer);
+      ->setUser($viewer);
   }
 
 }

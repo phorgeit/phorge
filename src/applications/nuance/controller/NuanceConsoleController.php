@@ -10,7 +10,7 @@ final class NuanceConsoleController extends NuanceController {
     $viewer = $request->getViewer();
 
     $menu = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $menu->addItem(
       id(new PHUIObjectItemView())

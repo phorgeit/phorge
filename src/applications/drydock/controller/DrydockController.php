@@ -88,7 +88,7 @@ abstract class DrydockController extends PhabricatorController {
       ->execute();
 
     $log_table = id(new DrydockLogListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setLogs($logs);
 
     return $log_table;

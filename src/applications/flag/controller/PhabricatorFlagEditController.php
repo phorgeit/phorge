@@ -36,7 +36,7 @@ final class PhabricatorFlagEditController extends PhabricatorFlagController {
     $type_name = $handle->getTypeName();
 
     $dialog = new AphrontDialogView();
-    $dialog->setViewer($viewer);
+    $dialog->setUser($viewer);
 
     $dialog->setTitle(pht('Flag %s', $type_name));
 

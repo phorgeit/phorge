@@ -40,14 +40,14 @@ final class ManiphestTaskResultListView extends ManiphestView {
   }
 
   public function render() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $tasks = $this->tasks;
     $query = $this->savedQuery;
 
     // If we didn't match anything, just pick up the default empty state.
     if (!$tasks) {
       return id(new PHUIObjectItemListView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setNoDataString(pht('No tasks found.'));
     }
 
@@ -155,7 +155,7 @@ final class ManiphestTaskResultListView extends ManiphestView {
   }
 
   private function renderBatchEditor(PhabricatorSavedQuery $saved_query) {
-    $user = $this->getViewer();
+    $user = $this->getUser();
 
     if (!$this->canBatchEdit) {
       return null;

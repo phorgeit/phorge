@@ -42,7 +42,7 @@ final class PhabricatorCountdownView extends AphrontView {
     );
 
     $epoch = $countdown->getEpoch();
-    $launch_date = phabricator_datetime($epoch, $this->getViewer());
+    $launch_date = phabricator_datetime($epoch, $this->getUser());
     $foot = phutil_tag(
       'td',
       array(
@@ -53,7 +53,7 @@ final class PhabricatorCountdownView extends AphrontView {
 
     $description = $countdown->getDescription();
     if (strlen($description)) {
-      $description = new PHUIRemarkupView($this->getViewer(), $description);
+      $description = new PHUIRemarkupView($this->getUser(), $description);
       $description = phutil_tag(
         'div',
         array(

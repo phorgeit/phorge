@@ -54,7 +54,7 @@ final class PhabricatorOAuthClientViewController
     $viewer = $this->getViewer();
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader(pht('OAuth Application: %s', $client->getName()))
       ->setPolicyObject($client);
 
@@ -129,7 +129,7 @@ final class PhabricatorOAuthClientViewController
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $view->addProperty(
       pht('Client PHID'),

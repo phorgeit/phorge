@@ -27,7 +27,7 @@ final class PassphraseCredentialRevealController
 
     if ($is_locked) {
       return $this->newDialog()
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Credential is locked'))
         ->appendChild(
           pht(
@@ -56,7 +56,7 @@ final class PassphraseCredentialRevealController
       // the viewer can see that their view was logged.
 
       $dialog = id(new AphrontDialogView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setWidth(AphrontDialogView::WIDTH_FORM)
         ->setTitle(pht('Credential Secret (%s)', $credential->getMonogram()))
         ->appendChild($body)
@@ -94,7 +94,7 @@ final class PassphraseCredentialRevealController
         'prying eyes. Protect company secrets!');
     }
     return $this->newDialog()
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Really show secret?'))
       ->appendChild($body)
       ->addSubmitButton(pht('Show Secret'))

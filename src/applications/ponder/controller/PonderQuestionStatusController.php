@@ -51,7 +51,7 @@ final class PonderQuestionStatusController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild($radio);
 
     return $this->newDialog()

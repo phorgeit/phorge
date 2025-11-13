@@ -50,7 +50,7 @@ final class PhortuneMerchantOverviewController
     $viewer = $this->getRequest()->getUser();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObject($merchant);
 
     $status_view = new PHUIStatusListView();

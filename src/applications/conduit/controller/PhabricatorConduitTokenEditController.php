@@ -90,7 +90,7 @@ final class PhabricatorConduitTokenEditController
       } else {
         Javelin::initBehavior('select-on-click');
         $form = id(new AphrontFormView())
-          ->setViewer($viewer)
+          ->setUser($viewer)
           ->appendChild(
             id(new AphrontFormTextControl())
               ->setLabel(pht('Token'))

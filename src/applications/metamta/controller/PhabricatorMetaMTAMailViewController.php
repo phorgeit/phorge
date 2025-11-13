@@ -22,7 +22,7 @@ final class PhabricatorMetaMTAMailViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($mail)
       ->setHeaderIcon('fa-envelope');
 
@@ -113,7 +113,7 @@ final class PhabricatorMetaMTAMailViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObject($mail);
 
     if ($mail->getFrom()) {
@@ -185,7 +185,7 @@ final class PhabricatorMetaMTAMailViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setStacked(true);
 
     $headers = $mail->getDeliveredHeaders();
@@ -217,7 +217,7 @@ final class PhabricatorMetaMTAMailViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $actors = $mail->getDeliveredActors();
     $reasons = null;
@@ -416,7 +416,7 @@ final class PhabricatorMetaMTAMailViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $properties->addProperty(pht('Message PHID'), $mail->getPHID());
 

@@ -134,7 +134,7 @@ final class PholioInlineController extends PholioController {
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if ($mode == 'new') {
       $params = array(
@@ -153,7 +153,7 @@ final class PholioInlineController extends PholioController {
     $form
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-          ->setViewer($viewer)
+          ->setUser($viewer)
           ->setName('content')
           ->setLabel(pht('Comment'))
           ->setError($error)

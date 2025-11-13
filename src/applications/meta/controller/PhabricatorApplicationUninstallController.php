@@ -29,7 +29,7 @@ final class PhabricatorApplicationUninstallController
       'phabricator.show-prototypes');
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addCancelButton($view_uri);
 
     if ($application->isPrototype() && !$prototypes_enabled) {

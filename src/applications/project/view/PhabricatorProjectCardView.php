@@ -56,7 +56,7 @@ final class PhabricatorProjectCardView extends AphrontTagView {
 
     $header = id(new PHUIHeaderView())
       ->setHeader(array($project->getDisplayName(), $tag))
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($project)
       ->setImage($project->getProfileImageURI());
 

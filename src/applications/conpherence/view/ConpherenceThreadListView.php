@@ -69,7 +69,7 @@ final class ConpherenceThreadListView extends AphrontView {
   private function renderThreadItem(
     ConpherenceThread $thread) {
 
-    $user = $this->getViewer();
+    $user = $this->getUser();
     $data = $thread->getDisplayData($user);
     $dom_id = $thread->getPHID().'-nav-item';
 

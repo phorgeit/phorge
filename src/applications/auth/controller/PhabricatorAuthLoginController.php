@@ -52,7 +52,7 @@ final class PhabricatorAuthLoginController
 
       // User explicitly hit "Cancel".
       $dialog = id(new AphrontDialogView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Authentication Canceled'))
         ->appendChild(
           pht('You canceled authentication.'))

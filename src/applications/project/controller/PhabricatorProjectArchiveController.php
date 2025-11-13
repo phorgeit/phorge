@@ -57,7 +57,7 @@ final class PhabricatorProjectArchiveController
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle($title)
       ->appendChild($body)
       ->addCancelButton($edit_uri)

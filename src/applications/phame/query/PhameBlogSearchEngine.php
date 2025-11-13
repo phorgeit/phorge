@@ -83,7 +83,7 @@ final class PhameBlogSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
 
     foreach ($blogs as $blog) {
       $id = $blog->getID();
@@ -93,7 +93,7 @@ final class PhameBlogSearchEngine
         $domain = pht('Local Blog');
       }
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($blog)
         ->setHeader($blog->getName())
         ->setImageURI($blog->getProfileImageURI())

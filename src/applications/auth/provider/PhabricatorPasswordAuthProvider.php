@@ -142,7 +142,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
     $viewer = $request->getViewer();
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addHiddenInput('invite', true)
       ->appendChild(
         id(new AphrontFormTextControl())
@@ -150,7 +150,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
           ->setName('username'));
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Register an Account'))
       ->appendForm($form)
       ->setSubmitURI('/auth/register/')
@@ -172,7 +172,7 @@ final class PhabricatorPasswordAuthProvider extends PhabricatorAuthProvider {
 
     $dialog = id(new AphrontDialogView())
       ->setSubmitURI($this->getLoginURI())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle(pht('Log In'))
       ->addSubmitButton(pht('Log In'));
 

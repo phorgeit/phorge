@@ -73,7 +73,7 @@ final class AlmanacNamespaceSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($namespaces as $namespace) {
       $id = $namespace->getID();
 

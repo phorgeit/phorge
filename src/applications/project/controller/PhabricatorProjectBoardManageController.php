@@ -69,7 +69,7 @@ final class PhabricatorProjectBoardManageController
 
     $header = id(new PHUIHeaderView())
       ->setHeader(pht('Workboard: %s', $board->getDisplayName()))
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     return $header;
   }

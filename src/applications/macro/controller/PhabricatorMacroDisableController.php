@@ -37,7 +37,7 @@ final class PhabricatorMacroDisableController
 
     $dialog = new AphrontDialogView();
     $dialog
-      ->setViewer($request->getUser())
+      ->setUser($request->getUser())
       ->setTitle(pht('Really disable macro?'))
       ->appendChild(
         phutil_tag(

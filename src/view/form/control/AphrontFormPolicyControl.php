@@ -106,7 +106,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
   protected function getOptions() {
     $capability = $this->capability;
     $policies = $this->policies;
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
 
     // Check if we're missing the policy for the current control value. This
     // is unusual, but can occur if the user is submitting a form and selected
@@ -371,7 +371,7 @@ final class AphrontFormPolicyControl extends AphrontFormControl {
       return null;
     }
 
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     if (!PhabricatorSpacesNamespaceQuery::getViewerSpacesExist($viewer)) {
       return null;
     }

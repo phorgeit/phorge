@@ -22,7 +22,7 @@ final class DrydockRepositoryOperationStatusController
     $id = $operation->getID();
 
     $status_view = id(new DrydockRepositoryOperationStatusView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setOperation($operation);
 
     if ($request->isAjax()) {

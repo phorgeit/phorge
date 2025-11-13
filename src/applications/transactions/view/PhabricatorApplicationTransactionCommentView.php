@@ -629,7 +629,7 @@ final class PhabricatorApplicationTransactionCommentView
   }
 
   private function renderBadgeView() {
-    $user = $this->getViewer();
+    $user = $this->getUser();
     $can_use_badges = PhabricatorApplication::isClassInstalledForViewer(
       PhabricatorBadgesApplication::class,
       $user);

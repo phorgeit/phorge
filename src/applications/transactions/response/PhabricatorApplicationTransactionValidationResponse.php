@@ -29,7 +29,7 @@ final class PhabricatorApplicationTransactionValidationResponse
     $title = pht('Validation Errors');
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($request->getUser())
+      ->setUser($request->getUser())
       ->setTitle($title);
 
     $list = array();

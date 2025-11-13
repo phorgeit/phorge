@@ -47,7 +47,7 @@ final class PhortuneMerchantSubscriptionsController
     $subscriptions_uri = $merchant->getSubscriptionListURI();
 
     $table = id(new PhortuneSubscriptionTableView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setSubscriptions($subscriptions);
 
     $header = id(new PHUIHeaderView())

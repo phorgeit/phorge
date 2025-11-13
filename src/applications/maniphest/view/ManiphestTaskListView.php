@@ -58,7 +58,7 @@ final class ManiphestTaskListView extends ManiphestView {
 
     foreach ($this->tasks as $task) {
       $item = id(new PHUIObjectItemView())
-        ->setViewer($this->getViewer())
+        ->setViewer($this->getUser())
         ->setObject($task)
         ->setObjectName('T'.$task->getID())
         ->setHeader($task->getTitle())
@@ -95,11 +95,11 @@ final class ManiphestTaskListView extends ManiphestView {
 
         $item->addIcon(
           'fa-check-square-o grey',
-          phabricator_datetime($closed_epoch, $this->getViewer()));
+          phabricator_datetime($closed_epoch, $this->getUser()));
       } else {
         $item->addIcon(
           'none',
-          phabricator_datetime($task->getDateModified(), $this->getViewer()));
+          phabricator_datetime($task->getDateModified(), $this->getUser()));
       }
 
       if ($this->showBatchControls) {

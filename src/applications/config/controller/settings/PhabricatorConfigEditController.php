@@ -152,7 +152,7 @@ final class PhabricatorConfigEditController
     }
 
     $form
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addHiddenInput('issue', $request->getStr('issue'));
 
     $description = $option->newDescriptionRemarkupView($viewer);

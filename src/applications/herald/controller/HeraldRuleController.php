@@ -143,7 +143,7 @@ final class HeraldRuleController extends HeraldController {
     $rule_type_name = $rule_type_map[$rule->getRuleType()];
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setID('herald-rule-edit-form')
       ->addHiddenInput('content_type', $rule->getContentType())
       ->addHiddenInput('rule_type', $rule->getRuleType())

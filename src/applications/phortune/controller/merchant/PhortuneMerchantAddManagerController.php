@@ -46,7 +46,7 @@ final class PhortuneMerchantAddManagerController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setDatasource(new PhabricatorPeopleDatasource())

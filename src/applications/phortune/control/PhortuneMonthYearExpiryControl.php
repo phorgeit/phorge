@@ -14,7 +14,7 @@ final class PhortuneMonthYearExpiryControl extends AphrontFormControl {
   private function getCurrentMonth() {
     return phabricator_format_local_time(
       time(),
-      $this->getViewer(),
+      $this->getUser(),
       'm');
   }
 
@@ -28,7 +28,7 @@ final class PhortuneMonthYearExpiryControl extends AphrontFormControl {
   private function getCurrentYear() {
     return phabricator_format_local_time(
       time(),
-      $this->getViewer(),
+      $this->getUser(),
       'Y');
   }
 
@@ -37,7 +37,7 @@ final class PhortuneMonthYearExpiryControl extends AphrontFormControl {
   }
 
   protected function renderInput() {
-    if (!$this->getViewer()) {
+    if (!$this->getUser()) {
       throw new PhutilInvalidStateException('setUser');
     }
 

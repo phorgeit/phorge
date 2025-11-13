@@ -66,7 +66,7 @@ final class PhabricatorHighSecurityRequestExceptionHandler
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle($title)
       ->setShortTitle(pht('Security Checkpoint'))
       ->setWidth(AphrontDialogView::WIDTH_FORM)

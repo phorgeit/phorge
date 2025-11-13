@@ -54,7 +54,7 @@ final class PHUIDiffInlineCommentPreviewListView
     $views = array();
     foreach ($inlines as $inline) {
       $views[] = id(new PHUIDiffInlineCommentDetailView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setInlineComment($inline)
         ->setMarkupEngine($engine)
         ->setHandles($handles)

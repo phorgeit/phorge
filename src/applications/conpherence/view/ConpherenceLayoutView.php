@@ -96,7 +96,7 @@ final class ConpherenceLayoutView extends AphrontTagView {
       $selected_thread_id = $this->thread->getID();
       $selected_thread_phid = $this->thread->getPHID();
       $can_edit_selected = PhabricatorPolicyFilter::hasCapability(
-        $this->getViewer(),
+        $this->getUser(),
         $this->thread,
         PhabricatorPolicyCapability::CAN_EDIT);
     } else {

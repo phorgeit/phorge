@@ -64,7 +64,7 @@ final class PhortuneAccountEmailAddressesController
       ->execute();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setNoDataString(
         pht(
           'There are no billing email addresses associated '.

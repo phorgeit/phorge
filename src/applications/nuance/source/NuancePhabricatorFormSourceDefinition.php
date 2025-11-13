@@ -49,7 +49,7 @@ final class NuancePhabricatorFormSourceDefinition
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendRemarkupInstructions(
         pht('IMPORTANT: This is a very rough prototype.'))
       ->appendRemarkupInstructions(

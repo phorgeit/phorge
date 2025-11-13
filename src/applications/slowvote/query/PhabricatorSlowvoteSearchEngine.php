@@ -122,7 +122,7 @@ final class PhabricatorSlowvoteSearchEngine
     $viewer = $this->requireViewer();
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $phids = mpull($polls, 'getAuthorPHID');
 
@@ -135,7 +135,7 @@ final class PhabricatorSlowvoteSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($poll)
         ->setObjectName($poll->getMonogram())
         ->setHeader($poll->getQuestion())

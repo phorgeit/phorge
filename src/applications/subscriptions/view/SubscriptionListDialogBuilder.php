@@ -54,7 +54,7 @@ final class SubscriptionListDialogBuilder extends Phobject {
     unset($handles[$phid]);
 
     return id(new AphrontDialogView())
-      ->setViewer($this->getViewer())
+      ->setUser($this->getViewer())
       ->setWidth(AphrontDialogView::WIDTH_FORM)
       ->setTitle($this->getTitle())
       ->setObjectList($this->buildBody($this->getViewer(), $handles))
@@ -64,7 +64,7 @@ final class SubscriptionListDialogBuilder extends Phobject {
   private function buildBody(PhabricatorUser $viewer, $handles) {
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
     foreach ($handles as $handle) {
       $item = id(new PHUIObjectItemView())
         ->setHeader($handle->getFullName())

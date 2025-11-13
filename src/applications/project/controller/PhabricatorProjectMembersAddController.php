@@ -65,7 +65,7 @@ final class PhabricatorProjectMembersAddController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setName('memberPHIDs')

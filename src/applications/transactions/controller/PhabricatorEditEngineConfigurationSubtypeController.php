@@ -62,7 +62,7 @@ EOTEXT
     $map = $engine->newSubtypeMap()->getDisplayMap();
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendRemarkupInstructions($help)
       ->appendControl(
         id(new AphrontFormSelectControl())

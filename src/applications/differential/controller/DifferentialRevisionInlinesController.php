@@ -64,7 +64,7 @@ final class DifferentialRevisionInlinesController
 
     return id(new PHUIHeaderView())
       ->setHeader($revision->getTitle())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeaderIcon('fa-cog')
       ->addActionLink($button);
   }

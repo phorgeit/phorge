@@ -168,7 +168,7 @@ final class PhortuneCartCancelController
       $cancel_text = pht('Cancel');
 
       $form = id(new AphrontFormView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->appendChild(
           id(new AphrontFormTextControl())
             ->setName('refund')

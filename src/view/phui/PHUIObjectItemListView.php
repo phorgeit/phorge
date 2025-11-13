@@ -115,7 +115,7 @@ final class PHUIObjectItemListView extends AphrontTagView {
   }
 
   protected function getTagContent() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     require_celerity_resource('phui-oi-list-view-css');
     require_celerity_resource('phui-oi-color-css');
 

@@ -387,7 +387,7 @@ final class PhabricatorMultiFactorSettingsPanel
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setName('name')
@@ -396,7 +396,7 @@ final class PhabricatorMultiFactorSettingsPanel
           ->setError($e_name));
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addHiddenInput('edit', $factor->getID())
       ->setTitle(pht('Edit Authentication Factor'))
       ->setErrors($errors)
@@ -441,7 +441,7 @@ final class PhabricatorMultiFactorSettingsPanel
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addHiddenInput('delete', $factor->getID())
       ->setTitle(pht('Delete Authentication Factor'))
       ->appendParagraph(

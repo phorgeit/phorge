@@ -205,7 +205,7 @@ final class PhabricatorOAuthServerAuthController
       // the workflow.
 
       $dialog = id(new AphrontDialogView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setTitle(pht('Authenticate: %s', $name))
         ->appendParagraph(
           pht(
@@ -231,7 +231,7 @@ final class PhabricatorOAuthServerAuthController
       ->addHiddenInput('response_type', $response_type)
       ->addHiddenInput('state', $state)
       ->addHiddenInput('scope', $request->getStr('scope'))
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $cancel_msg = pht('The user declined to authorize this application.');
     $cancel_uri = $this->addQueryParams(

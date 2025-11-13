@@ -147,7 +147,7 @@ final class PhabricatorPasteSearchEngine
     $lang_map = PhabricatorEnv::getEnvConfig('pygments.dropdown-choices');
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($pastes as $paste) {
       $created = phabricator_date($paste->getDateCreated(), $viewer);
       $author = $handles[$paste->getAuthorPHID()]->renderLink();

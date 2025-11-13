@@ -38,7 +38,7 @@ final class PassphraseCredentialCreateController extends PassphraseController {
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild($types_control)
       ->appendChild(
         id(new AphrontFormSubmitControl())

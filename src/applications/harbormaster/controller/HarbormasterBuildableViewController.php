@@ -38,7 +38,7 @@ final class HarbormasterBuildableViewController
 
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($buildable)
       ->setStatus(
         $buildable->getStatusIcon(),
@@ -128,7 +128,7 @@ final class HarbormasterBuildableViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $container_phid = $buildable->getContainerPHID();
     $buildable_phid = $buildable->getBuildablePHID();
@@ -159,7 +159,7 @@ final class HarbormasterBuildableViewController
     $viewer = $this->getRequest()->getUser();
 
     $build_list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
     foreach ($buildable->getBuilds() as $build) {
       $view_uri = $this->getApplicationURI('/build/'.$build->getID().'/');
 

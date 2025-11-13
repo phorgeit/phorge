@@ -84,7 +84,7 @@ final class PhabricatorApplicationTransactionCommentEditController
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setFullWidth(true)
       ->appendControl(
         id(new PhabricatorRemarkupControl())

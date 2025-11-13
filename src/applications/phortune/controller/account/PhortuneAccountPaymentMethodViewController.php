@@ -108,7 +108,7 @@ final class PhortuneAccountPaymentMethodViewController
       ));
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if (strlen($method->getName())) {
       $view->addProperty(pht('Name'), $method->getDisplayName());

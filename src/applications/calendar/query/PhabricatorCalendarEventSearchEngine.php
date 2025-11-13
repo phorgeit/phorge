@@ -317,7 +317,7 @@ final class PhabricatorCalendarEventSearchEngine
       }
 
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($event)
         ->setObjectName($monogram)
         ->setHeader($event->getName())
@@ -448,7 +448,7 @@ final class PhabricatorCalendarEventSearchEngine
       $start_day))
       ->setQuery($query->getQueryKey());
 
-    $day_view->setViewer($viewer);
+    $day_view->setUser($viewer);
 
     $phids = mpull($events, 'getHostPHID');
 

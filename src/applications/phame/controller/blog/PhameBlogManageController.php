@@ -41,7 +41,7 @@ final class PhameBlogManageController extends PhameBlogController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($blog->getName())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($blog)
       ->setImage($picture)
       ->setStatus($header_icon, $header_color, $header_name)
@@ -106,7 +106,7 @@ final class PhameBlogManageController extends PhameBlogController {
     Javelin::initBehavior('phabricator-tooltips');
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $full_domain = $blog->getDomainFullURI();
     if (!$full_domain) {
@@ -162,7 +162,7 @@ final class PhameBlogManageController extends PhameBlogController {
 
     $actions = id(new PhabricatorActionListView())
       ->setObject($blog)
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $can_edit = PhabricatorPolicyFilter::hasCapability(
       $viewer,
@@ -221,7 +221,7 @@ final class PhameBlogManageController extends PhameBlogController {
     $viewer = $this->getViewer();
 
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     if ($blog->getHeaderImagePHID()) {
       $view->addImageContent(

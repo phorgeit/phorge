@@ -68,7 +68,7 @@ final class PhortuneMerchantSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($merchants as $merchant) {
       $item = id(new PHUIObjectItemView())
         ->setSubhead(pht('Merchant %d', $merchant->getID()))

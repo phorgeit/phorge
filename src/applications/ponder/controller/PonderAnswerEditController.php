@@ -64,7 +64,7 @@ final class PonderAnswerEditController extends PonderController {
     $answer_content_id = celerity_generate_unique_node_id();
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new AphrontFormStaticControl())
           ->setLabel(pht('Question'))
@@ -77,7 +77,7 @@ final class PonderAnswerEditController extends PonderController {
             ->setOptions(PonderAnswerStatus::getAnswerStatusMap()))
       ->appendChild(
         id(new PhabricatorRemarkupControl())
-          ->setViewer($viewer)
+          ->setUser($viewer)
           ->setLabel(pht('Answer'))
           ->setName('content')
           ->setID($answer_content_id)

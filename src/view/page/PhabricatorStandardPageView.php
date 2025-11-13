@@ -893,7 +893,7 @@ final class PhabricatorStandardPageView extends PhabricatorBarePageView
   public function produceAphrontResponse() {
     $controller = $this->getController();
 
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     if ($viewer && $viewer->getPHID()) {
       $object_phids = $this->pageObjects;
       foreach ($object_phids as $object_phid) {

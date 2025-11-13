@@ -112,7 +112,7 @@ final class PhabricatorPhurlURLSearchEngine
       $name = $url->getName();
 
       $item = id(new PHUIObjectItemView())
-        ->setViewer($viewer)
+        ->setUser($viewer)
         ->setObject($url)
         ->setObjectName('U'.$url->getID())
         ->setHeader($name)

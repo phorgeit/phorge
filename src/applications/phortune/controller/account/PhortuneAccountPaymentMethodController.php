@@ -59,7 +59,7 @@ final class PhortuneAccountPaymentMethodController
       ->addActionLink($add);
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setFlush(true)
       ->setNoDataString(
         pht('There are no payment methods associated with this account.'));

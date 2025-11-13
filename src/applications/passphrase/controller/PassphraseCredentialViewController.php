@@ -48,7 +48,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
     $viewer = $this->getRequest()->getUser();
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($credential->getName())
       ->setPolicyObject($credential)
       ->setHeaderIcon('fa-user-secret');
@@ -183,7 +183,7 @@ final class PassphraseCredentialViewController extends PassphraseController {
     $viewer = $this->getRequest()->getUser();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $properties->addProperty(
       pht('Credential Type'),

@@ -72,7 +72,7 @@ final class NuanceSourceSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($sources as $source) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Source %d', $source->getID()))

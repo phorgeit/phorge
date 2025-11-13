@@ -99,7 +99,7 @@ final class PhameBlogProfilePictureController
     $title = pht('Edit Blog Picture');
 
     $form = id(new PHUIFormLayoutView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $default_image = PhabricatorFile::loadBuiltin($viewer, 'blog.png');
 
@@ -193,7 +193,7 @@ final class PhameBlogProfilePictureController
       ->setForm($form);
 
     $upload_form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setEncType('multipart/form-data')
       ->appendChild(
         id(new AphrontFormFileControl())

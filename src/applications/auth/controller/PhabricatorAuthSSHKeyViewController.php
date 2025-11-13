@@ -28,7 +28,7 @@ final class PhabricatorAuthSSHKeyViewController
     $details = $this->buildPropertySection($ssh_key);
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($ssh_key->getName())
       ->setHeaderIcon('fa-key');
 
@@ -108,7 +108,7 @@ final class PhabricatorAuthSSHKeyViewController
     $viewer = $this->getViewer();
 
     $properties = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $properties->addProperty(pht('Public Key'), $ssh_key->getEntireKey());
     $properties->addProperty(

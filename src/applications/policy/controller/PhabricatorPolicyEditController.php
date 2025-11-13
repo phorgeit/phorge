@@ -254,7 +254,7 @@ final class PhabricatorPolicyEditController
 
     $dialog = id(new AphrontDialogView())
       ->setWidth(AphrontDialogView::WIDTH_FULL)
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setTitle($title)
       ->appendChild($form)
       ->addSubmitButton(pht('Save Policy'))
@@ -327,7 +327,7 @@ final class PhabricatorPolicyEditController
         ));
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendControl(
         id(new AphrontFormTokenizerControl())
           ->setLabel(pht('Members Of'))

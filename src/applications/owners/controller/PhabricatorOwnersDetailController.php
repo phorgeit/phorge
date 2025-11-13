@@ -57,7 +57,7 @@ final class PhabricatorOwnersDetailController
     }
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setHeader($package->getName())
       ->setStatus($header_icon, $header_color, $header_name)
       ->setPolicyObject($package)
@@ -180,7 +180,7 @@ final class PhabricatorOwnersDetailController
 
     $viewer = $this->getViewer();
     $view = id(new PHUIPropertyListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $owners = $package->getOwners();
     if ($owners) {

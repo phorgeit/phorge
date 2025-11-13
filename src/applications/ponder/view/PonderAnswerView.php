@@ -36,7 +36,7 @@ final class PonderAnswerView extends AphrontTagView {
   protected function getTagContent() {
     require_celerity_resource('ponder-view-css');
     $answer = $this->answer;
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $status = $answer->getStatus();
     $author_phid = $answer->getAuthorPHID();
     $actions = $this->buildAnswerActions();
@@ -85,7 +85,7 @@ final class PonderAnswerView extends AphrontTagView {
       $handle->getName());
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setEpoch($answer->getDateModified())
       ->setHeader($header_name)
       ->addActionLink($action_button)
@@ -120,7 +120,7 @@ final class PonderAnswerView extends AphrontTagView {
       ->appendChild($content);
 
     $comment_view = id(new PhabricatorApplicationTransactionCommentView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObject($answer)
       ->setShowPreview(false)
       ->setHeaderText(pht('Answer Comment'))
@@ -145,7 +145,7 @@ final class PonderAnswerView extends AphrontTagView {
   }
 
   private function buildAnswerActions() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $answer = $this->answer;
     $id = $answer->getID();
 
@@ -155,7 +155,7 @@ final class PonderAnswerView extends AphrontTagView {
       PhabricatorPolicyCapability::CAN_EDIT);
 
     $view = id(new PhabricatorActionListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObject($answer);
 
     $view->addAction(

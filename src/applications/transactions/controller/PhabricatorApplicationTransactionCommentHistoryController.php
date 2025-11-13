@@ -59,14 +59,14 @@ final class PhabricatorApplicationTransactionCommentHistoryController
       ->executeOne();
 
     $view = id(new PhabricatorApplicationTransactionView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setObjectPHID($obj_phid)
       ->setTransactions($xactions)
       ->setShowEditActions(false)
       ->setHideCommentOptions(true);
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setWidth(AphrontDialogView::WIDTH_FULL)
       ->setFlush(true)
       ->setTitle(pht('Comment History'));

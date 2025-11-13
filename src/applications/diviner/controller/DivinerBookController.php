@@ -31,7 +31,7 @@ final class DivinerBookController extends DivinerController {
 
     $header = id(new PHUIHeaderView())
       ->setHeader($book->getTitle())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($book)
       ->setEpoch($book->getDateModified())
       ->setActionList($actions);
@@ -110,7 +110,7 @@ final class DivinerBookController extends DivinerController {
       PhabricatorPolicyCapability::CAN_EDIT);
 
     $action_view = id(new PhabricatorActionListView())
-      ->setViewer($user)
+      ->setUser($user)
       ->setObject($book);
 
     $action_view->addAction(

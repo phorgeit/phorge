@@ -442,7 +442,7 @@ abstract class PhabricatorInlineCommentController
     $object_owner_phid = $this->loadObjectOwnerPHID($inline);
 
     $view = id(new PHUIDiffInlineCommentDetailView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setInlineComment($inline)
       ->setIsOnRight($on_right)
       ->setMarkupEngine($engine)

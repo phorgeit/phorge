@@ -77,7 +77,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
       $request->getInt('id'));
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $crumbs = $controller->buildPanelCrumbs($this);
     $crumbs->addTextCrumb(pht('Edit Application Emails'));
@@ -229,7 +229,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     }
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild(
         id(new AphrontFormTextControl())
           ->setLabel(pht('Email'))
@@ -272,7 +272,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setWidth(AphrontDialogView::WIDTH_FORM)
       ->setTitle($title)
       ->setValidationException($validation_exception)
@@ -314,7 +314,7 @@ final class PhabricatorMetaMTAApplicationEmailPanel
     }
 
     $dialog = id(new AphrontDialogView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->addHiddenInput('delete', $email_object_id)
       ->setTitle(pht('Delete Address'))
       ->appendParagraph(pht(

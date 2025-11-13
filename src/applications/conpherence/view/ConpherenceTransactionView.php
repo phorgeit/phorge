@@ -61,7 +61,7 @@ final class ConpherenceTransactionView extends AphrontView {
   }
 
   public function render() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     if (!$viewer) {
       throw new PhutilInvalidStateException('setUser');
     }
@@ -122,7 +122,7 @@ final class ConpherenceTransactionView extends AphrontView {
   }
 
   private function renderTransactionInfo() {
-    $viewer = $this->getViewer();
+    $viewer = $this->getUser();
     $thread = $this->getConpherenceThread();
     $transaction = $this->getConpherenceTransaction();
     $info = array();

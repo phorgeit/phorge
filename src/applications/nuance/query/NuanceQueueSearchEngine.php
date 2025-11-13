@@ -63,7 +63,7 @@ final class NuanceQueueSearchEngine
     $viewer = $this->requireViewer();
 
     $list = new PHUIObjectItemListView();
-    $list->setViewer($viewer);
+    $list->setUser($viewer);
     foreach ($queues as $queue) {
       $item = id(new PHUIObjectItemView())
         ->setObjectName(pht('Queue %d', $queue->getID()))

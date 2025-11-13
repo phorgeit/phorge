@@ -77,7 +77,7 @@ final class HarbormasterPlanRunController extends HarbormasterPlanController {
     $save_button = pht('Run Plan Manually');
 
     $form = id(new PHUIFormLayoutView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendRemarkupInstructions(
         pht(
           "Enter the name of a commit or revision to run this plan on (for ".

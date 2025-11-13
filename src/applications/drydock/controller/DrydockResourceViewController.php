@@ -21,7 +21,7 @@ final class DrydockResourceViewController extends DrydockResourceController {
       $resource->getResourceName());
 
     $header = id(new PHUIHeaderView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setPolicyObject($resource)
       ->setHeader($title)
       ->setHeaderIcon('fa-map')
@@ -198,7 +198,7 @@ final class DrydockResourceViewController extends DrydockResourceController {
           ->setText(pht('View All')));
 
     $lease_list = id(new DrydockLeaseListView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->setLeases($leases)
       ->render()
       ->setNoDataString(pht('This resource has no active leases.'));

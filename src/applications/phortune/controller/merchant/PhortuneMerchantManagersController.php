@@ -62,7 +62,7 @@ final class PhortuneMerchantManagersController
       ->addActionLink($add);
 
     $list = id(new PHUIObjectItemListView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $member_phids = $merchant->getMemberPHIDs();
     $handles = $viewer->loadHandles($member_phids);

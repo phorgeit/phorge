@@ -780,7 +780,7 @@ final class PhabricatorConfigDatabaseStatusController
 
   private function buildProperties(array $properties, array $issues) {
     $view = id(new PHUIPropertyListView())
-      ->setViewer($this->getRequest()->getUser());
+      ->setUser($this->getRequest()->getUser());
 
     foreach ($properties as $property) {
       list($key, $value) = $property;

@@ -83,7 +83,7 @@ final class AlmanacServiceEditController
       ->setHeaderIcon('fa-plus-square');
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer)
+      ->setUser($viewer)
       ->appendChild($type_control)
       ->appendChild(
           id(new AphrontFormSubmitControl())

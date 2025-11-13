@@ -54,7 +54,7 @@ final class PhabricatorPeopleProfileEditController
     $title = pht('Edit Profile');
 
     $form = id(new AphrontFormView())
-      ->setViewer($viewer);
+      ->setUser($viewer);
 
     $field_list->appendFieldsToForm($form);
     $form
