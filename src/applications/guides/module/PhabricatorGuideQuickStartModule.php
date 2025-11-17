@@ -172,9 +172,10 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
     }
 
     $intro = pht(
-      'If you\'re new to this software, these optional steps can help you '.
-      'learn the basics. Feel free to set things up for how you work best '.
-      'and explore these features at your own pace.');
+      'If you\'re new to %s, these optional steps can help you learn the '.
+      'basics. Feel free to set things up for how you work best and explore '.
+      'these features at your own pace.',
+      PlatformSymbols::getPlatformServerName());
 
     $intro = new PHUIRemarkupView($viewer, $intro);
     $intro = id(new PHUIDocumentView())
