@@ -103,20 +103,24 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
       ->setDescription($description);
     $guide_items->addItem($item);
 
-    $title = pht('Personalize your Install');
-    $wordmark = PhabricatorEnv::getEnvConfig('ui.logo');
-    $href = PhabricatorEnv::getURI('/config/edit/ui.logo/');
-    if ($wordmark) {
+    $title = pht('User Account Settings');
+    $href = PhabricatorEnv::getURI('/settings/');
+    $preferences = id(new PhabricatorUserPreferencesQuery())
+      ->setViewer($viewer)
+      ->withUsers(array($viewer))
+      ->executeOne();
+
+    $have_settings = ($preferences && $preferences->getPreferences());
+    if ($have_settings) {
       $icon = 'fa-check';
       $icon_bg = 'bg-green';
       $description = pht(
-        'It looks amazing, good work. Home Sweet Home.');
+        "You've adjusted at least one setting on your account.");
     } else {
-      $icon = 'fa-home';
+      $icon = 'fa-wrench';
       $icon_bg = 'bg-sky';
-      $description =
-        pht('Change the name and add your company logo, just to give it a '.
-          'little extra polish.');
+      $description = pht(
+        'Configure account settings for all users, or just yourself');
     }
 
     $item = id(new PhabricatorGuideItemView())
@@ -126,6 +130,7 @@ final class PhabricatorGuideQuickStartModule extends PhabricatorGuideModule {
       ->setIconBackground($icon_bg)
       ->setDescription($description);
     $guide_items->addItem($item);
+
 
     $title = pht('Explore Applications');
     $href = PhabricatorEnv::getURI('/applications/');
