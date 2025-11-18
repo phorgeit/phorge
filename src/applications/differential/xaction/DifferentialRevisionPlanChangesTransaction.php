@@ -75,13 +75,13 @@ final class DifferentialRevisionPlanChangesTransaction
       }
     }
 
-    if ($object->isChangePlanned()) {
-      throw new Exception(
-        pht(
-          'You can not request review of this revision because this '.
-          'revision is already under review and the action would have '.
-          'no effect.'));
-    }
+    // if ($object->isChangePlanned()) {
+    //   throw new Exception(
+    //     pht(
+    //       'You can not request review of this revision because this '.
+    //       'revision is already under review and the action would have '.
+    //       'no effect.'));
+    // }
 
     if ($object->isClosed()) {
       throw new Exception(
