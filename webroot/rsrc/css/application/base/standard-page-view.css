@@ -89,7 +89,7 @@ body.white-background {
 
 a.handle-status-closed {
   text-decoration: line-through;
-  color: {$lightgreytext};
+  color: {$greytext};
 }
 
 a.handle-status-closed:hover {
