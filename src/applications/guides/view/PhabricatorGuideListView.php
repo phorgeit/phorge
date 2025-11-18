@@ -22,6 +22,7 @@ final class PhabricatorGuideListView extends AphrontView {
         ->setHeader($item->getTitle())
         ->setHref($item->getHref())
         ->setImageIcon($icon)
+        ->setClickable(true)
         ->addAttribute($item->getDescription());
 
       $skip_href = $item->getSkipHref();
