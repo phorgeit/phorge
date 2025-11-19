@@ -10,7 +10,7 @@ return array(
     'conpherence.pkg.css' => 'beb13d57',
     'conpherence.pkg.js' => '020aebcf',
     'core.pkg.css' => 'f7f31d57',
-    'core.pkg.js' => 'dad1a225',
+    'core.pkg.js' => 'ebefb82a',
     'dark-console.pkg.js' => '187792c2',
     'differential.pkg.css' => 'abdb4fe9',
     'differential.pkg.js' => '46fcb3af',
@@ -205,7 +205,7 @@ return array(
     'rsrc/externals/font/lato/lato-regular.ttf' => 'e2e9c398',
     'rsrc/externals/font/lato/lato-regular.woff' => '0b13d332',
     'rsrc/externals/font/lato/lato-regular.woff2' => '8f846797',
-    'rsrc/externals/javelin/core/Event.js' => 'c03f2fb4',
+    'rsrc/externals/javelin/core/Event.js' => '1dbe260d',
     'rsrc/externals/javelin/core/Stratcom.js' => '0889b835',
     'rsrc/externals/javelin/core/__tests__/event-stop-and-kill.js' => '048472d2',
     'rsrc/externals/javelin/core/__tests__/install.js' => '14a7e671',
@@ -660,7 +660,7 @@ return array(
     'javelin-diffusion-locate-file-source' => '6c798a10',
     'javelin-dom' => 'e4c7622a',
     'javelin-dynval' => '202a2e85',
-    'javelin-event' => 'c03f2fb4',
+    'javelin-event' => '1dbe260d',
     'javelin-external-editor-link-engine' => '48a8641f',
     'javelin-fx' => '34450586',
     'javelin-history' => '030b4f7a',
@@ -1018,6 +1018,9 @@ return array(
       'javelin-uri',
       'javelin-mask',
       'phabricator-drag-and-drop-file-upload',
+    ),
+    '1dbe260d' => array(
+      'javelin-install',
     ),
     '1e413dc9' => array(
       'javelin-behavior',
@@ -1915,9 +1918,6 @@ return array(
       'javelin-behavior',
       'javelin-uri',
       'phabricator-notification',
-    ),
-    'c03f2fb4' => array(
-      'javelin-install',
     ),
     'c2c500a7' => array(
       'javelin-install',

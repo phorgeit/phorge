@@ -6,7 +6,7 @@
 
 /**
  * A generic event, routed by @{class:JX.Stratcom}. All events within Javelin
- * are represented by a {@class:JX.Event}, regardless of whether they originate
+ * are represented by a @{class:JX.Event}, regardless of whether they originate
  * from a native DOM event (like a mouse click) or are custom application
  * events.
  *

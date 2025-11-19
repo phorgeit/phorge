@@ -1210,7 +1210,7 @@ final class PhabricatorFile extends PhabricatorFileDAO
 
 
   /**
-   * Load (or build) the {@class:PhabricatorFile} objects for builtin file
+   * Load (or build) the @{class:PhabricatorFile} objects for builtin file
    * resources. The builtin mechanism allows files shipped with Phabricator
    * to be treated like normal files so that APIs do not need to special case
    * things like default images or deleted files.
