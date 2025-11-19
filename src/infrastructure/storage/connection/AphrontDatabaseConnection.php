@@ -9,6 +9,7 @@ abstract class AphrontDatabaseConnection
 
   private $transactionState;
   private $readOnly;
+  private $writeInReadOnlyConnection;
   private $queryTimeout;
   private $locks = array();
   private $lastActiveEpoch;
@@ -65,6 +66,23 @@ abstract class AphrontDatabaseConnection
 
   public function getReadOnly() {
     return $this->readOnly;
+  }
+
+  /**
+   * A database write statement is executed in a database read-only connection.
+   * This should get fixed, see https://we.phorge.it/T16340
+   */
+  public function setWriteInReadOnlyConnection(bool $read_only) {
+    $this->writeInReadOnlyConnection = $read_only;
+    return $this;
+  }
+
+  /**
+   * True if a database write statement is executed in a database read-only
+   * connection. This should get fixed, see https://we.phorge.it/T16340
+   */
+  public function getWriteInReadOnlyConnection() {
+    return $this->writeInReadOnlyConnection;
   }
 
   public function setQueryTimeout($query_timeout) {

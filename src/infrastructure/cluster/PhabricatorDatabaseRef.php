@@ -413,6 +413,9 @@ final class PhabricatorDatabaseRef
     return $refs;
   }
 
+  /**
+   * @return AphrontMySQLiDatabaseConnection
+   */
   public function newManagementConnection() {
     return $this->newConnection(
       array(
@@ -421,6 +424,9 @@ final class PhabricatorDatabaseRef
       ));
   }
 
+  /**
+   * @return AphrontMySQLiDatabaseConnection
+   */
   public function newApplicationConnection($database) {
     return $this->newConnection(
       array(
@@ -484,6 +490,9 @@ final class PhabricatorDatabaseRef
     return $reachable;
   }
 
+  /**
+   * @return $this
+   */
   public function checkHealth() {
     $health = $this->getHealthRecord();
 
@@ -689,6 +698,9 @@ final class PhabricatorDatabaseRef
     return head($replicas);
   }
 
+  /**
+   * @return AphrontMySQLiDatabaseConnection
+   */
   private function newConnection(array $options) {
     // If we believe the database is unhealthy, don't spend as much time
     // trying to connect to it, since it's likely to continue to fail and
@@ -737,6 +749,9 @@ final class PhabricatorDatabaseRef
     return $connection;
   }
 
+  /**
+   * @return AphrontMySQLiDatabaseConnection
+   */
   public static function newRawConnection(array $options) {
     return new AphrontMySQLiDatabaseConnection($options);
   }
