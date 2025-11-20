@@ -3,7 +3,8 @@
 interface PhabricatorPolicyInterface extends PhabricatorPHIDInterface {
 
   /**
-   * @return array<PhabricatorPolicyCapability>
+   * @return array<string> Array of string constants defined in
+   *   @{class:PhabricatorPolicyCapability} or in a child class of it
    */
   public function getCapabilities();
 
