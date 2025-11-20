@@ -116,6 +116,9 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
     return $this->panelPHID;
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   public function renderPanel() {
     $panel = $this->getPanel();
 
@@ -240,6 +243,9 @@ final class PhabricatorDashboardPanelRenderingEngine extends Phobject {
       $header);
   }
 
+  /**
+   * @return PHUIObjectBoxView
+   */
   private function renderPanelDiv(
     $content,
     $header = null,

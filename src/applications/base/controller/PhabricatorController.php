@@ -423,10 +423,16 @@ abstract class PhabricatorController extends AphrontController {
       ->setSubmitURI($submit_uri);
   }
 
+  /**
+   * @return AphrontRedirectResponse
+   */
   public function newRedirect() {
     return id(new AphrontRedirectResponse());
   }
 
+  /**
+   * @return PhabricatorStandardPageView
+   */
   public function newPage() {
     $page = id(new PhabricatorStandardPageView())
       ->setRequest($this->getRequest())
@@ -449,6 +455,9 @@ abstract class PhabricatorController extends AphrontController {
     return $page;
   }
 
+  /**
+   * @return PHUIApplicationMenuView
+   */
   public function newApplicationMenu() {
     return id(new PHUIApplicationMenuView())
       ->setViewer($this->getViewer());

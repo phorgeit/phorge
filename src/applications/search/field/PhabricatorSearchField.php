@@ -382,6 +382,9 @@ abstract class PhabricatorSearchField extends Phobject {
     return $this->enableForConduit;
   }
 
+  /**
+   * @return array<ConduitConstantDescription|null>
+   */
   public function newConduitConstants() {
     return array();
   }

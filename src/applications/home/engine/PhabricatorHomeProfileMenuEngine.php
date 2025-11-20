@@ -29,6 +29,11 @@ final class PhabricatorHomeProfileMenuEngine
     );
   }
 
+  /**
+   * Returns the menu items in the default home sidebar
+   *
+   * @return array<PhabricatorProfileMenuItemConfiguration>
+   */
   protected function getBuiltinProfileItems($object) {
     $viewer = $this->getViewer();
     $items = array();

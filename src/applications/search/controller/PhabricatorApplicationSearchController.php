@@ -774,6 +774,9 @@ final class PhabricatorApplicationSearchController
     return $menu;
   }
 
+  /**
+   * @return AphrontSideNavFilterView
+   */
   private function buildNavigation() {
     $viewer = $this->getViewer();
     $engine = $this->getSearchEngine();
@@ -787,6 +790,13 @@ final class PhabricatorApplicationSearchController
     return $nav;
   }
 
+  /**
+   * Render a content body (if available) to onboard new users. This may return
+   * what the corresponding PhabricatorApplicationSearchEngine returns, or null
+   * based on some additional checks performed in this function.
+   *
+   * @return mixed|PhutilSafeHTML|null
+   */
   private function renderNewUserView(
     PhabricatorApplicationSearchEngine $engine,
     $force_nux) {
@@ -830,6 +840,9 @@ final class PhabricatorApplicationSearchController
     return $nux_view;
   }
 
+  /**
+   * @return PHUIButtonView
+   */
   private function newUseResultsDropdown(
     PhabricatorSavedQuery $query,
     array $dropdown_items) {
@@ -889,6 +902,9 @@ final class PhabricatorApplicationSearchController
     return $message;
   }
 
+  /**
+   * @return PHUIInfoView
+   */
   private function newOverheatedView(array $results) {
     $message = self::newOverheatedError((bool)$results);
 
@@ -902,6 +918,9 @@ final class PhabricatorApplicationSearchController
         ));
   }
 
+  /**
+   * @return PhabricatorActionView
+   */
   private function newBuiltinUseActions() {
     $actions = array();
     $request = $this->getRequest();

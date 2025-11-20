@@ -85,6 +85,9 @@ final class PhabricatorConfigOption
     return $this;
   }
 
+  /**
+   * @return array Pairs of a config value and its description
+   */
   public function getExamples() {
     return $this->examples;
   }
@@ -103,6 +106,9 @@ final class PhabricatorConfigOption
     return $this;
   }
 
+  /**
+   * @return array Array of boolean options, defaults to True and False
+   */
   public function getBoolOptions() {
     if ($this->boolOptions) {
       return $this->boolOptions;

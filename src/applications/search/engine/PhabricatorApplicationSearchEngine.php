@@ -91,11 +91,21 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * Set rendering context (e.g. list or panel)
+   *
+   * @param $context string A CONTEXT_* constant
+   */
   public function setContext($context) {
     $this->context = $context;
     return $this;
   }
 
+  /**
+   * Whether this is in the context of rendering a panel
+   *
+   * @return bool True if in panel context
+   */
   public function isPanelContext() {
     return ($this->context == self::CONTEXT_PANEL);
   }

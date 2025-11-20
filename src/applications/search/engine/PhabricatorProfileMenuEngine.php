@@ -28,24 +28,39 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
     return $this->viewer;
   }
 
+  /**
+   * @param object $profile_object A PhabricatorApplication subclass
+   */
   public function setProfileObject($profile_object) {
     $this->profileObject = $profile_object;
     return $this;
   }
 
+  /**
+   * @return object A PhabricatorApplication subclass
+   */
   public function getProfileObject() {
     return $this->profileObject;
   }
 
+  /**
+   * @param $custom_phid A User PHID
+   */
   public function setCustomPHID($custom_phid) {
     $this->customPHID = $custom_phid;
     return $this;
   }
 
+  /**
+   * @return string|null A User PHID, or null
+   */
   public function getCustomPHID() {
     return $this->customPHID;
   }
 
+  /**
+   * @return string|null A User PHID, or null
+   */
   private function getEditModeCustomPHID() {
     $mode = $this->getEditMode();
 

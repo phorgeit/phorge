@@ -66,6 +66,9 @@ abstract class PhabricatorProfileMenuItem extends Phobject {
       ->execute();
   }
 
+  /**
+   * @return PhabricatorProfileMenuItemView
+   */
   final protected function newItemView() {
     return new PhabricatorProfileMenuItemView();
   }

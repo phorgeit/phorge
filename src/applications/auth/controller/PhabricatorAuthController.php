@@ -2,6 +2,10 @@
 
 abstract class PhabricatorAuthController extends PhabricatorController {
 
+  /**
+   * @return PhabricatorStandardPageView PhabricatorStandardPageView with a
+   *  @{class:PHUIInfoView} child displaying error messages.
+   */
   protected function renderErrorPage($title, array $messages) {
     $view = new PHUIInfoView();
     $view->setTitle($title);
@@ -14,9 +18,11 @@ abstract class PhabricatorAuthController extends PhabricatorController {
   }
 
   /**
-   * Returns true if this install is newly setup (i.e., there are no user
+   * Returns true if this install is newly set up (i.e., there are no user
    * accounts yet). In this case, we enter a special mode to permit creation
    * of the first account form the web UI.
+   *
+   * @return bool
    */
   protected function isFirstTimeSetup() {
     // If there are any auth providers, this isn't first time setup, even if
@@ -94,6 +100,11 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     $request->clearCookie(PhabricatorCookies::COOKIE_INVITE);
   }
 
+  /**
+   * @return AphrontRedirectResponse Redirect to /auth/validate/, including
+   *   an "expect" parameter with the expected username, to be validated in
+   *   @{class:PhabricatorAuthValidateController}
+   */
   private function buildLoginValidateResponse(PhabricatorUser $user) {
     $validate_uri = new PhutilURI($this->getApplicationURI('validate/'));
     $validate_uri->replaceQueryParam('expect', $user->getUsername());
@@ -109,6 +120,12 @@ abstract class PhabricatorAuthController extends PhabricatorController {
       ));
   }
 
+  /**
+   * @return array Returns <null,null,PhabricatorStandardPageView> or
+   *   <PhabricatorExternalAccount,null,PhabricatorStandardPageView> in case of
+   *   an error, or <PhabricatorExternalAccount,PhabricatorAuthProvider,null>
+   *   in case of success.
+   */
   protected function loadAccountForRegistrationOrLinking($account_key) {
     $request = $this->getRequest();
     $viewer = $request->getUser();
@@ -214,6 +231,9 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     return array($account, $provider, null);
   }
 
+  /**
+   * @return PhabricatorAuthInvite|null Invitation, or null if none exists
+   */
   protected function loadInvite() {
     $invite_cookie = PhabricatorCookies::COOKIE_INVITE;
     $invite_code = $this->getRequest()->getCookie($invite_cookie);
@@ -235,6 +255,9 @@ abstract class PhabricatorAuthController extends PhabricatorController {
     }
   }
 
+  /**
+   * @return PHUIBoxView|null
+   */
   protected function renderInviteHeader(PhabricatorAuthInvite $invite) {
     $viewer = $this->getViewer();
 
@@ -275,7 +298,9 @@ abstract class PhabricatorAuthController extends PhabricatorController {
       ->appendChild($invite_list);
   }
 
-
+  /**
+   * @return PhutilSafeHTML|null
+   */
   final protected function newCustomStartMessage() {
     $viewer = $this->getViewer();
 

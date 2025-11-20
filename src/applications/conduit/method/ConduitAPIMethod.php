@@ -49,11 +49,17 @@ abstract class ConduitAPIMethod
     return array();
   }
 
+  /**
+   * @return ConduitAPIDocumentationPage
+   */
   final protected function newDocumentationPage(PhabricatorUser $viewer) {
     return id(new ConduitAPIDocumentationPage())
       ->setIconIcon('fa-chevron-right');
   }
 
+  /**
+   * @return ConduitAPIDocumentationPage
+   */
   final protected function newDocumentationBoxPage(
     PhabricatorUser $viewer,
     $title,
@@ -183,6 +189,8 @@ abstract class ConduitAPIMethod
   /**
    * Return a key which sorts methods by application name, then method status,
    * then method name.
+   *
+   * @return string For example 'almanac.0.namespace.edit' or 'user.2.enable'
    */
   public function getSortOrder() {
     $name = $this->getAPIMethodName();

@@ -6,6 +6,9 @@ final class ConduitConstantDescription extends Phobject {
   private $value;
   private $isDeprecated;
 
+  /**
+   * @param string $key Key of the constant
+   */
   public function setKey($key) {
     $this->key = $key;
     return $this;
@@ -15,6 +18,9 @@ final class ConduitConstantDescription extends Phobject {
     return $this->key;
   }
 
+  /**
+   * @param string $value Description of the constant
+   */
   public function setValue($value) {
     $this->value = $value;
     return $this;
@@ -24,6 +30,9 @@ final class ConduitConstantDescription extends Phobject {
     return $this->value;
   }
 
+  /**
+   * @param bool $is_deprecated Whether the constant is deprecated
+   */
   public function setIsDeprecated($is_deprecated) {
     $this->isDeprecated = $is_deprecated;
     return $this;
