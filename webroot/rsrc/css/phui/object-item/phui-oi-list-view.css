@@ -180,7 +180,7 @@ ul.phui-oi-list-view {
 }
 
 .phui-oi-col2 {
-  max-width: 160px;
+  width: 160px;
   display: table-cell;
   vertical-align: top;
 }
