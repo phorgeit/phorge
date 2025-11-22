@@ -495,7 +495,7 @@ final class PhabricatorAuthRegisterController
           }
 
           if ($same_email) {
-            // TODO: See T3340.
+            // We do not allow two user accounts with the same email address.
             $e_email = pht('Duplicate');
             $errors[] = pht('Another user already has that email.');
           }
