@@ -90,6 +90,11 @@
     display: none;
 }
 
+.device-desktop .phui-profile-menu .project-board-nav .phabricator-side-menu {
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
 .device .phui-workboard-expand-icon {
   display: none;
 }
