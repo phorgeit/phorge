@@ -157,9 +157,7 @@ JX.install('PHUIXAutocomplete', {
           JX.bind(this, this._onresults, code));
 
         datasource.setTransformer(JX.bind(this, this._transformresult));
-      // List users first who are involved in the object
-      if (spec.datasourceURI ==
-          '/typeahead/class/PhabricatorPeopleDatasource/') {
+        // List users first who are involved in the object
         var involvedUsers = spec.involvedUsers;
         if (involvedUsers !== null && involvedUsers.length !== 0) {
           datasource.setSortHandler(function(value, list) {
@@ -177,10 +175,6 @@ JX.install('PHUIXAutocomplete', {
           datasource.setSortHandler(
             JX.bind(datasource, JX.Prefab.sortHandler, {}));
         }
-      } else {
-        datasource.setSortHandler(
-          JX.bind(datasource, JX.Prefab.sortHandler, {}));
-      }
 
         this._datasources[code] = datasource;
       }
