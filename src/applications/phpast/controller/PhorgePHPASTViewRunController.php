@@ -1,16 +1,10 @@
 <?php
 
-final class PhabricatorXHPASTViewRunController
+/**
+ * @phutil-external-symbol class PhpParser\Error
+ */
+final class PhorgePHPASTViewRunController
   extends PhabricatorXHPASTViewController {
-
-  protected function buildApplicationCrumbs() {
-    return parent::buildApplicationCrumbs()
-      ->addAction(
-        id(new PHUIListItemView())
-          ->setName(pht('Use PHPAST'))
-          ->setHref('/phpast/')
-          ->setIcon('fa-random'));
-  }
 
   public function handleRequest(AphrontRequest $request) {
     $viewer = $this->getViewer();
@@ -18,28 +12,29 @@ final class PhabricatorXHPASTViewRunController
     if ($request->isFormPost()) {
       $source = $request->getStr('source');
 
-      $future = PhutilXHPASTBinary::getParserFuture($source);
-      $resolved = $future->resolve();
+      $storage_tree = id(new PhorgePHPASTParseTree())
+        ->setInput($source)
+        ->setAuthorPHID($viewer->getPHID());
 
-      // This is just to let it throw exceptions if stuff is broken.
+      $parser = PhutilPHPParserLibrary::getParser();
+      $exposes_token_stream = version_compare(
+        PhutilPHPParserLibrary::getVersion(),
+        PhutilPHPParserLibrary::EXPECTED_VERSION,
+        '>=');
+
       try {
-        XHPASTTree::newFromDataAndResolvedExecFuture($source, $resolved);
-      } catch (XHPASTSyntaxErrorException $ex) {
-        // This is possibly expected.
+        $storage_tree->setTree($parser->parse($source));
+        if ($exposes_token_stream) {
+          $storage_tree->setTokenStream($parser->getTokens());
+        }
+      } catch (PhpParser\Error $ex) {
+        $storage_tree->setError($ex->getMessageWithColumnInfo($source));
       }
 
-      list($err, $stdout, $stderr) = $resolved;
-
-      $storage_tree = id(new PhabricatorXHPASTParseTree())
-        ->setInput($source)
-        ->setReturnCode($err)
-        ->setStdout($stdout)
-        ->setStderr($stderr)
-        ->setAuthorPHID($viewer->getPHID())
-        ->save();
+      $storage_tree->save();
 
       return id(new AphrontRedirectResponse())
-        ->setURI('/xhpast/view/'.$storage_tree->getID().'/');
+        ->setURI('/phpast/view/'.$storage_tree->getID().'/');
     }
 
     $form = id(new AphrontFormView())
@@ -55,11 +50,11 @@ final class PhabricatorXHPASTViewRunController
           ->setValue(pht('Parse')));
 
     $form_box = id(new PHUIObjectBoxView())
-      ->setHeaderText(pht('Generate XHP AST'))
+      ->setHeaderText(pht('Generate PHP AST'))
       ->setBackground(PHUIObjectBoxView::BLUE_PROPERTY)
       ->setForm($form);
 
-    $title = pht('XHPAST View');
+    $title = pht('PHPAST View');
     $header = id(new PHUIHeaderView())
       ->setHeader($title)
       ->setHeaderIcon('fa-ambulance');
@@ -76,8 +71,8 @@ final class PhabricatorXHPASTViewRunController
         id(new PHUICrumbsView())
           ->addAction(
             id(new PHUIListItemView())
-              ->setName(pht('Use PHPAST'))
-              ->setHref('/phpast/')
+              ->setName(pht('Use XHPAST'))
+              ->setHref('/xhpast/')
               ->setIcon('fa-random')))
       ->appendChild($view);
 

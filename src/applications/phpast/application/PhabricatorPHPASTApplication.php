@@ -41,6 +41,19 @@ final class PhabricatorPHPASTApplication extends PhabricatorApplication {
         'stream/(?P<id>[1-9]\d*)/'
           => 'PhabricatorXHPASTViewStreamController',
       ),
+      '/phpast/' => array(
+        '' => PhorgePHPASTViewRunController::class,
+        'view/(?P<id>[1-9]\d*)/'
+          => PhorgePHPASTViewFrameController::class,
+        'frameset/(?P<id>[1-9]\d*)/'
+          => PhorgePHPASTViewFramesetController::class,
+        'input/(?P<id>[1-9]\d*)/'
+          => PhorgePHPASTViewInputController::class,
+        'tree/(?P<id>[1-9]\d*)/'
+          => PhorgePHPASTViewTreeController::class,
+        'stream/(?P<id>[1-9]\d*)/'
+          => PhorgePHPASTViewStreamController::class,
+      ),
     );
   }
 
