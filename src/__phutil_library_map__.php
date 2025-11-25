@@ -4257,7 +4257,7 @@ phutil_register_library_map(array(
     'PhabricatorPhrequentApplication' => 'applications/phrequent/application/PhabricatorPhrequentApplication.php',
     'PhabricatorPhrictionApplication' => 'applications/phriction/application/PhabricatorPhrictionApplication.php',
     'PhabricatorPhurlApplication' => 'applications/phurl/application/PhabricatorPhurlApplication.php',
-    'PhabricatorPhurlConfigOptions' => 'applications/config/option/PhabricatorPhurlConfigOptions.php',
+    'PhabricatorPhurlConfigOptions' => 'applications/phurl/config/PhabricatorPhurlConfigOptions.php',
     'PhabricatorPhurlController' => 'applications/phurl/controller/PhabricatorPhurlController.php',
     'PhabricatorPhurlDAO' => 'applications/phurl/storage/PhabricatorPhurlDAO.php',
     'PhabricatorPhurlLinkRemarkupRule' => 'applications/phurl/remarkup/PhabricatorPhurlLinkRemarkupRule.php',
