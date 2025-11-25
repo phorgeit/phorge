@@ -144,7 +144,7 @@ class SMTP {
     // SMTP server can take longer to respond, give longer timeout for first read
     // Windows does not have support for this timeout function
     if(substr(PHP_OS, 0, 3) != "WIN")
-     socket_set_timeout($this->smtp_conn, $tval, 0);
+     stream_set_timeout($this->smtp_conn, $tval, 0);
 
     // get any announcement
     $announce = $this->get_lines();
