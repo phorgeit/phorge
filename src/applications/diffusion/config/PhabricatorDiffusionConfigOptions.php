@@ -19,6 +19,10 @@ final class PhabricatorDiffusionConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDiffusionApplication::class;
+  }
+
   public function getOptions() {
     $custom_field_type = 'custom:PhabricatorCustomFieldConfigOptionType';
 

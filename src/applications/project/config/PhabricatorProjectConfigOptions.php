@@ -19,6 +19,10 @@ final class PhabricatorProjectConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorProjectApplication::class;
+  }
+
   public function getOptions() {
     $default_icons = PhabricatorProjectIconSet::getDefaultConfiguration();
     $icons_type = 'project.icons';

@@ -19,6 +19,10 @@ final class PhabricatorManiphestConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorManiphestApplication::class;
+  }
+
   public function getOptions() {
     $priority_type = 'maniphest.priorities';
     $priority_defaults = array(

@@ -19,6 +19,10 @@ final class PhabricatorFilesConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorFilesApplication::class;
+  }
+
   public function getOptions() {
     $viewable_default = array(
       'image/jpeg'  => 'image/jpeg',

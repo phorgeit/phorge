@@ -19,6 +19,10 @@ final class PhabricatorPhurlConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorPhurlApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption('phurl.short-uri', 'string', null)

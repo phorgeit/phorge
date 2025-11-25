@@ -14,6 +14,17 @@ abstract class PhabricatorApplicationConfigOptions extends Phobject {
     return 'fa-sliders';
   }
 
+  /**
+   * Get corresponding application class for configuration options. Child
+   * classes returning a classname should also have getGroup() return 'apps'.
+   *
+   * @return class-string|null Application class name, or null if the config
+   *  options are not related to a specific application.
+   */
+  public function getApplicationClassName() {
+    return null;
+  }
+
   public function validateOption(PhabricatorConfigOption $option, $value) {
     if ($value === $option->getDefault()) {
       return;

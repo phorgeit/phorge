@@ -19,6 +19,10 @@ final class PhabricatorAuditConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorAuditApplication::class;
+  }
+
   public function getOptions() {
     return array(
       $this->newOption(

@@ -19,6 +19,10 @@ final class PhabricatorDifferentialConfigOptions
     return 'apps';
   }
 
+  public function getApplicationClassName() {
+    return PhabricatorDifferentialApplication::class;
+  }
+
   public function getOptions() {
     $caches_href = PhabricatorEnv::getDoclink('Managing Caches');
 
