@@ -148,24 +148,25 @@ final class PhabricatorApplicationSearchController
         $query_key = $engine->getDefaultQueryKey();
       }
     }
+    if (phutil_nonempty_string($query_key)) {
+      if ($engine->isBuiltinQuery($query_key)) {
+        $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
+        $named_query = idx($engine->loadEnabledNamedQueries(), $query_key);
+      } else {
+        if (strlen($query_key) !== PhabricatorHash::INDEX_DIGEST_LENGTH) {
+          return new Aphront404Response();
+        }
+        $saved_query = id(new PhabricatorSavedQueryQuery())
+          ->setViewer($user)
+          ->withQueryKeys(array($query_key))
+          ->executeOne();
 
-    if ($engine->isBuiltinQuery($query_key)) {
-      $saved_query = $engine->buildSavedQueryFromBuiltin($query_key);
-      $named_query = idx($engine->loadEnabledNamedQueries(), $query_key);
-    } else if ($query_key) {
-      if (strlen($query_key) !== PhabricatorHash::INDEX_DIGEST_LENGTH) {
-        return new Aphront404Response();
+        if (!$saved_query) {
+          return new Aphront404Response();
+        }
+
+        $named_query = idx($engine->loadEnabledNamedQueries(), $query_key);
       }
-      $saved_query = id(new PhabricatorSavedQueryQuery())
-        ->setViewer($user)
-        ->withQueryKeys(array($query_key))
-        ->executeOne();
-
-      if (!$saved_query) {
-        return new Aphront404Response();
-      }
-
-      $named_query = idx($engine->loadEnabledNamedQueries(), $query_key);
     } else {
       $saved_query = $engine->buildSavedQueryFromRequest($request);
 
