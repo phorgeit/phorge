@@ -415,7 +415,11 @@ final class ManiphestTaskDetailController extends ManiphestController {
     $viewer_phid = $viewer->getPHID();
     $owner_phid = $task->getOwnerPHID();
     $author_phid = $task->getAuthorPHID();
-    $handles = $viewer->loadHandles(array($owner_phid, $author_phid));
+    if ($owner_phid) {
+      $handles = $viewer->loadHandles(array($owner_phid, $author_phid));
+    } else {
+      $handles = $viewer->loadHandles(array($author_phid));
+    }
 
     $assigned_refs = id(new PHUICurtainObjectRefListView())
       ->setViewer($viewer)
