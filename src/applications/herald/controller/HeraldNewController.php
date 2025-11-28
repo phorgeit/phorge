@@ -8,7 +8,7 @@ final class HeraldNewController extends HeraldController {
     $adapter_type_map = HeraldAdapter::getEnabledAdapterMap($viewer);
     $adapter_type = $request->getStr('adapter');
 
-    if (!isset($adapter_type_map[$adapter_type])) {
+    if (!$adapter_type || !isset($adapter_type_map[$adapter_type])) {
       $title = pht('Create Herald Rule');
       $content = $this->newAdapterMenu($title);
     } else {
@@ -17,7 +17,7 @@ final class HeraldNewController extends HeraldController {
       $rule_type_map = HeraldRuleTypeConfig::getRuleTypeMap();
       $rule_type = $request->getStr('type');
 
-      if (!isset($rule_type_map[$rule_type])) {
+      if (!$rule_type || !isset($rule_type_map[$rule_type])) {
         $title = pht(
           'Create Herald Rule: %s',
           $adapter->getAdapterContentName());
