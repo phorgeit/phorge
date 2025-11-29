@@ -65,9 +65,9 @@ final class PhabricatorUserProfileImageCacheType
     foreach ($users as $user) {
       $image_phid = $user->getProfileImagePHID();
       $default_phid = $user->getDefaultProfileImagePHID();
-      if (isset($files[$image_phid])) {
+      if ($image_phid && isset($files[$image_phid])) {
         $image_uri = $files[$image_phid]->getBestURI();
-      } else if (isset($files[$default_phid])) {
+      } else if ($default_phid && isset($files[$default_phid])) {
         $image_uri = $files[$default_phid]->getBestURI();
       } else {
         $image_uri = PhabricatorUser::getDefaultProfileImageURI();
