@@ -847,9 +847,12 @@ final class PhabricatorMetaMTAMail
     return $this->expandRecipients($actor_phids);
   }
 
+  /**
+   * @return array<string> PHIDs and/or empty strings
+   */
   private function getAllActorPHIDs() {
     return array_merge(
-      array($this->getParam('from')),
+      array($this->getParam('from', '')),
       $this->getToPHIDs(),
       $this->getCcPHIDs());
   }
