@@ -178,7 +178,8 @@ button.link:hover {
 
 .phuix-dropdown-menu {
   position: absolute;
-  width: 200px;
+  min-width: 200px;
+  max-width: 260px;
   background: {$page.content};
   margin-top: -1px;
   padding: 12px;
