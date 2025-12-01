@@ -31,7 +31,7 @@ final class PhabricatorPhabricatorAuthProvider
       "**Step 2 of 2 - Configure OAuth Server**\n\n".
       "To configure OAuth, create a new application here:".
       "\n\n".
-      "%s/oauthserver/client/create/".
+      "%s".
       "\n\n".
       "When creating your application, use these settings:".
       "\n\n".
@@ -40,7 +40,7 @@ final class PhabricatorPhabricatorAuthProvider
       "After completing configuration, copy the **Client ID** and ".
       "**Client Secret** to the fields above. (You may need to generate the ".
       "client secret by clicking 'New Secret' first.)",
-      $base_uri,
+      $base_uri.'/oauthserver/edit/',
       $login_uri);
   }
 
