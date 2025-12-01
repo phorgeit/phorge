@@ -567,7 +567,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
 
   public function getAuthCSRFCode(AphrontRequest $request) {
     $phcid = $request->getCookie(PhabricatorCookies::COOKIE_CLIENTID);
-    if (!strlen($phcid)) {
+    if (!phutil_nonempty_string($phcid)) {
       throw new AphrontMalformedRequestException(
         pht('Missing Client ID Cookie'),
         pht(
@@ -584,7 +584,7 @@ abstract class PhabricatorAuthProvider extends Phobject {
   protected function verifyAuthCSRFCode(AphrontRequest $request, $actual) {
     $expect = $this->getAuthCSRFCode($request);
 
-    if (!strlen($actual)) {
+    if (!phutil_nonempty_string($actual)) {
       throw new Exception(
         pht(
           'The authentication provider did not return a client state '.
