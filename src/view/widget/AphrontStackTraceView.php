@@ -48,7 +48,7 @@ final class AphrontStackTraceView extends AphrontView {
       }
 
       if ($file) {
-        if (isset($callsigns[$lib])) {
+        if ($lib && isset($callsigns[$lib])) {
           $attrs = array('title' => $file);
           $attrs['href'] = sprintf($path, $callsigns[$lib]).
             str_replace(DIRECTORY_SEPARATOR, '/', $relative).
