@@ -144,7 +144,8 @@ final class PhabricatorProject extends PhabricatorProjectDAO
 
     switch ($capability) {
       case PhabricatorPolicyCapability::CAN_VIEW:
-        if ($this->isUserMember($viewer->getPHID())) {
+        $viewer_phid = $viewer->getPHID();
+        if ($viewer_phid && $this->isUserMember($viewer_phid)) {
           // Project members can always view a project.
           return true;
         }
