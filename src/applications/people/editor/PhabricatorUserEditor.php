@@ -385,6 +385,10 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
           if ($user_primary->getID() == $email->getID()) {
             $user->setIsEmailVerified(1);
             $user->save();
+            // Update the account status also in the fulltext search index.
+            PhabricatorSearchWorker::queueDocumentForIndexing(
+              $user->getPHID(),
+              array('force' => true));
           }
         }
 
