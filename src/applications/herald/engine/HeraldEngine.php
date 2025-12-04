@@ -729,7 +729,7 @@ final class HeraldEngine extends Phobject {
     }
 
     // The author must be able to create rules for the adapter's content type.
-    // In particular, this means that the application must be installed and
+    // In particular, this means that the application must be enabled and
     // accessible to the user. For example, if a user writes a Differential
     // rule and then loses access to Differential, this disables the rule.
     $enabled = HeraldAdapter::getEnabledAdapterMap($rule->getAuthor());

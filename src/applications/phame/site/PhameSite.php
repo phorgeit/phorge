@@ -12,7 +12,7 @@ abstract class PhameSite extends PhabricatorSite {
     $phame_installed = PhabricatorApplication::isClassInstalled(
       PhabricatorPhameApplication::class);
     if (!$phame_installed) {
-      // Don't activate Phame if the the application is uninstalled.
+      // Don't activate Phame if the the application is disabled.
       return false;
     }
 

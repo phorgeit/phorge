@@ -45,7 +45,8 @@ final class PhabricatorApplicationUninstallTransaction
     $content_source = $editor->getContentSource();
 
     // Today, changing config requires "Administrator", but "Can Edit" on
-    // applications to let you uninstall them may be granted to any user.
+    // applications to let you disable an application may be granted to any
+    // user.
     PhabricatorConfigEditor::storeNewValue(
       PhabricatorUser::getOmnipotentUser(),
       $config_entry,
@@ -57,11 +58,11 @@ final class PhabricatorApplicationUninstallTransaction
   public function getTitle() {
     if ($this->getNewValue() === 'uninstalled') {
       return pht(
-        '%s uninstalled this application.',
+        '%s disabled this application.',
         $this->renderAuthor());
     } else {
       return pht(
-        '%s installed this application.',
+        '%s enabled this application.',
         $this->renderAuthor());
     }
   }
@@ -69,12 +70,12 @@ final class PhabricatorApplicationUninstallTransaction
   public function getTitleForFeed() {
     if ($this->getNewValue() === 'uninstalled') {
       return pht(
-        '%s uninstalled %s.',
+        '%s disabled %s.',
         $this->renderAuthor(),
         $this->renderObject());
     } else {
       return pht(
-        '%s installed %s.',
+        '%s enabled %s.',
         $this->renderAuthor(),
         $this->renderObject());
     }

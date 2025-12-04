@@ -6,7 +6,7 @@ final class DiffusionCommitPackageAuditHeraldField
   const FIELDCONST = 'diffusion.commit.package.audit';
 
   // hide "Affected packages that need audit" Herald condition
-  // if Audit not installed
+  // if Audit is disabled
   public function supportsObject($object) {
     if (id(new PhabricatorAuditApplication())->isInstalled()) {
       return ($object instanceof PhabricatorRepositoryCommit);

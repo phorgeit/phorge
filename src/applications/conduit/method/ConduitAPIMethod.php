@@ -269,7 +269,7 @@ abstract class ConduitAPIMethod
 
   /**
    * Optionally, return a @{class:PhabricatorApplication} which this call is
-   * part of. The call will be disabled when the application is uninstalled.
+   * part of. The call will be disabled when the application is disabled.
    *
    * @return PhabricatorApplication|null  Related application.
    */

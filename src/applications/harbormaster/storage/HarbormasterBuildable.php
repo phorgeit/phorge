@@ -78,7 +78,7 @@ final class HarbormasterBuildable
     }
 
     // Skip all of this logic if the Harbormaster application
-    // isn't currently installed.
+    // isn't currently enabled.
 
     $harbormaster_app = PhabricatorHarbormasterApplication::class;
     if (!PhabricatorApplication::isClassInstalled($harbormaster_app)) {

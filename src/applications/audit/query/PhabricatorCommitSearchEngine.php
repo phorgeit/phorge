@@ -236,7 +236,7 @@ final class PhabricatorCommitSearchEngine
 
     $bucket = $this->getResultBucket($query);
 
-    // hide "Auditors" on /diffusion/commit/query/all/ if Audit not installed
+    // hide "Auditors" on /diffusion/commit/query/all/ if Audit not enabled
     $show_auditors = id(new PhabricatorAuditApplication())->isInstalled();
     $template = id(new DiffusionCommitGraphView())
       ->setViewer($viewer)

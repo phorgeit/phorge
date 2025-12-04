@@ -181,7 +181,7 @@ final class DiffusionCommitGraphView
         $this->addBuildAction($item_view, $hash);
       }
 
-      // hide Audit entry on /diffusion/commit/query/all if Audit not installed
+      // hide Audit entry on /diffusion/commit/query/all if Audit is disabled
       if (id(new PhabricatorAuditApplication())->isInstalled()) {
         $this->addAuditAction($item_view, $hash);
       }

@@ -25,7 +25,7 @@ final class PhabricatorProjectWorkboardProfileMenuItem
   public function shouldEnableForObject($object) {
     $viewer = $this->getViewer();
 
-    // Workboards are only available if Maniphest is installed.
+    // Workboards are only available if Maniphest is enabled.
     $class = PhabricatorManiphestApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;

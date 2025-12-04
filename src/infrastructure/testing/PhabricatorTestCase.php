@@ -94,8 +94,8 @@ abstract class PhabricatorTestCase extends PhutilTestCase {
     $this->env = PhabricatorEnv::beginScopedEnv();
 
     // NOTE: While running unit tests, we act as though all applications are
-    // installed, regardless of the install's configuration. Tests which need
-    // to uninstall applications are responsible for adjusting state themselves
+    // enabled, regardless of the install's configuration. Tests which need
+    // to disable applications are responsible for adjusting state themselves
     // (such tests are exceedingly rare).
 
     $this->env->overrideEnvConfig(

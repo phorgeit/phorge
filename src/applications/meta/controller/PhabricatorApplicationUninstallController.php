@@ -76,24 +76,24 @@ final class PhabricatorApplicationUninstallController
           ->setTitle(pht('Confirmation'))
           ->appendChild(
             pht(
-              'Install %s application?',
+              'Enable %s application?',
               $application->getName()))
-          ->addSubmitButton(pht('Install'));
+          ->addSubmitButton(pht('Enable'));
 
       } else {
         $dialog
           ->setTitle(pht('Information'))
-          ->appendChild(pht('You cannot install an installed application.'));
+          ->appendChild(pht('You cannot enable an enabled application.'));
       }
     } else {
       if ($application->canUninstall()) {
-        $dialog->setTitle(pht('Really Uninstall Application?'));
+        $dialog->setTitle(pht('Really Disable Application?'));
 
         if ($application instanceof PhabricatorHomeApplication) {
           $dialog
             ->appendParagraph(
               pht(
-                'Are you absolutely certain you want to uninstall the Home '.
+                'Are you absolutely certain you want to disable the Home '.
                 'application?'))
             ->appendParagraph(
               pht(
@@ -105,16 +105,16 @@ final class PhabricatorApplicationUninstallController
           $dialog
             ->appendParagraph(
               pht(
-                'Really uninstall the %s application?',
+                'Really disable the %s application?',
                 $application->getName()))
-            ->addSubmitButton(pht('Uninstall'));
+            ->addSubmitButton(pht('Disable'));
         }
       } else {
         $dialog
           ->setTitle(pht('Information'))
           ->appendChild(
             pht(
-              'This application is required and cannot be uninstalled.'));
+              'This application is required and cannot be disabled.'));
       }
     }
     return id(new AphrontDialogResponse())->setDialog($dialog);

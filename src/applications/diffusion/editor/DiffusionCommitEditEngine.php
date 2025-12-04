@@ -101,7 +101,7 @@ final class DiffusionCommitEditEngine
 
     $fields = array();
     // remove "Change Auditors" from "Add Action" dropdown etc
-    // if Audit is not installed
+    // if Audit is disabled
     if (id(new PhabricatorAuditApplication())->isInstalled()) {
       $fields[] = id(new PhabricatorDatasourceEditField())
         ->setKey('auditors')

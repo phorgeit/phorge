@@ -135,7 +135,7 @@ EOREMARKUP
           ))
         ->setSummary(
           pht(
-            'Install applications which are still under development.'))
+            'Enable applications which are still under development.'))
         ->setDescription(
           pht(
             "IMPORTANT: The upstream does not provide support for prototype ".
@@ -143,14 +143,14 @@ EOREMARKUP
             "\n\n".
             "This platform includes prototype applications which are in an ".
             "**early stage of development**. By default, prototype ".
-            "applications are not installed, because they are often not yet ".
+            "applications are disabled, because they are often not yet ".
             "developed enough to be generally usable. You can enable ".
-            "this option to install them if you're developing applications ".
+            "this option to enable them if you're developing applications ".
             "or are interested in previewing upcoming features.".
             "\n\n".
             "To learn more about prototypes, see [[ %s | %s ]].".
             "\n\n".
-            "After enabling prototypes, you can selectively uninstall them ".
+            "After enabling prototypes, you can selectively disable them ".
             "(like normal applications).",
             $proto_doc_href,
             $proto_doc_name)),
@@ -239,7 +239,7 @@ EOREMARKUP
       $this->newOption('phabricator.uninstalled-applications', 'set', array())
         ->setLocked(true)
         ->setLockedMessage(pht(
-          'Use the %s to manage installed applications.',
+          'Use the %s to manage enabled applications.',
           phutil_tag(
             'a',
             array(
@@ -247,7 +247,7 @@ EOREMARKUP
             ),
             pht('Applications application'))))
         ->setDescription(
-          pht('Array containing list of uninstalled applications.')),
+          pht('Array containing list of disabled applications.')),
       $this->newOption('phabricator.application-settings', 'wild', array())
         ->setLocked(true)
         ->setDescription(

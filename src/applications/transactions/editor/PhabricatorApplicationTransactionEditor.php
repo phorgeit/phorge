@@ -101,7 +101,7 @@ abstract class PhabricatorApplicationTransactionEditor
   /**
    * Get the class name for the application this editor is a part of.
    *
-   * Uninstalling the application will disable the editor.
+   * Disabling the application will disable the editor.
    *
    * @return class-string<PhabricatorApplication> Editor's application
    *   class name.

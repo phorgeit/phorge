@@ -33,9 +33,9 @@ final class PhabricatorApplicationDetailViewController
       ->setHeaderIcon($selected->getIcon());
 
     if ($selected->isInstalled()) {
-      $header->setStatus('fa-check', 'bluegrey', pht('Installed'));
+      $header->setStatus('fa-check', 'bluegrey', pht('Enabled'));
     } else {
-      $header->setStatus('fa-ban', 'dark', pht('Uninstalled'));
+      $header->setStatus('fa-ban', 'dark', pht('Disabled'));
     }
 
     if (!$selected->isFirstParty()) {
@@ -222,14 +222,14 @@ final class PhabricatorApplicationDetailViewController
       if ($application->isInstalled()) {
         $curtain->addAction(
           id(new PhabricatorActionView())
-            ->setName(pht('Uninstall'))
+            ->setName(pht('Disable'))
             ->setIcon('fa-times')
             ->setDisabled(!$can_edit)
             ->setWorkflow(true)
             ->setHref($uninstall_uri));
       } else {
         $action = id(new PhabricatorActionView())
-          ->setName(pht('Install'))
+          ->setName(pht('Enable'))
           ->setIcon('fa-plus')
           ->setDisabled(!$can_edit)
           ->setWorkflow(true)
@@ -246,7 +246,7 @@ final class PhabricatorApplicationDetailViewController
     } else {
       $curtain->addAction(
         id(new PhabricatorActionView())
-          ->setName(pht('Uninstall'))
+          ->setName(pht('Disable'))
           ->setIcon('fa-times')
           ->setWorkflow(true)
           ->setDisabled(true)

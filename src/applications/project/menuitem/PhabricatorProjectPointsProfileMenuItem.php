@@ -26,7 +26,7 @@ final class PhabricatorProjectPointsProfileMenuItem
       return false;
     }
 
-    // Points are only available if Maniphest is installed.
+    // Points are only available if Maniphest is enabled.
     $class = PhabricatorManiphestApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
       return false;

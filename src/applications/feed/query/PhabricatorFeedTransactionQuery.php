@@ -155,9 +155,9 @@ final class PhabricatorFeedTransactionQuery
       ->setAncestorClass(PhabricatorApplicationTransactionQuery::class)
       ->execute();
 
-    // Remove TransactionQuery classes of uninstalled apps. Increases query
+    // Remove TransactionQuery classes of disabled apps. Increases query
     // performance and decreases likeliness of a "Query Overheated" error if
-    // an app got uninstalled so data in it cannot be accessed anymore anyway.
+    // an app got disabled so data in it cannot be accessed anymore anyway.
     // See https://secure.phabricator.com/T13133, https://we.phorge.it/T15642
     foreach ($queries as $key => $query) {
       $app = $query->getQueryApplicationClass();

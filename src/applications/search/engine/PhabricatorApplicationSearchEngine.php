@@ -673,7 +673,7 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
       if (!$this->application) {
         throw new Exception(
           pht(
-            'Application "%s" is not installed!',
+            'Application "%s" is not enabled!',
             $class));
       }
     }

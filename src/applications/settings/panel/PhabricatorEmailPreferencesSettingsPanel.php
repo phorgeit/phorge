@@ -153,7 +153,7 @@ final class PhabricatorEmailPreferencesSettingsPanel
       ->execute();
 
     foreach ($editors as $key => $editor) {
-      // Remove editors for applications which are not installed.
+      // Remove editors for applications which are not enabled.
       $app = $editor->getEditorApplicationClass();
       if ($app !== null && $user !== null) {
         if (!PhabricatorApplication::isClassInstalledForViewer($app, $user)) {

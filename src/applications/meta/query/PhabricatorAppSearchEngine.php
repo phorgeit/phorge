@@ -96,14 +96,14 @@ final class PhabricatorAppSearchEngine
           ->setValue($saved->getParameter('name')))
       ->appendChild(
         id(new AphrontFormSelectControl())
-          ->setLabel(pht('Installed'))
+          ->setLabel(pht('Enabled'))
           ->setName('installed')
           ->setValue($this->getBoolFromQuery($saved, 'installed'))
           ->setOptions(
             array(
               '' => pht('Show All Applications'),
-              'true' => pht('Show Installed Applications'),
-              'false' => pht('Show Uninstalled Applications'),
+              'true' => pht('Show Enabled Applications'),
+              'false' => pht('Show Disabled Applications'),
             )))
       ->appendChild(
         id(new AphrontFormSelectControl())
@@ -272,7 +272,7 @@ final class PhabricatorAppSearchEngine
         }
 
         if (!$application->isInstalled()) {
-          $item->addAttribute(pht('Uninstalled'));
+          $item->addAttribute(pht('Disabled'));
           $item->setDisabled(true);
         }
 
