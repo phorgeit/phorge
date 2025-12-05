@@ -62,15 +62,15 @@ final class ManiphestTaskAttachTransaction
       return pht(
         '%s attached %d file(s) of %s: %s',
         $this->renderAuthor(),
-        $this->renderObject(),
         count($added),
+        $this->renderObject(),
         $this->renderHandleList($added));
     } else if ($removed && !$added) {
       return pht(
         '%s detached %d file(s) of %s: %s',
         $this->renderAuthor(),
-        $this->renderObject(),
         count($removed),
+        $this->renderObject(),
         $this->renderHandleList($removed));
     } else {
       return pht(
