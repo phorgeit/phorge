@@ -1,6 +1,6 @@
 <?php
 
-final class PhorgeApplicationMentionsListView {
+final class PhorgeApplicationMentionsListView extends Phobject {
 
     private $edgeQuery;
     private $viewer;

@@ -1,6 +1,6 @@
 <?php
 
-class PhabricatorElasticsearchQueryBuilder {
+final class PhabricatorElasticsearchQueryBuilder extends Phobject {
   protected $name;
   protected $clauses = array();
 
