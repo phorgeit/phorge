@@ -4,6 +4,9 @@ abstract class DiffusionController extends PhabricatorController {
 
   private $diffusionRequest;
 
+  /**
+   * @return DiffusionRequest
+   */
   protected function getDiffusionRequest() {
     if (!$this->diffusionRequest) {
       throw new PhutilInvalidStateException('loadDiffusionContext');
