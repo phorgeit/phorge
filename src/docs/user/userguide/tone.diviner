@@ -38,6 +38,10 @@ don't find particularly funny, but it doesn't impact your ability to understand
 or use the software, we're less likely to remove it. We find all our jokes very
 very funny and cherish each of them dearly.
 
+If you think a specific joke is inappropriate for your instance, you can use
+the `translation.override` setting in the {nav Config} application to replace
+the relevant string with a tamer one.
+
 (If you're committed to removing flavor on grounds of taste, we //might// be
 willing to accept changes which replace our objectively very very funny jokes
 with even better ones.)
