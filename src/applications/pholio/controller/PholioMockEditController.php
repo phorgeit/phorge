@@ -212,10 +212,13 @@ final class PholioMockEditController extends PholioController {
           ->setContinueOnNoEffect(true)
           ->setActor($viewer);
 
-        $xactions = $editor->applyTransactions($mock, $xactions);
-
-        return id(new AphrontRedirectResponse())
-          ->setURI('/M'.$mock->getID());
+        try {
+          $xactions = $editor->applyTransactions($mock, $xactions);
+          return id(new AphrontRedirectResponse())
+            ->setURI('/M'.$mock->getID());
+        } catch (PhabricatorApplicationTransactionValidationException $ex) {
+          $errors = mpull($ex->getErrors(), 'getMessage');
+        }
       }
     }
 
