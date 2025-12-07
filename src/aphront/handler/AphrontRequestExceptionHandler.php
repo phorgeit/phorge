@@ -10,6 +10,8 @@
  */
 abstract class AphrontRequestExceptionHandler extends Phobject {
 
+  abstract public function getRequestExceptionHandlerDescription();
+
   abstract public function getRequestExceptionHandlerPriority();
 
   abstract public function canHandleRequestThrowable(
