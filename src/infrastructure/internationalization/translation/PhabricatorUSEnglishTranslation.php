@@ -13,21 +13,6 @@ final class PhabricatorUSEnglishTranslation
         'This configuration value is related:',
         'These configuration values are related:',
       ),
-      '%s Task(s)' => array('Task', 'Tasks'),
-
-      '%s ERROR(S)' => array('ERROR', 'ERRORS'),
-      '%d Error(s)' => array('%d Error', '%d Errors'),
-      '%d Warning(s)' => array('%d Warning', '%d Warnings'),
-      '%d Auto-Fix(es)' => array('%d Auto-Fix', '%d Auto-Fixes'),
-      '%d Advice(s)' => array('%d Advice', '%d Pieces of Advice'),
-      '%d Detail(s)' => array('%d Detail', '%d Details'),
-
-      '(%d line(s))' => array('(%d line)', '(%d lines)'),
-
-      '%d line(s)' => array('%d line', '%d lines'),
-      '%d path(s)' => array('%d path', '%d paths'),
-      '%d diff(s)' => array('%d diff', '%d diffs'),
-
       '%s Answer(s)' => array('%s Answer', '%s Answers'),
       'Show %d Comment(s)' => array('Show %d Comment', 'Show %d Comments'),
 
@@ -39,75 +24,6 @@ final class PhabricatorUSEnglishTranslation
       'Diff creation failed; see body for %s error(s).' => array(
         'Diff creation failed; see body for error.',
         'Diff creation failed; see body for errors.',
-      ),
-
-      'There are %d raw fact(s) in storage.' => array(
-        'There is %d raw fact in storage.',
-        'There are %d raw facts in storage.',
-      ),
-
-      'There are %d aggregate fact(s) in storage.' => array(
-        'There is %d aggregate fact in storage.',
-        'There are %d aggregate facts in storage.',
-      ),
-
-      '%s Commit(s) Awaiting Audit' => array(
-        '%s Commit Awaiting Audit',
-        '%s Commits Awaiting Audit',
-      ),
-
-      '%s Problem Commit(s)' => array(
-        '%s Problem Commit',
-        '%s Problem Commits',
-      ),
-
-      '%s Review(s) Blocking Others' => array(
-        '%s Review Blocking Others',
-        '%s Reviews Blocking Others',
-      ),
-
-      '%s Review(s) Need Attention' => array(
-        '%s Review Needs Attention',
-        '%s Reviews Need Attention',
-      ),
-
-      '%s Review(s) Waiting on Others' => array(
-        '%s Review Waiting on Others',
-        '%s Reviews Waiting on Others',
-      ),
-
-      '%s Active Review(s)' => array(
-        '%s Active Review',
-        '%s Active Reviews',
-      ),
-
-      '%s Flagged Object(s)' => array(
-        '%s Flagged Object',
-        '%s Flagged Objects',
-      ),
-
-      '%s Object(s) Tracked' => array(
-        '%s Object Tracked',
-        '%s Objects Tracked',
-      ),
-
-      '%s Assigned Task(s)' => array(
-        '%s Assigned Task',
-        '%s Assigned Tasks',
-      ),
-
-      'Show %d Lint Message(s)' => array(
-        'Show %d Lint Message',
-        'Show %d Lint Messages',
-      ),
-      'Hide %d Lint Message(s)' => array(
-        'Hide %d Lint Message',
-        'Hide %d Lint Messages',
-      ),
-
-      'This is a binary file. It is %s byte(s) in length.' => array(
-        'This is a binary file. It is %s byte in length.',
-        'This is a binary file. It is %s bytes in length.',
       ),
 
       '%s Action(s) Have No Effect' => array(
@@ -125,23 +41,10 @@ final class PhabricatorUSEnglishTranslation
         'Some of your actions have no effect:',
       ),
 
-      'Apply remaining %d action(s)?' => array(
-        'Apply remaining action?',
-        'Apply remaining actions?',
-      ),
-
-      'Apply %d Other Action(s)' => array(
-        'Apply Remaining Action',
-        'Apply Remaining Actions',
-      ),
-
       'The %s action(s) you are taking have no effect:' => array(
         'The action you are taking has no effect:',
         'The actions you are taking have no effect:',
       ),
-
-      '%s edited member(s), added %d: %s; removed %d: %s.' =>
-        '%s edited members, added: %3$s; removed: %5$s.',
 
       '%s added %s member(s): %s.' => array(
         array(
@@ -160,10 +63,19 @@ final class PhabricatorUSEnglishTranslation
       '%s edited project(s), added %s: %s; removed %s: %s.' =>
         '%s edited projects, added: %3$s; removed: %5$s.',
 
+      '%s edited project(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited projects for %s, added: %4$s; removed: %6$s.',
+
       '%s added %s project(s): %s.' => array(
         array(
           '%s added a project: %3$s.',
           '%s added projects: %3$s.',
+        ),
+      ),
+      '%s added %s project(s) for %s: %s.' => array(
+        array(
+          '%s added a project for %3$s: %4$s.',
+          '%s added projects for %3$s: %4$s.',
         ),
       ),
 
@@ -171,6 +83,13 @@ final class PhabricatorUSEnglishTranslation
         array(
           '%s removed a project: %3$s.',
           '%s removed projects: %3$s.',
+        ),
+      ),
+
+      '%s removed %s project(s) for %s: %s.' => array(
+        array(
+          '%s removed a project for %3$s: %4$s.',
+          '%s removed projects for %3$s: %4$s.',
         ),
       ),
 
@@ -187,21 +106,6 @@ final class PhabricatorUSEnglishTranslation
           '%s merged tasks %3$s into %4$s.',
         ),
       ),
-
-      '%s added %s voting user(s): %s.' => array(
-        array(
-          '%s added a voting user: %3$s.',
-          '%s added voting users: %3$s.',
-        ),
-      ),
-
-      '%s removed %s voting user(s): %s.' => array(
-        array(
-          '%s removed a voting user: %3$s.',
-          '%s removed voting users: %3$s.',
-        ),
-      ),
-
       '%s added %s subtask(s): %s.' => array(
         array(
           '%s added a subtask: %3$s.',
@@ -270,40 +174,6 @@ final class PhabricatorUSEnglishTranslation
       '%s edited parent task(s) for %s, added %s: %s; removed %s: %s.' =>
         '%s edited parent tasks for %s, added: %4$s; removed: %6$s.',
 
-      '%s edited answer(s), added %s: %s; removed %d: %s.' =>
-        '%s edited answers, added: %3$s; removed: %5$s.',
-
-      '%s added %s answer(s): %s.' => array(
-        array(
-          '%s added an answer: %3$s.',
-          '%s added answers: %3$s.',
-        ),
-      ),
-
-      '%s removed %s answer(s): %s.' => array(
-        array(
-          '%s removed a answer: %3$s.',
-          '%s removed answers: %3$s.',
-        ),
-      ),
-
-     '%s edited question(s), added %s: %s; removed %s: %s.' =>
-        '%s edited questions, added: %3$s; removed: %5$s.',
-
-      '%s added %s question(s): %s.' => array(
-        array(
-          '%s added a question: %3$s.',
-          '%s added questions: %3$s.',
-        ),
-      ),
-
-      '%s removed %s question(s): %s.' => array(
-        array(
-          '%s removed a question: %3$s.',
-          '%s removed questions: %3$s.',
-        ),
-      ),
-
       '%s edited mock(s), added %s: %s; removed %s: %s.' =>
         '%s edited mocks, added: %3$s; removed: %5$s.',
 
@@ -313,6 +183,22 @@ final class PhabricatorUSEnglishTranslation
           '%s added mocks: %3$s.',
         ),
       ),
+      '%s added %s mock(s) for %s: %s.' => array(
+        array(
+          '%s added a mock for %3$s: %4$s.',
+          '%s added mocks for %3$s: %4$s.',
+        ),
+      ),
+
+      '%s removed %s mock(s) for %s: %s.' => array(
+        array(
+          '%s removed a mock for %3$s: %4$s.',
+          '%s removed mocks for %3$s: %4$s.',
+        ),
+      ),
+
+      '%s edited mock(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited mocks for %s, added: %4$s; removed: %6$s.',
 
       '%s removed %s mock(s): %s.' => array(
         array(
@@ -335,23 +221,6 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited file(s), added %s: %s; removed %s: %s.' =>
-        '%s edited files, added: %3$s; removed: %5$s.',
-
-      '%s added %s file(s): %s.' => array(
-        array(
-          '%s added a file: %3$s.',
-          '%s added files: %3$s.',
-        ),
-      ),
-
-      '%s removed %s file(s): %s.' => array(
-        array(
-          '%s removed a file: %3$s.',
-          '%s removed files: %3$s.',
-        ),
-      ),
-
       '%s edited contributor(s), added %s: %s; removed %s: %s.' =>
         '%s edited contributors, added: %3$s; removed: %5$s.',
 
@@ -361,6 +230,12 @@ final class PhabricatorUSEnglishTranslation
           '%s added contributors: %3$s.',
         ),
       ),
+      '%s added %s contributor(s) for %s: %s.' => array(
+        array(
+          '%s added a contributor for %$3s: %4$s.',
+          '%s added contributors for %$3s: %4$s.',
+        ),
+      ),
 
       '%s removed %s contributor(s): %s.' => array(
         array(
@@ -368,6 +243,16 @@ final class PhabricatorUSEnglishTranslation
           '%s removed contributors: %3$s.',
         ),
       ),
+
+      '%s removed %s contributor(s) for %s: %s.' => array(
+        array(
+          '%s removed a contributor for %$3s: %4$s.',
+          '%s removed contributors for %$3s: %4$s.',
+        ),
+      ),
+
+      '%s edited contributor(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited contributors for %s, added: %4$s; removed: %6$s.',
 
       '%s edited %s reviewer(s), added %s: %s; removed %s: %s.' =>
         '%s edited reviewers, added: %4$s; removed: %6$s.',
@@ -404,17 +289,37 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%d other(s)' => array(
-        '1 other',
+        '%d other',
         '%d others',
       ),
 
       '%s edited subscriber(s), added %d: %s; removed %d: %s.' =>
         '%s edited subscribers, added: %3$s; removed: %5$s.',
 
+      '%s edited subscriber(s), added %s: %s; removed %s: %s.' =>
+        '%s edited subscribers, added: %3$s; removed: %5$s.',
+
+      '%s edited subscriber(s) for %s, added %s: %s; removed %s: %s.' =>
+          '%s edited subscribers for %s, added: %4$s; removed: %6$s.',
+
+      '%s added %s subscriber(s): %s.' => array(
+        array(
+          '%s added a subscriber: %3$s.',
+          '%s added subscribers: %3$s.',
+        ),
+      ),
+
       '%s added %d subscriber(s): %s.' => array(
         array(
           '%s added a subscriber: %3$s.',
           '%s added subscribers: %3$s.',
+        ),
+      ),
+
+      '%s added %s subscriber(s) for %s: %s.' => array(
+        array(
+          '%s added a subscriber for %3$s: %4$s.',
+          '%s added subscribers for %3$s: %4$s.',
         ),
       ),
 
@@ -425,8 +330,58 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited watcher(s), added %s: %s; removed %d: %s.' =>
+      '%s removed %s subscriber(s): %s.' => array(
+        array(
+          '%s removed a subscriber: %3$s.',
+          '%s removed subscribers: %3$s.',
+        ),
+      ),
+
+      '%s removed %s subscriber(s) for %s: %s.' => array(
+        array(
+          '%s removed a subscriber for %3$s: %4$s.',
+          '%s removed subscribers for %3$s: %4$s.',
+        ),
+      ),
+
+      '%s edited unsubscriber(s), added %s: %s; removed %s: %s.' =>
+        '%s edited unsubscribers, added: %3$s; removed: %5$s.',
+
+      '%s edited unsubscriber(s) for %s, added %s: %s; removed %s: %s.' =>
+          '%s edited unsubscribers for %s, added: %4$s; removed: %6$s.',
+
+      '%s added %s unsubscriber(s): %s.' => array(
+        array(
+          '%s added an unsubscriber: %3$s.',
+          '%s added unsubscribers: %3$s.',
+        ),
+      ),
+      '%s added %s unsubscriber(s) for %s: %s.' => array(
+        array(
+          '%s added an unsubscriber for %3$s: %4$s.',
+          '%s added unsubscribers for %3$s: %4$s.',
+        ),
+      ),
+
+      '%s removed %s unsubscriber(s): %s.' => array(
+        array(
+          '%s removed a unsubscriber: %3$s.',
+          '%s removed unsubscribers: %3$s.',
+        ),
+      ),
+
+      '%s removed %s unsubscriber(s) for %s: %s.' => array(
+        array(
+          '%s removed an subscriber for %3$s: %4$s.',
+          '%s removed unsubscribers for %3$s: %4$s.',
+        ),
+      ),
+
+      '%s edited watcher(s), added %s: %s; removed %s: %s.' =>
         '%s edited watchers, added: %3$s; removed: %5$s.',
+
+      '%s edited watcher(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited watchers for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s watcher(s): %s.' => array(
         array(
@@ -481,11 +436,6 @@ final class PhabricatorUSEnglishTranslation
         '%s Lines',
       ),
 
-      'Indexing %d object(s) of type %s.' => array(
-        'Indexing %d object of type %s.',
-        'Indexing %d object of type %s.',
-      ),
-
       'Run these %d command(s):' => array(
         'Run this command:',
         'Run these commands:',
@@ -494,11 +444,6 @@ final class PhabricatorUSEnglishTranslation
       'Install these %d PHP extension(s):' => array(
         'Install this PHP extension:',
         'Install these PHP extensions:',
-      ),
-
-      'The current Phabricator configuration has these %d value(s):' => array(
-        'The current Phabricator configuration has this value:',
-        'The current Phabricator configuration has these values:',
       ),
 
       'The current MySQL configuration has these %d value(s):' => array(
@@ -534,17 +479,6 @@ final class PhabricatorUSEnglishTranslation
         'PHP also loaded these configuration files:',
       ),
 
-      '%s added %d inline comment(s).' => array(
-        array(
-          '%s added an inline comment.',
-          '%s added inline comments.',
-        ),
-      ),
-
-      '%s comment(s)' => array('%s comment', '%s comments'),
-      '%s rejection(s)' => array('%s rejection', '%s rejections'),
-      '%s update(s)' => array('%s update', '%s updates'),
-
       'This configuration value is defined in these %d '.
       'configuration source(s): %s.' => array(
         'This configuration value is defined in this '.
@@ -553,43 +487,10 @@ final class PhabricatorUSEnglishTranslation
         'configuration sources: %s.',
       ),
 
-      '%s Open Pull Request(s)' => array(
-        '%s Open Pull Request',
-        '%s Open Pull Requests',
-      ),
-
-      'Stale (%s day(s))' => array(
-        'Stale (%s day)',
-        'Stale (%s days)',
-      ),
-
-      'Old (%s day(s))' => array(
-        'Old (%s day)',
-        'Old (%s days)',
-      ),
-
       '%s Commit(s)' => array(
         '%s Commit',
         '%s Commits',
       ),
-
-      '%s attached %d file(s): %s.' => array(
-        array(
-          '%s attached a file: %3$s.',
-          '%s attached files: %3$s.',
-        ),
-      ),
-
-      '%s detached %d file(s): %s.' => array(
-        array(
-          '%s detached a file: %3$s.',
-          '%s detached files: %3$s.',
-        ),
-      ),
-
-      '%s changed file(s), attached %d: %s; detached %d: %s.' =>
-        '%s changed files, attached: %3$s; detached: %5$s.',
-
 
       '%s added %s parent revision(s): %s.' => array(
         array(
@@ -619,14 +520,12 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited parent revision(s), added %s: %s; removed %s: %s.' => array(
+      '%s edited parent revision(s), added %s: %s; removed %s: %s.' =>
         '%s edited parent revisions, added: %3$s; removed: %5$s.',
-      ),
 
       '%s edited parent revision(s) for %s, '.
-      'added %s: %s; removed %s: %s.' => array(
+      'added %s: %s; removed %s: %s.' =>
         '%s edited parent revisions for %s, added: %3$s; removed: %5$s.',
-      ),
 
       '%s added %s child revision(s): %s.' => array(
         array(
@@ -672,6 +571,13 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
+      '%s added %s commit(s) for %s: %s.' => array(
+        array(
+          '%s added a commit for %3$s: %4$s',
+          '%s added commits for %3$s: %4$s.',
+        ),
+      ),
+
       '%s removed %s commit(s): %s.' => array(
         array(
           '%s removed a commit: %3$s.',
@@ -679,8 +585,18 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
+      '%s removed %s commit(s) for %s: %s.' => array(
+        array(
+          '%s removed a commit for %3$s: %4$s',
+          '%s removed commits for %3$s: %4$s.',
+        ),
+      ),
+
       '%s edited commit(s), added %s: %s; removed %s: %s.' =>
-        '%s edited commits, added %3$s; removed %5$s.',
+        '%s edited commits, added: %3$s; removed: %5$s.',
+
+      '%s edited commit(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited commits for %s, added: %4$s; removed: %6$s.',
 
       '%s added %s reverted change(s): %s.' => array(
         array(
@@ -697,7 +613,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverted change(s), added %s: %s; removed %s: %s.' =>
-        '%s edited reverted changes, added %3$s; removed %5$s.',
+        '%s edited reverted changes, added: %3$s; removed: %5$s.',
 
       '%s added %s reverted change(s) for %s: %s.' => array(
         array(
@@ -714,7 +630,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverted change(s) for %s, added %s: %s; removed %s: %s.' =>
-        '%s edited reverted changes for %2$s, added %4$s; removed %6$s.',
+        '%s edited reverted changes for %2$s, added: %4$s; removed: %6$s.',
 
       '%s added %s reverting change(s): %s.' => array(
         array(
@@ -731,7 +647,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverting change(s), added %s: %s; removed %s: %s.' =>
-        '%s edited reverting changes, added %3$s; removed %5$s.',
+        '%s edited reverting changes, added: %3$s; removed: %5$s.',
 
       '%s added %s reverting change(s) for %s: %s.' => array(
         array(
@@ -748,10 +664,10 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited reverting change(s) for %s, added %s: %s; removed %s: %s.' =>
-        '%s edited reverting changes for %s, added %4$s; removed %6$s.',
+        '%s edited reverting changes for %s, added: %4$s; removed: %6$s.',
 
       '%s changed project member(s), added %d: %s; removed %d: %s.' =>
-        '%s changed project members, added %3$s; removed %5$s.',
+        '%s changed project members, added: %3$s; removed: %5$s.',
 
       '%s added %d project member(s): %s.' => array(
         array(
@@ -773,7 +689,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s changed project hashtag(s), added %d: %s; removed %d: %s.' =>
-        '%s changed project hashtags, added %3$s; removed %5$s.',
+        '%s changed project hashtags, added: %3$s; removed: %5$s.',
 
       'Hashtags must contain at least one letter or number. %s '.
       'project hashtag(s) are invalid: %s.' => array(
@@ -798,7 +714,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s changed %s hashtag(s), added %d: %s; removed %d: %s.' =>
-        '%s changed hashtags for %s, added %4$s; removed %6$s.',
+        '%s changed hashtags for %s, added: %4$s; removed: %6$s.',
 
       '%s added %d %s hashtag(s): %s.' => array(
         array(
@@ -814,18 +730,6 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%d User(s) Need Approval' => array(
-        '%d User Needs Approval',
-        '%d Users Need Approval',
-      ),
-
-      '%s, %s line(s)' => array(
-        array(
-          '%s, %s line',
-          '%s, %s lines',
-        ),
-      ),
-
       '%s pushed %d commit(s) to %s.' => array(
         array(
           '%s pushed a commit to %3$s.',
@@ -834,22 +738,8 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s commit(s)' => array(
-        '1 commit',
+        '%s commit',
         '%s commits',
-      ),
-
-      '%s removed %s JIRA issue(s): %s.' => array(
-        array(
-          '%s removed a JIRA issue: %3$s.',
-          '%s removed JIRA issues: %3$s.',
-        ),
-      ),
-
-      '%s added %s JIRA issue(s): %s.' => array(
-        array(
-          '%s added a JIRA issue: %3$s.',
-          '%s added JIRA issues: %3$s.',
-        ),
       ),
 
       '%s added %s required legal document(s): %s.' => array(
@@ -859,11 +749,57 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s updated JIRA issue(s): added %s %s; removed %d %s.' =>
-        '%s updated JIRA issues: added %3$s; removed %5$s.',
+      '%s removed %s required legal document(s) from %s: %s.' => array(
+        array(
+          '%s removed a required legal document from %3$s: %4$s.',
+          '%s removed required legal documents from %3$s: %4$s.',
+        ),
+      ),
+
+      '%s added %s required legal document(s) to %s: %s.' => array(
+        array(
+          '%s added a required legal document to %$3s: %4$s.',
+          '%s added required legal documents to %3$s: %4$s.',
+        ),
+      ),
+      '%s removed %s required legal document(s): %s.' => array(
+        array(
+          '%s removed a required legal document: %3$s.',
+          '%s removed required legal documents: %3$s.',
+        ),
+      ),
+      '%s edited %s required legal document(s),'.
+        ' added %s: %s; removed %s: %s.' =>
+       '%s edited required legal documents, added: %4$s; removed: %6$s.',
+
+      '%s edited %s required legal document(s) for %s, '.
+         'added %s: %s; removed %s: %s.' =>
+        '%s edited required legal documents for %3$s, '.
+          'added %5$s; removed %7$s.',
 
       '%s edited %s task(s), added %s: %s; removed %s: %s.' =>
-        '%s edited tasks, added %4$s; removed %6$s.',
+        '%s edited tasks, added: %4$s; removed: %6$s.',
+
+      '%s added %s task(s) for %s: %s.' => array(
+        array(
+          '%s added a task for %3$s: %4$s',
+          '%s added tasks for %3$s: %4$s',
+        ),
+      ),
+
+      '%s removed %s task(s) for %s: %s.' => array(
+        array(
+          '%s removed a task for %3$s: %4$s',
+          '%s removed tasks for %3$s: %4$s',
+       ),
+      ),
+
+      '%s edited task(s), added %s: %s; removed %s: %s.' =>
+        '%s edited tasks, added: %3$s; removed: $5$s',
+
+      '%s edited task(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited tasks for %s: added: %4$s; removed: %6$s.',
+
 
       '%s added %s task(s) to %s: %s.' => array(
         array(
@@ -883,7 +819,7 @@ final class PhabricatorUSEnglishTranslation
         '%s edited tasks for %3$s, added: %5$s; removed %7$s.',
 
       '%s edited %s commit(s), added %s: %s; removed %s: %s.' =>
-        '%s edited commits, added %4$s; removed %6$s.',
+        '%s edited commits, added: %4$s; removed: %6$s.',
 
       '%s added %s commit(s) to %s: %s.' => array(
         array(
@@ -917,7 +853,10 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       '%s edited %s revision(s), added %s: %s; removed %s: %s.' =>
-        '%s edited revisions, added %4$s; removed %6$s.',
+        '%s edited revisions, added: %4$s; removed: %6$s.',
+      '%s edited revision(s), added %s: %s; removed %s: %s.' =>
+        '%s edited revision, added: %3$s; removed: %5$s.',
+
 
       '%s added %s revision(s) to %s: %s.' => array(
         array(
@@ -937,7 +876,7 @@ final class PhabricatorUSEnglishTranslation
         '%s edited revisions for %3$s, added: %5$s; removed %7$s.',
 
       '%s edited %s project(s), added %s: %s; removed %s: %s.' =>
-        '%s edited projects, added %4$s; removed %6$s.',
+        '%s edited projects, added: %4$s; removed: %6$s.',
 
       '%s added %s project(s) to %s: %s.' => array(
         array(
@@ -955,40 +894,6 @@ final class PhabricatorUSEnglishTranslation
 
       '%s edited %s project(s) for %s, added %s: %s; removed %s: %s.' =>
         '%s edited projects for %3$s, added: %5$s; removed %7$s.',
-
-      '%s added %s panel(s): %s.' => array(
-        array(
-          '%s added a panel: %3$s.',
-          '%s added panels: %3$s.',
-        ),
-      ),
-
-      '%s removed %s panel(s): %s.' => array(
-        array(
-          '%s removed a panel: %3$s.',
-          '%s removed panels: %3$s.',
-        ),
-      ),
-
-      '%s edited %s panel(s), added %s: %s; removed %s: %s.' =>
-        '%s edited panels, added %4$s; removed %6$s.',
-
-      '%s added %s dashboard(s): %s.' => array(
-        array(
-          '%s added a dashboard: %3$s.',
-          '%s added dashboards: %3$s.',
-        ),
-      ),
-
-      '%s removed %s dashboard(s): %s.' => array(
-        array(
-          '%s removed a dashboard: %3$s.',
-          '%s removed dashboards: %3$s.',
-        ),
-      ),
-
-      '%s edited %s dashboard(s), added %s: %s; removed %s: %s.' =>
-        '%s edited dashboards, added %4$s; removed %6$s.',
 
       '%s added %s edge(s): %s.' => array(
         array(
@@ -1018,8 +923,8 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited edge(s), added %s: %s; removed %s: %s.' =>
-        '%s edited edges, added: %3$s; removed: %5$s.',
+      '%s edited %s edge(s), added %s: %s; removed %s: %s.' =>
+       '%s edited edges, added: %4$s; removed: %6$s',
 
       '%s edited %s edge(s) for %s, added %s: %s; removed %s: %s.' =>
         '%s edited edges for %3$s, added: %5$s; removed %7$s.',
@@ -1038,9 +943,6 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited %s member(s) for %s, added %s: %s; removed %s: %s.' =>
-        '%s edited members for %3$s, added: %5$s; removed %7$s.',
-
       '%d related link(s):' => array(
         'Related link:',
         'Related links:',
@@ -1051,19 +953,14 @@ final class PhabricatorUSEnglishTranslation
         'You have unpaid invoices.',
       ),
 
-      'The configurations differ in the following %s way(s):' => array(
-        'The configurations differ:',
-        'The configurations differ in these ways:',
-      ),
-
-      'Phabricator is configured with an email domain whitelist (in %s), so '.
+      'This server is configured with an email domain whitelist (in %s), so '.
       'only users with a verified email address at one of these %s '.
       'allowed domain(s) will be able to register an account: %s' => array(
         array(
-          'Phabricator is configured with an email domain whitelist (in %s), '.
+          'This server is configured with an email domain whitelist (in %s), '.
           'so only users with a verified email address at %3$s will be '.
           'allowed to register an account.',
-          'Phabricator is configured with an email domain whitelist (in %s), '.
+          'This server is configured with an email domain whitelist (in %s), '.
           'so only users with a verified email address at one of these '.
           'allowed domains will be able to register an account: %3$s',
         ),
@@ -1176,18 +1073,14 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s changed %s package owner(s), added %s: %s; removed %s: %s.' => array(
+      '%s changed %s package owner(s), added %s: %s; removed %s: %s.' =>
         '%s changed package owners, added: %4$s; removed: %6$s.',
-      ),
 
       'Found %s book(s).' => array(
         'Found %s book.',
         'Found %s books.',
       ),
-      'Found %s file(s)...' => array(
-        'Found %s file...',
-        'Found %s files...',
-      ),
+
       'Found %s file(s) in project.' => array(
         'Found %s file in project.',
         'Found %s files in project.',
@@ -1243,80 +1136,6 @@ final class PhabricatorUSEnglishTranslation
         '%s Tasks',
       ),
 
-      '%s added %s badge(s) for %s: %s.' => array(
-        array(
-          '%s added a badge for %s: %3$s.',
-          '%s added badges for %s: %3$s.',
-        ),
-      ),
-      '%s added %s badge(s): %s.' => array(
-        array(
-          '%s added a badge: %3$s.',
-          '%s added badges: %3$s.',
-        ),
-      ),
-      '%s awarded %s recipient(s) for %s: %s.' => array(
-        array(
-          '%s awarded %3$s to %4$s.',
-          '%s awarded %3$s to multiple recipients: %4$s.',
-        ),
-      ),
-      '%s awarded %s recipients(s): %s.' => array(
-        array(
-          '%s awarded a recipient: %3$s.',
-          '%s awarded multiple recipients: %3$s.',
-        ),
-      ),
-      '%s edited badge(s) for %s, added %s: %s; revoked %s: %s.' => array(
-        array(
-          '%s edited badges for %s, added %s: %s; revoked %s: %s.',
-          '%s edited badges for %s, added %s: %s; revoked %s: %s.',
-        ),
-      ),
-      '%s edited badge(s), added %s: %s; revoked %s: %s.' => array(
-        array(
-          '%s edited badges, added %s: %s; revoked %s: %s.',
-          '%s edited badges, added %s: %s; revoked %s: %s.',
-        ),
-      ),
-      '%s edited recipient(s) for %s, awarded %s: %s; revoked %s: %s.' => array(
-        array(
-          '%s edited recipients for %s, awarded %s: %s; revoked %s: %s.',
-          '%s edited recipients for %s, awarded %s: %s; revoked %s: %s.',
-        ),
-      ),
-      '%s edited recipient(s), awarded %s: %s; revoked %s: %s.' => array(
-        array(
-          '%s edited recipients, awarded %s: %s; revoked %s: %s.',
-          '%s edited recipients, awarded %s: %s; revoked %s: %s.',
-        ),
-      ),
-      '%s revoked %s badge(s) for %s: %s.' => array(
-        array(
-          '%s revoked a badge for %3$s: %4$s.',
-          '%s revoked multiple badges for %3$s: %4$s.',
-        ),
-      ),
-      '%s revoked %s badge(s): %s.' => array(
-        array(
-          '%s revoked a badge: %3$s.',
-          '%s revoked multiple badges: %3$s.',
-        ),
-      ),
-      '%s revoked %s recipient(s) for %s: %s.' => array(
-        array(
-          '%s revoked %3$s from %4$s.',
-          '%s revoked multiple recipients for %3$s: %4$s.',
-        ),
-      ),
-
-      '%s revoked %s recipients(s): %s.' => array(
-        array(
-          '%s revoked a recipient: %3$s.',
-          '%s revoked multiple recipients: %3$s.',
-        ),
-      ),
-
       '%s automatically subscribed target(s) were not affected: %s.' => array(
         'An automatically subscribed target was not affected: %2$s.',
         'Automatically subscribed targets were not affected: %2$s.',
@@ -1328,16 +1147,6 @@ final class PhabricatorUSEnglishTranslation
         'unsubscribed: %2$s.',
         'Declined to resubscribe targets because they previously '.
         'unsubscribed: %2$s.',
-      ),
-
-      '%s target(s) are not subscribed: %s.' => array(
-        'A target is not subscribed: %2$s.',
-        'Targets are not subscribed: %2$s.',
-      ),
-
-      '%s target(s) are already subscribed: %s.' => array(
-        'A target is already subscribed: %2$s.',
-        'Targets are already subscribed: %2$s.',
       ),
 
       'Added %s subscriber(s): %s.' => array(
@@ -1361,16 +1170,6 @@ final class PhabricatorUSEnglishTranslation
         'preferences: %2$s.',
         'Queued email to be delivered to targets, ignoring notification '.
         'preferences: %2$s.',
-      ),
-
-      '%s project(s) are not associated: %s.' => array(
-        'A project is not associated: %2$s.',
-        'Projects are not associated: %2$s.',
-      ),
-
-      '%s project(s) are already associated: %s.' => array(
-        'A project is already associated: %2$s.',
-        'Projects are already associated: %2$s.',
       ),
 
       'Added %s project(s): %s.' => array(
@@ -1466,31 +1265,6 @@ final class PhabricatorUSEnglishTranslation
         'WARNING: There are unapproved authorizations!',
       ),
 
-      'Found %s Open Resource(s)' => array(
-        'Found %s Open Resource',
-        'Found %s Open Resources',
-      ),
-
-      '%s Open Resource(s) Remain' => array(
-        '%s Open Resource Remain',
-        '%s Open Resources Remain',
-      ),
-
-      'Found %s Blueprint(s)' => array(
-        'Found %s Blueprint',
-        'Found %s Blueprints',
-      ),
-
-      '%s Blueprint(s) Can Allocate' => array(
-        '%s Blueprint Can Allocate',
-        '%s Blueprints Can Allocate',
-      ),
-
-      '%s Blueprint(s) Enabled' => array(
-        '%s Blueprint Enabled',
-        '%s Blueprints Enabled',
-      ),
-
       '%s Event(s)' => array(
         '%s Event',
         '%s Events',
@@ -1499,11 +1273,6 @@ final class PhabricatorUSEnglishTranslation
       '%s Unit(s)' => array(
         '%s Unit',
         '%s Units',
-      ),
-
-      'QUEUEING TASKS (%s Commit(s)):' => array(
-        'QUEUEING TASKS (%s Commit):',
-        'QUEUEING TASKS (%s Commits):',
       ),
 
       'Found %s total commit(s); updating...' => array(
@@ -1537,6 +1306,9 @@ final class PhabricatorUSEnglishTranslation
 
       '%s updated %s for %s, added %s: %s; removed %s: %s.' =>
         '%s updated %s for %s, added: %5$s; removed; %7$s.',
+
+      '%s updated JIRA issue(s): added %d %s; removed %d %s.' =>
+        '%s updated JIRA issues: added %3$s; removed: %5$s.',
 
       'Permanently destroyed %s object(s).' => array(
         'Permanently destroyed %s object.',
@@ -1633,11 +1405,10 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
-      '%s edited %s auditor(s), removed %s: %s; added %s: %s.' => array(
-        array(
-          '%s edited auditors, removed: %4$s; added: %6$s.',
-        ),
-      ),
+      '%s edited %s auditor(s), removed %s: %s; added %s: %s.' =>
+        '%s edited auditors, removed: %4$s; added: %6$s.',
+      '%s edited %s auditor(s) for %s, removed %s: %s; added %s: %s.' =>
+        '%s edited auditors for %3$s, removed: %5$s; added: %7$s.',
 
       '%s accepted this revision as %s reviewer(s): %s.' =>
         '%s accepted this revision as: %3$s.',
@@ -1649,6 +1420,13 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
+      '%s added %s merchant manager(s) to %s: %s.' => array(
+        array(
+          '%s added a merchant manager to %3$s: %4$s.',
+          '%s added merchant managers to %3$s: %4$s.',
+        ),
+      ),
+
       '%s removed %s merchant manager(s): %s.' => array(
         array(
           '%s removed a merchant manager: %3$s.',
@@ -1656,10 +1434,29 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
 
+      '%s removed %s merchant manager(s) from %s: %s.' => array(
+        array(
+          '%s removed a merchant manager from %s: %4$s.',
+          '%s removed merchant managers from %s: %4$s.',
+        ),
+      ),
+      '%s edited %s merchant manager(s), added %s: %s; removed %s: %s.' =>
+        '%s edited merchant managers, added: %4$s; removed: %6$s.',
+      '%s edited %s merchant manager(s) for %s, '.
+          'added %s: %s; removed %s: %s.' =>
+        '%s edited merchant managers for %3$s, added: %5$s; removed: %7$s.',
+
       '%s added %s account manager(s): %s.' => array(
         array(
           '%s added an account manager: %3$s.',
           '%s added account managers: %3$s.',
+        ),
+      ),
+
+      '%s added %s account manager(s) to %s: %s.' => array(
+        array(
+          '%s added an account manager to %3$s: %4$s.',
+          '%s added account managers to %3$s: %4$s.',
         ),
       ),
 
@@ -1669,6 +1466,20 @@ final class PhabricatorUSEnglishTranslation
           '%s removed account managers: %3$s.',
         ),
       ),
+
+      '%s removed %s account manager(s) from %s: %s.' => array(
+        array(
+          '%s removed an account manager from %3$s: %4$s.',
+          '%s removed account managers from %3$s: %4$s.',
+        ),
+      ),
+
+      '%s edited %s account manager(s), added %s: %s; removed %s: %s.' =>
+       '%s edited account managers, added: %4$s; removed: %6$s;',
+
+      '%s edited %s account manager(s) for %s, added %s: %s; removed %s: %s.' =>
+       '%s edited account managers for %3$s, added: %5$s; removed: %7$s;',
+
 
       'You are about to apply a bulk edit which will affect '.
       '%s object(s).' => array(
@@ -1760,22 +1571,22 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       'Delayed %s task(s).' => array(
-        'Delayed 1 task.',
+        'Delayed %s task.',
         'Delayed %s tasks.',
       ),
 
       'Freed %s task lease(s).' => array(
-        'Freed 1 task lease.',
+        'Freed %s task lease.',
         'Freed %s task leases.',
       ),
 
       'Cancelled %s task(s).' => array(
-        'Cancelled 1 task.',
+        'Cancelled %s task.',
         'Cancelled %s tasks.',
       ),
 
       'Queued %s task(s) for retry.' => array(
-        'Queued 1 task for retry.',
+        'Queued %s task for retry.',
         'Queued %s tasks for retry.',
       ),
 
@@ -1785,7 +1596,7 @@ final class PhabricatorUSEnglishTranslation
       ),
 
       'Executed %s task(s).' => array(
-        'Executed 1 task.',
+        'Executed %s task.',
         'Executed %s tasks.',
       ),
 
@@ -1809,8 +1620,751 @@ final class PhabricatorUSEnglishTranslation
           '%s removed attached files: %3$s.',
         ),
       ),
+      '%s updated %s attached file(s), added %s: %s; removed %s: %s.' =>
+        '%s updated attached files, added: %4$s; removed: %6$s.',
 
+      '%s updated %s attached file(s), added %s: %s; modified %s: %s.' =>
+        '%s updated attached files, added: %4$s; modified: %6$s.',
+
+      '%s updated %s attached file(s), '.
+      'added %s: %s; removed %s: %s; modified %s: %s.' =>
+        '%s updated attached files, added: %4$s; removed: %6$s; '.
+        'modified: %8$s.',
+
+      '%s updated %s attached file(s), removed %s: %s; modified %s: %s.' =>
+        '%s updated attached files, removed %4$s; modified: %6$s.',
+
+      '%s added %d JIRA issue(s): %s.' =>
+      array(
+        array(
+            '%s added a JIRA issue: %3$s.',
+            '%s added JIRA issues: %3$s.',
+        ),
+      ),
+      '%s removed %d JIRA issue(s): %s.' =>
+      array(
+        array(
+            '%s removed a JIRA issue: %3$s.',
+            '%s removed JIRA issues: %3$s.',
+        ),
+      ),
+      '%s added %s blocking reviewer(s) for %s: %s.' =>
+      array(
+        array(
+            '%s added a blocking reviewer for %3$s: %4$s.',
+            '%s added blocking reviewers for %3$s: %4$s.',
+        ),
+      ),
+      '%s added %s blocking reviewer(s): %s.' =>
+      array(
+        array(
+            '%s added a blocking reviewer: %3$s.',
+            '%s added blocking reviewers: %3$s.',
+        ),
+      ),
+      '%s changed %s blocking reviewer(s), added %s: %s; removed %s: %s.' =>
+       '%s changed blocking reviewers, added: %$4s, removed: %$6s',
+      '%s changed %s blocking reviewer(s) for %s, '.
+         'added %s: %s; removed %s: %s.' =>
+       '%s changed blocking reviewers for %$3s, added: %$5s, removed: %$7s',
+
+      '%s removed %s blocking reviewer(s) for %s: %s.' => array(
+        array(
+            '%s removed a blocking reviewer for %3$s: %4$s.',
+            '%s removed blocking reviewers for %3$s: %4$s.',
+        ),
+      ),
+      '%s removed %s blocking reviewer(s): %s.' =>
+      array(
+        array(
+            '%s removed a blocking reviewer: %3$s.',
+            '%s removed blocking reviewers: %3$s.',
+        ),
+      ),
+      '%s added %s auditor(s) for %s: %s.' =>
+      array(
+        array(
+            '%s added an auditor for %3$s: %4$s.',
+            '%s added auditors for %3$s: %4$s.',
+        ),
+      ),
+      '%s removed %s auditor(s) for %s: %s.' =>
+      array(
+        array(
+            '%s removed an auditor for %3$s: %4$s.',
+            '%s removed auditors for %3$s: %4$s.',
+        ),
+      ),
+      '%s attached %s file(s): %s.' =>
+      array(
+        array(
+            '%s attached a file: %3$s.',
+            '%s attached files: %3$s.',
+        ),
+      ),
+
+      'Used on %s and %s other active column(s).' =>
+      array(
+        array(
+            'Used on %s and another active column.',
+            'Used on %s and %s other active columns.',
+        ),
+      ),
+      'Used on %s and %s other column(s).' =>
+      array(
+        array(
+            'Used on %s and another column.',
+            'Used on %s and %s other columns.',
+        ),
+      ),
+      '%s moved this task on %s board(s): %s.' =>
+      array(
+        array(
+            '%s moved this task on a board: %3$s.',
+            '%s moved this task on %s boards: %s.',
+        ),
+      ),
+      '%s moved %s on %s board(s): %s.' =>
+      array(
+        array(
+          array(
+              '%s moved %s on a board: %4$s.',
+              '%s moved %s on %s boards: %4$s.',
+          ),
+        ),
+      ),
+      'Found %s modified file(s) (of %s total).' => array(
+          'Found %s modified file (of %2$s total).',
+          'Found %s modified files (of %s total).',
+      ),
+     'Really delete these %s audit(s)? '.
+     'They will be permanently deleted and can not be recovered.' => array(
+           'Really delete this audit? '.
+           'It will be permanently deleted and can not be recovered.',
+           'Really delete these %s audits? '.
+           'They will be permanently deleted and can not be recovered.',
+      ),
+     'You denied this request. Wait %s second(s) to try again.' => array(
+          'You denied this request. Wait %s second to try again.',
+          'You denied this request. Wait %s seconds to try again.',
+      ),
+      'Found %s account(s) to refresh.' => array(
+          'Found %s account to refresh.',
+          'Found %s accounts to refresh.',
+      ),
+      'Reset %s action(s).' => array(
+          'Reset %s action.',
+          'Reset %s actions.',
+      ),
+      'Rebuilding %d resource source(s).' => array(
+          'Rebuilding %d resource source.',
+          'Rebuilding %d resource sources.',
+      ),
+      'Detected %s serious issue(s) with the schemata.' => array(
+          'Detected a serious issue with the schemata.',
+          'Detected %s serious issues with the schemata.',
+      ),
+      'Detected %s warning(s) with the schemata.' =>
+      array(
+          'Detected a warning with the schemata.',
+          'Detected %s warnings with the schemata.',
+      ),
+      'This draft revision will not be submitted for review '.
+      'because %s build(s) failed: %s.' => array(
+          'This draft revision will not be submitted for review '.
+          'because a build failed: %2$s.',
+          'This draft revision will not be submitted for review '.
+          'because %s builds failed: %s.',
+      ),
+      'Rebuilding %s changeset(s) for diff ID %d.' => array(
+          'Rebuilding %s changeset for diff ID %d.',
+          'Rebuilding %s changesets for diff ID %d.',
+      ),
+      'This file has %d collapsed inline comment(s).' => array(
+          'This file has one collapsed inline comment.',
+          'This file has %d collapsed inline comments.',
+      ),
+      'This file took too long to load from the repository '.
+      '(more than %s second(s)).' => array(
+          'This file took too long to load from the repository '.
+          '(more than %s second).',
+          'This file took too long to load from the repository '.
+          '(more than %s seconds).',
+      ),
+      'Acquired read lock after %s second(s).' => array(
+          'Acquired read lock after %s second.',
+          'Acquired read lock after %s seconds.',
+      ),
+      'Failed to acquire read lock after waiting %s second(s). '.
+      'You may be able to retry later. (%s)' =>
+      array(
+          'Failed to acquire read lock after waiting %s second. '.
+          'You may be able to retry later. (%s)',
+          'Failed to acquire read lock after waiting %s seconds. '.
+          'You may be able to retry later. (%s)',
+      ),
+      'Acquired write lock after %s second(s).' =>
+      array(
+          'Acquired write lock after %s second.',
+          'Acquired write lock after %s seconds.',
+      ),
+      'Failed to acquire write lock after waiting %s second(s). '.
+      'You may be able to retry later. (%s)' =>
+      array(
+          'Failed to acquire write lock after waiting %s second. '.
+          'You may be able to retry later. (%2$s)',
+          'Failed to acquire write lock after waiting %s seconds. '.
+          'You may be able to retry later. (%s)',
+      ),
+      'This process will spend %s more second(s) attempting to recover, '.
+      'then give up.' => array(
+          'This process will spend %s more second attempting to recover, '.
+          'then give up.',
+          'This process will spend %s more seconds attempting to recover, '.
+          'then give up.',
+      ),
+      'Waiting %s second(s) for resource to activate.' =>
+      array(
+          'Waiting %s second for resource to activate.',
+          'Waiting %s seconds for resource to activate.',
+      ),
+      'Processed %s file(s) with no errors.' =>
+      array(
+          'Processed %s file with no errors.',
+          'Processed %s files with no errors.',
+      ),
+      'Failed to fetch remote URI "%s" after '.
+      'following %s redirect(s) (%s): %s' =>
+      array(
+        array(
+            'Failed to fetch remote URI "%s" after'.
+            ' following a redirect (%3$s): %4$s',
+            'Failed to fetch remote URI "%s" after'.
+            ' following %s redirects (%s): %s',
+        ),
+      ),
+      'Really abort %s build(s)?' => array(
+          'Really abort a build?',
+          'Really abort %s builds?',
+      ),
+      'Really pause %s build(s)?' => array(
+          'Really pause a build?',
+          'Really pause %s builds?',
+      ),
+      'Really restart %s build(s)?' => array(
+          'Really restart a build?',
+          'Really restart %s builds?',
+      ),
+      'Really resume %s build(s)?' => array(
+          'Really resume a build?',
+          'Really resume %s builds?',
+      ),
+      '%s target(s) are invalid or of the wrong type: %s.' => array(
+          '%s target is invalid or of the wrong type: %s.',
+          '%s targets are invalid or of the wrong type: %s.',
+      ),
+      '%s target(s) could not be loaded: %s.' =>
+      array(
+          '%s target could not be loaded: %s.',
+          '%s targets could not be loaded: %s.',
+      ),
+      'Unable to retrieve profile: profiler stack is not empty. The stack '.
+      'has %s frame(s); the final frame has type "%s" and key "%s".' =>
+      array(
+          'Unable to retrieve profile: profiler stack is not empty. The '.
+          'stack has %s frame; the final frame has type "%s" and key "%s".',
+          'Unable to retrieve profile: profiler stack is not empty. The '.
+          'stack has %s frames; the final frame has type "%s" and key "%s".',
+      ),
+      '%s document(s) are already signed: %s.' =>
+      array(
+          '%s document is already signed: %s.',
+          '%s documents are already signed: %s.',
+      ),
+      '%s detached %s file(s): %s.' =>
+      array(
+        array(
+            '%s detached a file: %3$s.',
+            '%s detached files: %3$s.',
+        ),
+      ),
+      'Respecting "%s" or minimum poll delay: waiting '.
+      'for %s second(s) to poll GitHub.' =>
+      array(
+        array(
+            'Respecting "%s" or minimum poll delay: waiting '.
+            'for %s second to poll GitHub.',
+            'Respecting "%s" or minimum poll delay: waiting '.
+            'for %s seconds to poll GitHub.',
+        ),
+      ),
+      'Respecting "%s": waiting for %s second(s) to poll GitHub.' =>
+      array(
+        array(
+            'Respecting "%s": waiting for %s second to poll GitHub.',
+            'Respecting "%s": waiting for %s seconds to poll GitHub.',
+        ),
+      ),
+      'You can view this account because you control '.
+      '%d merchant(s) it has a relationship with: %s.' =>
+      array(
+          'You can view this account because you control '.
+          'a merchant it has a relationship with: %s.',
+          'You can view this account because you control '.
+          '%d merchants it has a relationship with: %s.',
+      ),
+      'Used on %s active column(s).' =>
+      array(
+          'Used on %s active column.',
+          'Used on %s active columns.',
+      ),
+      'Used on %s column(s).' =>
+      array(
+          'Used on %s column.',
+          'Used on %s columns.',
+      ),
+      'Repository "%s" is not due for an update for %s second(s).' =>
+      array(
+        array(
+            'Repository "%s" is not due for an update for %s second.',
+            'Repository "%s" is not due for an update for %s seconds.',
+        ),
+      ),
+      'Sleeping for %s more second(s)...' =>
+      array(
+          'Sleeping for %s more second...',
+          'Sleeping for %s more seconds...',
+      ),
+      'Importing %s commit(s) at low priority ("PRIORITY_IMPORT") '.
+      'because this repository is still importing.' =>
+      array(
+          'Importing %s commit at low priority ("PRIORITY_IMPORT") '.
+          'because this repository is still importing.',
+          'Importing %s commits at low priority ("PRIORITY_IMPORT") '
+          .'because this repository is still importing.',
+      ),
+      'Importing %s commit(s) at normal priority ("PRIORITY_COMMIT").' =>
+      array(
+          'Importing %s commit at normal priority ("PRIORITY_COMMIT").',
+          'Importing %s commits at normal priority ("PRIORITY_COMMIT").',
+      ),
+      'Found %s surplus local ref(s) to delete.' =>
+      array(
+          'Found %s surplus local ref to delete.',
+          'Found %s surplus local refs to delete.',
+      ),
+      'Patch generation took longer than configured limit ("%s")'.
+      ' of %s second(s).' =>
+      array(
+        array(
+            'Patch generation took longer than configured limit ("%s") '.
+            'of %s second.',
+            'Patch generation took longer than configured limit ("%s") '.
+            'of %s seconds.',
+        ),
+      ),
+      'Indexing %s object(s).' =>
+      array(
+          'Indexing %s object.',
+          'Indexing %s objects.',
+      ),
+      'Updated search indexes for %s document(s).' =>
+      array(
+          'Updated search indexes for %s document.',
+          'Updated search indexes for %s documents.',
+      ),
+      'Queued %s document(s) for background indexing.' =>
+      array(
+          'Queued %s document for background indexing.',
+          'Queued %s documents for background indexing.',
+      ),
+      'Forced search index updates for %s document(s).' =>
+      array(
+          'Forced search index updates for %s document.',
+          'Forced search index updates for %s documents.',
+      ),
+      'Preparing to hibernate for %s second(s).' =>
+      array(
+          'Preparing to hibernate for %s second.',
+          'Preparing to hibernate for %s seconds.',
+      ),
+      'Daemon was idle for more than %s second(s), scaling pool down.' =>
+      array(
+          'Daemon was idle for more than %s second, scaling pool down.',
+          'Daemon was idle for more than %s seconds, scaling pool down.',
+      ),
+      'Waiting %s second(s) to restart process.' =>
+      array(
+          'Waiting %s second to restart process.',
+          'Waiting %s seconds to restart process.',
+      ),
+      'Process is preparing to hibernate for %s second(s).' =>
+      array(
+          'Process is preparing to hibernate for %s second.',
+          'Process is preparing to hibernate for %s seconds.',
+      ),
+      'Pool "%s" is exiting, with %s daemon(s) remaining.' =>
+      array(
+        array(
+            'Pool "%s" is exiting, with %s daemon remaining.',
+            'Pool "%s" is exiting, with %s daemons remaining.',
+        ),
+      ),
+      'Autoscale pool "%s" scaled down to %s daemon(s).' =>
+      array(
+        array(
+            'Autoscale pool "%s" scaled down to %s daemon.',
+            'Autoscale pool "%s" scaled down to %s daemons.',
+        ),
+      ),
+      'Query timed out after %s second(s)!' =>
+      array(
+          'Query timed out after %s second!',
+          'Query timed out after %s seconds!',
+      ),
+      'Failed to write %d byte(s) to file "%s".' =>
+      array(
+          'Failed to write %d byte to file "%2$s".',
+          'Failed to write %d bytes to file "%s".',
+      ),
+      'Failed to write %d byte(s) to "%s".' =>
+      array(
+          'Failed to write %d byte to "%2$s".',
+          'Failed to write %d bytes to "%s".',
+      ),
+      'This lock was most recently acquired by '.
+      'a process (%s) %s second(s) ago.' =>
+      array(
+
+        array(
+            'This lock was most recently acquired by '.
+            'a process (%s) %s second ago.',
+            'This lock was most recently acquired by '.
+            'a process (%s) %s seconds ago.',
+        ),
+      ),
+      'This lock was released %s second(s) ago.' =>
+      array(
+          'This lock was released %s second ago.',
+          'This lock was released %s seconds ago.',
+      ),
+      'Skipped %s document(s) which have not updated '.
+      'since they were last indexed.' =>  array(
+        'Skipped %s document which has not updated '.
+        'since it was last indexed.',
+        'Skipped %s documents which have not updated '.
+        'since they were last indexed.',
+      ),
+      "Found %s adjustment(s) to apply, detailed above.\n\n".
+          "You can review adjustments in more detail from the web interface, ".
+          "in Config > Database Status. To better understand the adjustment ".
+          "workflow, see \"Managing Storage Adjustments\" in the ".
+          "documentation.\n\n".
+          "MySQL needs to copy table data to make some adjustments, so these ".
+          "migrations may take some time." =>
+      array(
+        "Found %s adjustment to apply, detailed above.\n\n".
+        "You can review adjustments in more detail from the web interface, ".
+        "in Config > Database Status. To better understand the adjustment ".
+        "workflow, see \"Managing Storage Adjustments\" in the ".
+        "documentation.\n\n".
+        "MySQL needs to copy table data to make some adjustments, so these ".
+        "migrations may take some time.",
+        "Found %s adjustments to apply, detailed above.\n\n".
+        "You can review adjustments in more detail from the web interface, ".
+        "in Config > Database Status. To better understand the adjustment ".
+        "workflow, see \"Managing Storage Adjustments\" in the ".
+        "documentation.\n\n".
+        "MySQL needs to copy table data to make some adjustments, so these ".
+        "migrations may take some time.",
+      ),
+      'File alternate text must not be longer than %s character(s).' => array(
+         'File alternate text must not be longer than %s character.',
+         'File alternate text must not be longer than %s characters.',
+      ),
+      'File names must not be longer than %s character(s).' => array(
+         'File names must not be longer than %s character.',
+         'File names must not be longer than %s characters.',
+      ),
+      'Queue names must not be longer than %s character(s).' => array(
+         'Queue names must not be longer than %s character.',
+         'Queue names must not be longer than %s characters.',
+      ),
+      'Source names must not be longer than %s character(s).' => array(
+         'Source names must not be longer than %s character.',
+         'Source names must not be longer than %s characters.',
+      ),
+      'Mock image names must not be longer than %s character(s).' => array(
+         'Mock image names must not be longer than %s character.',
+         'Mock image names must not be longer than %s characters.',
+      ),
+      'Mock names must not be longer than %s character(s).' => array(
+         'Mock names must not be longer than %s character.',
+         'Mock names must not be longer than %s characters.',
+      ),
+      'Project names must not be longer than %s character(s).' => array(
+         'Project names must not be longer than %s character.',
+         'Project names must not be longer than %s characters.',
+      ),
+      'Scaling pool "%s" up to %s daemon(s).' => array(
+        array(
+           'Scaling pool "%s" up to %s daemon.',
+           'Scaling pool "%s" up to %s daemons.',
+        ),
+      ),
+      'The current configuration has these %d value(s):' => array(
+        'The current configuration has this value:',
+        'The current configuration has these values',
+      ),
+      'To update these %d value(s), '.
+      'run these command(s) from the command line:' => array(
+        'To update this value, run this command from the command line:',
+        'To update these values, run these commands from the command line:',
+      ),
+      '%s ERROR(S)' => array('%s ERROR', '%s ERRORS'),
+      '%s Lines' => array('%s Line', '%s Lines'),
+      "# Client already read from service (%s bytes), ".
+      "unable to retry.\n" => array(
+        "# Client already read from service (%s byte), unable to retry\n.",
+        "# Client already read from service (%s bytes), unable to retry.\n",
+      ),
+      "# Client already wrote to service (%s bytes), ".
+      "unable to retry.\n" => array(
+        "# Client already wrote to service (%s byte), unable to retry\n.",
+        "# Client already wrote to service (%s bytes), unable to retry.\n",
+      ),
+      'Found %s affected atoms.' => array(
+        'Found %s affected atom.',
+        'Found %s affected atoms.',
+      ),
+      'Function "%s" expects %s or more argument(s), '.
+      'but only %s argument(s) were provided.' => array(
+        array(
+          array(
+            'Function "%s" expects %s or more arguments, '.
+            'but only %s argument was provided',
+            'Function "%s" expects %s or more arguments, '.
+            'but only %s arguments were provided',
+          ),
+        ),
+      ),
+      'Function "%s" expects %s argument(s), '.
+      'but %s argument(s) were provided.' => array(
+        array(
+          array(
+            'Function "%s" expects %s argument, but %s argument was provided.',
+            'Function "%s" expects %s argument, '.
+            'but %s arguments were provided.',
+          ),
+          array(
+            'Function "%s" expects %s arguments, but %s argument was provided.',
+            'Function "%s" expects %s arguments, '.
+            'but %s arguments were provided.',
+          ),
+        ),
+      ),
+      'Function "%s" expects at least %s argument(s), '.
+      'but only %s argument(s) were provided.' => array(
+        array(
+          array(
+            'Function "%s" expects at least %s arguments, '.
+            'but only %s argument was provided.',
+            'Function "%s" expects at least %s arguments, '.
+            'but only %s arguments were provided.',
+          ),
+        ),
+      ),
+      'Processed %s file(s), encountered %s error(s).' => array(
+        array(
+          'Processed %s file, encountered %s error.',
+          'Processed %s files, encountered %s errors.',
+        ),
+        array(
+          'Processed %s files, encountered %s error.',
+          'Processed %s files, encountered %s errors.',
+        ),
+      ),
+      '%s empty logs are hidden.' => array(
+        '%s empty log is hidden',
+        '%s empty logs are hidden.',
+      ),
+      '%s changed file(s), attached %s: %s; detached %s: %s.' =>
+        '%s changed files, attached: %3$s; detached: %5$s.',
+
+      '%s changed file(s) for %s, attached %d: %s; detached %d: %s' =>
+        '%s changed files for %s: attached: %4$s; detached %6$s',
+
+      '%s attached %d file(s) of %s: %s' => array(
+        array(
+          '%s attached a file of %3$s: %4$s',
+          '%s attached files of %3$s: %4$s',
+        ),
+      ),
+      '%s detached %d file(s) of %s: %s' => array(
+        array(
+          '%s detached a file of %3$s: %4$s',
+          '%s detached files of %3$s: %4$s',
+        ),
+      ),
+      'This key has %s remaining API request(s), '.
+      'limit resets in %s second(s).' => array(
+        array(
+          'This key has %s remaining API request, limit resets in %s second.',
+          'This key has %s remaining API request, '.
+          'limit resets in %s seconds.',
+        ),
+        array(
+          'This key has %s remaining API requests, limit resets in %s second.',
+          'This key has %s remaining API requests, limit resets in %s seconds.',
+        ),
+      ),
+      'Set API poll TTL to +%s second(s) (%s second(s) from now).' => array(
+        array(
+          'Set API poll TTL to +%s second (%s second from now)',
+          'Set API poll TTL to +%s second (%s seconds from now)',
+        ),
+        array(
+          'Set API poll TTL to +%s seconds (%s second from now)',
+          'Set API poll TTL to +%s seconds (%s seconds from now)',
+        ),
+      ),
+      '%s changed %s ignored attribute(s), added %s: %s; removed %s: %s.' =>
+        '%s changed ignored attributes, added: %4$s; removed: %6$s.',
+
+      '%s changed %s ignored attribute(s), added %s: %s.' =>
+        '%s changed ignored attributes, added: %3$s.',
+      '%s changed %s ignored attribute(s), removed %s: %s.' =>
+        '%s changed ignored attributes, removed: %3$s.',
+      '%s edited member(s), added %s: %s; removed %s: %s.' =>
+        '%s edited members, added: %3$s; removed: %5$s.',
+      '%s edited member(s) for %s, added %s: %s; removed %s: %s.' =>
+        '%s edited members for %s, added: %4$s; removed: %6$s.',
+      'Scheduling repository "%s" with an update window of %s second(s). '.
+      'Last update was %s second(s) ago.' =>
+      array(
+          array(
+            array(
+              'Scheduling repository "%s" with an update window of '.
+              '%s second. Last update was %s second ago.',
+              'Scheduling repository "%s" with an update window of '.
+              '%s second. Last update was %s seconds ago.',
+            ),
+            array(
+              'Scheduling repository "%s" with an update window of '.
+              '%s seconds. Last update was %s second ago.',
+              'Scheduling repository "%s" with an update window of '.
+              '%s seconds. Last update was %s seconds ago.',
+            ),
+        ),
+      ),
+      'Scheduling repository "%s" for an update '.
+      '(%s seconds overdue).' => array(
+        array(
+          'Scheduling repository "%s" for an update (%s second overdue).',
+          'Scheduling repository "%s" for an update (%s seconds overdue).',
+        ),
+      ),
+      'Based on activity in repository "%s", considering a wait of '.
+      '%s seconds before update.' => array(
+        array(
+          'Based on activity in repository "%s", considering a wait of '
+          .'%s second before update.',
+          'Based on activity in repository "%s", considering a wait of '
+          .'%s seconds before update.',
+        ),
+      ),
+      'Examined %s commits already in the correct state.' => array(
+        'Examined %s commit already in the correct state.',
+        'Examined %s commits already in the correct state.',
+      ),
+      'Found %s feed storie(s).' => array(
+        'Found %s feed story.',
+        'Found %s feed stories.',
+      ),
+      'Destroyed %s feed storie(s).' => array(
+        'Destroyed %s feed story.',
+        'Destroyed %s feed stories.',
+      ),
+      'Done, compacted %s edge transactions.' => array(
+        'Done, compacted %s edge transaction.',
+        'Done, compacted %s edge transactions.',
+      ),
+      '%d line(s)' => array(
+        '%d line',
+        '%d line(s)',
+      ),
+      'Adjusted **%s** create statements and **%s** use statements.' => array(
+        array(
+          'Adjusted %s create statement and %s use statement.',
+          'Adjusted %s create statement and %s use statements.',
+        ),
+        array(
+          'Adjusted %s create statements and %s use statement.',
+          'Adjusted %s create statements and %s use statements.',
+        ),
+      ),
+      'Analyzed %d table(s).' => array(
+        'Analyzed %d table.',
+        'Analyzed %d tables.',
+      ),
+      'During the last %s second(s) spent waiting for the lock, '.
+      'more than %s other process(es) acquired it, '.
+      'so this is likely a bottleneck. '.
+      'Use "bin/lock log --name %s" to review log activity.' => array(
+          'During the last second spent waiting for the lock, '.
+          'more than %2$s other processes acquired it, '.
+          'so this is likely a bottleneck. '.
+          'Use "bin/lock log --name %3$s" to review log activity.',
+          'During the last %s seconds spent waiting for the lock, '.
+          'more than %s other processes acquired it, '.
+          'so this is likely a bottleneck. '.
+          'Use "bin/lock log --name %s" to review log activity.',
+      ),
+      'During the last %s second(s) spent waiting for the lock, '.
+      '%s other process(es) acquired it, '.
+      'so this is likely a bottleneck. '.
+      'Use "bin/lock log --name %s" to review log activity.' => array(
+          'During the last second spent waiting for the lock, '.
+          '%2$s other processes acquired it, '.
+          'so this is likely a bottleneck. '.
+          'Use "bin/lock log --name %3$s" to review log activity.',
+          'During the last %s seconds spent waiting for the lock, '.
+          '%s other processes acquired it, '.
+          'so this is likely a bottleneck. '.
+          'Use "bin/lock log --name %s" to review log activity.',
+      ),
+      '%s unread messages.' => array(
+        '%s unread message.',
+        '%s unread messages.',
+      ),
+      '%s unread notifications.' => array(
+        '%s unread notification.',
+        '%s unread notifications.',
+      ),
+      '%s unresolved issues.' => array(
+        '%s unresolved issue.',
+        '%s unresolved issues.',
+      ),
+      'Refreshing token, current token expires in %s seconds.' => array(
+        'Refreshing token, current token expires in %s second.',
+        'Refreshing token, current token expires in %s seconds.',
+      ),
+      'Refreshed token, new token expires in %s seconds.' => array(
+        'Refreshed token, new token expires in %s second.',
+        'Refreshed token, new token expires in %s seconds.',
+      ),
+      '%s Write [%s bytes]' => array(
+        array(
+          '%s Write [%s byte]',
+          '%s Write [%s bytes]',
+        ),
+      ),
+      '%s Read [%s bytes]' => array(
+        array(
+          '%s Read [%s byte]',
+          '%s Read [%s bytes]',
+        ),
+      ),
     );
   }
-
 }

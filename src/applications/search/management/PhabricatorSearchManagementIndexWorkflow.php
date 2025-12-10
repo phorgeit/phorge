@@ -272,7 +272,7 @@ final class PhabricatorSearchManagementIndexWorkflow
         $this->logWarn(
           pht('SKIP'),
           pht(
-            'Skipped %s documents(s) which have not updated since they were '.
+            'Skipped %s document(s) which have not updated since they were '.
             'last indexed.',
             new PhutilNumber($count_skipped)));
         $this->logInfo(

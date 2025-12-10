@@ -240,7 +240,7 @@ final class HeraldCommitAdapter
     if ($diff_info['tooHuge']) {
       throw new Exception(
         pht(
-          'The raw text of this change is enormous (larger than %s byte(s)). '.
+          'The raw text of this change is enormous (larger than %s bytes). '.
           'Herald can not process it.',
           new PhutilNumber($byte_limit)));
     }
@@ -249,7 +249,7 @@ final class HeraldCommitAdapter
       throw new Exception(
         pht(
           'The raw text of this change took too long to process (longer '.
-          'than %s second(s)). Herald can not process it.',
+          'than %s seconds). Herald can not process it.',
           new PhutilNumber($time_limit)));
     }
 

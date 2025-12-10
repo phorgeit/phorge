@@ -83,7 +83,7 @@ final class PhabricatorRepositoryDiscoveryEngine
     if ($this->isInitialImport($refs)) {
       $this->log(
         pht(
-          'Discovered more than %s commit(s) in an empty repository, '.
+          'Discovered more than %s commits in an empty repository, '.
           'marking repository as importing.',
           new PhutilNumber(PhabricatorRepository::IMPORT_THRESHOLD)));
 

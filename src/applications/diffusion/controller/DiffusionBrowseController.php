@@ -139,7 +139,7 @@ final class DiffusionBrowseController extends DiffusionController {
     if ($hit_byte_limit) {
       $corpus = $this->buildErrorCorpus(
         pht(
-          'This file is larger than %s byte(s), and too large to display '.
+          'This file is larger than %s bytes, and too large to display '.
           'in the web UI.',
           phutil_format_bytes($byte_limit)));
     } else if ($hit_time_limit) {

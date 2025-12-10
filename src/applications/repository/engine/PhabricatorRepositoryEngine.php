@@ -177,7 +177,7 @@ abstract class PhabricatorRepositoryEngine extends Phobject {
     if (count($refs) >= PhabricatorRepository::LOWPRI_THRESHOLD) {
       $this->log(
         pht(
-          'Importing %s commit(s) at low priority ("PRIORITY_IMPORT") '.
+          'Importing %s commits at low priority ("PRIORITY_IMPORT") '.
           'because many commits were discovered at once.',
           phutil_count($refs)));
 
