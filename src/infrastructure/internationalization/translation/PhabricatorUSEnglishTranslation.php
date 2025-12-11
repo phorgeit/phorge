@@ -36,7 +36,7 @@ final class PhabricatorUSEnglishTranslation
         'Actions With No Effect',
       ),
 
-      'Some of your %s action(s) have no effect:' => array(
+      '%s of your actions have no effect:' => array(
         'One of your actions has no effect:',
         'Some of your actions have no effect:',
       ),
