@@ -338,6 +338,7 @@ phutil_register_library_map(array(
     'CelerityResourcesOnDisk' => 'applications/celerity/resources/CelerityResourcesOnDisk.php',
     'CeleritySpriteGenerator' => 'applications/celerity/CeleritySpriteGenerator.php',
     'CelerityStaticResourceResponse' => 'applications/celerity/CelerityStaticResourceResponse.php',
+    'CelerityUnitTestEngine' => 'applications/celerity/CelerityUnitTestEngine.php',
     'ConduitAPIDocumentationPage' => 'applications/conduit/data/ConduitAPIDocumentationPage.php',
     'ConduitAPIMethod' => 'applications/conduit/method/ConduitAPIMethod.php',
     'ConduitAPIMethodTestCase' => 'applications/conduit/method/__tests__/ConduitAPIMethodTestCase.php',
@@ -6361,6 +6362,7 @@ phutil_register_library_map(array(
     'CelerityResourcesOnDisk' => 'CelerityPhysicalResources',
     'CeleritySpriteGenerator' => 'Phobject',
     'CelerityStaticResourceResponse' => 'Phobject',
+    'CelerityUnitTestEngine' => 'ArcanistUnitTestEngine',
     'ConduitAPIDocumentationPage' => 'Phobject',
     'ConduitAPIMethod' => array(
       'Phobject',
