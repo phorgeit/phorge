@@ -23,8 +23,12 @@ final class PhorgeApplicationMentionsListView extends Phobject {
         $in_type = PhabricatorObjectMentionedByObjectEdgeType::EDGECONST;
         $out_type = PhabricatorObjectMentionsObjectEdgeType::EDGECONST;
 
-        $in_phids = $this->edgeQuery->getDestinationPHIDs([], [$in_type]);
-        $out_phids = $this->edgeQuery->getDestinationPHIDs([], [$out_type]);
+        $in_phids = $this->edgeQuery->getDestinationPHIDs(
+          array(),
+          array($in_type));
+        $out_phids = $this->edgeQuery->getDestinationPHIDs(
+          array(),
+          array($out_type));
 
         // Filter out any mentioned users from the list. These are not generally
         // very interesting to show in a relationship summary since they usually
@@ -77,7 +81,7 @@ final class PhorgeApplicationMentionsListView extends Phobject {
 
     private function getCompleteHandles(
         PhabricatorHandleList $handles): PhabricatorHandleList {
-        $phids = [];
+        $phids = array();
 
         foreach ($handles as $phid => $handle) {
             if (!$handle->isComplete()) {

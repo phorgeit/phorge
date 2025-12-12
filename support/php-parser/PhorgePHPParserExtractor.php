@@ -29,11 +29,11 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
   private $classDecl = null;
   private $classExtends = null;
   private $methodDecl = null;
-  private $paramVars = [];
+  private $paramVars = array();
   private $filename = null;
-  private $results = [];
-  private $warnings = [];
-  private $variableAssignments = [];
+  private $results = array();
+  private $warnings = array();
+  private $variableAssignments = array();
 
   public function getWarnings() {
     return $this->warnings;
@@ -90,7 +90,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
       if (isset($this->variableAssignments[$name])) {
         return $this->typeNode(
           $this->variableAssignments[$name],
-          $seen + [$name => true]);
+          $seen + array($name => true));
       }
       $known = static::$knownTypes;
       if (isset($known[$this->classExtends])) {
@@ -118,7 +118,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
       }
     } else if ($node instanceof PhpParser\Node\Stmt\ClassMethod) {
       $this->methodDecl = $this->getName($node);
-      $this->paramVars = [];
+      $this->paramVars = array();
       $i = 0;
       foreach ($node->params as $param) {
         $name = $this->getName($param->var);
@@ -138,7 +138,7 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
       }
     } else if ($node instanceof PhpParser\Node\Expr\FuncCall) {
       if ($this->getName($node) == 'pht') {
-        $types = [];
+        $types = array();
         $args = $node->args;
         $first = array_shift($args);
         try {
@@ -171,8 +171,8 @@ final class PhorgePHPParserExtractor extends PhpParser\NodeVisitorAbstract {
       $this->classExtends = null;
      } else if ($node instanceof PhpParser\Node\Stmt\ClassMethod) {
       $this->methodDecl = null;
-      $this->paramVars = [];
-      $this->variableAssignments = [];
+      $this->paramVars = array();
+      $this->variableAssignments = array();
      }
   }
 }

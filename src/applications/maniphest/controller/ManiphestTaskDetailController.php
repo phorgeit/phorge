@@ -243,7 +243,7 @@ final class ManiphestTaskDetailController extends ManiphestController {
   private function getOpenGraphProtocolMetadataValues($task) {
     $viewer = $this->getViewer();
 
-    $v = [];
+    $v = array();
     $v['og:site_name'] = PlatformSymbols::getPlatformServerName();
     $v['og:type'] = 'website';
     $v['og:url'] = PhabricatorEnv::getProductionURI($task->getURI());
