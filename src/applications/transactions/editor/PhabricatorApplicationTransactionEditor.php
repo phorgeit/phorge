@@ -3072,8 +3072,8 @@ abstract class PhabricatorApplicationTransactionEditor
           $transaction_type,
           pht('Invalid'),
           pht(
-            'You can not select this %s policy, because you would no longer '.
-            'be able to %s the object.',
+            'The %s policy of this object would no longer allow '.
+            'you to %s the object.',
             $capability,
             $capability),
           $xaction);
