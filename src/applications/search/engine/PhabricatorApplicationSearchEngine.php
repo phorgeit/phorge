@@ -1283,8 +1283,14 @@ abstract class PhabricatorApplicationSearchEngine extends Phobject {
 
     $attachments = $this->getConduitSearchAttachments();
 
-    // TODO: Validate this better.
     $attachment_specs = $request->getValue('attachments', array());
+    if (!is_array($attachment_specs)) {
+      throw new Exception(
+        pht(
+          'Parameter "attachments" must be a map of attachments, got "%s".',
+          phutil_describe_type($attachment_specs)));
+    }
+
     $attachments = array_select_keys(
       $attachments,
       array_keys($attachment_specs));
