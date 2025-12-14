@@ -232,8 +232,8 @@ final class PhabricatorUSEnglishTranslation
       ),
       '%s added %s contributor(s) for %s: %s.' => array(
         array(
-          '%s added a contributor for %$3s: %4$s.',
-          '%s added contributors for %$3s: %4$s.',
+          '%s added a contributor for %3$s: %4$s.',
+          '%s added contributors for %3$s: %4$s.',
         ),
       ),
 
@@ -246,8 +246,8 @@ final class PhabricatorUSEnglishTranslation
 
       '%s removed %s contributor(s) for %s: %s.' => array(
         array(
-          '%s removed a contributor for %$3s: %4$s.',
-          '%s removed contributors for %$3s: %4$s.',
+          '%s removed a contributor for %3$s: %4$s.',
+          '%s removed contributors for %3$s: %4$s.',
         ),
       ),
 
@@ -758,7 +758,7 @@ final class PhabricatorUSEnglishTranslation
 
       '%s added %s required legal document(s) to %s: %s.' => array(
         array(
-          '%s added a required legal document to %$3s: %4$s.',
+          '%s added a required legal document to %3$s: %4$s.',
           '%s added required legal documents to %3$s: %4$s.',
         ),
       ),
@@ -1663,10 +1663,10 @@ final class PhabricatorUSEnglishTranslation
         ),
       ),
       '%s changed %s blocking reviewer(s), added %s: %s; removed %s: %s.' =>
-       '%s changed blocking reviewers, added: %$4s, removed: %$6s',
+       '%s changed blocking reviewers, added: %4$s, removed: %6$s',
       '%s changed %s blocking reviewer(s) for %s, '.
          'added %s: %s; removed %s: %s.' =>
-       '%s changed blocking reviewers for %$3s, added: %$5s, removed: %$7s',
+       '%s changed blocking reviewers for %3$s, added: %5$s, removed: %7$s',
 
       '%s removed %s blocking reviewer(s) for %s: %s.' => array(
         array(
@@ -2130,7 +2130,7 @@ final class PhabricatorUSEnglishTranslation
       ),
       "# Client already wrote to service (%s bytes), ".
       "unable to retry.\n" => array(
-        "# Client already wrote to service (%s byte), unable to retry\n.",
+        "# Client already wrote to service (%s byte), unable to retry.\n",
         "# Client already wrote to service (%s bytes), unable to retry.\n",
       ),
       'Found %s affected atoms.' => array(
@@ -2232,9 +2232,9 @@ final class PhabricatorUSEnglishTranslation
         '%s changed ignored attributes, added: %4$s; removed: %6$s.',
 
       '%s changed %s ignored attribute(s), added %s: %s.' =>
-        '%s changed ignored attributes, added: %3$s.',
+        '%s changed ignored attributes, added: %4$s.',
       '%s changed %s ignored attribute(s), removed %s: %s.' =>
-        '%s changed ignored attributes, removed: %3$s.',
+        '%s changed ignored attributes, removed: %4$s.',
       '%s edited member(s), added %s: %s; removed %s: %s.' =>
         '%s edited members, added: %3$s; removed: %5$s.',
       '%s edited member(s) for %s, added %s: %s; removed %s: %s.' =>

@@ -68,7 +68,7 @@ final class PhabricatorWorkerManagementDelayWorkflow
         $this->logWarn(
           pht('LEASED'),
           pht(
-            '% is already leased, and can not be delayed.',
+            '%s is already leased, and can not be delayed.',
             $this->describeTask($task)));
         continue;
       }
