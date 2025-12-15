@@ -369,15 +369,17 @@ final class PhabricatorProjectQuery
           array($project_phid),
           array($watcher_type));
         $project->attachWatcherPHIDs($watcher_phids);
-        $project->setIsUserWatcher(
-          $viewer_phid,
-          in_array($viewer_phid, $watcher_phids));
+        if ($viewer_phid) {
+          $project->setIsUserWatcher(
+            $viewer_phid,
+            in_array($viewer_phid, $watcher_phids));
+        }
       }
     }
 
     // If we loaded ancestor members, we've already populated membership
     // lists above, so we can skip this step.
-    if (!$this->needAncestorMembers) {
+    if ($viewer_phid && !$this->needAncestorMembers) {
       $member_graph = $this->getAllReachableAncestors($membership_projects);
 
       foreach ($all_graph as $phid => $project) {
