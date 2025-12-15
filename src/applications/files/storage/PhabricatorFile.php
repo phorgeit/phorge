@@ -340,7 +340,8 @@ final class PhabricatorFile extends PhabricatorFileDAO
           pht(
             'No configured storage engine can store this file. See '.
             '"Configuring File Storage" in the documentation for '.
-            'information on configuring storage engines.'));
+            'information on configuring storage engines. '.
+            'This is likely because the file is too large.'));
       }
     }
 
