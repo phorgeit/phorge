@@ -10,7 +10,7 @@ final class PhabricatorProjectReportsProfileMenuItem
   }
 
   private function getDefaultName() {
-    return pht('Reports (Prototype)');
+    return pht('Reports / Burnup');
   }
 
   public function getMenuItemTypeIcon() {
@@ -24,10 +24,6 @@ final class PhabricatorProjectReportsProfileMenuItem
 
   public function shouldEnableForObject($object) {
     $viewer = $this->getViewer();
-
-    if (!PhabricatorEnv::getEnvConfig('phabricator.show-prototypes')) {
-      return false;
-    }
 
     $class = PhabricatorManiphestApplication::class;
     if (!PhabricatorApplication::isClassInstalledForViewer($class, $viewer)) {
