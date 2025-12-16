@@ -269,7 +269,7 @@
 
 .phui-timeline-title .phui-timeline-extra a {
   font-weight: normal;
-  color: {$lightgreytext};
+  color: {$greytext};
 }
 
 .phui-timeline-title .phui-timeline-value,
