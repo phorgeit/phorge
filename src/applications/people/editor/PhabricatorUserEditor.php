@@ -43,8 +43,9 @@ final class PhabricatorUserEditor extends PhabricatorEditor {
       }
     }
 
-    if (!PhabricatorUser::validateUsername($user->getUsername())) {
-      $valid = PhabricatorUser::describeValidUsername();
+    $name = $user->getUsername();
+    if (!PhabricatorUser::validateUsername($name)) {
+      $valid = PhabricatorUser::describeValidUsername($name);
       throw new Exception(pht('Username is invalid! %s', $valid));
     }
 

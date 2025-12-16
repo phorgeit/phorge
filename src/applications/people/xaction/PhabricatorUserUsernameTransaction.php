@@ -87,7 +87,7 @@ final class PhabricatorUserUsernameTransaction
           $xaction);
       } else if (!PhabricatorUser::validateUsername($new)) {
         $errors[] = $this->newInvalidError(
-          PhabricatorUser::describeValidUsername(),
+          PhabricatorUser::describeValidUsername($new),
           $xaction);
       } else if ($this->generateOldValue($object) === $new) {
         $errors[] = $this->newInvalidError(

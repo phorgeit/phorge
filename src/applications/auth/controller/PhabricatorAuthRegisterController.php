@@ -293,7 +293,7 @@ final class PhabricatorAuthRegisterController
           $errors[] = pht('Username is required.');
         } else if (!PhabricatorUser::validateUsername($value_username)) {
           $e_username = pht('Invalid');
-          $errors[] = PhabricatorUser::describeValidUsername();
+          $errors[] = PhabricatorUser::describeValidUsername($value_username);
         } else {
           $e_username = null;
         }
