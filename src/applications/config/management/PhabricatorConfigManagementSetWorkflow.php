@@ -154,6 +154,24 @@ final class PhabricatorConfigManagementSetWorkflow
             Filesystem::readablePath($local_path)));
       }
 
+      try {
+         $dbstore = new PhabricatorConfigDatabaseSource('default');
+         $dbval = $dbstore->getKeys(array($key));
+         if (!empty($dbval)) {
+           echo tsprintf(
+             "<bg:yellow>** %s **</bg> %s\n",
+             pht('OVERRIDDEN'),
+             pht(
+               'The configuration key "%s" is already defined in the '.
+               'database. The value from the database will override the '.
+               'value in local storage.',
+               $key));
+          }
+       } catch (Throwable $ex) {
+         // The database config is hosed (or we're doing initial setup and
+         // don't have a database yet), just ignore
+       }
+
       $write_message = pht(
         'Wrote configuration key "%s" to local storage (in file "%s").',
         $key,
