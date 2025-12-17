@@ -52,7 +52,7 @@ final class PhabricatorDashboardPanelEditController
 
       $panel_type = $request->getStr('panelType');
       $panel_types = PhabricatorDashboardPanelType::getAllPanelTypes();
-      if (empty($panel_types[$panel_type])) {
+      if (!$panel_type || empty($panel_types[$panel_type])) {
         return $this->buildPanelTypeResponse($cancel_uri);
       }
 
