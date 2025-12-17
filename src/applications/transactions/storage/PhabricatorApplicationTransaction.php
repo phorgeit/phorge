@@ -385,7 +385,7 @@ abstract class PhabricatorApplicationTransaction
         break;
     }
 
-    if ($this->getComment()) {
+    if ($this->getComment() && $this->getComment()->getAuthorPHID()) {
       $phids[] = array($this->getComment()->getAuthorPHID());
     }
 
