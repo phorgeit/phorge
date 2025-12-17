@@ -33,7 +33,7 @@ final class PhabricatorTypeaheadModularDatasourceController
       ->setAncestorClass(PhabricatorTypeaheadDatasource::class)
       ->execute();
 
-    if (isset($sources[$class])) {
+    if ($class && isset($sources[$class])) {
       $source = $sources[$class];
 
       $parameters = array();
