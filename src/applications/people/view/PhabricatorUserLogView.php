@@ -25,7 +25,10 @@ final class PhabricatorUserLogView extends AphrontView {
 
     $phids = array();
     foreach ($logs as $log) {
-      $phids[] = $log->getActorPHID();
+      $actor_phid = $log->getActorPHID();
+      if ($actor_phid) {
+        $phids[] = $actor_phid;
+      }
       $phids[] = $log->getUserPHID();
     }
     $handles = $viewer->loadHandles($phids);
