@@ -209,7 +209,7 @@ abstract class PhabricatorProfileMenuEngine extends Phobject {
       $available_modes = $this->getViewerEditModes();
       if ($available_modes) {
         $available_modes = array_fuse($available_modes);
-        if (isset($available_modes[$edit_mode])) {
+        if ($edit_mode !== null && isset($available_modes[$edit_mode])) {
           $this->editMode = $edit_mode;
         } else {
           if ($item_action != 'configure') {
